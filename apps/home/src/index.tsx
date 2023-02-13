@@ -8,7 +8,7 @@ export const App: FC = () => {
 			<Text style={styles.heading}>COMING SOON!</Text>
 			<Text>
 				<Text style={styles.sub}>Created with ❤️ by </Text>
-				<Hyperlink href="h" title="Stormgate.io" />
+				<Hyperlink href="https://stormgate.io" title="Stormgate.io" />
 			</Text>
 		</View>
 	);

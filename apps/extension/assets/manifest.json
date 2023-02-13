@@ -1,0 +1,16 @@
+{
+	"manifest_version": 3,
+	"name": "Walless",
+	"version": "0.0.1",
+	"description": "Crypto wallet for completely new-to-crypto user",
+	"author": "Metacraft Studio",
+	"icons": {
+		"16": "icon.png",
+		"48": "icon.png",
+		"128": "icon.png"
+	},
+	"action": {
+		"default_popup": "popup.html",
+		"default_title": "Open Walless"
+	}
+}

@@ -52,7 +52,7 @@ jobs:
         run: echo $(terraform output -json) > tf-output.json
 
       - name: Build
-        run: metacraft bundle
+        run: yarn build
         env:
           gitBranch: ${{ steps.branch.outputs.BRANCH_NAME }}
 

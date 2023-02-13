@@ -40,7 +40,7 @@ const copyAssets = (configs) => {
 module.exports = {
 	useBabel: true,
 	publicPath: () => process.env.PUBLIC_URL || '/',
-	keepPreviousBuild: true,
+	keepPreviousBuild: () => true,
 	buildId: () => 'app',
 	swcOptions: () => ({
 		jsc: {

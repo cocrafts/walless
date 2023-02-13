@@ -9,7 +9,7 @@
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-		"@metacraft/ui": "^0.0.45",
+		"@metacraft/ui": "^0.0.59",
 		"raf": "^3.4.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
@@ -18,7 +18,7 @@
 		"react-native-svg": "^13.0.0",
 		"react-native-web": "^0.18.12",
 		"setimmediate": "^1.0.5",
-		"valtio": "^1.6.4"
+		"valtio": "^1.6.3"
 	},
 	"devDependencies": {
 		"@metacraft/tsconfig": "^0.0.10",

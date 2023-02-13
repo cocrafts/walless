@@ -811,13 +811,12 @@
   resolved "https://registry.yarnpkg.com/@metacraft/tsconfig/-/tsconfig-0.0.10.tgz#a7e3e7c26807acca0eea8607a5f32e9168fa74cf"
   integrity sha512-BG2ZreVA46ZTrTLVlYLw4CgnU4uAULDy5Y24czkgyerNqLOja8EruCmK5Aoio5YADvio6i49AGHVRtjKH3093Q==
 
-"@metacraft/ui@^0.0.45":
-  version "0.0.45"
-  resolved "https://registry.yarnpkg.com/@metacraft/ui/-/ui-0.0.45.tgz#3ac742b1b9220498e909b72ef0196d71bb33f07b"
-  integrity sha512-WtqE1pj6KKH58Dih0Gg/bzYlD9jBC4+hpN1s/IPunwNhRAi1xPG8qCbOyBTxIU6tV6F3L+dFHurhUDnSnO5nSA==
+"@metacraft/ui@^0.0.59":
+  version "0.0.59"
+  resolved "https://registry.yarnpkg.com/@metacraft/ui/-/ui-0.0.59.tgz#ff77be321626ff90a5d57659cb0b1a33ca033981"
+  integrity sha512-aIQSdS0s5HojKVNHMHnUPAGn0lrN/f805G/iV4nhRlAY3s8NQvkUS7ep/+FSPje2ygTId5D637Ys2JNtJ/b6Og==
   dependencies:
     color2k "^2.0.0"
-    react-native-reanimated "^2.9.1"
     simple-markdown "^0.7.3"
 
 "@next/eslint-plugin-next@12.3.4":
@@ -3052,7 +3051,7 @@ react-native-reanimated-swc-plugin@^0.3.0:
   resolved "https://registry.yarnpkg.com/react-native-reanimated-swc-plugin/-/react-native-reanimated-swc-plugin-0.3.0.tgz#43a826478504020c470cce929058efcfe8cd3309"
   integrity sha512-8lbNNUnRhDz+gh5XLmbbETSEuBPX3fIypFTZc5bgHToa2T00Xf51442wnuofDvy7xfA2ko8TOWn2JDpGV41uCg==
 
-react-native-reanimated@^2.14.4, react-native-reanimated@^2.9.1:
+react-native-reanimated@^2.14.4:
   version "2.14.4"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.14.4.tgz#3fa3da4e7b99f5dfb28f86bcf24d9d1024d38836"
   integrity sha512-DquSbl7P8j4SAmc+kRdd75Ianm8G+IYQ9T4AQ6lrpLVeDkhZmjWI0wkutKWnp6L7c5XNVUrFDUf69dwETLCItQ==
@@ -3580,7 +3579,7 @@ v8-compile-cache@^2.0.3:
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
   integrity sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==
 
-valtio@^1.6.4:
+valtio@^1.6.3:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/valtio/-/valtio-1.10.1.tgz#0339bb17422aa4d64f522ffec747cd07c0ac4aed"
   integrity sha512-VhK/adrsgQsInQ8SvcUV0NYu2XyPItAAWhAX1uhmN0tS0wIroqjUNhb0OG8iEqu6khUdfMsR7s+Q91hZT6pjcg==

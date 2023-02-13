@@ -1,38 +1,34 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, {
-	useAnimatedStyle,
-	useSharedValue,
-	withTiming,
-} from 'react-native-reanimated';
-
-const styles = StyleSheet.create({
-	container: {},
-});
+import { Hyperlink } from '@metacraft/ui';
 
 export const App: FC = () => {
-	const val = useSharedValue(0);
-	const [counter, setCounter] = useState(0);
-	const helloStyle = useAnimatedStyle(() => {
-		return {
-			opacity: val.value,
-		};
-	});
-
-	useEffect(() => {
-		val.value = withTiming(1, { duration: 200 });
-	}, []);
-
 	return (
 		<View style={styles.container}>
-			<Text onPress={() => setCounter(counter + 1)}>
-				this is home {counter}
+			<Text style={styles.heading}>COMING SOON!</Text>
+			<Text>
+				<Text style={styles.sub}>Created with ❤️ by </Text>
+				<Hyperlink href="h" title="Stormgate.io" />
 			</Text>
-			<Animated.View style={helloStyle}>
-				<Text>Hello</Text>
-			</Animated.View>
 		</View>
 	);
 };
 
 export default App;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#001825',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	heading: {
+		color: '#ffffff',
+		fontSize: 42,
+		marginBottom: 8,
+	},
+	sub: {
+		color: '#888888',
+	},
+});

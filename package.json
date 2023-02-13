@@ -1,0 +1,28 @@
+{
+  "name": "walless",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@metacraft/eslint-config": "^0.0.12",
+    "@metacraft/tsconfig": "^0.0.10",
+    "@types/react": "^18.0.28",
+    "@types/react-native": "^0.71.2",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "packageManager": "yarn@1.22.19"
+}

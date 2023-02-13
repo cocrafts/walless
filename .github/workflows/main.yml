@@ -2,7 +2,7 @@ name: Release on CloudFront
 on:
   push:
     branches:
-      - "master"
+      - "main"
       - "dev"
 
 jobs:

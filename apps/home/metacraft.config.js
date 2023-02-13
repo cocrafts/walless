@@ -47,10 +47,8 @@ module.exports = {
 			baseUrl: '.',
 			paths: {
 				'components/*': ['./src/components/*'],
-				'stacks/*': ['./src/stacks/*'],
 				'screens/*': ['./src/screens/*'],
 				'utils/*': ['./src/utils/*'],
-				'build/*': ['./submodules/build/src/*'],
 			},
 			experimental: {
 				plugins: [

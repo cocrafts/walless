@@ -884,13 +884,6 @@
   dependencies:
     "@types/react" "^17"
 
-"@types/react-native@^0.69.5":
-  version "0.69.17"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.69.17.tgz#8cc17d30815d47a0656e9cab4c176f703ce734d0"
-  integrity sha512-jlfldwLJmpJ8E1tcqj0vPbj9RwKIyLkUWD5sUWdR7oajGeN8Mn2kuCTn3ZiC/ZQ6ZGC0I6DDYbHzLno4a8WqQQ==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-native@^0.71.2":
   version "0.71.2"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.71.2.tgz#b8ba52c2fd07d3d64fa87ae5d9b4fbbd3b9cbffd"
@@ -902,15 +895,6 @@
   version "18.0.28"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.28.tgz#accaeb8b86f4908057ad629a26635fe641480065"
   integrity sha512-RD0ivG1kEztNBdoAK7lekI9M+azSnitIn85h4iOiaLjaTrMjzslhaqCGaI4IyCJ1RljWiLCEu4jyrLLgqxBTew==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@18.0.0":
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.0.tgz#4be8aa3a2d04afc3ac2cc1ca43d39b0bd412890c"
-  integrity sha512-7+K7zEQYu7NzOwQGLR91KwWXXDzmTFODRVizJyIALf6RfLv2GDpqpknX64pvRVILXCpXi7O/pua8NGk44dLvJw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3172,11 +3156,6 @@ react-native-gesture-handler@^2.9.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-reanimated-swc-plugin@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated-swc-plugin/-/react-native-reanimated-swc-plugin-0.3.0.tgz#43a826478504020c470cce929058efcfe8cd3309"
-  integrity sha512-8lbNNUnRhDz+gh5XLmbbETSEuBPX3fIypFTZc5bgHToa2T00Xf51442wnuofDvy7xfA2ko8TOWn2JDpGV41uCg==
-
 react-native-reanimated@^2.14.4:
   version "2.14.4"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.14.4.tgz#3fa3da4e7b99f5dfb28f86bcf24d9d1024d38836"
@@ -3545,6 +3524,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
+
+swc-plugin-valtio@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/swc-plugin-valtio/-/swc-plugin-valtio-1.0.1.tgz#8a6e1d89c5c1b5e47597cf4b55f3da926abf148f"
+  integrity sha512-+U4oSYlGBQ4DrRcS3gKrdBMtRnyM8TFyfQ++qwZCVoPOqNJT1Y0msersRRAD48bfxUYw/Krl11KBDA82zyhByw==
 
 table@^6.0.9:
   version "6.8.1"

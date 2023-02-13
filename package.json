@@ -15,18 +15,23 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@nissy-dev/swc-plugin-react-native-web": "^0.3.1",
     "@metacraft/eslint-config": "^0.0.12",
     "@metacraft/tsconfig": "^0.0.10",
     "@types/react": "^18.0.28",
     "@types/react-native": "^0.71.2",
     "aws-sdk": "^2.1313.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-react-native-web": "^0.18.12",
+    "copy-webpack-plugin": "^11.0.0",
+    "metro-react-native-babel-preset": "^0.72.1",
     "mustache": "^4.2.0",
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "latest",
+    "typescript": "^4.9.5"
   },
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {},
   "packageManager": "yarn@1.22.19"
 }

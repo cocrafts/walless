@@ -9,6 +9,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "gen": "node tool/gen",
+    "invalidate": "node tool/invalidate",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
@@ -17,6 +19,8 @@
     "@metacraft/tsconfig": "^0.0.10",
     "@types/react": "^18.0.28",
     "@types/react-native": "^0.71.2",
+    "aws-sdk": "^2.1313.0",
+    "mustache": "^4.2.0",
     "prettier": "latest",
     "turbo": "latest"
   },

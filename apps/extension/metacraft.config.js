@@ -70,7 +70,6 @@ const copyAssets = (configs) => {
 
 module.exports = {
 	useBabel: false,
-	port: () => 3001,
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',

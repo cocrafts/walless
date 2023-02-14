@@ -75,6 +75,15 @@ module.exports = {
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
 	swcOptions: () => ({
+		env: {
+			targets: {
+				chrome: '67',
+				edge: '79',
+				firefox: '68',
+				opera: '54',
+				safari: '14',
+			},
+		},
 		jsc: {
 			baseUrl: '.',
 			paths: {

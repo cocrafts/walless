@@ -1,34 +1,13 @@
 import { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Hyperlink } from '@metacraft/ui';
+import { Provider as UIProvider } from '@metacraft/ui';
+import RootStack from 'stacks/Root';
 
 export const App: FC = () => {
 	return (
-		<View style={styles.container}>
-			<Text style={styles.heading}>COMING SOON!</Text>
-			<Text>
-				<Text style={styles.sub}>Created with ❤️ by </Text>
-				<Hyperlink href="https://stormgate.io" title="Stormgate.io" />
-			</Text>
-		</View>
+		<UIProvider>
+			<RootStack />
+		</UIProvider>
 	);
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#001825',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	heading: {
-		color: '#ffffff',
-		fontSize: 42,
-		marginBottom: 8,
-	},
-	sub: {
-		color: '#888888',
-	},
-});

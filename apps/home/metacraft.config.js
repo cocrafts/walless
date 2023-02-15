@@ -59,6 +59,7 @@ module.exports = {
 			paths: {
 				'components/*': ['./src/components/*'],
 				'screens/*': ['./src/screens/*'],
+				'stacks/*': ['./src/stacks/*'],
 				'utils/*': ['./src/utils/*'],
 			},
 			experimental: {

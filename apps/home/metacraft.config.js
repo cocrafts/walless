@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 
 const setEnvironments = (configs, internal) => {
 	const { webpack } = internal.modules;
@@ -44,6 +45,15 @@ module.exports = {
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
 	swcOptions: () => ({
+		env: {
+			targets: {
+				chrome: '67',
+				edge: '79',
+				firefox: '68',
+				opera: '54',
+				safari: '14',
+			},
+		},
 		jsc: {
 			baseUrl: '.',
 			paths: {
@@ -58,7 +68,7 @@ module.exports = {
 			},
 		},
 	}),
-	webpackMiddlewares: [setEnvironments, copyAssets],
+	webpackMiddlewares: [web3Polyfills, setEnvironments, copyAssets],
 	moduleAlias: {
 		global: {
 			'react-native': 'react-native-web',

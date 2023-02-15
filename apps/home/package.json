@@ -10,6 +10,9 @@
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
 		"@metacraft/ui": "^0.0.59",
+		"@tkey/default": "^7.2.0",
+		"@tkey/security-questions": "^7.2.0",
+		"@tkey/web-storage": "^7.2.0",
 		"raf": "^3.4.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
@@ -19,5 +22,8 @@
 		"react-native-web": "^0.18.12",
 		"setimmediate": "^1.0.5",
 		"valtio": "^1.6.3"
+	},
+	"devDependencies": {
+		"@metacraft/cli-web3-polyfills": "^0.0.3"
 	}
 }

@@ -3,7 +3,7 @@
 	"name": "Walless",
 	"version": "0.0.1",
 	"description": "Crypto wallet for completely new-to-crypto user",
-	"author": "Metacraft Studio",
+	"author": "https://walless.io",
 	"icons": {
 		"16": "icon.png",
 		"48": "icon.png",
@@ -12,5 +12,36 @@
 	"action": {
 		"default_popup": "popup.html",
 		"default_title": "Open Walless"
-	}
+	},
+	"host_permissions": [
+		"http://localhost:3000/",
+		"file://*/*",
+		"http://*/*",
+		"https://*/*"
+	],
+	"permissions": [
+		"tabs",
+		"activeTab",
+		"alarms",
+		"clipboardWrite",
+		"notifications",
+		"scripting",
+		"storage",
+		"unlimitedStorage",
+		"webRequest"
+	],
+	"background": {
+		"service_worker": "background.js"
+	},
+	"content_scripts": [
+		{
+			"js": [
+				"content.js"
+			],
+			"matches": [
+				"https://*/*",
+				"http://*/*"
+			]
+		}
+	]
 }

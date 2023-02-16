@@ -28,7 +28,8 @@
 		"valtio": "^1.6.3"
 	},
 	"devDependencies": {
-		"@metacraft/cli-web3-polyfills": "^0.0.3"
+		"@metacraft/cli-web3-polyfills": "^0.0.3",
+		"@types/chrome": "^0.0.213"
 	},
 	"browserslist": {
 		"production": [

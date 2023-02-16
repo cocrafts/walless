@@ -1,11 +1,12 @@
-import CustomAuth, { CustomAuthArgs, UX_MODE } from '@toruslabs/customauth';
+import CustomAuth, { CustomAuthArgs } from '@toruslabs/customauth';
 
 const customAuthArgs: CustomAuthArgs = {
-	uxMode: UX_MODE.REDIRECT,
-	baseUrl: location.origin,
-	redirectPathName: 'auth',
 	network: 'testnet',
-	enableLogging: true,
+	baseUrl: `http://localhost:3000`,
+	redirectToOpener: true,
+	redirectPathName: 'auth',
+	enableLogging: false,
+	popupFeatures: 'width=380,height=600',
 };
 
 export const customAuth = new CustomAuth(customAuthArgs);

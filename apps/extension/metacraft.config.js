@@ -2,6 +2,20 @@ const { resolve } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 
+const injectEntries = (config) => {
+	config.entry.content = {
+		import: 'content.ts',
+		filename: 'content.js',
+	};
+
+	config.entry.background = {
+		import: 'background.ts',
+		filename: 'background.js',
+	};
+
+	return config;
+};
+
 const setEnvironments = (configs, internal) => {
 	const { webpack } = internal.modules;
 	const { DefinePlugin } = webpack;
@@ -67,7 +81,15 @@ module.exports = {
 			},
 		},
 	}),
-	webpackMiddlewares: [web3Polyfills, setEnvironments, copyAssets],
+	webpackMiddlewares: [
+		injectEntries,
+		web3Polyfills,
+		setEnvironments,
+		copyAssets,
+	],
+	htmlPluginOptions: {
+		chunks: ['app'],
+	},
 	moduleAlias: {
 		global: {
 			'react-native': 'react-native-web',

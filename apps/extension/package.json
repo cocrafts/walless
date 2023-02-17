@@ -5,7 +5,7 @@
 	"main": "index.web.js",
 	"scripts": {
 		"dev": "metacraft",
-		"build": "metacraft bundle"
+		"build": "metacraft bundle && node bundler"
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",

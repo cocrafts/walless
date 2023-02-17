@@ -12,18 +12,21 @@
     "gen": "node tool/gen",
     "invalidate": "node tool/invalidate",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "postinstall": "node tool/batch"
   },
   "devDependencies": {
-    "@nissy-dev/swc-plugin-react-native-web": "^0.3.1",
     "@metacraft/eslint-config": "^0.0.12",
     "@metacraft/tsconfig": "^0.0.10",
+    "@nissy-dev/swc-plugin-react-native-web": "^0.3.1",
+    "@types/lodash": "^4.14.191",
     "@types/react": "^18.0.28",
     "@types/react-native": "^0.71.2",
     "aws-sdk": "^2.1313.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-react-native-web": "^0.18.12",
     "copy-webpack-plugin": "^11.0.0",
+    "fs-extra": "^11.1.0",
     "metro-react-native-babel-preset": "^0.72.1",
     "mustache": "^4.2.0",
     "prettier": "latest",

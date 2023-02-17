@@ -5,6 +5,7 @@ main.tf
 
 # builds
 apps/**/metacraft
+apps/**/builds
 .swc
 
 # dependencies

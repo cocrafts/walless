@@ -27,10 +27,11 @@ class PopupHandler extends EventEmitter {
   }
 
   _setupTimer(): void {
-    console.log("INJECTED TIMEERRRR!");
+    if (!this.window) return;
+
     this.windowTimer = Number(
       setInterval(() => {
-        if (this.window && this.window.closed) {
+        if (this.window?.closed) {
           clearInterval(this.windowTimer);
           if (!this.iClosedWindow) {
             this.emit("close");

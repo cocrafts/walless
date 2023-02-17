@@ -86,12 +86,31 @@ abstract class AbstractLoginHandler implements ILoginHandler {
 						if (!postMessageEvent.data) return;
 						const ev = postMessageEvent.data;
 						if (ev.channel !== `redirect_channel_${this.nonce}`) return;
-						window.removeEventListener("message", postMessageEventHandler);
+
 						handleData(ev);
-						verifierWindow.close();
+
+						if (global.chrome) {
+							chrome.runtime.onMessage.removeListener(chromeMessageHandler);
+							chrome.tabs.query({ url: '*://localhost/auth/*' }).then((tabs) => {
+								tabs.forEach((item) => chrome.tabs.remove(item.id));
+							})
+						} else {
+							window.removeEventListener("message", postMessageEventHandler);
+							verifierWindow.close();
+						}
 					};
-					window.addEventListener("message", postMessageEventHandler);
+
+					const chromeMessageHandler = (request) => {
+						return postMessageEventHandler({ data: request } as MessageEvent);
+					}
+
+					if (global.chrome) {
+						chrome.runtime.onMessage.addListener(chromeMessageHandler);
+					} else {
+						window.addEventListener("message", postMessageEventHandler);
+					}
 				}
+
 				verifierWindow.open();
 				verifierWindow.once("close", () => {
 					if (bc) bc.close();

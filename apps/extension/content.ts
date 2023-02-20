@@ -13,3 +13,5 @@ window.addEventListener(
 	},
 	false,
 );
+
+window.postMessage({ from: 'walless@content-script-loaded' });

@@ -89,9 +89,9 @@ abstract class AbstractLoginHandler implements ILoginHandler {
 
 						handleData(ev);
 
-						if (global.chrome) {
+						if (global.chrome.action) {
 							chrome.runtime.onMessage.removeListener(chromeMessageHandler);
-							chrome.tabs.query({ url: '*://localhost/auth/*' }).then((tabs) => {
+							chrome.tabs.query({ url: '*://*/w3a-auth-response' }).then((tabs) => {
 								tabs.forEach((item) => chrome.tabs.remove(item.id));
 							})
 						} else {
@@ -104,7 +104,7 @@ abstract class AbstractLoginHandler implements ILoginHandler {
 						return postMessageEventHandler({ data: request } as MessageEvent);
 					}
 
-					if (global.chrome) {
+					if (global.chrome.action) {
 						chrome.runtime.onMessage.addListener(chromeMessageHandler);
 					} else {
 						window.addEventListener("message", postMessageEventHandler);

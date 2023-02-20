@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import AuthResponseScreen from 'screens/AuthResponse';
 import DashboardScreen from 'screens/Dashboard';
 import LoginScreen from 'screens/Login';
 import {
@@ -17,6 +18,7 @@ export const RootStack: FC = () => {
 		<NavigationContainer ref={navigationRef} linking={linking}>
 			<Stack.Navigator screenOptions={screenOptions}>
 				<Stack.Screen name="Dashboard" component={DashboardScreen} />
+				<Stack.Screen name="AuthResponse" component={AuthResponseScreen} />
 				<Stack.Screen name="Login" component={LoginScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>

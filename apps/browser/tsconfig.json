@@ -8,7 +8,7 @@
 			"components/*": ["./src/components/*"],
 			"stacks/*": ["./src/stacks/*"],
 			"screens/*": ["./src/screens/*"],
-			"utils/*": ["./src/utils/*"],
+			"utils/*": ["./src/utils/*"]
 		}
 	}
 }

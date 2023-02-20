@@ -6,6 +6,7 @@ import { StackNavigationOptions } from '@react-navigation/stack';
 
 export type RootParamList = {
 	Login: undefined;
+	AuthResponse: undefined;
 	Dashboard: undefined;
 };
 
@@ -19,6 +20,7 @@ export const linking: LinkingOptions<RootParamList> = {
 	config: {
 		screens: {
 			Login: '/login',
+			AuthResponse: '/w3a-response',
 			Dashboard: '/',
 		},
 	},

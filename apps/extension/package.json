@@ -9,10 +9,11 @@
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-		"@metacraft/ui": "^0.0.59",
+		"@walless/ui": "*",
 		"@solana/web3.js": "^1.73.2",
 		"@tkey/chrome-storage": "^7.2.0",
 		"@tkey/default": "^7.2.0",
+		"@tkey/private-keys": "^7.2.0",
 		"@tkey/security-questions": "^7.2.0",
 		"@tkey/web-storage": "^7.2.0",
 		"@web3auth/ethereum-provider": "^4.6.0",
@@ -25,7 +26,7 @@
 		"react-native-svg": "^13.0.0",
 		"react-native-web": "^0.18.12",
 		"setimmediate": "^1.0.5",
-		"valtio": "^1.6.3"
+		"valtio": "^1.10.2"
 	},
 	"devDependencies": {
 		"@metacraft/cli-web3-polyfills": "^0.0.3",

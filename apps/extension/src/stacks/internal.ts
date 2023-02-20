@@ -5,7 +5,6 @@ import {
 import { StackNavigationOptions } from '@react-navigation/stack';
 
 export type RootParamList = {
-	Splash: undefined;
 	Login: undefined;
 	Dashboard: undefined;
 };
@@ -19,7 +18,6 @@ export const linking: LinkingOptions<RootParamList> = {
 	prefixes: ['walless://', 'https://app.walless.io'],
 	config: {
 		screens: {
-			Splash: '/splash',
 			Login: '/login',
 			Dashboard: '/',
 		},

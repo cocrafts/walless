@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import DashboardScreen from 'screens/Dashboard';
 import LoginScreen from 'screens/Login';
-import SplashScreen from 'screens/Splash';
 import {
 	linking,
 	navigationRef,
@@ -18,7 +17,6 @@ export const RootStack: FC = () => {
 		<NavigationContainer ref={navigationRef} linking={linking}>
 			<Stack.Navigator screenOptions={screenOptions}>
 				<Stack.Screen name="Dashboard" component={DashboardScreen} />
-				<Stack.Screen name="Splash" component={SplashScreen} />
 				<Stack.Screen name="Login" component={LoginScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>

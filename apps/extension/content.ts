@@ -1,6 +1,7 @@
 console.log('content.js: loaded');
 
 const port = chrome.runtime.connect();
+
 window.addEventListener(
 	'message',
 	({ source, data }) => {

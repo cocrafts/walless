@@ -1427,6 +1427,16 @@
     "@tkey/storage-layer-torus" "^7.2.0"
     bn.js "^5.2.1"
 
+"@tkey/private-keys@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@tkey/private-keys/-/private-keys-7.2.0.tgz#0b06b1c1d14968aa98878b263e812e9efa3be4fb"
+  integrity sha512-5pS68Y+pp+sK5elgp4m5JOjZzSbhwYy1irc+4auKvqse0fIIe8h9CigC4/EYh3oAHgq3qsCuyWJ8cO8+gT5SOg==
+  dependencies:
+    "@tkey/common-types" "^7.2.0"
+    "@toruslabs/tweetnacl-js" "^1.0.3"
+    bn.js "^5.2.1"
+    randombytes "^2.1.0"
+
 "@tkey/security-questions@^7.2.0":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@tkey/security-questions/-/security-questions-7.2.0.tgz#faf3fd1c4274c5dd4b469ff17129b77adbe9e040"
@@ -4938,10 +4948,10 @@ prop-types@^15.7.2, prop-types@^15.8.1:
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
-proxy-compare@2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.4.1.tgz#663b45f1212f1a423c8973374fa47542084df02f"
-  integrity sha512-xkL1upOHOOW6zSSNUDZ09hqGDO9lq//Sg92KF8YK+YsD/Et1dP8fZql/h6vgbFa/ScIAlttE4WjTD7QPEg1Ssg==
+proxy-compare@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.5.0.tgz#0387c5e4d283ba9b1c0353bb20def4449b06bbd2"
+  integrity sha512-f1us0OsVAJ3tdIMXGQx2lmseYS4YXe4W+sKF5g5ww/jV+5ogMadPt+sIZ+88Ga9kvMJsrRNWzCrKPpr6pMWYbA==
 
 public-encrypt@^4.0.0:
   version "4.0.3"
@@ -5909,12 +5919,12 @@ v8-compile-cache@^2.0.3:
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
   integrity sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==
 
-valtio@^1.6.3:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/valtio/-/valtio-1.10.1.tgz#0339bb17422aa4d64f522ffec747cd07c0ac4aed"
-  integrity sha512-VhK/adrsgQsInQ8SvcUV0NYu2XyPItAAWhAX1uhmN0tS0wIroqjUNhb0OG8iEqu6khUdfMsR7s+Q91hZT6pjcg==
+valtio@^1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/valtio/-/valtio-1.10.2.tgz#df9d7c983c4cef4819adeca1e27c061483268bf9"
+  integrity sha512-NG9FUB44VQKzEqs6qGke6XEuAYWoEeCADiS6/Hkgy2bYALOdztoCwJUNl79lEae2wGhqZ6Lv+K9wPUIiS8VLxw==
   dependencies:
-    proxy-compare "2.4.1"
+    proxy-compare "2.5.0"
     use-sync-external-store "1.2.0"
 
 warn-once@^0.1.0:

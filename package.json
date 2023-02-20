@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "node tool/batch && turbo run build",
     "dev": "turbo run dev",
     "gen": "node tool/gen",
     "invalidate": "node tool/invalidate",

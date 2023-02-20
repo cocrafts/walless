@@ -1,8 +1,10 @@
 import { FC } from 'react';
+import { RouterProvider } from 'react-router-dom';
 import SplashScreen from 'components/Splash';
-import RootStack from 'stacks/Root';
 import { useSnapshot } from 'utils/hook';
 import { appState } from 'utils/state/app';
+
+import { router } from './router';
 
 export const AppContainer: FC = () => {
 	const app = useSnapshot(appState);
@@ -11,7 +13,7 @@ export const AppContainer: FC = () => {
 		return <SplashScreen />;
 	}
 
-	return <RootStack />;
+	return <RouterProvider router={router} />;
 };
 
 export default AppContainer;

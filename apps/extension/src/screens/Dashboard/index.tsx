@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Link } from 'react-router-dom';
 
 export const HomeScreen: FC = () => {
 	return (
@@ -8,6 +9,7 @@ export const HomeScreen: FC = () => {
 			<Text>
 				<Text style={styles.sub}>Created with ❤️ by Metacraft</Text>
 			</Text>
+			<Link to="login">Login</Link>
 		</View>
 	);
 };

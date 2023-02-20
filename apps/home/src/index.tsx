@@ -3,7 +3,7 @@ import { Provider as UIProvider } from '@metacraft/ui';
 import RootStack from 'stacks/Root';
 import { homeTheme } from 'utils/style';
 
-export const App: FC = () => {
+export const AppContainer: FC = () => {
 	return (
 		<UIProvider theme={homeTheme}>
 			<RootStack />
@@ -11,4 +11,4 @@ export const App: FC = () => {
 	);
 };
 
-export default App;
+export default AppContainer;

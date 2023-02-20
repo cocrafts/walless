@@ -4,7 +4,7 @@ const customAuthArgs: CustomAuthArgs = {
 	network: 'testnet',
 	baseUrl: `http://localhost:3000`,
 	redirectToOpener: true,
-	redirectPathName: 'auth',
+	redirectPathName: 'w3a-auth-response',
 	enableLogging: false,
 	popupFeatures: 'width=380,height=600',
 };

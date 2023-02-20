@@ -8,6 +8,7 @@ const setEnvironments = (configs, internal) => {
 		process: { env: {} },
 		__DEV__: !isProduction,
 		ENV: JSON.stringify(env),
+		GOOGLE_CLIENT_ID: JSON.stringify(process.env.GOOGLE_CLIENT_ID),
 	});
 
 	return configs;

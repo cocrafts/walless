@@ -20,11 +20,6 @@ const generateSwcOptions = (options = {}) =>
 					'stacks/*': ['./src/stacks/*'],
 					'utils/*': ['./src/utils/*'],
 				},
-				experimental: {
-					plugins: [
-						['@nissy-dev/swc-plugin-react-native-web', { commonjs: true }],
-					],
-				},
 			},
 		},
 		options,

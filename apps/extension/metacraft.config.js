@@ -18,7 +18,7 @@ const injectEntries = (config) => {
 };
 
 module.exports = {
-	useBabel: false,
+	useBabel: true,
 	port: () => 3001,
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,

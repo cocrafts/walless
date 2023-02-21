@@ -1,3 +1,5 @@
+let isFromExtension = false;
+
 export const parseAndNotifyResult = async () => {
 	let error = '';
 	let instanceParams: Record<string, string> = {};
@@ -47,10 +49,10 @@ export const parseAndNotifyResult = async () => {
 		 * broadcast the result to it-self, which listened/handle by Extension */
 		const payload = { from: 'walless@sign-in-response', channel, data, error };
 
-		if (window.opener?.postMessage) {
-			window.opener.postMessage(payload, '*');
-		} else {
+		if (isFromExtension || !window.opener?.postMessage) {
 			window.postMessage(payload);
+		} else {
+			window.opener?.postMessage(payload, '*');
 		}
 	}
 };
@@ -59,6 +61,7 @@ const waitForContentScript = (): Promise<void> => {
 	return new Promise((resolve) => {
 		window.addEventListener('message', (event) => {
 			if (event.data.from === 'walless@content-script-loaded') {
+				isFromExtension = true;
 				resolve();
 			}
 		});

@@ -5,12 +5,12 @@ const { setEnvironments } = require('../../tool/webpack/middleware/env');
 
 const injectEntries = (config) => {
 	config.entry.content = {
-		import: 'content.ts',
+		import: 'scripts/content.ts',
 		filename: 'content.js',
 	};
 
 	config.entry.background = {
-		import: 'background.ts',
+		import: 'scripts/background.ts',
 		filename: 'background.js',
 	};
 

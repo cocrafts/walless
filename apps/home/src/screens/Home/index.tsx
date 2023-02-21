@@ -10,6 +10,13 @@ export const HomeScreen: FC = () => {
 				<Text style={styles.sub}>Created with ❤️ by </Text>
 				<Hyperlink href="https://stormgate.io" title="Stormgate.io" />
 			</Text>
+			<Text style={styles.xs}>
+				<Text>Rocking on </Text>
+				<Hyperlink
+					href="https://solana.com/grizzlython"
+					title="Solana Grizzlython 2023"
+				/>
+			</Text>
 		</View>
 	);
 };
@@ -30,5 +37,10 @@ const styles = StyleSheet.create({
 	},
 	sub: {
 		color: '#888888',
+	},
+	xs: {
+		fontSize: 11,
+		color: '#888888',
+		marginTop: 5,
 	},
 });

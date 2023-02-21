@@ -3,7 +3,7 @@ import { Image, View } from 'react-native';
 import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
-	withSpring,
+	withSequence,
 	withTiming,
 } from 'react-native-reanimated';
 import { appActions } from 'utils/state/app';
@@ -12,37 +12,20 @@ const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 export const SplashScreen: FC = () => {
 	const opacity = useSharedValue(0);
-	const raise = useSharedValue(50);
 
 	const logoStyle = useAnimatedStyle(() => ({
 		width: logoSize,
 		height: logoSize,
 		opacity: opacity.value,
-		transform: [{ translateY: raise.value }],
 	}));
 
 	useEffect(() => {
-		const fadeAnimation = async (): Promise<void> => {
-			return new Promise((resolve) => {
-				opacity.value = withTiming(1, { duration: 1000 }, () => {
-					resolve();
-				});
-			});
-		};
-
-		const raiseAnimation = async (): Promise<void> => {
-			return new Promise((resolve) => {
-				raise.value = withSpring(0, {}, () => {
-					resolve();
-				});
-			});
-		};
-
-		Promise.all([fadeAnimation(), raiseAnimation()]).then(() => {
-			opacity.value = withTiming(0, { duration: 400 }, () => {
-				appActions.setLoading(false);
-			});
+		const fadeIn = withTiming(1, { duration: 500 });
+		const fadeOut = withTiming(0, { duration: 500 }, () => {
+			appActions.setLoading(false);
 		});
+
+		opacity.value = withSequence(fadeIn, fadeOut);
 	}, []);
 
 	return (

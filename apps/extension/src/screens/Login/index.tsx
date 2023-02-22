@@ -1,11 +1,26 @@
-import { FC, Fragment, useState } from 'react';
+import { FC, Fragment, useEffect, useState } from 'react';
+import {
+	useAnimatedStyle,
+	useSharedValue,
+	withTiming,
+} from 'react-native-reanimated';
 import { TorusAggregateLoginResponse } from '@toruslabs/customauth';
-import { Text, View } from 'components/managed';
+import { AnimatedImage, IconButton, Text, View } from '@walless/ui';
+import { resources } from 'utils/config';
 import { useW3a } from 'utils/hook';
 import { googleSignIn } from 'utils/w3a';
 
+const logoSize = 80;
+
 export const LoginScreen: FC = () => {
 	const [login, setLogin] = useState<TorusAggregateLoginResponse>();
+	const opacity = useSharedValue(0);
+	const logoStyle = useAnimatedStyle(() => ({
+		width: logoSize,
+		height: logoSize,
+		opacity: opacity.value,
+	}));
+
 	useW3a();
 
 	const toggleLogin = async () => {
@@ -14,14 +29,32 @@ export const LoginScreen: FC = () => {
 		console.log(response, '<--');
 	};
 
+	useEffect(() => {
+		opacity.value = withTiming(1, { duration: 1000 });
+	}, []);
+
 	return (
-		<View className="flex-1 items-center justify-center">
-			<Text className="text-white text-3xl" onPress={toggleLogin}>
-				Google Sign-In
+		<View className="flex-1 items-center pt-24">
+			<AnimatedImage
+				style={logoStyle}
+				source={resources.app.smallIcon}
+				resizeMode="contain"
+			/>
+			<Text className="text-white text-lg font-light mt-12 mb-4">
+				Sign in to continue
 			</Text>
-			<Text className="text-white mt-3">
-				<Text>Created with ❤️ by Metacraft</Text>
-			</Text>
+			<View className="flex-row">
+				{loginButtons.map(({ id, iconSrc }) => {
+					return (
+						<IconButton
+							key={id}
+							className="mx-2 p-0.5 rounded-2xl"
+							source={iconSrc}
+							onPress={toggleLogin}
+						/>
+					);
+				})}
+			</View>
 			{login?.pubKey && (
 				<Fragment>
 					<Text className="text-white text-center mt-5">
@@ -37,3 +70,18 @@ export const LoginScreen: FC = () => {
 };
 
 export default LoginScreen;
+
+const loginButtons = [
+	{
+		id: 'google',
+		iconSrc: resources.icons.google,
+	},
+	{
+		id: 'facebook',
+		iconSrc: resources.icons.facebook,
+	},
+	{
+		id: 'discord',
+		iconSrc: resources.icons.discord,
+	},
+];

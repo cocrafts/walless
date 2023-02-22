@@ -1,6 +1,6 @@
 import { FC, Fragment, useState } from 'react';
-import { Text, View } from 'react-native';
 import { TorusAggregateLoginResponse } from '@toruslabs/customauth';
+import { Text, View } from 'components/managed';
 import { useW3a } from 'utils/hook';
 import { googleSignIn } from 'utils/w3a';
 

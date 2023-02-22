@@ -1,13 +1,13 @@
 import { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { Link } from 'react-router-dom';
+import { Text, View } from 'components/managed';
 
 export const HomeScreen: FC = () => {
 	return (
-		<View style={styles.container}>
-			<Text style={styles.heading}>COMING SOON!</Text>
+		<View className="flex-1 items-center justify-center">
+			<Text className="text-white text-5xl mb-3">COMING SOON!</Text>
 			<Text>
-				<Text style={styles.sub}>Created with ❤️ by Metacraft</Text>
+				<Text className="text-gray-400">Created with ❤️ by Metacraft</Text>
 			</Text>
 			<Link to="login">Login</Link>
 		</View>
@@ -15,20 +15,3 @@ export const HomeScreen: FC = () => {
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#001825',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	heading: {
-		color: '#ffffff',
-		fontSize: 42,
-		marginBottom: 8,
-	},
-	sub: {
-		color: '#888888',
-	},
-});

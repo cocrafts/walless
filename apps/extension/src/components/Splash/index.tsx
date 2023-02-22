@@ -1,12 +1,11 @@
 import { FC, useEffect } from 'react';
-import { View } from 'react-native';
 import {
 	useAnimatedStyle,
 	useSharedValue,
 	withSequence,
 	withTiming,
 } from 'react-native-reanimated';
-import { AnimatedImage } from 'components/animated';
+import { AnimatedImage, View } from 'components/managed';
 import { resources } from 'utils/config';
 import { appActions } from 'utils/state/app';
 

@@ -5,7 +5,7 @@ import {
 	withTiming,
 } from 'react-native-reanimated';
 import { TorusAggregateLoginResponse } from '@toruslabs/customauth';
-import { AnimatedImage, IconButton, Text, View } from '@walless/ui';
+import { AnimatedImage, Button, IconButton, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import { useW3a } from 'utils/hook';
 import { googleSignIn } from 'utils/w3a';
@@ -34,7 +34,7 @@ export const LoginScreen: FC = () => {
 	}, []);
 
 	return (
-		<View className="flex-1 items-center pt-24">
+		<View className="flex-1 items-center pt-24 bg-main-dark">
 			<AnimatedImage
 				style={logoStyle}
 				source={resources.app.smallIcon}
@@ -48,12 +48,19 @@ export const LoginScreen: FC = () => {
 					return (
 						<IconButton
 							key={id}
-							className="mx-2 p-0.5 rounded-2xl"
+							className="mx-2 p-1 rounded-xl bg-gradient-to-b from-primary-darker to-primary-dark border border-dark"
 							source={iconSrc}
 							onPress={toggleLogin}
 						/>
 					);
 				})}
+			</View>
+			<Text className="text-light mt-6">or</Text>
+			<View style={{ minWidth: 260, marginTop: 28 }}>
+				<Button
+					className="opacity-60 p-3.5 rounded-xl bg-gradient-to-r from-coal-start to-coal-end"
+					title="Advance Creation"
+				/>
 			</View>
 			{login?.pubKey && (
 				<Fragment>

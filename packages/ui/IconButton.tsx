@@ -1,30 +1,24 @@
 import { FC } from 'react';
 import { ImageSourcePropType } from 'react-native';
 
+import { ButtonProps } from './utils/types';
 import { Image, TouchableOpacity } from './managed';
 
-interface Props {
-	className?: string;
+type Props = ButtonProps & {
 	source: ImageSourcePropType;
 	size?: number;
-	onPress?: () => void;
-}
+};
 
 export const IconButton: FC<Props> = ({
 	className,
 	source,
-	size = 40,
+	size = 36,
 	onPress,
 }) => {
-	const containerStyle = { backgroundColor: '#093958' };
 	const iconStyle = { width: size, height: size };
 
 	return (
-		<TouchableOpacity
-			style={containerStyle}
-			className={className}
-			onPress={onPress}
-		>
+		<TouchableOpacity className={className} onPress={onPress}>
 			<Image source={source} style={iconStyle} />
 		</TouchableOpacity>
 	);

@@ -1,14 +1,14 @@
 import { FC, useEffect } from 'react';
-import { Image, View } from 'react-native';
-import Animated, {
+import { View } from 'react-native';
+import {
 	useAnimatedStyle,
 	useSharedValue,
 	withSequence,
 	withTiming,
 } from 'react-native-reanimated';
+import { AnimatedImage } from 'components/animated';
+import { resources } from 'utils/config';
 import { appActions } from 'utils/state/app';
-
-const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 export const SplashScreen: FC = () => {
 	const opacity = useSharedValue(0);
@@ -32,7 +32,7 @@ export const SplashScreen: FC = () => {
 		<View className="flex-1 items-center justify-center">
 			<AnimatedImage
 				style={logoStyle}
-				source={{ uri: 'icon.png' }}
+				source={resources.app.icon}
 				resizeMode="contain"
 			/>
 		</View>
@@ -41,4 +41,4 @@ export const SplashScreen: FC = () => {
 
 export default SplashScreen;
 
-const logoSize = 150;
+const logoSize = 160;

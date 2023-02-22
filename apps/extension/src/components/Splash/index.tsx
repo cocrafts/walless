@@ -5,7 +5,7 @@ import {
 	withSequence,
 	withTiming,
 } from 'react-native-reanimated';
-import { AnimatedImage, View } from 'components/managed';
+import { AnimatedImage, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import { appActions } from 'utils/state/app';
 

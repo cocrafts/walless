@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { Text, View } from 'components/managed';
+import { Text, View } from '@walless/ui';
 
 export const HomeScreen: FC = () => {
 	return (

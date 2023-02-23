@@ -16,6 +16,5 @@ module.exports = {
 		'@babel/plugin-proposal-export-namespace-from',
 		'react-native-reanimated/plugin',
 		'react-native-web',
-		'nativewind/babel',
 	],
 };

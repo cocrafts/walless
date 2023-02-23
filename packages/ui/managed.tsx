@@ -8,7 +8,7 @@ import Animated from 'react-native-reanimated';
 import { styled } from 'nativewind';
 
 export const View = styled(BareView);
-export const Text = styled(BareText);
+export const Text = styled(BareText, 'font-poppins');
 export const Image = styled(BareImage);
 export const TouchableOpacity = styled(BareTouchableOpacity);
 

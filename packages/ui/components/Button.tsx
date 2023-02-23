@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { ButtonProps } from './utils/types';
-import { Text, TouchableOpacity } from './managed';
+import { Text, TouchableOpacity } from '../managed';
+import { ButtonProps } from '../utils/types';
 
 type Props = ButtonProps & {
 	title?: string;

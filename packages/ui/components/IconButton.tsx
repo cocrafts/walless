@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { ImageSourcePropType } from 'react-native';
 
-import { ButtonProps } from './utils/types';
-import { Image, TouchableOpacity } from './managed';
+import { Image, TouchableOpacity } from '../managed';
+import { ButtonProps } from '../utils/types';
 
 type Props = ButtonProps & {
 	source: ImageSourcePropType;

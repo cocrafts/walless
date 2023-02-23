@@ -2,6 +2,7 @@ module.exports = {
 	content: ['./src/**/*.{js,ts,jsx,tsx}'],
 	theme: {
 		colors: {
+			transparent: 'transparent',
 			white: '#ffffff',
 			gray: '#dedede',
 			light: '#3B6887',
@@ -20,4 +21,5 @@ module.exports = {
 		extend: {},
 	},
 	plugins: [],
+	safelist: ['font-poppins'],
 };

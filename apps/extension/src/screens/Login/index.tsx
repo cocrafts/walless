@@ -34,7 +34,7 @@ export const LoginScreen: FC = () => {
 	}, []);
 
 	return (
-		<View className="flex-1 items-center pt-24 bg-main-dark">
+		<View className="flex-1 items-center justify-center bg-main-dark">
 			<AnimatedImage
 				style={logoStyle}
 				source={resources.app.smallIcon}

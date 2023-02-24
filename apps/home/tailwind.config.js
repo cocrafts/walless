@@ -26,5 +26,5 @@ module.exports = {
 		extend: {},
 	},
 	plugins: [],
-	safelist: ['font-poppins', 'text-white'],
+	safelist: ['font-poppins', 'text-white', 'text-center'],
 };

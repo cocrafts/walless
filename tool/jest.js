@@ -6,7 +6,7 @@ const babelConfig = {
 };
 
 const jestConfig = {
-	testMatch: ['**/tests/**/*.ts', '**/tests/**/*.tsx'],
+	testMatch: ['**/tests/**/*.test.ts', '**/tests/**/*.test.tsx'],
 };
 
 module.exports = {

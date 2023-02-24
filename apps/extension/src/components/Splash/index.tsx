@@ -40,4 +40,4 @@ export const SplashScreen: FC = () => {
 
 export default SplashScreen;
 
-const logoSize = 160;
+const logoSize = 220;

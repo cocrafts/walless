@@ -37,7 +37,7 @@ export const HomeScreen: FC = () => {
 				<Hyperlink href="https://stormgate.io" title="Stormgate.io" />
 			</Text>
 			<Text className="font-light text-xs text-white/60 my-6">
-				technical preview download
+				Get early access below - testing only.
 			</Text>
 			<View className="flex-row pt-5">
 				{extensionList.map((item) => {

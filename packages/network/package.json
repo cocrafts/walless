@@ -9,9 +9,6 @@
     "@solana/spl-token": "^0.3.7",
     "@solana/web3.js": "^1.73.2"
   },
-  "devDependencies": {
-    "tsconfig": "*"
-  },
   "temp": {
     "lint": "TIMING=1 eslint \"**/*.ts*\"",
     "test": "tsc index.test.ts && node index.test.js",

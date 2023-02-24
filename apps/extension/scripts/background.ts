@@ -1,3 +1,5 @@
+import { getNFTs } from '@walless/network';
+
 console.log('background.js: loaded');
 const logTitle = '[Background service]: ';
 
@@ -18,6 +20,8 @@ const SAMPLE_KEY = 'D4zHiywS9ELy7pvFKjvsR3KNJxAvi72EqsmkUhVXG471';
 const start = async () => {
 	const obj = await queryAll(SAMPLE_KEY);
 	console.log(obj);
+
+	getNFTs(SAMPLE_KEY);
 };
 
 start();

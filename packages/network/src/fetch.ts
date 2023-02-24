@@ -1,9 +1,9 @@
+import { Metaplex } from '@metaplex-foundation/js';
 import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { Keypair, PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
+import { connection } from './utils/connection';
 import SolanaConnection from './connection';
-// import { Metaplex, keypairIdentity, FindNftByMintInput, bundlrStorage } from "@metaplex-foundation/js"
-// import { Connection, clusterApiUrl } from '@solana/web3.js'
 
 type QueryResult = {
 	balance: number;
@@ -61,6 +61,11 @@ export async function getBalance(keyString: string) {
 
 	return balance;
 }
+
+export const getNFTs = (address: string) => {
+	const metaplex = new Metaplex(connection);
+	console.log(metaplex, '<--');
+};
 
 // NFT is a mint. just like SRM, USDC ..., the only different is that NFT's supply is 1
 //

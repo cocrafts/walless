@@ -39,7 +39,7 @@
 		"workbox-window": "^6.5.4"
 	},
 	"devDependencies": {
-		"@metacraft/cli-web3-polyfills": "^0.0.3",
+		"@metacraft/cli-web3-polyfills": "^0.0.5",
 		"webpack": "^5.75.0",
 		"workbox-webpack-plugin": "^6.5.4"
 	}

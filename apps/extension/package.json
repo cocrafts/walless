@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+		"@metaplex-foundation/js": "^0.18.1",
 		"@solana/spl-token": "^0.3.7",
 		"@solana/web3.js": "^1.73.3",
 		"@tkey/chrome-storage": "^7.2.0",
@@ -33,7 +34,7 @@
 		"valtio": "^1.10.2"
 	},
 	"devDependencies": {
-		"@metacraft/cli-web3-polyfills": "^0.0.3",
+		"@metacraft/cli-web3-polyfills": "^0.0.5",
 		"@types/chrome": "^0.0.213"
 	},
 	"browserslist": {

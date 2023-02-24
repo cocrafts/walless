@@ -29,6 +29,6 @@
 		"valtio": "^1.10.2"
 	},
 	"devDependencies": {
-		"@metacraft/cli-web3-polyfills": "^0.0.3"
+		"@metacraft/cli-web3-polyfills": "^0.0.5"
 	}
 }

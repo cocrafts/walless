@@ -40,7 +40,7 @@ export const LoginScreen: FC = () => {
 				source={resources.app.smallIcon}
 				resizeMode="contain"
 			/>
-			<Text className="text-white text-lg font-light mt-12 mb-4">
+			<Text className="text-white text-xl font-light mt-12 mb-4">
 				Sign in to continue
 			</Text>
 			<View className="flex-row">
@@ -55,11 +55,17 @@ export const LoginScreen: FC = () => {
 					);
 				})}
 			</View>
-			<Text className="text-light mt-6">or</Text>
-			<View style={{ minWidth: 260, marginTop: 28 }}>
+			<Text className="text-light mt-6 text-sm">or</Text>
+			<View className="flex flex-row items-center mt-6 w-full">
+				<View className="flex-1 h-0 border-light border-t " />
+				<Text className="mx-4 text-light text-sm">External Wallet</Text>
+				<View className="flex-1 h-0 border-light border-t" />
+			</View>
+			<View className="mt-2 w-full">
 				<Button
-					className="opacity-60 p-3.5 rounded-xl bg-gradient-to-r from-coal-start to-coal-end"
-					title="Advance Creation"
+					className="py-3 px-2 rounded-xl bg-gradient-to-r from-coal-start to-coal-end"
+					title="Continue with Wallet"
+					titleClass="text-base text-white text-center"
 				/>
 			</View>
 			{login?.pubKey && (

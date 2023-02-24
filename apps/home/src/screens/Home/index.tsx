@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { ImageSourcePropType, Linking } from 'react-native';
 import { Hyperlink } from '@metacraft/ui';
-import { Text, View } from '@walless/ui';
+import { Image, Text, View } from '@walless/ui';
 import ExtensionIcon from 'components/ExtensionIcon';
 
 interface ExtensionConfig {
@@ -31,6 +31,7 @@ export const HomeScreen: FC = () => {
 
 	return (
 		<View className="flex-1 items-center justify-center">
+			<Image className="w-32 h-32 mb-8" source={{ uri: '/img/icon-lg.png' }} />
 			<Text className="text-5xl mb-3">COMING SOON!</Text>
 			<Text className="text-lg mb-3">
 				<Text>Created with ❤️ by </Text>

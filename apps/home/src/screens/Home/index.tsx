@@ -31,7 +31,7 @@ export const HomeScreen: FC = () => {
 
 	return (
 		<View className="flex-1 items-center justify-center">
-			<Image className="w-32 h-32 mb-8" source={{ uri: '/img/icon-lg.png' }} />
+			<Image className="w-48 h-48 mb-8" source={{ uri: '/img/icon-lg.png' }} />
 			<Text className="text-5xl mb-3">COMING SOON!</Text>
 			<Text className="text-lg mb-3">
 				<Text>Created with ❤️ by </Text>

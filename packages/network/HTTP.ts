@@ -1,70 +1,66 @@
-import { AccountLayout, TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import { PublicKey, Keypair } from "@solana/web3.js";
-import SolanaConnection from "./connection";
+import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { Keypair, PublicKey } from '@solana/web3.js';
+
+import SolanaConnection from './connection';
 // import { Metaplex, keypairIdentity, FindNftByMintInput, bundlrStorage } from "@metaplex-foundation/js"
 // import { Connection, clusterApiUrl } from '@solana/web3.js'
 
 type QueryResult = {
-    balance: Number,
-    listTokens: Token[]
-}
+	balance: number;
+	listTokens: Token[];
+};
 
 type Token = {
-    mint: PublicKey,
-    amount: bigint
-}
+	mint: PublicKey;
+	amount: bigint;
+};
 
 /**
  * This function get all necessary for render wallet
- * 
- * @param {String} keyString - public key as string
+ *
+ * @param {String} address - public key as string
  * @return {QueryResult}
  */
-export async function queryAll(keyString: String): Promise<QueryResult> {
-    const tokenAccounts = await getTokens(keyString)
-    const balance = await getBalance(keyString)
-    const listTokens = new Array<Token>()
+export async function queryAll(address: string): Promise<QueryResult> {
+	const tokenAccounts = await getTokens(address);
+	const balance = await getBalance(address);
+	const listTokens = new Array<Token>();
 
-    tokenAccounts.value.forEach((tokenAccount) => {
-        const accountData = AccountLayout.decode(tokenAccount.account.data);
-        listTokens.push({
-            mint: accountData.mint,
-            amount: accountData.amount
-        })
-    })
+	tokenAccounts.value.forEach((tokenAccount) => {
+		const accountData = AccountLayout.decode(tokenAccount.account.data);
+		listTokens.push({
+			mint: accountData.mint,
+			amount: accountData.amount,
+		});
+	});
 
-    const result = {
-        balance: balance,
-        listTokens: listTokens
-    }
+	const result = {
+		balance: balance,
+		listTokens: listTokens,
+	};
 
-    return result
-
+	return result;
 }
 
-export async function getTokens(keyString: String) {
-    const tokenAccounts
-        = await SolanaConnection
-            .getConnection()
-            .getTokenAccountsByOwner(
-                new PublicKey(keyString),
-                {
-                    programId: TOKEN_PROGRAM_ID,
-                }
-            )
+export async function getTokens(keyString: string) {
+	const tokenAccounts =
+		await SolanaConnection.getConnection().getTokenAccountsByOwner(
+			new PublicKey(keyString),
+			{
+				programId: TOKEN_PROGRAM_ID,
+			},
+		);
 
-    return tokenAccounts
+	return tokenAccounts;
 }
 
-export async function getBalance(keyString: String) {
-    const balance
-        = await SolanaConnection
-            .getConnection()
-            .getBalance(new PublicKey(keyString))
+export async function getBalance(keyString: string) {
+	const balance = await SolanaConnection.getConnection().getBalance(
+		new PublicKey(keyString),
+	);
 
-    return balance
+	return balance;
 }
-
 
 // NFT is a mint. just like SRM, USDC ..., the only different is that NFT's supply is 1
 //
@@ -92,4 +88,3 @@ export async function getBalance(keyString: String) {
 // } catch (error) {
 //     console.log(error)
 // }
-

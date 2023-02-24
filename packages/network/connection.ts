@@ -1,30 +1,26 @@
-import { Connection, clusterApiUrl } from '@solana/web3.js'
-
+import { clusterApiUrl, Connection } from '@solana/web3.js';
 
 export default class SolanaConnection {
+	private static instance: SolanaConnection;
+	private connection: Connection;
+	private static countGetConnection = 0;
 
-    private static instance: SolanaConnection
-    private connection: Connection
-    private static countGetConnection: number = 0
+	private constructor() {
+		this.connection = new Connection(clusterApiUrl('devnet'));
+	}
 
-    private constructor() {
-        this.connection = new Connection(clusterApiUrl('devnet'))
-    }
+	public static getConnection(): Connection {
+		if (!SolanaConnection.instance) {
+			SolanaConnection.instance = new SolanaConnection();
+		}
 
-    public static getConnection(): Connection {
+		SolanaConnection.countGetConnection++;
+		return SolanaConnection.instance.connection;
+	}
 
-        if (!SolanaConnection.instance) {
-            SolanaConnection.instance = new SolanaConnection()
-        }
-
-        SolanaConnection.countGetConnection++
-        return SolanaConnection.instance.connection
-    } 
-
-    public static getConnectionLog() {
-        return {
-            countConnection: SolanaConnection.countGetConnection
-        }
-    }
-
+	public static getConnectionLog() {
+		return {
+			countConnection: SolanaConnection.countGetConnection,
+		};
+	}
 }

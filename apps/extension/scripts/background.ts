@@ -1,5 +1,5 @@
 console.log('background.js: loaded');
-const logTitle = '[Background service]: '
+const logTitle = '[Background service]: ';
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	if (request.hello) {
@@ -10,14 +10,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 import {
 	queryAll,
 	subcribeWithPublicKeyString,
-	unSubcribe
-} from '@walless/network'
+	unSubcribe,
+} from '@walless/network';
 
-const SAMPLE_KEY = 'D4zHiywS9ELy7pvFKjvsR3KNJxAvi72EqsmkUhVXG471'
+const SAMPLE_KEY = 'D4zHiywS9ELy7pvFKjvsR3KNJxAvi72EqsmkUhVXG471';
 
+const start = async () => {
+	const obj = await queryAll(SAMPLE_KEY);
+	console.log(obj);
+};
 
-const obj = await queryAll(SAMPLE_KEY)
-console.log(obj)
+start();
 
 // const connectionId = subcribeWithPublicKeyString(
 // 	SAMPLE_KEY,
@@ -27,7 +30,6 @@ console.log(obj)
 // 	})
 
 // console.log(logTitle + "connection id ->" + connectionId)
-
 
 // setTimeout(() => {
 // 	unSubcribe(connectionId)

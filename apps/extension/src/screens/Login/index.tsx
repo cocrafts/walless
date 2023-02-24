@@ -34,7 +34,7 @@ export const LoginScreen: FC = () => {
 	}, []);
 
 	return (
-		<View className="flex-1 items-center justify-center bg-main-dark">
+		<View className="flex-1 items-center justify-center bg-color-6 px-12">
 			<AnimatedImage
 				style={logoStyle}
 				source={resources.app.smallIcon}
@@ -48,7 +48,7 @@ export const LoginScreen: FC = () => {
 					return (
 						<IconButton
 							key={id}
-							className="mx-2 p-1 rounded-xl bg-gradient-to-b from-primary-darker to-primary-dark border border-dark"
+							className="mx-2 p-1 rounded-xl bg-gradient-to-b from-color-4 to-color-3 border border-dark"
 							source={iconSrc}
 							onPress={toggleLogin}
 						/>

@@ -1,5 +1,5 @@
 {
-	"name": "@walless/messaging",
+	"name": "@walless/core",
 	"version": "0.0.1",
 	"main": "index.ts",
 	"types": "./src/index.ts",

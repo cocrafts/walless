@@ -5,7 +5,8 @@
 	"main": "index.web.js",
 	"scripts": {
 		"dev": "metacraft",
-		"build": "metacraft bundle && node bundler"
+		"build": "metacraft bundle && node bundler",
+		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",

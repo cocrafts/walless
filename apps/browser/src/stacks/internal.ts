@@ -28,7 +28,7 @@ export const linking: LinkingOptions<RootParamList> = {
 
 export const navigationRef = createNavigationContainerRef<RootParamList>();
 
-const navivgate = (
+const navigate = (
 	name: keyof RootParamList,
 	params: RootParamList[keyof RootParamList],
 ) => {
@@ -36,3 +36,5 @@ const navivgate = (
 		navigationRef.navigate(name, params);
 	}
 };
+
+console.log(navigate);

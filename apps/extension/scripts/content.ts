@@ -1,7 +1,7 @@
 import { runtime } from 'webextension-polyfill';
 
 console.log('content.js: loaded');
-const port = runtime.connect();
+// const port = runtime.connect();
 
 window.addEventListener(
 	'message',

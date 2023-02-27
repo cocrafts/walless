@@ -62,7 +62,7 @@ export async function getBalance(keyString: string) {
 	return balance;
 }
 
-export const getNFTs = (address: string) => {
+export const getNFTs = () => {
 	const metaplex = new Metaplex(connection);
 	console.log(metaplex, '<--');
 };

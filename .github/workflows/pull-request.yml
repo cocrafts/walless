@@ -28,3 +28,6 @@ jobs:
 
       - name: Execute eslint
         run: yarn lint
+
+      - name: Run test cases
+        run: yarn test

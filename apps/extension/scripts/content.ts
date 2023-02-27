@@ -1,6 +1,7 @@
-console.log('content.js: loaded');
+import { runtime } from 'webextension-polyfill';
 
-const port = chrome.runtime.connect();
+console.log('content.js: loaded');
+const port = runtime.connect();
 
 window.addEventListener(
 	'message',
@@ -8,7 +9,7 @@ window.addEventListener(
 		if (source !== window) return;
 
 		if (data.from?.startsWith('walless@')) {
-			chrome.runtime.sendMessage(data);
+			runtime.sendMessage(data);
 		}
 	},
 	false,

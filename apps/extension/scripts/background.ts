@@ -1,9 +1,9 @@
 import { getNFTs } from '@walless/network';
+import { runtime } from 'webextension-polyfill';
 
 console.log('background.js: loaded');
-const logTitle = '[Background service]: ';
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+runtime.onMessage.addListener((request, sender, sendResponse) => {
 	if (request.hello) {
 		console.log('hello received!');
 	}

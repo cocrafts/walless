@@ -27,7 +27,9 @@ module.exports = {
 	webpackMiddlewares: [
 		injectEntries,
 		web3Polyfills,
-		setEnvironments,
+		setEnvironments({
+			VERSION: JSON.stringify(require('./package.json').version),
+		}),
 		copyAssets,
 	],
 	htmlPluginOptions: {

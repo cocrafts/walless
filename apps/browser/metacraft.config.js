@@ -36,7 +36,7 @@ module.exports = {
 	swcOptions: () => generateSwcOptions(),
 	webpackMiddlewares: [
 		web3Polyfills,
-		setEnvironments,
+		setEnvironments(),
 		copyAssets,
 		injectEntries,
 		isProduction && injectServiceWorker,

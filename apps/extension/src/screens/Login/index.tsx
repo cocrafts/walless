@@ -4,6 +4,7 @@ import {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
+import { useNavigate } from 'react-router-dom';
 import { TorusAggregateLoginResponse } from '@toruslabs/customauth';
 import { AnimatedImage, Button, IconButton, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
@@ -13,6 +14,7 @@ import { googleSignIn } from 'utils/w3a';
 const logoSize = 80;
 
 export const LoginScreen: FC = () => {
+	const navigate = useNavigate();
 	const [login, setLogin] = useState<TorusAggregateLoginResponse>();
 	const opacity = useSharedValue(0);
 	const logoStyle = useAnimatedStyle(() => ({
@@ -28,6 +30,12 @@ export const LoginScreen: FC = () => {
 		setLogin(response);
 		console.log(response, '<--');
 	};
+
+	useEffect(() => {
+		if (login?.pubKey) {
+			navigate('/passcode');
+		}
+	}, [login]);
 
 	useEffect(() => {
 		opacity.value = withTiming(1, { duration: 1000 });

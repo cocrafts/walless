@@ -1,2 +1,2 @@
-export { useNavigation } from '@react-navigation/native';
+export { useNavigate } from 'react-router-dom';
 export { useSnapshot } from 'valtio';

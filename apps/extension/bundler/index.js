@@ -31,6 +31,9 @@ const cloneExtensionBuild = async (platform, override = {}) => {
 };
 
 cloneExtensionBuild('chrome');
+cloneExtensionBuild('edge');
+cloneExtensionBuild('brave');
+cloneExtensionBuild('opera');
 cloneExtensionBuild('firefox', {
 	background: {
 		scripts: ['background.js'],

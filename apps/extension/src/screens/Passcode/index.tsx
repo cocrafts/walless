@@ -17,7 +17,7 @@ export const Passcode: React.FC = () => {
 
 	const handleButtonPress = () => {
 		if (passcodeAvailable) {
-			navigate('/');
+			navigate('/explore');
 		} else {
 			setPasscodeAvailable(!passcodeAvailable);
 		}

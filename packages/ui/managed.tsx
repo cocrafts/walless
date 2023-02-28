@@ -9,7 +9,6 @@ import { styled } from 'nativewind';
 
 export const View = styled(BareView);
 export const Text = styled(BareText, 'font-poppins text-white');
-export const TextBlack = styled(BareText, 'font-poppins text-black');
 export const Image = styled(BareImage);
 export const TouchableOpacity = styled(BareTouchableOpacity);
 

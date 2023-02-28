@@ -19,6 +19,7 @@
   "peerDependencies": {
     "valtio": "^1.10.2",
     "nativewind": "^2.0.11",
-    "react-native-reanimated": "^2.14.4"
+    "react-native-reanimated": "^2.14.4",
+	"react-native-svg": "^13.0.0"
   }
 }

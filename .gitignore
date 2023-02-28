@@ -43,3 +43,7 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+# vscode
+.vscode
+.prettierrc

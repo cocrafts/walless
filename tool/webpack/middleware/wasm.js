@@ -13,6 +13,8 @@ const wasmBundler = (outDir) => (config) => {
 	config.experiments = {
 		asyncWebAssembly: true,
 	};
+
+	return config;
 };
 
 module.exports = {

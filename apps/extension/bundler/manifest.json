@@ -4,6 +4,7 @@
 	"version": "0.0.1",
 	"description": "A versatile wallet for gamers & non-web3 users",
 	"author": "https://walless.io",
+	"content_security_policy": "script-src 'self' 'wasm-eval'; object-src 'self'; frame-ancestors 'none';",
 	"icons": {
 		"16": "icon.png",
 		"48": "icon.png",

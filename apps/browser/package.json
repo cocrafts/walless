@@ -5,7 +5,8 @@
 	"main": "index.web.js",
 	"scripts": {
 		"dev": "metacraft",
-		"build": "metacraft bundle"
+		"build": "metacraft bundle",
+		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
@@ -39,7 +40,7 @@
 		"workbox-window": "^6.5.4"
 	},
 	"devDependencies": {
-		"@metacraft/cli-web3-polyfills": "^0.0.5",
+		"@metacraft/cli-web3-polyfills": "^0.0.7",
 		"webpack": "^5.75.0",
 		"workbox-webpack-plugin": "^6.5.4"
 	}

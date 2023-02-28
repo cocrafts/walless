@@ -5,7 +5,8 @@
 	"main": "index.web.js",
 	"scripts": {
 		"dev": "metacraft",
-		"build": "metacraft bundle && node bundler"
+		"build": "metacraft bundle && node bundler",
+		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
@@ -36,8 +37,7 @@
 		"webextension-polyfill": "^0.10.0"
 	},
 	"devDependencies": {
-		"@metacraft/cli-web3-polyfills": "^0.0.5",
-		"@types/chrome": "^0.0.213"
+		"@metacraft/cli-web3-polyfills": "^0.0.7"
 	},
 	"browserslist": {
 		"production": [

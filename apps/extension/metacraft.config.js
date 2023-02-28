@@ -1,7 +1,11 @@
+const { resolve } = require('path');
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 const { generateSwcOptions } = require('../../tool/webpack/swc');
 const { copyAssets } = require('../../tool/webpack/middleware/asset');
+const { wasmBundler } = require('../../tool/webpack/middleware/wasm');
 const { setEnvironments } = require('../../tool/webpack/middleware/env');
+
+const isProduction = process.env.ENV === 'production';
 
 const injectEntries = (config) => {
 	config.entry.content = {
@@ -27,11 +31,12 @@ module.exports = {
 	webpackMiddlewares: [
 		injectEntries,
 		web3Polyfills,
+		isProduction && wasmBundler(resolve(__dirname, 'metacraft')),
 		setEnvironments({
 			VERSION: JSON.stringify(require('./package.json').version),
 		}),
 		copyAssets,
-	],
+	].filter((i) => !!i),
 	htmlPluginOptions: {
 		chunks: ['app'],
 	},

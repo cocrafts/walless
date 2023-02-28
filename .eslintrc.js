@@ -6,5 +6,7 @@ module.exports = {
 		window: true,
 		document: true,
 		navigator: true,
+		fetch: true,
+		WebAssembly: true,
 	},
 };

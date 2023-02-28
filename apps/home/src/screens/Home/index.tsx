@@ -10,17 +10,18 @@ interface ExtensionConfig {
 	download: string;
 }
 
+const makeExtensionConfig = (name: string) => ({
+	icon: { uri: `/img/${name.toLowerCase()}.png` },
+	title: name,
+	download: `/${name.toLowerCase()}.zip`,
+});
+
 const extensionList: ExtensionConfig[] = [
-	{
-		icon: { uri: '/img/chrome.png' },
-		title: 'Chrome',
-		download: '/chrome.zip',
-	},
-	{
-		icon: { uri: '/img/firefox.png' },
-		title: 'Firefox',
-		download: '/firefox.zip',
-	},
+	makeExtensionConfig('Chrome'),
+	makeExtensionConfig('Firefox'),
+	makeExtensionConfig('Brave'),
+	makeExtensionConfig('Edge'),
+	makeExtensionConfig('Opera'),
 ];
 
 export const HomeScreen: FC = () => {
@@ -40,7 +41,7 @@ export const HomeScreen: FC = () => {
 			<Text className="font-light text-xs text-white/60 my-6">
 				Get early access below - testing only.
 			</Text>
-			<View className="flex-row pt-5">
+			<View className="flex-row pt-12">
 				{extensionList.map((item) => {
 					return (
 						<ExtensionIcon

@@ -5,6 +5,36 @@ import IconSearch from '@walless/ui/components/IconSearch';
 
 import ChooseLayoutCard from './ChooseLayoutCard';
 
+export interface WalletLayout {
+	name: string;
+	description: string;
+	logoUrl: string;
+	thumbnailUrl: string;
+	loveCount: number;
+	activeUserCount: number;
+}
+
+const mockLayouts: WalletLayout[] = [
+	{
+		name: 'Solana',
+		description:
+			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
+		logoUrl: 'https://cdn.worldvectorlogo.com/logos/solana-1.svg',
+		thumbnailUrl: 'https://cdn.worldvectorlogo.com/logos/solana-1.svg',
+		loveCount: 10,
+		activeUserCount: 20,
+	},
+	{
+		name: 'Solana',
+		description:
+			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
+		logoUrl: 'https://cdn.worldvectorlogo.com/logos/solana-1.svg',
+		thumbnailUrl: 'https://cdn.worldvectorlogo.com/logos/solana-1.svg',
+		loveCount: 12,
+		activeUserCount: 2,
+	},
+];
+
 export const ChooseLayout: FC = () => {
 	return (
 		<View className="bg-white h-full flex gap-4">
@@ -19,30 +49,9 @@ export const ChooseLayout: FC = () => {
 			</View>
 
 			<View className="w-[320px] mx-auto flex gap-2">
-				<ChooseLayoutCard
-					name="Solana"
-					description="Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla
-							dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus
-							ornare morbi porttitor."
-					activeUsers={24}
-				/>
-
-				<ChooseLayoutCard
-					name="Solana"
-					description="Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla
-							dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus
-							ornare morbi porttitor."
-					love={10}
-					activeUsers={20}
-				/>
-
-				<ChooseLayoutCard
-					name="Solana"
-					description="Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla
-							dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus
-							ornare morbi porttitor."
-					love={12}
-				/>
+				{mockLayouts.map((item, index) => (
+					<ChooseLayoutCard key={index} item={item} />
+				))}
 			</View>
 		</View>
 	);

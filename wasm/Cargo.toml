@@ -8,4 +8,9 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-wasm-bindgen = "0.2.83"
+ring = "0.17.0-alpha.11"
+base64 = "0.21.0"
+
+[dependencies.wasm-bindgen]
+version = "0.2.84"
+features = ["serde-serialize"]

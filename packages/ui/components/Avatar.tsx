@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Text, View } from '../managed';
 
-const Avatar: React.FC = () => {
+export const Avatar: React.FC = () => {
 	return (
 		<View className="w-full h-full justify-center items-center border border-color-3 rounded-lg">
 			<Text>A</Text>

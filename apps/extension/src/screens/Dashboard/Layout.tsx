@@ -1,8 +1,8 @@
 import { FC, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TouchableOpacity, View } from '@walless/ui';
-import Avatar from '@walless/ui/components/Avatar';
-import HomeIcon from '@walless/ui/components/icons/Home';
+import { Avatar } from '@walless/ui/components';
+import { HomeIcon } from '@walless/ui/icons';
 
 interface Props {
 	children?: ReactNode;

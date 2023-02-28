@@ -7,5 +7,6 @@ export const resources = {
 		google: { uri: '/img/icon-google.png' },
 		facebook: { uri: '/img/icon-facebook.png' },
 		discord: { uri: '/img/icon-discord.png' },
+		solana: { uri: '/img/icon-solana.png' },
 	},
 };

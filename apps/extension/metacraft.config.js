@@ -5,6 +5,8 @@ const { copyAssets } = require('../../tool/webpack/middleware/asset');
 const { wasmBundler } = require('../../tool/webpack/middleware/wasm');
 const { setEnvironments } = require('../../tool/webpack/middleware/env');
 
+const isProduction = process.env.ENV === 'production';
+
 const injectEntries = (config) => {
 	config.entry.content = {
 		import: 'scripts/content.ts',
@@ -29,12 +31,12 @@ module.exports = {
 	webpackMiddlewares: [
 		injectEntries,
 		web3Polyfills,
-		wasmBundler(resolve(__dirname, 'metacraft')),
+		isProduction && wasmBundler(resolve(__dirname, 'metacraft')),
 		setEnvironments({
 			VERSION: JSON.stringify(require('./package.json').version),
 		}),
 		copyAssets,
-	],
+	].filter((i) => !!i),
 	htmlPluginOptions: {
 		chunks: ['app'],
 	},

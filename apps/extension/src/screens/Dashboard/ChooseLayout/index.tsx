@@ -19,8 +19,8 @@ const mockLayouts: WalletLayout[] = [
 		name: 'Solana',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
-		logoUrl: 'https://cdn.worldvectorlogo.com/logos/solana-1.svg',
-		thumbnailUrl: 'https://cdn.worldvectorlogo.com/logos/solana-1.svg',
+		logoUrl: '/img/icon-solana.png',
+		thumbnailUrl: '/wallet-layout/card-default-thumbnail.png',
 		loveCount: 10,
 		activeUserCount: 20,
 	},
@@ -28,9 +28,9 @@ const mockLayouts: WalletLayout[] = [
 		name: 'Solana',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
-		logoUrl: 'https://cdn.worldvectorlogo.com/logos/solana-1.svg',
-		thumbnailUrl: 'https://cdn.worldvectorlogo.com/logos/solana-1.svg',
-		loveCount: 12,
+		logoUrl: '/img/icon-solana.png',
+		thumbnailUrl: '/wallet-layout/card-default-thumbnail.png',
+		loveCount: 1,
 		activeUserCount: 2,
 	},
 ];

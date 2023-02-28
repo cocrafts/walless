@@ -1,7 +1,7 @@
 import React from 'react';
 import { Path } from 'react-native-svg';
 
-import { Svg } from '../../managed';
+import { Svg } from '../managed';
 
 interface Props {
 	className?: string;
@@ -9,7 +9,7 @@ interface Props {
 	color?: string;
 }
 
-const HomeIcon: React.FC<Props> = ({
+export const HomeIcon: React.FC<Props> = ({
 	className,
 	size = 20,
 	color = '#3b6887',

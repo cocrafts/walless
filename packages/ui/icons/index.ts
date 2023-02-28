@@ -1,0 +1,1 @@
+export { HomeIcon } from './Home';

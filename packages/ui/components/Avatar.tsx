@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import React from 'react';
 
 import { Text, View } from '../managed';
 
-export const Avatar: FC = () => {
+const Avatar: React.FC = () => {
 	return (
-		<View>
-			<Text>Avatar</Text>
+		<View className="w-full h-full justify-center items-center border border-color-3 rounded-lg">
+			<Text>A</Text>
 		</View>
 	);
 };

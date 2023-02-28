@@ -7,7 +7,6 @@ const setEnvironments =
 		const isProduction = internal.configs.isProduction(env);
 
 		configs.plugins[0] = new DefinePlugin({
-			process: { env: {} },
 			__DEV__: !isProduction,
 			ENV: JSON.stringify(env),
 			GOOGLE_CLIENT_ID: JSON.stringify(process.env.GOOGLE_CLIENT_ID),

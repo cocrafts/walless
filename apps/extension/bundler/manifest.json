@@ -2,8 +2,11 @@
 	"manifest_version": 3,
 	"name": "Walless",
 	"version": "0.0.1",
-	"description": "Crypto wallet for completely new-to-crypto user",
+	"description": "A versatile wallet for gamers & non-web3 users",
 	"author": "https://walless.io",
+	"content_security_policy": {
+		"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; frame-ancestors 'none';"
+	},
 	"icons": {
 		"16": "icon.png",
 		"48": "icon.png",

@@ -1,5 +1,5 @@
 {
-	"name": "@walless/sdk",
+	"name": "@walless/core",
 	"version": "0.0.1",
 	"main": "index.ts",
 	"types": "./src/index.ts",
@@ -8,5 +8,8 @@
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+	},
+	"peerDependencies": {
+		"webextension-polyfill": "^0.10.0"
 	}
 }

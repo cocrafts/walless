@@ -9,7 +9,7 @@ module.exports = {
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
 	swcOptions: () => generateSwcOptions(),
-	webpackMiddlewares: [web3Polyfills, setEnvironments, copyAssets],
+	webpackMiddlewares: [web3Polyfills, setEnvironments(), copyAssets],
 	moduleAlias: {
 		global: {
 			'react-native': 'react-native-web',

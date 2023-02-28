@@ -24,6 +24,8 @@
     "@types/lodash": "^4.14.191",
     "@types/react": "^18.0.28",
     "@types/react-native": "^0.71.2",
+    "@types/webextension-polyfill": "^0.10.0",
+    "@wasm-tool/wasm-pack-plugin": "^1.6.0",
     "archiver": "^5.3.1",
     "aws-sdk": "^2.1313.0",
     "babel-plugin-module-resolver": "^4.1.0",

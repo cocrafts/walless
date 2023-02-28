@@ -1,19 +1,15 @@
 import { getNFTs } from '@walless/network';
+import { runtime } from 'webextension-polyfill';
 
 console.log('background.js: loaded');
-const logTitle = '[Background service]: ';
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+runtime.onMessage.addListener((request) => {
 	if (request.hello) {
 		console.log('hello received!');
 	}
 });
 
-import {
-	queryAll,
-	subcribeWithPublicKeyString,
-	unSubcribe,
-} from '@walless/network';
+import { queryAll } from '@walless/network';
 
 const SAMPLE_KEY = 'D4zHiywS9ELy7pvFKjvsR3KNJxAvi72EqsmkUhVXG471';
 
@@ -21,7 +17,7 @@ const start = async () => {
 	const obj = await queryAll(SAMPLE_KEY);
 	console.log(obj);
 
-	getNFTs(SAMPLE_KEY);
+	getNFTs();
 };
 
 start();

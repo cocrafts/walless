@@ -8,6 +8,10 @@ apps/**/metacraft
 apps/**/builds
 .swc
 
+# wasm
+wasm/target
+wasm/pkg
+
 # dependencies
 node_modules
 .pnp

@@ -1,11 +1,12 @@
 {
 	"name": "@walless/extension",
-	"version": "0.0.10",
+	"version": "0.0.12",
 	"private": true,
 	"main": "index.web.js",
 	"scripts": {
 		"dev": "metacraft",
-		"build": "metacraft bundle && node bundler"
+		"build": "metacraft bundle && node bundler",
+		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
@@ -17,6 +18,7 @@
 		"@tkey/private-keys": "^7.2.0",
 		"@tkey/security-questions": "^7.2.0",
 		"@tkey/web-storage": "^7.2.0",
+		"@walless/core": "*",
 		"@walless/network": "*",
 		"@walless/ui": "*",
 		"@web3auth/ethereum-provider": "^4.6.0",
@@ -31,11 +33,11 @@
 		"react-native-web": "^0.18.12",
 		"react-router-dom": "^6.8.1",
 		"setimmediate": "^1.0.5",
-		"valtio": "^1.10.2"
+		"valtio": "^1.10.2",
+		"webextension-polyfill": "^0.10.0"
 	},
 	"devDependencies": {
-		"@metacraft/cli-web3-polyfills": "^0.0.5",
-		"@types/chrome": "^0.0.213"
+		"@metacraft/cli-web3-polyfills": "^0.0.7"
 	},
 	"browserslist": {
 		"production": [

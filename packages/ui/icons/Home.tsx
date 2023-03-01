@@ -3,13 +3,9 @@ import { Path } from 'react-native-svg';
 
 import { Svg } from '../managed';
 
-interface Props {
-	className?: string;
-	size?: number;
-	color?: string;
-}
+import { IconProps } from '.';
 
-export const HomeIcon: React.FC<Props> = ({
+export const HomeIcon: React.FC<IconProps> = ({
 	className,
 	size = 20,
 	color = '#3b6887',

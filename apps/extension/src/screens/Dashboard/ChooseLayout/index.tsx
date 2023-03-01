@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { TextInput } from 'react-native';
 import { Text, View } from '@walless/ui';
-import IconSearch from '@walless/ui/components/IconSearch';
+import { SearchIcon } from '@walless/ui/icons';
 
 import ChooseLayoutCard from './ChooseLayoutCard';
 
@@ -42,7 +42,7 @@ export const ChooseLayout: FC = () => {
 				<View>
 					<Text className="text-xl mb-4">Choose a nicely layout to start</Text>
 					<View className="bg-[#E9E9E9] h-10 px-4 flex flex-row items-center gap-2">
-						<IconSearch size={16} color="#00000080" />
+						<SearchIcon size={16} color="#00000080" />
 						<TextInput placeholder="Explore exciting project" />
 					</View>
 				</View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from '@walless/ui';
+import { StyleSheet, View } from 'react-native';
 import { useSnapshot } from 'utils/hook';
 import { modalState } from 'utils/state/modal';
 
@@ -10,7 +10,7 @@ export const ModalManager: React.FC = () => {
 	const instances = Object.values(hashmap);
 
 	return (
-		<View className="absolute top-0 bottom-0 left-0 right-0 pointer-events-none">
+		<View style={styles.container} pointerEvents="box-none">
 			{instances.map((item) => (
 				<ModalContainer key={item.id} item={item} />
 			))}
@@ -19,3 +19,13 @@ export const ModalManager: React.FC = () => {
 };
 
 export default ModalManager;
+
+const styles = StyleSheet.create({
+	container: {
+		position: 'absolute',
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
+	},
+});

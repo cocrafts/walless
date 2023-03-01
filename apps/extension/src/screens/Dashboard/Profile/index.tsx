@@ -10,6 +10,14 @@ import {
 	View,
 } from '@walless/ui';
 
+import FeatureButton from './FeatureButton';
+
+export interface FeatureButtonProps {
+	title: string;
+	icon: React.ReactNode;
+	onPress: () => void;
+}
+
 const mockFeatureButtons = [
 	{
 		title: 'Send',
@@ -86,14 +94,7 @@ const Profile: React.FC = () => {
 
 				<View className="flex flex-row justify-around">
 					{mockFeatureButtons.map((button) => (
-						<View
-							key={button.title}
-							className="bg-[#EFEFEF] w-fit px-3 py-2 flex flex-row gap-[2px] justify-center items-center"
-							onTouchEnd={button.onPress}
-						>
-							{button.icon}
-							<Text className="text-xs text-[#000000CC]">{button.title}</Text>
-						</View>
+						<FeatureButton key={button.title} {...button} />
 					))}
 				</View>
 			</View>

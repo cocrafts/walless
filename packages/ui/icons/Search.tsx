@@ -3,11 +3,13 @@ import { Path } from 'react-native-svg';
 
 import { Svg } from '../managed';
 
-import { defaultIconProps, IconProps } from '.';
+import { IconProps } from '.';
 
-export const SearchIcon: FC<IconProps> = (
-	{ className, size, color } = { ...defaultIconProps },
-) => {
+export const SearchIcon: FC<IconProps> = ({
+	className,
+	size = 16,
+	color = 'black',
+}) => {
 	return (
 		<Svg
 			className={className}

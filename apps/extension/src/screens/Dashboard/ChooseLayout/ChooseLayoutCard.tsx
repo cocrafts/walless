@@ -42,7 +42,7 @@ const ChooseLayoutCard: FC<Props> = ({ item }) => {
 			</ImageBackground>
 
 			<View className="px-4 py-2">
-				<Text className="text-xs text-[black]">{item.description}</Text>
+				<Text className="text-xs text-color-7">{item.description}</Text>
 			</View>
 		</View>
 	);

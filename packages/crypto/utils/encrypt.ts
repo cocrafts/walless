@@ -1,5 +1,3 @@
-const { subtle, getRandomValues } = crypto;
-
 interface KeyIVOptions {
 	algorithm: string;
 	keyLength: number;
@@ -20,8 +18,8 @@ export const generateKeyIV = async (
 ): Promise<KeyIV> => {
 	const algorithm: AesKeyGenParams = { name: 'AES-GCM', length: keyLength };
 	const keyUsages: ReadonlyArray<KeyUsage> = ['encrypt', 'decrypt'];
-	const key = await subtle.generateKey(algorithm, true, keyUsages);
-	const iv = getRandomValues(new Uint8Array(12));
+	const key = await crypto.subtle.generateKey(algorithm, true, keyUsages);
+	const iv = crypto.getRandomValues(new Uint8Array(12));
 
 	return {
 		options: { algorithm: algorithm.name, ivLength, keyLength },
@@ -37,7 +35,7 @@ export const encryptAes = async (
 	const plaintext = new TextEncoder().encode(data);
 	const algorithm = { name: options.algorithm, iv };
 
-	return await subtle.encrypt(algorithm, key, plaintext);
+	return await crypto.subtle.encrypt(algorithm, key, plaintext);
 };
 
 export const decryptAes = async (
@@ -45,7 +43,7 @@ export const decryptAes = async (
 	{ options, key, iv }: KeyIV,
 ): Promise<string> => {
 	const algorithm = { name: options.algorithm, iv };
-	const deciphered = await subtle.decrypt(algorithm, key, ciphered);
+	const deciphered = await crypto.subtle.decrypt(algorithm, key, ciphered);
 
 	return new TextDecoder().decode(deciphered);
 };

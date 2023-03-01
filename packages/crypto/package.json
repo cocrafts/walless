@@ -1,5 +1,5 @@
 {
-	"name": "@walless/core",
+	"name": "@walless/crypto",
 	"version": "0.0.1",
 	"main": "index.ts",
 	"types": "./index.ts",

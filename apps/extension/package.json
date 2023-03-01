@@ -19,6 +19,7 @@
 		"@tkey/security-questions": "^7.2.0",
 		"@tkey/web-storage": "^7.2.0",
 		"@walless/core": "*",
+		"@walless/crypto": "*",
 		"@walless/network": "*",
 		"@walless/ui": "*",
 		"@web3auth/ethereum-provider": "^4.6.0",

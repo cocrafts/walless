@@ -1,4 +1,4 @@
-const wasmCache: Record<string, any> = {};
+const wasmCache: { [key: string]: WebAssembly.Instance } = {};
 
 const emptyModule = { exports: {} };
 
@@ -6,8 +6,8 @@ export interface WallAsm {
 	add: (a: number, b: number) => number;
 }
 
-export const loadWasm = async <T = WallAsm>(uri: string) => {
-	if (wasmCache[uri]) return wasmCache.browser.exports;
+export const loadWasm = async <T = WallAsm>(uri: string): Promise<T> => {
+	if (wasmCache[uri]) return wasmCache.browser.exports as T;
 
 	try {
 		const response = await fetch(uri);

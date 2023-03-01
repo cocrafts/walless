@@ -1,8 +1,12 @@
-const wasmCache: Record<string, WebAssembly.Instance> = {};
+const wasmCache: Record<string, any> = {};
 
 const emptyModule = { exports: {} };
 
-export const loadWasm = async (uri: string) => {
+export interface WallAsm {
+	add: (a: number, b: number) => number;
+}
+
+export const loadWasm = async <T = WallAsm>(uri: string) => {
 	if (wasmCache[uri]) return wasmCache.browser.exports;
 
 	try {
@@ -15,5 +19,5 @@ export const loadWasm = async (uri: string) => {
 		wasmCache[uri] = emptyModule;
 	}
 
-	return wasmCache[uri].exports;
+	return wasmCache[uri].exports as T;
 };

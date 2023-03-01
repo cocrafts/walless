@@ -4,5 +4,6 @@ export interface IconProps {
 	color?: string;
 }
 
+export { EyeOffIcon } from './EyeOff';
 export { HomeIcon } from './Home';
 export { SearchIcon } from './Search';

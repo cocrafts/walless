@@ -9,12 +9,12 @@ const isProduction = process.env.ENV === 'production';
 
 const injectEntries = (config) => {
 	config.entry.content = {
-		import: 'scripts/content.ts',
+		import: 'scripts/content/index.ts',
 		filename: 'content.js',
 	};
 
 	config.entry.background = {
-		import: 'scripts/background.ts',
+		import: 'scripts/background/index.ts',
 		filename: 'background.js',
 	};
 

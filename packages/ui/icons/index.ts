@@ -5,8 +5,10 @@ export interface IconProps {
 }
 
 export { BellIcon } from './Bell';
+export { ChevronDownIcon } from './ChevronDown';
 export { ChevronRightIcon } from './ChevronRight';
 export { EyeOffIcon } from './EyeOff';
+export { EyeOnIcon } from './EyeOn';
 export { HomeIcon } from './Home';
 export { IdCardIcon } from './IdCard';
 export { SearchIcon } from './Search';

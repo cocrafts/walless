@@ -30,7 +30,7 @@ export const createAndHydrateCryptoKey = async (
 	const jwk = await crypto.subtle.exportKey('jwk', key);
 	const hydrated: HydratedKey = { jwk, keyParams, keyUsages };
 
-	await storage.local.set({ [id]: JSON.stringify(hydrated) });
+	await storage.local.set({ [`key@${id}`]: JSON.stringify(hydrated) });
 	return key;
 };
 

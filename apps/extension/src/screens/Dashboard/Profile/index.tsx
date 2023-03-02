@@ -3,19 +3,20 @@ import {
 	ArrowBottomRightIcon,
 	ArrowTopRightIcon,
 	BellIcon,
-	Button,
+	CartIcon,
 	ChevronDownIcon,
-	ChevronRightIcon,
 	EyeOffIcon,
 	EyeOnIcon,
 	IdCardIcon,
 	SettingIcon,
+	SwapIcon,
 	Text,
 	View,
 } from '@walless/ui';
-import WallessBackground from 'components/walless-background';
 
 import FeatureButton from './FeatureButton';
+import SetupPasscode from './SetupPasscode';
+import WallessBackground from './WallessBackground';
 
 export interface FeatureButtonProps {
 	title: string;
@@ -40,14 +41,14 @@ const mockFeatureButtons: FeatureButtonProps[] = [
 	},
 	{
 		title: 'Buy',
-		icon: <ChevronRightIcon color="#29A4D6" size={12} />,
+		icon: <CartIcon color="#29A4D6" size={12} />,
 		onPress: () => {
 			console.log('Buy');
 		},
 	},
 	{
 		title: 'Swap',
-		icon: <ChevronRightIcon color="#29A4D6" size={12} />,
+		icon: <SwapIcon color="#29A4D6" size={12} />,
 		onPress: () => {
 			console.log('Swap');
 		},
@@ -111,21 +112,9 @@ const Profile: React.FC = () => {
 				</View>
 			</WallessBackground>
 
-			<View className="mt-2 mx-4 px-3 py-2 bg-[#0C3B5A]">
-				<Text className="text-color-7 font-bold">
-					Setup your passcode/password
-				</Text>
-				<Text className="text-color-7 mt-2 mb-3">
-					Enhance your security is important because......
-				</Text>
-				<Button
-					title="Setup Now"
-					className="bg-color-2 w-fit px-2 py-1"
-					titleClass="text-xs"
-				/>
-			</View>
+			<SetupPasscode className="my-5 mx-4 px-3 py-2" />
 
-			<Text className="text-center mt-5 text-xs text-light-gray">
+			<Text className="text-center text-xs text-light-gray">
 				Let&apos;s get this excited and explore{' '}
 				<a className="text-color-7/50 underline" href="#">
 					here

@@ -7,6 +7,7 @@ export interface IconProps {
 export { ArrowBottomRightIcon } from './ArrowBottomRight';
 export { ArrowTopRightIcon } from './ArrowTopRight';
 export { BellIcon } from './Bell';
+export { CartIcon } from './Cart';
 export { ChevronDownIcon } from './ChevronDown';
 export { ChevronRightIcon } from './ChevronRight';
 export { EyeOffIcon } from './EyeOff';
@@ -15,3 +16,5 @@ export { HomeIcon } from './Home';
 export { IdCardIcon } from './IdCard';
 export { SearchIcon } from './Search';
 export { SettingIcon } from './Setting';
+export { SwapIcon } from './Swap';
+export { TimesIcon } from './Times';

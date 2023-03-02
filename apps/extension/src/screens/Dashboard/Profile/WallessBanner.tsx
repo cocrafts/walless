@@ -6,16 +6,13 @@ interface WallessBackgroundProps {
 	className?: string;
 }
 
-const WallessBackground: FC<WallessBackgroundProps> = ({
-	children,
-	className,
-}) => {
+const WallessBanner: FC<WallessBackgroundProps> = ({ children, className }) => {
 	return (
 		<View
 			className={`bg-gradient-to-r min-h-[135px] from-[#1BA0DA] to-[#83C1C0] ${className}`}
 		>
 			<Image
-				source={{ uri: '/img/icon-walless-for-background.png' }}
+				source={{ uri: '/img/profile-screen/banner-pattern.png' }}
 				className="w-[198px] h-[135px] absolute top-0 right-0 -z-10"
 			/>
 			{children}
@@ -23,4 +20,4 @@ const WallessBackground: FC<WallessBackgroundProps> = ({
 	);
 };
 
-export default WallessBackground;
+export default WallessBanner;

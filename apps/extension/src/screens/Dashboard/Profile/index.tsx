@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
 					</Text>
 				</View>
 
-				<Features className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-80 rounded-lg" />
+				<Features className="absolute bottom-[-20px] left-1/2 -translate-x-1/2 w-80 rounded-lg" />
 			</WallessBanner>
 
 			{/* <SetupPasscode className="my-5 mx-4 px-3 py-2" /> */}

@@ -10,7 +10,9 @@ interface FeaturesWrapperProps {
 
 const FeaturesWrapper: FC<FeaturesWrapperProps> = ({ children, className }) => {
 	return (
-		<View className={`flex flex-row justify-around bg-[#183549] ${className}`}>
+		<View
+			className={`flex flex-row justify-around bg-[#183549] overflow-clip ${className}`}
+		>
 			<Image
 				source={{ uri: '/img/profile-screen/features-pattern-1.png' }}
 				className="w-[88px] h-[54px] opacity-30 absolute top-0 left-0 -z-10"

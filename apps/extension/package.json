@@ -1,6 +1,6 @@
 {
 	"name": "@walless/extension",
-	"version": "0.0.12",
+	"version": "0.0.15",
 	"private": true,
 	"main": "index.web.js",
 	"scripts": {
@@ -19,6 +19,7 @@
 		"@tkey/security-questions": "^7.2.0",
 		"@tkey/web-storage": "^7.2.0",
 		"@walless/core": "*",
+		"@walless/messaging": "*",
 		"@walless/crypto": "*",
 		"@walless/network": "*",
 		"@walless/ui": "*",

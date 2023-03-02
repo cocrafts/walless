@@ -1,8 +1,10 @@
 import { MessagingChannels } from '@walless/core';
-import { runtime } from 'webextension-polyfill';
+import { decryptMessage } from '@walless/messaging';
+import { Runtime, runtime } from 'webextension-polyfill';
 
-const onKernelMessage = (message, sender) => {
-	console.log(message, sender, '<-- kernel message');
+const onKernelMessage = async (message, sender: Runtime.Port) => {
+	const payload = await decryptMessage(message, sender);
+	console.log(payload, sender, '<-- kernel message');
 };
 
 runtime.onConnect.addListener((port) => {

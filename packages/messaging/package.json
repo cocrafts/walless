@@ -11,6 +11,7 @@
 	},
 	"peerDependencies": {
 		"@walless/core": "*",
+		"@walless/crypto": "*",
 		"webextension-polyfill": "^0.10.0"
 	}
 }

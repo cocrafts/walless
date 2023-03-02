@@ -1,5 +1,6 @@
 export enum MessagingChannels {
-	'kernel' = '@walless-kernel',
-	'command' = '@walless-command',
-	'query' = '@walless-query',
+	'kernel' = 'kernel',
+	'background' = 'background',
+	'popup' = 'popup',
+	'content' = 'content',
 }

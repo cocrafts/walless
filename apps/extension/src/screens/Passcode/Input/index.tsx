@@ -61,6 +61,7 @@ export const PasscodeInput: React.FC<Props> = ({
 				encryptKeyActions.deletePasscode(relativeIndex);
 			}
 			setFocusedIndex(relativeIndex);
+			return;
 		}
 
 		if (event.nativeEvent.key === 'Enter') {

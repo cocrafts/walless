@@ -84,9 +84,13 @@ export const initializeNewKey = async () => {
 };
 
 export const generateNewShareWithPassword = async (password: string) => {
-	await (
-		tKey.modules.securityQuestions as any
-	).generateNewShareWithSecurityQuestions(password, 'whats your password?');
+	try {
+		await (
+			tKey.modules.securityQuestions as any
+		).generateNewShareWithSecurityQuestions(password, 'whats your password?');
+	} catch (e) {
+		console.log(e);
+	}
 };
 
 export const recoverShareByPassword = async (password: any) => {

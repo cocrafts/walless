@@ -1,26 +1,45 @@
+import * as events from 'events';
+
 import React, { useState } from 'react';
-import { Button, Image, Text, View } from '@walless/ui';
+import { Button, Image, Text, TextInput, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import { useNavigate } from 'utils/hook';
+import {
+	generateNewShareWithPassword,
+	initializeNewKey,
+	recoverShareByPassword,
+} from 'utils/w3a-v2';
 
 const logoSize = 120;
 
 export const Passcode: React.FC = () => {
 	const navigate = useNavigate();
 	const [passcodeAvailable, setPasscodeAvailable] = useState(false);
+	const [passcode, setPasscode] = useState('');
 
 	const heading = passcodeAvailable
 		? 'Confirm your passcode'
 		: 'Create your passcode';
 
-	const buttonTitle = passcodeAvailable ? 'Cofirm' : 'Continue';
+	const buttonTitle = passcodeAvailable ? 'Confirm' : 'Continue';
 
-	const handleButtonPress = () => {
+	const handleButtonPress = async () => {
 		if (passcodeAvailable) {
 			navigate('/explore');
+			await initializeNewKey();
+			await generateNewShareWithPassword(passcode);
+			console.log('Generate share passcode success');
+			console.log(await recoverShareByPassword(passcode));
+		} else if (passcode.length != 6) {
+			console.log('Type passcode');
 		} else {
 			setPasscodeAvailable(!passcodeAvailable);
 		}
+	};
+
+	const onChangeNumber = async (e: any) => {
+		console.log(e);
+		setPasscode(e);
 	};
 
 	return (
@@ -38,7 +57,11 @@ export const Passcode: React.FC = () => {
 						external threats.
 					</Text>
 				)}
-				{}
+				<TextInput
+					className="text-center font-light text-xl mt-2 text-white border border-dark px-2 py-2"
+					onChangeText={onChangeNumber}
+					keyboardType="numeric"
+				/>
 				<Button
 					className="w-full mt-8 py-3 px-2 rounded-full bg-gradient-to-r from-coal-start to-coal-end"
 					title={buttonTitle}

@@ -3,6 +3,11 @@ import { Button, Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import { useNavigate, useSnapshot } from 'utils/hook';
 import { encryptKey } from 'utils/state/encryptKey';
+import {
+	generateNewShareWithPassword,
+	initializeNewKey,
+	recoverShareByPassword,
+} from 'utils/w3a-v2';
 
 import PasscodeInput from './Input';
 
@@ -25,10 +30,14 @@ export const Passcode: React.FC = () => {
 		setIsPasscodeValid(isPasscodeValid);
 	};
 
-	const handleButtonPress = () => {
+	const handleButtonPress = async () => {
 		if (isConfirmPhase) {
 			if (confirmPasscode === passcode) {
 				navigate('/explore');
+				await initializeNewKey();
+				await generateNewShareWithPassword(passcode);
+				console.log('Generate share passcode success');
+				console.log(await recoverShareByPassword(passcode));
 			} else {
 				setConfirmPasscode('');
 			}

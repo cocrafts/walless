@@ -9,7 +9,8 @@ import { TorusAggregateLoginResponse } from '@toruslabs/customauth';
 import { AnimatedImage, Button, IconButton, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import { useW3a } from 'utils/hook';
-import { googleSignIn } from 'utils/w3a';
+// import { googleSignIn } from 'utils/w3a';
+import { triggerLogin } from 'utils/w3a-v2';
 
 const logoSize = 80;
 
@@ -26,7 +27,8 @@ export const LoginScreen: FC = () => {
 	useW3a();
 
 	const toggleLogin = async () => {
-		const response = await googleSignIn();
+		const response = await triggerLogin();
+		// const response = await googleSignIn();
 		setLogin(response);
 		console.log(response, '<--');
 	};

@@ -3,7 +3,7 @@ import CustomAuth, {
 	CustomAuthArgs,
 } from '@toruslabs/customauth';
 
-const customAuthArgs: CustomAuthArgs = {
+export const customAuthArgs: CustomAuthArgs = {
 	network: 'testnet',
 	baseUrl: `http://localhost:3002`,
 	redirectToOpener: true,

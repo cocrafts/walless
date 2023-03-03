@@ -61,7 +61,7 @@ const Profile: React.FC = () => {
 
 			{/* <SetupPasscode className="my-5 mx-4 px-3 py-2" /> */}
 
-			<Text className="mt-10 text-center text-xs text-light-gray">
+			<Text className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xs text-light-gray">
 				<a href="#/profile">Let&apos;s get this excited and explore here</a>
 			</Text>
 		</View>

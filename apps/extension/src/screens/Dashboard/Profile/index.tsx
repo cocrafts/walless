@@ -51,7 +51,7 @@ const Profile: React.FC = () => {
 						<Text className="text-base ml-[2px] mr-1"> {currency}</Text>
 
 						<View onTouchEnd={handleChangeCurrency} className="pt-1">
-							<ChevronDownIcon size={16} color="#FFFFFF80" />
+							<ChevronDownIcon size={12} color="#FFFFFF80" />
 						</View>
 					</Text>
 				</View>
@@ -61,8 +61,13 @@ const Profile: React.FC = () => {
 
 			{/* <SetupPasscode className="my-5 mx-4 px-3 py-2" /> */}
 
-			<Text className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xs text-light-gray">
-				<a href="#/profile">Let&apos;s get this excited and explore here</a>
+			<Text className="h-full my-8 relative">
+				<a
+					className="w-full my-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xs text-light-gray"
+					href="#/profile"
+				>
+					Let&apos;s get this excited and explore here
+				</a>
 			</Text>
 		</View>
 	);

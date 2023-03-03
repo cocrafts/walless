@@ -1,26 +1,50 @@
 import React, { useState } from 'react';
 import { Button, Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
-import { useNavigate } from 'utils/hook';
+import { useNavigate, useSnapshot } from 'utils/hook';
+import { encryptKey } from 'utils/state/encryptKey';
+
+import PasscodeInput from './Input';
 
 const logoSize = 120;
 
 export const Passcode: React.FC = () => {
 	const navigate = useNavigate();
-	const [passcodeAvailable, setPasscodeAvailable] = useState(false);
+	const [isConfirmPhase, setIsConfirmPhase] = useState(false);
+	const [isPasscodeValid, setIsPasscodeValid] = useState(false);
+	const [confirmPasscode, setConfirmPasscode] = useState('');
+	const { passcode } = useSnapshot(encryptKey);
 
-	const heading = passcodeAvailable
+	const heading = isConfirmPhase
 		? 'Confirm your passcode'
 		: 'Create your passcode';
 
-	const buttonTitle = passcodeAvailable ? 'Cofirm' : 'Continue';
+	const buttonTitle = isConfirmPhase ? 'Cofirm' : 'Continue';
+
+	const handleActiveButton = (isPasscodeValid: boolean) => {
+		setIsPasscodeValid(isPasscodeValid);
+	};
 
 	const handleButtonPress = () => {
-		if (passcodeAvailable) {
-			navigate('/explore');
+		if (isConfirmPhase) {
+			if (confirmPasscode === passcode) {
+				navigate('/explore');
+			} else {
+				setConfirmPasscode('');
+			}
 		} else {
-			setPasscodeAvailable(!passcodeAvailable);
+			setIsConfirmPhase(!isConfirmPhase);
 		}
+	};
+
+	const handleConfirmPasscode = (value?: string | number) => {
+		if (typeof value === 'string') {
+			setConfirmPasscode(confirmPasscode + value);
+		} else setConfirmPasscode(confirmPasscode.slice(0, value));
+	};
+
+	const handleWrongInput = (err: string) => {
+		console.log(err);
 	};
 
 	return (
@@ -32,16 +56,23 @@ export const Passcode: React.FC = () => {
 			/>
 			<View className="mt-20 items-center">
 				<Text className="text-2xl">{heading}</Text>
-				{!passcodeAvailable && (
+				{!isConfirmPhase && (
 					<Text className="text-center text-light-gray font-light text-xs mt-2">
 						By setting passcode/password, your account will be more secured to
 						external threats.
 					</Text>
 				)}
-				{}
+				<PasscodeInput
+					isConfirmPhase={isConfirmPhase}
+					confirmPasscode={confirmPasscode}
+					handleActiveButton={handleActiveButton}
+					handleConfirmPasscode={handleConfirmPasscode}
+					handleWrongInput={handleWrongInput}
+				/>
 				<Button
 					className="w-full mt-8 py-3 px-2 rounded-full bg-gradient-to-r from-coal-start to-coal-end"
 					title={buttonTitle}
+					disabled={!isPasscodeValid}
 					onPress={handleButtonPress}
 				/>
 			</View>

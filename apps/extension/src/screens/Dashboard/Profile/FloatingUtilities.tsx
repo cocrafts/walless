@@ -11,10 +11,10 @@ const floatingUtilities: FloatingUtilityButtonProps[] = [
 		icon: <IdCardIcon color="white" size={12} />,
 	},
 	{
-		icon: <SettingIcon color="white" size={12} />,
+		icon: <BellIcon color="white" size={12} />,
 	},
 	{
-		icon: <BellIcon color="white" size={12} />,
+		icon: <SettingIcon color="white" size={12} />,
 	},
 ];
 

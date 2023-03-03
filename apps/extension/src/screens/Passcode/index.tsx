@@ -1,5 +1,3 @@
-import * as events from 'events';
-
 import React, { useState } from 'react';
 import { Button, Image, Text, TextInput, View } from '@walless/ui';
 import { resources } from 'utils/config';
@@ -37,9 +35,9 @@ export const Passcode: React.FC = () => {
 		}
 	};
 
-	const onChangeNumber = async (e: any) => {
-		console.log(e);
-		setPasscode(e);
+	const onChangeNumber = async (value: string) => {
+		console.log(value);
+		setPasscode(value);
 	};
 
 	return (

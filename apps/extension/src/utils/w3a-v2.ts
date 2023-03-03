@@ -1,3 +1,4 @@
+/* eslint-disable */
 import ThresholdKey from '@tkey/default';
 import SecurityQuestionsModule from '@tkey/security-questions';
 import WebStorageModule from '@tkey/web-storage';

@@ -1,8 +1,16 @@
-// Configuration of Modules
 import ThresholdKey from '@tkey/default';
 import SecurityQuestionsModule from '@tkey/security-questions';
 import WebStorageModule from '@tkey/web-storage';
-import { customAuthArgs } from 'utils/w3a';
+import { AGGREGATE_VERIFIER, CustomAuthArgs } from '@toruslabs/customauth';
+
+export const customAuthArgs: CustomAuthArgs = {
+	network: 'testnet',
+	baseUrl: `http://localhost:3002/`,
+	redirectToOpener: true,
+	redirectPathName: 'w3a-response',
+	enableLogging: false,
+	popupFeatures: 'width=380,height=600',
+};
 
 const webStorageModule = new WebStorageModule();
 const securityQuestionsModule = new SecurityQuestionsModule();
@@ -20,15 +28,26 @@ export const tKey = new ThresholdKey({
 
 export const triggerLogin = async () => {
 	try {
-		// Triggering Login using Service Provider ==> opens the popup
-		const loginResponse = await (tKey.serviceProvider as any).triggerLogin({
-			typeOfLogin: 'google', // type of login
-			verifier: 'google',
-			clientId: GOOGLE_CLIENT_ID,
+		await (tKey.serviceProvider as any).init({ skipSw: true });
+		const loginResponse = await (
+			tKey.serviceProvider as any
+		).triggerAggregateLogin({
+			aggregateVerifierType: AGGREGATE_VERIFIER.SINGLE_VERIFIER_ID,
+			verifierIdentifier: 'stormgate-testnet',
+			subVerifierDetailsArray: [
+				{
+					typeOfLogin: 'google',
+					verifier: 'google',
+					clientId: GOOGLE_CLIENT_ID,
+				},
+			],
 		});
+
 		loginFlag = true;
+		return loginResponse;
 	} catch (error) {
 		console.log(error);
+		return error;
 	}
 };
 

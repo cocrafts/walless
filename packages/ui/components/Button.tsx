@@ -15,10 +15,15 @@ export const Button: FC<Props> = ({
 	className = defaultButtonClass,
 	title = 'Button Title',
 	titleClass = defaultTitleClass,
+	disabled,
 	onPress,
 }) => {
 	return (
-		<TouchableOpacity className={className} onPress={onPress}>
+		<TouchableOpacity
+			className={className}
+			onPress={onPress}
+			disabled={disabled}
+		>
 			<Text className={titleClass}>{title}</Text>
 		</TouchableOpacity>
 	);

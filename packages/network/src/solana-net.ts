@@ -22,7 +22,7 @@ export default class SolanaNet {
 	 * This function get all necessary for render wallet
 	 *
 	 * @param {String} address - public key as string
-	 * @return {QueryResult}
+	 * @return {Token}
 	 */
 	static async queryAllByAddress(address: string): Promise<Token> {
 		const tokenAccounts = await SolanaNet.getTokens(address);

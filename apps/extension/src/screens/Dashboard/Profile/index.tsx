@@ -4,11 +4,13 @@ import {
 	EyeOffIcon,
 	EyeOnIcon,
 	Text,
+	TouchableOpacity,
 	View,
 } from '@walless/ui';
 
 import Features from './Features';
 import FloatingUtilities from './FloatingUtilities';
+import NFTCollectibles from './NFTCollectibles';
 import WallessBanner from './WallessBanner';
 
 export interface FeatureButtonProps {
@@ -29,46 +31,44 @@ const Profile: React.FC = () => {
 
 	return (
 		<View className="bg-gradient-to-b from-[#003356] to-[#011726] h-full">
-			<WallessBanner className="py-8">
+			<WallessBanner className="py-8 mb-5">
 				<View className="px-4 mb-2 flex flex-row justify-between items-start">
 					<Text className="flex flex-row gap-2 items-center text-xs text-color-7">
 						Token value
-						<View onTouchEnd={() => setIsBalanceVisible((prev) => !prev)}>
+						<TouchableOpacity
+							onPress={() => setIsBalanceVisible((prev) => !prev)}
+						>
 							{isBalanceVisible ? (
 								<EyeOnIcon color="#FFFFFF80" size={16} />
 							) : (
 								<EyeOffIcon color="#FFFFFF80" size={16} />
 							)}
-						</View>
+						</TouchableOpacity>
 					</Text>
 
 					<FloatingUtilities />
 				</View>
 
-				<View className="mb-9 px-4">
+				<View className="mb-8 px-4">
 					<Text className="flex flex-row text-4xl text-color-7 font-bold">
 						{isBalanceVisible ? <Text>~ {tokenValue}</Text> : '...'}
 						<Text className="text-base ml-[2px] mr-1"> {currency}</Text>
 
-						<View onTouchEnd={handleChangeCurrency} className="pt-1">
-							<ChevronDownIcon size={12} color="#FFFFFF80" />
-						</View>
+						<TouchableOpacity
+							onPress={handleChangeCurrency}
+							className="bg-[#80D0DC] mt-1 h-4 w-4 flex justify-center items-center rounded-full"
+						>
+							<ChevronDownIcon size={12} color="white" className="mt-[2px]" />
+						</TouchableOpacity>
 					</Text>
 				</View>
 
-				<Features className="absolute bottom-[-20px] left-1/2 -translate-x-1/2 w-80 rounded-lg" />
+				<View className="mx-5 relative">
+					<Features className="absolute w-full rounded-lg" />
+				</View>
 			</WallessBanner>
 
-			{/* <SetupPasscode className="my-5 mx-4 px-3 py-2" /> */}
-
-			<Text className="h-full my-8 relative">
-				<a
-					className="w-full my-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xs text-light-gray"
-					href="#/profile"
-				>
-					Let&apos;s get this excited and explore here
-				</a>
-			</Text>
+			<NFTCollectibles className="mt-5 mx-5" />
 		</View>
 	);
 };

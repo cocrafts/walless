@@ -1,17 +1,17 @@
 import { FC } from 'react';
-import { Text, View } from '@walless/ui';
+import { Text, TouchableOpacity } from '@walless/ui';
 
 import { FeatureButtonProps } from '.';
 
 const FeatureButton: FC<FeatureButtonProps> = ({ icon, title, onPress }) => {
 	return (
-		<View
+		<TouchableOpacity
 			className="w-1/4 h-[54px] px-3 py-2 flex gap-[2px] justify-center items-center hover:cursor-pointer"
-			onTouchEnd={onPress}
+			onPress={onPress}
 		>
 			{icon}
 			<Text className="text-xs text-[#000000CC]">{title}</Text>
-		</View>
+		</TouchableOpacity>
 	);
 };
 

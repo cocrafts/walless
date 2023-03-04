@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Text, View } from '@walless/ui';
 
@@ -46,6 +46,10 @@ const NFTCollectibles: FC<NFTCollectiblesProps> = ({ className }) => {
 	const navigate = useNavigate();
 	const [collectibles, setCollectibles] =
 		useState<CollectibleProps[]>(mockCollectibles);
+
+	useEffect(() => {
+		setCollectibles(mockCollectibles);
+	}, []);
 
 	return (
 		<View className={className}>

@@ -1,4 +1,4 @@
-import { describe, expect, test } from '@jest/globals';
+import { describe, test } from '@jest/globals';
 
 import SolanaNet from '../src/solana-net';
 import SuiNet from '../src/sui-net';

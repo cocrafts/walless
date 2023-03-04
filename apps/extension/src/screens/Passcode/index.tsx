@@ -10,6 +10,7 @@ import {
 } from 'utils/w3a-v2';
 
 import PasscodeInput from './Input';
+import Warning from './Warning';
 
 const logoSize = 120;
 
@@ -18,6 +19,7 @@ export const Passcode: React.FC = () => {
 	const [isConfirmPhase, setIsConfirmPhase] = useState(false);
 	const [isPasscodeValid, setIsPasscodeValid] = useState(false);
 	const [confirmPasscode, setConfirmPasscode] = useState('');
+	const [isPasscodeIncorrect, setIsPasscodeIncorrect] = useState(false);
 	const { passcode } = useSnapshot(encryptKey);
 
 	const heading = isConfirmPhase
@@ -39,6 +41,7 @@ export const Passcode: React.FC = () => {
 				console.log('Generate share passcode success');
 				console.log(await recoverShareByPassword(passcode));
 			} else {
+				setIsPasscodeIncorrect(!isPasscodeIncorrect);
 				setConfirmPasscode('');
 			}
 		} else {
@@ -56,8 +59,17 @@ export const Passcode: React.FC = () => {
 		console.log(err);
 	};
 
+	const handleCloseWarning = () => {
+		setIsPasscodeIncorrect(false);
+	};
+
 	return (
 		<View className="w-full px-10 py-8 items-center">
+			<Warning
+				isConfirmPhase={isConfirmPhase}
+				isPasscodeIncorrect={isPasscodeIncorrect}
+				handleCloseWarning={handleCloseWarning}
+			/>
 			<Image
 				source={resources.app.icon}
 				resizeMode="contain"

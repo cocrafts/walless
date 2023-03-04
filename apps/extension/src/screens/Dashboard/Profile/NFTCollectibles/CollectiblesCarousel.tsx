@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { Image, Text, View } from '@walless/ui';
+import { Image, View } from '@walless/ui';
 
 import { CollectibleProps } from '.';
 

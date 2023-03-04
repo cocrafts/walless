@@ -57,7 +57,7 @@ const NFTCollectibles: FC<NFTCollectiblesProps> = ({ className }) => {
 					className="border border-[#203C4E] rounded px-2 py-1"
 					title="See all"
 					titleClass="text-xs"
-					onPress={() => navigate('/#/profile')}
+					onPress={() => navigate('/profile')}
 				/>
 			</View>
 

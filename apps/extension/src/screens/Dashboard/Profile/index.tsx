@@ -1,6 +1,8 @@
 import React from 'react';
 import {
 	ChevronDownIcon,
+	CollectibleList,
+	CollectibleMeta,
 	EyeOffIcon,
 	EyeOnIcon,
 	Text,
@@ -45,7 +47,6 @@ const Profile: React.FC = () => {
 							)}
 						</TouchableOpacity>
 					</Text>
-
 					<FloatingUtilities />
 				</View>
 
@@ -68,9 +69,38 @@ const Profile: React.FC = () => {
 				</View>
 			</WallessBanner>
 
+			<CollectibleList data={mockCollectibles} />
 			<NFTCollectibles className="mt-5 mx-5" />
 		</View>
 	);
 };
 
 export default Profile;
+
+const mockCollectibles: CollectibleMeta[] = [
+	{
+		id: '0001',
+		icon: '/',
+		thumbnail: '/',
+	},
+	{
+		id: '0002',
+		icon: '/',
+		thumbnail: '/',
+	},
+	{
+		id: '0003',
+		icon: '/',
+		thumbnail: '/',
+	},
+	{
+		id: '0004',
+		icon: '/',
+		thumbnail: '/',
+	},
+	{
+		id: '0005',
+		icon: '/',
+		thumbnail: '/',
+	},
+];

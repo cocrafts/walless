@@ -22,6 +22,7 @@ const CollectiblesCarousel: FC<CollectiblesCarouselProps> = ({
 							source={{ uri: collectible.thumbnail }}
 							className="h-[90px] w-[84px]"
 						/>
+						<View className="h-[90px] w-[84px] absolute top-0 bg-gradient-to-t from-[#001F34CC] to-[#17354900]"></View>
 					</Link>
 
 					<View className="flex flex-row gap-1">

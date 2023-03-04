@@ -40,8 +40,7 @@
 	},
 	"devDependencies": {
 		"@metacraft/cli-web3-polyfills": "^0.0.7",
-		"@types/react-native-snap-carousel": "^3.8.5",
-		"react-native-snap-carousel": "^3.9.1"
+		"@types/react-native-snap-carousel": "^3.8.5"
 	},
 	"browserslist": {
 		"production": [

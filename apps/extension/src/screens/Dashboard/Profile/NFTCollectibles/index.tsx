@@ -1,9 +1,7 @@
 import { FC, useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
 import { useNavigate } from 'react-router-dom';
 import { Button, Text, View } from '@walless/ui';
 
-import CollectibleItem from './CollectibleItem';
 import CollectiblesCarousel from './CollectiblesCarousel';
 
 interface NFTCollectiblesProps {

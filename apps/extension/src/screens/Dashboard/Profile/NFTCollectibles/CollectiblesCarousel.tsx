@@ -1,7 +1,9 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
-import { Image, View } from '@walless/ui';
+import { FlatList } from 'react-native';
+import { View } from '@walless/ui';
 
+import CollectibleItem from './CollectibleItem';
+import EmptyComponent from './EmptyComponent';
 import { CollectibleProps } from '.';
 
 interface CollectiblesCarouselProps {
@@ -14,34 +16,20 @@ const CollectiblesCarousel: FC<CollectiblesCarouselProps> = ({
 	collectibles,
 }) => {
 	return (
-		<View className={`flex flex-row gap-3 justify-between ${className}`}>
-			{collectibles.map((collectible) => (
-				<View key={collectible.name} className="w-[84px]">
-					<Link to={collectible.link}>
-						<Image
-							source={{ uri: collectible.thumbnail }}
-							className="h-[90px] w-[84px]"
-						/>
-						<View className="h-[90px] w-[84px] absolute top-0 bg-gradient-to-t from-[#001F34CC] to-[#17354900]"></View>
-					</Link>
-
-					<View className="flex flex-row gap-1">
-						<Link to={collectible.link}>
-							<Image
-								source={{ uri: collectible.icon }}
-								className="h-5 w-5 ml-2 -mt-2"
-							/>
-						</Link>
-						<Link
-							className="h-3 text-[8px] mt-1 overflow-hidden"
-							to={collectible.link}
-						>
-							{collectible.name}
-						</Link>
-					</View>
-				</View>
-			))}
-		</View>
+		<FlatList
+			data={collectibles}
+			renderItem={CollectibleItem}
+			keyExtractor={(item) => item.name}
+			horizontal
+			ListEmptyComponent={() => <EmptyComponent />}
+			ItemSeparatorComponent={() => <View className="w-3" />}
+			showsHorizontalScrollIndicator={false}
+			bounces={false}
+			decelerationRate="normal"
+			snapToInterval={collectibles.length}
+			snapToAlignment="start"
+			className={className}
+		/>
 	);
 };
 

@@ -1,2 +1,2 @@
-export * from './src/fetch';
-export * from './src/subscribe';
+export * from './src/solana-net';
+export * from './src/sui-net';

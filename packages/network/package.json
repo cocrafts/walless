@@ -12,6 +12,7 @@
   "peerDependencies": {
     "@metaplex-foundation/js": "^0.18.1",
     "@solana/spl-token": "^0.3.7",
-    "@solana/web3.js": "^1.73.2"
+    "@solana/web3.js": "^1.73.2",
+    "@mysten/sui.js": "0.29.1"
   }
 }

@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react';
+import { FlatList } from 'react-native';
 import { useNavigate } from 'react-router-dom';
 import { Button, Text, View } from '@walless/ui';
 
+import CollectibleItem from './CollectibleItem';
 import CollectiblesCarousel from './CollectiblesCarousel';
 
 interface NFTCollectiblesProps {
@@ -40,6 +42,30 @@ const mockCollectibles: CollectibleProps[] = [
 		thumbnail: '/img/profile-screen/collectibles/magic-eden-thumbnail.png',
 		link: '/profile',
 	},
+	{
+		name: 'Duplicated - Axie',
+		icon: '/img/profile-screen/collectibles/axie-icon.png',
+		thumbnail: '/img/profile-screen/collectibles/axie-thumbnail.png',
+		link: '/profile',
+	},
+	{
+		name: 'Duplicated - Crypto Kitties',
+		icon: '/img/profile-screen/collectibles/crypto-kitties-icon.png',
+		thumbnail: '/img/profile-screen/collectibles/crypto-kitties-thumbnail.png',
+		link: '/profile',
+	},
+	{
+		name: 'Duplicated - Under Realm',
+		icon: '/img/profile-screen/collectibles/under-realm-icon.png',
+		thumbnail: '/img/profile-screen/collectibles/under-realm-thumbnail.png',
+		link: '/profile',
+	},
+	{
+		name: 'Duplicated - Magic Eden',
+		icon: '/img/profile-screen/collectibles/magic-eden-icon.png',
+		thumbnail: '/img/profile-screen/collectibles/magic-eden-thumbnail.png',
+		link: '/profile',
+	},
 ];
 
 const NFTCollectibles: FC<NFTCollectiblesProps> = ({ className }) => {
@@ -65,7 +91,7 @@ const NFTCollectibles: FC<NFTCollectiblesProps> = ({ className }) => {
 				/>
 			</View>
 
-			<CollectiblesCarousel collectibles={collectibles} />
+			<CollectiblesCarousel collectibles={mockCollectibles} />
 		</View>
 	);
 };

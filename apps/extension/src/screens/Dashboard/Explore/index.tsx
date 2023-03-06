@@ -5,6 +5,7 @@ import { SearchIcon } from '@walless/ui/icons';
 import ChooseLayoutCard from './ExploreCard';
 
 export interface ExploreCard {
+	id: string;
 	name: string;
 	description: string;
 	logoUrl: string;
@@ -12,10 +13,13 @@ export interface ExploreCard {
 	loveCount: number;
 	activeUsersCount: number;
 	link: string;
+	isInProfile: boolean;
+	love: boolean;
 }
 
 const mockLayouts: ExploreCard[] = [
 	{
+		id: '1',
 		name: 'Under Realm',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
@@ -24,8 +28,11 @@ const mockLayouts: ExploreCard[] = [
 		loveCount: 10,
 		activeUsersCount: 20,
 		link: '/explore',
+		isInProfile: true,
+		love: true,
 	},
 	{
+		id: '2',
 		name: 'Solana',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
@@ -34,10 +41,20 @@ const mockLayouts: ExploreCard[] = [
 		loveCount: 1,
 		activeUsersCount: 2,
 		link: '/explore',
+		isInProfile: false,
+		love: false,
 	},
 ];
 
 export const ChooseLayout: FC = () => {
+	const handleAddToProfile = (id: string, isInProfile: boolean) => {
+		isInProfile ? console.log('Remove', id) : console.log('Add', id);
+	};
+
+	const handleLoveProfile = (id: string, love: boolean) => {
+		love ? console.log('Not love anymore', id) : console.log('Love', id);
+	};
+
 	return (
 		<View className="bg-gradient-to-b from-[#003356] to-[#011726] h-full">
 			<Text className="text-xl mt-10 mb-3 text-center">
@@ -54,7 +71,12 @@ export const ChooseLayout: FC = () => {
 
 			<View className="mx-5 flex gap-5">
 				{mockLayouts.map((item, index) => (
-					<ChooseLayoutCard key={index} item={item} />
+					<ChooseLayoutCard
+						key={index}
+						item={item}
+						handlePressAddBtn={handleAddToProfile}
+						handlePressLoveBtn={handleLoveProfile}
+					/>
 				))}
 			</View>
 		</View>

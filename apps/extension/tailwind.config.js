@@ -27,5 +27,5 @@ module.exports = {
 		},
 	},
 	plugins: [],
-	safelist: ['font-poppins', 'text-black', 'text-white'],
+	safelist: ['font-poppins', 'text-black', 'text-white', 'text-[#1FA1D9]'],
 };

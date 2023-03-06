@@ -1,6 +1,7 @@
-import React from 'react';
+import { FC, ReactNode, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
-	ChevronDownIcon,
+	ChevronRightIcon,
 	EyeOffIcon,
 	EyeOnIcon,
 	Text,
@@ -15,19 +16,12 @@ import WallessBanner from './WallessBanner';
 
 export interface FeatureButtonProps {
 	title: string;
-	icon: React.ReactNode;
+	icon: ReactNode;
 	onPress: () => void;
 }
 
-const Profile: React.FC = () => {
-	const [isBalanceVisible, setIsBalanceVisible] = React.useState(false);
-	const [currency, setCurrency] = React.useState('USD');
-	const [tokenValue, setTokenValue] = React.useState('200');
-
-	const handleChangeCurrency = () => {
-		setCurrency(currency === 'USD' ? 'VND' : 'USD');
-		setTokenValue(currency === 'USD' ? '4,500,000' : '200');
-	};
+const Profile: FC = () => {
+	const [isBalanceVisible, setIsBalanceVisible] = useState(false);
 
 	return (
 		<View className="bg-gradient-to-b from-[#003356] to-[#011726] h-full">
@@ -50,15 +44,20 @@ const Profile: React.FC = () => {
 
 				<View className="mb-8 px-4">
 					<Text className="flex flex-row text-4xl text-color-7 font-bold">
-						{isBalanceVisible ? <Text>~ {tokenValue}</Text> : '...'}
-						<Text className="text-base ml-[2px] mr-1"> {currency}</Text>
+						{isBalanceVisible ? (
+							<Text className="flex flex-row justify-start">
+								~ 18 <Text className="text-base">ETH</Text>
+							</Text>
+						) : (
+							'...'
+						)}
 
-						<TouchableOpacity
-							onPress={handleChangeCurrency}
-							className="bg-[#80D0DC] mt-1 h-4 w-4 flex justify-center items-center rounded-full"
+						<Link
+							to="/profile"
+							className="bg-[#80D0DC] mt-1 ml-2 h-4 w-4 flex justify-center items-center rounded-full"
 						>
-							<ChevronDownIcon size={12} color="white" className="mt-[2px]" />
-						</TouchableOpacity>
+							<ChevronRightIcon size={12} color="white" className="mt-[2px]" />
+						</Link>
 					</Text>
 				</View>
 

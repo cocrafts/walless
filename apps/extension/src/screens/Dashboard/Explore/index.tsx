@@ -61,7 +61,7 @@ export const ChooseLayout: FC = () => {
 				Choose a nicely layout to start
 			</Text>
 
-			<View className="bg-[#011828] h-10 mx-5 mb-6 px-4 flex flex-row items-center gap-2">
+			<View className="bg-[#011828] h-10 mx-5 mb-6 px-4 flex flex-row items-center gap-2 rounded-lg">
 				<SearchIcon size={16} color="#99B0BF" />
 				<TextInput
 					className="text-[#99B0BF]"

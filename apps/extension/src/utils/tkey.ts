@@ -2,7 +2,7 @@ import ThresholdKey from '@tkey/default';
 import SecurityQuestionsModule from '@tkey/security-questions';
 import { TorusServiceProvider } from '@tkey/service-provider-torus';
 import WebStorageModule from '@tkey/web-storage';
-import { CustomAuthArgs } from '@toruslabs/customauth';
+import { CustomAuthArgs, TorusLoginResponse } from '@toruslabs/customauth';
 
 const webStorageModule = new WebStorageModule();
 const securityQuestionsModule = new SecurityQuestionsModule();
@@ -16,19 +16,36 @@ export const customAuthArgs: CustomAuthArgs = {
 	popupFeatures: 'width=380,height=600',
 };
 
-export const tKey = new ThresholdKey({
+export type TypedThresholdKey = ThresholdKey & {
+	serviceProvider: TorusServiceProvider;
+};
+
+export const key = new ThresholdKey({
 	modules: {
 		webStorage: webStorageModule,
 		securityQuestions: securityQuestionsModule,
 	},
 	customAuthArgs: customAuthArgs,
-});
+}) as TypedThresholdKey;
 
-const getTKey = async () => {
-	if (!(tKey.serviceProvider as TorusServiceProvider).directWeb.isInitialized) {
-		await (tKey.serviceProvider as TorusServiceProvider).init({ skipSw: true });
-	}
-	return tKey;
+export const initializeAndStoreKey = async () => {
+	await key.initialize();
+
+	console.log(await key.getKeyDetails());
 };
 
-export default getTKey;
+export const googleSignIn = async (): Promise<TorusLoginResponse> => {
+	const { serviceProvider } = key;
+
+	if (!serviceProvider.directWeb.isInitialized) {
+		await serviceProvider.init({ skipSw: true });
+	}
+
+	const response = await serviceProvider.triggerLogin({
+		typeOfLogin: 'google',
+		verifier: 'walless-gc',
+		clientId: GOOGLE_CLIENT_ID,
+	});
+
+	return response;
+};

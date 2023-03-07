@@ -5,18 +5,16 @@ import {
 	withTiming,
 } from 'react-native-reanimated';
 import { useNavigate } from 'react-router-dom';
-import { TorusAggregateLoginResponse } from '@toruslabs/customauth';
+import { TorusLoginResponse } from '@toruslabs/customauth';
 import { AnimatedImage, Button, IconButton, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
-import { useW3a } from 'utils/hook';
-// import { googleSignIn } from 'utils/w3a';
-import { triggerLogin } from 'utils/w3a-v2';
+import { googleSignIn } from 'utils/tkey';
 
 const logoSize = 80;
 
 export const LoginScreen: FC = () => {
 	const navigate = useNavigate();
-	const [login, setLogin] = useState<TorusAggregateLoginResponse>();
+	const [login, setLogin] = useState<TorusLoginResponse>();
 	const opacity = useSharedValue(0);
 	const logoStyle = useAnimatedStyle(() => ({
 		width: logoSize,
@@ -24,13 +22,9 @@ export const LoginScreen: FC = () => {
 		opacity: opacity.value,
 	}));
 
-	useW3a();
-
 	const toggleLogin = async () => {
-		const response = await triggerLogin();
-		// const response = await googleSignIn();
+		const response = await googleSignIn();
 		setLogin(response);
-		console.log(response, '<--');
 	};
 
 	useEffect(() => {
@@ -81,7 +75,7 @@ export const LoginScreen: FC = () => {
 			{login?.pubKey && (
 				<Fragment>
 					<Text className="text-white text-center mt-5">
-						{login?.userInfo[0]?.email}
+						{login?.userInfo?.email}
 					</Text>
 					<Text className="text-white text-xs text-center mt-2">
 						{login?.publicAddress}

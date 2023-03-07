@@ -8,6 +8,9 @@ import {
 	View,
 } from '@walless/ui';
 
+import CollectiblesView from './CollectiblesView';
+import TokensView from './TokensView';
+
 const SendToken = () => {
 	const [isTokensTab, setIsTokensTab] = useState(true);
 
@@ -25,7 +28,7 @@ const SendToken = () => {
 			</View>
 
 			<View className="bg-gradient-to-b from-[#00131F] to-[#112C3F] m-3 h-screen rounded-lg flex items-center">
-				<View className="flex flex-row gap-3 mt-6">
+				<View className="flex flex-row gap-3 mt-6 mb-7">
 					<Text
 						className={`w-[100px] h-5 text-right ${
 							isTokensTab && 'font-semibold text-[#1FA1D9]'
@@ -51,6 +54,8 @@ const SendToken = () => {
 						Collectibles
 					</Text>
 				</View>
+
+				{isTokensTab ? <TokensView /> : <CollectiblesView />}
 			</View>
 		</View>
 	);

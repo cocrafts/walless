@@ -46,6 +46,7 @@
   },
   "packageManager": "yarn@1.22.19",
   "dependencies": {
-    "@mysten/sui.js": "^0.29.1"
+    "@mysten/sui.js": "^0.29.1",
+    "expo-linear-gradient": "^12.1.1"
   }
 }

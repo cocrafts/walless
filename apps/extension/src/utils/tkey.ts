@@ -37,3 +37,12 @@ export const initializeAndStoreKey = async () => {
 
 	console.log(await key.getKeyDetails());
 };
+
+export const getTkey = async () => {
+	if (!key.serviceProvider.directWeb.isInitialized) {
+		await key.serviceProvider.init({ skipSw: true });
+		await key.modules.webStorage.inputShareFromWebStorage();
+		await key.initialize();
+	}
+	return key;
+};

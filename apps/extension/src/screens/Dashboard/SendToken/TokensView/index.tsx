@@ -5,7 +5,6 @@ import ContinueButton from '../ContinueButton';
 
 import Dropdown from './Dropdown';
 import DropdownItem from './DropdownItem';
-import DropdownItemWrapper from './DropdownItemWrapper';
 import Input from './Input';
 
 interface TokensViewProps {
@@ -25,10 +24,12 @@ export interface Network {
 }
 
 export interface DropdownItemProps {
-	item: Token | Network;
+	id: string;
+	name: string;
+	icon: string;
 }
 
-const tokens: Token[] = [
+const tokens: DropdownItemProps[] = [
 	{
 		id: 'tk1',
 		name: 'SOL',
@@ -46,7 +47,7 @@ const tokens: Token[] = [
 	},
 ];
 
-const networks: Network[] = [
+const networks: DropdownItemProps[] = [
 	{
 		id: 'nw1',
 		name: 'Solana',
@@ -65,8 +66,11 @@ const networks: Network[] = [
 ];
 
 const TokensView: FC<TokensViewProps> = ({ className }) => {
-	const [selectedToken, setSelectedToken] = useState<Token | null>(null);
-	const [selectedNetwork, setSelectedNetwork] = useState<Network | null>(null);
+	const [selectedToken, setSelectedToken] = useState<DropdownItemProps | null>(
+		null,
+	);
+	const [selectedNetwork, setSelectedNetwork] =
+		useState<DropdownItemProps | null>(null);
 
 	const isAbleToContinue: boolean =
 		selectedToken !== null && selectedNetwork !== null;
@@ -78,45 +82,31 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 					leftNode={
 						selectedToken ? (
 							<View className="flex flex-row gap-3 items-center">
-								<DropdownItem item={selectedToken} />
+								<DropdownItem {...selectedToken} />
 							</View>
 						) : (
 							'Select Token'
 						)
 					}
-				>
-					{tokens.map((token) => (
-						<DropdownItemWrapper
-							key={token.id}
-							active={selectedToken?.id === token.id}
-							onPress={() => setSelectedToken(token)}
-						>
-							<DropdownItem item={token} />
-						</DropdownItemWrapper>
-					))}
-				</Dropdown>
+					data={tokens}
+					activeItem={selectedToken}
+					onSelect={setSelectedToken}
+				/>
 
 				<Dropdown
 					leftNode={
 						selectedNetwork ? (
 							<View className="flex flex-row gap-3 items-center">
-								<DropdownItem item={selectedNetwork} />
+								<DropdownItem {...selectedNetwork} />
 							</View>
 						) : (
 							'Select Network'
 						)
 					}
-				>
-					{networks.map((network) => (
-						<DropdownItemWrapper
-							key={network.id}
-							active={selectedNetwork?.id === network.id}
-							onPress={() => setSelectedNetwork(network)}
-						>
-							<DropdownItem item={network} />
-						</DropdownItemWrapper>
-					))}
-				</Dropdown>
+					data={networks}
+					activeItem={selectedNetwork}
+					onSelect={setSelectedNetwork}
+				/>
 
 				<Input title="Recipient account" />
 

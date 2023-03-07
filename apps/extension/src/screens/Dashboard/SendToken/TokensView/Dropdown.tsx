@@ -1,18 +1,27 @@
 import { FC, useState } from 'react';
 import { ChevronDownIcon, Text, TouchableOpacity, View } from '@walless/ui';
 
+import DropdownItem from './DropdownItem';
+import DropdownItemWrapper from './DropdownItemWrapper';
+import { DropdownItemProps } from '.';
+
 interface DropdownProps {
 	className?: string;
 	children?: React.ReactNode;
 	leftNode: React.ReactNode;
 	rightNode?: React.ReactNode;
+	data: DropdownItemProps[];
+	activeItem: DropdownItemProps | null;
+	onSelect: (item: DropdownItemProps) => void;
 }
 
 const Dropdown: FC<DropdownProps> = ({
 	leftNode,
 	className,
-	children,
 	rightNode = <ChevronDownIcon color="#99B0BF" size={16} />,
+	data,
+	activeItem,
+	onSelect,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +41,18 @@ const Dropdown: FC<DropdownProps> = ({
 					isOpen ? 'block' : 'hidden'
 				}`}
 			>
-				{children}
+				{data.map((item) => (
+					<DropdownItemWrapper
+						key={item.id}
+						active={activeItem?.id === item.id}
+						onPress={() => {
+							onSelect(item);
+							setIsOpen(false);
+						}}
+					>
+						<DropdownItem {...item} />
+					</DropdownItemWrapper>
+				))}
 			</View>
 		</View>
 	);

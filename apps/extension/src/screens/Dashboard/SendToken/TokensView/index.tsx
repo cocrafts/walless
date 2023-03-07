@@ -59,9 +59,14 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 	);
 	const [selectedNetwork, setSelectedNetwork] =
 		useState<DropdownItemProps | null>(null);
+	const [recipient, setRecipient] = useState('');
+	const [amount, setAmount] = useState('');
 
 	const isAbleToContinue: boolean =
-		selectedToken !== null && selectedNetwork !== null;
+		selectedToken !== null &&
+		selectedNetwork !== null &&
+		recipient !== '' &&
+		amount !== '';
 
 	return (
 		<View className="w-full h-full justify-between">
@@ -96,18 +101,9 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 					onSelect={setSelectedNetwork}
 				/>
 
-				<Input title="Recipient account" />
+				<Input title="Recipient account" onTextChange={setRecipient} />
 
-				<Input
-					title="Token amount"
-					rightNode={
-						<TouchableOpacity>
-							<Text className="bg-white/10 px-2 pb-[2px] pt-1 rounded h-fit text-[8px]">
-								Max
-							</Text>
-						</TouchableOpacity>
-					}
-				/>
+				<Input title="Token amount" onTextChange={setAmount} maxValue="999" />
 
 				<View className="h-[89px] w-full rounded-xl bg-gradient-to-b from-[#1B415A] to=[#112C3F] p-[1px]">
 					<View className="w-full h-full bg-[#00131F] rounded-xl"></View>

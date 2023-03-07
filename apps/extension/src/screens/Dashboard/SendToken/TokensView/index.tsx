@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
-import { Text, TouchableOpacity, View } from '@walless/ui';
+import { useNavigate } from 'react-router-dom';
+import { InformationIcon, Text, View } from '@walless/ui';
 
 import ContinueButton from '../ContinueButton';
 
@@ -62,6 +63,8 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 	const [recipient, setRecipient] = useState('');
 	const [amount, setAmount] = useState('');
 
+	const navigate = useNavigate();
+
 	const isAbleToContinue: boolean =
 		selectedToken !== null &&
 		selectedNetwork !== null &&
@@ -106,11 +109,28 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 				<Input title="Token amount" onTextChange={setAmount} maxValue="999" />
 
 				<View className="h-[89px] w-full rounded-xl bg-gradient-to-b from-[#1B415A] to=[#112C3F] p-[1px]">
-					<View className="w-full h-full bg-[#00131F] rounded-xl"></View>
+					<View className="w-full h-full bg-[#00131F] rounded-xl flex flex-row divide-x divide-[#1C3A4E]">
+						<View className="h-full w-full flex-shrink-[2] items-end justify-center pr-4">
+							<View className="flex flex-row justify-center items-center gap-1">
+								<InformationIcon size={8} color="#587A90" />
+								<Text className="text-[#587A90] text-xs">Network Fee</Text>
+							</View>
+							<Text className="text-[#26A3D7] text-xs">~ 0 USD</Text>
+							<Text className="text-[#587A90] text-[10px]">~ 0 secs</Text>
+						</View>
+						<View className="h-full w-full flex-shrink items-end justify-center pr-4">
+							<Text className="text-sm">Total Cost</Text>
+							<Text className="text-2xl">0</Text>
+							<Text className="text-[#587A90] text-[10px]">~ 0 secs</Text>
+						</View>
+					</View>
 				</View>
 			</View>
 
-			<ContinueButton isAbleToContinue={isAbleToContinue} />
+			<ContinueButton
+				isAbleToContinue={isAbleToContinue}
+				onPress={() => navigate('/send-token/confirm')}
+			/>
 		</View>
 	);
 };

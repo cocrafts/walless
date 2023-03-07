@@ -37,19 +37,3 @@ export const initializeAndStoreKey = async () => {
 
 	console.log(await key.getKeyDetails());
 };
-
-export const googleSignIn = async (): Promise<TorusLoginResponse> => {
-	const { serviceProvider } = key;
-
-	if (!serviceProvider.directWeb.isInitialized) {
-		await serviceProvider.init({ skipSw: true });
-	}
-
-	const response = await serviceProvider.triggerLogin({
-		typeOfLogin: 'google',
-		verifier: 'walless-gc',
-		clientId: GOOGLE_CLIENT_ID,
-	});
-
-	return response;
-};

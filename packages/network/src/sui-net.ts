@@ -13,7 +13,6 @@ export const provider = new JsonRpcProvider(connection);
 class SuiNet {
 	static queryAllByAddress = async (address: string) => {
 		const coins = await provider.getAllCoins(address);
-		console.log(typeof coins.data[0].balance);
 		const balance: number = coins.data.reduce((accumulator, coin) => {
 			return accumulator + coin.balance;
 		}, 0);

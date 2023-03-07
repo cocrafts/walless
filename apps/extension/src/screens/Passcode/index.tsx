@@ -3,11 +3,8 @@ import { Button, Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import { useNavigate, useSnapshot } from 'utils/hook';
 import { encryptKey } from 'utils/state/encryptKey';
-import {
-	generateNewShareWithPassword,
-	initializeNewKey,
-	recoverShareByPassword,
-} from 'utils/w3a-v2';
+import { key } from 'utils/tkey';
+import { initPasscode } from 'utils/w3a-v3';
 
 import PasscodeInput from './Input';
 import Warning from './Warning';
@@ -26,7 +23,7 @@ export const Passcode: React.FC = () => {
 		? 'Confirm your passcode'
 		: 'Create your passcode';
 
-	const buttonTitle = isConfirmPhase ? 'Cofirm' : 'Continue';
+	const buttonTitle = isConfirmPhase ? 'Confirm' : 'Continue';
 
 	const handleActiveButton = (isPasscodeValid: boolean) => {
 		setIsPasscodeValid(isPasscodeValid);
@@ -35,11 +32,12 @@ export const Passcode: React.FC = () => {
 	const handleButtonPress = async () => {
 		if (isConfirmPhase) {
 			if (confirmPasscode === passcode) {
+				console.log('Init passcode');
+				console.log(key.privKey);
+				const status = await initPasscode(passcode);
+				console.log(key.getKeyDetails());
+				console.log(status);
 				navigate('/explore');
-				await initializeNewKey();
-				await generateNewShareWithPassword(passcode);
-				console.log('Generate share passcode success');
-				console.log(await recoverShareByPassword(passcode));
 			} else {
 				setIsPasscodeIncorrect(!isPasscodeIncorrect);
 				setConfirmPasscode('');

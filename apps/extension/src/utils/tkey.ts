@@ -18,6 +18,10 @@ export const customAuthArgs: CustomAuthArgs = {
 
 export type TypedThresholdKey = ThresholdKey & {
 	serviceProvider: TorusServiceProvider;
+	modules: {
+		webStorage: WebStorageModule;
+		securityQuestions: SecurityQuestionsModule;
+	};
 };
 
 export const key = new ThresholdKey({

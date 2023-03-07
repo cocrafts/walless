@@ -6,6 +6,7 @@ import Input from './Input';
 
 interface TokensViewProps {
 	className?: string;
+	setContinue: (value: boolean) => void;
 }
 
 const TokensView: FC<TokensViewProps> = ({ className }) => {

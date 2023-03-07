@@ -1,11 +1,5 @@
 import { BNString } from '@tkey/common-types';
-import {
-	AGGREGATE_VERIFIER,
-	TorusAggregateLoginResponse,
-	TorusLoginResponse,
-} from '@toruslabs/customauth';
-import { assignWith } from 'lodash';
-import { storage } from 'webextension-polyfill';
+import { TorusLoginResponse } from '@toruslabs/customauth';
 
 import { key } from './tkey';
 

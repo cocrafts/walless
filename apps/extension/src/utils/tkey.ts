@@ -2,7 +2,7 @@ import ThresholdKey from '@tkey/default';
 import SecurityQuestionsModule from '@tkey/security-questions';
 import { TorusServiceProvider } from '@tkey/service-provider-torus';
 import WebStorageModule from '@tkey/web-storage';
-import { CustomAuthArgs, TorusLoginResponse } from '@toruslabs/customauth';
+import { CustomAuthArgs } from '@toruslabs/customauth';
 
 const webStorageModule = new WebStorageModule();
 const securityQuestionsModule = new SecurityQuestionsModule();

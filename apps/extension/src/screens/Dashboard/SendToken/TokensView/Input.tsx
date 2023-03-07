@@ -10,7 +10,7 @@ interface InputProps {
 }
 
 interface InputRef extends BareTextInput {
-	setNativeProps({ text }: { text: string }): void;
+	value: string;
 }
 
 const Input: FC<InputProps> = ({
@@ -34,9 +34,7 @@ const Input: FC<InputProps> = ({
 					<TouchableOpacity
 						onPress={() => {
 							if (inputRef.current) {
-								inputRef.current.setNativeProps({
-									text: maxValue,
-								});
+								inputRef.current.value = maxValue;
 								onTextChange(maxValue);
 							}
 						}}

@@ -11,18 +11,6 @@ interface TokensViewProps {
 	className?: string;
 }
 
-export interface Token {
-	id: string;
-	name: string;
-	icon: string;
-}
-
-export interface Network {
-	id: string;
-	name: string;
-	icon: string;
-}
-
 export interface DropdownItemProps {
 	id: string;
 	name: string;

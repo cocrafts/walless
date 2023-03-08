@@ -9,6 +9,7 @@ import { TorusLoginResponse } from '@toruslabs/customauth';
 import { AnimatedImage, Button, IconButton, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import {
+	getAllPrivateKeys,
 	googleSignIn,
 	initAfterLogin,
 	inputPasscode,
@@ -32,8 +33,8 @@ export const LoginScreen: FC = () => {
 		const response = await googleSignIn();
 		const w3aStatus: w3aSignal = await initAfterLogin();
 		console.log(w3aStatus);
+		console.log('Hello world');
 		if (w3aStatus == w3aSignal.RECONSTRUCT_KEY_SUCCESS) {
-			console.log(w3aSignal.RECONSTRUCT_KEY_SUCCESS);
 			navigate('/explore');
 		} else if (w3aStatus == w3aSignal.REQUIRE_INIT_PASSCODE) {
 			navigate('/passcode');
@@ -45,6 +46,7 @@ export const LoginScreen: FC = () => {
 				console.log('Success');
 				const reconstructKeyStatus = await reconstructKey();
 				console.log(reconstructKeyStatus);
+				console.log(await getAllPrivateKeys());
 			}
 		} else {
 			console.log(w3aStatus);

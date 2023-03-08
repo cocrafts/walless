@@ -1,4 +1,5 @@
 import { describe, test } from '@jest/globals';
+import { Secp256k1Keypair } from '@mysten/sui.js';
 import { Keypair } from '@solana/web3.js';
 
 import SolanaNet from '../src/solana-net';
@@ -30,6 +31,26 @@ describe('fake test', () => {
 			console.log(
 				await SolanaNet.queryAllByAddress(keypair.publicKey.toString()),
 			);
+		} catch (e) {
+			console.log(e);
+		}
+	});
+});
+
+describe('sui derive key test', () => {
+	test('hello world', async () => {
+		try {
+			const keypair = Secp256k1Keypair.generate();
+			console.log(keypair.getPublicKey().toSuiAddress().toString());
+			console.log(
+				await SuiNet.queryAllByAddress(
+					keypair.getPublicKey().toSuiAddress().toString(),
+				),
+			);
+			// const keypair2 = Secp256k1Keypair.fromSecretKey(
+			// 	Uint8Array.from(Buffer.from(keypair.export().privateKey, 'hex')),
+			// );
+			// console.log(keypair2.getPublicKey().toSuiAddress().toString());
 		} catch (e) {
 			console.log(e);
 		}

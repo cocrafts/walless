@@ -5,6 +5,8 @@ import {
 	CartIcon,
 	SwapIcon,
 } from '@walless/ui';
+import SendToken from 'screens/Dashboard/SendToken';
+import { modalActions } from 'utils/state/modal';
 
 import FeatureButton from './FeatureButton';
 import FeaturesWrapper from './FeaturesWrapper';
@@ -24,7 +26,10 @@ const mockFeatureButtons: FeatureButtonProps[] = [
 		title: 'Send',
 		icon: <ArrowTopRightIcon color="#29A4D6" size={12} />,
 		onPress: () => {
-			console.log('Send');
+			modalActions.show({
+				id: 'sendTokens',
+				component: SendToken,
+			});
 		},
 	},
 	{

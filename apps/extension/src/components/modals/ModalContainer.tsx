@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		right: 0,
-		backgroundColor: 'red',
+		backgroundColor: '#000000',
+		opacity: 0.7,
 	},
 	contentContainer: {
 		flex: 1,
-		backgroundColor: '#000',
 	},
 });

@@ -3,9 +3,6 @@ import DashboardScreen from 'screens/Dashboard';
 import Explore from 'screens/Dashboard/Explore';
 import Profile from 'screens/Dashboard/Profile';
 import ProjectLayouts from 'screens/Dashboard/ProjectLayouts';
-import SendToken from 'screens/Dashboard/SendToken';
-import ConfirmTransaction from 'screens/Dashboard/SendToken/ConfirmTransaction';
-import SendTokenHome from 'screens/Dashboard/SendToken/SendTokenHome';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
 import EnterPasscode from 'screens/Passcode/EnterPasscode';
@@ -37,20 +34,6 @@ export const router = createHashRouter([
 					}
 					return project;
 				},
-			},
-		],
-	},
-	{
-		path: '/send-token',
-		element: <SendToken />,
-		children: [
-			{
-				path: '',
-				element: <SendTokenHome />,
-			},
-			{
-				path: 'confirm-token/:id',
-				element: <ConfirmTransaction />,
 			},
 		],
 	},

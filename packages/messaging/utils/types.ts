@@ -1,5 +1,26 @@
 export enum Channels {
-	'kernel' = '@walless-kernel',
-	'command' = '@walless-command',
-	'query' = '@walless-query',
+	'kernel' = 'kernel',
+	'background' = 'background',
+	'popup' = 'popup',
+	'content' = 'content',
+}
+
+export interface EncryptedMessage {
+	ciphered: string;
+	iv: string;
+}
+
+interface IdentifiedPayload {
+	id?: string;
+}
+
+export type MessagePayload = Record<string, unknown> & IdentifiedPayload;
+export type ResponsePayload = Record<string, unknown> & IdentifiedPayload;
+
+export interface RequestMetadata {
+	id: string;
+	timestamp: Date;
+	timeout: number;
+	resolve: (payload: unknown) => void;
+	reject: (error: Error) => void;
 }

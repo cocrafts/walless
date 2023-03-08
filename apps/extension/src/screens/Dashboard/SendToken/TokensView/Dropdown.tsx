@@ -23,32 +23,22 @@ const Dropdown: FC<DropdownProps> = ({
 	activeItem,
 	onSelect,
 }) => {
-	const [isOpen, setIsOpen] = useState(false);
-
 	return (
-		<View className={`w-full ${className}`}>
+		<View className={`w-full ${className} group`}>
 			<TouchableOpacity
-				className="h-12 bg-[#1B415A] rounded-lg flex flex-row justify-between items-center px-5 z-10"
+				className="h-12 bg-[#1B415A] rounded-lg flex flex-row justify-between items-center px-5"
 				activeOpacity={1}
-				onPress={() => setIsOpen((prev) => !prev)}
 			>
 				<Text className="text-[#99B0BF] text-sm">{leftNode}</Text>
 				{rightNode}
 			</TouchableOpacity>
 
-			<View
-				className={`bg-[#1B415A] -mt-4 pt-6 pb-2 px-2 rounded-lg transition duration-300 flex ${
-					isOpen ? 'block' : 'hidden'
-				}`}
-			>
+			<View className="bg-[#1B415A] rounded-lg w-full absolute z-50 top-12 left-0 invisible group-hover:visible">
 				{data.map((item) => (
 					<DropdownItemWrapper
 						key={item.id}
 						active={activeItem?.id === item.id}
-						onPress={() => {
-							onSelect(item);
-							setIsOpen(false);
-						}}
+						onPress={() => onSelect(item)}
 					>
 						<DropdownItem {...item} />
 					</DropdownItemWrapper>

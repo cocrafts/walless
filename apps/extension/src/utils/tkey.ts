@@ -1,3 +1,5 @@
+import ChromeStorageModule from '@tkey/chrome-storage';
+import { ModuleMap } from '@tkey/common-types';
 import ThresholdKey from '@tkey/default';
 import PrivateKeyModule, {
 	ED25519Format,
@@ -8,14 +10,6 @@ import { TorusServiceProvider } from '@tkey/service-provider-torus';
 import WebStorageModule from '@tkey/web-storage';
 import { CustomAuthArgs } from '@toruslabs/customauth';
 
-const webStorageModule = new WebStorageModule();
-const securityQuestionsModule = new SecurityQuestionsModule();
-
-const privateKeyModule = new PrivateKeyModule([
-	new SECP256K1Format(),
-	new ED25519Format(),
-]);
-
 export const customAuthArgs: CustomAuthArgs = {
 	network: 'testnet',
 	baseUrl: `http://localhost:3002/`,
@@ -25,20 +19,33 @@ export const customAuthArgs: CustomAuthArgs = {
 	popupFeatures: 'width=380,height=600',
 };
 
-export type TypedThresholdKey = ThresholdKey & {
-	serviceProvider: TorusServiceProvider;
-	modules: {
-		webStorage: WebStorageModule;
-		securityQuestions: SecurityQuestionsModule;
-		privateKeyModule: PrivateKeyModule;
-	};
+type InternalModules = ModuleMap & {
+	webStorage?: WebStorageModule;
+	chromeStorage?: ChromeStorageModule;
+	securityQuestions: SecurityQuestionsModule;
+	privateKeyModule: PrivateKeyModule;
 };
 
+export type TypedThresholdKey = ThresholdKey & {
+	serviceProvider: TorusServiceProvider;
+	modules: InternalModules;
+};
+
+const modules: InternalModules = {
+	securityQuestions: new SecurityQuestionsModule(),
+	privateKeyModule: new PrivateKeyModule([
+		SECP256K1Format,
+		ED25519Format,
+	] as never),
+};
+
+if (window.chrome?.runtime) {
+	modules.chromeStorage = new ChromeStorageModule();
+} else {
+	modules.webStorage = new WebStorageModule();
+}
+
 export const key = new ThresholdKey({
-	modules: {
-		webStorage: webStorageModule,
-		securityQuestions: securityQuestionsModule,
-		privateKeyModule: privateKeyModule,
-	},
-	customAuthArgs: customAuthArgs,
+	modules,
+	customAuthArgs,
 }) as TypedThresholdKey;

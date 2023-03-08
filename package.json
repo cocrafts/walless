@@ -13,7 +13,6 @@
     "gen": "node tool/gen",
     "invalidate": "node tool/invalidate",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postinstall": "node tool/batch"
   },
   "devDependencies": {

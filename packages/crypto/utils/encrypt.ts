@@ -1,5 +1,3 @@
-import { storage } from 'webextension-polyfill';
-
 import { AesAlgorithm, AesKeyLength, HydratedKey } from './types';
 
 export const createCryptoKey = async (
@@ -23,12 +21,12 @@ export const createAndHydrateCryptoKey = async (
 	const jwk = await crypto.subtle.exportKey('jwk', key);
 	const hydrated: HydratedKey = { jwk, keyParams, keyUsages };
 
-	await storage.local.set({ [`key@${id}`]: JSON.stringify(hydrated) });
+	await chrome.storage.local.set({ [`key@${id}`]: JSON.stringify(hydrated) });
 	return key;
 };
 
 export const restructCryptoKey = async (id: string): Promise<CryptoKey> => {
-	const result = await storage.local.get([id]);
+	const result = await chrome.storage.local.get([id]);
 	const hydrated: HydratedKey = JSON.parse(result[id]);
 
 	return await crypto.subtle.importKey(

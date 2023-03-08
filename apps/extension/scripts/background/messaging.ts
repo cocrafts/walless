@@ -1,18 +1,29 @@
-import { MessagingChannels } from '@walless/core';
-import { decryptMessage } from '@walless/messaging';
-import { Runtime, runtime } from 'webextension-polyfill';
+import { Channels, decryptMessage, EncryptedMessage } from '@walless/messaging';
 
-const onKernelMessage = async (message, sender: Runtime.Port) => {
+const onKernelMessage = async (
+	message: EncryptedMessage,
+	sender: chrome.runtime.Port,
+) => {
 	const payload = await decryptMessage(message, sender);
 	console.log(payload, sender, '<-- kernel message');
 };
 
-runtime.onConnect.addListener((port) => {
+const onBackgroundMessage = async (
+	message: EncryptedMessage,
+	sender: chrome.runtime.Port,
+) => {
+	const payload = await decryptMessage(message, sender);
+	console.log(payload, sender, '<-- background message');
+};
+
+chrome.runtime.onConnect.addListener((port) => {
 	console.log('Connected to port:', port);
 
 	port.postMessage({ message: 'Hello from background.js!' });
 
-	if (port.name === MessagingChannels.kernel) {
+	if (port.name === Channels.kernel) {
 		port.onMessage.addListener(onKernelMessage);
+	} else if (port.name === Channels.background) {
+		port.onMessage.addListener(onBackgroundMessage);
 	}
 });

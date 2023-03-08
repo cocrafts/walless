@@ -1,5 +1,3 @@
-import { runtime } from 'webextension-polyfill';
-
 export const observeAuthentication = () => {
 	window.postMessage({ from: 'walless@content-script-loaded' });
 	window.addEventListener(
@@ -8,7 +6,7 @@ export const observeAuthentication = () => {
 			if (source !== window) return;
 
 			if (data.from?.startsWith('walless@')) {
-				await runtime.sendMessage(data);
+				await chrome.runtime.sendMessage(data);
 			}
 		},
 		false,

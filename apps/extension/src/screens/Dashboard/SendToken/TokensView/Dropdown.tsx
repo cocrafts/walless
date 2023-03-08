@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { ChevronDownIcon, Text, TouchableOpacity, View } from '@walless/ui';
 
 import DropdownItem from './DropdownItem';

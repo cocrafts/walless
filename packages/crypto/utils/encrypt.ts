@@ -1,13 +1,6 @@
 import { storage } from 'webextension-polyfill';
 
-export interface HydratedKey {
-	jwk: JsonWebKey;
-	keyParams: AesKeyGenParams;
-	keyUsages: ReadonlyArray<KeyUsage>;
-}
-
-export type AesAlgorithm = 'AES-GCM' | 'AES-CBC' | 'AES-CTR';
-export type AesKeyLength = 128 | 192 | 256;
+import { AesAlgorithm, AesKeyLength, HydratedKey } from './types';
 
 export const createCryptoKey = async (
 	name: AesAlgorithm,
@@ -65,7 +58,7 @@ export const encryptToString = async (
 ): Promise<string> => {
 	const cipheredBytes = await encrypt(data, key, iv);
 
-	return new Buffer(cipheredBytes).toString('base64');
+	return Buffer.from(cipheredBytes).toString('base64');
 };
 
 export const decrypt = async (

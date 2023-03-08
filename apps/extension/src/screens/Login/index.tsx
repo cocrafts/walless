@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { TorusLoginResponse } from '@toruslabs/customauth';
 import { AnimatedImage, Button, IconButton, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
-import { googleSignIn } from 'utils/tkey';
+import { googleSignIn, initAfterLogin, w3aSignal } from 'utils/w3a-v3';
 
 const logoSize = 80;
 
@@ -24,14 +24,24 @@ export const LoginScreen: FC = () => {
 
 	const toggleLogin = async () => {
 		const response = await googleSignIn();
+		const w3aStatus: w3aSignal = await initAfterLogin();
+		console.log(w3aStatus);
+		if (w3aStatus == w3aSignal.RECONSTRUCT_KEY_SUCCESS) {
+			console.log(w3aSignal.RECONSTRUCT_KEY_SUCCESS);
+			navigate('/explore');
+		} else if (w3aStatus == w3aSignal.REQUIRE_INIT_PASSCODE) {
+			navigate('/passcode');
+		} else {
+			console.log(w3aStatus);
+		}
 		setLogin(response);
 	};
 
-	useEffect(() => {
-		if (login?.pubKey) {
-			navigate('/passcode');
-		}
-	}, [login]);
+	// useEffect(() => {
+	// 	if (login?.pubKey) {
+	// 		navigate('/passcode');
+	// 	}
+	// }, [login]);
 
 	useEffect(() => {
 		opacity.value = withTiming(1, { duration: 1000 });

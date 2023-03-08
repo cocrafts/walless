@@ -14,6 +14,7 @@ export { EyeOffIcon } from './EyeOff';
 export { EyeOnIcon } from './EyeOn';
 export { HomeIcon } from './Home';
 export { IdCardIcon } from './IdCard';
+export { InformationIcon } from './Information';
 export { SearchIcon } from './Search';
 export { SettingIcon } from './Setting';
 export { SwapIcon } from './Swap';

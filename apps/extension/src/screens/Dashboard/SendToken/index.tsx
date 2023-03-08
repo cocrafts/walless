@@ -13,7 +13,6 @@ import TokensView from './TokensView';
 
 const SendToken = () => {
 	const [isTokensTab, setIsTokensTab] = useState(true);
-	const [isAbleToContinue, setIsAbleToContinue] = useState(false);
 
 	return (
 		<View className="h-screen bg-[#112C3F] flex justify-between py-5">
@@ -33,7 +32,7 @@ const SendToken = () => {
 					<View className="flex flex-row gap-3 mt-6 mb-7">
 						<Text
 							className={`w-[100px] h-5 text-right ${
-								isTokensTab && 'font-semibold text-[#1FA1D9]'
+								isTokensTab && 'font-semibold text-[#2FA1D9]'
 							}`}
 						>
 							Tokens
@@ -50,37 +49,16 @@ const SendToken = () => {
 						</TouchableOpacity>
 						<Text
 							className={`w-[100px] h-5 ${
-								!isTokensTab && 'font-semibold text-[#1FA1D9]'
+								!isTokensTab && 'font-semibold text-[#2FA1D9]'
 							}`}
 						>
 							Collectibles
 						</Text>
 					</View>
 
-					{isTokensTab ? (
-						<TokensView setContinue={setIsAbleToContinue} />
-					) : (
-						<CollectiblesView />
-					)}
+					{isTokensTab ? <TokensView /> : <CollectiblesView />}
 				</View>
 			</View>
-
-			<TouchableOpacity
-				className={`h-12 mx-6 bg-gradient-to-r rounded-lg flex justify-center items-center ${
-					isAbleToContinue
-						? 'from-[#1FA1D9] to-[#72BBC4]'
-						: 'from-[#C1C1C133] to-[#71727233]'
-				}`}
-				disabled={!isAbleToContinue}
-			>
-				<Text
-					className={`font-medium ${
-						isAbleToContinue ? 'text-white' : 'text-[#587A90]'
-					}`}
-				>
-					Continue
-				</Text>
-			</TouchableOpacity>
 		</View>
 	);
 };

@@ -1,6 +1,9 @@
 import { FC } from 'react';
 import { Text, TextInput, View } from '@walless/ui';
 import { SearchIcon } from '@walless/ui/icons';
+import Solana from 'screens/ProjectLayout/Solana';
+import UnderRealm from 'screens/ProjectLayout/UnderRealm';
+import { layoutActions } from 'utils/state/layout';
 
 import ChooseLayoutCard from './ExploreCard';
 
@@ -15,11 +18,13 @@ export interface ExploreCard {
 	link: string;
 	isInProfile: boolean;
 	love: boolean;
+	layoutId: string;
+	component: React.FC;
 }
 
 const mockLayouts: ExploreCard[] = [
 	{
-		id: '1',
+		id: 'UnderRealm',
 		name: 'Under Realm',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
@@ -30,9 +35,11 @@ const mockLayouts: ExploreCard[] = [
 		link: '/explore',
 		isInProfile: true,
 		love: true,
+		layoutId: 'under-realm',
+		component: UnderRealm,
 	},
 	{
-		id: '2',
+		id: 'Solana',
 		name: 'Solana',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
@@ -43,12 +50,22 @@ const mockLayouts: ExploreCard[] = [
 		link: '/explore',
 		isInProfile: false,
 		love: false,
+		layoutId: 'solana',
+		component: Solana,
 	},
 ];
 
 export const ChooseLayout: FC = () => {
-	const handleAddToProfile = (id: string, isInProfile: boolean) => {
+	const handleAddToProfile = (
+		id: string,
+		layoutId: string,
+		component: React.FC,
+		isInProfile: boolean,
+	) => {
 		isInProfile ? console.log('Remove', id) : console.log('Add', id);
+		isInProfile
+			? layoutActions.removeLayout(id)
+			: layoutActions.addLayout(id, component);
 	};
 
 	const handleLoveProfile = (id: string, love: boolean) => {

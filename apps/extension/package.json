@@ -36,7 +36,8 @@
 		"react-router-dom": "^6.8.1",
 		"setimmediate": "^1.0.5",
 		"valtio": "^1.10.2",
-		"webextension-polyfill": "^0.10.0"
+		"webextension-polyfill": "^0.10.0",
+		"dexie": "3.2.3"
 	},
 	"devDependencies": {
 		"@metacraft/cli-web3-polyfills": "^0.0.7"

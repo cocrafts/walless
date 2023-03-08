@@ -11,6 +11,7 @@ export enum w3aSignal {
 	INIT_PASSCODE_SUCCESS = 'INIT_PASSCODE_SUCCESS',
 	INIT_PASSCODE_FAIL = 'INIT_PASSCODE_FAIL',
 	RECONSTRUCT_KEY_SUCCESS = 'RECONSTRUCT_KEY_SUCCESS',
+	RECONSTRUCT_KEY_FAIL = 'RECONSTRUCT_KEY_FAIL',
 	TRIGGER_LOGIN_FAIL = 'TRIGGER_LOGIN_FAIL',
 }
 
@@ -66,17 +67,18 @@ export const googleSignIn = async (): Promise<
 	try {
 		response = await serviceProvider.triggerLogin({
 			typeOfLogin: 'google',
-			verifier: 'stormgate-google',
-			clientId: GOOGLE_CLIENT_ID,
+			verifier: 'stormgate-w3a-google',
+			clientId:
+				'995579267000-3lo2r1psl6ovg5fek5h2329qtjl5u8fp.apps.googleusercontent.com',
 		});
 	} catch (e) {
 		console.log('TRIGGER LOGIN ERROR: ');
 		console.log(e);
 		return w3aSignal.TRIGGER_LOGIN_FAIL;
 	}
-
 	console.log('Init key');
 	await key.initialize();
+	console.log(key.getKeyDetails());
 
 	return response;
 };
@@ -93,10 +95,20 @@ export const initAfterLogin = async () => {
 		const { totalShares, requiredShares } = key.getKeyDetails();
 		if (totalShares === 2) {
 			if (requiredShares <= 0) {
+				// Reconstruct key
 				await key.reconstructKey();
+				// Init private key
+				if (
+					(await key.modules.privateKeyModule.getPrivateKeys()).length === 0
+				) {
+					// Create solana private key
+					await createSolonaPrivateKey();
+					console.log(await getAllPrivateKeys());
+				}
+				return w3aSignal.REQUIRE_INIT_PASSCODE;
 			}
 
-			return w3aSignal.REQUIRE_INIT_PASSCODE;
+			return w3aSignal.REQUIRE_INPUT_PASSCODE;
 		}
 	} catch (e) {
 		console.log(e);
@@ -141,6 +153,24 @@ export const initPasscode = async (passcode: string) => {
 	}
 };
 
-export const checkLogin = async () => {
-	return null;
+export const reconstructKey = async () => {
+	try {
+		await key.reconstructKey();
+		return w3aSignal.RECONSTRUCT_KEY_SUCCESS;
+	} catch (e) {
+		console.log(e);
+		return w3aSignal.RECONSTRUCT_KEY_FAIL;
+	}
+};
+
+export const createSolonaPrivateKey = async () => {
+	return await key.modules.privateKeyModule.setPrivateKey('ed25519');
+};
+
+// const createSuiPrivateKey = async () => {
+// 	console.log('Hello world');
+// };
+
+export const getAllPrivateKeys = async () => {
+	return await key.modules.privateKeyModule.getPrivateKeys();
 };

@@ -9,7 +9,14 @@ import { TorusLoginResponse } from '@toruslabs/customauth';
 import { AnimatedImage, Button, IconButton, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import { getAllPrivateKey } from 'utils/indexDB';
-import { googleSignIn, initAfterLogin, w3aSignal } from 'utils/w3a-v3';
+import {
+	getAllPrivateKeys,
+	googleSignIn,
+	initAfterLogin,
+	inputPasscode,
+	reconstructKey,
+	w3aSignal,
+} from 'utils/w3a-v3';
 
 const logoSize = 80;
 
@@ -27,11 +34,21 @@ export const LoginScreen: FC = () => {
 		const response = await googleSignIn();
 		const w3aStatus: w3aSignal = await initAfterLogin();
 		console.log(w3aStatus);
+		console.log('Hello world');
 		if (w3aStatus == w3aSignal.RECONSTRUCT_KEY_SUCCESS) {
-			console.log(w3aSignal.RECONSTRUCT_KEY_SUCCESS);
 			navigate('/explore');
 		} else if (w3aStatus == w3aSignal.REQUIRE_INIT_PASSCODE) {
 			navigate('/passcode');
+		} else if (w3aStatus == w3aSignal.REQUIRE_INPUT_PASSCODE) {
+			const inputPasscodeStatus = await inputPasscode('123456');
+			if (inputPasscodeStatus == w3aSignal.WRONG_PASSCODE) {
+				console.log('Wrong passcode');
+			} else if (inputPasscodeStatus == w3aSignal.INPUT_PASSCODE_SUCCESS) {
+				console.log('Success');
+				const reconstructKeyStatus = await reconstructKey();
+				console.log(reconstructKeyStatus);
+				console.log(await getAllPrivateKeys());
+			}
 		} else {
 			console.log(w3aStatus);
 		}

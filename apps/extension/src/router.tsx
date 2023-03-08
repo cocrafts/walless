@@ -8,6 +8,7 @@ import ConfirmTransaction from 'screens/Dashboard/SendToken/ConfirmTransaction';
 import SendTokenHome from 'screens/Dashboard/SendToken/SendTokenHome';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
+import EnterPasscode from 'screens/Passcode/EnterPasscode';
 import { layoutProxy } from 'utils/state/layout';
 import { snapshot } from 'valtio';
 
@@ -51,19 +52,6 @@ export const router = createHashRouter([
 				path: 'confirm-token/:id',
 				element: <ConfirmTransaction />,
 			},
-			{
-				path: '/layouts/:layoutId',
-				element: <ProjectLayouts />,
-				loader: async ({ params }) => {
-					const { layoutId } = params;
-					const layout = snapshot(layoutProxy);
-					const project = layout[layoutId || ''];
-					if (!project) {
-						return redirect('/explore');
-					}
-					return project;
-				},
-			},
 		],
 	},
 	{
@@ -73,5 +61,9 @@ export const router = createHashRouter([
 	{
 		path: '/passcode',
 		element: <PasscodeScreen />,
+	},
+	{
+		path: '/enter-passcode',
+		element: <EnterPasscode />,
 	},
 ]);

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { TorusLoginResponse } from '@toruslabs/customauth';
 import { AnimatedImage, Button, IconButton, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
+import { getAllPrivateKey } from 'utils/indexDB';
 import { googleSignIn, initAfterLogin, w3aSignal } from 'utils/w3a-v3';
 
 const logoSize = 80;
@@ -37,11 +38,13 @@ export const LoginScreen: FC = () => {
 		setLogin(response);
 	};
 
-	// useEffect(() => {
-	// 	if (login?.pubKey) {
-	// 		navigate('/passcode');
-	// 	}
-	// }, [login]);
+	useEffect(() => {
+		const func = async () => {
+			console.log(await getAllPrivateKey());
+		};
+
+		func();
+	}, []);
 
 	useEffect(() => {
 		opacity.value = withTiming(1, { duration: 1000 });

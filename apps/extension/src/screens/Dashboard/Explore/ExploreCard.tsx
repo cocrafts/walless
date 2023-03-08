@@ -1,12 +1,19 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { Image, Text, TouchableOpacity, View } from '@walless/ui';
+import { useSnapshot } from 'utils/hook';
+import { generateHash, layoutProxy } from 'utils/state/layout';
 
 import { ExploreCard } from '.';
 
 interface Props {
 	item: ExploreCard;
-	handlePressAddBtn: (id: string, isInProfile: boolean) => void;
+	handlePressAddBtn: (
+		id: string,
+		layoutId: string,
+		component: React.FC,
+		isInProfile: boolean,
+	) => void;
 	handlePressLoveBtn: (id: string, love: boolean) => void;
 }
 
@@ -15,6 +22,9 @@ const ChooseLayoutCard: FC<Props> = ({
 	handlePressAddBtn,
 	handlePressLoveBtn,
 }) => {
+	const layout = useSnapshot(layoutProxy);
+	const isInProfile = generateHash(item.id) in layout;
+
 	return (
 		<View className="rounded-b-lg">
 			<View className="h-[133px]">
@@ -28,13 +38,20 @@ const ChooseLayoutCard: FC<Props> = ({
 
 				<TouchableOpacity
 					className="group absolute top-1 right-1 flex flex-row gap-2"
-					onPress={() => handlePressAddBtn(item.id, item.isInProfile)}
+					onPress={() =>
+						handlePressAddBtn(
+							item.id,
+							item.layoutId,
+							item.component,
+							isInProfile,
+						)
+					}
 				>
 					<Text className="bg-[#35A8D3] pt-[2px] px-2 rounded text-[8px] transition duration-200 flex justify-center items-center scale-0 group-hover:scale-100">
-						{item.isInProfile ? 'Remove from my profile' : 'Add to my profile'}
+						{isInProfile ? 'Remove from my profile' : 'Add to my profile'}
 					</Text>
 					<Text className="h-5 w-5 bg-gradient-to-r from-[#2BA5D6] to-[#8BC3BF] pt-[2px] rounded-full text-sm flex justify-center items-center">
-						{item.isInProfile ? '-' : '+'}
+						{isInProfile ? '-' : '+'}
 					</Text>
 				</TouchableOpacity>
 			</View>

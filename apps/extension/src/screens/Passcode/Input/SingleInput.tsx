@@ -48,7 +48,7 @@ export const SingleInput: React.FC<Props> = ({
 	}, [isConfirmPhase, confirmPasscode]);
 
 	return (
-		<View className="mx-1 py-2 bg-color-3 rounded-xl">
+		<View className=" py-2 bg-[color:#1B415A] rounded-xl">
 			<TextInput
 				ref={ref}
 				className="w-10 font-poppins text-white text-2xl text-center"

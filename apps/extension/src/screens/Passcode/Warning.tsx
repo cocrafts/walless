@@ -11,13 +11,13 @@ import { TimesIcon } from '@walless/ui/icons';
 import { useSharedValue } from 'utils/hook';
 
 interface Props {
-	isConfirmPhase: boolean;
+	isConfirmPhase?: boolean;
 	isPasscodeIncorrect: boolean;
 	handleCloseWarning: () => void;
 }
 
 export const Warning: React.FC<Props> = ({
-	isConfirmPhase,
+	isConfirmPhase = true,
 	isPasscodeIncorrect,
 	handleCloseWarning,
 }) => {
@@ -32,17 +32,19 @@ export const Warning: React.FC<Props> = ({
 
 	useEffect(() => {
 		opacity.value = withTiming(isConfirmPhase && isPasscodeIncorrect ? 1 : 0);
-		setTimeout(handleCloseWarning, 5000);
 	}, [isConfirmPhase, isPasscodeIncorrect]);
 
 	return (
 		<AnimatedView style={[styles.container, animatedStyle]}>
 			<View className="flex-row justify-end">
-				<TouchableOpacity className="p-2" onPress={handleCloseWarning}>
-					<TimesIcon color="white" />
+				<TouchableOpacity className="px-1" onPress={handleCloseWarning}>
+					<TimesIcon size={18} color="white" />
 				</TouchableOpacity>
 			</View>
-			<Text>Warning</Text>
+			<Text className="text-center text-xs">
+				Please make sure your passcode is matched.
+			</Text>
+			<Text className="text-center text-xs">Try again!</Text>
 		</AnimatedView>
 	);
 };
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
 		width: '100%',
-		backgroundColor: 'red',
+		backgroundColor: '#A13E3E',
+		paddingBottom: 14,
 	},
 });

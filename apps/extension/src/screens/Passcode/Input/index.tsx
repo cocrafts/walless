@@ -11,15 +11,15 @@ import { encryptKeyActions } from 'utils/state/encryptKey';
 import SingleInput from './SingleInput';
 
 interface Props {
-	isConfirmPhase: boolean;
+	isConfirmPhase?: boolean;
 	confirmPasscode: string;
 	handleActiveButton: (isPasscodeValid: boolean) => void;
 	handleConfirmPasscode: (value: string | number) => void;
-	handleWrongInput: (err: string) => void;
+	handleWrongInput?: (err: string) => void;
 }
 
 export const PasscodeInput: React.FC<Props> = ({
-	isConfirmPhase,
+	isConfirmPhase = true,
 	confirmPasscode,
 	handleActiveButton,
 	handleConfirmPasscode,
@@ -70,7 +70,7 @@ export const PasscodeInput: React.FC<Props> = ({
 
 		if (!passcodeRegex.test(event.nativeEvent.key)) {
 			event.preventDefault();
-			handleWrongInput('Please input number only');
+			handleWrongInput?.('Please input number only');
 		}
 	};
 
@@ -105,7 +105,7 @@ export const PasscodeInput: React.FC<Props> = ({
 	}, [isConfirmPhase, confirmPasscode]);
 
 	return (
-		<View className="flex-row">
+		<View className="flex-row w-full justify-between">
 			{inputItems}
 			<TouchableWithoutFeedback
 				onPress={() => currentInputRef?.current?.focus()}

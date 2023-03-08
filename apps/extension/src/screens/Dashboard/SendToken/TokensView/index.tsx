@@ -71,8 +71,6 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 		recipient !== '' &&
 		amount !== '';
 
-	const transactionId = '0x1234567890';
-
 	return (
 		<View
 			className={`w-full rounded-t-[20px] flex justify-between pb-5 ${className}`}
@@ -140,7 +138,7 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 			<ConfirmButton
 				text="Continue"
 				disable={!isAbleToContinue}
-				onPress={() => navigate(`/send-token/confirm-token/${transactionId}}`)}
+				onPress={() => navigate(`/profile}`)}
 			/>
 		</View>
 	);

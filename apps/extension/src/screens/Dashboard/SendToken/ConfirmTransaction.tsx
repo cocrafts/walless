@@ -1,8 +1,14 @@
+import { FC } from 'react';
 import { Text, View } from '@walless/ui';
+import { modalActions, ModalConfigs } from 'utils/state/modal';
 
 import ConfirmButton from './ConfirmButton';
 import Header from './Header';
 import InfoTable, { InfoDisplayProps } from './InfoTable';
+
+interface Props {
+	config: ModalConfigs;
+}
 
 const data: InfoDisplayProps[] = [
 	{
@@ -17,10 +23,14 @@ const data: InfoDisplayProps[] = [
 	},
 ];
 
-const ConfirmTransaction = () => {
+const ConfirmTransaction: FC<Props> = ({ config }) => {
+	const { id } = config;
+
+	const handleCloseModal = () => modalActions.close(id);
+
 	return (
 		<View className="w-full h-full flex justify-between py-5">
-			<Header title="Confirm Transaction" returnLink="/send-token" />
+			<Header title="Confirm Transaction" handleCloseModal={handleCloseModal} />
 
 			<View className="flex gap-3 mx-6">
 				<InfoTable data={data} />

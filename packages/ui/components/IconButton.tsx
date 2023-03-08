@@ -15,7 +15,10 @@ export const IconButton: FC<Props> = ({
 	size = 36,
 	onPress,
 }) => {
-	const iconStyle = { width: size, height: size };
+	const iconStyle = {
+		width: size,
+		height: size,
+	};
 
 	return (
 		<TouchableOpacity className={className} onPress={onPress}>

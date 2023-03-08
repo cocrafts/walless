@@ -10,7 +10,6 @@ import {
 interface Props {
 	className?: string;
 	title: string;
-	returnLink: string;
 	handleCloseModal: () => void;
 }
 

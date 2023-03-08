@@ -8,5 +8,6 @@ export const resources = {
 		facebook: { uri: '/img/icon-facebook.png' },
 		discord: { uri: '/img/icon-discord.png' },
 		solana: { uri: '/img/icon-solana.png' },
+		github: { uri: '/img/icon-github.png' },
 	},
 };

@@ -1,51 +1,25 @@
-import { EncryptedPrivateKey, PrivateKeyEncryptionOptions } from './types';
+import {
+	getDeriveBits,
+	getDeriveKey,
+	getMaterialKey,
+	getRandomBytes,
+} from './helper';
+import { EncryptedWithPasscode } from './types';
 
-export const encryptPrivateKey = async ({
-	password,
-	key,
+export const encryptWithPasscode = async (
+	passcode: string,
+	key: Uint8Array,
 	iterations = 100000,
 	keylen = 32,
-}: PrivateKeyEncryptionOptions): Promise<EncryptedPrivateKey> => {
-	const salt = crypto.getRandomValues(new Uint8Array(16));
-	const iv = crypto.getRandomValues(new Uint8Array(16));
-	const importedKey = await crypto.subtle.importKey(
-		'raw',
-		new TextEncoder().encode(password),
-		{ name: 'PBKDF2' },
-		false,
-		['deriveBits'],
-	);
-
-	const derivedArray = await crypto.subtle.deriveBits(
-		{
-			name: 'PBKDF2',
-			salt,
-			iterations,
-			hash: 'SHA-256',
-		},
-		importedKey,
-		keylen * 8,
-	);
-
-	const derivedKey = await crypto.subtle.importKey(
-		'raw',
-		derivedArray,
-		{ name: 'AES-CTR' },
-		false,
-		['encrypt', 'decrypt'],
-	);
-
-	const encryptedKey = await crypto.subtle.encrypt(
-		{
-			name: 'AES-CTR',
-			counter: iv,
-			length: 256,
-		},
-		derivedKey,
-		key,
-	);
-
-	const mac = new Uint8Array(derivedArray.slice(16, 32));
+): Promise<EncryptedWithPasscode> => {
+	const salt = getRandomBytes(16);
+	const iv = getRandomBytes(16);
+	const material = await getMaterialKey(passcode);
+	const derivedBits = await getDeriveBits(salt, material, iterations, keylen);
+	const derivedKey = await getDeriveKey(derivedBits);
+	const mac = new Uint8Array(derivedBits.slice(16, 32));
+	const algorithm: AesCtrParams = { name: 'AES-CTR', counter: iv, length: 128 };
+	const encryptedKey = await crypto.subtle.encrypt(algorithm, derivedKey, key);
 
 	return {
 		iv: Buffer.from(iv).toString('hex'),
@@ -55,9 +29,9 @@ export const encryptPrivateKey = async ({
 	};
 };
 
-export const decryptPrivateKey = async (
+export const decryptWithPasscode = async (
 	password: string,
-	encrypted: EncryptedPrivateKey,
+	encrypted: EncryptedWithPasscode,
 	iterations = 100000,
 	keylen = 32,
 ) => {
@@ -65,49 +39,17 @@ export const decryptPrivateKey = async (
 	const iv = Buffer.from(encrypted.iv, 'hex');
 	const ct = Buffer.from(encrypted.ct, 'hex');
 	const mac = Buffer.from(encrypted.mac, 'hex');
-
-	const importedKey = await crypto.subtle.importKey(
-		'raw',
-		new TextEncoder().encode(password),
-		{ name: 'PBKDF2' },
-		false,
-		['deriveBits'],
-	);
-
-	const derivedArray = await crypto.subtle.deriveBits(
-		{
-			name: 'PBKDF2',
-			salt,
-			iterations,
-			hash: 'SHA-256',
-		},
-		importedKey,
-		keylen * 8,
-	);
-
-	const expectedMac = new Uint8Array(derivedArray.slice(16, 32));
+	const material = await getMaterialKey(password);
+	const deriveBits = await getDeriveBits(salt, material, iterations, keylen);
+	const expectedMac = new Uint8Array(deriveBits.slice(16, 32));
 
 	if (!mac.equals(Buffer.from(expectedMac))) {
 		throw new Error('Could not decrypt key: bad password');
 	}
 
-	const derivedKey = await crypto.subtle.importKey(
-		'raw',
-		derivedArray,
-		{ name: 'AES-CTR' },
-		false,
-		['encrypt', 'decrypt'],
-	);
+	const derivedKey = await getDeriveKey(deriveBits);
+	const algorithm: AesCtrParams = { name: 'AES-CTR', counter: iv, length: 128 };
+	const decryptedKey = await crypto.subtle.decrypt(algorithm, derivedKey, ct);
 
-	const decryptedKey = await crypto.subtle.decrypt(
-		{
-			name: 'AES-CTR',
-			counter: iv,
-			length: 256,
-		},
-		derivedKey,
-		ct,
-	);
-
-	return Buffer.from(new Uint8Array(decryptedKey));
+	return new Uint8Array(decryptedKey);
 };

@@ -7,7 +7,7 @@ export interface HydratedKey {
 export type AesAlgorithm = 'AES-GCM' | 'AES-CBC' | 'AES-CTR';
 export type AesKeyLength = 128 | 192 | 256;
 
-export interface EncryptedPrivateKey {
+export interface EncryptedWithPasscode {
 	iv: string;
 	salt: string;
 	ct: string;
@@ -16,7 +16,7 @@ export interface EncryptedPrivateKey {
 
 export interface PrivateKeyEncryptionOptions {
 	password: string;
-	key: Buffer;
+	key: Uint8Array;
 	iterations?: number;
 	keylen?: number;
 }
@@ -25,5 +25,5 @@ export type PrivateKeyDecryptionOptions = Omit<
 	PrivateKeyEncryptionOptions,
 	'key'
 > & {
-	encryptedKey: EncryptedPrivateKey;
+	encryptedKey: EncryptedWithPasscode;
 };

@@ -11,6 +11,7 @@ export enum w3aSignal {
 	INIT_PASSCODE_SUCCESS = 'INIT_PASSCODE_SUCCESS',
 	INIT_PASSCODE_FAIL = 'INIT_PASSCODE_FAIL',
 	RECONSTRUCT_KEY_SUCCESS = 'RECONSTRUCT_KEY_SUCCESS',
+	RECONSTRUCT_KEY_FAIL = 'RECONSTRUCT_KEY_FAIL',
 	TRIGGER_LOGIN_FAIL = 'TRIGGER_LOGIN_FAIL',
 }
 
@@ -66,7 +67,7 @@ export const googleSignIn = async (): Promise<
 	try {
 		response = await serviceProvider.triggerLogin({
 			typeOfLogin: 'google',
-			verifier: 'stormgate-google',
+			verifier: 'walless-gc',
 			clientId: GOOGLE_CLIENT_ID,
 		});
 	} catch (e) {
@@ -93,7 +94,16 @@ export const initAfterLogin = async () => {
 		const { totalShares, requiredShares } = key.getKeyDetails();
 		if (totalShares === 2) {
 			if (requiredShares <= 0) {
+				// Reconstruct key
 				await key.reconstructKey();
+				// Init private key
+				if (
+					(await key.modules.privateKeyModule.getPrivateKeys()).length === 0
+				) {
+					// Create solana private key
+					await createSolonaPrivateKey();
+					console.log(await getAllPrivateKeys());
+				}
 			}
 
 			return w3aSignal.REQUIRE_INIT_PASSCODE;
@@ -141,6 +151,20 @@ export const initPasscode = async (passcode: string) => {
 	}
 };
 
-export const checkLogin = async () => {
-	return null;
+export const reconstructKey = async () => {
+	try {
+		await key.reconstructKey();
+		return w3aSignal.RECONSTRUCT_KEY_SUCCESS;
+	} catch (e) {
+		console.log(e);
+		return w3aSignal.RECONSTRUCT_KEY_FAIL;
+	}
+};
+
+export const createSolonaPrivateKey = async () => {
+	return await key.modules.privateKeyModule.setPrivateKey('ed25519');
+};
+
+export const getAllPrivateKeys = async () => {
+	return await key.modules.privateKeyModule.getPrivateKeys();
 };

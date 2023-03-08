@@ -1,15 +1,24 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Text, TouchableOpacity, View } from '@walless/ui';
 
 import CollectiblesView from './CollectiblesView';
 import Header from './Header';
 import TokensView from './TokensView';
 
-const SendTokenHome = () => {
+interface Props {
+	handleCloseModal: () => void;
+}
+
+const SendTokenHome: FC<Props> = ({ handleCloseModal }) => {
 	const [isTokensTab, setIsTokensTab] = useState(true);
 	return (
 		<>
-			<Header title="Send" returnLink="/send-token" className="mt-5" />
+			<Header
+				title="Send"
+				returnLink="/send-token"
+				handleCloseModal={handleCloseModal}
+				className="mt-5"
+			/>
 
 			<View className="flex flex-row gap-3">
 				<Text

@@ -17,4 +17,7 @@ export const encryptKeyActions = {
 	deletePasscode: (index: number) => {
 		encryptKey.passcode = encryptKey.passcode.slice(0, index);
 	},
+	resetPasscode: () => {
+		encryptKey.passcode = '';
+	},
 };

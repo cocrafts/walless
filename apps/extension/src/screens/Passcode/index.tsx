@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
+import { TouchableWithoutFeedback } from 'react-native';
 import { Button, Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import { useNavigate, useSnapshot } from 'utils/hook';
-import { encryptKey } from 'utils/state/encryptKey';
+import { encryptKey, encryptKeyActions } from 'utils/state/encryptKey';
 import { key } from 'utils/tkey';
 import { initPasscode } from 'utils/w3a-v3';
 
 import PasscodeInput from './Input';
 import Warning from './Warning';
 
-const logoSize = 120;
+const logoSize = 80;
 
 export const Passcode: React.FC = () => {
 	const navigate = useNavigate();
@@ -61,22 +62,35 @@ export const Passcode: React.FC = () => {
 		setIsPasscodeIncorrect(false);
 	};
 
+	const onCancelPress = () => {
+		encryptKeyActions.resetPasscode();
+		setConfirmPasscode('');
+		setIsPasscodeIncorrect(false);
+		setIsConfirmPhase(!isConfirmPhase);
+	};
+
 	return (
-		<View className="w-full px-10 py-8 items-center">
-			<Warning
-				isConfirmPhase={isConfirmPhase}
-				isPasscodeIncorrect={isPasscodeIncorrect}
-				handleCloseWarning={handleCloseWarning}
-			/>
+		<View className="px-16 py-8 justify-start items-center max-w-[410px] max-h-[600px] flex-1 bg-[color:#011726]">
 			<Image
 				source={resources.app.icon}
 				resizeMode="contain"
 				style={{ width: logoSize, height: logoSize }}
 			/>
-			<View className="mt-20 items-center">
-				<Text className="text-2xl">{heading}</Text>
+			<Warning
+				isConfirmPhase={isConfirmPhase}
+				isPasscodeIncorrect={isPasscodeIncorrect}
+				handleCloseWarning={handleCloseWarning}
+			/>
+			<View className="items-center">
+				<Text
+					className={`mt-7 text-xl text-center ${
+						isConfirmPhase && 'mb-[68px] w-full'
+					}`}
+				>
+					{heading}
+				</Text>
 				{!isConfirmPhase && (
-					<Text className="text-center text-light-gray font-light text-xs mt-2">
+					<Text className="text-center text-[color:#587A90] font-light text-xs mt-2 mb-7">
 						By setting passcode/password, your account will be more secured to
 						external threats.
 					</Text>
@@ -89,11 +103,19 @@ export const Passcode: React.FC = () => {
 					handleWrongInput={handleWrongInput}
 				/>
 				<Button
-					className="w-full mt-8 py-3 px-2 rounded-full bg-gradient-to-r from-coal-start to-coal-end"
+					className={`w-[282px] mt-12 py-3 px-2 rounded-lg bg-gradient-to-r from-[color:#1BA0DA] to-[color:#8FC5BE] ${
+						!isPasscodeValid &&
+						'to-[color:#C1C1C1] from-[color:#717272] opacity-20'
+					}`}
 					title={buttonTitle}
 					disabled={!isPasscodeValid}
 					onPress={handleButtonPress}
 				/>
+				{isConfirmPhase && (
+					<TouchableWithoutFeedback onPress={onCancelPress}>
+						<Text className="text-[color:#87E5E4] mt-2">Cancel</Text>
+					</TouchableWithoutFeedback>
+				)}
 			</View>
 		</View>
 	);

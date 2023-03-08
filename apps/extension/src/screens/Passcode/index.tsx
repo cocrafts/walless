@@ -61,6 +61,13 @@ export const Passcode: React.FC = () => {
 		setIsPasscodeIncorrect(false);
 	};
 
+	const onCancelPress = () => {
+		encryptKeyActions.resetPasscode();
+		setConfirmPasscode('');
+		setIsPasscodeIncorrect(false);
+		setIsConfirmPhase(!isConfirmPhase);
+	};
+
 	return (
 		<View className="w-full px-10 py-8 items-center">
 			<Warning
@@ -94,6 +101,11 @@ export const Passcode: React.FC = () => {
 					disabled={!isPasscodeValid}
 					onPress={handleButtonPress}
 				/>
+				{isConfirmPhase && (
+					<TouchableWithoutFeedback onPress={onCancelPress}>
+						<Text className="text-[color:#87E5E4] mt-2">Cancel</Text>
+					</TouchableWithoutFeedback>
+				)}
 			</View>
 		</View>
 	);

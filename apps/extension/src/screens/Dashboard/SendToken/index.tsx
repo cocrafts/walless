@@ -1,11 +1,22 @@
-import { Outlet } from 'react-router-dom';
+import React from 'react';
 import { View } from '@walless/ui';
+import { modalActions, ModalConfigs } from 'utils/state/modal';
 
-const SendToken = () => {
+import SendTokenHome from './SendTokenHome';
+
+interface Props {
+	config: ModalConfigs;
+}
+
+const SendToken: React.FC<Props> = ({ config }) => {
+	const { id } = config;
+
+	const handleCloseModal = () => modalActions.close(id);
+
 	return (
-		<View className="h-screen w-full bg-[#1B415A] pt-5">
-			<View className="h-full bg-gradient-to-b from-[#00131F] to-[#112C3F] rounded-lg flex items-center gap-5 px-4">
-				<Outlet />
+		<View className="h-full w-screen">
+			<View className="h-full bg-gradient-to-b from-[#00131F] to-[#112C3F] rounded-t-lg items-center gap-5 px-4">
+				<SendTokenHome handleCloseModal={handleCloseModal} />
 			</View>
 		</View>
 	);

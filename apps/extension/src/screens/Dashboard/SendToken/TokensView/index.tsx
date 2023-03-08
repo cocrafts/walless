@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InformationIcon, Text, View } from '@walless/ui';
 
-import ContinueButton from '../ContinueButton';
+import ConfirmButton from '../ConfirmButton';
 
 import Dropdown from './Dropdown';
 import DropdownItem from './DropdownItem';
@@ -127,8 +127,8 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 				</View>
 			</View>
 
-			<ContinueButton
-				isAbleToContinue={isAbleToContinue}
+			<ConfirmButton
+				disable={isAbleToContinue}
 				onPress={() => navigate('/send-token/confirm')}
 			/>
 		</View>

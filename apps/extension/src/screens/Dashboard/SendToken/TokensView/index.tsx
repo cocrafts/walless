@@ -72,8 +72,10 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 		amount !== '';
 
 	return (
-		<View className="w-full h-full justify-between">
-			<View className={`flex items-center w-full gap-3 px-3 ${className}`}>
+		<View
+			className={`w-full rounded-t-[20px] flex justify-between pb-5 ${className}`}
+		>
+			<View className={`flex items-center w-full gap-3`}>
 				<Dropdown
 					leftNode={
 						selectedToken ? (
@@ -109,10 +111,16 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 				<Input title="Token amount" onTextChange={setAmount} maxValue="999" />
 
 				<View className="h-[89px] w-full rounded-xl bg-gradient-to-b from-[#1B415A] to=[#112C3F] p-[1px]">
-					<View className="w-full h-full bg-[#00131F] rounded-xl flex flex-row divide-x divide-[#1C3A4E]">
-						<View className="h-full w-full flex-shrink-[2] items-end justify-center pr-4">
+					<View className="w-full h-full bg-[#00131F] rounded-xl flex flex-row">
+						<View className="h-full w-full flex-shrink-[2] items-end justify-center pr-4 border-r border-[#1C3A4E]">
 							<View className="flex flex-row justify-center items-center gap-1">
-								<InformationIcon size={8} color="#587A90" />
+								<View className="group">
+									<Text className="absolute z-auto -left-4 -top-20 bg-[#066996] p-3 w-[363px] rounded-lg invisible transition group-hover:visible">
+										The difference between the market price and estimated price
+										based on your trade size.
+									</Text>
+									<InformationIcon size={8} color="#587A90" />
+								</View>
 								<Text className="text-[#587A90] text-xs">Network Fee</Text>
 							</View>
 							<Text className="text-[#26A3D7] text-xs">~ 0 USD</Text>
@@ -128,7 +136,7 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 			</View>
 
 			<ConfirmButton
-				disable={isAbleToContinue}
+				disable={!isAbleToContinue}
 				onPress={() => navigate('/send-token/confirm')}
 			/>
 		</View>

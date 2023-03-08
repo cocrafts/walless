@@ -10,10 +10,10 @@ interface Props {
 const ConfirmButton: FC<Props> = ({ className, disable, onPress }) => {
 	return (
 		<TouchableOpacity
-			className={`h-12 mx-6 bg-gradient-to-r rounded-lg flex justify-center items-center ${
+			className={`h-12 bg-gradient-to-r rounded-lg flex justify-center items-center ${
 				disable
-					? 'from-[#1FA1D9] to-[#72BBC4]'
-					: 'from-[#C1C1C133] to-[#71727233]'
+					? 'from-[#C1C1C133] to-[#71727233]'
+					: 'from-[#1FA1D9] to-[#72BBC4]'
 			} ${className}`}
 			disabled={disable}
 			onPress={onPress}

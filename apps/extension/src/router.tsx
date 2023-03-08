@@ -4,6 +4,8 @@ import Explore from 'screens/Dashboard/Explore';
 import Profile from 'screens/Dashboard/Profile';
 import ProjectLayouts from 'screens/Dashboard/ProjectLayouts';
 import SendToken from 'screens/Dashboard/SendToken';
+import ConfirmTransaction from 'screens/Dashboard/SendToken/ConfirmTransaction';
+import SendTokenHome from 'screens/Dashboard/SendToken/SendTokenHome';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
 import { layoutProxy } from 'utils/state/layout';
@@ -22,9 +24,19 @@ export const router = createHashRouter([
 				path: '/explore',
 				element: <Explore />,
 			},
+		],
+	},
+	{
+		path: '/send-token',
+		element: <SendToken />,
+		children: [
 			{
-				path: '/send-token',
-				element: <SendToken />,
+				path: '',
+				element: <SendTokenHome />,
+			},
+			{
+				path: 'confirm-token/:id',
+				element: <ConfirmTransaction />,
 			},
 			{
 				path: '/layouts/:layoutId',

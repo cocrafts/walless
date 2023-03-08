@@ -138,6 +138,7 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 			</View>
 
 			<ConfirmButton
+				text="Continue"
 				disable={!isAbleToContinue}
 				onPress={() => navigate(`/send-token/confirm-token/${transactionId}}`)}
 			/>

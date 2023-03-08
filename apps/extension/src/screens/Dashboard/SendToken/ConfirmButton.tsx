@@ -3,11 +3,12 @@ import { Text, TouchableOpacity } from '@walless/ui';
 
 interface Props {
 	className?: string;
+	text: string;
 	disable: boolean;
 	onPress?: () => void;
 }
 
-const ConfirmButton: FC<Props> = ({ className, disable, onPress }) => {
+const ConfirmButton: FC<Props> = ({ className, text, disable, onPress }) => {
 	return (
 		<TouchableOpacity
 			className={`h-12 bg-gradient-to-r rounded-lg flex justify-center items-center ${
@@ -21,7 +22,7 @@ const ConfirmButton: FC<Props> = ({ className, disable, onPress }) => {
 			<Text
 				className={`font-medium ${disable ? 'text-white' : 'text-[#587A90]'}`}
 			>
-				Continue
+				{text}
 			</Text>
 		</TouchableOpacity>
 	);

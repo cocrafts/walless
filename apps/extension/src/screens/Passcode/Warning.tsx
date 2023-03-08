@@ -11,13 +11,13 @@ import { TimesIcon } from '@walless/ui/icons';
 import { useSharedValue } from 'utils/hook';
 
 interface Props {
-	isConfirmPhase: boolean;
+	isConfirmPhase?: boolean;
 	isPasscodeIncorrect: boolean;
 	handleCloseWarning: () => void;
 }
 
 export const Warning: React.FC<Props> = ({
-	isConfirmPhase,
+	isConfirmPhase = true,
 	isPasscodeIncorrect,
 	handleCloseWarning,
 }) => {

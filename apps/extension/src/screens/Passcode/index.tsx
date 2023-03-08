@@ -51,7 +51,9 @@ export const Passcode: React.FC = () => {
 	const handleConfirmPasscode = (value?: string | number) => {
 		if (typeof value === 'string') {
 			setConfirmPasscode(confirmPasscode + value);
-		} else setConfirmPasscode(confirmPasscode.slice(0, value));
+		} else {
+			setConfirmPasscode(confirmPasscode.slice(0, value));
+		}
 	};
 
 	const handleWrongInput = (err: string) => {

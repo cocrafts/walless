@@ -19,7 +19,7 @@ export const customAuthArgs: CustomAuthArgs = {
 	popupFeatures: 'width=380,height=600',
 };
 
-type InternalModules = ModuleMap & {
+export type InternalModules = ModuleMap & {
 	webStorage?: WebStorageModule;
 	chromeStorage?: ChromeStorageModule;
 	securityQuestions: SecurityQuestionsModule;
@@ -39,7 +39,7 @@ const modules: InternalModules = {
 	] as never),
 };
 
-if (window.chrome?.runtime) {
+if (global.chrome?.runtime) {
 	modules.chromeStorage = new ChromeStorageModule();
 } else {
 	modules.webStorage = new WebStorageModule();

@@ -14,6 +14,11 @@ const injectEntries = (config) => {
 		filename: 'background.js',
 	};
 
+	config.entry.kernel = {
+		import: 'scripts/kernel/index.ts',
+		filename: 'kernel.js',
+	};
+
 	return config;
 };
 

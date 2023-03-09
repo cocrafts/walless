@@ -2,7 +2,7 @@ import { Dexie, Table } from 'dexie';
 
 export interface SettingRecord {
 	id?: number;
-	step: string;
+	version: string;
 }
 
 export interface KeyRecord {

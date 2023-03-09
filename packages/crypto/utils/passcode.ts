@@ -1,10 +1,11 @@
+import { EncryptedWithPasscode } from '@walless/core';
+
 import {
 	getDeriveBits,
 	getDeriveKey,
 	getMaterialKey,
 	getRandomBytes,
 } from './helper';
-import { EncryptedWithPasscode } from './types';
 
 export const encryptWithPasscode = async (
 	passcode: string,

@@ -1,4 +1,5 @@
 import { createHashRouter, redirect } from 'react-router-dom';
+import { ConnectionRequest } from 'screens/ConnectionRequest';
 import DashboardScreen from 'screens/Dashboard';
 import Explore from 'screens/Dashboard/Explore';
 import Profile from 'screens/Dashboard/Profile';
@@ -36,6 +37,10 @@ export const router = createHashRouter([
 				},
 			},
 		],
+	},
+	{
+		path: '/connection-request',
+		element: <ConnectionRequest />,
 	},
 	{
 		path: '/login',

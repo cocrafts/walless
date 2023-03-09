@@ -11,3 +11,8 @@ export const resources = {
 		github: { uri: '/img/icon-github.png' },
 	},
 };
+export const requestType = {
+	connectionRequest: 'Connection request',
+	signatureRequest: 'Signature request',
+	layoutRequest: 'Layout request',
+};

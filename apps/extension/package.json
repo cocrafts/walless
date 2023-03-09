@@ -22,6 +22,7 @@
 		"@walless/crypto": "*",
 		"@walless/messaging": "*",
 		"@walless/network": "*",
+		"@walless/storage": "*",
 		"@walless/ui": "*",
 		"@web3auth/ethereum-provider": "^4.6.0",
 		"@web3auth/solana-provider": "^4.6.0",

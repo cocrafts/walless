@@ -10,9 +10,9 @@ interface RequestTypeProps {
 
 const RequestBox: FC<RequestTypeProps> = ({ typeRequest, rules }) => {
 	return (
-		<View className="w-full">
+		<View className="w-[80%] mx-auto">
 			{typeRequest == requestType.connectionRequest ? (
-				<View className="mx-[23px] bg-[#01131F] rounded-[8px] border border-solid border-[#01131F] px-[8px] py-[5px] mb-[40px]">
+				<View className="bg-[#01131F] rounded-[8px] border border-solid border-[#01131F] px-4 py-[5px] mb-[40px]">
 					<Text
 						style={{ color: '#587A90' }}
 						className="px-[20px] text-center pb-[10px] weight-[400] text-[12px]"
@@ -38,32 +38,43 @@ const RequestBox: FC<RequestTypeProps> = ({ typeRequest, rules }) => {
 					})}
 				</View>
 			) : typeRequest == requestType.signatureRequest ? (
-				<View className="mx-[23px] bg-[#01131F] rounded-[8px] border border-solid border-[#01131F] px-[19px] py-[10px] mb-[40px]">
+				<View className="bg-[#01131F] rounded-[8px] border border-solid border-[#01131F] px-[19px] py-[10px] mb-10">
 					<Text
 						style={{ color: '#587A90' }}
 						className="px-[20px] text-center pb-[10px] weight-[400] text-[12px]"
 					>
 						Your signature has been requested
 					</Text>
-					{rules?.map((item, index) => {
-						return (
-							<View
-								key={`signatureRequest-${index}`}
-								className="mb-[5px] flex flex-row gap-2 items-center"
-							>
-								<Image
-									className="w-[14px] h-[14px]"
-									source={{ uri: item.icon }}
-								/>
-								<Text className="weight-[400] text-[14px]">
-									{item.description}
-								</Text>
-							</View>
-						);
-					})}
+					<View className="bg-[#88c3bf1a] rounded-[10px] py-2 px-3">
+						<View className="flex flex-row align-items-center justify-between w-full mb-1">
+							<Text className="text-[12px]">Message</Text>
+							<Image
+								className="w-[12px] h-[12px]"
+								source={{ uri: '/img/request-screen/exclamation_image.png' }}
+							/>
+						</View>
+						<View className="mb-3 bg-[#2A4C63]  w-full h-[1px] mx-auto "></View>
+						<Text className="text-[10px]">
+							[Custom message] Sign this message to prove that you have accessed
+							to this wallet account and we’ll log you in. This won’t cost you
+							anything! [Seal code: r3092850297]
+						</Text>
+					</View>
 				</View>
 			) : (
-				<></>
+				<View className="bg-[#01131F] rounded-[8px] border border-solid border-[#01131F] px-[19px] py-[10px] mb-10">
+					<Text className="mx-auto max-w-[290px] text-center pb-[10px] weight-[400] text-[12px]">
+						Under Realm would like to add its custom layout appearance to your
+						Walless account.
+					</Text>
+					<View className="mx-auto flex flex-row items-center justify-center gap-2">
+						<Text className="text-[#1BA0DA] text-[12px]">Learn more</Text>
+						<Image
+							className="w-[10px] h-[10px]"
+							source={{ uri: '/img/request-screen/arrow_up_right.png' }}
+						/>
+					</View>
+				</View>
 			)}
 		</View>
 	);

@@ -1,7 +1,7 @@
 import Request from 'components/request';
 import { requestType } from 'utils/config';
 
-export const signatiure = () => {
+export const SignatureRequest = () => {
 	return (
 		<Request
 			type={requestType.signatureRequest}

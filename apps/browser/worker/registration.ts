@@ -7,7 +7,7 @@ export default function registerServiceWorker() {
 		workbox.addEventListener('installed', (event) => {
 			if (event.isUpdate) {
 				if (confirm('Update available. Reload now?')) {
-					window.location.reload();
+					global.location.reload();
 				}
 			}
 		});

@@ -10,6 +10,7 @@ export { BellIcon } from './Bell';
 export { CartIcon } from './Cart';
 export { ChevronDownIcon } from './ChevronDown';
 export { ChevronRightIcon } from './ChevronRight';
+export { CrossIcon } from './Cross';
 export { EyeOffIcon } from './EyeOff';
 export { EyeOnIcon } from './EyeOn';
 export { HomeIcon } from './Home';

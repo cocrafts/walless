@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TouchableOpacity, View } from '@walless/ui';
 import { Avatar, IconButton } from '@walless/ui/components';
-import { HomeIcon } from '@walless/ui/icons';
+import { CrossIcon } from '@walless/ui/icons';
 import { resources } from 'utils/config';
 import { useSnapshot } from 'utils/hook';
 import { layoutProxy } from 'utils/state/layout';
@@ -17,31 +17,36 @@ export const DashboardLayout: FC<Props> = ({
 	contentContainerClass = 'flex-1',
 }) => {
 	const navigate = useNavigate();
-	const onHomePress = () => navigate('/explore');
+	const onExplorePress = () => navigate('/explore');
 	const onAvatarPress = () => navigate('/profile');
 	const layouts = useSnapshot(layoutProxy);
 	const layoutKeys = Object.keys(layouts);
 
 	return (
 		<View className="flex-1 flex-row">
-			<View className="w-16 bg-color-7 px-2">
-				<View className="border-b border-color-3">
-					<TouchableOpacity className="items-center py-4" onPress={onHomePress}>
-						<HomeIcon size={28} />
-					</TouchableOpacity>
-				</View>
+			<View className="w-[50px] bg-color-7 px-1">
 				<View className="flex-1 items-center py-4 gap-2">
 					{layoutKeys.map((key) => (
 						<IconButton
 							key={key}
-							size={48}
+							size={36}
 							source={resources.icons.solana}
+							className="rounded-lg overflow-hidden"
 							onPress={() => navigate(`/layouts/${key}`)}
 						/>
 					))}
+					<TouchableOpacity
+						className="w-9 aspect-square border border-[color:#3B6887] rounded-lg justify-center items-center"
+						onPress={onExplorePress}
+					>
+						<CrossIcon size={15} color="#3B6887" />
+					</TouchableOpacity>
 				</View>
-				<View className="justify-end pb-5">
-					<TouchableOpacity className="w-full h-12" onPress={onAvatarPress}>
+				<View className="justify-end items-center pb-5">
+					<TouchableOpacity
+						className="w-9 aspect-square border border-[color:#3B6887] rounded-lg"
+						onPress={onAvatarPress}
+					>
 						<Avatar />
 					</TouchableOpacity>
 				</View>

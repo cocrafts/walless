@@ -1,4 +1,4 @@
-import { isDevelopment } from './config';
+import { registerMessageHandlers } from './listener';
 
 interface ServiceWorkerRegistrationOptions {
 	scope?: string;
@@ -27,15 +27,12 @@ export const registerServiceWorker = (
 	}
 };
 
-export const configurePlatformDynamics = async (): Promise<void> => {
-	if (global.chrome?.runtime) {
-		require('../../scripts/popup');
+export const injectWorker = async (): Promise<void> => {
+	await registerMessageHandlers();
+
+	if (__DEV__) {
+		require('../../../scripts/kernel');
 	} else {
-		if (isDevelopment) {
-			require('../../scripts/kernel');
-		} else {
-			await registerServiceWorker('/kernel.js', { scope: '/' });
-			console.log('worker loaded!!');
-		}
+		await registerServiceWorker('/kernel.js', { scope: '/' });
 	}
 };

@@ -1,11 +1,9 @@
-import { FC, Fragment, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import {
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import { useNavigate } from 'react-router-dom';
-import { TorusLoginResponse } from '@toruslabs/customauth';
 import {
 	AnimatedImage,
 	Button,
@@ -15,15 +13,7 @@ import {
 	View,
 } from '@walless/ui';
 import { resources } from 'utils/config';
-import { getAllPrivateKey } from 'utils/indexDB';
-import {
-	getAllPrivateKeys,
-	googleSignIn,
-	initAfterLogin,
-	inputPasscode,
-	reconstructKey,
-	w3aSignal,
-} from 'utils/w3a-v3';
+import { appActions } from 'utils/state/app';
 
 import Footer from './Footer';
 import LoginOption from './LoginOption';
@@ -31,47 +21,12 @@ import LoginOption from './LoginOption';
 const logoSize = 80;
 
 export const LoginScreen: FC = () => {
-	const navigate = useNavigate();
-	const [login, setLogin] = useState<TorusLoginResponse>();
 	const opacity = useSharedValue(0);
 	const logoStyle = useAnimatedStyle(() => ({
 		width: logoSize,
 		height: logoSize,
 		opacity: opacity.value,
 	}));
-
-	const toggleLogin = async () => {
-		const response = await googleSignIn();
-		const w3aStatus: w3aSignal = await initAfterLogin();
-		console.log(w3aStatus);
-		console.log('Hello world');
-		if (w3aStatus == w3aSignal.RECONSTRUCT_KEY_SUCCESS) {
-			navigate('/explore');
-		} else if (w3aStatus == w3aSignal.REQUIRE_INIT_PASSCODE) {
-			navigate('/passcode');
-		} else if (w3aStatus == w3aSignal.REQUIRE_INPUT_PASSCODE) {
-			const inputPasscodeStatus = await inputPasscode('123456');
-			if (inputPasscodeStatus == w3aSignal.WRONG_PASSCODE) {
-				console.log('Wrong passcode');
-			} else if (inputPasscodeStatus == w3aSignal.INPUT_PASSCODE_SUCCESS) {
-				console.log('Success');
-				const reconstructKeyStatus = await reconstructKey();
-				console.log(reconstructKeyStatus);
-				console.log(await getAllPrivateKeys());
-			}
-		} else {
-			console.log(w3aStatus);
-		}
-		setLogin(response);
-	};
-
-	useEffect(() => {
-		const func = async () => {
-			console.log(await getAllPrivateKey());
-		};
-
-		func();
-	}, []);
 
 	useEffect(() => {
 		opacity.value = withTiming(1, { duration: 1000 });
@@ -94,12 +49,12 @@ export const LoginScreen: FC = () => {
 				<View className="flex-row">
 					{loginButtons.map(({ id, iconSrc }) => {
 						return (
-							<LoginOption key={id} onPress={toggleLogin}>
+							<LoginOption key={id} onPress={appActions.signInGoogle}>
 								<Image source={iconSrc} className="w-[27px] h-[27px]" />
 							</LoginOption>
 						);
 					})}
-					<LoginOption onPress={toggleLogin}>
+					<LoginOption onPress={appActions.signInGoogle}>
 						<ChevronDownIcon size={28} color="white" />
 					</LoginOption>
 				</View>
@@ -117,18 +72,6 @@ export const LoginScreen: FC = () => {
 					title="Create or Import"
 					titleClass="text-base text-white text-center"
 				/>
-
-				{login?.pubKey && (
-					<Fragment>
-						<Text className="text-white text-center mt-5">
-							{login?.userInfo?.email}
-						</Text>
-						<Text className="text-white text-xs text-center mt-2">
-							{login?.publicAddress}
-						</Text>
-					</Fragment>
-				)}
-
 				<Footer className="mt-7" />
 			</View>
 		</View>

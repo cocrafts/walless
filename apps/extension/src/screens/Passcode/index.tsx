@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import { Button, Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
-import { useNavigate, useSnapshot } from 'utils/hook';
+import { useSnapshot } from 'utils/hook';
+import { appActions } from 'utils/state/app';
 import { encryptKey, encryptKeyActions } from 'utils/state/encryptKey';
-import { key } from 'utils/w3a/internal';
-import { initPasscode } from 'utils/w3a-v3';
 
 import PasscodeInput from './Input';
 import Warning from './Warning';
@@ -13,7 +12,6 @@ import Warning from './Warning';
 const logoSize = 80;
 
 export const Passcode: React.FC = () => {
-	const navigate = useNavigate();
 	const [isConfirmPhase, setIsConfirmPhase] = useState(false);
 	const [isPasscodeValid, setIsPasscodeValid] = useState(false);
 	const [confirmPasscode, setConfirmPasscode] = useState('');
@@ -33,12 +31,7 @@ export const Passcode: React.FC = () => {
 	const handleButtonPress = async () => {
 		if (isConfirmPhase) {
 			if (confirmPasscode === passcode) {
-				console.log('Init passcode');
-				console.log(key.privKey);
-				const status = await initPasscode(passcode);
-				console.log(key.getKeyDetails());
-				console.log(status);
-				navigate('/explore');
+				await appActions.confirmPasscode(passcode);
 			} else {
 				setIsPasscodeIncorrect(true);
 				setConfirmPasscode('');

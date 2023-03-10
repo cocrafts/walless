@@ -2,9 +2,8 @@ import { FC } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import SplashScreen from 'components/Splash';
 import { useSnapshot } from 'utils/hook';
+import { hashRouter } from 'utils/router';
 import { appState } from 'utils/state/app';
-
-import { router } from './router';
 
 export const AppContainer: FC = () => {
 	const app = useSnapshot(appState);
@@ -13,7 +12,7 @@ export const AppContainer: FC = () => {
 		return <SplashScreen />;
 	}
 
-	return <RouterProvider router={router} />;
+	return <RouterProvider router={hashRouter} />;
 };
 
 export default AppContainer;

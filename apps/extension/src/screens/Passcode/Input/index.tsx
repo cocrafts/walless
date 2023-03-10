@@ -99,7 +99,7 @@ export const PasscodeInput: React.FC<Props> = ({
 	}, [focusedIndex]);
 
 	useEffect(() => {
-		if (isConfirmPhase && confirmPasscode.length === 0) {
+		if (confirmPasscode.length === 0) {
 			setFocusedIndex(0);
 		}
 	}, [isConfirmPhase, confirmPasscode]);

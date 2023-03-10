@@ -22,6 +22,9 @@
 			],
 			"utils/*": [
 				"./src/utils/*"
+			],
+			"kernel/*": [
+				"./src/kernel/*"
 			]
 		}
 	}

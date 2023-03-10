@@ -12,7 +12,7 @@ import { SignatureRequest } from 'screens/SignatureRequest';
 import { layoutProxy } from 'utils/state/layout';
 import { snapshot } from 'valtio';
 
-export const router = createHashRouter([
+export const hashRouter = createHashRouter([
 	{
 		path: '/',
 		element: <DashboardScreen />,

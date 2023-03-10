@@ -1,12 +1,12 @@
 import { sendEncryptedMessage, UniversalBroadcast } from '@walless/messaging';
 import { SettingRecord } from '@walless/storage';
 
-import { getEncryptionKey, RegisteredChannel } from './encryption';
+import { encryptionKeyVault } from './storage';
 
-type Notifier = (channelId: RegisteredChannel, payload) => Promise<void>;
+type Notifier = (channelId: string, payload) => Promise<void>;
 
 const notifyFactory = (
-	makeChannel: (name: RegisteredChannel) => UniversalBroadcast,
+	makeChannel: (name: string) => UniversalBroadcast,
 ): Notifier => {
 	const channels = {
 		ui: makeChannel('ui'),
@@ -14,7 +14,7 @@ const notifyFactory = (
 	};
 
 	return async (channelId, payload) => {
-		const key = await getEncryptionKey(channelId);
+		const key = await encryptionKeyVault.get(channelId);
 		await sendEncryptedMessage(payload, key, channels[channelId]);
 	};
 };

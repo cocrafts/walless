@@ -10,6 +10,7 @@ module.exports = {
 					stacks: './src/stacks',
 					screens: './src/screens',
 					utils: './src/utils',
+					kernel: './src/kernel',
 				},
 			},
 		],

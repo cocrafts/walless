@@ -3,7 +3,7 @@ import { useLoaderData } from 'react-router-dom';
 import { View } from '@walless/ui';
 import { LayoutItem } from 'utils/state/layout/type';
 
-export const ProjectLayouts: React.FC = () => {
+export const LayoutDisplay: React.FC = () => {
 	const { projectLayout } = useLoaderData() as LayoutItem;
 	const Component = projectLayout;
 
@@ -14,4 +14,4 @@ export const ProjectLayouts: React.FC = () => {
 	);
 };
 
-export default ProjectLayouts;
+export default LayoutDisplay;

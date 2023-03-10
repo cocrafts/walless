@@ -18,4 +18,5 @@ export { InformationIcon } from './Information';
 export { SearchIcon } from './Search';
 export { SettingIcon } from './Setting';
 export { SwapIcon } from './Swap';
+export { ThreeDots } from './ThreeDots';
 export { TimesIcon } from './Times';

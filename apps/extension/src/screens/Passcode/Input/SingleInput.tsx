@@ -42,7 +42,7 @@ export const SingleInput: React.FC<Props> = ({
 	}, [focusedIndex]);
 
 	useEffect(() => {
-		if (isConfirmPhase && confirmPasscode.length === 0) {
+		if (confirmPasscode.length === 0) {
 			ref.current?.clear();
 		}
 	}, [isConfirmPhase, confirmPasscode]);

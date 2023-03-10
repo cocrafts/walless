@@ -1,39 +1,53 @@
-import { TorusLoginResponse } from '@toruslabs/customauth';
+import { SubVerifierDetails } from '@toruslabs/customauth';
 import { UserProfile } from '@walless/storage';
 import { hashRouter } from 'utils/router';
-import { key } from 'utils/w3a';
+import {
+	configureSecurityQuestionShare,
+	createAndStoreDeviceShare,
+	importDeviceShare,
+	key,
+} from 'utils/w3a';
 
 import { appState } from './internal';
-
-interface InternalCache {
-	loginResponse?: TorusLoginResponse;
-}
-
-const cache: InternalCache = {};
 
 export const setProfile = (profile: UserProfile) => {
 	appState.profile = profile;
 };
 
 export const signInGoogle = async () => {
-	appState.authLoading = true;
-
-	if (!key.serviceProvider.directWeb.isInitialized) {
-		await key.serviceProvider.init({ skipSw: true });
-	}
-
-	cache.loginResponse = await key.serviceProvider.triggerLogin({
+	const loginParams: SubVerifierDetails = {
 		typeOfLogin: 'google',
-		verifier: 'stormgate-w3a-google',
-		clientId:
-			'995579267000-3lo2r1psl6ovg5fek5h2329qtjl5u8fp.apps.googleusercontent.com',
-	});
+		verifier: 'walless-labs-google',
+		clientId: GOOGLE_CLIENT_ID,
+	};
 
-	appState.authLoading = false;
+	try {
+		appState.authLoading = true;
 
-	await hashRouter.navigate('/passcode');
+		await key.serviceProvider.init({ skipSw: true });
+		await key.serviceProvider.triggerLogin(loginParams);
+		await key.initialize();
+		const { requiredShares, totalShares } = await key.getKeyDetails();
+		const isFirstSignIn = totalShares == 2 && requiredShares <= 0;
+
+		if (isFirstSignIn) {
+			await createAndStoreDeviceShare();
+			await hashRouter.navigate('/passcode');
+		} else {
+			try {
+				await importDeviceShare();
+				await hashRouter.navigate('/');
+			} catch (e) {
+				console.log(e);
+				await hashRouter.navigate('/passcode');
+			}
+		}
+	} finally {
+		appState.authLoading = false;
+	}
 };
 
 export const confirmPasscode = async (passcode: string) => {
-	console.log(passcode, '<-- passcode is');
+	await configureSecurityQuestionShare(passcode);
+	await hashRouter.navigate('/home');
 };

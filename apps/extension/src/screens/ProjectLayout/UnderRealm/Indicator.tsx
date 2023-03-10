@@ -18,7 +18,7 @@ export const Indicator: React.FC<Props> = ({
 			onPress={() => onScrollPress(index)}
 		>
 			<View
-				className={`h-full bg-white opacity-30 ${isActive && 'opacity-100'}`}
+				className={`h-full bg-white ${isActive ? 'opacity-100' : 'opacity-30'}`}
 			/>
 		</TouchableOpacity>
 	);

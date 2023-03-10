@@ -2,8 +2,8 @@ import { createHashRouter, redirect } from 'react-router-dom';
 import { ConnectionRequest } from 'screens/ConnectionRequest';
 import DashboardScreen from 'screens/Dashboard';
 import Explore from 'screens/Dashboard/Explore';
+import LayoutDisplay from 'screens/Dashboard/LayoutDisplay';
 import Profile from 'screens/Dashboard/Profile';
-import ProjectLayouts from 'screens/Dashboard/ProjectLayouts';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
 import EnterPasscode from 'screens/Passcode/EnterPasscode';
@@ -25,7 +25,7 @@ export const router = createHashRouter([
 			},
 			{
 				path: '/layouts/:layoutId',
-				element: <ProjectLayouts />,
+				element: <LayoutDisplay />,
 				loader: async ({ params }) => {
 					const { layoutId } = params;
 					const layout = snapshot(layoutProxy);

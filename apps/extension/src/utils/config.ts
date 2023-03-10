@@ -16,5 +16,3 @@ export const requestType = {
 	signatureRequest: 'Signature request',
 	layoutRequest: 'Layout request',
 };
-
-export const isDevelopment = __DEV__;

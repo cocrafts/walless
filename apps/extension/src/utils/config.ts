@@ -10,6 +10,13 @@ export const resources = {
 		solana: { uri: '/img/icon-solana.png' },
 		github: { uri: '/img/icon-github.png' },
 	},
+	underRealm: {
+		banner: { uri: '/img/under-realm/banner.png' },
+		tokenCardBg: { uri: '/img/under-realm/token-card-bg.png' },
+		urg: { uri: '/img/under-realm/urg.png' },
+		card1: { uri: '/img/under-realm/card-1.png' },
+		card2: { uri: '/img/under-realm/card-2.png' },
+	},
 };
 export const requestType = {
 	connectionRequest: 'Connection request',

@@ -1,5 +1,6 @@
 import {
 	Image as BareImage,
+	ImageBackground as BareImageBackground,
 	Text as BareText,
 	TextInput as BareTextInput,
 	TouchableOpacity as BareTouchableOpacity,
@@ -15,6 +16,7 @@ export const Image = styled(BareImage);
 export const TouchableOpacity = styled(BareTouchableOpacity);
 export const Svg = styled(BareSvg);
 export const TextInput = styled(BareTextInput, 'font-poppins');
+export const ImageBackground = styled(BareImageBackground);
 
 export const AnimatedView = Animated.createAnimatedComponent(View);
 export const AnimatedTouch = Animated.createAnimatedComponent(TouchableOpacity);

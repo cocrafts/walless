@@ -1,19 +1,18 @@
-/* eslint-disable */
+import { decryptFromString, encryptToString } from '@walless/crypto';
+
 import {
-	decryptFromString,
-	encryptToString,
-	restructCryptoKey,
-} from '@walless/crypto';
+	EncryptedMessage,
+	MessagePayload,
+	ResponsePayload,
+	UniversalBroadcast,
+} from './types';
 
-import { registerRequest } from './engine';
-import { EncryptedMessage, MessagePayload, ResponsePayload } from './types';
-
-export const sendMessage = async <T extends MessagePayload>(
+export const sendEncryptedMessage = async <T extends MessagePayload>(
 	payload: T,
-	from: chrome.runtime.Port,
-) => {
+	key: CryptoKey,
+	from: UniversalBroadcast,
+): Promise<T> => {
 	if (!payload.id) payload.id = crypto.randomUUID();
-	const key = await restructCryptoKey(`key@${from.name}`);
 	const iv = crypto.getRandomValues(new Uint8Array(12));
 	const data = JSON.stringify(payload);
 	const ciphered = await encryptToString(data, key, iv);
@@ -24,23 +23,23 @@ export const sendMessage = async <T extends MessagePayload>(
 	return payload;
 };
 
-export const sendRequest = async <
+export const sendEncryptedRequest = async <
 	T extends MessagePayload,
 	R extends ResponsePayload,
 >(
 	payload: T,
-	from: chrome.runtime.Port,
+	key: CryptoKey,
+	from: UniversalBroadcast,
 ): Promise<R> => {
-	return new Promise((resolve, reject) => {
-		//
+	return new Promise(() => {
+		console.log(payload, from, key);
 	});
 };
 
 export const decryptMessage = async <T extends MessagePayload>(
 	message: EncryptedMessage,
-	sender: chrome.runtime.Port,
+	key: CryptoKey,
 ): Promise<T> => {
-	const key = await restructCryptoKey(`key@${sender.name}`);
 	const iv = new Uint8Array(Buffer.from(message.iv, 'base64'));
 	const decrypted = await decryptFromString(message.ciphered, key, iv);
 

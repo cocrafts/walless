@@ -1,6 +1,7 @@
 export enum Channels {
 	'kernel' = 'kernel',
 	'background' = 'background',
+	'ui' = 'ui',
 	'popup' = 'popup',
 	'content' = 'content',
 }
@@ -24,3 +25,5 @@ export interface RequestMetadata {
 	resolve: (payload: unknown) => void;
 	reject: (error: Error) => void;
 }
+
+export type UniversalBroadcast = chrome.runtime.Port | BroadcastChannel;

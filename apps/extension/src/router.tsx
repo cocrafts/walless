@@ -4,9 +4,11 @@ import DashboardScreen from 'screens/Dashboard';
 import Explore from 'screens/Dashboard/Explore';
 import LayoutDisplay from 'screens/Dashboard/LayoutDisplay';
 import Profile from 'screens/Dashboard/Profile';
+import { LayoutRequest } from 'screens/LayoutRequest';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
 import EnterPasscode from 'screens/Passcode/EnterPasscode';
+import { SignatureRequest } from 'screens/SignatureRequest';
 import { layoutProxy } from 'utils/state/layout';
 import { snapshot } from 'valtio';
 
@@ -41,6 +43,14 @@ export const router = createHashRouter([
 	{
 		path: '/connection-request',
 		element: <ConnectionRequest />,
+	},
+	{
+		path: '/signature-request',
+		element: <SignatureRequest />,
+	},
+	{
+		path: '/layout-request',
+		element: <LayoutRequest />,
 	},
 	{
 		path: '/login',

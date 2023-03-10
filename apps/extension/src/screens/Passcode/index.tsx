@@ -4,7 +4,7 @@ import { Button, Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 import { useNavigate, useSnapshot } from 'utils/hook';
 import { encryptKey, encryptKeyActions } from 'utils/state/encryptKey';
-import { key } from 'utils/tkey';
+import { key } from 'utils/w3a/internal';
 import { initPasscode } from 'utils/w3a-v3';
 
 import PasscodeInput from './Input';

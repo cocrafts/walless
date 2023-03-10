@@ -1,7 +1,7 @@
 import { BNString } from '@tkey/common-types';
 import { TorusLoginResponse } from '@toruslabs/customauth';
 
-import { key } from './tkey';
+import { key } from './w3a';
 
 export enum w3aSignal {
 	REQUIRE_INIT_PASSCODE = 'REQUIRE_INIT_PASSCODE',
@@ -115,7 +115,7 @@ export const initAfterLogin = async () => {
 	}
 	// If storage share was found
 	try {
-		await key.modules.webStorage.inputShareFromWebStorage();
+		await key.modules.webStorage?.inputShareFromWebStorage();
 		console.log('Get from storage success');
 		await key.reconstructKey();
 		return w3aSignal.RECONSTRUCT_KEY_SUCCESS;
@@ -144,7 +144,9 @@ export const initPasscode = async (passcode: string) => {
 		const shareStore = await key.generateNewShare();
 
 		// Store share into web storage
-		await key.modules.webStorage.storeDeviceShare(shareStore.newShareStores[1]);
+		await key.modules.webStorage?.storeDeviceShare(
+			shareStore.newShareStores[1],
+		);
 
 		return w3aSignal.INIT_PASSCODE_SUCCESS;
 	} catch (e) {

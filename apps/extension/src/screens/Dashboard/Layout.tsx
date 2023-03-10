@@ -44,7 +44,7 @@ export const DashboardLayout: FC<Props> = ({
 				</View>
 				<View className="justify-end items-center pb-5">
 					<TouchableOpacity
-						className="w-9 aspect-square"
+						className="w-9 aspect-square border border-[color:#3B6887] rounded-lg"
 						onPress={onAvatarPress}
 					>
 						<Avatar />

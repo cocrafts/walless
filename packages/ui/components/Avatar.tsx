@@ -4,7 +4,7 @@ import { Text, View } from '../managed';
 
 export const Avatar: React.FC = () => {
 	return (
-		<View className="w-full h-full justify-center items-center border border-color-3 rounded-lg">
+		<View className="w-full h-full justify-center items-center">
 			<Text>A</Text>
 		</View>
 	);

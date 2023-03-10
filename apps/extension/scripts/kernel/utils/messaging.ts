@@ -1,24 +1,28 @@
-import { Channels } from '@walless/messaging';
+import { sendEncryptedMessage, UniversalBroadcast } from '@walless/messaging';
 import { SettingRecord } from '@walless/storage';
 
-export let notify: (payload) => void;
+import { getEncryptionKey, RegisteredChannel } from './encryption';
 
-export const notifySetting = (setting: SettingRecord) => {
-	notify(setting);
+type Notifier = (channelId: RegisteredChannel, payload) => Promise<void>;
+
+const notifyFactory = (
+	makeChannel: (name: RegisteredChannel) => UniversalBroadcast,
+): Notifier => {
+	const channels = {
+		ui: makeChannel('ui'),
+		kernel: makeChannel('kernel'),
+	};
+
+	return async (channelId, payload) => {
+		const key = await getEncryptionKey(channelId);
+		await sendEncryptedMessage(payload, key, channels[channelId]);
+	};
 };
 
-if (global.chrome?.runtime) {
-	const kernel = chrome.runtime.connect({ name: Channels.kernel });
+export const notify = global.chrome?.runtime
+	? notifyFactory((name) => chrome.runtime.connect({ name }))
+	: notifyFactory((name) => new BroadcastChannel(name));
 
-	notify = (payload) => {
-		kernel.postMessage('hello world from background service');
-		console.log('notify from Background', payload);
-	};
-} else {
-	const kernel = new BroadcastChannel(Channels.kernel);
-
-	notify = (payload) => {
-		kernel.postMessage('hello world from service worker!');
-		console.log('notify from service worker', payload);
-	};
-}
+export const notifySetting = (setting: SettingRecord) => {
+	return notify('ui', setting);
+};

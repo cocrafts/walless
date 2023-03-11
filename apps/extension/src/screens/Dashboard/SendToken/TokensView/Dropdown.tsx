@@ -24,7 +24,9 @@ const Dropdown: FC<DropdownProps> = ({
 	onSelect,
 }) => {
 	return (
-		<View className={`w-full ${className} group`}>
+		<View
+			className={`z-10 w-full ${className} hover:drop-shadow-[0_2px_4px_rgba(255,245,245,0.25)] group`}
+		>
 			<TouchableOpacity
 				className="h-12 bg-[#1B415A] rounded-lg flex flex-row justify-between items-center px-5"
 				activeOpacity={1}
@@ -33,7 +35,7 @@ const Dropdown: FC<DropdownProps> = ({
 				{rightNode}
 			</TouchableOpacity>
 
-			<View className="bg-[#1B415A] rounded-lg w-full absolute z-50 top-12 left-0 invisible group-hover:visible">
+			<View className="bg-[#1B415A] w-full pt-2 -mt-2 rounded-b-lg absolute z-50 top-12 left-0 invisible group-hover:visible">
 				{data.map((item) => (
 					<DropdownItemWrapper
 						key={item.id}

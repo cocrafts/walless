@@ -89,6 +89,7 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 					data={tokens}
 					activeItem={selectedToken}
 					onSelect={setSelectedToken}
+					className="z-20"
 				/>
 
 				<Dropdown

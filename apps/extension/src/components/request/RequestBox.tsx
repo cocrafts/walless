@@ -10,12 +10,12 @@ interface RequestTypeProps {
 
 const RequestBox: FC<RequestTypeProps> = ({ typeRequest, rules }) => {
 	return (
-		<View className="w-[80%] mx-auto">
+		<View className=" mx-[23px]	">
 			{typeRequest == requestType.connectionRequest ? (
 				<View className="bg-[#01131F] rounded-[8px] border border-solid border-[#01131F] px-4 py-[5px] mb-[40px]">
 					<Text
-						style={{ color: '#587A90' }}
-						className="px-[20px] text-center pb-[10px] weight-[400] text-[12px]"
+						style={{ color: 'rgba(255,255,255,0.6)' }}
+						className="px-8 text-center pb-[10px] font-[300] text-[12px]"
 					>
 						Under Realm would like to connect with your Walless account to:
 					</Text>
@@ -24,13 +24,13 @@ const RequestBox: FC<RequestTypeProps> = ({ typeRequest, rules }) => {
 						return (
 							<View
 								key={`coneectionReqeust-${index}`}
-								className="mb-[5px] flex flex-row gap-2 items-center"
+								className="mb-[5px] flex flex-row gap-2 items-center px-2"
 							>
 								<Image
 									className="w-[14px] h-[14px]"
 									source={{ uri: item.icon }}
 								/>
-								<Text className="weight-[400] text-[14px]">
+								<Text className="text-[14px] font-[300]">
 									{item.description}
 								</Text>
 							</View>
@@ -40,8 +40,8 @@ const RequestBox: FC<RequestTypeProps> = ({ typeRequest, rules }) => {
 			) : typeRequest == requestType.signatureRequest ? (
 				<View className="bg-[#01131F] rounded-[8px] border border-solid border-[#01131F] px-[19px] py-[10px] mb-10">
 					<Text
-						style={{ color: '#587A90' }}
-						className="px-[20px] text-center pb-[10px] weight-[400] text-[12px]"
+						style={{ color: 'rgba(255,255,255,0.6)' }}
+						className="px-[20px] text-center pb-[10px] font-[300] text-[12px]"
 					>
 						Your signature has been requested
 					</Text>
@@ -63,12 +63,14 @@ const RequestBox: FC<RequestTypeProps> = ({ typeRequest, rules }) => {
 				</View>
 			) : (
 				<View className="bg-[#01131F] rounded-[8px] border border-solid border-[#01131F] px-[19px] py-[10px] mb-10">
-					<Text className="mx-auto max-w-[290px] text-center pb-[10px] weight-[400] text-[12px]">
+					<Text className="mx-auto max-w-[290px] text-center pb-[10px] font-[300] text-[12px]">
 						Under Realm would like to add its custom layout appearance to your
 						Walless account.
 					</Text>
 					<View className="mx-auto flex flex-row items-center justify-center gap-2">
-						<Text className="text-[#1BA0DA] text-[12px]">Learn more</Text>
+						<Text className="text-[12px]" style={{ color: '#1BA0DA' }}>
+							Learn more
+						</Text>
 						<Image
 							className="w-[10px] h-[10px]"
 							source={{ uri: '/img/request-screen/arrow_up_right.png' }}

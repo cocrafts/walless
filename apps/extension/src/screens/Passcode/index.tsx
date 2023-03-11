@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import { Button, Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
-import { useSnapshot } from 'utils/hook';
 import { appActions } from 'utils/state/app';
-import { encryptKey, encryptKeyActions } from 'utils/state/encryptKey';
 
 import PasscodeInput from './Input';
 import Warning from './Warning';
@@ -12,11 +10,11 @@ import Warning from './Warning';
 const logoSize = 80;
 
 export const Passcode: React.FC = () => {
+	const [passcode, setPasscode] = useState('');
 	const [isConfirmPhase, setIsConfirmPhase] = useState(false);
 	const [isPasscodeValid, setIsPasscodeValid] = useState(false);
 	const [confirmPasscode, setConfirmPasscode] = useState('');
 	const [isPasscodeIncorrect, setIsPasscodeIncorrect] = useState(false);
-	const { passcode } = useSnapshot(encryptKey);
 
 	const heading = isConfirmPhase
 		? 'Confirm your passcode'
@@ -41,11 +39,19 @@ export const Passcode: React.FC = () => {
 		}
 	};
 
-	const handleConfirmPasscode = (value?: string | number) => {
-		if (typeof value === 'string') {
-			setConfirmPasscode(confirmPasscode + value);
+	const handlePasscode = (value?: string | number) => {
+		if (isConfirmPhase) {
+			if (typeof value === 'string') {
+				setConfirmPasscode(confirmPasscode + value);
+			} else {
+				setConfirmPasscode(confirmPasscode.slice(0, value));
+			}
 		} else {
-			setConfirmPasscode(confirmPasscode.slice(0, value));
+			if (typeof value === 'string') {
+				setPasscode(passcode + value);
+			} else {
+				setPasscode(passcode.slice(0, value));
+			}
 		}
 	};
 
@@ -58,7 +64,7 @@ export const Passcode: React.FC = () => {
 	};
 
 	const onCancelPress = () => {
-		encryptKeyActions.resetPasscode();
+		setPasscode('');
 		setConfirmPasscode('');
 		setIsPasscodeIncorrect(false);
 		setIsConfirmPhase(!isConfirmPhase);
@@ -94,7 +100,7 @@ export const Passcode: React.FC = () => {
 					isConfirmPhase={isConfirmPhase}
 					confirmPasscode={confirmPasscode}
 					handleActiveButton={handleActiveButton}
-					handleConfirmPasscode={handleConfirmPasscode}
+					handlePasscode={handlePasscode}
 					handleWrongInput={handleWrongInput}
 				/>
 				<Button

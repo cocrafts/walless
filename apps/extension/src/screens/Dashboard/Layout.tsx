@@ -44,14 +44,14 @@ export const DashboardLayout: FC<Props> = ({
 										source={resources.icons.solana}
 										className="rounded-lg overflow-hidden"
 									/>
-									<Text>Solana</Text>
+									<Text>{layouts[key].name}</Text>
 								</View>
 
 								<View className="w-full border border-[#203C4E] rounded-lg" />
 
 								<TouchableOpacity
 									className="w-full flex flex-row justify-between items-center"
-									onPress={() => layoutActions.removeLayout('Solana')}
+									onPress={() => layoutActions.removeLayout(layouts[key].id)}
 								>
 									<Text className="text-[10px] [color:#587A90]">
 										Remove this layout

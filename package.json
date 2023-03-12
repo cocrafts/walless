@@ -16,6 +16,7 @@
     "postinstall": "node tool/batch"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@jest/globals": "^29.4.3",
     "@metacraft/eslint-config": "^0.0.12",
     "@metacraft/tsconfig": "^0.0.10",

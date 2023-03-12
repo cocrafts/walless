@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
+import { useSnapshot } from 'utils/hook';
+import { appActions, appState } from 'utils/state/app';
 
 import PasscodeInput from './Input';
 import Warning from './Warning';
@@ -8,6 +10,7 @@ import Warning from './Warning';
 const logoSize = 80;
 
 export const EnterPasscode: React.FC = () => {
+	const { passcodeLoading, passcodeError } = useSnapshot(appState);
 	const [isPasscodeValid, setIsPasscodeValid] = useState(false);
 	const [passcode, setPasscode] = useState('');
 	const [isPasscodeIncorrect, setIsPasscodeIncorrect] = useState(false);
@@ -24,8 +27,8 @@ export const EnterPasscode: React.FC = () => {
 		}
 	};
 
-	const handleButtonPress = () => {
-		console.log('pressed');
+	const handleButtonPress = async () => {
+		await appActions.recoverWithPasscode(passcode);
 	};
 
 	const handleCloseWarning = () => {
@@ -51,7 +54,7 @@ export const EnterPasscode: React.FC = () => {
 				<PasscodeInput
 					confirmPasscode={passcode}
 					handleActiveButton={handleActiveButton}
-					handleConfirmPasscode={handlePasscode}
+					handlePasscode={handlePasscode}
 				/>
 				<Button
 					className={`w-[282px] mt-12 py-3 px-2 rounded-lg bg-gradient-to-r from-[color:#1BA0DA] to-[color:#8FC5BE] ${
@@ -60,8 +63,12 @@ export const EnterPasscode: React.FC = () => {
 					}`}
 					title="Continue"
 					disabled={!isPasscodeValid}
+					loading={passcodeLoading}
 					onPress={handleButtonPress}
 				/>
+				{!!passcodeError && (
+					<Text className="mt-5 text-xs text-red-500">{passcodeError}</Text>
+				)}
 			</View>
 		</View>
 	);

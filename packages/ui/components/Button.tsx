@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { ActivityIndicator } from 'react-native';
 
 import { Text, TouchableOpacity } from '../managed';
 import { ButtonProps } from '../utils/types';
@@ -17,6 +18,9 @@ export const Button: FC<Props> = ({
 	titleClass = defaultTitleClass,
 	disabled,
 	onPress,
+	loading,
+	loadingSize = 18,
+	loadingColor = 'white',
 }) => {
 	return (
 		<TouchableOpacity
@@ -24,7 +28,11 @@ export const Button: FC<Props> = ({
 			onPress={onPress}
 			disabled={disabled}
 		>
-			<Text className={titleClass}>{title}</Text>
+			{loading ? (
+				<ActivityIndicator color={loadingColor} size={loadingSize} />
+			) : (
+				<Text className={titleClass}>{title}</Text>
+			)}
 		</TouchableOpacity>
 	);
 };

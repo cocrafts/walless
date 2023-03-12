@@ -6,6 +6,7 @@ import {
 	configureSecurityQuestionShare,
 	importAvailableShares,
 	key,
+	recoverDeviceShare,
 	ThresholdResult,
 } from 'utils/w3a';
 
@@ -46,24 +47,23 @@ export const signInGoogle = async () => {
 	};
 
 	try {
-		appState.authLoading = true;
+		appState.authenticationLoading = true;
 
 		await key.serviceProvider.init({ skipSw: true });
 		cache.loginResponse = await key.serviceProvider.triggerLogin(loginParams);
 		await key.initialize();
 		const status = await importAvailableShares();
-		await key.modules.webStorage?.inputShareFromWebStorage();
 
 		if (status === ThresholdResult.Initializing) {
 			await hashRouter.navigate('/passcode');
 		} else if (status === ThresholdResult.Missing) {
-			await hashRouter.navigate('/passcode');
+			await hashRouter.navigate('/enter-passcode');
 		} else if (status === ThresholdResult.Ready) {
 			await setProfile(makeProfile(cache.loginResponse));
 			await hashRouter.navigate('/explore');
 		}
 	} finally {
-		appState.authLoading = false;
+		appState.authenticationLoading = false;
 	}
 };
 
@@ -75,4 +75,23 @@ export const confirmPasscode = async (passcode: string) => {
 	}
 
 	await hashRouter.navigate('/');
+};
+
+export const recoverWithPasscode = async (passcode: string) => {
+	appState.passcodeLoading = true;
+	appState.passcodeError = undefined;
+
+	const unlockSuccess = await recoverDeviceShare(passcode);
+
+	if (unlockSuccess) {
+		if (cache.loginResponse) {
+			await setProfile(makeProfile(cache.loginResponse));
+		}
+
+		await hashRouter.navigate('/explore');
+	} else {
+		appState.passcodeError = 'wrong passcode, please try again!';
+	}
+
+	appState.passcodeLoading = false;
 };

@@ -3,14 +3,17 @@ import { proxy } from 'valtio';
 
 export interface AppState {
 	loading: boolean;
-	authLoading: boolean;
+	passcodeLoading: boolean;
+	passcodeError?: string;
+	authenticationLoading: boolean;
 	profileReady: boolean;
 	profile: UserProfile;
 }
 
 export const appState = proxy<AppState>({
 	loading: true,
-	authLoading: false,
+	passcodeLoading: false,
+	authenticationLoading: false,
 	profileReady: false,
 	profile: {},
 });

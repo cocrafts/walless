@@ -65,7 +65,6 @@ export const createAndStoreDeviceShare =
 
 		const shareResult = await key.generateNewShare();
 		const share = shareResult.newShareStores[1];
-		console.log(shareResult);
 
 		if (global.chrome?.runtime) {
 			await key.modules.chromeStorage?.storeDeviceShare(share);
@@ -92,7 +91,6 @@ export enum ThresholdResult {
 	Initializing = 'initializing',
 	Ready = 'ready',
 	Missing = 'missing',
-	Failure = 'failure',
 }
 
 export const importAvailableShares = async (): Promise<ThresholdResult> => {
@@ -110,16 +108,31 @@ export const importAvailableShares = async (): Promise<ThresholdResult> => {
 			return totalShares === 2
 				? ThresholdResult.Initializing
 				: ThresholdResult.Ready;
-		} else {
-			return ThresholdResult.Missing;
 		}
 	} catch (e) {
-		console.log(e);
-		return ThresholdResult.Failure;
+		console.log('Failed to import existing share.');
 	}
+
+	return ThresholdResult.Missing;
 };
 
-export const recoverDeviceShare = async (passcode: string) => {
-	await key.modules.securityQuestions.inputShareFromSecurityQuestions(passcode);
-	await createAndStoreDeviceShare();
+export const recoverDeviceShare = async (
+	passcode: string,
+): Promise<boolean> => {
+	try {
+		const beforeDetails = await key.getKeyDetails();
+		await key.modules.securityQuestions.inputShareFromSecurityQuestions(
+			passcode,
+		);
+		const afterDetails = await key.getKeyDetails();
+
+		if (beforeDetails.requiredShares > afterDetails.requiredShares) {
+			await createAndStoreDeviceShare();
+			return true;
+		}
+	} catch {
+		console.log('Failed to recover/unlock, invalid passcode.');
+	}
+
+	return false;
 };

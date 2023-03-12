@@ -5,6 +5,7 @@ import {
 	CartIcon,
 	SwapIcon,
 } from '@walless/ui';
+import ReceiveToken from 'screens/Dashboard/ReceiveToken';
 import SendToken from 'screens/Dashboard/SendToken';
 import { modalActions } from 'utils/state/modal';
 
@@ -36,7 +37,10 @@ const mockFeatureButtons: FeatureButtonProps[] = [
 		title: 'Receive',
 		icon: <ArrowBottomRightIcon color="#29A4D6" size={12} />,
 		onPress: () => {
-			console.log('Receive');
+			modalActions.show({
+				id: 'receiveTokens',
+				component: ReceiveToken,
+			});
 		},
 	},
 	{

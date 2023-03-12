@@ -12,10 +12,7 @@ const QRInfo = () => {
 					logoBackgroundColor="transparent"
 				/>
 			</View>
-			<Text
-				className="font-normal text-[10px] mx-auto mb-6"
-				style={{ color: '#587A90' }}
-			>
+			<Text className="font-normal text-[10px] mx-auto mb-6 [color:#587a90]">
 				Tap to save as image
 			</Text>
 		</View>

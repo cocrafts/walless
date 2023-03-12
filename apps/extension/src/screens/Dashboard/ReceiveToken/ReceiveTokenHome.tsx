@@ -34,10 +34,7 @@ const ReceiveTokenHome: FC<ReceiveTokenHomeProps> = ({ handleCloseModal }) => {
 					text="share"
 					disable={false}
 				/>
-				<Text
-					className="font-normal text-[12px] mx-auto"
-					style={{ color: '#87e6e4' }}
-				>
+				<Text className="font-normal text-[12px] mx-auto [color:#87e6e4]">
 					Copy address
 				</Text>
 			</View>

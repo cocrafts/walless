@@ -17,6 +17,9 @@ export const resources = {
 		card1: { uri: '/img/under-realm/card-1.png' },
 		card2: { uri: '/img/under-realm/card-2.png' },
 	},
+	solana: {
+		walletCardBg: { uri: '/img/network-solana/wallet-card-bg.png' },
+	},
 };
 export const requestType = {
 	connectionRequest: 'Connection request',

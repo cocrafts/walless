@@ -88,21 +88,34 @@ export const configureSecurityQuestionShare = async (
 	);
 };
 
-export const importDeviceShare = async (): Promise<void> => {
-	if (global.chrome?.runtime) {
-		await key.modules.chromeStorage?.inputShareFromChromeExtensionStorage();
-	} else {
-		await key.modules.webStorage?.inputShareFromWebStorage();
-	}
+export enum ThresholdResult {
+	Initializing = 'initializing',
+	Ready = 'ready',
+	Missing = 'missing',
+	Failure = 'failure',
+}
 
-	const { requiredShares, threshold } = await key.getKeyDetails();
+export const importAvailableShares = async (): Promise<ThresholdResult> => {
+	try {
+		if (global.chrome?.runtime) {
+			await key.modules.chromeStorage?.inputShareFromChromeExtensionStorage();
+		} else {
+			await key.modules.webStorage?.inputShareFromWebStorage();
+		}
 
-	if (requiredShares > 0) {
-		throw new Error(
-			`Failed to import device share ${
-				threshold - requiredShares
-			}/${threshold}`,
-		);
+		const { requiredShares, totalShares } = await key.getKeyDetails();
+		const isReady = requiredShares <= 0;
+
+		if (isReady) {
+			return totalShares === 2
+				? ThresholdResult.Initializing
+				: ThresholdResult.Ready;
+		} else {
+			return ThresholdResult.Missing;
+		}
+	} catch (e) {
+		console.log(e);
+		return ThresholdResult.Failure;
 	}
 };
 

@@ -1,23 +1,47 @@
-import { SubVerifierDetails } from '@toruslabs/customauth';
+import { SubVerifierDetails, TorusLoginResponse } from '@toruslabs/customauth';
 import { UserProfile } from '@walless/storage';
+import { db } from 'kernel/utils/alias';
 import { hashRouter } from 'utils/router';
 import {
 	configureSecurityQuestionShare,
-	createAndStoreDeviceShare,
-	importDeviceShare,
+	importAvailableShares,
 	key,
+	ThresholdResult,
 } from 'utils/w3a';
 
 import { appState } from './internal';
 
-export const setProfile = (profile: UserProfile) => {
+interface InternalCache {
+	loginResponse?: TorusLoginResponse;
+}
+
+const cache: InternalCache = {};
+
+const makeProfile = ({
+	publicAddress,
+	userInfo,
+}: TorusLoginResponse): UserProfile => {
+	return {
+		id: publicAddress,
+		email: userInfo.email,
+		name: userInfo.name,
+		profileImage: userInfo.profileImage,
+	};
+};
+
+export const setProfile = async (profile: UserProfile): Promise<void> => {
 	appState.profile = profile;
+	await db.settings.put({
+		id: 1,
+		version: '0.0.1',
+		profile,
+	});
 };
 
 export const signInGoogle = async () => {
 	const loginParams: SubVerifierDetails = {
 		typeOfLogin: 'google',
-		verifier: 'walless-labs-google',
+		verifier: 'walless001',
 		clientId: GOOGLE_CLIENT_ID,
 	};
 
@@ -25,22 +49,18 @@ export const signInGoogle = async () => {
 		appState.authLoading = true;
 
 		await key.serviceProvider.init({ skipSw: true });
-		await key.serviceProvider.triggerLogin(loginParams);
+		cache.loginResponse = await key.serviceProvider.triggerLogin(loginParams);
 		await key.initialize();
-		const { requiredShares, totalShares } = await key.getKeyDetails();
-		const isFirstSignIn = totalShares == 2 && requiredShares <= 0;
+		const status = await importAvailableShares();
+		await key.modules.webStorage?.inputShareFromWebStorage();
 
-		if (isFirstSignIn) {
-			await createAndStoreDeviceShare();
+		if (status === ThresholdResult.Initializing) {
 			await hashRouter.navigate('/passcode');
-		} else {
-			try {
-				await importDeviceShare();
-				await hashRouter.navigate('/');
-			} catch (e) {
-				console.log(e);
-				await hashRouter.navigate('/passcode');
-			}
+		} else if (status === ThresholdResult.Missing) {
+			await hashRouter.navigate('/passcode');
+		} else if (status === ThresholdResult.Ready) {
+			await setProfile(makeProfile(cache.loginResponse));
+			await hashRouter.navigate('/explore');
 		}
 	} finally {
 		appState.authLoading = false;
@@ -49,5 +69,10 @@ export const signInGoogle = async () => {
 
 export const confirmPasscode = async (passcode: string) => {
 	await configureSecurityQuestionShare(passcode);
-	await hashRouter.navigate('/home');
+
+	if (cache.loginResponse) {
+		await setProfile(makeProfile(cache.loginResponse));
+	}
+
+	await hashRouter.navigate('/');
 };

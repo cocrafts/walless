@@ -8,5 +8,3 @@ db.settings.hook('updating', (updates, id, previous) => {
 		notifySetting(united);
 	}
 });
-
-notifySetting({ version: '0.0.1' });

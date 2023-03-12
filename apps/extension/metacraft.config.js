@@ -9,7 +9,7 @@ const injectEntries = (config) => {
 		filename: 'content.js',
 	};
 
-	config.entry.content = {
+	config.entry.injection = {
 		import: 'scripts/content/injection.ts',
 		filename: 'injection.js',
 	};

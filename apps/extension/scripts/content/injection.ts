@@ -1,8 +1,8 @@
-import { SolanaWalless } from '@walless/provider-solana';
+import Walless from '@walless/sdk';
 import { initialize } from '@walless/wallet-standard';
 
 const configureWalletStandard = async (): Promise<void> => {
-	const walless = new SolanaWalless();
+	const walless = new Walless();
 
 	try {
 		Object.defineProperty(window, 'walless', { value: walless });

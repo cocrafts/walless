@@ -27,7 +27,7 @@ const Profile: FC = () => {
 		<View className="bg-gradient-to-b from-[#003356] to-[#011726] h-full">
 			<WallessBanner className="py-8 mb-5">
 				<View className="px-4 mb-2 flex flex-row justify-between items-start">
-					<Text className="flex flex-row gap-2 items-center text-xs text-color-7">
+					<Text className="flex flex-row gap-2 items-center text-xs text-white/50">
 						Token value
 						<TouchableOpacity
 							onPress={() => setIsBalanceVisible((prev) => !prev)}

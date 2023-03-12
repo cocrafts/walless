@@ -16,7 +16,7 @@ const DropdownItemWrapper: FC<Props> = ({
 }) => {
 	return (
 		<TouchableOpacity
-			className={`transition hover:bg-[#26506D] w-full h-12 flex flex-row gap-3 items-center px-3 rounded-md ${
+			className={`transition hover:bg-[#26506D] w-full h-12 flex flex-row gap-3 items-center px-5 rounded-md ${
 				active && 'bg-[#26506D]'
 			} ${className}`}
 			activeOpacity={1}

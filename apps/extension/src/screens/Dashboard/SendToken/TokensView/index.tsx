@@ -120,17 +120,18 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 										The difference between the market price and estimated price
 										based on your trade size.
 									</Text>
+									<View className="absolute z-auto w-3 h-3 bg-[#066996] -left-[2px] -top-[22px] rotate-45 rounded-sm invisible transition group-hover:visible" />
 									<InformationIcon size={8} color="#587A90" />
 								</View>
-								<Text className="text-[#587A90] text-xs">Network Fee</Text>
+								<Text className="[color:#587A90] text-xs">Network Fee</Text>
 							</View>
-							<Text className="text-[#26A3D7] text-xs">~ 0 USD</Text>
-							<Text className="text-[#587A90] text-[10px]">~ 0 secs</Text>
+							<Text className="[color:#26A3D7] text-xs">~ 0 USD</Text>
+							<Text className="[color:#587A90] text-[10px]">~ 0 secs</Text>
 						</View>
 						<View className="h-full w-full flex-shrink items-end justify-center pr-4">
 							<Text className="text-sm">Total Cost</Text>
 							<Text className="text-2xl">0</Text>
-							<Text className="text-[#587A90] text-[10px]">~ 0 secs</Text>
+							<Text className="[color:#587A90] text-[10px]">~ 0 secs</Text>
 						</View>
 					</View>
 				</View>
@@ -139,7 +140,7 @@ const TokensView: FC<TokensViewProps> = ({ className }) => {
 			<ConfirmButton
 				text="Continue"
 				disable={!isAbleToContinue}
-				onPress={() => navigate(`/profile}`)}
+				onPress={() => navigate(`/profile`)}
 			/>
 		</View>
 	);

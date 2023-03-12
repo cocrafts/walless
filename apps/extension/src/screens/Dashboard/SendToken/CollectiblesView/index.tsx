@@ -3,7 +3,7 @@ import { Text, View } from '@walless/ui';
 const CollectiblesView = () => {
 	return (
 		<View>
-			<Text>CollectiblesView</Text>
+			<Text>Update soon!</Text>
 		</View>
 	);
 };

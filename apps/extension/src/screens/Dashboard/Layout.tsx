@@ -5,6 +5,7 @@ import { Avatar, ContextMenuContainer } from '@walless/ui/components';
 import { CrossIcon } from '@walless/ui/icons';
 import { resources } from 'utils/config';
 import { useSnapshot } from 'utils/hook';
+import { appState } from 'utils/state/app';
 import { layoutProxy } from 'utils/state/layout';
 
 import LayoutItem from './LayoutItem';
@@ -18,10 +19,11 @@ export const DashboardLayout: FC<Props> = ({
 	children,
 	contentContainerClass = 'flex-1',
 }) => {
+	const layouts = useSnapshot(layoutProxy);
+	const { profile } = useSnapshot(appState);
 	const navigate = useNavigate();
 	const onExplorePress = () => navigate('/explore');
 	const onAvatarPress = () => navigate('/profile');
-	const layouts = useSnapshot(layoutProxy);
 	const layoutKeys = Object.keys(layouts);
 
 	const [currentLayoutId, setCurrentLayoutId] = useState<string | null>(null);
@@ -67,10 +69,13 @@ export const DashboardLayout: FC<Props> = ({
 				</View>
 				<View className="justify-end items-center pb-5">
 					<TouchableOpacity
-						className="w-9 aspect-square border border-[color:#3B6887] rounded-lg"
+						className="aspect-square border border-[color:#3B6887] rounded-lg"
 						onPress={onAvatarPress}
 					>
-						<Avatar />
+						<Avatar
+							imageUri={profile.profileImage}
+							characters={profile.name || profile.email}
+						/>
 					</TouchableOpacity>
 				</View>
 			</View>

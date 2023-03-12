@@ -1,9 +1,17 @@
 import { EncryptedWithPasscode, HydratedKey } from '@walless/core';
 import { Dexie, Table } from 'dexie';
 
+export interface UserProfile {
+	id?: string;
+	email?: string;
+	name?: string;
+	profileImage?: string;
+}
+
 export interface SettingRecord {
 	id?: number;
 	version: string;
+	profile?: UserProfile;
 }
 
 export type PrivateKeyRecord = EncryptedWithPasscode & {
@@ -13,11 +21,6 @@ export type PrivateKeyRecord = EncryptedWithPasscode & {
 export type EncryptionKeyRecord = HydratedKey & {
 	id?: string;
 };
-
-export interface UserProfile {
-	id?: string;
-	avatarUrl?: string;
-}
 
 export interface WallessDB {
 	instance: Dexie;

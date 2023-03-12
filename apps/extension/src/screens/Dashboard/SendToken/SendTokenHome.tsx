@@ -21,8 +21,8 @@ const SendTokenHome: FC<Props> = ({ handleCloseModal }) => {
 
 			<View className="flex flex-row gap-3">
 				<Text
-					className={`w-[100px] h-5 text-right ${
-						isTokensTab && 'font-semibold text-[#2FA1D9]'
+					className={`w-[100px] h-5 text-white/50 text-right ${
+						isTokensTab && 'font-semibold [color:#2FA1D9]'
 					}`}
 				>
 					Tokens
@@ -38,8 +38,8 @@ const SendTokenHome: FC<Props> = ({ handleCloseModal }) => {
 					/>
 				</TouchableOpacity>
 				<Text
-					className={`w-[100px] h-5 ${
-						!isTokensTab && 'font-semibold text-[#2FA1D9]'
+					className={`w-[100px] h-5 text-white/50 ${
+						!isTokensTab && 'font-semibold [color:#2FA1D9]'
 					}`}
 				>
 					Collectibles

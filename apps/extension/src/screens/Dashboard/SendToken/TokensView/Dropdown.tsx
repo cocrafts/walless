@@ -9,7 +9,6 @@ interface DropdownProps {
 	className?: string;
 	children?: React.ReactNode;
 	leftNode: React.ReactNode;
-	rightNode?: React.ReactNode;
 	data: DropdownItemProps[];
 	activeItem: DropdownItemProps | null;
 	onSelect: (item: DropdownItemProps) => void;
@@ -18,7 +17,6 @@ interface DropdownProps {
 const Dropdown: FC<DropdownProps> = ({
 	leftNode,
 	className,
-	rightNode = <ChevronDownIcon color="#99B0BF" size={16} />,
 	data,
 	activeItem,
 	onSelect,
@@ -31,8 +29,12 @@ const Dropdown: FC<DropdownProps> = ({
 				className="h-12 bg-[#1B415A] rounded-lg flex flex-row justify-between items-center px-5"
 				activeOpacity={1}
 			>
-				<Text className="text-[#99B0BF] text-sm">{leftNode}</Text>
-				{rightNode}
+				<Text className="[color:#99B0BF] text-sm">{leftNode}</Text>
+				<ChevronDownIcon
+					className="transition duration-300 group-hover:rotate-180"
+					color="#99B0BF"
+					size={16}
+				/>
 			</TouchableOpacity>
 
 			<View className="bg-[#1B415A] w-full pt-2 -mt-2 rounded-b-lg absolute z-50 top-12 left-0 invisible group-hover:visible">

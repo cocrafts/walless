@@ -26,7 +26,7 @@ const Input: FC<InputProps> = ({
 			<View className="h-12 bg-[#1B415A] rounded-lg flex flex-row justify-between items-center px-5 gap-3">
 				<TextInput
 					placeholder={title}
-					className="text-[#99B0BF] text-sm grow"
+					className="placeholder:[color:#99B0BF] text-white text-sm grow"
 					onChangeText={(text) => onTextChange(text)}
 					ref={inputRef}
 				/>

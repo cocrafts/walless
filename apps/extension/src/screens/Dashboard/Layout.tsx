@@ -1,13 +1,13 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TouchableOpacity, View } from '@walless/ui';
-import { Avatar, IconButton } from '@walless/ui/components';
+import { Avatar, ContextMenuContainer } from '@walless/ui/components';
 import { CrossIcon } from '@walless/ui/icons';
 import { resources } from 'utils/config';
 import { useSnapshot } from 'utils/hook';
 import { layoutProxy } from 'utils/state/layout';
 
-import RemoveLayout from './RemoveLayout';
+import LayoutItem from './LayoutItem';
 
 interface Props {
 	children?: ReactNode;
@@ -24,26 +24,39 @@ export const DashboardLayout: FC<Props> = ({
 	const layouts = useSnapshot(layoutProxy);
 	const layoutKeys = Object.keys(layouts);
 
+	const [currentLayoutId, setCurrentLayoutId] = useState<string | null>(null);
+
+	const handleContextMenu = (
+		event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		layoutId: string,
+	): void => {
+		event.preventDefault();
+		setCurrentLayoutId(layoutId === currentLayoutId ? null : layoutId);
+	};
+
+	useEffect(() => {
+		setCurrentLayoutId(null);
+	}, [layoutKeys.length]);
+
 	return (
 		<View className="flex-1 flex-row">
 			<View className="z-50 w-[50px] bg-color-7 px-1">
 				<View className="flex-1 items-center py-4 gap-2">
 					{layoutKeys.map((key) => (
-						<View key={key}>
-							<IconButton
-								size={36}
-								source={resources.icons.solana}
-								className="rounded-lg overflow-hidden"
-								onPress={() => navigate(`/layouts/${key}`)}
-							/>
-
-							<RemoveLayout
-								className="absolute left-12 top-0 h-24 w-[200px]"
-								icon={resources.icons.solana}
+						<ContextMenuContainer
+							key={key}
+							onContextMenu={(event) =>
+								handleContextMenu(event, layouts[key].id)
+							}
+						>
+							<LayoutItem
+								layoutKey={key}
 								name={layouts[key].name}
-								id={layouts[key].id}
+								layoutId={layouts[key].id}
+								icon={resources.icons.solana}
+								currentLayoutId={currentLayoutId}
 							/>
-						</View>
+						</ContextMenuContainer>
 					))}
 					<TouchableOpacity
 						className="w-9 aspect-square border border-[color:#3B6887] rounded-lg justify-center items-center"

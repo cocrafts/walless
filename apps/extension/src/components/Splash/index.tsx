@@ -19,12 +19,20 @@ export const SplashScreen: FC = () => {
 	}));
 
 	useEffect(() => {
-		const fadeIn = withTiming(1, { duration: 500 });
-		const fadeOut = withTiming(0, { duration: 500 }, () => {
-			appActions.setLoading(false);
-		});
+		const playAnimate = async (): Promise<void> => {
+			return new Promise((resolve) => {
+				const fadeIn = withTiming(1, { duration: 500 });
+				const fadeOut = withTiming(0, { duration: 500 }, () => {
+					resolve();
+				});
 
-		opacity.value = withSequence(fadeIn, fadeOut);
+				opacity.value = withSequence(fadeIn, fadeOut);
+			});
+		};
+
+		Promise.all([appActions.bootstrap(), playAnimate()]).then(
+			([bootstrapResponse]) => appActions.launchApp(bootstrapResponse),
+		);
 	}, []);
 
 	return (

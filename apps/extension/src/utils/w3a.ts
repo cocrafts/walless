@@ -57,7 +57,6 @@ if (global.chrome?.runtime) {
 export const key = new ThresholdKey({
 	modules,
 	customAuthArgs,
-	manualSync: true,
 }) as TypedThresholdKey;
 
 export const createAndStoreDeviceShare =
@@ -74,7 +73,6 @@ export const createAndStoreDeviceShare =
 			await key.modules.webStorage?.storeDeviceShare(share);
 		}
 
-		await key.syncLocalMetadataTransitions();
 		return shareResult;
 	};
 
@@ -88,8 +86,6 @@ export const configureSecurityQuestionShare = async (
 		passcode,
 		question,
 	);
-
-	await key.syncLocalMetadataTransitions();
 };
 
 export const importDeviceShare = async (): Promise<void> => {
@@ -98,8 +94,6 @@ export const importDeviceShare = async (): Promise<void> => {
 	} else {
 		await key.modules.webStorage?.inputShareFromWebStorage();
 	}
-
-	await key.syncLocalMetadataTransitions();
 
 	const { requiredShares, threshold } = await key.getKeyDetails();
 

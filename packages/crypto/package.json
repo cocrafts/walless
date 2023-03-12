@@ -1,7 +1,7 @@
 {
 	"name": "@walless/crypto",
 	"version": "0.0.1",
-	"main": "index.ts",
+	"main": "./index.ts",
 	"types": "./index.ts",
 	"license": "MIT",
 	"scripts": {

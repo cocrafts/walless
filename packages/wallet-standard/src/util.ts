@@ -1,5 +1,3 @@
-// This is copied from @wallet-standard/wallet
-
 export function bytesEqual(a: Uint8Array, b: Uint8Array): boolean {
 	return arraysEqual(a, b);
 }

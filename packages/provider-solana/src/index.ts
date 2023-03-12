@@ -8,7 +8,7 @@ import {
 import { Walless } from '@walless/wallet-standard';
 import { EventEmitter } from 'eventemitter3';
 
-export class WallessSolanaProvider extends EventEmitter implements Walless {
+export class SolanaWalless extends EventEmitter implements Walless {
 	#publicKey?: PublicKey;
 	#isConnected: boolean;
 

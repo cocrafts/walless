@@ -3,8 +3,9 @@ import { ScrollView } from 'react-native';
 import { Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 
+import Indicator from '../components/Indicator';
+
 import CollectibleItem from './CollectibleItem';
-import Indicator from './Indicator';
 import { NftMetadata, nfts, tokens } from './internal';
 import TokenCard from './TokenCard';
 

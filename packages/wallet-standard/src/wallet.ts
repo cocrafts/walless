@@ -13,6 +13,7 @@ import {
 	SolanaSignTransaction,
 } from '@solana/wallet-standard-features';
 import { Transaction, VersionedTransaction } from '@solana/web3.js';
+import Walless from '@walless/sdk';
 import type { Wallet } from '@wallet-standard/base';
 import {
 	type StandardConnectFeature,
@@ -27,14 +28,13 @@ import {
 	StandardDisconnect,
 	StandardEvents,
 } from '@wallet-standard/features';
-import bs58 from 'bs58';
+import { decode } from 'bs58';
 
-import { WallessWalletAccount } from './account.js';
-import { icon } from './icon.js';
-import type { SolanaChain } from './solana.js';
-import { isSolanaChain, SOLANA_CHAINS } from './solana.js';
-import { bytesEqual } from './util.js';
-import type { Walless } from './window.js';
+import { WallessWalletAccount } from './account';
+import { icon } from './icon';
+import type { SolanaChain } from './solana';
+import { isSolanaChain, SOLANA_CHAINS } from './solana';
+import { bytesEqual } from './util';
 
 export const WallessNamespace = 'walless:';
 
@@ -115,9 +115,10 @@ export class WallessWallet implements Wallet {
 	}
 
 	constructor(walless: Walless) {
-		if (new.target === WallessWallet) {
-			Object.freeze(this);
-		}
+		// TODO: un-comment following
+		// if (new.target === WallessWallet) {
+		// 	Object.freeze(this);
+		// }
 
 		this.#walless = walless;
 
@@ -153,6 +154,7 @@ export class WallessWallet implements Wallet {
 
 	#connected = () => {
 		const address = this.#walless.publicKey?.toBase58();
+
 		if (address) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const publicKey = this.#walless.publicKey!.toBytes();
@@ -223,7 +225,7 @@ export class WallessWallet implements Wallet {
 				},
 			);
 
-			outputs.push({ signature: bs58.decode(signature) });
+			outputs.push({ signature: decode(signature) });
 		} else if (inputs.length > 1) {
 			for (const input of inputs) {
 				outputs.push(...(await this.#signAndSendTransaction(input)));

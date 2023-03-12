@@ -5,7 +5,7 @@ import {
 } from '@solana/wallet-standard-features';
 import type { WalletAccount } from '@wallet-standard/base';
 
-import { SOLANA_CHAINS } from './solana.js';
+import { SOLANA_CHAINS } from './solana';
 
 const chains = SOLANA_CHAINS;
 const features = [

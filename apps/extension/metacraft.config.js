@@ -9,6 +9,11 @@ const injectEntries = (config) => {
 		filename: 'content.js',
 	};
 
+	config.entry.content = {
+		import: 'scripts/content/injection.ts',
+		filename: 'injection.js',
+	};
+
 	config.entry.background = {
 		import: 'scripts/background/index.ts',
 		filename: 'background.js',

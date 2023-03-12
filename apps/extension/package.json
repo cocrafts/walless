@@ -22,7 +22,7 @@
 		"@walless/crypto": "*",
 		"@walless/messaging": "*",
 		"@walless/network": "*",
-		"@walless/provider-solana": "*",
+		"@walless/sdk": "*",
 		"@walless/storage": "*",
 		"@walless/ui": "*",
 		"@walless/wallet-standard": "*",

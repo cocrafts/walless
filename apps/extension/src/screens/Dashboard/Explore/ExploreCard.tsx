@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { ImageSourcePropType } from 'react-native';
 import { Link } from 'react-router-dom';
 import { Image, Text, TouchableOpacity, View } from '@walless/ui';
 import { useSnapshot } from 'utils/hook';
@@ -9,12 +10,13 @@ import { ExploreCard } from '.';
 interface Props {
 	item: ExploreCard;
 	handlePressAddBtn: (
-		id: string,
 		layoutId: string,
+		name: string,
+		icon: ImageSourcePropType,
 		component: React.FC,
 		isInProfile: boolean,
 	) => void;
-	handlePressLoveBtn: (id: string, love: boolean) => void;
+	handlePressLoveBtn: (layoutId: string, love: boolean) => void;
 }
 
 const ChooseLayoutCard: FC<Props> = ({
@@ -23,14 +25,14 @@ const ChooseLayoutCard: FC<Props> = ({
 	handlePressLoveBtn,
 }) => {
 	const layout = useSnapshot(layoutProxy);
-	const isInProfile = generateHash(item.id) in layout;
+	const isInProfile = generateHash(item.layoutId) in layout;
 
 	return (
 		<View className="rounded-b-lg">
 			<View className="h-[133px]">
 				<Link to={item.link}>
 					<Image
-						source={{ uri: item.thumbnailUrl }}
+						source={item.thumbnailUrl}
 						className="absolute -z-10 top-0 left-0 w-full h-[133px] rounded-lg"
 					/>
 					<View className="absolute -z-[9] top-0 left-0 bg-gradient-to-t from-[#00223ab6] to-transparent rounded-lg h-[133px] w-full" />
@@ -40,8 +42,9 @@ const ChooseLayoutCard: FC<Props> = ({
 					className="group absolute top-1 right-1 flex flex-row gap-2"
 					onPress={() =>
 						handlePressAddBtn(
-							item.id,
 							item.layoutId,
+							item.name,
+							item.logoUrl,
 							item.component,
 							isInProfile,
 						)
@@ -49,17 +52,20 @@ const ChooseLayoutCard: FC<Props> = ({
 				>
 					<Text className="bg-[#35A8D3] pt-[2px] px-2 rounded text-[8px] transition duration-200 flex justify-center items-center scale-0 group-hover:scale-100">
 						{isInProfile ? 'Remove from my profile' : 'Add to my profile'}
+						<View className="absolute -z-10 right-0 top-[6px] translate-x-[2px] w-2 h-2 rotate-45 rounded-[2px] bg-[#35A8D3]" />
 					</Text>
-					<Text className="h-5 w-5 bg-gradient-to-r from-[#2BA5D6] to-[#8BC3BF] pt-[2px] rounded-full text-sm flex justify-center items-center">
-						{isInProfile ? '-' : '+'}
-					</Text>
+					<View className="h-5 w-5 p-[1px] bg-gradient-to-b from-white to-[#2BA5D6] rounded-full">
+						<Text className="h-full w-full bg-gradient-to-r from-[#2BA5D6] to-[#8BC3BF] rounded-full text-sm flex justify-center items-center">
+							{isInProfile ? '-' : '+'}
+						</Text>
+					</View>
 				</TouchableOpacity>
 			</View>
 
 			<View className="flex flex-row gap-3 relative -mt-7">
 				<Link to={item.link} className="ml-3">
 					<Image
-						source={{ uri: item.logoUrl }}
+						source={item.logoUrl}
 						className="w-[50px] h-[50px] rounded-lg"
 					/>
 				</Link>
@@ -76,7 +82,7 @@ const ChooseLayoutCard: FC<Props> = ({
 						<View className="flex flex-row gap-3 items-center">
 							<Text
 								className="text-[8px]"
-								onPress={() => handlePressLoveBtn(item.id, item.love)}
+								onPress={() => handlePressLoveBtn(item.layoutId, item.love)}
 							>
 								{item.love ? '❤️' : '🤍'}
 								{item.loveCount} Love

@@ -7,6 +7,8 @@ import { resources } from 'utils/config';
 import { useSnapshot } from 'utils/hook';
 import { layoutProxy } from 'utils/state/layout';
 
+import RemoveLayout from './RemoveLayout';
+
 interface Props {
 	children?: ReactNode;
 	contentContainerClass?: string;
@@ -24,16 +26,24 @@ export const DashboardLayout: FC<Props> = ({
 
 	return (
 		<View className="flex-1 flex-row">
-			<View className="w-[50px] bg-color-7 px-1">
+			<View className="z-50 w-[50px] bg-color-7 px-1">
 				<View className="flex-1 items-center py-4 gap-2">
 					{layoutKeys.map((key) => (
-						<IconButton
-							key={key}
-							size={36}
-							source={resources.icons.solana}
-							className="rounded-lg overflow-hidden"
-							onPress={() => navigate(`/layouts/${key}`)}
-						/>
+						<View key={key}>
+							<IconButton
+								size={36}
+								source={resources.icons.solana}
+								className="rounded-lg overflow-hidden"
+								onPress={() => navigate(`/layouts/${key}`)}
+							/>
+
+							<RemoveLayout
+								className="absolute left-12 top-0 h-24 w-[200px]"
+								icon={resources.icons.solana}
+								name={layouts[key].name}
+								id={layouts[key].id}
+							/>
+						</View>
 					))}
 					<TouchableOpacity
 						className="w-9 aspect-square border border-[color:#3B6887] rounded-lg justify-center items-center"

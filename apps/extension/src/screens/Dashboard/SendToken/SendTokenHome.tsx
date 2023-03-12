@@ -15,7 +15,6 @@ const SendTokenHome: FC<Props> = ({ handleCloseModal }) => {
 		<>
 			<Header
 				title="Send"
-				returnLink="/send-token"
 				handleCloseModal={handleCloseModal}
 				className="mt-5"
 			/>

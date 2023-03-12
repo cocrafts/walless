@@ -6,7 +6,6 @@ import {
 	TouchableWithoutFeedback,
 } from 'react-native';
 import { View } from '@walless/ui';
-import { encryptKeyActions } from 'utils/state/encryptKey';
 
 import SingleInput from './SingleInput';
 
@@ -14,7 +13,7 @@ interface Props {
 	isConfirmPhase?: boolean;
 	confirmPasscode: string;
 	handleActiveButton: (isPasscodeValid: boolean) => void;
-	handleConfirmPasscode: (value: string | number) => void;
+	handlePasscode: (value: string | number) => void;
 	handleWrongInput?: (err: string) => void;
 }
 
@@ -22,7 +21,7 @@ export const PasscodeInput: React.FC<Props> = ({
 	isConfirmPhase = true,
 	confirmPasscode,
 	handleActiveButton,
-	handleConfirmPasscode,
+	handlePasscode,
 	handleWrongInput,
 }) => {
 	const [focusedIndex, setFocusedIndex] = useState(0);
@@ -32,11 +31,7 @@ export const PasscodeInput: React.FC<Props> = ({
 
 	const handleChangeText = (text: string, index: number) => {
 		if (text !== '') {
-			if (isConfirmPhase) {
-				handleConfirmPasscode(text);
-			} else {
-				encryptKeyActions.inputPasscode(text);
-			}
+			handlePasscode(text);
 			setFocusedIndex(index + 1);
 		}
 	};
@@ -55,11 +50,7 @@ export const PasscodeInput: React.FC<Props> = ({
 				relativeIndex = index - 1;
 			}
 			ref.current?.clear();
-			if (isConfirmPhase) {
-				handleConfirmPasscode(index);
-			} else {
-				encryptKeyActions.deletePasscode(relativeIndex);
-			}
+			handlePasscode(index);
 			setFocusedIndex(relativeIndex);
 			return;
 		}

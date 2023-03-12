@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { ImageSourcePropType } from 'react-native';
 import { Text, TextInput, View } from '@walless/ui';
 import { SearchIcon } from '@walless/ui/icons';
 import Solana from 'screens/ProjectLayout/Solana';
@@ -8,11 +9,10 @@ import { layoutActions } from 'utils/state/layout';
 import ChooseLayoutCard from './ExploreCard';
 
 export interface ExploreCard {
-	id: string;
 	name: string;
 	description: string;
-	logoUrl: string;
-	thumbnailUrl: string;
+	logoUrl: ImageSourcePropType;
+	thumbnailUrl: ImageSourcePropType;
 	loveCount: number;
 	activeUsersCount: number;
 	link: string;
@@ -24,12 +24,11 @@ export interface ExploreCard {
 
 const mockLayouts: ExploreCard[] = [
 	{
-		id: 'UnderRealm',
 		name: 'Under Realm',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
-		logoUrl: '/img/explore-screen/card-1-logo.png',
-		thumbnailUrl: '/img/explore-screen/card-1-thumbnail.png',
+		logoUrl: { uri: '/img/explore-screen/card-1-logo.png' },
+		thumbnailUrl: { uri: '/img/explore-screen/card-1-thumbnail.png' },
 		loveCount: 10,
 		activeUsersCount: 20,
 		link: '/explore',
@@ -39,12 +38,11 @@ const mockLayouts: ExploreCard[] = [
 		component: UnderRealm,
 	},
 	{
-		id: 'Solana',
 		name: 'Solana',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
-		logoUrl: '/img/explore-screen/card-2-logo.png',
-		thumbnailUrl: '/img/explore-screen/card-2-thumbnail.png',
+		logoUrl: { uri: '/img/explore-screen/card-2-logo.png' },
+		thumbnailUrl: { uri: '/img/explore-screen/card-2-thumbnail.png' },
 		loveCount: 1,
 		activeUsersCount: 2,
 		link: '/explore',
@@ -57,15 +55,15 @@ const mockLayouts: ExploreCard[] = [
 
 export const ChooseLayout: FC = () => {
 	const handleAddToProfile = (
-		id: string,
 		layoutId: string,
+		name: string,
+		icon: ImageSourcePropType,
 		component: React.FC,
 		isInProfile: boolean,
 	) => {
-		isInProfile ? console.log('Remove', id) : console.log('Add', id);
 		isInProfile
-			? layoutActions.removeLayout(id)
-			: layoutActions.addLayout(id, component);
+			? layoutActions.removeLayout(layoutId)
+			: layoutActions.addLayout(layoutId, name, icon, component);
 	};
 
 	const handleLoveProfile = (id: string, love: boolean) => {

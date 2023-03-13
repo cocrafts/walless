@@ -16,7 +16,20 @@ export interface SettingRecord {
 
 export type PrivateKeyRecord = EncryptedWithPasscode & {
 	id?: string;
+	type: string;
 };
+
+export enum Networks {
+	ethereum = 'ethereum',
+	solana = 'solana',
+	sui = 'sui',
+}
+
+export interface PublicKeyRecord {
+	id?: string;
+	privateKeyId: string;
+	network: Networks;
+}
 
 export type EncryptionKeyRecord = HydratedKey & {
 	id?: string;
@@ -25,6 +38,7 @@ export type EncryptionKeyRecord = HydratedKey & {
 export interface WallessDB {
 	instance: Dexie;
 	settings: Table<SettingRecord, number>;
+	publicKeys: Table<PublicKeyRecord, string>;
 	privateKeys: Table<PrivateKeyRecord, string>;
 	encryptionKeys: Table<EncryptionKeyRecord, string>;
 }

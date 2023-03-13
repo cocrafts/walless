@@ -43,8 +43,8 @@ export type TypedThresholdKey = ThresholdKey & {
 const modules: InternalModules = {
 	securityQuestions: new SecurityQuestionsModule(),
 	privateKeyModule: new PrivateKeyModule([
-		SECP256K1Format,
-		ED25519Format,
+		new SECP256K1Format(null as never),
+		new ED25519Format(null as never),
 	] as never),
 };
 
@@ -116,7 +116,7 @@ export const importAvailableShares = async (): Promise<ThresholdResult> => {
 	return ThresholdResult.Missing;
 };
 
-export const recoverDeviceShare = async (
+export const recoverDeviceShareFromPasscode = async (
 	passcode: string,
 ): Promise<boolean> => {
 	try {
@@ -127,7 +127,7 @@ export const recoverDeviceShare = async (
 		const afterDetails = await key.getKeyDetails();
 
 		if (beforeDetails.requiredShares > afterDetails.requiredShares) {
-			await createAndStoreDeviceShare();
+			// await createAndStoreDeviceShare();
 			return true;
 		}
 	} catch {

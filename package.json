@@ -44,9 +44,5 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "yarn@1.22.19",
-  "dependencies": {
-    "@mysten/sui.js": "^0.29.1",
-    "dexie": "^3.2.3"
-  }
+  "packageManager": "yarn@1.22.19"
 }

@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const archiver = require('archiver');
 const manifest = require('./manifest.json');
+const project = require('../package.json');
 
 const zipDir = (platform) => {
 	const homeBuildDir = '../home/metacraft';
@@ -22,7 +23,7 @@ const zipDir = (platform) => {
 
 const cloneExtensionBuild = async (platform, override = {}) => {
 	const manifestUri = `./builds/${platform}/manifest.json`;
-	const mergedManifest = { ...manifest, ...override };
+	const mergedManifest = { ...manifest, ...override, version: project.version };
 
 	fs.copySync(`./metacraft`, `./builds/${platform}`);
 	fs.writeJsonSync(manifestUri, mergedManifest, { spaces: 2 });

@@ -14,7 +14,5 @@ const configureWalletStandard = async (): Promise<void> => {
 };
 
 (async () => {
-	console.log('injection complete, initializing..');
 	await configureWalletStandard();
-	console.log('initialize complete.');
 })();

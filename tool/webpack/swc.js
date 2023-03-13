@@ -19,7 +19,7 @@ const generateSwcOptions = (options = {}) =>
 					'screens/*': ['./src/screens/*'],
 					'stacks/*': ['./src/stacks/*'],
 					'utils/*': ['./src/utils/*'],
-					'kernel/*': ['./src/kernel/*'],
+					'bridge/*': ['./src/bridge/*'],
 				},
 			},
 		},

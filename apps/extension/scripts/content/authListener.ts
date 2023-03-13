@@ -1,5 +1,5 @@
 export const observeAuthentication = () => {
-	global.postMessage({ from: 'walless@content-script-loaded' });
+	global.postMessage({ from: 'walless-content-script-loaded' });
 	global.addEventListener(
 		'message',
 		async ({ source, data }) => {

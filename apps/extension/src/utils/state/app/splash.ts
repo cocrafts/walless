@@ -1,5 +1,5 @@
 import { UserProfile } from '@walless/storage';
-import { db } from 'kernel/utils/alias';
+import { db } from 'bridge/utils/alias';
 import { hashRouter } from 'utils/router';
 
 import { appState } from './internal';

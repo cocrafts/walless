@@ -24,6 +24,11 @@ const injectEntries = (config) => {
 		filename: 'kernel.js',
 	};
 
+	config.entry.w3ar = {
+		import: 'scripts/worker/w3a-response.ts',
+		filename: 'w3a-response.js',
+	};
+
 	return config;
 };
 

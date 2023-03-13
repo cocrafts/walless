@@ -23,8 +23,8 @@
 			"utils/*": [
 				"./src/utils/*"
 			],
-			"kernel/*": [
-				"./src/kernel/*"
+			"bridge/*": [
+				"./src/bridge/*"
 			]
 		}
 	}

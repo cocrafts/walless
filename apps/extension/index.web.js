@@ -1,11 +1,11 @@
 import { createRoot } from 'react-dom/client';
 import { enableExperimentalWebImplementation } from 'react-native-gesture-handler';
-import { injectWorker } from 'kernel/entry';
+import { injectWorkers } from 'bridge/entry';
 
 import App from './src';
 
 enableExperimentalWebImplementation(true);
-injectWorker();
+injectWorkers();
 
 const container = document.getElementById('root');
 const root = createRoot(container);

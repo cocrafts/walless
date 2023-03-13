@@ -16,9 +16,11 @@ export const resources = {
 		urg: { uri: '/img/under-realm/urg.png' },
 		card1: { uri: '/img/under-realm/card-1.png' },
 		card2: { uri: '/img/under-realm/card-2.png' },
+		icon: { uri: '/img/under-realm/underrealm-icon.png' },
 	},
 	solana: {
 		walletCardBg: { uri: '/img/network-solana/wallet-card-bg.png' },
+		icon: { uri: '/img/network-solana/solana-icon.png' },
 	},
 };
 export const requestType = {

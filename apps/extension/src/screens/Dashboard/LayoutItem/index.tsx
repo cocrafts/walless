@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { ImageSourcePropType } from 'react-native';
 import { useNavigate } from 'react-router-dom';
 import { IconButton, View } from '@walless/ui';
-import { resources } from 'utils/config';
 
 import RemoveLayout from './RemoveLayout';
 
@@ -29,7 +28,7 @@ const LayoutItem: FC<Props> = ({
 		<View className={className}>
 			<IconButton
 				size={36}
-				source={resources.icons.solana}
+				source={icon}
 				className="rounded-lg overflow-hidden"
 				onPress={() => navigate(`/layouts/${layoutKey}`)}
 			/>

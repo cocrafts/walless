@@ -4,6 +4,7 @@ import { Text, TextInput, View } from '@walless/ui';
 import { SearchIcon } from '@walless/ui/icons';
 import Solana from 'screens/ProjectLayout/Solana';
 import UnderRealm from 'screens/ProjectLayout/UnderRealm';
+import { resources } from 'utils/config';
 import { layoutActions } from 'utils/state/layout';
 
 import ChooseLayoutCard from './ExploreCard';
@@ -27,7 +28,7 @@ const mockLayouts: ExploreCard[] = [
 		name: 'Under Realm',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
-		logoUrl: { uri: '/img/explore-screen/card-1-logo.png' },
+		logoUrl: resources.underRealm.icon,
 		thumbnailUrl: { uri: '/img/explore-screen/card-1-thumbnail.png' },
 		loveCount: 10,
 		activeUsersCount: 20,
@@ -41,7 +42,7 @@ const mockLayouts: ExploreCard[] = [
 		name: 'Solana',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
-		logoUrl: { uri: '/img/explore-screen/card-2-logo.png' },
+		logoUrl: resources.solana.icon,
 		thumbnailUrl: { uri: '/img/explore-screen/card-2-thumbnail.png' },
 		loveCount: 1,
 		activeUsersCount: 2,

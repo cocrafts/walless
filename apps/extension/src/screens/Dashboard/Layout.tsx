@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { TouchableOpacity, View } from '@walless/ui';
 import { Avatar, ContextMenuContainer } from '@walless/ui/components';
 import { CrossIcon } from '@walless/ui/icons';
-import { resources } from 'utils/config';
 import { useSnapshot } from 'utils/hook';
 import { appState } from 'utils/state/app';
-import { layoutProxy } from 'utils/state/layout';
+import { LayoutItem as LayoutType, layoutProxy } from 'utils/state/layout';
 
 import LayoutItem from './LayoutItem';
 
@@ -44,22 +43,24 @@ export const DashboardLayout: FC<Props> = ({
 		<View className="flex-1 flex-row">
 			<View className="z-50 w-[50px] bg-color-7 px-1">
 				<View className="flex-1 items-center py-4 gap-2">
-					{layoutKeys.map((key) => (
-						<ContextMenuContainer
-							key={key}
-							onContextMenu={(event) =>
-								handleContextMenu(event, layouts[key].id)
-							}
-						>
-							<LayoutItem
-								layoutKey={key}
-								name={layouts[key].name}
-								layoutId={layouts[key].id}
-								icon={resources.icons.solana}
-								currentLayoutId={currentLayoutId}
-							/>
-						</ContextMenuContainer>
-					))}
+					{layoutKeys.map((key) => {
+						const { id, icon, name } = layouts[key] as LayoutType;
+
+						return (
+							<ContextMenuContainer
+								key={key}
+								onContextMenu={(event) => handleContextMenu(event, id)}
+							>
+								<LayoutItem
+									layoutKey={key}
+									name={name}
+									layoutId={id}
+									icon={icon}
+									currentLayoutId={currentLayoutId}
+								/>
+							</ContextMenuContainer>
+						);
+					})}
 					<TouchableOpacity
 						className="w-9 aspect-square border border-[color:#3B6887] rounded-lg justify-center items-center"
 						onPress={onExplorePress}

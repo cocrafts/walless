@@ -19,9 +19,13 @@ import { CustomAuthArgs } from '@toruslabs/customauth';
  * 7. Private keys: could be created and store in metadata
  * ------------------ */
 
+const baseUrl = __DEV__
+	? 'http://localhost:3002/'
+	: 'https://walless.io/w3a-response';
+
 export const customAuthArgs: CustomAuthArgs = {
 	network: 'testnet',
-	baseUrl: `http://localhost:3002/`,
+	baseUrl,
 	redirectToOpener: true,
 	redirectPathName: 'w3a-response',
 	enableLogging: false,

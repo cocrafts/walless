@@ -1,6 +1,6 @@
 {
 	"name": "@walless/extension",
-	"version": "0.0.18",
+	"version": "0.0.20",
 	"private": true,
 	"main": "index.web.js",
 	"scripts": {

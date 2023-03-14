@@ -13,6 +13,7 @@
 		"128": "icon.png"
 	},
 	"action": {
+		"default_popup": "popup.html",
 		"default_title": "Open Walless"
 	},
 	"host_permissions": [

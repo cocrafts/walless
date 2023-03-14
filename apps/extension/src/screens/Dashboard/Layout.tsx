@@ -23,8 +23,8 @@ export const DashboardLayout: FC<Props> = ({
 	const { profile } = useSnapshot(appState);
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
-	const isExplorePage = pathname === '/explore';
-	const onExplorePress = () => navigate('/explore');
+	const isExplorePage = pathname === '/';
+	const onExplorePress = () => navigate('/');
 	const onAvatarPress = () => navigate('/profile');
 	const layoutKeys = Object.keys(layouts);
 

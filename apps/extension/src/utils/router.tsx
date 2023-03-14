@@ -22,10 +22,6 @@ export const hashRouter = createHashRouter([
 				element: <Profile />,
 			},
 			{
-				path: '/explore',
-				element: <Explore />,
-			},
-			{
 				path: '/layouts/:layoutId',
 				element: <LayoutDisplay />,
 				loader: async ({ params }) => {
@@ -33,10 +29,14 @@ export const hashRouter = createHashRouter([
 					const layout = snapshot(layoutProxy);
 					const project = layout[layoutId || ''];
 					if (!project) {
-						return redirect('/explore');
+						return redirect('/');
 					}
 					return project;
 				},
+			},
+			{
+				path: '/',
+				element: <Explore />,
 			},
 		],
 	},

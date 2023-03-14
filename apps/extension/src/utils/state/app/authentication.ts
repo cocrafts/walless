@@ -63,7 +63,7 @@ export const signInGoogle = async () => {
 			await hashRouter.navigate('/enter-passcode');
 		} else if (status === ThresholdResult.Ready) {
 			await setProfile(makeProfile(cache.loginResponse));
-			await hashRouter.navigate('/explore');
+			await hashRouter.navigate('/');
 		}
 	} finally {
 		appState.authenticationLoading = false;
@@ -85,7 +85,7 @@ export const recoverWithPasscode = async (passcode: string) => {
 
 	if (unlockSuccess) {
 		await storeAuthenticatedRecords(passcode, cache.loginResponse);
-		await hashRouter.navigate('/explore');
+		await hashRouter.navigate('/');
 	} else {
 		appState.passcodeError = 'wrong passcode, please try again!';
 	}

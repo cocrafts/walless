@@ -5,7 +5,7 @@
 	"description": "A versatile wallet for gamers & non-web3 users",
 	"author": "https://walless.io",
 	"content_security_policy": {
-		"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; frame-ancestors 'none';"
+		"extension_pages": "script-src 'self'; object-src 'self'; frame-ancestors 'none';"
 	},
 	"icons": {
 		"16": "icon.png",
@@ -13,7 +13,6 @@
 		"128": "icon.png"
 	},
 	"action": {
-		"default_popup": "popup.html",
 		"default_title": "Open Walless"
 	},
 	"host_permissions": [

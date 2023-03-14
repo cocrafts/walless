@@ -1,4 +1,5 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
+import { ScrollView } from 'react-native';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TouchableOpacity, View } from '@walless/ui';
 import { Avatar, ContextMenuContainer } from '@walless/ui/components';
@@ -95,7 +96,9 @@ export const DashboardLayout: FC<Props> = ({
 					</TouchableOpacity>
 				</View>
 			</View>
-			<View className={contentContainerClass}>{children}</View>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<View className={contentContainerClass}>{children}</View>
+			</ScrollView>
 		</View>
 	);
 };

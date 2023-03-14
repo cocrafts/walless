@@ -1,7 +1,9 @@
 import { FC } from 'react';
 import { ImageSourcePropType } from 'react-native';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IconButton, View } from '@walless/ui';
+import { useSnapshot } from 'utils/hook';
+import { layoutProxy } from 'utils/state/layout';
 
 import RemoveLayout from './RemoveLayout';
 
@@ -11,7 +13,7 @@ interface Props {
 	layoutId: string;
 	name: string;
 	icon: ImageSourcePropType;
-	currentLayoutId: string | null;
+	currentRightClickLayoutId: string | null;
 }
 
 const LayoutItem: FC<Props> = ({
@@ -20,12 +22,19 @@ const LayoutItem: FC<Props> = ({
 	layoutId,
 	name,
 	icon,
-	currentLayoutId,
+	currentRightClickLayoutId,
 }) => {
 	const navigate = useNavigate();
+	const { pathname } = useLocation();
+	const layouts = useSnapshot(layoutProxy);
+	const key = pathname.split('/')[2] as string;
 
 	return (
 		<View className={className}>
+			{layouts[key]?.id === layoutId && (
+				<View className="absolute -left-[7px] top-1/2 -translate-y-1/2 w-[2px] h-6 bg-white rounded-r-md" />
+			)}
+
 			<IconButton
 				size={36}
 				source={icon}
@@ -33,7 +42,7 @@ const LayoutItem: FC<Props> = ({
 				onPress={() => navigate(`/layouts/${layoutKey}`)}
 			/>
 
-			{currentLayoutId === layoutId && (
+			{currentRightClickLayoutId === layoutId && (
 				<RemoveLayout
 					className="absolute left-12 top-0 h-24 w-[200px]"
 					icon={icon}

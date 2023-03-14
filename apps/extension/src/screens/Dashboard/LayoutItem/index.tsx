@@ -27,7 +27,7 @@ const LayoutItem: FC<Props> = ({
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 	const layouts = useSnapshot(layoutProxy);
-	const key = pathname.split('/')[2] as string;
+	const key = pathname.split('/')[2];
 
 	return (
 		<View className={className}>

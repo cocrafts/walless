@@ -62,9 +62,7 @@ export const ChooseLayout: FC = () => {
 		component: React.FC,
 		isInProfile: boolean,
 	) => {
-		isInProfile
-			? layoutActions.removeLayout(layoutId)
-			: layoutActions.addLayout(layoutId, name, icon, component);
+		!isInProfile && layoutActions.addLayout(layoutId, name, icon, component);
 	};
 
 	const handleLoveProfile = (id: string, love: boolean) => {

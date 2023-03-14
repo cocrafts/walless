@@ -73,6 +73,9 @@ export const DashboardLayout: FC<Props> = ({
 						}`}
 						onPress={onExplorePress}
 					>
+						{isExplorePage && (
+							<View className="absolute -left-[7px] top-1/2 -translate-y-1/2 w-[2px] h-6 bg-white rounded-r-md" />
+						)}
 						<CompassIcon
 							size={15}
 							color={isExplorePage ? 'black' : '#3B6887'}

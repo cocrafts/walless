@@ -21,6 +21,7 @@ export interface ExploreCard {
 	love: boolean;
 	layoutId: string;
 	component: React.FC;
+	inDevelopment?: boolean;
 }
 
 const mockLayouts: ExploreCard[] = [
@@ -63,8 +64,9 @@ const mockLayouts: ExploreCard[] = [
 		link: '/explore',
 		isInProfile: true,
 		love: true,
-		layoutId: 'under-realm',
+		layoutId: 'y00ts',
 		component: UnderRealm,
+		inDevelopment: true,
 	},
 	{
 		name: 'Tales of berseria',
@@ -77,8 +79,9 @@ const mockLayouts: ExploreCard[] = [
 		link: '/explore',
 		isInProfile: false,
 		love: false,
-		layoutId: 'solana',
+		layoutId: 'tales-of-berseria',
 		component: Solana,
+		inDevelopment: true,
 	},
 	{
 		name: 'Sui',
@@ -91,8 +94,9 @@ const mockLayouts: ExploreCard[] = [
 		link: '/explore',
 		isInProfile: true,
 		love: true,
-		layoutId: 'under-realm',
+		layoutId: 'sui',
 		component: UnderRealm,
+		inDevelopment: true,
 	},
 	{
 		name: 'Nike',
@@ -105,8 +109,9 @@ const mockLayouts: ExploreCard[] = [
 		link: '/explore',
 		isInProfile: false,
 		love: false,
-		layoutId: 'solana',
+		layoutId: 'nike',
 		component: Solana,
+		inDevelopment: true,
 	},
 ];
 
@@ -117,8 +122,11 @@ export const ChooseLayout: FC = () => {
 		icon: ImageSourcePropType,
 		component: React.FC,
 		isInProfile: boolean,
+		inDevelopment?: boolean,
 	) => {
-		!isInProfile && layoutActions.addLayout(layoutId, name, icon, component);
+		!inDevelopment &&
+			!isInProfile &&
+			layoutActions.addLayout(layoutId, name, icon, component);
 	};
 
 	const handleLoveProfile = (id: string, love: boolean) => {

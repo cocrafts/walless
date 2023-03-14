@@ -52,9 +52,10 @@ export class WallessWalletAccount implements WalletAccount {
 		label,
 		icon,
 	}: Omit<WalletAccount, 'chains' | 'features'>) {
-		if (new.target === WallessWalletAccount) {
-			Object.freeze(this);
-		}
+		// TODO: un-comment bellowing
+		// if (new.target === WallessWalletAccount) {
+		// 	Object.freeze(this);
+		// }
 
 		this.#address = address;
 		this.#publicKey = publicKey;

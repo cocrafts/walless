@@ -1,5 +1,6 @@
-export const observeAuthentication = () => {
+export const boostrapMessaging = () => {
 	global.postMessage({ from: 'walless-content-script-loaded' });
+
 	global.addEventListener(
 		'message',
 		async ({ source, data }) => {

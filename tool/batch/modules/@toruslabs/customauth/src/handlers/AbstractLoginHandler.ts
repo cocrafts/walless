@@ -6,8 +6,6 @@ import log from "../utils/loglevel";
 import PopupHandler from "../utils/PopupHandler";
 import { Auth0ClientOptions, ILoginHandler, LoginWindowResponse, PopupResponse, TorusGenericObject, TorusVerifierResponse } from "./interfaces";
 
-const uiChannel = new BroadcastChannel('ui');
-
 abstract class AbstractLoginHandler implements ILoginHandler {
 	public nonce: string = randomId();
 
@@ -91,9 +89,9 @@ abstract class AbstractLoginHandler implements ILoginHandler {
 
 						handleData(ev);
 
-						if (global.chrome?.action) {
-							uiChannel.removeEventListener("message", postMessageEventHandler);
-							chrome.tabs.query({ url: "*://*/w3a-response" }).then((tabs) => {
+						if (global.chrome?.runtime) {
+							chrome.runtime.onMessage.removeListener(chromeMessageHandler);
+							chrome.tabs.query({ url: '*://*/w3a-response' }).then((tabs) => {
 								tabs.forEach((item) => chrome.tabs.remove(item.id));
 							})
 						} else {
@@ -102,8 +100,12 @@ abstract class AbstractLoginHandler implements ILoginHandler {
 						}
 					};
 
+					const chromeMessageHandler = (request) => {
+						return postMessageEventHandler({ data: request } as MessageEvent);
+					}
+
 					if (global.chrome?.runtime) {
-						uiChannel.addEventListener("message",  postMessageEventHandler)
+						chrome.runtime.onMessage.addListener(chromeMessageHandler);
 					} else {
 						window.addEventListener("message", postMessageEventHandler);
 					}

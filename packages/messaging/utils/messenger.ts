@@ -110,7 +110,6 @@ export const createMessenger = (channelNames: string[]): Messenger => {
 	};
 
 	const send: MessengerSend = async (channelId, payload) => {
-		console.log('sending', channels[channelId], payload);
 		channels[channelId]?.postMessage(payload);
 	};
 

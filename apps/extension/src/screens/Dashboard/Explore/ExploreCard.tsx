@@ -111,7 +111,7 @@ const ChooseLayoutCard: FC<Props> = ({
 								className="text-[8px]"
 								onPress={() => handlePressLoveBtn(item.layoutId, item.love)}
 							>
-								{item.love ? '❤️' : '🤍'} {item.loveCount} Love
+								{item.love ? '❤️' : '🤍'} {item.loveCount}
 							</Text>
 							<Text className="flex flex-row gap-1 items-center justify-center">
 								<ActiveDotIcon size={5} color="#4DE2A4" className="mb-[1px]" />{' '}

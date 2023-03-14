@@ -1,23 +1,21 @@
 import { decryptFromString, encryptToString } from '@walless/crypto';
 
 import {
-	ChannelMaker,
-	CombineBroadcast,
+	ChannelHashmap,
 	EncryptedMessage,
 	EncryptionKeyVault,
 	MessagePayload,
 	Messenger,
 	MessengerMessageListener,
 	MessengerSend,
-	MiniBroadcast,
 	ResponsePayload,
-	UniverseChannelHashmap,
+	UnknownObject,
 } from './types';
 
 export const sendEncryptedMessage = async <T extends MessagePayload>(
 	payload: T,
 	key: CryptoKey,
-	from: MiniBroadcast,
+	from: BroadcastChannel,
 ): Promise<T> => {
 	if (!payload.id) payload.id = crypto.randomUUID();
 	const iv = crypto.getRandomValues(new Uint8Array(12));
@@ -36,7 +34,7 @@ export const sendEncryptedRequest = async <
 >(
 	payload: T,
 	key: CryptoKey,
-	from: MiniBroadcast,
+	from: BroadcastChannel,
 ): Promise<R> => {
 	return new Promise(() => {
 		console.log(payload, from, key);
@@ -53,21 +51,19 @@ export const decryptMessage = async <T extends MessagePayload>(
 	return JSON.parse(decrypted) as T;
 };
 
-export const createMessenger = (
-	encryptionKeyVault: EncryptionKeyVault,
+export const createEncryptedMessenger = (
 	channelNames: string[],
+	encryptionKeyVault: EncryptionKeyVault,
 ): Messenger => {
-	const makeChannel: ChannelMaker = global.chrome?.runtime
-		? (name) => chrome.runtime.connect({ name })
-		: (name) => new BroadcastChannel(name);
-
 	const channels = channelNames.reduce((result, name) => {
-		result[name] = makeChannel(name);
+		result[name] = new BroadcastChannel(name);
 		return result;
-	}, {} as UniverseChannelHashmap);
+	}, {} as ChannelHashmap);
 
 	const onMessage: MessengerMessageListener = (channelId, cb) => {
-		const channel = channels[channelId] as CombineBroadcast;
+		const channel = channels[channelId];
+		if (!channel) return;
+
 		const decryptAndCallback = async (data: EncryptedMessage) => {
 			try {
 				const key = await encryptionKeyVault.get(channel.name);
@@ -79,22 +75,43 @@ export const createMessenger = (
 			}
 		};
 
-		if (channel.onMessage) {
-			(channel as chrome.runtime.Port).onMessage.addListener(
-				(data: EncryptedMessage) => decryptAndCallback(data),
-			);
-		} else {
-			(channel as BroadcastChannel).addEventListener(
-				'message',
-				async ({ data }: MessageEvent<EncryptedMessage>) =>
-					decryptAndCallback(data),
-			);
-		}
+		channel.onmessage = async ({ data }: MessageEvent<EncryptedMessage>) => {
+			await decryptAndCallback(data);
+		};
 	};
 
 	const send: MessengerSend = async (channelId, payload) => {
 		const key = await encryptionKeyVault.get(channelId);
 		await sendEncryptedMessage(payload, key, channels[channelId]);
+	};
+
+	return {
+		channels,
+		onMessage,
+		send,
+	};
+};
+
+export const createMessenger = (channelNames: string[]): Messenger => {
+	const channels = channelNames.reduce((result, name) => {
+		result[name] = new BroadcastChannel(name);
+		console.log(name, 'channel initialized!');
+
+		return result;
+	}, {} as ChannelHashmap);
+
+	const onMessage: MessengerMessageListener = (channelId, cb) => {
+		const channel = channels[channelId];
+		if (!channel) return;
+
+		channels[channelId].onmessage = ({ data }: MessageEvent<UnknownObject>) => {
+			cb(data);
+		};
+	};
+
+	const send: MessengerSend = async (channelId, payload) => {
+		console.log('sending', channels[channelId], payload);
+		channels[channelId]?.postMessage(payload);
 	};
 
 	return {

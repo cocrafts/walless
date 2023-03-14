@@ -28,9 +28,6 @@ export interface RequestMetadata {
 	reject: (error: Error) => void;
 }
 
-export type MiniBroadcast = chrome.runtime.Port | BroadcastChannel;
-export type CombineBroadcast = chrome.runtime.Port & BroadcastChannel;
-
 export type GetKeyVault = (id: string) => Promise<CryptoKey>;
 export type CreateAndHydrateKeyVault = (id: string) => Promise<CryptoKey>;
 
@@ -39,8 +36,7 @@ export interface EncryptionKeyVault {
 	createAndHydrate: CreateAndHydrateKeyVault;
 }
 
-export type UniverseChannelHashmap = Record<string, MiniBroadcast>;
-export type ChannelMaker = (name: string) => MiniBroadcast;
+export type ChannelHashmap = Record<string, BroadcastChannel>;
 
 export type MessengerSend = (
 	channelId: string,
@@ -53,7 +49,7 @@ export type MessengerMessageListener = (
 ) => void;
 
 export interface Messenger {
-	channels: UniverseChannelHashmap;
+	channels: ChannelHashmap;
 	onMessage: MessengerMessageListener;
 	send: MessengerSend;
 }

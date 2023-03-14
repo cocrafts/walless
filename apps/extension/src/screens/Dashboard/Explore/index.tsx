@@ -33,7 +33,7 @@ const mockLayouts: ExploreCard[] = [
 		thumbnailUrl: { uri: '/img/explore-screen/card-1-thumbnail.png' },
 		loveCount: 10,
 		activeUsersCount: 20,
-		link: '/explore',
+		link: '/',
 		isInProfile: true,
 		love: true,
 		layoutId: 'under-realm',
@@ -47,7 +47,7 @@ const mockLayouts: ExploreCard[] = [
 		thumbnailUrl: { uri: '/img/explore-screen/card-2-thumbnail.png' },
 		loveCount: 431,
 		activeUsersCount: 2000,
-		link: '/explore',
+		link: '/',
 		isInProfile: false,
 		love: false,
 		layoutId: 'solana',
@@ -61,7 +61,7 @@ const mockLayouts: ExploreCard[] = [
 		thumbnailUrl: { uri: '/img/explore-screen/card-3-thumbnail.png' },
 		loveCount: 59,
 		activeUsersCount: 579,
-		link: '/explore',
+		link: '/',
 		isInProfile: true,
 		love: true,
 		layoutId: 'y00ts',
@@ -76,7 +76,7 @@ const mockLayouts: ExploreCard[] = [
 		thumbnailUrl: { uri: '/img/explore-screen/card-4-thumbnail.png' },
 		loveCount: 36,
 		activeUsersCount: 234,
-		link: '/explore',
+		link: '/',
 		isInProfile: false,
 		love: false,
 		layoutId: 'tales-of-berseria',
@@ -91,7 +91,7 @@ const mockLayouts: ExploreCard[] = [
 		thumbnailUrl: { uri: '/img/explore-screen/card-5-thumbnail.png' },
 		loveCount: 80,
 		activeUsersCount: 80,
-		link: '/explore',
+		link: '/',
 		isInProfile: true,
 		love: true,
 		layoutId: 'sui',
@@ -106,7 +106,7 @@ const mockLayouts: ExploreCard[] = [
 		thumbnailUrl: { uri: '/img/explore-screen/card-6-thumbnail.png' },
 		loveCount: 300,
 		activeUsersCount: 900,
-		link: '/explore',
+		link: '/',
 		isInProfile: false,
 		love: false,
 		layoutId: 'nike',
@@ -116,17 +116,12 @@ const mockLayouts: ExploreCard[] = [
 ];
 
 export const ChooseLayout: FC = () => {
-	const handleAddToProfile = (
-		layoutId: string,
-		name: string,
-		icon: ImageSourcePropType,
-		component: React.FC,
-		isInProfile: boolean,
-		inDevelopment?: boolean,
-	) => {
+	const handleAddToProfile = (item: ExploreCard, isInProfile: boolean) => {
+		const { layoutId, inDevelopment, logoUrl, name, component } = item;
+
 		!inDevelopment &&
 			!isInProfile &&
-			layoutActions.addLayout(layoutId, name, icon, component);
+			layoutActions.addLayout(layoutId, name, logoUrl, component);
 	};
 
 	const handleLoveProfile = (id: string, love: boolean) => {

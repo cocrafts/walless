@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { ImageSourcePropType } from 'react-native';
 import { Link } from 'react-router-dom';
 import {
 	ActiveDotIcon,
@@ -16,14 +15,7 @@ import { ExploreCard } from '.';
 
 interface Props {
 	item: ExploreCard;
-	handlePressAddBtn: (
-		layoutId: string,
-		name: string,
-		icon: ImageSourcePropType,
-		component: React.FC,
-		isInProfile: boolean,
-		inDevelopment?: boolean,
-	) => void;
+	handlePressAddBtn: (item: ExploreCard, isInProfile: boolean) => void;
 	handlePressLoveBtn: (layoutId: string, love: boolean) => void;
 }
 
@@ -53,16 +45,7 @@ const ChooseLayoutCard: FC<Props> = ({
 
 				<View className="absolute top-1 right-1 flex flex-row-reverse gap-2">
 					<TouchableOpacity
-						onPress={() =>
-							handlePressAddBtn(
-								item.layoutId,
-								item.name,
-								item.logoUrl,
-								item.component,
-								isInProfile,
-								item.inDevelopment,
-							)
-						}
+						onPress={() => handlePressAddBtn(item, isInProfile)}
 						className="h-5 w-5 p-[1px] bg-gradient-to-b from-white to-[#2BA5D6] rounded-full peer"
 					>
 						<Text

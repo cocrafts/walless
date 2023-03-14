@@ -1,6 +1,8 @@
 import { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { InformationIcon, Text, View } from '@walless/ui';
+import { useSnapshot } from 'utils/hook';
+import { layoutProxy } from 'utils/state/layout';
 
 import ConfirmButton from '../ConfirmButton';
 
@@ -26,13 +28,13 @@ const tokens: DropdownItemProps[] = [
 	},
 	{
 		id: 'tk2',
-		name: 'ETH',
-		icon: '/img/icon-solana-dark.png',
+		name: 'SUI',
+		icon: '/img/explore-screen/card-5-logo.png',
 	},
 	{
 		id: 'tk3',
-		name: 'BTC',
-		icon: '/img/icon-solana-dark.png',
+		name: 'Under Realm Gold',
+		icon: '/img/urg.png',
 	},
 ];
 
@@ -44,19 +46,20 @@ const networks: DropdownItemProps[] = [
 	},
 	{
 		id: 'nw2',
-		name: 'Ethereum',
-		icon: '/img/icon-solana-dark.png',
-	},
-	{
-		id: 'nw3',
-		name: 'Bitcoin',
-		icon: '/img/icon-solana-dark.png',
+		name: 'Sui Network',
+		icon: '/img/explore-screen/card-5-logo.png',
 	},
 ];
 
 const TokensView: FC<TokensViewProps> = ({ className }) => {
+	const location = useLocation();
+	const { pathname } = location;
+	const layoutId = pathname.split('/')[2];
+	const layouts = useSnapshot(layoutProxy);
+	const layoutName = layouts[layoutId]?.name;
+
 	const [selectedToken, setSelectedToken] = useState<DropdownItemProps | null>(
-		null,
+		layoutName === 'Under Realm' ? tokens[2] : null,
 	);
 	const [selectedNetwork, setSelectedNetwork] =
 		useState<DropdownItemProps | null>(null);

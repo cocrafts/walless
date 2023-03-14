@@ -21,6 +21,7 @@ export interface ExploreCard {
 	love: boolean;
 	layoutId: string;
 	component: React.FC;
+	inDevelopment?: boolean;
 }
 
 const mockLayouts: ExploreCard[] = [
@@ -42,15 +43,75 @@ const mockLayouts: ExploreCard[] = [
 		name: 'Solana',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
-		logoUrl: resources.solana.icon,
+		logoUrl: { uri: '/img/explore-screen/card-2-logo.png' },
 		thumbnailUrl: { uri: '/img/explore-screen/card-2-thumbnail.png' },
-		loveCount: 1,
-		activeUsersCount: 2,
+		loveCount: 431,
+		activeUsersCount: 2000,
 		link: '/explore',
 		isInProfile: false,
 		love: false,
 		layoutId: 'solana',
 		component: Solana,
+	},
+	{
+		name: 'Y00ts',
+		description:
+			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
+		logoUrl: { uri: '/img/explore-screen/card-3-logo.png' },
+		thumbnailUrl: { uri: '/img/explore-screen/card-3-thumbnail.png' },
+		loveCount: 59,
+		activeUsersCount: 579,
+		link: '/explore',
+		isInProfile: true,
+		love: true,
+		layoutId: 'y00ts',
+		component: UnderRealm,
+		inDevelopment: true,
+	},
+	{
+		name: 'Tales of berseria',
+		description:
+			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
+		logoUrl: { uri: '/img/explore-screen/card-4-logo.png' },
+		thumbnailUrl: { uri: '/img/explore-screen/card-4-thumbnail.png' },
+		loveCount: 36,
+		activeUsersCount: 234,
+		link: '/explore',
+		isInProfile: false,
+		love: false,
+		layoutId: 'tales-of-berseria',
+		component: Solana,
+		inDevelopment: true,
+	},
+	{
+		name: 'Sui',
+		description:
+			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
+		logoUrl: { uri: '/img/explore-screen/card-5-logo.png' },
+		thumbnailUrl: { uri: '/img/explore-screen/card-5-thumbnail.png' },
+		loveCount: 80,
+		activeUsersCount: 80,
+		link: '/explore',
+		isInProfile: true,
+		love: true,
+		layoutId: 'sui',
+		component: UnderRealm,
+		inDevelopment: true,
+	},
+	{
+		name: 'Nike',
+		description:
+			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
+		logoUrl: { uri: '/img/explore-screen/card-6-logo.png' },
+		thumbnailUrl: { uri: '/img/explore-screen/card-6-thumbnail.png' },
+		loveCount: 300,
+		activeUsersCount: 900,
+		link: '/explore',
+		isInProfile: false,
+		love: false,
+		layoutId: 'nike',
+		component: Solana,
+		inDevelopment: true,
 	},
 ];
 
@@ -61,8 +122,11 @@ export const ChooseLayout: FC = () => {
 		icon: ImageSourcePropType,
 		component: React.FC,
 		isInProfile: boolean,
+		inDevelopment?: boolean,
 	) => {
-		!isInProfile && layoutActions.addLayout(layoutId, name, icon, component);
+		!inDevelopment &&
+			!isInProfile &&
+			layoutActions.addLayout(layoutId, name, icon, component);
 	};
 
 	const handleLoveProfile = (id: string, love: boolean) => {

@@ -22,6 +22,7 @@ interface Props {
 		icon: ImageSourcePropType,
 		component: React.FC,
 		isInProfile: boolean,
+		inDevelopment?: boolean,
 	) => void;
 	handlePressLoveBtn: (layoutId: string, love: boolean) => void;
 }
@@ -59,6 +60,7 @@ const ChooseLayoutCard: FC<Props> = ({
 								item.logoUrl,
 								item.component,
 								isInProfile,
+								item.inDevelopment,
 							)
 						}
 						className="h-5 w-5 p-[1px] bg-gradient-to-b from-white to-[#2BA5D6] rounded-full peer"
@@ -79,7 +81,11 @@ const ChooseLayoutCard: FC<Props> = ({
 							isInProfile ? 'bg-[#1C1B1B] text-white' : 'bg-[#35A8D3]'
 						}`}
 					>
-						{isInProfile ? 'Added to my profile' : 'Add to my profile'}
+						{item.inDevelopment
+							? 'Coming soon'
+							: isInProfile
+							? 'Added to my profile'
+							: 'Add to my profile'}
 						<View
 							className={`absolute -z-10 right-0 top-[6px] transition duration-200 translate-x-[2px] w-2 h-2 rotate-45 rounded-[2px] ${
 								isInProfile ? 'bg-[#1C1B1B]' : 'bg-[#35A8D3]'

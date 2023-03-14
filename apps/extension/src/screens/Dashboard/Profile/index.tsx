@@ -56,7 +56,7 @@ const Profile: FC = () => {
 							to="/profile"
 							className="bg-[#80D0DC] mt-1 ml-2 h-4 w-4 flex justify-center items-center rounded-full"
 						>
-							<ChevronRightIcon size={12} color="white" className="mt-[2px]" />
+							<ChevronRightIcon size={12} color="white" />
 						</Link>
 					</Text>
 				</View>

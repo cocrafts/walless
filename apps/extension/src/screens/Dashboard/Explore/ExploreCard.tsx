@@ -50,12 +50,12 @@ const ChooseLayoutCard: FC<Props> = ({
 						)
 					}
 				>
-					<Text className="bg-[#35A8D3] pt-[2px] px-2 rounded text-[8px] transition duration-200 flex justify-center items-center scale-0 group-hover:scale-100">
+					<Text className="bg-[#35A8D3] px-2 rounded text-[8px] transition duration-200 flex justify-center items-center scale-0 group-hover:scale-100">
 						{isInProfile ? 'Remove from my profile' : 'Add to my profile'}
 						<View className="absolute -z-10 right-0 top-[6px] translate-x-[2px] w-2 h-2 rotate-45 rounded-[2px] bg-[#35A8D3]" />
 					</Text>
 					<View className="h-5 w-5 p-[1px] bg-gradient-to-b from-white to-[#2BA5D6] rounded-full">
-						<Text className="h-full w-full bg-gradient-to-r from-[#2BA5D6] to-[#8BC3BF] rounded-full text-sm flex justify-center items-center">
+						<Text className="h-full w-full pt-[2px] bg-gradient-to-r from-[#2BA5D6] to-[#8BC3BF] rounded-full text-sm flex justify-center items-center">
 							{isInProfile ? '-' : '+'}
 						</Text>
 					</View>
@@ -84,8 +84,7 @@ const ChooseLayoutCard: FC<Props> = ({
 								className="text-[8px]"
 								onPress={() => handlePressLoveBtn(item.layoutId, item.love)}
 							>
-								{item.love ? '❤️' : '🤍'}
-								{item.loveCount} Love
+								{item.love ? '❤️' : '🤍'} {item.loveCount} Love
 							</Text>
 							<Text className="text-[8px]">
 								🟢 {item.activeUsersCount} Active

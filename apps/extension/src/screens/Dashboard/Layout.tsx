@@ -25,18 +25,22 @@ export const DashboardLayout: FC<Props> = ({
 	const onAvatarPress = () => navigate('/profile');
 	const layoutKeys = Object.keys(layouts);
 
-	const [currentLayoutId, setCurrentLayoutId] = useState<string | null>(null);
+	const [currentRightClickLayoutId, setCurrentRightClickLayoutId] = useState<
+		string | null
+	>(null);
 
 	const handleContextMenu = (
 		event: React.MouseEvent<HTMLDivElement, MouseEvent>,
 		layoutId: string,
 	): void => {
 		event.preventDefault();
-		setCurrentLayoutId(layoutId === currentLayoutId ? null : layoutId);
+		setCurrentRightClickLayoutId(
+			layoutId === currentRightClickLayoutId ? null : layoutId,
+		);
 	};
 
 	useEffect(() => {
-		setCurrentLayoutId(null);
+		setCurrentRightClickLayoutId(null);
 	}, [layoutKeys.length]);
 
 	return (
@@ -56,7 +60,7 @@ export const DashboardLayout: FC<Props> = ({
 									name={name}
 									layoutId={id}
 									icon={icon}
-									currentLayoutId={currentLayoutId}
+									currentRightClickLayoutId={currentRightClickLayoutId}
 								/>
 							</ContextMenuContainer>
 						);

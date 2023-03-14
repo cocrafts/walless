@@ -1,5 +1,8 @@
-import { createMessenger } from '@walless/messaging';
+import { createEncryptedMessenger } from '@walless/messaging';
 
 import { encryptionKeyVault } from './alias';
 
-export const messenger = createMessenger(encryptionKeyVault, ['ui']);
+export const encryptedMessenger = createEncryptedMessenger(
+	['ui'],
+	encryptionKeyVault,
+);

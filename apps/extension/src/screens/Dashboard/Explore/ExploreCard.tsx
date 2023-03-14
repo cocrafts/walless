@@ -66,7 +66,7 @@ const ChooseLayoutCard: FC<Props> = ({
 						className="h-5 w-5 p-[1px] bg-gradient-to-b from-white to-[#2BA5D6] rounded-full peer"
 					>
 						<Text
-							className={`h-full w-full pt-[2px] rounded-full text-sm flex justify-center items-center ${
+							className={`h-full w-full rounded-full text-sm flex justify-center items-center ${
 								isInProfile
 									? 'bg-[#1C1B1B]'
 									: 'bg-gradient-to-r from-[#2BA5D6] to-[#8BC3BF]'

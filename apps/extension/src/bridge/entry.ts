@@ -1,6 +1,6 @@
 import { registerServiceWorker } from 'utils/service-worker';
 
-import { registerMessageHandlers } from './listener';
+import { registerMessageHandlers } from './listeners';
 
 export const injectWorkers = async (): Promise<void> => {
 	await registerMessageHandlers();

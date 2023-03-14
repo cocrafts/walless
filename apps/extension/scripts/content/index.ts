@@ -1,7 +1,7 @@
-import { observeAuthentication } from './authListener';
+import { boostrapMessaging } from './messaging';
 import { injectScript } from './utils';
 
-console.log('content script loaded');
-
-observeAuthentication();
+boostrapMessaging();
 injectScript('injection.js');
+
+console.log('content script loaded');

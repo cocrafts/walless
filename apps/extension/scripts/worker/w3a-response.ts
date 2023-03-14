@@ -1,7 +1,6 @@
 let isFromExtension = false;
 
 export const parseAndNotifyResult = async () => {
-	console.log('parse started!');
 	let error = '';
 	let instanceParams: Record<string, string> = {};
 	const url = new URL(window.location.href);
@@ -43,7 +42,6 @@ export const parseAndNotifyResult = async () => {
 	}
 
 	const channel = `redirect_channel_${instanceParams.instanceId}`;
-	console.log(channel, ' <;- channel');
 	const data = { queryParams, instanceParams, hashParams };
 
 	if (instanceParams.redirectToOpener) {
@@ -51,12 +49,9 @@ export const parseAndNotifyResult = async () => {
 		 * broadcast the result to it-self, which listened/handle by Extension */
 		const payload = { from: 'walless@sign-in-response', channel, data, error };
 
-		console.log(payload, '<-- payload to send');
 		if (isFromExtension || !window.opener?.postMessage) {
-			console.log('using direct');
 			window.postMessage(payload);
 		} else {
-			console.log('using opener!');
 			window.opener?.postMessage(payload, '*');
 		}
 	}

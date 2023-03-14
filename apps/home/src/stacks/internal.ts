@@ -5,7 +5,7 @@ import {
 import { StackNavigationOptions } from '@react-navigation/stack';
 
 export type RootParamList = {
-	Authentication: undefined;
+	AuthResponse: undefined;
 	Home: undefined;
 };
 
@@ -18,7 +18,7 @@ export const linking: LinkingOptions<RootParamList> = {
 	prefixes: ['walless://', 'https://walless.io'],
 	config: {
 		screens: {
-			Authentication: '/auth',
+			AuthResponse: '/w3a-response',
 			Home: '/',
 		},
 	},
@@ -26,7 +26,7 @@ export const linking: LinkingOptions<RootParamList> = {
 
 export const navigationRef = createNavigationContainerRef<RootParamList>();
 
-const navigate = (
+export const navigate = (
 	name: keyof RootParamList,
 	params: RootParamList[keyof RootParamList],
 ) => {
@@ -34,5 +34,3 @@ const navigate = (
 		navigationRef.navigate(name, params);
 	}
 };
-
-console.log(navigate);

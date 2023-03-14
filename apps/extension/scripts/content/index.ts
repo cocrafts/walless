@@ -1,7 +1,9 @@
-import { boostrapMessaging } from './messaging';
+import { initializeMessaging } from './messaging';
 import { injectScript } from './utils';
 
-boostrapMessaging();
-injectScript('injection.js');
+(async () => {
+	await initializeMessaging();
+	injectScript('injection.js');
 
-console.log('content script loaded');
+	console.log('content script loaded');
+})();

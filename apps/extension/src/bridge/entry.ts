@@ -25,12 +25,17 @@ const launchTabIfNotLoggedIn = async () => {
 
 	if (!settings?.profile?.email) {
 		chrome.tabs.query(
-			{ url: `${chrome.runtime.getURL('index.html')}/*` },
+			{ url: `${chrome.runtime.getURL('index.html')}*` },
 			(tabs) => {
 				if (tabs.length <= 0) {
 					chrome.tabs.create({
 						url: chrome.runtime.getURL('index.html'),
 						active: true,
+					});
+
+					/* close extension popup */
+					chrome.extension.getViews({ type: 'popup' }).forEach((view) => {
+						view.close();
 					});
 				}
 			},

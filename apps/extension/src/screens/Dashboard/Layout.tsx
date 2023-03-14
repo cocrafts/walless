@@ -1,8 +1,8 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TouchableOpacity, View } from '@walless/ui';
 import { Avatar, ContextMenuContainer } from '@walless/ui/components';
-import { CrossIcon } from '@walless/ui/icons';
+import { CompassIcon } from '@walless/ui/icons';
 import { useSnapshot } from 'utils/hook';
 import { appState } from 'utils/state/app';
 import { LayoutItem as LayoutType, layoutProxy } from 'utils/state/layout';
@@ -21,6 +21,8 @@ export const DashboardLayout: FC<Props> = ({
 	const layouts = useSnapshot(layoutProxy);
 	const { profile } = useSnapshot(appState);
 	const navigate = useNavigate();
+	const { pathname } = useLocation();
+	const isExplorePage = pathname === '/explore';
 	const onExplorePress = () => navigate('/explore');
 	const onAvatarPress = () => navigate('/profile');
 	const layoutKeys = Object.keys(layouts);
@@ -66,12 +68,21 @@ export const DashboardLayout: FC<Props> = ({
 						);
 					})}
 					<TouchableOpacity
-						className="w-9 aspect-square border border-[color:#3B6887] rounded-lg justify-center items-center"
+						className={`w-9 aspect-square border border-[color:#3B6887] rounded-lg justify-center items-center ${
+							isExplorePage ? 'border-white bg-white' : 'border-[color:#3B6887]'
+						}`}
 						onPress={onExplorePress}
 					>
-						<CrossIcon size={15} color="#3B6887" />
+						{isExplorePage && (
+							<View className="absolute -left-[7px] top-1/2 -translate-y-1/2 w-[2px] h-6 bg-white rounded-r-md" />
+						)}
+						<CompassIcon
+							size={15}
+							color={isExplorePage ? 'black' : '#3B6887'}
+						/>
 					</TouchableOpacity>
 				</View>
+
 				<View className="justify-end items-center pb-5">
 					<TouchableOpacity
 						className="aspect-square border border-[color:#3B6887] rounded-lg"

@@ -4,12 +4,15 @@ export interface IconProps {
 	color?: string;
 }
 
+export { ActiveDotIcon } from './ActiveDot';
 export { ArrowBottomRightIcon } from './ArrowBottomRight';
 export { ArrowTopRightIcon } from './ArrowTopRight';
 export { BellIcon } from './Bell';
 export { CartIcon } from './Cart';
+export { CheckIcon } from './Check';
 export { ChevronDownIcon } from './ChevronDown';
 export { ChevronRightIcon } from './ChevronRight';
+export { CompassIcon } from './Compass';
 export { CrossIcon } from './Cross';
 export { EyeOffIcon } from './EyeOff';
 export { EyeOnIcon } from './EyeOn';

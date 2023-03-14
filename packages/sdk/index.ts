@@ -1,4 +1,5 @@
 import {
+	Keypair,
 	PublicKey,
 	SendOptions,
 	Transaction,
@@ -7,36 +8,44 @@ import {
 } from '@solana/web3.js';
 import { EventEmitter } from 'eventemitter3';
 
+import { requestConnect } from './utils/messaging';
+
 export class Walless extends EventEmitter {
-	_publicKey?: PublicKey;
-	_isConnected: boolean;
+	#publicKey?: PublicKey;
+	#isConnected: boolean;
 
 	constructor() {
 		super();
 
-		this._isConnected = false;
-		this._publicKey = undefined;
+		this.#isConnected = false;
+		this.#publicKey = undefined;
 	}
 
-	connect(options?: {
+	async connect(options?: {
 		onlyIfTrusted?: boolean;
 	}): Promise<{ publicKey: PublicKey }> {
-		if (this._isConnected) {
+		if (this.#isConnected) {
 			throw new Error('provider already connected');
 		}
 
-		this._isConnected = true;
-		console.log(options);
+		requestConnect(options);
+		const keypair = Keypair.generate();
 
-		return '' as never;
+		this.#publicKey = keypair.publicKey;
+		this.#isConnected = true;
+
+		return {
+			publicKey: keypair.publicKey,
+		};
 	}
 
 	async disconnect() {
-		console.log('imagine that you are disconnected, hehe!');
+		this.#isConnected = false;
+		console.log('walless disconnected!');
 	}
 
 	public get publicKey() {
-		return this._publicKey;
+		return this.#publicKey;
 	}
 
 	signAndSendTransaction<T extends Transaction | VersionedTransaction>(

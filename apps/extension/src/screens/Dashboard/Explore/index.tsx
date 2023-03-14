@@ -136,15 +136,12 @@ export const ChooseLayout: FC = () => {
 	return (
 		<View className="bg-gradient-to-b from-[#003356] to-[#011726] h-full">
 			<Text className="text-xl mt-10 mb-3 text-center">
-				Choose a nicely layout to start
+				Find your favorite app
 			</Text>
 
 			<View className="bg-[#011828] h-10 mx-5 mb-6 px-4 flex flex-row items-center gap-2 rounded-lg">
 				<SearchIcon size={16} color="#99B0BF" />
-				<TextInput
-					className="text-[#99B0BF]"
-					placeholder="Explore exciting project"
-				/>
+				<TextInput className="text-[#99B0BF]" placeholder="Explore.." />
 			</View>
 
 			<View className="mx-5 flex gap-5">

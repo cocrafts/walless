@@ -4,6 +4,7 @@ import { Image, Text, View } from '@walless/ui';
 import { resources } from 'utils/config';
 
 import Indicator from '../components/Indicator';
+import Tag, { TagProps } from '../components/Tag';
 
 import CollectibleItem from './CollectibleItem';
 import { NftMetadata, nfts, tokens } from './internal';
@@ -14,6 +15,17 @@ const cloneNfts = [...nfts];
 while (cloneNfts.length) {
 	collectibles.push(cloneNfts.splice(0, 2));
 }
+
+const tags: TagProps[] = [
+	{
+		tagIcon: { uri: '/img/icon-solana-dark.png' },
+		tagName: 'SOLANA',
+	},
+	{
+		tagIcon: { uri: '/img/icon-sui.png' },
+		tagName: 'sui',
+	},
+];
 
 export const UnderRealm: React.FC = () => {
 	const [tokenActiveIndex, setTokenActiveIndex] = useState(0);
@@ -35,10 +47,19 @@ export const UnderRealm: React.FC = () => {
 
 	return (
 		<View className="flex-1 bg-[color:#110A07]">
-			<Image
-				source={resources.underRealm.banner}
-				className="w-full aspect-[358/117] mb-5"
-			/>
+			<View>
+				<Image
+					source={resources.underRealm.banner}
+					className="w-full aspect-[358/117] mb-5"
+				/>
+
+				<View className="absolute bottom-6 right-3 flex flex-row gap-2">
+					{tags.map((tag) => (
+						<Tag key={tag.tagName} {...tag} />
+					))}
+				</View>
+			</View>
+
 			<View>
 				<ScrollView
 					horizontal

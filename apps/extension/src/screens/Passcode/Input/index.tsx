@@ -96,7 +96,7 @@ export const PasscodeInput: React.FC<Props> = ({
 	}, [isConfirmPhase, confirmPasscode]);
 
 	return (
-		<View className="flex-row w-full justify-between">
+		<View className="flex-row justify-between min-w-[300px]">
 			{inputItems}
 			<TouchableWithoutFeedback
 				onPress={() => currentInputRef?.current?.focus()}

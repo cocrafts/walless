@@ -36,7 +36,7 @@ export const EnterPasscode: React.FC = () => {
 	};
 
 	return (
-		<View className="px-16 py-8 justify-start items-center max-w-[410px] max-h-[600px] flex-1 bg-[color:#011726]">
+		<View className="px-16 py-8 justify-center items-center flex-1 bg-[color:#011726]">
 			<Image
 				source={resources.app.icon}
 				resizeMode="contain"

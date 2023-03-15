@@ -71,7 +71,7 @@ export const Passcode: React.FC = () => {
 	};
 
 	return (
-		<View className="px-16 py-8 justify-start items-center max-w-[410px] max-h-[600px] flex-1 bg-gradient-to-b from-[#003356] to-[#011726]">
+		<View className="px-16 py-8 justify-center items-center flex-1 bg-gradient-to-b from-[#003356] to-[#011726]">
 			<Image
 				source={resources.app.icon}
 				resizeMode="contain"

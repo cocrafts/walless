@@ -80,10 +80,10 @@ export const HomeScreen: FC = () => {
 							Simplify your Web3 Journey with Walless
 						</Text>
 						<View className="items-center">
-							<Button
-								className="mt-5 bg-[color:#19A3E1] hover:opacity-80 w-52 h-10 justify-center items-center rounded-md"
-								title="Demo"
-							/>
+							{/*<Button*/}
+							{/*	className="mt-5 bg-[color:#19A3E1] hover:opacity-80 w-52 h-10 justify-center items-center rounded-md"*/}
+							{/*	title="Demo"*/}
+							{/*/>*/}
 							<Button
 								className="mt-5 hover:opacity-80"
 								title="Get on Waitlist"

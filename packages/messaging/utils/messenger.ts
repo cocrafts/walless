@@ -92,25 +92,27 @@ export const createEncryptedMessenger = (
 	};
 };
 
-export const createMessenger = (channelNames: string[]): Messenger => {
-	const channels = channelNames.reduce((result, name) => {
-		result[name] = new BroadcastChannel(name);
-		console.log(name, 'channel initialized!');
+export const createMessenger = (): Messenger => {
+	const channels: ChannelHashmap = {};
+	const getChannel = (id: string): BroadcastChannel => {
+		if (channels[id]) return channels[id];
 
-		return result;
-	}, {} as ChannelHashmap);
+		channels[id] = new BroadcastChannel(id);
+		return channels[id];
+	};
 
 	const onMessage: MessengerMessageListener = (channelId, cb) => {
-		const channel = channels[channelId];
+		const channel = getChannel(channelId);
 		if (!channel) return;
 
-		channels[channelId].onmessage = ({ data }: MessageEvent<UnknownObject>) => {
+		channel.onmessage = ({ data }: MessageEvent<UnknownObject>) => {
 			cb(data);
 		};
 	};
 
 	const send: MessengerSend = async (channelId, payload) => {
-		channels[channelId]?.postMessage(payload);
+		const channel = channels[channelId];
+		channel.postMessage(payload);
 	};
 
 	return {

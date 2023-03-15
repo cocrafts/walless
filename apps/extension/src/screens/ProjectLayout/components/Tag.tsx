@@ -35,7 +35,7 @@ const Tag: FC<TagProps> = ({
 			${className ? className : ''}
 		`}
 		>
-			<Image source={tagIcon} className="w-2 h-2" />
+			<Image source={tagIcon} className="w-2 h-2 rounded-full" />
 			<Text className={`text-[8px] font-semibold ${textColor}`}>{tagName}</Text>
 		</View>
 	);

@@ -3,8 +3,8 @@ import { Keypair as SolPair } from '@solana/web3.js';
 import { SubVerifierDetails, TorusLoginResponse } from '@toruslabs/customauth';
 import { encryptWithPasscode } from '@walless/crypto';
 import { Networks, UserProfile } from '@walless/storage';
-import { db } from 'bridge/utils/alias';
 import { hashRouter } from 'utils/router';
+import { db } from 'utils/storage';
 import {
 	configureSecurityQuestionShare,
 	importAvailableShares,

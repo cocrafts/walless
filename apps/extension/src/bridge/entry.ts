@@ -1,6 +1,6 @@
 import { registerServiceWorker } from 'utils/service-worker';
+import { db } from 'utils/storage';
 
-import { db } from './utils/alias';
 import { registerMessageHandlers } from './listeners';
 
 export const configureConditionalRuntime = async (): Promise<void> => {

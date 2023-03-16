@@ -1,6 +1,6 @@
 import { UserProfile } from '@walless/storage';
-import { db } from 'bridge/utils/alias';
 import { hashRouter } from 'utils/router';
+import { db } from 'utils/storage';
 
 import { appState } from './internal';
 

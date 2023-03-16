@@ -1,7 +1,7 @@
 import { runtime } from '@walless/core';
 import {
 	Channels,
-	createEncryptedMessenger,
+	createMessenger,
 	decryptMessage,
 	EncryptedMessage,
 	MessengerCallback,
@@ -65,7 +65,7 @@ export const initializeMessaging = async (): Promise<void> => {
 			callbackRegistry[channelId] = handler;
 		};
 	} else {
-		const encryptedMessenger = createEncryptedMessenger(encryptionKeyVault);
+		const encryptedMessenger = createMessenger(encryptionKeyVault);
 
 		sendMessage = encryptedMessenger.send;
 		registerIncomingMessage = encryptedMessenger.onMessage;

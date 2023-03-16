@@ -8,8 +8,10 @@ import {
 	MessagePayload,
 	Messenger,
 	MessengerMessageListener,
+	MessengerRequest,
 	MessengerSend,
 	MiniBroadcast,
+	RequestHashmap,
 	ResponsePayload,
 	UniBroadcast,
 	UnknownObject,
@@ -54,74 +56,45 @@ export const decryptMessage = async <T extends MessagePayload>(
 	return JSON.parse(decrypted) as T;
 };
 
-const getLazyChannel = (id: string, cache: ChannelHashmap): MiniBroadcast => {
-	if (cache[id]) return cache[id];
-
-	if (runtime.isExtension) {
-		cache[id] = runtime.connect({ name: id });
-	} else {
-		cache[id] = new BroadcastChannel(id);
-	}
-
-	return cache[id];
-};
-
-export const createEncryptedMessenger = (
-	encryptionKeyVault: EncryptionKeyVault,
+export const createMessenger = (
+	encryptionKeyVault?: EncryptionKeyVault,
 ): Messenger => {
 	const channels: ChannelHashmap = {};
+	const requests: RequestHashmap = {};
+
+	const getChannel = (id: string): MiniBroadcast => {
+		if (channels[id]) return channels[id];
+
+		if (runtime.isExtension) {
+			channels[id] = runtime.connect({ name: id });
+		} else {
+			channels[id] = new BroadcastChannel(id);
+		}
+
+		return channels[id];
+	};
 
 	const onMessage: MessengerMessageListener = (channelId, func) => {
-		const channel = getLazyChannel(channelId, channels) as UniBroadcast;
-
-		const decryptAndCallback = async (data: EncryptedMessage) => {
-			try {
-				const key = await encryptionKeyVault.get(channel.name);
-				const payload = await decryptMessage(data, key);
-
-				func(payload, channel);
-			} catch (err) {
-				console.log('Error during decrypt message:', err);
+		const channel = getChannel(channelId) as UniBroadcast;
+		const revealEncrypted = async (
+			data: EncryptedMessage,
+		): Promise<UnknownObject> => {
+			if (encryptionKeyVault) {
+				try {
+					const key = await encryptionKeyVault.get(channelId);
+					return await decryptMessage(data, key);
+				} catch (err) {
+					console.log('Error during decrypt message:', err);
+				}
 			}
+
+			return data as never;
 		};
 
 		if (runtime.isExtension) {
-			const listener = (payload: EncryptedMessage) => {
-				return decryptAndCallback(payload);
+			const listener = async (data: EncryptedMessage) => {
+				return func(await revealEncrypted(data), channel);
 			};
-
-			channel.onMessage.addListener(listener);
-		} else {
-			const listener = ({ data }: MessageEvent<EncryptedMessage>) => {
-				return decryptAndCallback(data);
-			};
-
-			channel.addEventListener('message', listener);
-		}
-	};
-
-	const send: MessengerSend = async (channelId, payload) => {
-		const channel = getLazyChannel(channelId, channels);
-		const key = await encryptionKeyVault.get(channelId);
-
-		await sendEncryptedMessage(payload, key, channel);
-	};
-
-	return {
-		channels,
-		onMessage,
-		send,
-	};
-};
-
-export const createMessenger = (): Messenger => {
-	const channels: ChannelHashmap = {};
-
-	const onMessage: MessengerMessageListener = (channelId, func) => {
-		const channel = getLazyChannel(channelId, channels) as UniBroadcast;
-
-		if (runtime.isExtension) {
-			const listener = (data: UnknownObject) => func(data, channel);
 
 			channel.onMessage.addListener(listener);
 		} else {
@@ -133,14 +106,21 @@ export const createMessenger = (): Messenger => {
 	};
 
 	const send: MessengerSend = async (channelId, payload) => {
-		const channel = getLazyChannel(channelId, channels);
+		const channel = getChannel(channelId);
 
 		channel.postMessage(payload);
+	};
+
+	const request: MessengerRequest = async (channelId, payload) => {
+		const channel = getChannel(channelId);
+
+		return {};
 	};
 
 	return {
 		channels,
 		onMessage,
 		send,
+		request,
 	};
 };

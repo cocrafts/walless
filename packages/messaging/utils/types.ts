@@ -40,11 +40,17 @@ export type MiniBroadcast = BroadcastChannel | chrome.runtime.Port;
 export type UniBroadcast = BroadcastChannel & chrome.runtime.Port;
 
 export type ChannelHashmap = Record<string, MiniBroadcast>;
+export type RequestHashmap = Record<string, never>;
 
 export type MessengerSend = (
 	channelId: string,
 	payload: UnknownObject,
 ) => Promise<void>;
+
+export type MessengerRequest = (
+	channelId: string,
+	payload: UnknownObject,
+) => Promise<UnknownObject>;
 
 export type MessengerCallback = (
 	payload: UnknownObject,
@@ -60,4 +66,5 @@ export interface Messenger {
 	channels: ChannelHashmap;
 	onMessage: MessengerMessageListener;
 	send: MessengerSend;
+	request: MessengerRequest;
 }

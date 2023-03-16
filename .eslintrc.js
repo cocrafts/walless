@@ -1,7 +1,7 @@
 module.exports = {
 	root: true,
 	extends: ['@metacraft/eslint-config'],
-	ignorePatterns: ['tool/batch/**'],
+	ignorePatterns: ['tool/batch/**', 'packages/core/utils/platform.ts'],
 	globals: {
 		window: true,
 		document: true,

@@ -1,12 +1,19 @@
+import { createMessenger } from '@walless/messaging';
+
+const messenger = createMessenger();
+
 export const initializeMessaging = async () => {
 	global.postMessage({ from: 'walless-content-script-loaded' });
 	global.addEventListener(
 		'message',
 		async ({ source, data }) => {
-			if (source !== window) return;
+			const from = data?.from;
+			if (!from || source !== window) return;
 
-			if (data.from?.startsWith('walless@')) {
+			if (from === 'walless@sign-in-response') {
 				await chrome.runtime.sendMessage(data);
+			} else if (from.startsWith('walless@')) {
+				await messenger.send('background', data);
 			}
 		},
 		false,

@@ -1,4 +1,5 @@
-export type UnknownObject = Record<string, unknown>;
+/* eslint-disable-next-line */
+export type UnknownObject = Record<string, any>;
 
 export enum Channels {
 	'kernel' = 'kernel',
@@ -39,8 +40,15 @@ export interface EncryptionKeyVault {
 export type MiniBroadcast = BroadcastChannel | chrome.runtime.Port;
 export type UniBroadcast = BroadcastChannel & chrome.runtime.Port;
 
+export interface RequestContext {
+	timestamp: Date;
+	timeout: number;
+	resolve: (response: UnknownObject) => void;
+	reject: (e: Error) => void;
+}
+
 export type ChannelHashmap = Record<string, MiniBroadcast>;
-export type RequestHashmap = Record<string, never>;
+export type RequestHashmap = Record<string, RequestContext>;
 
 export type MessengerSend = (
 	channelId: string,

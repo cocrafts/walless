@@ -12,17 +12,136 @@ import {
 	MessengerSend,
 	MiniBroadcast,
 	RequestHashmap,
-	ResponsePayload,
 	UniBroadcast,
 	UnknownObject,
 } from './types';
+
+export const createMessenger = (
+	encryptionKeyVault?: EncryptionKeyVault,
+): Messenger => {
+	const channels: ChannelHashmap = {};
+	const requests: RequestHashmap = {};
+
+	setInterval(() => {
+		for (const requestId in requests) {
+			const request = requests[requestId];
+			const milliseconds = new Date().getTime() - request.timestamp.getTime();
+
+			if (milliseconds >= request.timeout) {
+				request.reject(new Error('request timeout'));
+			}
+		}
+	}, 500);
+
+	const smartReveal = async (
+		data: EncryptedMessage,
+		channelId: string,
+	): Promise<UnknownObject> => {
+		if (data?.iv && encryptionKeyVault) {
+			try {
+				const key = await encryptionKeyVault.get(channelId);
+				return await decryptMessage(data, key);
+			} catch (err) {
+				console.log('Error during decrypt message:', err);
+			}
+		}
+
+		return data as never;
+	};
+
+	const smartSend = async (channel: MiniBroadcast, payload: UnknownObject) => {
+		if (encryptionKeyVault) {
+			const key = await encryptionKeyVault.get(channel.name);
+
+			await sendEncryptedMessage(payload, key, channel);
+		} else {
+			channel.postMessage(payload);
+		}
+	};
+
+	const handleChannelIncoming = (channelId: string) => {
+		return async ({ data }: MessageEvent<EncryptedMessage>) => {
+			const revealed = await smartReveal(data, channelId);
+			const associatedRequest = requests[revealed?.requestId];
+
+			if (associatedRequest) {
+				associatedRequest.resolve(revealed);
+			}
+		};
+	};
+
+	const getChannel = (id: string): MiniBroadcast => {
+		if (channels[id]) return channels[id];
+
+		if (runtime.isExtension) {
+			const channel = runtime.connect({ name: id });
+
+			channels[id] = channel;
+			channel.onMessage.addListener(handleChannelIncoming(id));
+		} else {
+			const channel = new BroadcastChannel(id);
+
+			channels[id] = channel;
+			channel.addEventListener('message', handleChannelIncoming(id) as never);
+		}
+
+		return channels[id];
+	};
+
+	const onMessage: MessengerMessageListener = (channelId, func) => {
+		const channel = getChannel(channelId) as UniBroadcast;
+
+		if (runtime.isExtension) {
+			const listener = async (data: EncryptedMessage) => {
+				return func(await smartReveal(data, channelId), channel);
+			};
+
+			channel.onMessage.addListener(listener);
+		} else {
+			const listener = async ({ data }: MessageEvent<EncryptedMessage>) => {
+				return func(await smartReveal(data, channelId), channel);
+			};
+
+			channel.addEventListener('message', listener);
+		}
+	};
+
+	const send: MessengerSend = async (channelId, payload) => {
+		const channel = getChannel(channelId);
+
+		await smartSend(channel, payload);
+	};
+
+	const request: MessengerRequest = (channelId, payload, timeout = 20000) => {
+		if (!payload.requestId) payload.requestId = crypto.randomUUID();
+
+		return new Promise((resolve, reject) => {
+			const channel = getChannel(channelId);
+
+			requests[payload.requestId] = {
+				timestamp: new Date(),
+				timeout,
+				resolve,
+				reject,
+			};
+
+			smartSend(channel, payload);
+		});
+	};
+
+	return {
+		channels,
+		onMessage,
+		request,
+		send,
+	};
+};
 
 export const sendEncryptedMessage = async <T extends MessagePayload>(
 	payload: T,
 	key: CryptoKey,
 	from: MiniBroadcast,
 ): Promise<T> => {
-	if (!payload.id) payload.id = crypto.randomUUID();
 	const iv = crypto.getRandomValues(new Uint8Array(12));
 	const data = JSON.stringify(payload);
 	const ciphered = await encryptToString(data, key, iv);
@@ -33,19 +152,6 @@ export const sendEncryptedMessage = async <T extends MessagePayload>(
 	return payload;
 };
 
-export const sendEncryptedRequest = async <
-	T extends MessagePayload,
-	R extends ResponsePayload,
->(
-	payload: T,
-	key: CryptoKey,
-	from: MiniBroadcast,
-): Promise<R> => {
-	return new Promise(() => {
-		console.log(payload, from, key);
-	});
-};
-
 export const decryptMessage = async <T extends MessagePayload>(
 	message: EncryptedMessage,
 	key: CryptoKey,
@@ -54,73 +160,4 @@ export const decryptMessage = async <T extends MessagePayload>(
 	const decrypted = await decryptFromString(message.ciphered, key, iv);
 
 	return JSON.parse(decrypted) as T;
-};
-
-export const createMessenger = (
-	encryptionKeyVault?: EncryptionKeyVault,
-): Messenger => {
-	const channels: ChannelHashmap = {};
-	const requests: RequestHashmap = {};
-
-	const getChannel = (id: string): MiniBroadcast => {
-		if (channels[id]) return channels[id];
-
-		if (runtime.isExtension) {
-			channels[id] = runtime.connect({ name: id });
-		} else {
-			channels[id] = new BroadcastChannel(id);
-		}
-
-		return channels[id];
-	};
-
-	const onMessage: MessengerMessageListener = (channelId, func) => {
-		const channel = getChannel(channelId) as UniBroadcast;
-		const revealEncrypted = async (
-			data: EncryptedMessage,
-		): Promise<UnknownObject> => {
-			if (encryptionKeyVault) {
-				try {
-					const key = await encryptionKeyVault.get(channelId);
-					return await decryptMessage(data, key);
-				} catch (err) {
-					console.log('Error during decrypt message:', err);
-				}
-			}
-
-			return data as never;
-		};
-
-		if (runtime.isExtension) {
-			const listener = async (data: EncryptedMessage) => {
-				return func(await revealEncrypted(data), channel);
-			};
-
-			channel.onMessage.addListener(listener);
-		} else {
-			const listener = ({ data }: MessageEvent<UnknownObject>) =>
-				func(data, channel);
-
-			channel.addEventListener('message', listener);
-		}
-	};
-
-	const send: MessengerSend = async (channelId, payload) => {
-		const channel = getChannel(channelId);
-
-		channel.postMessage(payload);
-	};
-
-	const request: MessengerRequest = async (channelId, payload) => {
-		const channel = getChannel(channelId);
-
-		return {};
-	};
-
-	return {
-		channels,
-		onMessage,
-		send,
-		request,
-	};
 };

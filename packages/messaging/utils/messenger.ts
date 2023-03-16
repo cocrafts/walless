@@ -59,15 +59,16 @@ export const createMessenger = (
 		}
 	};
 
-	const handleChannelIncoming = (channelId: string) => {
-		return async ({ data }: MessageEvent<EncryptedMessage>) => {
-			const revealed = await smartReveal(data, channelId);
-			const associatedRequest = requests[revealed?.requestId];
+	const handleChannelIncoming = async (
+		channel: MiniBroadcast,
+		data: EncryptedMessage,
+	) => {
+		const revealed = await smartReveal(data, channel.name);
+		const associatedRequest = requests[revealed?.requestId];
 
-			if (associatedRequest) {
-				associatedRequest.resolve(revealed);
-			}
-		};
+		if (associatedRequest) {
+			associatedRequest.resolve(revealed);
+		}
 	};
 
 	const getChannel = (id: string): MiniBroadcast => {
@@ -77,12 +78,19 @@ export const createMessenger = (
 			const channel = runtime.connect({ name: id });
 
 			channels[id] = channel;
-			channel.onMessage.addListener(handleChannelIncoming(id));
+			channel.onMessage.addListener((data) => {
+				return handleChannelIncoming(channel, data);
+			});
 		} else {
 			const channel = new BroadcastChannel(id);
 
 			channels[id] = channel;
-			channel.addEventListener('message', handleChannelIncoming(id) as never);
+			channel.addEventListener(
+				'message',
+				({ data }: MessageEvent<EncryptedMessage>) => {
+					return handleChannelIncoming(channel, data);
+				},
+			);
 		}
 
 		return channels[id];

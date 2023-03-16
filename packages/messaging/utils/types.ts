@@ -58,6 +58,7 @@ export type MessengerSend = (
 export type MessengerRequest = (
 	channelId: string,
 	payload: UnknownObject,
+	timeout?: number,
 ) => Promise<UnknownObject>;
 
 export type MessengerCallback = (

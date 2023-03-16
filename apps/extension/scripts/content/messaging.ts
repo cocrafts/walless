@@ -13,7 +13,7 @@ export const initializeMessaging = async () => {
 			if (from === 'walless@sign-in-response') {
 				await chrome.runtime.sendMessage(data);
 			} else if (from.startsWith('walless@')) {
-				await messenger.send('background', data);
+				await messenger.send('kernel', data);
 			}
 		},
 		false,

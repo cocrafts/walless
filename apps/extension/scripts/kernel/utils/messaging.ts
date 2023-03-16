@@ -33,12 +33,17 @@ export const initializeMessaging = async (): Promise<void> => {
 		runtime.onConnect.addListener((port) => {
 			const handleInComingMessage = async (message: EncryptedMessage) => {
 				const registeredCallback = callbackRegistry[port.name];
+				const isEncrypted = !!message?.iv;
 
 				if (registeredCallback) {
-					const key = await encryptionKeyVault.get(port.name);
-					const decrypted = await decryptMessage(message, key);
+					if (isEncrypted) {
+						const key = await encryptionKeyVault.get(port.name);
+						const decrypted = await decryptMessage(message, key);
 
-					registeredCallback?.(decrypted, port);
+						registeredCallback?.(decrypted, port);
+					} else {
+						registeredCallback?.(message as never, port);
+					}
 				}
 			};
 

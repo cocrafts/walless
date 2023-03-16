@@ -36,16 +36,24 @@ export interface EncryptionKeyVault {
 	createAndHydrate: CreateAndHydrateKeyVault;
 }
 
-export type ChannelHashmap = Record<string, BroadcastChannel>;
+export type MiniBroadcast = BroadcastChannel | chrome.runtime.Port;
+export type UniBroadcast = BroadcastChannel & chrome.runtime.Port;
+
+export type ChannelHashmap = Record<string, MiniBroadcast>;
 
 export type MessengerSend = (
 	channelId: string,
 	payload: UnknownObject,
 ) => Promise<void>;
 
+export type MessengerCallback = (
+	payload: UnknownObject,
+	sender: MiniBroadcast,
+) => void;
+
 export type MessengerMessageListener = (
 	channelId: string,
-	handler: (payload: UnknownObject) => void,
+	handler: MessengerCallback,
 ) => void;
 
 export interface Messenger {

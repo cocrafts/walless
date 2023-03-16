@@ -1,3 +1,4 @@
+import { runtime } from '@walless/core';
 import { decryptFromString, encryptToString } from '@walless/crypto';
 
 import {
@@ -8,14 +9,16 @@ import {
 	Messenger,
 	MessengerMessageListener,
 	MessengerSend,
+	MiniBroadcast,
 	ResponsePayload,
+	UniBroadcast,
 	UnknownObject,
 } from './types';
 
 export const sendEncryptedMessage = async <T extends MessagePayload>(
 	payload: T,
 	key: CryptoKey,
-	from: BroadcastChannel,
+	from: MiniBroadcast,
 ): Promise<T> => {
 	if (!payload.id) payload.id = crypto.randomUUID();
 	const iv = crypto.getRandomValues(new Uint8Array(12));
@@ -34,7 +37,7 @@ export const sendEncryptedRequest = async <
 >(
 	payload: T,
 	key: CryptoKey,
-	from: BroadcastChannel,
+	from: MiniBroadcast,
 ): Promise<R> => {
 	return new Promise(() => {
 		console.log(payload, from, key);
@@ -51,38 +54,57 @@ export const decryptMessage = async <T extends MessagePayload>(
 	return JSON.parse(decrypted) as T;
 };
 
+const getLazyChannel = (id: string, cache: ChannelHashmap): MiniBroadcast => {
+	if (cache[id]) return cache[id];
+
+	if (runtime.isExtension) {
+		cache[id] = runtime.connect({ name: id });
+	} else {
+		cache[id] = new BroadcastChannel(id);
+	}
+
+	return cache[id];
+};
+
 export const createEncryptedMessenger = (
-	channelNames: string[],
 	encryptionKeyVault: EncryptionKeyVault,
 ): Messenger => {
-	const channels = channelNames.reduce((result, name) => {
-		result[name] = new BroadcastChannel(name);
-		return result;
-	}, {} as ChannelHashmap);
+	const channels: ChannelHashmap = {};
 
-	const onMessage: MessengerMessageListener = (channelId, cb) => {
-		const channel = channels[channelId];
-		if (!channel) return;
+	const onMessage: MessengerMessageListener = (channelId, func) => {
+		const channel = getLazyChannel(channelId, channels) as UniBroadcast;
 
 		const decryptAndCallback = async (data: EncryptedMessage) => {
 			try {
 				const key = await encryptionKeyVault.get(channel.name);
-				const message = await decryptMessage(data, key);
+				const payload = await decryptMessage(data, key);
 
-				cb(message);
+				func(payload, channel);
 			} catch (err) {
 				console.log('Error during decrypt message:', err);
 			}
 		};
 
-		channel.onmessage = async ({ data }: MessageEvent<EncryptedMessage>) => {
-			await decryptAndCallback(data);
-		};
+		if (runtime.isExtension) {
+			const listener = (payload: EncryptedMessage) => {
+				return decryptAndCallback(payload);
+			};
+
+			channel.onMessage.addListener(listener);
+		} else {
+			const listener = ({ data }: MessageEvent<EncryptedMessage>) => {
+				return decryptAndCallback(data);
+			};
+
+			channel.addEventListener('message', listener);
+		}
 	};
 
 	const send: MessengerSend = async (channelId, payload) => {
+		const channel = getLazyChannel(channelId, channels);
 		const key = await encryptionKeyVault.get(channelId);
-		await sendEncryptedMessage(payload, key, channels[channelId]);
+
+		await sendEncryptedMessage(payload, key, channel);
 	};
 
 	return {
@@ -94,24 +116,25 @@ export const createEncryptedMessenger = (
 
 export const createMessenger = (): Messenger => {
 	const channels: ChannelHashmap = {};
-	const getChannel = (id: string): BroadcastChannel => {
-		if (channels[id]) return channels[id];
 
-		channels[id] = new BroadcastChannel(id);
-		return channels[id];
-	};
+	const onMessage: MessengerMessageListener = (channelId, func) => {
+		const channel = getLazyChannel(channelId, channels) as UniBroadcast;
 
-	const onMessage: MessengerMessageListener = (channelId, cb) => {
-		const channel = getChannel(channelId);
-		if (!channel) return;
+		if (runtime.isExtension) {
+			const listener = (data: UnknownObject) => func(data, channel);
 
-		channel.onmessage = ({ data }: MessageEvent<UnknownObject>) => {
-			cb(data);
-		};
+			channel.onMessage.addListener(listener);
+		} else {
+			const listener = ({ data }: MessageEvent<UnknownObject>) =>
+				func(data, channel);
+
+			channel.addEventListener('message', listener);
+		}
 	};
 
 	const send: MessengerSend = async (channelId, payload) => {
-		const channel = channels[channelId];
+		const channel = getLazyChannel(channelId, channels);
+
 		channel.postMessage(payload);
 	};
 

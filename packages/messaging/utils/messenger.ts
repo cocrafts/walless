@@ -19,16 +19,17 @@ import {
 export const createMessenger = (
 	encryptionKeyVault?: EncryptionKeyVault,
 ): Messenger => {
-	const channels: ChannelHashmap = {};
-	const requests: RequestHashmap = {};
+	const channelHashmap: ChannelHashmap = {};
+	const requestHashmap: RequestHashmap = {};
 
 	setInterval(() => {
-		for (const requestId in requests) {
-			const request = requests[requestId];
+		for (const id in requestHashmap) {
+			const request = requestHashmap[id];
 			const milliseconds = new Date().getTime() - request.timestamp.getTime();
 
 			if (milliseconds >= request.timeout) {
 				request.reject(new Error('request timeout'));
+				delete requestHashmap[id];
 			}
 		}
 	}, 500);
@@ -64,7 +65,7 @@ export const createMessenger = (
 		data: EncryptedMessage,
 	) => {
 		const revealed = await smartReveal(data, channel.name);
-		const associatedRequest = requests[revealed?.requestId];
+		const associatedRequest = requestHashmap[revealed?.requestId];
 
 		if (associatedRequest) {
 			associatedRequest.resolve(revealed);
@@ -72,19 +73,19 @@ export const createMessenger = (
 	};
 
 	const getChannel = (id: string): MiniBroadcast => {
-		if (channels[id]) return channels[id];
+		if (channelHashmap[id]) return channelHashmap[id];
 
 		if (runtime.isExtension) {
 			const channel = runtime.connect({ name: id });
 
-			channels[id] = channel;
+			channelHashmap[id] = channel;
 			channel.onMessage.addListener((data) => {
 				return handleChannelIncoming(channel, data);
 			});
 		} else {
 			const channel = new BroadcastChannel(id);
 
-			channels[id] = channel;
+			channelHashmap[id] = channel;
 			channel.addEventListener(
 				'message',
 				({ data }: MessageEvent<EncryptedMessage>) => {
@@ -93,7 +94,7 @@ export const createMessenger = (
 			);
 		}
 
-		return channels[id];
+		return channelHashmap[id];
 	};
 
 	const onMessage: MessengerMessageListener = (channelId, func) => {
@@ -126,7 +127,7 @@ export const createMessenger = (
 		return new Promise((resolve, reject) => {
 			const channel = getChannel(channelId);
 
-			requests[payload.requestId] = {
+			requestHashmap[payload.requestId] = {
 				timestamp: new Date(),
 				timeout,
 				resolve,
@@ -138,7 +139,7 @@ export const createMessenger = (
 	};
 
 	return {
-		channels,
+		channels: channelHashmap,
 		onMessage,
 		request,
 		send,

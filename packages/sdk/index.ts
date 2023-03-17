@@ -1,5 +1,4 @@
 import {
-	Keypair,
 	PublicKey,
 	SendOptions,
 	Transaction,
@@ -28,15 +27,13 @@ export class Walless extends EventEmitter {
 			throw new Error('provider already connected');
 		}
 
-		requestConnect(options);
-		const keypair = Keypair.generate();
+		const response = await requestConnect(options);
+		const publicKey = new PublicKey(response.publicKey as string);
 
-		this.#publicKey = keypair.publicKey;
+		this.#publicKey = publicKey;
 		this.#isConnected = true;
 
-		return {
-			publicKey: keypair.publicKey,
-		};
+		return { publicKey };
 	}
 
 	async disconnect() {

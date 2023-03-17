@@ -47,7 +47,13 @@ export const parseAndNotifyResult = async () => {
 	if (instanceParams.redirectToOpener) {
 		/* Tab opened by Firefox Extension will not pass window.opener, because strict cross-origin policy
 		 * broadcast the result to it-self, which listened/handle by Extension */
-		const payload = { from: 'walless@sign-in-response', channel, data, error };
+		const payload = {
+			from: 'walless@sdk',
+			type: 'sign-in-response',
+			channel,
+			data,
+			error,
+		};
 
 		if (isFromExtension || !window.opener?.postMessage) {
 			window.postMessage(payload);

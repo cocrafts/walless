@@ -9,6 +9,7 @@ import {
 	MessengerSend,
 } from '@walless/messaging';
 
+import { onKernelMessage } from './handlers/kernel';
 import { encryptionKeyVault } from './storage';
 
 const channels = [
@@ -71,7 +72,5 @@ export const initializeMessaging = async (): Promise<void> => {
 		registerIncomingMessage = encryptedMessenger.onMessage;
 	}
 
-	registerIncomingMessage?.('kernel', (payload) => {
-		console.log(payload, '<-- kernel received message');
-	});
+	registerIncomingMessage?.('kernel', onKernelMessage);
 };

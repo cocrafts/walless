@@ -1,4 +1,4 @@
-import { encryptedMessenger } from './messaging';
+import { sendMessage } from './messaging';
 import { db } from './storage';
 
 export const initializeHooks = () => {
@@ -6,7 +6,7 @@ export const initializeHooks = () => {
 		const united = { ...previous, ...updates };
 
 		if (id === 1) {
-			await encryptedMessenger.send('ui', united);
+			await sendMessage('ui', united);
 		}
 	});
 };

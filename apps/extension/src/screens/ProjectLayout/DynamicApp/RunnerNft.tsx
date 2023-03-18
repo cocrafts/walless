@@ -24,6 +24,7 @@ export const RunnerNft: FC<Props> = ({ isActive, item, onPress }) => {
 
 export default RunnerNft;
 
+const iconSize = 64;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -37,8 +38,8 @@ const styles = StyleSheet.create({
 		backgroundColor: '#656565',
 	},
 	nftIcon: {
-		width: 60,
-		height: 60,
+		width: iconSize,
+		height: iconSize,
 		marginBottom: 12,
 	},
 	text: {

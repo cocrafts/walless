@@ -940,7 +940,7 @@
 					),
 				) * window.devicePixelRatio;
 
-			const cssScale = scale;
+			const cssScale = scale - 0.16;
 			this.containerEl.style.transform =
 				'scale(' + cssScale + ') translateY(' + translateY + 'px)';
 		},

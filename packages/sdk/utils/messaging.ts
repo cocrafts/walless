@@ -1,4 +1,4 @@
-import { RequestHashmap, UnknownObject } from './types';
+import { RequestHashmap, UnknownObject } from '@walless/core';
 
 let initialized = false;
 let queueInterval;
@@ -22,7 +22,7 @@ const runInterval = () => {
 	}
 };
 
-const sendRequest = <T extends UnknownObject>(
+export const sendRequest = <T extends UnknownObject>(
 	payload: UnknownObject,
 	timeout = 2500,
 ): Promise<T> => {

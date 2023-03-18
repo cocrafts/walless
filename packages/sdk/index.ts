@@ -1,13 +1,14 @@
+import { PublicKey } from '@solana/web3.js';
 import {
-	PublicKey,
-	SendOptions,
-	Transaction,
-	TransactionSignature,
-	VersionedTransaction,
-} from '@solana/web3.js';
+	ConnectFunc,
+	SignAllFunc,
+	SignAndSendFunc,
+	SignFunc,
+	SignMessageFunc,
+} from '@walless/core';
 import { EventEmitter } from 'eventemitter3';
 
-import { requestConnect } from './utils/messaging';
+import { requestConnect } from './utils/commands';
 
 export class Walless extends EventEmitter {
 	#publicKey?: PublicKey;
@@ -20,9 +21,11 @@ export class Walless extends EventEmitter {
 		this.#publicKey = undefined;
 	}
 
-	async connect(options?: {
-		onlyIfTrusted?: boolean;
-	}): Promise<{ publicKey: PublicKey }> {
+	public get publicKey() {
+		return this.#publicKey;
+	}
+
+	connect: ConnectFunc = async (options?) => {
 		if (this.#isConnected) {
 			throw new Error('provider already connected');
 		}
@@ -34,47 +37,40 @@ export class Walless extends EventEmitter {
 		this.#isConnected = true;
 
 		return { publicKey };
-	}
+	};
 
-	async disconnect() {
+	disconnect = async (): Promise<void> => {
 		this.#isConnected = false;
 		console.log('walless disconnected!');
-	}
+	};
 
-	public get publicKey() {
-		return this.#publicKey;
-	}
+	signAndSendTransaction: SignAndSendFunc = async (transaction, options?) => {
+		if (!this.#publicKey) {
+			throw new Error('wallet not connected');
+		}
 
-	signAndSendTransaction<T extends Transaction | VersionedTransaction>(
-		transaction: T,
-		options?: SendOptions,
-	): Promise<{ signature: TransactionSignature }> {
 		console.log(transaction, options);
 
 		return {} as never;
-	}
+	};
 
-	signTransaction<T extends Transaction | VersionedTransaction>(
-		transaction: T,
-	): Promise<T> {
+	signTransaction: SignFunc = async (transaction) => {
 		console.log(transaction);
 
 		return {} as never;
-	}
+	};
 
-	signAllTransactions<T extends Transaction | VersionedTransaction>(
-		transactions: T[],
-	): Promise<T[]> {
+	signAllTransactions: SignAllFunc = (transactions) => {
 		console.log(transactions);
 
 		return [] as never;
-	}
+	};
 
-	signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }> {
+	signMessage: SignMessageFunc = (message) => {
 		console.log(message);
 
 		return { signature: [] } as never;
-	}
+	};
 }
 
 export default Walless;

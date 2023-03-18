@@ -34,6 +34,7 @@ const ChooseLayoutCard: FC<Props> = ({
 					<Image
 						source={item.thumbnailUrl}
 						className="absolute -z-10 top-0 left-0 w-full h-[133px] rounded-lg"
+						resizeMode="cover"
 					/>
 					<View
 						className={`absolute -z-[9] top-0 left-0 transition duration-200 rounded-lg h-[133px] w-full bg-gradient-to-t from-[#00223ab6] to-transparent group-hover/card:from-[#23A2D7]/80 group-hover/card:via-[#23A2D7]/20 group-hover/card:to-[#FFFFFF00] outline outline-1 outline-transparent group-hover/card:outline-white/50 ${

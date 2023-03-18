@@ -35,14 +35,28 @@ export const DynamicAppLayout: FC = () => {
 
 	const onNftPress = (item: CollectibleRecord) => {
 		setNft(item.metadata?.imageUri as string);
-		console.log(item);
+	};
+
+	const onKeyDown = ({ nativeEvent }: any) => {
+		if (nativeEvent.code === 'ArrowRight') {
+			setNft(getNextNft(nft));
+		} else if (nativeEvent.code === 'ArrowLeft') {
+			setNft(getPreviousNft(nft));
+		}
 	};
 
 	return (
-		<View style={styles.container}>
+		<div style={styles.container} onKeyDown={onKeyDown} tabIndex={0}>
 			<View style={styles.collectionContainer}>
 				{mockNfts.map((item) => {
-					return <RunnerNft key={item.id} item={item} onPress={onNftPress} />;
+					return (
+						<RunnerNft
+							key={item.id}
+							item={item}
+							onPress={onNftPress}
+							isActive={nft === item.metadata?.imageUri}
+						/>
+					);
 				})}
 			</View>
 			<img
@@ -55,12 +69,14 @@ export const DynamicAppLayout: FC = () => {
 				style={{ marginTop: 50, minHeight: 150 }}
 				id="main-frame-error"
 				className="interstitial-wrapper"
+				onKeyDown={onKeyDown}
+				tabIndex={0}
 			>
 				<div id="main-content">
 					<div className="icon icon-offline" alt=""></div>
 				</div>
 			</div>
-		</View>
+		</div>
 	);
 };
 
@@ -70,6 +86,16 @@ const mockNfts: CollectibleRecord[] = [
 	{
 		id: '0001',
 		metadata: {
+			name: 'Dino',
+			description:
+				'Dino, the last surviving dinosaur, roamed the desolate wasteland.',
+			collectionName: 'TRex Runner',
+			imageUri: 'origin',
+		},
+	},
+	{
+		id: '0002',
+		metadata: {
 			name: 'Vian Royal',
 			description:
 				'Vian was a young sorcerer, born with a gift for magic. His powerful abilities drew the attention of dark forces.',
@@ -78,7 +104,7 @@ const mockNfts: CollectibleRecord[] = [
 		},
 	},
 	{
-		id: '0002',
+		id: '0003',
 		metadata: {
 			name: 'Kuga',
 			description:
@@ -87,14 +113,28 @@ const mockNfts: CollectibleRecord[] = [
 			imageUri: 'kuga',
 		},
 	},
-	{
-		id: '0003',
-		metadata: {
-			name: 'Dino',
-			description:
-				'Dino, the last surviving dinosaur, roamed the desolate wasteland.',
-			collectionName: 'TRex Runner',
-			imageUri: 'origin',
-		},
-	},
 ];
+
+const getNextNft = (imageUri: string): string => {
+	const currentIndex = mockNfts.findIndex(
+		(i) => imageUri === i.metadata?.imageUri,
+	);
+
+	if (currentIndex + 1 >= mockNfts.length) {
+		return mockNfts[0]?.metadata?.imageUri as string;
+	} else {
+		return mockNfts[currentIndex + 1]?.metadata?.imageUri as string;
+	}
+};
+
+const getPreviousNft = (imageUri: string): string => {
+	const currentIndex = mockNfts.findIndex(
+		(i) => imageUri === i.metadata?.imageUri,
+	);
+
+	if (currentIndex - 1 < 0) {
+		return mockNfts[mockNfts.length - 1]?.metadata?.imageUri as string;
+	} else {
+		return mockNfts[currentIndex - 1]?.metadata?.imageUri as string;
+	}
+};

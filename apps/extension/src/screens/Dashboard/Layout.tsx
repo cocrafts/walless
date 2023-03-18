@@ -96,7 +96,11 @@ export const DashboardLayout: FC<Props> = ({
 					</TouchableOpacity>
 				</View>
 			</View>
-			<ScrollView showsVerticalScrollIndicator={false}>
+			<ScrollView
+				style={{ flex: 1 }}
+				contentContainerStyle={{ flex: 1 }}
+				showsVerticalScrollIndicator={false}
+			>
 				<View className={contentContainerClass}>{children}</View>
 			</ScrollView>
 		</View>

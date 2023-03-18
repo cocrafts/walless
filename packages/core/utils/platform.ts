@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { UniversalRuntime } from './types';
 
 const isOpera =
@@ -30,7 +29,7 @@ export const runtime: UniversalRuntime = {
 	isEdgeChromium,
 	isBlink,
 	isExtension: !!global.chrome?.runtime,
-	onConnect: browser.runtime?.onConnect,
-	onMessage: browser.runtime?.onMessage,
-	connect: browser.runtime?.connect,
+	onConnect: browser?.runtime?.onConnect,
+	onMessage: browser?.runtime?.onMessage,
+	connect: browser?.runtime?.connect,
 };

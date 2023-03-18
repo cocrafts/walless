@@ -8,5 +8,9 @@
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+	},
+	"dependencies": {
+		"@solana/web3.js": "^1.73.2",
+		"@mysten/sui.js": "0.29.1"
 	}
 }

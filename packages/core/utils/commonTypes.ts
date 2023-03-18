@@ -26,3 +26,18 @@ export interface UniversalRuntime {
 	onMessage: chrome.runtime.ExtensionMessageEvent;
 	connect: (connectInfo?: chrome.runtime.ConnectInfo) => chrome.runtime.Port;
 }
+
+/* eslint-disable-next-line */
+export type UnknownObject = Record<string, any>;
+
+export interface RequestContext {
+	timestamp: Date;
+	timeout: number;
+	resolve: (response: UnknownObject) => void;
+	reject: (e: Error) => void;
+}
+
+export type MiniBroadcast = BroadcastChannel | chrome.runtime.Port;
+export type UniBroadcast = BroadcastChannel & chrome.runtime.Port;
+export type ChannelHashmap = Record<string, MiniBroadcast>;
+export type RequestHashmap = Record<string, RequestContext>;

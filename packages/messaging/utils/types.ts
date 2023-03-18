@@ -1,5 +1,4 @@
-/* eslint-disable-next-line */
-export type UnknownObject = Record<string, any>;
+import { ChannelHashmap, MiniBroadcast, UnknownObject } from '@walless/core';
 
 export enum Channels {
 	'kernel' = 'kernel',
@@ -36,19 +35,6 @@ export interface EncryptionKeyVault {
 	get: GetKeyVault;
 	createAndHydrate: CreateAndHydrateKeyVault;
 }
-
-export type MiniBroadcast = BroadcastChannel | chrome.runtime.Port;
-export type UniBroadcast = BroadcastChannel & chrome.runtime.Port;
-
-export interface RequestContext {
-	timestamp: Date;
-	timeout: number;
-	resolve: (response: UnknownObject) => void;
-	reject: (e: Error) => void;
-}
-
-export type ChannelHashmap = Record<string, MiniBroadcast>;
-export type RequestHashmap = Record<string, RequestContext>;
 
 export type MessengerSend = (
 	channelId: string,

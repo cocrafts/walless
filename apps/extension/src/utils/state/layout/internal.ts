@@ -12,6 +12,7 @@ export const layoutActions = {
 		name: string,
 		icon: ImageSourcePropType,
 		projectLayout: React.FC,
+		callback?: (hashKey: string) => void,
 	) => {
 		const hashKey = generateHash(id);
 
@@ -26,6 +27,7 @@ export const layoutActions = {
 			projectLayout,
 		};
 
+		callback?.(hashKey);
 	},
 	removeLayout: (id: string) => {
 		const hashKey = generateHash(id);

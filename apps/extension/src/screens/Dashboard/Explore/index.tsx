@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { ImageSourcePropType } from 'react-native';
+import { useNavigate } from 'react-router-dom';
 import { Text, TextInput, View } from '@walless/ui';
 import { SearchIcon } from '@walless/ui/icons';
 import Solana from 'screens/ProjectLayout/Solana';
@@ -116,12 +117,21 @@ const mockLayouts: ExploreCard[] = [
 ];
 
 export const ChooseLayout: FC = () => {
+	const navigate = useNavigate();
 	const handleAddToProfile = (item: ExploreCard, isInProfile: boolean) => {
 		const { layoutId, inDevelopment, logoUrl, name, component } = item;
 
-		!inDevelopment &&
-			!isInProfile &&
-			layoutActions.addLayout(layoutId, name, logoUrl, component);
+		if (inDevelopment || isInProfile) return;
+
+		layoutActions.addLayout(
+			layoutId,
+			name,
+			logoUrl,
+			component,
+			(hashKey: string) => {
+				navigate(`/layouts/${hashKey}`);
+			},
+		);
 	};
 
 	const handleLoveProfile = (id: string, love: boolean) => {

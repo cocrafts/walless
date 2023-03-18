@@ -22,6 +22,9 @@ export const resources = {
 		walletCardBg: { uri: '/img/network-solana/wallet-card-bg.png' },
 		icon: { uri: '/img/network-solana/solana-icon.png' },
 	},
+	runner: {
+		icon: { uri: '/img/explore-screen/runner-icon.png' },
+	},
 };
 export const requestType = {
 	connectionRequest: 'Connection request',

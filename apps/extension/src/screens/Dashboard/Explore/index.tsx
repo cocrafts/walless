@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { ImageSourcePropType } from 'react-native';
 import { Text, TextInput, View } from '@walless/ui';
 import { SearchIcon } from '@walless/ui/icons';
+import DynamicAppLayout from 'screens/ProjectLayout/DynamicApp';
 import Solana from 'screens/ProjectLayout/Solana';
 import UnderRealm from 'screens/ProjectLayout/UnderRealm';
 import { resources } from 'utils/config';
@@ -26,6 +27,20 @@ export interface ExploreCard {
 
 const mockLayouts: ExploreCard[] = [
 	{
+		name: 'Solana',
+		description:
+			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
+		logoUrl: { uri: '/img/explore-screen/card-2-logo.png' },
+		thumbnailUrl: { uri: '/img/explore-screen/card-2-thumbnail.png' },
+		loveCount: 431,
+		activeUsersCount: 2000,
+		link: '/',
+		isInProfile: false,
+		love: false,
+		layoutId: 'solana',
+		component: Solana,
+	},
+	{
 		name: 'Under Realm',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
@@ -40,18 +55,17 @@ const mockLayouts: ExploreCard[] = [
 		component: UnderRealm,
 	},
 	{
-		name: 'Solana',
-		description:
-			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare morbi porttitor. Amet lectus volutpat nulla dapibus ornare morbi porttitor.',
-		logoUrl: { uri: '/img/explore-screen/card-2-logo.png' },
-		thumbnailUrl: { uri: '/img/explore-screen/card-2-thumbnail.png' },
-		loveCount: 431,
-		activeUsersCount: 2000,
+		name: 'T-rex Runner',
+		description: 'dApp version of the T-rex Runner you already known!',
+		logoUrl: resources.runner.icon,
+		thumbnailUrl: { uri: '/img/explore-screen/runner-bg.png' },
+		loveCount: 10,
+		activeUsersCount: 20,
 		link: '/',
-		isInProfile: false,
-		love: false,
-		layoutId: 'solana',
-		component: Solana,
+		isInProfile: true,
+		love: true,
+		layoutId: 't-rex-runner',
+		component: DynamicAppLayout,
 	},
 	{
 		name: 'Y00ts',

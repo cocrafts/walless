@@ -88,7 +88,11 @@ const ChooseLayoutCard: FC<Props> = ({
 				</Link>
 
 				<View className="flex justify-between shrink">
-					<Text className="h-6 text-[8px] text-ellipsis overflow-hidden mr-3">
+					<Text
+						numberOfLines={2}
+						style={{ color: item.textColor || 'white', lineHeight: 12 }}
+						className="text-[10px] text-ellipsis overflow-hidden mr-3"
+					>
 						{item.description}
 					</Text>
 

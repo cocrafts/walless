@@ -31,7 +31,7 @@ export const hashRouter = createHashRouter([
 					if (!project) {
 						return redirect('/');
 					}
-					return project;
+					return { params, project };
 				},
 			},
 			{

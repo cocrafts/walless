@@ -97,7 +97,7 @@ const mockNfts: CollectibleRecord[] = [
 	{
 		id: '0002',
 		metadata: {
-			name: 'Vian Royal',
+			name: 'Vian',
 			description:
 				'Vian was a young sorcerer, born with a gift for magic. His powerful abilities drew the attention of dark forces.',
 			collectionName: 'TRex Runner',

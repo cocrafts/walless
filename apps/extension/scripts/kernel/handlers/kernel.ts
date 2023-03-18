@@ -1,6 +1,7 @@
 import { MessengerCallback } from '@walless/messaging';
 
 import { db } from '../storage';
+import { fetchCollectibles } from '../utils/query';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	if (payload.requestId) {
@@ -16,6 +17,10 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			});
 		}
 	} else {
-		console.log('pure notify', payload);
+		if (payload.type === 'notify-wallet-open') {
+			const collectibles = await fetchCollectibles();
+
+			console.log('todo: save collectibles', collectibles);
+		}
 	}
 };

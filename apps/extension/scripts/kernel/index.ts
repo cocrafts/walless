@@ -5,3 +5,6 @@ import { initializeMessaging } from './messaging';
 	await initializeMessaging();
 	await initializeHooks();
 })();
+
+export * from './messaging';
+export * from './storage';

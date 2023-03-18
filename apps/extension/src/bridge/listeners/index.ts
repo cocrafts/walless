@@ -1,7 +1,7 @@
-import { encryptedMessenger } from '../utils/messaging';
+import { encryptedMessenger } from 'bridge/utils/messaging';
 
 export const registerMessageHandlers = async () => {
 	setTimeout(async () => {
-		await encryptedMessenger.send('kernel', { message: 'hello, from bridge!' });
-	}, 2000);
+		await encryptedMessenger.send('kernel', { type: 'notify-wallet-open' });
+	}, 50);
 };

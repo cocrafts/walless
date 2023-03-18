@@ -21,6 +21,7 @@ export type PrivateKeyRecord = EncryptedWithPasscode & {
 
 export interface CollectibleMetadata {
 	name: string;
+	description: string;
 	collectionName: string;
 	imageUri?: string;
 }

@@ -939,7 +939,7 @@
 					),
 				) * window.devicePixelRatio;
 
-			const cssScale = scale - 0.16;
+			const cssScale = scale - 0.2;
 			this.containerEl.style.transform = 'scale(' + cssScale + ')';
 		},
 

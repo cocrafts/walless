@@ -94,7 +94,7 @@ export const HomeScreen: FC = () => {
 							/>
 						</View>
 						<Text className="font-light text-xs text-white/60 mt-28">
-							For Developet test only!
+							For Developer test only!
 						</Text>
 						<View className="flex-row flex-wrap justify-center">
 							{extensionList.map((item) => {

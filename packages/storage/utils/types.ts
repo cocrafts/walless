@@ -19,16 +19,21 @@ export type PrivateKeyRecord = EncryptedWithPasscode & {
 	type: string;
 };
 
-export interface CollectibleMetadata {
-	name: string;
-	description: string;
-	collectionName: string;
+export interface Metadata {
+	name?: string;
+	symbol?: string;
 	imageUri?: string;
 }
 
 export type CollectibleRecord = {
 	id?: string;
-	metadata?: CollectibleMetadata;
+	collectionId?: string;
+	metadata?: Metadata;
+};
+
+export type CollectionRecord = {
+	id?: string;
+	metadata?: Metadata;
 };
 
 export enum Networks {
@@ -54,4 +59,5 @@ export interface WallessDB {
 	privateKeys: Table<PrivateKeyRecord, string>;
 	encryptionKeys: Table<EncryptionKeyRecord, string>;
 	collectibles: Table<CollectibleRecord, string>;
+	collections: Table<CollectionRecord, string>;
 }

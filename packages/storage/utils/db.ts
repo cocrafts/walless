@@ -8,7 +8,7 @@ const runMigrations = (instance: Dexie): Dexie => {
 		publicKeys: 'id, network',
 		privateKeys: 'id, type, iv, salt, ct, mac',
 		encryptionKeys: 'id, jwk, keyParams, keyUsages',
-		collectibles: 'id, metadata',
+		collectibles: 'id, collectionId, metadata',
 	});
 
 	return instance;

@@ -19,15 +19,16 @@ export type PrivateKeyRecord = EncryptedWithPasscode & {
 	type: string;
 };
 
-export interface CollectibleMetadata {
-	name: string;
-	collectionName: string;
+export interface Metadata {
+	name?: string;
+	symbol?: string;
 	imageUri?: string;
 }
 
 export type CollectibleRecord = {
 	id?: string;
-	metadata?: CollectibleMetadata;
+	collectionId?: string;
+	metadata?: Metadata;
 };
 
 export enum Networks {

@@ -315,7 +315,6 @@
 				).content;
 
 				for (var sound in Runner.sounds) {
-					console.log(Runner.sounds[sound], '<--');
 					var soundSrc = resourceTemplate.getElementById(
 						Runner.sounds[sound],
 					).src;
@@ -940,9 +939,8 @@
 					),
 				) * window.devicePixelRatio;
 
-			const cssScale = scale;
-			this.containerEl.style.transform =
-				'scale(' + cssScale + ') translateY(' + translateY + 'px)';
+			const cssScale = scale - 0.2;
+			this.containerEl.style.transform = 'scale(' + cssScale + ')';
 		},
 
 		/**

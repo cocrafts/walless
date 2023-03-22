@@ -14,6 +14,7 @@ import ChooseLayoutCard from './ExploreCard';
 export interface ExploreCard {
 	name: string;
 	description: string;
+	textColor?: string;
 	logoUrl: ImageSourcePropType;
 	thumbnailUrl: ImageSourcePropType;
 	loveCount: number;
@@ -57,7 +58,8 @@ const mockLayouts: ExploreCard[] = [
 	},
 	{
 		name: 'T-rex Runner',
-		description: 'dApp version of the T-rex Runner you already known!',
+		description: 'dApp version of the T-rex Runner you already know!',
+		textColor: '#000000',
 		logoUrl: resources.runner.icon,
 		thumbnailUrl: { uri: '/img/explore-screen/runner-bg.png' },
 		loveCount: 10,

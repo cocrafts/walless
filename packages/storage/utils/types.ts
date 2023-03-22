@@ -31,6 +31,11 @@ export type CollectibleRecord = {
 	metadata?: Metadata;
 };
 
+export type CollectionRecord = {
+	id?: string;
+	metadata?: Metadata;
+};
+
 export enum Networks {
 	ethereum = 'ethereum',
 	solana = 'solana',
@@ -54,4 +59,5 @@ export interface WallessDB {
 	privateKeys: Table<PrivateKeyRecord, string>;
 	encryptionKeys: Table<EncryptionKeyRecord, string>;
 	collectibles: Table<CollectibleRecord, string>;
+	collections: Table<CollectionRecord, string>;
 }

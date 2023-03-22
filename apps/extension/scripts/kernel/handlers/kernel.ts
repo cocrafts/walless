@@ -19,6 +19,9 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	} else {
 		if (payload.type === 'notify-wallet-open') {
 			const { collectibles, collections } = await fetchAllCollectibles();
+
+			console.log(collectibles, 'collectibles');
+			console.log(collections, 'collections');
 		}
 	}
 };

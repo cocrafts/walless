@@ -20,6 +20,7 @@
 		"@jest/globals": "^29.4.3",
 		"@metacraft/eslint-config": "^0.0.12",
 		"@metacraft/tsconfig": "^0.0.10",
+		"@metaplex-foundation/mpl-token-metadata": "^2.9.1",
 		"@nissy-dev/swc-plugin-react-native-web": "^0.3.1",
 		"@types/chrome": "^0.0.220",
 		"@types/lodash": "^4.14.191",
@@ -40,8 +41,7 @@
 		"tailwindcss": "^3.2.7",
 		"ts-jest": "^29.0.5",
 		"turbo": "latest",
-		"typescript": "^4.9.5",
-		"@metaplex-foundation/mpl-token-metadata": "^2.9.1"
+		"typescript": "^4.9.5"
 	},
 	"engines": {
 		"node": ">=14.0.0"

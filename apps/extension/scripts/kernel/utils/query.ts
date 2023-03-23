@@ -1,6 +1,15 @@
 import { PublicKey } from '@solana/web3.js';
-import { getNftCollections, getNftsByOwner } from '@walless/network';
-import { CollectibleRecord, CollectionRecord } from '@walless/storage';
+import {
+	getNftCollections,
+	getNftsByOwner,
+	getTokenMetadata,
+	getTokensByOwner,
+} from '@walless/network';
+import {
+	CollectibleRecord,
+	CollectionRecord,
+	WalletRecord,
+} from '@walless/storage';
 
 import { db } from '../storage';
 
@@ -54,4 +63,56 @@ export const fetchAllCollectibles = async (): Promise<CollectibleResult> => {
 		collectibles: await collectibles.toArray(),
 		collections: await collections.toArray(),
 	};
+};
+
+export const fetchAllTokens = async (): Promise<WalletRecord[]> => {
+	const keys = await db.publicKeys.toArray();
+	const wallets = db.wallets;
+	const tokens = db.tokens;
+	const mintList: string[] = [];
+
+	for (const key of keys) {
+		if (key.network === 'sui') continue;
+
+		const address = new PublicKey(key.id as string);
+		const tokenAccounts = await getTokensByOwner(connection, address);
+		const tokens = {};
+
+		tokenAccounts.forEach(({ pubkey, account }) => {
+			const mint = account.data.mint.toString();
+			const isMintExisted = mintList.indexOf(mint) > -1;
+			if (!isMintExisted) {
+				mintList.push(mint);
+			}
+
+			tokens[mint] = {
+				mint,
+				address: pubkey.toString(),
+				balance: parseInt(account.data.amount.toString()),
+			};
+		});
+
+		wallets.put({
+			id: key.id as string,
+			network: key.network,
+			tokens,
+		});
+	}
+
+	mintList.forEach(async (mint) => {
+		const mintPubkey = new PublicKey(mint);
+		const tokenMetadata = await getTokenMetadata(connection, mintPubkey);
+
+		tokens.put({
+			id: mint,
+			network: 'solana',
+			metadata: {
+				name: tokenMetadata?.data.name,
+				symbol: tokenMetadata?.data.symbol,
+				imageUri: tokenMetadata?.data.uri,
+			},
+		});
+	});
+
+	return await wallets.toArray();
 };

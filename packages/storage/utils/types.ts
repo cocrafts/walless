@@ -36,6 +36,24 @@ export type CollectionRecord = {
 	metadata?: Metadata;
 };
 
+export interface TokenBalance {
+	mint: string;
+	address?: string;
+	balance: number | string;
+}
+
+export type WalletRecord = {
+	id?: string;
+	tokens?: Record<string, TokenBalance>;
+	network: string;
+};
+
+export type TokenRecord = {
+	id?: string;
+	metadata?: Metadata;
+	network: string;
+};
+
 export enum Networks {
 	ethereum = 'ethereum',
 	solana = 'solana',
@@ -60,4 +78,6 @@ export interface WallessDB {
 	encryptionKeys: Table<EncryptionKeyRecord, string>;
 	collectibles: Table<CollectibleRecord, string>;
 	collections: Table<CollectionRecord, string>;
+	wallets: Table<WalletRecord, string>;
+	tokens: Table<TokenRecord, string>;
 }

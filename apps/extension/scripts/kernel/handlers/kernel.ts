@@ -1,7 +1,7 @@
 import { MessengerCallback } from '@walless/messaging';
 
 import { db } from '../storage';
-import { fetchAllCollectibles } from '../utils/query';
+import { fetchAllCollectibles, fetchAllTokens } from '../utils/query';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	if (payload.requestId) {
@@ -22,6 +22,9 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 
 			console.log(collectibles, 'collectibles');
 			console.log(collections, 'collections');
+
+			const wallets = await fetchAllTokens();
+			console.log(wallets, 'wallets');
 		}
 	}
 };

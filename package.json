@@ -20,6 +20,7 @@
     "@jest/globals": "^29.4.3",
     "@metacraft/eslint-config": "^0.0.12",
     "@metacraft/tsconfig": "^0.0.10",
+    "@metaplex-foundation/mpl-token-metadata": "^2.9.1",
     "@nissy-dev/swc-plugin-react-native-web": "^0.3.1",
     "@types/chrome": "^0.0.220",
     "@types/lodash": "^4.14.191",

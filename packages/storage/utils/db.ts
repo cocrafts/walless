@@ -10,6 +10,8 @@ const runMigrations = (instance: Dexie): Dexie => {
 		encryptionKeys: 'id, jwk, keyParams, keyUsages',
 		collectibles: 'id, collectionId, metadata',
 		collections: 'id, collectionMetadata',
+		wallets: 'id, tokens, network',
+		tokens: 'id, metadata, network',
 	});
 
 	return instance;
@@ -26,5 +28,7 @@ export const createStorage = (name = 'walless'): WallessDB => {
 		encryptionKeys: instance.table('encryptionKeys'),
 		collectibles: instance.table('collectibles'),
 		collections: instance.table('collections'),
+		wallets: instance.table('wallets'),
+		tokens: instance.table('tokens'),
 	};
 };

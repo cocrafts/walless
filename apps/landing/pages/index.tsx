@@ -1,4 +1,4 @@
-import { Stack, Text } from '@tamagui/core';
+import { Stack, Text } from '@walless/wui';
 
 export const IndexPage = () => {
 	return (

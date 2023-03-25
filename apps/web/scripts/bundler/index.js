@@ -1,4 +1,3 @@
-/* eslint-disabled */
 const { readFileSync } = require('fs');
 const fs = require('fs-extra');
 const archiver = require('archiver');
@@ -26,6 +25,8 @@ const zipDir = (platform) => {
 };
 
 const cloneExtensionBuild = async (platform, override = {}) => {
+	if (!fs.pathExistsSync('./out')) return;
+
 	const manifestUri = `./builds/${platform}/manifest.json`;
 	const mergedManifest = { ...manifest, ...override, version: project.version };
 	const indexTemplate = readFileSync('./out/index.html', 'utf8');

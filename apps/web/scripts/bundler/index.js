@@ -1,3 +1,4 @@
+/* eslint-disabled */
 const { readFileSync } = require('fs');
 const fs = require('fs-extra');
 const archiver = require('archiver');

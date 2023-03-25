@@ -1,0 +1,25 @@
+{
+  "name": "@walless/ext",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3005",
+    "bundle": "next build && next export && mv out/_next out/next && sed -i '' -e 's/\\/_next/\\.\\/next/g' out/**.html",
+    "build": "yarn bundle",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@walless/wui": "*",
+    "next": "^13.1.1",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@tamagui/next-plugin": "^1.9.0",
+    "@tamagui/shorthands": "^1.9.0",
+    "@tamagui/themes": "^1.9.0",
+    "next-compose-plugins": "^2.2.1",
+    "next-transpile-modules": "^10.0.0"
+  }
+}

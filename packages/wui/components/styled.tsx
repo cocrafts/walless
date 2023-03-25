@@ -1,4 +1,4 @@
-import { GetProps, Stack, styled } from '@tamagui/core';
+import { GetProps, Stack, styled, Text as TamaguiText } from '@tamagui/core';
 
 export const Circle = styled(Stack, {
 	name: 'Circle',
@@ -7,4 +7,9 @@ export const Circle = styled(Stack, {
 
 export type CircleProps = GetProps<typeof Circle>;
 
-export { Stack, Text } from '@tamagui/core';
+export { Stack } from '@tamagui/core';
+
+export const Text = styled(TamaguiText, {
+	name: 'Text',
+	color: '#dedede',
+});

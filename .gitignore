@@ -2,6 +2,7 @@
 
 # automations
 main.tf
+cdk.context.json
 
 # builds
 apps/**/metacraft
@@ -9,6 +10,8 @@ apps/**/builds
 .swc
 .tamagui
 .next
+.sst
+.open-next
 
 # cdk
 cdk.out

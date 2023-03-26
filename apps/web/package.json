@@ -10,6 +10,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@walless/app": "*",
+    "@walless/storage": "*",
+    "@walless/messaging": "*",
     "@walless/wui": "*",
     "next": "^13.1.1",
     "react-dom": "^18.2.0"

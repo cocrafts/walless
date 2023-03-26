@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3005",
     "bundle": "next build && next export && mv out/_next out/next && sed -i '' -e 's/\\/_next/\\.\\/next/g' out/**.html",
-    "build": "yarn bundle",
+    "build": "yarn bundle && node scripts/bundler",
     "start": "next start",
     "lint": "next lint"
   },

@@ -1,13 +1,24 @@
-import { GetProps, Stack, styled, Text as TamaguiText } from '@tamagui/core';
+import {
+	GetProps,
+	Stack as TamaguiStack,
+	styled,
+	Text as TamaguiText,
+	XStack as TamaguiXStack,
+	YStack as TamaguiYStack,
+	ZStack as TamaguiZStack,
+} from 'tamagui';
 
-export const Circle = styled(Stack, {
+export const Stack = TamaguiStack;
+export const XStack = TamaguiXStack;
+export const YStack = TamaguiYStack;
+export const ZStack = TamaguiZStack;
+
+export const Circle = styled(TamaguiStack, {
 	name: 'Circle',
 	borderRadius: 10000000,
 });
 
 export type CircleProps = GetProps<typeof Circle>;
-
-export { Stack } from '@tamagui/core';
 
 export const Text = styled(TamaguiText, {
 	name: 'Text',

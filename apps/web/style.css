@@ -7,3 +7,9 @@ body.popup {
   width: 410px;
   height: 600px;
 }
+
+body #__next {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}

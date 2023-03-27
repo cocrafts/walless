@@ -17,7 +17,6 @@ export type AesKeyLength = 128 | 192 | 256;
 export interface UniversalRuntime {
 	isOpera: boolean;
 	isFirefox: boolean;
-	isSafari: boolean;
 	isChrome: boolean;
 	isEdgeChromium: boolean;
 	isBlink: boolean;

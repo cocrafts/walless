@@ -1,20 +1,18 @@
 import { MessengerCallback } from '@walless/messaging';
 
-import { db } from '../storage';
 import { fetchAllCollectibles, fetchAllTokens } from '../utils/query';
+
+import { handleConnect } from './connect';
+import { handleSignAllTransaction, handleSignTransaction } from './sign';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	if (payload.requestId) {
 		if (payload.type === 'request-connect') {
-			const publicKeys = await db.publicKeys.toArray();
-			const solKey = publicKeys.find((i) => i.network === 'solana');
-
-			console.log('send back response:', solKey.id);
-			channel.postMessage({
-				from: 'walless@kernel',
-				requestId: payload.requestId,
-				publicKey: solKey.id,
-			});
+			await handleConnect(payload, channel);
+		} else if (payload.type === 'sign-transaction') {
+			await handleSignTransaction(payload, channel);
+		} else if (payload.type === 'sign-all-transactions') {
+			await handleSignAllTransaction(payload, channel);
 		}
 	} else {
 		if (payload.type === 'notify-wallet-open') {

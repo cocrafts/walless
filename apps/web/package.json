@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "sst bind next dev -p 3004",
+    "dev": "next dev -p 3004",
     "bundle": "next build && next export",
     "build": "yarn bundle && node scripts/bundler",
     "start": "next start",

@@ -12,4 +12,5 @@ export { Stack } from '@tamagui/core';
 export const Text = styled(TamaguiText, {
 	name: 'Text',
 	color: '#dedede',
+	fontFamily: 'Poppins',
 });

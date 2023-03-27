@@ -14,3 +14,12 @@ export const Text = styled(TamaguiText, {
 	color: '#dedede',
 	fontFamily: 'Poppins',
 });
+
+export { Button } from 'tamagui';
+
+export const ExtensionContainer = styled(Stack, {
+	name: 'ExtensionContainer',
+	width: 410,
+	height: 600,
+	alignItems: 'center',
+});

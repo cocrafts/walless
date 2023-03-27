@@ -65,5 +65,5 @@ export type ShowModalConfigs = Omit<
 
 export interface ModalState {
 	count: number;
-	hashmap: Record<string, ModalConfigs>;
+	map: Map<string, ModalConfigs>;
 }

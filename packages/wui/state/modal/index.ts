@@ -1,13 +1,14 @@
 import { RefObject } from 'react';
 import { View } from 'react-native';
 import { proxy } from 'valtio';
+import { proxyMap } from 'valtio/utils';
 
 import { measureRelative, referenceMap } from './helper';
 import { ModalState, ShowModalConfigs } from './type';
 
 export const modalState = proxy<ModalState>({
 	count: 0,
-	hashmap: {},
+	map: proxyMap(),
 });
 
 export const modalActions = {
@@ -18,20 +19,23 @@ export const modalActions = {
 		const safeId = id || 'default-modal';
 
 		measureRelative(bindingRef).then((layout) => {
-			modalState.hashmap[safeId] = {
+			modalState.map.set(safeId, {
 				id: safeId,
 				bindingRectangle: layout,
 				...restConfigs,
-			};
+			});
 		});
 	},
 	hide: (id: string): void => {
-		const instance = modalState.hashmap[id];
-		if (instance) instance.hide = true;
+		const instance = modalState.map.get(id);
+
+		if (instance) {
+			modalState.map.set(id, { ...instance, hide: true });
+		}
 	},
 	destroy: (id?: string): void => {
 		const safeId = id || 'default-modal';
-		delete modalState.hashmap[safeId];
+		modalState.map.delete(safeId);
 	},
 };
 

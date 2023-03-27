@@ -13,7 +13,6 @@ module.exports = withPlugins(
 		}),
 	],
 	{
-		transpilePackages: ['react-native-reanimated'],
 		webpack: (config) => {
 			const originalEntry = config.entry;
 

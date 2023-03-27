@@ -1,6 +1,6 @@
 import { FC, Suspense, useEffect } from 'react';
+import { WuiProvider } from '@walless/wui';
 import { AppProps } from 'next/app';
-import { TamaguiProvider } from 'tamagui';
 import { runBridge } from 'utils/bridge';
 
 import 'raf';
@@ -17,11 +17,11 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 	}, []);
 
 	return (
-		<TamaguiProvider config={config}>
+		<WuiProvider config={config}>
 			<Suspense>
 				<Component {...pageProps} />
 			</Suspense>
-		</TamaguiProvider>
+		</WuiProvider>
 	);
 };
 

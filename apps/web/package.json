@@ -15,7 +15,8 @@
     "@walless/messaging": "*",
     "@walless/wui": "*",
     "next": "^13.1.1",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "valtio": "^1.10.3"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

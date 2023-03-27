@@ -1,0 +1,20 @@
+{
+	"name": "@walless/wui",
+	"version": "0.0.1",
+	"main": "index.ts",
+	"types": "./index.ts",
+	"license": "MIT",
+	"scripts": {
+		"test": "jest",
+		"test:watch": "jest --watch",
+		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+	},
+	"dependencies": {
+		"@tamagui/animations-reanimated": "^1.9.0",
+		"raf": "^3.4.1",
+		"react": "^18.2.0",
+		"react-native-reanimated": "^3.0.2",
+		"setimmediate": "^1.0.5",
+		"tamagui": "^1.9.0"
+	}
+}

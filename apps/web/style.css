@@ -1,0 +1,9 @@
+body {
+  overflow: hidden;
+  background-color: #011726;
+}
+
+body.popup {
+  width: 410px;
+  height: 600px;
+}

@@ -1,12 +1,21 @@
 .idea
 
 # automations
+.sst
+.sst.config.*
 main.tf
+cdk.context.json
 
 # builds
 apps/**/metacraft
 apps/**/builds
 .swc
+.tamagui
+.next
+.open-next
+
+# cdk
+cdk.out
 
 # wasm
 wasm/target

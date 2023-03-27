@@ -1,9 +1,9 @@
-import { UniversalRuntime } from './types';
+import { UniversalRuntime } from './commonTypes';
 
 const isOpera =
 	(!!global.opr && !!opr.addons) ||
 	!!global.opera ||
-	navigator.userAgent.indexOf(' OPR/') >= 0;
+	global.navigator?.userAgent?.indexOf(' OPR/') >= 0;
 
 const isFirefox = typeof InstallTrigger !== 'undefined';
 const isSafari =
@@ -16,7 +16,7 @@ const isSafari =
 	);
 const isChrome =
 	!!global.chrome && (!!global.chrome.webstore || !!global.chrome.runtime);
-const isEdgeChromium = isChrome && navigator.userAgent.indexOf('Edg') != -1;
+const isEdgeChromium = isChrome && global.navigator?.userAgent?.indexOf('Edg') != -1;
 const isBlink = (isChrome || isOpera) && !!global.CSS;
 
 const browser: any = isFirefox || isSafari ? global.browser : global.chrome;

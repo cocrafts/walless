@@ -47,7 +47,10 @@ export const IndexPage = () => {
 			</XStack>
 			<Text color="white" marginTop={54}>
 				<Text>Created with ❤️ by </Text>
-				<Anchor href="https://stormgate.io">Stormgate.io</Anchor>
+				<Anchor color="rgb(44, 135, 155)" href="https://stormgate.io">
+					{' '}
+					Stormgate.io
+				</Anchor>
 			</Text>
 		</Stack>
 	);

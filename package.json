@@ -18,7 +18,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@jest/globals": "^29.4.3",
-    "@metacraft/eslint-config": "^0.0.12",
+    "@metacraft/eslint-config": "^0.0.13",
     "@metacraft/tsconfig": "^0.0.11",
     "@metaplex-foundation/mpl-token-metadata": "^2.9.1",
     "@nissy-dev/swc-plugin-react-native-web": "^0.3.1",

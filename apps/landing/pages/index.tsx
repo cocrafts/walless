@@ -1,12 +1,53 @@
 import { ReactElement } from 'react';
-import { Stack, Text } from '@walless/wui';
+import { Anchor, Image, Stack, Text, XStack } from '@walless/wui';
 
-import { HomeLayout } from '../components/layouts/Home';
+import ExtensionIcon from '../components/ExtensionIcon';
+import HomeLayout from '../components/layouts/Home';
+
+interface ExtensionConfig {
+	icon: string;
+	title: string;
+	download: string;
+}
 
 export const IndexPage = () => {
+	const onIconPress = (item: ExtensionConfig) => {
+		console.log(item);
+	};
+
 	return (
-		<Stack>
-			<Text>Web!</Text>
+		<Stack alignItems="center">
+			<Image
+				src="/img/icon-lg.png"
+				width={logoSize}
+				height={logoSize}
+				marginTop={80}
+			/>
+			<Anchor
+				fontSize={14}
+				fontWeight="300"
+				color="rgba(255, 255, 255, 0.6)"
+				href="https://forms.gle/hqFXYLECXyq8R2W66"
+				target="_blank"
+			>
+				Get on waiting list
+			</Anchor>
+			<XStack flexWrap="wrap" justifyContent="center">
+				{extensionList.map((item) => {
+					return (
+						<ExtensionIcon
+							key={item.download}
+							iconSrc={item.icon}
+							title={item.title}
+							onPress={() => onIconPress(item)}
+						/>
+					);
+				})}
+			</XStack>
+			<Text color="white" marginTop={54}>
+				<Text>Created with ❤️ by </Text>
+				<Anchor href="https://stormgate.io">Stormgate.io</Anchor>
+			</Text>
 		</Stack>
 	);
 };
@@ -14,3 +55,18 @@ export const IndexPage = () => {
 IndexPage.getLayout = (page: ReactElement) => <HomeLayout>{page}</HomeLayout>;
 
 export default IndexPage;
+
+const logoSize = 140;
+const makeExtensionConfig = (name: string) => ({
+	icon: `/img/${name.toLowerCase()}.png`,
+	title: name,
+	download: `/${name.toLowerCase()}.zip`,
+});
+
+const extensionList: ExtensionConfig[] = [
+	makeExtensionConfig('Chrome'),
+	makeExtensionConfig('Firefox'),
+	makeExtensionConfig('Brave'),
+	makeExtensionConfig('Edge'),
+	makeExtensionConfig('Opera'),
+];

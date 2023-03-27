@@ -1,4 +1,5 @@
 import {
+	Anchor as TamaguiAnchor,
 	GetProps,
 	Stack as TamaguiStack,
 	styled,
@@ -26,4 +27,10 @@ export const Text = styled(TamaguiText, {
 	fontFamily: 'Poppins',
 });
 
-export { Button } from 'tamagui';
+export const Anchor = styled(TamaguiAnchor, {
+	name: 'Anchor',
+	color: '#dedede',
+	fontFamily: 'Poppins',
+});
+
+export { Button, Image, ScrollView } from 'tamagui';

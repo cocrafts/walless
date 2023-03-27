@@ -1,11 +1,11 @@
 import { Stack, Text } from '@walless/wui';
 
-export const IndexPage = () => {
+export const Explore = () => {
 	return (
 		<Stack>
-			<Text>Web!</Text>
+			<Text>Explore</Text>
 		</Stack>
 	);
 };
 
-export default IndexPage;
+export default Explore;

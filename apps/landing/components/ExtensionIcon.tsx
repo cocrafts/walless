@@ -23,6 +23,7 @@ export const ExtensionIcon: FC<Props> = ({ iconSrc, title, onPress }) => {
 		>
 			<Image
 				src={iconSrc}
+				defaultSource={{ uri: iconSrc }}
 				width={iconSize}
 				height={iconSize}
 				resizeMode="contain"

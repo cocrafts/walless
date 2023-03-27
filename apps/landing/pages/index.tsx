@@ -18,7 +18,8 @@ export const IndexPage = () => {
 	return (
 		<Stack alignItems="center">
 			<Image
-				src="/img/icon-lg.png"
+				src={logoUri}
+				defaultSource={{ uri: logoUri }}
 				width={logoSize}
 				height={logoSize}
 				marginTop={80}
@@ -57,6 +58,7 @@ IndexPage.getLayout = (page: ReactElement) => <HomeLayout>{page}</HomeLayout>;
 export default IndexPage;
 
 const logoSize = 140;
+const logoUri = '/img/icon-lg.png';
 const makeExtensionConfig = (name: string) => ({
 	icon: `/img/${name.toLowerCase()}.png`,
 	title: name,

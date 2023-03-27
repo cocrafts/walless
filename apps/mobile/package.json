@@ -1,0 +1,27 @@
+{
+  "name": "walless",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "lint": "eslint .",
+    "start": "react-native start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@walless/wui": "*",
+    "react": "18.2.0",
+    "react-native": "0.71.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.1",
+    "@types/react": "^18.0.24",
+    "@types/react-test-renderer": "^18.0.0",
+    "babel-jest": "^29.2.1",
+    "react-test-renderer": "18.2.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

@@ -1,0 +1,3 @@
+{
+  "extends": "@metacraft/tsconfig/application.json"
+}

@@ -16,5 +16,8 @@
 		"react-native-reanimated": "^3.0.2",
 		"setimmediate": "^1.0.5",
 		"tamagui": "^1.9.0"
+	},
+	"peerDependencies": {
+		"valtio": "^1.10.3"
 	}
 }

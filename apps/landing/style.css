@@ -2,3 +2,7 @@ body {
   overflow: hidden;
   background-color: #011726;
 }
+
+a {
+  text-decoration: none;
+}

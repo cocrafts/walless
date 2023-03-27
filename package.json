@@ -16,11 +16,6 @@
     "postinstall": "node tool/batch"
   },
   "devDependencies": {
-    "@aws-cdk/aws-apigateway": "^1.198.0",
-    "@aws-cdk/aws-apigatewayv2": "^1.198.0",
-    "@aws-cdk/aws-apigatewayv2-integrations": "^1.198.0",
-    "@aws-cdk/aws-lambda": "^1.198.0",
-    "@aws-cdk/core": "^1.198.0",
     "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@jest/globals": "^29.4.3",
     "@metacraft/eslint-config": "^0.0.12",

@@ -14,3 +14,5 @@ export const Text = styled(TamaguiText, {
 	color: '#dedede',
 	fontFamily: 'Poppins',
 });
+
+export { Button } from 'tamagui';

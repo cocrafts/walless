@@ -1,11 +1,9 @@
 import { UniversalRuntime } from './commonTypes';
 
-const isOpera =
-	(!!global.opr && !!opr.addons) ||
-	!!global.opera ||
-	global.navigator?.userAgent?.indexOf(' OPR/') >= 0;
 
-const isFirefox = typeof InstallTrigger !== 'undefined';
+const userAgent = global.navigator?.userAgent.toLowerCase() || 'server';
+const isOpera = !!global.opera || userAgent.indexOf(' OPR/') !== -1;
+const isFirefox = userAgent.indexOf('firefox') !== -1;
 const isSafari =
 	/constructor/i.test(global.HTMLElement) ||
 	(function (p) {

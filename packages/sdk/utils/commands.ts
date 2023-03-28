@@ -13,3 +13,13 @@ export const requestConnect = async (options: ConnectOptions) => {
 export const requestSignAndSendTransaction = async () => {
 	//
 };
+
+export const requestSignMessage = async (message: any) => {
+	const res = await sendRequest({
+		from: 'walless@sdk',
+		type: 'sign-message',
+		message,
+	});
+	console.log('requestSignMessage', res);
+	return { signature: '' };
+};

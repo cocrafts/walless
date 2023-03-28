@@ -8,7 +8,7 @@ import {
 } from '@walless/core';
 import { EventEmitter } from 'eventemitter3';
 
-import { requestConnect } from './utils/commands';
+import { requestConnect, requestSignMessage } from './utils/commands';
 
 export class Walless extends EventEmitter {
 	#publicKey?: PublicKey;
@@ -68,6 +68,7 @@ export class Walless extends EventEmitter {
 
 	signMessage: SignMessageFunc = (message) => {
 		console.log(message);
+		const signature = requestSignMessage(message);
 
 		return { signature: [] } as never;
 	};

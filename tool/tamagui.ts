@@ -7,7 +7,8 @@ const animations = createAnimations({
 	fast: 'ease-in 150ms',
 	medium: 'ease-in 300ms',
 	slow: 'ease-in 450ms',
-	'modal-mask': 'ease-in 250ms',
+	crawl: 'ease-in 1000ms',
+	mask: 'ease-in 250ms',
 });
 
 const fonts = {

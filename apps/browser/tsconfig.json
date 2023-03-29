@@ -1,14 +1,13 @@
 {
-	"extends": "@metacraft/tsconfig/application.json",
-	"include": ["index*.js", "src"],
-	"exclude": ["node_modules"],
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"components/*": ["./src/components/*"],
-			"stacks/*": ["./src/stacks/*"],
-			"screens/*": ["./src/screens/*"],
-			"utils/*": ["./src/utils/*"]
-		}
-	}
+  "extends": "@metacraft/tsconfig/next.json",
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "components/*": ["./components/*"],
+      "bridge/*": ["./bridge/*"],
+      "utils/*": ["./utils/*"]
+    }
+  }
 }

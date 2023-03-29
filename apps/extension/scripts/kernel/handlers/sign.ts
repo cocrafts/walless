@@ -1,4 +1,4 @@
-import { EncryptedWithPasscode } from '@walless/core';
+import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { decryptWithPasscode } from '@walless/crypto';
 import { MessengerCallback } from '@walless/messaging';
 import { signMessage } from '@walless/network/src/solana/transactions';
@@ -6,20 +6,27 @@ import { PrivateKeyRecord, PublicKeyRecord } from '@walless/storage';
 
 import { db } from '../storage';
 
-export const handleSignTransaction: MessengerCallback = async (payload) => {
-	const publicKeys = await db.publicKeys.toArray();
-	const solKey = publicKeys.find((i) => i.network === 'solana');
-	const privateKeys = await db.privateKeys.toArray();
-	const encrypted = privateKeys.find(
-		(i) => i.id === (solKey as PublicKeyRecord).privateKeyId,
+export const handleSignTransaction: MessengerCallback = async (
+	payload,
+	channel,
+) => {
+	const priavteKey = await triggerActionToGetPrivateKey();
+	if (!priavteKey) {
+		return;
+	}
+	const serializedTransaction = new Uint8Array(
+		Object.values(payload.transaction),
 	);
-	const solPrivateKey = await decryptWithPasscode(
-		'123456',
-		encrypted as EncryptedWithPasscode,
-	);
-
-	console.log(payload, solPrivateKey, '<--');
-	// TODO: do something
+	const transaction = VersionedTransaction.deserialize(serializedTransaction);
+	const keypair = Keypair.fromSecretKey(priavteKey);
+	transaction.sign([keypair]);
+	console.log(transaction);
+	channel.postMessage({
+		from: 'walless@kernel',
+		requestId: payload.requestId,
+		signedTransaction: transaction.serialize(),
+	});
+	return transaction.serialize();
 };
 
 export const handleSignAllTransaction: MessengerCallback = () => {

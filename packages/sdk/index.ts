@@ -1,4 +1,4 @@
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
 import {
 	ConnectFunc,
 	SignAllFunc,
@@ -8,7 +8,11 @@ import {
 } from '@walless/core';
 import { EventEmitter } from 'eventemitter3';
 
-import { requestConnect, requestSignMessage } from './utils/commands';
+import {
+	requestConnect,
+	requestSignMessage,
+	requestSignTransaction,
+} from './utils/commands';
 
 export class Walless extends EventEmitter {
 	#publicKey?: PublicKey;
@@ -55,9 +59,13 @@ export class Walless extends EventEmitter {
 	};
 
 	signTransaction: SignFunc = async (transaction) => {
-		console.log(transaction);
+		const res = await requestSignTransaction(transaction.serialize());
 
-		return {} as never;
+		return {
+			signedTransaction: VersionedTransaction.deserialize(
+				new Uint8Array(Object.values(res.signedTransaction)),
+			),
+		} as never;
 	};
 
 	signAllTransactions: SignAllFunc = (transactions) => {
@@ -67,8 +75,8 @@ export class Walless extends EventEmitter {
 	};
 
 	signMessage: SignMessageFunc = async (message) => {
-		console.log(message);
-		return await requestSignMessage(message);
+		const res = await requestSignMessage(message);
+		return { signature: new Uint8Array(Object.values(res.signature)) };
 	};
 }
 

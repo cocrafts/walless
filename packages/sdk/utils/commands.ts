@@ -15,11 +15,17 @@ export const requestSignAndSendTransaction = async () => {
 };
 
 export const requestSignMessage = async (message: Uint8Array) => {
-	const res = await sendRequest({
+	return await sendRequest({
 		from: 'walless@sdk',
 		type: 'sign-message',
 		message,
 	});
+};
 
-	return { signature: new Uint8Array(Object.values(res.signature)) };
+export const requestSignTransaction = async (transaction) => {
+	return await sendRequest({
+		from: 'walless@sdk',
+		type: 'sign-transaction',
+		transaction,
+	});
 };

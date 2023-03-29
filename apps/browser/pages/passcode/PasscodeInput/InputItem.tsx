@@ -4,7 +4,7 @@ import {
 	TextInput,
 	TextInputKeyPressEventData,
 } from 'react-native';
-import { Input, Stack } from '@walless/wui';
+import { Input } from '@walless/wui';
 
 interface Props {
 	index: number;
@@ -48,17 +48,16 @@ const InputItem: React.FC<Props> = ({
 	}, [isConfirmPhase, confirmPasscode]);
 
 	return (
-		<Stack>
-			<Input
-				ref={ref}
-				secureTextEntry
-				maxLength={1}
-				pointerEvents="box-none"
-				onChangeText={(text) => handleChangeText(text, index, ref)}
-				onKeyPress={(event) => handleKeyPress(index, event, ref)}
-				onFocus={() => handleFocus(ref)}
-			/>
-		</Stack>
+		<Input
+			ref={ref}
+			secureTextEntry
+			maxLength={1}
+			pointerEvents="box-none"
+			onChangeText={(text) => handleChangeText(text, index, ref)}
+			onKeyPress={(event) => handleKeyPress(index, event, ref)}
+			onFocus={() => handleFocus(ref)}
+			width={40}
+		/>
 	);
 };
 

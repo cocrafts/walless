@@ -4,7 +4,7 @@ import {
 	TextInput,
 	TextInputKeyPressEventData,
 } from 'react-native';
-import { Button, Stack } from '@walless/wui';
+import { Button, XStack } from '@walless/wui';
 
 import InputItem from './InputItem';
 
@@ -101,7 +101,7 @@ const PasscodeInput: React.FC<Props> = ({
 	}, [isConfirmPhase, confirmPasscode]);
 
 	return (
-		<Stack flexDirection="row" justifyContent="space-between">
+		<XStack justifyContent="space-between">
 			{inputItems}
 			<Button
 				onPress={() => currentInputRef?.current?.focus()}
@@ -111,7 +111,7 @@ const PasscodeInput: React.FC<Props> = ({
 				width="100%"
 				backgroundColor="transparent"
 			/>
-		</Stack>
+		</XStack>
 	);
 };
 

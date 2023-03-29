@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import { Stack, Text } from '@walless/wui';
+import { Button, Stack, Text, YStack } from '@walless/wui';
 import { useRouter } from 'next/router';
 
-import PasscodeInput from './Input';
+import PasscodeInput from '../PasscodeInput';
 
 const InitializePasscode: React.FC = () => {
 	const [initialPasscode, setInitialPasscode] = useState('');
 	const [isConfirmPhase, setIsConfirmPhase] = useState(false);
-	const [isPasscodeValid, setIsPasscodeValid] = useState(false);
+	const [isActiveButton, setIsActiveButton] = useState(false);
 	const [confirmPasscode, setConfirmPasscode] = useState('');
 	const [isPasscodeIncorrect, setIsPasscodeIncorrect] = useState(false);
 	const router = useRouter();
 
+	const buttonTitle = isConfirmPhase ? 'Confirm' : 'Continue';
+
 	const handleActiveButton = (isPasscodeValid: boolean) => {
-		setIsPasscodeValid(isPasscodeValid);
+		setIsActiveButton(isPasscodeValid);
 	};
 
 	const handleButtonPress = () => {
@@ -54,8 +56,8 @@ const InitializePasscode: React.FC = () => {
 	};
 
 	return (
-		<Stack flex={1} alignItems="center" justifyContent="center">
-			<Stack maxWidth={410} maxHeight={600}>
+		<YStack flex={1} alignItems="center" justifyContent="center">
+			<YStack width={410} height={600} paddingHorizontal={15}>
 				<PasscodeInput
 					isConfirmPhase={isConfirmPhase}
 					confirmPasscode={confirmPasscode}
@@ -64,8 +66,11 @@ const InitializePasscode: React.FC = () => {
 					handleWrongInput={handleWrongInput}
 					handleEnterKeyPress={handleEnterKeyPress}
 				/>
-			</Stack>
-		</Stack>
+				<Button disabled={!isActiveButton} onPress={handleButtonPress}>
+					{buttonTitle}
+				</Button>
+			</YStack>
+		</YStack>
 	);
 };
 

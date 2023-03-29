@@ -49,6 +49,12 @@ export const handleSignMessage: MessengerCallback = async (
 
 	const message = new Uint8Array(Object.values(payload.message));
 	const signature = signMessage(message, solPrivateKey);
+
+	channel.postMessage({
+		from: 'walless@kernel',
+		requestId: payload.requestId,
+		signature: signature,
+	});
 	return signature;
 };
 

@@ -30,25 +30,12 @@ export const handleSignMessage: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
-	let solPrivateKey;
-	try {
-		const publicKeys = await db.publicKeys.toArray();
-		const solKey = publicKeys.find(
-			(i) => i.network === 'solana',
-		) as PublicKeyRecord;
-		const privateKeys = await db.privateKeys.toArray();
-		const encrypted = privateKeys.find((i) => i.id === solKey.privateKeyId);
-		solPrivateKey = await decryptWithPasscode(
-			'123456',
-			encrypted as PrivateKeyRecord,
-		);
-	} catch (error) {
-		console.log('Get private key error');
-		console.log(error.message);
+	const priavteKey = await triggerActionToGetPrivateKey();
+	if (!priavteKey) {
+		return;
 	}
-
 	const message = new Uint8Array(Object.values(payload.message));
-	const signature = signMessage(message, solPrivateKey);
+	const signature = signMessage(message, priavteKey);
 
 	channel.postMessage({
 		from: 'walless@kernel',
@@ -56,6 +43,22 @@ export const handleSignMessage: MessengerCallback = async (
 		signature: signature,
 	});
 	return signature;
+};
+
+const triggerActionToGetPrivateKey = async () => {
+	try {
+		const publicKeys = await db.publicKeys.toArray();
+		const solKey = publicKeys.find(
+			(i) => i.network === 'solana',
+		) as PublicKeyRecord;
+		const privateKeys = await db.privateKeys.toArray();
+		const encrypted = privateKeys.find((i) => i.id === solKey.privateKeyId);
+		return await decryptWithPasscode('123456', encrypted as PrivateKeyRecord);
+	} catch (error) {
+		console.log('Get private key error');
+		console.log(error.message);
+		return null;
+	}
 };
 
 global.handleSignMessage = handleSignMessage;

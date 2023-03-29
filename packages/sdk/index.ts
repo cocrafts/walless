@@ -66,11 +66,9 @@ export class Walless extends EventEmitter {
 		return [] as never;
 	};
 
-	signMessage: SignMessageFunc = (message) => {
+	signMessage: SignMessageFunc = async (message) => {
 		console.log(message);
-		const signature = requestSignMessage(message);
-
-		return { signature: [] } as never;
+		return await requestSignMessage(message);
 	};
 }
 

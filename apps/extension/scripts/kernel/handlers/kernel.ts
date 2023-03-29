@@ -10,10 +10,8 @@ import {
 } from './sign';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
-	console.log('onKernelMessage');
 	if (payload.requestId) {
 		if (payload.type === 'request-connect') {
-			console.log('helloworld');
 			await handleConnect(payload, channel);
 		} else if (payload.type === 'sign-transaction') {
 			await handleSignTransaction(payload, channel);

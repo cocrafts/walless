@@ -20,8 +20,14 @@ export const Stack = styled(TamaguiStack, {
 				bottom: 0,
 			},
 		},
+		horizontal: {
+			true: {
+				flexDirection: 'row',
+			},
+		},
 	} as const,
 });
+
 export const XStack = TamaguiXStack;
 export const YStack = TamaguiYStack;
 export const ZStack = TamaguiZStack;

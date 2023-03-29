@@ -1,7 +1,7 @@
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { decryptWithPasscode } from '@walless/crypto';
 import { MessengerCallback } from '@walless/messaging';
-import { signMessage } from '@walless/network/src/solana/transactions';
+import { signMessage } from '@walless/network';
 import { PrivateKeyRecord, PublicKeyRecord } from '@walless/storage';
 
 import { db } from '../storage';
@@ -10,17 +10,16 @@ export const handleSignTransaction: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
-	const priavteKey = await triggerActionToGetPrivateKey();
-	if (!priavteKey) {
+	const privateKey = await triggerActionToGetPrivateKey();
+	if (!privateKey) {
 		return;
 	}
 	const serializedTransaction = new Uint8Array(
 		Object.values(payload.transaction),
 	);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
-	const keypair = Keypair.fromSecretKey(priavteKey);
+	const keypair = Keypair.fromSecretKey(privateKey);
 	transaction.sign([keypair]);
-	console.log(transaction);
 	channel.postMessage({
 		from: 'walless@kernel',
 		requestId: payload.requestId,
@@ -37,12 +36,12 @@ export const handleSignMessage: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
-	const priavteKey = await triggerActionToGetPrivateKey();
-	if (!priavteKey) {
+	const privateKey = await triggerActionToGetPrivateKey();
+	if (!privateKey) {
 		return;
 	}
 	const message = new Uint8Array(Object.values(payload.message));
-	const signature = signMessage(message, priavteKey);
+	const signature = signMessage(message, privateKey);
 
 	channel.postMessage({
 		from: 'walless@kernel',

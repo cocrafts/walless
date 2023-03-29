@@ -58,12 +58,16 @@ export class Walless extends EventEmitter {
 		return {} as never;
 	};
 
-	signTransaction = async (transaction) => {
+	signTransaction: SignFunc = async (transaction) => {
+		if (!this.#publicKey) {
+			throw new Error('wallet not connected');
+		}
+
 		const res = await requestSignTransaction(transaction.serialize());
 
 		return VersionedTransaction.deserialize(
 			new Uint8Array(Object.values(res.signedTransaction)),
-		);
+		) as never;
 	};
 
 	signAllTransactions: SignAllFunc = (transactions) => {
@@ -73,6 +77,10 @@ export class Walless extends EventEmitter {
 	};
 
 	signMessage: SignMessageFunc = async (message) => {
+		if (!this.#publicKey) {
+			throw new Error('wallet not connected');
+		}
+
 		const res = await requestSignMessage(message);
 		return { signature: new Uint8Array(Object.values(res.signature)) };
 	};

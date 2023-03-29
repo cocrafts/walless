@@ -58,14 +58,12 @@ export class Walless extends EventEmitter {
 		return {} as never;
 	};
 
-	signTransaction: SignFunc = async (transaction) => {
+	signTransaction = async (transaction) => {
 		const res = await requestSignTransaction(transaction.serialize());
 
-		return {
-			signedTransaction: VersionedTransaction.deserialize(
-				new Uint8Array(Object.values(res.signedTransaction)),
-			),
-		} as never;
+		return VersionedTransaction.deserialize(
+			new Uint8Array(Object.values(res.signedTransaction)),
+		);
 	};
 
 	signAllTransactions: SignAllFunc = (transactions) => {

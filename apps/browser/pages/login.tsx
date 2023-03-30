@@ -1,9 +1,15 @@
 import React from 'react';
 import { Button, Stack, Text } from '@walless/wui';
 import { useRouter } from 'next/router';
+// import { appActions } from 'utils/state/app';
 
 export const Login: React.FC = () => {
 	const router = useRouter();
+
+	const onLogin = () => {
+		router.push('/passcode/initialize');
+		// appActions.signInGoogle();
+	};
 
 	return (
 		<Stack flex={1} alignItems="center" justifyContent="center">
@@ -14,9 +20,7 @@ export const Login: React.FC = () => {
 				justifyContent="center"
 			>
 				<Text>Login</Text>
-				<Button onPress={() => router.push('/passcode/initialize')}>
-					Press to login
-				</Button>
+				<Button onPress={onLogin}>Press to login</Button>
 			</Stack>
 		</Stack>
 	);

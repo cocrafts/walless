@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Button, modalActions, Stack, Text } from '@walless/wui';
 import DashboardLayout from 'components/DashboardLayout';
+import Link from 'next/link';
 import { layoutActions } from 'utils/state/layout';
 
 export const Test: FC = () => {
@@ -41,6 +42,8 @@ export const Explore = () => {
 				<Button onPress={() => addLayout('underrealm4ch4DSc849')}>
 					Under Realm
 				</Button>
+
+				<Link href="/login">to Login page</Link>
 			</DashboardLayout>
 		</Stack>
 	);

@@ -9,6 +9,8 @@ const isEdgeChromium = isChrome && global.navigator?.userAgent?.indexOf('Edg') !
 const isBlink = (isChrome || isOpera) && !!global.CSS;
 
 const browser: any = isFirefox ? (global as any).browser : global.chrome;
+const isExtension = !!global.chrome?.runtime;
+const isServer = !isExtension && typeof window === 'undefined';
 
 export const runtime: UniversalRuntime = {
 	isOpera,
@@ -16,7 +18,9 @@ export const runtime: UniversalRuntime = {
 	isChrome,
 	isEdgeChromium,
 	isBlink,
-	isExtension: !!global.chrome?.runtime,
+	isExtension,
+	isServer,
+	isBrowser: !isExtension && !isServer,
 	onConnect: browser?.runtime?.onConnect,
 	onMessage: browser?.runtime?.onMessage,
 	connect: browser?.runtime?.connect,

@@ -20,6 +20,8 @@ export interface UniversalRuntime {
 	isChrome: boolean;
 	isEdgeChromium: boolean;
 	isBlink: boolean;
+	isServer: boolean;
+	isBrowser: boolean;
 	isExtension: boolean;
 	onConnect: chrome.runtime.ExtensionConnectEvent;
 	onMessage: chrome.runtime.ExtensionMessageEvent;

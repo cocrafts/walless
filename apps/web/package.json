@@ -1,0 +1,47 @@
+{
+	"name": "@walless/web",
+	"version": "0.0.20",
+	"private": true,
+	"main": "index.web.js",
+	"scripts": {
+		"dev": "metacraft",
+		"build": "metacraft bundle",
+		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+	},
+	"dependencies": {
+		"@metaplex-foundation/js": "^0.18.1",
+		"@mysten/sui.js": "^0.29.1",
+		"@solana/spl-token": "^0.3.7",
+		"@solana/web3.js": "^1.73.3",
+		"@tkey/chrome-storage": "^7.2.0",
+		"@tkey/default": "^7.2.0",
+		"@tkey/private-keys": "^7.2.0",
+		"@tkey/security-questions": "^7.2.0",
+		"@tkey/web-storage": "^7.2.0",
+		"@walless/core": "*",
+		"@walless/crypto": "*",
+		"@walless/messaging": "*",
+		"@walless/network": "*",
+		"@walless/sdk": "*",
+		"@walless/storage": "*",
+		"@walless/ui": "*",
+		"@walless/wallet-standard": "*",
+		"@web3auth/ethereum-provider": "^4.6.0",
+		"@web3auth/solana-provider": "^4.6.0",
+		"dexie": "3.2.3",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-native-qrcode-svg": "^6.2.0",
+		"react-router-dom": "^6.8.1",
+		"tamagui": "^1.9.17",
+		"valtio": "^1.10.3"
+	},
+	"devDependencies": {
+		"@metacraft/cli-web3-polyfills": "^0.0.7",
+		"esbuild": "^0.17.14",
+		"esbuild-loader": "^3.0.1",
+		"esbuild-sass-plugin": "^2.8.0",
+		"tamagui-loader": "^1.9.17",
+		"thread-loader": "^3.0.4"
+	}
+}

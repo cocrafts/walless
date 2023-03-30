@@ -6,6 +6,7 @@ const { setEnvironments } = require('../../tool/webpack/middleware/env');
 const { generateSwcOptions } = require('../../tool/webpack/swc');
 
 module.exports = {
+	withProgress: false,
 	port: () => 3003,
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
@@ -22,8 +23,8 @@ module.exports = {
 	swcOptions: () => generateSwcOptions(),
 	moduleAlias: {
 		global: {
-			'react-native$': 'react-native-web',
-			'react-native-web$': 'react-native-web',
+			'react-native$': 'react-native-web-lite',
+			'react-native-web$': 'react-native-web-lite',
 			'react-native-svg': require.resolve('@tamagui/react-native-svg'),
 		},
 	},

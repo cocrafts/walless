@@ -6,7 +6,8 @@
     "packages": [
       "apps/*",
       "packages/*"
-    ]
+    ],
+    "nohoist": ["**/react-native", "**/react-native/**", "**/tamagui-loader"]
   },
   "scripts": {
     "build": "node tool/batch && turbo run build",

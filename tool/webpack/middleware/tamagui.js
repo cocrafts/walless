@@ -7,7 +7,7 @@ const loaderUri = resolve(
 );
 
 const tamaguiBuild = (config) => {
-	const swc = config.module.rules[0];
+	const original = config.module.rules[0];
 	const tamaguiOptions = {
 		config: './tamagui.config.ts',
 		components: ['tamagui'],
@@ -20,8 +20,8 @@ const tamaguiBuild = (config) => {
 		test: /\.[jt]sx?$/,
 		use: [
 			{
-				loader: swc.loader,
-				options: swc.options,
+				loader: original.loader,
+				options: original.options,
 			},
 			{
 				loader: loaderUri,

@@ -8,8 +8,8 @@ import '@tamagui/core/reset.css';
 export const AppContainer: FC = () => {
 	return (
 		<WuiProvider config={config}>
-			<Stack flex={1}>
-				<Text>Hmmm</Text>
+			<Stack flex={1} alignItems="center" justifyContent="center">
+				<Text>Welcome!</Text>
 			</Stack>
 		</WuiProvider>
 	);

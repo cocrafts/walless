@@ -35,8 +35,12 @@ export const Explore = () => {
 					<Text>Hmm</Text>
 				</Stack>
 
-				<Button onPress={() => addLayout('solana')}>Solana</Button>
-				<Button onPress={() => addLayout('under realm')}> Under Realm</Button>
+				<Button onPress={() => addLayout('solanaXYklr849kc4j5c')}>
+					Solana
+				</Button>
+				<Button onPress={() => addLayout('underrealm4ch4DSc849')}>
+					Under Realm
+				</Button>
 			</DashboardLayout>
 		</Stack>
 	);

@@ -1,31 +1,27 @@
 import Router from 'next/router';
 import { proxy } from 'valtio';
 
-import { generateHash } from './helper';
 import { LayoutItem, LayoutProxy } from './type';
 
 export const layoutProxy = proxy<LayoutProxy>({});
 
 export const layoutActions = {
 	add: (layout: LayoutItem) => {
-		const layoutHash = generateHash(layout.id);
-
-		if (layoutProxy[layoutHash]) {
+		const { id } = layout;
+		if (layoutProxy[id]) {
 			return;
 		}
 
-		layoutProxy[layoutHash] = layout;
-		Router.push(`/layout/${layoutHash}`);
+		layoutProxy[id] = layout;
+		Router.push(`/layout/${id}`);
 	},
 
 	remove: (id: string) => {
-		const layoutHash = generateHash(id);
-
-		if (!layoutProxy[layoutHash]) {
+		if (!layoutProxy[id]) {
 			return;
 		}
 
-		delete layoutProxy[layoutHash];
+		delete layoutProxy[id];
 		Router.replace('/');
 	},
 };

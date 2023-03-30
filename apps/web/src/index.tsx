@@ -9,7 +9,9 @@ export const AppContainer: FC = () => {
 	return (
 		<WuiProvider config={config}>
 			<Stack flex={1} alignItems="center" justifyContent="center">
-				<Text>Welcome!</Text>
+				<Text color="black" fontSize={18}>
+					Welcome!
+				</Text>
 			</Stack>
 		</WuiProvider>
 	);

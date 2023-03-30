@@ -6,7 +6,7 @@ const { setEnvironments } = require('../../tool/webpack/middleware/env');
 const { generateSwcOptions } = require('../../tool/webpack/swc');
 
 module.exports = {
-	withProgress: false,
+	useReact: true,
 	port: () => 3003,
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,

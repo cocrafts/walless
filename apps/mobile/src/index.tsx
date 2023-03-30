@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Stack } from '@walless/wui';
 
 const styles = StyleSheet.create({
 	container: {},

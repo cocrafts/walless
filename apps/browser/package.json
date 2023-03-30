@@ -10,9 +10,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tkey/chrome-storage": "^8.0.5-alpha.0",
+    "@tkey/default": "^8.0.5-alpha.0",
+    "@tkey/private-keys": "^8.0.5-alpha.0",
+    "@tkey/security-questions": "^8.0.5-alpha.0",
+    "@tkey/web-storage": "^8.0.5-alpha.0",
     "@walless/app": "*",
-    "@walless/storage": "*",
     "@walless/messaging": "*",
+    "@walless/storage": "*",
     "@walless/wui": "*",
     "next": "^13.1.1",
     "react-dom": "^18.2.0",

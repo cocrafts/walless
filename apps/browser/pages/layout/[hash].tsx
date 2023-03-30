@@ -17,7 +17,7 @@ export const Layout: React.FC = () => {
 		<DashboardLayout>
 			<Stack>
 				<Text>Hmmm</Text>
-				<Button onPress={onRemovePress}>{id}</Button>
+				<Button onPress={onRemovePress}>Remove {id}</Button>
 			</Stack>
 		</DashboardLayout>
 	);

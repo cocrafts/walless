@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { RefObject, useEffect, useState } from 'react';
 import {
 	NativeSyntheticEvent,
 	TextInput,
 	TextInputKeyPressEventData,
 } from 'react-native';
-import { Button, XStack } from '@walless/wui';
+import { Button, Stack } from '@walless/wui';
 
 import InputItem from './InputItem';
 
@@ -27,7 +27,7 @@ const PasscodeInput: React.FC<Props> = ({
 }) => {
 	const [focusedIndex, setFocusedIndex] = useState(0);
 	const [currentInputRef, setCurrentInputRef] =
-		useState<React.RefObject<TextInput> | null>(null);
+		useState<RefObject<TextInput> | null>(null);
 	const passcodeRegex = /^[0-9]/;
 
 	const handleChangeText = (text: string, index: number) => {
@@ -40,7 +40,7 @@ const PasscodeInput: React.FC<Props> = ({
 	const handleKeyPress = (
 		index: number,
 		event: NativeSyntheticEvent<TextInputKeyPressEventData>,
-		ref: React.RefObject<TextInput>,
+		ref: RefObject<TextInput>,
 	) => {
 		let relativeIndex: number;
 
@@ -70,7 +70,7 @@ const PasscodeInput: React.FC<Props> = ({
 		}
 	};
 
-	const handleFocus = (ref: React.RefObject<TextInput>) => {
+	const handleFocus = (ref: RefObject<TextInput>) => {
 		setCurrentInputRef(ref);
 	};
 
@@ -101,7 +101,7 @@ const PasscodeInput: React.FC<Props> = ({
 	}, [isConfirmPhase, confirmPasscode]);
 
 	return (
-		<XStack justifyContent="space-between">
+		<Stack horizontal justifyContent="space-between">
 			{inputItems}
 			<Button
 				onPress={() => currentInputRef?.current?.focus()}
@@ -111,7 +111,7 @@ const PasscodeInput: React.FC<Props> = ({
 				width="100%"
 				backgroundColor="transparent"
 			/>
-		</XStack>
+		</Stack>
 	);
 };
 

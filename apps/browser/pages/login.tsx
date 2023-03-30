@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, Stack, Text, YStack } from '@walless/wui';
+import { Button, Stack, Text } from '@walless/wui';
 import { useRouter } from 'next/router';
 
 export const Login: React.FC = () => {
 	const router = useRouter();
 
 	return (
-		<YStack flex={1} alignItems="center" justifyContent="center">
+		<Stack flex={1} alignItems="center" justifyContent="center">
 			<Stack
 				maxWidth={410}
 				maxHeight={600}
@@ -18,7 +18,7 @@ export const Login: React.FC = () => {
 					Press to login
 				</Button>
 			</Stack>
-		</YStack>
+		</Stack>
 	);
 };
 

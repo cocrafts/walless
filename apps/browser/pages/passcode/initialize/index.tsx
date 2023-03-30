@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Stack, Text, YStack } from '@walless/wui';
+import { Button, Stack, Text } from '@walless/wui';
 import { useRouter } from 'next/router';
 
 import PasscodeInput from '../PasscodeInput';
@@ -56,8 +56,8 @@ const InitializePasscode: React.FC = () => {
 	};
 
 	return (
-		<YStack flex={1} alignItems="center" justifyContent="center">
-			<YStack width={410} height={600} paddingHorizontal={15}>
+		<Stack flex={1} alignItems="center" justifyContent="center">
+			<Stack width={410} height={600} paddingHorizontal={15}>
 				<PasscodeInput
 					isConfirmPhase={isConfirmPhase}
 					confirmPasscode={confirmPasscode}
@@ -69,8 +69,8 @@ const InitializePasscode: React.FC = () => {
 				<Button disabled={!isActiveButton} onPress={handleButtonPress}>
 					{buttonTitle}
 				</Button>
-			</YStack>
-		</YStack>
+			</Stack>
+		</Stack>
 	);
 };
 

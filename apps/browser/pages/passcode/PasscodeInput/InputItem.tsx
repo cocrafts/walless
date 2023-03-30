@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { RefObject, useEffect } from 'react';
 import {
 	NativeSyntheticEvent,
 	TextInput,
@@ -14,14 +14,14 @@ interface Props {
 	handleChangeText: (
 		text: string,
 		index: number,
-		ref: React.RefObject<TextInput>,
+		ref: RefObject<TextInput>,
 	) => void;
 	handleKeyPress: (
 		index: number,
 		event: NativeSyntheticEvent<TextInputKeyPressEventData>,
-		ref: React.RefObject<TextInput>,
+		ref: RefObject<TextInput>,
 	) => void;
-	handleFocus: (ref: React.RefObject<TextInput>) => void;
+	handleFocus: (ref: RefObject<TextInput>) => void;
 }
 
 const InputItem: React.FC<Props> = ({

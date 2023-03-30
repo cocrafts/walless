@@ -51,4 +51,4 @@ export const Anchor = styled(TamaguiAnchor, {
 	fontFamily: 'Poppins',
 });
 
-export { Button, Image, ScrollView } from 'tamagui';
+export { Button, Image, Input, ScrollView } from 'tamagui';

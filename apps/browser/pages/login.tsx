@@ -14,7 +14,7 @@ export const Login: React.FC = () => {
 				justifyContent="center"
 			>
 				<Text>Login</Text>
-				<Button onPress={() => router.push('/initialize-passcode')}>
+				<Button onPress={() => router.push('/passcode/initialize')}>
 					Press to login
 				</Button>
 			</Stack>

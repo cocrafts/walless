@@ -1,4 +1,4 @@
-import { PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
+import { PublicKey, VersionedTransaction } from '@solana/web3.js';
 import {
 	ConnectFunc,
 	SignAllFunc,

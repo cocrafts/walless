@@ -1,8 +1,7 @@
 import { RefObject } from 'react';
-import { Dimensions, LayoutRectangle, View, ViewStyle } from 'react-native';
-import { interpolate, SharedValue } from 'react-native-reanimated';
+import { Dimensions, LayoutRectangle, View } from 'react-native';
 
-import { AnimateDirections, BindDirections, PositionOffset } from './type';
+import { BindDirections, PositionOffset } from './type';
 
 export const referenceMap: Record<string, RefObject<View>> = {};
 
@@ -145,85 +144,4 @@ export const rectangleBind = async (
 	}
 
 	return guardRectangleInside(result, referenceMap.root);
-};
-
-export const rectangleAnimatedStyle = (
-	shared: SharedValue<number>,
-	direction: AnimateDirections | undefined,
-	baseStyle: ViewStyle,
-): ViewStyle => {
-	'worklet';
-
-	const animatedStyle: ViewStyle = {
-		transform: [],
-		...baseStyle,
-	};
-
-	if (direction === AnimateDirections.Top) {
-		animatedStyle.transform?.push({
-			translateY: interpolate(shared.value, [0, 1], [20, 0]),
-		});
-	} else if (direction === AnimateDirections.TopLeft) {
-		animatedStyle.transform?.push({
-			translateY: interpolate(shared.value, [0, 1], [20, 0]),
-		});
-
-		animatedStyle.borderTopLeftRadius = interpolate(
-			shared.value,
-			[0, 1],
-			[100, 0],
-		);
-	} else if (direction === AnimateDirections.TopRight) {
-		animatedStyle.transform?.push({
-			translateY: interpolate(shared.value, [0, 1], [20, 0]),
-		});
-
-		animatedStyle.borderTopRightRadius = interpolate(
-			shared.value,
-			[0, 1],
-			[100, 0],
-		);
-	} else if (direction === AnimateDirections.Bottom) {
-		animatedStyle.transform?.push({
-			translateY: interpolate(shared.value, [0, 1], [-20, 0]),
-		});
-	} else if (direction === AnimateDirections.BottomLeft) {
-		animatedStyle.transform?.push({
-			translateY: interpolate(shared.value, [0, 1], [-20, 0]),
-		});
-
-		animatedStyle.borderBottomLeftRadius = interpolate(
-			shared.value,
-			[0, 1],
-			[100, 0],
-		);
-	} else if (direction === AnimateDirections.BottomRight) {
-		animatedStyle.transform?.push({
-			translateY: interpolate(shared.value, [0, 1], [-20, 0]),
-		});
-
-		animatedStyle.borderBottomRightRadius = interpolate(
-			shared.value,
-			[0, 1],
-			[100, 0],
-		);
-	} else if (direction === AnimateDirections.Left) {
-		animatedStyle.transform?.push({
-			translateX: interpolate(shared.value, [0, 1], [20, 0]),
-		});
-	} else if (direction === AnimateDirections.Right) {
-		animatedStyle.transform?.push({
-			translateX: interpolate(shared.value, [0, 1], [-20, 0]),
-		});
-	} else if (direction === AnimateDirections.Inner) {
-		animatedStyle.transform?.push({
-			scale: interpolate(shared.value, [0, 1], [0.95, 1]),
-		});
-	} else {
-		animatedStyle.transform?.push({
-			translateY: interpolate(shared.value, [0, 1], [-20, 0]),
-		});
-	}
-
-	return animatedStyle;
 };

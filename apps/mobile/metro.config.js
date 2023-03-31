@@ -1,11 +1,7 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
+const { resolve } = require('path');
 
 module.exports = {
+	watchFolders: [resolve(__dirname, '../../node_modules')],
 	transformer: {
 		getTransformOptions: async () => ({
 			transform: {

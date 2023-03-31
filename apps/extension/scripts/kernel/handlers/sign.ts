@@ -1,9 +1,4 @@
-import {
-	clusterApiUrl,
-	Connection,
-	Keypair,
-	VersionedTransaction,
-} from '@solana/web3.js';
+import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { decryptWithPasscode } from '@walless/crypto';
 import { MessengerCallback } from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
@@ -11,6 +6,7 @@ import { PrivateKeyRecord, PublicKeyRecord } from '@walless/storage';
 import { decode, encode } from 'bs58';
 
 import { db } from '../storage';
+import { connection } from '../utils/connection';
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,

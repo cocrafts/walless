@@ -1,15 +1,15 @@
 import { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { GuiProvider, Stack, Text } from '@walless/gui';
 
-const styles = StyleSheet.create({
-	container: {},
-});
+import config from '../tamagui.config';
 
 export const Index: FC = () => {
 	return (
-		<View style={styles.container}>
-			<Text>Index</Text>
-		</View>
+		<GuiProvider config={config}>
+			<Stack flex={1} alignItems="center" justifyContent="center">
+				<Text>Index!!</Text>
+			</Stack>
+		</GuiProvider>
 	);
 };
 

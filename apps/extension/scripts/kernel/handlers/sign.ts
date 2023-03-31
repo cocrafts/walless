@@ -1,4 +1,9 @@
-import { Keypair, VersionedTransaction } from '@solana/web3.js';
+import {
+	clusterApiUrl,
+	Connection,
+	Keypair,
+	VersionedTransaction,
+} from '@solana/web3.js';
 import { decryptWithPasscode } from '@walless/crypto';
 import { MessengerCallback } from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
@@ -6,7 +11,11 @@ import { PrivateKeyRecord, PublicKeyRecord } from '@walless/storage';
 import { decode, encode } from 'bs58';
 
 import { db } from '../storage';
-import { connection } from '../utils/connection';
+// import { connection } from '../utils/connection';
+const connection = new Connection(clusterApiUrl('devnet'), {
+	commitment: 'finalized',
+	confirmTransactionInitialTimeout: 30000,
+});
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,
@@ -37,7 +46,7 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	if (!privateKey) {
 		return;
 	}
-
+	console.log('payload', payload);
 	console.log('handleSignAndSendTransaction');
 	console.log(payload.transaction);
 
@@ -46,21 +55,19 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	console.log(serializedTransaction);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 
-	const sinatureString = await signAndSendTransaction(
+	const signatureString = await signAndSendTransaction(
 		connection,
 		transaction,
 		payload.options || {},
 		privateKey,
 	);
 
-	console.log(sinatureString);
-
 	channel.postMessage({
 		from: 'walless@kernel',
 		requestId: payload.requestId,
-		sinatureString,
+		signatureString,
 	});
-	return sinatureString;
+	return signatureString;
 };
 
 export const handleSignAllTransaction: MessengerCallback = () => {

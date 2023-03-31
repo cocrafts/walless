@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack } from '@walless/wui';
+import { Stack } from '@walless/gui';
 
 import { LayoutProps } from './shared';
 

@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Anchor, Image, Stack, Text } from '@walless/wui';
+import { Anchor, Image, Stack, Text } from '@walless/gui';
 
 import ExtensionIcon from '../components/ExtensionIcon';
 import HomeLayout from '../components/layouts/Home';
@@ -33,7 +33,7 @@ export const IndexPage = () => {
 			>
 				Get on waiting list
 			</Anchor>
-			<Stack flexWrap="wrap" justifyContent="center">
+			<Stack horizontal flexWrap="wrap" justifyContent="center">
 				{extensionList.map((item) => {
 					return (
 						<ExtensionIcon

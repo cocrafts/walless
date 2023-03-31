@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { modalActions } from '../utils/state/modal';
 
-import ModalManager from './Modal';
+import ModalManager from './ModalManager';
 
 interface Props {
 	children?: ReactChild;

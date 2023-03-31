@@ -1,14 +1,20 @@
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, VersionedTransaction } from '@solana/web3.js';
 import {
 	ConnectFunc,
+	ConnectOptions,
 	SignAllFunc,
 	SignAndSendFunc,
 	SignFunc,
 	SignMessageFunc,
 } from '@walless/core';
+import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
 
-import { requestConnect } from './utils/commands';
+import {
+	requestConnect,
+	requestSignMessage,
+	requestSignTransaction,
+} from './utils/commands';
 
 export class Walless extends EventEmitter {
 	#publicKey?: PublicKey;
@@ -30,7 +36,7 @@ export class Walless extends EventEmitter {
 			throw new Error('provider already connected');
 		}
 
-		const response = await requestConnect(options);
+		const response = await requestConnect(options as ConnectOptions);
 		const publicKey = new PublicKey(response.publicKey as string);
 
 		this.#publicKey = publicKey;
@@ -55,9 +61,15 @@ export class Walless extends EventEmitter {
 	};
 
 	signTransaction: SignFunc = async (transaction) => {
-		console.log(transaction);
+		if (!this.#publicKey) {
+			throw new Error('wallet not connected');
+		}
 
-		return {} as never;
+		const res = await requestSignTransaction(encode(transaction.serialize()));
+
+		return VersionedTransaction.deserialize(
+			decode(res.signedTransaction),
+		) as never;
 	};
 
 	signAllTransactions: SignAllFunc = (transactions) => {
@@ -66,10 +78,13 @@ export class Walless extends EventEmitter {
 		return [] as never;
 	};
 
-	signMessage: SignMessageFunc = (message) => {
-		console.log(message);
+	signMessage: SignMessageFunc = async (message) => {
+		if (!this.#publicKey) {
+			throw new Error('wallet not connected');
+		}
 
-		return { signature: [] } as never;
+		const res = await requestSignMessage(encode(message));
+		return { signature: decode(res.signature) };
 	};
 }
 

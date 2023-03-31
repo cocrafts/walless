@@ -3,7 +3,11 @@ import { MessengerCallback } from '@walless/messaging';
 import { fetchAllCollectibles, fetchAllTokens } from '../utils/query';
 
 import { handleConnect } from './connect';
-import { handleSignAllTransaction, handleSignTransaction } from './sign';
+import {
+	handleSignAllTransaction,
+	handleSignMessage,
+	handleSignTransaction,
+} from './sign';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	if (payload.requestId) {
@@ -13,6 +17,8 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			await handleSignTransaction(payload, channel);
 		} else if (payload.type === 'sign-all-transactions') {
 			await handleSignAllTransaction(payload, channel);
+		} else if (payload.type === 'sign-message') {
+			await handleSignMessage(payload, channel);
 		}
 	} else {
 		if (payload.type === 'notify-wallet-open') {

@@ -46,13 +46,9 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	if (!privateKey) {
 		return;
 	}
-	console.log('payload', payload);
-	console.log('handleSignAndSendTransaction');
-	console.log(payload.transaction);
 
 	// Transaction object
 	const serializedTransaction = decode(payload.transaction);
-	console.log(serializedTransaction);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 
 	const signatureString = await signAndSendTransaction(

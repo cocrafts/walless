@@ -1,12 +1,9 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import {
-	AddressLookupTableAccount,
 	Connection,
 	Keypair,
-	sendAndConfirmTransaction,
+	MessageV0,
 	SendOptions,
 	Transaction,
-	TransactionMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
 import { sign } from 'tweetnacl';
@@ -26,7 +23,6 @@ export const signAndSendTransaction = async (
 	try {
 		const keypair = Keypair.fromSecretKey(privateKey);
 		if (transaction instanceof Transaction) {
-			console.log('here');
 			const signatureString = await connection.sendTransaction(
 				transaction,
 				[keypair],
@@ -34,31 +30,10 @@ export const signAndSendTransaction = async (
 			);
 			return signatureString;
 		} else if (transaction instanceof VersionedTransaction) {
-			// Add recent blockhash into message
-			const legacyTransaciont = Transaction.from(transaction.serialize());
-			console.log(
-				legacyTransaciont.instructions[0].programId == TOKEN_PROGRAM_ID,
-				'<-- TOKEN_PROGRAM_ID',
-			);
-			console.log('1');
 			const latestBlockhash = await connection.getLatestBlockhash();
-			console.log('2');
-			const originalMessage = TransactionMessage.decompile(transaction.message);
-			console.log('3');
-			originalMessage.recentBlockhash = latestBlockhash.blockhash;
-			console.log('4');
 
-			// Prepare address lookup table
-			const lookUpTableAccount = await connection.getAddressLookupTable(
-				keypair.publicKey,
-			);
-
-			console.log('lookUpTableAccount.value', lookUpTableAccount.value);
-
-			// Recompile v0 message
-			transaction.message = originalMessage.compileToV0Message([
-				lookUpTableAccount.value as AddressLookupTableAccount,
-			]);
+			(transaction.message as MessageV0).recentBlockhash =
+				latestBlockhash.blockhash;
 
 			transaction.sign([keypair]);
 			const signatureString = await connection.sendTransaction(transaction, {
@@ -71,6 +46,4 @@ export const signAndSendTransaction = async (
 		console.log('error', error);
 		throw Error(error);
 	}
-
-	throw Error('Invalid transaction');
 };

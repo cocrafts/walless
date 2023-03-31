@@ -63,7 +63,6 @@ export class Walless extends EventEmitter {
 
 		const signature = res.signatureString;
 
-		// Return signature { signature }
 		return { signature };
 	};
 

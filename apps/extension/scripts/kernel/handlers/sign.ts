@@ -11,11 +11,6 @@ import { PrivateKeyRecord, PublicKeyRecord } from '@walless/storage';
 import { decode, encode } from 'bs58';
 
 import { db } from '../storage';
-// import { connection } from '../utils/connection';
-const connection = new Connection(clusterApiUrl('devnet'), {
-	commitment: 'finalized',
-	confirmTransactionInitialTimeout: 30000,
-});
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,

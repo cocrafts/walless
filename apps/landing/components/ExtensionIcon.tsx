@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/wui';
-import { Image } from 'tamagui';
+import { Image, Stack, Text } from '@walless/gui';
 
 interface Props {
 	iconSrc: string;

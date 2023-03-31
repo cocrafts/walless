@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@walless/wui": "*",
+    "@walless/gui": "*",
     "next": "^13.1.1",
     "react-dom": "^18.2.0"
   },

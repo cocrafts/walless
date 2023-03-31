@@ -22,7 +22,7 @@ export const requestSignMessage = async (message: string) => {
 	});
 };
 
-export const requestSignTransaction = async (transaction) => {
+export const requestSignTransaction = async (transaction: string) => {
 	return await sendRequest({
 		from: 'walless@sdk',
 		type: 'sign-transaction',

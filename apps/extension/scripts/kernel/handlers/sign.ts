@@ -15,16 +15,14 @@ export const handleSignTransaction: MessengerCallback = async (
 	if (!privateKey) {
 		return;
 	}
-	const serializedTransaction = new Uint8Array(
-		Object.values(payload.transaction),
-	);
+	const serializedTransaction = decode(payload.transaction);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 	const keypair = Keypair.fromSecretKey(privateKey);
 	transaction.sign([keypair]);
 	channel.postMessage({
 		from: 'walless@kernel',
 		requestId: payload.requestId,
-		signedTransaction: transaction.serialize(),
+		signedTransaction: encode(transaction.serialize()),
 	});
 	return transaction.serialize();
 };

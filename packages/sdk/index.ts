@@ -1,6 +1,7 @@
 import { PublicKey, VersionedTransaction } from '@solana/web3.js';
 import {
 	ConnectFunc,
+	ConnectOptions,
 	SignAllFunc,
 	SignAndSendFunc,
 	SignFunc,
@@ -35,7 +36,7 @@ export class Walless extends EventEmitter {
 			throw new Error('provider already connected');
 		}
 
-		const response = await requestConnect(options);
+		const response = await requestConnect(options as ConnectOptions);
 		const publicKey = new PublicKey(response.publicKey as string);
 
 		this.#publicKey = publicKey;
@@ -64,10 +65,10 @@ export class Walless extends EventEmitter {
 			throw new Error('wallet not connected');
 		}
 
-		const res = await requestSignTransaction(transaction.serialize());
+		const res = await requestSignTransaction(encode(transaction.serialize()));
 
 		return VersionedTransaction.deserialize(
-			new Uint8Array(Object.values(res.signedTransaction)),
+			decode(res.signedTransaction),
 		) as never;
 	};
 

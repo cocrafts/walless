@@ -39,11 +39,11 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	}
 
 	console.log('handleSignAndSendTransaction');
+	console.log(payload.transaction);
 
 	// Transaction object
-	const serializedTransaction = new Uint8Array(
-		Object.values(payload.transaction),
-	);
+	const serializedTransaction = decode(payload.transaction);
+	console.log(serializedTransaction);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 
 	const sinatureString = await signAndSendTransaction(
@@ -52,6 +52,8 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 		payload.options || {},
 		privateKey,
 	);
+
+	console.log(sinatureString);
 
 	channel.postMessage({
 		from: 'walless@kernel',

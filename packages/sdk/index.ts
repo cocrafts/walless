@@ -1,4 +1,4 @@
-import { PublicKey, VersionedTransaction } from '@solana/web3.js';
+import { PublicKey, SendOptions, VersionedTransaction } from '@solana/web3.js';
 import {
 	ConnectFunc,
 	ConnectOptions,
@@ -57,8 +57,8 @@ export class Walless extends EventEmitter {
 		}
 
 		const res = await requestSignAndSendTransaction(
-			transaction.serialize(),
-			options,
+			encode(transaction.serialize()),
+			options as SendOptions,
 		);
 
 		const signature = res.signatureString;

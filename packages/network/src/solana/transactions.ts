@@ -38,6 +38,7 @@ export const signAndSendTransaction = async (
 			return signatureString;
 		} catch (error) {
 			console.log(error);
+			throw Error(error);
 		}
 	}
 

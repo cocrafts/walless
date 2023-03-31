@@ -11,7 +11,7 @@ export const requestConnect = async (options: ConnectOptions) => {
 };
 
 export const requestSignAndSendTransaction = async (
-	transaction: Uint8Array,
+	transaction: string,
 	options: unknown,
 ) => {
 	return await sendRequest({

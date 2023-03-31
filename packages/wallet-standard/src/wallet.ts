@@ -249,7 +249,6 @@ export class WallessWallet implements Wallet {
 			const signedTransaction = await this.#walless.signTransaction(
 				VersionedTransaction.deserialize(transaction),
 			);
-			console.log(signedTransaction);
 
 			outputs.push({ signedTransaction: signedTransaction.serialize() });
 		} else if (inputs.length > 1) {

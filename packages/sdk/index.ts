@@ -12,6 +12,7 @@ import { EventEmitter } from 'eventemitter3';
 
 import {
 	requestConnect,
+	requestSignAndSendTransaction,
 	requestSignMessage,
 	requestSignTransaction,
 } from './utils/commands';
@@ -55,9 +56,15 @@ export class Walless extends EventEmitter {
 			throw new Error('wallet not connected');
 		}
 
-		console.log(transaction, options);
+		const res = await requestSignAndSendTransaction(
+			transaction.serialize(),
+			options,
+		);
 
-		return {} as never;
+		const signature = res.signatureString;
+
+		// Return signature { signature }
+		return { signature };
 	};
 
 	signTransaction: SignFunc = async (transaction) => {

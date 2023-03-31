@@ -1,11 +1,12 @@
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { decryptWithPasscode } from '@walless/crypto';
 import { MessengerCallback } from '@walless/messaging';
-import { signMessage } from '@walless/network';
+import { signAndSendTransaction, signMessage } from '@walless/network';
 import { PrivateKeyRecord, PublicKeyRecord } from '@walless/storage';
 import { decode, encode } from 'bs58';
 
 import { db } from '../storage';
+import { connection } from '../utils/connection';
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,
@@ -25,6 +26,39 @@ export const handleSignTransaction: MessengerCallback = async (
 		signedTransaction: encode(transaction.serialize()),
 	});
 	return transaction.serialize();
+};
+
+export const handleSignAndSendTransaction: MessengerCallback = async (
+	payload,
+	channel,
+) => {
+	// Prepare private key
+	const privateKey = await triggerActionToGetPrivateKey();
+	if (!privateKey) {
+		return;
+	}
+
+	console.log('handleSignAndSendTransaction');
+
+	// Transaction object
+	const serializedTransaction = new Uint8Array(
+		Object.values(payload.transaction),
+	);
+	const transaction = VersionedTransaction.deserialize(serializedTransaction);
+
+	const sinatureString = await signAndSendTransaction(
+		connection,
+		transaction,
+		payload.options || {},
+		privateKey,
+	);
+
+	channel.postMessage({
+		from: 'walless@kernel',
+		requestId: payload.requestId,
+		sinatureString,
+	});
+	return sinatureString;
 };
 
 export const handleSignAllTransaction: MessengerCallback = () => {

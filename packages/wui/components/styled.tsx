@@ -4,9 +4,6 @@ import {
 	Stack as TamaguiStack,
 	styled,
 	Text as TamaguiText,
-	XStack as TamaguiXStack,
-	YStack as TamaguiYStack,
-	ZStack as TamaguiZStack,
 } from 'tamagui';
 
 export const Stack = styled(TamaguiStack, {
@@ -27,10 +24,6 @@ export const Stack = styled(TamaguiStack, {
 		},
 	} as const,
 });
-
-export const XStack = TamaguiXStack;
-export const YStack = TamaguiYStack;
-export const ZStack = TamaguiZStack;
 
 export const Circle = styled(TamaguiStack, {
 	name: 'Circle',

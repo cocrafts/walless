@@ -10,12 +10,8 @@
 		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
 	},
 	"dependencies": {
-		"@tamagui/animations-css": "^1.9.10",
-		"@tamagui/next-theme": "^1.9.10",
 		"react": "^18.2.0",
-		"tamagui": "^1.9.0"
-	},
-	"peerDependencies": {
+		"tamagui": "^1.9.0",
 		"valtio": "^1.10.3"
 	}
 }

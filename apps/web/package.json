@@ -13,6 +13,7 @@
 		"@mysten/sui.js": "^0.29.1",
 		"@solana/spl-token": "^0.3.7",
 		"@solana/web3.js": "^1.73.3",
+		"@tamagui/animations-css": "^1.9.10",
 		"@tkey/chrome-storage": "^7.2.0",
 		"@tkey/default": "^7.2.0",
 		"@tkey/private-keys": "^7.2.0",
@@ -24,14 +25,13 @@
 		"@walless/network": "*",
 		"@walless/sdk": "*",
 		"@walless/storage": "*",
-		"@walless/ui": "*",
+		"@walless/gui": "*",
 		"@walless/wallet-standard": "*",
 		"@web3auth/ethereum-provider": "^4.6.0",
 		"@web3auth/solana-provider": "^4.6.0",
 		"dexie": "3.2.3",
 		"react-native-qrcode-svg": "^6.2.0",
 		"react-router-dom": "^6.8.1",
-		"tamagui": "^1.9.17",
 		"valtio": "^1.10.3"
 	},
 	"devDependencies": {

@@ -10,8 +10,16 @@ export const requestConnect = async (options: ConnectOptions) => {
 	});
 };
 
-export const requestSignAndSendTransaction = async () => {
-	//
+export const requestSignAndSendTransaction = async (
+	transaction: Uint8Array,
+	options,
+) => {
+	return await sendRequest({
+		from: 'walless@sdk',
+		type: 'sign-and-send-transaction',
+		transaction,
+		options,
+	});
 };
 
 export const requestSignMessage = async (message: Uint8Array) => {
@@ -22,7 +30,7 @@ export const requestSignMessage = async (message: Uint8Array) => {
 	});
 };
 
-export const requestSignTransaction = async (transaction) => {
+export const requestSignTransaction = async (transaction: Uint8Array) => {
 	return await sendRequest({
 		from: 'walless@sdk',
 		type: 'sign-transaction',

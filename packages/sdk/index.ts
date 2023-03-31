@@ -10,6 +10,7 @@ import { EventEmitter } from 'eventemitter3';
 
 import {
 	requestConnect,
+	requestSignAndSendTransaction,
 	requestSignMessage,
 	requestSignTransaction,
 } from './utils/commands';
@@ -53,9 +54,15 @@ export class Walless extends EventEmitter {
 			throw new Error('wallet not connected');
 		}
 
-		console.log(transaction, options);
+		const res = await requestSignAndSendTransaction(
+			transaction.serialize(),
+			options,
+		);
 
-		return {} as never;
+		const signature = res.signatureString;
+
+		// Return signature { signature }
+		return { signature };
 	};
 
 	signTransaction: SignFunc = async (transaction) => {
@@ -65,9 +72,11 @@ export class Walless extends EventEmitter {
 
 		const res = await requestSignTransaction(transaction.serialize());
 
-		return VersionedTransaction.deserialize(
+		const signedTransaction = VersionedTransaction.deserialize(
 			new Uint8Array(Object.values(res.signedTransaction)),
 		) as never;
+
+		return signedTransaction;
 	};
 
 	signAllTransactions: SignAllFunc = (transactions) => {
@@ -82,7 +91,8 @@ export class Walless extends EventEmitter {
 		}
 
 		const res = await requestSignMessage(message);
-		return { signature: new Uint8Array(Object.values(res.signature)) };
+		const signature = new Uint8Array(Object.values(res.signature));
+		return { signature };
 	};
 }
 

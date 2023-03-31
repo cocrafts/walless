@@ -5,6 +5,7 @@ import { fetchAllCollectibles, fetchAllTokens } from '../utils/query';
 import { handleConnect } from './connect';
 import {
 	handleSignAllTransaction,
+	handleSignAndSendTransaction,
 	handleSignMessage,
 	handleSignTransaction,
 } from './sign';
@@ -19,6 +20,8 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			await handleSignAllTransaction(payload, channel);
 		} else if (payload.type === 'sign-message') {
 			await handleSignMessage(payload, channel);
+		} else if (payload.type === 'sign-and-send-transaction') {
+			await handleSignAndSendTransaction(payload, channel);
 		}
 	} else {
 		if (payload.type === 'notify-wallet-open') {

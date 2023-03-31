@@ -36,10 +36,6 @@
 	},
 	"devDependencies": {
 		"@metacraft/cli-web3-polyfills": "^0.0.7",
-		"esbuild": "^0.17.14",
-		"esbuild-loader": "^3.0.1",
-		"esbuild-sass-plugin": "^2.8.0",
-		"tamagui-loader": "^1.9.17",
-		"thread-loader": "^3.0.4"
+		"tamagui-loader": "^1.9.0"
 	}
 }

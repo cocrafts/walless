@@ -1,8 +1,10 @@
+/* eslint-disable */
+
 const { resolve } = require('path');
 
 const loaderUri = resolve(
 	process.cwd(),
-	'node_modules',
+	'../../node_modules',
 	'tamagui-loader/dist/cjs/index.js',
 );
 
@@ -10,7 +12,7 @@ const tamaguiBuild = (config) => {
 	const original = config.module.rules[0];
 	const tamaguiOptions = {
 		config: './tamagui.config.ts',
-		components: ['tamagui'],
+		components: ['@tamagui/core'],
 		importsWhitelist: ['constants.js', 'colors.js'],
 		logTimings: true,
 		disableExtraction: process.env.NODE_ENV !== 'production',

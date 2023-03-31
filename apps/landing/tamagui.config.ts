@@ -13,7 +13,7 @@ const animations = createAnimations({
 	slow: 'ease-in 450ms',
 	crawl: 'ease-in 1000ms',
 	mask: 'ease-in 250ms',
-}) as never;
+});
 
 const fonts = {
 	body: createFont({

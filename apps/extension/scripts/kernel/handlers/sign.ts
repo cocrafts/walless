@@ -3,6 +3,7 @@ import { decryptWithPasscode } from '@walless/crypto';
 import { MessengerCallback } from '@walless/messaging';
 import { signMessage } from '@walless/network';
 import { PrivateKeyRecord, PublicKeyRecord } from '@walless/storage';
+import { decode, encode } from 'bs58';
 
 import { db } from '../storage';
 
@@ -40,13 +41,13 @@ export const handleSignMessage: MessengerCallback = async (
 	if (!privateKey) {
 		return;
 	}
-	const message = new Uint8Array(Object.values(payload.message));
+	const message = decode(payload.message);
 	const signature = signMessage(message, privateKey);
 
 	channel.postMessage({
 		from: 'walless@kernel',
 		requestId: payload.requestId,
-		signature: signature,
+		signature: encode(signature),
 	});
 	return signature;
 };

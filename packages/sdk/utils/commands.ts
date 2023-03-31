@@ -14,7 +14,7 @@ export const requestSignAndSendTransaction = async () => {
 	//
 };
 
-export const requestSignMessage = async (message: Uint8Array) => {
+export const requestSignMessage = async (message: string) => {
 	return await sendRequest({
 		from: 'walless@sdk',
 		type: 'sign-message',

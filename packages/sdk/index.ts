@@ -1,4 +1,4 @@
-import { PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
+import { PublicKey, VersionedTransaction } from '@solana/web3.js';
 import {
 	ConnectFunc,
 	SignAllFunc,
@@ -6,6 +6,7 @@ import {
 	SignFunc,
 	SignMessageFunc,
 } from '@walless/core';
+import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
 
 import {
@@ -81,8 +82,8 @@ export class Walless extends EventEmitter {
 			throw new Error('wallet not connected');
 		}
 
-		const res = await requestSignMessage(message);
-		return { signature: new Uint8Array(Object.values(res.signature)) };
+		const res = await requestSignMessage(encode(message));
+		return { signature: decode(res.signature) };
 	};
 }
 

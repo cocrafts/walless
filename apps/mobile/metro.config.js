@@ -5,6 +5,7 @@ const { resolve } = require('path');
 module.exports = {
 	watchFolders: [
 		resolve(__dirname, '../../node_modules'),
+		resolve(__dirname, '../../node_modules/@walless/app'),
 		resolve(__dirname, '../../node_modules/@walless/gui'),
 	],
 	transformer: {

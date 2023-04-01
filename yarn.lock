@@ -6682,10 +6682,10 @@
     color "^4.2.3"
     warn-once "^0.1.0"
 
-"@remix-run/router@1.3.2":
-  version "1.3.2"
-  resolved "https://registry.npmjs.org/@remix-run/router/-/router-1.3.2.tgz"
-  integrity sha512-t54ONhl/h75X94SWsHGQ4G/ZrCEguKSRQr7DrjTciJXW0YU1QhlwYeycvK5JgkzlxmvrK7wq1NB/PLtHxoiDcA==
+"@remix-run/router@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.5.0.tgz#57618e57942a5f0131374a9fdb0167e25a117fdc"
+  integrity sha512-bkUDCp8o1MvFO+qxkODcbhSqRa6P2GXgrGZVpt0dCXNW2HCSCqYI0ZoAqEOSAjRWmmlKcYgFvN4B4S+zo/f8kg==
 
 "@rushstack/eslint-patch@^1.1.3":
   version "1.2.0"
@@ -7020,6 +7020,11 @@
   resolved "https://registry.yarnpkg.com/@tamagui/compose-refs/-/compose-refs-1.9.18.tgz#38f7565b49224f46e31edbdab2cc8c91dcf56d24"
   integrity sha512-PUQXRoz8phVJa6TFziB+b3VrYDR3YontLP6uwH25hITGysG7Xc5PSgS1eGXvgritK0kGR5vumir6bRKgdvXUIg==
 
+"@tamagui/compose-refs@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/compose-refs/-/compose-refs-1.9.22.tgz#18cb079d44c969d2bcd3b87ad18dd4ff3ce534d6"
+  integrity sha512-Fi7ZKvMrQEQN6cu7KgsYCntGVLspOhOcF/ryvtjXUTdMf1Vhnu1UnNihd+SHNyLYEvl/GhBv/5CvAJGEnDBTDQ==
+
 "@tamagui/config-default-node@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@tamagui/config-default-node/-/config-default-node-1.9.0.tgz#68294bf12106c20eb45ba245325846ac5333bf98"
@@ -7043,6 +7048,11 @@
   version "1.9.18"
   resolved "https://registry.yarnpkg.com/@tamagui/constants/-/constants-1.9.18.tgz#71b12d1487e5f028ef44d41a25bd380e2baf51d6"
   integrity sha512-XmUWrLZ3gT73Yv2+J1CncXH5ZAzqO9rRsARc5bm7xcbiH7VS15JG/DK9+1e4N0uvbfshlXK197iQHT8bP1TU/Q==
+
+"@tamagui/constants@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/constants/-/constants-1.9.22.tgz#57affb4c0f2adc008bcc9f97f957933639c7fca2"
+  integrity sha512-JYOuSceoEvQwzIx73kv9ZH8pQgnu7Cy6iWAQocitxgzsXBCtcYXJGAk9nRx0paNegrVpQkjGTXI1xMyDHhckMg==
 
 "@tamagui/core-node@1.9.0":
   version "1.9.0"
@@ -7081,6 +7091,16 @@
     "@tamagui/react-native-use-responder-events" "1.9.18"
     "@tamagui/use-event" "1.9.18"
     "@tamagui/web" "1.9.18"
+
+"@tamagui/core@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/core/-/core-1.9.22.tgz#32a56026954cc71dd6cc8cf8972130233a4c8ffc"
+  integrity sha512-JRhxEnCydfTZG4j1tN6wFrFSZFOGoJrbudAwILkUVqSFk4HO2jFf6XCPzNzO3SvRR7U00WonSQsC9cVYki1m9A==
+  dependencies:
+    "@tamagui/react-native-use-pressable" "1.9.22"
+    "@tamagui/react-native-use-responder-events" "1.9.22"
+    "@tamagui/use-event" "1.9.22"
+    "@tamagui/web" "1.9.22"
 
 "@tamagui/create-context@1.9.18":
   version "1.9.18"
@@ -7249,6 +7269,13 @@
   dependencies:
     "@tamagui/simple-hash" "1.9.18"
 
+"@tamagui/helpers@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/helpers/-/helpers-1.9.22.tgz#a6a0511d36cdb17c74c197fa095c7187bde67667"
+  integrity sha512-H3xvnW7CTtYXm1/oBnnaWUdI3JmiDGwqqkHM+ifRTqoBa+Mn/mw8XF2KKAv1fHnfFPvFyfEFGrF2sdoFpjCtxw==
+  dependencies:
+    "@tamagui/simple-hash" "1.9.22"
+
 "@tamagui/image@1.9.18":
   version "1.9.18"
   resolved "https://registry.yarnpkg.com/@tamagui/image/-/image-1.9.18.tgz#98027013958904e8861a95364c53df47f2ca8aab"
@@ -7288,6 +7315,13 @@
     "@tamagui/helpers-tamagui" "1.9.18"
     "@tamagui/text" "1.9.18"
 
+"@tamagui/lucide-icons@^1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/lucide-icons/-/lucide-icons-1.9.22.tgz#92a6dfdca4152eb78ac920d0bb207585c2d40dec"
+  integrity sha512-78VPKwADGGkVeJ+YNtLx/aBnHuSy2gvKmsbTcjkz99Idw8gBoTVA4wPSKWgygy7XRTKzw0oOGIw3Abwou02g4w==
+  dependencies:
+    "@tamagui/core" "1.9.22"
+
 "@tamagui/next-plugin@^1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@tamagui/next-plugin/-/next-plugin-1.9.0.tgz#0d680c20b14ffe0ceb34b91c38b5a10a56ba5a1b"
@@ -7324,6 +7358,11 @@
   version "1.9.18"
   resolved "https://registry.yarnpkg.com/@tamagui/normalize-css-color/-/normalize-css-color-1.9.18.tgz#202ff298f897e5a76c91203a090d1867c745c922"
   integrity sha512-fEkYmumbc7L6dBhyd+OiZObqCOgjvrimt0M49xS8oWwHBMcHspzyVWBerrlFfNnVuQyGIEOkSJrBgQi724QWPA==
+
+"@tamagui/normalize-css-color@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/normalize-css-color/-/normalize-css-color-1.9.22.tgz#53258494ab5f796151d6b6fa63222c9330d9fdf1"
+  integrity sha512-R2B6qccIC+NujItnloJffZPB3VkWgZF0dwfNafHFLGw0Zy43sBCRTUbOVToYwq61tCDLYEs+JZuvWJAvfUSJTQ==
 
 "@tamagui/polyfill-dev@1.9.18":
   version "1.9.18"
@@ -7437,6 +7476,11 @@
   resolved "https://registry.yarnpkg.com/@tamagui/react-native-use-pressable/-/react-native-use-pressable-1.9.18.tgz#383998faa70c8ef331b8970648b288d78489c21c"
   integrity sha512-D/LoVsp7sg0T5/xsPpKzQIS5y6bb2IaZSBg9gjCD7Ij+ylehg3qk4ETYGZYo66R8KJqZRthbf/h1KWWDxXLhAg==
 
+"@tamagui/react-native-use-pressable@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/react-native-use-pressable/-/react-native-use-pressable-1.9.22.tgz#9eac29149ac15513b8bc90b54e8310484dac2f33"
+  integrity sha512-ZgLuvopyYPOuhXK81Tj+Nh4Be2645VmdL+0dvrYKzSgFGrX7Wu4KTVyDpiS7Zf6HK4XOrITU+E6Df6WiZOJPzQ==
+
 "@tamagui/react-native-use-responder-events@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@tamagui/react-native-use-responder-events/-/react-native-use-responder-events-1.9.0.tgz#91d6739f7400a25530001c12dc556cba5451c328"
@@ -7446,6 +7490,11 @@
   version "1.9.18"
   resolved "https://registry.yarnpkg.com/@tamagui/react-native-use-responder-events/-/react-native-use-responder-events-1.9.18.tgz#aea787778486772db0218a03a27e40054251a770"
   integrity sha512-MC/j1jMg71V6rArLV9YnjVOYU3CgN2e4EdsZGapoTMZtntNwBPCYWaXhhvySiW9z6tFUFX9Fl1O8mBdcV7gjiw==
+
+"@tamagui/react-native-use-responder-events@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/react-native-use-responder-events/-/react-native-use-responder-events-1.9.22.tgz#eebf8906f194a62c970226c00b2f89ad89a1eaa2"
+  integrity sha512-kFmtCMGgf30r5xCCyI7VDqUHUzEKqjn7xGOD7UcS1pnX2YOKXP0h6R7mHWG6/NtBbcbtzgjoEnuJmgJM9G+DBQ==
 
 "@tamagui/remove-scroll@1.9.18":
   version "1.9.18"
@@ -7550,6 +7599,11 @@
   version "1.9.18"
   resolved "https://registry.yarnpkg.com/@tamagui/simple-hash/-/simple-hash-1.9.18.tgz#a839155ab4c35d73cd8f43f92ca504cb2dd676d4"
   integrity sha512-wyg9/NNgRRa2uqu29jrSIp8pKKQ4YFQ+lvW2zqBHCqML+YwkWCGCWA5bPmta65KyKL36Go1iyQ0jtnFUTlfF5g==
+
+"@tamagui/simple-hash@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/simple-hash/-/simple-hash-1.9.22.tgz#87b7fe75ef08db35738eb431370591fdab8740f8"
+  integrity sha512-/8soQFmK9AHbHD2tfbf0ySU2C0qhIndZ7Tm2EDLhsy4V7WeBo5Xzhhn4DXPM89ngJrjtBYGtO3LAlbxFgkI83Q==
 
 "@tamagui/slider@1.9.18":
   version "1.9.18"
@@ -7761,6 +7815,13 @@
   dependencies:
     "@tamagui/constants" "1.9.18"
 
+"@tamagui/use-did-finish-ssr@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/use-did-finish-ssr/-/use-did-finish-ssr-1.9.22.tgz#2545260a6734bf3be7a51da3c78d1f07ba9a143f"
+  integrity sha512-nKPK4MSUG2jBLQyubNuhs3UZfQR8R9jzdF4lO7KRzz6o58pZu2XUTphW94VYeN3E8cMg53xtiFhjHYoZVVO7Qw==
+  dependencies:
+    "@tamagui/constants" "1.9.22"
+
 "@tamagui/use-direction@1.9.18":
   version "1.9.18"
   resolved "https://registry.yarnpkg.com/@tamagui/use-direction/-/use-direction-1.9.18.tgz#def52f14a496366d2d78b26fdabbe20d12f2e9c3"
@@ -7776,6 +7837,11 @@
   resolved "https://registry.yarnpkg.com/@tamagui/use-event/-/use-event-1.9.18.tgz#16d325a8421ab74ec86630e436098b5f94356a25"
   integrity sha512-k/7cFkqy7vyrVQ9H+oRacf++rUIf1PMB8PB7uTCty4QcFmvSikgOSM8mFyCkuiP91G5qeaMAGUPY4G5k/FOiXQ==
 
+"@tamagui/use-event@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/use-event/-/use-event-1.9.22.tgz#f7407554322a5263e1fecd5050a86110efb7a741"
+  integrity sha512-cbtRrGvUfKh46y8HjQNO0fYyh1pS2T7h355/d2WSMxoYPT8wETBXrQYEV6YQRwBDi/9yURqQuLHuCNamFwj+oQ==
+
 "@tamagui/use-force-update@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@tamagui/use-force-update/-/use-force-update-1.9.0.tgz#29a232d5f5892ef6eabe983dc77a1c062d449d31"
@@ -7785,6 +7851,11 @@
   version "1.9.18"
   resolved "https://registry.yarnpkg.com/@tamagui/use-force-update/-/use-force-update-1.9.18.tgz#f4f03902aec6d7d8f4917f643aaca47638024ded"
   integrity sha512-8Dw2+8esLcmZMp2xkNYmc1paZwYC70Jj+WRyt/t39H5N16Pes9j8vSnBKWH+To7ddxSi45cVS8FtOSMYg3chIQ==
+
+"@tamagui/use-force-update@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/use-force-update/-/use-force-update-1.9.22.tgz#b7c6847e6d264a99e7c85b84e7e441d588cd6462"
+  integrity sha512-0dkaP9vAhOVN/EZk8eqsVbLwiFMmWQ2vXi46Djwj9UzV9AklLgZJvkTO8TAFVUaUg5euNGQ2Rl9TH6dFBNGQyA==
 
 "@tamagui/use-keyboard-visible@1.9.18":
   version "1.9.18"
@@ -7837,6 +7908,19 @@
     "@tamagui/use-did-finish-ssr" "1.9.18"
     "@tamagui/use-event" "1.9.18"
     "@tamagui/use-force-update" "1.9.18"
+
+"@tamagui/web@1.9.22":
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/@tamagui/web/-/web-1.9.22.tgz#a77b9617b08e506dfbe5f3f30c000bbb9ed9db70"
+  integrity sha512-UoCT0LUMwZwYIAigjANKML7pI5v2q0318ECgDE7J5WYroSLfQO0l1rtbFgkaBwGPxxexPR3XEP6UfcsWtTnxbQ==
+  dependencies:
+    "@tamagui/compose-refs" "1.9.22"
+    "@tamagui/constants" "1.9.22"
+    "@tamagui/helpers" "1.9.22"
+    "@tamagui/normalize-css-color" "1.9.22"
+    "@tamagui/use-did-finish-ssr" "1.9.22"
+    "@tamagui/use-event" "1.9.22"
+    "@tamagui/use-force-update" "1.9.22"
 
 "@tkey/chrome-storage@^7.2.0":
   version "7.2.0"
@@ -17276,20 +17360,20 @@ react-remove-scroll@^2.5.5:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
-react-router-dom@^6.8.1:
-  version "6.8.1"
-  resolved "https://registry.npmjs.org/react-router-dom/-/react-router-dom-6.8.1.tgz"
-  integrity sha512-67EXNfkQgf34P7+PSb6VlBuaacGhkKn3kpE51+P6zYSG2kiRoumXEL6e27zTa9+PGF2MNXbgIUHTVlleLbIcHQ==
+react-router-dom@^6.10.0:
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.10.0.tgz#090ddc5c84dc41b583ce08468c4007c84245f61f"
+  integrity sha512-E5dfxRPuXKJqzwSe/qGcqdwa18QiWC6f3H3cWXM24qj4N0/beCIf/CWTipop2xm7mR0RCS99NnaqPNjHtrAzCg==
   dependencies:
-    "@remix-run/router" "1.3.2"
-    react-router "6.8.1"
+    "@remix-run/router" "1.5.0"
+    react-router "6.10.0"
 
-react-router@6.8.1:
-  version "6.8.1"
-  resolved "https://registry.npmjs.org/react-router/-/react-router-6.8.1.tgz"
-  integrity sha512-Jgi8BzAJQ8MkPt8ipXnR73rnD7EmZ0HFFb7jdQU24TynGW1Ooqin2KVDN9voSC+7xhqbbCd2cjGUepb6RObnyg==
+react-router@6.10.0:
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.10.0.tgz#230f824fde9dd0270781b5cb497912de32c0a971"
+  integrity sha512-Nrg0BWpQqrC3ZFFkyewrflCud9dio9ME3ojHCF/WLsprJVzkq3q3UeEhMCAW1dobjeGbWgjNn/PVF6m46ANxXQ==
   dependencies:
-    "@remix-run/router" "1.3.2"
+    "@remix-run/router" "1.5.0"
 
 react-shallow-renderer@^16.15.0:
   version "16.15.0"

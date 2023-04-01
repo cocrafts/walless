@@ -5,7 +5,7 @@
 	"main": "index.web.js",
 	"scripts": {
 		"dev": "metacraft",
-		"build": "metacraft bundle",
+		"build": "metacraft bundle && node scripts/bundler",
 		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
 	},
 	"dependencies": {

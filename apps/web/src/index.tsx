@@ -1,18 +1,21 @@
 import { FC } from 'react';
-import { GuiProvider, Stack, Text } from '@walless/gui';
+import { RouterProvider } from 'react-router-dom';
+import { GuiProvider } from '@walless/gui';
 
 import config from '../tamagui.config';
 
+import { router } from './routing';
+
 import '@tamagui/core/reset.css';
+
+const App: FC = () => {
+	return <RouterProvider router={router} />;
+};
 
 export const AppContainer: FC = () => {
 	return (
 		<GuiProvider config={config}>
-			<Stack flex={1} alignItems="center" justifyContent="center">
-				<Text color="black" fontSize={18}>
-					Welcome!
-				</Text>
-			</Stack>
+			<App />
 		</GuiProvider>
 	);
 };

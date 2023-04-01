@@ -1,0 +1,29 @@
+@mixin font-poppins($variant, $weight, $style)
+  @font-face
+    font-family: "Poppins"
+    src: url("/font/Poppins-#{$variant}.ttf") format("truetype")
+    font-weight: $weight
+    font-style: $style
+
+body
+  overflow: hidden
+  background-color: #011726
+
+  &.popup
+    width: 410px
+    height: 600px
+
+@include font-poppins("Black", 900, normal)
+@include font-poppins("ExtraBold", 800, normal)
+@include font-poppins("Bold", 700, normal)
+@include font-poppins("BoldItalic", 700, italic)
+@include font-poppins("SemiBold", 600, normal)
+@include font-poppins("SemiBoldItalic", 600, italic)
+@include font-poppins("Medium", 500, normal)
+@include font-poppins("MediumItalic", 500, italic)
+@include font-poppins("Regular", 400, normal)
+@include font-poppins("Italic", 400, italic)
+@include font-poppins("Light", 300, normal)
+@include font-poppins("LightItalic", 300, italic)
+@include font-poppins("ExtraLight", 200, normal)
+@include font-poppins("Thin", 100, normal)

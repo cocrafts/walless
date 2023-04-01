@@ -1,0 +1,10 @@
+{
+	"extends": "@metacraft/tsconfig/application.json",
+	"include": [
+		"index*.js",
+		"src"
+	],
+	"compilerOptions": {
+		"typeRoots": ["./src/types"]
+	}
+}

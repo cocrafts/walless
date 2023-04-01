@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tamagui/lucide-icons": "^1.9.22",
     "@tkey/chrome-storage": "^8.0.5-alpha.0",
     "@tkey/default": "^8.0.5-alpha.0",
     "@tkey/private-keys": "^8.0.5-alpha.0",

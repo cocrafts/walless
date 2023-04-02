@@ -2,12 +2,28 @@
 
 const { resolve } = require('path');
 
+const projectRoot = __dirname;
+const workspaceRoot = resolve(projectRoot, '../..');
+const projectModules = resolve(projectRoot, 'node_modules');
+const workspaceModules = resolve(workspaceRoot, 'node_modules');
+
+const monoPackages = {
+	'@walless/app': resolve(workspaceRoot, 'packages/app'),
+	'@walless/gui': resolve(workspaceRoot, 'packages/gui'),
+};
+
 module.exports = {
 	watchFolders: [
-		resolve(__dirname, '../../node_modules'),
-		resolve(__dirname, '../../node_modules/@walless/app'),
-		resolve(__dirname, '../../node_modules/@walless/gui'),
+		workspaceModules,
+		...Object.values(monoPackages),
 	],
+	resolver: {
+		nodeModulesPaths: [
+			projectModules,
+			workspaceModules,
+		],
+		extraNodeModules: monoPackages,
+	},
 	transformer: {
 		getTransformOptions: async () => ({
 			transform: {

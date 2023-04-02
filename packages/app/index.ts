@@ -1,1 +1,1 @@
-export * from './screens/Splash';
+export * from './components/Splash';

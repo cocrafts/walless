@@ -11,9 +11,13 @@
   },
   "dependencies": {
     "@walless/app": "*",
-    "@walless/gui": "*",
     "@walless/core": "*",
-    "react-native": "0.71.0"
+    "@walless/crypto": "*",
+    "@walless/gui": "*",
+    "react-native": "0.71.0",
+    "@chainsoft/react-native-quick-crypto": "^0.5.0",
+    "react-native-quick-base64": "^2.0.5",
+    "react-native-reanimated": "^3.0.2"
   },
   "devDependencies": {
     "@tamagui/animations-reanimated": "^1.9.18",

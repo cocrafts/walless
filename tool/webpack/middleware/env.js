@@ -3,13 +3,13 @@ const devGoogleClientId =
 
 const setEnvironments =
 	(variables = {}) =>
-	(configs, internal) => {
+	(config, internal) => {
 		const { webpack } = internal.modules;
 		const { DefinePlugin } = webpack;
 		const env = internal.configs.env();
 		const isProduction = internal.configs.isProduction(env);
 
-		configs.plugins[0] = new DefinePlugin({
+		config.plugins[0] = new DefinePlugin({
 			__DEV__: !isProduction,
 			ENV: JSON.stringify(env),
 			GOOGLE_CLIENT_ID: JSON.stringify(
@@ -18,7 +18,7 @@ const setEnvironments =
 			...variables,
 		});
 
-		return configs;
+		return config;
 	};
 
 module.exports = {

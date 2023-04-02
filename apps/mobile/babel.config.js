@@ -1,7 +1,16 @@
 module.exports = {
 	presets: ['module:metro-react-native-babel-preset'],
 	plugins: [
-		'react-native-reanimated/plugin',
+		[
+			'module-resolver',
+			{
+				alias: {
+					crypto: '@chainsoft/react-native-quick-crypto',
+					stream: 'stream-browserify',
+					buffer: '@craftzdog/react-native-buffer',
+				},
+			},
+		],
 		[
 			'@tamagui/babel-plugin',
 			{
@@ -18,5 +27,6 @@ module.exports = {
 				include: ['TAMAGUI_TARGET'],
 			},
 		],
+		'react-native-reanimated/plugin',
 	],
 };

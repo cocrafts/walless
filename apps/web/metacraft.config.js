@@ -16,7 +16,11 @@ module.exports = {
 		splitChunks,
 		web3Polyfills,
 		setEnvironments({
-			'process.env.TAMAGUI_TARGET': '"web"',
+			process: {
+				env: {
+					TAMAGUI_TARGET: JSON.stringify('web'),
+				},
+			},
 		}),
 	],
 	swcOptions: () => ({
@@ -32,8 +36,8 @@ module.exports = {
 	}),
 	moduleAlias: {
 		global: {
-			'react-native$': 'react-native-web-lite',
-			'react-native-web$': 'react-native-web-lite',
+			'react-native$': 'react-native-web',
+			'react-native-web$': 'react-native-web',
 			'react-native-svg': require.resolve('@tamagui/react-native-svg'),
 		},
 	},

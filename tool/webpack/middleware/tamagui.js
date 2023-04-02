@@ -6,6 +6,7 @@ const { TamaguiPlugin } = require('tamagui-loader')
 const workspaceRoot = resolve(__dirname, '../../..');
 
 const tamaguiBuild = (config, internal) => {
+	const { webpack } = internal.modules;
 	const original = config.module.rules[0];
 	const tamaguiOptions = {
 		config: './tamagui.config.ts',
@@ -30,6 +31,7 @@ const tamaguiBuild = (config, internal) => {
 		],
 	};
 
+	config.plugins.push(new webpack.EnvironmentPlugin({ JEST_WORKER_ID: null }));
 	config.plugins.push(new TamaguiPlugin(tamaguiOptions));
 
 	return config;

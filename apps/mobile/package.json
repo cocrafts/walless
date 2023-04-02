@@ -12,8 +12,8 @@
   "dependencies": {
     "@walless/app": "*",
     "@walless/gui": "*",
-    "react-native": "0.71.0",
-    "react-native-reanimated": "^3.0.2"
+    "@walless/core": "*",
+    "react-native": "0.71.0"
   },
   "devDependencies": {
     "@tamagui/animations-reanimated": "^1.9.18",

@@ -5,7 +5,7 @@ const wasmBundler = (outDir) => (config) => {
 	config.entry.app.import.unshift('env.js');
 	config.plugins.push(
 		new WasmPackPlugin({
-			crateDirectory: resolve(__dirname, '../../../wasm'),
+			crateDirectory: resolve(__dirname, '../../wasm'),
 			outDir,
 		}),
 	);

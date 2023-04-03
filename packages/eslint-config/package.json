@@ -1,8 +1,7 @@
 {
 	"name": "@walless/eslint-config",
 	"version": "0.0.1",
-	"main": "index.ts",
-	"types": "./index.ts",
+	"main": "index.js",
 	"license": "MIT",
 	"dependencies": {
 		"@next/eslint-plugin-next": "^13.2.4",

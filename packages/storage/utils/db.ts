@@ -3,7 +3,7 @@ import { Dexie } from 'dexie';
 import { WallessDB } from './types';
 
 const runMigrations = (instance: Dexie): Dexie => {
-	instance.version(1).stores({
+	instance.version(2).stores({
 		settings: '++id, version',
 		publicKeys: 'id, network',
 		privateKeys: 'id, type, iv, salt, ct, mac',

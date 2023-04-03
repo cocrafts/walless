@@ -37,7 +37,13 @@ export class Walless extends EventEmitter {
 			throw new Error('provider already connected');
 		}
 
-		const response = await requestConnect(options as ConnectOptions);
+		const hostName = window.location.hostname;
+
+		const response = await requestConnect({
+			...options,
+			hostName,
+		} as ConnectOptions);
+
 		const publicKey = new PublicKey(response.publicKey as string);
 
 		this.#publicKey = publicKey;

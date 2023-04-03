@@ -1,5 +1,3 @@
-import { hostname } from 'os';
-
 import { ConnectOptions } from '@walless/core';
 import { MessengerCallback } from '@walless/messaging';
 

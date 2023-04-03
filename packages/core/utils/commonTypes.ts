@@ -42,3 +42,9 @@ export type MiniBroadcast = BroadcastChannel | chrome.runtime.Port;
 export type UniBroadcast = BroadcastChannel & chrome.runtime.Port;
 export type ChannelHashmap = Record<string, MiniBroadcast>;
 export type RequestHashmap = Record<string, RequestContext>;
+
+export enum Networks {
+	ethereum = 'ethereum',
+	solana = 'solana',
+	sui = 'sui',
+}

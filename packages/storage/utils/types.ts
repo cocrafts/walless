@@ -1,4 +1,4 @@
-import { EncryptedWithPasscode, HydratedKey } from '@walless/core';
+import { EncryptedWithPasscode, HydratedKey, Networks } from '@walless/core';
 import { Dexie, Table } from 'dexie';
 
 export interface UserProfile {
@@ -53,12 +53,6 @@ export type TokenRecord = {
 	metadata?: Metadata;
 	network: string;
 };
-
-export enum Networks {
-	ethereum = 'ethereum',
-	solana = 'solana',
-	sui = 'sui',
-}
 
 export interface PublicKeyRecord {
 	id?: string;

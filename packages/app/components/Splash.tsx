@@ -1,13 +1,12 @@
 import { FC, useEffect } from 'react';
 import { ImageSourcePropType } from 'react-native';
 import {
-	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
 	withSequence,
 	withTiming,
 } from 'react-native-reanimated';
-import { AnimatedImage, Stack } from '@walless/gui';
+import { AnimatedImage, runOnJS, Stack } from '@walless/gui';
 
 interface Props {
 	logoSrc: ImageSourcePropType;
@@ -30,7 +29,7 @@ export const SplashInner: FC<Props> = ({ logoSrc, initialize, onReady }) => {
 	useEffect(() => {
 		const playAnimate = async (): Promise<void> => {
 			return new Promise((resolve) => {
-				const fadeIn = withTiming(1, { duration: 1000 });
+				const fadeIn = withTiming(1, { duration: 500 });
 				const fadeOut = withTiming(0, { duration: 500 }, () =>
 					runOnJS(resolve),
 				);
@@ -39,9 +38,9 @@ export const SplashInner: FC<Props> = ({ logoSrc, initialize, onReady }) => {
 			});
 		};
 
-		Promise.all([initialize?.(), playAnimate()]).then(([response]) =>
-			onReady?.(response),
-		);
+		Promise.all([initialize?.(), playAnimate()]).then(([response]) => {
+			onReady?.(response);
+		});
 	}, []);
 
 	return (

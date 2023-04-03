@@ -3,7 +3,7 @@
 const { resolve } = require('path');
 const { TamaguiPlugin } = require('tamagui-loader')
 
-const workspaceRoot = resolve(__dirname, '../../..');
+const workspaceRoot = resolve(__dirname, '../..');
 
 const tamaguiBuild = (config, internal) => {
 	const { webpack } = internal.modules;

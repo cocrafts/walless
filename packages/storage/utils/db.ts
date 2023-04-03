@@ -3,7 +3,7 @@ import { Dexie } from 'dexie';
 import { WallessDB } from './types';
 
 const runMigrations = (instance: Dexie): Dexie => {
-	instance.version(1).stores({
+	instance.version(2).stores({
 		settings: '++id, version',
 		publicKeys: 'id, network',
 		privateKeys: 'id, type, iv, salt, ct, mac',
@@ -12,6 +12,7 @@ const runMigrations = (instance: Dexie): Dexie => {
 		collections: 'id, collectionMetadata',
 		wallets: 'id, tokens, network',
 		tokens: 'id, metadata, network',
+		trustedDomains: 'id, domainName, trusted, timestamp, connectCount',
 	});
 
 	return instance;
@@ -30,5 +31,6 @@ export const createStorage = (name = 'walless'): WallessDB => {
 		collections: instance.table('collections'),
 		wallets: instance.table('wallets'),
 		tokens: instance.table('tokens'),
+		trustedDomains: instance.table('trustedDomains'),
 	};
 };

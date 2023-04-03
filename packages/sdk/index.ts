@@ -1,4 +1,4 @@
-import { PublicKey, VersionedTransaction } from '@solana/web3.js';
+import { PublicKey, SendOptions, VersionedTransaction } from '@solana/web3.js';
 import {
 	ConnectFunc,
 	ConnectOptions,
@@ -12,6 +12,7 @@ import { EventEmitter } from 'eventemitter3';
 
 import {
 	requestConnect,
+	requestSignAndSendTransaction,
 	requestSignMessage,
 	requestSignTransaction,
 } from './utils/commands';
@@ -36,7 +37,13 @@ export class Walless extends EventEmitter {
 			throw new Error('provider already connected');
 		}
 
-		const response = await requestConnect(options as ConnectOptions);
+		const hostName = window.location.hostname;
+
+		const response = await requestConnect({
+			...options,
+			domain: hostName,
+		} as ConnectOptions);
+
 		const publicKey = new PublicKey(response.publicKey as string);
 
 		this.#publicKey = publicKey;
@@ -55,9 +62,14 @@ export class Walless extends EventEmitter {
 			throw new Error('wallet not connected');
 		}
 
-		console.log(transaction, options);
+		const res = await requestSignAndSendTransaction(
+			encode(transaction.serialize()),
+			options as SendOptions,
+		);
 
-		return {} as never;
+		const signature = res.signatureString;
+
+		return { signature };
 	};
 
 	signTransaction: SignFunc = async (transaction) => {

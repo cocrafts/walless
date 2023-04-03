@@ -1,7 +1,19 @@
-import { Text } from '@walless/gui';
+import { Bell } from '@tamagui/lucide-icons';
+import { Stack } from '@walless/gui';
+
+import FeatureButton from './FeatureButton';
 
 const ExploreScreen = () => {
-	return <Text>ExploreScreen</Text>;
+	return (
+		<Stack>
+			<Stack>
+				<FeatureButton
+					icon={Bell}
+					handleClick={() => console.log('Notification')}
+				/>
+			</Stack>
+		</Stack>
+	);
 };
 
 export default ExploreScreen;

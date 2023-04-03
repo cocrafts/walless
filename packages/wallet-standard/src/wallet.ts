@@ -13,6 +13,7 @@ import {
 	SolanaSignTransaction,
 } from '@solana/wallet-standard-features';
 import { Transaction, VersionedTransaction } from '@solana/web3.js';
+import { ConnectOptions } from '@walless/core';
 import Walless from '@walless/sdk';
 import type { Wallet } from '@wallet-standard/base';
 import {
@@ -25,6 +26,7 @@ import {
 	type StandardEventsNames,
 	type StandardEventsOnMethod,
 	StandardConnect,
+	StandardConnectInput,
 	StandardDisconnect,
 	StandardEvents,
 } from '@wallet-standard/features';
@@ -186,9 +188,15 @@ export class WallessWallet implements Wallet {
 		}
 	};
 
-	#connect: StandardConnectMethod = async ({ silent } = {}) => {
+	#connect: StandardConnectMethod = async (
+		input: StandardConnectInput | undefined,
+	) => {
+		const { silent } = input ? input : { silent: false };
+
 		if (!this.#account) {
-			await this.#walless.connect(silent ? { onlyIfTrusted: true } : undefined);
+			await this.#walless.connect(
+				(silent ? { onlyIfTrusted: true } : undefined) as ConnectOptions,
+			);
 		}
 
 		this.#connected();

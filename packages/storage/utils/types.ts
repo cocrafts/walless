@@ -71,7 +71,7 @@ export type EncryptionKeyRecord = HydratedKey & {
 };
 
 export type TrustedDomain = {
-	id: string;
+	id?: string;
 	domainName: string;
 	trusted: boolean;
 	timestamp: Date;

@@ -8,6 +8,7 @@ import {
 
 export interface ConnectOptions {
 	onlyIfTrusted: boolean;
+	domain?: string;
 }
 
 export interface ConnectResult {

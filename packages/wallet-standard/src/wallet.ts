@@ -1,4 +1,11 @@
 import {
+	SuiFeatures,
+	SuiSignAndExecuteTransactionBlockMethod,
+	SuiSignMessageInput,
+	SuiSignMessageMethod,
+	SuiSignTransactionBlockMethod,
+} from '@mysten/wallet-standard';
+import {
 	type SolanaSignAndSendTransactionFeature,
 	type SolanaSignAndSendTransactionMethod,
 	type SolanaSignAndSendTransactionOutput,
@@ -40,6 +47,11 @@ import { bytesEqual } from './util';
 
 export const WallessNamespace = 'walless:';
 
+// Namespace for SUI
+const SuiSignMessage = 'sui:signMessage';
+const SuiSignTransactionBlock = 'sui:signTransactionBlock';
+const SuiSignAndExecuteTransactionBlock = 'sui:signAndExecuteTransactionBlock';
+
 export type WallessFeature = {
 	[WallessNamespace]: {
 		walless: Walless;
@@ -78,6 +90,7 @@ export class WallessWallet implements Wallet {
 		SolanaSignAndSendTransactionFeature &
 		SolanaSignTransactionFeature &
 		SolanaSignMessageFeature &
+		SuiFeatures &
 		WallessFeature {
 		return {
 			[StandardConnect]: {
@@ -95,16 +108,29 @@ export class WallessWallet implements Wallet {
 			[SolanaSignAndSendTransaction]: {
 				version: '1.0.0',
 				supportedTransactionVersions: ['legacy', 0],
-				signAndSendTransaction: this.#signAndSendTransaction,
+				signAndSendTransaction: this.#signAndSendTransactionOnSolana,
 			},
 			[SolanaSignTransaction]: {
 				version: '1.0.0',
 				supportedTransactionVersions: ['legacy', 0],
-				signTransaction: this.#signTransaction,
+				signTransaction: this.#signTransactionOnSolana,
 			},
 			[SolanaSignMessage]: {
 				version: '1.0.0',
-				signMessage: this.#signMessage,
+				signMessage: this.#signMessageOnSolana,
+			},
+			[SuiSignMessage]: {
+				version: '1.0.0',
+				signMessage: this.#signMessageOnSui,
+			},
+			[SuiSignTransactionBlock]: {
+				version: '1.0.0',
+				signTransactionBlock: this.#signTransactionBlockOnSui,
+			},
+			[SuiSignAndExecuteTransactionBlock]: {
+				version: '1.0.0',
+				signAndExecuteTransactionBlock:
+					this.#signAndExecuteTransactionBlockOnSui,
 			},
 			[WallessNamespace]: {
 				walless: this.#walless,
@@ -208,7 +234,7 @@ export class WallessWallet implements Wallet {
 		await this.#walless.disconnect();
 	};
 
-	#signAndSendTransaction: SolanaSignAndSendTransactionMethod = async (
+	#signAndSendTransactionOnSolana: SolanaSignAndSendTransactionMethod = async (
 		...inputs
 	) => {
 		if (!this.#account) throw new Error('not connected');
@@ -236,14 +262,14 @@ export class WallessWallet implements Wallet {
 			outputs.push({ signature: decode(signature) });
 		} else if (inputs.length > 1) {
 			for (const input of inputs) {
-				outputs.push(...(await this.#signAndSendTransaction(input)));
+				outputs.push(...(await this.#signAndSendTransactionOnSolana(input)));
 			}
 		}
 
 		return outputs;
 	};
 
-	#signTransaction: SolanaSignTransactionMethod = async (...inputs) => {
+	#signTransactionOnSolana: SolanaSignTransactionMethod = async (...inputs) => {
 		if (!this.#account) throw new Error('not connected');
 
 		const outputs: SolanaSignTransactionOutput[] = [];
@@ -291,7 +317,7 @@ export class WallessWallet implements Wallet {
 		return outputs;
 	};
 
-	#signMessage: SolanaSignMessageMethod = async (...inputs) => {
+	#signMessageOnSolana: SolanaSignMessageMethod = async (...inputs) => {
 		if (!this.#account) throw new Error('not connected');
 
 		const outputs: SolanaSignMessageOutput[] = [];
@@ -306,10 +332,26 @@ export class WallessWallet implements Wallet {
 			outputs.push({ signedMessage: message, signature });
 		} else if (inputs.length > 1) {
 			for (const input of inputs) {
-				outputs.push(...(await this.#signMessage(input)));
+				outputs.push(...(await this.#signMessageOnSolana(input)));
 			}
 		}
 
 		return outputs;
 	};
+
+	#signMessageOnSui: SuiSignMessageMethod = (input: SuiSignMessageInput) => {
+		console.log(input);
+		return null as never;
+	};
+
+	#signTransactionBlockOnSui: SuiSignTransactionBlockMethod = () => {
+		// Your wallet's implementation
+		return null as never;
+	};
+
+	#signAndExecuteTransactionBlockOnSui: SuiSignAndExecuteTransactionBlockMethod =
+		() => {
+			// Your wallet's implementation
+			return null as never;
+		};
 }

@@ -8,5 +8,8 @@
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+	},
+	"dependencies": {
+		"@walless/core": "*"
 	}
 }

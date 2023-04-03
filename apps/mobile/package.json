@@ -20,8 +20,8 @@
     "react-native-reanimated": "^3.0.2"
   },
   "devDependencies": {
-    "@tamagui/animations-reanimated": "^1.9.18",
-    "@tamagui/babel-plugin": "^1.9.18",
+    "@tamagui/animations-reanimated": "^1.9.22",
+    "@tamagui/babel-plugin": "^1.9.22",
     "@types/jest": "^29.2.1",
     "@types/react": "^18.0.24",
     "@types/react-test-renderer": "^18.0.0",

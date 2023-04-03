@@ -5,9 +5,9 @@
   "types": "./src/index.ts",
   "license": "MIT",
   "scripts": {
-      "test": "jest",
-      "test:watch": "jest --watch",
-      "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
     "simple-markdown": "^0.7.3"

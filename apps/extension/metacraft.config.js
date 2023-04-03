@@ -1,7 +1,6 @@
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
-const { generateSwcOptions } = require('../../tool/webpack/swc');
-const { copyAssets } = require('../../tool/webpack/middleware/asset');
-const { setEnvironments } = require('../../tool/webpack/middleware/env');
+const { copyAssets } = require('../../tool/webpack/asset');
+const { setEnvironments } = require('../../tool/webpack/env');
 
 const injectEntries = (config) => {
 	config.entry.content = {
@@ -38,7 +37,27 @@ module.exports = {
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
-	swcOptions: () => generateSwcOptions(),
+	swcOptions: () => ({
+		env: {
+			targets: {
+				chrome: '67',
+				edge: '79',
+				firefox: '68',
+				opera: '54',
+				safari: '14',
+			},
+			jsc: {
+				baseUrl: '.',
+				paths: {
+					'components/*': ['./src/components/*'],
+					'stacks/*': ['./src/stacks/*'],
+					'screens/*': ['./src/screens/*'],
+					'utils/*': ['./src/utils/*'],
+					'bridge/*': ['./src/bridge/*'],
+				},
+			},
+		},
+	}),
 	webpackMiddlewares: [
 		injectEntries,
 		web3Polyfills,

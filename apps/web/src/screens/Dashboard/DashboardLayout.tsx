@@ -8,7 +8,7 @@ interface Props {
 const DashboardLayout: FC<Props> = ({ children }) => {
 	return (
 		<Stack
-			backgroundColor="#1D1D1D"
+			backgroundColor="#19232C"
 			minHeight="100vh"
 			display="flex"
 			flexDirection="row"

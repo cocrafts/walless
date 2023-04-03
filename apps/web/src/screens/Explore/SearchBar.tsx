@@ -1,13 +1,9 @@
 import { FC, useRef } from 'react';
 import { Search } from '@tamagui/lucide-icons';
-import { Stack } from '@walless/gui';
+import { Stack, Button, Input } from '@walless/gui';
+import { SearchBarProps } from './interface';
 
-interface Props {
-	placeholder?: string;
-	onSearch?: (value: string) => void;
-}
-
-const SearchBar: FC<Props> = ({ placeholder, onSearch }) => {
+const SearchBar: FC<SearchBarProps> = ({ placeholder, onSearch }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handlePress = () => {

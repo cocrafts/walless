@@ -41,7 +41,7 @@ export class Walless extends EventEmitter {
 
 		const response = await requestConnect({
 			...options,
-			hostName,
+			domain: hostName,
 		} as ConnectOptions);
 
 		const publicKey = new PublicKey(response.publicKey as string);

@@ -1,8 +1,8 @@
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
-const { tamaguiBuild } = require('../../tool/webpack/middleware/tamagui');
-const { copyAssets } = require('../../tool/webpack/middleware/asset');
-const { splitChunks } = require('../../tool/webpack/middleware/chunk');
-const { setEnvironments } = require('../../tool/webpack/middleware/env');
+const { tamaguiBuild } = require('../../tool/webpack/tamagui');
+const { copyAssets } = require('../../tool/webpack/asset');
+const { splitChunks } = require('../../tool/webpack/chunk');
+const { setEnvironments } = require('../../tool/webpack/env');
 
 module.exports = {
 	useReact: true,

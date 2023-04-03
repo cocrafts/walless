@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@walless/gui": "*",
-    "@tamagui/next-theme": "^1.9.0",
     "@tamagui/animations-css": "^1.9.18",
+    "@tamagui/next-theme": "^1.9.0",
+    "@walless/gui": "*",
     "next": "^13.1.1",
     "react-dom": "^18.2.0"
   },

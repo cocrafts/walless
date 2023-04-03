@@ -1,5 +1,5 @@
 {
-  "name": "walless",
+  "name": "@walless/mobile",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,12 +10,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "@chainsoft/react-native-quick-crypto": "^0.5.0",
     "@walless/app": "*",
     "@walless/core": "*",
     "@walless/crypto": "*",
     "@walless/gui": "*",
     "react-native": "0.71.0",
-    "@chainsoft/react-native-quick-crypto": "^0.5.0",
     "react-native-quick-base64": "^2.0.5",
     "react-native-reanimated": "^3.0.2"
   },

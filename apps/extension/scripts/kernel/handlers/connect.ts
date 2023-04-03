@@ -4,26 +4,26 @@ import { MessengerCallback } from '@walless/messaging';
 import { db } from '../storage';
 
 export const handleConnect: MessengerCallback = async (payload, channel) => {
-	const connectOption = payload.options as ConnectOptions;
+	const { onlyIfTrusted, domain } = payload.options as ConnectOptions;
 
-	console.log('connect option:', connectOption);
+	console.log('connect option:', onlyIfTrusted, domain);
 
 	const trustedDomains = await db.trustedDomains.toArray();
 
-	let isTrusted = trustedDomains.find(
-		(i) => i.domainName == connectOption.domain,
-	)?.trusted;
+	if (onlyIfTrusted) {
+		let isTrusted = true;
+		const savedDomain = trustedDomains.find((i) => i.domainName == domain);
+		if (savedDomain) {
+			if (!savedDomain.trusted) isTrusted = false;
+		} else {
+			isTrusted = await triggerRequireTrustedDomain(domain as string);
+		}
 
-	if (!isTrusted) {
-		isTrusted = await triggerRequireTrustedDomain(
-			connectOption.domain as string,
-		);
-	}
-
-	if (!isTrusted) {
-		return console.log(
-			`handle connect: Domain name ${connectOption.domain} is not trusted`,
-		);
+		if (!isTrusted) {
+			return console.log(
+				`handle connect: Domain name ${domain} is not trusted`,
+			);
+		}
 	}
 
 	const publicKeys = await db.publicKeys.toArray();

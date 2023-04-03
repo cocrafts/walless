@@ -70,6 +70,14 @@ export type EncryptionKeyRecord = HydratedKey & {
 	id?: string;
 };
 
+export type TrustedDomain = {
+	id?: string;
+	domainName: string;
+	trusted: boolean;
+	timestamp: Date;
+	connectCount: number;
+};
+
 export interface WallessDB {
 	instance: Dexie;
 	settings: Table<SettingRecord, number>;
@@ -80,4 +88,5 @@ export interface WallessDB {
 	collections: Table<CollectionRecord, string>;
 	wallets: Table<WalletRecord, string>;
 	tokens: Table<TokenRecord, string>;
+	trustedDomains: Table<TrustedDomain, string>;
 }

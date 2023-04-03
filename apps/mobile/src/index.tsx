@@ -1,15 +1,15 @@
 import { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { GuiProvider } from '@walless/gui';
 
-const styles = StyleSheet.create({
-	container: {},
-});
+import config from '../tamagui.config';
+
+import SplashScreen from './screens/Splash';
 
 export const Index: FC = () => {
 	return (
-		<View style={styles.container}>
-			<Text>Index</Text>
-		</View>
+		<GuiProvider config={config}>
+			<SplashScreen />
+		</GuiProvider>
 	);
 };
 

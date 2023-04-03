@@ -12,16 +12,6 @@ const generateSwcOptions = (options = {}) =>
 					safari: '14',
 				},
 			},
-			jsc: {
-				baseUrl: '.',
-				paths: {
-					'components/*': ['./src/components/*'],
-					'screens/*': ['./src/screens/*'],
-					'stacks/*': ['./src/stacks/*'],
-					'utils/*': ['./src/utils/*'],
-					'bridge/*': ['./src/bridge/*'],
-				},
-			},
 		},
 		options,
 	);

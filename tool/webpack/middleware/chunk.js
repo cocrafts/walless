@@ -1,7 +1,7 @@
-const splitChunks = (configs) => {
-	configs.entry = {
+const splitChunks = (config) => {
+	config.entry = {
 		app: {
-			...configs.entry.app,
+			...config.entry.app,
 			dependOn: ['core-libs'],
 		},
 		'core-libs': {
@@ -9,7 +9,7 @@ const splitChunks = (configs) => {
 		},
 	};
 
-	return configs;
+	return config;
 };
 
 module.exports = {

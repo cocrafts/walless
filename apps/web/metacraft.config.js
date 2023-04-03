@@ -3,7 +3,6 @@ const { tamaguiBuild } = require('../../tool/webpack/middleware/tamagui');
 const { copyAssets } = require('../../tool/webpack/middleware/asset');
 const { splitChunks } = require('../../tool/webpack/middleware/chunk');
 const { setEnvironments } = require('../../tool/webpack/middleware/env');
-const { generateSwcOptions } = require('../../tool/webpack/swc');
 
 module.exports = {
 	useReact: true,
@@ -17,14 +16,28 @@ module.exports = {
 		splitChunks,
 		web3Polyfills,
 		setEnvironments({
-			'process.env.TAMAGUI_TARGET': '"web"',
+			process: {
+				env: {
+					TAMAGUI_TARGET: JSON.stringify('web'),
+				},
+			},
 		}),
 	],
-	swcOptions: () => generateSwcOptions(),
+	swcOptions: () => ({
+		env: {
+			targets: {
+				chrome: '67',
+				edge: '79',
+				firefox: '68',
+				opera: '54',
+				safari: '14',
+			},
+		},
+	}),
 	moduleAlias: {
 		global: {
-			'react-native$': 'react-native-web-lite',
-			'react-native-web$': 'react-native-web-lite',
+			'react-native$': 'react-native-web',
+			'react-native-web$': 'react-native-web',
 			'react-native-svg': require.resolve('@tamagui/react-native-svg'),
 		},
 	},

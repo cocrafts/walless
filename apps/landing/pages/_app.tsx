@@ -1,6 +1,6 @@
 import { FC, Fragment, ReactElement, useMemo } from 'react';
 import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme';
-import { WuiProvider } from '@walless/wui';
+import { GuiProvider } from '@walless/gui';
 import { AppProps } from 'next/app';
 
 import config from '../tamagui.config';
@@ -24,9 +24,9 @@ export const App: FC<AppProps> = (props) => {
 				}}
 			/>
 			<NextThemeProvider onChangeTheme={setTheme}>
-				<WuiProvider config={config} theme={theme}>
+				<GuiProvider config={config} theme={theme}>
 					{contents}
-				</WuiProvider>
+				</GuiProvider>
 			</NextThemeProvider>
 		</Fragment>
 	);

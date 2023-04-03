@@ -1,1 +1,1 @@
-export const name = 'app';
+export * from './components/Splash';

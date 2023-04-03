@@ -1,8 +1,13 @@
 const { resolve } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
-const copyAssets = (configs) => {
-	configs.plugins.push(
+const copyAssets = (config) => {
+	config.module.rules[1].use[1] = {
+		loader: 'css-loader',
+		options: { url: false },
+	};
+
+	config.plugins.push(
 		new CopyPlugin({
 			patterns: [
 				{
@@ -19,7 +24,7 @@ const copyAssets = (configs) => {
 		}),
 	);
 
-	return configs;
+	return config;
 };
 
 module.exports = {

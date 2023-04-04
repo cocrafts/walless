@@ -1,5 +1,9 @@
-export const configure = () => {
-	console.log('hello world, from content!');
-};
+import { initializeMessaging } from './messaging';
+import { injectScript } from './utils';
 
-configure();
+(async () => {
+	await initializeMessaging();
+	injectScript('injection.js');
+
+	console.log('content script loaded');
+})();

@@ -10,7 +10,8 @@
 		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
 	},
 	"dependencies": {
-		"@walless/gui": "*"
+		"@walless/gui": "*",
+		"react-native-reanimated": "^3.0.2"
 	},
 	"peerDependencies": {
 		"react": "^18.2.0",

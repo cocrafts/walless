@@ -1,8 +1,37 @@
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 const { tamaguiBuild } = require('../../tool/webpack/tamagui');
 const { copyAssets } = require('../../tool/webpack/asset');
-const { splitChunks } = require('../../tool/webpack/chunk');
 const { setEnvironments } = require('../../tool/webpack/env');
+
+const isProd = process.env.ENV === 'production';
+const injectEntries = (config) => {
+	config.entry.content = {
+		import: 'scripts/content/index.ts',
+		filename: 'content.js',
+	};
+
+	config.entry.injection = {
+		import: 'scripts/content/injection.ts',
+		filename: 'injection.js',
+	};
+
+	config.entry.background = {
+		import: 'scripts/background/index.ts',
+		filename: 'background.js',
+	};
+
+	config.entry.kernel = {
+		import: 'scripts/kernel/index.ts',
+		filename: 'kernel.js',
+	};
+
+	config.entry.w3ar = {
+		import: 'scripts/worker/w3a-response.ts',
+		filename: 'w3a-response.js',
+	};
+
+	return config;
+};
 
 module.exports = {
 	useReact: true,
@@ -11,9 +40,9 @@ module.exports = {
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
 	webpackMiddlewares: [
+		injectEntries,
 		tamaguiBuild,
 		copyAssets,
-		splitChunks,
 		web3Polyfills,
 		setEnvironments({
 			process: {
@@ -24,6 +53,7 @@ module.exports = {
 		}),
 	],
 	swcOptions: () => ({
+		minify: isProd,
 		env: {
 			targets: {
 				chrome: '67',
@@ -33,7 +63,19 @@ module.exports = {
 				safari: '14',
 			},
 		},
+		jsc: {
+			minify: {
+				compress: true,
+				mangle: true,
+				format: {
+					comments: false,
+				},
+			},
+		},
 	}),
+	htmlPluginOptions: {
+		chunks: ['app'],
+	},
 	moduleAlias: {
 		global: {
 			'react-native$': 'react-native-web',

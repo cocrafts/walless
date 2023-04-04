@@ -8,11 +8,19 @@ import ModalManager from './ModalManager';
 
 interface Props {
 	config: TamaguiInternalConfig;
-	theme?: string;
 	children?: ReactElement;
+	disableInjectCSS?: boolean;
+	disableRootThemeClass?: boolean;
+	theme?: string;
 }
 
-export const GuiProvider: FC<Props> = ({ config, theme, children }) => {
+export const GuiProvider: FC<Props> = ({
+	config,
+	theme,
+	children,
+	disableInjectCSS,
+	disableRootThemeClass,
+}) => {
 	const containerRef = useRef<View>(null);
 
 	useEffect(() => {
@@ -22,8 +30,8 @@ export const GuiProvider: FC<Props> = ({ config, theme, children }) => {
 	return (
 		<TamaguiProvider
 			config={config}
-			disableInjectCSS
-			disableRootThemeClass
+			disableInjectCSS={disableInjectCSS}
+			disableRootThemeClass={disableRootThemeClass}
 			defaultTheme={theme}
 		>
 			<Stack ref={containerRef} flex={1}>

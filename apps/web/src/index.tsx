@@ -1,29 +1,16 @@
 import { FC } from 'react';
-import { RouterProvider } from 'react-router-dom';
+import { TamaguiInternalConfig } from '@tamagui/core';
 import { GuiProvider } from '@walless/gui';
-import { useSnapshot } from 'valtio';
 
-import config from '../tamagui.config';
+import App from './components/App';
 
-import SplashWrapper from './components/Splash';
-import { appState } from './state/app';
-import { router } from './routing';
+interface Props {
+	tamaguiConfig: TamaguiInternalConfig;
+}
 
-import '@tamagui/core/reset.css';
-
-const App: FC = () => {
-	const app = useSnapshot(appState);
-
-	if (app.loading) {
-		return <SplashWrapper />;
-	}
-
-	return <RouterProvider router={router} />;
-};
-
-export const AppContainer: FC = () => {
+export const AppContainer: FC<Props> = ({ tamaguiConfig }) => {
 	return (
-		<GuiProvider config={config}>
+		<GuiProvider config={tamaguiConfig}>
 			<App />
 		</GuiProvider>
 	);

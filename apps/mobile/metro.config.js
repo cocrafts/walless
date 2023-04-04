@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 const { resolve } = require('path');
 
 const projectRoot = __dirname;
@@ -15,15 +13,9 @@ const monoPackages = {
 };
 
 module.exports = {
-	watchFolders: [
-		workspaceModules,
-		...Object.values(monoPackages),
-	],
+	watchFolders: [workspaceModules, ...Object.values(monoPackages)],
 	resolver: {
-		nodeModulesPaths: [
-			projectModules,
-			workspaceModules,
-		],
+		nodeModulesPaths: [projectModules, workspaceModules],
 		extraNodeModules: monoPackages,
 	},
 	transformer: {

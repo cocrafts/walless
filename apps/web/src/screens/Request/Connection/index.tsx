@@ -3,11 +3,9 @@ import { Image } from '@walless/gui';
 
 import { HeaderRequest } from '../../../components/HeaderRequest';
 import LightText from '../../../components/LightText';
+import { logoSize, logoUri } from '../shared';
 
-const logoSize = 60;
-const logoUri = { uri: '/img/app_logo.png' };
-
-const RequestConnectionScreen = () => {
+const RequestConnection = () => {
 	return (
 		<Stack flex={1} backgroundColor="#19232C">
 			<HeaderRequest />
@@ -32,7 +30,7 @@ const RequestConnectionScreen = () => {
 					<LightText fontSize={14}>underrealm.stormgate.io</LightText>
 				</Stack>
 
-				<Stack backgroundColor="#202D38" borderRadius={15} marginVertical={20}>
+				<Stack backgroundColor="#202D38" borderRadius={15} marginVertical={15}>
 					<Stack padding={15}>
 						<LightText fontSize={14} paddingHorizontal={25} textAlign="center">
 							Under Realm would like to connect with your Walless account to:
@@ -80,4 +78,4 @@ const RequestConnectionScreen = () => {
 	);
 };
 
-export default RequestConnectionScreen;
+export default RequestConnection;

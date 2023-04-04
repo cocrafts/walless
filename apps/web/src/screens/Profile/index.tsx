@@ -1,7 +1,11 @@
-import React from 'react';
+import { Stack } from '@walless/gui';
 
 const ProfileScreen = () => {
-	return <div>ProfileScreen</div>;
+	return (
+		<Stack display="flex">
+			<Stack></Stack>
+		</Stack>
+	);
 };
 
 export default ProfileScreen;

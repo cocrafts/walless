@@ -1,3 +1,3 @@
 {
-  "extends": "@metacraft/tsconfig/application.json"
+  "extends": "@walless/tsconfig/application.json"
 }

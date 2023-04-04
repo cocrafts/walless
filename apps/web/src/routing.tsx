@@ -3,6 +3,7 @@ import { createHashRouter } from 'react-router-dom';
 import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import ExploreScreen from './screens/Explore';
+import RequestConnectionScreen from './screens/Request/Connection';
 
 export const router = createHashRouter([
 	{
@@ -22,5 +23,9 @@ export const router = createHashRouter([
 				element: <DashboardScreen />,
 			},
 		],
+	},
+	{
+		path: '/request-connection',
+		element: <RequestConnectionScreen />,
 	},
 ]);

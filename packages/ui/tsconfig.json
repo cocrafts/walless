@@ -1,5 +1,5 @@
 {
-  "extends": "@metacraft/tsconfig/react-native-library.json",
+  "extends": "@walless/tsconfig/react-native-library.json",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

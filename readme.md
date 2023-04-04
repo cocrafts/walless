@@ -10,6 +10,7 @@ You can find more information under our [official website](https://walless.io).
 ### CLI commands
 - Development: run `yarn dev` at project root (or `metacraft` under apps/home)
 - Build: `yarn build` (or `metacraft bundle` under apps/home)
+- Package version check `yarn dlx lerna-update-wizard`
 
 ### Credits:
 - [Open-source repo](https://github.com/MetaMask/metamask-extension) of [Metamask](https://metamask.io/) give us lot of useful clues.

@@ -5,18 +5,20 @@ import { Linking } from 'react-native';
 import {
 	isWeb,
 	ReactComponentWithRef,
+	Text,
+	TextProps,
 	styled,
 	TamaguiElement,
 } from '@tamagui/core';
-import { SizableText, SizableTextProps } from '@tamagui/text';
 
-export type AnchorProps = SizableTextProps & {
+export type AnchorProps = TextProps & {
 	href?: string;
 	target?: string;
 	rel?: string;
 };
 
-const AnchorFrame = styled(SizableText, {
+const AnchorFrame = styled(Text, {
+	fontFamily: 'Poppins',
 	name: 'Anchor',
 	tag: 'a',
 	accessibilityRole: 'link',

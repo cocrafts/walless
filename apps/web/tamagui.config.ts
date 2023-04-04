@@ -34,6 +34,7 @@ const fonts = {
 };
 
 export const config: TamaguiInternalConfig = createTamagui({
+	defaultTheme: 'light',
 	themes,
 	tokens,
 	shorthands,

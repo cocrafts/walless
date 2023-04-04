@@ -6,7 +6,9 @@ import {
 	withSequence,
 	withTiming,
 } from 'react-native-reanimated';
-import { AnimatedImage, runOnJS, Stack } from '@walless/gui';
+import { Stack } from '@walless/gui';
+
+import { AnimatedImage, runOnJS } from './alias';
 
 interface Props {
 	logoSrc: ImageSourcePropType;

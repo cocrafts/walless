@@ -10,11 +10,12 @@
 		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
 	},
 	"dependencies": {
-		"@walless/gui": "*"
+		"@walless/gui": "*",
+		"react-native-reanimated": "3.0.2"
 	},
 	"peerDependencies": {
 		"react": "^18.2.0",
-		"tamagui": "^1.9.18",
-		"valtio": "^1.10.3"
+		"tamagui": "^1.9.22",
+		"valtio": "1.10.4"
 	}
 }

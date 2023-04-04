@@ -1,5 +1,5 @@
 {
-  "extends": "@metacraft/tsconfig/next.json",
+  "extends": "@walless/tsconfig/next.json",
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "compilerOptions": {

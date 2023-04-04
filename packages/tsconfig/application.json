@@ -1,0 +1,20 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Metacraft Application",
+	"extends": "./base.json",
+	"compilerOptions": {
+		"allowJs": true,
+		"jsx": "react-native",
+		"lib": ["DOM", "ESNext"],
+		"noEmit": true,
+		"resolveJsonModule": true,
+		"target": "ESNext",
+		"baseUrl": ".",
+		"paths": {
+			"components/*": ["./src/components/*"],
+			"stacks/*": ["./src/stacks/*"],
+			"screens/*": ["./src/screens/*"],
+			"utils/*": ["./src/utils/*"]
+		}
+	}
+}

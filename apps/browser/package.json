@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tamagui/lucide-icons": "^1.9.22",
     "@tkey/chrome-storage": "7.3.0",
     "@tkey/default": "7.3.0",
     "@tkey/private-keys": "7.3.0",
@@ -26,8 +25,6 @@
   },
   "devDependencies": {
     "@tamagui/next-plugin": "^1.9.22",
-    "@tamagui/shorthands": "^1.9.22",
-    "@tamagui/themes": "^1.9.22",
     "next-compose-plugins": "^2.2.1",
     "next-transpile-modules": "^10.0.0"
   }

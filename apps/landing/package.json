@@ -1,6 +1,6 @@
 {
   "name": "@walless/landing",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3005",
@@ -17,8 +17,6 @@
   },
   "devDependencies": {
     "@tamagui/next-plugin": "^1.9.22",
-    "@tamagui/shorthands": "^1.9.22",
-    "@tamagui/themes": "^1.9.22",
     "next-compose-plugins": "^2.2.1",
     "next-transpile-modules": "^10.0.0"
   }

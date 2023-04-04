@@ -1,15 +1,11 @@
-import * as ReactNative from 'react-native';
 import { createAnimations } from '@tamagui/animations-reanimated';
 import {
 	createFont,
 	createTamagui,
-	setupReactNative,
 	TamaguiInternalConfig,
 } from '@tamagui/core';
 import { shorthands } from '@tamagui/shorthands';
 import { themes, tokens } from '@tamagui/themes';
-
-setupReactNative(ReactNative);
 
 const animations = createAnimations({
 	fast: {

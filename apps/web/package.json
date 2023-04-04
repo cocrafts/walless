@@ -13,7 +13,7 @@
 		"@mysten/sui.js": "^0.29.1",
 		"@solana/spl-token": "^0.3.7",
 		"@solana/web3.js": "^1.73.3",
-		"@tamagui/animations-css": "^1.9.18",
+		"@tamagui/animations-css": "^1.9.22",
 		"@tkey/chrome-storage": "^7.2.0",
 		"@tkey/default": "^7.2.0",
 		"@tkey/private-keys": "^7.2.0",
@@ -34,10 +34,11 @@
 		"react-native-qrcode-svg": "^6.2.0",
 		"react-router-dom": "^6.10.0",
 		"setimmediate": "^1.0.5",
+		"tamagui": "^1.9.22",
 		"valtio": "^1.10.3"
 	},
 	"devDependencies": {
 		"@metacraft/cli-web3-polyfills": "^0.0.7",
-		"tamagui-loader": "^1.9.0"
+		"tamagui-loader": "^1.9.22"
 	}
 }

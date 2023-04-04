@@ -1,4 +1,3 @@
-import Animated from 'react-native-reanimated';
 import {
 	GetProps,
 	Stack as TamaguiStack,
@@ -42,5 +41,3 @@ export const Text = styled(TamaguiText, {
 export { Button } from '@tamagui/button';
 export { Image } from '@tamagui/image';
 export { ScrollView } from '@tamagui/scroll-view';
-
-export const AnimatedImage = Animated.createAnimatedComponent(Image);

@@ -13,9 +13,9 @@
 		"@metacraft/ui": "^0.0.59",
 		"@react-navigation/native": "^6.1.4",
 		"@react-navigation/stack": "^6.3.13",
-		"@tkey/default": "^7.2.0",
-		"@tkey/security-questions": "^7.2.0",
-		"@tkey/web-storage": "^7.2.0",
+		"@tkey/default": "7.3.0",
+		"@tkey/security-questions": "7.3.0",
+		"@tkey/web-storage": "7.3.0",
 		"@walless/ui": "*",
 		"aws-amplify": "^5.0.15",
 		"nativewind": "^2.0.11",
@@ -23,13 +23,13 @@
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-native-gesture-handler": "^2.9.0",
-		"react-native-reanimated": "^3.0.2",
+		"react-native-reanimated": "3.0.2",
 		"react-native-safe-area-context": "^4.5.0",
 		"react-native-screens": "^3.20.0",
 		"react-native-svg": "^13.0.0",
 		"react-native-web": "^0.18.12",
 		"setimmediate": "^1.0.5",
-		"valtio": "^1.10.3"
+		"valtio": "1.10.4"
 	},
 	"devDependencies": {
 		"@metacraft/cli-web3-polyfills": "^0.0.7"

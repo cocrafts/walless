@@ -12,6 +12,6 @@
 	"dependencies": {
 		"react": "^18.2.0",
 		"tamagui": "^1.9.22",
-		"valtio": "^1.10.3"
+		"valtio": "1.10.4"
 	}
 }

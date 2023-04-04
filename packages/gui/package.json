@@ -11,8 +11,8 @@
 	},
 	"dependencies": {
 		"react": "^18.2.0",
-		"react-native-reanimated": "^3.0.2",
+		"react-native-reanimated": "3.0.2",
 		"tamagui": "^1.9.22",
-		"valtio": "^1.10.3"
+		"valtio": "1.10.4"
 	}
 }

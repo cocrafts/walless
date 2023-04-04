@@ -9,17 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tamagui/animations-css": "^1.9.18",
-    "@tamagui/next-theme": "^1.9.0",
+    "@tamagui/animations-css": "^1.9.22",
+    "@tamagui/next-theme": "^1.9.22",
     "@walless/gui": "*",
     "next": "^13.1.1",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@tamagui/next-plugin": "^1.9.0",
-    "@tamagui/shorthands": "^1.9.0",
-    "@tamagui/themes": "^1.9.0",
+    "@tamagui/next-plugin": "^1.9.22",
+    "@tamagui/shorthands": "^1.9.22",
+    "@tamagui/themes": "^1.9.22",
     "next-compose-plugins": "^2.2.1",
     "next-transpile-modules": "^10.0.0"
   }

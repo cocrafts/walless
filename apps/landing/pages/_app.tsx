@@ -24,7 +24,12 @@ export const App: FC<AppProps> = (props) => {
 				}}
 			/>
 			<NextThemeProvider onChangeTheme={setTheme}>
-				<GuiProvider config={config} theme={theme}>
+				<GuiProvider
+					disableInjectCSS
+					disableRootThemeClass
+					config={config}
+					theme={theme}
+				>
 					{contents}
 				</GuiProvider>
 			</NextThemeProvider>

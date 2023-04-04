@@ -12,9 +12,9 @@ const App: FC = () => {
 
 	if (app.loading) {
 		return <SplashWrapper />;
+	} else {
+		return <RouterProvider router={router} />;
 	}
-
-	return <RouterProvider router={router} />;
 };
 
 export default App;

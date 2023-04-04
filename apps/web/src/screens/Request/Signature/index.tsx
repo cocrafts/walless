@@ -38,9 +38,7 @@ export const RequestSignature = () => {
 						paddingTop={15}
 						paddingBottom={5}
 					>
-						<Text fontSize={14} fontWeight="300">
-							Message:
-						</Text>
+						<Text fontSize={14}>Message:</Text>
 						<AlertCircle size={18} color="#566674" />
 					</Stack>
 					<LightText paddingHorizontal={15} paddingBottom={15} fontSize={14}>

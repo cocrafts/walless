@@ -61,6 +61,7 @@ const swcOptions = () => ({
 
 module.exports = {
 	useBabel: false,
+	useReact: true,
 	port: () => 3001,
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
@@ -68,12 +69,12 @@ module.exports = {
 	swcOptions,
 	webpackMiddlewares: [
 		useCache,
+		copyAssets,
 		injectEntries,
 		web3Polyfills,
 		setEnvironments({
 			VERSION: JSON.stringify(require('./package.json').version),
 		}),
-		copyAssets,
 	],
 	htmlPluginOptions: {
 		chunks: ['app'],

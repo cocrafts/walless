@@ -37,5 +37,4 @@ export const Text = styled(TamaguiText, {
 	fontFamily: 'Poppins',
 });
 
-export { Image } from '@tamagui/image';
 export { ScrollView } from '@tamagui/scroll-view';

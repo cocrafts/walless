@@ -1,9 +1,10 @@
 import { Button, ChevronDown, Image, Stack, Text } from '@walless/gui';
 
-const iconSize = 45;
+const iconWidth = 40;
+const iconHeight = iconWidth / 2;
 
 export const HeaderRequest = () => {
-	const iconSrc = { uri: '/img/icon-lg.png' };
+	const iconSrc = { uri: '/img/bare-icon.png' };
 
 	return (
 		<Stack
@@ -11,9 +12,9 @@ export const HeaderRequest = () => {
 			alignItems="center"
 			backgroundColor="#121B22"
 			paddingHorizontal={15}
-			paddingVertical={5}
+			paddingVertical={10}
 		>
-			<Image src={iconSrc} width={iconSize} height={iconSize} />
+			<Image src={iconSrc} width={iconWidth} height={iconHeight} />
 			<Stack horizontal flex={1} justifyContent="center" alignItems="center">
 				<Text textAlign="center" fontWeight={'300'}>
 					Zbz thic...
@@ -22,7 +23,7 @@ export const HeaderRequest = () => {
 					<ChevronDown size={20} />
 				</Button>
 			</Stack>
-			<Stack width={iconSize} />
+			<Stack width={iconWidth} />
 		</Stack>
 	);
 };

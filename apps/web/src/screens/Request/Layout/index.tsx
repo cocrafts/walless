@@ -1,11 +1,4 @@
-import {
-	AlertCircle,
-	Button,
-	HyperLink,
-	Image,
-	Stack,
-	Text,
-} from '@walless/gui';
+import { AlertCircle, Anchor, Button, Image, Stack, Text } from '@walless/gui';
 
 import { HeaderRequest } from '../../../components/HeaderRequest';
 import LightText from '../../../components/LightText';
@@ -42,7 +35,14 @@ export const RequestLayout = () => {
 						Walless account.
 					</Text>
 
-					<HyperLink title="Learn more" marginTop={20} />
+					<Anchor
+						href="_"
+						marginTop={15}
+						color="#0694D3"
+						textDecorationLine="none"
+					>
+						Learn more
+					</Anchor>
 				</Stack>
 
 				<Stack flex={1} justifyContent="flex-end">

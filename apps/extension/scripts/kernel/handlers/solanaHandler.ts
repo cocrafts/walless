@@ -3,7 +3,7 @@ import { MessengerCallback } from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
 import { decode, encode } from 'bs58';
 
-import { connection } from '../utils/connection';
+import { solanaConnection } from '../utils/connection';
 import { triggerActionToGetPrivateKey } from '../utils/handler';
 
 export const handleSignTransaction: MessengerCallback = async (
@@ -41,7 +41,7 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 
 	const signatureString = await signAndSendTransaction(
-		connection,
+		solanaConnection,
 		transaction,
 		payload.options || {},
 		privateKey,

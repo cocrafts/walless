@@ -1,13 +1,14 @@
 {
 	"extends": "@walless/tsconfig/application.json",
 	"include": [
-		"index*.js",
-		"src"
+		"index.web.js",
+		"src",
+		"scripts"
 	],
 	"exclude": ["node_modules"],
 	"compilerOptions": {
 		"lib": ["DOM", "ES2015"],
 		"types": ["chrome"],
-		"typeRoots": ["./src/types"],
+		"typeRoots": ["./src/types"]
 	}
 }

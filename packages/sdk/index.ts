@@ -1,35 +1,43 @@
-import { PublicKey, SendOptions, VersionedTransaction } from '@solana/web3.js';
+// import * as suiProvider from './providers/sui';
+import { Ed25519PublicKey as SuiPublicKey } from '@mysten/sui.js';
+import {
+	PublicKey as SolanaPublicKey,
+	SendOptions,
+	VersionedTransaction,
+} from '@solana/web3.js';
 import {
 	ConnectFunc,
 	ConnectOptions,
+	Networks,
 	SignAllFunc,
 	SignAndSendFunc,
 	SignFunc,
 	SignMessageFunc,
 } from '@walless/core';
+import { PublicKeyRecord } from '@walless/storage';
 import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
 
-import {
-	requestConnect,
-	requestSignAndSendTransaction,
-	requestSignMessage,
-	requestSignTransaction,
-} from './utils/commands';
+import { PublicKeyType } from '../wallet-standard/src/util';
+
+import * as mutualProvider from './providers/mutual';
+import * as solanaProvider from './providers/solana';
 
 export class Walless extends EventEmitter {
-	#publicKey?: PublicKey;
+	#publicKeys:
+		| Array<{ publicKey: PublicKeyType; network: Networks }>
+		| undefined;
 	#isConnected: boolean;
 
 	constructor() {
 		super();
 
 		this.#isConnected = false;
-		this.#publicKey = undefined;
+		this.#publicKeys = undefined;
 	}
 
-	public get publicKey() {
-		return this.#publicKey;
+	public get publicKeys() {
+		return this.#publicKeys;
 	}
 
 	connect: ConnectFunc = async (options?) => {
@@ -39,17 +47,36 @@ export class Walless extends EventEmitter {
 
 		const hostName = window.location.hostname;
 
-		const response = await requestConnect({
+		const response = await mutualProvider.requestConnect({
 			...options,
 			domain: hostName,
 		} as ConnectOptions);
 
-		const publicKey = new PublicKey(response.publicKey as string);
+		const publicKeys = response.publicKeys;
 
-		this.#publicKey = publicKey;
+		this.#publicKeys = publicKeys
+			.map((pk: PublicKeyRecord) => {
+				let publicKey: PublicKeyType;
+
+				// Prepare suitable public key for each network
+				if (pk.network === Networks.solana) {
+					publicKey = new SolanaPublicKey(pk.id as string);
+				} else if (pk.network === Networks.sui) {
+					publicKey = new SuiPublicKey(pk.id as string);
+				} else {
+					return null;
+				}
+
+				// Init public key
+				return {
+					publicKey: publicKey,
+					network: pk.network,
+				};
+			})
+			.filter((publicKey: PublicKeyType | null) => publicKey);
 		this.#isConnected = true;
 
-		return { publicKey };
+		return { publicKeys };
 	};
 
 	disconnect = async (): Promise<void> => {
@@ -57,12 +84,15 @@ export class Walless extends EventEmitter {
 		console.log('walless disconnected!');
 	};
 
-	signAndSendTransaction: SignAndSendFunc = async (transaction, options?) => {
-		if (!this.#publicKey) {
+	signAndSendTransactionOnSolana: SignAndSendFunc = async (
+		transaction,
+		options?,
+	) => {
+		if (!this.#publicKeys) {
 			throw new Error('wallet not connected');
 		}
 
-		const res = await requestSignAndSendTransaction(
+		const res = await solanaProvider.requestSignAndSendTransaction(
 			encode(transaction.serialize()),
 			options as SendOptions,
 		);
@@ -72,30 +102,32 @@ export class Walless extends EventEmitter {
 		return { signature };
 	};
 
-	signTransaction: SignFunc = async (transaction) => {
-		if (!this.#publicKey) {
+	signTransactionOnSolana: SignFunc = async (transaction) => {
+		if (!this.#publicKeys) {
 			throw new Error('wallet not connected');
 		}
 
-		const res = await requestSignTransaction(encode(transaction.serialize()));
+		const res = await solanaProvider.requestSignTransaction(
+			encode(transaction.serialize()),
+		);
 
 		return VersionedTransaction.deserialize(
 			decode(res.signedTransaction),
 		) as never;
 	};
 
-	signAllTransactions: SignAllFunc = (transactions) => {
+	signAllTransactionsOnSolana: SignAllFunc = (transactions) => {
 		console.log(transactions);
 
 		return [] as never;
 	};
 
-	signMessage: SignMessageFunc = async (message) => {
-		if (!this.#publicKey) {
+	signMessageOnSolana: SignMessageFunc = async (message) => {
+		if (!this.#publicKeys) {
 			throw new Error('wallet not connected');
 		}
 
-		const res = await requestSignMessage(encode(message));
+		const res = await solanaProvider.requestSignMessage(encode(message));
 		return { signature: decode(res.signature) };
 	};
 }

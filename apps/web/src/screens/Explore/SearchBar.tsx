@@ -1,6 +1,6 @@
 import { FC, useRef } from 'react';
-import { Search } from '@tamagui/lucide-icons';
-import { Stack, Button, Input } from '@walless/gui';
+import { Stack } from '@walless/gui';
+
 import { SearchBarProps } from './interface';
 
 const SearchBar: FC<SearchBarProps> = ({ placeholder, onSearch }) => {

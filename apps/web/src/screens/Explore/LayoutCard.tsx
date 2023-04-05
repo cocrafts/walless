@@ -1,5 +1,6 @@
-import { Image, Stack, Text } from '@walless/gui';
 import { FC } from 'react';
+import { Image, Stack, Text } from '@walless/gui';
+
 import { LayoutCardProps } from './interface';
 
 const LayoutCard: FC<LayoutCardProps> = (props) => {

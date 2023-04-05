@@ -62,7 +62,10 @@ export class Walless extends EventEmitter {
 				if (pk.network === Networks.solana) {
 					publicKey = new SolanaPublicKey(pk.id as string);
 				} else if (pk.network === Networks.sui) {
-					publicKey = new SuiPublicKey(pk.id as string);
+					// HOT FIX: Address from SUI is invalid
+					publicKey = new SuiPublicKey(
+						'AfUDSlCF4g7kNTJOIP2Z+BRsba3FqF/jTMmPvPKBt+M=',
+					);
 				} else {
 					return null;
 				}

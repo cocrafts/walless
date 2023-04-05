@@ -186,7 +186,8 @@ export class WallessWallet implements Wallet {
 		const accounts = this.#walless.publicKeys;
 
 		if (!accounts) {
-			throw Error('Accounts is null');
+			// throw Error('Accounts is null');
+			return;
 		}
 
 		this.#accounts = accounts.map(({ publicKey, network }) => {

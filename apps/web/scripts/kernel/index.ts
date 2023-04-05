@@ -1,5 +1,10 @@
-export const configure = () => {
-	console.log('hello world');
-};
+import { initializeHooks } from './hooks';
+import { initializeMessaging } from './messaging';
 
-configure();
+(async () => {
+	await initializeMessaging();
+	await initializeHooks();
+})();
+
+export * from './messaging';
+export * from './storage';

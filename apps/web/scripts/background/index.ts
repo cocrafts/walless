@@ -1,1 +1,1 @@
-import '../kernel';
+importScripts('kernel.js');

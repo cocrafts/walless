@@ -5,7 +5,7 @@
     "types": "./src/index.ts",
     "license": "MIT",
     "dependencies": {
-        "@mysten/wallet-standard":  "^0.5.0",
+        "@mysten/wallet-standard": "^0.5.0",
         "@solana/wallet-standard-features": "^1.0.1",
         "@solana/web3.js": "1.75.0",
         "@walless/sdk": "*",

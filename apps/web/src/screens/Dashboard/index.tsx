@@ -1,11 +1,13 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/gui';
+import { Outlet } from 'react-router-dom';
+
+import DashboardLayout from './DashboardLayout';
 
 export const DashboardScreen: FC = () => {
 	return (
-		<Stack>
-			<Text>DashboardScreen</Text>
-		</Stack>
+		<DashboardLayout>
+			<Outlet />
+		</DashboardLayout>
 	);
 };
 

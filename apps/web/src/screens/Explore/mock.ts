@@ -1,4 +1,4 @@
-import { LayoutCardProps } from './interface';
+import { LayoutCardProps } from './LayoutCard';
 export const mockLayoutCards: LayoutCardProps[] = [
 	{
 		id: '1',

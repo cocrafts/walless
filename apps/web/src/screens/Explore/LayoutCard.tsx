@@ -1,7 +1,15 @@
 import { FC } from 'react';
 import { Image, Stack, Text } from '@walless/gui';
 
-import { LayoutCardProps } from './interface';
+export interface LayoutCardProps {
+	id: string;
+	name: string;
+	description: string;
+	thumbnail: string;
+	logo: string;
+	loveCount: number;
+	activeUsers: number;
+}
 
 const LayoutCard: FC<LayoutCardProps> = (props) => {
 	return (

@@ -22,10 +22,7 @@ export const ExploreScreen: FC = () => {
 				Choose a layout to start
 			</Text>
 
-			<SearchBar
-				placeholder="Explore exciting project"
-				onSearch={handleSearch}
-			/>
+			<SearchBar onSearch={handleSearch} />
 
 			{mockLayoutCards.map((layoutCard) => (
 				<LayoutCard

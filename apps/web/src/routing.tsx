@@ -1,8 +1,8 @@
 import { createHashRouter } from 'react-router-dom';
 
 import DashboardScreen from './screens/Dashboard';
-import ProfileScreen from './screens/Profile';
 import ExploreScreen from './screens/Explore';
+import ProfileScreen from './screens/Profile';
 import RequestConnectionScreen from './screens/Request/Connection';
 
 export const router = createHashRouter([

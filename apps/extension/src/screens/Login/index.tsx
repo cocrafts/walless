@@ -22,11 +22,14 @@ const logoSize = 80;
 
 export const LoginScreen: FC = () => {
 	const opacity = useSharedValue(0);
-	const logoStyle = useAnimatedStyle(() => ({
-		width: logoSize,
-		height: logoSize,
-		opacity: opacity.value,
-	}));
+	const logoStyle = useAnimatedStyle(
+		() => ({
+			width: logoSize,
+			height: logoSize,
+			opacity: opacity.value,
+		}),
+		[opacity],
+	);
 
 	useEffect(() => {
 		opacity.value = withTiming(1, { duration: 1000 });

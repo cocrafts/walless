@@ -13,7 +13,7 @@ import {
 
 import { db } from '../storage';
 
-import { connection } from './connection';
+import { solanaConnection } from './connection';
 
 interface CollectibleResult {
 	collectibles: CollectibleRecord[];
@@ -28,7 +28,10 @@ export const fetchAllCollectibles = async (): Promise<CollectibleResult> => {
 	keys.forEach(async (key) => {
 		if (key.network === 'sui') return;
 		const publicKey = new PublicKey(key.id as string);
-		const collectiblesByWallet = await getNftsByOwner(connection, publicKey);
+		const collectiblesByWallet = await getNftsByOwner(
+			solanaConnection,
+			publicKey,
+		);
 		collectiblesByWallet.forEach((collectible) => {
 			collectibles.put({
 				id: collectible.address.toString(),
@@ -47,7 +50,7 @@ export const fetchAllCollectibles = async (): Promise<CollectibleResult> => {
 		.uniqueKeys()) as [];
 	collectionsKey.forEach(async (key: string) => {
 		const publicKey = new PublicKey(key);
-		const collectionInfo = await getNftCollections(connection, publicKey);
+		const collectionInfo = await getNftCollections(solanaConnection, publicKey);
 
 		collections.put({
 			id: key,
@@ -75,7 +78,7 @@ export const fetchAllTokens = async (): Promise<WalletRecord[]> => {
 		if (key.network === 'sui') continue;
 
 		const address = new PublicKey(key.id as string);
-		const tokenAccounts = await getTokensByOwner(connection, address);
+		const tokenAccounts = await getTokensByOwner(solanaConnection, address);
 		const tokens = {};
 
 		tokenAccounts.forEach(({ pubkey, account }) => {
@@ -101,7 +104,7 @@ export const fetchAllTokens = async (): Promise<WalletRecord[]> => {
 
 	mintList.forEach(async (mint) => {
 		const mintPubkey = new PublicKey(mint);
-		const tokenMetadata = await getTokenMetadata(connection, mintPubkey);
+		const tokenMetadata = await getTokenMetadata(solanaConnection, mintPubkey);
 
 		tokens.put({
 			id: mint,

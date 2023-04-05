@@ -16,7 +16,6 @@ module.exports = {
 		],
 		['@babel/plugin-proposal-private-methods', { loose: true }],
 		'@babel/plugin-proposal-export-namespace-from',
-		'react-native-reanimated/plugin',
 		'react-native-web',
 	],
 };

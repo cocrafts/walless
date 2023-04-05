@@ -1,5 +1,11 @@
 // import * as suiProvider from './providers/sui';
-import { Ed25519PublicKey as SuiPublicKey } from '@mysten/sui.js';
+import {
+	Ed25519PublicKey as SuiPublicKey,
+	SignedMessage,
+	SignedTransaction,
+	TransactionBlock,
+} from '@mysten/sui.js';
+import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 import {
 	PublicKey as SolanaPublicKey,
 	SendOptions,
@@ -22,6 +28,7 @@ import { PublicKeyType } from '../wallet-standard/src/util';
 
 import * as mutualProvider from './providers/mutual';
 import * as solanaProvider from './providers/solana';
+import * as suiProvider from './providers/sui';
 
 export class Walless extends EventEmitter {
 	#publicKeys:
@@ -62,7 +69,10 @@ export class Walless extends EventEmitter {
 				if (pk.network === Networks.solana) {
 					publicKey = new SolanaPublicKey(pk.id as string);
 				} else if (pk.network === Networks.sui) {
-					publicKey = new SuiPublicKey(pk.id as string);
+					// HOT FIX: Address from SUI is invalid
+					publicKey = new SuiPublicKey(
+						'AfUDSlCF4g7kNTJOIP2Z+BRsba3FqF/jTMmPvPKBt+M=',
+					);
 				} else {
 					return null;
 				}
@@ -129,6 +139,56 @@ export class Walless extends EventEmitter {
 
 		const res = await solanaProvider.requestSignMessage(encode(message));
 		return { signature: decode(res.signature) };
+	};
+
+	signMessageOnSui = async (message: Uint8Array): Promise<SignedMessage> => {
+		if (!this.#publicKeys) {
+			throw new Error('wallet not connected');
+		}
+
+		const res = await suiProvider.requestSignMessage(encode(message));
+
+		const signedMessage: SignedMessage = res.signedMessage;
+
+		return signedMessage;
+	};
+
+	signTransactionBlockOnSui = async (
+		transaction: TransactionBlock,
+		chain: unknown,
+	): Promise<SignedTransaction> => {
+		if (!this.#publicKeys) {
+			throw new Error('wallet not connected');
+		}
+
+		console.log('Chain', chain);
+
+		const res = await suiProvider.requestSignTransactionBlock(
+			transaction.serialize(),
+		);
+
+		const signedTransaction: SignedTransaction = res.signedTransaction;
+
+		return signedTransaction;
+	};
+
+	signAndExecuteTransactionBlock = async (
+		transaction: TransactionBlock,
+		options: unknown,
+	): Promise<SuiSignAndExecuteTransactionBlockOutput> => {
+		if (!this.#publicKeys) {
+			throw new Error('wallet not connected');
+		}
+
+		const res = await suiProvider.requestSignAndExecuteTransactionBlock(
+			transaction.serialize(),
+			options,
+		);
+
+		const signedTransaction: SuiSignAndExecuteTransactionBlockOutput =
+			res.signedTransaction;
+
+		return signedTransaction;
 	};
 }
 

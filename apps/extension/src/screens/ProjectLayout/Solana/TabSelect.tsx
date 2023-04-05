@@ -17,7 +17,7 @@ export const TabSelect: React.FC<Props> = ({ tabIds, handleChangeTab }) => {
 		return {
 			left: withTiming(left.value),
 		};
-	});
+	}, [left]);
 
 	useEffect(() => {
 		left.value = horizontalDimension * activeTabIndex;

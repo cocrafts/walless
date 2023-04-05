@@ -24,7 +24,7 @@ export const ModalContainer: React.FC<Props> = ({ item }) => {
 			opacity: opacity.value,
 			top,
 		};
-	});
+	}, [opacity]);
 
 	const onMaskPress = () => {
 		modalActions.close(item.id);

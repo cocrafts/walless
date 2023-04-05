@@ -12,11 +12,14 @@ import { appActions } from 'utils/state/app';
 export const SplashScreen: FC = () => {
 	const opacity = useSharedValue(0);
 
-	const logoStyle = useAnimatedStyle(() => ({
-		width: logoSize,
-		height: logoSize,
-		opacity: opacity.value,
-	}));
+	const logoStyle = useAnimatedStyle(
+		() => ({
+			width: logoSize,
+			height: logoSize,
+			opacity: opacity.value,
+		}),
+		[opacity],
+	);
 
 	useEffect(() => {
 		const playAnimate = async (): Promise<void> => {

@@ -28,7 +28,7 @@ export const Warning: React.FC<Props> = ({
 			opacity: opacity.value,
 			top,
 		};
-	});
+	}, [opacity]);
 
 	useEffect(() => {
 		opacity.value = withTiming(isConfirmPhase && isPasscodeIncorrect ? 1 : 0);

@@ -1,8 +1,12 @@
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 const { copyAssets } = require('../../tool/webpack/asset');
+const { useCache } = require('../../tool/webpack/optimization');
 const { setEnvironments } = require('../../tool/webpack/env');
 
 const injectEntries = (config) => {
+	config.entry.app.import.unshift('raf/polyfill');
+	config.entry.app.import.unshift('setimmediate');
+
 	config.entry.content = {
 		import: 'scripts/content/index.ts',
 		filename: 'content.js',
@@ -59,6 +63,7 @@ module.exports = {
 		},
 	}),
 	webpackMiddlewares: [
+		useCache,
 		injectEntries,
 		web3Polyfills,
 		setEnvironments({

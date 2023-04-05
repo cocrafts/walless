@@ -9,5 +9,6 @@ export { ChevronRight } from './ChevronRight';
 export { Eye } from './Eye';
 export { EyeOff } from './EyeOff';
 export { IdCard } from './IdCard';
+export { Search } from './Search';
 export { Setting } from './Setting';
 export { Swap } from './Swap';

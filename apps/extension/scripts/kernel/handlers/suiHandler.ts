@@ -1,4 +1,4 @@
-import { Ed25519Keypair, RawSigner } from '@mysten/sui.js';
+import { Ed25519Keypair, RawSigner, TransactionBlock } from '@mysten/sui.js';
 import { MessengerCallback } from '@walless/messaging';
 import { decode } from 'bs58';
 
@@ -17,10 +17,10 @@ export const handleSignTransaction: MessengerCallback = async (
 	const signer = new RawSigner(keypair, suiProvider);
 
 	// Transaction object
-	const serializedTransaction = decode(payload.transaction);
+	const transaction = TransactionBlock.from(payload.transaction);
 
 	const signedTransaction = await signer.signAndExecuteTransactionBlock({
-		transactionBlock: new Uint8Array(serializedTransaction),
+		transactionBlock: transaction,
 	});
 
 	channel.postMessage({
@@ -43,10 +43,10 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 	const signer = new RawSigner(keypair, suiProvider);
 
 	// Transaction object
-	const serializedTransaction = decode(payload.transaction);
+	const transaction = TransactionBlock.from(payload.transaction);
 
 	const signedTransaction = await signer.signTransactionBlock({
-		transactionBlock: new Uint8Array(serializedTransaction),
+		transactionBlock: transaction,
 	});
 
 	channel.postMessage({

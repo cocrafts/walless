@@ -2,7 +2,9 @@ import { createHashRouter } from 'react-router-dom';
 
 import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
-import RequestConnectionScreen from './screens/Request/Connection';
+import RequestConnection from './screens/Request/Connection';
+import RequestLayout from './screens/Request/Layout';
+import RequestSignature from './screens/Request/Signature';
 
 export const router = createHashRouter([
 	{
@@ -15,6 +17,14 @@ export const router = createHashRouter([
 	},
 	{
 		path: '/request-connection',
-		element: <RequestConnectionScreen />,
+		element: <RequestConnection />,
+	},
+	{
+		path: '/request-signature',
+		element: <RequestSignature />,
+	},
+	{
+		path: '/request-layout',
+		element: <RequestLayout />,
 	},
 ]);

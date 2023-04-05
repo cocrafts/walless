@@ -1,11 +1,10 @@
-import { AlertCircle, Button, CheckCircle, Stack, Text } from '@walless/gui';
-import { Image } from '@walless/gui';
+import { AlertCircle, Button, Image, Stack, Text } from '@walless/gui';
 
 import { HeaderRequest } from '../../../components/HeaderRequest';
 import LightText from '../../../components/LightText';
 import { logoSize, logoUri } from '../shared';
 
-const RequestConnection = () => {
+export const RequestSignature = () => {
 	return (
 		<Stack flex={1} backgroundColor="#19232C">
 			<HeaderRequest />
@@ -13,7 +12,7 @@ const RequestConnection = () => {
 			<Stack flex={1} padding={20} alignItems="stretch">
 				<Stack alignItems="center">
 					<Text fontSize={20} fontWeight="400">
-						Connection request
+						Your signature has been requested
 					</Text>
 					<Image
 						src={logoUri}
@@ -37,35 +36,22 @@ const RequestConnection = () => {
 					borderColor="rgba(86, 102, 116, .2)"
 					borderWidth={1}
 				>
-					<Stack padding={15}>
-						<LightText fontSize={14} paddingHorizontal={25} textAlign="center">
-							Under Realm would like to connect with your Walless account to:
-						</LightText>
-						<Stack paddingTop={15} gap={10}>
-							<Stack horizontal alignItems="center">
-								<CheckCircle size={18} color="#1FC17D" />
-								<Text marginLeft={15} fontSize={14} fontWeight={'300'}>
-									View your wallet balance & activity
-								</Text>
-							</Stack>
-							<Stack horizontal alignItems="center">
-								<CheckCircle size={18} color="#1FC17D" />
-								<Text marginLeft={15} fontSize={14} fontWeight={'300'}>
-									Send you request approval for transaction
-								</Text>
-							</Stack>
-						</Stack>
+					<Stack
+						horizontal
+						justifyContent="space-between"
+						alignItems="center"
+						paddingHorizontal={15}
+						paddingTop={15}
+						paddingBottom={5}
+					>
+						<Text fontSize={14}>Message:</Text>
+						<AlertCircle size={18} color="#566674" />
 					</Stack>
-					<Stack borderTopColor="rgba(86, 102, 116, .2)" borderTopWidth={1} />
-					<Stack horizontal alignItems="center" padding={15}>
-						<Stack width={18}>
-							<AlertCircle size={18} color="#566674" />
-						</Stack>
-						<LightText fontSize={12} marginLeft={15}>
-							This action does not make any fund transfer. This site cannot
-							transfer fund without your permission.
-						</LightText>
-					</Stack>
+					<LightText paddingHorizontal={15} paddingBottom={15} fontSize={14}>
+						[Custom message] Sign this message to prove that you have accessed
+						to this wallet account and we’ll log you in. This won’t cost you
+						anything! [Seal code: r3092850297]
+					</LightText>
 				</Stack>
 
 				<Stack flex={1} justifyContent="flex-end" paddingHorizontal={10}>
@@ -84,4 +70,4 @@ const RequestConnection = () => {
 	);
 };
 
-export default RequestConnection;
+export default RequestSignature;

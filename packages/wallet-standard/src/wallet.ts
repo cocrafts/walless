@@ -373,19 +373,50 @@ export class WallessWallet implements Wallet {
 		return outputs;
 	};
 
-	#signMessageOnSui: SuiSignMessageMethod = (input: SuiSignMessageInput) => {
-		console.log(input);
-		return null as never;
+	#signMessageOnSui: SuiSignMessageMethod = async (
+		input: SuiSignMessageInput,
+	) => {
+		const { message, account } = input;
+		const accountIndex = this.#accounts.findIndex(
+			(acc) => acc.address === account.address,
+		);
+		if (accountIndex === -1) throw new Error('invalid account');
+
+		const signedMessage = await this.#walless.signMessageOnSui(message);
+
+		return signedMessage;
 	};
 
-	#signTransactionBlockOnSui: SuiSignTransactionBlockMethod = () => {
-		// Your wallet's implementation
-		return null as never;
+	#signTransactionBlockOnSui: SuiSignTransactionBlockMethod = async (input) => {
+		const { transactionBlock, account, chain } = input;
+		const accountIndex = this.#accounts.findIndex(
+			(acc) => acc.address === account.address,
+		);
+		if (accountIndex === -1) throw new Error('invalid account');
+
+		const signedTransaction = await this.#walless.signTransactionBlockOnSui(
+			transactionBlock,
+			chain,
+		);
+
+		return signedTransaction;
 	};
 
 	#signAndExecuteTransactionBlockOnSui: SuiSignAndExecuteTransactionBlockMethod =
-		() => {
-			// Your wallet's implementation
-			return null as never;
+		async (input) => {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const { transactionBlock, account, chain, options, requestType } = input;
+			const accountIndex = this.#accounts.findIndex(
+				(acc) => acc.address === account.address,
+			);
+			if (accountIndex === -1) throw new Error('invalid account');
+
+			const signedTransaction =
+				await this.#walless.signAndExecuteTransactionBlock(
+					transactionBlock,
+					options,
+				);
+
+			return signedTransaction;
 		};
 }

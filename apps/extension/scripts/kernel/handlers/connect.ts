@@ -25,17 +25,13 @@ export const handleConnect: MessengerCallback = async (payload, channel) => {
 	}
 
 	const publicKeys = await db.publicKeys.toArray();
-	const solKey = publicKeys.find((i) => i.network === 'solana');
+	console.log('All public keys: ', publicKeys);
 
-	if (!solKey) {
-		return console.log('handle connect: Public key not found');
-	}
-
-	console.log('send back response:', solKey.id);
+	console.log('send back response:', publicKeys);
 	channel.postMessage({
 		from: 'walless@kernel',
 		requestId: payload.requestId,
-		publicKey: solKey.id,
+		publicKeys: publicKeys,
 	});
 };
 

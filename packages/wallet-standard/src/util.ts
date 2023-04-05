@@ -1,3 +1,5 @@
+import { Ed25519PublicKey as SuiPublicKey } from '@mysten/sui.js';
+import { PublicKey as SolanaPublicKey } from '@solana/web3.js';
 export function bytesEqual(a: Uint8Array, b: Uint8Array): boolean {
 	return arraysEqual(a, b);
 }
@@ -20,3 +22,11 @@ export function arraysEqual<T>(a: Indexed<T>, b: Indexed<T>): boolean {
 
 	return true;
 }
+
+// Namespace for SUI
+export const SuiSignMessage = 'sui:signMessage';
+export const SuiSignTransactionBlock = 'sui:signTransactionBlock';
+export const SuiSignAndExecuteTransactionBlock =
+	'sui:signAndExecuteTransactionBlock';
+
+export type PublicKeyType = SuiPublicKey | SolanaPublicKey;

@@ -12,7 +12,7 @@ export interface ConnectOptions {
 }
 
 export interface ConnectResult {
-	publicKey: PublicKey;
+	publicKeys: Array<PublicKey>;
 }
 
 export type ConnectFunc = (options: ConnectOptions) => Promise<ConnectResult>;

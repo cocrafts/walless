@@ -1,6 +1,13 @@
 export { AlertCircle } from './AlertCircle';
+export { ArrowBottomRight } from './ArrowBottomRight';
+export { ArrowTopRight } from './ArrowTopRight';
 export { Bell } from './Bell';
+export { Cart } from './Cart';
 export { CheckCircle } from './CheckCircle';
 export { ChevronDown } from './ChevronDown';
+export { ChevronRight } from './ChevronRight';
+export { Eye } from './Eye';
+export { EyeOff } from './EyeOff';
 export { IdCard } from './IdCard';
 export { Setting } from './Setting';
+export { Swap } from './Swap';

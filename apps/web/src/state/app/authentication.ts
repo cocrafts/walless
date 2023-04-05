@@ -4,16 +4,15 @@ import { SubVerifierDetails, TorusLoginResponse } from '@toruslabs/customauth';
 import { Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import { UserProfile } from '@walless/storage';
-
-import { router } from '../../routing';
-import { db } from '../../utils/storage';
+import { router } from 'utils/routing';
+import { db } from 'utils/storage';
 import {
 	configureSecurityQuestionShare,
 	importAvailableShares,
 	key,
 	recoverDeviceShareFromPasscode,
 	ThresholdResult,
-} from '../../utils/w3a';
+} from 'utils/w3a';
 
 import { appState } from './internal';
 

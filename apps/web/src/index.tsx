@@ -1,8 +1,7 @@
 import { FC } from 'react';
 import { TamaguiInternalConfig } from '@tamagui/core';
 import { GuiProvider } from '@walless/gui';
-
-import App from './components/App';
+import App from 'components/App';
 
 interface Props {
 	tamaguiConfig: TamaguiInternalConfig;

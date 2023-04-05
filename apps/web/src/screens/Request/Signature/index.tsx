@@ -1,7 +1,7 @@
 import { AlertCircle, Button, Image, Stack, Text } from '@walless/gui';
+import { HeaderRequest } from 'components/HeaderRequest';
+import LightText from 'components/LightText';
 
-import { HeaderRequest } from '../../../components/HeaderRequest';
-import LightText from '../../../components/LightText';
 import { logoSize, logoUri } from '../shared';
 
 export const RequestSignature = () => {

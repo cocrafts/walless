@@ -1,9 +1,8 @@
 import { FC } from 'react';
 import { RouterProvider } from 'react-router-dom';
+import { appState } from 'state/app';
+import { router } from 'utils/routing';
 import { useSnapshot } from 'valtio';
-
-import { router } from '../routing';
-import { appState } from '../state/app';
 
 import SplashWrapper from './Splash';
 

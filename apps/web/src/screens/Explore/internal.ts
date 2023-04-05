@@ -8,6 +8,7 @@ export const mockLayoutCards: LayoutCardProps[] = [
 		thumbnail: '/img/explore/thumbnail-magic-eden.png',
 		logo: '/img/explore/logo-magic-eden.png',
 		loveCount: 100,
+		isLoved: true,
 		activeUsers: 100,
 	},
 	{
@@ -18,6 +19,7 @@ export const mockLayoutCards: LayoutCardProps[] = [
 		thumbnail: '/img/explore/thumbnail-axie.png',
 		logo: '/img/explore/logo-axie.png',
 		loveCount: 100,
+		isLoved: false,
 		activeUsers: 100,
 	},
 ];

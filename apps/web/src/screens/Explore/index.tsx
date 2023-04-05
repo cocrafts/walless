@@ -17,6 +17,7 @@ export const ExploreScreen: FC = () => {
 			gap={24}
 			paddingHorizontal={14}
 			paddingVertical={20}
+			maxHeight="100vh"
 		>
 			<Text fontSize={20} lineHeight={26} fontWeight="500">
 				Choose a layout to start
@@ -33,6 +34,7 @@ export const ExploreScreen: FC = () => {
 					thumbnail={layoutCard.thumbnail}
 					logo={layoutCard.logo}
 					loveCount={layoutCard.loveCount}
+					isLoved={layoutCard.isLoved}
 					activeUsers={layoutCard.activeUsers}
 				/>
 			))}

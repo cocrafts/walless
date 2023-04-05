@@ -1,13 +1,14 @@
 import { Stack } from '@walless/gui';
 
 import Collectibles from './components/Collectibles';
+import History from './components/History';
 import MainFeatures from './components/MainFeatures';
 import TokenValue from './components/TokenValue';
 import Widgets from './components/Widgets';
 
 const ProfileScreen = () => {
 	return (
-		<Stack maxHeight={250} display="flex" alignItems="center">
+		<Stack maxHeight="100vh" display="flex" alignItems="center" gap={28}>
 			<Stack alignSelf="flex-end" margin={15}>
 				<Widgets />
 			</Stack>
@@ -19,6 +20,8 @@ const ProfileScreen = () => {
 			</Stack>
 
 			<Collectibles />
+
+			<History />
 		</Stack>
 	);
 };

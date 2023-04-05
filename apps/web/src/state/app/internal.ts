@@ -12,7 +12,7 @@ export interface AppState {
 }
 
 export const appState = proxy<AppState>({
-	loading: false,
+	loading: true,
 	profileReady: false,
 	profileLoading: true,
 	profile: {},

@@ -11,7 +11,12 @@ export interface LayoutCardProps {
 	activeUsers: number;
 }
 
-const LayoutCard: FC<LayoutCardProps> = (props) => {
+const LayoutCard: FC<LayoutCardProps> = ({
+	name,
+	description,
+	thumbnail,
+	logo,
+}) => {
 	return (
 		<Stack
 			backgroundColor="#131C24"
@@ -20,7 +25,7 @@ const LayoutCard: FC<LayoutCardProps> = (props) => {
 			borderRadius={12}
 		>
 			<Image
-				src={props.thumbnail}
+				src={thumbnail}
 				width="100%"
 				height={133}
 				borderTopLeftRadius={12}
@@ -34,10 +39,10 @@ const LayoutCard: FC<LayoutCardProps> = (props) => {
 				y={-36}
 				zIndex={1}
 			>
-				<Image src={props.logo} width={40} height={40} borderRadius={8} />
+				<Image src={logo} width={40} height={40} borderRadius={8} />
 
 				<Text fontWeight="600" fontSize={14}>
-					{props.name}
+					{name}
 				</Text>
 
 				<Text
@@ -49,7 +54,7 @@ const LayoutCard: FC<LayoutCardProps> = (props) => {
 					wordWrap="break-word"
 					textOverflow="ellipsis"
 				>
-					{props.description}
+					{description}
 				</Text>
 			</Stack>
 		</Stack>

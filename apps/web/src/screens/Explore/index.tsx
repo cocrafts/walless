@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Stack, Text } from '@walless/gui';
 
-import LayoutCard from './LayoutCard';
-import { mockLayoutCards } from './mock';
-import SearchBar from './SearchBar';
+import LayoutCard from './components/LayoutCard';
+import SearchBar from './components/SearchBar';
+import { mockLayoutCards } from './internal';
 
 export const ExploreScreen: FC = () => {
 	const handleSearch = (value: string) => {

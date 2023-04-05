@@ -4,6 +4,10 @@ import { ChevronRight, Eye, EyeOff, Stack, Text } from '@walless/gui';
 const TokenValue = () => {
 	const [hideTokenValue, setHideTokenValue] = useState(false);
 
+	const handleToggleTokenValue = () => {
+		setHideTokenValue(!hideTokenValue);
+	};
+
 	return (
 		<Stack display="flex" alignItems="center" gap={16}>
 			<Stack display="flex" flexDirection="row" alignItems="center" gap={6}>
@@ -26,7 +30,7 @@ const TokenValue = () => {
 				<Text fontSize={40} fontWeight="500" lineHeight={26}>
 					{hideTokenValue ? '****' : '$350,270'}
 				</Text>
-				<Stack onPress={() => setHideTokenValue(!hideTokenValue)}>
+				<Stack onPress={handleToggleTokenValue}>
 					{hideTokenValue ? (
 						<Eye size={20} color="#566674" />
 					) : (

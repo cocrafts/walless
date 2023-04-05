@@ -4,10 +4,10 @@ import { Stack, Text } from '@walless/gui';
 interface Props {
 	children: ReactNode;
 	featureName: string;
-	onClick: () => void;
+	onPress: () => void;
 }
 
-const FeatureButton: FC<Props> = ({ children, featureName, onClick }) => {
+const FeatureButton: FC<Props> = ({ children, featureName, onPress }) => {
 	return (
 		<Stack display="flex" alignItems="center" gap={6}>
 			<Stack
@@ -18,7 +18,7 @@ const FeatureButton: FC<Props> = ({ children, featureName, onClick }) => {
 				display="flex"
 				justifyContent="center"
 				alignItems="center"
-				onPress={onClick}
+				onPress={onPress}
 			>
 				{children}
 			</Stack>

@@ -1,9 +1,9 @@
 import { Stack } from '@walless/gui';
 
-import Collectibles from './Collectibles';
-import MainFeatures from './MainFeatures';
-import TokenValue from './TokenValue';
-import Widgets from './Widgets';
+import Collectibles from './components/Collectibles';
+import MainFeatures from './components/MainFeatures';
+import TokenValue from './components/TokenValue';
+import Widgets from './components/Widgets';
 
 const ProfileScreen = () => {
 	return (

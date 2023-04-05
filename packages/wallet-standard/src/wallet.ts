@@ -65,7 +65,7 @@ export class WallessWallet implements Wallet {
 	readonly #version = '1.0.0' as const;
 	readonly #name = 'Walless' as const;
 	readonly #icon = icon;
-	#account: WalletAccount | null = null;
+	// #account: WalletAccount | null = null;
 	#accounts: WalletAccount[] = [];
 	readonly #walless: Walless;
 
@@ -190,9 +190,12 @@ export class WallessWallet implements Wallet {
 			return;
 		}
 
-		this.#accounts = accounts.map(({ publicKey, network }) => {
+		let solIdx = -1;
+
+		this.#accounts = accounts.map(({ publicKey, network }, index) => {
 			switch (network) {
 				case Networks.solana:
+					solIdx = index;
 					return new SolanaWalletAccount({
 						address: publicKey.toString(),
 						publicKey: publicKey.toBytes(),
@@ -206,12 +209,21 @@ export class WallessWallet implements Wallet {
 					return null;
 			}
 		}) as Array<SolanaWalletAccount | SuiWalletAccount>;
+
+		// Move solana account to head of account list
+		// Match with default Solana Wallet Adapter
+		if (solIdx !== -1) {
+			const solanaAccount = this.#accounts[solIdx];
+			this.#accounts.splice(solIdx, 1);
+			this.#accounts.unshift(solanaAccount);
+		}
+
 		this.#emit('change', { accounts: this.accounts });
 	};
 
 	#disconnected = () => {
-		if (this.#account) {
-			this.#account = null;
+		if (this.#accounts.length > 0) {
+			// this.#account = null;
 			this.#accounts = [];
 			this.#emit('change', { accounts: this.accounts });
 		}
@@ -248,7 +260,7 @@ export class WallessWallet implements Wallet {
 	#signAndSendTransactionOnSolana: SolanaSignAndSendTransactionMethod = async (
 		...inputs
 	) => {
-		if (!this.#account) throw new Error('not connected');
+		if (this.#accounts.length === 0) throw new Error('not connected');
 
 		const outputs: SolanaSignAndSendTransactionOutput[] = [];
 
@@ -257,7 +269,10 @@ export class WallessWallet implements Wallet {
 			const { transaction, account, chain, options } = inputs[0]!;
 			const { minContextSlot, preflightCommitment, skipPreflight, maxRetries } =
 				options || {};
-			if (account !== this.#account) throw new Error('invalid account');
+			const accountIndex = this.#accounts.findIndex(
+				(acc) => acc.address === account.address,
+			);
+			if (accountIndex === -1) throw new Error('invalid account');
 			if (!isSolanaChain(chain)) throw new Error('invalid chain');
 
 			const { signature } = await this.#walless.signAndSendTransactionOnSolana(
@@ -281,14 +296,17 @@ export class WallessWallet implements Wallet {
 	};
 
 	#signTransactionOnSolana: SolanaSignTransactionMethod = async (...inputs) => {
-		if (!this.#account) throw new Error('not connected');
+		if (this.#accounts.length === 0) throw new Error('not connected');
 
 		const outputs: SolanaSignTransactionOutput[] = [];
 
 		if (inputs.length === 1) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const { transaction, account, chain } = inputs[0]!;
-			if (account !== this.#account) throw new Error('invalid account');
+			const accountIndex = this.#accounts.findIndex(
+				(acc) => acc.address === account.address,
+			);
+			if (accountIndex === -1) throw new Error('invalid account');
 			if (chain && !isSolanaChain(chain)) throw new Error('invalid chain');
 
 			const signedTransaction = await this.#walless.signTransactionOnSolana(
@@ -299,7 +317,10 @@ export class WallessWallet implements Wallet {
 		} else if (inputs.length > 1) {
 			let chain: SolanaChain | undefined = undefined;
 			for (const input of inputs) {
-				if (input.account !== this.#account) throw new Error('invalid account');
+				const accountIndex = this.#accounts.findIndex(
+					(acc) => acc.address === input.account.address,
+				);
+				if (accountIndex === -1) throw new Error('invalid account');
 				if (input.chain) {
 					if (!isSolanaChain(input.chain)) throw new Error('invalid chain');
 					if (chain) {
@@ -328,14 +349,17 @@ export class WallessWallet implements Wallet {
 	};
 
 	#signMessageOnSolana: SolanaSignMessageMethod = async (...inputs) => {
-		if (!this.#account) throw new Error('not connected');
+		if (this.#accounts.length === 0) throw new Error('not connected');
 
 		const outputs: SolanaSignMessageOutput[] = [];
 
 		if (inputs.length === 1) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const { message, account } = inputs[0]!;
-			if (account !== this.#account) throw new Error('invalid account');
+			const accountIndex = this.#accounts.findIndex(
+				(acc) => acc.address === account.address,
+			);
+			if (accountIndex === -1) throw new Error('invalid account');
 
 			const { signature } = await this.#walless.signMessageOnSolana(message);
 

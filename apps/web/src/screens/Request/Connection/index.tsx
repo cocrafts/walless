@@ -30,7 +30,13 @@ const RequestConnection = () => {
 					<LightText fontSize={14}>underrealm.stormgate.io</LightText>
 				</Stack>
 
-				<Stack backgroundColor="#202D38" borderRadius={15} marginVertical={15}>
+				<Stack
+					backgroundColor="#202D38"
+					borderRadius={15}
+					marginVertical={15}
+					borderColor="rgba(86, 102, 116, .2)"
+					borderWidth={1}
+				>
 					<Stack padding={15}>
 						<LightText fontSize={14} paddingHorizontal={25} textAlign="center">
 							Under Realm would like to connect with your Walless account to:
@@ -50,7 +56,7 @@ const RequestConnection = () => {
 							</Stack>
 						</Stack>
 					</Stack>
-					<Stack borderTopColor="#566674" borderTopWidth={1} />
+					<Stack borderTopColor="rgba(86, 102, 116, .2)" borderTopWidth={1} />
 					<Stack horizontal alignItems="center" padding={15}>
 						<Stack width={18}>
 							<AlertCircle size={18} color="#566674" />

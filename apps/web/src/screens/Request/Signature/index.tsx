@@ -29,7 +29,13 @@ export const RequestSignature = () => {
 					<LightText fontSize={14}>underrealm.stormgate.io</LightText>
 				</Stack>
 
-				<Stack backgroundColor="#202D38" borderRadius={15} marginVertical={15}>
+				<Stack
+					backgroundColor="#202D38"
+					borderRadius={15}
+					marginVertical={15}
+					borderColor="rgba(86, 102, 116, .2)"
+					borderWidth={1}
+				>
 					<Stack
 						horizontal
 						justifyContent="space-between"

@@ -53,6 +53,8 @@ export const RequestLayout = () => {
 						borderRadius={15}
 						marginBottom={20}
 						padding={15}
+						borderColor="rgba(86, 102, 116, .2)"
+						borderWidth={1}
 					>
 						<Stack width={18}>
 							<AlertCircle size={18} color="#566674" />

@@ -1,11 +1,14 @@
+const { compilerOptions } = require('./tsconfig.json');
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
-const { useCache } = require('../../tool/webpack/optimization');
 const { tamaguiBuild } = require('../../tool/webpack/tamagui');
 const { copyAssets } = require('../../tool/webpack/asset');
+const { useCache } = require('../../tool/webpack/optimization');
 const { setEnvironments } = require('../../tool/webpack/env');
 
 const isProd = process.env.ENV === 'production';
 const injectEntries = (config) => {
+	config.resolve.extensions.push('.mjs');
+
 	config.entry.content = {
 		import: 'scripts/content/index.ts',
 		filename: 'content.js',
@@ -34,17 +37,48 @@ const injectEntries = (config) => {
 	return config;
 };
 
+const swcOptions = () => ({
+	jsc: {
+		baseUrl: compilerOptions.baseUrl,
+		paths: compilerOptions.paths,
+		parser: {
+			syntax: 'typescript',
+			tsx: true,
+			dynamicImport: true,
+		},
+		minify: isProd
+			? {
+					compress: true,
+					mangle: true,
+					format: {
+						comments: false,
+					},
+			  }
+			: {},
+	},
+	env: {
+		targets: {
+			chrome: '67',
+			edge: '79',
+			firefox: '68',
+			opera: '54',
+			safari: '14',
+		},
+	},
+});
+
 module.exports = {
 	useReact: true,
 	port: () => 3003,
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
+	swcOptions,
 	webpackMiddlewares: [
 		useCache,
+		copyAssets,
 		injectEntries,
 		tamaguiBuild,
-		copyAssets,
 		web3Polyfills,
 		setEnvironments({
 			process: {
@@ -54,27 +88,6 @@ module.exports = {
 			},
 		}),
 	],
-	swcOptions: () => ({
-		minify: isProd,
-		env: {
-			targets: {
-				chrome: '67',
-				edge: '79',
-				firefox: '68',
-				opera: '54',
-				safari: '14',
-			},
-		},
-		jsc: {
-			minify: {
-				compress: true,
-				mangle: true,
-				format: {
-					comments: false,
-				},
-			},
-		},
-	}),
 	htmlPluginOptions: {
 		chunks: ['app'],
 	},

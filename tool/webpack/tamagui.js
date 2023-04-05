@@ -1,20 +1,16 @@
 /* eslint-disable */
 
-const { resolve } = require('path');
-const { TamaguiPlugin } = require('tamagui-loader')
-
+const {resolve} = require('path');
 const workspaceRoot = resolve(__dirname, '../..');
-const useEsBuild = process.env.ESBUILD === 'true';
 
 const tamaguiBuild = (config, internal) => {
-	const { webpack } = internal.modules;
+	const {webpack} = internal.modules;
 	const isProd = process.env.ENV === 'production';
 	const original = config.module.rules[0];
 	const tamaguiOptions = {
 		config: './tamagui.config.ts',
 		components: ['@tamagui/core'],
-		importsWhitelist: ['constants.js', 'colors.js'],
-		logTimings: true,
+		logTimings: false,
 		disableExtraction: !isProd,
 	};
 
@@ -22,27 +18,18 @@ const tamaguiBuild = (config, internal) => {
 	config.module.rules[0] = {
 		test: /\.(ts|js)x?$/,
 		use: [
-			useEsBuild ? {
-				loader: 'esbuild-loader',
-				options: {
-					loader: 'tsx',
-					target: [
-						'chrome67',
-						'edge79',
-						'firefox68',
-						'opera54',
-						'safari14',
-					],
-				}
-			} : {
+			{
 				loader: original.loader,
 				options: original.options,
 			},
+			{
+				loader: 'tamagui-loader',
+				options: tamaguiOptions,
+			}
 		],
 	};
 
-	config.plugins.push(new webpack.EnvironmentPlugin({ JEST_WORKER_ID: null }));
-	config.plugins.push(new TamaguiPlugin(tamaguiOptions));
+	config.plugins.push(new webpack.EnvironmentPlugin({JEST_WORKER_ID: null}));
 
 	return config;
 };

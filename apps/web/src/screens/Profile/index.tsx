@@ -1,16 +1,20 @@
-import { Stack, Text } from '@walless/gui';
+import { Stack } from '@walless/gui';
 
-import FeatureWidgets from './FeatureWidgets';
+import MainFeatures from './MainFeatures';
+import TokenValue from './TokenValue';
+import Widgets from './Widgets';
 
 const ProfileScreen = () => {
 	return (
-		<Stack display="flex">
+		<Stack maxHeight={250} display="flex" alignItems="center">
 			<Stack alignSelf="flex-end" margin={15}>
-				<FeatureWidgets />
+				<Widgets />
 			</Stack>
 
-			<Stack>
-				<Text>Token value</Text>
+			<TokenValue />
+
+			<Stack marginTop={27}>
+				<MainFeatures />
 			</Stack>
 		</Stack>
 	);

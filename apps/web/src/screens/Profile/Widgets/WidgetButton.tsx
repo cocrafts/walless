@@ -6,7 +6,7 @@ interface Props {
 	onClick: () => void;
 }
 
-const FeatureButton: FC<Props> = ({ children, onClick }) => {
+const WidgetButton: FC<Props> = ({ children, onClick }) => {
 	return (
 		<Stack
 			width={30}
@@ -23,4 +23,4 @@ const FeatureButton: FC<Props> = ({ children, onClick }) => {
 	);
 };
 
-export default FeatureButton;
+export default WidgetButton;

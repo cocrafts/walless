@@ -1,5 +1,6 @@
 import { Stack } from '@walless/gui';
 
+import Collectibles from './Collectibles';
 import MainFeatures from './MainFeatures';
 import TokenValue from './TokenValue';
 import Widgets from './Widgets';
@@ -13,9 +14,11 @@ const ProfileScreen = () => {
 
 			<TokenValue />
 
-			<Stack marginTop={27}>
+			<Stack marginTop={27} marginBottom={34}>
 				<MainFeatures />
 			</Stack>
+
+			<Collectibles />
 		</Stack>
 	);
 };

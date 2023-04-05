@@ -1,9 +1,12 @@
+const { compilerOptions } = require('./tsconfig.json');
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 const { copyAssets } = require('../../tool/webpack/asset');
 const { useCache } = require('../../tool/webpack/optimization');
 const { setEnvironments } = require('../../tool/webpack/env');
 
 const injectEntries = (config) => {
+	config.resolve.extensions.push('.mjs');
+
 	config.entry.app.import.unshift('raf/polyfill');
 	config.entry.app.import.unshift('setimmediate');
 
@@ -35,33 +38,34 @@ const injectEntries = (config) => {
 	return config;
 };
 
+const swcOptions = () => ({
+	jsc: {
+		baseUrl: compilerOptions.baseUrl,
+		paths: compilerOptions.paths,
+		parser: {
+			syntax: 'typescript',
+			tsx: true,
+			dynamicImport: true,
+		},
+	},
+	env: {
+		targets: {
+			chrome: '67',
+			edge: '79',
+			firefox: '68',
+			opera: '54',
+			safari: '14',
+		},
+	},
+});
+
 module.exports = {
-	useBabel: true,
+	useBabel: false,
 	port: () => 3001,
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
-	swcOptions: () => ({
-		env: {
-			targets: {
-				chrome: '67',
-				edge: '79',
-				firefox: '68',
-				opera: '54',
-				safari: '14',
-			},
-			jsc: {
-				baseUrl: '.',
-				paths: {
-					'components/*': ['./src/components/*'],
-					'stacks/*': ['./src/stacks/*'],
-					'screens/*': ['./src/screens/*'],
-					'utils/*': ['./src/utils/*'],
-					'bridge/*': ['./src/bridge/*'],
-				},
-			},
-		},
-	}),
+	swcOptions,
 	webpackMiddlewares: [
 		useCache,
 		injectEntries,
@@ -70,7 +74,7 @@ module.exports = {
 			VERSION: JSON.stringify(require('./package.json').version),
 		}),
 		copyAssets,
-	].filter((i) => !!i),
+	],
 	htmlPluginOptions: {
 		chunks: ['app'],
 	},

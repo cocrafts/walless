@@ -2,7 +2,8 @@
 	"extends": "@walless/tsconfig/application.json",
 	"include": [
 		"index*.js",
-		"src"
+		"src",
+		"scripts"
 	],
 	"exclude": [
 		"node_modules"

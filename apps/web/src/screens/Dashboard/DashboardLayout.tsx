@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { Stack } from '@walless/gui';
+import { ScrollView, Stack } from '@walless/gui';
 
 interface Props {
 	children: ReactNode;
@@ -14,7 +14,7 @@ const DashboardLayout: FC<Props> = ({ children }) => {
 			flexDirection="row"
 		>
 			<Stack width={50} height="100vh" backgroundColor="#131C24" />
-			<Stack flexGrow={1}>{children}</Stack>
+			<ScrollView flexGrow={1}>{children}</ScrollView>
 		</Stack>
 	);
 };

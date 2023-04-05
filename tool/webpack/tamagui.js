@@ -38,14 +38,11 @@ const tamaguiBuild = (config, internal) => {
 				loader: original.loader,
 				options: original.options,
 			},
-			{
-				loader: 'tamagui-loader',
-				options: tamaguiOptions,
-			}
 		],
 	};
 
 	config.plugins.push(new webpack.EnvironmentPlugin({ JEST_WORKER_ID: null }));
+	config.plugins.push(new TamaguiPlugin(tamaguiOptions));
 
 	return config;
 };

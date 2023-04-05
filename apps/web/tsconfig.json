@@ -7,7 +7,7 @@
 	],
 	"exclude": ["node_modules"],
 	"compilerOptions": {
-		"lib": ["DOM", "ES2015"],
+		"lib": ["DOM", "ES2015", "WebWorker"],
 		"types": ["chrome"],
 		"typeRoots": ["./src/types"]
 	}

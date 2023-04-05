@@ -1,4 +1,4 @@
-const optimizeBuild = (config) => {
+const useCache = (config) => {
 	config.cache = {
 		type: 'filesystem',
 	};
@@ -7,5 +7,5 @@ const optimizeBuild = (config) => {
 };
 
 module.exports = {
-	optimizeBuild,
+	useCache,
 };

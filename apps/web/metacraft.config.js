@@ -1,6 +1,6 @@
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
+const { useCache } = require('../../tool/webpack/optimization');
 const { tamaguiBuild } = require('../../tool/webpack/tamagui');
-const { optimizeBuild } = require('../../tool/webpack/optimization');
 const { copyAssets } = require('../../tool/webpack/asset');
 const { setEnvironments } = require('../../tool/webpack/env');
 
@@ -41,9 +41,9 @@ module.exports = {
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
 	webpackMiddlewares: [
+		useCache,
 		injectEntries,
 		tamaguiBuild,
-		optimizeBuild,
 		copyAssets,
 		web3Polyfills,
 		setEnvironments({

@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
 import { Anchor, Image, Stack, Text } from '@walless/gui';
-
-import ExtensionIcon from '../components/ExtensionIcon';
-import HomeLayout from '../components/layouts/Home';
+import ExtensionIcon from 'components/ExtensionIcon';
+import HomeLayout from 'components/layouts/Home';
+import { ContainerStack } from 'components/styled';
 
 interface ExtensionConfig {
 	icon: string;
@@ -16,7 +16,7 @@ export const IndexPage = () => {
 	};
 
 	return (
-		<Stack alignItems="center">
+		<ContainerStack alignItems="center">
 			<Image
 				src={logoUri}
 				defaultSource={{ uri: logoUri }}
@@ -52,7 +52,7 @@ export const IndexPage = () => {
 					Stormgate.io
 				</Anchor>
 			</Text>
-		</Stack>
+		</ContainerStack>
 	);
 };
 

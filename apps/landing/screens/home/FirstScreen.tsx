@@ -186,22 +186,22 @@ const particals: BackgroundIconPartical[] = [
 		size: 500,
 	},
 	{
-		Component: WallessLight02,
-		style: {
-			position: 'absolute',
-			top: 20,
-			right: -60,
-			opacity: 0.9,
-		},
-		size: 400,
-	},
-	{
 		Component: WallessLight01,
 		style: {
 			position: 'absolute',
-			top: 50,
-			right: -60,
+			top: -30,
+			right: -300,
+			opacity: 0.7,
 		},
-		size: 700,
+		size: 800,
+	},
+	{
+		Component: WallessLight02,
+		style: {
+			position: 'absolute',
+			top: 50,
+			right: 40,
+		},
+		size: 600,
 	},
 ];

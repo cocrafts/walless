@@ -116,53 +116,6 @@ export const Walless03: FC<ParticalProps> = ({ width, style }) => {
 };
 
 export const WallessLight01: FC<ParticalProps> = ({ width, style }) => {
-	const height = width * (653 / 738);
-
-	return (
-		<svg
-			style={style}
-			width={width}
-			height={height}
-			viewBox="0 0 738 653"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<g filter="url(#filter0_f_1599_1486)">
-				<ellipse
-					cx="476.862"
-					cy="326.577"
-					rx="338.862"
-					ry="187.621"
-					fill="#407F92"
-				/>
-			</g>
-			<defs>
-				<filter
-					id="filter0_f_1599_1486"
-					x="0"
-					y="0.955994"
-					width="953.724"
-					height="651.243"
-					filterUnits="userSpaceOnUse"
-					colorInterpolationFilters="sRGB"
-				>
-					<feFlood floodOpacity="0" result="BackgroundImageFix" />
-					<feBlend
-						mode="normal"
-						in="SourceGraphic"
-						in2="BackgroundImageFix"
-						result="shape"
-					/>
-					<feGaussianBlur
-						stdDeviation="69"
-						result="effect1_foregroundBlur_1599_1486"
-					/>
-				</filter>
-			</defs>
-		</svg>
-	);
-};
-export const WallessLight02: FC<ParticalProps> = ({ width, style }) => {
 	const height = width * (961 / 1029);
 
 	return (
@@ -203,6 +156,54 @@ export const WallessLight02: FC<ParticalProps> = ({ width, style }) => {
 					<feGaussianBlur
 						stdDeviation="69"
 						result="effect1_foregroundBlur_176_180"
+					/>
+				</filter>
+			</defs>
+		</svg>
+	);
+};
+
+export const WallessLight02: FC<ParticalProps> = ({ width, style }) => {
+	const height = width * (653 / 738);
+
+	return (
+		<svg
+			style={style}
+			width={width}
+			height={height}
+			viewBox="0 0 738 653"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<g filter="url(#filter0_f_1599_1486)">
+				<ellipse
+					cx="476.862"
+					cy="326.577"
+					rx="338.862"
+					ry="187.621"
+					fill="#407F92"
+				/>
+			</g>
+			<defs>
+				<filter
+					id="filter0_f_1599_1486"
+					x="0"
+					y="0.955994"
+					width="953.724"
+					height="651.243"
+					filterUnits="userSpaceOnUse"
+					colorInterpolationFilters="sRGB"
+				>
+					<feFlood floodOpacity="0" result="BackgroundImageFix" />
+					<feBlend
+						mode="normal"
+						in="SourceGraphic"
+						in2="BackgroundImageFix"
+						result="shape"
+					/>
+					<feGaussianBlur
+						stdDeviation="69"
+						result="effect1_foregroundBlur_1599_1486"
 					/>
 				</filter>
 			</defs>

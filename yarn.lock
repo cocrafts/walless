@@ -11032,6 +11032,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@walless/icons@*, @walless/icons@workspace:packages/icons":
+  version: 0.0.0-use.local
+  resolution: "@walless/icons@workspace:packages/icons"
+  peerDependencies:
+    react: ^18.2.0
+  languageName: unknown
+  linkType: soft
+
 "@walless/landing@workspace:apps/landing":
   version: 0.0.0-use.local
   resolution: "@walless/landing@workspace:apps/landing"
@@ -11078,6 +11086,7 @@ __metadata:
     "@walless/core": "*"
     "@walless/crypto": "*"
     "@walless/gui": "*"
+    "@walless/icons": "*"
     babel-jest: ^29.2.1
     react-native: 0.71.0
     react-native-quick-base64: ^2.0.5
@@ -11169,6 +11178,7 @@ __metadata:
     "@walless/core": "*"
     "@walless/crypto": "*"
     "@walless/gui": "*"
+    "@walless/icons": "*"
     "@walless/messaging": "*"
     "@walless/network": "*"
     "@walless/sdk": "*"

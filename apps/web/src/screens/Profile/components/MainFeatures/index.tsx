@@ -1,10 +1,5 @@
-import {
-	ArrowBottomRight,
-	ArrowTopRight,
-	Cart,
-	Stack,
-	Swap,
-} from '@walless/gui';
+import { Stack } from '@walless/gui';
+import { ArrowBottomRight, ArrowTopRight, Cart, Swap } from '@walless/icons';
 
 import FeatureButton from './FeatureButton';
 

@@ -1,5 +1,6 @@
 import { FC, useRef } from 'react';
-import { Search, Stack } from '@walless/gui';
+import { Stack } from '@walless/gui';
+import { Search } from '@walless/icons';
 
 interface Props {
 	onSearch: (value: string) => void;

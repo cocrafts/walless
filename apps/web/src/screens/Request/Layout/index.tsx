@@ -1,4 +1,5 @@
-import { AlertCircle, Anchor, Button, Image, Stack, Text } from '@walless/gui';
+import { Anchor, Button, Image, Stack, Text } from '@walless/gui';
+import { AlertCircle } from '@walless/icons';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 

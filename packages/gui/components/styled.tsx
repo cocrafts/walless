@@ -1,5 +1,4 @@
 import {
-	GetProps,
 	Stack as TamaguiStack,
 	styled,
 	Text as TamaguiText,

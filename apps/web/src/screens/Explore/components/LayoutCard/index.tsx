@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { Heart, Image, Plus, Stack, Text } from '@walless/gui';
+import { Heart, Image, Stack, Text } from '@walless/gui';
+
 import AddLayoutBtn from './AddLayoutBtn';
 
 export interface LayoutCardProps {
@@ -31,26 +32,21 @@ const LayoutCard: FC<LayoutCardProps> = ({
 	};
 
 	return (
-		<Stack
-			backgroundColor="#131C24"
-			width="100%"
-			height={259}
-			borderRadius={12}
-		>
+		<Stack backgroundColor="#131C24" width={332} height={259} borderRadius={12}>
 			<Image
 				src={thumbnail}
-				width="100%"
+				width={332}
 				height={133}
 				borderTopLeftRadius={12}
 				borderTopRightRadius={12}
 			/>
 
 			<Stack
-				marginHorizontal={12}
-				marginVertical={16}
+				fullscreen
+				paddingHorizontal={12}
+				paddingVertical={5}
 				display="flex"
-				y={-36}
-				zIndex={1}
+				justifyContent="flex-end"
 			>
 				<Image src={logo} width={40} height={40} borderRadius={8} />
 
@@ -66,6 +62,7 @@ const LayoutCard: FC<LayoutCardProps> = ({
 					display="inline"
 					wordWrap="break-word"
 					textOverflow="ellipsis"
+					numberOfLines={2}
 				>
 					{description}
 				</Text>

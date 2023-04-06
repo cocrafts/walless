@@ -1,63 +1,49 @@
 import { FC, useState } from 'react';
 import { LayoutChangeEvent } from 'react-native';
-import { Button, Stack, Text } from '@walless/gui';
+import { Anchor, Button, Image, Stack, Text } from '@walless/gui';
 import { ContainerStack } from 'components/styled';
+import Link from 'next/link';
 
 export const HeadingSection: FC = () => {
-	const [height, setHeight] = useState(0);
-
-	const onLayout = ({ nativeEvent }: LayoutChangeEvent) => {
-		setHeight(nativeEvent.layout.height);
-	};
-
 	return (
 		<Stack backgroundColor="red">
-			<ContainerStack
-				backgroundColor="green"
-				height={height}
-				opacity={height ? 1 : 0}
-			>
-				<Stack fullscreen opacity={0.2}>
-					<Text>This is SVG Decoration</Text>
-				</Stack>
-				<Stack
-					horizontal
-					position="absolute"
-					flexWrap="wrap"
-					top={0}
-					left={0}
-					right={0}
-					paddingVertical={60}
-					paddingHorizontal={120}
-					onLayout={onLayout}
-				>
-					<Stack
-						flex={1}
-						minWidth={300}
-						justifyContent="center"
-						paddingVertical={32}
-					>
-						<Stack horizontal>
-							<Stack flex={1}>
-								<Text>
-									Unveiling an entirely new way to think about wallet, Social
-									sign in - Custom layout & skin
-								</Text>
-							</Stack>
-							<Stack horizontal alignItems="flex-start">
-								<Button title="Main CTA" />
-								<Button title="Main CTA" />
-							</Stack>
-						</Stack>
-						<Text>Walless, the first Web3 sandbox-wallet</Text>
+			<ContainerStack backgroundColor="#19232C">
+				<Stack horizontal alignItems={'center'} height={80}>
+					<Stack horizontal alignItems={'center'}>
+						<Image
+							defaultSource={imageSources.wallessIcon}
+							src={imageSources.wallessIcon}
+							height={25}
+							width={50}
+							resizeMode="contain"
+						/>
+						<Image
+							defaultSource={imageSources.wallessText}
+							src={imageSources.wallessText}
+							height={18}
+							width={180}
+							resizeMode="contain"
+						/>
 					</Stack>
-					<Stack height={200}>
-						<Text>Image</Text>
+					<Stack horizontal>
+						<Link href={'/'}>Getting started</Link>
+						<Link href={'/'}>For Developers</Link>
+						<Link href={'/'}>News</Link>
+						<Link href={'/'}></Link>
 					</Stack>
 				</Stack>
 			</ContainerStack>
 		</Stack>
 	);
+};
+
+const imageSources = {
+	wallessIcon: {
+		uri: '/img/walless-icon.png',
+	},
+	wallessText: {
+		uri: '/img/walless-text.png',
+	},
 };
 
 export default HeadingSection;

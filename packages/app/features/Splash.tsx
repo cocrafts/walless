@@ -8,7 +8,7 @@ import {
 } from 'react-native-reanimated';
 import { Stack } from '@walless/gui';
 
-import { AnimatedImage, runOnJS } from './alias';
+import { AnimatedImage, runOnJS } from '../components/alias';
 
 interface Props {
 	logoSrc: ImageSourcePropType;

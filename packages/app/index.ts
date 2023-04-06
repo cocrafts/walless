@@ -1,2 +1,2 @@
 export * from './components/alias';
-export * from './components/Splash';
+export * from './features/Splash';

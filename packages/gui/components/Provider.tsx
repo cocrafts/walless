@@ -1,14 +1,9 @@
-import { FC, ReactElement, useEffect, useRef } from 'react';
-import { View } from 'react-native';
-import { Stack, TamaguiInternalConfig, TamaguiProvider } from '@tamagui/core';
-
-import { modalActions } from '../state/modal';
-
-import ModalManager from './ModalManager';
+import { FC, ReactNode } from 'react';
+import { TamaguiInternalConfig, TamaguiProvider } from '@tamagui/core';
 
 interface Props {
 	config: TamaguiInternalConfig;
-	children?: ReactElement;
+	children?: ReactNode;
 	disableInjectCSS?: boolean;
 	disableRootThemeClass?: boolean;
 	theme?: string;
@@ -21,12 +16,6 @@ export const GuiProvider: FC<Props> = ({
 	disableInjectCSS,
 	disableRootThemeClass,
 }) => {
-	const containerRef = useRef<View>(null);
-
-	useEffect(() => {
-		modalActions.setContainerRef(containerRef);
-	}, []);
-
 	return (
 		<TamaguiProvider
 			config={config}
@@ -34,10 +23,7 @@ export const GuiProvider: FC<Props> = ({
 			disableRootThemeClass={disableRootThemeClass}
 			defaultTheme={theme}
 		>
-			<Stack ref={containerRef} flex={1}>
-				{children}
-				<ModalManager />
-			</Stack>
+			{children}
 		</TamaguiProvider>
 	);
 };

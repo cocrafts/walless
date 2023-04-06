@@ -1,8 +1,8 @@
 import { FC } from 'react';
+import { Stack } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import { ModalState, modalState } from '../../state/modal';
-import { Stack } from '../styled';
 
 import ModalContainer from './Container';
 

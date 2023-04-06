@@ -164,21 +164,21 @@ export const WallessLight01: FC<ParticalProps> = ({ width, style }) => {
 };
 
 export const WallessLight02: FC<ParticalProps> = ({ width, style }) => {
-	const height = width * (653 / 738);
+	const height = width * (652 / 954);
 
 	return (
 		<svg
 			style={style}
-			width={width}
-			height={height}
-			viewBox="0 0 738 653"
+			width="954"
+			height="652"
+			viewBox="0 0 954 652"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<g filter="url(#filter0_f_1599_1486)">
+			<g filter="url(#filter0_f_178_181)">
 				<ellipse
 					cx="476.862"
-					cy="326.577"
+					cy="325.621"
 					rx="338.862"
 					ry="187.621"
 					fill="#407F92"
@@ -186,9 +186,9 @@ export const WallessLight02: FC<ParticalProps> = ({ width, style }) => {
 			</g>
 			<defs>
 				<filter
-					id="filter0_f_1599_1486"
+					id="filter0_f_178_181"
 					x="0"
-					y="0.955994"
+					y="0"
 					width="953.724"
 					height="651.243"
 					filterUnits="userSpaceOnUse"
@@ -203,7 +203,7 @@ export const WallessLight02: FC<ParticalProps> = ({ width, style }) => {
 					/>
 					<feGaussianBlur
 						stdDeviation="69"
-						result="effect1_foregroundBlur_1599_1486"
+						result="effect1_foregroundBlur_178_181"
 					/>
 				</filter>
 			</defs>

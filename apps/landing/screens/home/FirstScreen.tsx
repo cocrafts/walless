@@ -2,8 +2,7 @@ import { FC, useState } from 'react';
 import { LayoutChangeEvent, ViewStyle } from 'react-native';
 import { Button, Image, Stack, Text } from '@walless/gui';
 import {
-	ParticalProps,
-	Walless01,
+	ParticleProps,
 	Walless02,
 	Walless03,
 	WallessLight01,
@@ -42,7 +41,7 @@ const FirstScreen = () => {
 						paddingVertical={32}
 					>
 						<Stack horizontal justifyContent="space-between">
-							<Text fontSize={60} fontWeight={600} width={500}>
+							<Text fontSize={60} fontWeight="600" width={500}>
 								Walless, <br /> the first Web3 sandbox-wallet
 							</Text>
 							<Stack width={200}>
@@ -52,27 +51,25 @@ const FirstScreen = () => {
 									backgroundColor={'#566674'}
 									marginBottom={10}
 								></Stack>
-								<Text fontSize={18} lineHeight={35} fontWeight={500}>
-									Custom layout
-								</Text>
-								<Text fontSize={18} lineHeight={35} fontWeight={500}>
-									No seed phrase
-								</Text>
-								<Text fontSize={18} lineHeight={35} fontWeight={500}>
-									Off-Chain Multi-Sigs
-								</Text>
-								<Text fontSize={18} lineHeight={35} fontWeight={500}>
-									Unified UI
-								</Text>
-								<Text fontSize={18} lineHeight={35} fontWeight={500}>
-									Multi-chain
-								</Text>
+								{features.map((feature, index) => {
+									return (
+										<Text
+											key={index}
+											fontSize={18}
+											lineHeight={35}
+											fontWeight="500"
+										>
+											{feature}
+										</Text>
+									);
+								})}
 							</Stack>
 						</Stack>
 						<Image
 							defaultSource={imageSources.homeLine}
 							src={imageSources.homeLine}
 							height={80}
+							width="100%"
 							left={0}
 							right={0}
 							resizeMode="contain"
@@ -81,7 +78,7 @@ const FirstScreen = () => {
 							<Stack flex={1}>
 								<Text
 									width={360}
-									fontWeight={400}
+									fontWeight="400"
 									fontSize={16}
 									lineHeight={25}
 								>
@@ -92,7 +89,6 @@ const FirstScreen = () => {
 							<Stack horizontal alignItems="flex-start" gap={20}>
 								<Button
 									fontSize={16}
-									fontWeight={400}
 									paddingHorizontal={50}
 									paddingVertical={14}
 									borderRadius={15}
@@ -101,7 +97,6 @@ const FirstScreen = () => {
 								/>
 								<Button
 									fontSize={16}
-									fontWeight={400}
 									paddingHorizontal={50}
 									paddingVertical={14}
 									borderRadius={15}
@@ -115,8 +110,8 @@ const FirstScreen = () => {
 					</Stack>
 					<Stack>
 						<Image
-							defaultSource={imageSources.extenstionImage}
-							src={imageSources.extenstionImage}
+							defaultSource={imageSources.extensionImage}
+							src={imageSources.extensionImage}
 							width={342}
 							height={500}
 						/>
@@ -133,13 +128,21 @@ const imageSources = {
 	homeLine: {
 		uri: '/img/home-line.png',
 	},
-	extenstionImage: {
+	extensionImage: {
 		uri: '/img/extension-image.png',
 	},
 };
 
+const features = [
+	'Custom layout',
+	'No seed phrase',
+	'Off-Chain Multi-Sigs',
+	'Unified UI',
+	'Multi-chain',
+];
+
 interface BackgroundIconPartical {
-	Component: FC<ParticalProps>;
+	Component: FC<ParticleProps>;
 	style: ViewStyle;
 	size: number;
 }
@@ -200,9 +203,9 @@ const particals: BackgroundIconPartical[] = [
 		style: {
 			position: 'absolute',
 			top: 30,
-			right: -200,
+			right: -150,
 			opacity: 1,
 		},
-		size: 100,
+		size: 800,
 	},
 ];

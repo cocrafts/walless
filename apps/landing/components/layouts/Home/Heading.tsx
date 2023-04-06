@@ -1,6 +1,5 @@
-import { FC, useState } from 'react';
-import { LayoutChangeEvent } from 'react-native';
-import { Anchor, Button, Image, Stack, Text } from '@walless/gui';
+import { FC } from 'react';
+import { Button, Image, Stack, Text } from '@walless/gui';
 import { ContainerStack } from 'components/styled';
 import Link from 'next/link';
 
@@ -38,29 +37,21 @@ export const HeadingSection: FC = () => {
 							resizeMode="contain"
 						/>
 					</Stack>
-					<Stack
-						horizontal
-						style={{ fontWeight: 500, fontSize: 16, lineHeight: 21 }}
-						width={600}
-						justifyContent="space-between"
-					>
-						<Link href={'/'}>
-							<Text>Getting started</Text>
-						</Link>
-						<Link href={'/'}>
-							<Text color={'#566674'}>For Developers</Text>
-						</Link>
-						<Link href={'/'}>
-							<Text color={'#566674'}>News</Text>
-						</Link>
-						<Link href={'/'}>
-							<Text color={'#566674'}>Resources</Text>
-						</Link>
+					<Stack horizontal width={600} justifyContent="space-between">
+						{links.map(({ title, href }, index) => {
+							return (
+								<Link key={index} href={href}>
+									<Text fontWeight="500" fontSize={16} lineHeight={21}>
+										{title}
+									</Text>
+								</Link>
+							);
+						})}
 					</Stack>
 					<Stack width={250} alignItems="flex-end">
 						<Button
 							fontSize={16}
-							fontWeight={400}
+							fontWeight="400"
 							paddingHorizontal={50}
 							paddingVertical={14}
 							borderRadius={15}
@@ -84,3 +75,22 @@ const imageSources = {
 };
 
 export default HeadingSection;
+
+const links = [
+	{
+		title: 'Getting started',
+		href: '/',
+	},
+	{
+		title: 'For developers',
+		href: '/',
+	},
+	{
+		title: 'News',
+		href: '/',
+	},
+	{
+		title: 'Resources',
+		href: '/',
+	},
+];

@@ -1,11 +1,11 @@
 import { Fragment, ReactElement } from 'react';
 import HomeLayout from 'components/layouts/Home';
-import HeadingSection from 'screens/home/Heading';
+import FirstScreen from 'screens/home/FirstScreen';
 
 export const IndexPage = () => {
 	return (
 		<Fragment>
-			<HeadingSection />
+			<FirstScreen />
 		</Fragment>
 	);
 };

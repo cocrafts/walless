@@ -2,7 +2,7 @@ import { Stack, styled } from '@tamagui/core';
 
 export const ContainerStack = styled(Stack, {
 	width: '100%',
-	maxWidth: 1280,
+	maxWidth: 1620,
 	marginHorizontal: 'auto',
 	variants: {
 		horizontal: {

@@ -3,6 +3,7 @@ import { Stack, styled } from '@tamagui/core';
 export const ContainerStack = styled(Stack, {
 	width: '100%',
 	maxWidth: 1620,
+	paddingHorizontal: 18,
 	marginHorizontal: 'auto',
 	variants: {
 		horizontal: {

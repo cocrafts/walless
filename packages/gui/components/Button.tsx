@@ -38,6 +38,7 @@ export const ButtonContainer = styled(Stack, {
 			true: {
 				backgroundColor: '#202D38',
 				disabled: true,
+				pointerEvents: 'box-none',
 			},
 		},
 	} as const,

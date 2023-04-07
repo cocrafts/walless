@@ -1,6 +1,7 @@
 import { createHashRouter } from 'react-router-dom';
 import DashboardScreen from 'screens/Dashboard';
 import ExploreScreen from 'screens/Explore';
+import PasscodeScreen from 'screens/Passcode';
 import ProfileScreen from 'screens/Profile';
 import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
@@ -24,6 +25,13 @@ export const router = createHashRouter([
 				element: <DashboardScreen />,
 			},
 		],
+	},
+	{
+		path: '/passcode/:feature',
+		element: <PasscodeScreen />,
+		loader: async ({ params }) => {
+			return params;
+		},
 	},
 	{
 		path: '/request-connection',

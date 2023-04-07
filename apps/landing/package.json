@@ -12,6 +12,7 @@
     "@tamagui/animations-css": "^1.9.22",
     "@tamagui/next-theme": "^1.9.22",
     "@walless/gui": "*",
+    "@walless/markdown": "*",
     "next": "^13.1.1",
     "react-dom": "^18.2.0"
   },

@@ -25,6 +25,7 @@
 		"@walless/crypto": "*",
 		"@walless/gui": "*",
 		"@walless/icons": "*",
+		"@walless/markdown": "*",
 		"@walless/messaging": "*",
 		"@walless/network": "*",
 		"@walless/sdk": "*",

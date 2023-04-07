@@ -1,4 +1,5 @@
-import { Bell, IdCard, Setting, Stack } from '@walless/gui';
+import { Stack } from '@walless/gui';
+import { Bell, IdCard, Setting } from '@walless/icons';
 
 import WidgetButton from './WidgetButton';
 

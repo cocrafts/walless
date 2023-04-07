@@ -1,15 +1,16 @@
 import { FC, ReactNode } from 'react';
-import { GetProps, styled } from '@tamagui/core';
+import { GetProps, StackProps, styled } from '@tamagui/core';
 
 import { Stack, Text } from './styled';
 
-export interface ButtonProps {
+export type ButtonProps = StackProps & {
 	onPress?: () => void;
 	title?: string;
 	color?: string;
 	fontSize?: number;
+	fontWeight?: string;
 	children?: ReactNode;
-}
+};
 
 export const Button: FC<ButtonProps & ButtonContainerProps> = ({
 	onPress,
@@ -17,12 +18,13 @@ export const Button: FC<ButtonProps & ButtonContainerProps> = ({
 	title = 'Button Title',
 	color = 'white',
 	fontSize = 14,
+	fontWeight = '400',
 	...props
 }) => {
 	return (
 		<ButtonContainer onPress={() => onPress?.()} {...props}>
 			{children || (
-				<Text color={color} fontSize={fontSize}>
+				<Text color={color} fontSize={fontSize} fontWeight={fontWeight}>
 					{title}
 				</Text>
 			)}

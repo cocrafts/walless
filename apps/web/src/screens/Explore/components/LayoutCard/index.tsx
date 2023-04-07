@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { Heart, Image, Stack, Text } from '@walless/gui';
+import { Image, Stack, Text } from '@walless/gui';
+import { Heart } from '@walless/icons';
 
 import AddLayoutBtn from './AddLayoutBtn';
 

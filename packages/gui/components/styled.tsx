@@ -1,5 +1,4 @@
 import {
-	GetProps,
 	Stack as TamaguiStack,
 	styled,
 	Text as TamaguiText,
@@ -29,12 +28,10 @@ export const Circle = styled(TamaguiStack, {
 	borderRadius: 10000000,
 });
 
-export type CircleProps = GetProps<typeof Circle>;
-
 export const Text = styled(TamaguiText, {
 	name: 'Text',
 	color: '#dedede',
-	fontFamily: 'Poppins',
+	fontFamily: 'Rubik',
 });
 
 export { ScrollView } from '@tamagui/scroll-view';

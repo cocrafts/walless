@@ -1,7 +1,7 @@
-@mixin font-poppins($variant, $weight, $style)
+@mixin font-rubik($variant, $weight, $style)
   @font-face
-    font-family: "Poppins"
-    src: url("/font/Poppins-#{$variant}.ttf") format("truetype")
+    font-family: "Rubik"
+    src: url("/font/Rubik-#{$variant}.ttf") format("truetype")
     font-weight: $weight
     font-style: $style
 
@@ -13,17 +13,14 @@ body
     width: 410px
     height: 600px
 
-@include font-poppins("Black", 900, normal)
-@include font-poppins("ExtraBold", 800, normal)
-@include font-poppins("Bold", 700, normal)
-@include font-poppins("BoldItalic", 700, italic)
-@include font-poppins("SemiBold", 600, normal)
-@include font-poppins("SemiBoldItalic", 600, italic)
-@include font-poppins("Medium", 500, normal)
-@include font-poppins("MediumItalic", 500, italic)
-@include font-poppins("Regular", 400, normal)
-@include font-poppins("Italic", 400, italic)
-@include font-poppins("Light", 300, normal)
-@include font-poppins("LightItalic", 300, italic)
-@include font-poppins("ExtraLight", 200, normal)
-@include font-poppins("Thin", 100, normal)
+@include font-rubik("Black", 900, normal)
+@include font-rubik("Bold", 700, normal)
+@include font-rubik("BoldItalic", 700, italic)
+@include font-rubik("Medium", 500, normal)
+@include font-rubik("MediumItalic", 500, italic)
+@include font-rubik("SemiBold", 600, normal)
+@include font-rubik("SemiBoldItalic", 600, normal)
+@include font-rubik("Regular", 400, normal)
+@include font-rubik("Italic", 400, italic)
+@include font-rubik("Light", 300, normal)
+@include font-rubik("LightItalic", 300, italic)

@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { ArrowBottomRight, ArrowTopRight, Stack, Text } from '@walless/gui';
+import { Stack, Text } from '@walless/gui';
+import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
 
 export interface HistoryItemProps {
 	id: string;

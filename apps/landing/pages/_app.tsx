@@ -44,9 +44,5 @@ const ContentInner: FC<AppProps> = ({ Component, pageProps }) => {
 	const layoutFunc = (Component as any).getLayout;
 	const getLayout = layoutFunc || ((page: ReactElement) => page);
 
-	return getLayout(
-		<Fragment>
-			<Component {...pageProps} />
-		</Fragment>,
-	);
+	return getLayout(<Component {...pageProps} />);
 };

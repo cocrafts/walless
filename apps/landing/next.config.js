@@ -10,6 +10,6 @@ module.exports = withPlugins([
 		excludeReactNativeWebExports: ['Switch', 'ProgressBar', 'Picker'],
 	}),
 	{
-		transpilePackages: ['@walless/gui'],
+		transpilePackages: ['@walless/gui', '@walless/icons'],
 	},
 ]);

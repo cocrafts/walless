@@ -10,6 +10,7 @@ const monoPackages = {
 	'@walless/core': resolve(workspaceRoot, 'packages/core'),
 	'@walless/crypto': resolve(workspaceRoot, 'packages/crypto'),
 	'@walless/gui': resolve(workspaceRoot, 'packages/gui'),
+	'@walless/icons': resolve(workspaceRoot, 'packages/icons'),
 };
 
 module.exports = {

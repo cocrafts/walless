@@ -15,6 +15,7 @@ More information at [Official website](https://walless.io) | [Discord](https://d
 - Development: run `yarn dev` at project root (or `metacraft` under apps/home)
 - Build: `yarn build` (or `metacraft bundle` under apps/home)
 - Package version check `yarn dlx lerna-update-wizard`
+- Sync font for React Native: `yarn dlx react-native-asset`
 
 ## Credits
 - [Open-source repo](https://github.com/MetaMask/metamask-extension) of [Metamask](https://metamask.io/) give us lot of useful clues.

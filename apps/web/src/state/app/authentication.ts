@@ -59,9 +59,9 @@ export const signInGoogle = async () => {
 		const status = await importAvailableShares();
 
 		if (status === ThresholdResult.Initializing) {
-			await router.navigate('/passcode');
+			await router.navigate('/passcode/create');
 		} else if (status === ThresholdResult.Missing) {
-			await router.navigate('/enter-passcode');
+			await router.navigate('/passcode/enter');
 		} else if (status === ThresholdResult.Ready) {
 			await setProfile(makeProfile(cache.loginResponse));
 			await router.navigate('/');

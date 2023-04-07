@@ -14,7 +14,6 @@ interface Props {
 	handleKeyPress?: (
 		event: NativeSyntheticEvent<TextInputKeyPressEventData>,
 		index: number,
-		ref: RefObject<TextInput>,
 	) => void;
 	handleFocus?: (ref: RefObject<TextInput>) => void;
 }
@@ -56,7 +55,7 @@ export const InputItem: FC<Props> = ({
 			fontSize={28}
 			lineHeight={10}
 			paddingHorizontal={0}
-			paddingVertical={5}
+			paddingVertical={10}
 			borderRadius={15}
 			maxWidth={45}
 			borderColor={isEmpty ? 'transparent' : '#49596A'}
@@ -70,7 +69,7 @@ export const InputItem: FC<Props> = ({
 			maxLength={1}
 			pointerEvents="box-none"
 			onChangeText={onChangeText}
-			onKeyPress={(event) => handleKeyPress?.(event, index, ref)}
+			onKeyPress={(event) => handleKeyPress?.(event, index)}
 			onFocus={onFocus}
 		/>
 	);

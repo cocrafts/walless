@@ -1,4 +1,4 @@
-import { FC, RefObject, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
 	NativeSyntheticEvent,
 	TextInput,
@@ -36,7 +36,6 @@ export const PasscodeInput: FC<Props> = ({
 	const handleKeyPress = (
 		event: NativeSyntheticEvent<TextInputKeyPressEventData>,
 		index: number,
-		ref: RefObject<TextInput>,
 	) => {
 		let relativeIndex: number;
 
@@ -49,10 +48,10 @@ export const PasscodeInput: FC<Props> = ({
 				relativeIndex = index - 1;
 			}
 
-			ref.current?.clear();
-			setPasscode(passcode.slice(0, index));
-			handlePasscode(passcode.slice(0, index));
+			setPasscode(passcode.slice(0, relativeIndex));
+			handlePasscode(passcode.slice(0, relativeIndex));
 			setFocusedIndex(relativeIndex);
+			return;
 		}
 
 		if (key === 'Enter') {

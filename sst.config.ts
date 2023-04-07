@@ -1,5 +1,6 @@
 import type { SSTConfig } from 'sst';
 
+import Extension from './tool/stacks/extension';
 import Landing from './tool/stacks/landing';
 
 export default {
@@ -11,5 +12,6 @@ export default {
 	},
 	stacks(app) {
 		app.stack(Landing);
+		app.stack(Extension);
 	},
 } satisfies SSTConfig;

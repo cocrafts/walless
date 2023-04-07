@@ -1,4 +1,4 @@
-import { createHashRouter } from 'react-router-dom';
+import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import DashboardScreen from 'screens/Dashboard';
 import ExploreScreen from 'screens/Explore';
 import LoginScreen from 'screens/Login';
@@ -8,7 +8,10 @@ import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
 import RequestSignature from 'screens/Request/Signature';
 
-export const router = createHashRouter([
+const createRouter =
+	BUILD_TARGET === 'extension' ? createHashRouter : createBrowserRouter;
+
+export const router = createRouter([
 	{
 		path: '/',
 		element: <DashboardScreen />,

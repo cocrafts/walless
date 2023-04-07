@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const PasscodeFeature: FC<Props> = ({
-	verticalTransition = -80,
+	verticalTransition = -130,
 	logoUri,
 	title = 'Create your passcode',
 	buttonTitle = 'Continue',
@@ -114,20 +114,22 @@ export const PasscodeFeature: FC<Props> = ({
 						handlePasscode={handlePasscode}
 					/>
 				</Stack>
-				<Button
-					marginTop={60}
-					paddingVertical={13}
-					disabled={!isValidPasscode}
-					onPress={onPress}
-				>
-					<Text
-						fontSize={14}
-						fontWeight="500"
-						color={isValidPasscode ? '#FFFFFF' : '#566674'}
+				{!autoConfirm && (
+					<Button
+						marginTop={60}
+						paddingVertical={13}
+						disabled={!isValidPasscode}
+						onPress={onPress}
 					>
-						{buttonTitle}
-					</Text>
-				</Button>
+						<Text
+							fontSize={14}
+							fontWeight="500"
+							color={isValidPasscode ? '#FFFFFF' : '#566674'}
+						>
+							{buttonTitle}
+						</Text>
+					</Button>
+				)}
 			</Stack>
 		</Stack>
 	);

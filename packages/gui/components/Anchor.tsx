@@ -18,10 +18,12 @@ export type AnchorProps = TextProps & {
 };
 
 const AnchorFrame = styled(Text, {
-	fontFamily: 'Poppins',
+	fontFamily: 'Rubik',
 	name: 'Anchor',
 	tag: 'a',
+	color: '#19A3E1',
 	accessibilityRole: 'link',
+	textDecorationLine: 'none',
 });
 
 export const Anchor: ReactComponentWithRef<AnchorProps, TamaguiElement> =

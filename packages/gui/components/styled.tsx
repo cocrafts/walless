@@ -14,13 +14,13 @@ export const Stack = styled(TamaguiStack, {
 				right: 0,
 				bottom: 0,
 			},
-		} as const,
+		},
 		horizontal: {
 			true: {
 				flexDirection: 'row',
 			},
-		} as const,
-	},
+		},
+	} as const,
 });
 
 export const Circle = styled(TamaguiStack, {

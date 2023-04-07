@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { Button, Image, Stack, Text } from '@walless/gui';
+import { Button, Image, Stack } from '@walless/gui';
+import Anchor from 'components/Anchor';
 import { ContainerStack } from 'components/styled';
-import Link from 'next/link';
 
-export const headingHeight = 80;
+export const headingHeight = 64;
 
 export const HeadingSection: FC = () => {
 	return (
@@ -15,16 +15,11 @@ export const HeadingSection: FC = () => {
 			backgroundColor="#19232C"
 		>
 			<ContainerStack backgroundColor="#19232C">
-				<Stack
-					horizontal
-					alignItems={'center'}
-					height={headingHeight}
-					justifyContent="space-between"
-				>
-					<Stack horizontal alignItems={'center'}>
+				<Stack horizontal height={headingHeight} alignItems="center">
+					<Stack horizontal alignItems="center">
 						<Image
-							defaultSource={imageSources.wallessIcon}
 							src={imageSources.wallessIcon}
+							defaultSource={imageSources.wallessIcon}
 							height={25}
 							width={50}
 							resizeMode="contain"
@@ -33,31 +28,27 @@ export const HeadingSection: FC = () => {
 							defaultSource={imageSources.wallessText}
 							src={imageSources.wallessText}
 							height={18}
-							width={180}
+							width={100}
+							marginLeft={12}
 							resizeMode="contain"
 						/>
 					</Stack>
-					<Stack horizontal width={600} justifyContent="space-between">
+					<Stack horizontal flex={1} paddingLeft={12}>
 						{links.map(({ title, href }, index) => {
 							return (
-								<Link key={index} href={href}>
-									<Text fontWeight="500" fontSize={16} lineHeight={21}>
-										{title}
-									</Text>
-								</Link>
+								<Anchor
+									key={index}
+									href={href}
+									marginHorizontal={12}
+									fontSize={16}
+								>
+									{title}
+								</Anchor>
 							);
 						})}
 					</Stack>
-					<Stack width={250} alignItems="flex-end">
-						<Button
-							fontSize={16}
-							fontWeight="400"
-							paddingHorizontal={50}
-							paddingVertical={14}
-							borderRadius={15}
-							backgroundColor="#0694D3"
-							title="Launch"
-						/>
+					<Stack horizontal>
+						<Button fontSize={16} title="Launch" />
 					</Stack>
 				</Stack>
 			</ContainerStack>

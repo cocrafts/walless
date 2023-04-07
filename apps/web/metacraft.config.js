@@ -69,7 +69,6 @@ const swcOptions = () => ({
 
 module.exports = {
 	useReact: true,
-	port: () => 3003,
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
@@ -81,6 +80,7 @@ module.exports = {
 		tamaguiBuild,
 		web3Polyfills,
 		setEnvironments({
+			BUILD_TARGET: JSON.stringify(process.env.BUILD_TARGET),
 			process: {
 				env: {
 					TAMAGUI_TARGET: JSON.stringify('web'),

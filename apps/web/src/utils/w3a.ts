@@ -19,13 +19,13 @@ import { CustomAuthArgs } from '@toruslabs/customauth';
  * 7. Private keys: could be created and store in metadata
  * ------------------ */
 
-const baseUrl = __DEV__ ? location.origin : 'https://walless.io/';
+const baseUrl = `https://${__DEV__ ? 'dapp' : 'app'}.walless.io`;
 
 export const customAuthArgs: CustomAuthArgs = {
 	network: 'testnet',
 	baseUrl,
 	redirectToOpener: true,
-	redirectPathName: 'w3a-response',
+	redirectPathName: 'w3a',
 	enableLogging: false,
 	popupFeatures: 'width=380,height=600',
 };

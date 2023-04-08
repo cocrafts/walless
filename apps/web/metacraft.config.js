@@ -67,6 +67,14 @@ const swcOptions = () => ({
 	},
 });
 
+const w3aDevRoute = (config) => {
+	config.historyApiFallback = {
+		rewrites: [{ from: /^\/w3a/, to: '/w3a.html' }],
+	};
+
+	return config;
+};
+
 module.exports = {
 	useReact: true,
 	publicPath: () => process.env.PUBLIC_URL || '/',
@@ -88,6 +96,7 @@ module.exports = {
 			},
 		}),
 	],
+	devMiddlewares: [w3aDevRoute],
 	htmlPluginOptions: {
 		chunks: ['app'],
 	},

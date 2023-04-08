@@ -53,7 +53,7 @@ export const signInGoogle = async () => {
 	try {
 		appState.authenticationLoading = true;
 
-		await key.serviceProvider.init({ skipSw: true });
+		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
 		cache.loginResponse = await key.serviceProvider.triggerLogin(loginParams);
 		await key.initialize();
 		const status = await importAvailableShares();

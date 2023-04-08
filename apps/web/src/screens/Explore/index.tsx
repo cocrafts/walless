@@ -3,11 +3,15 @@ import { Stack, Text } from '@walless/gui';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
-import { mockLayoutCards } from './internal';
+import { Layout, mockLayoutCards } from './internal';
 
 export const ExploreScreen: FC = () => {
 	const handleSearch = (value: string) => {
 		console.log(value);
+	};
+
+	const handlePressLoveBtn = (layout: Layout) => {
+		console.log(layout);
 	};
 
 	return (
@@ -28,14 +32,8 @@ export const ExploreScreen: FC = () => {
 			{mockLayoutCards.map((layoutCard) => (
 				<LayoutCard
 					key={layoutCard.id}
-					id={layoutCard.id}
-					name={layoutCard.name}
-					description={layoutCard.description}
-					thumbnail={layoutCard.thumbnail}
-					logo={layoutCard.logo}
-					loveCount={layoutCard.loveCount}
-					isLoved={layoutCard.isLoved}
-					activeUsers={layoutCard.activeUsers}
+					item={layoutCard}
+					onPressLoveBtn={handlePressLoveBtn}
 				/>
 			))}
 		</Stack>

@@ -1,4 +1,4 @@
-import { LayoutRectangle } from 'react-native';
+import type { LayoutRectangle } from 'react-native';
 
 export interface ThemeColors {
 	primary: string;
@@ -16,6 +16,7 @@ export interface ThemeColors {
 export interface MarkdownConfig {
 	fontFamily: string;
 	fontSize: number;
+	lineHeight: number;
 	layout: LayoutRectangle;
 	dark: boolean;
 	colors: ThemeColors;

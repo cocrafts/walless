@@ -1,4 +1,4 @@
-import { MarkdownConfig, ThemeColors } from './types';
+import type { MarkdownConfig, ThemeColors } from './types';
 
 export const defaultColors: ThemeColors = {
 	primary: '#2C879B',
@@ -14,8 +14,9 @@ export const defaultColors: ThemeColors = {
 };
 
 export const defaultConfigs: Omit<MarkdownConfig, 'layout'> = {
-	fontFamily: 'Poppins',
+	fontFamily: 'Rubik',
 	fontSize: 15,
+	lineHeight: 20,
 	dark: false,
 	colors: defaultColors,
 };

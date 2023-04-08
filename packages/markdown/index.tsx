@@ -1,29 +1,20 @@
-import React from 'react';
-import {
-	LayoutChangeEvent,
-	LayoutRectangle,
-	View,
-	ViewStyle,
-} from 'react-native';
+import { type FC, useState } from 'react';
+import { type LayoutChangeEvent, type LayoutRectangle } from 'react-native';
+import { type StackProps } from '@tamagui/core';
+import { Stack } from '@walless/gui';
 
 import { defaultConfigs } from './utils/default';
 import { parse, reactOutput } from './utils/internal';
-import { MarkdownConfig } from './utils/types';
+import { type MarkdownConfig } from './utils/types';
 
-interface Props {
-	style?: ViewStyle;
+type Props = StackProps & {
 	content: string;
 	configs?: Partial<MarkdownConfig>;
-}
+};
 
-const Markdown: React.FC<Props> = ({ style, content, configs }) => {
+const Markdown: FC<Props> = ({ content, configs, ...stackProps }) => {
 	const syntaxTree = parse(content);
-	const [layout, setLayout] = React.useState<LayoutRectangle>({
-		x: 0,
-		y: 0,
-		width: 0,
-		height: 0,
-	});
+	const [layout, setLayout] = useState<LayoutRectangle>(initialLayout);
 
 	const config: MarkdownConfig = {
 		layout,
@@ -36,10 +27,17 @@ const Markdown: React.FC<Props> = ({ style, content, configs }) => {
 	};
 
 	return (
-		<View style={style} onLayout={onLayout}>
+		<Stack onLayout={onLayout} {...stackProps}>
 			{reactOutput(syntaxTree, { config })}
-		</View>
+		</Stack>
 	);
 };
 
 export default Markdown;
+
+const initialLayout = {
+	x: 0,
+	y: 0,
+	width: 0,
+	height: 0,
+};

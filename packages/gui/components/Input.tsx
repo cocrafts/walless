@@ -7,7 +7,7 @@ setupReactNative({
 });
 
 export const defaultStyles = {
-	fontFamily: 'Poppins',
+	fontFamily: 'Rubik',
 	borderWidth: 1,
 	outlineWidth: 0,
 	color: '#FFFFFF',

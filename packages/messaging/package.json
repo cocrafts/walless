@@ -1,16 +1,19 @@
 {
-	"name": "@walless/messaging",
-	"version": "0.0.1",
-	"main": "index.ts",
-	"types": "./src/index.ts",
-	"license": "MIT",
-	"scripts": {
-		"test": "jest",
-		"test:watch": "jest --watch",
-		"lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
-	},
-	"peerDependencies": {
-		"@walless/core": "*",
-		"@walless/crypto": "*"
-	}
+  "name": "@walless/messaging",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "types": "./src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+  },
+  "peerDependencies": {
+    "@walless/core": "*",
+    "@walless/crypto": "*"
+  },
+  "devDependencies": {
+    "eslint": "8.38.0"
+  }
 }

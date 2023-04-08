@@ -11,5 +11,8 @@
   },
   "dependencies": {
     "simple-markdown": "^0.7.3"
+  },
+  "devDependencies": {
+    "eslint": "8.38.0"
   }
 }

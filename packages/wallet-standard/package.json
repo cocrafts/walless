@@ -1,21 +1,22 @@
 {
-    "name": "@walless/wallet-standard",
-    "version": "0.0.1",
-    "main": "./src/index.ts",
-    "types": "./src/index.ts",
-    "license": "MIT",
-    "dependencies": {
-        "@mysten/wallet-standard": "^0.5.0",
-        "@solana/wallet-standard-features": "^1.0.1",
-        "@solana/web3.js": "1.75.0",
-        "@walless/sdk": "*",
-        "@wallet-standard/base": "^1.0.1",
-        "@wallet-standard/features": "^1.0.3",
-        "bs58": "^4.0.1"
-    },
-    "devDependencies": {
-        "@types/bs58": "^4.0.1",
-        "@types/node-fetch": "^2.6.2",
-        "shx": "^0.3.4"
-    }
+  "name": "@walless/wallet-standard",
+  "version": "0.0.1",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@mysten/wallet-standard": "^0.5.0",
+    "@solana/wallet-standard-features": "^1.0.1",
+    "@solana/web3.js": "1.75.0",
+    "@walless/sdk": "*",
+    "@wallet-standard/base": "^1.0.1",
+    "@wallet-standard/features": "^1.0.3",
+    "bs58": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/bs58": "^4.0.1",
+    "@types/node-fetch": "^2.6.2",
+    "eslint": "8.38.0",
+    "shx": "^0.3.4"
+  }
 }

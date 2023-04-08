@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
+import { StackProps } from '@tamagui/core';
 
-export interface LayoutProps {
+export type LayoutProps = StackProps & {
 	children: ReactElement;
-}
+};

@@ -1,33 +1,22 @@
 import { FC } from 'react';
 import { Image, Stack, Text } from '@walless/gui';
 import { Heart } from '@walless/icons';
+import { Layout } from 'screens/Explore';
 
 import AddLayoutBtn from './AddLayoutBtn';
 
 export interface LayoutCardProps {
-	id: string;
-	name: string;
-	description: string;
-	thumbnail: string;
-	logo: string;
-	loveCount: number;
-	isLoved: boolean;
-	activeUsers: number;
+	item: Layout;
+	onPressLoveBtn: (layout: Layout) => void;
 }
 
-const LayoutCard: FC<LayoutCardProps> = ({
-	name,
-	description,
-	thumbnail,
-	logo,
-	loveCount,
-	isLoved,
-	activeUsers,
-}) => {
-	const heartColors = ['white', 'none'];
-	const handleLoveBtn = () => {
-		console.log(isLoved);
+const LayoutCard: FC<LayoutCardProps> = ({ item, onPressLoveBtn }) => {
+	const heartColors = item.isLoved ? ['red', 'red'] : ['white', 'none'];
+
+	const handlePressLoveBtn = () => {
+		onPressLoveBtn(item);
 	};
+
 	const handleAddLayout = () => {
 		console.log('add layout');
 	};
@@ -35,7 +24,7 @@ const LayoutCard: FC<LayoutCardProps> = ({
 	return (
 		<Stack backgroundColor="#131C24" width={332} height={259} borderRadius={12}>
 			<Image
-				src={thumbnail}
+				src={item.thumbnail}
 				width={332}
 				height={133}
 				borderTopLeftRadius={12}
@@ -49,10 +38,10 @@ const LayoutCard: FC<LayoutCardProps> = ({
 				display="flex"
 				justifyContent="flex-end"
 			>
-				<Image src={logo} width={40} height={40} borderRadius={8} />
+				<Image src={item.logo} width={40} height={40} borderRadius={8} />
 
 				<Text fontWeight="600" fontSize={14}>
-					{name}
+					{item.name}
 				</Text>
 
 				<Text
@@ -65,7 +54,7 @@ const LayoutCard: FC<LayoutCardProps> = ({
 					textOverflow="ellipsis"
 					numberOfLines={2}
 				>
-					{description}
+					{item.description}
 				</Text>
 
 				<Stack
@@ -83,11 +72,11 @@ const LayoutCard: FC<LayoutCardProps> = ({
 							justifyContent="space-between"
 							alignItems="center"
 							gap={4}
-							onPress={handleLoveBtn}
+							onPress={handlePressLoveBtn}
 						>
 							<Heart size={8} colors={heartColors} />
 							<Text fontWeight="400" fontSize={10}>
-								{loveCount} Love
+								{item.loveCount} Love
 							</Text>
 						</Stack>
 
@@ -105,7 +94,7 @@ const LayoutCard: FC<LayoutCardProps> = ({
 								backgroundColor="#4DE2A4"
 							/>
 							<Text fontWeight="400" fontSize={10}>
-								{activeUsers} Active
+								{item.activeUsers} Active
 							</Text>
 						</Stack>
 					</Stack>

@@ -1,5 +1,6 @@
-import { LayoutCardProps } from './components/LayoutCard';
-export const mockLayoutCards: LayoutCardProps[] = [
+import { Layout } from '.';
+
+export const mockLayoutCards: Layout[] = [
 	{
 		id: '1',
 		name: 'Magic Eden',

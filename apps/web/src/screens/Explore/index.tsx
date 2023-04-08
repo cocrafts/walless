@@ -5,9 +5,24 @@ import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
 import { mockLayoutCards } from './internal';
 
+export interface Layout {
+	id: string;
+	name: string;
+	description: string;
+	thumbnail: string;
+	logo: string;
+	loveCount: number;
+	isLoved: boolean;
+	activeUsers: number;
+}
+
 export const ExploreScreen: FC = () => {
 	const handleSearch = (value: string) => {
 		console.log(value);
+	};
+
+	const handlePressLoveBtn = (layout: Layout) => {
+		console.log(layout);
 	};
 
 	return (
@@ -28,14 +43,8 @@ export const ExploreScreen: FC = () => {
 			{mockLayoutCards.map((layoutCard) => (
 				<LayoutCard
 					key={layoutCard.id}
-					id={layoutCard.id}
-					name={layoutCard.name}
-					description={layoutCard.description}
-					thumbnail={layoutCard.thumbnail}
-					logo={layoutCard.logo}
-					loveCount={layoutCard.loveCount}
-					isLoved={layoutCard.isLoved}
-					activeUsers={layoutCard.activeUsers}
+					item={layoutCard}
+					onPressLoveBtn={handlePressLoveBtn}
 				/>
 			))}
 		</Stack>

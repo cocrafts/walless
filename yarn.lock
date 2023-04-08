@@ -11028,7 +11028,7 @@ __metadata:
     "@walless/messaging": "*"
     "@walless/storage": "*"
     "@walless/wui": "*"
-    eslint: ^8.38.0
+    eslint: 8.38.0
     next: ^13.1.1
     next-compose-plugins: ^2.2.1
     next-transpile-modules: ^10.0.0
@@ -11100,7 +11100,7 @@ __metadata:
     "@web3auth/ethereum-provider": ^4.6.0
     "@web3auth/solana-provider": ^4.6.0
     dexie: 3.2.3
-    eslint: ^8.38.0
+    eslint: 8.38.0
     expo-linear-gradient: ^12.1.2
     nativewind: ^2.0.11
     raf: ^3.4.1
@@ -11143,7 +11143,7 @@ __metadata:
     "@tkey/web-storage": 7.3.0
     "@walless/ui": "*"
     aws-amplify: ^5.0.15
-    eslint: ^8.38.0
+    eslint: 8.38.0
     nativewind: ^2.0.11
     raf: ^3.4.1
     react: ^18.2.0
@@ -15699,7 +15699,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.38.0, eslint@npm:^8.38.0":
+"eslint@npm:8.38.0":
   version: 8.38.0
   resolution: "eslint@npm:8.38.0"
   dependencies:

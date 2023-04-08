@@ -10,6 +10,8 @@
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
+    "@tamagui/core": "^1.9.22",
+    "color2k": "^2.0.2",
     "simple-markdown": "^0.7.3"
   },
   "devDependencies": {

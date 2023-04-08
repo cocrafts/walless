@@ -6610,10 +6610,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.37.0":
-  version: 8.37.0
-  resolution: "@eslint/js@npm:8.37.0"
-  checksum: 7a07fb085c94ce1538949012c292fd3a6cd734f149bc03af6157dfbd8a7477678899ef57b4a27e15b36470a997389ad79a0533d5880c71e67720ae1a7de7c62d
+"@eslint/js@npm:8.38.0":
+  version: 8.38.0
+  resolution: "@eslint/js@npm:8.38.0"
+  checksum: 1f28987aa8c9cd93e23384e16c7220863b39b5dc4b66e46d7cdbccce868040f455a98d24cd8b567a884f26545a0555b761f7328d4a00c051e7ef689cbea5fce1
   languageName: node
   linkType: hard
 
@@ -8878,6 +8878,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tamagui/compose-refs@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/compose-refs@npm:1.12.1"
+  peerDependencies:
+    react: "*"
+  checksum: 75c9f67b6b10be14a3fdf93969322a90c78fca1eb6f24186e6e7db327965a02bdd2a39d3d7b403195095318d090e22532bb47f087f31d987a06b83f98bd3651b
+  languageName: node
+  linkType: hard
+
 "@tamagui/config-default-node@npm:1.11.1":
   version: 1.11.1
   resolution: "@tamagui/config-default-node@npm:1.11.1"
@@ -8893,6 +8902,15 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: d9b134dff4829c7e3f66e159c158f1265b4072381b57d1f0960b04c0e767426e4c1e6d10cc9c9ae5ba328d9640e0dca7d105ead4667dab76f17c78306594d3a4
+  languageName: node
+  linkType: hard
+
+"@tamagui/constants@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/constants@npm:1.12.1"
+  peerDependencies:
+    react: "*"
+  checksum: bf2ff85edc7a7e6db21df95e63178a2087ffc5e4a5dabc9da68786f217c1c0a0b0da75d1ded206dbbaf151f23621ce04d8754327c83786997b261ef4e6de8742
   languageName: node
   linkType: hard
 
@@ -8918,6 +8936,20 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: 5cf89391e205c8e35cf8e0bd4f37a090f0fc0eeea679f415c0869763f0f87625f4824f241ccf52323d4ed09c456e52251c0073080540e4449cb30a00b48ae765
+  languageName: node
+  linkType: hard
+
+"@tamagui/core@npm:^1.9.22":
+  version: 1.12.1
+  resolution: "@tamagui/core@npm:1.12.1"
+  dependencies:
+    "@tamagui/react-native-use-pressable": 1.12.1
+    "@tamagui/react-native-use-responder-events": 1.12.1
+    "@tamagui/use-event": 1.12.1
+    "@tamagui/web": 1.12.1
+  peerDependencies:
+    react: "*"
+  checksum: 7d8e2bc8caffa43960f4d61ac30cae7cb52c60b06c734a8b59123dde875affc3f35b620af6e44c7c76116f314ad4f0ac1294c64c7d982f27390755abc6eea423
   languageName: node
   linkType: hard
 
@@ -9132,6 +9164,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tamagui/helpers@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/helpers@npm:1.12.1"
+  dependencies:
+    "@tamagui/simple-hash": 1.12.1
+  checksum: 4a153aba17bf0e75fcb8f84aa3eb6fdd433e5c7d8d0cf856efd189b13422e78a19e3dbfe7fb6079aae33eda5bdb9079fc340d7fc099074be25a6e8b41657b1d6
+  languageName: node
+  linkType: hard
+
 "@tamagui/image@npm:1.11.1":
   version: 1.11.1
   resolution: "@tamagui/image@npm:1.11.1"
@@ -9228,6 +9269,13 @@ __metadata:
   version: 1.11.1
   resolution: "@tamagui/normalize-css-color@npm:1.11.1"
   checksum: c3237e8f68ef80594be898939fb54f7bd92175f5b9a8a20531af4078873cae2bb234f95095721634b79db414f55c292658ba47c5ad9cc883ccd3ee7ab1be000a
+  languageName: node
+  linkType: hard
+
+"@tamagui/normalize-css-color@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/normalize-css-color@npm:1.12.1"
+  checksum: 430079f5518d4ca59538a99b544e6991249626dfafacf4bc0606a57adca57725beeec076ab3cf7b506a94bc4195073f6b66252e34ecc9ab7cddd5eb6cc59ad5e
   languageName: node
   linkType: hard
 
@@ -9372,12 +9420,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tamagui/react-native-use-pressable@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/react-native-use-pressable@npm:1.12.1"
+  peerDependencies:
+    react: "*"
+  checksum: be815489275a9ed3d74b6ffc55f72c01d8e4e6c9ef0791907344ab1cdecaa9317b45b95dd45b222b2a85741d1ca58c0ef7f5b53d75af48a6d4286eeb66da4710
+  languageName: node
+  linkType: hard
+
 "@tamagui/react-native-use-responder-events@npm:1.11.1":
   version: 1.11.1
   resolution: "@tamagui/react-native-use-responder-events@npm:1.11.1"
   peerDependencies:
     react: "*"
   checksum: 84402ef423245e980d5da45130ea4b8fca1042341d13cca34cbef25043c484cb7fdf55442985f20a119ae3e2d80aae035e6fe39e3cebfff8e95440ad7657d0a3
+  languageName: node
+  linkType: hard
+
+"@tamagui/react-native-use-responder-events@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/react-native-use-responder-events@npm:1.12.1"
+  peerDependencies:
+    react: "*"
+  checksum: be2bc45a981d119a676ddc3cfbe29554a07b58b2578bccb1b04555807909a65393db262394d30b822196f5b364f7fd984d60821e556e3aad536a41906fea58f1
   languageName: node
   linkType: hard
 
@@ -9507,6 +9573,13 @@ __metadata:
   version: 1.11.1
   resolution: "@tamagui/simple-hash@npm:1.11.1"
   checksum: fbd20d9380a2b483261b13aa146d2df2ad58ee2feb97b1ba8f6e92a104100ec4feaf44d53454ca338911d651710e38b5b1c565d16b89592c26e8439967fc55cd
+  languageName: node
+  linkType: hard
+
+"@tamagui/simple-hash@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/simple-hash@npm:1.12.1"
+  checksum: 8440f04771cb7cbc41539f0afd31acae032a685cc509e1eaed5fb3ef905b1b480043c168112a5f22b3aa622a6c72886280957df10de4a0ee0d44029a0adde759
   languageName: node
   linkType: hard
 
@@ -9754,6 +9827,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tamagui/use-did-finish-ssr@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/use-did-finish-ssr@npm:1.12.1"
+  dependencies:
+    "@tamagui/constants": 1.12.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 96299321307db739e0bbb513b299f783b6a073e3c3f2e945141e578f3468e41f665e4db94d1375515270d96ac4af42b2e99fa66523a2eed109f83c1b798f0ea1
+  languageName: node
+  linkType: hard
+
 "@tamagui/use-direction@npm:1.11.1":
   version: 1.11.1
   resolution: "@tamagui/use-direction@npm:1.11.1"
@@ -9772,12 +9857,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tamagui/use-event@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/use-event@npm:1.12.1"
+  peerDependencies:
+    react: "*"
+  checksum: 61b9cc6d2bdb35133ed9273e911dba933a18901eee0d687ff54c3d900553968dde7f0041364b57f4f8b0d966b1ed56d2e607928ed846bdb473f4b035139ea633
+  languageName: node
+  linkType: hard
+
 "@tamagui/use-force-update@npm:1.11.1":
   version: 1.11.1
   resolution: "@tamagui/use-force-update@npm:1.11.1"
   peerDependencies:
     react: "*"
   checksum: a182c324a6a51ca53025c6984f99fa1c2f734c2236be59dd3eade4a8e2d9a066550b8d981c81b9596831920dc4c6af27b5980b91dac6840e0902918c4459e42c
+  languageName: node
+  linkType: hard
+
+"@tamagui/use-force-update@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/use-force-update@npm:1.12.1"
+  peerDependencies:
+    react: "*"
+  checksum: 15cd67bcbb27f9fbc090aa42a6ec04de4e453db1f8769011bbda0d43c3768869453ab1eeb1b1dc24d72cb0af280dfaa4b8ebf847e9a388a0700609b75496e9e7
   languageName: node
   linkType: hard
 
@@ -9839,6 +9942,23 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: 1bdb3c0db7019efcde2752f3ac22a01ebb090a3bd8a4b8a9a6ad245da4cef33d1fbb0407454b29a283623bd986d6a52cf542b5c0e08df5c8eaeb6b28571e4925
+  languageName: node
+  linkType: hard
+
+"@tamagui/web@npm:1.12.1":
+  version: 1.12.1
+  resolution: "@tamagui/web@npm:1.12.1"
+  dependencies:
+    "@tamagui/compose-refs": 1.12.1
+    "@tamagui/constants": 1.12.1
+    "@tamagui/helpers": 1.12.1
+    "@tamagui/normalize-css-color": 1.12.1
+    "@tamagui/use-did-finish-ssr": 1.12.1
+    "@tamagui/use-event": 1.12.1
+    "@tamagui/use-force-update": 1.12.1
+  peerDependencies:
+    react: "*"
+  checksum: 28122c2d0bcc5047c0b992d300e6aaa4f556d6f9ea87c69edcb5abddd086204cf591c08e332a4377cd14c17ce2c598fc4b52f511234f38965a9266c69a349023
   languageName: node
   linkType: hard
 
@@ -10885,6 +11005,7 @@ __metadata:
   resolution: "@walless/app@workspace:packages/app"
   dependencies:
     "@walless/gui": "*"
+    eslint: 8.38.0
     react-native-reanimated: 3.0.2
   peerDependencies:
     react: ^18.2.0
@@ -10907,6 +11028,7 @@ __metadata:
     "@walless/messaging": "*"
     "@walless/storage": "*"
     "@walless/wui": "*"
+    eslint: ^8.38.0
     next: ^13.1.1
     next-compose-plugins: ^2.2.1
     next-transpile-modules: ^10.0.0
@@ -10921,6 +11043,7 @@ __metadata:
   dependencies:
     "@mysten/sui.js": 0.30.0
     "@solana/web3.js": 1.75.0
+    eslint: 8.38.0
   languageName: unknown
   linkType: soft
 
@@ -10929,6 +11052,7 @@ __metadata:
   resolution: "@walless/crypto@workspace:packages/crypto"
   dependencies:
     "@walless/core": "*"
+    eslint: 8.38.0
   languageName: unknown
   linkType: soft
 
@@ -10939,7 +11063,7 @@ __metadata:
     "@next/eslint-plugin-next": ^13.2.4
     "@typescript-eslint/eslint-plugin": ^5.57.0
     "@typescript-eslint/parser": ^5.57.0
-    eslint: ^8.37.0
+    eslint: 8.38.0
     eslint-config-prettier: ^8.8.0
     eslint-plugin-import: ^2.27.5
     eslint-plugin-prettier: ^4.2.1
@@ -10976,6 +11100,7 @@ __metadata:
     "@web3auth/ethereum-provider": ^4.6.0
     "@web3auth/solana-provider": ^4.6.0
     dexie: 3.2.3
+    eslint: ^8.38.0
     expo-linear-gradient: ^12.1.2
     nativewind: ^2.0.11
     raf: ^3.4.1
@@ -10997,6 +11122,7 @@ __metadata:
   resolution: "@walless/gui@workspace:packages/gui"
   dependencies:
     "@tamagui/themes": ^1.11.0
+    eslint: 8.38.0
     react: ^18.2.0
     tamagui: ^1.9.22
     valtio: 1.10.4
@@ -11017,6 +11143,7 @@ __metadata:
     "@tkey/web-storage": 7.3.0
     "@walless/ui": "*"
     aws-amplify: ^5.0.15
+    eslint: ^8.38.0
     nativewind: ^2.0.11
     raf: ^3.4.1
     react: ^18.2.0
@@ -11035,6 +11162,8 @@ __metadata:
 "@walless/icons@*, @walless/icons@workspace:packages/icons":
   version: 0.0.0-use.local
   resolution: "@walless/icons@workspace:packages/icons"
+  dependencies:
+    eslint: 8.38.0
   peerDependencies:
     react: ^18.2.0
   languageName: unknown
@@ -11048,6 +11177,8 @@ __metadata:
     "@tamagui/next-plugin": ^1.9.22
     "@tamagui/next-theme": ^1.9.22
     "@walless/gui": "*"
+    "@walless/markdown": "*"
+    eslint: 8.38.0
     next: ^13.1.1
     next-compose-plugins: ^2.2.1
     next-transpile-modules: ^10.0.0
@@ -11055,10 +11186,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/markdown@workspace:packages/markdown":
+"@walless/markdown@*, @walless/markdown@workspace:packages/markdown":
   version: 0.0.0-use.local
   resolution: "@walless/markdown@workspace:packages/markdown"
   dependencies:
+    "@tamagui/core": ^1.9.22
+    color2k: ^2.0.2
+    eslint: 8.38.0
     simple-markdown: ^0.7.3
   languageName: unknown
   linkType: soft
@@ -11066,6 +11200,8 @@ __metadata:
 "@walless/messaging@*, @walless/messaging@workspace:packages/messaging":
   version: 0.0.0-use.local
   resolution: "@walless/messaging@workspace:packages/messaging"
+  dependencies:
+    eslint: 8.38.0
   peerDependencies:
     "@walless/core": "*"
     "@walless/crypto": "*"
@@ -11087,7 +11223,9 @@ __metadata:
     "@walless/crypto": "*"
     "@walless/gui": "*"
     "@walless/icons": "*"
+    "@walless/markdown": "*"
     babel-jest: ^29.2.1
+    eslint: 8.38.0
     react-native: 0.71.0
     react-native-quick-base64: ^2.0.5
     react-native-reanimated: 3.0.2
@@ -11098,6 +11236,8 @@ __metadata:
 "@walless/network@*, @walless/network@workspace:packages/network":
   version: 0.0.0-use.local
   resolution: "@walless/network@workspace:packages/network"
+  dependencies:
+    eslint: 8.38.0
   peerDependencies:
     "@metaplex-foundation/js": ^0.18.1
     "@mysten/sui.js": 0.30.0
@@ -11111,12 +11251,15 @@ __metadata:
   resolution: "@walless/sdk@workspace:packages/sdk"
   dependencies:
     "@walless/core": "*"
+    eslint: 8.38.0
   languageName: unknown
   linkType: soft
 
 "@walless/storage@*, @walless/storage@workspace:packages/storage":
   version: 0.0.0-use.local
   resolution: "@walless/storage@workspace:packages/storage"
+  dependencies:
+    eslint: 8.38.0
   languageName: unknown
   linkType: soft
 
@@ -11132,6 +11275,7 @@ __metadata:
   dependencies:
     "@types/react": 18.0.33
     "@types/react-dom": ^17.0.11
+    eslint: 8.38.0
     react: ^18.2.0
     tsconfig: "*"
     typescript: ^4.5.2
@@ -11156,6 +11300,7 @@ __metadata:
     "@wallet-standard/base": ^1.0.1
     "@wallet-standard/features": ^1.0.3
     bs58: ^4.0.1
+    eslint: 8.38.0
     shx: ^0.3.4
   languageName: unknown
   linkType: soft
@@ -11179,6 +11324,7 @@ __metadata:
     "@walless/crypto": "*"
     "@walless/gui": "*"
     "@walless/icons": "*"
+    "@walless/markdown": "*"
     "@walless/messaging": "*"
     "@walless/network": "*"
     "@walless/sdk": "*"
@@ -11187,6 +11333,7 @@ __metadata:
     "@web3auth/ethereum-provider": ^4.6.0
     "@web3auth/solana-provider": ^4.6.0
     dexie: 3.2.3
+    eslint: 8.38.0
     raf: ^3.4.1
     react-native-qrcode-svg: ^6.2.0
     react-router-dom: ^6.10.0
@@ -11201,6 +11348,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/wui@workspace:packages/wui"
   dependencies:
+    eslint: 8.38.0
     react: ^18.2.0
     tamagui: ^1.9.22
     valtio: 1.10.4
@@ -13677,7 +13825,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color2k@npm:^2.0.0":
+"color2k@npm:^2.0.0, color2k@npm:^2.0.2":
   version: 2.0.2
   resolution: "color2k@npm:2.0.2"
   checksum: a024d05c0eb24c6cf4f50b73fc948734ebd8cd0ce1fcfd17f4a17e6965c29764fa4b528161de4e65939d6fc32b3063d496c327eb0f48c084b4d79707ddb5965f
@@ -15551,14 +15699,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.37.0":
-  version: 8.37.0
-  resolution: "eslint@npm:8.37.0"
+"eslint@npm:8.38.0, eslint@npm:^8.38.0":
+  version: 8.38.0
+  resolution: "eslint@npm:8.38.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.4.0
     "@eslint/eslintrc": ^2.0.2
-    "@eslint/js": 8.37.0
+    "@eslint/js": 8.38.0
     "@humanwhocodes/config-array": ^0.11.8
     "@humanwhocodes/module-importer": ^1.0.1
     "@nodelib/fs.walk": ^1.2.8
@@ -15597,7 +15745,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: 80f3d5cdce2d671f4794e392d234a78d039c347673defb0596268bd481e8f30a53d93c01ff4f66a546c87d97ab4122c0e9cafe1371f87cb03cee6b7d5aa97595
+  checksum: 73b6d9b650d0434aa7c07d0a1802f099b086ee70a8d8ba7be730439a26572a5eb71def12125c82942be2ec8ee5be38a6f1b42a13e40d4b67f11a148ec9e263eb
   languageName: node
   linkType: hard
 

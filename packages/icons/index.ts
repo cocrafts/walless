@@ -6,6 +6,7 @@ export { Cart } from './components/Cart';
 export { CheckCircle } from './components/CheckCircle';
 export { ChevronDown } from './components/ChevronDown';
 export { ChevronRight } from './components/ChevronRight';
+export { Compass } from './components/Compass';
 export { Eye } from './components/Eye';
 export { EyeOff } from './components/EyeOff';
 export { Heart } from './components/Heart';

@@ -1,4 +1,4 @@
-import { FC, Fragment, ReactElement, useMemo } from 'react';
+import { FC, Fragment } from 'react';
 import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme';
 import { GuiProvider } from '@walless/gui';
 import { AppProps } from 'next/app';
@@ -8,12 +8,8 @@ import config from '../tamagui.config';
 import '@tamagui/core/reset.css';
 import '../style.css';
 
-export const App: FC<AppProps> = (props) => {
+export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	const [theme, setTheme] = useRootTheme();
-
-	const contents = useMemo(() => {
-		return <ContentInner {...props} />;
-	}, [props.pageProps]);
 
 	return (
 		<Fragment>
@@ -30,7 +26,7 @@ export const App: FC<AppProps> = (props) => {
 					config={config}
 					theme={theme}
 				>
-					{contents}
+					<Component {...pageProps} />
 				</GuiProvider>
 			</NextThemeProvider>
 		</Fragment>
@@ -38,11 +34,3 @@ export const App: FC<AppProps> = (props) => {
 };
 
 export default App;
-
-const ContentInner: FC<AppProps> = ({ Component, pageProps }) => {
-	/* eslint-disable-next-line */
-	const layoutFunc = (Component as any).getLayout;
-	const getLayout = layoutFunc || ((page: ReactElement) => page);
-
-	return getLayout(<Component {...pageProps} />);
-};

@@ -36,6 +36,12 @@ export default Button;
 
 export const ButtonContainer = styled(Stack, {
 	variants: {
+		transparent: {
+			true: {
+				backgroundColor: 'transparent',
+				paddingHorizontal: 0,
+			},
+		},
 		disabled: {
 			true: {
 				backgroundColor: '#202D38',

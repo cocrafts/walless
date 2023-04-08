@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Image, Stack, Text } from '@walless/gui';
 import { Heart } from '@walless/icons';
-import { Layout } from 'screens/Explore';
+import { Layout } from 'screens/Explore/internal';
 
 import AddLayoutBtn from './AddLayoutBtn';
 

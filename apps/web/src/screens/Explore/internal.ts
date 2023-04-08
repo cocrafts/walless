@@ -1,4 +1,18 @@
-import { Layout } from '.';
+export interface Layout {
+	id: string;
+	name: string;
+	description: string;
+	thumbnail: string;
+	logo: string;
+	loveCount: number;
+	isLoved: boolean;
+	activeUsers: number;
+}
+
+export interface LayoutCardProps {
+	item: Layout;
+	onPressLoveBtn: (layout: Layout) => void;
+}
 
 export const mockLayoutCards: Layout[] = [
 	{

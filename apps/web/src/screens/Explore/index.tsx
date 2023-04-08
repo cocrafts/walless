@@ -3,18 +3,7 @@ import { Stack, Text } from '@walless/gui';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
-import { mockLayoutCards } from './internal';
-
-export interface Layout {
-	id: string;
-	name: string;
-	description: string;
-	thumbnail: string;
-	logo: string;
-	loveCount: number;
-	isLoved: boolean;
-	activeUsers: number;
-}
+import { Layout, mockLayoutCards } from './internal';
 
 export const ExploreScreen: FC = () => {
 	const handleSearch = (value: string) => {

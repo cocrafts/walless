@@ -15,7 +15,7 @@
     "@mysten/sui.js": "0.30.0",
     "@solana/spl-token": "^0.3.7",
     "@solana/web3.js": "1.75.0",
-    "@tamagui/animations-css": "^1.9.22",
+    "@tamagui/animations-css": "1.12.2",
     "@tkey/chrome-storage": "7.3.0",
     "@tkey/default": "7.3.0",
     "@tkey/private-keys": "7.3.0",
@@ -38,7 +38,7 @@
     "react-native-qrcode-svg": "^6.2.0",
     "react-router-dom": "^6.10.0",
     "setimmediate": "^1.0.5",
-    "tamagui": "^1.9.22",
+    "tamagui": "1.12.2",
     "valtio": "1.10.4"
   },
   "devDependencies": {

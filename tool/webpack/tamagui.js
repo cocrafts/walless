@@ -4,7 +4,7 @@ const {resolve} = require('path');
 const workspaceRoot = resolve(__dirname, '../..');
 
 const tamaguiBuild = (config, internal) => {
-	const {webpack} = internal.modules;
+	const { webpack } = internal.modules;
 	const isProd = process.env.ENV === 'production';
 	const original = config.module.rules[0];
 	const tamaguiOptions = {

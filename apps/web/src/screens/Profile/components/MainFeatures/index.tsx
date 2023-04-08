@@ -1,12 +1,18 @@
 import { Stack } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight, Cart, Swap } from '@walless/icons';
+import { router } from 'utils/routing';
 
 import FeatureButton from './FeatureButton';
 
 const MainFeatures = () => {
 	return (
 		<Stack display="flex" flexDirection="row" gap={25}>
-			<FeatureButton featureName="Send" onPress={() => console.log('Send')}>
+			<FeatureButton
+				featureName="Send"
+				onPress={() => {
+					router.navigate('/send');
+				}}
+			>
 				<ArrowTopRight size={24} />
 			</FeatureButton>
 			<FeatureButton

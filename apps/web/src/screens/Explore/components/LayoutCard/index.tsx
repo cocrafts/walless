@@ -38,9 +38,16 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onPressLoveBtn }) => {
 				display="flex"
 				justifyContent="flex-end"
 			>
-				<Image src={item.logo} width={40} height={40} borderRadius={8} />
+				<Image
+					src={item.logo}
+					width={40}
+					height={40}
+					borderRadius={8}
+					borderWidth={2}
+					borderColor="#10181F"
+				/>
 
-				<Text fontWeight="600" fontSize={14}>
+				<Text fontSize={14} marginTop={4} fontWeight="600">
 					{item.name}
 				</Text>
 

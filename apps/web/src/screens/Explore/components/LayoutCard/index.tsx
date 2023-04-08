@@ -1,14 +1,9 @@
 import { FC } from 'react';
 import { Image, Stack, Text } from '@walless/gui';
 import { Heart } from '@walless/icons';
-import { Layout } from 'screens/Explore/internal';
+import { LayoutCardProps } from 'screens/Explore/internal';
 
 import AddLayoutBtn from './AddLayoutBtn';
-
-export interface LayoutCardProps {
-	item: Layout;
-	onPressLoveBtn: (layout: Layout) => void;
-}
 
 const LayoutCard: FC<LayoutCardProps> = ({ item, onPressLoveBtn }) => {
 	const heartColors = item.isLoved ? ['red', 'red'] : ['white', 'none'];

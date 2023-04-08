@@ -12,7 +12,7 @@ export const strong: ParserRule & ReactOutputRule = {
 		return createElement(
 			Text,
 			{ key: state.key },
-			output(node.content, { ...state, fontWeight: '600' }),
+			output(node.content, { ...state, fontWeight: '500' }),
 		);
 	},
 };

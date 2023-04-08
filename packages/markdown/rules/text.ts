@@ -23,7 +23,7 @@ export const text: ParserRule & ReactOutputRule = {
 					fontFamily,
 					fontSize: state.fontSize || config.fontSize,
 					lineHeight: config.fontSize * 1.2,
-					fontWeight: fontWeight || '400',
+					fontWeight: fontWeight || config.fontWeight || '400',
 					fontStyle: fontStyle || 'normal',
 					color: color || colors.text,
 				},

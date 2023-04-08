@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Text, TextStyle, View, ViewStyle } from 'react-native';
+import { Stack, Text, TextProps } from '@tamagui/core';
 import {
 	defaultRules,
 	ParserRule,
@@ -16,31 +16,11 @@ export const list: ParserRule & ReactOutputRule = {
 		const { fontFamily, fontSize, colors }: MarkdownConfig = config;
 		const items = node.items || [];
 
-		const textStyle: TextStyle = {
+		const textProps: TextProps = {
 			fontFamily,
 			fontSize,
 			fontWeight: '500',
 			color: color || colors.text,
-		};
-		const bulletStyle: TextStyle = {
-			...textStyle,
-			marginRight: 6,
-			color: colors.alt,
-		};
-		const orderedStyle: TextStyle = { ...textStyle, marginRight: 6 };
-		const checkboxStyle: ViewStyle = {
-			width: checkboxSize,
-			height: checkboxSize,
-			borderRadius: 3,
-			borderWidth: 2,
-			borderColor: colors.alt,
-			marginLeft: -3,
-			marginTop: 5,
-			marginRight: 6,
-		};
-		const completedCheckbox: ViewStyle = {
-			backgroundColor: colors.primary,
-			borderColor: colors.primary,
 		};
 
 		const bullets = items.map((item: SingleASTNode[], i: number) => {
@@ -64,29 +44,41 @@ export const list: ParserRule & ReactOutputRule = {
 
 			const generateListIcon = () => {
 				if (isTodo) {
-					return createElement(View, {
-						style: [checkboxStyle, selected && completedCheckbox],
+					return createElement(Stack, {
+						width: checkboxSize,
+						height: checkboxSize,
+						borderRadius: 3,
+						borderWidth: 2,
+						borderColor: selected ? colors.primary : colors.alt,
+						backgroundColor: selected ? colors.primary : 'transparent',
+						marginLeft: -3,
+						marginTop: 5,
+						marginRight: 6,
 					});
 				} else if (node.ordered) {
-					return createElement(Text, { style: orderedStyle }, `${i + 1}.`);
+					return createElement(
+						Text,
+						{ ...textProps, marginRight: 6 },
+						`${i + 1}.`,
+					);
 				} else {
-					return createElement(Text, { style: bulletStyle }, '●');
+					return createElement(
+						Text,
+						{ ...textProps, marginRight: 6, color: colors.alt },
+						'●',
+					);
 				}
 			};
 
 			return createElement(
 				Text,
-				{ key: `${state.key}#${i}` },
+				{ key: `${state.key}#${i}`, lineHeight: fontSize * 1.5 },
 				generateListIcon(),
 				content,
 			);
 		});
 
-		return createElement(
-			View,
-			{ key: state.key, style: { marginLeft: 8 } },
-			bullets,
-		);
+		return createElement(Stack, { key: state.key, marginLeft: 8 }, bullets);
 	},
 };
 

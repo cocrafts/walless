@@ -1,15 +1,19 @@
-import React from 'react';
-import { Text } from 'react-native';
-import { defaultRules, ParserRule, ReactOutputRule } from 'simple-markdown';
+import { createElement } from 'react';
+import { Text } from '@tamagui/core';
+import {
+	type ParserRule,
+	type ReactOutputRule,
+	defaultRules,
+} from 'simple-markdown';
 
 export const del: ParserRule & ReactOutputRule = {
 	...defaultRules.del,
 	react: (node, output, state) => {
-		return React.createElement(
+		return createElement(
 			Text,
 			{
 				key: state.key,
-				style: { textDecorationLine: 'line-through' },
+				textDecorationLine: 'line-through',
 			},
 			output(node.content, state),
 		);

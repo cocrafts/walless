@@ -1,11 +1,15 @@
-import React from 'react';
-import { Text } from 'react-native';
-import { defaultRules, ParserRule, ReactOutputRule } from 'simple-markdown';
+import { createElement } from 'react';
+import { Text } from '@tamagui/core';
+import {
+	type ParserRule,
+	type ReactOutputRule,
+	defaultRules,
+} from 'simple-markdown';
 
 export const em: ParserRule & ReactOutputRule = {
 	...defaultRules.em,
 	react: (node, output, state) => {
-		return React.createElement(
+		return createElement(
 			Text,
 			{ key: state.key },
 			output(node.content, { ...state, fontStyle: 'italic' }),

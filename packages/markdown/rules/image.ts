@@ -1,6 +1,11 @@
-import { createElement, FC } from 'react';
-import { Image, ImageURISource, Text, TextStyle, View } from 'react-native';
-import { defaultRules, ParserRule, ReactOutputRule } from 'simple-markdown';
+import { type FC, createElement } from 'react';
+import { type ImageURISource, Image } from 'react-native';
+import { Stack, Text } from '@tamagui/core';
+import {
+	type ParserRule,
+	type ReactOutputRule,
+	defaultRules,
+} from 'simple-markdown';
 
 import { useImageAspectRatio } from '../utils/hook';
 import { MarkdownState } from '../utils/types';
@@ -24,22 +29,26 @@ export const image: ParserRule & ReactOutputRule = {
 		const { layout, fontFamily, colors } = config;
 		const imageSrc = { uri: node.target };
 		const caption = node.title;
-		const captionStyle: TextStyle = {
-			fontFamily,
-			textAlign: 'center',
-			fontSize: 12,
-			color: colors.alt,
-			marginTop: 3,
-		};
 
-		return createElement(View, { key }, [
+		return createElement(Stack, { key }, [
 			createElement(AspectImage, {
 				key: 'image',
 				width: layout.width,
 				source: imageSrc,
 			}),
 			caption &&
-				createElement(Text, { key: 'caption', style: captionStyle }, caption),
+				createElement(
+					Text,
+					{
+						key: 'caption',
+						fontFamily,
+						textAlign: 'center',
+						fontSize: 12,
+						color: colors.alt,
+						marginTop: 3,
+					},
+					caption,
+				),
 		]);
 	},
 };

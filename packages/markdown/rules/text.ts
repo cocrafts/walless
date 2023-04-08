@@ -1,6 +1,10 @@
 import { createElement } from 'react';
-import { Text, TextStyle } from 'react-native';
-import { defaultRules, ParserRule, ReactOutputRule } from 'simple-markdown';
+import { Text } from 'react-native';
+import {
+	type ParserRule,
+	type ReactOutputRule,
+	defaultRules,
+} from 'simple-markdown';
 
 import { MarkdownState } from '../utils/types';
 
@@ -11,15 +15,21 @@ export const text: ParserRule & ReactOutputRule = {
 			state as MarkdownState;
 		const { fontFamily, colors } = config;
 
-		const style: TextStyle = {
-			fontFamily,
-			fontSize: state.fontSize || config.fontSize,
-			fontWeight: fontWeight || '400',
-			fontStyle: fontStyle || 'normal',
-			color: color || colors.text,
-		};
-
-		return createElement(Text, { key, style }, node.content);
+		return createElement(
+			Text,
+			{
+				key,
+				style: {
+					fontFamily,
+					fontSize: state.fontSize || config.fontSize,
+					lineHeight: config.fontSize * 1.2,
+					fontWeight: fontWeight || '400',
+					fontStyle: fontStyle || 'normal',
+					color: color || colors.text,
+				},
+			},
+			node.content,
+		);
 	},
 };
 

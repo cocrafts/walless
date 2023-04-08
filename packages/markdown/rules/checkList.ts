@@ -1,10 +1,10 @@
 import { createElement } from 'react';
-import { Text, TextStyle, View, ViewStyle } from 'react-native';
+import { Stack, Text } from '@tamagui/core';
 import {
+	type ParserRule,
+	type ReactOutputRule,
 	blockRegex,
 	defaultRules,
-	ParserRule,
-	ReactOutputRule,
 } from 'simple-markdown';
 
 export const checkList: ParserRule & ReactOutputRule = {
@@ -20,22 +20,15 @@ export const checkList: ParserRule & ReactOutputRule = {
 		const { key } = state;
 		const backgroundColor = node.listType === 'x' ? 'green' : 'transparent';
 		const size = 20;
-		const containerStyle: ViewStyle = {
-			flexDirection: 'row',
-		};
-		const iconStyle: ViewStyle = {
-			width: size,
-			height: size,
-			borderRadius: 4,
-			backgroundColor,
-		};
-		const textStyle: TextStyle = {
-			flex: 1,
-		};
 
-		return createElement(View, { key, style: containerStyle }, [
-			createElement(View, { style: iconStyle }),
-			createElement(View, { style: textStyle }, [
+		return createElement(Stack, { key, flexDirection: 'row' }, [
+			createElement(Stack, {
+				width: size,
+				height: size,
+				borderRadius: 4,
+				backgroundColor,
+			}),
+			createElement(Stack, { flex: 1 }, [
 				createElement(Text, {}, output(node.content, state)),
 			]),
 		]);

@@ -17,10 +17,10 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onPressLoveBtn }) => {
 	};
 
 	return (
-		<Stack backgroundColor="#131C24" width={332} height={259} borderRadius={12}>
+		<Stack backgroundColor="#131C24" height={259} borderRadius={12}>
 			<Image
 				src={item.thumbnail}
-				width={332}
+				width="100%"
 				height={133}
 				borderTopLeftRadius={12}
 				borderTopRightRadius={12}

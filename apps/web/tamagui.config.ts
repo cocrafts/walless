@@ -2,10 +2,9 @@ import { createAnimations } from '@tamagui/animations-css';
 import {
 	createFont,
 	createTamagui,
+	createTokens,
 	TamaguiInternalConfig,
 } from '@tamagui/core';
-import { shorthands } from '@tamagui/shorthands';
-import { themes, tokens } from '@tamagui/themes';
 
 const animations = createAnimations({
 	fast: 'ease-in 150ms',
@@ -33,11 +32,31 @@ const fonts = {
 	}),
 };
 
+const tokens = createTokens({
+	color: {
+		primary: '#000',
+	},
+	size: {},
+	radius: {},
+	space: {},
+	zIndex: {},
+});
+
+const themes = {
+	dark: {
+		background: '#011726',
+		color: '#dadada',
+	},
+	light: {
+		color: '#383838',
+		background: '#fff',
+	},
+};
+
 export const config: TamaguiInternalConfig = createTamagui({
-	defaultTheme: 'light',
+	defaultTheme: 'dark',
 	themes,
 	tokens,
-	shorthands,
 	animations,
 	fonts,
 });

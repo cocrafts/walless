@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/gui';
+import { StyleSheet } from 'react-native';
+import { ScrollView, Text } from '@walless/gui';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
@@ -15,14 +16,7 @@ export const ExploreScreen: FC = () => {
 	};
 
 	return (
-		<Stack
-			display="flex"
-			alignItems="center"
-			gap={24}
-			paddingHorizontal={14}
-			paddingVertical={20}
-			maxHeight="100vh"
-		>
+		<ScrollView contentContainerStyle={styles.contentContainer}>
 			<Text fontSize={20} lineHeight={26} fontWeight="500">
 				Choose a layout to start
 			</Text>
@@ -36,8 +30,17 @@ export const ExploreScreen: FC = () => {
 					onPressLoveBtn={handlePressLoveBtn}
 				/>
 			))}
-		</Stack>
+		</ScrollView>
 	);
 };
 
 export default ExploreScreen;
+
+const styles = StyleSheet.create({
+	contentContainer: {
+		paddingHorizontal: 14,
+		paddingVertical: 20,
+		gap: 18,
+		maxWidth: 400,
+	},
+});

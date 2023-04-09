@@ -1,4 +1,4 @@
-import { createFont, createTokens } from '@tamagui/core';
+import { createTokens } from '@tamagui/core';
 import { tokens as defaultTokens } from '@tamagui/themes';
 
 export const tokens = createTokens({
@@ -11,21 +11,3 @@ export const tokens = createTokens({
 	space: defaultTokens.space,
 	zIndex: defaultTokens.zIndex,
 });
-
-export const fonts = {
-	body: createFont({
-		family: 'Poppins',
-		size: {
-			4: 14,
-		},
-		lineHeight: {
-			4: 16,
-		},
-		letterSpacing: {
-			4: 1,
-		},
-		weight: {
-			4: 400,
-		},
-	}),
-};

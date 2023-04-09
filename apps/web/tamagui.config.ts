@@ -1,7 +1,7 @@
 import { createAnimations } from '@tamagui/animations-css';
 import { createTamagui, TamaguiInternalConfig } from '@tamagui/core';
 
-import { darkTheme, fonts, lightTheme, tokens } from '../../tool/tamagui';
+import { fonts, media, themes, tokens } from '../../tool/tamagui';
 
 const animations = createAnimations({
 	fast: 'ease-in 150ms',
@@ -13,12 +13,10 @@ const animations = createAnimations({
 
 export const config: TamaguiInternalConfig = createTamagui({
 	defaultTheme: 'dark',
-	themes: {
-		dark: darkTheme,
-		light: lightTheme,
-	},
+	themes,
 	fonts,
 	tokens,
+	media,
 	animations,
 });
 

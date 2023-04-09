@@ -36,6 +36,18 @@ export default Button;
 
 export const ButtonContainer = styled(Stack, {
 	variants: {
+		transparent: {
+			true: {
+				backgroundColor: 'transparent',
+				paddingHorizontal: 0,
+			},
+		},
+		outline: {
+			true: {
+				backgroundColor: 'transparent',
+				borderColor: 'rgba(255, 255, 255, 0.3)',
+			},
+		},
 		disabled: {
 			true: {
 				backgroundColor: '#202D38',
@@ -48,6 +60,8 @@ export const ButtonContainer = styled(Stack, {
 	userSelect: 'none',
 	paddingHorizontal: 20,
 	paddingVertical: 10,
+	borderWidth: 1,
+	borderColor: 'transparent',
 	borderRadius: 15,
 	alignItems: 'center',
 	backgroundColor: '#0694D3',

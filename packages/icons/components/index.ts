@@ -14,3 +14,4 @@ export { Plus } from './Plus';
 export { Search } from './Search';
 export { Setting } from './Setting';
 export { Swap } from './Swap';
+export { Times } from './Times';

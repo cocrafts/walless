@@ -15,3 +15,4 @@ export { Plus } from './components/Plus';
 export { Search } from './components/Search';
 export { Setting } from './components/Setting';
 export { Swap } from './components/Swap';
+export { Times } from './components/Times';

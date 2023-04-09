@@ -44,13 +44,7 @@ const HeadingSection = () => {
 
 	return (
 		<Stack height={height} marginVertical={64} $md={{ marginVertical: 0 }}>
-			<ContainerStack
-				fullscreen
-				paddingHorizontal={64}
-				$md={{ paddingHorizontal: 24 }}
-				$sm={{ paddingHorizontal: 12 }}
-				$xs={{ paddingHorizontal: 0 }}
-			>
+			<ContainerStack fullscreen>
 				{particleElement}
 				{contentElement}
 			</ContainerStack>

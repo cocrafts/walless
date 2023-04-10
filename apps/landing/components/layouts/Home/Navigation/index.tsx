@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { useMedia } from '@tamagui/core';
 import { Button, Stack } from '@walless/gui';
-import Anchor from 'components/Anchor';
 import { ContainerStack } from 'components/styled';
 
 import HomeButton from './HomeButton';

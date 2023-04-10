@@ -1,5 +1,5 @@
-import { FC, useState } from 'react';
-import { Input as WallessInput, Stack, Text } from '@walless/gui';
+import { FC } from 'react';
+import { Input as WallessInput, Stack } from '@walless/gui';
 
 interface Props {
 	content: string;
@@ -8,7 +8,6 @@ interface Props {
 }
 
 const Input: FC<Props> = ({ content, rightNode }) => {
-	const [isActive, setIsActive] = useState(false);
 	return (
 		<Stack
 			display="flex"
@@ -28,14 +27,17 @@ const Input: FC<Props> = ({ content, rightNode }) => {
 				width={336}
 				height={48}
 				borderRadius={15}
-				borderColor={isActive ? '#49596A' : 'transparent'}
-				borderWidth={isActive ? 1 : 0}
+				borderWidth={0}
 				paddingHorizontal={16}
 				placeholder={content}
 				placeholderTextColor="#566674"
 				color="#FFFFFF"
 				fontWeight="400"
 				fontSize={14}
+				focusStyle={{
+					borderColor: '#49596A',
+					borderWidth: 1,
+				}}
 			/>
 		</Stack>
 	);

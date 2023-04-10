@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Button, Stack, Text } from '@walless/gui';
+import Anchor from 'components/Anchor';
 import BulletSeparator from 'components/BulletSeparator';
 import DecorationSquare from 'components/DecorationSquare';
 
@@ -59,12 +60,16 @@ export const PrimaryContent: FC = () => {
 			</Stack>
 			<Stack
 				horizontal
+				alignItems="flex-start"
 				justifyContent="center"
-				marginTop={18}
 				$sm={{ flex: 1 }}
 			>
-				<Button title="Main CTA" marginHorizontal={8} />
-				<Button outline title="Sub CTA" marginHorizontal={8} />
+				<Anchor href="/docs">
+					<Button title="Docs" marginHorizontal={8} />
+				</Anchor>
+				<Anchor href="/privacy-policy">
+					<Button outline title="Privacy" marginHorizontal={8} />
+				</Anchor>
 			</Stack>
 		</Stack>
 	);

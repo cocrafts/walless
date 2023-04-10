@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useMedia } from '@tamagui/core';
 import { Button, Stack } from '@walless/gui';
+import Anchor from 'components/Anchor';
 import { ContainerStack } from 'components/styled';
 
 import HomeButton from './HomeButton';
@@ -25,7 +26,9 @@ export const HomeNavigation: FC = () => {
 							return <NavItem key={index} item={item} />;
 						})}
 				</Stack>
-				<Button title="Launch" />
+				<Anchor href="https://app.walless.io">
+					<Button title="Launch" />
+				</Anchor>
 			</ContainerStack>
 		</Stack>
 	);

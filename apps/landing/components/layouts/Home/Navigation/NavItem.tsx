@@ -14,6 +14,7 @@ export const NavigationItem: FC<Props> = ({ item, onPress }) => {
 			marginHorizontal={12}
 			fontSize={16}
 			onPress={onPress}
+			color="$navigationFg"
 		>
 			{item.title}
 		</Anchor>

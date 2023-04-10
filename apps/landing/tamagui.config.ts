@@ -21,6 +21,9 @@ export const tokens = createTokens({
 	color: {
 		primary: '#19232c',
 		text: '#fefefe',
+		link: '#19A3E1',
+		navigationText: '#fefefe',
+		navigationBackground: '#19232C',
 	},
 	size: defaultTokens.size,
 	radius: defaultTokens.radius,
@@ -31,13 +34,15 @@ export const tokens = createTokens({
 export const darkTheme = createTheme({
 	background: tokens.color.primary,
 	color: tokens.color.text,
-	navigationBg: '#19232C',
+	navigationFg: tokens.color.navigationText,
+	navigationBg: tokens.color.navigationBackground,
 });
 
 export const lightTheme = createTheme({
 	background: '#ffffff',
 	color: '#222222',
-	navigationBg: '#19232C',
+	navigationFg: tokens.color.navigationText,
+	navigationBg: tokens.color.navigationBackground,
 });
 
 export const config: TamaguiInternalConfig = createTamagui({

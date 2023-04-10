@@ -4,7 +4,7 @@ import { ContainerStack } from 'components/styled';
 
 export const PolicyPage = () => {
 	return (
-		<HomeLayout backgroundColor="white">
+		<HomeLayout theme="light">
 			<ContainerStack maxWidth={1024}>
 				<Markdown
 					options={markdownOptions}

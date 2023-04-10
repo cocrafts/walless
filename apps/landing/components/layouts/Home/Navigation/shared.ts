@@ -8,11 +8,11 @@ export const navigationHeight = 64;
 export const navigationItems: NavigationConfig[] = [
 	{
 		title: 'Getting started',
-		href: '/',
+		href: '/docs/getting-started',
 	},
 	{
-		title: 'For developers',
-		href: '/',
+		title: 'Docs',
+		href: '/docs',
 	},
 	{
 		title: 'News',

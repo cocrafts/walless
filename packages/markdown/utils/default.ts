@@ -15,6 +15,7 @@ export const defaultColors: ThemeColors = {
 
 export const defaultConfigs: Omit<MarkdownConfig, 'layout'> = {
 	fontFamily: 'Rubik',
+	fontWeight: '400',
 	fontSize: 15,
 	lineHeight: 20,
 	dark: false,

@@ -3,18 +3,18 @@ import { ScrollView, Stack } from '@walless/gui';
 
 import { LayoutProps } from '../shared';
 
-import HeadingSection, { headingHeight } from './Heading';
+import Navigation, { navigationHeight } from './Navigation';
 
-export const HomeLayout: FC<LayoutProps> = ({ children }) => {
+export const HomeLayout: FC<LayoutProps> = ({ children, ...stackProps }) => {
 	return (
-		<Stack flex={1}>
+		<Stack flex={1} {...stackProps}>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
-				marginTop={headingHeight}
+				marginTop={navigationHeight}
 			>
 				{children}
 			</ScrollView>
-			<HeadingSection />
+			<Navigation />
 		</Stack>
 	);
 };

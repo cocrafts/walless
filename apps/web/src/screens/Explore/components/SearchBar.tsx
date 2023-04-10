@@ -15,13 +15,9 @@ const SearchBar: FC<Props> = ({ onSearch }) => {
 
 	return (
 		<Stack
-			display="flex"
 			flexDirection="row"
-			justifyContent="space-between"
 			alignItems="center"
 			backgroundColor="#0E141A"
-			width="100%"
-			height={40}
 			borderRadius={10}
 			paddingHorizontal={10}
 		>

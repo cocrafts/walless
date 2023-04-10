@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Button, Stack, Text } from '@walless/gui';
 import BulletSeparator from 'components/BulletSeparator';
+import DecorationSquare from 'components/DecorationSquare';
 
 import { features } from './shared';
 
@@ -29,12 +30,7 @@ export const PrimaryContent: FC = () => {
 				paddingLeft={8}
 				$xs={{ flex: 1, alignItems: 'center' }}
 			>
-				<Stack
-					width={15}
-					height={15}
-					backgroundColor="rgba(255, 255, 255, 0.2)"
-					marginBottom={8}
-				/>
+				<DecorationSquare marginBottom={8} />
 				{features.map((feature, index) => {
 					return (
 						<Text key={index} fontSize={16} lineHeight={35} fontWeight="500">

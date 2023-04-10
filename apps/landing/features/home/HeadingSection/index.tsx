@@ -15,7 +15,7 @@ const HeadingSection = () => {
 	};
 
 	const particleElement = (
-		<Stack fullscreen>
+		<Stack fullscreen $md={{ opacity: 0.5 }} $xs={{ opacity: 0.3 }}>
 			{particles.map(({ Component, style, size }, index) => {
 				return <Component key={index} width={size} style={style} />;
 			})}

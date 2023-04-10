@@ -4,7 +4,6 @@ import ExploreScreen from 'screens/Explore';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
 import ProfileScreen from 'screens/Profile';
-import SendTokenScreen from 'screens/Profile/modals/SendToken';
 import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
 import RequestSignature from 'screens/Request/Signature';

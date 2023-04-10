@@ -1,8 +1,13 @@
 import { createAnimations } from '@tamagui/animations-css';
-import { createTamagui, TamaguiInternalConfig } from '@tamagui/core';
-import { shorthands } from '@tamagui/shorthands';
+import {
+	createTamagui,
+	createTheme,
+	createTokens,
+	TamaguiInternalConfig,
+} from '@tamagui/core';
+import { tokens as defaultTokens } from '@tamagui/themes';
 
-import { fonts, media, themes, tokens } from '../../tool/tamagui';
+import { fonts, media } from '../../tool/tamagui';
 
 const animations = createAnimations({
 	fast: 'ease-in 150ms',
@@ -12,10 +17,34 @@ const animations = createAnimations({
 	mask: 'ease-in 250ms',
 });
 
+export const tokens = createTokens({
+	color: {
+		primary: '#19232c',
+		text: '#fefefe',
+	},
+	size: defaultTokens.size,
+	radius: defaultTokens.radius,
+	space: defaultTokens.space,
+	zIndex: defaultTokens.zIndex,
+});
+
+export const darkTheme = createTheme({
+	background: tokens.color.primary,
+	color: tokens.color.text,
+	navigationBg: '#19232C',
+});
+
+export const lightTheme = createTheme({
+	background: '#ffffff',
+	color: '#222222',
+});
+
 export const config: TamaguiInternalConfig = createTamagui({
-	themes,
 	tokens,
-	shorthands,
+	themes: {
+		dark: darkTheme,
+		light: lightTheme,
+	},
 	fonts,
 	media,
 	animations,

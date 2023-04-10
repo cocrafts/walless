@@ -9,7 +9,7 @@ export const Plus: FC<Props> = ({ size = 24, color = '#FFFFFF' }) => {
 			width={size}
 			height={size}
 			viewBox="0 0 24 24"
-			fill="none"
+			fill={color}
 			stroke={color}
 			strokeWidth="2"
 			strokeLinecap="round"

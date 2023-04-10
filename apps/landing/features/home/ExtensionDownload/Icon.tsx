@@ -1,23 +1,22 @@
 import { FC } from 'react';
 import { Image, Stack, Text } from '@walless/gui';
+import Anchor from 'components/Anchor';
 
 import { ExtensionConfig } from './shared';
 
 interface Props {
 	size?: number;
 	item: ExtensionConfig;
-	onPress?: (item: ExtensionConfig) => void;
 	titleClass?: string;
 }
 
-export const ExtensionIcon: FC<Props> = ({ size = 48, item, onPress }) => {
+export const ExtensionIcon: FC<Props> = ({ size = 48, item }) => {
 	return (
-		<Stack cursor="pointer">
+		<Anchor href={item.download}>
 			<Stack
 				animation="fast"
 				hoverStyle={{ opacity: 0.6 }}
 				pressStyle={{ opacity: 0.4 }}
-				onPress={() => onPress?.(item)}
 			>
 				<Image
 					src={item.iconSrc}
@@ -40,7 +39,7 @@ export const ExtensionIcon: FC<Props> = ({ size = 48, item, onPress }) => {
 					{item.title}
 				</Text>
 			</Stack>
-		</Stack>
+		</Anchor>
 	);
 };
 

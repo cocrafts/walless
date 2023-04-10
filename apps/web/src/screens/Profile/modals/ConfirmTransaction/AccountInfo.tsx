@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { Image, Stack, Text } from '@walless/gui';
+import { Stack, Text } from '@walless/gui';
 
 import InfoWrapper from '../components/InfoWrapper';
+import WalletInfo from '../components/WalletInfo';
 
 interface Props {
 	networkLogo: string;
@@ -23,26 +24,13 @@ const AccountInfo: FC<Props> = ({
 			</Text>
 
 			<InfoWrapper>
-				<Stack
-					display="flex"
-					flexDirection="row"
-					gap={16}
-					alignItems="center"
-					paddingVertical={16}
-					paddingHorizontal={20}
-				>
-					<Stack borderRadius="100%" overflow="hidden">
-						<Image src={networkLogo} width={35} height={35} />
-					</Stack>
-
-					<Stack display="flex" gap={2}>
-						<Text fontSize={14} fontWeight="600">
-							{walletName} ({networkName})
-						</Text>
-						<Text fontSize={12} fontWeight="500" color="#566674">
-							{walletAddress}
-						</Text>
-					</Stack>
+				<Stack paddingVertical={16} paddingHorizontal={20}>
+					<WalletInfo
+						networkLogo={networkLogo}
+						networkName={networkName}
+						walletAddress={walletAddress}
+						walletName={walletName}
+					/>
 				</Stack>
 			</InfoWrapper>
 		</Stack>

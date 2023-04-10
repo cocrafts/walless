@@ -11,8 +11,6 @@ const ModalWrapper: FC<Props> = ({ children }) => {
 			backgroundColor="#141B21"
 			paddingVertical={16}
 			display="flex"
-			justifyContent="space-between"
-			alignItems="center"
 			minHeight="100vh"
 		>
 			{children}

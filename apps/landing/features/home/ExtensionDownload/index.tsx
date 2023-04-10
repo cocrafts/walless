@@ -4,13 +4,9 @@ import DecorationSquare from 'components/DecorationSquare';
 import { ContainerStack } from 'components/styled';
 
 import ExtensionIcon from './Icon';
-import { ExtensionConfig, extensions } from './shared';
+import { extensions } from './shared';
 
 export const ExtensionDownload: FC = () => {
-	const onIconPress = (item: ExtensionConfig) => {
-		console.log(item, '<--');
-	};
-
 	return (
 		<ContainerStack marginTop={24}>
 			<Stack
@@ -19,13 +15,7 @@ export const ExtensionDownload: FC = () => {
 				$xs={{ justifyContent: 'center', marginTop: 64 }}
 			>
 				{extensions.map((item) => {
-					return (
-						<ExtensionIcon
-							key={item.download}
-							item={item}
-							onPress={onIconPress}
-						/>
-					);
+					return <ExtensionIcon key={item.download} item={item} />;
 				})}
 			</Stack>
 			<DecorationSquare marginTop={24} marginLeft={8} />

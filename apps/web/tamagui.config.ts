@@ -1,11 +1,7 @@
 import { createAnimations } from '@tamagui/animations-css';
-import {
-	createFont,
-	createTamagui,
-	TamaguiInternalConfig,
-} from '@tamagui/core';
-import { shorthands } from '@tamagui/shorthands';
-import { themes, tokens } from '@tamagui/themes';
+import { createTamagui, TamaguiInternalConfig } from '@tamagui/core';
+
+import { fonts, media, themes, tokens } from '../../tool/tamagui';
 
 const animations = createAnimations({
 	fast: 'ease-in 150ms',
@@ -15,31 +11,13 @@ const animations = createAnimations({
 	mask: 'ease-in 250ms',
 });
 
-const fonts = {
-	body: createFont({
-		family: 'Poppins',
-		size: {
-			4: 14,
-		},
-		lineHeight: {
-			4: 16,
-		},
-		letterSpacing: {
-			4: 1,
-		},
-		weight: {
-			4: 400,
-		},
-	}),
-};
-
 export const config: TamaguiInternalConfig = createTamagui({
-	defaultTheme: 'light',
+	defaultTheme: 'dark',
 	themes,
-	tokens,
-	shorthands,
-	animations,
 	fonts,
+	tokens,
+	media,
+	animations,
 });
 
 export default config;

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack } from '@walless/gui';
+import { Button } from '@walless/gui';
 import { Plus } from '@walless/icons';
 
 interface Props {
@@ -7,18 +7,14 @@ interface Props {
 }
 const AddLayoutBtn: FC<Props> = ({ handleAddLayout }) => {
 	return (
-		<Stack
-			height={30}
-			width={30}
-			backgroundColor="#0694D3"
-			borderRadius={8}
-			display="flex"
-			alignItems="center"
-			justifyContent="center"
+		<Button
+			paddingVertical={8}
+			paddingHorizontal={8}
+			borderRadius={10}
 			onPress={handleAddLayout}
 		>
 			<Plus size={14} />
-		</Stack>
+		</Button>
 	);
 };
 

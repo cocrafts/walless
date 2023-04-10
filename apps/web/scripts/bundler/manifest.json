@@ -1,16 +1,16 @@
 {
 	"manifest_version": 3,
 	"name": "Walless",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "A versatile wallet for gamers & non-web3 users",
 	"author": "https://walless.io",
 	"content_security_policy": {
 		"extension_pages": "script-src 'self'; object-src 'self'; frame-ancestors 'none';"
 	},
 	"icons": {
-		"16": "icon.png",
-		"48": "icon.png",
-		"128": "icon.png"
+		"16": "favicon.png",
+		"48": "favicon.png",
+		"128": "favicon.png"
 	},
 	"action": {
 		"default_popup": "popup.html",

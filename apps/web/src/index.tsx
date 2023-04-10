@@ -17,7 +17,7 @@ export const AppContainer: FC<Props> = ({ tamaguiConfig }) => {
 	}, []);
 
 	return (
-		<GuiProvider config={tamaguiConfig}>
+		<GuiProvider config={tamaguiConfig} theme="dark">
 			<Stack ref={containerRef} flex={1}>
 				<App />
 				<ModalManager />

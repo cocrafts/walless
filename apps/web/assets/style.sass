@@ -8,15 +8,17 @@
 body
   overflow: hidden
   background-color: #011726
+
+  &.popup
+    width: 410px
+    height: 600px
+
+#root
   position: absolute
   top: 0
   right: 0
   bottom: 0
   left: 0
-
-  &.popup
-    width: 410px
-    height: 600px
 
 @include font-rubik("Black", 900, normal)
 @include font-rubik("Bold", 700, normal)

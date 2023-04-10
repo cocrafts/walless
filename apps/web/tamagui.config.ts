@@ -1,4 +1,4 @@
-import { createAnimations } from '@tamagui/animations-css';
+import { createAnimations } from '@tamagui/animations-reanimated';
 import {
 	createTamagui,
 	createTheme,
@@ -10,11 +10,23 @@ import { tokens as defaultTokens } from '@tamagui/themes';
 import { fonts, media } from '../../tool/tamagui';
 
 const animations = createAnimations({
-	fast: 'ease-in 150ms',
-	medium: 'ease-in 300ms',
-	slow: 'ease-in 450ms',
-	crawl: 'ease-in 1000ms',
-	mask: 'ease-in 250ms',
+	fast: {
+		type: 'spring',
+		damping: 20,
+		mass: 1.2,
+		stiffness: 250,
+	},
+	medium: {
+		type: 'spring',
+		damping: 10,
+		mass: 0.9,
+		stiffness: 100,
+	},
+	slow: {
+		type: 'spring',
+		damping: 20,
+		stiffness: 60,
+	},
 });
 
 export const tokens = createTokens({

@@ -4,7 +4,7 @@ import { Stack, Text } from '@walless/gui';
 const CollectiblesTab: FC = () => {
 	return (
 		<Stack>
-			<Text>CollectiblesTab</Text>
+			<Text>In development</Text>
 		</Stack>
 	);
 };

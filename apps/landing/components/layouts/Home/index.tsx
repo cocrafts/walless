@@ -1,21 +1,28 @@
 import { FC } from 'react';
+import { Theme } from '@tamagui/core';
 import { ScrollView, Stack } from '@walless/gui';
 
 import { LayoutProps } from '../shared';
 
 import Navigation, { navigationHeight } from './Navigation';
 
-export const HomeLayout: FC<LayoutProps> = ({ children, ...stackProps }) => {
+export const HomeLayout: FC<LayoutProps> = ({
+	theme = 'dark',
+	children,
+	...stackProps
+}) => {
 	return (
-		<Stack flex={1} {...stackProps}>
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				marginTop={navigationHeight}
-			>
-				{children}
-			</ScrollView>
-			<Navigation />
-		</Stack>
+		<Theme name={theme}>
+			<Stack flex={1} backgroundColor="$background" {...stackProps}>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					marginTop={navigationHeight}
+				>
+					{children}
+				</ScrollView>
+				<Navigation />
+			</Stack>
+		</Theme>
 	);
 };
 

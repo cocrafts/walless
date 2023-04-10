@@ -1,5 +1,6 @@
 import { Stack } from '@walless/gui';
 
+import ModalWrapper from '../components/ModalWrapper';
 import NavBtn from '../SendToken/components/NavBtn';
 
 import AccountInfo from './AccountInfo';
@@ -15,14 +16,7 @@ const ConfirmTransactionScreen = () => {
 	const tokenName = 'SOL';
 
 	return (
-		<Stack
-			backgroundColor="#141B21"
-			paddingVertical={16}
-			display="flex"
-			justifyContent="space-between"
-			alignItems="center"
-			height="100vh"
-		>
+		<ModalWrapper>
 			<Stack width="100%">
 				<Stack marginHorizontal={20}>
 					<Header />
@@ -49,7 +43,7 @@ const ConfirmTransactionScreen = () => {
 			</Stack>
 
 			<NavBtn content="Continue" route="transaction-successful" />
-		</Stack>
+		</ModalWrapper>
 	);
 };
 

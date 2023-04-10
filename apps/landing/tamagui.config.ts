@@ -37,6 +37,7 @@ export const darkTheme = createTheme({
 export const lightTheme = createTheme({
 	background: '#ffffff',
 	color: '#222222',
+	navigationBg: '#19232C',
 });
 
 export const config: TamaguiInternalConfig = createTamagui({

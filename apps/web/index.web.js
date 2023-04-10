@@ -8,8 +8,6 @@ import 'setimmediate';
 import App from './src';
 import tamaguiConfig from './tamagui.config';
 
-import '@tamagui/core/reset.css';
-
 const container = document.getElementById('root');
 const root = createRoot(container);
 

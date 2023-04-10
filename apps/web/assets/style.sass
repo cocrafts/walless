@@ -8,15 +8,42 @@
 body
   background-color: #011726
   overflow: hidden
-  position: absolute
-  top: 0
-  right: 0
-  bottom: 0
-  left: 0
 
   &.popup
     width: 410px
     height: 600px
+
+#root
+  display: flex
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+
+*
+  box-sizing: border-box
+
+a
+  color: inherit
+
+h1, h2, h3, h4, h5, h6
+  margin: 0
+  padding: 0
+
+li, select, input, button, [role="slider"], [role="listbox"]
+  outline: none
+
+.is_Fieldset
+  all: unset
+
+p, input, textarea, button, ul, ol, li, pre, dialog
+  all: unset
+  box-sizing: border-box
+
+a.is_Button, .is_Anchor:has(.is_Button)
+  text-decoration: none
+
 
 @include font-rubik("Black", 900, normal)
 @include font-rubik("Bold", 700, normal)

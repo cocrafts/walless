@@ -1,5 +1,6 @@
 export { AlertCircle } from './components/AlertCircle';
 export { ArrowBottomRight } from './components/ArrowBottomRight';
+export { ArrowDown } from './components/ArrowDown';
 export { ArrowTopRight } from './components/ArrowTopRight';
 export { Bell } from './components/Bell';
 export { Cart } from './components/Cart';

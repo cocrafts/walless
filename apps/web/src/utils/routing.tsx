@@ -39,10 +39,6 @@ export const router = createRouter([
 		},
 	},
 	{
-		path: '/send',
-		element: <SendTokenScreen />,
-	},
-	{
 		path: '/login',
 		element: <LoginScreen />,
 	},

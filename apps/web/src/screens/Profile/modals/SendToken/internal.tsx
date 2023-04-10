@@ -2,6 +2,8 @@ export interface DropdownItemProps {
 	id: string;
 	name: string;
 	icon?: React.ReactNode;
+	onPress?: () => void;
+	isSelected?: boolean;
 }
 
 export interface DropdownProps {
@@ -14,17 +16,17 @@ export const tokens: DropdownItemProps[] = [
 	{
 		id: 'tk1',
 		name: 'SOL',
-		icon: '/img/icon-solana.png',
+		icon: '/img/send-token/icon-solana.png',
 	},
 	{
 		id: 'tk2',
 		name: 'SUI',
-		icon: '/img/icon-sui.png',
+		icon: '/img/send-token/icon-sui.png',
 	},
 	{
 		id: 'tk3',
 		name: 'URG',
-		icon: '/img/icon-urg.png',
+		icon: '/img/send-token/icon-urg.png',
 	},
 ];
 
@@ -32,12 +34,12 @@ export const networks: DropdownItemProps[] = [
 	{
 		id: 'nw1',
 		name: 'Solana',
-		icon: '/img/icon-solana.png',
+		icon: '/img/send-token/icon-solana.png',
 	},
 	{
 		id: 'nw2',
 		name: 'SUI',
-		icon: '/img/icon-sui.png',
+		icon: '/img/send-token/icon-sui.png',
 	},
 ];
 

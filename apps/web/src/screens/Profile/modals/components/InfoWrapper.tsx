@@ -13,6 +13,8 @@ const InfoWrapper: FC<Props> = ({ children, backgroundColor }) => {
 			borderRadius={16}
 			borderWidth={1}
 			borderColor="#56667433"
+			borderTopLeftRadius={20}
+			borderTopRightRadius={20}
 		>
 			{children}
 		</Stack>

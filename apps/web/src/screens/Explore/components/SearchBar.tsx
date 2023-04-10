@@ -1,5 +1,5 @@
 import { FC, useRef } from 'react';
-import { Stack } from '@walless/gui';
+import { Input, Stack } from '@walless/gui';
 import { Search } from '@walless/icons';
 
 interface Props {
@@ -25,7 +25,15 @@ const SearchBar: FC<Props> = ({ onSearch }) => {
 			borderRadius={10}
 			paddingHorizontal={10}
 		>
-			<Stack />
+			<Input
+				placeholder="Explore exciting project"
+				placeholderTextColor="#566674"
+				fontSize={15}
+				flex={1}
+				padding={12}
+				paddingRight={8}
+				unstyled
+			/>
 			<Stack
 				borderWidth={0}
 				pressStyle={{

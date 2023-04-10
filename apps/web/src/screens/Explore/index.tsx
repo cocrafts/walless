@@ -17,7 +17,7 @@ export const ExploreScreen: FC = () => {
 
 	return (
 		<ScrollView contentContainerStyle={styles.contentContainer}>
-			<Text fontSize={20} lineHeight={26} fontWeight="500">
+			<Text fontSize={20} lineHeight={26} fontWeight="500" textAlign="center">
 				Choose a layout to start
 			</Text>
 

@@ -13,6 +13,8 @@ export const tokens = createTokens({
 });
 
 export const media = {
+	tn: { maxWidth: 410 },
+	gtTn: { minWidth: 410 + 1 },
 	xs: { maxWidth: 660 },
 	gtXs: { minWidth: 660 + 1 },
 	sm: { maxWidth: 860 },

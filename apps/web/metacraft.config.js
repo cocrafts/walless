@@ -97,7 +97,7 @@ module.exports = {
 		useCache,
 		copyAssets,
 		injectEntries,
-		injectWorkers,
+		// injectWorkers,
 		tamaguiBuild,
 		web3Polyfills,
 		setEnvironments({

@@ -6,7 +6,7 @@ import Landing from './tool/stacks/landing';
 export default {
 	config(input) {
 		return {
-			name: input.stage === 'prod' ? 'walless' : 'walless-dev',
+			name: input.stage === 'production' ? 'walless' : 'walless-dev',
 			region: 'ap-south-1',
 		};
 	},

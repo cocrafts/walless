@@ -63,21 +63,20 @@ We may use your personal information to protect, investigate, and deter against 
 
 We do not share the personal information that you provide us with other organizations without your express consent, except as described in this Privacy Policy. We disclose personal information to third parties under the following circumstances: 
 
-- **Affiliates**. We may disclose your personal information to our subsidiaries and corporate affiliates (i.e. our family of companies that are related by common ownership or control) for purposes consistent with this Privacy Policy.
+**Affiliates**. We may disclose your personal information to our subsidiaries and corporate affiliates (i.e. our family of companies that are related by common ownership or control) for purposes consistent with this Privacy Policy.
 
-- **Business Transfers**. We may share personal information when we do a business deal, or negotiate a business deal, involving the sale or transfer of all or a part of our business or assets. These deals can include any merger, financing, acquisition, or bankruptcy transaction or proceeding.
+**Business Transfers**. We may share personal information when we do a business deal, or negotiate a business deal, involving the sale or transfer of all or a part of our business or assets. These deals can include any merger, financing, acquisition, or bankruptcy transaction or proceeding.
 
-- **Compliance with Laws and Law Enforcement; Protection and Safety**.
-We may share personal information for legal, protection, and safety purposes.
+**Compliance with Laws and Law Enforcement; Protection and Safety**. We may share personal information for legal, protection, and safety purposes.
 
   - We may share information to comply with laws, including KYC and AML requirements.
   - We may share information to respond to lawful requests and legal processes.
   - We may share information to protect the rights and property of the Company, our agents, customers, and others. This includes enforcing our agreements, policies, and terms of use.
   - We may share information in an emergency. This includes protecting the safety of our employees and agents, our customers, or any person.
 
-- **Professional Advisors and Service Providers**. We may share information with those who need it to do work for us. These recipients may include third party companies and individuals to administer and provide the Service on our behalf (such as bill and credit card payment processing, customer support, hosting, email delivery and database management services), as well as lawyers, bankers, auditors, and insurers.
+**Professional Advisors and Service Providers**. We may share information with those who need it to do work for us. These recipients may include third party companies and individuals to administer and provide the Service on our behalf (such as bill and credit card payment processing, customer support, hosting, email delivery and database management services), as well as lawyers, bankers, auditors, and insurers.
 
-- **Other**. You may permit us to share your personal information with other companies or entities of your choosing. Those uses will be subject to the privacy policies of the recipient entity or entities.
+**Other**. You may permit us to share your personal information with other companies or entities of your choosing. Those uses will be subject to the privacy policies of the recipient entity or entities.
 
 We may also share aggregated and/or anonymized data with others for their own uses.
 
@@ -91,7 +90,7 @@ We employ industry standard security measures designed to protect the security o
 
 #### INFORMATION CHOICES AND CHANGES
 
-You may request access, a copy, modification or deletion of personal information that you have submitted to us by contacting us at hello@walless.io. We will use reasonable efforts to accommodate such requests to the extent required by law, provided that we may be required to retain personal information to comply with legal obligations, accounting requirements, or for other business purposes. We may request additional information to verify the identity of the requesting party before responding to a request. Please note that copies of information that you have updated, modified or deleted may remain viewable in cached and archived pages of the Site for a period of time.
+You may request access, a copy, modification or deletion of personal information that you have submitted to us by contacting us at <hello@walless.io>. We will use reasonable efforts to accommodate such requests to the extent required by law, provided that we may be required to retain personal information to comply with legal obligations, accounting requirements, or for other business purposes. We may request additional information to verify the identity of the requesting party before responding to a request. Please note that copies of information that you have updated, modified or deleted may remain viewable in cached and archived pages of the Site for a period of time.
 
 #### ELIGIBILITY
 
@@ -121,4 +120,4 @@ Any modifications to this Privacy Policy will be effective upon our posting of t
 
 #### CONTACT US
 
-We welcome your comments or questions about this Policy, and you may contact us at: hello@walless.
+We welcome your comments or questions about this Policy, and you may contact us at: <hello@walless>.

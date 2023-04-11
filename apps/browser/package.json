@@ -10,11 +10,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tkey/chrome-storage": "8.0.7-alpha.0",
-    "@tkey/default": "8.0.7-alpha.0",
-    "@tkey/private-keys": "8.0.7-alpha.0",
-    "@tkey/security-questions": "8.0.7-alpha.0",
-    "@tkey/web-storage": "8.0.7-alpha.0",
+    "@tkey/chrome-storage": "7.3.0",
+    "@tkey/default": "7.3.0",
+    "@tkey/private-keys": "7.3.0",
+    "@tkey/security-questions": "7.3.0",
+    "@tkey/web-storage": "7.3.0",
     "@walless/app": "*",
     "@walless/messaging": "*",
     "@walless/storage": "*",

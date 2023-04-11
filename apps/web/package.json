@@ -7,7 +7,7 @@
     "dev": "metacraft",
     "dev:ext": "BUILD_TARGET=extension && metacraft",
     "build": "metacraft bundle",
-    "build:ext": "BUILD_TARGET=extension && rm -rf builds && metacraft bundle && node scripts/bundler",
+    "build:ext": "BUILD_TARGET=extension && rm -rf {metacraft,builds} && metacraft bundle && node scripts/bundler",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {

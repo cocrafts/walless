@@ -45,6 +45,7 @@
   "devDependencies": {
     "@metacraft/cli-web3-polyfills": "^0.0.7",
     "eslint": "8.38.0",
-    "tamagui-loader": "^1.9.22"
+    "tamagui-loader": "^1.9.22",
+    "workbox-webpack-plugin": "^6.5.4"
   }
 }

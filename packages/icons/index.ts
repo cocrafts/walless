@@ -9,6 +9,7 @@ export { CheckCircle } from './components/CheckCircle';
 export { ChevronDown } from './components/ChevronDown';
 export { ChevronRight } from './components/ChevronRight';
 export { Compass } from './components/Compass';
+export { Copy } from './components/Copy';
 export { Exclamation } from './components/Exclamation';
 export { Eye } from './components/Eye';
 export { EyeOff } from './components/EyeOff';

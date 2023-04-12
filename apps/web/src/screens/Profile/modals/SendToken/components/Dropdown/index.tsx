@@ -73,6 +73,9 @@ const Dropdown: FC<DropdownProps> = ({ name, items }) => {
 					borderRadius={15}
 					paddingHorizontal={8}
 					paddingVertical={8}
+					position="absolute"
+					top={48}
+					zIndex={1}
 				>
 					{items.map((item) => (
 						<DropdownItem

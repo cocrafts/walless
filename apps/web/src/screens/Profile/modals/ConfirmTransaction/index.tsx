@@ -17,7 +17,19 @@ import AccountInfo from './AccountInfo';
 import Header from './Header';
 import RecipientInfo from './RecipientInfo';
 
-const ConfirmTransactionScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
+interface RequiredContext {
+	token: string;
+	network: string;
+	receiver: string;
+	amount: number;
+	parent: {
+		id: string;
+	};
+}
+
+const ConfirmTransactionScreen: FC<{
+	config: ModalConfigs & { context: RequiredContext };
+}> = ({ config }) => {
 	const handleOnPressGoBackBtn = () => {
 		modalActions.destroy(config.id);
 	};
@@ -25,23 +37,21 @@ const ConfirmTransactionScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const handleOnPressCloseBtn = () => {
 		modalActions.destroy(config.id);
 
-		const parent = (config.context as { parent: { id: string } }).parent;
-
-		if (parent) {
-			modalActions.destroy(parent.id);
+		if (config.context.parent) {
+			modalActions.destroy(config.context.parent.id);
 		}
 	};
 
 	return (
 		<ModalWrapper>
-			<Stack marginHorizontal={20}>
+			<Stack>
 				<Header
 					onPressGoBackBtn={handleOnPressGoBackBtn}
 					onPressCloseBtn={handleOnPressCloseBtn}
 				/>
 			</Stack>
 
-			<Stack margin={36}>
+			<Stack marginVertical={18}>
 				<AccountInfo
 					networkLogo={networkLogo}
 					networkName={networkName}
@@ -50,7 +60,7 @@ const ConfirmTransactionScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 				/>
 			</Stack>
 
-			<Stack marginHorizontal={36}>
+			<Stack>
 				<RecipientInfo
 					networkLogo={networkLogo}
 					networkName={networkName}

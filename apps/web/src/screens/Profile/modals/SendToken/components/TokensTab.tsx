@@ -1,31 +1,41 @@
 import { FC, useState } from 'react';
 import { useEffect } from 'react';
+import { getTransactionFee, modalActions } from '@walless/app';
 import { Networks } from '@walless/core';
 import { Stack, Text } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 
+import ConfirmTransactionScreen from '../../ConfirmTransaction';
 import { dropdownItems } from '../internal';
 
 import Dropdown from './Dropdown';
 import Input from './Input';
+import NavBtn from './NavBtn';
 
-export const TokensTab: FC = () => {
+interface Props {
+	modalId: string;
+}
+
+export const TokensTab: FC<Props> = ({ modalId }) => {
 	const [token, setToken] = useState('');
 	const [network, setNetwork] = useState<Networks | null>(null);
-	const [amount, setAmount] = useState<number>(0);
-	const [transactionFee, setTransactionFee] = useState('0');
+	const [receiver, setReceiver] = useState('');
+	const [amount, setAmount] = useState(0);
+	const [transactionFee, setTransactionFee] = useState(0);
 
 	useEffect(() => {
-		// setTransactionFee();
+		(async () => {
+			setTransactionFee(await getTransactionFee(network as Networks));
+		})();
 	}, [network]);
 
 	return (
-		<Stack display="flex" alignItems="center" justifyContent="center" gap={20}>
+		<Stack display="flex" alignItems="center" justifyContent="center" gap={12}>
 			<Stack
 				display="flex"
 				alignItems="center"
 				justifyContent="center"
-				gap={20}
+				gap={12}
 			>
 				{dropdownItems.map((item) => {
 					let setValue;
@@ -43,6 +53,15 @@ export const TokensTab: FC = () => {
 						/>
 					);
 				})}
+			</Stack>
+
+			<Stack position="relative">
+				<Input
+					content="Recipient account"
+					onChangeText={(text: string) => {
+						setReceiver(text);
+					}}
+				/>
 			</Stack>
 
 			<Stack position="relative">
@@ -134,13 +153,32 @@ export const TokensTab: FC = () => {
 					gap={4}
 				>
 					<Text fontWeight="600" fontSize={20} color="#EEEEEE">
-						{amount} {token ? token : ''}
+						{amount !== 0 ? amount + transactionFee : 0} {token ? token : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 USD
 					</Text>
 				</Stack>
 			</Stack>
+			<NavBtn
+				content="Continue"
+				route=""
+				onPress={() => {
+					modalActions.show({
+						id: 'confirm-transacion',
+						component: ConfirmTransactionScreen,
+						context: {
+							token,
+							network,
+							receiver,
+							amount,
+							parent: {
+								id: modalId,
+							},
+						},
+					});
+				}}
+			/>
 		</Stack>
 	);
 };

@@ -8,10 +8,14 @@ interface Props {
 const ModalWrapper: FC<Props> = ({ children }) => {
 	return (
 		<Stack
-			backgroundColor="#141B21"
-			paddingVertical={16}
 			display="flex"
-			minHeight="100vh"
+			justifyContent="space-between"
+			backgroundColor="#141B21"
+			borderTopRightRadius={20}
+			borderTopLeftRadius={20}
+			paddingVertical={28}
+			paddingHorizontal={28}
+			gap={24}
 		>
 			{children}
 		</Stack>

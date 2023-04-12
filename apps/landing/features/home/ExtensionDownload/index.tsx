@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack } from '@walless/gui';
+import { Stack, Text } from '@walless/gui';
 import DecorationSquare from 'components/DecorationSquare';
 import { ContainerStack } from 'components/styled';
 
@@ -18,7 +18,17 @@ export const ExtensionDownload: FC = () => {
 					return <ExtensionIcon key={item.download} item={item} />;
 				})}
 			</Stack>
-			<DecorationSquare marginTop={24} marginLeft={8} />
+			<Stack horizontal alignItems="center" marginTop={24}>
+				<DecorationSquare marginHorizontal={8} />
+				<Text
+					color="rgba(255, 255, 255, 0.3)"
+					fontSize={14}
+					fontWeight="300"
+					fontStyle="italic"
+				>
+					(Internal test, for developer only)
+				</Text>
+			</Stack>
 		</ContainerStack>
 	);
 };

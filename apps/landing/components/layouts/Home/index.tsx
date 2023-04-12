@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { Theme } from '@tamagui/core';
-import { ScrollView, Stack } from '@walless/gui';
+import { Button, ScrollView, Stack } from '@walless/gui';
+import Anchor from 'components/Anchor';
+import { ContainerStack } from 'components/styled';
 
 import { LayoutProps } from '../shared';
 
@@ -21,6 +23,26 @@ export const HomeLayout: FC<LayoutProps> = ({
 					{children}
 				</ScrollView>
 				<Navigation />
+
+				<ContainerStack
+					pointerEvents="box-none"
+					alignItems="flex-end"
+					justifyContent="flex-end"
+					position="absolute"
+					right={0}
+					bottom={0}
+					left={0}
+					paddingBottom={32}
+				>
+					<Anchor href="https://discord.gg/3v7jwG45pe" target="_blank">
+						<Button
+							title="Visit Us"
+							paddingHorizontal={28}
+							backgroundColor="white"
+							color="#222222"
+						/>
+					</Anchor>
+				</ContainerStack>
 			</Stack>
 		</Theme>
 	);

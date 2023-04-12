@@ -6,13 +6,16 @@ import { DropdownItemProps, DropdownProps } from '../../internal';
 
 import DropdownItem from './DropdownItem';
 
-const Dropdown: FC<DropdownProps> = ({ name, items }) => {
+const Dropdown: FC<DropdownProps> = ({ name, items, value, setValue }) => {
 	const [isActive, setIsActive] = useState(false);
 	const [selectedItem, setSelectedItem] = useState<DropdownItemProps | null>(
 		null,
 	);
 	const handleSelectItem = (item: DropdownItemProps) => {
 		setSelectedItem(item);
+		if (setValue) {
+			setValue(item.value);
+		}
 		setIsActive(false);
 	};
 

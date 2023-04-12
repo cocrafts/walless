@@ -1,3 +1,5 @@
+import { FC } from 'react';
+import { modalActions, ModalConfigs } from '@walless/app';
 import { Stack } from '@walless/gui';
 
 import ModalWrapper from '../components/ModalWrapper';
@@ -15,11 +17,28 @@ import AccountInfo from './AccountInfo';
 import Header from './Header';
 import RecipientInfo from './RecipientInfo';
 
-const ConfirmTransactionScreen = () => {
+const ConfirmTransactionScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
+	const handleOnPressGoBackBtn = () => {
+		modalActions.destroy(config.id);
+	};
+
+	const handleOnPressCloseBtn = () => {
+		modalActions.destroy(config.id);
+
+		const parent = (config.context as { parent: { id: string } }).parent;
+
+		if (parent) {
+			modalActions.destroy(parent.id);
+		}
+	};
+
 	return (
 		<ModalWrapper>
 			<Stack marginHorizontal={20}>
-				<Header />
+				<Header
+					onPressGoBackBtn={handleOnPressGoBackBtn}
+					onPressCloseBtn={handleOnPressCloseBtn}
+				/>
 			</Stack>
 
 			<Stack margin={36}>

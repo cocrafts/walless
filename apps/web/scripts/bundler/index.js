@@ -5,7 +5,7 @@ const manifest = require('./manifest.json');
 const project = require('../../package.json');
 
 const zipDir = (platform) => {
-	const buildDir = './builds';
+	const buildDir = '../landing/public/builds';
 	const archive = archiver('zip', { zlib: { level: 9 } });
 	const stream = fs.createWriteStream(`${buildDir}/${platform}.zip`);
 

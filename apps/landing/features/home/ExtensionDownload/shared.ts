@@ -8,7 +8,7 @@ export interface ExtensionConfig {
 
 const makeExtensionConfig = (name: string) => ({
 	title: name,
-	download: `/${name.toLowerCase()}.zip`,
+	download: `/builds/${name.toLowerCase()}.zip`,
 	iconSrc: { uri: `/img/${name.toLowerCase()}.png` },
 });
 

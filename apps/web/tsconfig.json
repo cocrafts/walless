@@ -10,6 +10,7 @@
 	],
 	"compilerOptions": {
 		"esModuleInterop": true,
+		"module": "ESNext",
 		"lib": ["DOM", "ES2015", "WebWorker"],
 		"types": ["chrome"],
 		"typeRoots": ["./src/types"],

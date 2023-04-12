@@ -1,4 +1,4 @@
-let isFromExtension = false;
+let isExtensionAvailable = false;
 
 export const parseAndNotifyResult = async () => {
 	let error = '';
@@ -55,10 +55,10 @@ export const parseAndNotifyResult = async () => {
 			error,
 		};
 
-		if (isFromExtension || !window.opener?.postMessage) {
-			window.postMessage(payload);
-		} else {
+		if (window.opener?.postMessage) {
 			window.opener?.postMessage(payload, '*');
+		} else {
+			window.postMessage(payload);
 		}
 	}
 };
@@ -67,7 +67,7 @@ const waitForContentScript = (): Promise<void> => {
 	return new Promise((resolve) => {
 		window.addEventListener('message', (event) => {
 			if (event.data.from === 'walless-content-script-loaded') {
-				isFromExtension = true;
+				isExtensionAvailable = true;
 				resolve();
 			}
 		});

@@ -4,9 +4,9 @@ import Extension from './tool/stacks/extension';
 import Landing from './tool/stacks/landing';
 
 export default {
-	config(input) {
+	config() {
 		return {
-			name: input.stage === 'prod' ? 'walless' : 'walless-dev',
+			name: 'walless',
 			region: 'ap-south-1',
 		};
 	},

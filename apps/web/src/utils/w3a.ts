@@ -1,5 +1,5 @@
-import ChromeStorageModule from '@tkey/chrome-storage';
-import { GenerateNewShareResult, ModuleMap } from '@tkey/common-types';
+import { type ChromeExtensionStorageModule } from '@tkey/chrome-storage';
+import type { GenerateNewShareResult, ModuleMap } from '@tkey/common-types';
 import ThresholdKey from '@tkey/default';
 import PrivateKeyModule, {
 	ED25519Format,
@@ -7,8 +7,9 @@ import PrivateKeyModule, {
 } from '@tkey/private-keys';
 import SecurityQuestionsModule from '@tkey/security-questions';
 import { TorusServiceProvider } from '@tkey/service-provider-torus';
-import WebStorageModule from '@tkey/web-storage';
-import { CustomAuthArgs } from '@toruslabs/customauth';
+import { type WebStorageModule } from '@tkey/web-storage';
+import { type CustomAuthArgs } from '@toruslabs/customauth';
+import { runtime } from '@walless/core';
 
 /* 1. First time login: save 1 device fragment, 1 passcode fragment
  * 2. Repeat login on the same machine: quite powerful
@@ -32,7 +33,7 @@ export const customAuthArgs: CustomAuthArgs = {
 
 export type InternalModules = ModuleMap & {
 	webStorage?: WebStorageModule;
-	chromeStorage?: ChromeStorageModule;
+	chromeStorage?: ChromeExtensionStorageModule;
 	securityQuestions: SecurityQuestionsModule;
 	privateKeyModule: PrivateKeyModule;
 };
@@ -50,10 +51,14 @@ const modules: InternalModules = {
 	] as never),
 };
 
-if (global.chrome?.runtime) {
-	modules.chromeStorage = new ChromeStorageModule();
-} else {
-	modules.webStorage = new WebStorageModule();
+if (runtime.isExtension) {
+	import('@tkey/chrome-storage').then(({ default: ChromeStorageModule }) => {
+		modules.chromeStorage = new ChromeStorageModule();
+	});
+} else if (runtime.isBrowser) {
+	import('@tkey/web-storage').then(({ default: WebStorageModule }) => {
+		modules.webStorage = new WebStorageModule();
+	});
 }
 
 export const key = new ThresholdKey({

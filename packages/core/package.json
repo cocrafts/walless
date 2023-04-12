@@ -10,7 +10,7 @@
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
-    "@mysten/sui.js": "0.30.0",
+    "@mysten/sui.js": "0.32.1",
     "@solana/web3.js": "1.75.0"
   },
   "devDependencies": {

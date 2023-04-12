@@ -24,13 +24,9 @@
 	"permissions": [
 		"tabs",
 		"activeTab",
-		"alarms",
 		"clipboardWrite",
-		"notifications",
-		"scripting",
 		"storage",
-		"unlimitedStorage",
-		"webRequest"
+		"unlimitedStorage"
 	],
 	"background": {
 		"service_worker": "background.js"

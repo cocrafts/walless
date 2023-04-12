@@ -64,7 +64,7 @@ export const PrimaryContent: FC = () => {
 				justifyContent="center"
 				$sm={{ flex: 1 }}
 			>
-				<Anchor href="/docs">
+				<Anchor href="https://stormgate.notion.site/User-Guide-09f5910b810741f9aaaa0d42b7cdc399">
 					<Button title="Docs" marginHorizontal={8} />
 				</Anchor>
 				<Anchor href="/privacy-policy">

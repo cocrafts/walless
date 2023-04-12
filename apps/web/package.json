@@ -1,19 +1,19 @@
 {
   "name": "@walless/web",
-  "version": "0.0.20",
+  "version": "0.1.0",
   "private": true,
   "main": "index.web.js",
   "scripts": {
     "dev": "metacraft",
     "dev:ext": "BUILD_TARGET=extension && metacraft",
     "build": "metacraft bundle",
-    "build:ext": "BUILD_TARGET=extension && rm -rf builds && metacraft bundle && node scripts/bundler",
+    "build:ext": "BUILD_TARGET=extension && rm -rf {metacraft,builds} && metacraft bundle && node scripts/bundler",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
-    "@metaplex-foundation/js": "^0.18.1",
-    "@mysten/sui.js": "0.30.0",
-    "@solana/spl-token": "^0.3.7",
+    "@metaplex-foundation/js": "0.18.3",
+    "@mysten/sui.js": "0.32.1",
+    "@solana/spl-token": "0.3.7",
     "@solana/web3.js": "1.75.0",
     "@tamagui/animations-css": "1.12.2",
     "@tkey/chrome-storage": "7.3.0",
@@ -45,6 +45,7 @@
   "devDependencies": {
     "@metacraft/cli-web3-polyfills": "^0.0.7",
     "eslint": "8.38.0",
-    "tamagui-loader": "^1.9.22"
+    "tamagui-loader": "^1.9.22",
+    "workbox-webpack-plugin": "^6.5.4"
   }
 }

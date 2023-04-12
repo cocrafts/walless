@@ -6,13 +6,17 @@ import DecorationSquare from 'components/DecorationSquare';
 
 import { features } from './shared';
 
+const spacing = 32;
+const contentMaxWidth = 750;
+const buttonWidth = 160;
+
 export const PrimaryContent: FC = () => {
-	const spacing = 32;
 	const headingElement = (
 		<Stack
 			horizontal
 			flexWrap="wrap"
 			paddingVertical={spacing}
+			maxWidth={contentMaxWidth}
 			alignItems="flex-end"
 		>
 			<Stack flex={1}>
@@ -48,14 +52,19 @@ export const PrimaryContent: FC = () => {
 	);
 
 	const footerElement = (
-		<Stack horizontal paddingVertical={spacing} flexWrap="wrap">
+		<Stack
+			horizontal
+			maxWidth={contentMaxWidth}
+			paddingVertical={spacing}
+			flexWrap="wrap"
+		>
 			<Stack flex={1}>
 				<Text
-					fontWeight="400"
-					fontSize={16}
-					lineHeight={25}
+					fontWeight="300"
+					fontSize={14}
+					lineHeight={21}
 					marginBottom={32}
-					maxWidth={400}
+					maxWidth={330}
 					color="rgba(255, 255, 255, 0.4)"
 					$sm={{ textAlign: 'center', maxWidth: undefined }}
 				>
@@ -70,20 +79,29 @@ export const PrimaryContent: FC = () => {
 				$sm={{ flex: 1 }}
 			>
 				<Anchor href="https://forms.gle/tpQz8tm3JPALGJiJ7" target="_blank">
-					<Button title="Waiting list" marginHorizontal={8} />
+					<Button
+						title="Waiting list"
+						width={buttonWidth}
+						marginHorizontal={8}
+					/>
 				</Anchor>
 				<Anchor
 					href="https://www.youtube.com/watch?v=_8NZZKDQ5hM&t=2s"
 					target="_blank"
 				>
-					<Button outline title="Demo" marginHorizontal={8} />
+					<Button
+						outline
+						title="Demo"
+						width={buttonWidth}
+						marginHorizontal={8}
+					/>
 				</Anchor>
 			</Stack>
 		</Stack>
 	);
 
 	return (
-		<Stack flex={1} paddingRight={80} $md={{ paddingRight: 0 }}>
+		<Stack flex={1} paddingRight={12} $md={{ paddingRight: 0 }}>
 			{headingElement}
 			<BulletSeparator />
 			{footerElement}

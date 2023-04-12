@@ -27,17 +27,16 @@ export const ExtensionIcon: FC<Props> = ({ size = 48, item }) => {
 					resizeMode="contain"
 					marginBottom={12}
 				/>
-				<Text
-					fontSize={12}
-					textAlign="center"
+				<Stack
 					userSelect="none"
+					width={62}
 					borderRadius={100}
+					alignItems="center"
 					backgroundColor="rgba(255, 255, 255, 0.1)"
 					paddingVertical={8}
-					paddingHorizontal={12}
 				>
-					{item.title}
-				</Text>
+					<Text fontSize={12}>{item.title}</Text>
+				</Stack>
 			</Stack>
 		</Anchor>
 	);

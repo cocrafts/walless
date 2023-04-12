@@ -10,6 +10,7 @@ import { tokens as defaultTokens } from '@tamagui/themes';
 import { fonts, media } from '../../tool/tamagui';
 
 const animations = createAnimations({
+	ultra: 'ease-in 50ms',
 	fast: 'ease-in 150ms',
 	medium: 'ease-in 300ms',
 	slow: 'ease-in 450ms',

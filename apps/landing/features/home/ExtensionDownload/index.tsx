@@ -8,7 +8,7 @@ import { extensions } from './shared';
 
 export const ExtensionDownload: FC = () => {
 	return (
-		<ContainerStack marginTop={24}>
+		<ContainerStack marginTop={24} maxWidth={1100}>
 			<Stack
 				horizontal
 				gap={12}

@@ -11,6 +11,7 @@ export const NavigationItem: FC<Props> = ({ item, onPress }) => {
 	return (
 		<Anchor
 			href={item.href}
+			target={item.target || '_self'}
 			marginHorizontal={12}
 			fontSize={16}
 			onPress={onPress}

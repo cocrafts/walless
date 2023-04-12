@@ -20,7 +20,11 @@ export const PrimaryContent: FC = () => {
 					fontSize={48}
 					fontWeight="500"
 					maxWidth={400}
-					$xs={{ textAlign: 'center', maxWidth: undefined }}
+					$xs={{
+						textAlign: 'center',
+						alignSelf: 'center',
+						maxWidth: undefined,
+					}}
 				>
 					<Text>Walless,</Text>
 					<Text>the first Web3 sandbox-wallet</Text>
@@ -50,6 +54,7 @@ export const PrimaryContent: FC = () => {
 					fontWeight="400"
 					fontSize={16}
 					lineHeight={25}
+					marginBottom={32}
 					maxWidth={400}
 					color="rgba(255, 255, 255, 0.4)"
 					$sm={{ textAlign: 'center', maxWidth: undefined }}
@@ -64,18 +69,21 @@ export const PrimaryContent: FC = () => {
 				justifyContent="center"
 				$sm={{ flex: 1 }}
 			>
-				<Anchor href="https://stormgate.notion.site/User-Guide-09f5910b810741f9aaaa0d42b7cdc399">
-					<Button title="Docs" marginHorizontal={8} />
+				<Anchor href="https://forms.gle/tpQz8tm3JPALGJiJ7" target="_blank">
+					<Button title="Waiting list" marginHorizontal={8} />
 				</Anchor>
-				<Anchor href="/privacy-policy">
-					<Button outline title="Privacy" marginHorizontal={8} />
+				<Anchor
+					href="https://www.youtube.com/watch?v=_8NZZKDQ5hM&t=2s"
+					target="_blank"
+				>
+					<Button outline title="Demo" marginHorizontal={8} />
 				</Anchor>
 			</Stack>
 		</Stack>
 	);
 
 	return (
-		<Stack flex={1} paddingRight={32} $md={{ paddingRight: 0 }}>
+		<Stack flex={1} paddingRight={80} $md={{ paddingRight: 0 }}>
 			{headingElement}
 			<BulletSeparator />
 			{footerElement}

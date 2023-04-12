@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { useEffect } from 'react';
 import { Networks } from '@walless/core';
 import { Stack, Text } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
@@ -12,6 +13,11 @@ export const TokensTab: FC = () => {
 	const [token, setToken] = useState('');
 	const [network, setNetwork] = useState<Networks | null>(null);
 	const [amount, setAmount] = useState<number>(0);
+	const [transactionFee, setTransactionFee] = useState('0');
+
+	useEffect(() => {
+		// setTransactionFee();
+	}, [network]);
 
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={20}>
@@ -59,6 +65,9 @@ export const TokensTab: FC = () => {
 							Max
 						</Text>
 					}
+					onChangeText={(text: string) => {
+						setAmount(Number(text));
+					}}
 				/>
 			</Stack>
 
@@ -89,7 +98,7 @@ export const TokensTab: FC = () => {
 					gap={4}
 				>
 					<Text fontWeight="500" fontSize={14} color="#FFFFFF">
-						~ 0 {token ? token : ''}
+						~ {transactionFee} {token ? token : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 secs
@@ -125,7 +134,7 @@ export const TokensTab: FC = () => {
 					gap={4}
 				>
 					<Text fontWeight="600" fontSize={20} color="#EEEEEE">
-						{amount}
+						{amount} {token ? token : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 USD

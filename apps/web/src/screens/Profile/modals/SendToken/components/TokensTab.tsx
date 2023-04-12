@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { useEffect } from 'react';
-import { getTransactionFee, modalActions } from '@walless/app';
+import { BindDirections, getTransactionFee, modalActions } from '@walless/app';
 import { Networks } from '@walless/core';
 import { Stack, Text } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
@@ -166,7 +166,8 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 				onPress={() => {
 					modalActions.show({
 						id: 'confirm-transacion',
-						component: ConfirmTransactionScreen,
+						bindingDirection: BindDirections.InnerBottom,
+						component: ConfirmTransactionScreen as never,
 						context: {
 							token,
 							network,

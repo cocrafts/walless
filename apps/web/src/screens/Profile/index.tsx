@@ -1,4 +1,4 @@
-import { AnimateDirections, modalActions } from '@walless/app';
+import { AnimateDirections, BindDirections, modalActions } from '@walless/app';
 import { Stack } from '@walless/gui';
 
 import Collectibles from './components/Collectibles';
@@ -12,6 +12,7 @@ const ProfileScreen = () => {
 	const handlePressSendBtn = () => {
 		modalActions.show({
 			id: 'send-token',
+			bindingDirection: BindDirections.InnerBottom,
 			component: SendTokenScreen,
 			animateDirection: AnimateDirections.Top,
 		});

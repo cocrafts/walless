@@ -33,5 +33,3 @@ export const Text = styled(TamaguiText, {
 	color: '#dedede',
 	fontFamily: 'Rubik',
 });
-
-export { ScrollView } from '@tamagui/scroll-view';

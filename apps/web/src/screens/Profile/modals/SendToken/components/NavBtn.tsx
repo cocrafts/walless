@@ -24,6 +24,7 @@ const NavBtn: FC<Props> = ({ content, route, onPress }) => {
 			backgroundColor="#0694D3"
 			borderRadius={15}
 			onPress={handlePress}
+			cursor="pointer"
 		>
 			<Text fontWeight="500" fontSize={14} color="#FFFFFF">
 				{content}

@@ -26,8 +26,8 @@ export const HomeNavigation: FC = () => {
 							return <NavItem key={index} item={item} />;
 						})}
 				</Stack>
-				<Anchor href="https://app.walless.io">
-					<Button title="Launch" />
+				<Anchor href="https://app.walless.io" target="_blank">
+					<Button title="Testnet Launch" />
 				</Anchor>
 			</ContainerStack>
 		</Stack>

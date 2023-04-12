@@ -1,5 +1,10 @@
 import { FC, useState } from 'react';
-import { ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	ImageBackground,
+	LayoutRectangle,
+	StyleSheet,
+	TouchableOpacity,
+} from 'react-native';
 import { Image, Stack, Text } from '@walless/gui';
 import { Copy, Eye, EyeOff } from '@walless/icons';
 
@@ -13,6 +18,7 @@ interface Props {
 	address?: string;
 	balance?: number;
 	price?: number;
+	getCardLayout?: (layout: LayoutRectangle) => void;
 }
 
 export const WalletCard: FC<Props> = ({
@@ -23,6 +29,7 @@ export const WalletCard: FC<Props> = ({
 	address,
 	balance = 0,
 	price = 22,
+	getCardLayout,
 }) => {
 	const [isPrivate, setIsPrivate] = useState(false);
 	const backgroundUri = { uri: backgroundSrc };
@@ -37,55 +44,60 @@ export const WalletCard: FC<Props> = ({
 	};
 
 	return (
-		<ImageBackground source={backgroundUri} style={styles.container}>
-			<Stack horizontal alignItems="center" padding={5}>
-				<Stack
-					fullscreen
-					opacity={0.2}
-					backgroundColor="#FFFFFF"
-					borderRadius={15}
-				/>
-				<Image
-					src={iconUri}
-					width={iconSize}
-					height={iconSize}
-					borderRadius={iconSize / 2}
-				/>
-				<Text marginHorizontal={5} fontSize={13}>
-					{`Wallet #${index}: ${shortenAddress(address as string)}`}
-				</Text>
-				<TouchableOpacity activeOpacity={0.7} onPress={onCopy}>
+		<Stack
+			paddingLeft={15}
+			minWidth={330}
+			onLayout={({ nativeEvent: { layout } }) => getCardLayout?.(layout)}
+		>
+			<ImageBackground source={backgroundUri} style={styles.container}>
+				<Stack horizontal alignItems="center" padding={5}>
 					<Stack
+						fullscreen
+						opacity={0.2}
+						backgroundColor="#FFFFFF"
+						borderRadius={15}
+					/>
+					<Image
+						src={iconUri}
 						width={iconSize}
 						height={iconSize}
-						alignItems="center"
-						justifyContent="center"
-					>
+						borderRadius={iconSize / 2}
+					/>
+					<Text marginHorizontal={5} fontSize={13} color="#FFFFFF">
+						{`Wallet #${index}: ${shortenAddress(address as string)}`}
+					</Text>
+					<TouchableOpacity activeOpacity={0.7} onPress={onCopy}>
 						<Stack
-							fullscreen
-							opacity={0.4}
-							backgroundColor="#FFFFFF"
-							borderRadius={iconSize / 2}
-						/>
-						<Copy size={iconSize - 8} />
-					</Stack>
-				</TouchableOpacity>
-			</Stack>
-
-			<Stack marginVertical={5}>
-				<Stack horizontal alignItems="center" gap={10}>
-					<Text fontSize={38} fontWeight={'500'}>{`${
-						isPrivate ? '***' : balance
-					} SOL`}</Text>
-					<TouchableOpacity activeOpacity={0.7} onPress={onEyePress}>
-						{isPrivate ? <EyeOff size={20} /> : <Eye size={20} />}
+							width={iconSize}
+							height={iconSize}
+							alignItems="center"
+							justifyContent="center"
+						>
+							<Stack
+								fullscreen
+								opacity={0.4}
+								backgroundColor="#FFFFFF"
+								borderRadius={iconSize / 2}
+							/>
+							<Copy size={iconSize - 8} />
+						</Stack>
 					</TouchableOpacity>
 				</Stack>
-				<Text opacity={0.7}>{`~ ${
-					isPrivate ? '***' : balance * price
-				} USD`}</Text>
-			</Stack>
-		</ImageBackground>
+				<Stack marginTop={10}>
+					<Stack horizontal alignItems="center" gap={10}>
+						<Text fontSize={38} fontWeight={'500'} color="#FFFFFF">{`${
+							isPrivate ? '***' : balance
+						} SOL`}</Text>
+						<TouchableOpacity activeOpacity={0.7} onPress={onEyePress}>
+							{isPrivate ? <EyeOff size={20} /> : <Eye size={20} />}
+						</TouchableOpacity>
+					</Stack>
+					<Text opacity={0.7} color="#FFFFFF">{`~ ${
+						isPrivate ? '***' : balance * price
+					} USD`}</Text>
+				</Stack>
+			</ImageBackground>
+		</Stack>
 	);
 };
 
@@ -93,11 +105,11 @@ export default WalletCard;
 
 const styles = StyleSheet.create({
 	container: {
-		marginHorizontal: 15,
 		aspectRatio: 318 / 145,
 		borderRadius: 15,
 		overflow: 'hidden',
-		padding: 20,
+		paddingHorizontal: 15,
 		alignItems: 'flex-start',
+		justifyContent: 'center',
 	},
 });

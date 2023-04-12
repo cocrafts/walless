@@ -2,7 +2,11 @@ import { runtime } from '@walless/core';
 import { registerServiceWorker } from 'utils/service-worker';
 import { db } from 'utils/storage';
 
+import { registerMessageHandlers } from './listeners';
+
 export const injectRuntime = async (): Promise<void> => {
+	await registerMessageHandlers();
+
 	if (runtime.isExtension) {
 		await launchTabIfNotLoggedIn();
 	} else {

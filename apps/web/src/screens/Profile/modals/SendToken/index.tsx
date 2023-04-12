@@ -5,7 +5,7 @@ import { Times } from '@walless/icons';
 
 // import { Times } from '@walless/icons';
 import CollectiblesTab from './components/CollectiblesTab';
-import NavBtn from './components/NavBtn';
+// import NavBtn from './components/NavBtn';
 import TabBar from './components/TabBar';
 import TokensTab from './components/TokensTab';
 
@@ -43,8 +43,12 @@ export const SendTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 				</Stack>
 			</Stack>
 			<TabBar isTokensTab={isTokensTab} setIsTokensTab={setIsTokensTab} />
-			{isTokensTab ? <TokensTab /> : <CollectiblesTab />}
-			<NavBtn content="Continue" route="" />
+			{isTokensTab ? (
+				<TokensTab modalId={config.id as string} />
+			) : (
+				<CollectiblesTab />
+			)}
+			{/* <NavBtn content="Continue" route="" /> */}
 		</Stack>
 	);
 };

@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { modalActions, ModalConfigs } from '@walless/app';
 import { Stack, Text } from '@walless/gui';
 import { Times } from '@walless/icons';
 
@@ -8,7 +9,7 @@ import NavBtn from './components/NavBtn';
 import TabBar from './components/TabBar';
 import TokensTab from './components/TokensTab';
 
-export const SendTokenScreen: FC = () => {
+export const SendTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const [isTokensTab, setIsTokensTab] = useState(true);
 
 	return (
@@ -33,7 +34,13 @@ export const SendTokenScreen: FC = () => {
 				<Text color="#FFFFFF" fontWeight="500" fontSize={20}>
 					Send
 				</Text>
-				<Times size={16} />
+				<Stack
+					onPress={() => {
+						modalActions.destroy(config.id);
+					}}
+				>
+					<Times size={16} />
+				</Stack>
 			</Stack>
 			<TabBar isTokensTab={isTokensTab} setIsTokensTab={setIsTokensTab} />
 			{isTokensTab ? <TokensTab /> : <CollectiblesTab />}

@@ -2,7 +2,7 @@ import { createFont } from '@tamagui/core';
 
 export const fonts = {
 	body: createFont({
-		family: 'Poppins',
+		family: 'Rubik',
 		size: {
 			4: 14,
 		},

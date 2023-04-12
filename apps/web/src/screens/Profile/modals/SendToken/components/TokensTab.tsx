@@ -1,13 +1,18 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { Networks } from '@walless/core';
 import { Stack, Text } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 
-import { mockDropdownItems } from '../internal';
+import { dropdownItems } from '../internal';
 
 import Dropdown from './Dropdown';
 import Input from './Input';
 
 export const TokensTab: FC = () => {
+	const [token, setToken] = useState('');
+	const [network, setNetwork] = useState<Networks | null>(null);
+	const [amount, setAmount] = useState<number>(0);
+
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={20}>
 			<Stack
@@ -16,9 +21,22 @@ export const TokensTab: FC = () => {
 				justifyContent="center"
 				gap={20}
 			>
-				{mockDropdownItems.map((item) => (
-					<Dropdown key={item.name} name={item.name} items={item.items} />
-				))}
+				{dropdownItems.map((item) => {
+					let setValue;
+					if (item.type == 'token') {
+						setValue = setToken;
+					} else if (item.type == 'network') {
+						setValue = setNetwork;
+					}
+					return (
+						<Dropdown
+							key={item.name}
+							name={item.name}
+							items={item.items}
+							setValue={setValue as never}
+						/>
+					);
+				})}
 			</Stack>
 
 			<Stack position="relative">
@@ -71,7 +89,7 @@ export const TokensTab: FC = () => {
 					gap={4}
 				>
 					<Text fontWeight="500" fontSize={14} color="#FFFFFF">
-						~ 0 USD
+						~ 0 {token ? token : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 secs
@@ -107,7 +125,7 @@ export const TokensTab: FC = () => {
 					gap={4}
 				>
 					<Text fontWeight="600" fontSize={20} color="#EEEEEE">
-						234,87634
+						{amount}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 USD

@@ -46,9 +46,10 @@
 		"sst": "2.3.1",
 		"tailwindcss": "^3.2.7",
 		"ts-jest": "^29.0.5",
+		"tsconfig-paths-webpack-plugin": "^4.0.1",
 		"turbo": "latest",
 		"typescript": "^4.9.5",
-		"webpack": "^5.78.0"
+		"webpack": "^5.79.0"
 	},
 	"engines": {
 		"node": ">=14.0.0"

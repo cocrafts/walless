@@ -4,14 +4,14 @@ export interface DropdownItemProps {
 	id: string;
 	name: string;
 	value?: Networks | string;
-	icon?: React.ReactNode;
+	icon?: string;
 	onPress?: () => void;
 	isSelected?: boolean;
 }
 
 export interface DropdownProps {
 	name: string;
-	setValue: (value: unknown) => void;
+	setChosen: (value: unknown) => void;
 	icon?: React.ReactNode;
 	items: DropdownItemProps[];
 }
@@ -54,7 +54,7 @@ export const networks: DropdownItemProps[] = [
 
 export const dropdownItems: Omit<
 	DropdownProps & { type: string },
-	'setValue'
+	'setChosen'
 >[] = [
 	{
 		name: 'Select token',

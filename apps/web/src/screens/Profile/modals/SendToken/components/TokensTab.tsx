@@ -6,7 +6,7 @@ import { Stack, Text } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
-import { dropdownItems } from '../internal';
+import { DropdownItemProps, dropdownItems } from '../internal';
 
 import Dropdown from './Dropdown';
 import Input from './Input';
@@ -17,15 +17,15 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ modalId }) => {
-	const [token, setToken] = useState('');
-	const [network, setNetwork] = useState<Networks | null>(null);
+	const [token, setToken] = useState<DropdownItemProps | null>(null);
+	const [network, setNetwork] = useState<DropdownItemProps | null>(null);
 	const [receiver, setReceiver] = useState('');
 	const [amount, setAmount] = useState(0);
 	const [transactionFee, setTransactionFee] = useState(0);
 
 	useEffect(() => {
 		(async () => {
-			setTransactionFee(await getTransactionFee(network as Networks));
+			setTransactionFee(await getTransactionFee(network?.value as Networks));
 		})();
 	}, [network]);
 
@@ -38,18 +38,18 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 				gap={12}
 			>
 				{dropdownItems.map((item) => {
-					let setValue;
+					let setChosen;
 					if (item.type == 'token') {
-						setValue = setToken;
+						setChosen = setToken;
 					} else if (item.type == 'network') {
-						setValue = setNetwork;
+						setChosen = setNetwork;
 					}
 					return (
 						<Dropdown
 							key={item.name}
 							name={item.name}
 							items={item.items}
-							setValue={setValue as never}
+							setChosen={setChosen as never}
 						/>
 					);
 				})}
@@ -117,7 +117,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 					gap={4}
 				>
 					<Text fontWeight="500" fontSize={14} color="#FFFFFF">
-						~ {transactionFee} {token ? token : ''}
+						~ {transactionFee} {token ? token.value : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 secs
@@ -153,7 +153,8 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 					gap={4}
 				>
 					<Text fontWeight="600" fontSize={20} color="#EEEEEE">
-						{amount !== 0 ? amount + transactionFee : 0} {token ? token : ''}
+						{amount !== 0 ? amount + transactionFee : 0}{' '}
+						{token ? token.value : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 USD

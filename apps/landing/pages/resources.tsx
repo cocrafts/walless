@@ -8,7 +8,7 @@ export const DocumentationPage = () => {
 		<HomeLayout>
 			<ContainerStack alignItems="center" justifyContent="center">
 				<Text fontSize={32} marginTop={120}>
-					Documentation
+					Resources
 				</Text>
 				<Text marginTop={12} marginBottom={24}>
 					This page is under construction, coming soon!

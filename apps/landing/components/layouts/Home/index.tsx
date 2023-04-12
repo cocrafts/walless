@@ -19,6 +19,7 @@ export const HomeLayout: FC<LayoutProps> = ({
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					marginTop={navigationHeight}
+					paddingBottom={84}
 				>
 					{children}
 				</ScrollView>
@@ -36,7 +37,7 @@ export const HomeLayout: FC<LayoutProps> = ({
 				>
 					<Anchor href="https://discord.gg/3v7jwG45pe" target="_blank">
 						<Button
-							title="Visit Us"
+							title="Contact Us"
 							paddingHorizontal={28}
 							backgroundColor="white"
 							color="#222222"

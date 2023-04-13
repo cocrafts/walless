@@ -13,7 +13,8 @@ More information at [Official website](https://walless.io) | [Discord](https://d
 
 ## CLI commands
 - Development: run `yarn dev` at project root (or `metacraft` under apps/home)
-- Build: `yarn build` (or `metacraft bundle` under apps/home)
+- Build: `yarn build` (or `metacraft bundle` under apps/[name])
+- Extension build: under `apps/web` run `yarn build:ext` instead to produce zip files (output to `apps/landing/public/builds`)
 - Package version check `yarn dlx lerna-update-wizard`
 - Sync font for React Native: `yarn dlx react-native-asset`
 

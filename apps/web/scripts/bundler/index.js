@@ -40,6 +40,11 @@ cloneExtensionBuild('edge');
 cloneExtensionBuild('brave');
 cloneExtensionBuild('opera');
 cloneExtensionBuild('firefox', {
+	browser_specific_settings: {
+		gecko: {
+			id: 'extension@walless.io',
+		},
+	},
 	background: {
 		scripts: ['background.js'],
 	},

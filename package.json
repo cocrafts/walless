@@ -7,14 +7,14 @@
 		"packages/*"
 	],
 	"scripts": {
+		"batch": "node tool/batch",
 		"build": "node tool/batch && turbo run build",
 		"dev": "turbo run dev",
 		"test": "turbo run test",
 		"gen": "node tool/gen",
 		"invalidate": "node tool/invalidate",
 		"lint": "turbo run lint",
-		"postinstall": "yarn batch",
-		"batch": "node tool/batch"
+		"postinstall": "yarn batch"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.21.4",

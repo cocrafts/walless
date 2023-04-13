@@ -9,7 +9,8 @@
     "batch": "node ../../tool/batch",
     "build": "rm -rf metacraft builds && yarn batch && metacraft bundle",
     "build:ext": "BUILD_TARGET=extension && yarn build && node scripts/bundler",
-    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
+    "postinstall": "yarn batch"
   },
   "dependencies": {
     "@metaplex-foundation/js": "0.18.3",

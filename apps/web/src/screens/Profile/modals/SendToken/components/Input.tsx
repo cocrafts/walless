@@ -5,9 +5,10 @@ interface Props {
 	content: string;
 	rightNode?: React.ReactNode;
 	rightNodeContent?: number | string;
+	onChangeText?: (text: string) => void;
 }
 
-const Input: FC<Props> = ({ content, rightNode }) => {
+const Input: FC<Props> = ({ content, rightNode, onChangeText }) => {
 	return (
 		<Stack
 			display="flex"
@@ -38,6 +39,7 @@ const Input: FC<Props> = ({ content, rightNode }) => {
 					borderColor: '#49596A',
 					borderWidth: 1,
 				}}
+				onChangeText={onChangeText}
 			/>
 		</Stack>
 	);

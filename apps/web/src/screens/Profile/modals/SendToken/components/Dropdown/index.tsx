@@ -6,13 +6,16 @@ import { DropdownItemProps, DropdownProps } from '../../internal';
 
 import DropdownItem from './DropdownItem';
 
-const Dropdown: FC<DropdownProps> = ({ name, items }) => {
+const Dropdown: FC<DropdownProps> = ({ name, items, setChosen }) => {
 	const [isActive, setIsActive] = useState(false);
 	const [selectedItem, setSelectedItem] = useState<DropdownItemProps | null>(
 		null,
 	);
 	const handleSelectItem = (item: DropdownItemProps) => {
 		setSelectedItem(item);
+		if (setChosen) {
+			setChosen(item);
+		}
 		setIsActive(false);
 	};
 
@@ -46,7 +49,7 @@ const Dropdown: FC<DropdownProps> = ({ name, items }) => {
 						gap={4}
 					>
 						<Image
-							src={selectedItem.icon}
+							src={selectedItem.icon as string}
 							width={16}
 							height={16}
 							borderRadius={8}
@@ -73,6 +76,9 @@ const Dropdown: FC<DropdownProps> = ({ name, items }) => {
 					borderRadius={15}
 					paddingHorizontal={8}
 					paddingVertical={8}
+					position="absolute"
+					top={48}
+					zIndex={1}
 				>
 					{items.map((item) => (
 						<DropdownItem

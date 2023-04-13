@@ -13,7 +13,8 @@
 		"gen": "node tool/gen",
 		"invalidate": "node tool/invalidate",
 		"lint": "turbo run lint",
-		"postinstall": "node tool/batch"
+		"postinstall": "yarn batch",
+		"batch": "node tool/batch"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.21.4",

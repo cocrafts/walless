@@ -104,7 +104,10 @@ abstract class AbstractLoginHandler implements ILoginHandler {
 						return postMessageEventHandler({ data: request } as MessageEvent);
 					}
 
-					if (global.chrome?.runtime) {
+					const userAgent = global.navigator?.userAgent.toLowerCase()
+					const isFirefox = userAgent.indexOf('firefox') !== -1;
+
+					if (global.chrome?.runtime && isFirefox) {
 						chrome.runtime.onMessage.addListener(chromeMessageHandler);
 					} else {
 						window.addEventListener("message", postMessageEventHandler);

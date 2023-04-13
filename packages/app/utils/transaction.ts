@@ -102,6 +102,7 @@ const sendSOL = async (
 		instructions,
 	}).compileToV0Message();
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const transaction = new VersionedTransaction(message);
 
 	return 0;

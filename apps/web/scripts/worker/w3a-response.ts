@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let isExtensionAvailable = false;
 
 export const parseAndNotifyResult = async () => {

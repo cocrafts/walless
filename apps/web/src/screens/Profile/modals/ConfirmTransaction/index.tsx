@@ -1,22 +1,10 @@
 import { FC, useEffect, useState } from 'react';
-import {
-	getWalletPublicKey,
-	modalActions,
-	ModalConfigs,
-	sendToken,
-} from '@walless/app';
+import { getWalletPublicKey, modalActions, ModalConfigs } from '@walless/app';
 import { Networks } from '@walless/core';
 import { Stack } from '@walless/gui';
 
 import ModalWrapper from '../components/ModalWrapper';
-import {
-	// networkLogo,
-	// networkName,
-	// tokenAmount,
-	// tokenName,
-	walletAddress,
-	walletName,
-} from '../internal';
+import { walletName } from '../internal';
 import NavBtn from '../SendToken/components/NavBtn';
 import { DropdownItemProps } from '../SendToken/internal';
 

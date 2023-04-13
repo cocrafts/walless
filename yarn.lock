@@ -9070,15 +9070,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/app@workspace:packages/app"
   dependencies:
-    "@walless/gui": "*"
     eslint: 8.38.0
-    react-native-reanimated: 3.0.2
   peerDependencies:
     "@metaplex-foundation/js": ^0.18.1
     "@mysten/sui.js": 0.30.0
     "@solana/spl-token": ^0.3.7
     "@solana/web3.js": 1.75.0
+    "@walless/gui": "*"
+    "@walless/network": "*"
     react: ^18.2.0
+    react-native-reanimated: 3.0.2
     tamagui: 1.12.2
     valtio: 1.10.4
   languageName: unknown

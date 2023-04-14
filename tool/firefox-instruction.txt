@@ -1,0 +1,12 @@
+This extension open sourced under: https://github.com/cocrafts/walless
+There is already instruction, on how to install/run it.
+
+For Firefox specific case, this is a javascript monorepo using Turborepo.
+
+1. Install dependencies with yarn install in project's root directory.
+
+2. To run: execute "yarn dev" under apps/web folder
+
+3. To build: execute "yarn build:ext" this will generate build under:
+- apps/web/builds/firefox (non zip)
+- apps/landing/public/builds/firefox.zip

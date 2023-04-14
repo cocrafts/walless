@@ -1,13 +1,17 @@
 export { AlertCircle } from './components/AlertCircle';
 export { ArrowBottomRight } from './components/ArrowBottomRight';
+export { ArrowDown } from './components/ArrowDown';
 export { ArrowTopRight } from './components/ArrowTopRight';
 export { Bell } from './components/Bell';
 export { Cart } from './components/Cart';
+export { Check } from './components/Check';
 export { CheckCircle } from './components/CheckCircle';
 export { ChevronDown } from './components/ChevronDown';
 export { ChevronRight } from './components/ChevronRight';
 export { Compass } from './components/Compass';
+export { Copy } from './components/Copy';
 export { Discord } from './components/Discord';
+export { Exclamation } from './components/Exclamation';
 export { Eye } from './components/Eye';
 export { EyeOff } from './components/EyeOff';
 export { Github } from './components/Github';

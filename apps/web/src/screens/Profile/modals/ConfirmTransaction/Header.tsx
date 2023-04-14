@@ -1,16 +1,13 @@
+import { FC } from 'react';
 import { Stack, Text } from '@walless/gui';
 import { ChevronRight, Times } from '@walless/icons';
-import { router } from 'utils/routing';
 
-const Header = () => {
-	const handleGoBack = () => {
-		router.navigate('/send');
-	};
+interface Props {
+	onPressGoBackBtn: () => void;
+	onPressCloseBtn: () => void;
+}
 
-	const handleClose = () => {
-		console.log('close');
-	};
-
+const Header: FC<Props> = ({ onPressGoBackBtn, onPressCloseBtn }) => {
 	return (
 		<Stack
 			display="flex"
@@ -27,7 +24,7 @@ const Header = () => {
 				display="flex"
 				justifyContent="center"
 				alignItems="center"
-				onPress={handleGoBack}
+				onPress={onPressGoBackBtn}
 			>
 				<ChevronRight size={16} />
 			</Stack>
@@ -36,7 +33,7 @@ const Header = () => {
 				Confirm transaction
 			</Text>
 
-			<Stack onPress={handleClose}>
+			<Stack onPress={onPressCloseBtn}>
 				<Times size={16} />
 			</Stack>
 		</Stack>

@@ -46,7 +46,7 @@ export const setProfile = async (profile: UserProfile): Promise<void> => {
 export const signInGoogle = async () => {
 	const loginParams: SubVerifierDetails = {
 		typeOfLogin: 'google',
-		verifier: 'walless001',
+		verifier: __DEV__ ? 'walless001' : 'walless-gc',
 		clientId: GOOGLE_CLIENT_ID,
 	};
 

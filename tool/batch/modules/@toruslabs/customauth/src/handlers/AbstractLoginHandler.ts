@@ -91,7 +91,7 @@ abstract class AbstractLoginHandler implements ILoginHandler {
 
 						if (global.chrome?.runtime) {
 							chrome.runtime.onMessage.removeListener(chromeMessageHandler);
-							chrome.tabs.query({ url: '*://*/w3a-response' }).then((tabs) => {
+							chrome.tabs.query({ url: '*://*/w3a' }).then((tabs) => {
 								tabs.forEach((item) => chrome.tabs.remove(item.id));
 							})
 						} else {
@@ -104,7 +104,10 @@ abstract class AbstractLoginHandler implements ILoginHandler {
 						return postMessageEventHandler({ data: request } as MessageEvent);
 					}
 
-					if (global.chrome?.runtime) {
+					const userAgent = global.navigator?.userAgent.toLowerCase()
+					const isFirefox = userAgent.indexOf('firefox') !== -1;
+
+					if (global.chrome?.runtime && isFirefox) {
 						chrome.runtime.onMessage.addListener(chromeMessageHandler);
 					} else {
 						window.addEventListener("message", postMessageEventHandler);

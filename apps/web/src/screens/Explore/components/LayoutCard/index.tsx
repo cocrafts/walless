@@ -5,16 +5,8 @@ import { LayoutCardProps } from 'screens/Explore/internal';
 
 import AddLayoutBtn from './AddLayoutBtn';
 
-const LayoutCard: FC<LayoutCardProps> = ({ item, onPressLoveBtn }) => {
+const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 	const heartColors = item.isLoved ? ['red', 'red'] : ['white', 'none'];
-
-	const handlePressLoveBtn = () => {
-		onPressLoveBtn(item);
-	};
-
-	const handleAddLayout = () => {
-		console.log('add layout');
-	};
 
 	return (
 		<Stack backgroundColor="#131C24" height={259} borderRadius={12}>
@@ -74,7 +66,7 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onPressLoveBtn }) => {
 							justifyContent="space-between"
 							alignItems="center"
 							gap={4}
-							onPress={handlePressLoveBtn}
+							onPress={() => onLovePress?.(item)}
 						>
 							<Heart size={8} colors={heartColors} />
 							<Text fontWeight="400" fontSize={10}>
@@ -101,7 +93,7 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onPressLoveBtn }) => {
 						</Stack>
 					</Stack>
 
-					<AddLayoutBtn handleAddLayout={handleAddLayout} />
+					<AddLayoutBtn handleAddLayout={() => onAddPress?.(item)} />
 				</Stack>
 			</Stack>
 		</Stack>

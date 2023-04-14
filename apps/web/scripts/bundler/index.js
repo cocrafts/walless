@@ -5,7 +5,7 @@ const manifest = require('./manifest.json');
 const project = require('../../package.json');
 
 const zipDir = (platform) => {
-	const buildDir = './builds';
+	const buildDir = '../landing/public/builds';
 	const archive = archiver('zip', { zlib: { level: 9 } });
 	const stream = fs.createWriteStream(`${buildDir}/${platform}.zip`);
 
@@ -40,6 +40,11 @@ cloneExtensionBuild('edge');
 cloneExtensionBuild('brave');
 cloneExtensionBuild('opera');
 cloneExtensionBuild('firefox', {
+	browser_specific_settings: {
+		gecko: {
+			id: 'extension@walless.io',
+		},
+	},
 	background: {
 		scripts: ['background.js'],
 	},

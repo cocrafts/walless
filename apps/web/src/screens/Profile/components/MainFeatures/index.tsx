@@ -1,18 +1,17 @@
+import { FC } from 'react';
 import { Stack } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight, Cart, Swap } from '@walless/icons';
-import { router } from 'utils/routing';
 
 import FeatureButton from './FeatureButton';
 
-const MainFeatures = () => {
+interface Props {
+	onPressSendBtn: () => void;
+}
+
+const MainFeatures: FC<Props> = ({ onPressSendBtn }) => {
 	return (
 		<Stack display="flex" flexDirection="row" gap={25}>
-			<FeatureButton
-				featureName="Send"
-				onPress={() => {
-					router.navigate('/send');
-				}}
-			>
+			<FeatureButton featureName="Send" onPress={onPressSendBtn}>
 				<ArrowTopRight size={24} />
 			</FeatureButton>
 			<FeatureButton

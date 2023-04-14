@@ -1,8 +1,9 @@
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 import { StackProps } from '@tamagui/core';
 
 export type LayoutProps = StackProps & {
-	children: ReactElement;
+	theme?: 'dark' | 'light';
+	children: ReactNode;
 };
 
 export const imageSources = {

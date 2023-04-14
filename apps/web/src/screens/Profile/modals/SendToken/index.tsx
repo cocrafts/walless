@@ -1,17 +1,45 @@
 import { FC, useState } from 'react';
-import { Stack } from '@walless/gui';
+import { modalActions, ModalConfigs } from '@walless/app';
+import { Stack, Text } from '@walless/gui';
+import { Times } from '@walless/icons';
 
-import NavBtn from './components/NavBtn';
+import ModalWrapper from '../components/ModalWrapper';
+
+import CollectiblesTab from './components/CollectiblesTab';
 import TabBar from './components/TabBar';
+import TokensTab from './components/TokensTab';
 
-export const SendTokenScreen: FC = () => {
+export const SendTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const [isTokensTab, setIsTokensTab] = useState(true);
 
 	return (
-		<Stack display="flex" alignItems="center">
+		<ModalWrapper>
+			<Stack
+				display="flex"
+				flexDirection="row"
+				justifyContent="space-between"
+				alignItems="center"
+				width="100%"
+			>
+				<Text color="#FFFFFF" fontWeight="500" fontSize={20}>
+					Send
+				</Text>
+				<Stack
+					onPress={() => {
+						modalActions.destroy(config.id);
+					}}
+				>
+					<Times size={16} />
+				</Stack>
+			</Stack>
 			<TabBar isTokensTab={isTokensTab} setIsTokensTab={setIsTokensTab} />
-			<NavBtn content="Continue" route="" />
-		</Stack>
+			{isTokensTab ? (
+				<TokensTab modalId={config.id as string} />
+			) : (
+				<CollectiblesTab />
+			)}
+			{/* <NavBtn content="Continue" route="" /> */}
+		</ModalWrapper>
 	);
 };
 

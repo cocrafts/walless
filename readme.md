@@ -7,13 +7,14 @@
 More information at [Official website](https://walless.io) | [Discord](https://discord.gg/2bzf9qjuN3) | [Twitter](https://twitter.com/walless_wallet)
 
 ## Required tools
-- Node.js (for sure)
-- Yarn installed globally (`npm i -g yarn`)
-- Metacraft CLI installed globally (`npm i -g @metacraft/cli`)
+- [Node.js](https://nodejs.org/en) (for sure)
+- [Yarn](https://yarnpkg.com/getting-started/install) installed globally (`npm i -g yarn`) — highly suggested `version 3.5` or later.
+- [Metacraft CLI](https://github.com/cocrafts/metacraft-cli) installed globally (`npm i -g @metacraft/cli`)
 
 ## CLI commands
 - Development: run `yarn dev` at project root (or `metacraft` under apps/home)
-- Build: `yarn build` (or `metacraft bundle` under apps/home)
+- Build: `yarn build` (or `metacraft bundle` under apps/[name])
+- Extension build: under `apps/web` run `yarn build:ext` instead to produce zip files (output to `apps/landing/public/builds`)
 - Package version check `yarn dlx lerna-update-wizard`
 - Sync font for React Native: `yarn dlx react-native-asset`
 

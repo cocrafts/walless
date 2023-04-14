@@ -1,4 +1,4 @@
-const { compilerOptions } = require('./tsconfig.json');
+const { InjectManifest } = require('workbox-webpack-plugin');
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 const { tamaguiBuild } = require('../../tool/webpack/tamagui');
 const { copyAssets } = require('../../tool/webpack/asset');
@@ -7,8 +7,6 @@ const { setEnvironments } = require('../../tool/webpack/env');
 
 const isProd = process.env.ENV === 'production';
 const injectEntries = (config) => {
-	config.resolve.extensions.push('.mjs');
-
 	config.entry.content = {
 		import: 'scripts/content/index.ts',
 		filename: 'content.js',
@@ -37,10 +35,19 @@ const injectEntries = (config) => {
 	return config;
 };
 
+const injectWorkers = (config) => {
+	config.plugins.push(
+		new InjectManifest({
+			swSrc: 'scripts/worker/kernel',
+			swDest: 'kernel.js',
+		}),
+	);
+
+	return config;
+};
+
 const swcOptions = () => ({
 	jsc: {
-		baseUrl: compilerOptions.baseUrl,
-		paths: compilerOptions.paths,
 		parser: {
 			syntax: 'typescript',
 			tsx: true,
@@ -85,6 +92,7 @@ module.exports = {
 		useCache,
 		copyAssets,
 		injectEntries,
+		// injectWorkers,
 		tamaguiBuild,
 		web3Polyfills,
 		setEnvironments({

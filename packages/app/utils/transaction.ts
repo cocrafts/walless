@@ -33,7 +33,7 @@ export const getWalletPublicKey = async (network: Networks) => {
 	return keyString;
 };
 
-export const sendToken = async ({
+export const constructTransaction = async ({
 	sender,
 	token,
 	network,
@@ -42,7 +42,7 @@ export const sendToken = async ({
 }: SendTokenProps) => {
 	if (network == Networks.solana) {
 		if (token == 'SOL') {
-			return await sendSOL(
+			return await constructSendSOLTransaction(
 				new PublicKey(sender),
 				new PublicKey(receiver),
 				amount,
@@ -79,7 +79,7 @@ export const getTransactionFee = async (network: Networks) => {
 	} else return 0;
 };
 
-const sendSOL = async (
+const constructSendSOLTransaction = async (
 	sender: PublicKey,
 	receiver: PublicKey,
 	amount: number,
@@ -105,5 +105,5 @@ const sendSOL = async (
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const transaction = new VersionedTransaction(message);
 
-	return 0;
+	return transaction;
 };

@@ -24,6 +24,12 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			await suiHandler.handleSignTransaction(payload, channel);
 		} else if (payload.type === 'sign-and-execute=transaction-on-sui') {
 			await suiHandler.handleSignAndExecuteTransaction(payload, channel);
+		} else {
+			return channel.postMessage({
+				from: 'walless@kernel',
+				requestId: payload.requestId,
+				message: 'Invalid request type!',
+			});
 		}
 	} else {
 		if (payload.type === 'notify-wallet-open') {

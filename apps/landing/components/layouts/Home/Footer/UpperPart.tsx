@@ -47,8 +47,8 @@ const UpperPart = () => {
 				gap={28}
 				$gtMd={{
 					width: 'auto',
-					minWidth: 600,
 					paddingHorizontal: 0,
+					alignItems: 'flex-end',
 				}}
 			>
 				<Text fontWeight="600" fontSize={largeFontSize}>

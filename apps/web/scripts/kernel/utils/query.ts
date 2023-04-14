@@ -77,45 +77,54 @@ export const fetchAllTokens = async (): Promise<WalletRecord[]> => {
 	for (const key of keys) {
 		if (key.network === 'sui') continue;
 
-		const address = new PublicKey(key.id as string);
-		const tokenAccounts = await getTokensByOwner(solanaConnection, address);
-		const tokens: Record<string, never> = {};
-
-		tokenAccounts.forEach(({ pubkey, account }) => {
-			const mint = account.data.mint.toString();
-			const isMintExisted = mintList.indexOf(mint) > -1;
-			if (!isMintExisted) {
-				mintList.push(mint);
-			}
-
-			tokens[mint] = {
-				mint,
-				address: pubkey.toString(),
-				balance: parseInt(account.data.amount.toString()),
-			} as never;
-		});
-
-		wallets.put({
-			id: key.id as string,
-			network: key.network,
-			tokens,
-		});
+		const wallet = await fetchSolanaWalletTokens(key.id as string);
+		const tokenMint = Object.keys(wallet.tokens);
+		tokenMint.filter((mint) => !mintList.includes(mint));
+		mintList.concat(tokenMint);
+		wallets.put(wallet);
 	}
 
 	mintList.forEach(async (mint) => {
-		const mintPubkey = new PublicKey(mint);
-		const tokenMetadata = await getTokenMetadata(solanaConnection, mintPubkey);
+		const mintAccount = await fetchMintAccount(mint);
 
-		tokens.put({
-			id: mint,
-			network: 'solana',
-			metadata: {
-				name: tokenMetadata?.data.name,
-				symbol: tokenMetadata?.data.symbol,
-				imageUri: tokenMetadata?.data.uri,
-			},
-		});
+		tokens.put(mintAccount);
 	});
 
 	return await wallets.toArray();
+};
+
+export const fetchSolanaWalletTokens = async (address: string) => {
+	const publicKey = new PublicKey(address);
+	const tokenAccounts = await getTokensByOwner(solanaConnection, publicKey);
+	const tokens: Record<string, never> = {};
+
+	tokenAccounts.forEach(({ pubkey, account }) => {
+		const mint = account.data.mint.toString();
+		tokens[mint] = {
+			mint,
+			address: pubkey.toString(),
+			balance: parseInt(account.data.amount.toString()),
+		} as never;
+	});
+
+	return {
+		id: address,
+		network: 'solana',
+		tokens,
+	};
+};
+
+export const fetchMintAccount = async (mint: string) => {
+	const mintPubkey = new PublicKey(mint);
+	const tokenMetadata = await getTokenMetadata(solanaConnection, mintPubkey);
+
+	return {
+		id: mint,
+		network: 'solana',
+		metadata: {
+			name: tokenMetadata?.data.name,
+			symbol: tokenMetadata?.data.symbol,
+			imageUri: tokenMetadata?.data.uri,
+		},
+	};
 };

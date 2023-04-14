@@ -10,7 +10,11 @@ export const ExploreScreen: FC = () => {
 		console.log(value);
 	};
 
-	const handlePressLoveBtn = (layout: Layout) => {
+	const handleLovePress = (layout: Layout) => {
+		console.log(layout);
+	};
+
+	const handleAddPress = (layout: Layout) => {
 		console.log(layout);
 	};
 
@@ -26,7 +30,8 @@ export const ExploreScreen: FC = () => {
 				<LayoutCard
 					key={layoutCard.id}
 					item={layoutCard}
-					onPressLoveBtn={handlePressLoveBtn}
+					onLovePress={handleLovePress}
+					onAddPress={handleAddPress}
 				/>
 			))}
 		</Stack>

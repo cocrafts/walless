@@ -11,7 +11,8 @@ export interface Layout {
 
 export interface LayoutCardProps {
 	item: Layout;
-	onPressLoveBtn: (layout: Layout) => void;
+	onAddPress?: (item: Layout) => void;
+	onLovePress?: (item: Layout) => void;
 }
 
 export const mockLayoutCards: Layout[] = [

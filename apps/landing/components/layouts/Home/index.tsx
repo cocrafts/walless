@@ -3,6 +3,7 @@ import { ScrollView, Stack } from '@walless/gui';
 
 import { LayoutProps } from '../shared';
 
+import Footer from './Footer';
 import HeadingSection, { headingHeight } from './Heading';
 
 export const HomeLayout: FC<LayoutProps> = ({ children }) => {
@@ -13,6 +14,7 @@ export const HomeLayout: FC<LayoutProps> = ({ children }) => {
 				marginTop={headingHeight}
 			>
 				{children}
+				<Footer />
 			</ScrollView>
 			<HeadingSection />
 		</Stack>

@@ -1,12 +1,10 @@
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
-import { decryptWithPasscode } from '@walless/crypto';
 import { MessengerCallback } from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
-import { PrivateKeyRecord, PublicKeyRecord } from '@walless/storage';
 import { decode, encode } from 'bs58';
 
-import { db } from '../storage';
-import { connection } from '../utils/connection';
+import { solanaConnection } from '../utils/connection';
+import { triggerActionToGetPrivateKey } from '../utils/handler';
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,
@@ -43,7 +41,7 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 
 	const signatureString = await signAndSendTransaction(
-		connection,
+		solanaConnection,
 		transaction,
 		payload.options || {},
 		privateKey,
@@ -79,21 +77,3 @@ export const handleSignMessage: MessengerCallback = async (
 	});
 	return signature;
 };
-
-const triggerActionToGetPrivateKey = async () => {
-	try {
-		const publicKeys = await db.publicKeys.toArray();
-		const solKey = publicKeys.find(
-			(i) => i.network === 'solana',
-		) as PublicKeyRecord;
-		const privateKeys = await db.privateKeys.toArray();
-		const encrypted = privateKeys.find((i) => i.id === solKey.privateKeyId);
-		return await decryptWithPasscode('123456', encrypted as PrivateKeyRecord);
-	} catch (error) {
-		console.log('Get private key error');
-		console.log(error.message);
-		return null;
-	}
-};
-
-global.handleSignMessage = handleSignMessage;

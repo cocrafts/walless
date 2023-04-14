@@ -13,12 +13,17 @@ export const requestSignAndSendTransaction = async (
 	options: unknown = undefined,
 	passcode: string | undefined = undefined,
 ) => {
-	const res = await encryptedMessenger.request('kernel', {
-		type: 'sign-and-send-transaction',
-		transaction: encode(transaction.serialize()),
-		options,
-		passcode,
-	});
-
-	return res;
+	try {
+		const res = await encryptedMessenger.request('kernel', {
+			type: 'sign-and-send-transaction',
+			transaction: encode(transaction.serialize()),
+			options,
+			passcode,
+		});
+		return res;
+	} catch (error) {
+		return {
+			message: (error as Error).message,
+		};
+	}
 };

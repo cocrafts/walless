@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { getWalletPublicKey, modalActions, ModalConfigs } from '@walless/app';
+import { constructTransaction } from '@walless/app';
 import { Networks } from '@walless/core';
 import { Stack } from '@walless/gui';
+import { requestSignAndSendTransaction } from 'bridge/listeners';
 
 import ModalWrapper from '../components/ModalWrapper';
 import { walletName } from '../internal';
@@ -78,7 +80,26 @@ const ConfirmTransactionScreen: FC<{
 			</Stack>
 
 			<Stack marginTop="auto" marginHorizontal="auto">
-				<NavBtn content="Continue" route="" />
+				<NavBtn
+					content="Continue"
+					route=""
+					onPress={async () => {
+						if (address) {
+							console.log('Hello world');
+							const transaction = await constructTransaction({
+								sender: address,
+								amount,
+								network: network.value as Networks,
+								receiver,
+								token: token.value as string,
+							});
+
+							const res = await requestSignAndSendTransaction(transaction);
+
+							console.log(res);
+						}
+					}}
+				/>
 			</Stack>
 		</ModalWrapper>
 	);

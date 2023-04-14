@@ -1,5 +1,10 @@
 import { FC, useEffect, useState } from 'react';
-import { getWalletPublicKey, modalActions, ModalConfigs } from '@walless/app';
+import {
+	BindDirections,
+	getWalletPublicKey,
+	modalActions,
+	ModalConfigs,
+} from '@walless/app';
 import { constructTransaction } from '@walless/app';
 import { Networks } from '@walless/core';
 import { Stack } from '@walless/gui';
@@ -9,6 +14,7 @@ import ModalWrapper from '../components/ModalWrapper';
 import { walletName } from '../internal';
 import NavBtn from '../SendToken/components/NavBtn';
 import { DropdownItemProps } from '../SendToken/internal';
+import TransactionSuccessfulScreen from '../TransactionSuccessful';
 
 import AccountInfo from './AccountInfo';
 import Header from './Header';
@@ -24,9 +30,11 @@ interface RequiredContext {
 	};
 }
 
-const ConfirmTransactionScreen: FC<{
+interface Props {
 	config: ModalConfigs & { context: RequiredContext };
-}> = ({ config }) => {
+}
+
+const ConfirmTransactionScreen: FC<Props> = ({ config }) => {
 	const { token, network, receiver, amount, parent } = config.context;
 
 	const handleOnPressGoBackBtn = () => {
@@ -85,7 +93,6 @@ const ConfirmTransactionScreen: FC<{
 					route=""
 					onPress={async () => {
 						if (address) {
-							console.log('Hello world');
 							const transaction = await constructTransaction({
 								sender: address,
 								amount,
@@ -96,7 +103,22 @@ const ConfirmTransactionScreen: FC<{
 
 							const res = await requestSignAndSendTransaction(transaction);
 
-							console.log(res);
+							if (res?.signatureString) {
+								modalActions.show({
+									id: 'transaction-successfully',
+									bindingDirection: BindDirections.InnerBottom,
+									component: TransactionSuccessfulScreen as never,
+									context: {
+										sender: address,
+										receiver,
+										token,
+										network,
+										amount,
+										signatureString: res.signatureString,
+									},
+								});
+								handleOnPressCloseBtn();
+							}
 						}
 					}}
 				/>

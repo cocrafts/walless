@@ -6,6 +6,7 @@ import { ContainerStack } from 'components/styled';
 
 import { LayoutProps } from '../shared';
 
+import Footer from './Footer';
 import Navigation, { navigationHeight } from './Navigation';
 
 export const HomeLayout: FC<LayoutProps> = ({
@@ -22,6 +23,7 @@ export const HomeLayout: FC<LayoutProps> = ({
 					paddingBottom={84}
 				>
 					{children}
+					<Footer />
 				</ScrollView>
 				<Navigation />
 

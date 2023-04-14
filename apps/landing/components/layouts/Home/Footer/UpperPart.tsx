@@ -1,16 +1,8 @@
 import { Button, Image, Input, Stack, Text } from '@walless/gui';
-import {
-	Discord,
-	Github,
-	LinkedIn,
-	Mail,
-	Twitter,
-	Youtube,
-} from '@walless/icons';
 import { imageSources } from 'components/layouts/shared';
 import Link from 'next/link';
 
-import SocialIcon from './SocialIcon';
+import SocialIcons from './SocialIcons';
 
 const UpperPart = () => {
 	const fontSize = 14;
@@ -90,48 +82,7 @@ const UpperPart = () => {
 					</Button>
 				</Stack>
 
-				<Stack
-					flexDirection="row"
-					justifyContent="center"
-					gap={28}
-					flexWrap="wrap"
-				>
-					<SocialIcon
-						size={48}
-						link="https://discord.gg/2bzf9qjuN3"
-						icon={<Discord size={40} />}
-					/>
-
-					<SocialIcon
-						size={48}
-						link="https://discord.gg/2bzf9qjuN3"
-						icon={<Twitter size={40} />}
-					/>
-
-					<SocialIcon
-						size={48}
-						link="https://discord.gg/2bzf9qjuN3"
-						icon={<Github size={40} />}
-					/>
-
-					<SocialIcon
-						size={48}
-						link="https://discord.gg/2bzf9qjuN3"
-						icon={<LinkedIn size={40} />}
-					/>
-
-					<SocialIcon
-						size={48}
-						link="https://discord.gg/2bzf9qjuN3"
-						icon={<Youtube size={40} />}
-					/>
-
-					<SocialIcon
-						size={48}
-						link="https://discord.gg/2bzf9qjuN3"
-						icon={<Mail size={40} />}
-					/>
-				</Stack>
+				<SocialIcons />
 			</Stack>
 		</Stack>
 	);

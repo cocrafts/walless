@@ -1,20 +1,13 @@
 import { FC, useEffect, useState } from 'react';
-import {
-	BindDirections,
-	getWalletPublicKey,
-	modalActions,
-	ModalConfigs,
-} from '@walless/app';
-import { constructTransaction } from '@walless/app';
+import { getWalletPublicKey, modalActions, ModalConfigs } from '@walless/app';
 import { Networks } from '@walless/core';
 import { Stack } from '@walless/gui';
-import { requestSignAndSendTransaction } from 'bridge/listeners';
+import { transactionActions } from 'state/transaction';
 
 import ModalWrapper from '../components/ModalWrapper';
 import { walletName } from '../internal';
 import NavBtn from '../SendToken/components/NavBtn';
 import { DropdownItemProps } from '../SendToken/internal';
-import TransactionSuccessfulScreen from '../TransactionSuccessful';
 
 import AccountInfo from './AccountInfo';
 import Header from './Header';
@@ -31,22 +24,34 @@ interface RequiredContext {
 }
 
 interface Props {
-	config: ModalConfigs & { context: RequiredContext };
+	config: ModalConfigs & { context: RequiredContext } & { id: string };
 }
 
 const ConfirmTransactionScreen: FC<Props> = ({ config }) => {
 	const { token, network, receiver, amount, parent } = config.context;
 
 	const handleOnPressGoBackBtn = () => {
-		modalActions.destroy(config.id);
+		modalActions.hide(config.id);
 	};
 
 	const handleOnPressCloseBtn = () => {
-		modalActions.destroy(config.id);
+		modalActions.hide(config.id);
 
 		if (parent) {
-			modalActions.destroy(parent.id);
+			modalActions.hide(parent.id);
 		}
+	};
+
+	const handleContinuePress = () => {
+		if (!address) return;
+
+		transactionActions.createAndSend({
+			sender: address,
+			token: token.value,
+			network: network.value as Networks,
+			receiver,
+			amount,
+		});
 	};
 
 	const [address, setAddress] = useState<string | null>(null);
@@ -88,40 +93,7 @@ const ConfirmTransactionScreen: FC<Props> = ({ config }) => {
 			</Stack>
 
 			<Stack marginTop="auto" marginHorizontal="auto">
-				<NavBtn
-					content="Continue"
-					route=""
-					onPress={async () => {
-						if (address) {
-							const transaction = await constructTransaction({
-								sender: address,
-								amount,
-								network: network.value as Networks,
-								receiver,
-								token: token.value as string,
-							});
-
-							const res = await requestSignAndSendTransaction(transaction);
-
-							if (res?.signatureString) {
-								modalActions.show({
-									id: 'transaction-successfully',
-									bindingDirection: BindDirections.InnerBottom,
-									component: TransactionSuccessfulScreen as never,
-									context: {
-										sender: address,
-										receiver,
-										token,
-										network,
-										amount,
-										signatureString: res.signatureString,
-									},
-								});
-								handleOnPressCloseBtn();
-							}
-						}
-					}}
-				/>
+				<NavBtn content="Continue" route="" onPress={handleContinuePress} />
 			</Stack>
 		</ModalWrapper>
 	);

@@ -1,4 +1,5 @@
 import { type ImageSourcePropType } from 'react-native';
+import { BN } from 'bn.js';
 
 export interface UserProfile {
 	id?: string;
@@ -7,18 +8,24 @@ export interface UserProfile {
 	profileImage?: string;
 }
 
-export type ExtensionType = 'layout' | 'dApp' | 'native';
-
-export interface CollectibleMetadata {
+export interface AssetMetadata {
 	name?: string;
 	symbol?: string;
 	imageUri?: string;
 }
 
+export interface TokenAccount {
+	mint?: string;
+	address?: string;
+	balance: number;
+}
+
 export interface Collectible {
 	collectionId?: string;
-	metadata?: CollectibleMetadata;
+	metadata?: AssetMetadata;
 }
+
+export type ExtensionType = 'layout' | 'dApp' | 'native';
 
 export interface ExtensionConfig {
 	id: string;

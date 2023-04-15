@@ -1,7 +1,9 @@
 import {
+	type AssetMetadata,
 	type Collectible,
 	type EncryptedWithPasscode,
 	type HydratedKey,
+	type TokenAccount,
 	type UserProfile,
 	Networks,
 } from '@walless/core';
@@ -17,12 +19,6 @@ export type PrivateKeyRecord = EncryptedWithPasscode & {
 	id?: string;
 	type: string;
 };
-
-export interface Metadata {
-	name?: string;
-	symbol?: string;
-	imageUri?: string;
-}
 
 /* TODO: work with Tuan Tran to resolve below duplication between Collectible and Collection */
 export type CollectibleRecord = Collectible & {
@@ -47,8 +43,9 @@ export type WalletRecord = {
 
 export type TokenRecord = {
 	id?: string;
-	metadata?: Metadata;
 	network: string;
+	account: TokenAccount;
+	metadata?: AssetMetadata;
 };
 
 export interface PublicKeyRecord {

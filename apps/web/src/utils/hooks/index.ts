@@ -1,1 +1,1 @@
-export { useSnapshot } from 'valtio';
+export * from './aliased';

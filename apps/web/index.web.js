@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { injectRuntime } from 'bridge/entry';
+import { initializeStates } from 'state/entry';
 
 import '@tamagui/polyfill-dev';
 import 'raf/polyfill';
@@ -14,3 +15,4 @@ const root = createRoot(container);
 root.render(<App tamaguiConfig={tamaguiConfig} />);
 
 injectRuntime();
+initializeStates();

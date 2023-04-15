@@ -1,8 +1,17 @@
 import { FC } from 'react';
+import { shortenAddress } from '@walless/core';
 import { Image, Stack, Text } from '@walless/gui';
-import { Wallet } from 'screens/Setting/internal';
+import { PublicKeyRecord } from '@walless/storage';
+import { getNetworkInfo } from 'utils/helper';
 
-const Wallet: FC<Wallet> = ({ icon, name, network, address }) => {
+interface Props {
+	item: PublicKeyRecord;
+	index: number;
+}
+
+const Wallet: FC<Props> = ({ item, index }) => {
+	const network = getNetworkInfo(item.network);
+
 	return (
 		<Stack
 			backgroundColor="#0E141A"
@@ -12,18 +21,16 @@ const Wallet: FC<Wallet> = ({ icon, name, network, address }) => {
 			flexDirection="row"
 			gap={10}
 			cursor="pointer"
-			hoverStyle={{
-				backgroundColor: '#202D38',
-			}}
+			hoverStyle={{ backgroundColor: '#202D38' }}
 		>
-			<Image src={icon} width={30} height={30} borderRadius={10000} />
+			<Image src={network.icon} width={30} height={30} borderRadius={10000} />
 
 			<Stack>
 				<Text fontSize={14}>
-					{name} ({network})
+					Wallet {index + 1} ({network.name})
 				</Text>
 				<Text fontSize={12} color="#566674">
-					{address}
+					{shortenAddress(item.id)}
 				</Text>
 			</Stack>
 		</Stack>

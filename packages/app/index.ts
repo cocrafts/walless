@@ -2,6 +2,7 @@ export * from './components/alias';
 export * from './components/DashboardButton';
 export * from './components/FeatureButton';
 export * from './components/ModalManager';
+export * from './components/SlideHandler';
 export * from './features/Login';
 export * from './features/MainFeatures';
 export * from './features/NetworkLayout';

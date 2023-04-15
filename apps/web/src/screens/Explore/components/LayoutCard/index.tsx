@@ -47,6 +47,7 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 					wordWrap="break-word"
 					textOverflow="ellipsis"
 					numberOfLines={2}
+					marginTop={4}
 				>
 					{item.description}
 				</Text>

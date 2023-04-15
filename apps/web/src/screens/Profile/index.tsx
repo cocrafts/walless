@@ -19,16 +19,21 @@ const ProfileScreen = () => {
 	};
 
 	return (
-		<Stack maxHeight="100vh" display="flex" alignItems="center" gap={28}>
-			<Stack alignSelf="flex-end" margin={15}>
+		<Stack
+			maxHeight="100vh"
+			paddingHorizontal={14}
+			paddingVertical={16}
+			display="flex"
+			alignItems="center"
+			gap={36}
+		>
+			<Stack alignSelf="flex-end" marginBottom={-12}>
 				<Widgets />
 			</Stack>
 
 			<TokenValue />
 
-			<Stack marginTop={27} marginBottom={34}>
-				<MainFeatures onPressSendBtn={handlePressSendBtn} />
-			</Stack>
+			<MainFeatures onPressSendBtn={handlePressSendBtn} />
 
 			<Collectibles />
 

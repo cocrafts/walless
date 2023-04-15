@@ -18,7 +18,7 @@ const Collectibles = () => {
 	};
 
 	return (
-		<Stack width="100%" paddingHorizontal={14}>
+		<Stack width="100%">
 			<Stack
 				marginBottom={16}
 				display="flex"

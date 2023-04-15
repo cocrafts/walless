@@ -7,6 +7,7 @@ import ProfileScreen from 'screens/Profile';
 import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
 import RequestSignature from 'screens/Request/Signature';
+import SettingScreen from 'screens/Setting';
 
 const createRouter =
 	BUILD_TARGET === 'extension' ? createHashRouter : createBrowserRouter;
@@ -23,6 +24,10 @@ export const router = createRouter([
 			{
 				path: '/profile',
 				element: <ProfileScreen />,
+			},
+			{
+				path: '/setting',
+				element: <SettingScreen />,
 			},
 			{
 				path: '/:layoutId?',

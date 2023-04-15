@@ -1,10 +1,13 @@
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
-import { MessengerCallback } from '@walless/messaging';
+import { Networks } from '@walless/core';
+import { MessengerCallback, ResponseCode } from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
 import { decode, encode } from 'bs58';
 
 import { solanaConnection } from '../utils/connection';
 import { triggerActionToGetPrivateKey } from '../utils/handler';
+
+import { getPrivateKey, settings } from './../utils/handler';
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,
@@ -30,10 +33,28 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
+	const messageHeader = {
+		from: 'walless@kernel',
+		requestId: payload.requestId,
+	};
+
+	if (settings.requirePasscode && !payload.passcode) {
+		return channel.postMessage({
+			...messageHeader,
+			responseCode: ResponseCode.REQUIRE_PASSCODE,
+		});
+	}
+
 	// Prepare private key
-	const privateKey = await triggerActionToGetPrivateKey();
-	if (!privateKey) {
-		return;
+	let privateKey;
+	try {
+		privateKey = await getPrivateKey(Networks.solana, payload.passcode);
+	} catch (error) {
+		return channel.postMessage({
+			...messageHeader,
+			responseCode: ResponseCode.WRONG_PASSCODE,
+			message: (error as Error).message,
+		});
 	}
 
 	// Transaction object
@@ -44,15 +65,14 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 		solanaConnection,
 		transaction,
 		payload.options || {},
-		privateKey,
+		privateKey as Uint8Array,
 	);
 
-	channel.postMessage({
-		from: 'walless@kernel',
-		requestId: payload.requestId,
+	return channel.postMessage({
+		...messageHeader,
+		responseCode: ResponseCode.SUCCESS,
 		signatureString,
 	});
-	return signatureString;
 };
 
 export const handleSignAllTransaction: MessengerCallback = () => {

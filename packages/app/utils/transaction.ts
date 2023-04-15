@@ -1,3 +1,5 @@
+import { JsonRpcProvider, TransactionBlock } from '@mysten/sui.js';
+import { Connection as SuiConnection } from '@mysten/sui.js';
 import {
 	clusterApiUrl,
 	Connection,
@@ -13,6 +15,13 @@ import { db } from 'utils/storage';
 
 const solConn = new Connection(clusterApiUrl('devnet'));
 const sampleKeypair = Keypair.generate();
+
+// Use this connection to get metadata
+const suiConn = new SuiConnection({
+	fullnode: 'https://fullnode.devnet.sui.io:443/',
+});
+
+const provider = new JsonRpcProvider(suiConn);
 
 export const getWalletPublicKey = async (network: Networks) => {
 	return (await db.publicKeys.toArray()).find((e) => e.network == network)?.id;
@@ -40,12 +49,14 @@ export const constructTransaction = async ({
 				new PublicKey(receiver),
 				amount,
 			);
-		} else {
-			throw Error('Token is not supported');
 		}
-	} else {
-		throw Error('Network is not supported');
+	} else if (network == Networks.sui) {
+		if (token == 'SUI') {
+			return await constructSendSUITransaction(receiver, amount);
+		}
 	}
+
+	throw Error('Network or Token is not supported');
 };
 
 export const getTransactionFee = async (network: Networks) => {
@@ -96,4 +107,23 @@ const constructSendSOLTransaction = async (
 	}).compileToV0Message();
 
 	return new VersionedTransaction(message);
+};
+
+const constructSendSUITransaction = async (
+	receiver: string,
+	amount: number,
+) => {
+	const tx = new TransactionBlock();
+
+	const SUI_COIN_STRING = '0x2::sui::SUI';
+	const metadata = await provider.getCoinMetadata({
+		coinType: SUI_COIN_STRING,
+	});
+
+	const [coin] = tx.splitCoins({ kind: 'GasCoin' }, [
+		tx.pure(amount * 10 ** metadata.decimals),
+	]);
+
+	tx.transferObjects([coin], tx.pure(receiver));
+	return tx;
 };

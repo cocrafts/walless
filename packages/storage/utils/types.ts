@@ -1,12 +1,10 @@
-import { EncryptedWithPasscode, HydratedKey, Networks } from '@walless/core';
+import {
+	type EncryptedWithPasscode,
+	type HydratedKey,
+	type UserProfile,
+	Networks,
+} from '@walless/core';
 import { Dexie, Table } from 'dexie';
-
-export interface UserProfile {
-	id?: string;
-	email?: string;
-	name?: string;
-	profileImage?: string;
-}
 
 export interface SettingRecord {
 	id?: number;

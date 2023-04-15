@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { SplashInner } from '@walless/app';
-import { UserProfile } from '@walless/storage';
+import { type UserProfile } from '@walless/core';
 
 export const SplashWrapper: FC = () => {
 	const logoSrc = require('../../assets/img/icon-lg.png');

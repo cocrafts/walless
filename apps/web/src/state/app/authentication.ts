@@ -1,9 +1,8 @@
 import { Secp256k1Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
 import { SubVerifierDetails, TorusLoginResponse } from '@toruslabs/customauth';
-import { Networks } from '@walless/core';
+import { type UserProfile, Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
-import { UserProfile } from '@walless/storage';
 import { router } from 'utils/routing';
 import { db } from 'utils/storage';
 import {

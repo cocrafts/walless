@@ -1,4 +1,4 @@
-import { UserProfile } from '@walless/storage';
+import { type UserProfile } from '@walless/core';
 import { proxy } from 'valtio';
 
 export interface AppState {

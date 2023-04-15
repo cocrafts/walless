@@ -1,4 +1,4 @@
-import { UserProfile } from '@walless/storage';
+import { type UserProfile } from '@walless/core';
 import { hashRouter } from 'utils/router';
 import { db } from 'utils/storage';
 

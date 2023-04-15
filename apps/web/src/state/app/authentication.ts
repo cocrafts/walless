@@ -1,4 +1,4 @@
-import { Secp256k1Keypair as SuiPair } from '@mysten/sui.js';
+import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
 import { SubVerifierDetails, TorusLoginResponse } from '@toruslabs/customauth';
 import { Networks } from '@walless/core';

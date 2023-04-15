@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Input as WallessInput, Stack } from '@walless/gui';
 
 interface Props {
 	content: string;
-	rightNode?: React.ReactNode;
+	rightNode?: ReactNode;
 	rightNodeContent?: number | string;
 	onChangeText?: (text: string) => void;
 }

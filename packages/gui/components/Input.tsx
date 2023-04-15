@@ -49,4 +49,6 @@ export const InputFrame = styled(
 
 export type InputProps = GetProps<typeof InputFrame>;
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const Input = focusableInputHOC(InputFrame);

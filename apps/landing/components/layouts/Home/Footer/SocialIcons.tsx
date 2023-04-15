@@ -16,7 +16,7 @@ const SocialIcons = () => {
 			flexDirection="row"
 			justifyContent="center"
 			alignItems="center"
-			gap={28}
+			gap={12}
 			flexWrap="wrap"
 		>
 			<SocialIcon

@@ -91,6 +91,7 @@ const UpperPart = () => {
 							borderWidth={0}
 						/>
 						<Button
+							disabled
 							borderRadius={12}
 							width={180}
 							onPress={() => setIsSignedUp(true)}

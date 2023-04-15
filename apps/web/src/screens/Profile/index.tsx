@@ -1,15 +1,15 @@
 import { AnimateDirections, BindDirections, modalActions } from '@walless/app';
+import { MainFeatures } from '@walless/app';
 import { Stack } from '@walless/gui';
 
 import Collectibles from './components/Collectibles';
 import History from './components/History';
-import MainFeatures from './components/MainFeatures';
 import TokenValue from './components/TokenValue';
 import Widgets from './components/Widgets';
 import SendTokenScreen from './modals/SendToken';
 
 const ProfileScreen = () => {
-	const handlePressSendBtn = () => {
+	const handleSend = () => {
 		modalActions.show({
 			id: 'send-token',
 			bindingDirection: BindDirections.InnerBottom,
@@ -33,7 +33,7 @@ const ProfileScreen = () => {
 
 			<TokenValue />
 
-			<MainFeatures onPressSendBtn={handlePressSendBtn} />
+			<MainFeatures onSendPress={handleSend} />
 
 			<Collectibles />
 

@@ -19,8 +19,6 @@ interface Props {
 const Dropdown: FC<Props> = ({ config }) => {
 	const { items, setChosen, selectedItem } = config.context as DropdownProps;
 
-	console.log('Child', selectedItem);
-
 	return (
 		<Stack
 			display="flex"

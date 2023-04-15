@@ -16,6 +16,7 @@ export interface AssetMetadata {
 export interface TokenAccount {
 	mint?: string;
 	address?: string;
+	price?: number;
 	balance: number;
 }
 

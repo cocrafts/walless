@@ -11,10 +11,12 @@ import {
 import { Networks } from '@walless/core';
 import { db } from 'utils/storage';
 
-import { connection } from './../../network/src/utils/connection';
-
 const solConn = new Connection(clusterApiUrl('devnet'));
 const sampleKeypair = Keypair.generate();
+
+export const getWalletPublicKey = async (network: Networks) => {
+	return (await db.publicKeys.toArray()).find((e) => e.network == network)?.id;
+};
 
 type SendTokenProps = {
 	sender: string;
@@ -22,15 +24,6 @@ type SendTokenProps = {
 	network: Networks;
 	receiver: string;
 	amount: number;
-};
-
-export const getWalletPublicKey = async (network: Networks) => {
-	const keyString = (await db.publicKeys.toArray()).find(
-		(e) => e.network == network,
-	)?.id;
-
-	console.log(keyString);
-	return keyString;
 };
 
 export const constructTransaction = async ({
@@ -67,7 +60,7 @@ export const getTransactionFee = async (network: Networks) => {
 
 		const message = new TransactionMessage({
 			payerKey: sampleKeypair.publicKey,
-			recentBlockhash: await connection
+			recentBlockhash: await solConn
 				.getLatestBlockhash()
 				.then((res) => res.blockhash),
 			instructions,
@@ -92,7 +85,7 @@ const constructSendSOLTransaction = async (
 		}),
 	];
 
-	const blockhash = await connection
+	const blockhash = await solConn
 		.getLatestBlockhash()
 		.then((res) => res.blockhash);
 
@@ -102,8 +95,5 @@ const constructSendSOLTransaction = async (
 		instructions,
 	}).compileToV0Message();
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const transaction = new VersionedTransaction(message);
-
-	return transaction;
+	return new VersionedTransaction(message);
 };

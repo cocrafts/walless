@@ -66,12 +66,21 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	const serializedTransaction = decode(payload.transaction);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 
-	const signatureString = await signAndSendTransaction(
-		solanaConnection,
-		transaction,
-		payload.options || {},
-		privateKey as Uint8Array,
-	);
+	let signatureString;
+	try {
+		signatureString = await signAndSendTransaction(
+			solanaConnection,
+			transaction,
+			payload.options || {},
+			privateKey as Uint8Array,
+		);
+	} catch (error) {
+		channel.postMessage({
+			...messageHeader,
+			responseCode: ResponseCode.ERROR,
+			message: (error as Error).message,
+		});
+	}
 
 	return channel.postMessage({
 		...messageHeader,

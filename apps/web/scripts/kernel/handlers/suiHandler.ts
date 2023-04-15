@@ -70,9 +70,18 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 	// Transaction object
 	const transaction = TransactionBlock.from(payload.transaction);
 
-	const signedTransaction = await signer.signAndExecuteTransactionBlock({
-		transactionBlock: transaction,
-	});
+	let signedTransaction;
+	try {
+		signedTransaction = await signer.signAndExecuteTransactionBlock({
+			transactionBlock: transaction,
+		});
+	} catch (error) {
+		channel.postMessage({
+			...messageHeader,
+			responseCode: ResponseCode.ERROR,
+			message: (error as Error).message,
+		});
+	}
 
 	channel.postMessage({
 		...messageHeader,

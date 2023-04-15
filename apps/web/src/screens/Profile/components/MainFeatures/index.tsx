@@ -1,8 +1,7 @@
 import { FC } from 'react';
+import { FeatureButton } from '@walless/app';
 import { Stack } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight, Cart, Swap } from '@walless/icons';
-
-import FeatureButton from './FeatureButton';
 
 interface Props {
 	onPressSendBtn: () => void;
@@ -10,24 +9,23 @@ interface Props {
 
 const MainFeatures: FC<Props> = ({ onPressSendBtn }) => {
 	return (
-		<Stack display="flex" flexDirection="row" gap={25}>
-			<FeatureButton featureName="Send" onPress={onPressSendBtn}>
-				<ArrowTopRight size={24} />
+		<Stack display="flex" flexDirection="row" gap={18}>
+			<FeatureButton title="Send" onPress={onPressSendBtn}>
+				<ArrowTopRight size={iconSize} />
 			</FeatureButton>
-			<FeatureButton
-				featureName="Receive"
-				onPress={() => console.log('Receive')}
-			>
-				<ArrowBottomRight size={24} />
+			<FeatureButton title="Receive" onPress={() => console.log('Receive')}>
+				<ArrowBottomRight size={iconSize} />
 			</FeatureButton>
-			<FeatureButton featureName="Buy" onPress={() => console.log('Buy')}>
-				<Cart size={24} />
+			<FeatureButton title="Buy" onPress={() => console.log('Buy')}>
+				<Cart size={iconSize} />
 			</FeatureButton>
-			<FeatureButton featureName="Swap" onPress={() => console.log('Swap')}>
-				<Swap size={24} />
+			<FeatureButton title="Swap" onPress={() => console.log('Swap')}>
+				<Swap size={iconSize} />
 			</FeatureButton>
 		</Stack>
 	);
 };
 
 export default MainFeatures;
+
+const iconSize = 18;

@@ -8,11 +8,18 @@ import { CardSkin } from './shared';
 
 type Props = StackProps & {
 	index?: number;
+	width?: number;
 	skin: CardSkin;
 	token: TokenRecord;
 };
 
-export const WalletCard: FC<Props> = ({ index = 0, skin, token }) => {
+export const WalletCard: FC<Props> = ({
+	index = 0,
+	width = 312,
+	skin,
+	token,
+}) => {
+	const height = (width * 145) / 318;
 	const [isPrivate, setIsPrivate] = useState(false);
 
 	const handleHide = (next: boolean) => {
@@ -22,6 +29,8 @@ export const WalletCard: FC<Props> = ({ index = 0, skin, token }) => {
 	return (
 		<ImageBackground
 			source={skin.backgroundSrc}
+			width={width}
+			height={height}
 			aspectRatio={318 / 145}
 			borderRadius={12}
 			paddingHorizontal={18}

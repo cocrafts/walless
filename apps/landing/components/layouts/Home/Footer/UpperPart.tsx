@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Image, Input, Stack, Text } from '@walless/gui';
 import { imageSources } from 'components/layouts/shared';
+import { ContainerStack } from 'components/styled';
 import Link from 'next/link';
 
 import SocialIcons from './SocialIcons';
@@ -12,8 +13,7 @@ const UpperPart = () => {
 	const largeFontSize = 20;
 
 	return (
-		<Stack
-			width="100%"
+		<ContainerStack
 			alignItems="center"
 			gap={36}
 			flexDirection="column-reverse"
@@ -104,7 +104,7 @@ const UpperPart = () => {
 
 				<SocialIcons />
 			</Stack>
-		</Stack>
+		</ContainerStack>
 	);
 };
 

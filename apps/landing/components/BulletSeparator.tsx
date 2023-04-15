@@ -1,18 +1,22 @@
 import { FC } from 'react';
+import { type StackProps } from '@tamagui/core';
 import { Stack } from '@walless/gui';
 
-interface Props {
+type Props = StackProps & {
+	noBullet?: boolean;
 	bulletWidth?: number;
 	bulletHeight?: number;
 	lineHeight?: number;
 	color?: string;
-}
+};
 
 export const BulletSeparator: FC<Props> = ({
+	noBullet,
 	bulletWidth = 16,
 	bulletHeight = 3,
 	lineHeight = 1,
 	color = '#19A3E1',
+	...stackProps
 }) => {
 	const topOffset = (lineHeight - bulletHeight) / 2;
 
@@ -22,14 +26,17 @@ export const BulletSeparator: FC<Props> = ({
 			height={lineHeight}
 			borderRadius={lineHeight / 2}
 			backgroundColor="rgba(255, 255, 255, 0.2)"
+			{...stackProps}
 		>
-			<Stack
-				top={topOffset}
-				width={bulletWidth}
-				height={bulletHeight}
-				borderRadius={bulletHeight / 2}
-				backgroundColor={color}
-			/>
+			{!noBullet && (
+				<Stack
+					top={topOffset}
+					width={bulletWidth}
+					height={bulletHeight}
+					borderRadius={bulletHeight / 2}
+					backgroundColor={color}
+				/>
+			)}
 		</Stack>
 	);
 };

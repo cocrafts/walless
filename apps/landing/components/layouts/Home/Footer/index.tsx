@@ -1,22 +1,19 @@
 import { Stack } from '@walless/gui';
+import BulletSeparator from 'components/BulletSeparator';
 
 import BottomPart from './BottomPart';
-import Delimiter from './Delimiter';
 import UpperPart from './UpperPart';
 
 const Footer = () => {
 	return (
 		<Stack
 			backgroundColor="#131B22"
-			alignItems="center"
 			paddingVertical={36}
-			$gtMd={{
-				paddingHorizontal: 48,
-				paddingVertical: 72,
-			}}
+			marginTop={64}
+			$gtMd={{ paddingVertical: 72 }}
 		>
 			<UpperPart />
-			<Delimiter />
+			<BulletSeparator marginVertical={36} marginHorizontal={18} />
 			<BottomPart />
 		</Stack>
 	);

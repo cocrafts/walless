@@ -12,7 +12,13 @@ import SocialIcon from './SocialIcon';
 
 const SocialIcons = () => {
 	return (
-		<Stack flexDirection="row" justifyContent="center" gap={28} flexWrap="wrap">
+		<Stack
+			flexDirection="row"
+			justifyContent="center"
+			alignItems="center"
+			gap={28}
+			flexWrap="wrap"
+		>
 			<SocialIcon
 				size={48}
 				link="https://discord.gg/2bzf9qjuN3"

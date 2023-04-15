@@ -1,21 +1,20 @@
 import { Stack, Text } from '@walless/gui';
+import { ContainerStack } from 'components/styled';
 import Link from 'next/link';
 
 const BottomPart = () => {
 	const fontSize = 12;
 
 	return (
-		<Stack
-			width="100%"
+		<ContainerStack
 			flexDirection="column-reverse"
-			alignItems="center"
 			gap={28}
 			$gtMd={{
 				flexDirection: 'row',
 				justifyContent: 'space-between',
 			}}
 		>
-			<Text fontSize={fontSize} color="#566674">
+			<Text fontSize={fontSize} color="#566674" textAlign="center">
 				Copyright @ 2023. All rights reserved.
 			</Text>
 			<Stack
@@ -33,7 +32,7 @@ const BottomPart = () => {
 					<Text fontSize={fontSize}>Privacy Policy</Text>
 				</Link>
 			</Stack>
-		</Stack>
+		</ContainerStack>
 	);
 };
 

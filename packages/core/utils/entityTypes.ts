@@ -1,5 +1,4 @@
 import { type ImageSourcePropType } from 'react-native';
-import { BN } from 'bn.js';
 
 export interface UserProfile {
 	id?: string;
@@ -20,7 +19,14 @@ export interface TokenAccount {
 	balance: number;
 }
 
+export interface Token {
+	network: string;
+	account: TokenAccount;
+	metadata?: AssetMetadata;
+}
+
 export interface Collectible {
+	network: string;
 	collectionId?: string;
 	metadata?: AssetMetadata;
 }

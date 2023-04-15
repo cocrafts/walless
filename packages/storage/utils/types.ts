@@ -1,9 +1,8 @@
 import {
-	type AssetMetadata,
 	type Collectible,
 	type EncryptedWithPasscode,
 	type HydratedKey,
-	type TokenAccount,
+	type Token,
 	type UserProfile,
 	Networks,
 } from '@walless/core';
@@ -41,11 +40,8 @@ export type WalletRecord = {
 	network: string;
 };
 
-export type TokenRecord = {
+export type TokenRecord = Token & {
 	id?: string;
-	network: string;
-	account: TokenAccount;
-	metadata?: AssetMetadata;
 };
 
 export interface PublicKeyRecord {

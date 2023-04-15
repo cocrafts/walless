@@ -30,8 +30,10 @@ export const PrimaryContent: FC = () => {
 						maxWidth: undefined,
 					}}
 				>
-					<Text>Walless,</Text>
-					<Text>the first Web3 sandbox-wallet</Text>
+					<Text color="#698997" fontSize={24}>
+						Tailor your wallet to your likings
+					</Text>
+					<Text>The first Web3 sandbox-wallet</Text>
 				</Text>
 			</Stack>
 			<Stack
@@ -68,8 +70,8 @@ export const PrimaryContent: FC = () => {
 					color="rgba(255, 255, 255, 0.4)"
 					$sm={{ textAlign: 'center', maxWidth: undefined }}
 				>
-					Unveiling an entirely new way to think about wallet, Social sign in -
-					Custom layout & skin
+					The first and only wallet to simplify and personalize your Web3
+					journey and digital assets management
 				</Text>
 			</Stack>
 			<Stack
@@ -80,7 +82,7 @@ export const PrimaryContent: FC = () => {
 			>
 				<Anchor href="https://forms.gle/tpQz8tm3JPALGJiJ7" target="_blank">
 					<Button
-						title="Waiting list"
+						title="Join waitlist"
 						width={buttonWidth}
 						marginHorizontal={8}
 					/>
@@ -91,7 +93,7 @@ export const PrimaryContent: FC = () => {
 				>
 					<Button
 						outline
-						title="Demo"
+						title="View Demo"
 						width={buttonWidth}
 						marginHorizontal={8}
 					/>

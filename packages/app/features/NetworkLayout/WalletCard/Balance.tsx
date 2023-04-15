@@ -12,14 +12,12 @@ interface Props {
 }
 
 export const WalletBalance: FC<Props> = ({ onHide, isPrivate, token }) => {
-	const { balance } = token.account;
-
 	return (
-		<Stack marginVertical={5}>
+		<Stack marginVertical={8}>
 			<Stack horizontal alignItems="center" gap={10}>
-				<Text fontSize={38} fontWeight={'500'}>{`${
-					isPrivate ? '***' : balance
-				} SOL`}</Text>
+				<Text fontSize={35} fontWeight="500">
+					{getBalanceDisplay(token, isPrivate)}
+				</Text>
 				<TouchableOpacity
 					activeOpacity={0.7}
 					onPress={() => onHide?.(!isPrivate)}
@@ -27,21 +25,36 @@ export const WalletBalance: FC<Props> = ({ onHide, isPrivate, token }) => {
 					{isPrivate ? <EyeOff size={20} /> : <Eye size={20} />}
 				</TouchableOpacity>
 			</Stack>
-			<Text opacity={0.7}>{`~ ${
-				isPrivate ? '***' : getEstimatedValue(token.account)
-			} USD`}</Text>
+			<Text fontWeight="200">
+				{getEstimatedDisplay(token.account, isPrivate)}
+			</Text>
 		</Stack>
 	);
 };
 
 export default WalletBalance;
 
-const getEstimatedValue = (account: TokenAccount) => {
-	if (account.balance === 0) {
-		return '0';
+const getEstimatedDisplay = (account: TokenAccount, isPrivate?: boolean) => {
+	if (isPrivate) {
+		return '***';
+	} else if (account.balance === 0) {
+		return '~ 0 USD';
 	} else if (account.price) {
-		return account.balance * account.price;
+		return `~ ${account.balance * account.price} USD`;
 	}
 
 	return '';
+};
+
+const getBalanceDisplay = (
+	{ symbol, account }: TokenRecord,
+	isPrivate?: boolean,
+) => {
+	if (isPrivate) {
+		return '***';
+	} else if (account.balance === 0) {
+		return `0 ${symbol}`;
+	}
+
+	return `${account.balance} ${symbol}`;
 };

@@ -3,7 +3,7 @@ import { Stack, Text } from '@walless/gui';
 import { ChevronRight, Eye, EyeOff } from '@walless/icons';
 
 const TokenValue = () => {
-	const [hideTokenValue, setHideTokenValue] = useState(false);
+	const [hideTokenValue, setHideTokenValue] = useState(true);
 
 	const handleToggleTokenValue = () => {
 		setHideTokenValue(!hideTokenValue);

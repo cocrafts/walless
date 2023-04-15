@@ -11,9 +11,8 @@ const History = () => {
 	};
 
 	return (
-		<Stack width="100%" paddingHorizontal={14}>
+		<Stack width="100%">
 			<Stack
-				marginHorizontal={16}
 				marginBottom={16}
 				display="flex"
 				flexDirection="row"

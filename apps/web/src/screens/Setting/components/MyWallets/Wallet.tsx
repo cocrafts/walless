@@ -23,11 +23,16 @@ const Wallet: FC<Props> = ({ item, index }) => {
 			cursor="pointer"
 			hoverStyle={{ backgroundColor: '#202D38' }}
 		>
-			<Image src={network.icon} width={30} height={30} borderRadius={10000} />
+			<Image
+				src={network?.icon as never}
+				width={30}
+				height={30}
+				borderRadius={10000}
+			/>
 
 			<Stack>
 				<Text fontSize={14}>
-					Wallet {index + 1} ({network.name})
+					Wallet {index + 1} ({network?.name})
 				</Text>
 				<Text fontSize={12} color="#566674">
 					{shortenAddress(item.id)}

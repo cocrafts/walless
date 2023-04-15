@@ -16,6 +16,7 @@ export const SuiDashboard: FC<Props> = () => {
 	const address = suiKey?.id as string;
 	const token: TokenRecord = {
 		id: address,
+		symbol: 'SUI',
 		network: Networks.sui,
 		account: { balance: 0 },
 	};

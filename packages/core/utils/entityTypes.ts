@@ -22,6 +22,7 @@ export interface TokenAccount {
 
 export interface Token {
 	network: string;
+	symbol: string;
 	account: TokenAccount;
 	metadata?: AssetMetadata;
 }

@@ -14,18 +14,23 @@ export const handleSignTransaction: MessengerCallback = async (
 	channel,
 ) => {
 	const privateKey = await triggerActionToGetPrivateKey();
+
 	if (!privateKey) {
 		return;
 	}
+
 	const serializedTransaction = decode(payload.transaction);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 	const keypair = Keypair.fromSecretKey(privateKey);
+
 	transaction.sign([keypair]);
+
 	channel.postMessage({
 		from: 'walless@kernel',
 		requestId: payload.requestId,
 		signedTransaction: encode(transaction.serialize()),
 	});
+
 	return transaction.serialize();
 };
 
@@ -84,9 +89,11 @@ export const handleSignMessage: MessengerCallback = async (
 	channel,
 ) => {
 	const privateKey = await triggerActionToGetPrivateKey();
+
 	if (!privateKey) {
 		return;
 	}
+
 	const message = decode(payload.message);
 	const signature = signMessage(message, privateKey);
 
@@ -95,5 +102,6 @@ export const handleSignMessage: MessengerCallback = async (
 		requestId: payload.requestId,
 		signature: encode(signature),
 	});
+
 	return signature;
 };

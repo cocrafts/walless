@@ -1,4 +1,5 @@
 import {
+	type Collectible,
 	type EncryptedWithPasscode,
 	type HydratedKey,
 	type UserProfile,
@@ -23,15 +24,13 @@ export interface Metadata {
 	imageUri?: string;
 }
 
-export type CollectibleRecord = {
+/* TODO: work with Tuan Tran to resolve below duplication between Collectible and Collection */
+export type CollectibleRecord = Collectible & {
 	id?: string;
-	collectionId?: string;
-	metadata?: Metadata;
 };
 
-export type CollectionRecord = {
+export type CollectionRecord = Collectible & {
 	id?: string;
-	metadata?: Metadata;
 };
 
 export interface TokenBalance {

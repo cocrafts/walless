@@ -9,6 +9,17 @@ export interface UserProfile {
 
 export type ExtensionType = 'layout' | 'dApp' | 'native';
 
+export interface CollectibleMetadata {
+	name?: string;
+	symbol?: string;
+	imageUri?: string;
+}
+
+export interface Collectible {
+	collectionId?: string;
+	metadata?: CollectibleMetadata;
+}
+
 export interface ExtensionConfig {
 	id: string;
 	color?: string;

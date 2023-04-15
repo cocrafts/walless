@@ -44,7 +44,15 @@ export const PrimaryContent: FC = () => {
 				<DecorationSquare marginBottom={8} />
 				{features.map((feature, index) => {
 					return (
-						<Text key={index} fontSize={16} lineHeight={35} fontWeight="500">
+						<Text
+							key={index}
+							textDecorationLine={
+								feature === 'Remove seed phrase' ? 'line-through' : 'none'
+							}
+							fontSize={16}
+							lineHeight={35}
+							fontWeight="500"
+						>
 							{feature}
 						</Text>
 					);

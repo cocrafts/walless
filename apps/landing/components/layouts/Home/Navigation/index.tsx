@@ -29,7 +29,10 @@ export const HomeNavigation: FC = () => {
 							return <NavItem key={index} item={item} />;
 						})}
 				</Stack>
-				<Anchor href="https://app.walless.io" target="_blank">
+				<Anchor
+					href="https://docs.google.com/forms/d/e/1FAIpQLSeMOQGfeYhq4i-V595JRc28VlY1YDpFeU0rPJkTymFH6nV21g/viewform"
+					target="_blank"
+				>
 					<Button title="Join waitlist" />
 				</Anchor>
 			</ContainerStack>

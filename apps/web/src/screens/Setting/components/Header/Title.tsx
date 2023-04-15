@@ -1,5 +1,6 @@
 import { Button, Stack, Text } from '@walless/gui';
 import { ChevronRight } from '@walless/icons';
+import { router } from 'utils/routing';
 
 const Title = () => {
 	return (
@@ -13,6 +14,7 @@ const Title = () => {
 				backgroundColor="#25313D"
 				justifyContent="center"
 				alignItems="center"
+				onPress={() => router.navigate('/profile')}
 			>
 				<ChevronRight size={18} />
 			</Button>

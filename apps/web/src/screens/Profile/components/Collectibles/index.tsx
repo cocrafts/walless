@@ -32,7 +32,10 @@ const Collectibles = () => {
 				<SeeAllBtn onPress={handlePressSeeAll} />
 			</Stack>
 
-			<ScrollView overflow="scroll">
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				showsHorizontalScrollIndicator={false}
+			>
 				<Stack display="flex" flexDirection="row" gap={10}>
 					{mockCollectibles.map((collectible) => (
 						<CollectibleCard

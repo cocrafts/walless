@@ -1,5 +1,6 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
-import DashboardScreen from 'screens/Dashboard';
+import EmbeddedApp from 'screens/Dashboard/Embed';
+import DashboardLayout from 'screens/Dashboard/Layout';
 import ExploreScreen from 'screens/Explore';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
@@ -15,7 +16,7 @@ const createRouter =
 export const router = createRouter([
 	{
 		path: '/',
-		element: <DashboardScreen />,
+		element: <DashboardLayout />,
 		children: [
 			{
 				path: '/',
@@ -30,8 +31,8 @@ export const router = createRouter([
 				element: <SettingScreen />,
 			},
 			{
-				path: '/:layoutId?',
-				element: <DashboardScreen />,
+				path: '/:id',
+				element: <EmbeddedApp />,
 			},
 		],
 	},

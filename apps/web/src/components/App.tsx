@@ -34,7 +34,7 @@ const App: FC<Props> = ({ width = 410, height = 600 }) => {
 				flex={1}
 				width={width}
 				maxHeight={height}
-				$gtTn={{ borderRadius: 12, overflow: 'hidden' }}
+				$gtTn={{ borderRadius: 8, overflow: 'hidden' }}
 			>
 				{app.loading ? <SplashWrapper /> : <RouterProvider router={router} />}
 				<ModalManager />

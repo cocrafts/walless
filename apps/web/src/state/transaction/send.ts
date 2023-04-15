@@ -1,3 +1,5 @@
+import { TransactionBlock } from '@mysten/sui.js';
+import { VersionedTransaction } from '@solana/web3.js';
 import {
 	BindDirections,
 	constructTransaction,
@@ -6,7 +8,10 @@ import {
 } from '@walless/app';
 import { Networks } from '@walless/core';
 import { ResponseCode } from '@walless/messaging';
-import { requestSignAndSendTransaction } from 'bridge/listeners';
+import {
+	requestSignAndExecuteTransactionBlock,
+	requestSignAndSendTransaction,
+} from 'bridge/listeners';
 import PasscodeScreen from 'screens/Profile/modals/Passcode';
 import TransactionSuccessfulScreen from 'screens/Profile/modals/TransactionSuccessful';
 
@@ -27,7 +32,16 @@ export const createAndSend = async (
 		...payload,
 	});
 
-	const res = await requestSignAndSendTransaction(transaction, null, passcode);
+	let res;
+	if (transaction instanceof VersionedTransaction) {
+		res = await requestSignAndSendTransaction(transaction, null, passcode);
+	} else if (transaction instanceof TransactionBlock) {
+		res = await requestSignAndExecuteTransactionBlock(
+			transaction,
+			null,
+			passcode,
+		);
+	}
 
 	if (res?.responseCode === ResponseCode.SUCCESS) {
 		modalState.map.clear();

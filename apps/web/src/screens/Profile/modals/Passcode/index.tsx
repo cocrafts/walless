@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { ModalConfigs, PasscodeFeature } from '@walless/app';
+import { Text } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import {
 	PendingTransactionContext,
@@ -16,6 +17,7 @@ interface Props {
 
 export const PasscodeScreen: FC<Props> = ({ config }) => {
 	const [key, setKey] = useState(0);
+	const [errorMessage, setErrorMessage] = useState(null);
 
 	const onPasscodeEnter = async (passcode: string) => {
 		const res = await transactionActions.createAndSend(
@@ -23,8 +25,10 @@ export const PasscodeScreen: FC<Props> = ({ config }) => {
 			passcode,
 		);
 
-		if (res.responseCode === ResponseCode.WRONG_PASSCODE) {
+		if (res?.responseCode === ResponseCode.WRONG_PASSCODE) {
 			setKey((key) => key + 1);
+		} else if (res?.responseCode === ResponseCode.ERROR) {
+			setErrorMessage(res.message);
 		}
 	};
 
@@ -38,6 +42,7 @@ export const PasscodeScreen: FC<Props> = ({ config }) => {
 				confirmation={false}
 				onPasscodeEnter={onPasscodeEnter}
 			/>
+			{errorMessage && <Text>{errorMessage}</Text>}
 		</ModalWrapper>
 	);
 };

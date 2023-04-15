@@ -8,6 +8,7 @@ import {
 import { fullscreenStyle } from './shared';
 
 export const Stack = styled(TamaguiStack, {
+	name: 'Stack',
 	variants: {
 		fullscreen: {
 			true: fullscreenStyle,

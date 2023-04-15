@@ -25,13 +25,14 @@ export const triggerActionToGetPrivateKey = async () => {
 };
 
 export const getPrivateKey = async (network: Networks, passcode: string) => {
-	if (network == Networks.solana) {
-		const publicKeys = await db.publicKeys.toArray();
-		const solKey = publicKeys.find(
-			(i) => i.network === 'solana',
-		) as PublicKeyRecord;
-		const privateKeys = await db.privateKeys.toArray();
-		const encrypted = privateKeys.find((i) => i.id === solKey.privateKeyId);
-		return await decryptWithPasscode(passcode, encrypted as PrivateKeyRecord);
-	}
+	const publicKeys = await db.publicKeys.toArray();
+	const publicKey = publicKeys.find(
+		(i) => i.network === network,
+	) as PublicKeyRecord;
+
+	const privateKeys = await db.privateKeys.toArray();
+
+	const encrypted = privateKeys.find((i) => i.id === publicKey.privateKeyId);
+
+	return await decryptWithPasscode(passcode, encrypted as PrivateKeyRecord);
 };

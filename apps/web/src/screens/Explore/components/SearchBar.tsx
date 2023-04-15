@@ -1,16 +1,14 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 import { Input, Stack } from '@walless/gui';
 import { Search } from '@walless/icons';
 
 interface Props {
-	onSearch: (value: string) => void;
+	onSearch: (query: string) => void;
 }
 
 const SearchBar: FC<Props> = ({ onSearch }) => {
-	const inputRef = useRef<HTMLInputElement>(null);
-
-	const handlePress = () => {
-		onSearch?.(inputRef.current?.value ?? '');
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		onSearch(e.target.value);
 	};
 
 	return (
@@ -29,14 +27,15 @@ const SearchBar: FC<Props> = ({ onSearch }) => {
 				padding={12}
 				paddingRight={8}
 				unstyled
+				onChange={handleSearch}
 			/>
+
 			<Stack
 				borderWidth={0}
 				pressStyle={{
 					borderWidth: 0,
 					opacity: 0.8,
 				}}
-				onPress={handlePress}
 			>
 				<Search size={17} color="#566674" />
 			</Stack>

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Stack, Text } from '@walless/gui';
 
 import LayoutCard from './components/LayoutCard';
@@ -6,8 +6,14 @@ import SearchBar from './components/SearchBar';
 import { Layout, mockLayoutCards } from './internal';
 
 export const ExploreScreen: FC = () => {
-	const handleSearch = (value: string) => {
-		console.log(value);
+	const [layouts, setLayouts] = useState<Layout[]>(mockLayoutCards);
+
+	const handleSearch = (query: string) => {
+		const filteredLayouts = mockLayoutCards.filter((layout) =>
+			layout.name.toLowerCase().includes(query.toLowerCase()),
+		);
+
+		setLayouts(filteredLayouts);
 	};
 
 	const handleLovePress = (layout: Layout) => {
@@ -26,7 +32,7 @@ export const ExploreScreen: FC = () => {
 
 			<SearchBar onSearch={handleSearch} />
 
-			{mockLayoutCards.map((layoutCard) => (
+			{layouts.map((layoutCard) => (
 				<LayoutCard
 					key={layoutCard.id}
 					item={layoutCard}

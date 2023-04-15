@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { Stack } from '@walless/gui';
+import { Button, Stack } from '@walless/gui';
 
 interface Props {
 	children: ReactNode;
@@ -8,18 +8,17 @@ interface Props {
 
 const WidgetButton: FC<Props> = ({ children, onClick }) => {
 	return (
-		<Stack
-			width={30}
-			height={30}
+		<Button
 			backgroundColor="#25313D"
-			borderRadius="100%"
-			display="flex"
 			alignItems="center"
 			justifyContent="center"
+			padding={0}
+			width={30}
+			height={30}
 			onPress={onClick}
 		>
 			<Stack>{children}</Stack>
-		</Stack>
+		</Button>
 	);
 };
 

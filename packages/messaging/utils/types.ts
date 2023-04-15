@@ -68,4 +68,5 @@ export enum ResponseCode {
 	SUCCESS,
 	REQUIRE_PASSCODE,
 	WRONG_PASSCODE,
+	ERROR,
 }

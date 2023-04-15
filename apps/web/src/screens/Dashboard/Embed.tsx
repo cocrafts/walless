@@ -4,15 +4,13 @@ import SolanaDashboard from 'screens/Dashboard/Solana';
 import SuiDashboard from 'screens/Dashboard/Sui';
 import { useParams } from 'utils/hooks';
 
-type params = 'network' | 'variant';
-
 export const Embed: FC = () => {
-	const { network, variant } = useParams<params>();
+	const { id } = useParams<'id'>();
 
-	if (network === 'solana') {
-		return <SolanaDashboard variant={variant} />;
-	} else if (network === 'sui') {
-		return <SuiDashboard variant={variant} />;
+	if (id === 'solana') {
+		return <SolanaDashboard />;
+	} else if (id === 'sui') {
+		return <SuiDashboard />;
 	}
 
 	return (

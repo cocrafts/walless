@@ -5,6 +5,8 @@ import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
 import { Layout, mockLayoutCards } from './internal';
 
+const spacing = 12;
+
 export const ExploreScreen: FC = () => {
 	const [layouts, setLayouts] = useState<Layout[]>(mockLayoutCards);
 
@@ -25,7 +27,7 @@ export const ExploreScreen: FC = () => {
 	};
 
 	return (
-		<Stack gap={18} paddingHorizontal={14} paddingVertical={20}>
+		<Stack gap={spacing} paddingHorizontal={spacing} paddingVertical={spacing}>
 			<Text fontSize={20} lineHeight={26} fontWeight="500" textAlign="center">
 				Choose a layout to start
 			</Text>

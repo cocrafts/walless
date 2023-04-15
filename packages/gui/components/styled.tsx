@@ -1,4 +1,5 @@
 import {
+	GetProps,
 	Stack as TamaguiStack,
 	styled,
 	Text as TamaguiText,
@@ -19,13 +20,19 @@ export const Stack = styled(TamaguiStack, {
 	} as const,
 });
 
+export type StackProps = GetProps<typeof Stack>;
+
 export const Circle = styled(TamaguiStack, {
 	name: 'Circle',
 	borderRadius: 10000000,
 });
+
+export type CircleProps = GetProps<typeof Circle>;
 
 export const Text = styled(TamaguiText, {
 	name: 'Text',
 	color: '#dedede',
 	fontFamily: 'Rubik',
 });
+
+export type TextProps = GetProps<typeof Text>;

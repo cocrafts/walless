@@ -1,17 +1,17 @@
 import { FC } from 'react';
-import { Stack } from '@walless/gui';
+import { Stack, StackProps } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight, Cart, Swap } from '@walless/icons';
 
 import FeatureButton from '../components/FeatureButton';
 
-interface Props {
+type Props = StackProps & {
 	gap?: number;
 	iconSize?: number;
 	onSendPress?: () => void;
 	onReceivePress?: () => void;
 	onBuyPress?: () => void;
 	onSwapPress?: () => void;
-}
+};
 
 export const MainFeatures: FC<Props> = ({
 	gap = 18,
@@ -20,9 +20,10 @@ export const MainFeatures: FC<Props> = ({
 	onReceivePress,
 	onBuyPress,
 	onSwapPress,
+	...stackProps
 }) => {
 	return (
-		<Stack horizontal gap={gap}>
+		<Stack horizontal gap={gap} {...stackProps}>
 			<FeatureButton title="Send" onPress={onSendPress}>
 				<ArrowTopRight size={iconSize} />
 			</FeatureButton>

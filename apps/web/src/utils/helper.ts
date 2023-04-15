@@ -24,6 +24,8 @@ export const networkMap: Record<Networks, NetworkInfo> = {
 	},
 };
 
-export const getNetworkInfo = (network: Networks): NetworkInfo => {
-	return networkMap[network];
+export const getNetworkInfo = (network?: Networks): NetworkInfo | undefined => {
+	if (network) {
+		return networkMap[network];
+	}
 };

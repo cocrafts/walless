@@ -7,6 +7,7 @@ import {
 } from '@walless/app';
 import { Stack, Text } from '@walless/gui';
 import { ArrowDown } from '@walless/icons';
+import { TransactionPayload } from 'state/transaction/send';
 
 import InfoItemDivider from '../components/InfoItemDivider';
 import InfoKeyValue from '../components/InfoKeyValue';
@@ -15,27 +16,23 @@ import ModalWrapper from '../components/ModalWrapper';
 import WalletInfo from '../components/WalletInfo';
 import { walletName } from '../internal';
 import SendTokenScreen from '../SendToken';
-import { DropdownItemProps } from '../SendToken/internal';
+import { networks, tokens } from '../SendToken/internal';
 
 import Footer from './Footer';
 import Header from './Header';
 import ShareBtn from './ShareBtn';
 
-interface RequiredContext {
-	sender: string;
-	receiver: string;
-	amount: number;
-	token: DropdownItemProps;
-	network: DropdownItemProps;
-	signatureString: string;
-}
-
 interface Props {
-	config: ModalConfigs & { context: RequiredContext };
+	config: ModalConfigs & { context: TransactionPayload };
 }
 
 const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 	const { sender, receiver, amount, token, network } = config.context;
+
+	const tokenData = tokens.find((ele) => ele.value === (token as unknown));
+	const networkData = networks.find(
+		(ele) => ele.value === (network as unknown),
+	);
 
 	const handleOnCloseBtn = () => {
 		modalActions.hide(config.id as string);
@@ -63,7 +60,7 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 					fontSize={40}
 					fontWeight="500"
 				>
-					{amount} {token.value}
+					{amount} {tokenData?.value}
 				</Text>
 
 				<Stack marginHorizontal="auto">
@@ -77,12 +74,12 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 					backgroundColor="#56667433"
 				/>
 
-				<Stack paddingHorizontal={36}>
+				<Stack>
 					<InfoWrapper>
 						<Stack padding={16}>
 							<WalletInfo
-								networkLogo={network.icon as string}
-								networkName={network.name}
+								networkLogo={networkData?.icon || ''}
+								networkName={networkData?.name || ''}
 								walletAddress={
 									sender ? sender.substring(0, 30) + '...' : 'Loading ...'
 								}
@@ -112,8 +109,8 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 								<InfoItemDivider />
 								<InfoKeyValue
 									infoKey="Network"
-									infoValue={network.name}
-									infoValueLogo={network.icon as string}
+									infoValue={networkData?.name || ''}
+									infoValueLogo={networkData?.icon || ''}
 								/>
 							</InfoWrapper>
 						</Stack>

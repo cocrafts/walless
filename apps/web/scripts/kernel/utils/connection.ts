@@ -8,8 +8,7 @@ const endpoint = __DEV__ ? 'devnet' : 'mainnet-beta';
 export const solanaConnection = new SolanaConnection(clusterApiUrl(endpoint));
 
 export const suiConnection = new SuiConnection({
-	fullnode: 'https://fullnode.devnet.sui.io',
-	faucet: 'https://faucet.devnet.sui.io/gas',
+	fullnode: 'https://fullnode.testnet.sui.io',
 });
 
 export const suiProvider = new JsonRpcProvider(suiConnection);

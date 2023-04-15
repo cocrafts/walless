@@ -1,7 +1,6 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { ModalConfigs } from '@walless/app';
 import { Stack } from '@walless/gui';
-import { ChevronDown } from '@walless/icons';
 
 import { DropdownItemProps } from '../../internal';
 
@@ -9,7 +8,8 @@ import DropdownItem from './DropdownItem';
 
 interface DropdownProps {
 	items: DropdownItemProps[];
-	setChosen: (item: DropdownItemProps) => void;
+	setChosen: (item: unknown) => void;
+	selectedItem: DropdownItemProps | null;
 }
 
 interface Props {
@@ -17,18 +17,9 @@ interface Props {
 }
 
 const Dropdown: FC<Props> = ({ config }) => {
-	const { items, setChosen } = config.context as DropdownProps;
-	const [isActive, setIsActive] = useState(false);
-	const [selectedItem, setSelectedItem] = useState<DropdownItemProps | null>(
-		null,
-	);
-	const handleSelectItem = (item: DropdownItemProps) => {
-		setSelectedItem(item);
-		if (setChosen) {
-			setChosen(item);
-		}
-		setIsActive(false);
-	};
+	const { items, setChosen, selectedItem } = config.context as DropdownProps;
+
+	console.log('Child', selectedItem);
 
 	return (
 		<Stack
@@ -47,7 +38,7 @@ const Dropdown: FC<Props> = ({ config }) => {
 					id={item.id}
 					name={item.name}
 					icon={item.icon}
-					onPress={() => handleSelectItem(item)}
+					onPress={() => setChosen(item)}
 					isSelected={selectedItem?.id === item.id}
 				/>
 			))}

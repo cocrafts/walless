@@ -1,14 +1,14 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { BindDirections, modalActions } from '@walless/app';
 import { Input, Stack } from '@walless/gui';
 import { ChevronDown, Times } from '@walless/icons';
 import { tokens } from 'screens/Test/internal';
 
 import Dropdown from './Dropdown';
+import { DropdownItemProps } from 'screens/Test/internal';
 
 interface Props {
 	sourceList?: unknown[];
-	selectedItem?: unknown;
 	filteredList?: unknown[];
 	numberOfAppearItems?: number;
 	placeholder?: string;
@@ -16,21 +16,32 @@ interface Props {
 
 const InputDropdown: FC<Props> = ({
 	sourceList,
-	selectedItem,
 	filteredList,
 	numberOfAppearItems,
 	placeholder,
 }) => {
 	const [isActive, setIsActive] = useState(false);
+	const [selectedItem, setSelectedItem] = useState<DropdownItemProps | null>(
+		null,
+	);
 	const inputRef = useRef(null);
 
+	const handleSelectItem = (item: DropdownItemProps) => {
+		setSelectedItem(item);
+		setIsActive(false);
+		modalActions.destroy('dropdown');
+	};
+
+	console.log('Parent', selectedItem);
+
 	const handleClick = () => {
-		setIsActive(true);
 		modalActions.show({
 			id: 'dropdown',
 			component: Dropdown,
 			context: {
 				items: tokens,
+				setChosen: handleSelectItem,
+				selectedItem: selectedItem,
 			},
 			bindingDirection: BindDirections.Bottom,
 			maskActiveOpacity: 0,
@@ -63,10 +74,8 @@ const InputDropdown: FC<Props> = ({
 					placeholder="Search"
 					onPress={handleClick}
 					zIndex={1}
-					onFocus={handleClick}
-					onBlur={() => {
-						setIsActive(false);
-					}}
+					onFocus={() => setIsActive(true)}
+					onBlur={() => setIsActive(false)}
 				/>
 				<Stack
 					flexDirection="row"

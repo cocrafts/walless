@@ -17,18 +17,18 @@ export interface LayoutCardProps {
 
 export const mockLayoutCards: Layout[] = [
 	{
-		id: '1',
-		name: 'Under Realm',
+		id: '0',
+		name: 'Sui',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare ...',
-		thumbnail: '/img/explore/thumbnail-under-realm.png',
-		logo: '/img/explore/logo-under-realm.png',
+		thumbnail: '/img/explore/thumbnail-sui.png',
+		logo: '/img/explore/logo-sui.png',
 		loveCount: 100,
-		isLoved: true,
+		isLoved: false,
 		activeUsers: 100,
 	},
 	{
-		id: '2',
+		id: '1',
 		name: 'Solana',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare ...',
@@ -39,14 +39,14 @@ export const mockLayoutCards: Layout[] = [
 		activeUsers: 100,
 	},
 	{
-		id: '3',
-		name: 'Sui',
+		id: '2',
+		name: 'Under Realm',
 		description:
 			'Lorem ipsum dolor sit amet consectetur. Amet lectus volutpat nulla dapibus ornare ...',
-		thumbnail: '/img/explore/thumbnail-sui.png',
-		logo: '/img/explore/logo-sui.png',
+		thumbnail: '/img/explore/thumbnail-under-realm.png',
+		logo: '/img/explore/logo-under-realm.png',
 		loveCount: 100,
-		isLoved: false,
+		isLoved: true,
 		activeUsers: 100,
 	},
 ];

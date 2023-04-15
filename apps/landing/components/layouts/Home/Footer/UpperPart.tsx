@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, Image, Input, Stack, Text } from '@walless/gui';
 import { imageSources } from 'components/layouts/shared';
 import Link from 'next/link';
@@ -5,6 +6,8 @@ import Link from 'next/link';
 import SocialIcons from './SocialIcons';
 
 const UpperPart = () => {
+	const [isSignedUp, setIsSignedUp] = useState(false);
+
 	const fontSize = 14;
 	const largeFontSize = 20;
 
@@ -59,28 +62,45 @@ const UpperPart = () => {
 					!
 				</Text>
 
-				<Stack
-					paddingVertical={8}
-					paddingHorizontal={4}
-					borderWidth={1}
-					borderRadius={16}
-					borderColor="#566674"
-					flexDirection="row"
-					width="100%"
-					maxWidth={600}
-				>
-					<Input
-						backgroundColor="transparent"
-						flexGrow={1}
-						placeholder="Enter your email"
-						borderWidth={0}
-					/>
-					<Button borderRadius={12} width={180}>
-						<Text fontWeight="600" fontSize={fontSize}>
-							Count me in
-						</Text>
-					</Button>
-				</Stack>
+				{isSignedUp ? (
+					<Text
+						maxWidth={420}
+						fontSize={fontSize}
+						lineHeight={fontSize * 1.5}
+						color="#566674"
+						textAlign="center"
+					>
+						Thanks for signing up. We&apos;ll keep you posted with Walless
+						latest updates and exclusive perks.
+					</Text>
+				) : (
+					<Stack
+						paddingVertical={8}
+						paddingHorizontal={4}
+						borderWidth={1}
+						borderRadius={16}
+						borderColor="#566674"
+						flexDirection="row"
+						width="100%"
+						maxWidth={600}
+					>
+						<Input
+							backgroundColor="transparent"
+							flexGrow={1}
+							placeholder="Enter your email"
+							borderWidth={0}
+						/>
+						<Button
+							borderRadius={12}
+							width={180}
+							onPress={() => setIsSignedUp(true)}
+						>
+							<Text fontWeight="600" fontSize={fontSize}>
+								Count me in
+							</Text>
+						</Button>
+					</Stack>
+				)}
 
 				<SocialIcons />
 			</Stack>

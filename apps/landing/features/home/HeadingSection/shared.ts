@@ -68,9 +68,8 @@ export const particles: BackgroundIconParticle[] = [
 ];
 
 export const features = [
-	'Custom layout',
-	'No seed phrase',
-	'Off-Chain Multi-Sigs',
-	'Unified UI',
-	'Multi-chain',
+	'Project focus',
+	'Remove seed phrase',
+	'Unified cross-chain UI',
+	'Runtime embedded Dapps',
 ];

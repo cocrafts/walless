@@ -63,3 +63,9 @@ export interface Messenger {
 	send: MessengerSend;
 	request: MessengerRequest;
 }
+
+export enum ResponseCode {
+	SUCCESS,
+	REQUIRE_PASSCODE,
+	WRONG_PASSCODE,
+}

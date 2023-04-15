@@ -1,5 +1,4 @@
 import { type FC, useState } from 'react';
-import { type ImageSourcePropType } from 'react-native';
 import { type StackProps, ImageBackground } from '@walless/gui';
 import { TokenRecord } from '@walless/storage';
 
@@ -11,11 +10,6 @@ type Props = StackProps & {
 	index?: number;
 	skin: CardSkin;
 	token: TokenRecord;
-	backgroundSrc: ImageSourcePropType;
-	iconSize?: number;
-	address?: string;
-	balance?: number;
-	price?: number;
 };
 
 export const WalletCard: FC<Props> = ({ index = 0, skin, token }) => {

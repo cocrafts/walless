@@ -9,6 +9,7 @@ export const solanaConnection = new SolanaConnection(clusterApiUrl(endpoint));
 
 export const suiConnection = new SuiConnection({
 	fullnode: 'https://fullnode.testnet.sui.io',
+	faucet: 'https://faucet.testnet.sui.io/gas',
 });
 
 export const suiProvider = new JsonRpcProvider(suiConnection);

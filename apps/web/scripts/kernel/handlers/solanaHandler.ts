@@ -50,6 +50,7 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 
 	if (settings.requirePasscode && !payload.passcode) {
 		responsePayload.responseCode = ResponseCode.REQUIRE_PASSCODE;
+
 		return channel.postMessage(responsePayload);
 	}
 
@@ -59,6 +60,7 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	} catch (error) {
 		responsePayload.responseCode = ResponseCode.WRONG_PASSCODE;
 		responsePayload.message = (error as Error).message;
+
 		return channel.postMessage(responsePayload);
 	}
 

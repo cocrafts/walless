@@ -49,7 +49,11 @@ const SocialIcons = () => {
 				icon={<Youtube size={40} />}
 			/>
 
-			<SocialIcon size={48} link="hello@walless.io" icon={<Mail size={40} />} />
+			<SocialIcon
+				size={48}
+				link="mailto:hello@walless.io"
+				icon={<Mail size={40} />}
+			/>
 		</Stack>
 	);
 };

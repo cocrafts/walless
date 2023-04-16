@@ -4,11 +4,14 @@ import { Stack, Text } from '@walless/gui';
 import NavBtn from '../SendToken/components/NavBtn';
 
 interface Props {
-	onClose: () => void;
-	onOtherTransactionBtn: () => void;
+	onPressCloseBtn: () => void;
+	onPressOtherTransactionBtn: () => void;
 }
 
-const Footer: FC<Props> = ({ onClose, onOtherTransactionBtn }) => {
+const Footer: FC<Props> = ({
+	onPressCloseBtn: onClose,
+	onPressOtherTransactionBtn: onOtherTransactionBtn,
+}) => {
 	return (
 		<Stack
 			marginTop="auto"
@@ -20,12 +23,7 @@ const Footer: FC<Props> = ({ onClose, onOtherTransactionBtn }) => {
 			gap={8}
 		>
 			<NavBtn content="Back to home" route="/profile" onPress={onClose} />
-			<Text
-				fontSize={14}
-				fontWeight="400"
-				onPress={onOtherTransactionBtn}
-				cursor="pointer"
-			>
+			<Text fontSize={14} onPress={onOtherTransactionBtn} cursor="pointer">
 				Other transaction
 			</Text>
 		</Stack>

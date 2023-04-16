@@ -54,11 +54,11 @@ const ConfirmTransactionScreen: FC<Props> = ({ config }) => {
 		});
 	};
 
-	const [address, setAddress] = useState<string | null>(null);
+	const [address, setAddress] = useState<string>();
 
 	useEffect(() => {
 		(async () => {
-			setAddress((await getWalletPublicKey(network.value as Networks)) || null);
+			setAddress(await getWalletPublicKey(network.value as Networks));
 		})();
 	}, []);
 

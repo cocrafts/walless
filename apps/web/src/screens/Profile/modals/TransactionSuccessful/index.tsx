@@ -34,12 +34,12 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 		(ele) => ele.value === (network as unknown),
 	);
 
-	const handleOnCloseBtn = () => {
+	const handleOnPressCloseBtn = () => {
 		modalActions.hide(config.id as string);
 	};
 
-	const handleOnOtherTransactionBtn = () => {
-		handleOnCloseBtn();
+	const handleOnPressOtherTransactionBtn = () => {
+		handleOnPressCloseBtn();
 		modalActions.show({
 			id: 'send-token',
 			bindingDirection: BindDirections.InnerBottom,
@@ -50,7 +50,7 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 
 	return (
 		<ModalWrapper>
-			<Header onClose={handleOnCloseBtn} />
+			<Header onClose={handleOnPressCloseBtn} />
 
 			<Stack>
 				<Text
@@ -78,8 +78,8 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 					<InfoWrapper>
 						<Stack padding={16}>
 							<WalletInfo
-								networkLogo={networkData?.icon || ''}
-								networkName={networkData?.name || ''}
+								networkLogo={networkData?.icon as string}
+								networkName={networkData?.name as string}
 								walletAddress={
 									sender ? sender.substring(0, 30) + '...' : 'Loading ...'
 								}
@@ -109,8 +109,8 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 								<InfoItemDivider />
 								<InfoKeyValue
 									infoKey="Network"
-									infoValue={networkData?.name || ''}
-									infoValueLogo={networkData?.icon || ''}
+									infoValue={networkData?.name as string}
+									infoValueLogo={networkData?.icon as string}
 								/>
 							</InfoWrapper>
 						</Stack>
@@ -119,8 +119,8 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 			</Stack>
 
 			<Footer
-				onClose={handleOnCloseBtn}
-				onOtherTransactionBtn={handleOnOtherTransactionBtn}
+				onPressCloseBtn={handleOnPressCloseBtn}
+				onPressOtherTransactionBtn={handleOnPressOtherTransactionBtn}
 			/>
 		</ModalWrapper>
 	);

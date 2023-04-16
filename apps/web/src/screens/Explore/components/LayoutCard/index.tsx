@@ -9,7 +9,6 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 	const { storeMeta } = item;
 	const coverSrc = { uri: storeMeta.coverUri };
 	const iconSrc = { uri: storeMeta.iconUri };
-	const heartColors = false ? ['red', 'red'] : ['white', 'none'];
 
 	return (
 		<Stack backgroundColor="#131C24" height={259} borderRadius={12}>
@@ -77,7 +76,7 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 							gap={4}
 							onPress={() => onLovePress?.(item)}
 						>
-							<Heart size={8} colors={heartColors} />
+							<Heart size={8} colors={['white', 'none']} />
 							<Text fontWeight="400" fontSize={10}>
 								{storeMeta.loveCount} Love
 							</Text>

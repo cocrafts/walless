@@ -28,9 +28,7 @@ export const createAndSend = async (
 	payload: TransactionPayload,
 	passcode?: string,
 ) => {
-	const transaction = await constructTransaction({
-		...payload,
-	});
+	const transaction = await constructTransaction(payload);
 
 	let res;
 	if (transaction instanceof VersionedTransaction) {
@@ -60,9 +58,7 @@ export const createAndSend = async (
 			id: 'confirm-transaction-with-passcode',
 			bindingDirection: BindDirections.InnerBottom,
 			component: PasscodeScreen as never,
-			context: {
-				...payload,
-			},
+			context: payload,
 		});
 	}
 

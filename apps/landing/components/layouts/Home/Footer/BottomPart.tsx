@@ -15,7 +15,8 @@ const BottomPart = () => {
 			}}
 		>
 			<Text fontSize={fontSize} color="#566674" textAlign="center">
-				Copyright @ 2023. All rights reserved.
+				Version {process.env.NEXT_PUBLIC_VERSION}, Copyright @ 2023. All rights
+				reserved.
 			</Text>
 			<Stack
 				alignItems="center"

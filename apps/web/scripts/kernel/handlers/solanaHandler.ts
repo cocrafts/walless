@@ -1,6 +1,10 @@
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import { MessengerCallback, ResponseCode } from '@walless/messaging';
+import {
+	MessengerCallback,
+	ResponseCode,
+	ResponsePayload,
+} from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
 import { decode, encode } from 'bs58';
 
@@ -38,55 +42,42 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
-	const messageHeader = {
+	const responsePayload: ResponsePayload = {
 		from: 'walless@kernel',
 		requestId: payload.requestId,
+		responseCode: ResponseCode.SUCCESS,
 	};
 
 	if (settings.requirePasscode && !payload.passcode) {
-		return channel.postMessage({
-			...messageHeader,
-			responseCode: ResponseCode.REQUIRE_PASSCODE,
-		});
+		responsePayload.responseCode = ResponseCode.REQUIRE_PASSCODE;
+		return channel.postMessage(responsePayload);
 	}
 
-	// Prepare private key
 	let privateKey;
 	try {
 		privateKey = await getPrivateKey(Networks.solana, payload.passcode);
 	} catch (error) {
-		return channel.postMessage({
-			...messageHeader,
-			responseCode: ResponseCode.WRONG_PASSCODE,
-			message: (error as Error).message,
-		});
+		responsePayload.responseCode = ResponseCode.WRONG_PASSCODE;
+		responsePayload.message = (error as Error).message;
+		return channel.postMessage(responsePayload);
 	}
 
-	// Transaction object
 	const serializedTransaction = decode(payload.transaction);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 
-	let signatureString;
 	try {
-		signatureString = await signAndSendTransaction(
+		responsePayload.signatureString = await signAndSendTransaction(
 			solanaConnection,
 			transaction,
 			payload.options || {},
 			privateKey as Uint8Array,
 		);
 	} catch (error) {
-		channel.postMessage({
-			...messageHeader,
-			responseCode: ResponseCode.ERROR,
-			message: (error as Error).message,
-		});
+		responsePayload.responseCode = ResponseCode.ERROR;
+		responsePayload.message = (error as Error).message;
 	}
 
-	return channel.postMessage({
-		...messageHeader,
-		responseCode: ResponseCode.SUCCESS,
-		signatureString,
-	});
+	return channel.postMessage(responsePayload);
 };
 
 export const handleSignAllTransaction: MessengerCallback = () => {

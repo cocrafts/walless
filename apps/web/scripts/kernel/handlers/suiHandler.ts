@@ -1,6 +1,10 @@
 import { Ed25519Keypair, RawSigner, TransactionBlock } from '@mysten/sui.js';
 import { Networks } from '@walless/core';
-import { MessengerCallback, ResponseCode } from '@walless/messaging';
+import {
+	MessengerCallback,
+	ResponseCode,
+	ResponsePayload,
+} from '@walless/messaging';
 import { decode } from 'bs58';
 
 import { suiProvider } from '../utils/connection';
@@ -33,6 +37,7 @@ export const handleSignTransaction: MessengerCallback = async (
 		requestId: payload.requestId,
 		signedTransaction,
 	});
+
 	return signedTransaction;
 };
 
@@ -40,28 +45,24 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
-	const messageHeader = {
+	const responsePayload: ResponsePayload = {
 		from: 'walless@kernel',
 		requestId: payload.requestId,
+		responseCode: ResponseCode.SUCCESS,
 	};
 
 	if (settings.requirePasscode && !payload.passcode) {
-		return channel.postMessage({
-			...messageHeader,
-			responseCode: ResponseCode.REQUIRE_PASSCODE,
-		});
+		responsePayload.responseCode = ResponseCode.REQUIRE_PASSCODE;
+		return channel.postMessage(responsePayload);
 	}
 
-	// Prepare private key
 	let privateKey;
 	try {
 		privateKey = await getPrivateKey(Networks.sui, payload.passcode);
 	} catch (error) {
-		return channel.postMessage({
-			...messageHeader,
-			responseCode: ResponseCode.WRONG_PASSCODE,
-			message: (error as Error).message,
-		});
+		responsePayload.responseCode = ResponseCode.WRONG_PASSCODE;
+		responsePayload.message = (error as Error).message;
+		return channel.postMessage(responsePayload);
 	}
 
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(0, 32));
@@ -70,26 +71,17 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 	// Transaction object
 	const transaction = TransactionBlock.from(payload.transaction);
 
-	let signedTransaction;
 	try {
-		signedTransaction = await signer.signAndExecuteTransactionBlock({
-			transactionBlock: transaction,
-		});
+		responsePayload.signedTransaction =
+			await signer.signAndExecuteTransactionBlock({
+				transactionBlock: transaction,
+			});
 	} catch (error) {
-		channel.postMessage({
-			...messageHeader,
-			responseCode: ResponseCode.ERROR,
-			message: (error as Error).message,
-		});
+		responsePayload.responseCode = ResponseCode.ERROR;
+		responsePayload.message = (error as Error).message;
 	}
 
-	channel.postMessage({
-		...messageHeader,
-		responseCode: ResponseCode.SUCCESS,
-		signedTransaction,
-	});
-
-	return signedTransaction;
+	return channel.postMessage(responsePayload);
 };
 
 export const handleSignMessage: MessengerCallback = async (
@@ -112,5 +104,6 @@ export const handleSignMessage: MessengerCallback = async (
 		requestId: payload.requestId,
 		signedMessage,
 	});
+
 	return signedMessage;
 };

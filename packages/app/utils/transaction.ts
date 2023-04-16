@@ -115,13 +115,18 @@ const constructSendSUITransaction = async (
 ) => {
 	const tx = new TransactionBlock();
 
-	const SUI_COIN_STRING = '0x2::sui::SUI';
-	const metadata = await provider.getCoinMetadata({
-		coinType: SUI_COIN_STRING,
-	});
+	// const SUI_COIN_STRING = '0x2::sui::SUI';
+
+	// const metadata = await provider.getCoinMetadata({
+	// 	coinType: SUI_COIN_STRING,
+	// });
+
+	// console.log(metadata.decimals, '<---');
+
+	const DECIMALS = 10 ** 9;
 
 	const [coin] = tx.splitCoins({ kind: 'GasCoin' }, [
-		tx.pure(amount * 10 ** metadata.decimals),
+		tx.pure(amount * DECIMALS),
 	]);
 
 	tx.transferObjects([coin], tx.pure(receiver));

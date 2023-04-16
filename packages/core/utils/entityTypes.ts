@@ -32,12 +32,3 @@ export interface Collectible {
 	collectionId?: string;
 	metadata?: AssetMetadata;
 }
-
-export type ExtensionType = 'layout' | 'dApp' | 'native';
-
-export interface ExtensionConfig {
-	id: string;
-	color?: string;
-	icon: ImageSourcePropType;
-	type: ExtensionType;
-}

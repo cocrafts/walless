@@ -4,6 +4,7 @@ import {
 	type HydratedKey,
 	type Token,
 	type UserProfile,
+	ExtensionConfig,
 	Networks,
 } from '@walless/core';
 import { Dexie, Table } from 'dexie';
@@ -54,6 +55,10 @@ export type EncryptionKeyRecord = HydratedKey & {
 	id?: string;
 };
 
+export type ExtensionRecord = ExtensionConfig & {
+	timestamp: Date;
+};
+
 export type TrustedDomain = {
 	id?: string;
 	domainName: string;
@@ -72,5 +77,6 @@ export interface WallessDB {
 	collections: Table<CollectionRecord, string>;
 	wallets: Table<WalletRecord, string>;
 	tokens: Table<TokenRecord, string>;
+	extensions: Table<ExtensionRecord, string>;
 	trustedDomains: Table<TrustedDomain, string>;
 }

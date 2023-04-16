@@ -12,6 +12,7 @@ const runMigrations = (instance: Dexie): Dexie => {
 		collections: 'id, collectionMetadata',
 		wallets: 'id, tokens, network',
 		tokens: 'id, metadata, network',
+		extensions: 'id, color, icon, type, timestamp',
 		trustedDomains: 'id, domainName, trusted, timestamp, connectCount',
 	});
 
@@ -31,6 +32,7 @@ export const createStorage = (name = 'walless'): WallessDB => {
 		collections: instance.table('collections'),
 		wallets: instance.table('wallets'),
 		tokens: instance.table('tokens'),
+		extensions: instance.table('extensions'),
 		trustedDomains: instance.table('trustedDomains'),
 	};
 };

@@ -1,6 +1,6 @@
 import { Networks } from '@walless/core';
 import { decryptWithPasscode } from '@walless/crypto';
-import { PrivateKeyRecord, PublicKeyRecord } from '@walless/storage';
+import { PrivateKeyRecord } from '@walless/storage';
 
 import { db } from '../storage';
 
@@ -10,13 +10,16 @@ export const settings = {
 
 export const triggerActionToGetPrivateKey = async () => {
 	try {
-		const publicKeys = await db.publicKeys.toArray();
-		const solKey = publicKeys.find(
-			(i) => i.network === 'solana',
-		) as PublicKeyRecord;
-		const privateKeys = await db.privateKeys.toArray();
-		const encrypted = privateKeys.find((i) => i.id === solKey.privateKeyId);
-		return await decryptWithPasscode('123456', encrypted as PrivateKeyRecord);
+		const publicKey = await db.publicKeys.get({ network: Networks.solana });
+
+		const encryptedKey = await db.privateKeys.get({
+			id: publicKey?.privateKeyId,
+		});
+
+		return await decryptWithPasscode(
+			'123456',
+			encryptedKey as PrivateKeyRecord,
+		);
 	} catch (error) {
 		console.log('Get private key error');
 		console.log((error as Error).message);
@@ -25,14 +28,11 @@ export const triggerActionToGetPrivateKey = async () => {
 };
 
 export const getPrivateKey = async (network: Networks, passcode: string) => {
-	const publicKeys = await db.publicKeys.toArray();
-	const publicKey = publicKeys.find(
-		(i) => i.network === network,
-	) as PublicKeyRecord;
+	const publicKey = await db.publicKeys.get({ network: network });
 
-	const privateKeys = await db.privateKeys.toArray();
+	const encryptedKey = await db.privateKeys.get({
+		id: publicKey?.privateKeyId,
+	});
 
-	const encrypted = privateKeys.find((i) => i.id === publicKey.privateKeyId);
-
-	return await decryptWithPasscode(passcode, encrypted as PrivateKeyRecord);
+	return await decryptWithPasscode(passcode, encryptedKey as PrivateKeyRecord);
 };

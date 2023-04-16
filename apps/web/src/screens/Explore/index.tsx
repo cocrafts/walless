@@ -1,6 +1,8 @@
 import { FC, useState } from 'react';
 import { Stack, Text } from '@walless/gui';
 import { ExtensionRecord } from '@walless/storage';
+import { router } from 'utils/routing';
+import { db } from 'utils/storage';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
@@ -24,8 +26,9 @@ export const ExploreScreen: FC = () => {
 		console.log(extension);
 	};
 
-	const handleAddPress = (extension: ExtensionRecord) => {
-		console.log(extension);
+	const handleAddPress = async (extension: ExtensionRecord) => {
+		await db.extensions.add(extension);
+		await router.navigate(extension.id);
 	};
 
 	return (

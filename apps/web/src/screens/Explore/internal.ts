@@ -8,7 +8,7 @@ export interface LayoutCardProps {
 
 export const mockLayoutCards: ExtensionRecord[] = [
 	{
-		id: '000001',
+		id: 'sui',
 		name: 'Sui',
 		version: '0.0.1',
 		type: 'layout',
@@ -32,7 +32,7 @@ export const mockLayoutCards: ExtensionRecord[] = [
 		},
 	},
 	{
-		id: '000002',
+		id: 'solana',
 		name: 'Solana',
 		version: '0.9.1',
 		type: 'layout',

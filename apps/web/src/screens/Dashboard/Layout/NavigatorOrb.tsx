@@ -1,49 +1,70 @@
 import { type FC, type ReactNode } from 'react';
-import { type ExtensionConfig } from '@walless/core';
 import { Image, Stack } from '@walless/gui';
+import { type ExtensionRecord } from '@walless/storage';
 import { router } from 'utils/routing';
 
-export type OrbConfig = Partial<ExtensionConfig> & {
+export type OrbConfig = Partial<ExtensionRecord> & {
 	route?: string;
-	size?: number;
 };
 
 export interface Props {
+	size?: number;
 	item: OrbConfig;
+	isActive?: boolean;
 	children?: ReactNode;
 	onPress?: () => void;
 }
 
-export const NavigatorOrb: FC<Props> = ({ item, children, onPress }) => {
-	const { size = 40, color = '#243f56' } = item;
+export const NavigatorOrb: FC<Props> = ({
+	size = 40,
+	item,
+	isActive,
+	children,
+	onPress,
+}) => {
+	const { route, networkMeta } = item;
+	const iconSrc = { uri: networkMeta?.iconUri as string };
 
 	const handlePress = () => {
 		if (onPress) {
 			onPress();
-		} else if (item.route) {
-			router.navigate(item.route);
-		} else if (item.id) {
-			router.navigate(`/${item.type}/${item.id}`);
+		} else if (route) {
+			router.navigate(route);
 		} else {
-			router.navigate(`/${item.type}`);
+			router.navigate(`/${item.id}`);
 		}
 	};
 
 	return (
-		<Stack
-			cursor="pointer"
-			userSelect="none"
-			alignItems="center"
-			justifyContent="center"
-			width={size}
-			height={size}
-			backgroundColor={color}
-			borderRadius={12}
-			hoverStyle={{ opacity: 0.8 }}
-			pressStyle={{ opacity: 0.6 }}
-			onPress={handlePress}
-		>
-			{children || <Image width={40} height={40} src={item.icon as never} />}
+		<Stack alignItems="center">
+			{isActive && (
+				<Stack
+					position="absolute"
+					top={5}
+					left={0}
+					width={4}
+					height={size - 10}
+					borderTopRightRadius={3}
+					borderBottomRightRadius={3}
+					backgroundColor="white"
+				/>
+			)}
+			<Stack
+				cursor="pointer"
+				userSelect="none"
+				alignItems="center"
+				justifyContent="center"
+				width={size}
+				height={size}
+				backgroundColor={networkMeta?.iconColor as string}
+				borderRadius={isActive ? 12 : size / 2}
+				overflow="hidden"
+				hoverStyle={{ opacity: 0.8 }}
+				pressStyle={{ opacity: 0.6 }}
+				onPress={handlePress}
+			>
+				{children || <Image width={40} height={40} src={iconSrc} />}
+			</Stack>
 		</Stack>
 	);
 };

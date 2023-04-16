@@ -15,13 +15,12 @@ export const requestSignAndSendTransaction = async (
 	passcode: string | undefined = undefined,
 ) => {
 	try {
-		const res = await encryptedMessenger.request('kernel', {
+		return await encryptedMessenger.request('kernel', {
 			type: 'sign-and-send-transaction',
 			transaction: encode(transaction.serialize()),
 			options,
 			passcode,
 		});
-		return res;
 	} catch (error) {
 		return {
 			message: (error as Error).message,
@@ -35,13 +34,12 @@ export const requestSignAndExecuteTransactionBlock = async (
 	passcode: string | undefined = undefined,
 ) => {
 	try {
-		const res = await encryptedMessenger.request('kernel', {
+		return await encryptedMessenger.request('kernel', {
 			type: 'sign-and-execute-transaction-on-sui',
 			transaction: transaction.serialize(),
 			options,
 			passcode,
 		});
-		return res;
 	} catch (error) {
 		return {
 			message: (error as Error).message,

@@ -6,18 +6,20 @@ import { LayoutCardProps } from 'screens/Explore/internal';
 import AddLayoutBtn from './AddLayoutBtn';
 
 const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
-	const heartColors = item.isLoved ? ['red', 'red'] : ['white', 'none'];
+	const { storeMeta } = item;
+	const coverSrc = { uri: storeMeta.coverUri };
+	const iconSrc = { uri: storeMeta.iconUri };
+	const heartColors = false ? ['red', 'red'] : ['white', 'none'];
 
 	return (
 		<Stack backgroundColor="#131C24" height={259} borderRadius={12}>
 			<Image
-				src={item.thumbnail}
+				src={coverSrc}
 				width="100%"
 				height={133}
 				borderTopLeftRadius={12}
 				borderTopRightRadius={12}
 			/>
-
 			<Stack
 				fullscreen
 				paddingHorizontal={12}
@@ -25,14 +27,20 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 				display="flex"
 				justifyContent="flex-end"
 			>
-				<Image
-					src={item.logo}
-					width={40}
-					height={40}
+				<Stack
+					width={iconWrapperSize}
+					height={iconWrapperSize}
 					borderRadius={8}
-					borderWidth={2}
-					borderColor="#10181F"
-				/>
+					backgroundColor={storeMeta.iconColor}
+					alignItems="center"
+					justifyContent="center"
+				>
+					<Image
+						src={iconSrc}
+						width={storeMeta.iconSize}
+						height={storeMeta.iconSize}
+					/>
+				</Stack>
 
 				<Text fontSize={14} marginTop={4} fontWeight="600">
 					{item.name}
@@ -49,7 +57,7 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 					numberOfLines={2}
 					marginTop={4}
 				>
-					{item.description}
+					{storeMeta.description}
 				</Text>
 
 				<Stack
@@ -71,7 +79,7 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 						>
 							<Heart size={8} colors={heartColors} />
 							<Text fontWeight="400" fontSize={10}>
-								{item.loveCount} Love
+								{storeMeta.loveCount} Love
 							</Text>
 						</Stack>
 
@@ -89,7 +97,7 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 								backgroundColor="#4DE2A4"
 							/>
 							<Text fontWeight="400" fontSize={10}>
-								{item.activeUsers} Active
+								{storeMeta.activeCount} Active
 							</Text>
 						</Stack>
 					</Stack>
@@ -102,3 +110,5 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 };
 
 export default LayoutCard;
+
+const iconWrapperSize = 40;

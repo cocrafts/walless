@@ -1,50 +1,82 @@
-export interface Layout {
-	id: string;
-	name: string;
-	description: string;
-	thumbnail: string;
-	logo: string;
-	loveCount: number;
-	isLoved: boolean;
-	activeUsers: number;
-}
+import { ExtensionRecord } from '@walless/storage';
 
 export interface LayoutCardProps {
-	item: Layout;
-	onAddPress?: (item: Layout) => void;
-	onLovePress?: (item: Layout) => void;
+	item: ExtensionRecord;
+	onAddPress?: (item: ExtensionRecord) => void;
+	onLovePress?: (item: ExtensionRecord) => void;
 }
 
-export const mockLayoutCards: Layout[] = [
+export const mockLayoutCards: ExtensionRecord[] = [
 	{
-		id: '0',
+		id: '000001',
 		name: 'Sui',
-		description:
-			'Layer 1 blockchain designed to make digital asset ownership fast, private, secure, and accessible to everyone.',
-		thumbnail: '/img/explore/thumbnail-sui.png',
-		logo: '/img/explore/logo-sui.png',
-		loveCount: 100,
-		isLoved: false,
-		activeUsers: 100,
+		version: '0.0.1',
+		type: 'layout',
+		timestamp: new Date(),
+		storeMeta: {
+			iconUri: '/img/network/sui-icon-sm.png',
+			iconSize: 18,
+			iconColor: '#FFFFFF',
+			coverUri: '/img/explore/thumbnail-sui.png',
+			description:
+				'Layer 1 blockchain designed to make digital asset ownership fast, private, secure, and accessible to everyone.',
+			loveCount: 100,
+			activeCount: 567,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/network/sui-icon-lg.png',
+			iconUri: '/img/network/sui-icon-sm.png',
+			iconColor: '#FFFFFF',
+			iconSize: 12,
+		},
 	},
 	{
-		id: '1',
+		id: '000002',
 		name: 'Solana',
-		description: 'Powerful for developers. Fast for everyone.',
-		thumbnail: '/img/explore/thumbnail-solana.png',
-		logo: '/img/explore/logo-solana.png',
-		loveCount: 100,
-		isLoved: false,
-		activeUsers: 100,
+		version: '0.9.1',
+		type: 'layout',
+		timestamp: new Date(),
+		storeMeta: {
+			iconUri: '/img/network/solana-icon-sm.png',
+			iconSize: 24,
+			iconColor: '#000000',
+			coverUri: '/img/explore/thumbnail-solana.png',
+			description:
+				'Powerful for developers, fast for everyone. Very low, and consistent transaction fees.',
+			loveCount: 90,
+			activeCount: 502,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/network/solana-icon-lg.png',
+			iconUri: '/img/network/solana-icon-sm.png',
+			iconColor: '#000000',
+			iconSize: 16,
+		},
 	},
 	{
-		id: '2',
+		id: '000003',
 		name: 'Under Realm',
-		description: 'Free-to-play Strategy Trading Card game built by community.',
-		thumbnail: '/img/explore/thumbnail-under-realm.png',
-		logo: '/img/explore/logo-under-realm.png',
-		loveCount: 100,
-		isLoved: true,
-		activeUsers: 100,
+		version: '0.1.8',
+		type: 'layout',
+		timestamp: new Date(),
+		storeMeta: {
+			iconUri: '/img/explore/logo-under-realm.png',
+			iconSize: 24,
+			iconColor: '#000000',
+			coverUri: '/img/explore/thumbnail-under-realm.png',
+			description:
+				'Free-to-play Strategy Trading Card game. Play and also built by community.',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/network/solana-icon-lg.png',
+			iconUri: '/img/explore/thumbnail-under-realm.png',
+			iconColor: '#000000',
+			iconSize: 16,
+		},
 	},
 ];

@@ -1,29 +1,31 @@
 import { FC, useState } from 'react';
 import { Stack, Text } from '@walless/gui';
+import { ExtensionRecord } from '@walless/storage';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
-import { Layout, mockLayoutCards } from './internal';
+import { mockLayoutCards } from './internal';
 
 const spacing = 12;
 
 export const ExploreScreen: FC = () => {
-	const [layouts, setLayouts] = useState<Layout[]>(mockLayoutCards);
+	const [extensions, setExtensions] =
+		useState<ExtensionRecord[]>(mockLayoutCards);
 
 	const handleSearch = (query: string) => {
-		const filteredLayouts = mockLayoutCards.filter((layout) =>
-			layout.name.toLowerCase().includes(query.toLowerCase()),
+		const filteredLayouts = mockLayoutCards.filter((extension) =>
+			extension.name.toLowerCase().includes(query.toLowerCase()),
 		);
 
-		setLayouts(filteredLayouts);
+		setExtensions(filteredLayouts);
 	};
 
-	const handleLovePress = (layout: Layout) => {
-		console.log(layout);
+	const handleLovePress = (extension: ExtensionRecord) => {
+		console.log(extension);
 	};
 
-	const handleAddPress = (layout: Layout) => {
-		console.log(layout);
+	const handleAddPress = (extension: ExtensionRecord) => {
+		console.log(extension);
 	};
 
 	return (
@@ -34,7 +36,7 @@ export const ExploreScreen: FC = () => {
 
 			<SearchBar onSearch={handleSearch} />
 
-			{layouts.map((layoutCard) => (
+			{extensions.map((layoutCard) => (
 				<LayoutCard
 					key={layoutCard.id}
 					item={layoutCard}

@@ -1,5 +1,4 @@
-import { JsonRpcProvider, TransactionBlock } from '@mysten/sui.js';
-import { Connection as SuiConnection } from '@mysten/sui.js';
+import { TransactionBlock } from '@mysten/sui.js';
 import {
 	clusterApiUrl,
 	Connection,
@@ -16,15 +15,12 @@ import { db } from 'utils/storage';
 const solConn = new Connection(clusterApiUrl('devnet'));
 const sampleKeypair = Keypair.generate();
 
-// Use this connection to get metadata
-const suiConn = new SuiConnection({
-	fullnode: 'https://fullnode.devnet.sui.io:443/',
-});
-
-const provider = new JsonRpcProvider(suiConn);
-
 export const getWalletPublicKey = async (network: Networks) => {
-	return (await db.publicKeys.toArray()).find((e) => e.network == network)?.id;
+	return (
+		await db.publicKeys.get({
+			network: network,
+		})
+	)?.id;
 };
 
 type SendTokenProps = {
@@ -114,14 +110,6 @@ const constructSendSUITransaction = async (
 	amount: number,
 ) => {
 	const tx = new TransactionBlock();
-
-	// const SUI_COIN_STRING = '0x2::sui::SUI';
-
-	// const metadata = await provider.getCoinMetadata({
-	// 	coinType: SUI_COIN_STRING,
-	// });
-
-	// console.log(metadata.decimals, '<---');
 
 	const DECIMALS = 10 ** 9;
 

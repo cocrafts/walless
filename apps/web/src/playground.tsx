@@ -1,39 +1,30 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { TamaguiInternalConfig } from '@tamagui/core';
-import { PinInput } from '@walless/app';
-import { GuiProvider, Stack, Text } from '@walless/gui';
+import { PinUnlockFeature } from '@walless/app';
+import { GuiProvider, Stack } from '@walless/gui';
 
 interface Props {
 	tamaguiConfig: TamaguiInternalConfig;
 }
 
 export const AppContainer: FC<Props> = ({ tamaguiConfig }) => {
-	const [pin, setPin] = useState('');
-	const [error, setError] = useState('');
-
-	const handlePinChange = (value: string, isCompleted?: boolean) => {
-		setPin(value);
-
-		if (isCompleted) {
-			if (value === '123456') {
-				console.log('correct');
-			} else {
-				console.log('incorrect');
-				setPin('');
-				setError('Incorrect PIN');
-			}
-		}
-	};
-
 	return (
 		<GuiProvider config={tamaguiConfig} theme="dark">
-			<Stack flex={1} alignItems="center" justifyContent="center">
-				<PinInput value={pin} onPinChange={handlePinChange} />
-				{error.length > 0 && (
-					<Text color="red" marginTop={12}>
-						{error}
-					</Text>
-				)}
+			<Stack
+				flex={1}
+				backgroundColor="$primary"
+				alignItems="center"
+				justifyContent="center"
+			>
+				<Stack
+					width={410}
+					height={600}
+					borderRadius={12}
+					backgroundColor="#19232c"
+					overflow="hidden"
+				>
+					<PinUnlockFeature />
+				</Stack>
 			</Stack>
 		</GuiProvider>
 	);

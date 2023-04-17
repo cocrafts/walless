@@ -18,7 +18,13 @@ interface IdentifiedPayload {
 }
 
 export type MessagePayload = UnknownObject & IdentifiedPayload;
-export type ResponsePayload = UnknownObject & IdentifiedPayload;
+export type ResponsePayload = UnknownObject &
+	IdentifiedPayload & {
+		from?: string;
+		requestId?: string;
+		responseCode?: ResponseCode;
+		message?: string;
+	};
 
 export interface RequestMetadata {
 	id: string;
@@ -62,4 +68,11 @@ export interface Messenger {
 	onMessage: MessengerMessageListener;
 	send: MessengerSend;
 	request: MessengerRequest;
+}
+
+export enum ResponseCode {
+	SUCCESS,
+	REQUIRE_PASSCODE,
+	WRONG_PASSCODE,
+	ERROR,
 }

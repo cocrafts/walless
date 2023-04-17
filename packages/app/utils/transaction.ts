@@ -1,3 +1,4 @@
+import { TransactionBlock } from '@mysten/sui.js';
 import {
 	clusterApiUrl,
 	Connection,
@@ -11,10 +12,16 @@ import {
 import { Networks } from '@walless/core';
 import { db } from 'utils/storage';
 
-import { connection } from './../../network/src/utils/connection';
-
 const solConn = new Connection(clusterApiUrl('devnet'));
 const sampleKeypair = Keypair.generate();
+
+export const getWalletPublicKey = async (network: Networks) => {
+	return (
+		await db.publicKeys.get({
+			network: network,
+		})
+	)?.id;
+};
 
 type SendTokenProps = {
 	sender: string;
@@ -24,16 +31,7 @@ type SendTokenProps = {
 	amount: number;
 };
 
-export const getWalletPublicKey = async (network: Networks) => {
-	const keyString = (await db.publicKeys.toArray()).find(
-		(e) => e.network == network,
-	)?.id;
-
-	console.log(keyString);
-	return keyString;
-};
-
-export const sendToken = async ({
+export const constructTransaction = async ({
 	sender,
 	token,
 	network,
@@ -42,17 +40,19 @@ export const sendToken = async ({
 }: SendTokenProps) => {
 	if (network == Networks.solana) {
 		if (token == 'SOL') {
-			return await sendSOL(
+			return await constructSendSOLTransaction(
 				new PublicKey(sender),
 				new PublicKey(receiver),
 				amount,
 			);
-		} else {
-			throw Error('Token is not supported');
 		}
-	} else {
-		throw Error('Network is not supported');
+	} else if (network == Networks.sui) {
+		if (token == 'SUI') {
+			return await constructSendSUITransaction(receiver, amount);
+		}
 	}
+
+	throw Error('Network or Token is not supported');
 };
 
 export const getTransactionFee = async (network: Networks) => {
@@ -67,7 +67,7 @@ export const getTransactionFee = async (network: Networks) => {
 
 		const message = new TransactionMessage({
 			payerKey: sampleKeypair.publicKey,
-			recentBlockhash: await connection
+			recentBlockhash: await solConn
 				.getLatestBlockhash()
 				.then((res) => res.blockhash),
 			instructions,
@@ -79,7 +79,7 @@ export const getTransactionFee = async (network: Networks) => {
 	} else return 0;
 };
 
-const sendSOL = async (
+const constructSendSOLTransaction = async (
 	sender: PublicKey,
 	receiver: PublicKey,
 	amount: number,
@@ -92,7 +92,7 @@ const sendSOL = async (
 		}),
 	];
 
-	const blockhash = await connection
+	const blockhash = await solConn
 		.getLatestBlockhash()
 		.then((res) => res.blockhash);
 
@@ -102,8 +102,21 @@ const sendSOL = async (
 		instructions,
 	}).compileToV0Message();
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const transaction = new VersionedTransaction(message);
+	return new VersionedTransaction(message);
+};
 
-	return 0;
+const constructSendSUITransaction = async (
+	receiver: string,
+	amount: number,
+) => {
+	const tx = new TransactionBlock();
+
+	const DECIMALS = 10 ** 9;
+
+	const [coin] = tx.splitCoins({ kind: 'GasCoin' }, [
+		tx.pure(amount * DECIMALS),
+	]);
+
+	tx.transferObjects([coin], tx.pure(receiver));
+	return tx;
 };

@@ -3,7 +3,7 @@ import { Networks } from '@walless/core';
 export interface DropdownItemProps {
 	id: string;
 	name: string;
-	value?: Networks | string;
+	value: Networks | string;
 	icon?: string;
 	onPress?: () => void;
 	isSelected?: boolean;

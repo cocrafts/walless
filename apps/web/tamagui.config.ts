@@ -19,7 +19,7 @@ const animations = createAnimations({
 
 export const tokens = createTokens({
 	color: {
-		primary: '#011726',
+		primary: '#19232c',
 		primary2: '#131C24',
 		primary3: '#19232C',
 		text: '#fefefe',

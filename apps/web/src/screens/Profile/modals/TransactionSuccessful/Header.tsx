@@ -1,11 +1,12 @@
+import { FC } from 'react';
 import { Stack, Text } from '@walless/gui';
 import { Times } from '@walless/icons';
 
-const Header = () => {
-	const handleClose = () => {
-		console.log('close');
-	};
+interface Props {
+	onClose: () => void;
+}
 
+const Header: FC<Props> = ({ onClose }) => {
 	return (
 		<Stack
 			display="flex"
@@ -20,7 +21,7 @@ const Header = () => {
 				Transaction successful
 			</Text>
 
-			<Stack onPress={handleClose}>
+			<Stack onPress={onClose}>
 				<Times size={16} />
 			</Stack>
 		</Stack>

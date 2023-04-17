@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { Button, Image, Stack, Text } from '@walless/gui';
 
 import PasscodeInput from './components/Input';
+import { type PasscodeError } from './components/Warning';
 
 interface Props {
 	verticalTransition?: number;
@@ -11,6 +12,7 @@ interface Props {
 	confirmation: boolean;
 	autoConfirm?: boolean;
 	pinCount?: number;
+	errorProps?: PasscodeError;
 	onConfirmChange?: (isConfirm: boolean) => void;
 	onPasscodeInput?: (value: string, isConfirmation?: boolean) => void;
 	onPasscodeEnter?: (value: string, isConfirmation?: boolean) => void;
@@ -24,6 +26,7 @@ export const PasscodeFeature: FC<Props> = ({
 	confirmation = false,
 	autoConfirm = false,
 	pinCount = 6,
+	errorProps = { count: 0 },
 	onConfirmChange,
 	onPasscodeInput,
 	onPasscodeEnter,
@@ -33,6 +36,7 @@ export const PasscodeFeature: FC<Props> = ({
 	const [isConfirm, setIsConfirm] = useState(false);
 	const [isValidPasscode, setIsValidPasscode] = useState(false);
 	const [isIncorrectPasscode, setIsIncorrectPasscode] = useState(false);
+	const [error, setError] = useState<PasscodeError>({ count: 0 });
 
 	const handlePasscode = (passcode: string) => {
 		if (isConfirm) {
@@ -82,6 +86,11 @@ export const PasscodeFeature: FC<Props> = ({
 		onConfirmChange?.(isConfirm);
 	}, [isConfirm]);
 
+	useEffect(() => {
+		setIsIncorrectPasscode(true);
+		setError(errorProps);
+	}, [errorProps?.count]);
+
 	return (
 		<Stack
 			horizontal
@@ -113,6 +122,16 @@ export const PasscodeFeature: FC<Props> = ({
 						onPasscodeInput={onPasscodeInput}
 						handlePasscode={handlePasscode}
 					/>
+					<Text
+						position="absolute"
+						bottom={-25}
+						left={0}
+						right={0}
+						color="$warning"
+						textAlign="center"
+					>
+						{error?.errorMessage}
+					</Text>
 				</Stack>
 				{!autoConfirm && (
 					<Button
@@ -136,3 +155,4 @@ export const PasscodeFeature: FC<Props> = ({
 };
 
 export default PasscodeFeature;
+export { type PasscodeError } from './components/Warning';

@@ -19,6 +19,15 @@ module.exports = withPlugins(
 		},
 	],
 	{
+		swcMinify: true,
+		reactStrictMode: true,
+		optimizeFonts: true,
+		experimental: {
+			esmExternals: true,
+			forceSwcTransforms: true,
+			scrollRestoration: true,
+			legacyBrowsers: false,
+		},
 		webpack: (config) => {
 			config.module.rules.push({
 				test: /\.md$/i,

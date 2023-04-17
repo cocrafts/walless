@@ -1,9 +1,12 @@
 import { FC, useState } from 'react';
-import { ModalConfigs, PasscodeFeature } from '@walless/app';
-import { Text } from '@walless/gui';
+import {
+	type ModalConfigs,
+	type PasscodeError,
+	PasscodeFeature,
+} from '@walless/app';
 import { ResponseCode } from '@walless/messaging';
 import {
-	PendingTransactionContext,
+	type PendingTransactionContext,
 	transactionActions,
 } from 'state/transaction';
 
@@ -16,8 +19,7 @@ interface Props {
 }
 
 export const PasscodeScreen: FC<Props> = ({ config }) => {
-	const [key, setKey] = useState(0);
-	const [errorMessage, setErrorMessage] = useState(null);
+	const [error, setError] = useState<PasscodeError>({ count: 0 });
 
 	const onPasscodeEnter = async (passcode: string) => {
 		const res = await transactionActions.createAndSend(
@@ -26,23 +28,30 @@ export const PasscodeScreen: FC<Props> = ({ config }) => {
 		);
 
 		if (res?.responseCode === ResponseCode.WRONG_PASSCODE) {
-			setKey((key) => key + 1);
+			setError({
+				errorCode: res?.responseCode,
+				errorMessage: 'Wrong passcode',
+				count: error.count + 1,
+			});
 		} else if (res?.responseCode === ResponseCode.ERROR) {
-			setErrorMessage(res.message);
+			setError({
+				errorCode: res?.responseCode,
+				errorMessage: res.message,
+				count: error.count + 1,
+			});
 		}
 	};
 
 	return (
 		<ModalWrapper>
 			<PasscodeFeature
-				key={key}
 				verticalTransition={0}
 				logoUri={logoUri}
-				title={'Confirm to transfer' + (key !== 0 ? ' - wrong passode' : '')}
+				title="Confirm to transfer"
 				confirmation={false}
+				errorProps={error}
 				onPasscodeEnter={onPasscodeEnter}
 			/>
-			{errorMessage && <Text>{errorMessage}</Text>}
 		</ModalWrapper>
 	);
 };

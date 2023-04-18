@@ -39,7 +39,7 @@
     "raf": "^3.4.1",
     "react-native-qrcode-svg": "^6.2.0",
     "react-native-reanimated": "3.0.2",
-    "react-native-web": "^0.19.4",
+    "react-native-web": "^0.18.12",
     "react-router-dom": "^6.10.0",
     "setimmediate": "^1.0.5",
     "tamagui": "1.12.2",

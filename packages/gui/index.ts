@@ -1,3 +1,5 @@
+export * from './components/aliased';
+export * from './components/ModalManager';
 export * from './components/Stack';
 export * from './components/Text';
 export * from './states/app';

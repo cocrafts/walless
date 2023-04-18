@@ -17,10 +17,10 @@
 		"postinstall": "yarn batch"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.21.4",
+		"@babel/core": "^7.20.0",
 		"@babel/plugin-proposal-private-methods": "^7.18.6",
-		"@babel/preset-env": "^7.14.0",
-		"@babel/runtime": "^7.12.5",
+		"@babel/preset-env": "^7.20.0",
+		"@babel/runtime": "^7.20.0",
 		"@jest/globals": "^29.4.3",
 		"@metaplex-foundation/mpl-token-metadata": "^2.9.1",
 		"@types/chrome": "^0.0.231",
@@ -43,7 +43,7 @@
 		"cross-env": "^7.0.3",
 		"fs-extra": "^11.1.0",
 		"jest": "^29.4.3",
-		"metro-react-native-babel-preset": "0.73.5",
+		"metro-react-native-babel-preset": "0.73.9",
 		"mustache": "^4.2.0",
 		"react-native": "0.71.0",
 		"react-native-reanimated": "3.0.2",

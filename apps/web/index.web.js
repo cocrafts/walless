@@ -6,7 +6,7 @@ import '@tamagui/polyfill-dev';
 import 'raf/polyfill';
 import 'setimmediate';
 
-import App from './src/playground';
+import App from './src';
 import tamaguiConfig from './tamagui.config';
 
 const container = document.getElementById('root');

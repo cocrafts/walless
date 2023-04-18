@@ -9011,9 +9011,9 @@ __metadata:
   dependencies:
     eslint: 8.38.0
   peerDependencies:
-    "@metaplex-foundation/js": ^0.18.1
-    "@mysten/sui.js": 0.30.0
-    "@solana/spl-token": ^0.3.7
+    "@metaplex-foundation/js": 0.18.3
+    "@mysten/sui.js": 0.32.1
+    "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
     "@walless/network": "*"
     "@walless/ui": "*"
@@ -9232,7 +9232,7 @@ __metadata:
     eslint: 8.38.0
     raf: ^3.4.1
     react-native-qrcode-svg: ^6.2.0
-    react-native-reanimated: ^3.0.2
+    react-native-reanimated: 3.0.2
     react-native-web: ^0.19.4
     react-router-dom: ^6.10.0
     setimmediate: ^1.0.5
@@ -20379,7 +20379,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:3.0.2, react-native-reanimated@npm:^3.0.2":
+"react-native-reanimated@npm:3.0.2":
   version: 3.0.2
   resolution: "react-native-reanimated@npm:3.0.2"
   dependencies:

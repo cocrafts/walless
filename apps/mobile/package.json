@@ -21,11 +21,11 @@
     "react-native-quick-base64": "^2.0.5",
     "react-native-reanimated": "3.0.2",
     "react-native-svg": "^13.9.0",
-    "tamagui": "1.12.2"
+    "tamagui": "1.15.16"
   },
   "devDependencies": {
-    "@tamagui/animations-reanimated": "1.14.3",
-    "@tamagui/babel-plugin": "1.14.3",
+    "@tamagui/animations-reanimated": "1.15.16",
+    "@tamagui/babel-plugin": "1.15.16",
     "@types/jest": "^29.2.1",
     "@types/react": "18.0.33",
     "@types/react-test-renderer": "^18.0.0",

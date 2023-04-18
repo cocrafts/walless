@@ -23739,6 +23739,8 @@ __metadata:
     jest: ^29.4.3
     metro-react-native-babel-preset: 0.73.5
     mustache: ^4.2.0
+    react-native: 0.71.0
+    react-native-reanimated: 3.0.2
     rimraf: ^5.0.0
     sst: 2.3.1
     tailwindcss: ^3.2.7

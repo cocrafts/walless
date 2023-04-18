@@ -27,6 +27,11 @@ module.exports = {
 				include: ['TAMAGUI_TARGET'],
 			},
 		],
-		'react-native-reanimated/plugin',
+		[
+			'react-native-reanimated/plugin',
+			{
+				relativeSourceLocation: true,
+			},
+		],
 	],
 };

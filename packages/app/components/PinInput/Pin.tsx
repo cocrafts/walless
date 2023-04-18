@@ -32,6 +32,7 @@ export const Pin = forwardRef<TextInput, Props>(
 			<Stack>
 				<Input
 					ref={ref}
+					caretHidden
 					secureTextEntry
 					pointerEvents="none"
 					textAlign="center"
@@ -43,9 +44,9 @@ export const Pin = forwardRef<TextInput, Props>(
 					borderRadius={12}
 					borderWidth={2}
 					borderColor={filled ? 'rgba(255, 255, 255, 0.1)' : 'transparent'}
-					carretColor="white"
+					color="#0e141a"
 					backgroundColor="#0e141a"
-					focusStyle={{ borderColor: 'rgba(255, 255, 255, 0.15)' }}
+					focusStyle={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}
 					onChangeText={(value: string) => onChange?.(value, index)}
 					onKeyPress={handleKeyPress}
 				/>

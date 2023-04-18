@@ -8,6 +8,12 @@ interface Props {
 }
 
 export const AppContainer: FC<Props> = ({ tamaguiConfig }) => {
+	const handlePinChange = (pin: string, isCompleted?: boolean) => {
+		if (isCompleted) {
+			console.log(pin, '<<---');
+		}
+	};
+
 	return (
 		<GuiProvider config={tamaguiConfig} theme="dark">
 			<Stack
@@ -23,7 +29,7 @@ export const AppContainer: FC<Props> = ({ tamaguiConfig }) => {
 					backgroundColor="#19232c"
 					overflow="hidden"
 				>
-					<PinUnlockFeature />
+					<PinUnlockFeature onPinChange={handlePinChange} />
 				</Stack>
 			</Stack>
 		</GuiProvider>

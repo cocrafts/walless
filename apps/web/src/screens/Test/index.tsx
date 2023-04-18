@@ -5,7 +5,7 @@ import { tokens } from './internal';
 
 const TestScreen = () => {
 	return (
-		<Stack>
+		<Stack backgroundColor="lightblue" minHeight="100vh">
 			<InputDropdown
 				sourceList={tokens}
 				placeholder="Select token"

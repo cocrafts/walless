@@ -32,9 +32,7 @@ const DropdownItem: FC<DropdownItemProps> = ({
 				alignItems="center"
 				gap={4}
 			>
-				{icon && (
-					<Image src={icon as string} width={16} height={16} borderRadius={8} />
-				)}
+				{icon && <Image src={icon} width={16} height={16} borderRadius={8} />}
 				<Text
 					fontWeight="400"
 					fontSize={14}

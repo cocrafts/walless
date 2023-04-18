@@ -29,7 +29,7 @@ const animations = createAnimations({
 
 const fonts = {
 	body: createFont({
-		family: 'Poppins',
+		family: 'Rubik',
 		size: {
 			4: 14,
 		},

@@ -17,6 +17,7 @@
     "@walless/icons": "*",
     "@walless/markdown": "*",
     "@walless/ui": "*",
+    "react": "^18.2.0",
     "react-native": "0.71.6",
     "react-native-quick-base64": "^2.0.5",
     "react-native-reanimated": "3.0.2",
@@ -25,11 +26,12 @@
   },
   "devDependencies": {
     "@tamagui/animations-reanimated": "1.15.16",
-    "@tamagui/babel-plugin": "1.15.16",
+    "@tamagui/babel-plugin": "^1.15.16",
     "@types/jest": "^29.2.1",
     "@types/react": "18.0.33",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "eslint": "8.38.0",
     "react-test-renderer": "18.2.0"
   },

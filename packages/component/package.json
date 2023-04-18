@@ -1,0 +1,27 @@
+{
+  "name": "@walless/component",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "@metaplex-foundation/mpl-token-metadata": "^2.9.1",
+    "@walless/gui": "*",
+    "react": "^18.2.0",
+    "react-native": "^0.71.6",
+    "react-native-gesture-handler": "^2.9.0",
+    "react-native-quick-base64": "^2.0.5",
+    "react-native-reanimated": "3.0.2",
+    "react-native-safe-area-context": "^4.5.1",
+    "react-native-screens": "^3.20.0",
+    "react-native-svg": "^13.9.0"
+  },
+  "devDependencies": {
+    "eslint": "8.38.0"
+  }
+}

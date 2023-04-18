@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import type { ImageSourcePropType } from 'react-native';
-import { Anchor, Button, Image, Stack, Text } from '@walless/gui';
+import { Anchor, Button, Image, Stack, Text } from '@walless/ui';
 
 interface Props {
 	logoSrc: ImageSourcePropType;

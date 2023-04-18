@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { TamaguiInternalConfig } from '@tamagui/core';
 import { PinUnlockFeature } from '@walless/app';
-import { GuiProvider, Stack } from '@walless/gui';
+import { GuiProvider, Stack } from '@walless/ui';
 
 interface Props {
 	tamaguiConfig: TamaguiInternalConfig;

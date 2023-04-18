@@ -1,4 +1,4 @@
-import { Image, Stack, Text } from '@walless/gui';
+import { Image, Stack, Text } from '@walless/ui';
 
 const AccountInfo = () => {
 	const name = 'Baddie';

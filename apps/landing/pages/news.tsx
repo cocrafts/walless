@@ -1,4 +1,4 @@
-import { Text } from '@walless/gui';
+import { Text } from '@walless/ui';
 import Anchor from 'components/Anchor';
 import HomeLayout from 'components/layouts/Home';
 import { ContainerStack } from 'components/styled';

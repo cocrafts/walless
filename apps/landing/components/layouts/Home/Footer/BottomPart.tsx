@@ -1,4 +1,4 @@
-import { Stack, Text } from '@walless/gui';
+import { Stack, Text } from '@walless/ui';
 import { ContainerStack } from 'components/styled';
 import Link from 'next/link';
 

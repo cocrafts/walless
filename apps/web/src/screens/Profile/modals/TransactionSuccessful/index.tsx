@@ -5,8 +5,8 @@ import {
 	modalActions,
 	ModalConfigs,
 } from '@walless/app';
-import { Stack, Text } from '@walless/gui';
 import { ArrowDown } from '@walless/icons';
+import { Stack, Text } from '@walless/ui';
 import { TransactionPayload } from 'state/transaction/send';
 
 import InfoItemDivider from '../components/InfoItemDivider';

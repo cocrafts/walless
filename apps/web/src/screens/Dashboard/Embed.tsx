@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/gui';
+import { Stack, Text } from '@walless/ui';
 import SolanaDashboard from 'screens/Dashboard/Solana';
 import SuiDashboard from 'screens/Dashboard/Sui';
 import { useParams } from 'utils/hooks';

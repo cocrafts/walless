@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, Stack, Text } from '@walless/gui';
+import { ScrollView, Stack, Text } from '@walless/ui';
 
 import { mockCollectibles } from '../../internal';
 import SeeAllBtn from '../SeeAllBtn';

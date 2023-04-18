@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/gui';
 import { ChevronRight, Times } from '@walless/icons';
+import { Stack, Text } from '@walless/ui';
 
 interface Props {
 	onPressGoBackBtn: () => void;

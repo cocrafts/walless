@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 import { type LayoutChangeEvent, type LayoutRectangle } from 'react-native';
 import { type StackProps } from '@tamagui/core';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 import { merge } from 'lodash';
 
 import { defaultConfigs } from './utils/default';

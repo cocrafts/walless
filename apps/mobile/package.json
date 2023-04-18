@@ -14,9 +14,9 @@
     "@walless/app": "*",
     "@walless/core": "*",
     "@walless/crypto": "*",
-    "@walless/gui": "*",
     "@walless/icons": "*",
     "@walless/markdown": "*",
+    "@walless/ui": "*",
     "react-native": "0.71.0",
     "react-native-quick-base64": "^2.0.5",
     "react-native-reanimated": "3.0.2"

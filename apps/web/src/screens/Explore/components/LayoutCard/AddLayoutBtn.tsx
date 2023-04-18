@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Button } from '@walless/gui';
 import { Plus } from '@walless/icons';
+import { Button } from '@walless/ui';
 
 interface Props {
 	handleAddLayout: () => void;

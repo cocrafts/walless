@@ -1,4 +1,4 @@
-import { Stack, Text } from '@walless/gui';
+import { Stack, Text } from '@walless/ui';
 
 import { mockHistory } from '../../internal';
 import SeeAllBtn from '../SeeAllBtn';

@@ -1,5 +1,5 @@
-import { Button, Image, Stack, Text } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';
+import { Button, Image, Stack, Text } from '@walless/ui';
 
 const iconWidth = 40;
 const iconHeight = iconWidth / 2;

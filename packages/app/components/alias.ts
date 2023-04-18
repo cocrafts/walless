@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import Animated, { runOnJS as originalRunOnJS } from 'react-native-reanimated';
-import { Image } from '@walless/gui';
+import { Image } from '@walless/ui';
 
 export const AnimatedImage = Animated.createAnimatedComponent(Image);
 

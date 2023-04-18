@@ -7,8 +7,8 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { Stack } from '@walless/gui';
 import { TokenRecord } from '@walless/storage';
+import { Stack } from '@walless/ui';
 import { walletState } from 'state/wallet';
 import { useSnapshot } from 'utils/hooks';
 

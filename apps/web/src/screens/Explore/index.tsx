@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
-import { Stack, Text } from '@walless/gui';
 import { ExtensionRecord } from '@walless/storage';
+import { Stack, Text } from '@walless/ui';
 import { router } from 'utils/routing';
 import { db } from 'utils/storage';
 

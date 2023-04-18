@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Text } from '@walless/gui';
+import { Text } from '@walless/ui';
 
 interface Props {
 	onPress: () => void;

@@ -4,7 +4,7 @@ import {
 	TextInput,
 	TextInputKeyPressEventData,
 } from 'react-native';
-import { Input, Stack } from '@walless/gui';
+import { Input, Stack } from '@walless/ui';
 
 interface Props {
 	index: number;

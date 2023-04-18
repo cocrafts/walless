@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Button, Image, Stack, Text } from '@walless/gui';
+import { Button, Image, Stack, Text } from '@walless/ui';
 
 import PasscodeInput from './components/Input';
 import { type PasscodeError } from './components/Warning';

@@ -1,6 +1,6 @@
 import { AnimateDirections, BindDirections, modalActions } from '@walless/app';
 import { MainFeatures } from '@walless/app';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 
 import Collectibles from './components/Collectibles';
 import History from './components/History';

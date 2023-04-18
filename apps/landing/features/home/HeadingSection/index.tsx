@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { type LayoutChangeEvent } from 'react-native';
-import { Image, Stack } from '@walless/gui';
+import { Image, Stack } from '@walless/ui';
 import { ContainerStack } from 'components/styled';
 import { resources } from 'utils/config';
 

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Theme } from '@tamagui/core';
-import { ScrollView, Stack } from '@walless/gui';
+import { ScrollView, Stack } from '@walless/ui';
 
 import { LayoutProps } from '../shared';
 

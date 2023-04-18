@@ -9,7 +9,7 @@ const monoPackages = {
 	'@walless/app': resolve(workspaceRoot, 'packages/app'),
 	'@walless/core': resolve(workspaceRoot, 'packages/core'),
 	'@walless/crypto': resolve(workspaceRoot, 'packages/crypto'),
-	'@walless/gui': resolve(workspaceRoot, 'packages/gui'),
+	'@walless/ui': resolve(workspaceRoot, 'packages/gui'),
 	'@walless/icons': resolve(workspaceRoot, 'packages/icons'),
 	'@walless/markdown': resolve(workspaceRoot, 'packages/markdown'),
 };

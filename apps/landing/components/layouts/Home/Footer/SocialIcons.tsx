@@ -1,4 +1,3 @@
-import { Stack } from '@walless/gui';
 import {
 	Discord,
 	Github,
@@ -7,6 +6,7 @@ import {
 	Twitter,
 	Youtube,
 } from '@walless/icons';
+import { Stack } from '@walless/ui';
 
 import SocialIcon from './SocialIcon';
 

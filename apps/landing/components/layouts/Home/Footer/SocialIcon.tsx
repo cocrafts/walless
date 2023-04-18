@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { Button } from '@walless/gui';
+import { Button } from '@walless/ui';
 import Link from 'next/link';
 
 interface Props {

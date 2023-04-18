@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Stack, Text } from '@walless/gui';
+import { Stack, Text } from '@walless/ui';
 
 import PinInput from '../../components/PinInput';
 

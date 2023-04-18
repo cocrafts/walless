@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
-import { Image, Stack, Text } from '@walless/gui';
 import { Check } from '@walless/icons';
+import { Image, Stack, Text } from '@walless/ui';
 
 import { DropdownItemProps } from '../../internal';
 

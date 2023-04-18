@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/gui';
-import { Button } from '@walless/gui';
 import { Times } from '@walless/icons';
+import { Stack, Text } from '@walless/ui';
+import { Button } from '@walless/ui';
 
 export interface PasscodeError {
 	errorCode?: number;

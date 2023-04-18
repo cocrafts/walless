@@ -1,4 +1,4 @@
-import { Text } from '@walless/gui';
+import { Text } from '@walless/ui';
 
 const ShareBtn = () => {
 	return (

@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 
 interface Props {
 	children: ReactNode;

@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { Outlet } from 'react-router-dom';
-import { ScrollView, Stack } from '@walless/gui';
+import { ScrollView, Stack } from '@walless/ui';
 
 import Navigator from './Navigator';
 

@@ -1,4 +1,4 @@
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 
 import Delimiter from './components/Delimiter';
 import Header from './components/Header';

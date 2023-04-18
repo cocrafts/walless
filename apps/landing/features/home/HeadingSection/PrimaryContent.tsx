@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button, Stack, Text } from '@walless/gui';
+import { Button, Stack, Text } from '@walless/ui';
 import Anchor from 'components/Anchor';
 import BulletSeparator from 'components/BulletSeparator';
 import DecorationSquare from 'components/DecorationSquare';

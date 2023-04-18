@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { shortenAddress } from '@walless/core';
-import { Image, Stack, Text } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { TokenRecord } from '@walless/storage';
+import { Image, Stack, Text } from '@walless/ui';
 
 import { CardSkin } from './shared';
 

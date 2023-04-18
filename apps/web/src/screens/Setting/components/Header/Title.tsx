@@ -1,5 +1,5 @@
-import { Button, Stack, Text } from '@walless/gui';
 import { ChevronRight } from '@walless/icons';
+import { Button, Stack, Text } from '@walless/ui';
 import { router } from 'utils/routing';
 
 const Title = () => {

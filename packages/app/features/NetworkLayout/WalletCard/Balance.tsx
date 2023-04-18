@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { TokenAccount } from '@walless/core';
-import { Stack, Text } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
 import { TokenRecord } from '@walless/storage';
+import { Stack, Text } from '@walless/ui';
 
 interface Props {
 	onHide: (next: boolean) => void;

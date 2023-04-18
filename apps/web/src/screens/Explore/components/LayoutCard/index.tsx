@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Image, Stack, Text } from '@walless/gui';
 import { Heart } from '@walless/icons';
+import { Image, Stack, Text } from '@walless/ui';
 import { LayoutCardProps } from 'screens/Explore/internal';
 
 import AddLayoutBtn from './AddLayoutBtn';

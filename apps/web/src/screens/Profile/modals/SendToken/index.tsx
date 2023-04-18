@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { modalActions, ModalConfigs } from '@walless/app';
-import { Stack, Text } from '@walless/gui';
 import { Times } from '@walless/icons';
+import { Stack, Text } from '@walless/ui';
 
 import ModalWrapper from '../components/ModalWrapper';
 

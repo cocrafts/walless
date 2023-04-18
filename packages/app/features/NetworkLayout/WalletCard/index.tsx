@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
-import { type StackProps, Image, ImageBackground, Stack } from '@walless/gui';
 import { TokenRecord } from '@walless/storage';
+import { type StackProps, Image, ImageBackground, Stack } from '@walless/ui';
 
 import WalletAddress from './Address';
 import WalletBalance from './Balance';

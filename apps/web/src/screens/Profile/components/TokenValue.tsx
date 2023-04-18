@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Stack, Text } from '@walless/gui';
 import { ChevronRight, Eye, EyeOff } from '@walless/icons';
+import { Stack, Text } from '@walless/ui';
 
 const TokenValue = () => {
 	const [hideTokenValue, setHideTokenValue] = useState(true);

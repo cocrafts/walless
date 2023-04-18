@@ -1,6 +1,6 @@
 import { FC, Fragment } from 'react';
 import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme';
-import { GuiProvider } from '@walless/gui';
+import { GuiProvider } from '@walless/ui';
 import { AppProps } from 'next/app';
 
 import config from '../tamagui.config';

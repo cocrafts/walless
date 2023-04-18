@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack, StackProps } from '@walless/gui';
+import { Stack, StackProps } from '@walless/ui';
 
 import { TabAble } from './shared';
 import TabItem from './TabItem';

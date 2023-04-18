@@ -2,7 +2,7 @@ import { FC, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { RouterProvider } from 'react-router-dom';
 import { modalActions, ModalManager } from '@walless/app';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 import { appState } from 'state/app';
 import { router } from 'utils/routing';
 import { useSnapshot } from 'valtio';

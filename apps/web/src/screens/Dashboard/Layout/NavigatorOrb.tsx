@@ -1,6 +1,6 @@
 import { type FC, type ReactNode } from 'react';
-import { Image, Stack } from '@walless/gui';
 import { type ExtensionRecord } from '@walless/storage';
+import { Image, Stack } from '@walless/ui';
 import { router } from 'utils/routing';
 
 export type OrbConfig = Partial<ExtensionRecord> & {

@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Stack, StackProps } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight, Cart, Swap } from '@walless/icons';
+import { Stack, StackProps } from '@walless/ui';
 
 import FeatureButton from '../components/FeatureButton';
 

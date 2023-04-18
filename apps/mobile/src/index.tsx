@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { GuiProvider, Stack } from '@walless/gui';
+import { GuiProvider, Stack } from '@walless/ui';
 
 import config from '../tamagui.config';
 

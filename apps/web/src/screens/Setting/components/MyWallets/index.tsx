@@ -1,4 +1,4 @@
-import { Stack, Text } from '@walless/gui';
+import { Stack, Text } from '@walless/ui';
 import { walletState } from 'state/wallet';
 import { useSnapshot } from 'utils/hooks';
 

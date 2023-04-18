@@ -1,5 +1,5 @@
 import { type FC, type ReactNode } from 'react';
-import { Stack, StackProps, Text } from '@walless/gui';
+import { Stack, StackProps, Text } from '@walless/ui';
 
 type Props = StackProps & {
 	children?: ReactNode;

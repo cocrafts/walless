@@ -1,4 +1,4 @@
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 
 import AccountInfo from './AccountInfo';
 import Title from './Title';

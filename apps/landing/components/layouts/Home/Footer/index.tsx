@@ -1,4 +1,4 @@
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 import BulletSeparator from 'components/BulletSeparator';
 
 import BottomPart from './BottomPart';

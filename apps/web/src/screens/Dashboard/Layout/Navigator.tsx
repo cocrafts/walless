@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Image, Stack } from '@walless/gui';
 import { Compass } from '@walless/icons';
+import { Image, Stack } from '@walless/ui';
 import { extensionState } from 'state/extension';
 import { useLocation, useParams, useSnapshot } from 'utils/hooks';
 

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Image, Stack, Text } from '@walless/gui';
+import { Image, Stack, Text } from '@walless/ui';
 
 export interface Collectible {
 	id: string;

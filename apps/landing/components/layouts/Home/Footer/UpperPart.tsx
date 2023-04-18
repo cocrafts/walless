@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Image, Input, Stack, Text } from '@walless/gui';
+import { Button, Image, Input, Stack, Text } from '@walless/ui';
 import { imageSources } from 'components/layouts/shared';
 import { ContainerStack } from 'components/styled';
 import Link from 'next/link';

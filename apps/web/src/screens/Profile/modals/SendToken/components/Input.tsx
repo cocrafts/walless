@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { Input as WallessInput, Stack } from '@walless/gui';
+import { Input as WallessInput, Stack } from '@walless/ui';
 
 interface Props {
 	content: string;

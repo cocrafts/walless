@@ -6,7 +6,7 @@ import {
 	withSequence,
 	withTiming,
 } from 'react-native-reanimated';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 
 import { AnimatedImage, runOnJS } from '../components/alias';
 

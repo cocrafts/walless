@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { getWalletPublicKey, modalActions, ModalConfigs } from '@walless/app';
 import { Networks } from '@walless/core';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 import { transactionActions } from 'state/transaction';
 
 import ModalWrapper from '../components/ModalWrapper';

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { type StackProps } from '@tamagui/core';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 
 type Props = StackProps & {
 	noBullet?: boolean;

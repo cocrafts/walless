@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { shortenAddress } from '@walless/core';
-import { Image, Stack, Text } from '@walless/gui';
 import { PublicKeyRecord } from '@walless/storage';
+import { Image, Stack, Text } from '@walless/ui';
 import { getNetworkInfo } from 'utils/helper';
 
 interface Props {

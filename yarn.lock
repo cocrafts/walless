@@ -5793,13 +5793,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@realm/common@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@realm/common@npm:0.1.4"
-  checksum: b051dc928e3d9f3677723939379232e2ceba4f76b231bc26e449e5ed728ac82f9e99e391c52fe09823b0539d22fe5552465bbcbff2df95e8c18e5993aabaf983
-  languageName: node
-  linkType: hard
-
 "@remix-run/router@npm:1.5.0":
   version: 1.5.0
   resolution: "@remix-run/router@npm:1.5.0"
@@ -8385,9 +8378,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/gui@workspace:packages/gui"
   dependencies:
-    "@mysten/sui.js": 0.32.1
-    "@solana/web3.js": 1.75.0
     eslint: 8.38.0
+    valtio: ^1.10.4
   languageName: unknown
   linkType: soft
 
@@ -8503,7 +8495,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/store@*, @walless/store@workspace:packages/store":
+"@walless/store@workspace:packages/store":
   version: 0.0.0-use.local
   resolution: "@walless/store@workspace:packages/store"
   dependencies:
@@ -8572,7 +8564,6 @@ __metadata:
     "@walless/network": "*"
     "@walless/sdk": "*"
     "@walless/storage": "*"
-    "@walless/store": "*"
     "@walless/ui": "*"
     "@walless/wallet-standard": "*"
     "@web3auth/ethereum-provider": ^4.6.0
@@ -8585,7 +8576,6 @@ __metadata:
     react-native-svg: ^13.9.0
     react-native-web: ^0.18.12
     react-router-dom: ^6.10.0
-    realm-web: 2.0.0
     setimmediate: ^1.0.5
     tamagui: 1.15.16
     tamagui-loader: 1.15.16
@@ -10492,15 +10482,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^4.5.4":
-  version: 4.7.2
-  resolution: "bson@npm:4.7.2"
-  dependencies:
-    buffer: ^5.6.0
-  checksum: f357d12c5679c8eb029a62e410ad40fb862b7b91f0fc12a3399fb3668e14aecaa63205ffeeee48735a01d393171743607dcd527eb8c058b6f2bd294079ee4125
-  languageName: node
-  linkType: hard
-
 "buffer-crc32@npm:^0.2.1, buffer-crc32@npm:^0.2.13":
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
@@ -10574,7 +10555,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer@npm:^5.5.0, buffer@npm:^5.6.0":
+"buffer@npm:^5.5.0":
   version: 5.7.1
   resolution: "buffer@npm:5.7.1"
   dependencies:
@@ -12058,13 +12039,6 @@ __metadata:
   version: 1.2.0
   resolution: "destroy@npm:1.2.0"
   checksum: 0acb300b7478a08b92d810ab229d5afe0d2f4399272045ab22affa0d99dbaf12637659411530a6fcd597a9bdac718fc94373a61a95b4651bbc7b83684a565e38
-  languageName: node
-  linkType: hard
-
-"detect-browser@npm:^5.2.1":
-  version: 5.3.0
-  resolution: "detect-browser@npm:5.3.0"
-  checksum: dd6e08d55da1d9e0f22510ac79872078ae03d9dfa13c5e66c96baedc1c86567345a88f96949161f6be8f3e0fafa93bf179bdb1cd311b14f5f163112fcc70ab49
   languageName: node
   linkType: hard
 
@@ -16313,13 +16287,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-base64@npm:^3.7.2":
-  version: 3.7.5
-  resolution: "js-base64@npm:3.7.5"
-  checksum: 67a78c8b1c47b73f1c6fba1957e9fe6fd9dc78ac93ac46cc2e43472dcb9cf150d126fb0e593192e88e0497354fa634d17d255add7cc6ee3c7b4d29870faa8e18
-  languageName: node
-  linkType: hard
-
 "js-levenshtein@npm:^1.1.6":
   version: 1.1.6
   resolution: "js-levenshtein@npm:1.1.6"
@@ -20104,25 +20071,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"realm-web@npm:2.0.0":
-  version: 2.0.0
-  resolution: "realm-web@npm:2.0.0"
-  dependencies:
-    "@realm/common": ^0.1.4
-    abort-controller: ^3.0.0
-    bson: ^4.5.4
-    detect-browser: ^5.2.1
-    js-base64: ^3.7.2
-    node-fetch: ^2.6.0
-  dependenciesMeta:
-    abort-controller:
-      optional: true
-    node-fetch:
-      optional: true
-  checksum: a4266502ad6fc63d068e8a05dac32522aa86b0f3f55474e769a286d2ec018cd557f5db9642d35c039f87ac2eea1aad54d32ecd27b6a59078f78aed58f445fbb3
-  languageName: node
-  linkType: hard
-
 "recast@npm:^0.20.4":
   version: 0.20.5
   resolution: "recast@npm:0.20.5"
@@ -23052,7 +23000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"valtio@npm:1.10.4":
+"valtio@npm:1.10.4, valtio@npm:^1.10.4":
   version: 1.10.4
   resolution: "valtio@npm:1.10.4"
   dependencies:

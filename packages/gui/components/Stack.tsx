@@ -1,18 +1,30 @@
-import { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { type FC, type ReactNode } from 'react';
+import { type ViewStyle, View, ViewProps } from 'react-native';
 
-interface Props {}
+import { DynamicFlags, extractDynamicStyle } from '../utils/style';
 
-export const Stack: FC = () => {
+type Props = DynamicFlags &
+	ViewProps & {
+		style?: ViewStyle;
+		children?: ReactNode;
+	};
+
+export const Stack: FC<Props> = ({
+	style,
+	float,
+	row,
+	children,
+	...viewProps
+}) => {
+	const dynamicStyles = extractDynamicStyle({ float, row });
+
+	if (style) dynamicStyles.push(style);
+
 	return (
-		<View style={styles.container}>
-			<Text>Stack</Text>
+		<View style={dynamicStyles} {...viewProps}>
+			{children}
 		</View>
 	);
 };
 
 export default Stack;
-
-const styles = StyleSheet.create({
-	container: {},
-});

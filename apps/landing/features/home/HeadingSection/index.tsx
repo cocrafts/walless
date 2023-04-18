@@ -8,12 +8,7 @@ import PrimaryContent from './PrimaryContent';
 import { particles } from './shared';
 
 const HeadingSection = () => {
-	const previewImages = [
-		resources.home.preview_explore,
-		resources.home.preview_sui,
-		resources.home.preview_solana,
-		resources.home.preview_under_realm,
-	];
+	const previewImages = Object.values(resources.home.preview);
 
 	const [height, setHeight] = useState(0);
 	const [previewImageIndex, setPreviewImageIndex] = useState(0);

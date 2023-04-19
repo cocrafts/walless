@@ -329,10 +329,16 @@ PODS:
   - React-jsinspector (0.71.6)
   - React-logger (0.71.6):
     - glog
+  - react-native-get-random-values (1.8.0):
+    - React-Core
   - react-native-quick-base64 (2.0.5):
     - React-Core
-  - react-native-quick-crypto (0.5.3):
+  - react-native-quick-crypto (0.6.1):
     - OpenSSL-Universal
+    - React
+    - React-callinvoker
+    - React-Core
+  - react-native-quick-sqlite (8.0.2):
     - React
     - React-callinvoker
     - React-Core
@@ -511,8 +517,10 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-quick-base64 (from `../node_modules/react-native-quick-base64`)
-  - "react-native-quick-crypto (from `../node_modules/@chainsoft/react-native-quick-crypto`)"
+  - react-native-quick-crypto (from `../node_modules/react-native-quick-crypto`)
+  - react-native-quick-sqlite (from `../node_modules/react-native-quick-sqlite`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -592,10 +600,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-get-random-values:
+    :path: "../node_modules/react-native-get-random-values"
   react-native-quick-base64:
     :path: "../node_modules/react-native-quick-base64"
   react-native-quick-crypto:
-    :path: "../node_modules/@chainsoft/react-native-quick-crypto"
+    :path: "../node_modules/react-native-quick-crypto"
+  react-native-quick-sqlite:
+    :path: "../node_modules/react-native-quick-sqlite"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-perflogger:
@@ -669,8 +681,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7894956638ff3e00819dd3f9f6f4a84da38f2409
   React-jsinspector: d5ce2ef3eb8fd30c28389d0bc577918c70821bd6
   React-logger: 9332c3e7b4ef007a0211c0a9868253aac3e1da82
+  react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-quick-base64: e657e9197e61b60a9dec49807843052b830da254
-  react-native-quick-crypto: 969d1a119ecd30fd7052d1944dd8ab1836698927
+  react-native-quick-crypto: 455c1b411db006dba1026a30681ececb19180187
+  react-native-quick-sqlite: 2b225dadc63b670f027111e58f6f169773f6d755
   react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
   React-perflogger: 43392072a5b867a504e2b4857606f8fc5a403d7f
   React-RCTActionSheet: c7b67c125bebeda9fb19fc7b200d85cb9d6899c4

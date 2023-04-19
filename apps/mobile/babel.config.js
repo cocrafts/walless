@@ -8,6 +8,7 @@ module.exports = {
 					crypto: '@chainsoft/react-native-quick-crypto',
 					stream: 'stream-browserify',
 					buffer: '@craftzdog/react-native-buffer',
+					'pouchdb-collate': '@craftzdog/pouchdb-collate-react-native',
 				},
 			},
 		],

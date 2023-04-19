@@ -7,7 +7,7 @@ export const SplashWrapper: FC = () => {
 
 	const initialize = async () => {
 		console.log('initializing...');
-		return { name: 'fluctlight-kayaba' };
+		return { name: 'stranger' };
 	};
 
 	const onReady = (profile: UserProfile) => {

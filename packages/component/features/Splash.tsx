@@ -43,9 +43,9 @@ export const SplashFeature: FC<Props> = ({
 		const playAnimate = async (): Promise<void> => {
 			return new Promise((resolve) => {
 				const fadeIn = withTiming(1, { duration: 500 });
-				const fadeOut = withTiming(0, { duration: 500 }, () =>
-					runOnJS(resolve),
-				);
+				const fadeOut = withTiming(0, { duration: 500 }, () => {
+					runOnJS(resolve)();
+				});
 
 				opacity.value = withSequence(fadeIn, fadeOut);
 			});

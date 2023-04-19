@@ -7973,8 +7973,10 @@ __metadata:
     "@tkey/private-keys": 7.3.0
     "@tkey/security-questions": 7.3.0
     "@tkey/web-storage": 7.3.0
+    "@walless/component": "*"
     "@walless/core": "*"
     "@walless/crypto": "*"
+    "@walless/gui": "*"
     "@walless/icons": "*"
     "@walless/markdown": "*"
     "@walless/messaging": "*"

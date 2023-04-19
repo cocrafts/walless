@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { View } from 'react-native';
+import { View } from '@walless/gui';
 
 import SplashScreen from './screens/Splash';
 

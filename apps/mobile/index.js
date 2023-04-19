@@ -12,4 +12,4 @@ const db = new PouchDB('mydb.db', {
 	adapter: 'react-native-sqlite',
 });
 
-console.log(db.put, '<-- putFunc');
+db.info().then((info) => console.log(info));

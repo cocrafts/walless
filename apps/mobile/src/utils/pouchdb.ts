@@ -11,7 +11,9 @@ import 'react-native-get-random-values';
 
 const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
 
-export default PouchDB.plugin(HttpPouch)
+PouchDB.plugin(HttpPouch)
 	.plugin(replication)
 	.plugin(mapreduce)
 	.plugin(SQLiteAdapter);
+
+export default PouchDB;

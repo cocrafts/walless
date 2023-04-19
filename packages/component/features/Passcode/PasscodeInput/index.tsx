@@ -61,7 +61,7 @@ const PasscodeInput: FC<Props> = ({
 
 	return (
 		<TouchableWithoutFeedback onPress={handleWrapperPress}>
-			<View horizontal style={style.container}>
+			<View horizontal cursorPointer style={style.container}>
 				{inputElements}
 			</View>
 		</TouchableWithoutFeedback>
@@ -73,10 +73,5 @@ export default PasscodeInput;
 const style = StyleSheet.create({
 	container: {
 		gap: 12,
-		...Platform.select({
-			web: {
-				cursor: 'pointer',
-			},
-		}),
 	},
 });

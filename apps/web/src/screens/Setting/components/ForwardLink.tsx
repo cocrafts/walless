@@ -16,8 +16,9 @@ const ForwardLink: FC<Props> = ({ link, title, icon, iconBackground }) => {
 				flexDirection="row"
 				justifyContent="space-between"
 				alignItems="center"
-				padding={0}
 				backgroundColor="transparent"
+				padding={12}
+				hoverStyle={{ backgroundColor: '#202D38' }}
 			>
 				<Stack flexDirection="row" alignItems="center" gap={12}>
 					{icon && (

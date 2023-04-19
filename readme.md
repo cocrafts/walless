@@ -23,6 +23,7 @@ More information at [Official website](https://walless.io) | [Discord](https://d
 - [Suiet open-source repo](https://github.com/suiet/suiet).
 - [Oskar Kwaśniewski](https://www.callstack.com/blog-author/oskar-kwasniewski) for his [React Native monorepo article](https://www.callstack.com/blog/setting-up-react-native-monorepo-with-yarn-workspaces) saved our life.
 - [Wallet Standard](https://github.com/wallet-standard/wallet-standard) definitely useful for any Wallet project.
+- [PouchDB for Mobile](https://dev.to/craftzdog/a-performant-way-to-use-pouchdb7-on-react-native-in-2022-24ej) performance and cross-platform storage engine.
 
 ## License
 Walless is [MIT licensed](./LICENSE).

@@ -19,6 +19,7 @@ module.exports = {
 	resolver: {
 		nodeModulesPaths: [projectModules, workspaceModules],
 		extraNodeModules: monoPackages,
+		disableHierarchicalLookup: true,
 	},
 	transformer: {
 		getTransformOptions: async () => ({

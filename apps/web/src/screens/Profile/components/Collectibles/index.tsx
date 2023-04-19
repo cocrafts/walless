@@ -6,8 +6,6 @@ import { mockCollectibles } from '../../internal';
 import CollectibleCard from './CollectibleCard';
 
 const Collectibles = () => {
-	const numberOfCollectibles = 8;
-
 	const [activeCollectible, setActiveCollectible] = useState(
 		mockCollectibles[0],
 	);
@@ -21,7 +19,7 @@ const Collectibles = () => {
 				justifyContent="space-between"
 				alignItems="center"
 			>
-				<Text fontSize={18}>NFT Collectibles ({numberOfCollectibles})</Text>
+				<Text fontSize={18}>NFT Collectibles ({mockCollectibles.length})</Text>
 			</Stack>
 
 			{mockCollectibles.length === 0 ? (

@@ -1,7 +1,7 @@
-import { type FC, type ReactNode } from 'react';
+import { type ReactNode, forwardRef } from 'react';
 import { type ViewStyle, View, ViewProps } from 'react-native';
 
-import { DynamicFlags, extractDynamicStyle } from '../utils/style';
+import { DynamicFlags, iStyles } from '../utils/style';
 
 type Props = DynamicFlags &
 	ViewProps & {
@@ -9,22 +9,21 @@ type Props = DynamicFlags &
 		children?: ReactNode;
 	};
 
-export const Stack: FC<Props> = ({
-	style,
-	float,
-	row,
-	children,
-	...viewProps
-}) => {
-	const dynamicStyles = extractDynamicStyle({ float, row });
+export const Stack = forwardRef<View, Props>(
+	({ style, float, row, children, ...viewProps }, ref) => {
+		const containerStyle = [style];
 
-	if (style) dynamicStyles.push(style);
+		if (row) containerStyle.push(iStyles.row);
+		if (float) containerStyle.push(iStyles.float);
 
-	return (
-		<View style={dynamicStyles} {...viewProps}>
-			{children}
-		</View>
-	);
-};
+		return (
+			<View ref={ref} style={containerStyle} {...viewProps}>
+				{children}
+			</View>
+		);
+	},
+);
+
+Stack.displayName = 'Stack';
 
 export default Stack;

@@ -7,7 +7,7 @@ export const idleLayout: LayoutRectangle = {
 	height: 0,
 };
 
-const iStyles = StyleSheet.create({
+export const iStyles = StyleSheet.create({
 	row: {
 		flexDirection: 'row',
 	},
@@ -24,12 +24,3 @@ export interface DynamicFlags {
 	row?: boolean;
 	float?: boolean;
 }
-
-export const extractDynamicStyle = (flags: DynamicFlags) => {
-	const result = [];
-
-	if (flags.row) result.push(iStyles.row);
-	if (flags.float) result.push(iStyles.float);
-
-	return result;
-};

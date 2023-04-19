@@ -110,10 +110,19 @@ export const PasscodeFeature: FC<Props> = ({
 				<Stack alignItems="center">
 					<Image src={logoUri} width={83} height={43} />
 				</Stack>
-				<Text paddingTop={60} fontSize={20} textAlign="center">
+				<Text
+					paddingTop={60}
+					paddingBottom={8}
+					fontSize={20}
+					textAlign="center"
+				>
 					{title}
 				</Text>
-				<Stack paddingTop={60}>
+				<Text textAlign="center" color="#566674" fontSize={14}>
+					Secure your passcode! It&apos;s essential for accessing your account
+					and authorizing transfers.
+				</Text>
+				<Stack paddingTop={40}>
 					<PasscodeInput
 						pinCount={pinCount}
 						isConfirm={isConfirm}

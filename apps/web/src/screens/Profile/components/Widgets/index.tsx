@@ -1,4 +1,4 @@
-import { Bell, IdCard, Setting } from '@walless/icons';
+import { Setting } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { router } from 'utils/routing';
 
@@ -10,13 +10,7 @@ const Widgets = () => {
 	};
 
 	return (
-		<Stack display="flex" flexDirection="row" gap={10}>
-			<WidgetButton onClick={() => console.log('Clicked')}>
-				<IdCard size={14} color="white" />
-			</WidgetButton>
-			<WidgetButton onClick={() => console.log('Clicked')}>
-				<Bell size={14} color="white" />
-			</WidgetButton>
+		<Stack flexDirection="row" gap={10}>
 			<WidgetButton onClick={handleClickSetting}>
 				<Setting size={14} color="white" />
 			</WidgetButton>

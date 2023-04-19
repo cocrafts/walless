@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { ArrowBottomRight, ArrowTopRight, Cart, Swap } from '@walless/icons';
+import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
 import { Stack, StackProps } from '@walless/ui';
 
 import FeatureButton from '../components/FeatureButton';
@@ -9,8 +9,6 @@ type Props = StackProps & {
 	iconSize?: number;
 	onSendPress?: () => void;
 	onReceivePress?: () => void;
-	onBuyPress?: () => void;
-	onSwapPress?: () => void;
 };
 
 export const MainFeatures: FC<Props> = ({
@@ -18,8 +16,6 @@ export const MainFeatures: FC<Props> = ({
 	iconSize = 18,
 	onSendPress,
 	onReceivePress,
-	onBuyPress,
-	onSwapPress,
 	...stackProps
 }) => {
 	return (
@@ -29,12 +25,6 @@ export const MainFeatures: FC<Props> = ({
 			</FeatureButton>
 			<FeatureButton title="Receive" onPress={onReceivePress}>
 				<ArrowBottomRight size={iconSize} />
-			</FeatureButton>
-			<FeatureButton title="Buy" onPress={onBuyPress}>
-				<Cart size={iconSize} />
-			</FeatureButton>
-			<FeatureButton title="Swap" onPress={onSwapPress}>
-				<Swap size={iconSize} />
 			</FeatureButton>
 		</Stack>
 	);

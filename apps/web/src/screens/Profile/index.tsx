@@ -23,7 +23,6 @@ const ProfileScreen = () => {
 			maxHeight="100vh"
 			paddingHorizontal={14}
 			paddingVertical={16}
-			display="flex"
 			alignItems="center"
 			gap={36}
 		>

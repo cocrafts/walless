@@ -8,13 +8,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   self.moduleName = @"walless";
+  // You can add your custom initial props in the dictionary below.
+  // They will be passed down to the ViewController used by React Native.
+  self.initialProps = @{};
+
   BOOL success = [super application:application didFinishLaunchingWithOptions:launchOptions];
-  
+
   if (success) {
     RCTRootView *rootView = (RCTRootView *)self.window.rootViewController.view;
     rootView.backgroundColor = [[UIColor alloc] initWithRed:0.01 green:0.0901 blue:0.149 alpha:1];
   }
-  
+
   return success;
 }
 

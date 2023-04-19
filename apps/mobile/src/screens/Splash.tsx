@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { SplashInner } from '@walless/app';
+import { SplashFeature } from '@walless/component';
 import { type UserProfile } from '@walless/core';
 
 export const SplashWrapper: FC = () => {
@@ -7,7 +7,7 @@ export const SplashWrapper: FC = () => {
 
 	const initialize = async () => {
 		console.log('initializing...');
-		return { name: 'fluctlight-kayaba' };
+		return { name: 'stranger' };
 	};
 
 	const onReady = (profile: UserProfile) => {
@@ -15,7 +15,7 @@ export const SplashWrapper: FC = () => {
 	};
 
 	return (
-		<SplashInner
+		<SplashFeature
 			logoSrc={logoSrc}
 			initialize={initialize}
 			onReady={onReady as never}

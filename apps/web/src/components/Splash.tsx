@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { SplashInner } from '@walless/app';
+import { SplashFeature } from '@walless/component';
 import { appActions } from 'state/app';
 
 export const SplashWrapper: FC = () => {
 	const logoSrc = { uri: '/img/icon-lg.png' };
 
 	return (
-		<SplashInner
+		<SplashFeature
 			logoSrc={logoSrc}
 			initialize={appActions.bootstrap}
 			onReady={appActions.launchApp as never}

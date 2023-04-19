@@ -9,15 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tamagui/animations-css": "1.14.3",
-    "@tamagui/next-theme": "1.14.3",
+    "@tamagui/animations-css": "1.15.16",
+    "@tamagui/next-theme": "1.15.16",
     "@walless/markdown": "*",
     "@walless/ui": "*",
     "next": "^13.1.1",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@tamagui/next-plugin": "1.14.3",
+    "@tamagui/next-plugin": "1.15.16",
     "eslint": "8.38.0",
     "next-compose-plugins": "^2.2.1",
     "next-transpile-modules": "^10.0.0"

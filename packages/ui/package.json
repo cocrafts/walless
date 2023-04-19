@@ -10,9 +10,9 @@
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
-    "@tamagui/themes": "1.14.3",
+    "@tamagui/themes": "1.15.16",
     "react": "^18.2.0",
-    "tamagui": "1.12.2",
+    "tamagui": "1.15.16",
     "valtio": "1.10.4"
   },
   "devDependencies": {

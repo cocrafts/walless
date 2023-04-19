@@ -1,17 +1,13 @@
 import { FC } from 'react';
-import { GuiProvider, Stack } from '@walless/ui';
-
-import config from '../tamagui.config';
+import { View } from '@walless/gui';
 
 import SplashScreen from './screens/Splash';
 
 export const Index: FC = () => {
 	return (
-		<GuiProvider config={config}>
-			<Stack flex={1}>
-				<SplashScreen />
-			</Stack>
-		</GuiProvider>
+		<View style={{ flex: 1 }}>
+			<SplashScreen />
+		</View>
 	);
 };
 

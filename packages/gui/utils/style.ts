@@ -8,10 +8,10 @@ export const idleLayout: LayoutRectangle = {
 };
 
 export const iStyles = StyleSheet.create({
-	row: {
+	horizontal: {
 		flexDirection: 'row',
 	},
-	float: {
+	fullScreen: {
 		position: 'absolute',
 		top: 0,
 		right: 0,
@@ -21,6 +21,6 @@ export const iStyles = StyleSheet.create({
 });
 
 export interface DynamicFlags {
-	row?: boolean;
-	float?: boolean;
+	horizontal?: boolean;
+	fullScreen?: boolean;
 }

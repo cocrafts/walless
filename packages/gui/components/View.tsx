@@ -10,11 +10,11 @@ type Props = DynamicFlags &
 	};
 
 export const View = forwardRef<RNView, Props>(
-	({ style, float, row, children, ...viewProps }, ref) => {
+	({ style, fullScreen, horizontal, children, ...viewProps }, ref) => {
 		const containerStyle = [style];
 
-		if (row) containerStyle.push(iStyles.row);
-		if (float) containerStyle.push(iStyles.float);
+		if (horizontal) containerStyle.push(iStyles.horizontal);
+		if (fullScreen) containerStyle.push(iStyles.fullScreen);
 
 		return (
 			<RNView ref={ref} style={containerStyle} {...viewProps}>

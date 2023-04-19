@@ -1,5 +1,5 @@
 import { type ReactNode, forwardRef } from 'react';
-import { type ViewStyle, View, ViewProps } from 'react-native';
+import { type ViewStyle, View as RNView, ViewProps } from 'react-native';
 
 import { DynamicFlags, iStyles } from '../utils/style';
 
@@ -9,7 +9,7 @@ type Props = DynamicFlags &
 		children?: ReactNode;
 	};
 
-export const Stack = forwardRef<View, Props>(
+export const View = forwardRef<RNView, Props>(
 	({ style, float, row, children, ...viewProps }, ref) => {
 		const containerStyle = [style];
 
@@ -17,13 +17,13 @@ export const Stack = forwardRef<View, Props>(
 		if (float) containerStyle.push(iStyles.float);
 
 		return (
-			<View ref={ref} style={containerStyle} {...viewProps}>
+			<RNView ref={ref} style={containerStyle} {...viewProps}>
 				{children}
-			</View>
+			</RNView>
 		);
 	},
 );
 
-Stack.displayName = 'Stack';
+View.displayName = 'Stack';
 
-export default Stack;
+export default View;

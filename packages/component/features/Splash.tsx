@@ -6,12 +6,13 @@ import {
 	View,
 } from 'react-native';
 import {
+	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
 	withSequence,
 	withTiming,
 } from 'react-native-reanimated';
-import { AnimatedImage, runOnJS } from '@walless/gui';
+import { AnimatedImage } from '@walless/gui';
 
 interface Props {
 	style?: ViewStyle;

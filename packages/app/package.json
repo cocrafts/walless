@@ -18,7 +18,7 @@
     "@walless/ui": "*",
     "react": "^18.2.0",
     "react-native-reanimated": "3.0.2",
-    "tamagui": "1.12.2",
+    "tamagui": "1.15.16",
     "valtio": "1.10.4"
   },
   "devDependencies": {

@@ -23,17 +23,13 @@ const App: FC<Props> = ({ width = 410, height = 600 }) => {
 	}, []);
 
 	return (
-		<Stack
-			flex={1}
-			alignItems="center"
-			justifyContent="center"
-			backgroundColor="$primary"
-		>
+		<Stack flex={1} alignItems="center" justifyContent="center">
 			<Stack
 				ref={containerRef}
 				flex={1}
 				width={width}
 				maxHeight={height}
+				backgroundColor="$primary"
 				$gtTn={{ borderRadius: 8, overflow: 'hidden' }}
 			>
 				{app.loading ? <SplashWrapper /> : <RouterProvider router={router} />}

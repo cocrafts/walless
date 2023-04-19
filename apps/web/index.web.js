@@ -6,7 +6,8 @@ import '@tamagui/polyfill-dev';
 import 'raf/polyfill';
 import 'setimmediate';
 
-import App from './src';
+import App from './src/playground';
+import PouchDB from './src/utils/pouchdb';
 import tamaguiConfig from './tamagui.config';
 
 const container = document.getElementById('root');
@@ -16,3 +17,7 @@ root.render(<App tamaguiConfig={tamaguiConfig} />);
 
 injectRuntime();
 initializeStates();
+
+const db = new PouchDB('kittens');
+
+db.info().then((info) => console.log(info));

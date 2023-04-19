@@ -9,8 +9,7 @@
     "test:watch": "jest --watch",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
-  "dependencies": {
-    "@metaplex-foundation/mpl-token-metadata": "^2.9.1",
+  "peerDependencies": {
     "@walless/gui": "*",
     "react": "^18.2.0",
     "react-native": "^0.71.6",

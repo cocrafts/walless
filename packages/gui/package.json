@@ -10,7 +10,9 @@
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "peerDependencies": {
+    "react": "^18.2.0",
     "react-native": "^0.71.6",
+    "react-native-reanimated": "^3.0.2",
     "valtio": "^1.10.4"
   },
   "devDependencies": {

@@ -25,7 +25,6 @@ export const handleSignTransaction: MessengerCallback = async (
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
 	const signer = new RawSigner(keypair, suiProvider);
 
-	// Transaction object
 	const transaction = TransactionBlock.from(payload.transaction as string);
 
 	const signedTransaction = await signer.signTransactionBlock({
@@ -70,7 +69,6 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(0, 32));
 	const signer = new RawSigner(keypair, suiProvider);
 
-	// Transaction object
 	const transaction = TransactionBlock.from(payload.transaction as string);
 
 	try {

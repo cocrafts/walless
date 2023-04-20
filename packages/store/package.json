@@ -10,9 +10,14 @@
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "peerDependencies": {
-    "realm-web": "2.0.0"
+    "pouchdb-adapter-http": "^8.0.1",
+    "pouchdb-core": "^8.0.1",
+    "pouchdb-find": "^8.0.1",
+    "pouchdb-mapreduce": "^8.0.1",
+    "pouchdb-replication": "^8.0.1"
   },
   "devDependencies": {
+    "@walless/tsconfig": "*",
     "eslint": "8.38.0"
   }
 }

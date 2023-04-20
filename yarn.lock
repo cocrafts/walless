@@ -7981,6 +7981,7 @@ __metadata:
     "@types/react-test-renderer": ^18.0.0
     "@walless/component": "*"
     "@walless/gui": "*"
+    "@walless/store": "*"
     babel-jest: ^29.2.1
     babel-plugin-transform-inline-environment-variables: ^0.4.4
     eslint: 8.38.0
@@ -7988,6 +7989,7 @@ __metadata:
     pouchdb-adapter-http: ^8.0.1
     pouchdb-adapter-react-native-sqlite: ^3.0.1
     pouchdb-core: ^8.0.1
+    pouchdb-find: ^8.0.1
     pouchdb-mapreduce: ^8.0.1
     pouchdb-replication: ^8.0.1
     react: ^18.2.0
@@ -8037,13 +8039,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/store@workspace:packages/store":
+"@walless/store@*, @walless/store@workspace:packages/store":
   version: 0.0.0-use.local
   resolution: "@walless/store@workspace:packages/store"
   dependencies:
+    "@walless/tsconfig": "*"
     eslint: 8.38.0
   peerDependencies:
-    realm-web: 2.0.0
+    pouchdb-adapter-http: ^8.0.1
+    pouchdb-core: ^8.0.1
+    pouchdb-find: ^8.0.1
+    pouchdb-mapreduce: ^8.0.1
+    pouchdb-replication: ^8.0.1
   languageName: unknown
   linkType: soft
 
@@ -8117,6 +8124,7 @@ __metadata:
     pouchdb-adapter-http: ^8.0.1
     pouchdb-adapter-idb: ^8.0.1
     pouchdb-core: ^8.0.1
+    pouchdb-find: ^8.0.1
     pouchdb-mapreduce: ^8.0.1
     pouchdb-replication: ^8.0.1
     raf: ^3.4.1
@@ -18756,6 +18764,21 @@ __metadata:
     fetch-cookie: 0.11.0
     node-fetch: 2.6.7
   checksum: 1a456805f7200f80b9d28fb0d4eddc4f9e6373dc56e1b2b9e71ff46dd84328cac1b85c6e92207972f7e8b4cb7c4b2772b65af5476a231722a1242f1814375b38
+  languageName: node
+  linkType: hard
+
+"pouchdb-find@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "pouchdb-find@npm:8.0.1"
+  dependencies:
+    pouchdb-abstract-mapreduce: 8.0.1
+    pouchdb-collate: 8.0.1
+    pouchdb-errors: 8.0.1
+    pouchdb-fetch: 8.0.1
+    pouchdb-md5: 8.0.1
+    pouchdb-selector-core: 8.0.1
+    pouchdb-utils: 8.0.1
+  checksum: c473f58baf0b5f86d72c65f86d7eaffe5707bde8070c5322a60388871cf7ec1403151be0ec8c540097b5518c80385a24781d2ab06a3b653ec34f3143e3e241f9
   languageName: node
   linkType: hard
 

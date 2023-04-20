@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 import { ModalConfigs } from '@walless/app';
 import { Stack } from '@walless/ui';
 
@@ -9,10 +9,9 @@ import QRCode from './components/QRCode';
 import WalletAddress from './components/WalletAddress';
 
 const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
-	const copiedRef = useRef(null);
 	return (
 		<ModalWrapper>
-			<Stack minHeight="70vh" ref={copiedRef}>
+			<Stack minHeight="70vh">
 				<ModalHeader content="Receive" config={config} />
 				<Stack flexGrow={1} justifyContent="center" alignItems="center">
 					<Stack

@@ -1,4 +1,4 @@
-import { MessengerCallback } from '@walless/messaging';
+import { MessengerCallback, RequestType } from '@walless/messaging';
 
 import { fetchAllCollectibles, fetchAllTokens } from '../utils/query';
 
@@ -8,22 +8,20 @@ import * as suiHandler from './suiHandler';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	if (payload.requestId) {
-		if (payload.type === 'request-connect') {
-			await handleConnect(payload, channel);
-		} else if (payload.type === 'sign-transaction') {
-			await solanaHandler.handleSignTransaction(payload, channel);
-		} else if (payload.type === 'sign-all-transactions') {
-			await solanaHandler.handleSignAllTransaction(payload, channel);
-		} else if (payload.type === 'sign-message') {
-			await solanaHandler.handleSignMessage(payload, channel);
-		} else if (payload.type === 'sign-and-send-transaction') {
-			await solanaHandler.handleSignAndSendTransaction(payload, channel);
-		} else if (payload.type === 'sign-message-on-sui') {
-			await suiHandler.handleSignMessage(payload, channel);
-		} else if (payload.type === 'sign-transaction-on-sui') {
-			await suiHandler.handleSignTransaction(payload, channel);
-		} else if (payload.type === 'sign-and-execute-transaction-on-sui') {
-			await suiHandler.handleSignAndExecuteTransaction(payload, channel);
+		if (payload.type === RequestType.REQUEST_CONNECT) {
+			handleConnect(payload, channel);
+		} else if (payload.type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
+			solanaHandler.handleSignMessage(payload, channel);
+		} else if (payload.type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {
+			solanaHandler.handleSignTransaction(payload, channel);
+		} else if (payload.type === RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA) {
+			solanaHandler.handleSignAndSendTransaction(payload, channel);
+		} else if (payload.type === RequestType.SIGN_MESSAGE_ON_SUI) {
+			suiHandler.handleSignMessage(payload, channel);
+		} else if (payload.type === RequestType.SIGN_TRANSACTION_ON_SUI) {
+			suiHandler.handleSignTransaction(payload, channel);
+		} else if (payload.type === RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI) {
+			suiHandler.handleSignAndExecuteTransaction(payload, channel);
 		} else {
 			return channel.postMessage({
 				from: 'walless@kernel',
@@ -32,7 +30,7 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			});
 		}
 	} else {
-		if (payload.type === 'notify-wallet-open') {
+		if (payload.type === RequestType.NOTIFY_WALLET_OPEN) {
 			await Promise.all([fetchAllCollectibles(), fetchAllTokens()]);
 		}
 	}

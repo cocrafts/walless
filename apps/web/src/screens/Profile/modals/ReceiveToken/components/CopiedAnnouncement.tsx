@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { Copy } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
 

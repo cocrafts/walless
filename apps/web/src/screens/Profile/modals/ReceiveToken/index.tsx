@@ -1,11 +1,10 @@
 import { FC, useRef } from 'react';
-import { BindDirections, modalActions, ModalConfigs } from '@walless/app';
+import { ModalConfigs } from '@walless/app';
 import { Stack } from '@walless/ui';
 
 import ModalHeader from '../components/ModalHeader';
 import ModalWrapper from '../components/ModalWrapper';
 
-import CopiedAnnouncement from './components/CopiedAnnouncement';
 import QRCode from './components/QRCode';
 import WalletAddress from './components/WalletAddress';
 

@@ -1,7 +1,6 @@
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import {
-	MessagePayload,
 	MessengerCallback,
 	ResponseCode,
 	ResponsePayload,
@@ -15,7 +14,7 @@ import { triggerActionToGetPrivateKey } from '../utils/handler';
 import { getPrivateKey, settings } from './../utils/handler';
 
 export const handleSignTransaction: MessengerCallback = async (
-	payload: MessagePayload,
+	payload,
 	channel,
 ) => {
 	const privateKey = await triggerActionToGetPrivateKey();
@@ -40,7 +39,7 @@ export const handleSignTransaction: MessengerCallback = async (
 };
 
 export const handleSignAndSendTransaction: MessengerCallback = async (
-	payload: MessagePayload,
+	payload,
 	channel,
 ) => {
 	const responsePayload: ResponsePayload = {
@@ -87,7 +86,7 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 };
 
 export const handleSignMessage: MessengerCallback = async (
-	payload: MessagePayload,
+	payload,
 	channel,
 ) => {
 	const privateKey = await triggerActionToGetPrivateKey();

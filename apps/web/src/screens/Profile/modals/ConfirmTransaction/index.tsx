@@ -24,7 +24,7 @@ interface RequiredContext {
 }
 
 interface Props {
-	config: ModalConfigs & { context: RequiredContext } & { id: string };
+	config: ModalConfigs & { id: string; context: RequiredContext };
 }
 
 const ConfirmTransactionScreen: FC<Props> = ({ config }) => {

@@ -34,12 +34,12 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 		(ele) => ele.value === (network as unknown),
 	);
 
-	const handleOnPressCloseBtn = () => {
+	const handleClose = () => {
 		modalActions.hide(config.id as string);
 	};
 
-	const handleOnPressOtherTransactionBtn = () => {
-		handleOnPressCloseBtn();
+	const handleOtherTransaction = () => {
+		handleClose();
 		modalActions.show({
 			id: 'send-token',
 			bindingDirection: BindDirections.InnerBottom,
@@ -50,7 +50,7 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 
 	return (
 		<ModalWrapper>
-			<Header onClose={handleOnPressCloseBtn} />
+			<Header onClose={handleClose} />
 
 			<Stack>
 				<Text
@@ -119,8 +119,8 @@ const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
 			</Stack>
 
 			<Footer
-				onPressCloseBtn={handleOnPressCloseBtn}
-				onPressOtherTransactionBtn={handleOnPressOtherTransactionBtn}
+				onClosePress={handleClose}
+				onOtherTransactionPress={handleOtherTransaction}
 			/>
 		</ModalWrapper>
 	);

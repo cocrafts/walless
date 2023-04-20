@@ -4,13 +4,13 @@ import { Stack, Text } from '@walless/ui';
 import NavBtn from '../SendToken/components/NavBtn';
 
 interface Props {
-	onPressCloseBtn: () => void;
-	onPressOtherTransactionBtn: () => void;
+	onClosePress: () => void;
+	onOtherTransactionPress: () => void;
 }
 
 const Footer: FC<Props> = ({
-	onPressCloseBtn: onClose,
-	onPressOtherTransactionBtn: onOtherTransactionBtn,
+	onClosePress: onClose,
+	onOtherTransactionPress: onOtherTransactionBtn,
 }) => {
 	return (
 		<Stack

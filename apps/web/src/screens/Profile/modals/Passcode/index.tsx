@@ -9,10 +9,9 @@ import {
 	type PendingTransactionContext,
 	transactionActions,
 } from 'state/transaction';
+import { resources } from 'utils/config';
 
 import ModalWrapper from '../components/ModalWrapper';
-
-const logoUri = { uri: '/img/bare-icon.png' };
 
 interface Props {
 	config: ModalConfigs & { context: PendingTransactionContext };
@@ -46,7 +45,7 @@ export const PasscodeScreen: FC<Props> = ({ config }) => {
 		<ModalWrapper>
 			<PasscodeFeature
 				verticalTransition={0}
-				logoUri={logoUri}
+				logoUri={resources.walless.icon}
 				title="Confirm to transfer"
 				confirmation={false}
 				errorProps={error}

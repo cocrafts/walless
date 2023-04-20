@@ -1,12 +1,10 @@
-import HttpPouch from 'pouchdb-adapter-http';
+import { configure, create } from '@walless/store';
 import IDBPouch from 'pouchdb-adapter-idb';
-import PouchDB from 'pouchdb-core';
-import mapreduce from 'pouchdb-mapreduce';
-import replication from 'pouchdb-replication';
 
-PouchDB.plugin(HttpPouch)
-	.plugin(replication)
-	.plugin(mapreduce)
-	.plugin(IDBPouch);
+export const db = create('engine', IDBPouch);
 
-export default PouchDB;
+export const initializeStorage = async () => {
+	await configure(db);
+};
+
+export default db;

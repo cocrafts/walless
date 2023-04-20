@@ -1,6 +1,9 @@
 import { FC } from 'react';
+import { BindDirections, modalActions } from '@walless/app';
 import { Copy } from '@walless/icons';
 import { Button, Image, Stack, Text } from '@walless/ui';
+
+import CopiedAnnouncement from './CopiedAnnouncement';
 
 interface Props {
 	network: string;
@@ -9,6 +12,19 @@ interface Props {
 }
 
 const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
+	const handleCopied = () => {
+		navigator.clipboard.writeText(address);
+		modalActions.show({
+			id: 'copied_announcement',
+			component: CopiedAnnouncement,
+			bindingDirection: BindDirections.InnerTop,
+			positionOffset: { x: 0, y: 20 },
+			withoutMask: true,
+		});
+		setTimeout(() => {
+			modalActions.hide('copied_announcement');
+		}, 1000);
+	};
 	return (
 		<Button
 			flexDirection="row"
@@ -21,9 +37,7 @@ const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
 			gap={12}
 			paddingHorizontal={12}
 			paddingVertical={8}
-			onPress={() => {
-				navigator.clipboard.writeText(address);
-			}}
+			onPress={handleCopied}
 			cursor="pointer"
 		>
 			<Image src={networkIcon} width={36} height={36} borderRadius={36} />

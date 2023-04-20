@@ -1,6 +1,7 @@
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import {
+	MessagePayload,
 	MessengerCallback,
 	ResponseCode,
 	ResponsePayload,
@@ -14,7 +15,7 @@ import { triggerActionToGetPrivateKey } from '../utils/handler';
 import { getPrivateKey, settings } from './../utils/handler';
 
 export const handleSignTransaction: MessengerCallback = async (
-	payload,
+	payload: MessagePayload,
 	channel,
 ) => {
 	const privateKey = await triggerActionToGetPrivateKey();
@@ -23,7 +24,7 @@ export const handleSignTransaction: MessengerCallback = async (
 		return;
 	}
 
-	const serializedTransaction = decode(payload.transaction);
+	const serializedTransaction = decode(payload.transaction as string);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 	const keypair = Keypair.fromSecretKey(privateKey);
 
@@ -39,7 +40,7 @@ export const handleSignTransaction: MessengerCallback = async (
 };
 
 export const handleSignAndSendTransaction: MessengerCallback = async (
-	payload,
+	payload: MessagePayload,
 	channel,
 ) => {
 	const responsePayload: ResponsePayload = {
@@ -56,7 +57,10 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 
 	let privateKey;
 	try {
-		privateKey = await getPrivateKey(Networks.solana, payload.passcode);
+		privateKey = await getPrivateKey(
+			Networks.solana,
+			payload.passcode as string,
+		);
 	} catch (error) {
 		responsePayload.responseCode = ResponseCode.WRONG_PASSCODE;
 		responsePayload.message = (error as Error).message;
@@ -64,7 +68,7 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 		return channel.postMessage(responsePayload);
 	}
 
-	const serializedTransaction = decode(payload.transaction);
+	const serializedTransaction = decode(payload.transaction as string);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 
 	try {
@@ -82,12 +86,8 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	return channel.postMessage(responsePayload);
 };
 
-export const handleSignAllTransaction: MessengerCallback = () => {
-	// TODO: do something
-};
-
 export const handleSignMessage: MessengerCallback = async (
-	payload,
+	payload: MessagePayload,
 	channel,
 ) => {
 	const privateKey = await triggerActionToGetPrivateKey();

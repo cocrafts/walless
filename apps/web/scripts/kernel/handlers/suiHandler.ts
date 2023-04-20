@@ -26,7 +26,7 @@ export const handleSignTransaction: MessengerCallback = async (
 	const signer = new RawSigner(keypair, suiProvider);
 
 	// Transaction object
-	const transaction = TransactionBlock.from(payload.transaction);
+	const transaction = TransactionBlock.from(payload.transaction as string);
 
 	const signedTransaction = await signer.signTransactionBlock({
 		transactionBlock: transaction,
@@ -59,7 +59,7 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 
 	let privateKey;
 	try {
-		privateKey = await getPrivateKey(Networks.sui, payload.passcode);
+		privateKey = await getPrivateKey(Networks.sui, payload.passcode as string);
 	} catch (error) {
 		responsePayload.responseCode = ResponseCode.WRONG_PASSCODE;
 		responsePayload.message = (error as Error).message;
@@ -71,7 +71,7 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 	const signer = new RawSigner(keypair, suiProvider);
 
 	// Transaction object
-	const transaction = TransactionBlock.from(payload.transaction);
+	const transaction = TransactionBlock.from(payload.transaction as string);
 
 	try {
 		responsePayload.signedTransaction =

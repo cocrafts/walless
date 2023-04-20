@@ -39,7 +39,7 @@ export const paperTheme: ThemeState = {
 		card: '#FFFFFF',
 		border: '#D8D8D8',
 		notification: '#FF3B30',
-		text: '#222222',
+		text: '#FFFFFF',
 		link: '#2C879B',
 		alt: '#8f8f9d',
 		altText: '#222222',

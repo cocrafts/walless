@@ -60,8 +60,8 @@ export const PasscodeFeature: FC<Props> = ({
 
 	const handleResetPasscode = () => {
 		createPasscodeRef.current = { value: '', isConfirmation: false };
-		setInnerPasscode('');
 		setInnerError('');
+		onPasscodeChange?.('', false, createPasscodeRef.current.isConfirmation);
 	};
 
 	useEffect(() => {

@@ -25,6 +25,7 @@ const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
 			modalActions.hide('copied_announcement');
 		}, 1000);
 	};
+
 	return (
 		<Button
 			flexDirection="row"
@@ -38,7 +39,6 @@ const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
 			paddingHorizontal={12}
 			paddingVertical={8}
 			onPress={handleCopied}
-			cursor="pointer"
 		>
 			<Image src={networkIcon} width={36} height={36} borderRadius={36} />
 

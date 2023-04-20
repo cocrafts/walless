@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { modalActions, ModalConfigs } from '@walless/app';
 import { Times } from '@walless/icons';
-import { Stack, Text } from '@walless/ui';
+import { Button, Stack, Text } from '@walless/ui';
 
 interface Props {
 	content: string;
@@ -20,14 +20,15 @@ const ModalHeader: FC<Props> = ({ content, config }) => {
 			<Text color="#FFFFFF" fontWeight="500" fontSize={20}>
 				{content}
 			</Text>
-			<Stack
+			<Button
+				backgroundColor="transparent"
+				padding={0}
 				onPress={() => {
 					modalActions.destroy(config.id);
 				}}
-				cursor="pointer"
 			>
 				<Times size={16} />
-			</Stack>
+			</Button>
 		</Stack>
 	);
 };

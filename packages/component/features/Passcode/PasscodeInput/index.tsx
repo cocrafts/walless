@@ -1,7 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import {
 	type TextInput,
-	Platform,
 	StyleSheet,
 	TouchableWithoutFeedback,
 } from 'react-native';

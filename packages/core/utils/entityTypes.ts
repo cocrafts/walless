@@ -1,3 +1,8 @@
+export interface Setting {
+	version: string;
+	profile: UserProfile;
+}
+
 export interface UserProfile {
 	id?: string;
 	email?: string;

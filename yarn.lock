@@ -8127,6 +8127,7 @@ __metadata:
     pouchdb-find: ^8.0.1
     pouchdb-mapreduce: ^8.0.1
     pouchdb-replication: ^8.0.1
+    qrcode.react: ^3.1.0
     raf: ^3.4.1
     react-native-qrcode-svg: ^6.2.0
     react-native-reanimated: 3.0.2
@@ -19143,6 +19144,15 @@ __metadata:
   version: 1.5.1
   resolution: "q@npm:1.5.1"
   checksum: 147baa93c805bc1200ed698bdf9c72e9e42c05f96d007e33a558b5fdfd63e5ea130e99313f28efc1783e90e6bdb4e48b67a36fcc026b7b09202437ae88a1fb12
+  languageName: node
+  linkType: hard
+
+"qrcode.react@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "qrcode.react@npm:3.1.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 94a2942ecf83f461d869adb20305ae663c6d1abe93ef2c72442b07d756ce70cf6deb6fd588dc5b382b48c6991cfde1dfd5ac9b814c1461e71d5edb2d945e67fc
   languageName: node
   linkType: hard
 

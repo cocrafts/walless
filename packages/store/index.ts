@@ -25,3 +25,5 @@ export const configure = async (db: PouchDB.Database): Promise<void> => {
 		index: { fields: ['type', 'network'] },
 	});
 };
+
+export * from './utils/type';

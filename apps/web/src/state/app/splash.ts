@@ -1,6 +1,7 @@
 import { type UserProfile } from '@walless/core';
+import { SettingDocument } from '@walless/store';
+import { db } from 'utils/pouch';
 import { router } from 'utils/routing';
-import { db } from 'utils/storage';
 
 import { appState } from './internal';
 
@@ -10,7 +11,7 @@ export interface BootstrapResult {
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	const response: BootstrapResult = {};
-	const setting = await db.settings.get(1);
+	const setting = await db.get<SettingDocument>('settings');
 
 	if (setting?.profile?.email) {
 		response.profile = setting.profile;

@@ -1,20 +1,11 @@
-import { ExtensionRecord } from '@walless/storage';
-import { liveQuery } from 'dexie';
-import { db } from 'utils/storage';
+import { ExtensionDocument } from '@walless/store';
 import { proxy } from 'valtio';
+import { proxyMap } from 'valtio/utils';
 
 export interface ExtensionState {
-	extensions: ExtensionRecord[];
+	map: Map<string, ExtensionDocument>;
 }
 
 export const extensionState = proxy<ExtensionState>({
-	extensions: [],
+	map: proxyMap(),
 });
-
-export const initializeExtensionState = async () => {
-	const allItemsObservable = liveQuery(() => db.extensions.toArray());
-
-	allItemsObservable.subscribe((keys) => {
-		extensionState.extensions = keys;
-	});
-};

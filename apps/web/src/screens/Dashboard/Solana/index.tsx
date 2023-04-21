@@ -19,13 +19,13 @@ interface Props {
 }
 
 export const SolanaDashboard: FC<Props> = () => {
-	const { keys } = useSnapshot(walletState);
-	const suiKey = keys.find((key) => key.network === Networks.sui);
-	const address = suiKey?.id as string;
+	const { solanaKeyMap } = useSnapshot(walletState);
+	const allKeys = Array.from(solanaKeyMap.values());
+	const address = allKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
 		symbol: 'SOL',
-		network: Networks.sui,
+		network: Networks.solana,
 		account: { balance: 0 },
 	};
 	const cloneCard = (card: TokenRecord, suffix: string) => ({

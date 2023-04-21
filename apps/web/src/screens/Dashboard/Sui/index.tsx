@@ -20,9 +20,9 @@ interface Props {
 }
 
 export const SuiDashboard: FC<Props> = () => {
-	const { keys } = useSnapshot(walletState);
-	const suiKey = keys.find((key) => key.network === Networks.sui);
-	const address = suiKey?.id as string;
+	const { suiKeyMap } = useSnapshot(walletState);
+	const allKeys = Array.from(suiKeyMap.values());
+	const address = allKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
 		symbol: 'SUI',

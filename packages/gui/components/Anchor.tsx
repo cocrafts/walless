@@ -1,32 +1,14 @@
-import {
-	type FC,
-	type HTMLAttributeAnchorTarget,
-	type ReactNode,
-	useRef,
-} from 'react';
-import {
-	type TextStyle,
-	type ViewStyle,
-	Linking,
-	StyleSheet,
-} from 'react-native';
-import {
-	useAnimatedStyle,
-	useSharedValue,
-	withTiming,
-} from 'react-native-reanimated';
+import { type FC, type HTMLAttributeAnchorTarget, type ReactNode } from 'react';
+import { type TextStyle, type ViewStyle, Linking } from 'react-native';
 
 import { isBrowser } from '../utils/platform';
 
-import { AnimatedPressable } from './aliased';
+import Hoverable from './Hoverable';
 import Text from './Text';
-
-interface MouseContext {
-	mouseIn?: boolean;
-}
 
 interface Props {
 	hoverOpacity?: number;
+	animationDuration?: number;
 	href?: string;
 	target?: HTMLAttributeAnchorTarget;
 	onPress?: () => void;
@@ -38,42 +20,15 @@ interface Props {
 
 export const Anchor: FC<Props> = ({
 	hoverOpacity = 0.6,
+	animationDuration,
 	href,
 	target = '_blank',
 	onPress,
 	children,
-	style,
 	title,
 	titleStyle,
 }) => {
-	const mouseContextRef = useRef<MouseContext>({});
 	const isHrefValid = (href?.length as number) > 0;
-	const opacity = useSharedValue(1);
-	const containerStyle = useAnimatedStyle(
-		() => ({
-			opacity: opacity.value,
-		}),
-		[opacity],
-	);
-
-	const handleHoverIn = () => {
-		opacity.value = withTiming(hoverOpacity, { duration: 50 });
-		mouseContextRef.current.mouseIn = true;
-	};
-
-	const handleHoverOut = () => {
-		opacity.value = withTiming(1, { duration: 50 });
-		mouseContextRef.current.mouseIn = false;
-	};
-
-	const handlePressIn = () => {
-		opacity.value = withTiming(0.4, { duration: 50 });
-	};
-
-	const handlePressOut = () => {
-		const nextOpacity = mouseContextRef.current.mouseIn ? hoverOpacity : 1;
-		opacity.value = withTiming(nextOpacity, { duration: 50 });
-	};
 
 	const handlePress = async () => {
 		onPress?.();
@@ -86,12 +41,9 @@ export const Anchor: FC<Props> = ({
 	const innerElement = children || <Text style={titleStyle}>{title}</Text>;
 
 	return (
-		<AnimatedPressable
-			style={[styles.container, containerStyle, style]}
-			onHoverIn={handleHoverIn}
-			onHoverOut={handleHoverOut}
-			onPressIn={handlePressIn}
-			onPressOut={handlePressOut}
+		<Hoverable
+			hoverOpacity={hoverOpacity}
+			animationDuration={animationDuration}
 			onPress={handlePress}
 		>
 			{isBrowser ? (
@@ -101,12 +53,8 @@ export const Anchor: FC<Props> = ({
 			) : (
 				innerElement
 			)}
-		</AnimatedPressable>
+		</Hoverable>
 	);
 };
 
 export default Anchor;
-
-const styles = StyleSheet.create({
-	container: {},
-});

@@ -1,13 +1,9 @@
 import { FC } from 'react';
-import { TamaguiInternalConfig } from '@tamagui/core';
-import { PinUnlockFeature } from '@walless/app';
-import { GuiProvider, Stack } from '@walless/ui';
+import { StyleSheet } from 'react-native';
+import { PasscodeFeature } from '@walless/component';
+import { View } from '@walless/gui';
 
-interface Props {
-	tamaguiConfig: TamaguiInternalConfig;
-}
-
-export const AppContainer: FC<Props> = ({ tamaguiConfig }) => {
+export const AppContainer: FC = () => {
 	const handlePinChange = (pin: string, isCompleted?: boolean) => {
 		if (isCompleted) {
 			console.log(pin, '<<---');
@@ -15,25 +11,27 @@ export const AppContainer: FC<Props> = ({ tamaguiConfig }) => {
 	};
 
 	return (
-		<GuiProvider config={tamaguiConfig} theme="dark">
-			<Stack
-				flex={1}
-				backgroundColor="$primary"
-				alignItems="center"
-				justifyContent="center"
-			>
-				<Stack
-					width={410}
-					height={600}
-					borderRadius={12}
-					backgroundColor="#19232c"
-					overflow="hidden"
-				>
-					<PinUnlockFeature onPinChange={handlePinChange} />
-				</Stack>
-			</Stack>
-		</GuiProvider>
+		<View style={styles.container}>
+			<View style={styles.innerContainer}>
+				<PasscodeFeature onPasscodeChange={handlePinChange} />
+			</View>
+		</View>
 	);
 };
 
 export default AppContainer;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	innerContainer: {
+		width: 410,
+		height: 600,
+		borderRadius: 12,
+		backgroundColor: '#19232c',
+		overflow: 'hidden',
+	},
+});

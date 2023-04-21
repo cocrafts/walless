@@ -11,7 +11,7 @@ export interface BootstrapResult {
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	const response: BootstrapResult = {};
-	const setting = await db.get<SettingDocument>('settings');
+	const setting = await db.safeGet<SettingDocument>('settings');
 
 	if (setting?.profile?.email) {
 		response.profile = setting.profile;

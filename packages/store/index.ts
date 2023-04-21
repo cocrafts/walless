@@ -4,17 +4,20 @@ import find from 'pouchdb-find';
 import mapreduce from 'pouchdb-mapreduce';
 import replication from 'pouchdb-replication';
 
+import helpers from './utils/plugin';
+
 export const create = (
 	name: string,
 	storageEngine: PouchDB.Plugin,
-): PouchDB.Database => {
+): PouchDB.Database & typeof helpers => {
 	PouchDB.plugin(HttpPouch)
 		.plugin(replication)
 		.plugin(mapreduce)
 		.plugin(find)
+		.plugin(helpers)
 		.plugin(storageEngine);
 
-	return new PouchDB(name);
+	return new PouchDB(name) as never;
 };
 
 export const configure = async (db: PouchDB.Database): Promise<void> => {

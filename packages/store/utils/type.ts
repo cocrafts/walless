@@ -4,7 +4,7 @@ import PouchDB from 'pouchdb-core';
 export type DocumentType = 'Setting' | 'PrivateKey' | 'PublicKey';
 
 export type PouchDocument<T> = PouchDB.Core.Document<
-	T & { type: DocumentType }
+	T & { type: DocumentType; _rev?: string }
 >;
 
 export type SettingDocument = PouchDocument<Setting>;

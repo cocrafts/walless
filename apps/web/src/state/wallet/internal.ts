@@ -1,20 +1,13 @@
-import { PublicKeyRecord } from '@walless/storage';
-import { liveQuery } from 'dexie';
-import { db } from 'utils/storage';
+import { PublicKeyDocument } from '@walless/store';
 import { proxy } from 'valtio';
+import { proxyMap } from 'valtio/utils';
 
 export interface WalletState {
-	keys: PublicKeyRecord[];
+	suiKeyMap: Map<string, PublicKeyDocument>;
+	solanaKeyMap: Map<string, PublicKeyDocument>;
 }
 
 export const walletState = proxy<WalletState>({
-	keys: [],
+	suiKeyMap: proxyMap(),
+	solanaKeyMap: proxyMap(),
 });
-
-export const initializeWalletState = async () => {
-	const allKeysObservable = liveQuery(() => db.publicKeys.toArray());
-
-	allKeysObservable.subscribe((keys) => {
-		walletState.keys = keys;
-	});
-};

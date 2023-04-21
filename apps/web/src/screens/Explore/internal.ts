@@ -1,17 +1,18 @@
-import { ExtensionRecord } from '@walless/storage';
+import { ExtensionDocument } from '@walless/store';
 
 export interface LayoutCardProps {
-	item: ExtensionRecord;
-	onAddPress?: (item: ExtensionRecord) => void;
-	onLovePress?: (item: ExtensionRecord) => void;
+	item: ExtensionDocument;
+	onAddPress?: (item: ExtensionDocument) => void;
+	onLovePress?: (item: ExtensionDocument) => void;
 }
 
-export const mockLayoutCards: ExtensionRecord[] = [
+export const mockLayoutCards: ExtensionDocument[] = [
 	{
-		id: 'sui',
+		_id: 'sui',
 		name: 'Sui',
 		version: '0.0.1',
-		type: 'layout',
+		type: 'Extension',
+		extensionType: 'Layout',
 		timestamp: new Date(),
 		storeMeta: {
 			iconUri: '/img/network/sui-icon-sm.png',
@@ -32,10 +33,11 @@ export const mockLayoutCards: ExtensionRecord[] = [
 		},
 	},
 	{
-		id: 'solana',
+		_id: 'solana',
 		name: 'Solana',
 		version: '0.9.1',
-		type: 'layout',
+		type: 'Extension',
+		extensionType: 'Layout',
 		timestamp: new Date(),
 		storeMeta: {
 			iconUri: '/img/network/solana-icon-sm.png',
@@ -56,10 +58,11 @@ export const mockLayoutCards: ExtensionRecord[] = [
 		},
 	},
 	{
-		id: '000003',
+		_id: '000003',
 		name: 'Under Realm',
 		version: '0.1.8',
-		type: 'layout',
+		type: 'Extension',
+		extensionType: 'Layout',
 		timestamp: new Date(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-under-realm.png',

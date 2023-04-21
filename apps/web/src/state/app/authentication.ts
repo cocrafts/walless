@@ -1,10 +1,18 @@
 import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
-import { SubVerifierDetails, TorusLoginResponse } from '@toruslabs/customauth';
+import {
+	type SubVerifierDetails,
+	type TorusLoginResponse,
+} from '@toruslabs/customauth';
 import { type UserProfile, Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
+import {
+	type PrivateKeyDocument,
+	type PublicKeyDocument,
+	type SettingDocument,
+} from '@walless/store';
+import { db } from 'utils/pouch';
 import { router } from 'utils/routing';
-import { db } from 'utils/storage';
 import {
 	configureSecurityQuestionShare,
 	importAvailableShares,
@@ -35,10 +43,12 @@ const makeProfile = ({
 
 export const setProfile = async (profile: UserProfile): Promise<void> => {
 	appState.profile = profile;
-	await db.settings.put({
-		id: 1,
-		version: '0.0.1',
-		profile,
+
+	await db.upsert<SettingDocument>('settings', async (doc) => {
+		doc.type = 'Setting';
+		doc.version = '0.0.1';
+		doc.profile = profile;
+		return doc;
 	});
 };
 
@@ -110,6 +120,7 @@ export const storeAuthenticatedRecords = async (
 	}
 
 	const writePromises = [];
+
 	for (const {
 		id,
 		type,
@@ -118,7 +129,14 @@ export const storeAuthenticatedRecords = async (
 		const key = Buffer.from(privateKey as never, 'hex');
 		const encrypted = await encryptWithPasscode(passcode, key);
 
-		writePromises.push(db.privateKeys.put({ id, type, ...encrypted }));
+		writePromises.push(
+			db.put<PrivateKeyDocument>({
+				_id: id,
+				type: 'PrivateKey',
+				keyType: type,
+				...encrypted,
+			}),
+		);
 
 		if (type === 'ed25519') {
 			const solPair = SolPair.fromSecretKey(key);
@@ -127,17 +145,19 @@ export const storeAuthenticatedRecords = async (
 			const suiAddress = suiPair.getPublicKey().toSuiAddress();
 
 			writePromises.push(
-				db.publicKeys.put({
-					id: solAddress,
+				db.put<PublicKeyDocument>({
+					_id: solAddress,
+					type: 'PublicKey',
 					privateKeyId: id,
 					network: Networks.solana,
 				}),
 			);
 
 			writePromises.push(
-				db.publicKeys.put({
-					id: suiAddress,
+				db.put<PublicKeyDocument>({
+					_id: suiAddress,
 					privateKeyId: id,
+					type: 'PublicKey',
 					network: Networks.sui,
 				}),
 			);

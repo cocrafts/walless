@@ -1,12 +1,14 @@
 import { FC } from 'react';
 import { Compass } from '@walless/icons';
 import { Image, Stack } from '@walless/ui';
+import { appState } from 'state/app';
 import { extensionState } from 'state/extension';
 import { useLocation, useParams, useSnapshot } from 'utils/hooks';
 
 import NavigatorOrb, { OrbConfig } from './NavigatorOrb';
 
 export const Navigator: FC = () => {
+	const { profile } = useSnapshot(appState);
 	const { extensions } = useSnapshot(extensionState);
 	const { pathname } = useLocation();
 	const { id: extensionId } = useParams<'id'>();
@@ -23,7 +25,7 @@ export const Navigator: FC = () => {
 	const profileOrb: OrbConfig = {
 		route: '/profile',
 		networkMeta: {
-			iconUri: '/img/mock-avatar.png',
+			iconUri: profile.profileImage,
 		} as never,
 	};
 

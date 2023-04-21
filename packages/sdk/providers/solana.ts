@@ -1,3 +1,5 @@
+import { RequestType } from '@walless/messaging';
+
 import { sendRequest } from '../utils/messaging';
 
 export const requestSignAndSendTransaction = async (
@@ -6,7 +8,7 @@ export const requestSignAndSendTransaction = async (
 ) => {
 	return await sendRequest({
 		from: 'walless@sdk',
-		type: 'sign-and-send-transaction',
+		type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
 		transaction,
 		options,
 	});
@@ -15,7 +17,7 @@ export const requestSignAndSendTransaction = async (
 export const requestSignMessage = async (message: string) => {
 	return await sendRequest({
 		from: 'walless@sdk',
-		type: 'sign-message',
+		type: RequestType.SIGN_MESSAGE_ON_SOLANA,
 		message,
 	});
 };
@@ -23,7 +25,7 @@ export const requestSignMessage = async (message: string) => {
 export const requestSignTransaction = async (transaction: string) => {
 	return await sendRequest({
 		from: 'walless@sdk',
-		type: 'sign-transaction',
+		type: RequestType.SIGN_TRANSACTION_ON_SOLANA,
 		transaction,
 	});
 };

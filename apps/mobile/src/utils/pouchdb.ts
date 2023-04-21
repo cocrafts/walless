@@ -1,19 +1,17 @@
 import WebSQLite from 'react-native-quick-websql';
-import HttpPouch from 'pouchdb-adapter-http';
+import { configure, create } from '@walless/store';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
-import PouchDB from 'pouchdb-core';
-import mapreduce from 'pouchdb-mapreduce';
-import replication from 'pouchdb-replication';
 
 import 'react-native-get-random-values';
 
 const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
 
-PouchDB.plugin(HttpPouch)
-	.plugin(replication)
-	.plugin(mapreduce)
-	.plugin(SQLiteAdapter);
+export const db = create('engine', SQLiteAdapter);
 
-export default PouchDB;
+export const initializeStorage = async () => {
+	await configure(db);
+};
+
+export default db;

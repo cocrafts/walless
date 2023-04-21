@@ -1,3 +1,5 @@
+import { RequestType } from '@walless/messaging';
+
 import { sendRequest } from '../utils/messaging';
 
 export const requestSignAndExecuteTransactionBlock = async (
@@ -6,7 +8,7 @@ export const requestSignAndExecuteTransactionBlock = async (
 ) => {
 	return await sendRequest({
 		from: 'walless@sdk',
-		type: 'sign-and-execute-transaction-on-sui',
+		type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
 		transaction,
 		options,
 	});
@@ -15,7 +17,7 @@ export const requestSignAndExecuteTransactionBlock = async (
 export const requestSignMessage = async (message: string) => {
 	return await sendRequest({
 		from: 'walless@sdk',
-		type: 'sign-message-on-sui',
+		type: RequestType.SIGN_MESSAGE_ON_SUI,
 		message,
 	});
 };
@@ -23,7 +25,7 @@ export const requestSignMessage = async (message: string) => {
 export const requestSignTransactionBlock = async (transaction: string) => {
 	return await sendRequest({
 		from: 'walless@sdk',
-		type: 'sign-transaction-on-sui',
+		type: RequestType.SIGN_TRANSACTION_ON_SUI,
 		transaction,
 	});
 };

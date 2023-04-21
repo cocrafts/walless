@@ -1,8 +1,6 @@
 import PouchDB from 'pouchdb-core';
 
-export type UpsertDiffFunc<T extends object> = (
-	doc: PouchDB.Core.Document<T>,
-) => Promise<PouchDB.Core.Document<T> & { _rev?: string }>;
+import { UpsertDiffFunc } from './type';
 
 export async function upsert<T extends object>(
 	this: PouchDB.Database,
@@ -25,7 +23,3 @@ export async function upsert<T extends object>(
 	newDoc._rev = currentRev;
 	return this.put(newDoc);
 }
-
-export default {
-	upsert,
-};

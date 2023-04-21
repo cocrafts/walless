@@ -4,7 +4,7 @@ import find from 'pouchdb-find';
 import mapreduce from 'pouchdb-mapreduce';
 import replication from 'pouchdb-replication';
 
-import helpers from './utils/plugin';
+import helpers from './plugins';
 
 export const create = (
 	name: string,

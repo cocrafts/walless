@@ -76,12 +76,11 @@ export const Hoverable = forwardRef<View, Props>(
 		};
 
 		const handlePressIn = () => {
-			opacity.value = withTiming(0.4, { duration: animationDuration });
+			opacity.value = 0.4;
 		};
 
 		const handlePressOut = () => {
-			const nextOpacity = mouseContextRef.current.mouseIn ? hoverOpacity : 1;
-			opacity.value = withTiming(nextOpacity, { duration: animationDuration });
+			opacity.value = mouseContextRef.current.mouseIn ? hoverOpacity : 1;
 		};
 
 		return (

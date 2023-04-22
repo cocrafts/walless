@@ -1,4 +1,4 @@
-import { PublicKey } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { getTokenMetadata, getTokensByOwner } from '@walless/network';
 import { TokenDocument } from '@walless/store';
@@ -15,11 +15,13 @@ export const fetchSolanaTokens = async (address: string) => {
 		return {
 			_id: `${address}/${mint}`,
 			network: Networks.solana,
+			owner: address,
 			type: 'Token',
 			account: {
 				address,
 				mint,
-				balance: account.data.amount.toString(),
+				balance: parseFloat(account.data.amount.toString()),
+				decimal: account.lamports || LAMPORTS_PER_SOL,
 			},
 			metadata: {
 				name: metadata?.data.name,

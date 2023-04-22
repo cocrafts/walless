@@ -31,7 +31,13 @@ export const subscribeSolanaChanges = async () => {
 	const tokenChunks = await Promise.all(tokenPromises);
 	const tokenDocuments = flatten(tokenChunks);
 
-	await db.bulkDocs(tokenDocuments);
+	await Promise.all(
+		tokenDocuments.map((token) => {
+			return db.upsert(token._id, async () => {
+				return token;
+			});
+		}),
+	);
 };
 
 export const clearSolanaSubscriptions = async () => {

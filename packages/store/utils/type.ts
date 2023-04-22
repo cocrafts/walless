@@ -14,8 +14,13 @@ export type DocumentType =
 	| 'Token'
 	| 'Extension';
 
+export interface IndexedDocument {
+	type: DocumentType;
+	network: Networks;
+}
+
 export type PouchDocument<T> = PouchDB.Core.Document<
-	T & { type: DocumentType; _rev?: string }
+	T & IndexedDocument & { _rev?: string }
 >;
 
 export type SettingDocument = PouchDocument<Setting>;

@@ -1,4 +1,4 @@
-import { type ReactNode, forwardRef, useRef } from 'react';
+import { type ReactNode, forwardRef, useMemo, useRef } from 'react';
 import { type MouseEvent, type ViewStyle, View } from 'react-native';
 import {
 	useAnimatedStyle,
@@ -6,13 +6,15 @@ import {
 	withTiming,
 } from 'react-native-reanimated';
 
+import { DynamicFlags, iStyles } from '../utils/style';
+
 import { AnimatedPressable } from './aliased';
 
 interface MouseContext {
 	mouseIn?: boolean;
 }
 
-interface Props {
+type Props = Omit<DynamicFlags, 'cursorPointer'> & {
 	style?: ViewStyle;
 	children?: ReactNode;
 	onHoverIn?: (event: MouseEvent) => void;
@@ -20,7 +22,7 @@ interface Props {
 	hoverOpacity?: number;
 	animationDuration?: number;
 	onPress?: () => void;
-}
+};
 
 export const Hoverable = forwardRef<View, Props>(
 	(
@@ -32,17 +34,29 @@ export const Hoverable = forwardRef<View, Props>(
 			onHoverOut,
 			animationDuration = 50,
 			onPress,
+			fullScreen,
+			horizontal,
+			noSelect,
 		},
 		ref,
 	) => {
 		const mouseContextRef = useRef<MouseContext>({});
 		const opacity = useSharedValue(1);
-		const containerStyle = useAnimatedStyle(
+		const animatedStyle = useAnimatedStyle(
 			() => ({
 				opacity: opacity.value,
 			}),
 			[opacity],
 		);
+		const containerStyle = useMemo(() => {
+			return [
+				animatedStyle,
+				horizontal && iStyles.horizontal,
+				fullScreen && iStyles.fullScreen,
+				noSelect && iStyles.noSelect,
+				style,
+			];
+		}, [style, horizontal, fullScreen, noSelect]);
 
 		const handleHoverIn = (event: MouseEvent) => {
 			opacity.value = withTiming(hoverOpacity, { duration: animationDuration });

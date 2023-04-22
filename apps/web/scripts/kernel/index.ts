@@ -1,8 +1,7 @@
 import { initializeMessaging } from './messaging';
-import { initializeSolanaSubscriber } from './subscriber';
 
 (async () => {
-	await Promise.all([initializeMessaging(), initializeSolanaSubscriber()]);
+	await Promise.all([initializeMessaging()]);
 })();
 
 export * from './messaging';

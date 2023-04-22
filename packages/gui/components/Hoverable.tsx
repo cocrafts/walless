@@ -1,5 +1,5 @@
 import { type ReactNode, forwardRef, useRef } from 'react';
-import { type ViewStyle, View } from 'react-native';
+import { type MouseEvent, type ViewStyle, View } from 'react-native';
 import {
 	useAnimatedStyle,
 	useSharedValue,
@@ -15,6 +15,8 @@ interface MouseContext {
 interface Props {
 	style?: ViewStyle;
 	children?: ReactNode;
+	onHoverIn?: (event: MouseEvent) => void;
+	onHoverOut?: (event: MouseEvent) => void;
 	hoverOpacity?: number;
 	animationDuration?: number;
 	onPress?: () => void;
@@ -22,7 +24,15 @@ interface Props {
 
 export const Hoverable = forwardRef<View, Props>(
 	(
-		{ style, children, hoverOpacity = 0.6, animationDuration = 50, onPress },
+		{
+			style,
+			children,
+			hoverOpacity = 0.6,
+			onHoverIn,
+			onHoverOut,
+			animationDuration = 50,
+			onPress,
+		},
 		ref,
 	) => {
 		const mouseContextRef = useRef<MouseContext>({});
@@ -34,14 +44,16 @@ export const Hoverable = forwardRef<View, Props>(
 			[opacity],
 		);
 
-		const handleHoverIn = () => {
+		const handleHoverIn = (event: MouseEvent) => {
 			opacity.value = withTiming(hoverOpacity, { duration: animationDuration });
 			mouseContextRef.current.mouseIn = true;
+			onHoverIn?.(event);
 		};
 
-		const handleHoverOut = () => {
+		const handleHoverOut = (event: MouseEvent) => {
 			opacity.value = withTiming(1, { duration: animationDuration });
 			mouseContextRef.current.mouseIn = false;
+			onHoverOut?.(event);
 		};
 
 		const handlePressIn = () => {

@@ -34,14 +34,14 @@ export const Hoverable = forwardRef<View, Props>(
 		{
 			style,
 			children,
-			hoverOpacity = 0.6,
+			hoverOpacity = 0.8,
 			onHoverIn,
 			onHoverOut,
 			animationDuration = 50,
 			onPress,
 			fullScreen,
 			horizontal,
-			noSelect,
+			noSelect = true,
 		},
 		ref,
 	) => {
@@ -76,7 +76,7 @@ export const Hoverable = forwardRef<View, Props>(
 		};
 
 		const handlePressIn = () => {
-			opacity.value = 0.4;
+			opacity.value = hoverOpacity - 0.2;
 		};
 
 		const handlePressOut = () => {

@@ -1,28 +1,56 @@
-import { Stack, Text } from '@walless/gui';
+import { FC } from 'react';
+import {
+	AnimateDirections,
+	BindDirections,
+	modalActions,
+	ModalConfigs,
+} from '@walless/app';
 import { ArrowDown } from '@walless/icons';
+import { Stack, Text } from '@walless/ui';
+import { TransactionPayload } from 'state/transaction/send';
 
 import InfoItemDivider from '../components/InfoItemDivider';
 import InfoKeyValue from '../components/InfoKeyValue';
 import InfoWrapper from '../components/InfoWrapper';
 import ModalWrapper from '../components/ModalWrapper';
 import WalletInfo from '../components/WalletInfo';
-import {
-	networkLogo,
-	networkName,
-	tokenAmount,
-	tokenName,
-	walletAddress,
-	walletName,
-} from '../internal';
+import { walletName } from '../internal';
+import SendTokenScreen from '../SendToken';
+import { networks, tokens } from '../SendToken/internal';
 
 import Footer from './Footer';
 import Header from './Header';
 import ShareBtn from './ShareBtn';
 
-const TransactionSuccessfulScreen = () => {
+interface Props {
+	config: ModalConfigs & { context: TransactionPayload };
+}
+
+const TransactionSuccessfulScreen: FC<Props> = ({ config }) => {
+	const { sender, receiver, amount, token, network } = config.context;
+
+	const tokenData = tokens.find((ele) => ele.value === (token as unknown));
+	const networkData = networks.find(
+		(ele) => ele.value === (network as unknown),
+	);
+
+	const handleClose = () => {
+		modalActions.hide(config.id as string);
+	};
+
+	const handleOtherTransaction = () => {
+		handleClose();
+		modalActions.show({
+			id: 'send-token',
+			bindingDirection: BindDirections.InnerBottom,
+			component: SendTokenScreen,
+			animateDirection: AnimateDirections.Top,
+		});
+	};
+
 	return (
 		<ModalWrapper>
-			<Header />
+			<Header onClose={handleClose} />
 
 			<Stack>
 				<Text
@@ -32,7 +60,7 @@ const TransactionSuccessfulScreen = () => {
 					fontSize={40}
 					fontWeight="500"
 				>
-					{tokenAmount} {tokenName}
+					{amount} {tokenData?.value}
 				</Text>
 
 				<Stack marginHorizontal="auto">
@@ -46,13 +74,15 @@ const TransactionSuccessfulScreen = () => {
 					backgroundColor="#56667433"
 				/>
 
-				<Stack paddingHorizontal={36}>
+				<Stack>
 					<InfoWrapper>
 						<Stack padding={16}>
 							<WalletInfo
-								networkLogo={networkLogo}
-								networkName={networkName}
-								walletAddress={walletAddress}
+								networkLogo={networkData?.icon as string}
+								networkName={networkData?.name as string}
+								walletAddress={
+									sender ? sender.substring(0, 30) + '...' : 'Loading ...'
+								}
 								walletName={walletName}
 							/>
 						</Stack>
@@ -75,12 +105,12 @@ const TransactionSuccessfulScreen = () => {
 							</Stack>
 
 							<InfoWrapper backgroundColor="#56667433">
-								<InfoKeyValue infoKey="Address" infoValue={walletAddress} />
+								<InfoKeyValue infoKey="Address" infoValue={receiver} />
 								<InfoItemDivider />
 								<InfoKeyValue
 									infoKey="Network"
-									infoValue={networkName}
-									infoValueLogo={networkLogo}
+									infoValue={networkData?.name as string}
+									infoValueLogo={networkData?.icon as string}
 								/>
 							</InfoWrapper>
 						</Stack>
@@ -88,7 +118,10 @@ const TransactionSuccessfulScreen = () => {
 				</Stack>
 			</Stack>
 
-			<Footer />
+			<Footer
+				onClosePress={handleClose}
+				onOtherTransactionPress={handleOtherTransaction}
+			/>
 		</ModalWrapper>
 	);
 };

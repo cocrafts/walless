@@ -1,15 +1,16 @@
 import { AnimateDirections, BindDirections, modalActions } from '@walless/app';
-import { Stack } from '@walless/gui';
+import { MainFeatures } from '@walless/app';
+import { Stack } from '@walless/ui';
 
 import Collectibles from './components/Collectibles';
 import History from './components/History';
-import MainFeatures from './components/MainFeatures';
 import TokenValue from './components/TokenValue';
 import Widgets from './components/Widgets';
+import ReceiveTokenScreen from './modals/ReceiveToken';
 import SendTokenScreen from './modals/SendToken';
 
 const ProfileScreen = () => {
-	const handlePressSendBtn = () => {
+	const handleSend = () => {
 		modalActions.show({
 			id: 'send-token',
 			bindingDirection: BindDirections.InnerBottom,
@@ -18,17 +19,30 @@ const ProfileScreen = () => {
 		});
 	};
 
+	const handleReceive = () => {
+		modalActions.show({
+			id: 'receive-token',
+			bindingDirection: BindDirections.InnerBottom,
+			component: ReceiveTokenScreen,
+			animateDirection: AnimateDirections.Top,
+		});
+	};
+
 	return (
-		<Stack maxHeight="100vh" display="flex" alignItems="center" gap={28}>
-			<Stack alignSelf="flex-end" margin={15}>
+		<Stack
+			maxHeight="100vh"
+			paddingHorizontal={14}
+			paddingVertical={16}
+			alignItems="center"
+			gap={36}
+		>
+			<Stack alignSelf="flex-end" marginBottom={-12}>
 				<Widgets />
 			</Stack>
 
 			<TokenValue />
 
-			<Stack marginTop={27} marginBottom={34}>
-				<MainFeatures onPressSendBtn={handlePressSendBtn} />
-			</Stack>
+			<MainFeatures onSendPress={handleSend} onReceivePress={handleReceive} />
 
 			<Collectibles />
 

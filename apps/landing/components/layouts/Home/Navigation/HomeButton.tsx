@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button, Image } from '@walless/gui';
+import { Button, Image } from '@walless/ui';
 import Anchor from 'components/Anchor';
 import { resources } from 'utils/config';
 

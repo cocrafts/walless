@@ -1,5 +1,6 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
-import DashboardScreen from 'screens/Dashboard';
+import EmbeddedApp from 'screens/Dashboard/Embed';
+import DashboardLayout from 'screens/Dashboard/Layout';
 import ExploreScreen from 'screens/Explore';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
@@ -7,6 +8,7 @@ import ProfileScreen from 'screens/Profile';
 import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
 import RequestSignature from 'screens/Request/Signature';
+import SettingScreen from 'screens/Setting';
 
 const createRouter =
 	BUILD_TARGET === 'extension' ? createHashRouter : createBrowserRouter;
@@ -14,7 +16,7 @@ const createRouter =
 export const router = createRouter([
 	{
 		path: '/',
-		element: <DashboardScreen />,
+		element: <DashboardLayout />,
 		children: [
 			{
 				path: '/',
@@ -25,8 +27,12 @@ export const router = createRouter([
 				element: <ProfileScreen />,
 			},
 			{
-				path: '/:layoutId?',
-				element: <DashboardScreen />,
+				path: '/setting',
+				element: <SettingScreen />,
+			},
+			{
+				path: '/:id',
+				element: <EmbeddedApp />,
 			},
 		],
 	},

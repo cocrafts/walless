@@ -2,8 +2,8 @@ import { FC, useState } from 'react';
 import { useEffect } from 'react';
 import { BindDirections, getTransactionFee, modalActions } from '@walless/app';
 import { Networks } from '@walless/core';
-import { Stack, Text } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
+import { Stack, Text } from '@walless/ui';
 
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
 import { DropdownItemProps, dropdownItems } from '../internal';

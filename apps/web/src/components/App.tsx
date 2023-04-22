@@ -2,7 +2,7 @@ import { FC, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { RouterProvider } from 'react-router-dom';
 import { modalActions, ModalManager } from '@walless/app';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 import { appState } from 'state/app';
 import { router } from 'utils/routing';
 import { useSnapshot } from 'valtio';
@@ -23,18 +23,14 @@ const App: FC<Props> = ({ width = 410, height = 600 }) => {
 	}, []);
 
 	return (
-		<Stack
-			flex={1}
-			alignItems="center"
-			justifyContent="center"
-			backgroundColor="$primary"
-		>
+		<Stack flex={1} alignItems="center" justifyContent="center">
 			<Stack
 				ref={containerRef}
 				flex={1}
 				width={width}
 				maxHeight={height}
-				$gtTn={{ borderRadius: 12, overflow: 'hidden' }}
+				backgroundColor="$primary"
+				$gtTn={{ borderRadius: 8, overflow: 'hidden' }}
 			>
 				{app.loading ? <SplashWrapper /> : <RouterProvider router={router} />}
 				<ModalManager />

@@ -4,7 +4,7 @@ import {
 	TextInput,
 	TextInputKeyPressEventData,
 } from 'react-native';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 
 import InputItem from './InputItem';
 

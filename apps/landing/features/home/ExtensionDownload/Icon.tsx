@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Image, Stack, Text } from '@walless/gui';
+import { Image, Stack, Text } from '@walless/ui';
 import Anchor from 'components/Anchor';
 
 import { ExtensionConfig } from './shared';

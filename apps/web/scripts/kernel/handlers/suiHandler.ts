@@ -1,9 +1,18 @@
 import { Ed25519Keypair, RawSigner, TransactionBlock } from '@mysten/sui.js';
-import { MessengerCallback } from '@walless/messaging';
+import { Networks } from '@walless/core';
+import {
+	MessengerCallback,
+	ResponseCode,
+	ResponsePayload,
+} from '@walless/messaging';
 import { decode } from 'bs58';
 
 import { suiProvider } from '../utils/connection';
-import { triggerActionToGetPrivateKey } from '../utils/handler';
+import {
+	getPrivateKey,
+	settings,
+	triggerActionToGetPrivateKey,
+} from '../utils/handler';
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,
@@ -16,34 +25,7 @@ export const handleSignTransaction: MessengerCallback = async (
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
 	const signer = new RawSigner(keypair, suiProvider);
 
-	// Transaction object
-	const transaction = TransactionBlock.from(payload.transaction);
-
-	const signedTransaction = await signer.signAndExecuteTransactionBlock({
-		transactionBlock: transaction,
-	});
-
-	channel.postMessage({
-		from: 'walless@kernel',
-		requestId: payload.requestId,
-		signedTransaction,
-	});
-	return signedTransaction;
-};
-
-export const handleSignAndExecuteTransaction: MessengerCallback = async (
-	payload,
-	channel,
-) => {
-	const privateKey = await triggerActionToGetPrivateKey();
-	if (!privateKey) {
-		return;
-	}
-	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
-	const signer = new RawSigner(keypair, suiProvider);
-
-	// Transaction object
-	const transaction = TransactionBlock.from(payload.transaction);
+	const transaction = TransactionBlock.from(payload.transaction as string);
 
 	const signedTransaction = await signer.signTransactionBlock({
 		transactionBlock: transaction,
@@ -54,7 +36,52 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 		requestId: payload.requestId,
 		signedTransaction,
 	});
+
 	return signedTransaction;
+};
+
+export const handleSignAndExecuteTransaction: MessengerCallback = async (
+	payload,
+	channel,
+) => {
+	const responsePayload: ResponsePayload = {
+		from: 'walless@kernel',
+		requestId: payload.requestId,
+		responseCode: ResponseCode.SUCCESS,
+	};
+
+	if (settings.requirePasscode && !payload.passcode) {
+		responsePayload.responseCode = ResponseCode.REQUIRE_PASSCODE;
+
+		return channel.postMessage(responsePayload);
+	}
+
+	let privateKey;
+	try {
+		privateKey = await getPrivateKey(Networks.sui, payload.passcode as string);
+	} catch (error) {
+		responsePayload.responseCode = ResponseCode.WRONG_PASSCODE;
+		responsePayload.message = (error as Error).message;
+
+		return channel.postMessage(responsePayload);
+	}
+
+	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(0, 32));
+	const signer = new RawSigner(keypair, suiProvider);
+
+	const transaction = TransactionBlock.from(payload.transaction as string);
+
+	try {
+		responsePayload.signedTransaction =
+			await signer.signAndExecuteTransactionBlock({
+				transactionBlock: transaction,
+			});
+	} catch (error) {
+		responsePayload.responseCode = ResponseCode.ERROR;
+		responsePayload.message = (error as Error).message;
+	}
+
+	return channel.postMessage(responsePayload);
 };
 
 export const handleSignMessage: MessengerCallback = async (
@@ -77,5 +104,6 @@ export const handleSignMessage: MessengerCallback = async (
 		requestId: payload.requestId,
 		signedMessage,
 	});
+
 	return signedMessage;
 };

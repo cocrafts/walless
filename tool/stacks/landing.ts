@@ -2,12 +2,13 @@ import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { NextjsSite, StackContext } from 'sst/constructs';
 
+import { landingDomainFromStage } from './shared';
+
 const sslArn =
 	'arn:aws:acm:us-east-1:984261700405:certificate/c6375953-4ae4-4c6e-8357-38b215aed3a6';
 
 export const Landing = ({ stack, app }: StackContext) => {
-	const isProd = app.stage === 'production';
-	const domain = isProd ? 'walless.io' : 'dev.walless.io';
+	const domain = landingDomainFromStage(app.stage);
 	const certificate = Certificate.fromCertificateArn(stack, 'w-cert', sslArn);
 	const hostedZone = HostedZone.fromLookup(stack, 'HostedZone', {
 		domainName: 'walless.io',

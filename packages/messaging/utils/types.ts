@@ -17,8 +17,23 @@ interface IdentifiedPayload {
 	id?: string;
 }
 
-export type MessagePayload = UnknownObject & IdentifiedPayload;
-export type ResponsePayload = UnknownObject & IdentifiedPayload;
+export type MessagePayload = UnknownObject &
+	IdentifiedPayload & {
+		from?: string;
+		type: RequestType;
+		messsage?: string;
+		transaction?: string;
+		options?: unknown;
+		passcode?: string;
+	};
+
+export type ResponsePayload = UnknownObject &
+	IdentifiedPayload & {
+		from?: string;
+		requestId?: string;
+		responseCode?: ResponseCode;
+		message?: string;
+	};
 
 export interface RequestMetadata {
 	id: string;
@@ -38,17 +53,17 @@ export interface EncryptionKeyVault {
 
 export type MessengerSend = (
 	channelId: string,
-	payload: UnknownObject,
+	payload: MessagePayload,
 ) => Promise<void>;
 
 export type MessengerRequest = (
 	channelId: string,
-	payload: UnknownObject,
+	payload: MessagePayload,
 	timeout?: number,
 ) => Promise<UnknownObject>;
 
 export type MessengerCallback = (
-	payload: UnknownObject,
+	payload: MessagePayload,
 	sender: MiniBroadcast,
 ) => void;
 
@@ -62,4 +77,22 @@ export interface Messenger {
 	onMessage: MessengerMessageListener;
 	send: MessengerSend;
 	request: MessengerRequest;
+}
+
+export enum ResponseCode {
+	SUCCESS,
+	REQUIRE_PASSCODE,
+	WRONG_PASSCODE,
+	ERROR,
+}
+
+export enum RequestType {
+	NOTIFY_WALLET_OPEN,
+	REQUEST_CONNECT,
+	SIGN_SEND_TRANSACTION_ON_SOLANA,
+	SIGN_TRANSACTION_ON_SOLANA,
+	SIGN_MESSAGE_ON_SOLANA,
+	SIGH_EXECUTE_TRANSACTION_ON_SUI,
+	SIGN_TRANSACTION_ON_SUI,
+	SIGN_MESSAGE_ON_SUI,
 }

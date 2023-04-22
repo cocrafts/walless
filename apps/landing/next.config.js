@@ -11,14 +11,19 @@ module.exports = withPlugins(
 			excludeReactNativeWebExports: ['Switch', 'ProgressBar', 'Picker'],
 		}),
 		{
-			transpilePackages: [
-				'@walless/gui',
-				'@walless/icons',
-				'@walless/markdown',
-			],
+			transpilePackages: ['@walless/ui', '@walless/icons', '@walless/markdown'],
 		},
 	],
 	{
+		swcMinify: true,
+		reactStrictMode: true,
+		optimizeFonts: true,
+		experimental: {
+			esmExternals: true,
+			forceSwcTransforms: true,
+			scrollRestoration: true,
+			legacyBrowsers: false,
+		},
 		webpack: (config) => {
 			config.module.rules.push({
 				test: /\.md$/i,

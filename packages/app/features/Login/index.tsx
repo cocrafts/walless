@@ -1,17 +1,19 @@
 import { FC } from 'react';
-import type { ImageSourcePropType } from 'react-native';
-import { Anchor, Button, Image, Stack, Text } from '@walless/gui';
+import { type ImageSourcePropType, ActivityIndicator } from 'react-native';
+import { Anchor, Button, Image, Stack, Text } from '@walless/ui';
 
 interface Props {
 	logoSrc: ImageSourcePropType;
 	logoSize?: number;
 	onGoogleSignIn?: () => void;
+	loading?: boolean;
 }
 
 export const LoginFeature: FC<Props> = ({
 	logoSrc,
 	logoSize = 120,
 	onGoogleSignIn,
+	loading,
 }) => {
 	return (
 		<Stack flex={1}>
@@ -23,11 +25,13 @@ export const LoginFeature: FC<Props> = ({
 					resizeMode="cover"
 				/>
 				<Text>Sign in to continue</Text>
-				<Button
-					marginTop={54}
-					title="Sign in with Google"
-					onPress={onGoogleSignIn}
-				/>
+				<Stack minHeight={50} marginTop={15} justifyContent="center">
+					{loading ? (
+						<ActivityIndicator color="white" />
+					) : (
+						<Button title="Sign in with Google" onPress={onGoogleSignIn} />
+					)}
+				</Stack>
 			</Stack>
 			<Stack alignItems="center" paddingBottom={24}>
 				<Text fontSize={12}>

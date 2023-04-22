@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
 import { useSnapshot } from 'valtio';
 
 import { ModalState, modalState } from '../../state/modal';

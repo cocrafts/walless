@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { Stack } from '@walless/gui';
+import { Button } from '@walless/ui';
 import Link from 'next/link';
 
 interface Props {
@@ -10,18 +10,19 @@ interface Props {
 
 const SocialIcon: FC<Props> = ({ size, link, icon }) => {
 	return (
-		<Stack
-			backgroundColor="#202D38"
-			justifyContent="center"
-			alignItems="center"
-			borderRadius="100%"
-			width={size}
-			height={size}
-		>
-			<Link href={link} target="_blank">
+		<Link href={link} target="_blank">
+			<Button
+				padding={0}
+				backgroundColor="#202D38"
+				justifyContent="center"
+				alignItems="center"
+				borderRadius="100%"
+				width={size}
+				height={size}
+			>
 				{icon}
-			</Link>
-		</Stack>
+			</Button>
+		</Link>
 	);
 };
 

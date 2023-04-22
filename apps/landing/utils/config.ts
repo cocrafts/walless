@@ -8,8 +8,19 @@ export const resources = {
 		},
 	},
 	home: {
-		extensionPreview: {
-			uri: '/img/extension-image.png',
+		preview: {
+			explore: {
+				uri: '/img/home/preview-explore.png',
+			},
+			solana: {
+				uri: '/img/home/preview-solana.png',
+			},
+			sui: {
+				uri: '/img/home/preview-sui.png',
+			},
+			underRealm: {
+				uri: '/img/home/preview-under-realm.png',
+			},
 		},
 	},
 };

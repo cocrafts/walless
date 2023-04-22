@@ -10,15 +10,18 @@
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "peerDependencies": {
-    "@metaplex-foundation/js": "^0.18.1",
-    "@mysten/sui.js": "0.30.0",
-    "@solana/spl-token": "^0.3.7",
+    "@metaplex-foundation/js": "0.18.3",
+    "@mysten/sui.js": "0.32.1",
+    "@solana/spl-token": "0.3.7",
     "@solana/web3.js": "1.75.0",
+    "@walless/core": "*",
     "@walless/gui": "*",
     "@walless/network": "*",
+    "@walless/store": "*",
+    "@walless/ui": "*",
     "react": "^18.2.0",
     "react-native-reanimated": "3.0.2",
-    "tamagui": "1.12.2",
+    "tamagui": "1.15.16",
     "valtio": "1.10.4"
   },
   "devDependencies": {

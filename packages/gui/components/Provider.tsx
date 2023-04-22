@@ -1,31 +1,42 @@
-import { FC, ReactNode } from 'react';
-import { TamaguiInternalConfig, TamaguiProvider } from '@tamagui/core';
+import { type FC, type ReactNode, useEffect, useRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+
+import { modalActions } from '../states/modal';
+import { themeActions, ThemeState } from '../states/theme';
+
+import ModalManager from './ModalManager';
 
 interface Props {
-	config: TamaguiInternalConfig;
 	children?: ReactNode;
-	disableInjectCSS?: boolean;
-	disableRootThemeClass?: boolean;
-	theme?: string;
+	theme?: ThemeState;
 }
 
-export const GuiProvider: FC<Props> = ({
-	config,
-	theme,
-	children,
-	disableInjectCSS,
-	disableRootThemeClass,
-}) => {
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+});
+
+export const Provider: FC<Props> = ({ children, theme }) => {
+	const [ready, setReady] = useState(false);
+	const containerRef = useRef<View>(null);
+
+	useEffect(() => {
+		modalActions.setContainerRef(containerRef);
+
+		if (theme) {
+			themeActions.setTheme(theme);
+		}
+
+		setReady(true);
+	}, []);
+
 	return (
-		<TamaguiProvider
-			config={config}
-			disableInjectCSS={disableInjectCSS}
-			disableRootThemeClass={disableRootThemeClass}
-			defaultTheme={theme}
-		>
-			{children}
-		</TamaguiProvider>
+		<View ref={containerRef} style={styles.container}>
+			{ready && children}
+			<ModalManager />
+		</View>
 	);
 };
 
-export default GuiProvider;
+export default Provider;

@@ -1,12 +1,13 @@
-import { EncryptedWithPasscode, HydratedKey, Networks } from '@walless/core';
+import {
+	type Collectible,
+	type EncryptedWithPasscode,
+	type HydratedKey,
+	type Token,
+	type UserProfile,
+	ExtensionConfig,
+	Networks,
+} from '@walless/core';
 import { Dexie, Table } from 'dexie';
-
-export interface UserProfile {
-	id?: string;
-	email?: string;
-	name?: string;
-	profileImage?: string;
-}
 
 export interface SettingRecord {
 	id?: number;
@@ -19,21 +20,13 @@ export type PrivateKeyRecord = EncryptedWithPasscode & {
 	type: string;
 };
 
-export interface Metadata {
-	name?: string;
-	symbol?: string;
-	imageUri?: string;
-}
-
-export type CollectibleRecord = {
+/* TODO: work with Tuan Tran to resolve below duplication between Collectible and Collection */
+export type CollectibleRecord = Collectible & {
 	id?: string;
-	collectionId?: string;
-	metadata?: Metadata;
 };
 
-export type CollectionRecord = {
+export type CollectionRecord = Collectible & {
 	id?: string;
-	metadata?: Metadata;
 };
 
 export interface TokenBalance {
@@ -48,10 +41,8 @@ export type WalletRecord = {
 	network: string;
 };
 
-export type TokenRecord = {
+export type TokenRecord = Token & {
 	id?: string;
-	metadata?: Metadata;
-	network: string;
 };
 
 export interface PublicKeyRecord {
@@ -62,6 +53,10 @@ export interface PublicKeyRecord {
 
 export type EncryptionKeyRecord = HydratedKey & {
 	id?: string;
+};
+
+export type ExtensionRecord = ExtensionConfig & {
+	timestamp: Date;
 };
 
 export type TrustedDomain = {
@@ -82,5 +77,6 @@ export interface WallessDB {
 	collections: Table<CollectionRecord, string>;
 	wallets: Table<WalletRecord, string>;
 	tokens: Table<TokenRecord, string>;
+	extensions: Table<ExtensionRecord, string>;
 	trustedDomains: Table<TrustedDomain, string>;
 }

@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { getWalletPublicKey, modalActions, ModalConfigs } from '@walless/app';
 import { Networks } from '@walless/core';
-import { Stack } from '@walless/gui';
+import { Stack } from '@walless/ui';
+import { transactionActions } from 'state/transaction';
 
 import ModalWrapper from '../components/ModalWrapper';
 import { walletName } from '../internal';
@@ -22,28 +23,42 @@ interface RequiredContext {
 	};
 }
 
-const ConfirmTransactionScreen: FC<{
-	config: ModalConfigs & { context: RequiredContext };
-}> = ({ config }) => {
+interface Props {
+	config: ModalConfigs & { id: string; context: RequiredContext };
+}
+
+const ConfirmTransactionScreen: FC<Props> = ({ config }) => {
 	const { token, network, receiver, amount, parent } = config.context;
 
 	const handleOnPressGoBackBtn = () => {
-		modalActions.destroy(config.id);
+		modalActions.hide(config.id);
 	};
 
 	const handleOnPressCloseBtn = () => {
-		modalActions.destroy(config.id);
+		modalActions.hide(config.id);
 
 		if (parent) {
-			modalActions.destroy(parent.id);
+			modalActions.hide(parent.id);
 		}
 	};
 
-	const [address, setAddress] = useState<string | null>(null);
+	const handleContinuePress = () => {
+		if (!address) return;
+
+		transactionActions.createAndSend({
+			sender: address,
+			token: token.value,
+			network: network.value as Networks,
+			receiver,
+			amount,
+		});
+	};
+
+	const [address, setAddress] = useState<string>();
 
 	useEffect(() => {
 		(async () => {
-			setAddress((await getWalletPublicKey(network.value as Networks)) || null);
+			setAddress(await getWalletPublicKey(network.value as Networks));
 		})();
 	}, []);
 
@@ -78,7 +93,7 @@ const ConfirmTransactionScreen: FC<{
 			</Stack>
 
 			<Stack marginTop="auto" marginHorizontal="auto">
-				<NavBtn content="Continue" route="" />
+				<NavBtn content="Continue" route="" onPress={handleContinuePress} />
 			</Stack>
 		</ModalWrapper>
 	);

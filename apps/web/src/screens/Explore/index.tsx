@@ -1,34 +1,47 @@
-import { FC } from 'react';
-import { Stack, Text } from '@walless/gui';
+import { FC, useState } from 'react';
+import { ExtensionDocument } from '@walless/store';
+import { Stack, Text } from '@walless/ui';
+import { db } from 'utils/pouch';
+import { router } from 'utils/routing';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
-import { Layout, mockLayoutCards } from './internal';
+import { mockLayoutCards } from './internal';
+
+const spacing = 12;
 
 export const ExploreScreen: FC = () => {
-	const handleSearch = (value: string) => {
-		console.log(value);
+	const [extensions, setExtensions] =
+		useState<ExtensionDocument[]>(mockLayoutCards);
+
+	const handleSearch = (query: string) => {
+		const filteredLayouts = mockLayoutCards.filter((extension) =>
+			extension.name.toLowerCase().includes(query.toLowerCase()),
+		);
+
+		setExtensions(filteredLayouts);
 	};
 
-	const handleLovePress = (layout: Layout) => {
-		console.log(layout);
+	const handleLovePress = (extension: ExtensionDocument) => {
+		console.log(extension);
 	};
 
-	const handleAddPress = (layout: Layout) => {
-		console.log(layout);
+	const handleAddPress = async (extension: ExtensionDocument) => {
+		await db.put(extension);
+		await router.navigate(extension._id);
 	};
 
 	return (
-		<Stack gap={18} paddingHorizontal={14} paddingVertical={20}>
+		<Stack gap={spacing} paddingHorizontal={spacing} paddingVertical={spacing}>
 			<Text fontSize={20} lineHeight={26} fontWeight="500" textAlign="center">
 				Choose a layout to start
 			</Text>
 
 			<SearchBar onSearch={handleSearch} />
 
-			{mockLayoutCards.map((layoutCard) => (
+			{extensions.map((layoutCard) => (
 				<LayoutCard
-					key={layoutCard.id}
+					key={layoutCard._id}
 					item={layoutCard}
 					onLovePress={handleLovePress}
 					onAddPress={handleAddPress}

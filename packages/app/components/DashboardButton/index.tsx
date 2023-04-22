@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { ViewStyle } from 'react-native';
 import { GetProps } from '@tamagui/core';
-import { Button, Stack } from '@walless/gui';
+import { Button, Stack } from '@walless/ui';
 
 import { ActiveHighlight } from './ActiveHighlight';
 

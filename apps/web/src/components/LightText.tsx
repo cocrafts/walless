@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { TextStyle } from 'react-native';
-import { Text } from '@walless/gui';
+import { Text } from '@walless/ui';
 
 interface Props extends TextStyle {
 	children: ReactNode;

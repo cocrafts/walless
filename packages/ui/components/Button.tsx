@@ -1,40 +1,72 @@
-import { FC } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { FC, ReactNode } from 'react';
+import { GetProps, StackProps, styled } from '@tamagui/core';
 
-import { Text, TouchableOpacity } from '../managed';
-import { ButtonProps } from '../utils/types';
+import { Stack, Text } from './styled';
 
-type Props = ButtonProps & {
+export type ButtonProps = StackProps & {
+	onPress?: () => void;
 	title?: string;
-	titleClass?: string;
+	color?: string;
+	fontSize?: number;
+	fontWeight?: string;
+	children?: ReactNode;
 };
 
-const defaultButtonClass = 'p-3 rounded-xl bg-blue-500';
-const defaultTitleClass = 'text-white text-center';
-
-export const Button: FC<Props> = ({
-	className = defaultButtonClass,
-	title = 'Button Title',
-	titleClass = defaultTitleClass,
-	disabled,
+export const Button: FC<ButtonProps & ButtonContainerProps> = ({
 	onPress,
-	loading,
-	loadingSize = 18,
-	loadingColor = 'white',
+	children,
+	title = 'Button Title',
+	color = 'white',
+	fontSize = 14,
+	fontWeight = '400',
+	...props
 }) => {
 	return (
-		<TouchableOpacity
-			className={className}
-			onPress={onPress}
-			disabled={disabled}
-		>
-			{loading ? (
-				<ActivityIndicator color={loadingColor} size={loadingSize} />
-			) : (
-				<Text className={titleClass}>{title}</Text>
+		<ButtonContainer onPress={() => onPress?.()} {...props}>
+			{children || (
+				<Text color={color} fontSize={fontSize} fontWeight={fontWeight}>
+					{title}
+				</Text>
 			)}
-		</TouchableOpacity>
+		</ButtonContainer>
 	);
 };
 
 export default Button;
+
+export const ButtonContainer = styled(Stack, {
+	variants: {
+		transparent: {
+			true: {
+				backgroundColor: 'transparent',
+				paddingHorizontal: 0,
+			},
+		},
+		outline: {
+			true: {
+				backgroundColor: 'transparent',
+				borderColor: 'rgba(255, 255, 255, 0.3)',
+			},
+		},
+		disabled: {
+			true: {
+				backgroundColor: '#202D38',
+				disabled: true,
+				pointerEvents: 'box-none',
+			},
+		},
+	} as const,
+	cursor: 'pointer',
+	userSelect: 'none',
+	paddingHorizontal: 20,
+	paddingVertical: 10,
+	borderWidth: 1,
+	borderColor: 'transparent',
+	borderRadius: 15,
+	alignItems: 'center',
+	backgroundColor: '#0694D3',
+	pressStyle: { opacity: 0.7 },
+	hoverStyle: { opacity: 0.8 },
+});
+
+type ButtonContainerProps = GetProps<typeof ButtonContainer>;

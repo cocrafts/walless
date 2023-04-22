@@ -1,52 +1,60 @@
-/* eslint-disable */
+import { type FC, type HTMLAttributeAnchorTarget, type ReactNode } from 'react';
+import { type TextStyle, type ViewStyle, Linking } from 'react-native';
 
-import { forwardRef } from 'react';
-import { Linking } from 'react-native';
-import {
-	isWeb,
-	ReactComponentWithRef,
-	Text,
-	TextProps,
-	styled,
-	TamaguiElement,
-} from '@tamagui/core';
+import { isBrowser } from '../utils/platform';
 
-export type AnchorProps = TextProps & {
+import Hoverable from './Hoverable';
+import Text from './Text';
+
+interface Props {
+	hoverOpacity?: number;
+	animationDuration?: number;
 	href?: string;
-	target?: string;
-	rel?: string;
+	target?: HTMLAttributeAnchorTarget;
+	onPress?: () => void;
+	children?: ReactNode;
+	style?: ViewStyle;
+	title?: string;
+	titleStyle?: TextStyle;
+}
+
+export const Anchor: FC<Props> = ({
+	hoverOpacity = 0.6,
+	animationDuration,
+	href,
+	target = '_blank',
+	onPress,
+	children,
+	title,
+	titleStyle,
+}) => {
+	const isHrefValid = (href?.length as number) > 0;
+
+	const handlePress = async () => {
+		onPress?.();
+
+		if (!isBrowser && isHrefValid) {
+			await Linking.openURL(href as string);
+		}
+	};
+
+	const innerElement = children || <Text style={titleStyle}>{title}</Text>;
+
+	return (
+		<Hoverable
+			hoverOpacity={hoverOpacity}
+			animationDuration={animationDuration}
+			onPress={handlePress}
+		>
+			{isBrowser ? (
+				<a href={href} target={target}>
+					{innerElement}
+				</a>
+			) : (
+				innerElement
+			)}
+		</Hoverable>
+	);
 };
 
-const AnchorFrame = styled(Text, {
-	fontFamily: 'Rubik',
-	name: 'Anchor',
-	tag: 'a',
-	color: '#19A3E1',
-	accessibilityRole: 'link',
-	textDecorationLine: 'none',
-});
-
-export const Anchor: ReactComponentWithRef<AnchorProps, TamaguiElement> =
-	AnchorFrame.extractable(
-		forwardRef(({ href, target, ...props }, ref) => {
-			return (
-				<AnchorFrame
-					{...props}
-					{...(isWeb
-						? {
-								href,
-								target,
-						  }
-						: {
-								onPress: (event) => {
-									props.onPress?.(event);
-									if (href !== undefined) {
-										Linking.openURL(href);
-									}
-								},
-						  })}
-					ref={ref as any}
-				/>
-			);
-		}),
-	);
+export default Anchor;

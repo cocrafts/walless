@@ -1,0 +1,23 @@
+{
+  "name": "@walless/store",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+  },
+  "peerDependencies": {
+    "pouchdb-adapter-http": "^8.0.1",
+    "pouchdb-core": "^8.0.1",
+    "pouchdb-find": "^8.0.1",
+    "pouchdb-mapreduce": "^8.0.1",
+    "pouchdb-replication": "^8.0.1"
+  },
+  "devDependencies": {
+    "@walless/tsconfig": "*",
+    "eslint": "8.38.0"
+  }
+}

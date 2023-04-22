@@ -4,7 +4,6 @@ import {
 	RequestHashmap,
 	runtime,
 	UniBroadcast,
-	UnknownObject,
 } from '@walless/core';
 import { decryptFromString, encryptToString } from '@walless/crypto';
 
@@ -39,7 +38,7 @@ export const createMessenger = (
 	const smartReveal = async (
 		data: EncryptedMessage,
 		channelId: string,
-	): Promise<UnknownObject> => {
+	): Promise<MessagePayload> => {
 		if (data?.iv && encryptionKeyVault) {
 			try {
 				const key = await encryptionKeyVault.get(channelId);
@@ -52,7 +51,7 @@ export const createMessenger = (
 		return data as never;
 	};
 
-	const smartSend = async (channel: MiniBroadcast, payload: UnknownObject) => {
+	const smartSend = async (channel: MiniBroadcast, payload: MessagePayload) => {
 		if (encryptionKeyVault) {
 			const key = await encryptionKeyVault.get(channel.name);
 

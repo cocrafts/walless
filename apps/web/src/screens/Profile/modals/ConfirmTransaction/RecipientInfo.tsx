@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/gui';
+import { Stack, Text } from '@walless/ui';
 
 import InfoItemDivider from '../components/InfoItemDivider';
 import InfoKeyValue from '../components/InfoKeyValue';

@@ -3,10 +3,16 @@ import {
 	ExtensionConfig,
 	Networks,
 	Setting,
+	Token,
 } from '@walless/core';
 import PouchDB from 'pouchdb-core';
 
-export type DocumentType = 'Setting' | 'PrivateKey' | 'PublicKey' | 'Extension';
+export type DocumentType =
+	| 'Setting'
+	| 'PrivateKey'
+	| 'PublicKey'
+	| 'Token'
+	| 'Extension';
 
 export type PouchDocument<T> = PouchDB.Core.Document<
 	T & { type: DocumentType; _rev?: string }
@@ -26,3 +32,5 @@ export type PublicKeyDocument = PouchDocument<{
 }>;
 
 export type ExtensionDocument = PouchDocument<ExtensionConfig>;
+
+export type TokenDocument = PouchDocument<Token>;

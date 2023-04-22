@@ -14,18 +14,18 @@ export interface AssetMetadata {
 	name?: string;
 	symbol?: string;
 	imageUri?: string;
+	sellerFeeBasisPoints?: number;
 }
 
 export interface TokenAccount {
 	mint?: string;
 	address?: string;
 	price?: number;
-	balance: number;
+	balance: string;
 }
 
 export interface Token {
 	network: string;
-	symbol: string;
 	account: TokenAccount;
 	metadata?: AssetMetadata;
 }

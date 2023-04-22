@@ -21,11 +21,13 @@ export interface TokenAccount {
 	mint?: string;
 	address?: string;
 	price?: number;
-	balance: string;
+	balance: number;
+	decimal: number;
 }
 
 export interface Token {
 	network: string;
+	owner: string;
 	account: TokenAccount;
 	metadata?: AssetMetadata;
 }

@@ -7843,7 +7843,10 @@ __metadata:
     "@mysten/sui.js": 0.32.1
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
+    "@walless/core": "*"
+    "@walless/gui": "*"
     "@walless/network": "*"
+    "@walless/store": "*"
     "@walless/ui": "*"
     react: ^18.2.0
     react-native-reanimated: 3.0.2
@@ -19457,6 +19460,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-reanimated@npm:3.1.0":
+  version: 3.1.0
+  resolution: "react-native-reanimated@npm:3.1.0"
+  dependencies:
+    "@babel/plugin-transform-object-assign": ^7.16.7
+    "@babel/preset-typescript": ^7.16.7
+    convert-source-map: ^2.0.0
+    invariant: ^2.2.4
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+    "@babel/plugin-proposal-nullish-coalescing-operator": ^7.0.0-0
+    "@babel/plugin-proposal-optional-chaining": ^7.0.0-0
+    "@babel/plugin-transform-arrow-functions": ^7.0.0-0
+    "@babel/plugin-transform-shorthand-properties": ^7.0.0-0
+    "@babel/plugin-transform-template-literals": ^7.0.0-0
+    react: "*"
+    react-native: "*"
+  checksum: 28279642056c7b214649ff14d3c9f1e914c9dd3dd74afc734fc10d1af088a2c3b0e187751e2713d54fc0a9916c394068b29aec51e754b51625a4179f10e38bcd
+  languageName: node
+  linkType: hard
+
 "react-native-safe-area-context@npm:^4.5.1":
   version: 4.5.1
   resolution: "react-native-safe-area-context@npm:4.5.1"
@@ -22841,6 +22865,7 @@ __metadata:
     metro-react-native-babel-preset: 0.73.9
     mustache: ^4.2.0
     react-native: ^0.71.6
+    react-native-reanimated: 3.1.0
     rimraf: ^5.0.0
     sst: 2.3.1
     ts-jest: ^29.0.5

@@ -74,7 +74,7 @@ export default DashboardNavigator;
 
 const styles = StyleSheet.create({
 	container: {
-		paddingVertical: 8,
+		paddingVertical: 12,
 		backgroundColor: '#131C24',
 	},
 	orbContainer: {

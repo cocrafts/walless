@@ -4,4 +4,9 @@ export const resources = {
 			uri: '/img/walless-icon.png',
 		},
 	},
+	common: {
+		question: {
+			uri: '/img/question.png',
+		},
+	},
 };

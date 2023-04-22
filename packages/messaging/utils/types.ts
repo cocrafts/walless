@@ -87,7 +87,6 @@ export enum ResponseCode {
 }
 
 export enum RequestType {
-	NOTIFY_WALLET_OPEN,
 	REQUEST_CONNECT,
 	SIGN_SEND_TRANSACTION_ON_SOLANA,
 	SIGN_TRANSACTION_ON_SOLANA,

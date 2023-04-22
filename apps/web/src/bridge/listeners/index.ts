@@ -1,12 +1,8 @@
-import { MessagePayload, RequestType } from '@walless/messaging';
+import { MessagePayload } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 
 export const registerMessageHandlers = async () => {
-	setTimeout(async () => {
-		await encryptedMessenger.send('kernel', {
-			type: RequestType.NOTIFY_WALLET_OPEN,
-		});
-	}, 50);
+	// Empty for now
 };
 
 export const requestHandleTransaction = async (payload: MessagePayload) => {

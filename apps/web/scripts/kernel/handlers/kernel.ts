@@ -1,7 +1,5 @@
 import { MessengerCallback, RequestType } from '@walless/messaging';
 
-import { fetchAllCollectibles, fetchAllTokens } from '../utils/query';
-
 import { handleConnect } from './connect';
 import * as solanaHandler from './solanaHandler';
 import * as suiHandler from './suiHandler';
@@ -28,10 +26,6 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 				requestId: payload.requestId,
 				message: 'Invalid request type!',
 			});
-		}
-	} else {
-		if (payload.type === RequestType.NOTIFY_WALLET_OPEN) {
-			await Promise.all([fetchAllCollectibles(), fetchAllTokens()]);
 		}
 	}
 };

@@ -21,7 +21,7 @@ export const HomeLayout: FC<LayoutProps> = ({
 					showsVerticalScrollIndicator={false}
 					marginTop={navigationHeight}
 				>
-					{children}
+					<Stack $gtMd={{ marginHorizontal: 72 }}>{children}</Stack>
 					<Footer />
 				</ScrollView>
 				<Navigation />

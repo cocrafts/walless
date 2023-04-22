@@ -1,5 +1,10 @@
 import { type ReactNode, forwardRef, useMemo, useRef } from 'react';
-import { type MouseEvent, type ViewStyle, View } from 'react-native';
+import {
+	type MouseEvent,
+	type StyleProp,
+	type ViewStyle,
+	View,
+} from 'react-native';
 import {
 	useAnimatedStyle,
 	useSharedValue,
@@ -15,7 +20,7 @@ interface MouseContext {
 }
 
 type Props = Omit<DynamicFlags, 'cursorPointer'> & {
-	style?: ViewStyle;
+	style?: StyleProp<ViewStyle>;
 	children?: ReactNode;
 	onHoverIn?: (event: MouseEvent) => void;
 	onHoverOut?: (event: MouseEvent) => void;

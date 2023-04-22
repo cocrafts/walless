@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { UserProfile } from '@walless/core';
+import { Compass } from '@walless/icons';
 import { ExtensionDocument } from '@walless/store';
 
 import NavigatorOrb from './NavigatorOrb';
@@ -15,11 +16,25 @@ interface Props {
 
 export const DashboardNavigator: FC<Props> = ({
 	size = 58,
+	profile,
 	extensions,
 	getIsExtensionActive,
 	onExtensionPress,
 }) => {
 	const containerStyle = { width: size };
+	const exploreItem: Partial<ExtensionDocument> = {
+		_id: '',
+		storeMeta: {
+			iconColor: '#0694d3',
+		} as never,
+	};
+	const profileItem: Partial<ExtensionDocument> = {
+		_id: 'profile',
+		storeMeta: {
+			iconUri: profile.profileImage as string,
+			iconSize: 40,
+		} as never,
+	};
 
 	return (
 		<View style={[styles.container, containerStyle]}>
@@ -36,8 +51,21 @@ export const DashboardNavigator: FC<Props> = ({
 						/>
 					);
 				})}
+				<NavigatorOrb
+					item={exploreItem as never}
+					onPress={onExtensionPress}
+					isActive={getIsExtensionActive?.(exploreItem as never)}
+				>
+					<Compass size={22} />
+				</NavigatorOrb>
 			</View>
-			<View style={styles.commandContainer}></View>
+			<View style={styles.commandContainer}>
+				<NavigatorOrb
+					item={profileItem as never}
+					onPress={onExtensionPress}
+					isActive={getIsExtensionActive?.(profileItem as never)}
+				/>
+			</View>
 		</View>
 	);
 };
@@ -50,6 +78,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#131C24',
 	},
 	orbContainer: {
+		flex: 1,
 		gap: 10,
 	},
 	commandContainer: {},

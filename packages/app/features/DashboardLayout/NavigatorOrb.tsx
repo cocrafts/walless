@@ -27,6 +27,10 @@ export const NavigatorOrb: FC<Props> = ({
 	children,
 	onPress,
 }) => {
+	const iconColor = item.storeMeta?.iconColor || 'white';
+	const iconSize = item.storeMeta?.iconSize || 20;
+	const iconUri = item.storeMeta?.iconUri;
+	const iconSource = { uri: iconUri };
 	const offset = useSharedValue(0);
 	const hoverBarStyle = useAnimatedStyle(() => {
 		return {
@@ -39,7 +43,12 @@ export const NavigatorOrb: FC<Props> = ({
 	}, [offset]);
 
 	const orbStyle = {
-		backgroundColor: item.storeMeta?.iconColor || 'white',
+		backgroundColor: iconColor,
+	};
+
+	const iconImgStyle = {
+		width: iconSize,
+		height: iconSize,
 	};
 
 	const handleHoverIn = () => {
@@ -76,12 +85,7 @@ export const NavigatorOrb: FC<Props> = ({
 				onHoverOut={handleHoverOut}
 				onPress={() => onPress?.(item)}
 			>
-				{children || (
-					<Image
-						style={styles.iconImg}
-						source={{ uri: item.storeMeta.iconUri }}
-					/>
-				)}
+				{children || <Image style={iconImgStyle} source={iconSource} />}
 			</Hoverable>
 		</View>
 	);
@@ -90,7 +94,6 @@ export const NavigatorOrb: FC<Props> = ({
 export default NavigatorOrb;
 
 const orbSize = 40;
-const iconSize = 20;
 const barWidth = 4;
 const barHoverHeight = 18;
 const barStyle: ViewStyle = {
@@ -115,6 +118,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 		alignItems: 'center',
 		justifyContent: 'center',
+		overflow: 'hidden',
 	},
 	activityDot: {
 		backgroundColor: 'white',
@@ -133,8 +137,4 @@ const styles = StyleSheet.create({
 		height: orbSize - 4,
 	},
 	hoverBar: barStyle,
-	iconImg: {
-		width: iconSize,
-		height: iconSize,
-	},
 });

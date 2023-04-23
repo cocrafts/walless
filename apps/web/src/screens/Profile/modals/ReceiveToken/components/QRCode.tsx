@@ -16,7 +16,7 @@ const QRCodeSVG: FC<Props> = ({ value }) => {
 			backgroundColor="#FFFFFF"
 			borderRadius={8}
 		>
-			{/* <QRCode value={value} /> */}
+			<QRCode value={value} size={168} />
 		</Stack>
 	);
 };

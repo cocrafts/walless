@@ -1,12 +1,12 @@
 import { FC } from 'react';
+import QRCode from 'react-native-qrcode-svg';
 import { Stack } from '@walless/ui';
-import { QRCodeCanvas } from 'qrcode.react';
 
 interface Props {
 	value: string;
 }
 
-const QRCode: FC<Props> = ({ value }) => {
+const QRCodeSVG: FC<Props> = ({ value }) => {
 	return (
 		<Stack
 			justifyContent="center"
@@ -16,9 +16,9 @@ const QRCode: FC<Props> = ({ value }) => {
 			backgroundColor="#FFFFFF"
 			borderRadius={8}
 		>
-			<QRCodeCanvas value={value} size={168} />
+			{/* <QRCode value={value} /> */}
 		</Stack>
 	);
 };
 
-export default QRCode;
+export default QRCodeSVG;

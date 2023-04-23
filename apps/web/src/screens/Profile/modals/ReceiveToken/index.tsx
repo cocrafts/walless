@@ -1,40 +1,85 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ModalConfigs } from '@walless/app';
-import { Stack } from '@walless/ui';
+import { Button, Stack } from '@walless/ui';
+import { walletState } from 'state/wallet';
+import { getNetworkInfo } from 'utils/helper';
+import { useSnapshot } from 'valtio';
 
 import ModalHeader from '../components/ModalHeader';
 import ModalWrapper from '../components/ModalWrapper';
 
-import QRCode from './components/QRCode';
-import WalletAddress from './components/WalletAddress';
+import WalletCard from './components/WalletCard';
+import { WalletProps } from './components/WalletCard';
 
 const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
+	const [current, setCurrent] = useState(0);
+
+	const keyMaps = useSnapshot(walletState);
+	const walletList: WalletProps[] = [];
+	Object.values(keyMaps).forEach((keyMap) => {
+		keyMap.forEach((key) => {
+			const networkInfo = getNetworkInfo(key.network);
+			walletList.push({
+				network: key.network.charAt(0).toUpperCase() + key.network.slice(1),
+				networkIcon: networkInfo?.icon ?? '/img/...',
+				address: key._id,
+			});
+		});
+	});
+
+	const [currentWallet, setCurrentWallet] = useState<WalletProps>(
+		walletList[0],
+	);
+
+	useEffect(() => {
+		const next = (current + 1) % walletList.length;
+		const id = setTimeout(() => setCurrent(next), 500);
+		return () => clearTimeout(id);
+	}, [current]);
+
 	return (
 		<ModalWrapper>
 			<ModalHeader content="Receive" config={config} />
 			<Stack
 				flexGrow={1}
-				justifyContent="center"
+				justifyContent="flex-start"
 				alignItems="center"
-				paddingVertical={60}
+				width={340}
+				paddingVertical={30}
+				gap={30}
 			>
-				<Stack
-					justifyContent="space-between"
-					alignItems="center"
-					width={348}
-					height={348}
-					backgroundColor="#242F38"
-					borderRadius={16}
-					paddingTop={44}
-					paddingBottom={20}
-				>
-					<QRCode value="0xF0F9D234a0226B61EB889D75B4a8884862aA985D" />
-					<WalletAddress
-						network="Solana"
-						networkIcon="/img/send-token/icon-solana.png"
-						address="0xF0F9D234a0226B61EB889D75B4a8884862aA985D"
-					/>
+				<WalletCard
+					network={currentWallet.network}
+					networkIcon={currentWallet.networkIcon}
+					address={currentWallet.address}
+				/>
+
+				<Stack gap={8} flexDirection="row">
+					{walletList.map((wallet, index) => (
+						<Button
+							key={index}
+							backgroundColor={
+								wallet.address === currentWallet.address ? '#0694D3' : '#202D38'
+							}
+							width={40}
+							height={4}
+							borderRadius={8}
+							padding={0}
+							title=""
+							onPress={() => {
+								setCurrentWallet(wallet);
+							}}
+						/>
+					))}
 				</Stack>
+				{/* {walletList.map((wallet, index) => (
+					<WalletCard
+						key={index}
+						network={wallet.network}
+						networkIcon={wallet.networkIcon}
+						address={wallet.address}
+					/>
+				))} */}
 			</Stack>
 		</ModalWrapper>
 	);

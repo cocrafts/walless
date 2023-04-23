@@ -1,11 +1,11 @@
 import { FC, useEffect, useReducer, useRef } from 'react';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/app';
 import { ChevronDown } from '@walless/icons';
-import { Button, Input, Stack } from '@walless/ui';
+import { Button, Stack, Text } from '@walless/ui';
 
 import { DropdownItemProps, DropdownProps } from '../../internal';
 
-import Dropdown from './Dropdown';
+import DropdownInputModal from './DropdownInputModal';
 import IconText from './IconText';
 import { ActionType, reducer, State } from './reducer';
 
@@ -30,7 +30,7 @@ const DropdownInput: FC<DropdownProps> = ({ name, items, setChosen }) => {
 	const handlePressChangeInput = () => {
 		dispatch({
 			type: ActionType.QUERY,
-			payload: state.currentItem?.name,
+			payload: state.currentItem?.name ?? '',
 		});
 	};
 
@@ -45,15 +45,17 @@ const DropdownInput: FC<DropdownProps> = ({ name, items, setChosen }) => {
 	const showDropdown = () => {
 		modalActions.show({
 			id: modalId,
-			component: Dropdown,
+			component: DropdownInputModal,
 			bindingRef: dropdownRef,
-			bindingDirection: BindDirections.Bottom,
+			bindingDirection: BindDirections.InnerTop,
 			animateDirection: AnimateDirections.Inner,
 			positionOffset: { x: 0, y: -8 },
+			maskActiveOpacity: 0,
 			context: {
 				modalId,
 				state,
 				handleSelectItem,
+				handleFilter,
 			},
 		});
 	};
@@ -64,7 +66,7 @@ const DropdownInput: FC<DropdownProps> = ({ name, items, setChosen }) => {
 
 	return (
 		<Stack alignItems="center" ref={dropdownRef}>
-			<Stack
+			<Button
 				flexDirection="row"
 				justifyContent="space-between"
 				alignItems="center"
@@ -75,39 +77,27 @@ const DropdownInput: FC<DropdownProps> = ({ name, items, setChosen }) => {
 				borderRadius={15}
 				borderColor="transparent"
 				paddingHorizontal={16}
+				onPress={handlePressChangeInput}
 			>
 				{state.currentItem && !state.isDropdownOpen ? (
-					<Button
+					<Stack
 						flexGrow={1}
 						alignItems="flex-start"
 						padding={0}
 						backgroundColor="transparent"
-						onPress={handlePressChangeInput}
 					>
 						<IconText
 							icon={state.currentItem.icon}
 							name={state.currentItem.name}
 						/>
-					</Button>
+					</Stack>
 				) : (
-					<Input
-						flexGrow={1}
-						autoComplete="off"
-						justifyContent="center"
-						alignItems="center"
-						backgroundColor="transparent"
-						borderColor="transparent"
-						paddingHorizontal={0}
-						focusStyle={{ borderColor: 'transparent' }}
-						defaultValue={state.query}
-						placeholder={name}
-						placeholderTextColor="#566674"
-						onFocus={showDropdown}
-						onChangeText={(query) => handleFilter(query)}
-					/>
+					<Text color="#566674" cursor="text" flexGrow={1}>
+						{name}
+					</Text>
 				)}
 				<ChevronDown color="#566674" size={16} />
-			</Stack>
+			</Button>
 		</Stack>
 	);
 };

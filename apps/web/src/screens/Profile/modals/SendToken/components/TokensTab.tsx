@@ -8,8 +8,8 @@ import { Stack, Text } from '@walless/ui';
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
 import { DropdownItemProps, dropdownItems } from '../internal';
 
-import DropdownInput from './DropdownInput';
 import Input from './Input';
+import InputDropdown from './InputDropdown';
 import NavBtn from './NavBtn';
 
 interface Props {
@@ -45,7 +45,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 						setChosen = setNetwork;
 					}
 					return (
-						<DropdownInput
+						<InputDropdown
 							key={item.name}
 							name={item.name}
 							items={item.items}

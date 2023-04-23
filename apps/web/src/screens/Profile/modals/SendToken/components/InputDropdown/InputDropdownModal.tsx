@@ -19,7 +19,7 @@ interface Props {
 	config: ModalConfigs;
 }
 
-const DropdownInputModal: FC<Props> = ({ config }) => {
+const InputDropdownModal: FC<Props> = ({ config }) => {
 	const { modalId, state, handleSelectItem, handleFilter } =
 		config.context as DropdownProps;
 
@@ -94,4 +94,4 @@ const DropdownInputModal: FC<Props> = ({ config }) => {
 	);
 };
 
-export default DropdownInputModal;
+export default InputDropdownModal;

@@ -5,11 +5,11 @@ import { Button, Stack, Text } from '@walless/ui';
 
 import { DropdownItemProps, DropdownProps } from '../../internal';
 
-import DropdownInputModal from './DropdownInputModal';
 import IconText from './IconText';
+import InputDropdownModal from './InputDropdownModal';
 import { ActionType, reducer, State } from './reducer';
 
-const DropdownInput: FC<DropdownProps> = ({ name, items, setChosen }) => {
+const InputDropdown: FC<DropdownProps> = ({ name, items, setChosen }) => {
 	const dropdownRef = useRef(null);
 
 	const [state, dispatch] = useReducer(reducer, {
@@ -45,7 +45,7 @@ const DropdownInput: FC<DropdownProps> = ({ name, items, setChosen }) => {
 	const showDropdown = () => {
 		modalActions.show({
 			id: modalId,
-			component: DropdownInputModal,
+			component: InputDropdownModal,
 			bindingRef: dropdownRef,
 			bindingDirection: BindDirections.InnerTop,
 			animateDirection: AnimateDirections.Inner,
@@ -102,4 +102,4 @@ const DropdownInput: FC<DropdownProps> = ({ name, items, setChosen }) => {
 	);
 };
 
-export default DropdownInput;
+export default InputDropdown;

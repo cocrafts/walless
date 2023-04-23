@@ -15,7 +15,7 @@ const InputDropdown: FC<DropdownProps> = ({ name, items, setChosen }) => {
 	const [state, dispatch] = useReducer(reducer, {
 		items,
 		filteredItems: items,
-		currentItem: null,
+		currentItem: items.length === 1 ? items[0] : null,
 		query: '',
 		isDropdownOpen: false,
 	} as State);

@@ -5,7 +5,9 @@ import { useSnapshot } from 'utils/hooks';
 import Wallet from './Wallet';
 
 const MyWallets = () => {
-	const { keys } = useSnapshot(walletState);
+	const { suiKeyMap, solanaKeyMap } = useSnapshot(walletState);
+	const suiKeys = Array.from(suiKeyMap.values());
+	const solanaKeys = Array.from(solanaKeyMap.values());
 
 	return (
 		<Stack gap={12}>
@@ -14,8 +16,11 @@ const MyWallets = () => {
 			</Text>
 
 			<Stack gap={8}>
-				{keys.map((wallet, index) => (
-					<Wallet key={wallet.id} index={index} item={wallet} />
+				{solanaKeys.map((item, index) => (
+					<Wallet key={item._id} index={index} item={item} />
+				))}
+				{suiKeys.map((item, index) => (
+					<Wallet key={item._id} index={index} item={item} />
 				))}
 			</Stack>
 		</Stack>

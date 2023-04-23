@@ -1,9 +1,9 @@
-import { StyleSheet, TextStyle } from 'react-native';
+import { type StyleProp, type TextStyle, StyleSheet } from 'react-native';
 
 export const injectedFontStyle = (
-	style: TextStyle = {},
-	defaultStyle: TextStyle = {},
-): TextStyle[] => {
+	style: StyleProp<TextStyle> = {},
+	defaultStyle: StyleProp<TextStyle> = {},
+): StyleProp<TextStyle> => {
 	const { fontFamily = 'Rubik' } = StyleSheet.flatten([style, defaultStyle]);
 
 	return [defaultStyle, style, { fontFamily }];

@@ -7,11 +7,9 @@ import {
 	modalState,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { ResponseCode } from '@walless/messaging';
-import {
-	requestSignAndExecuteTransactionBlock,
-	requestSignAndSendTransaction,
-} from 'bridge/listeners';
+import { RequestType, ResponseCode } from '@walless/messaging';
+import { requestHandleTransaction } from 'bridge/listeners';
+import { encode } from 'bs58';
 import PasscodeScreen from 'screens/Profile/modals/Passcode';
 import TransactionSuccessfulScreen from 'screens/Profile/modals/TransactionSuccessful';
 
@@ -32,13 +30,17 @@ export const createAndSend = async (
 
 	let res;
 	if (transaction instanceof VersionedTransaction) {
-		res = await requestSignAndSendTransaction(transaction, null, passcode);
-	} else if (transaction instanceof TransactionBlock) {
-		res = await requestSignAndExecuteTransactionBlock(
-			transaction,
-			null,
+		res = await requestHandleTransaction({
+			type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
+			transaction: encode(transaction.serialize()),
 			passcode,
-		);
+		});
+	} else if (transaction instanceof TransactionBlock) {
+		res = await requestHandleTransaction({
+			type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
+			transaction: transaction.serialize(),
+			passcode,
+		});
 	}
 
 	if (res?.responseCode === ResponseCode.SUCCESS) {

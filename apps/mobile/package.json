@@ -15,10 +15,12 @@
     "@react-navigation/stack": "^6.3.16",
     "@walless/component": "*",
     "@walless/gui": "*",
+    "@walless/store": "*",
     "events": "^3.3.0",
     "pouchdb-adapter-http": "^8.0.1",
     "pouchdb-adapter-react-native-sqlite": "^3.0.1",
     "pouchdb-core": "^8.0.1",
+    "pouchdb-find": "^8.0.1",
     "pouchdb-mapreduce": "^8.0.1",
     "pouchdb-replication": "^8.0.1",
     "react": "^18.2.0",
@@ -30,10 +32,10 @@
     "react-native-quick-crypto": "^0.6.1",
     "react-native-quick-sqlite": "^8.0.2",
     "react-native-quick-websql": "^0.3.0",
-    "react-native-reanimated": "3.0.2",
+    "react-native-reanimated": "3.1.0",
     "react-native-safe-area-context": "^4.5.1",
     "react-native-screens": "^3.20.0",
-    "react-native-svg": "^13.9.0"
+    "react-native-svg": "13.9.0"
   },
   "devDependencies": {
     "@types/jest": "^29.2.1",

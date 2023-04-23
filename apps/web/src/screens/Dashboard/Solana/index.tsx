@@ -1,4 +1,5 @@
 import { type FC } from 'react';
+import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
 	MainFeatures,
@@ -6,11 +7,12 @@ import {
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
+import { TokenList } from '@walless/app';
 import { Networks } from '@walless/core';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
-import EmptyTab from 'screens/Dashboard/EmptyTab';
 import { layoutTabs } from 'screens/Dashboard/shared';
+import { tokenState } from 'state/tokens';
 import { walletState } from 'state/wallet';
 import { useSnapshot } from 'utils/hooks';
 
@@ -19,13 +21,15 @@ interface Props {
 }
 
 export const SolanaDashboard: FC<Props> = () => {
-	const { keys } = useSnapshot(walletState);
-	const suiKey = keys.find((key) => key.network === Networks.sui);
-	const address = suiKey?.id as string;
+	const { solanaKeyMap } = useSnapshot(walletState);
+	const { solanaTokenMap } = useSnapshot(tokenState);
+	const allKeys = Array.from(solanaKeyMap.values());
+	const tokens = Array.from(solanaTokenMap.values());
+	const address = allKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
-		symbol: 'SOL',
-		network: Networks.sui,
+		network: Networks.solana,
+		metadata: { symbol: 'SOL' },
 		account: { balance: 0 },
 	};
 	const cloneCard = (card: TokenRecord, suffix: string) => ({
@@ -56,7 +60,10 @@ export const SolanaDashboard: FC<Props> = () => {
 			</Stack>
 			<Stack>
 				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />
-				<EmptyTab />
+				<TokenList
+					contentContainerStyle={styles.tokenListInner}
+					items={tokens}
+				/>
 			</Stack>
 		</Stack>
 	);
@@ -71,3 +78,9 @@ const suiCardSkin: CardSkin = {
 	iconColor: '#000000',
 	iconSize: 16,
 };
+
+const styles = StyleSheet.create({
+	tokenListInner: {
+		paddingVertical: 12,
+	},
+});

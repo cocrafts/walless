@@ -1,11 +1,16 @@
-import { type ReactNode, forwardRef } from 'react';
-import { type ViewStyle, View as RNView, ViewProps } from 'react-native';
+import { type ReactNode, forwardRef, useMemo } from 'react';
+import {
+	type StyleProp,
+	type ViewProps,
+	type ViewStyle,
+	View as RNView,
+} from 'react-native';
 
 import { DynamicFlags, iStyles } from '../utils/style';
 
 type Props = DynamicFlags &
 	ViewProps & {
-		style?: ViewStyle;
+		style?: StyleProp<ViewStyle>;
 		children?: ReactNode;
 	};
 
@@ -22,12 +27,15 @@ export const View = forwardRef<RNView, Props>(
 		},
 		ref,
 	) => {
-		const containerStyle = [style];
-
-		if (horizontal) containerStyle.push(iStyles.horizontal);
-		if (fullScreen) containerStyle.push(iStyles.fullScreen);
-		if (cursorPointer) containerStyle.push(iStyles.cursorPointer);
-		if (noSelect) containerStyle.push(iStyles.noSelect);
+		const containerStyle = useMemo(() => {
+			return [
+				horizontal && iStyles.horizontal,
+				fullScreen && iStyles.fullScreen,
+				cursorPointer && iStyles.cursorPointer,
+				noSelect && iStyles.noSelect,
+				style,
+			];
+		}, [style, horizontal, fullScreen, cursorPointer, noSelect]);
 
 		return (
 			<RNView ref={ref} style={containerStyle} {...viewProps}>

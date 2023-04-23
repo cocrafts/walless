@@ -47,14 +47,14 @@ const getEstimatedDisplay = (account: TokenAccount, isPrivate?: boolean) => {
 };
 
 const getBalanceDisplay = (
-	{ symbol, account }: TokenRecord,
+	{ metadata, account }: TokenRecord,
 	isPrivate?: boolean,
 ) => {
 	if (isPrivate) {
 		return '***';
 	} else if (account.balance === 0) {
-		return `0 ${symbol}`;
+		return `0 ${metadata?.symbol}`;
 	}
 
-	return `${account.balance} ${symbol}`;
+	return `${account.balance} ${metadata?.symbol}`;
 };

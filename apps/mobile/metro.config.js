@@ -8,6 +8,7 @@ const workspaceModules = resolve(workspaceRoot, 'node_modules');
 const monoPackages = {
 	'@walless/component': resolve(workspaceRoot, 'packages/component'),
 	'@walless/gui': resolve(workspaceRoot, 'packages/gui'),
+	'@walless/store': resolve(workspaceRoot, 'packages/store'),
 };
 
 module.exports = {

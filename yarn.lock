@@ -7843,10 +7843,13 @@ __metadata:
     "@mysten/sui.js": 0.32.1
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
+    "@walless/core": "*"
+    "@walless/gui": "*"
     "@walless/network": "*"
+    "@walless/store": "*"
     "@walless/ui": "*"
     react: ^18.2.0
-    react-native-reanimated: 3.0.2
+    react-native-reanimated: 3.1.0
     tamagui: 1.15.16
     valtio: 1.10.4
   languageName: unknown
@@ -7863,10 +7866,10 @@ __metadata:
     react-native: ^0.71.6
     react-native-gesture-handler: ^2.9.0
     react-native-quick-base64: ^2.0.5
-    react-native-reanimated: 3.0.2
+    react-native-reanimated: 3.1.0
     react-native-safe-area-context: ^4.5.1
     react-native-screens: ^3.20.0
-    react-native-svg: ^13.9.0
+    react-native-svg: 13.9.0
   languageName: unknown
   linkType: soft
 
@@ -7915,7 +7918,7 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
     react-native: ^0.71.6
-    react-native-reanimated: ^3.0.2
+    react-native-reanimated: 3.1.0
     valtio: ^1.10.4
   languageName: unknown
   linkType: soft
@@ -7981,6 +7984,7 @@ __metadata:
     "@types/react-test-renderer": ^18.0.0
     "@walless/component": "*"
     "@walless/gui": "*"
+    "@walless/store": "*"
     babel-jest: ^29.2.1
     babel-plugin-transform-inline-environment-variables: ^0.4.4
     eslint: 8.38.0
@@ -7988,6 +7992,7 @@ __metadata:
     pouchdb-adapter-http: ^8.0.1
     pouchdb-adapter-react-native-sqlite: ^3.0.1
     pouchdb-core: ^8.0.1
+    pouchdb-find: ^8.0.1
     pouchdb-mapreduce: ^8.0.1
     pouchdb-replication: ^8.0.1
     react: ^18.2.0
@@ -7999,10 +8004,10 @@ __metadata:
     react-native-quick-crypto: ^0.6.1
     react-native-quick-sqlite: ^8.0.2
     react-native-quick-websql: ^0.3.0
-    react-native-reanimated: 3.0.2
+    react-native-reanimated: 3.1.0
     react-native-safe-area-context: ^4.5.1
     react-native-screens: ^3.20.0
-    react-native-svg: ^13.9.0
+    react-native-svg: 13.9.0
     react-test-renderer: 18.2.0
   languageName: unknown
   linkType: soft
@@ -8037,13 +8042,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/store@workspace:packages/store":
+"@walless/store@*, @walless/store@workspace:packages/store":
   version: 0.0.0-use.local
   resolution: "@walless/store@workspace:packages/store"
   dependencies:
+    "@walless/tsconfig": "*"
     eslint: 8.38.0
   peerDependencies:
-    realm-web: 2.0.0
+    pouchdb-adapter-http: ^8.0.1
+    pouchdb-core: ^8.0.1
+    pouchdb-find: ^8.0.1
+    pouchdb-mapreduce: ^8.0.1
+    pouchdb-replication: ^8.0.1
   languageName: unknown
   linkType: soft
 
@@ -8117,12 +8127,14 @@ __metadata:
     pouchdb-adapter-http: ^8.0.1
     pouchdb-adapter-idb: ^8.0.1
     pouchdb-core: ^8.0.1
+    pouchdb-find: ^8.0.1
     pouchdb-mapreduce: ^8.0.1
     pouchdb-replication: ^8.0.1
+    qrcode.react: ^3.1.0
     raf: ^3.4.1
     react-native-qrcode-svg: ^6.2.0
-    react-native-reanimated: 3.0.2
-    react-native-svg: ^13.9.0
+    react-native-reanimated: 3.1.0
+    react-native-svg: 13.9.0
     react-native-web: ^0.18.12
     react-router-dom: ^6.10.0
     setimmediate: ^1.0.5
@@ -18759,6 +18771,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pouchdb-find@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "pouchdb-find@npm:8.0.1"
+  dependencies:
+    pouchdb-abstract-mapreduce: 8.0.1
+    pouchdb-collate: 8.0.1
+    pouchdb-errors: 8.0.1
+    pouchdb-fetch: 8.0.1
+    pouchdb-md5: 8.0.1
+    pouchdb-selector-core: 8.0.1
+    pouchdb-utils: 8.0.1
+  checksum: c473f58baf0b5f86d72c65f86d7eaffe5707bde8070c5322a60388871cf7ec1403151be0ec8c540097b5518c80385a24781d2ab06a3b653ec34f3143e3e241f9
+  languageName: node
+  linkType: hard
+
 "pouchdb-generate-replication-id@npm:8.0.1":
   version: 8.0.1
   resolution: "pouchdb-generate-replication-id@npm:8.0.1"
@@ -19123,6 +19150,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qrcode.react@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "qrcode.react@npm:3.1.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 94a2942ecf83f461d869adb20305ae663c6d1abe93ef2c72442b07d756ce70cf6deb6fd588dc5b382b48c6991cfde1dfd5ac9b814c1461e71d5edb2d945e67fc
+  languageName: node
+  linkType: hard
+
 "qrcode@npm:^1.5.1":
   version: 1.5.1
   resolution: "qrcode@npm:1.5.1"
@@ -19405,22 +19441,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:3.0.2":
-  version: 3.0.2
-  resolution: "react-native-reanimated@npm:3.0.2"
+"react-native-reanimated@npm:3.1.0":
+  version: 3.1.0
+  resolution: "react-native-reanimated@npm:3.1.0"
   dependencies:
     "@babel/plugin-transform-object-assign": ^7.16.7
     "@babel/preset-typescript": ^7.16.7
-    convert-source-map: ^1.7.0
+    convert-source-map: ^2.0.0
     invariant: ^2.2.4
-    lodash.isequal: ^4.5.0
-    setimmediate: ^1.0.5
-    string-hash-64: ^1.0.3
   peerDependencies:
     "@babel/core": ^7.0.0-0
+    "@babel/plugin-proposal-nullish-coalescing-operator": ^7.0.0-0
+    "@babel/plugin-proposal-optional-chaining": ^7.0.0-0
+    "@babel/plugin-transform-arrow-functions": ^7.0.0-0
+    "@babel/plugin-transform-shorthand-properties": ^7.0.0-0
+    "@babel/plugin-transform-template-literals": ^7.0.0-0
     react: "*"
     react-native: "*"
-  checksum: 7635d6d490eecdf74d3b3560e0696df14c8528f58b4c79d680bb623053e6a13e51e05f62aa9d40e1d53e9b2c90d67ac77ff1f4128400f14ab4a524ef3dec036b
+  checksum: 28279642056c7b214649ff14d3c9f1e914c9dd3dd74afc734fc10d1af088a2c3b0e187751e2713d54fc0a9916c394068b29aec51e754b51625a4179f10e38bcd
   languageName: node
   linkType: hard
 
@@ -19447,7 +19485,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-svg@npm:^13.9.0":
+"react-native-svg@npm:13.9.0":
   version: 13.9.0
   resolution: "react-native-svg@npm:13.9.0"
   dependencies:
@@ -21208,13 +21246,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-hash-64@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "string-hash-64@npm:1.0.3"
-  checksum: 79de8431b4fa3e85a2429cd52a34f7948221ff167b7a094e05d6bcfd0173474b232e0c9845c96f74b0d7b6b0c8bbe2c3532a4cacb21635293ef0cf3cc8e77f06
-  languageName: node
-  linkType: hard
-
 "string-length@npm:^4.0.1":
   version: 4.0.2
   resolution: "string-length@npm:4.0.2"
@@ -22808,6 +22839,8 @@ __metadata:
     metro-react-native-babel-preset: 0.73.9
     mustache: ^4.2.0
     react-native: ^0.71.6
+    react-native-qrcode-svg: ^6.2.0
+    react-native-reanimated: 3.1.0
     rimraf: ^5.0.0
     sst: 2.3.1
     ts-jest: ^29.0.5

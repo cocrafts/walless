@@ -16,13 +16,13 @@ export interface ExtensionNetworkMetadata {
 	iconColor: string;
 }
 
-export type ExtensionType = 'layout' | 'dApp' | 'native';
+export type ExtensionType = 'Layout' | 'DApp' | 'Native';
 
 export interface ExtensionConfig {
-	id: string;
 	name: string;
 	version: string;
-	type: ExtensionType;
+	timestamp?: Date;
+	extensionType: ExtensionType;
 	storeMeta: ExtensionStoreMetadata;
 	networkMeta: ExtensionNetworkMetadata;
 }

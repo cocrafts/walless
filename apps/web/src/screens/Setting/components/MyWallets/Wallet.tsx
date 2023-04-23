@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { shortenAddress } from '@walless/core';
-import { PublicKeyRecord } from '@walless/storage';
+import { PublicKeyDocument } from '@walless/store';
 import { Image, Stack, Text } from '@walless/ui';
 import { getNetworkInfo } from 'utils/helper';
 
 interface Props {
-	item: PublicKeyRecord;
+	item: PublicKeyDocument;
 	index: number;
 }
 
@@ -35,7 +35,7 @@ const Wallet: FC<Props> = ({ item, index }) => {
 					Wallet {index + 1} ({network?.name})
 				</Text>
 				<Text fontSize={12} color="#566674">
-					{shortenAddress(item.id)}
+					{shortenAddress(item._id)}
 				</Text>
 			</Stack>
 		</Stack>

@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
-import { ExtensionRecord } from '@walless/storage';
+import { ExtensionDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
+import { db } from 'utils/pouch';
 import { router } from 'utils/routing';
-import { db } from 'utils/storage';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
@@ -12,7 +12,7 @@ const spacing = 12;
 
 export const ExploreScreen: FC = () => {
 	const [extensions, setExtensions] =
-		useState<ExtensionRecord[]>(mockLayoutCards);
+		useState<ExtensionDocument[]>(mockLayoutCards);
 
 	const handleSearch = (query: string) => {
 		const filteredLayouts = mockLayoutCards.filter((extension) =>
@@ -22,13 +22,13 @@ export const ExploreScreen: FC = () => {
 		setExtensions(filteredLayouts);
 	};
 
-	const handleLovePress = (extension: ExtensionRecord) => {
+	const handleLovePress = (extension: ExtensionDocument) => {
 		console.log(extension);
 	};
 
-	const handleAddPress = async (extension: ExtensionRecord) => {
-		await db.extensions.add(extension);
-		await router.navigate(extension.id);
+	const handleAddPress = async (extension: ExtensionDocument) => {
+		await db.put(extension);
+		await router.navigate(extension._id);
 	};
 
 	return (
@@ -41,7 +41,7 @@ export const ExploreScreen: FC = () => {
 
 			{extensions.map((layoutCard) => (
 				<LayoutCard
-					key={layoutCard.id}
+					key={layoutCard._id}
 					item={layoutCard}
 					onLovePress={handleLovePress}
 					onAddPress={handleAddPress}

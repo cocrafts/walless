@@ -1,9 +1,9 @@
 import { type FC, type ReactNode } from 'react';
-import { type ExtensionRecord } from '@walless/storage';
+import { type ExtensionDocument } from '@walless/store';
 import { Image, Stack } from '@walless/ui';
 import { router } from 'utils/routing';
 
-export type OrbConfig = Partial<ExtensionRecord> & {
+export type OrbConfig = Partial<ExtensionDocument> & {
 	route?: string;
 };
 
@@ -31,7 +31,7 @@ export const NavigatorOrb: FC<Props> = ({
 		} else if (route) {
 			router.navigate(route);
 		} else {
-			router.navigate(`/${item.id}`);
+			router.navigate(`/${item._id}`);
 		}
 	};
 

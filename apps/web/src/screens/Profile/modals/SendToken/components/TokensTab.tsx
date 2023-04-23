@@ -8,7 +8,7 @@ import { Stack, Text } from '@walless/ui';
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
 import { DropdownItemProps, dropdownItems } from '../internal';
 
-import Dropdown from './Dropdown';
+import DropdownInput from './DropdownInput';
 import Input from './Input';
 import NavBtn from './NavBtn';
 
@@ -45,7 +45,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 						setChosen = setNetwork;
 					}
 					return (
-						<Dropdown
+						<DropdownInput
 							key={item.name}
 							name={item.name}
 							items={item.items}
@@ -161,6 +161,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 					</Text>
 				</Stack>
 			</Stack>
+
 			<NavBtn
 				content="Continue"
 				route=""

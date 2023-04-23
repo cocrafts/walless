@@ -1,8 +1,10 @@
 import { FC, useState } from 'react';
 import { Check } from '@walless/icons';
-import { Image, Stack, Text } from '@walless/ui';
+import { Button, Stack } from '@walless/ui';
 
 import { DropdownItemProps } from '../../internal';
+
+import IconText from './IconText';
 
 const DropdownItem: FC<DropdownItemProps> = ({
 	name,
@@ -13,8 +15,7 @@ const DropdownItem: FC<DropdownItemProps> = ({
 	const [isActive, setIsActive] = useState(false);
 
 	return (
-		<Stack
-			display="flex"
+		<Button
 			flexDirection="row"
 			justifyContent="space-between"
 			alignItems="center"
@@ -22,30 +23,16 @@ const DropdownItem: FC<DropdownItemProps> = ({
 			width={320}
 			height={40}
 			borderRadius={11}
+			padding={0}
+			paddingHorizontal={16}
 			onHoverIn={() => setIsActive(true)}
 			onHoverOut={() => setIsActive(false)}
 			onPress={onPress}
-			paddingHorizontal={16}
 		>
-			<Stack
-				display="flex"
-				flexDirection="row"
-				justifyContent="center"
-				alignItems="center"
-				gap={4}
-			>
-				<Image src={icon as string} width={16} height={16} borderRadius={8} />
-				<Text
-					fontWeight="400"
-					fontSize={14}
-					color={isActive ? '#FFFFFF' : '#566674'}
-				>
-					{name}
-				</Text>
-			</Stack>
+			<IconText icon={icon ?? ''} name={name} />
 
 			{isSelected ? <Check size={12} color="#566674" /> : <Stack />}
-		</Stack>
+		</Button>
 	);
 };
 

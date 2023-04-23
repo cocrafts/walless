@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack } from '@walless/ui';
+import { Button, Stack } from '@walless/ui';
 
 import Tab from './Tab';
 
@@ -21,15 +21,23 @@ const TabBar: FC<Props> = ({ isTokensTab, setIsTokensTab }) => {
 			borderRadius={8}
 			width="fit-content"
 		>
-			<Stack onPress={() => setIsTokensTab(true)}>
+			<Button
+				backgroundColor="transparent"
+				padding={0}
+				onPress={() => setIsTokensTab(true)}
+			>
 				<Tab name="Tokens" isActive={isTokensTab} />
-			</Stack>
+			</Button>
 
 			<Stack width={1} height={24} backgroundColor="#56667466" />
 
-			<Stack onPress={() => setIsTokensTab(false)}>
+			<Button
+				backgroundColor="transparent"
+				padding={0}
+				onPress={() => setIsTokensTab(false)}
+			>
 				<Tab name="Collectibles" isActive={!isTokensTab} />
-			</Stack>
+			</Button>
 		</Stack>
 	);
 };

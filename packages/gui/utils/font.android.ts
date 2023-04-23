@@ -1,4 +1,4 @@
-import { StyleSheet, TextStyle } from 'react-native';
+import { type StyleProp, type TextStyle, StyleSheet } from 'react-native';
 
 const WeightMap = {
 	normal: 'Regular',
@@ -15,9 +15,9 @@ const WeightMap = {
 };
 
 export const injectedFontStyle = (
-	style: TextStyle = {},
-	defaultStyle: TextStyle = {},
-): TextStyle[] => {
+	style: StyleProp<TextStyle> = {},
+	defaultStyle: StyleProp<TextStyle> = {},
+): StyleProp<TextStyle> => {
 	const {
 		fontFamily = 'Rubik',
 		fontWeight = '400',

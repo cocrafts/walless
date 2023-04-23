@@ -111,8 +111,6 @@ module.exports = {
 	moduleAlias: {
 		global: {
 			'react-native$': 'react-native-web',
-			'react-native-web$': 'react-native-web',
-			'react-native-svg': require.resolve('@tamagui/react-native-svg'),
 		},
 	},
 };

@@ -5,10 +5,10 @@
   "main": "index.web.js",
   "scripts": {
     "dev": "metacraft",
-    "dev:ext": "cross-env BUILD_TARGET=extension && metacraft",
+    "dev:ext": "BUILD_TARGET=extension && metacraft",
     "batch": "node ../../tool/batch",
     "build": "rimraf metacraft builds && yarn batch && metacraft bundle",
-    "build:ext": "cross-env BUILD_TARGET=extension && yarn build && node scripts/bundler",
+    "build:ext": "BUILD_TARGET=extension && yarn build && node scripts/bundler",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
     "postinstall": "yarn batch"
   },
@@ -47,8 +47,8 @@
     "qrcode.react": "^3.1.0",
     "raf": "^3.4.1",
     "react-native-qrcode-svg": "^6.2.0",
-    "react-native-reanimated": "3.0.2",
-    "react-native-svg": "^13.9.0",
+    "react-native-reanimated": "3.1.0",
+    "react-native-svg": "13.9.0",
     "react-native-web": "^0.18.12",
     "react-router-dom": "^6.10.0",
     "setimmediate": "^1.0.5",

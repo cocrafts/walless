@@ -42,7 +42,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		storeMeta: {
 			iconUri: '/img/network/solana-icon-sm.png',
 			iconSize: 24,
-			iconColor: '#000000',
+			iconColor: '#0a090e',
 			coverUri: '/img/explore/thumbnail-solana.png',
 			description:
 				'Powerful for developers, fast for everyone. Very low, and consistent transaction fees.',

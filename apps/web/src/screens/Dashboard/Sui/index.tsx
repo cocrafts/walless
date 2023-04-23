@@ -25,8 +25,8 @@ export const SuiDashboard: FC<Props> = () => {
 	const address = allKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
-		symbol: 'SUI',
 		network: Networks.sui,
+		metadata: { symbol: 'SOL' },
 		account: { balance: 0 },
 	};
 	const cloneCard = (card: TokenRecord, suffix: string) => ({

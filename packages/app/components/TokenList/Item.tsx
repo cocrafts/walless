@@ -3,18 +3,19 @@ import { Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { TokenDocument } from '@walless/store';
-import { resources } from 'utils/config';
+
+import { formatTokenValue } from '../../utils/format';
 
 interface Props {
 	index: number;
 	item: TokenDocument;
 }
 
-export const TokenItem: FC<Props> = ({ item, index }) => {
+export const TokenItem: FC<Props> = ({ item }) => {
 	const { metadata = {}, account } = item;
 	const { name, symbol, imageUri } = metadata;
 	const iconSource = {
-		uri: imageUri || resources.common.question.uri,
+		uri: imageUri || '/img/question.png',
 	};
 
 	return (
@@ -25,10 +26,10 @@ export const TokenItem: FC<Props> = ({ item, index }) => {
 				</View>
 			</View>
 			<View style={styles.infoContainer}>
-				<Text>{symbol || name || shortenAddress(account.address)}</Text>
+				<Text>{symbol || name || shortenAddress(account.mint)}</Text>
 			</View>
 			<View style={styles.balanceContainer}>
-				<Text>{account.balance / account.decimal}</Text>
+				<Text>{formatTokenValue(account)}</Text>
 			</View>
 		</Hoverable>
 	);
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		paddingVertical: 10,
 		paddingHorizontal: 12,
+		marginVertical: 6,
 	},
 	iconImg: {
 		width: iconSize,
@@ -61,7 +63,10 @@ const styles = StyleSheet.create({
 	},
 	infoContainer: {
 		flex: 1,
+		paddingVertical: 4,
 		paddingHorizontal: 12,
 	},
-	balanceContainer: {},
+	balanceContainer: {
+		paddingVertical: 4,
+	},
 });

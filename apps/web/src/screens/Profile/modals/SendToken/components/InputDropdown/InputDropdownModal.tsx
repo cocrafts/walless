@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { modalActions, ModalConfigs } from '@walless/app';
 import { ChevronDown } from '@walless/icons';
-import { Input, Stack, Text } from '@walless/ui';
+import { Input, ScrollView, Stack, Text } from '@walless/ui';
 
 import { DropdownItemProps } from '../../internal';
 
@@ -64,7 +64,7 @@ const InputDropdownModal: FC<Props> = ({ config }) => {
 				<ChevronDown color="#566674" size={16} />
 			</Stack>
 
-			<Stack
+			<ScrollView
 				alignItems="center"
 				justifyContent="center"
 				backgroundColor="#0E1419"
@@ -72,6 +72,8 @@ const InputDropdownModal: FC<Props> = ({ config }) => {
 				paddingHorizontal={8}
 				paddingVertical={8}
 				marginTop={8}
+				maxHeight={200} // 200 = 5 items (5 * 40)
+				showsVerticalScrollIndicator={false}
 			>
 				{state.filteredItems.length ? (
 					state.filteredItems.map((item) => (
@@ -89,7 +91,7 @@ const InputDropdownModal: FC<Props> = ({ config }) => {
 						No results matched
 					</Text>
 				)}
-			</Stack>
+			</ScrollView>
 		</Stack>
 	);
 };

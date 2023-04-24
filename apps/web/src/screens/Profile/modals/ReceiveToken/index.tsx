@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { ModalConfigs } from '@walless/app';
-import { Button, Stack } from '@walless/ui';
+import { Stack } from '@walless/ui';
 import { walletState } from 'state/wallet';
 import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
@@ -8,13 +8,15 @@ import { useSnapshot } from 'valtio';
 import ModalHeader from '../components/ModalHeader';
 import ModalWrapper from '../components/ModalWrapper';
 
-import WalletCard from './components/WalletCard';
-import { WalletProps } from './components/WalletCard';
+import Slider, { IndicatorOption, SlideOption } from './components/Slider';
+import WalletCard, { WalletProps } from './components/WalletCard';
+import WalletCardIndicator from './components/WalletCardIndicator';
 
 const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const [current, setCurrent] = useState(0);
 
 	const keyMaps = useSnapshot(walletState);
+
 	const walletList: WalletProps[] = [];
 	Object.values(keyMaps).forEach((keyMap) => {
 		keyMap.forEach((key) => {
@@ -27,15 +29,20 @@ const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 		});
 	});
 
-	const [currentWallet, setCurrentWallet] = useState<WalletProps>(
-		walletList[0],
-	);
+	const style = {
+		gap: 20,
+	};
+	const items: SlideOption[] = walletList.map((wallet) => ({
+		id: wallet.address,
+		component: WalletCard,
+		context: wallet,
+	}));
 
-	useEffect(() => {
-		const next = (current + 1) % walletList.length;
-		const id = setTimeout(() => setCurrent(next), 500);
-		return () => clearTimeout(id);
-	}, [current]);
+	const indicator: IndicatorOption = {
+		id: 'indicator',
+		component: WalletCardIndicator,
+		context: { cardList: walletList },
+	};
 
 	return (
 		<ModalWrapper>
@@ -43,43 +50,18 @@ const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 			<Stack
 				flexGrow={1}
 				justifyContent="flex-start"
-				alignItems="center"
 				width={340}
-				paddingVertical={30}
+				overflow="hidden"
+				paddingVertical={28}
 				gap={30}
 			>
-				<WalletCard
-					network={currentWallet.network}
-					networkIcon={currentWallet.networkIcon}
-					address={currentWallet.address}
+				<Slider
+					style={style}
+					items={items}
+					distance={-340}
+					activeItem={items[0]}
+					indicator={indicator}
 				/>
-
-				<Stack gap={8} flexDirection="row">
-					{walletList.map((wallet, index) => (
-						<Button
-							key={index}
-							backgroundColor={
-								wallet.address === currentWallet.address ? '#0694D3' : '#202D38'
-							}
-							width={40}
-							height={4}
-							borderRadius={8}
-							padding={0}
-							title=""
-							onPress={() => {
-								setCurrentWallet(wallet);
-							}}
-						/>
-					))}
-				</Stack>
-				{/* {walletList.map((wallet, index) => (
-					<WalletCard
-						key={index}
-						network={wallet.network}
-						networkIcon={wallet.networkIcon}
-						address={wallet.address}
-					/>
-				))} */}
 			</Stack>
 		</ModalWrapper>
 	);

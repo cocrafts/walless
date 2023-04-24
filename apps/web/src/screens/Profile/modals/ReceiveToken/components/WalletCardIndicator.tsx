@@ -22,7 +22,12 @@ const WalletCardIndicator: FC<Props> = ({ config }) => {
 	};
 
 	return (
-		<Stack flexDirection="row" alignItems="center" justifyContent="center">
+		<Stack
+			flexDirection="row"
+			alignItems="center"
+			justifyContent="center"
+			gap={4}
+		>
 			{cardList.map((card: WalletProps, index) => (
 				<Hoverable
 					key={index}

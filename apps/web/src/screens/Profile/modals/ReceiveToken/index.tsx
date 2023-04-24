@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { ModalConfigs } from '@walless/app';
 import { Stack } from '@walless/ui';
 import { walletState } from 'state/wallet';
@@ -13,8 +13,6 @@ import WalletCard, { WalletProps } from './components/WalletCard';
 import WalletCardIndicator from './components/WalletCardIndicator';
 
 const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
-	const [current, setCurrent] = useState(0);
-
 	const keyMaps = useSnapshot(walletState);
 
 	const walletList: WalletProps[] = [];
@@ -59,7 +57,6 @@ const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 					style={style}
 					items={items}
 					distance={-340}
-					activeItem={items[0]}
 					indicator={indicator}
 				/>
 			</Stack>

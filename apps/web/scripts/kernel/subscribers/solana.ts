@@ -1,11 +1,12 @@
 import { AccountChangeCallback, PublicKey } from '@solana/web3.js';
+import { getSolanaTokensByAddress } from '@walless/network';
 import { PublicKeyDocument } from '@walless/store';
 import { flatten } from 'lodash';
 import { db } from 'utils/pouch';
 
 import { solanaConnection } from '../utils/connection';
 import { solanaKeysSelector } from '../utils/pouchSelectors';
-import { fetchSolanaTokens } from '../utils/solana/token';
+import { connection } from '../utils/solana';
 
 const subscriptionMap: Record<string, number> = {};
 
@@ -25,7 +26,7 @@ export const subscribeSolanaChanges = async () => {
 			);
 		}
 
-		tokenPromises.push(fetchSolanaTokens(key._id));
+		tokenPromises.push(getSolanaTokensByAddress(connection, key._id));
 	}
 
 	const tokenChunks = await Promise.all(tokenPromises);

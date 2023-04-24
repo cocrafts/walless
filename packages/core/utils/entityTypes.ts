@@ -19,15 +19,15 @@ export interface AssetMetadata {
 
 export interface TokenAccount {
 	mint?: string;
+	owner?: string;
 	address?: string;
 	price?: number;
-	balance: number;
-	decimal: number;
+	balance: string;
+	decimals: number;
 }
 
 export interface Token {
 	network: string;
-	owner: string;
 	account: TokenAccount;
 	metadata?: AssetMetadata;
 }

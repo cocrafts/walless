@@ -15,7 +15,7 @@ export enum ActionType {
 
 export type Action = {
 	type: ActionType;
-	payload?: unknown;
+	payload: unknown;
 };
 
 const filter = (items: DropdownItemProps[], query: string) => {
@@ -24,23 +24,30 @@ const filter = (items: DropdownItemProps[], query: string) => {
 	);
 };
 
+const moveSelectedItemToTop = (
+	items: DropdownItemProps[],
+	selectedItem: DropdownItemProps,
+) => {
+	const filteredItems = items.filter((item) => item.name !== selectedItem.name);
+	return [selectedItem, ...filteredItems];
+};
+
 export const reducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case ActionType.SELECT_ITEM:
 			return {
 				...state,
 				currentItem: action.payload as DropdownItemProps,
-				query: (action.payload as DropdownItemProps).name,
 				isDropdownOpen: false,
-				filteredItems: filter(
+				query: (action.payload as DropdownItemProps).name || '',
+				filteredItems: moveSelectedItemToTop(
 					state.items,
-					(action.payload as DropdownItemProps).name,
+					action.payload as DropdownItemProps,
 				),
 			};
 		case ActionType.QUERY:
 			return {
 				...state,
-				currentItem: null,
 				query: action.payload as string,
 				isDropdownOpen: true,
 				filteredItems: filter(state.items, action.payload as string),

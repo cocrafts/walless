@@ -27,13 +27,6 @@ const InputDropdown: FC<DropdownProps> = ({ name, items, setChosen }) => {
 		}
 	};
 
-	const handlePressChangeInput = () => {
-		dispatch({
-			type: ActionType.QUERY,
-			payload: state.currentItem?.name ?? '',
-		});
-	};
-
 	const handleFilter = (query: string) => {
 		dispatch({
 			type: ActionType.QUERY,
@@ -77,9 +70,9 @@ const InputDropdown: FC<DropdownProps> = ({ name, items, setChosen }) => {
 				borderRadius={15}
 				borderColor="transparent"
 				paddingHorizontal={16}
-				onPress={handlePressChangeInput}
+				onPress={showDropdown}
 			>
-				{state.currentItem && !state.isDropdownOpen ? (
+				{state.currentItem ? (
 					<Stack
 						flexGrow={1}
 						alignItems="flex-start"

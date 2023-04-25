@@ -4,6 +4,8 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { type TokenDocument } from '@walless/store';
 
+import { type GetSolanaMetadataFunction, getSolanaMetadata } from './metadata';
+
 export const getTokensByOwner = async (
 	connection: Connection,
 	address: PublicKey,
@@ -62,13 +64,13 @@ export const getSolanaTokenMetadata = async (
 export const getSolanaTokensByAddress = async (
 	connection: Connection,
 	address: string,
+	getMetadata: GetSolanaMetadataFunction = getSolanaMetadata,
 ): Promise<TokenDocument[]> => {
 	const key = new PublicKey(address);
 	const response = await connection.getParsedTokenAccountsByOwner(key, {
 		programId: TOKEN_PROGRAM_ID,
 	});
-
-	return response.value.map(({ account }) => {
+	const resultPromises = response.value.map(async ({ account }) => {
 		const { data, owner } = account;
 		const info = data.parsed?.info || {};
 
@@ -83,6 +85,9 @@ export const getSolanaTokensByAddress = async (
 				balance: info.tokenAmount?.amount,
 				decimals: info.tokenAmount?.decimals,
 			},
-		};
+			metadata: await getMetadata(connection, info.mint),
+		} as TokenDocument;
 	});
+
+	return await Promise.all(resultPromises);
 };

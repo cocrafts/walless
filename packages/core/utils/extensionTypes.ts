@@ -21,7 +21,7 @@ export type ExtensionType = 'Layout' | 'DApp' | 'Native';
 export interface ExtensionConfig {
 	name: string;
 	version: string;
-	timestamp?: Date;
+	timestamp?: string;
 	extensionType: ExtensionType;
 	storeMeta: ExtensionStoreMetadata;
 	networkMeta: ExtensionNetworkMetadata;

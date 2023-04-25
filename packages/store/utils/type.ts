@@ -1,4 +1,5 @@
 import {
+	AssetMetadata,
 	EncryptedWithPasscode,
 	ExtensionConfig,
 	Networks,
@@ -12,11 +13,13 @@ export type DocumentType =
 	| 'PrivateKey'
 	| 'PublicKey'
 	| 'Token'
+	| 'Metadata'
 	| 'Extension';
 
 export interface IndexedDocument {
 	type: DocumentType;
-	network: Networks;
+	network?: Networks;
+	timestamp?: string;
 }
 
 export type PouchDocument<T> = PouchDB.Core.Document<
@@ -39,3 +42,5 @@ export type PublicKeyDocument = PouchDocument<{
 export type ExtensionDocument = PouchDocument<ExtensionConfig>;
 
 export type TokenDocument = PouchDocument<Token>;
+
+export type MetadataDocument = PouchDocument<AssetMetadata>;

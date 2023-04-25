@@ -1,3 +1,5 @@
+import { Metadata as MplMetadata } from '@metaplex-foundation/mpl-token-metadata';
+
 export interface Setting {
 	version: string;
 	profile: UserProfile;
@@ -10,11 +12,21 @@ export interface UserProfile {
 	profileImage?: string;
 }
 
+export interface LegacySolanaMetadata {
+	address: string;
+	name?: string;
+	symbol?: string;
+	decimals?: number;
+	logoURI?: string;
+	extensions?: Record<string, string>;
+	tags: string[];
+}
+
 export interface AssetMetadata {
 	name?: string;
 	symbol?: string;
 	imageUri?: string;
-	sellerFeeBasisPoints?: number;
+	mpl?: MplMetadata;
 }
 
 export interface TokenAccount {

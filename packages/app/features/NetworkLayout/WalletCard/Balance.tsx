@@ -35,12 +35,14 @@ export const WalletBalance: FC<Props> = ({ onHide, isPrivate, token }) => {
 export default WalletBalance;
 
 const getEstimatedDisplay = (account: TokenAccount, isPrivate?: boolean) => {
+	const balance = parseFloat(account.balance);
+
 	if (isPrivate) {
 		return '***';
-	} else if (account.balance === 0) {
+	} else if (balance === 0) {
 		return '~ 0 USD';
 	} else if (account.price) {
-		return `~ ${account.balance * account.price} USD`;
+		return `~ ${balance * account.price} USD`;
 	}
 
 	return '';
@@ -50,9 +52,11 @@ const getBalanceDisplay = (
 	{ metadata, account }: TokenRecord,
 	isPrivate?: boolean,
 ) => {
+	const balance = parseFloat(account.balance);
+
 	if (isPrivate) {
 		return '***';
-	} else if (account.balance === 0) {
+	} else if (balance === 0) {
 		return `0 ${metadata?.symbol}`;
 	}
 

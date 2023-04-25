@@ -6,7 +6,7 @@ import { db } from 'utils/pouch';
 
 import { solanaConnection } from '../utils/connection';
 import { solanaKeysSelector } from '../utils/pouchSelectors';
-import { connection } from '../utils/solana';
+import { connection, getLazySolanaMetatadata } from '../utils/solana';
 
 const subscriptionMap: Record<string, number> = {};
 
@@ -26,7 +26,9 @@ export const subscribeSolanaChanges = async () => {
 			);
 		}
 
-		tokenPromises.push(getSolanaTokensByAddress(connection, key._id));
+		tokenPromises.push(
+			getSolanaTokensByAddress(connection, key._id, getLazySolanaMetatadata),
+		);
 	}
 
 	const tokenChunks = await Promise.all(tokenPromises);

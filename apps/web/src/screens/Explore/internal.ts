@@ -13,7 +13,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		version: '0.0.1',
 		type: 'Extension',
 		extensionType: 'Layout',
-		timestamp: new Date(),
+		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/network/sui-icon-sm.png',
 			iconSize: 18,
@@ -38,7 +38,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		version: '0.9.1',
 		type: 'Extension',
 		extensionType: 'Layout',
-		timestamp: new Date(),
+		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/network/solana-icon-sm.png',
 			iconSize: 24,
@@ -57,29 +57,29 @@ export const mockLayoutCards: ExtensionDocument[] = [
 			iconSize: 16,
 		},
 	},
-	{
-		_id: '000003',
-		name: 'Under Realm',
-		version: '0.1.8',
-		type: 'Extension',
-		extensionType: 'Layout',
-		timestamp: new Date(),
-		storeMeta: {
-			iconUri: '/img/explore/logo-under-realm.png',
-			iconSize: 24,
-			iconColor: '#000000',
-			coverUri: '/img/explore/thumbnail-under-realm.png',
-			description:
-				'Free-to-play Strategy Trading Card game. Play and also built by community.',
-			loveCount: 46,
-			activeCount: 202,
-		},
-		networkMeta: {
-			backgroundUri: '/img/network/sky-card-bg.png',
-			markUri: '/img/network/solana-icon-lg.png',
-			iconUri: '/img/explore/thumbnail-under-realm.png',
-			iconColor: '#000000',
-			iconSize: 16,
-		},
-	},
+	// {
+	// 	_id: '000003',
+	// 	name: 'Under Realm',
+	// 	version: '0.1.8',
+	// 	type: 'Extension',
+	// 	extensionType: 'Layout',
+	// 	timestamp: new Date(),
+	// 	storeMeta: {
+	// 		iconUri: '/img/explore/logo-under-realm.png',
+	// 		iconSize: 24,
+	// 		iconColor: '#000000',
+	// 		coverUri: '/img/explore/thumbnail-under-realm.png',
+	// 		description:
+	// 			'Free-to-play Strategy Trading Card game. Play and also built by community.',
+	// 		loveCount: 46,
+	// 		activeCount: 202,
+	// 	},
+	// 	networkMeta: {
+	// 		backgroundUri: '/img/network/sky-card-bg.png',
+	// 		markUri: '/img/network/solana-icon-lg.png',
+	// 		iconUri: '/img/explore/thumbnail-under-realm.png',
+	// 		iconColor: '#000000',
+	// 		iconSize: 16,
+	// 	},
+	// },
 ];

@@ -7,7 +7,7 @@ import {
 } from 'react-native-reanimated';
 import { AnimatedView, View } from '@walless/gui';
 
-import { IndicatorOption, SlideOption } from './shared';
+import { type IndicatorOption, type SlideOption } from './shared';
 
 interface Props {
 	style?: ViewStyle;

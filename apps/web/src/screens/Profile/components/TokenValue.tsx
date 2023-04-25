@@ -16,7 +16,7 @@ const TokenValue = () => {
 			</Text>
 			<Stack flexDirection="row" alignItems="center" gap={5}>
 				<Text fontSize={40} fontWeight="500" lineHeight={26}>
-					{hideTokenValue ? '****' : '$350,270'}
+					{hideTokenValue ? '****' : '$0,00'}
 				</Text>
 				<Stack onPress={handleToggleTokenValue}>
 					{hideTokenValue ? (

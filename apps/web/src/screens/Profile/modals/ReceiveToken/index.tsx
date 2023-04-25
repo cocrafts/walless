@@ -1,40 +1,64 @@
 import { FC } from 'react';
 import { ModalConfigs } from '@walless/app';
 import { Stack } from '@walless/ui';
+import { walletState } from 'state/wallet';
+import { getNetworkInfo } from 'utils/helper';
+import { useSnapshot } from 'valtio';
 
 import ModalHeader from '../components/ModalHeader';
 import ModalWrapper from '../components/ModalWrapper';
 
-import QRCode from './components/QRCode';
-import WalletAddress from './components/WalletAddress';
+import Slider, { IndicatorOption, SlideOption } from './components/Slider';
+import WalletCard, { WalletProps } from './components/WalletCard';
+import WalletCardIndicator from './components/WalletCardIndicator';
 
 const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
+	const keyMaps = useSnapshot(walletState);
+
+	const walletList: WalletProps[] = [];
+	Object.values(keyMaps).forEach((keyMap) => {
+		keyMap.forEach((key) => {
+			const networkInfo = getNetworkInfo(key.network);
+			walletList.push({
+				network: key.network.charAt(0).toUpperCase() + key.network.slice(1),
+				networkIcon: networkInfo?.icon ?? '/img/...',
+				address: key._id,
+			});
+		});
+	});
+
+	const style = {
+		gap: 20,
+	};
+	const items: SlideOption[] = walletList.map((wallet) => ({
+		id: wallet.address,
+		component: WalletCard,
+		context: wallet,
+	}));
+
+	const indicator: IndicatorOption = {
+		id: 'indicator',
+		component: WalletCardIndicator,
+		context: { cardList: walletList },
+	};
+
 	return (
 		<ModalWrapper>
 			<ModalHeader content="Receive" config={config} />
 			<Stack
 				flexGrow={1}
-				justifyContent="center"
-				alignItems="center"
-				paddingVertical={60}
+				justifyContent="flex-start"
+				width={340}
+				overflow="hidden"
+				paddingVertical={28}
+				gap={30}
 			>
-				<Stack
-					justifyContent="space-between"
-					alignItems="center"
-					width={348}
-					height={348}
-					backgroundColor="#242F38"
-					borderRadius={16}
-					paddingTop={44}
-					paddingBottom={20}
-				>
-					<QRCode value="0xF0F9D234a0226B61EB889D75B4a8884862aA985D" />
-					<WalletAddress
-						network="Solana"
-						networkIcon="/img/send-token/icon-solana.png"
-						address="0xF0F9D234a0226B61EB889D75B4a8884862aA985D"
-					/>
-				</Stack>
+				<Slider
+					style={style}
+					items={items}
+					distance={-340}
+					indicator={indicator}
+				/>
 			</Stack>
 		</ModalWrapper>
 	);

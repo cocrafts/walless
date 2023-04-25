@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { TokenAccount } from '@walless/core';
+import { Hoverable, Text, View } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
 import { TokenRecord } from '@walless/storage';
-import { Stack, Text } from '@walless/ui';
 
 interface Props {
 	onHide: (next: boolean) => void;
@@ -12,33 +12,59 @@ interface Props {
 }
 
 export const WalletBalance: FC<Props> = ({ onHide, isPrivate, token }) => {
+	const balanceTextStyle = [
+		styles.balanceText,
+		isPrivate && styles.protectedBalance,
+	];
+
 	return (
-		<Stack marginVertical={8}>
-			<Stack horizontal alignItems="center" gap={10}>
-				<Text fontSize={35} fontWeight="500">
+		<View style={styles.container}>
+			<View style={styles.balanceContainer}>
+				<Hoverable onPress={() => onHide?.(!isPrivate)}>
+					{isPrivate ? <EyeOff size={18} /> : <Eye size={18} />}
+				</Hoverable>
+				<Text style={balanceTextStyle}>
 					{getBalanceDisplay(token, isPrivate)}
 				</Text>
-				<TouchableOpacity
-					activeOpacity={0.7}
-					onPress={() => onHide?.(!isPrivate)}
-				>
-					{isPrivate ? <EyeOff size={20} /> : <Eye size={20} />}
-				</TouchableOpacity>
-			</Stack>
-			<Text fontWeight="200">
+			</View>
+			<Text style={styles.estimationText}>
 				{getEstimatedDisplay(token.account, isPrivate)}
 			</Text>
-		</Stack>
+		</View>
 	);
 };
 
 export default WalletBalance;
 
+const styles = StyleSheet.create({
+	container: {
+		marginVertical: 8,
+	},
+	balanceContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		paddingLeft: 5,
+		gap: 10,
+	},
+	balanceText: {
+		height: 42,
+		fontSize: 35,
+		fontWeight: '500',
+	},
+	protectedBalance: {
+		paddingTop: 7,
+	},
+	estimationText: {
+		opacity: 0.6,
+		marginLeft: 34,
+	},
+});
+
 const getEstimatedDisplay = (account: TokenAccount, isPrivate?: boolean) => {
 	const balance = parseFloat(account.balance);
 
 	if (isPrivate) {
-		return '***';
+		return ' ';
 	} else if (balance === 0) {
 		return '~ 0 USD';
 	} else if (account.price) {
@@ -55,7 +81,7 @@ const getBalanceDisplay = (
 	const balance = parseFloat(account.balance);
 
 	if (isPrivate) {
-		return '***';
+		return '******';
 	} else if (balance === 0) {
 		return `0 ${metadata?.symbol}`;
 	}

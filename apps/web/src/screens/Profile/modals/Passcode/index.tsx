@@ -1,15 +1,13 @@
 import { FC, useState } from 'react';
-import {
-	type ModalConfigs,
-	type PasscodeError,
-	PasscodeFeature,
-} from '@walless/app';
+import { StyleSheet } from 'react-native';
+import { type ModalConfigs } from '@walless/app';
+import { PasscodeFeature } from '@walless/component';
+import { Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import {
 	type PendingTransactionContext,
 	transactionActions,
 } from 'state/transaction';
-import { resources } from 'utils/config';
 
 import ModalWrapper from '../components/ModalWrapper';
 
@@ -18,41 +16,51 @@ interface Props {
 }
 
 export const PasscodeScreen: FC<Props> = ({ config }) => {
-	const [error, setError] = useState<PasscodeError>({ count: 0 });
+	const [error, setError] = useState('');
+	const [passcode, setPasscode] = useState('');
 
-	const onPasscodeEnter = async (passcode: string) => {
-		const res = await transactionActions.createAndSend(
-			config.context,
-			passcode,
-		);
+	const onPasscodeChange = async (value: string, isCompleted?: boolean) => {
+		setPasscode(value);
+		if (error && value.length > 0) {
+			setError('');
+		}
+		if (isCompleted) {
+			console.log(value);
+			const res = await transactionActions.createAndSend(config.context, value);
 
-		if (res?.responseCode === ResponseCode.WRONG_PASSCODE) {
-			setError({
-				errorCode: res?.responseCode,
-				errorMessage: 'Wrong passcode',
-				count: error.count + 1,
-			});
-		} else if (res?.responseCode === ResponseCode.ERROR) {
-			setError({
-				errorCode: res?.responseCode,
-				errorMessage: res.message,
-				count: error.count + 1,
-			});
+			if (res?.responseCode === ResponseCode.WRONG_PASSCODE) {
+				setError('Wrong passcode');
+				setPasscode('');
+			} else if (res?.responseCode === ResponseCode.ERROR) {
+				setError(res.message);
+				setPasscode('');
+			}
 		}
 	};
 
 	return (
 		<ModalWrapper>
-			<PasscodeFeature
-				verticalTransition={0}
-				logoUri={resources.walless.icon}
-				title="Confirm to transfer"
-				confirmation={false}
-				errorProps={error}
-				onPasscodeEnter={onPasscodeEnter}
-			/>
+			<View style={styles.container}>
+				<Text style={styles.title}>Enter your passcode</Text>
+				<PasscodeFeature
+					passcode={passcode}
+					error={error}
+					onPasscodeChange={onPasscodeChange}
+				/>
+			</View>
 		</ModalWrapper>
 	);
 };
 
 export default PasscodeScreen;
+
+const styles = StyleSheet.create({
+	container: {
+		minHeight: 500,
+		alignItems: 'center',
+	},
+	title: {
+		fontSize: 20,
+		marginBottom: 40,
+	},
+});

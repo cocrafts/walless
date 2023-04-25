@@ -25,7 +25,7 @@ interface Props {
 export const SplashFeature: FC<Props> = ({
 	style,
 	logoSrc,
-	logoSize = 150,
+	logoSize = 120,
 	initialize,
 	onReady,
 }) => {

@@ -10,6 +10,7 @@ import { TorusServiceProvider } from '@tkey/service-provider-torus';
 import { type WebStorageModule } from '@tkey/web-storage';
 import { type CustomAuthArgs } from '@toruslabs/customauth';
 import { runtime } from '@walless/core';
+import { w3aBaseUrl } from 'utils/config';
 
 /* 1. First time login: save 1 device fragment, 1 passcode fragment
  * 2. Repeat login on the same machine: quite powerful
@@ -20,11 +21,9 @@ import { runtime } from '@walless/core';
  * 7. Private keys: could be created and store in metadata
  * ------------------ */
 
-const baseUrl = __DEV__ ? location.origin : 'https:app.walless.io';
-
 export const customAuthArgs: CustomAuthArgs = {
 	network: 'testnet',
-	baseUrl,
+	baseUrl: w3aBaseUrl,
 	redirectToOpener: true,
 	redirectPathName: 'w3a',
 	enableLogging: false,

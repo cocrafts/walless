@@ -30,7 +30,7 @@ export const SolanaDashboard: FC<Props> = () => {
 		id: address,
 		network: Networks.solana,
 		metadata: { symbol: 'SOL' },
-		account: { balance: 0 },
+		account: { balance: '0', decimals: 9 },
 	};
 	const cloneCard = (card: TokenRecord, suffix: string) => ({
 		...card,

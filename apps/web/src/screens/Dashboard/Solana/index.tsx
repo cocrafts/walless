@@ -32,13 +32,7 @@ export const SolanaDashboard: FC<Props> = () => {
 		metadata: { symbol: 'SOL' },
 		account: { balance: 0 },
 	};
-	const cloneCard = (card: TokenRecord, suffix: string) => ({
-		...card,
-		id: card.id + suffix,
-	});
-	const cards = token?.id
-		? [token, cloneCard(token, 'asdofi'), cloneCard(token, 'asdfklasjfdl')]
-		: [];
+	const cards = token?.id ? [token] : [];
 
 	return (
 		<Stack flex={1} padding={12} gap={18}>

@@ -8,6 +8,7 @@ import {
 import { type TokenDocument } from '@walless/store';
 
 import TokenItem from './Item';
+import Separator from './Separator';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
@@ -30,6 +31,7 @@ export const TokenList: FC<Props> = ({
 			contentContainerStyle={contentContainerStyle}
 			data={items}
 			renderItem={renderItem}
+			ItemSeparatorComponent={Separator}
 		/>
 	);
 };

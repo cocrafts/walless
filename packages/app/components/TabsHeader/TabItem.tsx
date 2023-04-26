@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/ui';
+import { Button, Text } from '@walless/ui';
 
 import { TabAble } from './shared';
 
@@ -17,7 +17,7 @@ export const TabItem: FC<Props> = ({
 	onPress,
 }) => {
 	return (
-		<Stack
+		<Button
 			flex={1}
 			cursor="pointer"
 			userSelect="none"
@@ -26,12 +26,12 @@ export const TabItem: FC<Props> = ({
 			borderRadius={8}
 			hoverStyle={{ opacity: 0.8 }}
 			pressStyle={{ opacity: 0.6 }}
-			onPress={onPress}
+			onPress={() => onPress?.(item)}
 		>
 			<Text color={color} textAlign="center" fontSize={14}>
 				{item.title}
 			</Text>
-		</Stack>
+		</Button>
 	);
 };
 

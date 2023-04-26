@@ -1,9 +1,10 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
 	MainFeatures,
 	SlideHandler,
+	TabAble,
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export const SolanaDashboard: FC<Props> = () => {
+	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { solanaKeyMap } = useSnapshot(walletState);
 	const { solanaTokenMap } = useSnapshot(tokenState);
 	const allKeys = Array.from(solanaKeyMap.values());
@@ -35,6 +37,10 @@ export const SolanaDashboard: FC<Props> = () => {
 		account: { balance: '0', decimals: 9 },
 	};
 	const cards = token?.id ? [token] : [];
+	const onTabPress = (item: TabAble) => {
+		const idx = layoutTabs.indexOf(item);
+		setActiveTabIndex(idx);
+	};
 
 	return (
 		<Stack flex={1} padding={12} gap={18}>
@@ -55,7 +61,11 @@ export const SolanaDashboard: FC<Props> = () => {
 				<SlideHandler items={cards} activeItem={cards[0]} />
 			</Stack>
 			<Stack>
-				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />
+				<TabsHeader
+					items={layoutTabs}
+					activeItem={layoutTabs[activeTabIndex]}
+					onTabPress={onTabPress}
+				/>
 				<TokenList
 					contentContainerStyle={styles.tokenListInner}
 					items={tokens}

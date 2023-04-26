@@ -24,13 +24,15 @@ export const SolanaDashboard: FC<Props> = () => {
 	const { solanaKeyMap } = useSnapshot(walletState);
 	const { solanaTokenMap } = useSnapshot(tokenState);
 	const allKeys = Array.from(solanaKeyMap.values());
-	const tokens = Array.from(solanaTokenMap.values());
+	const tokens = Array.from(solanaTokenMap.values()).filter(
+		(token) => token.type === 'Token',
+	);
 	const address = allKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
 		network: Networks.solana,
 		metadata: { symbol: 'SOL' },
-		account: { balance: 0 },
+		account: { balance: '0', decimals: 9 },
 	};
 	const cards = token?.id ? [token] : [];
 

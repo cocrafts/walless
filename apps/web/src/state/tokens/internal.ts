@@ -3,11 +3,9 @@ import { proxy } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 
 export interface TokenState {
-	suiTokenMap: Map<string, TokenDocument>;
-	solanaTokenMap: Map<string, TokenDocument>;
+	map: Map<string, TokenDocument>;
 }
 
 export const tokenState = proxy<TokenState>({
-	suiTokenMap: proxyMap(),
-	solanaTokenMap: proxyMap(),
+	map: proxyMap(),
 });

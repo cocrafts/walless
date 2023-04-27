@@ -1,4 +1,3 @@
-import { Networks } from '@walless/core';
 import {
 	ExtensionDocument,
 	PouchDocument,
@@ -16,18 +15,12 @@ export const initializeLiveState = async () => {
 	const extensions = extensionResponse.docs as ExtensionDocument[];
 	const publicKeyResponse = await db.find(selectors.allKeys);
 	const publicKeys = publicKeyResponse.docs as PublicKeyDocument[];
-	const suiKeys = publicKeys.filter((i) => i.network === Networks.sui);
-	const solanaKeys = publicKeys.filter((i) => i.network === Networks.solana);
 	const tokenResponse = await db.find(selectors.allTokens);
-	const allTokens = tokenResponse.docs as TokenDocument[];
-	const suiTokens = allTokens.filter((i) => i.network === Networks.sui);
-	const solanaTokens = allTokens.filter((i) => i.network === Networks.solana);
+	const tokens = tokenResponse.docs as TokenDocument[];
 
 	extensionActions.setExtensions(extensions);
-	walletActions.setSuiKeys(suiKeys);
-	walletActions.setSolanaKeys(solanaKeys);
-	tokenActions.setSuiTokens(suiTokens);
-	tokenActions.setSolanaTokens(solanaTokens);
+	walletActions.setItems(publicKeys);
+	tokenActions.setItems(tokens);
 
 	const changes = db.changes({
 		since: 'now',
@@ -42,41 +35,17 @@ export const initializeLiveState = async () => {
 			if (item?.type === 'Extension') {
 				extensionState.map.delete(id);
 			} else if (item?.type === 'PublicKey') {
-				const key = item as PublicKeyDocument;
-
-				if (key.network === Networks.sui) {
-					walletState.suiKeyMap.delete(id);
-				} else if (key.network === Networks.solana) {
-					walletState.solanaKeyMap.delete(id);
-				}
+				walletState.map.delete(id);
 			} else if (item?.type === 'Token') {
-				const token = item as TokenDocument;
-
-				if (token.network === Networks.sui) {
-					tokenState.suiTokenMap.delete(id);
-				} else if (token.network === Networks.solana) {
-					tokenState.solanaTokenMap.delete(id);
-				}
+				tokenState.map.delete(id);
 			}
 		} else {
 			if (item?.type === 'Extension') {
 				extensionState.map.set(id, item as never);
 			} else if (item?.type === 'PublicKey') {
-				const key = item as PublicKeyDocument;
-
-				if (key.network === Networks.sui) {
-					walletState.suiKeyMap.set(id, key);
-				} else if (key.network === Networks.solana) {
-					walletState.solanaKeyMap.set(id, key);
-				}
+				walletState.map.set(id, item as PublicKeyDocument);
 			} else {
-				const token = item as TokenDocument;
-
-				if (token.network === Networks.sui) {
-					tokenState.suiTokenMap.set(id, token);
-				} else if (token.network === Networks.solana) {
-					tokenState.solanaTokenMap.set(id, token);
-				}
+				tokenState.map.set(id, item as TokenDocument);
 			}
 		}
 	});

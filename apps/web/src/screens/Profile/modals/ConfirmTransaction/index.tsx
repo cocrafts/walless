@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
-import { getWalletPublicKey, modalActions, ModalConfigs } from '@walless/app';
+import { getWalletPublicKey } from '@walless/app';
 import { Networks } from '@walless/core';
+import { modalActions, ModalConfigs } from '@walless/gui';
 import { Stack } from '@walless/ui';
 import { transactionActions } from 'state/transaction';
 
@@ -47,7 +48,7 @@ const ConfirmTransactionScreen: FC<Props> = ({ config }) => {
 
 		transactionActions.createAndSend({
 			sender: address,
-			token: token.value,
+			token: token.value as string,
 			network: network.value as Networks,
 			receiver,
 			amount,

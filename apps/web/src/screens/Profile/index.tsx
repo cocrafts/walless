@@ -1,5 +1,5 @@
-import { AnimateDirections, BindDirections, modalActions } from '@walless/app';
-import { MainFeatures } from '@walless/app';
+import { AnimateDirections, BindDirections, MainFeatures } from '@walless/app';
+import { modalActions } from '@walless/gui';
 import { Stack } from '@walless/ui';
 
 import Collectibles from './components/Collectibles';

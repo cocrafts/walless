@@ -1,5 +1,5 @@
 import { FC, useEffect, useReducer, useRef } from 'react';
-import { AnimateDirections, BindDirections, modalActions } from '@walless/app';
+import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';
 import { Button, Stack, Text } from '@walless/ui';
 

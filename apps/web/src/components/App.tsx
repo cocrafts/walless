@@ -1,8 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
-import { View } from 'react-native';
+import { type ViewStyle, StyleSheet, View } from 'react-native';
 import { RouterProvider } from 'react-router-dom';
-import { modalActions, ModalManager } from '@walless/app';
-import { Stack } from '@walless/ui';
+import { modalActions, ModalManager } from '@walless/gui';
 import { appState } from 'state/app';
 import { router } from 'utils/routing';
 import { useSnapshot } from 'valtio';
@@ -17,26 +16,35 @@ interface Props {
 const App: FC<Props> = ({ width = 410, height = 600 }) => {
 	const app = useSnapshot(appState);
 	const containerRef = useRef<View>(null);
+	const appContainerStyle: ViewStyle = {
+		flex: 1,
+		width,
+		maxHeight: height,
+		backgroundColor: '#19232c',
+		borderRadius: 8,
+		overflow: 'hidden',
+	};
 
 	useEffect(() => {
 		modalActions.setContainerRef(containerRef);
 	}, []);
 
 	return (
-		<Stack flex={1} alignItems="center" justifyContent="center">
-			<Stack
-				ref={containerRef}
-				flex={1}
-				width={width}
-				maxHeight={height}
-				backgroundColor="$primary"
-				$gtTn={{ borderRadius: 8, overflow: 'hidden' }}
-			>
+		<View style={styles.container}>
+			<View style={appContainerStyle}>
 				{app.loading ? <SplashWrapper /> : <RouterProvider router={router} />}
 				<ModalManager />
-			</Stack>
-		</Stack>
+			</View>
+		</View>
 	);
 };
 
 export default App;
+
+export const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});

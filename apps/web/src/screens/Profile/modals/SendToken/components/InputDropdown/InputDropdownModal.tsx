@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { modalActions, ModalConfigs } from '@walless/app';
+import { modalActions, ModalConfigs } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';
 import { Input, ScrollView, Stack, Text } from '@walless/ui';
 

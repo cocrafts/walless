@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { BindDirections, modalActions } from '@walless/app';
+import { BindDirections, modalActions } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Button, Image, Stack, Text } from '@walless/ui';
 

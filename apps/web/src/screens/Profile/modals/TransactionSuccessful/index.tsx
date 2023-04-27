@@ -4,7 +4,7 @@ import {
 	BindDirections,
 	modalActions,
 	ModalConfigs,
-} from '@walless/app';
+} from '@walless/gui';
 import { ArrowDown } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
 import { TransactionPayload } from 'state/transaction/send';

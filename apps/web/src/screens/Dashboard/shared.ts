@@ -1,6 +1,8 @@
+import { TabAble } from '@walless/app';
+
 import EmptyTab from './EmptyTab';
 
-export const layoutTabs = [
+export const layoutTabs: TabAble[] = [
 	{
 		id: 'tokens',
 		title: 'Tokens',

@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/ui';
+import { StyleSheet } from 'react-native';
+import { Hoverable, Text } from '@walless/gui';
 
 import { TabAble } from './shared';
 
@@ -17,22 +18,25 @@ export const TabItem: FC<Props> = ({
 	onPress,
 }) => {
 	return (
-		<Stack
-			flex={1}
-			cursor="pointer"
-			userSelect="none"
-			backgroundColor={backgroundColor}
-			paddingVertical={6}
-			borderRadius={8}
-			hoverStyle={{ opacity: 0.8 }}
-			pressStyle={{ opacity: 0.6 }}
-			onPress={onPress}
+		<Hoverable
+			style={[styles.container, { backgroundColor }]}
+			onPress={() => onPress?.(item)}
 		>
-			<Text color={color} textAlign="center" fontSize={14}>
-				{item.title}
-			</Text>
-		</Stack>
+			<Text style={[styles.title, { color }]}>{item.title}</Text>
+		</Hoverable>
 	);
 };
 
 export default TabItem;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		paddingVertical: 6,
+		borderRadius: 8,
+	},
+	title: {
+		textAlign: 'center',
+		fontSize: 14,
+	},
+});

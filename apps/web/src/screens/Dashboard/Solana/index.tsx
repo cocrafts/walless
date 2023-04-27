@@ -1,9 +1,10 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
 	MainFeatures,
 	SlideHandler,
+	TabAble,
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
@@ -21,10 +22,13 @@ interface Props {
 }
 
 export const SolanaDashboard: FC<Props> = () => {
+	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { solanaKeyMap } = useSnapshot(walletState);
 	const { solanaTokenMap } = useSnapshot(tokenState);
 	const allKeys = Array.from(solanaKeyMap.values());
-	const tokens = Array.from(solanaTokenMap.values());
+	const tokens = Array.from(solanaTokenMap.values()).filter(
+		(token) => token.type === 'Token',
+	);
 	const address = allKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
@@ -32,13 +36,11 @@ export const SolanaDashboard: FC<Props> = () => {
 		metadata: { symbol: 'SOL' },
 		account: { balance: '0', decimals: 9 },
 	};
-	const cloneCard = (card: TokenRecord, suffix: string) => ({
-		...card,
-		id: card.id + suffix,
-	});
-	const cards = token?.id
-		? [token, cloneCard(token, 'asdofi'), cloneCard(token, 'asdfklasjfdl')]
-		: [];
+	const cards = token?.id ? [token] : [];
+	const onTabPress = (item: TabAble) => {
+		const idx = layoutTabs.indexOf(item);
+		setActiveTabIndex(idx);
+	};
 
 	return (
 		<Stack flex={1} padding={12} gap={18}>
@@ -59,7 +61,11 @@ export const SolanaDashboard: FC<Props> = () => {
 				<SlideHandler items={cards} activeItem={cards[0]} />
 			</Stack>
 			<Stack>
-				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />
+				<TabsHeader
+					items={layoutTabs}
+					activeItem={layoutTabs[activeTabIndex]}
+					onTabPress={onTabPress}
+				/>
 				<TokenList
 					contentContainerStyle={styles.tokenListInner}
 					items={tokens}

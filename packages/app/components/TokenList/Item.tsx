@@ -44,10 +44,8 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		backgroundColor: '#131C24',
-		borderRadius: 12,
 		paddingVertical: 10,
 		paddingHorizontal: 12,
-		marginVertical: 6,
 	},
 	iconImg: {
 		width: iconSize,

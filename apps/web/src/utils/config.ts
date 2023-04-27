@@ -10,3 +10,5 @@ export const resources = {
 		},
 	},
 };
+
+export const w3aBaseUrl = __DEV__ ? location.origin : 'https:app.walless.io';

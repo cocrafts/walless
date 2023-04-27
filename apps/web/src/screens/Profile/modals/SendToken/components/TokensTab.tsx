@@ -22,7 +22,8 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ modalId }) => {
-	const [token, setToken] = useState<DropdownItemProps | null>(null);
+	const [token, setToken] = useState<TokenDocument | null>(null);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [network, setNetwork] = useState<DropdownItemProps | null>(null);
 	const [receiver, setReceiver] = useState('');
 	const [amount, setAmount] = useState(0);
@@ -130,7 +131,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 					gap={4}
 				>
 					<Text fontWeight="500" fontSize={14} color="#FFFFFF">
-						~ {transactionFee} {token ? token.value : ''}
+						~ {transactionFee} {token ? token.metadata?.name : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 secs
@@ -167,7 +168,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 				>
 					<Text fontWeight="600" fontSize={20} color="#EEEEEE">
 						{amount !== 0 ? amount + transactionFee : 0}{' '}
-						{token ? token.value : ''}
+						{token ? token.metadata?.name : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 USD

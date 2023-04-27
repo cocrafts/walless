@@ -5,6 +5,10 @@ import { Networks } from '@walless/core';
 import { BindDirections, modalActions } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
+import { SearchAndSelectInput } from 'components/input/SearchAndSelectInput';
+import { tokenState } from 'state/tokens';
+import { walletState } from 'state/wallet';
+import { useSnapshot } from 'valtio';
 
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
 import { DropdownItemProps, dropdownItems } from '../internal';
@@ -30,8 +34,16 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 		})();
 	}, [network]);
 
+	const { solanaKeyMap } = useSnapshot(walletState);
+	const { solanaTokenMap } = useSnapshot(tokenState);
+	const allKeys = Array.from(solanaKeyMap.values());
+	const allTokens = Array.from(solanaTokenMap.values());
+
+	console.log(allKeys, allTokens);
+
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={12}>
+			<SearchAndSelectInput hello=""></SearchAndSelectInput>
 			<Stack
 				display="flex"
 				alignItems="center"

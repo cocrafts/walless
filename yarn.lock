@@ -22829,7 +22829,6 @@ __metadata:
     metro-react-native-babel-preset: 0.73.9
     mustache: ^4.2.0
     react-native: ^0.71.6
-    react-native-qrcode-svg: ^6.2.0
     react-native-reanimated: 3.1.0
     rimraf: ^5.0.0
     sst: 2.3.1

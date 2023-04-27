@@ -1,16 +1,17 @@
 import { FC, useState } from 'react';
 import { useEffect } from 'react';
-import { getTransactionFee } from '@walless/app';
+import { BindDirections, getTransactionFee, modalActions } from '@walless/app';
 import { Networks } from '@walless/core';
-import { BindDirections, modalActions } from '@walless/gui';
+import { Select } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
+import { TokenDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
+import { useTokens } from 'utils/hooks';
 
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
-import { DropdownItemProps, dropdownItems } from '../internal';
+import { DropdownItemProps } from '../internal';
 
 import Input from './Input';
-import InputDropdown from './InputDropdown';
 import NavBtn from './NavBtn';
 
 interface Props {
@@ -18,8 +19,8 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ modalId }) => {
-	const [token, setToken] = useState<DropdownItemProps | null>(null);
-	const [network, setNetwork] = useState<DropdownItemProps | null>(null);
+	const [token, setToken] = useState<TokenDocument | null>(null);
+	const [network] = useState<DropdownItemProps | null>(null);
 	const [receiver, setReceiver] = useState('');
 	const [amount, setAmount] = useState(0);
 	const [transactionFee, setTransactionFee] = useState(0);
@@ -30,32 +31,23 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 		})();
 	}, [network]);
 
+	const allTokens = useTokens();
+
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={12}>
-			<Stack
-				display="flex"
-				alignItems="center"
-				justifyContent="center"
-				gap={12}
-			>
-				{dropdownItems.map((item) => {
-					let setChosen;
-					if (item.type == 'token') {
-						setChosen = setToken;
-					} else if (item.type == 'network') {
-						setChosen = setNetwork;
-					}
-					return (
-						<InputDropdown
-							key={item.name}
-							name={item.name}
-							items={item.items}
-							setChosen={setChosen as never}
-						/>
-					);
-				})}
-			</Stack>
-
+			<Select
+				title="Select token"
+				items={allTokens}
+				selected={token as TokenDocument}
+				getRequiredFields={(item) => {
+					return {
+						id: item._id,
+						name: item.metadata?.name as string,
+						icon: item.metadata?.imageUri as string,
+					};
+				}}
+				onSelect={(token) => setToken(token)}
+			/>
 			<Stack position="relative">
 				<Input
 					content="Recipient account"
@@ -118,7 +110,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 					gap={4}
 				>
 					<Text fontWeight="500" fontSize={14} color="#FFFFFF">
-						~ {transactionFee} {token ? token.value : ''}
+						~ {transactionFee} {token ? token.metadata?.name : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 secs
@@ -155,7 +147,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 				>
 					<Text fontWeight="600" fontSize={20} color="#EEEEEE">
 						{amount !== 0 ? amount + transactionFee : 0}{' '}
-						{token ? token.value : ''}
+						{token ? token.metadata?.name : ''}
 					</Text>
 					<Text fontWeight="400" fontSize={12} color="#566674">
 						~ 0 USD

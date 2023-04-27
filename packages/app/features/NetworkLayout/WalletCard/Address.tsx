@@ -1,9 +1,17 @@
 import { FC } from 'react';
 import { type ViewStyle, Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
-import { Hoverable, Text, View } from '@walless/gui';
+import {
+	BindDirections,
+	Hoverable,
+	modalActions,
+	Text,
+	View,
+} from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { TokenRecord } from '@walless/storage';
+
+import CopiedNotification from '../../../components/CopiedNotification';
 
 import { CardSkin } from './shared';
 
@@ -31,6 +39,18 @@ export const WalletAddress: FC<Props> = ({ index, skin, token }) => {
 
 	const onCopy = () => {
 		navigator.clipboard.writeText(token.id as string);
+
+		modalActions.show({
+			id: 'copied_announcement',
+			component: CopiedNotification,
+			bindingDirection: BindDirections.InnerTopRight,
+			positionOffset: { x: 0, y: 20 },
+			maskActiveOpacity: 0,
+		});
+
+		setTimeout(() => {
+			modalActions.hide('copied_announcement');
+		}, 1000);
 	};
 
 	return (

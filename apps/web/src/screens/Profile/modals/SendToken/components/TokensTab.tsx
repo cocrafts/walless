@@ -7,6 +7,7 @@ import { Exclamation } from '@walless/icons';
 import { TokenDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
 import { tokenState } from 'state/tokens';
+import { useTokens } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
@@ -21,8 +22,7 @@ interface Props {
 
 export const TokensTab: FC<Props> = ({ modalId }) => {
 	const [token, setToken] = useState<TokenDocument | null>(null);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [network, setNetwork] = useState<DropdownItemProps | null>(null);
+	const [network] = useState<DropdownItemProps | null>(null);
 	const [receiver, setReceiver] = useState('');
 	const [amount, setAmount] = useState(0);
 	const [transactionFee, setTransactionFee] = useState(0);
@@ -33,8 +33,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 		})();
 	}, [network]);
 
-	const { map } = useSnapshot(tokenState);
-	const allTokens = Array.from(map.values());
+	const allTokens = useTokens();
 
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={12}>

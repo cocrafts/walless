@@ -1,20 +1,18 @@
 import { FC, useState } from 'react';
 import { useEffect } from 'react';
-import { getTransactionFee } from '@walless/app';
+import { BindDirections, getTransactionFee, modalActions } from '@walless/app';
 import { Networks } from '@walless/core';
-import { BindDirections, modalActions } from '@walless/gui';
+import { Select } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
+import { TokenDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
-import { SearchAndSelectInput } from 'components/input/SearchAndSelectInput';
 import { tokenState } from 'state/tokens';
-import { walletState } from 'state/wallet';
 import { useSnapshot } from 'valtio';
 
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
-import { DropdownItemProps, dropdownItems } from '../internal';
+import { DropdownItemProps } from '../internal';
 
 import Input from './Input';
-import InputDropdown from './InputDropdown';
 import NavBtn from './NavBtn';
 
 interface Props {
@@ -35,8 +33,8 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 		})();
 	}, [network]);
 
-	const { solanaTokenMap } = useSnapshot(tokenState);
-	const allTokens = Array.from(solanaTokenMap.values());
+	const { map } = useSnapshot(tokenState);
+	const allTokens = Array.from(map.values());
 
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={12}>

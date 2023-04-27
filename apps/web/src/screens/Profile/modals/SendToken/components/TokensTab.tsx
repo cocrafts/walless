@@ -35,40 +35,24 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 		})();
 	}, [network]);
 
-	const { solanaKeyMap } = useSnapshot(walletState);
 	const { solanaTokenMap } = useSnapshot(tokenState);
-	const allKeys = Array.from(solanaKeyMap.values());
 	const allTokens = Array.from(solanaTokenMap.values());
-
-	console.log(allKeys, allTokens);
 
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={12}>
-			<SearchAndSelectInput hello=""></SearchAndSelectInput>
-			<Stack
-				display="flex"
-				alignItems="center"
-				justifyContent="center"
-				gap={12}
-			>
-				{dropdownItems.map((item) => {
-					let setChosen;
-					if (item.type == 'token') {
-						setChosen = setToken;
-					} else if (item.type == 'network') {
-						setChosen = setNetwork;
-					}
-					return (
-						<InputDropdown
-							key={item.name}
-							name={item.name}
-							items={item.items}
-							setChosen={setChosen as never}
-						/>
-					);
-				})}
-			</Stack>
-
+			<Select
+				items={allTokens}
+				title="Select token"
+				selected={token as TokenDocument}
+				getRequiredFields={(item) => {
+					return {
+						id: item._id,
+						name: item.metadata?.name as string,
+						icon: item.metadata?.imageUri as string,
+					};
+				}}
+				onSelect={(token) => setToken(token)}
+			/>
 			<Stack position="relative">
 				<Input
 					content="Recipient account"

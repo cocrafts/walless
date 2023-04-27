@@ -1,5 +1,5 @@
-import { FunctionComponent, RefObject } from 'react';
-import { LayoutRectangle, View, ViewStyle } from 'react-native';
+import { type FC, type RefObject } from 'react';
+import { type LayoutRectangle, type ViewStyle, View } from 'react-native';
 
 export enum BindDirections {
 	Top,
@@ -47,7 +47,7 @@ export interface ModalConfigs {
 	bindingRectangle?: LayoutRectangle;
 	bindingDirection?: BindDirections;
 	animateDirection?: AnimateDirections;
-	component: FunctionComponent<{ config: ModalConfigs }>;
+	component: FC<{ config: ModalConfigs }>;
 	positionOffset?: PositionOffset;
 	maskStyle?: ViewStyle;
 	maskActiveOpacity?: number;

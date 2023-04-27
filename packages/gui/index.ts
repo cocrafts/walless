@@ -2,6 +2,7 @@ export * from './components/aliased';
 export * from './components/Anchor';
 export * from './components/Hoverable';
 export * from './components/ModalManager';
+export * from './components/Select';
 export * from './components/Slider';
 export * from './components/Text';
 export * from './components/View';

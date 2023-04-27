@@ -6,16 +6,14 @@ import {
 	SlideHandler,
 	TabAble,
 	TabsHeader,
+	TokenList,
 	WalletCard,
 } from '@walless/app';
-import { TokenList } from '@walless/app';
 import { Networks } from '@walless/core';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
-import { tokenState } from 'state/tokens';
-import { walletState } from 'state/wallet';
-import { useSnapshot } from 'utils/hooks';
+import { usePublicKeys, useTokens } from 'utils/hooks';
 
 interface Props {
 	variant?: string;
@@ -23,13 +21,10 @@ interface Props {
 
 export const SolanaDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
-	const { solanaKeyMap } = useSnapshot(walletState);
-	const { solanaTokenMap } = useSnapshot(tokenState);
-	const allKeys = Array.from(solanaKeyMap.values());
-	const tokens = Array.from(solanaTokenMap.values()).filter(
-		(token) => token.type === 'Token',
-	);
-	const address = allKeys[0]?._id as string;
+	const tokens = useTokens(Networks.solana);
+	const publicKeys = usePublicKeys(Networks.solana);
+
+	const address = publicKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
 		network: Networks.solana,

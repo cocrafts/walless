@@ -1,7 +1,16 @@
-import { FC } from 'react';
+import { type FC } from 'react';
+import { Image, StyleSheet } from 'react-native';
+import CopiedNotification from '@walless/app/components/CopiedNotification';
 import { shortenAddress } from '@walless/core';
+import {
+	BindDirections,
+	Hoverable,
+	modalActions,
+	Text,
+	View,
+} from '@walless/gui';
+import { Copy } from '@walless/icons';
 import { PublicKeyDocument } from '@walless/store';
-import { Image, Stack, Text } from '@walless/ui';
 import { getNetworkInfo } from 'utils/helper';
 
 interface Props {
@@ -11,35 +20,57 @@ interface Props {
 
 const Wallet: FC<Props> = ({ item, index }) => {
 	const network = getNetworkInfo(item.network);
+	const onCopy = () => {
+		navigator.clipboard.writeText(item._id as string);
+
+		modalActions.show({
+			id: 'copied_announcement',
+			component: CopiedNotification,
+			bindingDirection: BindDirections.InnerTopRight,
+			positionOffset: { x: 0, y: 20 },
+			maskActiveOpacity: 0,
+		});
+
+		setTimeout(() => {
+			modalActions.hide('copied_announcement');
+		}, 1000);
+	};
 
 	return (
-		<Stack
-			backgroundColor="#0E141A"
-			width="100%"
-			borderRadius={16}
-			padding={12}
-			flexDirection="row"
-			gap={10}
-			cursor="pointer"
-			hoverStyle={{ backgroundColor: '#202D38' }}
-		>
-			<Image
-				src={network?.icon as never}
-				width={30}
-				height={30}
-				borderRadius={10000}
-			/>
+		<Hoverable horizontal style={styles.container} onPress={onCopy}>
+			<View horizontal style={{ gap: 10 }}>
+				<Image source={network?.icon as never} style={styles.icon} />
 
-			<Stack>
-				<Text fontSize={14}>
-					Wallet {index + 1} ({network?.name})
-				</Text>
-				<Text fontSize={12} color="#566674">
-					{shortenAddress(item._id)}
-				</Text>
-			</Stack>
-		</Stack>
+				<View>
+					<Text>
+						Wallet {index + 1} ({network?.name})
+					</Text>
+					<Text style={styles.address}>{shortenAddress(item._id)}</Text>
+				</View>
+			</View>
+
+			<Copy size={18} />
+		</Hoverable>
 	);
 };
 
 export default Wallet;
+
+const styles = StyleSheet.create({
+	container: {
+		backgroundColor: '#0E141A',
+		borderRadius: 16,
+		padding: 12,
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+	icon: {
+		width: 30,
+		height: 30,
+		borderRadius: 15,
+	},
+	address: {
+		fontSize: 12,
+		color: '#566674',
+	},
+});

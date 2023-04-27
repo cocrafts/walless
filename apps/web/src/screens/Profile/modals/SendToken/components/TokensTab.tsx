@@ -6,9 +6,7 @@ import { Select } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 import { TokenDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
-import { tokenState } from 'state/tokens';
 import { useTokens } from 'utils/hooks';
-import { useSnapshot } from 'valtio';
 
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
 import { DropdownItemProps } from '../internal';
@@ -38,8 +36,8 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={12}>
 			<Select
-				items={allTokens}
 				title="Select token"
+				items={allTokens}
 				selected={token as TokenDocument}
 				getRequiredFields={(item) => {
 					return {

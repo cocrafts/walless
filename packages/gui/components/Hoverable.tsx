@@ -11,6 +11,7 @@ import {
 	withTiming,
 } from 'react-native-reanimated';
 
+import { injectedFontStyle } from '../utils/font';
 import { DynamicFlags, iStyles } from '../utils/style';
 
 import { AnimatedPressable } from './aliased';
@@ -45,6 +46,7 @@ export const Hoverable = forwardRef<View, Props>(
 		},
 		ref,
 	) => {
+		const dynamicStyle = injectedFontStyle(style);
 		const mouseContextRef = useRef<MouseContext>({});
 		const opacity = useSharedValue(1);
 		const animatedStyle = useAnimatedStyle(
@@ -86,7 +88,7 @@ export const Hoverable = forwardRef<View, Props>(
 		return (
 			<AnimatedPressable
 				ref={ref}
-				style={[containerStyle, style]}
+				style={[containerStyle, dynamicStyle]}
 				onHoverIn={handleHoverIn}
 				onHoverOut={handleHoverOut}
 				onPressIn={handlePressIn}

@@ -9,8 +9,7 @@ import {
 import { Networks } from '@walless/core';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
-import { walletState } from 'state/wallet';
-import { useSnapshot } from 'utils/hooks';
+import { usePublicKeys } from 'utils/hooks';
 
 import EmptyTab from '../EmptyTab';
 import { layoutTabs } from '../shared';
@@ -20,9 +19,8 @@ interface Props {
 }
 
 export const SuiDashboard: FC<Props> = () => {
-	const { suiKeyMap } = useSnapshot(walletState);
-	const allKeys = Array.from(suiKeyMap.values());
-	const address = allKeys[0]?._id as string;
+	const keys = usePublicKeys(Networks.sui);
+	const address = keys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
 		network: Networks.sui,

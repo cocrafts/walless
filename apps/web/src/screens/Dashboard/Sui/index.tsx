@@ -7,8 +7,10 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
+import ReceiveTokenScreen from 'screens/Profile/modals/ReceiveToken';
 import { usePublicKeys } from 'utils/hooks';
 
 import EmptyTab from '../EmptyTab';
@@ -35,6 +37,18 @@ export const SuiDashboard: FC<Props> = () => {
 		? [token, cloneCard(token, 'asdofi'), cloneCard(token, 'asdfklasjfdl')]
 		: [];
 
+	const handleReceive = () => {
+		modalActions.show({
+			id: 'receive-token',
+			bindingDirection: BindDirections.InnerBottom,
+			component: ReceiveTokenScreen,
+			animateDirection: AnimateDirections.Top,
+			context: {
+				network: 'sui',
+			},
+		});
+	};
+
 	return (
 		<Stack flex={1} padding={12} gap={18}>
 			<Stack horizontal gap={12}>
@@ -50,7 +64,7 @@ export const SuiDashboard: FC<Props> = () => {
 				})}
 			</Stack>
 			<Stack alignItems="center" gap={18}>
-				<MainFeatures />
+				<MainFeatures onReceivePress={handleReceive} />
 				<SlideHandler items={cards} activeItem={cards[0]} />
 			</Stack>
 			<Stack>

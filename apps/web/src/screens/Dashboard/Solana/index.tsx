@@ -10,11 +10,10 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
-import ReceiveTokenScreen from 'screens/Profile/modals/ReceiveToken';
+import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 
 interface Props {
@@ -39,18 +38,6 @@ export const SolanaDashboard: FC<Props> = () => {
 		setActiveTabIndex(idx);
 	};
 
-	const handleReceive = () => {
-		modalActions.show({
-			id: 'receive-token',
-			bindingDirection: BindDirections.InnerBottom,
-			component: ReceiveTokenScreen,
-			animateDirection: AnimateDirections.Top,
-			context: {
-				network: 'solana',
-			},
-		});
-	};
-
 	return (
 		<Stack flex={1} padding={12} gap={18}>
 			<Stack horizontal gap={12}>
@@ -66,7 +53,9 @@ export const SolanaDashboard: FC<Props> = () => {
 				})}
 			</Stack>
 			<Stack alignItems="center" gap={18}>
-				<MainFeatures onReceivePress={handleReceive} />
+				<MainFeatures
+					onReceivePress={() => showReceiveModal(Networks.solana)}
+				/>
 				<SlideHandler items={cards} activeItem={cards[0]} />
 			</Stack>
 			<Stack>

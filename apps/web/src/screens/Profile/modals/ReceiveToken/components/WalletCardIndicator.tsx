@@ -32,16 +32,26 @@ const WalletCardIndicator: FC<Props> = ({ config }) => {
 				<Hoverable
 					key={index}
 					style={{
-						...buttonStyle,
-						backgroundColor:
-							index === config.currentActiveIndex ? '#0694D3' : '#242F38',
+						height: 20,
+						backgroundColor: 'transparent',
+						alignItems: 'center',
+						justifyContent: 'center',
 					}}
 					onPress={() =>
 						config.setCurrentActiveIndex
 							? config.setCurrentActiveIndex(index)
 							: null
 					}
-				/>
+				>
+					<Stack
+						backgroundColor={
+							index === config.currentActiveIndex ? '#0694D3' : '#242F38'
+						}
+						width={40}
+						height={4}
+						borderRadius={4}
+					/>
+				</Hoverable>
 			))}
 		</Stack>
 	);

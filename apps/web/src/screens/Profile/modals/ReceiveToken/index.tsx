@@ -76,7 +76,7 @@ const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 				width={340}
 				overflow="hidden"
 				paddingVertical={28}
-				gap={30}
+				gap={10}
 			>
 				<Slider
 					style={style}

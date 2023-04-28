@@ -9,6 +9,7 @@ import {
 import { Networks } from '@walless/core';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
+import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys } from 'utils/hooks';
 
 import EmptyTab from '../EmptyTab';
@@ -50,7 +51,7 @@ export const SuiDashboard: FC<Props> = () => {
 				})}
 			</Stack>
 			<Stack alignItems="center" gap={18}>
-				<MainFeatures />
+				<MainFeatures onReceivePress={() => showReceiveModal(Networks.sui)} />
 				<SlideHandler items={cards} activeItem={cards[0]} />
 			</Stack>
 			<Stack>

@@ -13,6 +13,7 @@ import { Networks } from '@walless/core';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
+import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 
 interface Props {
@@ -52,7 +53,9 @@ export const SolanaDashboard: FC<Props> = () => {
 				})}
 			</Stack>
 			<Stack alignItems="center" gap={18}>
-				<MainFeatures />
+				<MainFeatures
+					onReceivePress={() => showReceiveModal(Networks.solana)}
+				/>
 				<SlideHandler items={cards} activeItem={cards[0]} />
 			</Stack>
 			<Stack>

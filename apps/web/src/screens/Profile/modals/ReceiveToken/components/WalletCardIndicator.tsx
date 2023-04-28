@@ -15,11 +15,6 @@ interface IndicatorProps {
 
 const WalletCardIndicator: FC<Props> = ({ config }) => {
 	const { cardList } = config.context as IndicatorProps;
-	const buttonStyle = {
-		width: 40,
-		height: 4,
-		borderRadius: 4,
-	};
 
 	return (
 		<Stack

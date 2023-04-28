@@ -48,6 +48,9 @@ const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 	let items: SlideOption[];
 	if (config.context) {
 		const { network } = config.context as { network: Networks };
+
+		console.log(network);
+
 		items = moveSelectedItemToTop(walletList, network).map((wallet, index) => ({
 			id: `${index}`,
 			component: WalletCard,

@@ -19,11 +19,11 @@ const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
 			component: CopiedAnnouncement,
 			bindingDirection: BindDirections.InnerTop,
 			positionOffset: { x: 0, y: 20 },
-			withoutMask: true,
+			withoutMask: false,
 		});
-		setTimeout(() => {
-			modalActions.hide('copied_announcement');
-		}, 1000);
+		// setTimeout(() => {
+		// 	modalActions.hide('copied_announcement');
+		// }, 1000);
 	};
 
 	return (

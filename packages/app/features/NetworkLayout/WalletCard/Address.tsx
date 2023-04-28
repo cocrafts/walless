@@ -11,7 +11,7 @@ import {
 import { Copy } from '@walless/icons';
 import { TokenRecord } from '@walless/storage';
 
-import CopiedNotification from '../../../components/CopiedNotification';
+import Notification from '../../../components/Notification';
 
 import { CardSkin } from './shared';
 
@@ -40,12 +40,18 @@ export const WalletAddress: FC<Props> = ({ index, skin, token }) => {
 	const onCopy = () => {
 		navigator.clipboard.writeText(token.id as string);
 
+		const StyledCopy = () => <Copy size={18} color="#FFFFFF" />;
+
 		modalActions.show({
 			id: 'copied_announcement',
-			component: CopiedNotification,
+			component: Notification,
 			bindingDirection: BindDirections.InnerTopRight,
 			positionOffset: { x: 0, y: 20 },
 			maskActiveOpacity: 0,
+			context: {
+				prefix: StyledCopy,
+				message: 'Copied',
+			},
 		});
 
 		setTimeout(() => {

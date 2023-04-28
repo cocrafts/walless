@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import CopiedNotification from '@walless/app/components/CopiedNotification';
+import { Notification } from '@walless/app';
 import { shortenAddress } from '@walless/core';
 import {
 	BindDirections,
@@ -18,17 +18,23 @@ interface Props {
 	index: number;
 }
 
-const Wallet: FC<Props> = ({ item, index }) => {
+export const Wallet: FC<Props> = ({ item, index }) => {
 	const network = getNetworkInfo(item.network);
 	const onCopy = () => {
 		navigator.clipboard.writeText(item._id as string);
 
+		const StyledCopy = () => <Copy size={18} color="#FFFFFF" />;
+
 		modalActions.show({
 			id: 'copied_announcement',
-			component: CopiedNotification,
+			component: Notification,
 			bindingDirection: BindDirections.InnerTopRight,
 			positionOffset: { x: 0, y: 20 },
 			maskActiveOpacity: 0,
+			context: {
+				prefix: StyledCopy,
+				message: 'Copied',
+			},
 		});
 
 		setTimeout(() => {
@@ -49,7 +55,7 @@ const Wallet: FC<Props> = ({ item, index }) => {
 				</View>
 			</View>
 
-			<Copy size={18} />
+			<Copy size={18} color={'#566674'} />
 		</Hoverable>
 	);
 };

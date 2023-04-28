@@ -21,9 +21,9 @@ const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
 			positionOffset: { x: 0, y: 20 },
 			withoutMask: false,
 		});
-		// setTimeout(() => {
-		// 	modalActions.hide('copied_announcement');
-		// }, 1000);
+		setTimeout(() => {
+			modalActions.hide('copied_announcement');
+		}, 1000);
 	};
 
 	return (

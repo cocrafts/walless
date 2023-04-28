@@ -44,7 +44,7 @@ export const initializeLiveState = async () => {
 				extensionState.map.set(id, item as never);
 			} else if (item?.type === 'PublicKey') {
 				walletState.map.set(id, item as PublicKeyDocument);
-			} else {
+			} else if (item?.type === 'Token') {
 				tokenState.map.set(id, item as TokenDocument);
 			}
 		}

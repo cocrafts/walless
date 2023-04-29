@@ -1,9 +1,7 @@
 import { FC } from 'react';
-import { BindDirections, modalActions } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Button, Image, Stack, Text } from '@walless/ui';
-
-import CopiedAnnouncement from './CopiedAnnouncement';
+import { appActions } from 'state/app';
 
 interface Props {
 	network: string;
@@ -14,16 +12,11 @@ interface Props {
 const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
 	const handleCopied = () => {
 		navigator.clipboard.writeText(address);
-		modalActions.show({
-			id: 'copied_announcement',
-			component: CopiedAnnouncement,
-			bindingDirection: BindDirections.InnerTop,
-			positionOffset: { x: 0, y: 20 },
-			withoutMask: false,
+
+		appActions.notify('copied', {
+			prefix: () => <Copy size={18} color="#FFFFFF" />,
+			message: 'Copied',
 		});
-		setTimeout(() => {
-			modalActions.hide('copied_announcement');
-		}, 1000);
 	};
 
 	return (

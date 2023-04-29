@@ -5,11 +5,13 @@ import {
 	signInGoogle,
 } from './authentication';
 import { appState } from './internal';
+import { notify } from './modal';
 import { bootstrap, launchApp } from './splash';
 
 export const appActions = {
 	bootstrap,
 	launchApp,
+	notify,
 	setProfile,
 	signInGoogle,
 	confirmPasscode,

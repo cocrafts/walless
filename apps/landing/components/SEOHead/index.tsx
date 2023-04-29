@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Head from 'next/head';
 
-import globalMeta from './globalmeta';
+import globalMeta from './globalMeta';
 
 export interface SEOHeadProps {
 	title?: string;

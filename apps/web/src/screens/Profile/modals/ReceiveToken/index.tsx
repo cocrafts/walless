@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { ModalConfigs } from '@walless/app';
+import { Networks } from '@walless/core';
 import { Stack } from '@walless/ui';
 import { walletState } from 'state/wallet';
 import { getNetworkInfo } from 'utils/helper';
@@ -27,14 +28,41 @@ const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 		});
 	});
 
+	const moveSelectedItemToTop = (
+		items: WalletProps[],
+		selectedItem: string,
+	) => {
+		const filteredItems = items.filter(
+			(item) => item.network.toLowerCase() !== selectedItem,
+		);
+		const selectedItems = items.filter(
+			(item) => item.network.toLowerCase() === selectedItem,
+		);
+		return [...selectedItems, ...filteredItems];
+	};
+
 	const style = {
 		gap: 20,
 	};
-	const items: SlideOption[] = walletList.map((wallet) => ({
-		id: wallet.address,
-		component: WalletCard,
-		context: wallet,
-	}));
+
+	let items: SlideOption[];
+	if (config.context) {
+		const { network } = config.context as { network: Networks };
+
+		console.log(network);
+
+		items = moveSelectedItemToTop(walletList, network).map((wallet, index) => ({
+			id: `${index}`,
+			component: WalletCard,
+			context: wallet,
+		}));
+	} else {
+		items = walletList.map((wallet, index) => ({
+			id: `${index}`,
+			component: WalletCard,
+			context: wallet,
+		}));
+	}
 
 	const indicator: IndicatorOption = {
 		id: 'indicator',
@@ -51,7 +79,7 @@ const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 				width={340}
 				overflow="hidden"
 				paddingVertical={28}
-				gap={30}
+				gap={10}
 			>
 				<Slider
 					style={style}

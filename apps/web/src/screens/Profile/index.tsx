@@ -1,12 +1,13 @@
 import { AnimateDirections, BindDirections, MainFeatures } from '@walless/app';
+import { Networks } from '@walless/core';
 import { modalActions } from '@walless/gui';
 import { Stack } from '@walless/ui';
+import { showReceiveModal } from 'state/app/modal';
 
 import Collectibles from './components/Collectibles';
 import History from './components/History';
 import TokenValue from './components/TokenValue';
 import Widgets from './components/Widgets';
-import ReceiveTokenScreen from './modals/ReceiveToken';
 import SendTokenScreen from './modals/SendToken';
 
 const ProfileScreen = () => {
@@ -15,15 +16,6 @@ const ProfileScreen = () => {
 			id: 'send-token',
 			bindingDirection: BindDirections.InnerBottom,
 			component: SendTokenScreen,
-			animateDirection: AnimateDirections.Top,
-		});
-	};
-
-	const handleReceive = () => {
-		modalActions.show({
-			id: 'receive-token',
-			bindingDirection: BindDirections.InnerBottom,
-			component: ReceiveTokenScreen,
 			animateDirection: AnimateDirections.Top,
 		});
 	};
@@ -42,7 +34,10 @@ const ProfileScreen = () => {
 
 			<TokenValue />
 
-			<MainFeatures onSendPress={handleSend} onReceivePress={handleReceive} />
+			<MainFeatures
+				onSendPress={handleSend}
+				onReceivePress={() => showReceiveModal(Networks.sui)}
+			/>
 
 			<Collectibles />
 

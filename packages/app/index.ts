@@ -5,7 +5,6 @@ export * from './components/ModalManager';
 export * from './components/Notification';
 export * from './components/PinInput';
 export * from './components/SlideHandler';
-export * from './components/StickyHeader';
 export * from './components/TabsHeader';
 export * from './components/TokenList';
 export * from './features/DashboardLayout';

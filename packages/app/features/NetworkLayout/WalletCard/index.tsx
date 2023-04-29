@@ -11,6 +11,7 @@ type Props = StackProps & {
 	width?: number;
 	skin: CardSkin;
 	token: TokenRecord;
+	onCopyAddress?: () => void;
 };
 
 export const WalletCard: FC<Props> = ({
@@ -18,6 +19,7 @@ export const WalletCard: FC<Props> = ({
 	width = 312,
 	skin,
 	token,
+	onCopyAddress,
 }) => {
 	const height = (width * 145) / 318;
 	const [isPrivate, setIsPrivate] = useState(false);
@@ -37,7 +39,12 @@ export const WalletCard: FC<Props> = ({
 			justifyContent="center"
 			overflow="hidden"
 		>
-			<WalletAddress index={index} skin={skin} token={token} />
+			<WalletAddress
+				index={index}
+				skin={skin}
+				token={token}
+				onCopyAddress={onCopyAddress}
+			/>
 			<WalletBalance token={token} isPrivate={isPrivate} onHide={handleHide} />
 			<Stack
 				position="absolute"

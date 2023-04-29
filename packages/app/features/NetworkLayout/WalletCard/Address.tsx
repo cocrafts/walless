@@ -1,17 +1,9 @@
 import { FC } from 'react';
 import { type ViewStyle, Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
-import {
-	BindDirections,
-	Hoverable,
-	modalActions,
-	Text,
-	View,
-} from '@walless/gui';
+import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { TokenRecord } from '@walless/storage';
-
-import Notification from '../../../components/Notification';
 
 import { CardSkin } from './shared';
 
@@ -19,9 +11,15 @@ interface Props {
 	index: number;
 	skin: CardSkin;
 	token: TokenRecord;
+	onCopyAddress?: () => void;
 }
 
-export const WalletAddress: FC<Props> = ({ index, skin, token }) => {
+export const WalletAddress: FC<Props> = ({
+	index,
+	skin,
+	token,
+	onCopyAddress,
+}) => {
 	const { iconSrc, iconColor = '#ffffff', iconSize } = skin;
 	const iconContainerStyle: ViewStyle = {
 		width: iconWrapperSize,
@@ -40,23 +38,7 @@ export const WalletAddress: FC<Props> = ({ index, skin, token }) => {
 	const onCopy = () => {
 		navigator.clipboard.writeText(token.id as string);
 
-		const StyledCopy = () => <Copy size={18} color="#FFFFFF" />;
-
-		modalActions.show({
-			id: 'copied_announcement',
-			component: Notification,
-			bindingDirection: BindDirections.InnerTopRight,
-			positionOffset: { x: 0, y: 20 },
-			maskActiveOpacity: 0,
-			context: {
-				prefix: StyledCopy,
-				message: 'Copied',
-			},
-		});
-
-		setTimeout(() => {
-			modalActions.hide('copied_announcement');
-		}, 1000);
+		onCopyAddress?.();
 	};
 
 	return (

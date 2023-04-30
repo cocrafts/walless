@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Input, Stack, Text } from '@walless/ui';
+import { useRef, useState } from 'react';
+import { exportComponentAsPNG } from 'react-component-export-image';
+import { Button, Input, Stack, Text } from '@walless/ui';
 
 import LayoutCard from './LayoutCard';
 
@@ -18,20 +19,27 @@ export const initialLayoutCardProps: LayoutCardProps = {
 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.',
 };
 
+export enum LayoutCardComponent {
+	coverImage,
+	avatar,
+	projectName,
+	description,
+}
+
 const LayoutInStore = () => {
-	const [currentHoverIndex, setCurrentHoverIndex] = useState<number | null>(
-		null,
-	);
+	const [activeComponent, setActiveComponent] =
+		useState<LayoutCardComponent | null>(null);
 	const [layoutCardProps, setLayoutCardProps] = useState<LayoutCardProps>(
 		initialLayoutCardProps,
 	);
+	const wrapperRef = useRef(null);
 
 	const handleMouseEnter = (index: number) => {
-		setCurrentHoverIndex(index);
+		setActiveComponent(index);
 	};
 
 	const handleMouseLeave = () => {
-		setCurrentHoverIndex(null);
+		setActiveComponent(null);
 	};
 
 	const handleChangeCoverImage = (
@@ -69,7 +77,7 @@ const LayoutInStore = () => {
 				<Stack
 					flexDirection="row"
 					gap={16}
-					onMouseEnter={() => handleMouseEnter(0)}
+					onMouseEnter={() => handleMouseEnter(LayoutCardComponent.coverImage)}
 					onMouseLeave={handleMouseLeave}
 				>
 					<Text>Set cover image</Text>
@@ -83,7 +91,7 @@ const LayoutInStore = () => {
 				<Stack
 					flexDirection="row"
 					gap={16}
-					onMouseEnter={() => handleMouseEnter(1)}
+					onMouseEnter={() => handleMouseEnter(LayoutCardComponent.avatar)}
 					onMouseLeave={handleMouseLeave}
 				>
 					<Text>Set avatar</Text>
@@ -97,7 +105,7 @@ const LayoutInStore = () => {
 				<Stack
 					flexDirection="row"
 					gap={16}
-					onMouseEnter={() => handleMouseEnter(2)}
+					onMouseEnter={() => handleMouseEnter(LayoutCardComponent.projectName)}
 					onMouseLeave={handleMouseLeave}
 				>
 					<Text>Set project name</Text>
@@ -114,7 +122,7 @@ const LayoutInStore = () => {
 				<Stack
 					flexDirection="row"
 					gap={16}
-					onMouseEnter={() => handleMouseEnter(3)}
+					onMouseEnter={() => handleMouseEnter(LayoutCardComponent.description)}
 					onMouseLeave={handleMouseLeave}
 				>
 					<Text>Set description</Text>
@@ -129,10 +137,24 @@ const LayoutInStore = () => {
 				</Stack>
 			</Stack>
 
-			<LayoutCard
-				item={layoutCardProps}
-				currentHoverIndex={currentHoverIndex}
-			/>
+			<Stack ref={wrapperRef}>
+				<LayoutCard item={layoutCardProps} activeComponent={activeComponent} />
+			</Stack>
+
+			<Button
+				width={120}
+				height={40}
+				onPress={() =>
+					exportComponentAsPNG(wrapperRef, {
+						fileName: 'Walless-custom-layout',
+						html2CanvasOptions: {
+							backgroundColor: null,
+						},
+					})
+				}
+			>
+				Save Image
+			</Button>
 		</Stack>
 	);
 };

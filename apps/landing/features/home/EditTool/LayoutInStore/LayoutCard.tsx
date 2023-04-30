@@ -4,17 +4,23 @@ import { Image, Stack, Text } from '@walless/ui';
 import TargetWrapper from '../TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';
-import { initialLayoutCardProps, LayoutCardProps } from '.';
+import {
+	initialLayoutCardProps,
+	LayoutCardComponent,
+	LayoutCardProps,
+} from '.';
 
 interface Props {
 	item: LayoutCardProps;
-	currentHoverIndex: number | null;
+	activeComponent: LayoutCardComponent | null;
 }
 
-const LayoutCard: FC<Props> = ({ item, currentHoverIndex }) => {
+const LayoutCard: FC<Props> = ({ item, activeComponent }) => {
 	return (
 		<Stack backgroundColor="#131C24" maxWidth={320} borderRadius={12}>
-			<TargetWrapper isTargeted={currentHoverIndex === 0}>
+			<TargetWrapper
+				isTargeted={activeComponent === LayoutCardComponent.coverImage}
+			>
 				<Image
 					src={item.coverImage}
 					width={320}
@@ -31,7 +37,9 @@ const LayoutCard: FC<Props> = ({ item, currentHoverIndex }) => {
 				justifyContent="flex-end"
 				marginTop={-20}
 			>
-				<TargetWrapper isTargeted={currentHoverIndex === 1}>
+				<TargetWrapper
+					isTargeted={activeComponent === LayoutCardComponent.avatar}
+				>
 					<Stack
 						width={32}
 						height={32}
@@ -44,7 +52,9 @@ const LayoutCard: FC<Props> = ({ item, currentHoverIndex }) => {
 					</Stack>
 				</TargetWrapper>
 
-				<TargetWrapper isTargeted={currentHoverIndex === 2}>
+				<TargetWrapper
+					isTargeted={activeComponent === LayoutCardComponent.projectName}
+				>
 					<Text fontSize={14} marginTop={4} fontWeight="600">
 						{item.projectName === ''
 							? initialLayoutCardProps.projectName
@@ -52,7 +62,9 @@ const LayoutCard: FC<Props> = ({ item, currentHoverIndex }) => {
 					</Text>
 				</TargetWrapper>
 
-				<TargetWrapper isTargeted={currentHoverIndex === 3}>
+				<TargetWrapper
+					isTargeted={activeComponent === LayoutCardComponent.description}
+				>
 					<Text
 						fontSize={12}
 						fontWeight="400"

@@ -14,7 +14,6 @@
     "@walless/markdown": "*",
     "@walless/ui": "*",
     "next": "^13.1.1",
-    "react-component-export-image": "^1.0.6",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {

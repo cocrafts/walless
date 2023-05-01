@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { exportComponentAsPNG } from 'react-component-export-image';
 import { Button, Input, Stack, Text } from '@walless/ui';
 
 import LayoutCard from './LayoutCard';
@@ -140,21 +139,6 @@ const LayoutInStore = () => {
 			<Stack ref={wrapperRef}>
 				<LayoutCard item={layoutCardProps} activeComponent={activeComponent} />
 			</Stack>
-
-			<Button
-				width={120}
-				height={40}
-				onPress={() =>
-					exportComponentAsPNG(wrapperRef, {
-						fileName: 'Walless-custom-layout',
-						html2CanvasOptions: {
-							backgroundColor: null,
-						},
-					})
-				}
-			>
-				Save Image
-			</Button>
 		</Stack>
 	);
 };

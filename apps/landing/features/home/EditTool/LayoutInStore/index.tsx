@@ -1,5 +1,6 @@
-import { useRef, useState } from 'react';
-import { Input, Stack, Text } from '@walless/ui';
+import { useCallback, useRef, useState } from 'react';
+import { Button, Input, Stack, Text } from '@walless/ui';
+import { toPng } from 'html-to-image';
 
 import { handleChangeImage } from '../internal';
 
@@ -56,6 +57,23 @@ const LayoutInStore = () => {
 			avatar: url,
 		});
 	};
+
+	const handleExportImage = useCallback(() => {
+		if (wrapperRef.current === null) {
+			return;
+		}
+
+		toPng(wrapperRef.current, { cacheBust: true })
+			.then((dataUrl) => {
+				const link = document.createElement('a');
+				link.download = 'walless-custom-layout-card.png';
+				link.href = dataUrl;
+				link.click();
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	}, [wrapperRef]);
 
 	return (
 		<Stack
@@ -131,6 +149,10 @@ const LayoutInStore = () => {
 			<Stack ref={wrapperRef}>
 				<LayoutCard item={layoutCardProps} activeComponent={activeComponent} />
 			</Stack>
+
+			<Button width={160} height={40} onPress={handleExportImage}>
+				<Text>Save as Image</Text>
+			</Button>
 		</Stack>
 	);
 };

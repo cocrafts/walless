@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Button, Input, Stack, Text } from '@walless/ui';
+import { Input, Stack, Text } from '@walless/ui';
 
 import LayoutCard from './LayoutCard';
 

@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { Input, Stack, Text } from '@walless/ui';
 
+import { handleChangeImage } from '../internal';
+
 import LayoutCard from './LayoutCard';
 
 export interface LayoutCardProps {
@@ -41,28 +43,18 @@ const LayoutInStore = () => {
 		setActiveComponent(null);
 	};
 
-	const handleChangeCoverImage = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		const reader = new FileReader();
-		reader.onload = (e) => {
-			setLayoutCardProps({
-				...layoutCardProps,
-				coverImage: e.target?.result as string,
-			});
-		};
-		reader.readAsDataURL((event.target.files as FileList)[0] as Blob);
+	const handleChangeCoverImage = (url: string) => {
+		setLayoutCardProps({
+			...layoutCardProps,
+			coverImage: url,
+		});
 	};
 
-	const handleChangeAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const reader = new FileReader();
-		reader.onload = (e) => {
-			setLayoutCardProps({
-				...layoutCardProps,
-				avatar: e.target?.result as string,
-			});
-		};
-		reader.readAsDataURL((event.target.files as FileList)[0] as Blob);
+	const handleChangeAvatar = (url: string) => {
+		setLayoutCardProps({
+			...layoutCardProps,
+			avatar: url,
+		});
 	};
 
 	return (
@@ -79,11 +71,11 @@ const LayoutInStore = () => {
 					onMouseEnter={() => handleMouseEnter(LayoutCardComponent.coverImage)}
 					onMouseLeave={handleMouseLeave}
 				>
-					<Text>Set cover image</Text>
+					<Text>Set cover image (png, jpg, jpeg)</Text>
 					<input
 						type="file"
-						accept="image/png, image/jpeg"
-						onChange={handleChangeCoverImage}
+						accept="image/png, image/jpg, image/jpeg"
+						onChange={(e) => handleChangeImage(e, handleChangeCoverImage)}
 					/>
 				</Stack>
 
@@ -97,7 +89,7 @@ const LayoutInStore = () => {
 					<input
 						type="file"
 						accept="image/png, image/jpeg"
-						onChange={handleChangeAvatar}
+						onChange={(e) => handleChangeImage(e, handleChangeAvatar)}
 					/>
 				</Stack>
 

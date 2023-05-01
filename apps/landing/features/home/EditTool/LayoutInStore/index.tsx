@@ -146,13 +146,18 @@ const LayoutInStore = () => {
 				</Stack>
 			</Stack>
 
-			<Stack ref={wrapperRef}>
-				<LayoutCard item={layoutCardProps} activeComponent={activeComponent} />
-			</Stack>
+			<Stack alignItems="center" gap={24}>
+				<Stack ref={wrapperRef}>
+					<LayoutCard
+						item={layoutCardProps}
+						activeComponent={activeComponent}
+					/>
+				</Stack>
 
-			<Button width={160} height={40} onPress={handleExportImage}>
-				<Text>Save as Image</Text>
-			</Button>
+				<Button width={160} height={40} onPress={handleExportImage}>
+					<Text>Save as Image</Text>
+				</Button>
+			</Stack>
 		</Stack>
 	);
 };

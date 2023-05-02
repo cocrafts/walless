@@ -1,8 +1,9 @@
-import { LegacySolanaMetadata, Networks } from '@walless/core';
+import { Networks } from '@walless/core';
 import { getSolanaMetadata, GetSolanaMetadataFunction } from '@walless/network';
-import { MetadataDocument } from '@walless/store';
+import { type MetadataDocument } from '@walless/store';
 import { db } from 'utils/pouch';
 
+import { type LegacyMetadataSource } from './internal';
 import legacyRegistry from './solanaTokenList.json';
 
 export const getLazySolanaMetatadata: GetSolanaMetadataFunction = async (
@@ -22,19 +23,20 @@ export const getLazySolanaMetatadata: GetSolanaMetadataFunction = async (
 	return remote;
 };
 
-export const tokenMap = (
-	(legacyRegistry as any).tokens as LegacySolanaMetadata[]
-).reduce((a, i) => {
-	a[i.address] = {
-		_id: i.address,
-		type: 'Metadata',
-		network: Networks.solana,
-		name: i.name,
-		symbol: i.symbol,
-		imageUri: i.logoURI,
-	} as MetadataDocument;
-	return a;
-}, {} as Record<string, MetadataDocument>);
+export const tokenMap = (legacyRegistry as LegacyMetadataSource).tokens.reduce(
+	(a, i) => {
+		a[i.address] = {
+			_id: i.address,
+			type: 'Metadata',
+			network: Networks.solana,
+			name: i.name,
+			symbol: i.symbol,
+			imageUri: i.logoURI,
+		} as MetadataDocument;
+		return a;
+	},
+	{} as Record<string, MetadataDocument>,
+);
 
 export const getLocalMetadata = (address: string) => {
 	return tokenMap[address];

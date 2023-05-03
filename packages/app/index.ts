@@ -7,7 +7,6 @@ export * from './features/Login';
 export * from './features/MainFeatures';
 export * from './features/NetworkLayout';
 export * from './features/Passcode';
-export * from './features/PinUnlock';
 export * from './features/Splash';
 export * from './state/app';
 export * from './utils/authentication';

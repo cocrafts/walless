@@ -1,14 +1,9 @@
 import { FC } from 'react';
-import { View } from '@walless/gui';
 
-import SplashScreen from './screens/Splash';
+import AppStack from './stacks';
 
-export const Index: FC = () => {
-	return (
-		<View style={{ flex: 1 }}>
-			<SplashScreen />
-		</View>
-	);
+export const AppContainer: FC = () => {
+	return <AppStack />;
 };
 
-export default Index;
+export default AppContainer;

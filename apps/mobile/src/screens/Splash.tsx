@@ -2,24 +2,14 @@ import { type FC } from 'react';
 import { SplashFeature } from '@walless/app';
 
 import { appActions } from '../state/app';
+import { resources } from '../utils/config';
 
 export const SplashWrapper: FC = () => {
-	const logoSrc = require('../../assets/img/icon-lg.png');
-
-	const initialize = async () => {
-		console.log('initializing...');
-		return { name: 'stranger' };
-	};
-
-	const onReady = (profile: UserProfile) => {
-		console.log('ready!', profile);
-	};
-
 	return (
 		<SplashFeature
-			logoSrc={logoSrc}
-			initialize={initialize}
-			onReady={onReady as never}
+			logoSrc={resources.walless.icon}
+			initialize={appActions.bootstrap}
+			onReady={appActions.launchApp as never}
 		/>
 	);
 };

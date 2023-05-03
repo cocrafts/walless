@@ -1,4 +1,3 @@
-export * from './components/alias';
 export * from './components/DashboardButton';
 export * from './components/FeatureButton';
 export * from './components/PinInput';

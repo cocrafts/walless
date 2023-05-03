@@ -1,7 +1,6 @@
-import { FC, ReactNode } from 'react';
-import { ViewStyle } from 'react-native';
-import { GetProps } from '@tamagui/core';
-import { Button, Stack } from '@walless/ui';
+import { type FC, type ReactNode } from 'react';
+import { type ViewStyle, StyleSheet } from 'react-native';
+import { Hoverable, View } from '@walless/gui';
 
 import { ActiveHighlight } from './ActiveHighlight';
 
@@ -13,39 +12,36 @@ interface Props {
 	onPress?: () => void;
 }
 
-export const DashboardButton: FC<Props & ButtonProps> = ({
+export const DashboardButton: FC<Props> = ({
 	size = 36,
 	isActive = false,
 	activeStyle,
 	children,
-	...props
 }) => {
-	const active = isActive ? { ...activeStyle } : {};
+	const buttonStyle: ViewStyle = {
+		width: size,
+		height: size,
+		borderRadius: 10,
+		backgroundColor: isActive ? '#0694D3' : '#243F56',
+		alignItems: 'center',
+		justifyContent: 'center',
+		overflow: 'hidden',
+	};
 
 	return (
-		<Stack alignItems="center">
+		<View style={styles.container}>
 			{isActive && <ActiveHighlight />}
-			<Button
-				width={size}
-				height={size}
-				borderRadius={10}
-				backgroundColor={`${isActive ? '#0694D3' : '#243F56'}`}
-				padding={0}
-				alignContent="center"
-				justifyContent="center"
-				overflow="hidden"
-				hoverStyle={{
-					backgroundColor: `${isActive ? '#65B6DA' : '#31485C'}`,
-				}}
-				{...props}
-				{...active}
-			>
+			<Hoverable style={[buttonStyle, isActive && activeStyle]}>
 				{children}
-			</Button>
-		</Stack>
+			</Hoverable>
+		</View>
 	);
 };
 
 export default DashboardButton;
 
-type ButtonProps = GetProps<typeof Button>;
+const styles = StyleSheet.create({
+	container: {
+		alignItems: 'center',
+	},
+});

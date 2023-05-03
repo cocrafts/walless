@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Button, Input, Stack, Text } from '@walless/ui';
 import { toPng } from 'html-to-image';
+import Link from 'next/link';
 
 import { handleChangeImage } from '../internal';
 
@@ -103,7 +104,7 @@ const LayoutInStore = () => {
 					onMouseEnter={() => handleMouseEnter(LayoutCardComponent.avatar)}
 					onMouseLeave={handleMouseLeave}
 				>
-					<Text>Set avatar</Text>
+					<Text>Set avatar (png, jpg, jpeg)</Text>
 					<input
 						type="file"
 						accept="image/png, image/jpeg"
@@ -154,9 +155,20 @@ const LayoutInStore = () => {
 					/>
 				</Stack>
 
-				<Button width={160} height={40} onPress={handleExportImage}>
-					<Text>Save as Image</Text>
-				</Button>
+				<Stack flexDirection="row" gap={12}>
+					<Button onPress={handleExportImage}>
+						<Text>Save as Image</Text>
+					</Button>
+
+					<Button>
+						<Link
+							href="https://twitter.com/intent/tweet?text=I%20created%20my%20custom%20layout%20card%20with%20Walless%20and%20it%20looks%20awesome!%20Check%20it%20out%20here:%20https://walless.io"
+							target="_blank"
+						>
+							<Text>Tweet</Text>
+						</Link>
+					</Button>
+				</Stack>
 			</Stack>
 		</Stack>
 	);

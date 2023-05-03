@@ -18,6 +18,7 @@
     "@walless/gui": "*",
     "@walless/network": "*",
     "@walless/store": "*",
+    "@walless/crypto": "*",
     "@walless/ui": "*",
     "react": "^18.2.0",
     "react-native-reanimated": "3.1.0",

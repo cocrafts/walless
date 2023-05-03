@@ -1,17 +1,25 @@
 import { type FC, useState } from 'react';
-import { TokenRecord } from '@walless/storage';
-import { type StackProps, Image, ImageBackground, Stack } from '@walless/ui';
+import {
+	type ImageStyle,
+	type ViewStyle,
+	Image,
+	ImageBackground,
+	StyleSheet,
+} from 'react-native';
+import { View } from '@walless/gui';
+import { type TokenRecord } from '@walless/storage';
 
 import WalletAddress from './Address';
 import WalletBalance from './Balance';
 import { CardSkin } from './shared';
 
-type Props = StackProps & {
+interface Props {
+	style?: ViewStyle;
 	index?: number;
 	width?: number;
 	skin: CardSkin;
 	token: TokenRecord;
-};
+}
 
 export const WalletCard: FC<Props> = ({
 	index = 0,
@@ -19,39 +27,47 @@ export const WalletCard: FC<Props> = ({
 	skin,
 	token,
 }) => {
-	const height = (width * 145) / 318;
 	const [isPrivate, setIsPrivate] = useState(false);
+	const height = (width * 145) / 318;
+	const containerStyle: ImageStyle = {
+		width,
+		height,
+		aspectRatio: 318 / 145,
+		borderRadius: 12,
+		paddingHorizontal: 18,
+		justifyContent: 'center',
+		overflow: 'hidden',
+	};
 
 	const handleHide = (next: boolean) => {
 		setIsPrivate(next);
 	};
 
 	return (
-		<ImageBackground
-			source={skin.backgroundSrc}
-			width={width}
-			height={height}
-			aspectRatio={318 / 145}
-			borderRadius={12}
-			paddingHorizontal={18}
-			justifyContent="center"
-			overflow="hidden"
-		>
+		<ImageBackground style={containerStyle} source={skin.backgroundSrc}>
 			<WalletAddress index={index} skin={skin} token={token} />
 			<WalletBalance token={token} isPrivate={isPrivate} onHide={handleHide} />
-			<Stack
-				position="absolute"
-				top={0}
-				right={-34}
-				bottom={0}
-				justifyContent="center"
-			>
-				<Image src={skin.largeIconSrc} width={130} height={130} />
-			</Stack>
+			<View style={styles.markContainer}>
+				<Image style={styles.markImage} source={skin.largeIconSrc} />
+			</View>
 		</ImageBackground>
 	);
 };
 
 export default WalletCard;
+
+const styles = StyleSheet.create({
+	markContainer: {
+		position: 'absolute',
+		top: 0,
+		bottom: 0,
+		right: -34,
+		justifyContent: 'center',
+	},
+	markImage: {
+		width: 130,
+		height: 130,
+	},
+});
 
 export * from './shared';

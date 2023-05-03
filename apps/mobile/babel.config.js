@@ -5,7 +5,7 @@ module.exports = {
 			'module-resolver',
 			{
 				alias: {
-					crypto: '@chainsoft/react-native-quick-crypto',
+					crypto: 'react-native-quick-crypto',
 					stream: 'stream-browserify',
 					buffer: '@craftzdog/react-native-buffer',
 					'pouchdb-collate': '@craftzdog/pouchdb-collate-react-native',

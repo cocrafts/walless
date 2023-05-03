@@ -12,8 +12,8 @@ import { Stack } from '@walless/ui';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys } from 'utils/hooks';
 
-import EmptyTab from '../EmptyTab';
-import { layoutTabs } from '../shared';
+import EmptyTab from './EmptyTab';
+import { layoutTabs } from './shared';
 
 interface Props {
 	variant?: string;

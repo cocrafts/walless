@@ -29,8 +29,8 @@ export const WalletAddress: FC<Props> = ({ index, skin, token }) => {
 		borderRadius: iconSize / 2,
 	};
 
-	const onCopy = () => {
-		navigator.clipboard.writeText(token.id as string);
+	const onCopy = async () => {
+		await navigator.clipboard.writeText(token.id as string);
 	};
 
 	return (
@@ -43,7 +43,7 @@ export const WalletAddress: FC<Props> = ({ index, skin, token }) => {
 			</Text>
 			<Hoverable onPress={onCopy}>
 				<View style={styles.iconWrapper}>
-					<View fullScreen style={styles.iconInner} />
+					<View fullscreen style={styles.iconInner} />
 					<Copy size={iconWrapperSize - 8} />
 				</View>
 			</Hoverable>

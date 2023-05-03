@@ -40,7 +40,7 @@ export const Hoverable = forwardRef<View, Props>(
 			onHoverOut,
 			animationDuration = 50,
 			onPress,
-			fullScreen,
+			fullscreen,
 			horizontal,
 			noSelect = true,
 		},
@@ -59,11 +59,11 @@ export const Hoverable = forwardRef<View, Props>(
 			return [
 				animatedStyle,
 				horizontal && iStyles.horizontal,
-				fullScreen && iStyles.fullScreen,
+				fullscreen && iStyles.fullScreen,
 				noSelect && iStyles.noSelect,
 				style,
 			];
-		}, [style, horizontal, fullScreen, noSelect]);
+		}, [style, horizontal, fullscreen, noSelect]);
 
 		const handleHoverIn = (event: MouseEvent) => {
 			opacity.value = withTiming(hoverOpacity, { duration: animationDuration });

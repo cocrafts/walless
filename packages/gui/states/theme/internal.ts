@@ -30,8 +30,8 @@ export interface ThemeState {
 export const paperTheme: ThemeState = {
 	id: 'paper',
 	dark: false,
-	defaultFontFamily: 'Poppins',
-	defaultFontSize: 15,
+	defaultFontFamily: 'Rubik',
+	defaultFontSize: 14,
 	colors: {
 		primary: '#2C879B',
 		secondary: '#EB5757',
@@ -53,12 +53,12 @@ export const paperTheme: ThemeState = {
 export const nightTheme: ThemeState = {
 	id: 'night',
 	dark: true,
-	defaultFontFamily: 'Poppins',
-	defaultFontSize: 15,
+	defaultFontFamily: 'Rubik',
+	defaultFontSize: 14,
 	colors: {
 		primary: '#388BDF',
 		secondary: '#EB5757',
-		background: '#0d1117',
+		background: '#19232c',
 		card: '#FFFFFF',
 		border: '#D8D8D8',
 		notification: '#FF3B30',
@@ -73,27 +73,4 @@ export const nightTheme: ThemeState = {
 	},
 };
 
-export const fantasyTheme: ThemeState = {
-	id: 'fantasy',
-	dark: false,
-	defaultFontFamily: 'Poppins',
-	defaultFontSize: 15,
-	colors: {
-		primary: '#2C879B',
-		secondary: '#EB5757',
-		background: '#002E46',
-		card: '#FFFFFF',
-		border: '#D8D8D8',
-		notification: '#FF3B30',
-		text: '#FFFFFF',
-		link: '#2C879B',
-		alt: '#FFFFFF',
-		altText: '#222222',
-	},
-	sizes: {
-		topNavigation: 70,
-		leftNavigation: 70,
-	},
-};
-
-export const themeState = proxy<ThemeState>(paperTheme);
+export const themeState = proxy<ThemeState>(nightTheme);

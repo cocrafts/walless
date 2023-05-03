@@ -1,6 +1,6 @@
-import { AnimateDirections, BindDirections, MainFeatures } from '@walless/app';
+import { MainFeatures } from '@walless/app';
 import { Networks } from '@walless/core';
-import { modalActions } from '@walless/gui';
+import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { Stack } from '@walless/ui';
 import { showReceiveModal } from 'state/app/modal';
 

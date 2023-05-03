@@ -9,6 +9,7 @@ import SecurityQuestionsModule from '@tkey/security-questions';
 import { TorusServiceProvider } from '@tkey/service-provider-torus';
 import { type WebStorageModule } from '@tkey/web-storage';
 import { type CustomAuthArgs } from '@toruslabs/customauth';
+import { ThresholdResult } from '@walless/app';
 import { runtime } from '@walless/core';
 import { w3aBaseUrl } from 'utils/config';
 
@@ -92,12 +93,6 @@ export const configureSecurityQuestionShare = async (
 		question,
 	);
 };
-
-export enum ThresholdResult {
-	Initializing = 'initializing',
-	Ready = 'ready',
-	Missing = 'missing',
-}
 
 export const importAvailableShares = async (): Promise<ThresholdResult> => {
 	try {

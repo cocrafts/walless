@@ -1,17 +1,18 @@
+import { appState } from '@walless/app';
+
 import {
 	confirmPasscode,
 	recoverWithPasscode,
 	setProfile,
-	signInGoogle,
+	signInWithGoogle,
 } from './authentication';
-import { appState } from './internal';
 import { bootstrap, launchApp } from './splash';
 
 export const appActions = {
 	bootstrap,
 	launchApp,
 	setProfile,
-	signInGoogle,
+	signInWithGoogle,
 	confirmPasscode,
 	recoverWithPasscode,
 	setLoading: (flag: boolean): void => {
@@ -19,4 +20,4 @@ export const appActions = {
 	},
 };
 
-export * from './internal';
+export { type AppState, appState } from '@walless/app';

@@ -11,7 +11,7 @@ export const LoginScreen: FC = () => {
 		<LoginFeature
 			loading={authenticationLoading}
 			logoSrc={resources.walless.icon}
-			onGoogleSignIn={appActions.signInGoogle}
+			onGoogleSignIn={appActions.signInWithGoogle}
 		/>
 	);
 };

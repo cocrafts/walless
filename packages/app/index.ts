@@ -1,4 +1,3 @@
-export * from './components/DashboardButton';
 export * from './components/FeatureButton';
 export * from './components/SlideHandler';
 export * from './components/TabsHeader';

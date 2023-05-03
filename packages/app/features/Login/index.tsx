@@ -1,8 +1,16 @@
 import { FC } from 'react';
-import { type ImageSourcePropType, ActivityIndicator } from 'react-native';
-import { Anchor, Button, Image, Stack, Text } from '@walless/ui';
+import {
+	type ImageSourcePropType,
+	type ImageStyle,
+	type ViewStyle,
+	ActivityIndicator,
+	Image,
+	StyleSheet,
+} from 'react-native';
+import { Anchor, Button, Text, View } from '@walless/gui';
 
 interface Props {
+	style?: ViewStyle;
 	logoSrc: ImageSourcePropType;
 	logoSize?: number;
 	onGoogleSignIn?: () => void;
@@ -10,40 +18,67 @@ interface Props {
 }
 
 export const LoginFeature: FC<Props> = ({
+	style,
 	logoSrc,
 	logoSize = 120,
 	onGoogleSignIn,
 	loading,
 }) => {
+	const logoStyle: ImageStyle = {
+		width: logoSize,
+		height: logoSize * 0.8,
+	};
+
 	return (
-		<Stack flex={1}>
-			<Stack flex={1} alignItems="center" justifyContent="center">
-				<Image
-					src={logoSrc}
-					width={logoSize}
-					height={logoSize * 0.8}
-					resizeMode="cover"
-				/>
+		<View style={[styles.container, style]}>
+			<View style={styles.innerContainer}>
+				<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
 				<Text>Sign in to continue</Text>
-				<Stack minHeight={50} marginTop={15} justifyContent="center">
+				<View style={styles.commandContainer}>
 					{loading ? (
 						<ActivityIndicator color="white" />
 					) : (
 						<Button title="Sign in with Google" onPress={onGoogleSignIn} />
 					)}
-				</Stack>
-			</Stack>
-			<Stack alignItems="center" paddingBottom={24}>
-				<Text fontSize={12}>
-					<Text>Having issues with log in? Visit</Text>
-					<Anchor href="https://walless.io/faq/login"> Help page</Anchor>
+				</View>
+			</View>
+			<View style={styles.footerContainer}>
+				<Text style={styles.footerText}>
+					<Text>Having issues with log in? Visit </Text>
+					<Anchor href="https://walless.io/faq/login" title="Help page" />
 				</Text>
-				<Text fontSize={12} color="#5D6A73" marginTop={6}>
-					Powered by walless.io
-				</Text>
-			</Stack>
-		</Stack>
+				<Text style={styles.poweredText}>Powered by walless.io</Text>
+			</View>
+		</View>
 	);
 };
 
 export default LoginFeature;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+	innerContainer: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	commandContainer: {
+		minHeight: 50,
+		marginTop: 15,
+		justifyContent: 'center',
+	},
+	footerContainer: {
+		alignItems: 'center',
+		paddingBottom: 24,
+	},
+	footerText: {
+		fontSize: 12,
+	},
+	poweredText: {
+		fontSize: 12,
+		color: '#5D6A73',
+		marginTop: 6,
+	},
+});

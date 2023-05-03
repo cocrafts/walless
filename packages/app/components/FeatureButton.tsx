@@ -1,56 +1,55 @@
 import { type FC, type ReactNode } from 'react';
-import { Stack, StackProps, Text } from '@walless/ui';
+import { type TextStyle, type ViewStyle, StyleSheet } from 'react-native';
+import { Hoverable, Text, View } from '@walless/gui';
 
-type Props = StackProps & {
+interface Props {
 	children?: ReactNode;
 	size?: number;
 	title?: string;
-	color?: string;
-	fontSize?: number;
-	fontWeight?: string;
-};
+	titleStyle?: TextStyle;
+	onPress?: () => void;
+}
 
 export const FeatureButton: FC<Props> = ({
 	children,
 	size = 38,
 	title,
-	color = '#4e5e6b',
-	fontSize = 13,
-	fontWeight = '400',
-	...stackProps
+	titleStyle,
+	onPress,
 }) => {
+	const innerStyle: ViewStyle = {
+		width: size,
+		height: size,
+		borderRadius: 12,
+		gap: 8,
+		backgroundColor: '#0694D3',
+		alignItems: 'center',
+		justifyContent: 'center',
+	};
+
 	return (
-		<Stack
-			alignItems="center"
-			cursor="pointer"
-			userSelect="none"
-			hoverStyle={{ opacity: 0.8 }}
-			pressStyle={{ opacity: 0.7 }}
-			{...stackProps}
-		>
-			<Stack
-				borderRadius={12}
-				width={size}
-				height={size}
-				gap={8}
-				backgroundColor="#0694D3"
-				alignItems="center"
-				justifyContent="center"
-			>
+		<View noSelect style={styles.container}>
+			<Hoverable style={innerStyle} onPress={onPress}>
 				{children}
-			</Stack>
-			{title && (
-				<Text
-					color={color}
-					fontSize={fontSize}
-					fontWeight={fontWeight}
-					marginTop={8}
-				>
-					{title}
-				</Text>
-			)}
-		</Stack>
+			</Hoverable>
+			{title && <Text style={[styles.title, titleStyle]}>{title}</Text>}
+		</View>
 	);
 };
 
 export default FeatureButton;
+
+const styles = StyleSheet.create({
+	container: {
+		alignItems: 'center',
+	},
+	innerContainer: {
+		borderRadius: 12,
+	},
+	title: {
+		color: '#4e5e6b',
+		fontSize: 13,
+		fontWeight: '400',
+		marginTop: 8,
+	},
+});

@@ -89,6 +89,12 @@ export const initializeMessaging = async (): Promise<void> => {
 	registerIncomingMessage?.('kernel', onKernelMessage);
 };
 
-export const extractPortId = (port: any) => {
-	return port?.sender?.documentId || port?.sender?.id;
+interface RuntimeSender {
+	id: string;
+	documentId?: string;
+}
+
+export const extractPortId = (port: chrome.runtime.Port): string => {
+	const { id, documentId } = (port?.sender || {}) as RuntimeSender;
+	return documentId || id;
 };

@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
 import { useLoaderData } from 'react-router-dom';
-import { PasscodeFeature } from '@walless/component';
+import { PasscodeFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
-import { appActions } from 'state/app';
-import { appState } from 'state/app';
+import { appActions, appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
 
 interface Params {

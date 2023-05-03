@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { SplashFeature } from '@walless/component';
+import { SplashFeature } from '@walless/app';
 import { appActions } from 'state/app';
 
 export const SplashWrapper: FC = () => {

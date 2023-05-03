@@ -30,6 +30,7 @@ export type Props = Omit<DynamicFlags, 'cursorPointer'> & {
 	animationDuration?: number;
 	onPress?: (e: GestureResponderEvent) => void;
 	onLongPress?: (e: GestureResponderEvent) => void;
+	disabled?: boolean;
 };
 
 export const Hoverable = forwardRef<View, Props>(
@@ -46,6 +47,7 @@ export const Hoverable = forwardRef<View, Props>(
 			fullscreen,
 			horizontal,
 			noSelect = true,
+			disabled,
 		},
 		ref,
 	) => {
@@ -96,6 +98,7 @@ export const Hoverable = forwardRef<View, Props>(
 			<AnimatedPressable
 				ref={ref}
 				style={[containerStyle, dynamicStyle]}
+				disabled={disabled}
 				onHoverIn={handleHoverIn}
 				onHoverOut={handleHoverOut}
 				onPressIn={handlePressIn}

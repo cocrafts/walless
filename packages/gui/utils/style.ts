@@ -30,7 +30,7 @@ export const iStyles = StyleSheet.create({
 
 export interface DynamicFlags {
 	horizontal?: boolean;
-	fullScreen?: boolean;
+	fullscreen?: boolean;
 	cursorPointer?: boolean;
 	noSelect?: boolean;
 }

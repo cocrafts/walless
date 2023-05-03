@@ -61,7 +61,7 @@ const SingleInput = forwardRef<TextInput, Props>(
 					onBlur={() => setIsFocused(false)}
 				/>
 				{isFilled && (
-					<View fullScreen style={styles.center}>
+					<View fullscreen style={styles.center}>
 						<View style={styles.dot} />
 					</View>
 				)}

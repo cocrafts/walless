@@ -1,5 +1,6 @@
 import { type ReactNode, forwardRef, useMemo, useRef } from 'react';
 import {
+	type GestureResponderEvent,
 	type MouseEvent,
 	type StyleProp,
 	type ViewStyle,
@@ -20,14 +21,15 @@ interface MouseContext {
 	mouseIn?: boolean;
 }
 
-type Props = Omit<DynamicFlags, 'cursorPointer'> & {
+export type Props = Omit<DynamicFlags, 'cursorPointer'> & {
 	style?: StyleProp<ViewStyle>;
 	children?: ReactNode;
 	onHoverIn?: (event: MouseEvent) => void;
 	onHoverOut?: (event: MouseEvent) => void;
 	hoverOpacity?: number;
 	animationDuration?: number;
-	onPress?: () => void;
+	onPress?: (e: GestureResponderEvent) => void;
+	onLongPress?: (e: GestureResponderEvent) => void;
 };
 
 export const Hoverable = forwardRef<View, Props>(
@@ -40,7 +42,8 @@ export const Hoverable = forwardRef<View, Props>(
 			onHoverOut,
 			animationDuration = 50,
 			onPress,
-			fullScreen,
+			onLongPress,
+			fullscreen,
 			horizontal,
 			noSelect = true,
 		},
@@ -59,11 +62,11 @@ export const Hoverable = forwardRef<View, Props>(
 			return [
 				animatedStyle,
 				horizontal && iStyles.horizontal,
-				fullScreen && iStyles.fullScreen,
+				fullscreen && iStyles.fullScreen,
 				noSelect && iStyles.noSelect,
 				style,
 			];
-		}, [style, horizontal, fullScreen, noSelect]);
+		}, [style, horizontal, fullscreen, noSelect]);
 
 		const handleHoverIn = (event: MouseEvent) => {
 			opacity.value = withTiming(hoverOpacity, { duration: animationDuration });
@@ -85,6 +88,10 @@ export const Hoverable = forwardRef<View, Props>(
 			opacity.value = mouseContextRef.current.mouseIn ? hoverOpacity : 1;
 		};
 
+		const handleLongPress = (e: GestureResponderEvent) => {
+			onLongPress?.(e);
+		};
+
 		return (
 			<AnimatedPressable
 				ref={ref}
@@ -94,6 +101,7 @@ export const Hoverable = forwardRef<View, Props>(
 				onPressIn={handlePressIn}
 				onPressOut={handlePressOut}
 				onPress={onPress}
+				onLongPress={handleLongPress}
 			>
 				{children}
 			</AnimatedPressable>

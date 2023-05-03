@@ -26,6 +26,9 @@ export const iStyles = StyleSheet.create({
 		default: {},
 		web: { userSelect: 'none' },
 	}) as never,
+	link: {
+		color: '#19A3E1',
+	},
 });
 
 export interface DynamicFlags {

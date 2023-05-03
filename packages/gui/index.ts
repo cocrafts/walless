@@ -1,5 +1,6 @@
 export * from './components/aliased';
 export * from './components/Anchor';
+export * from './components/Button';
 export * from './components/ContextMenuContainer';
 export * from './components/Hoverable';
 export * from './components/ModalManager';

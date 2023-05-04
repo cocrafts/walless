@@ -34,7 +34,7 @@ export const Slider = forwardRef<SliderHandle, Props>(
 			slideContainerStyle,
 			items,
 			activeItem,
-			animator = slideAnimators.slide,
+			animator = slideAnimators.basic,
 		},
 		ref,
 	) => {
@@ -84,6 +84,7 @@ export const Slider = forwardRef<SliderHandle, Props>(
 							<ItemContainer
 								key={id}
 								index={index}
+								activatedIndex={activeIndex}
 								style={slideContainerStyle}
 								containerLayout={layout}
 								animatedOffset={offset}

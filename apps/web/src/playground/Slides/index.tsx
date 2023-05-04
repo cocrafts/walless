@@ -1,6 +1,12 @@
 import { type FC, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Slider, SliderHandle, View } from '@walless/gui';
+import {
+	Button,
+	slideAnimators,
+	Slider,
+	SliderHandle,
+	View,
+} from '@walless/gui';
 
 import { slides } from './shared';
 
@@ -14,6 +20,7 @@ export const Slides: FC = () => {
 				style={styles.container}
 				items={slides}
 				activeItem={slides[0]}
+				animator={slideAnimators.fade}
 			/>
 			<View style={styles.navigationContainer}>
 				<Button

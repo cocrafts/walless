@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "474398641068",
+    "project_id": "walless-labs",
+    "storage_bucket": "walless-labs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474398641068:android:c9763a302d2dbf7c1a0809",
+        "android_client_info": {
+          "package_name": "metacraft.walless"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474398641068-hqi0h1t7s2ute4t09d86pdb2f7om010n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "metacraft.walless",
+            "certificate_hash": "5e8f16062eec3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "474398641068-c7usl9oq10p9m7oobktdi9b3cmfrbkr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcq6nipf-B51ktn5VHytoVT-gikMZ0E9E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474398641068-c7usl9oq10p9m7oobktdi9b3cmfrbkr6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

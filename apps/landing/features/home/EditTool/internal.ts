@@ -8,3 +8,9 @@ export const handleChangeImage = (
 	reader.onload = (e) => callback(e.target?.result as string);
 	reader.readAsDataURL((event.target.files as FileList)[0]);
 };
+
+export interface ToolboxItem {
+	name: string;
+	preview: () => JSX.Element;
+	components: (() => JSX.Element)[];
+}

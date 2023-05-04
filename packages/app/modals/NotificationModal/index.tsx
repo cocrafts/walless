@@ -29,7 +29,7 @@ export const NotificationModal: FC<Props> = ({ config }) => {
 	);
 };
 
-export default Notification;
+export default NotificationModal;
 
 const styles = StyleSheet.create({
 	container: {

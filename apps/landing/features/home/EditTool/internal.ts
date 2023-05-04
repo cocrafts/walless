@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 export const handleChangeImage = (
 	event: React.ChangeEvent<HTMLInputElement>,
 	callback: (url: string) => void,
@@ -9,8 +11,30 @@ export const handleChangeImage = (
 	reader.readAsDataURL((event.target.files as FileList)[0]);
 };
 
+export enum ProjectInfoComponent {
+	name,
+	description,
+	banner,
+	avatar,
+}
+
+export enum TokenInfoComponent {}
+
+export type Target = {
+	component: ProjectInfoComponent | TokenInfoComponent;
+	payload: unknown;
+} | null;
+
+export interface PreviewProps {
+	target: Target;
+}
+
+export interface ToolboxComponentProps {
+	setTarget: (target: Target) => void;
+}
+
 export interface ToolboxItem {
 	name: string;
-	preview: () => JSX.Element;
-	components: (() => JSX.Element)[];
+	preview: FC<PreviewProps>;
+	components: FC<ToolboxComponentProps>[];
 }

@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Stack, Text } from '@walless/ui';
 import BulletSeparator from 'components/BulletSeparator';
 
-import { ToolboxItem } from '../internal';
+import { Target, ToolboxItem } from '../internal';
 
 import SocialCard from './SocialCard';
 
@@ -10,9 +10,15 @@ interface ToolboxProps {
 	tools: ToolboxItem[];
 	activeTool: ToolboxItem;
 	setActiveTool: (tool: ToolboxItem) => void;
+	setTarget: (target: Target) => void;
 }
 
-const Toolbox: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
+const Toolbox: FC<ToolboxProps> = ({
+	tools,
+	activeTool,
+	setActiveTool,
+	setTarget,
+}) => {
 	const borderColor = '#56667480';
 
 	return (
@@ -54,7 +60,7 @@ const Toolbox: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
 							flexGrow={1}
 							padding={20}
 						>
-							{component()}
+							{component({ setTarget })}
 						</Stack>
 					))}
 				</Stack>

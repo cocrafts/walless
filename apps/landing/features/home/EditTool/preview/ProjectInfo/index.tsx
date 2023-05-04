@@ -1,6 +1,9 @@
+import { FC } from 'react';
 import { Stack, Text } from '@walless/ui';
 
-const ProjectInfo = () => {
+import { PreviewProps } from '../../internal';
+
+const ProjectInfo: FC<PreviewProps> = ({ target }) => {
 	return (
 		<Stack>
 			<Text>Project Info</Text>

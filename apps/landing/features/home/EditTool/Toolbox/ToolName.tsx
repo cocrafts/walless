@@ -10,6 +10,7 @@ interface Props {
 const ToolName: FC<Props> = ({ name, isActive, onPress }) => {
 	return (
 		<Text
+			width={100}
 			paddingVertical={20}
 			fontSize={16}
 			color={isActive ? 'white' : '#566674'}

@@ -14,6 +14,8 @@ const Toolbox: FC<ToolboxProps> = ({
 	setTarget,
 }) => {
 	const borderColor = '#56667480';
+	const activeIndex = tools.findIndex((tool) => tool.name === activeTool.name);
+	const bulletLeft = 20 + activeIndex * 100 + activeIndex * 32;
 
 	return (
 		<Stack
@@ -26,7 +28,7 @@ const Toolbox: FC<ToolboxProps> = ({
 				<Stack
 					flexDirection="row"
 					alignItems="center"
-					gap={80}
+					gap={32}
 					paddingHorizontal={20}
 				>
 					{tools.map((tool) => (
@@ -39,7 +41,10 @@ const Toolbox: FC<ToolboxProps> = ({
 					))}
 				</Stack>
 
-				<BulletSeparator backgroundColor={borderColor} paddingLeft={20} />
+				<BulletSeparator
+					backgroundColor={borderColor}
+					paddingLeft={bulletLeft}
+				/>
 
 				<Stack flexDirection="row" flexGrow={1}>
 					{activeTool.components.map((component, idx) => (

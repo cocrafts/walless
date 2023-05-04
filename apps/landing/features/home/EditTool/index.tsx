@@ -42,6 +42,7 @@ const EditTool = () => {
 				width="100%"
 				flexDirection="row"
 				justifyContent="space-between"
+				alignItems="flex-end"
 				marginBottom={20}
 			>
 				<PreviewOutline

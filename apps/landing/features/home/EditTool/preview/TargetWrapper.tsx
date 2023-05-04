@@ -17,7 +17,7 @@ const TargetWrapper: FC<Props> = ({ children, isTargeted, zIndex = 9 }) => {
 				zIndex={zIndex}
 				width="100%"
 				height="100%"
-				backgroundColor={isTargeted ? 'rgba(0, 0, 255, 0.25)' : 'transparent'}
+				backgroundColor={isTargeted ? 'rgb(6, 148, 211, 0.7)' : 'transparent'}
 			/>
 			{children}
 		</Stack>

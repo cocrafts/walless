@@ -8,14 +8,10 @@ import {
 import ToolDescription from '../components/ToolDescription';
 
 const EditProjectName: FC<ToolboxComponentProps> = ({ setTarget }) => {
-	const onTarget = () =>
-		setTarget({
-			component: ProjectInfoComponent.name,
-			payload: 'Project name',
-		});
+	const onTarget = () => setTarget(ProjectInfoComponent.name);
 
 	return (
-		<Stack onPress={onTarget}>
+		<Stack onHoverIn={onTarget} onHoverOut={() => setTarget(null)}>
 			<ToolDescription
 				name="Project name"
 				description="Lorem ipsum dolor amet mustache knausgaard"

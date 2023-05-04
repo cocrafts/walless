@@ -20,13 +20,17 @@ export enum ProjectInfoComponent {
 
 export enum TokenInfoComponent {}
 
-export type Target = {
-	component: ProjectInfoComponent | TokenInfoComponent;
-	payload: unknown;
-} | null;
+export type Target = ProjectInfoComponent | TokenInfoComponent | null;
 
 export interface PreviewProps {
 	target: Target;
+}
+
+export interface ToolboxProps {
+	tools: ToolboxItem[];
+	activeTool: ToolboxItem;
+	setActiveTool: (tool: ToolboxItem) => void;
+	setTarget: (target: Target) => void;
 }
 
 export interface ToolboxComponentProps {

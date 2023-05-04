@@ -2,16 +2,9 @@ import { FC } from 'react';
 import { Stack, Text } from '@walless/ui';
 import BulletSeparator from 'components/BulletSeparator';
 
-import { Target, ToolboxItem } from '../internal';
+import { ToolboxProps } from '../internal';
 
 import SocialCard from './SocialCard';
-
-interface ToolboxProps {
-	tools: ToolboxItem[];
-	activeTool: ToolboxItem;
-	setActiveTool: (tool: ToolboxItem) => void;
-	setTarget: (target: Target) => void;
-}
 
 const Toolbox: FC<ToolboxProps> = ({
 	tools,

@@ -1,12 +1,21 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/ui';
+import { Stack } from '@walless/ui';
 
 import { PreviewProps } from '../../internal';
+
+import LayoutCard from './LayoutCard';
+
+export interface LayoutCardProps {
+	banner: string;
+	avatar: string;
+	name: string;
+	description: string;
+}
 
 const ProjectInfo: FC<PreviewProps> = ({ target }) => {
 	return (
 		<Stack>
-			<Text>Project Info</Text>
+			<LayoutCard target={target} />
 		</Stack>
 	);
 };

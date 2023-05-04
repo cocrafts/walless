@@ -1,19 +1,14 @@
 import { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { PasscodeFeature } from '@walless/app';
 import { View } from '@walless/gui';
 
-export const AppContainer: FC = () => {
-	const handlePinChange = (pin: string, isCompleted?: boolean) => {
-		if (isCompleted) {
-			console.log(pin, '<<---');
-		}
-	};
+import Slides from './Slides';
 
+export const AppContainer: FC = () => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.innerContainer}>
-				<PasscodeFeature onPasscodeChange={handlePinChange} />
+				<Slides />
 			</View>
 		</View>
 	);

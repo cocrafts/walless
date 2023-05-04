@@ -20,17 +20,22 @@ import { SlideOption } from './shared';
 
 interface Props {
 	style?: ViewStyle;
+	slideContainerStyle?: ViewStyle;
 	items: SlideOption[];
 	activeItem: SlideOption;
 	onItemSelect?: (item: SlideOption) => void;
 }
 
-export const Slider: FC<Props> = ({ style, items, activeItem }) => {
+export const Slider: FC<Props> = ({
+	style,
+	slideContainerStyle,
+	items,
+	activeItem,
+}) => {
 	const [innerActive, setInnerActive] = useState(activeItem);
 	const activeIndex = items.findIndex((i) => i.id === innerActive.id);
-	const [containerLayout, setContainerLayout] =
-		useState<LayoutRectangle>(idleLayout);
-	const offset = useSharedValue(-410 * activeIndex);
+	const [layout, setLayout] = useState<LayoutRectangle>(idleLayout);
+	const offset = useSharedValue(-layout.width * activeIndex);
 
 	const animatedStyle = useAnimatedStyle(
 		() => ({
@@ -40,34 +45,33 @@ export const Slider: FC<Props> = ({ style, items, activeItem }) => {
 		[offset],
 	);
 
-	useEffect(() => setInnerActive(activeItem), [activeItem]);
+	useEffect(() => handleItemSelect(activeItem), [activeItem]);
 
 	const handleItemSelect = (item: SlideOption) => {
 		const nextIndex = items.findIndex((i) => i.id === item.id);
 
-		offset.value = withSpring(-410 * nextIndex, {});
-		console.log(-410 * nextIndex);
+		offset.value = withSpring(-layout.width * nextIndex, {});
 		setInnerActive(item);
 	};
 
 	const handleLayout = ({ nativeEvent }: LayoutChangeEvent) => {
-		setContainerLayout(nativeEvent.layout);
+		setLayout(nativeEvent.layout);
 	};
 
 	return (
 		<View onLayout={handleLayout} style={style}>
 			<AnimatedView style={animatedStyle}>
-				{containerLayout.width > 0 &&
+				{layout.width > 0 &&
 					items.map((item) => {
 						const { id, component: InnerComponent } = item;
 						const wrapperStyle = {
-							width: containerLayout.width,
-							height: containerLayout.height,
+							width: layout.width,
+							height: layout.height,
 							backgroundColor: '#222222',
 						};
 
 						return (
-							<View key={id} style={wrapperStyle}>
+							<View key={id} style={[wrapperStyle, slideContainerStyle]}>
 								<InnerComponent item={item} />
 							</View>
 						);

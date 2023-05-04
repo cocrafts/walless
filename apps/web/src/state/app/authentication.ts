@@ -4,7 +4,9 @@ import {
 	type SubVerifierDetails,
 	type TorusLoginResponse,
 } from '@toruslabs/customauth';
-import { type UserProfile, Networks } from '@walless/core';
+import { makeProfile, ThresholdResult } from '@walless/app';
+import { appState } from '@walless/app';
+import { Networks, UserProfile } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import {
 	type PrivateKeyDocument,
@@ -18,10 +20,7 @@ import {
 	importAvailableShares,
 	key,
 	recoverDeviceShareFromPasscode,
-	ThresholdResult,
 } from 'utils/w3a';
-
-import { appState } from './internal';
 
 interface InternalCache {
 	loginResponse?: TorusLoginResponse;
@@ -29,19 +28,7 @@ interface InternalCache {
 
 const cache: InternalCache = {};
 
-const makeProfile = ({
-	publicAddress,
-	userInfo,
-}: TorusLoginResponse): UserProfile => {
-	return {
-		id: publicAddress,
-		email: userInfo.email,
-		name: userInfo.name,
-		profileImage: userInfo.profileImage,
-	};
-};
-
-export const setProfile = async (profile: UserProfile): Promise<void> => {
+export const setProfile = async (profile: UserProfile) => {
 	appState.profile = profile;
 
 	await db.upsert<SettingDocument>('settings', async (doc) => {
@@ -52,10 +39,10 @@ export const setProfile = async (profile: UserProfile): Promise<void> => {
 	});
 };
 
-export const signInGoogle = async () => {
+export const signInWithGoogle = async () => {
 	const loginParams: SubVerifierDetails = {
 		typeOfLogin: 'google',
-		verifier: __DEV__ ? 'walless001' : 'walless-gc',
+		verifier: 'walless-gc',
 		clientId: GOOGLE_CLIENT_ID,
 	};
 

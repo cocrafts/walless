@@ -1,29 +1,25 @@
-import { FC } from 'react';
-import { Stack, StackProps } from '@walless/ui';
+import { type FC } from 'react';
+import { type ViewStyle, StyleSheet } from 'react-native';
+import { View } from '@walless/gui';
 
 import { TabAble } from './shared';
 import TabItem from './TabItem';
 
-type Props = StackProps & {
+interface Props {
+	style?: ViewStyle;
 	items: TabAble[];
 	activeItem: TabAble;
 	onTabPress?: (item: TabAble) => void;
-};
+}
 
 export const TabsHeader: FC<Props> = ({
+	style,
 	items,
 	activeItem,
 	onTabPress,
-	...stackProps
 }) => {
 	return (
-		<Stack
-			horizontal
-			backgroundColor="#202d38"
-			borderRadius={10}
-			padding={4}
-			{...stackProps}
-		>
+		<View style={[styles.container, style]}>
 			{items.map((item) => {
 				const isActive = item.id === activeItem.id;
 				const backgroundColor = isActive ? '#0694D3' : 'transparent';
@@ -39,10 +35,19 @@ export const TabsHeader: FC<Props> = ({
 					/>
 				);
 			})}
-		</Stack>
+		</View>
 	);
 };
 
 export default TabsHeader;
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		backgroundColor: '#202d38',
+		borderRadius: 10,
+		padding: 4,
+	},
+});
 
 export * from './shared';

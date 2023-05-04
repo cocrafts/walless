@@ -51,7 +51,7 @@ export const WalletAddress: FC<Props> = ({
 			</Text>
 			<Hoverable onPress={onCopy}>
 				<View style={styles.iconWrapper}>
-					<View fullScreen style={styles.iconInner} />
+					<View fullscreen style={styles.iconInner} />
 					<Copy size={iconWrapperSize - 8} />
 				</View>
 			</Hoverable>

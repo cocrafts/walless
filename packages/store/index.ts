@@ -6,10 +6,12 @@ import replication from 'pouchdb-replication';
 
 import helpers from './plugins';
 
+export type Database = PouchDB.Database & typeof helpers;
+
 export const create = (
 	name: string,
 	storageEngine: PouchDB.Plugin,
-): PouchDB.Database & typeof helpers => {
+): Database => {
 	PouchDB.plugin(HttpPouch)
 		.plugin(replication)
 		.plugin(mapreduce)

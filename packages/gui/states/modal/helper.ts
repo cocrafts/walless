@@ -1,8 +1,8 @@
-import { RefObject } from 'react';
-import { Dimensions, LayoutRectangle, View, ViewStyle } from 'react-native';
-import { interpolate, SharedValue } from 'react-native-reanimated';
+import { type RefObject } from 'react';
+import { type LayoutRectangle, type ViewStyle, View } from 'react-native';
+import { type SharedValue, interpolate } from 'react-native-reanimated';
 
-import { AnimateDirections, BindDirections, PositionOffset } from './type';
+import { type PositionOffset, AnimateDirections, BindDirections } from './type';
 
 export const referenceMap: Record<string, RefObject<View>> = {};
 
@@ -24,15 +24,9 @@ export const measure = async (
 export const measureRelative = async (
 	targetRef?: RefObject<View>,
 ): Promise<LayoutRectangle | undefined> => {
-	if (!targetRef?.current) {
-		/* <-- if there is no target, assume relative measure to device screen */
-		const { width, height } = Dimensions.get('window');
-		return Promise.resolve({ x: 0, y: 0, width, height });
-	}
-
 	/* compute relative position with referenceMap.root */
 	const rootLayout = await measure(referenceMap.root);
-	const targetLayout = await measure(targetRef);
+	const targetLayout = await measure(targetRef || referenceMap.root);
 
 	return {
 		x: targetLayout.x - rootLayout.x,

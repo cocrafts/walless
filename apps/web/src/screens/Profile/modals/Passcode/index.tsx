@@ -1,8 +1,7 @@
 import { FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { type ModalConfigs } from '@walless/app';
-import { PasscodeFeature } from '@walless/component';
-import { Text, View } from '@walless/gui';
+import { PasscodeFeature } from '@walless/app';
+import { type ModalConfigs, Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import {
 	type PendingTransactionContext,

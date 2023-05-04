@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
 import { useEffect } from 'react';
-import { BindDirections, getTransactionFee, modalActions } from '@walless/app';
+import { getTransactionFee } from '@walless/app';
 import { Networks } from '@walless/core';
-import { Select } from '@walless/gui';
+import { BindDirections, modalActions, Select } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 import { TokenDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';

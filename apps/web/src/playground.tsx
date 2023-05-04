@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { PasscodeFeature } from '@walless/component';
+import { PasscodeFeature } from '@walless/app';
 import { View } from '@walless/gui';
 
 export const AppContainer: FC = () => {

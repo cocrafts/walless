@@ -1,22 +1,34 @@
-import { FC, useEffect } from 'react';
-import { ImageSourcePropType } from 'react-native';
+import { type FC, useEffect } from 'react';
 import {
+	type ImageSourcePropType,
+	type ViewStyle,
+	StyleSheet,
+	View,
+} from 'react-native';
+import {
+	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
 	withSequence,
 	withTiming,
 } from 'react-native-reanimated';
-import { Stack } from '@walless/ui';
-
-import { AnimatedImage, runOnJS } from '../components/alias';
+import { AnimatedImage } from '@walless/gui';
 
 interface Props {
+	style?: ViewStyle;
 	logoSrc: ImageSourcePropType;
+	logoSize?: number;
 	initialize?: () => Promise<unknown>;
 	onReady?: (payload: unknown) => Promise<void>;
 }
 
-export const SplashInner: FC<Props> = ({ logoSrc, initialize, onReady }) => {
+export const SplashFeature: FC<Props> = ({
+	style,
+	logoSrc,
+	logoSize = 120,
+	initialize,
+	onReady,
+}) => {
 	const opacity = useSharedValue(0);
 
 	const logoStyle = useAnimatedStyle(
@@ -32,9 +44,9 @@ export const SplashInner: FC<Props> = ({ logoSrc, initialize, onReady }) => {
 		const playAnimate = async (): Promise<void> => {
 			return new Promise((resolve) => {
 				const fadeIn = withTiming(1, { duration: 500 });
-				const fadeOut = withTiming(0, { duration: 500 }, () =>
-					runOnJS(resolve),
-				);
+				const fadeOut = withTiming(0, { duration: 500 }, () => {
+					runOnJS(resolve)();
+				});
 
 				opacity.value = withSequence(fadeIn, fadeOut);
 			});
@@ -46,23 +58,19 @@ export const SplashInner: FC<Props> = ({ logoSrc, initialize, onReady }) => {
 	}, []);
 
 	return (
-		<Stack
-			flex={1}
-			backgroundColor="#011726"
-			alignItems="center"
-			justifyContent="center"
-		>
-			<AnimatedImage
-				key="logo"
-				src={logoSrc}
-				style={logoStyle}
-				width={logoSize}
-				height={logoSize}
-			/>
-		</Stack>
+		<View style={[styles.container, style]}>
+			<AnimatedImage source={logoSrc} style={logoStyle} />
+		</View>
 	);
 };
 
-export default SplashInner;
+export default SplashFeature;
 
-const logoSize = 180;
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#011726',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});

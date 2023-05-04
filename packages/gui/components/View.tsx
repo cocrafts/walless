@@ -18,7 +18,7 @@ export const View = forwardRef<RNView, Props>(
 	(
 		{
 			style,
-			fullScreen,
+			fullscreen,
 			horizontal,
 			cursorPointer,
 			noSelect,
@@ -30,12 +30,12 @@ export const View = forwardRef<RNView, Props>(
 		const containerStyle = useMemo(() => {
 			return [
 				horizontal && iStyles.horizontal,
-				fullScreen && iStyles.fullScreen,
+				fullscreen && iStyles.fullScreen,
 				cursorPointer && iStyles.cursorPointer,
 				noSelect && iStyles.noSelect,
 				style,
 			];
-		}, [style, horizontal, fullScreen, cursorPointer, noSelect]);
+		}, [style, horizontal, fullscreen, cursorPointer, noSelect]);
 
 		return (
 			<RNView ref={ref} style={containerStyle} {...viewProps}>

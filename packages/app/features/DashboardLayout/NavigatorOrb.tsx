@@ -7,7 +7,7 @@ import {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import { AnimatedView, Hoverable, View } from '@walless/gui';
+import { AnimatedView, ContextMenuContainer, View } from '@walless/gui';
 import { ExtensionDocument } from '@walless/store';
 
 import ActiveBar from './ActiveBar';
@@ -78,7 +78,7 @@ export const NavigatorOrb: FC<Props> = ({
 				/>
 			)}
 			<AnimatedView style={[styles.hoverBar, hoverBarStyle]} />
-			<Hoverable
+			<ContextMenuContainer
 				noSelect
 				style={[styles.orbStyle, orbStyle]}
 				onHoverIn={handleHoverIn}
@@ -86,7 +86,7 @@ export const NavigatorOrb: FC<Props> = ({
 				onPress={() => onPress?.(item)}
 			>
 				{children || <Image style={iconImgStyle} source={iconSource} />}
-			</Hoverable>
+			</ContextMenuContainer>
 		</View>
 	);
 };

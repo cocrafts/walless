@@ -1,7 +1,7 @@
 export const resources = {
 	walless: {
 		icon: {
-			uri: '/img/walless-icon.png',
+			uri: '/img/icon.png',
 		},
 	},
 	common: {

@@ -2,7 +2,12 @@ import { FC, useState } from 'react';
 import { useEffect } from 'react';
 import { getTransactionFee } from '@walless/app';
 import { Networks } from '@walless/core';
-import { BindDirections, modalActions, Select } from '@walless/gui';
+import {
+	BindDirections,
+	modalActions,
+	ModalConfigs,
+	Select,
+} from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 import { TokenDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
@@ -14,11 +19,17 @@ import { DropdownItemProps } from '../internal';
 import Input from './Input';
 import NavBtn from './NavBtn';
 
-interface Props {
-	modalId: string;
+interface ModalContext {
+	currentNetwork?: Networks;
 }
 
-export const TokensTab: FC<Props> = ({ modalId }) => {
+interface Props {
+	config: ModalConfigs;
+}
+
+export const TokensTab: FC<Props> = ({ config }) => {
+	const { id: modalId, context } = config;
+	const { currentNetwork } = (context as ModalContext) || {};
 	const [token, setToken] = useState<TokenDocument | null>(null);
 	const [network] = useState<DropdownItemProps | null>(null);
 	const [receiver, setReceiver] = useState('');
@@ -31,7 +42,7 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 		})();
 	}, [network]);
 
-	const allTokens = useTokens();
+	const allTokens = useTokens(currentNetwork);
 
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={12}>

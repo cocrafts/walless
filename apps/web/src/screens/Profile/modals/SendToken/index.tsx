@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { ModalConfigs } from '@walless/app';
+import { ModalConfigs } from '@walless/gui';
 
 import ModalHeader from '../components/ModalHeader';
 import ModalWrapper from '../components/ModalWrapper';
@@ -17,11 +17,7 @@ export const SendTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 
 			<TabBar isTokensTab={isTokensTab} setIsTokensTab={setIsTokensTab} />
 
-			{isTokensTab ? (
-				<TokensTab modalId={config.id as string} />
-			) : (
-				<CollectiblesTab />
-			)}
+			{isTokensTab ? <TokensTab config={config} /> : <CollectiblesTab />}
 		</ModalWrapper>
 	);
 };

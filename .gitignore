@@ -7,7 +7,7 @@ main.tf
 cdk.context.json
 
 # builds
-apps/**/metacraft
+apps/web/metacraft
 apps/**/builds
 .swc
 .tamagui

@@ -7931,6 +7931,7 @@ __metadata:
     next-compose-plugins: ^2.2.1
     next-transpile-modules: ^10.0.0
     react-dom: ^18.2.0
+    valtio: 1.10.4
   languageName: unknown
   linkType: soft
 

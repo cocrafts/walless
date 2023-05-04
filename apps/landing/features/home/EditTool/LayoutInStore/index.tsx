@@ -3,7 +3,7 @@ import { Button, Input, Stack, Text } from '@walless/ui';
 import { toPng } from 'html-to-image';
 import Link from 'next/link';
 
-import { handleChangeImage } from '../internal';
+import { handleChangeImage } from '../utils';
 
 import LayoutCard from './LayoutCard';
 

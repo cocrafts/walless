@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/ui';
+import { Stack } from '@walless/ui';
 import BulletSeparator from 'components/BulletSeparator';
 
 import { ToolboxProps } from '../internal';
 
 import SocialCard from './SocialCard';
+import ToolName from './ToolName';
 
 const Toolbox: FC<ToolboxProps> = ({
 	tools,
@@ -29,16 +30,12 @@ const Toolbox: FC<ToolboxProps> = ({
 					paddingHorizontal={20}
 				>
 					{tools.map((tool) => (
-						<Text
+						<ToolName
 							key={tool.name}
-							paddingVertical={20}
-							fontSize={16}
-							color={tool === activeTool ? '#0694D3' : 'white'}
-							cursor="pointer"
+							name={tool.name}
+							isActive={activeTool === tool}
 							onPress={() => setActiveTool(tool)}
-						>
-							{tool.name}
-						</Text>
+						/>
 					))}
 				</Stack>
 
@@ -50,7 +47,7 @@ const Toolbox: FC<ToolboxProps> = ({
 							key={idx}
 							borderRightWidth={idx < activeTool.components.length - 1 ? 1 : 0}
 							borderColor="#56667480"
-							flexGrow={1}
+							width={`${100 / activeTool.components.length}%`}
 							padding={20}
 						>
 							{component({ setTarget })}

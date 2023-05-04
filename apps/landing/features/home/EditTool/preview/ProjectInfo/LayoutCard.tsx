@@ -1,17 +1,16 @@
 import { FC } from 'react';
 import { Image, Stack, Text } from '@walless/ui';
 
-import { ProjectInfoComponent, Target } from '../../internal';
+import { ProjectInfoComponent, ProjectInfoState, Target } from '../../internal';
 import TargetWrapper from '../TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';
-import { LayoutCardProps } from '.';
 
 interface Props {
 	target: Target;
 }
 
-const initialLayoutCardProps: LayoutCardProps = {
+const initialLayoutCardProps: ProjectInfoState = {
 	banner: 'https://picsum.photos/200/300',
 	avatar: 'https://picsum.photos/200/300',
 	name: 'Project Name',

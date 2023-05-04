@@ -5,13 +5,6 @@ import { PreviewProps } from '../../internal';
 
 import LayoutCard from './LayoutCard';
 
-export interface LayoutCardProps {
-	banner: string;
-	avatar: string;
-	name: string;
-	description: string;
-}
-
 const ProjectInfo: FC<PreviewProps> = ({ target }) => {
 	return (
 		<Stack>

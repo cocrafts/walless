@@ -44,6 +44,10 @@ export const SolanaDashboard: FC<Props> = () => {
 		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
 	};
 
+	const handleSend = () => {
+		appActions.showSendModal(Networks.solana);
+	};
+
 	return (
 		<Stack flex={1} padding={12} gap={18}>
 			<Stack horizontal gap={12}>
@@ -61,6 +65,7 @@ export const SolanaDashboard: FC<Props> = () => {
 			</Stack>
 			<Stack alignItems="center" gap={18}>
 				<MainFeatures
+					onSendPress={handleSend}
 					onReceivePress={() => showReceiveModal(Networks.solana)}
 				/>
 				<SlideHandler items={cards} activeItem={cards[0]} />

@@ -11,7 +11,7 @@ interface Props {
 	index: number;
 	skin: CardSkin;
 	token: TokenRecord;
-	onCopyAddress?: () => void;
+	onCopyAddress?: (value: string) => void;
 }
 
 export const WalletAddress: FC<Props> = ({
@@ -35,10 +35,8 @@ export const WalletAddress: FC<Props> = ({
 		borderRadius: iconSize / 2,
 	};
 
-	const onCopy = () => {
-		navigator.clipboard.writeText(token.id as string);
-
-		onCopyAddress?.();
+	const handleCopy = () => {
+		token.id && onCopyAddress?.(token.id);
 	};
 
 	return (
@@ -49,7 +47,7 @@ export const WalletAddress: FC<Props> = ({
 			<Text style={styles.addressText}>
 				{`Wallet #${index + 1}: ${shortenAddress(token.id as string)}`}
 			</Text>
-			<Hoverable onPress={onCopy}>
+			<Hoverable onPress={handleCopy}>
 				<View style={styles.iconWrapper}>
 					<View fullscreen style={styles.iconInner} />
 					<Copy size={iconWrapperSize - 8} />

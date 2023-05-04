@@ -40,11 +40,8 @@ export const SolanaDashboard: FC<Props> = () => {
 		setActiveTabIndex(idx);
 	};
 
-	const onCopyAddress = () => {
-		appActions.notify('copied', {
-			prefix: () => <Copy size={18} color="#FFFFFF" />,
-			message: 'Copied',
-		});
+	const handleCopyAddress = async (value: string) => {
+		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
 	};
 
 	return (
@@ -57,7 +54,7 @@ export const SolanaDashboard: FC<Props> = () => {
 							index={index}
 							skin={suiCardSkin}
 							token={token}
-							onCopyAddress={onCopyAddress}
+							onCopyAddress={handleCopyAddress}
 						/>
 					);
 				})}

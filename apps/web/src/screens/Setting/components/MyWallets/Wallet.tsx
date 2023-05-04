@@ -1,16 +1,10 @@
 import { type FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Notification } from '@walless/app';
 import { shortenAddress } from '@walless/core';
-import {
-	BindDirections,
-	Hoverable,
-	modalActions,
-	Text,
-	View,
-} from '@walless/gui';
+import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { PublicKeyDocument } from '@walless/store';
+import { appActions } from 'state/app';
 import { getNetworkInfo } from 'utils/helper';
 
 interface Props {
@@ -20,26 +14,8 @@ interface Props {
 
 export const Wallet: FC<Props> = ({ item, index }) => {
 	const network = getNetworkInfo(item.network);
-	const onCopy = () => {
-		navigator.clipboard.writeText(item._id as string);
-
-		const StyledCopy = () => <Copy size={18} color="#FFFFFF" />;
-
-		modalActions.show({
-			id: 'copied_announcement',
-			component: Notification,
-			bindingDirection: BindDirections.InnerTopRight,
-			positionOffset: { x: 0, y: 20 },
-			maskActiveOpacity: 0,
-			context: {
-				prefix: StyledCopy,
-				message: 'Copied',
-			},
-		});
-
-		setTimeout(() => {
-			modalActions.hide('copied_announcement');
-		}, 1000);
+	const onCopy = async () => {
+		await appActions.copy(item._id, () => <Copy size={18} color="#FFFFFF" />);
 	};
 
 	return (

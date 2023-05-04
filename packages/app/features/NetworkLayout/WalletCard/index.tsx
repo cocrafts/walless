@@ -19,7 +19,7 @@ interface Props {
 	width?: number;
 	skin: CardSkin;
 	token: TokenRecord;
-	onCopyAddress?: () => void;
+	onCopyAddress?: (value: string) => void;
 }
 
 export const WalletCard: FC<Props> = ({

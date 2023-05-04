@@ -10,13 +10,8 @@ interface Props {
 }
 
 const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
-	const handleCopied = () => {
-		navigator.clipboard.writeText(address);
-
-		appActions.notify('copied', {
-			prefix: () => <Copy size={18} color="#FFFFFF" />,
-			message: 'Copied',
-		});
+	const handleCopied = async () => {
+		await appActions.copy(address, () => <Copy size={18} color="#FFFFFF" />);
 	};
 
 	return (

@@ -1,30 +1,31 @@
-import { type FC, useState } from 'react';
+import { type FC, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Slider, View } from '@walless/gui';
+import { Button, Slider, SliderHandle, View } from '@walless/gui';
 
 import { slides } from './shared';
 
 export const Slides: FC = () => {
-	const [index, setIndex] = useState<number>(0);
-
-	const handleNext = () => {
-		setIndex(index + 1);
-	};
-
-	const handlePrevious = () => {
-		setIndex(index - 1);
-	};
+	const sliderRef = useRef<SliderHandle>(null);
 
 	return (
 		<View style={styles.container}>
 			<Slider
+				ref={sliderRef}
 				style={styles.container}
 				items={slides}
-				activeItem={slides[index]}
+				activeItem={slides[0]}
 			/>
 			<View style={styles.navigationContainer}>
-				<Button style={styles.button} title="<" onPress={handlePrevious} />
-				<Button style={styles.button} title=">" onPress={handleNext} />
+				<Button
+					style={styles.button}
+					title="<"
+					onPress={() => sliderRef.current?.slideBack()}
+				/>
+				<Button
+					style={styles.button}
+					title=">"
+					onPress={() => sliderRef.current?.slideNext()}
+				/>
 			</View>
 		</View>
 	);

@@ -8,6 +8,7 @@ export * from './features/MainFeatures';
 export * from './features/NetworkLayout';
 export * from './features/Passcode';
 export * from './features/Splash';
+export * from './modals/NotificationModal';
 export * from './state/app';
 export * from './utils/authentication';
 export * from './utils/transaction';

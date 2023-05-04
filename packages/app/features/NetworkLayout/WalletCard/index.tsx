@@ -19,6 +19,7 @@ interface Props {
 	width?: number;
 	skin: CardSkin;
 	token: TokenRecord;
+	onCopyAddress?: (value: string) => void;
 }
 
 export const WalletCard: FC<Props> = ({
@@ -26,6 +27,7 @@ export const WalletCard: FC<Props> = ({
 	width = 312,
 	skin,
 	token,
+	onCopyAddress,
 }) => {
 	const [isPrivate, setIsPrivate] = useState(false);
 	const height = (width * 145) / 318;
@@ -45,7 +47,12 @@ export const WalletCard: FC<Props> = ({
 
 	return (
 		<ImageBackground style={containerStyle} source={skin.backgroundSrc}>
-			<WalletAddress index={index} skin={skin} token={token} />
+			<WalletAddress
+				index={index}
+				skin={skin}
+				token={token}
+				onCopyAddress={onCopyAddress}
+			/>
 			<WalletBalance token={token} isPrivate={isPrivate} onHide={handleHide} />
 			<View style={styles.markContainer}>
 				<Image style={styles.markImage} source={skin.largeIconSrc} />

@@ -31,7 +31,7 @@ const App: FC<Props> = ({ width = 410, height = 600 }) => {
 
 	return (
 		<View style={styles.container}>
-			<View style={appContainerStyle}>
+			<View ref={containerRef} style={appContainerStyle}>
 				{app.loading ? <SplashWrapper /> : <RouterProvider router={router} />}
 				<ModalManager />
 			</View>

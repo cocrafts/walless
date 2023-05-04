@@ -1,16 +1,20 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import {
 	type CardSkin,
 	MainFeatures,
 	SlideHandler,
+	TabAble,
 	TabsHeader,
+	TokenList,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { Copy } from '@walless/icons';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
+import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
-import { usePublicKeys } from 'utils/hooks';
+import { usePublicKeys, useTokens } from 'utils/hooks';
 
 import EmptyTab from './EmptyTab';
 import { layoutTabs } from './shared';
@@ -20,21 +24,29 @@ interface Props {
 }
 
 export const SuiDashboard: FC<Props> = () => {
-	const keys = usePublicKeys(Networks.sui);
-	const address = keys[0]?._id as string;
+	const [activeTabIndex, setActiveTabIndex] = useState(0);
+	const tokens = useTokens(Networks.sui);
+	const publicKeys = usePublicKeys(Networks.sui);
+	const address = publicKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
 		network: Networks.sui,
-		metadata: { symbol: 'SOL' },
+		metadata: { symbol: 'SUI' },
 		account: { balance: '0', decimals: 9 },
 	};
-	const cloneCard = (card: TokenRecord, suffix: string) => ({
-		...card,
-		id: card.id + suffix,
-	});
-	const cards = token?.id
-		? [token, cloneCard(token, 'asdofi'), cloneCard(token, 'asdfklasjfdl')]
-		: [];
+	const cards = token?.id ? [token] : [];
+	const onTabPress = (item: TabAble) => {
+		const idx = layoutTabs.indexOf(item);
+		setActiveTabIndex(idx);
+	};
+
+	const handleCopyAddress = async (value: string) => {
+		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
+	};
+
+	const handleSend = () => {
+		appActions.showSendModal(Networks.sui);
+	};
 
 	return (
 		<Stack flex={1} padding={12} gap={18}>
@@ -46,17 +58,25 @@ export const SuiDashboard: FC<Props> = () => {
 							index={index}
 							skin={suiCardSkin}
 							token={token}
+							onCopyAddress={handleCopyAddress}
 						/>
 					);
 				})}
 			</Stack>
 			<Stack alignItems="center" gap={18}>
-				<MainFeatures onReceivePress={() => showReceiveModal(Networks.sui)} />
+				<MainFeatures
+					onSendPress={handleSend}
+					onReceivePress={() => showReceiveModal(Networks.sui)}
+				/>
 				<SlideHandler items={cards} activeItem={cards[0]} />
 			</Stack>
 			<Stack>
-				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />
-				<EmptyTab />
+				<TabsHeader
+					items={layoutTabs}
+					activeItem={layoutTabs[activeTabIndex]}
+					onTabPress={onTabPress}
+				/>
+				{tokens ? <TokenList items={tokens} /> : <EmptyTab />}
 			</Stack>
 		</Stack>
 	);

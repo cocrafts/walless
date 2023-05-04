@@ -2,6 +2,8 @@ import { useCallback, useRef, useState } from 'react';
 import { Button, Input, Stack, Text } from '@walless/ui';
 import { toPng } from 'html-to-image';
 import Link from 'next/link';
+import { appState } from 'state/app';
+import { useSnapshot } from 'utils/hooks';
 
 import { handleChangeImage } from '../internal';
 
@@ -30,6 +32,7 @@ export enum LayoutCardComponent {
 }
 
 const LayoutInStore = () => {
+	const { counter } = useSnapshot(appState);
 	const [activeComponent, setActiveComponent] =
 		useState<LayoutCardComponent | null>(null);
 	const [layoutCardProps, setLayoutCardProps] = useState<LayoutCardProps>(
@@ -90,7 +93,7 @@ const LayoutInStore = () => {
 					onMouseEnter={() => handleMouseEnter(LayoutCardComponent.coverImage)}
 					onMouseLeave={handleMouseLeave}
 				>
-					<Text>Set cover image (png, jpg, jpeg)</Text>
+					<Text>Set cover image (png, jpg, jpeg, {counter})</Text>
 					<input
 						type="file"
 						accept="image/png, image/jpg, image/jpeg"

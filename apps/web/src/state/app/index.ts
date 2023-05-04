@@ -1,5 +1,6 @@
 import { appState } from '@walless/app';
 
+import { copy } from './actions';
 import {
 	confirmPasscode,
 	recoverWithPasscode,
@@ -11,6 +12,7 @@ import { bootstrap, launchApp } from './splash';
 
 export const appActions = {
 	bootstrap,
+	copy,
 	launchApp,
 	notify,
 	setProfile,

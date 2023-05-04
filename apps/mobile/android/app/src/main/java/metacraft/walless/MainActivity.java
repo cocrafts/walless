@@ -1,4 +1,4 @@
-package com.walless;
+package metacraft.walless;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

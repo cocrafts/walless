@@ -25,5 +25,8 @@ More information at [Official website](https://walless.io) | [Discord](https://d
 - [Wallet Standard](https://github.com/wallet-standard/wallet-standard) definitely useful for any Wallet project.
 - [PouchDB for Mobile](https://dev.to/craftzdog/a-performant-way-to-use-pouchdb7-on-react-native-in-2022-24ej) performance and cross-platform storage engine.
 
+## React Native
+- [quick-base64 patch](https://github.com/craftzdog/react-native-quick-base64/issues/19)
+
 ## License
 Walless is [MIT licensed](./LICENSE).

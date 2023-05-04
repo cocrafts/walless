@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
 
@@ -93,9 +94,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.walless"
+    namespace "metacraft.walless"
     defaultConfig {
-        applicationId "com.walless"
+        applicationId "metacraft.walless"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Notification } from '@walless/app';
+import { NotificationModal } from '@walless/app';
 import { Networks } from '@walless/core';
 import {
 	AnimateDirections,
@@ -36,7 +36,7 @@ export const notify = (
 
 	modalActions.show({
 		id: _id,
-		component: Notification,
+		component: NotificationModal,
 		maskActiveOpacity: 0,
 		bindingDirection: BindDirections.InnerTop,
 		positionOffset: { y: 20 },

@@ -12,7 +12,7 @@ interface Props {
 	config: ModalConfigs;
 }
 
-export const Notification: FC<Props> = ({ config }) => {
+export const NotificationModal: FC<Props> = ({ config }) => {
 	const { context } = config;
 	const {
 		prefix: PrefixComponent,

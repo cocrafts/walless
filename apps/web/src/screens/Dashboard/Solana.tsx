@@ -10,9 +10,11 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { Copy } from '@walless/icons';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
+import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 
@@ -38,6 +40,10 @@ export const SolanaDashboard: FC<Props> = () => {
 		setActiveTabIndex(idx);
 	};
 
+	const handleCopyAddress = async (value: string) => {
+		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
+	};
+
 	return (
 		<Stack flex={1} padding={12} gap={18}>
 			<Stack horizontal gap={12}>
@@ -48,6 +54,7 @@ export const SolanaDashboard: FC<Props> = () => {
 							index={index}
 							skin={suiCardSkin}
 							token={token}
+							onCopyAddress={handleCopyAddress}
 						/>
 					);
 				})}

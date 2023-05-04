@@ -6,8 +6,10 @@ const projectModules = resolve(projectRoot, 'node_modules');
 const workspaceModules = resolve(workspaceRoot, 'node_modules');
 
 const monoPackages = {
-	'@walless/component': resolve(workspaceRoot, 'packages/component'),
+	'@walless/core': resolve(workspaceRoot, 'packages/core'),
 	'@walless/gui': resolve(workspaceRoot, 'packages/gui'),
+	'@walless/app': resolve(workspaceRoot, 'packages/app'),
+	'@walless/icons': resolve(workspaceRoot, 'packages/icons'),
 	'@walless/store': resolve(workspaceRoot, 'packages/store'),
 };
 

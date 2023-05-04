@@ -1,13 +1,7 @@
-import { type UserProfile } from '@walless/core';
+import { type BootstrapResult, appState } from '@walless/app';
 import { SettingDocument } from '@walless/store';
 import { db } from 'utils/pouch';
 import { router } from 'utils/routing';
-
-import { appState } from './internal';
-
-export interface BootstrapResult {
-	profile?: UserProfile;
-}
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	const response: BootstrapResult = {};

@@ -2,23 +2,25 @@ import { type FC, type HTMLAttributeAnchorTarget, type ReactNode } from 'react';
 import { type TextStyle, type ViewStyle, Linking } from 'react-native';
 
 import { isBrowser } from '../utils/platform';
+import { iStyles } from '../utils/style';
 
 import Hoverable from './Hoverable';
 import Text from './Text';
 
 interface Props {
+	style?: ViewStyle;
 	hoverOpacity?: number;
 	animationDuration?: number;
 	href?: string;
 	target?: HTMLAttributeAnchorTarget;
 	onPress?: () => void;
 	children?: ReactNode;
-	style?: ViewStyle;
 	title?: string;
 	titleStyle?: TextStyle;
 }
 
 export const Anchor: FC<Props> = ({
+	style,
 	hoverOpacity = 0.6,
 	animationDuration,
 	href,
@@ -38,10 +40,13 @@ export const Anchor: FC<Props> = ({
 		}
 	};
 
-	const innerElement = children || <Text style={titleStyle}>{title}</Text>;
+	const innerElement = children || (
+		<Text style={[iStyles.link, titleStyle]}>{title}</Text>
+	);
 
 	return (
 		<Hoverable
+			style={style}
 			hoverOpacity={hoverOpacity}
 			animationDuration={animationDuration}
 			onPress={handlePress}

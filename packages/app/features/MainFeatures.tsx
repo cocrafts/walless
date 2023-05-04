@@ -1,33 +1,40 @@
-import { FC } from 'react';
+import { type FC } from 'react';
+import { type ViewStyle, StyleSheet } from 'react-native';
+import { View } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
-import { Stack, StackProps } from '@walless/ui';
 
 import FeatureButton from '../components/FeatureButton';
 
-type Props = StackProps & {
-	gap?: number;
+interface Props {
+	style?: ViewStyle;
 	iconSize?: number;
 	onSendPress?: () => void;
 	onReceivePress?: () => void;
-};
+}
 
 export const MainFeatures: FC<Props> = ({
-	gap = 18,
+	style,
 	iconSize = 18,
 	onSendPress,
 	onReceivePress,
-	...stackProps
 }) => {
 	return (
-		<Stack horizontal gap={gap} {...stackProps}>
+		<View style={[styles.container, style]}>
 			<FeatureButton title="Send" onPress={onSendPress}>
 				<ArrowTopRight size={iconSize} />
 			</FeatureButton>
 			<FeatureButton title="Receive" onPress={onReceivePress}>
 				<ArrowBottomRight size={iconSize} />
 			</FeatureButton>
-		</Stack>
+		</View>
 	);
 };
 
 export default MainFeatures;
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		gap: 18,
+	},
+});

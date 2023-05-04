@@ -1,47 +1,48 @@
-import { FC } from 'react';
-import { Stack, StackProps } from '@walless/ui';
+import { type FC } from 'react';
+import { type ViewStyle, StyleSheet } from 'react-native';
+import { Hoverable, View } from '@walless/gui';
 
 export interface SlideAble {
 	id?: string;
 }
 
-type Props = StackProps & {
+interface Props {
+	style?: ViewStyle;
 	items: SlideAble[];
 	activeItem: SlideAble;
-	itemGap?: number;
 	indicatorWidth?: number;
 	indicatorHeight?: number;
-};
+}
 
 export const SlideHandler: FC<Props> = ({
+	style,
 	items,
 	activeItem,
-	itemGap = 12,
 	indicatorWidth = 45,
 	indicatorHeight = 6,
-	...stackProps
 }) => {
 	return (
-		<Stack horizontal gap={itemGap} {...stackProps}>
+		<View style={[styles.container, style]}>
 			{items.map((item) => {
 				const isActive = item.id === activeItem.id;
-				const backgroundColor = isActive ? '#0694D3' : '#202D38';
+				const itemStyle = {
+					width: indicatorWidth,
+					height: indicatorHeight,
+					borderRadius: indicatorHeight / 2,
+					backgroundColor: isActive ? '#0694D3' : '#202D38',
+				};
 
-				return (
-					<Stack
-						key={item.id}
-						cursor="pointer"
-						backgroundColor={backgroundColor}
-						width={indicatorWidth}
-						height={indicatorHeight}
-						borderRadius={indicatorHeight / 2}
-						hoverStyle={{ opacity: 0.8 }}
-						pressStyle={{ opacity: 0.7 }}
-					/>
-				);
+				return <Hoverable key={item.id} style={itemStyle} />;
 			})}
-		</Stack>
+		</View>
 	);
 };
 
 export default SlideHandler;
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		gap: 12,
+	},
+});

@@ -46,9 +46,10 @@ export const ItemContainer: FC<Props> = ({
 				offset: animatedOffset,
 				progress,
 				index,
+				activatedIndex,
 				layout: containerLayout,
 			}),
-		[animatedOffset, progress, containerLayout],
+		[animatedOffset, progress, activatedIndex, containerLayout],
 	);
 
 	useEffect(() => {

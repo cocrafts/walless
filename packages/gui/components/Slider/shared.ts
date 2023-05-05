@@ -9,26 +9,29 @@ export interface SlideOption {
 
 export type SlideAnimator = (context: {
 	index: number;
+	activatedIndex: number;
 	offset: SharedValue<number>;
 	progress: SharedValue<number>;
 	layout: LayoutRectangle;
 }) => ViewStyle;
 
-export type SlideAnimators = 'basic' | 'fade' | 'fancy';
+export type SlideAnimators = 'fade' | 'bounce' | 'fancy';
 
 export const slideAnimators: Record<SlideAnimators, SlideAnimator> = {
-	basic: ({ offset, index, layout }) => {
+	fade: ({ progress, index, activatedIndex, layout }) => {
 		const origin = layout.width * index;
-
-		return {
-			transform: [{ translateX: origin + offset.value }],
-		};
-	},
-	fade: ({ offset, progress, index, layout }) => {
-		const origin = layout.width * index;
+		const offset = layout.width * activatedIndex;
+		const translateY = interpolate(progress.value, [0, 1], [10, 0]);
 
 		return {
 			opacity: progress.value,
+			transform: [{ translateX: origin - offset }, { translateY }],
+		};
+	},
+	bounce: ({ offset, index, layout }) => {
+		const origin = layout.width * index;
+
+		return {
 			transform: [{ translateX: origin + offset.value }],
 		};
 	},

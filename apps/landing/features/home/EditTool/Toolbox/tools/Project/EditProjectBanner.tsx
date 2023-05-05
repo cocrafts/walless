@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { Stack } from '@walless/ui';
 import {
-	ProjectInfoComponent,
+	ProjectTool,
 	ToolboxComponentProps,
 } from 'features/home/EditTool/internal';
 
 import ToolDescription from '../components/ToolDescription';
 
 const EditProjectBanner: FC<ToolboxComponentProps> = ({ setTarget }) => {
-	const onTarget = () => setTarget(ProjectInfoComponent.banner);
+	const onTarget = () => setTarget(ProjectTool.banner);
 
 	return (
 		<Stack onHoverIn={onTarget} onHoverOut={() => setTarget(null)}>

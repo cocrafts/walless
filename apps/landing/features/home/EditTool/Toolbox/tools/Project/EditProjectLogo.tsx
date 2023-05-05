@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { Stack } from '@walless/ui';
 import {
-	ProjectInfoComponent,
+	ProjectTool,
 	ToolboxComponentProps,
 } from 'features/home/EditTool/internal';
 
 import ToolDescription from '../components/ToolDescription';
 
 const EditProjectAvatar: FC<ToolboxComponentProps> = ({ setTarget }) => {
-	const onTarget = () => setTarget(ProjectInfoComponent.avatar);
+	const onTarget = () => setTarget(ProjectTool.logo);
 
 	return (
 		<Stack onHoverIn={onTarget} onHoverOut={() => setTarget(null)}>

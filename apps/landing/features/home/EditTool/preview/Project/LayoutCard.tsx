@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Image, Stack, Text } from '@walless/ui';
 
-import { ProjectInfoComponent, ProjectInfoState, Target } from '../../internal';
+import { ProjectTool, ProjectState, Target } from '../../internal';
 import TargetWrapper from '../TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';
@@ -9,7 +9,7 @@ interface Props {
 	target: Target;
 }
 
-const initialLayoutCardProps: ProjectInfoState = {
+const initialLayoutCardProps: ProjectState = {
 	banner: '/img/preview/sui-banner.png',
 	logo: '/img/preview/sui-logo.png',
 	name: 'Sui',
@@ -22,7 +22,7 @@ const LayoutCard: FC<Props> = ({ target }) => {
 
 	return (
 		<Stack backgroundColor="#131C24" maxWidth={320} borderRadius={12}>
-			<TargetWrapper isTargeted={target === ProjectInfoComponent.banner}>
+			<TargetWrapper isTargeted={target === ProjectTool.banner}>
 				<Image
 					src={item.banner}
 					width={320}
@@ -39,11 +39,13 @@ const LayoutCard: FC<Props> = ({ target }) => {
 				justifyContent="flex-end"
 				marginTop={-20}
 			>
-				<TargetWrapper isTargeted={target === ProjectInfoComponent.avatar}>
+				<TargetWrapper isTargeted={target === ProjectTool.logo}>
 					<Stack
 						width={32}
 						height={32}
 						borderRadius={8}
+						borderWidth={1}
+						borderColor="#131C24"
 						alignItems="center"
 						justifyContent="center"
 						overflow="hidden"
@@ -52,13 +54,13 @@ const LayoutCard: FC<Props> = ({ target }) => {
 					</Stack>
 				</TargetWrapper>
 
-				<TargetWrapper isTargeted={target === ProjectInfoComponent.name}>
+				<TargetWrapper isTargeted={target === ProjectTool.name}>
 					<Text fontSize={14} marginTop={4} fontWeight="600">
 						{item.name === '' ? initialLayoutCardProps.name : item.name}
 					</Text>
 				</TargetWrapper>
 
-				<TargetWrapper isTargeted={target === ProjectInfoComponent.description}>
+				<TargetWrapper isTargeted={target === ProjectTool.description}>
 					<Text
 						fontSize={12}
 						fontWeight="400"

@@ -1,22 +1,22 @@
 import { FC } from 'react';
 
-export enum ProjectInfoComponent {
+export enum ProjectTool {
 	name,
 	description,
+	logo,
 	banner,
-	avatar,
 }
 
-export interface ProjectInfoState {
+export interface ProjectState {
 	name: string;
 	description: string;
 	logo: string;
 	banner: string;
 }
 
-export enum DetailInfoComponent {}
+export enum DetailTool {}
 
-export type Target = ProjectInfoComponent | DetailInfoComponent | null;
+export type Target = ProjectTool | DetailTool | null;
 
 export interface PreviewProps {
 	target: Target;

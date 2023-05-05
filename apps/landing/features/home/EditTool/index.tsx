@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Stack } from '@walless/ui';
 import { ContainerStack } from 'components/styled';
 
-import Project from './preview/Project';
 import Detail from './preview/Detail';
+import Project from './preview/Project';
 import ProjectTools from './Toolbox/tools/Project';
 import ColorPicker from './ColorPicker';
 import Header from './Header';

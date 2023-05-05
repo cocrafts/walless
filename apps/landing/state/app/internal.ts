@@ -12,10 +12,11 @@ export const appState = proxy<AppState>({
 	counter: 0,
 	tools: {
 		project: {
-			name: '/img/preview/sui-banner.png',
-			description: '/img/preview/sui-logo.png',
-			logo: 'Sui is an innovative, decentralized Layer 1 blockchain that redefines asset ownership.',
-			banner: 'Sui',
+			name: 'Sui',
+			description:
+				'Sui is an innovative, decentralized Layer 1 blockchain that redefines asset ownership.',
+			logo: '/img/preview/sui-logo.png',
+			banner: '/img/preview/sui-banner.png',
 		},
 	},
 });

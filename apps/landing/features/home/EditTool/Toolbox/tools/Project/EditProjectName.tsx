@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Input, Stack } from '@walless/ui';
+import { Stack } from '@walless/ui';
 import {
 	ProjectTool,
 	ToolboxComponentProps,
@@ -16,7 +16,6 @@ const EditProjectName: FC<ToolboxComponentProps> = ({ setTarget }) => {
 				name="Project name"
 				description="Lorem ipsum dolor amet mustache knausgaard"
 			/>
-			<Input />
 		</Stack>
 	);
 };

@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Stack } from '@walless/ui';
 import { ContainerStack } from 'components/styled';
 
-import ProjectInfo from './preview/ProjectInfo';
-import TokenInfo from './preview/TokenInfo';
-import ProjectInfoTools from './Toolbox/tools/ProjectInfo';
+import Project from './preview/Project';
+import Detail from './preview/Detail';
+import ProjectTools from './Toolbox/tools/Project';
 import ColorPicker from './ColorPicker';
 import Header from './Header';
 import { Target, ToolboxItem } from './internal';
@@ -14,13 +14,13 @@ import Toolbox from './Toolbox';
 const tools: ToolboxItem[] = [
 	{
 		name: 'Project info',
-		preview: ProjectInfo,
+		preview: Project,
 		previewImage: '/img/preview/project-info.png',
-		components: ProjectInfoTools,
+		components: ProjectTools,
 	},
 	{
 		name: 'Token info',
-		preview: TokenInfo,
+		preview: Detail,
 		previewImage: '/img/preview/token-info.png',
 		components: [],
 	},

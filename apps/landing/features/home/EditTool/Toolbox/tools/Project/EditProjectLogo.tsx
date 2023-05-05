@@ -7,17 +7,17 @@ import {
 
 import ToolDescription from '../components/ToolDescription';
 
-const EditProjectDesc: FC<ToolboxComponentProps> = ({ setTarget }) => {
-	const onTarget = () => setTarget(ProjectInfoComponent.description);
+const EditProjectAvatar: FC<ToolboxComponentProps> = ({ setTarget }) => {
+	const onTarget = () => setTarget(ProjectInfoComponent.avatar);
 
 	return (
 		<Stack onHoverIn={onTarget} onHoverOut={() => setTarget(null)}>
 			<ToolDescription
-				name="Project description"
-				description="Lorem ipsum dolor amet mustache knausgaard"
+				name="Logo/Icon"
+				description="Your project official logo/icon"
 			/>
 		</Stack>
 	);
 };
 
-export default EditProjectDesc;
+export default EditProjectAvatar;

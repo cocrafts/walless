@@ -5,17 +5,16 @@ import { ProjectInfoComponent, ProjectInfoState, Target } from '../../internal';
 import TargetWrapper from '../TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';
-
 interface Props {
 	target: Target;
 }
 
 const initialLayoutCardProps: ProjectInfoState = {
-	banner: 'https://picsum.photos/200/300',
-	avatar: 'https://picsum.photos/200/300',
-	name: 'Project Name',
+	banner: '/img/preview/sui-banner.png',
+	logo: '/img/preview/sui-logo.png',
+	name: 'Sui',
 	description:
-		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.',
+		'Sui is an innovative, decentralized Layer 1 blockchain that redefines asset ownership.',
 };
 
 const LayoutCard: FC<Props> = ({ target }) => {
@@ -49,7 +48,7 @@ const LayoutCard: FC<Props> = ({ target }) => {
 						justifyContent="center"
 						overflow="hidden"
 					>
-						<Image src={item.avatar} width={32} height={32} />
+						<Image src={item.logo} width={32} height={32} />
 					</Stack>
 				</TargetWrapper>
 

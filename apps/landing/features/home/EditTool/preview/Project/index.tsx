@@ -5,7 +5,7 @@ import { PreviewProps } from '../../internal';
 
 import LayoutCard from './LayoutCard';
 
-const ProjectInfo: FC<PreviewProps> = ({ target }) => {
+const Project: FC<PreviewProps> = ({ target }) => {
 	return (
 		<Stack>
 			<LayoutCard target={target} />
@@ -13,4 +13,4 @@ const ProjectInfo: FC<PreviewProps> = ({ target }) => {
 	);
 };
 
-export default ProjectInfo;
+export default Project;

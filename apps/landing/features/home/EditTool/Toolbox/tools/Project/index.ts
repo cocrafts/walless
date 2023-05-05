@@ -1,16 +1,16 @@
 import { FC } from 'react';
 import { ToolboxComponentProps } from 'features/home/EditTool/internal';
 
-import EditProjectAvatar from './EditProjectAvatar';
+import EditProjectLogo from './EditProjectLogo';
 import EditProjectBanner from './EditProjectBanner';
 import EditProjectDesc from './EditProjectDesc';
 import EditProjectName from './EditProjectName';
 
-const ProjectInfoComponents: FC<ToolboxComponentProps>[] = [
+const ProjectTools: FC<ToolboxComponentProps>[] = [
 	EditProjectName,
 	EditProjectDesc,
+	EditProjectLogo,
 	EditProjectBanner,
-	EditProjectAvatar,
 ];
 
-export default ProjectInfoComponents;
+export default ProjectTools;

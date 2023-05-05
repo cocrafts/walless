@@ -1,11 +1,11 @@
 import { Stack, Text } from '@walless/ui';
 
-const TokenInfo = () => {
+const Detail = () => {
 	return (
 		<Stack>
-			<Text>Token Info</Text>
+			<Text>Detail component</Text>
 		</Stack>
 	);
 };
 
-export default TokenInfo;
+export default Detail;

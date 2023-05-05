@@ -10,13 +10,13 @@ export enum ProjectInfoComponent {
 export interface ProjectInfoState {
 	name: string;
 	description: string;
+	logo: string;
 	banner: string;
-	avatar: string;
 }
 
-export enum TokenInfoComponent {}
+export enum DetailInfoComponent {}
 
-export type Target = ProjectInfoComponent | TokenInfoComponent | null;
+export type Target = ProjectInfoComponent | DetailInfoComponent | null;
 
 export interface PreviewProps {
 	target: Target;

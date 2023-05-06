@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
@@ -6,17 +6,20 @@ import {
 	SlideHandler,
 	TabAble,
 	TabsHeader,
-	TokenList,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
+import { tokenListActions } from 'state/tokenList';
 import { usePublicKeys, useTokens } from 'utils/hooks';
+
+import { bottomItems } from './shared';
 
 interface Props {
 	variant?: string;
@@ -44,9 +47,13 @@ export const SolanaDashboard: FC<Props> = () => {
 		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
 	};
 
+	useEffect(() => {
+		tokenListActions.set(tokens);
+	}, [tokens]);
+
 	return (
-		<Stack flex={1} padding={12} gap={18}>
-			<Stack horizontal gap={12}>
+		<Stack flex={1} gap={18}>
+			<Stack horizontal gap={12} paddingHorizontal={12} paddingTop={12}>
 				{cards.map((token, index) => {
 					return (
 						<WalletCard
@@ -59,21 +66,25 @@ export const SolanaDashboard: FC<Props> = () => {
 					);
 				})}
 			</Stack>
-			<Stack alignItems="center" gap={18}>
+			<Stack alignItems="center" gap={18} paddingHorizontal={12}>
 				<MainFeatures
 					onReceivePress={() => showReceiveModal(Networks.solana)}
 				/>
 				<SlideHandler items={cards} activeItem={cards[0]} />
 			</Stack>
-			<Stack>
-				<TabsHeader
-					items={layoutTabs}
-					activeItem={layoutTabs[activeTabIndex]}
-					onTabPress={onTabPress}
-				/>
-				<TokenList
-					contentContainerStyle={styles.tokenListInner}
-					items={tokens}
+			<Stack height={588} paddingBottom={12}>
+				<Stack paddingHorizontal={12}>
+					<TabsHeader
+						items={layoutTabs}
+						activeItem={layoutTabs[activeTabIndex]}
+						onTabPress={onTabPress}
+					/>
+				</Stack>
+				<Slider
+					items={bottomItems}
+					activeItem={bottomItems[activeTabIndex]}
+					style={styles.slider}
+					slideContainerStyle={styles.slideContainer}
 				/>
 			</Stack>
 		</Stack>
@@ -91,7 +102,11 @@ const suiCardSkin: CardSkin = {
 };
 
 const styles = StyleSheet.create({
-	tokenListInner: {
-		paddingVertical: 12,
+	slider: {
+		flex: 1,
+	},
+	slideContainer: {
+		paddingHorizontal: 12,
+		paddingTop: 12,
 	},
 });

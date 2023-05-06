@@ -1,25 +1,30 @@
-import { type FC } from 'react';
+import { type FC, useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
 	MainFeatures,
 	SlideHandler,
+	TabAble,
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { Slider } from '@walless/gui';
 import { TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
 import { showReceiveModal } from 'state/app/modal';
-import { usePublicKeys } from 'utils/hooks';
+import { tokenListActions } from 'state/tokenList';
+import { usePublicKeys, useTokens } from 'utils/hooks';
 
-import EmptyTab from './EmptyTab';
-import { layoutTabs } from './shared';
+import { bottomItems, layoutTabs } from './shared';
 
 interface Props {
 	variant?: string;
 }
 
 export const SuiDashboard: FC<Props> = () => {
+	const [activeTabIndex, setActiveTabIndex] = useState(0);
+	const tokens = useTokens(Networks.sui);
 	const keys = usePublicKeys(Networks.sui);
 	const address = keys[0]?._id as string;
 	const token: TokenRecord = {
@@ -28,17 +33,20 @@ export const SuiDashboard: FC<Props> = () => {
 		metadata: { symbol: 'SOL' },
 		account: { balance: '0', decimals: 9 },
 	};
-	const cloneCard = (card: TokenRecord, suffix: string) => ({
-		...card,
-		id: card.id + suffix,
-	});
-	const cards = token?.id
-		? [token, cloneCard(token, 'asdofi'), cloneCard(token, 'asdfklasjfdl')]
-		: [];
+	const cards = token?.id ? [token] : [];
+
+	const onTabPress = (item: TabAble) => {
+		const idx = layoutTabs.indexOf(item);
+		setActiveTabIndex(idx);
+	};
+
+	useEffect(() => {
+		tokenListActions.set(tokens);
+	}, [tokens]);
 
 	return (
-		<Stack flex={1} padding={12} gap={18}>
-			<Stack horizontal gap={12}>
+		<Stack flex={1} gap={18}>
+			<Stack horizontal gap={12} paddingHorizontal={12}>
 				{cards.map((token, index) => {
 					return (
 						<WalletCard
@@ -50,13 +58,24 @@ export const SuiDashboard: FC<Props> = () => {
 					);
 				})}
 			</Stack>
-			<Stack alignItems="center" gap={18}>
+			<Stack alignItems="center" gap={18} paddingHorizontal={12}>
 				<MainFeatures onReceivePress={() => showReceiveModal(Networks.sui)} />
 				<SlideHandler items={cards} activeItem={cards[0]} />
 			</Stack>
-			<Stack>
-				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />
-				<EmptyTab />
+			<Stack height={588} paddingBottom={12}>
+				<Stack paddingHorizontal={12}>
+					<TabsHeader
+						items={layoutTabs}
+						activeItem={layoutTabs[activeTabIndex]}
+						onTabPress={onTabPress}
+					/>
+				</Stack>
+				<Slider
+					items={bottomItems}
+					activeItem={bottomItems[activeTabIndex]}
+					style={styles.slider}
+					slideContainerStyle={styles.slideContainer}
+				/>
 			</Stack>
 		</Stack>
 	);
@@ -71,3 +90,13 @@ const suiCardSkin: CardSkin = {
 	iconColor: '#FFFFFF',
 	iconSize: 12,
 };
+
+const styles = StyleSheet.create({
+	slider: {
+		flex: 1,
+	},
+	slideContainer: {
+		paddingHorizontal: 12,
+		paddingTop: 12,
+	},
+});

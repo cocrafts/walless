@@ -1,13 +1,12 @@
+import { Networks } from '@walless/core';
 import { Stack, Text } from '@walless/ui';
-import { walletState } from 'state/wallet';
-import { useSnapshot } from 'utils/hooks';
+import { usePublicKeys } from 'utils/hooks';
 
 import Wallet from './Wallet';
 
 const MyWallets = () => {
-	const { suiKeyMap, solanaKeyMap } = useSnapshot(walletState);
-	const suiKeys = Array.from(suiKeyMap.values());
-	const solanaKeys = Array.from(solanaKeyMap.values());
+	const solanaKeys = usePublicKeys(Networks.solana);
+	const suiKeys = usePublicKeys(Networks.sui);
 
 	return (
 		<Stack gap={12}>

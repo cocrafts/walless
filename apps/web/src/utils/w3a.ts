@@ -8,7 +8,7 @@ import PrivateKeyModule, {
 import SecurityQuestionsModule from '@tkey/security-questions';
 import { TorusServiceProvider } from '@tkey/service-provider-torus';
 import { type WebStorageModule } from '@tkey/web-storage';
-import { type CustomAuthArgs } from '@toruslabs/customauth';
+import CustomAuth, { type CustomAuthArgs } from '@toruslabs/customauth';
 import { ThresholdResult } from '@walless/app';
 import { runtime } from '@walless/core';
 import { w3aBaseUrl } from 'utils/config';
@@ -23,6 +23,7 @@ import { w3aBaseUrl } from 'utils/config';
  * ------------------ */
 
 export const customAuthArgs: CustomAuthArgs = {
+	web3AuthClientId: 'walless-firebase',
 	network: 'testnet',
 	baseUrl: w3aBaseUrl,
 	redirectToOpener: true,
@@ -30,6 +31,8 @@ export const customAuthArgs: CustomAuthArgs = {
 	enableLogging: false,
 	popupFeatures: 'width=380,height=600',
 };
+
+export const customAuth = new CustomAuth(customAuthArgs);
 
 export type InternalModules = ModuleMap & {
 	webStorage?: WebStorageModule;

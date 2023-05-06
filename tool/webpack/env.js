@@ -1,6 +1,3 @@
-const devGoogleClientId =
-	'474398641068-f7mbjjtstm2d7eb0lerhh4en7bp3gdd7.apps.googleusercontent.com';
-
 const setEnvironments =
 	(variables = {}) =>
 	(config, internal) => {
@@ -8,13 +5,24 @@ const setEnvironments =
 		const { DefinePlugin } = webpack;
 		const env = internal.configs.env();
 		const isProduction = internal.configs.isProduction(env);
+		const environments = [
+			'GOOGLE_CLIENT_ID',
+			'FIREBASE_API_KEY',
+			'FIREBASE_AUTH_DOMAIN',
+			'FIREBASE_PROJECT_ID',
+			'FIREBASE_STORAGE_BUCKET',
+			'FIREBASE_MESSAGING_SENDER_ID',
+			'FIREBASE_APP_ID',
+			'FIREBASE_MEASUREMENT_ID',
+		].reduce((a, i) => {
+			a[i] = JSON.stringify(process.env[i]);
+			return a;
+		}, {});
 
 		config.plugins[0] = new DefinePlugin({
 			__DEV__: !isProduction,
 			ENV: JSON.stringify(env),
-			GOOGLE_CLIENT_ID: JSON.stringify(
-				process.env.GOOGLE_CLIENT_ID || devGoogleClientId,
-			),
+			...environments,
 			...variables,
 		});
 

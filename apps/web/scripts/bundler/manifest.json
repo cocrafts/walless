@@ -5,7 +5,7 @@
 	"description": "A versatile wallet for gamers & non-web3 users",
 	"author": "https://walless.io",
 	"content_security_policy": {
-		"extension_pages": "script-src 'self'; object-src 'self'; frame-ancestors 'none';"
+		"extension_pages": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; frame-ancestors 'none';"
 	},
 	"icons": {
 		"16": "favicon.png",
@@ -25,6 +25,7 @@
 		"tabs",
 		"activeTab",
 		"clipboardWrite",
+		"identity",
 		"storage",
 		"unlimitedStorage"
 	],

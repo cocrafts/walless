@@ -5,7 +5,6 @@ import { ContainerStack } from 'components/styled';
 import Detail from './preview/Detail';
 import Project from './preview/Project';
 import ProjectTools from './Toolbox/tools/Project';
-import ColorPicker from './ColorPicker';
 import Header from './Header';
 import { Target, ToolboxItem } from './internal';
 import PreviewOutline from './PreviewOutline';
@@ -38,19 +37,12 @@ const EditTool = () => {
 				{activeTool?.preview && <activeTool.preview target={target} />}
 			</Stack>
 
-			<Stack
-				width="100%"
-				flexDirection="row"
-				justifyContent="space-between"
-				alignItems="flex-end"
-				marginBottom={20}
-			>
+			<Stack marginBottom={20} alignSelf="flex-start">
 				<PreviewOutline
 					tools={tools}
 					activeTool={activeTool}
 					setActiveTool={setActiveTool}
 				/>
-				<ColorPicker />
 			</Stack>
 
 			<Toolbox

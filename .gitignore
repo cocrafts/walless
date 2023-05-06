@@ -52,6 +52,10 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# configs
+GoogleService-info.plist
+google-services.json
+
 # turbo
 .turbo
 

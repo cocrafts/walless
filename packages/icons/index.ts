@@ -13,6 +13,7 @@ export { ChevronRight } from './components/ChevronRight';
 export { Compass } from './components/Compass';
 export { Copy } from './components/Copy';
 export { Discord } from './components/Discord';
+export { Edit } from './components/Edit';
 export { Exclamation } from './components/Exclamation';
 export { Eye } from './components/Eye';
 export { EyeOff } from './components/EyeOff';

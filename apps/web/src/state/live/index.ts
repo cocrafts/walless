@@ -33,6 +33,7 @@ export const initializeLiveState = async () => {
 
 		if (deleted) {
 			if (item?.type === 'Extension') {
+				console.log('hihihihi');
 				extensionState.map.delete(id);
 			} else if (item?.type === 'PublicKey') {
 				walletState.map.delete(id);

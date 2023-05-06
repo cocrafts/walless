@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from 'react';
+import { type FC, type ReactNode, useRef } from 'react';
 import { Image, StyleSheet, ViewStyle } from 'react-native';
 import {
 	Easing,
@@ -7,7 +7,15 @@ import {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import { AnimatedView, ContextMenuContainer, View } from '@walless/gui';
+import {
+	AnimateDirections,
+	AnimatedView,
+	BindDirections,
+	ContextMenuContainer,
+	modalActions,
+	ModalConfigs,
+	View,
+} from '@walless/gui';
 import { ExtensionDocument } from '@walless/store';
 
 import ActiveBar from './ActiveBar';
@@ -18,6 +26,7 @@ interface Props {
 	hasUpdate?: boolean;
 	children?: ReactNode;
 	onPress?: (item: ExtensionDocument) => void;
+	component?: FC<{ config: ModalConfigs }>;
 }
 
 export const NavigatorOrb: FC<Props> = ({
@@ -26,7 +35,9 @@ export const NavigatorOrb: FC<Props> = ({
 	hasUpdate,
 	children,
 	onPress,
+	component,
 }) => {
+	const containerRef = useRef(null);
 	const iconColor = item.storeMeta?.iconColor || 'white';
 	const iconSize = item.storeMeta?.iconSize || 20;
 	const iconUri = item.storeMeta?.iconUri;
@@ -67,8 +78,24 @@ export const NavigatorOrb: FC<Props> = ({
 		});
 	};
 
+	const handleContextMenu = () => {
+		if (!component) return;
+		modalActions.show({
+			id: `navigator-orb-${item._id}`,
+			component: component,
+			context: item,
+			bindingRef: containerRef,
+			maskActiveOpacity: 0,
+			bindingDirection: BindDirections.Right,
+			animateDirection: AnimateDirections.Right,
+			positionOffset: {
+				y: orbSize / 2,
+			},
+		});
+	};
+
 	return (
-		<View style={styles.container}>
+		<View ref={containerRef} style={styles.container}>
 			{hasUpdate && <View style={styles.activityDot} />}
 			{isActive && (
 				<ActiveBar
@@ -84,6 +111,7 @@ export const NavigatorOrb: FC<Props> = ({
 				onHoverIn={handleHoverIn}
 				onHoverOut={handleHoverOut}
 				onPress={() => onPress?.(item)}
+				onContextMenu={handleContextMenu}
 			>
 				{children || <Image style={iconImgStyle} source={iconSource} />}
 			</ContextMenuContainer>

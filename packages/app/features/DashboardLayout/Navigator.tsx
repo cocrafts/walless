@@ -4,6 +4,8 @@ import { UserProfile } from '@walless/core';
 import { Compass } from '@walless/icons';
 import { ExtensionDocument } from '@walless/store';
 
+import RemoveLayout from '../../../../apps/web/src/screens/Dashboard/RemoveLayout';
+
 import NavigatorOrb from './NavigatorOrb';
 
 interface Props {
@@ -48,6 +50,7 @@ export const DashboardNavigator: FC<Props> = ({
 							item={item}
 							isActive={isActive}
 							onPress={onExtensionPress}
+							component={RemoveLayout}
 						/>
 					);
 				})}

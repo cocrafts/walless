@@ -1,6 +1,5 @@
 import { TransactionBlock } from '@mysten/sui.js';
 import { VersionedTransaction } from '@solana/web3.js';
-import { constructTransaction } from '@walless/app';
 import { Networks } from '@walless/core';
 import { BindDirections, modalActions, modalState } from '@walless/gui';
 import { RequestType, ResponseCode } from '@walless/messaging';
@@ -8,6 +7,7 @@ import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
 import PasscodeScreen from 'screens/Profile/modals/Passcode';
 import TransactionSuccessfulScreen from 'screens/Profile/modals/TransactionSuccessful';
+import { constructTransaction } from 'utils/transaction';
 
 export interface TransactionPayload {
 	sender: string;

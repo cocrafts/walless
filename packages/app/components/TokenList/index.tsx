@@ -6,6 +6,9 @@ import {
 	FlatList,
 } from 'react-native';
 import { type TokenDocument } from '@walless/store';
+import { useSnapshot } from 'valtio';
+
+import { tokenListState } from '../../state/tokenList';
 
 import TokenItem from './Item';
 import Separator from './Separator';
@@ -13,14 +16,11 @@ import Separator from './Separator';
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
-	items: TokenDocument[];
 }
 
-export const TokenList: FC<Props> = ({
-	style,
-	contentContainerStyle,
-	items,
-}) => {
+export const TokenList: FC<Props> = ({ style, contentContainerStyle }) => {
+	const { tokens } = useSnapshot(tokenListState);
+
 	const renderItem: ListRenderItem<TokenDocument> = ({ item, index }) => {
 		return <TokenItem index={index} item={item} />;
 	};
@@ -29,7 +29,7 @@ export const TokenList: FC<Props> = ({
 		<FlatList
 			style={style}
 			contentContainerStyle={contentContainerStyle}
-			data={items}
+			data={tokens as TokenDocument[]}
 			renderItem={renderItem}
 			ItemSeparatorComponent={Separator}
 		/>

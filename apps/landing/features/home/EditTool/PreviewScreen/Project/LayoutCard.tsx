@@ -39,6 +39,7 @@ const LayoutCard: FC<Props> = ({ target }) => {
 				display="flex"
 				justifyContent="flex-end"
 				marginTop={-20}
+				overflow="hidden"
 			>
 				<TargetWrapper isTargeted={target === ProjectTool.logo}>
 					<Stack

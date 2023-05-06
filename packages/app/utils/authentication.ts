@@ -1,15 +1,12 @@
-import { type TorusLoginResponse } from '@toruslabs/customauth';
 import { UserProfile } from '@walless/core';
+import { UserCredential } from 'firebase/auth';
 
-export const makeProfile = ({
-	publicAddress,
-	userInfo,
-}: TorusLoginResponse): UserProfile => {
+export const makeProfile = ({ user }: UserCredential): UserProfile => {
 	return {
-		id: publicAddress,
-		email: userInfo.email,
-		name: userInfo.name,
-		profileImage: userInfo.profileImage,
+		id: user.uid,
+		email: user.email as never,
+		name: user.displayName as never,
+		profileImage: user.photoURL as never,
 	};
 };
 

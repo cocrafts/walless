@@ -1,11 +1,6 @@
 import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
-import {
-	type SubVerifierDetails,
-	type TorusLoginResponse,
-} from '@toruslabs/customauth';
-import { makeProfile, ThresholdResult } from '@walless/app';
-import { appState } from '@walless/app';
+import { appState, makeProfile, ThresholdResult } from '@walless/app';
 import { Networks, UserProfile } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import {
@@ -13,17 +8,20 @@ import {
 	type PublicKeyDocument,
 	type SettingDocument,
 } from '@walless/store';
+import { signInWithPopup, UserCredential } from 'firebase/auth';
+import { auth, googleProvider } from 'utils/firebase';
 import { db } from 'utils/pouch';
 import { router } from 'utils/routing';
 import {
 	configureSecurityQuestionShare,
+	customAuth,
 	importAvailableShares,
 	key,
 	recoverDeviceShareFromPasscode,
 } from 'utils/w3a';
 
 interface InternalCache {
-	loginResponse?: TorusLoginResponse;
+	loginResponse?: UserCredential;
 }
 
 const cache: InternalCache = {};
@@ -40,17 +38,27 @@ export const setProfile = async (profile: UserProfile) => {
 };
 
 export const signInWithGoogle = async () => {
-	const loginParams: SubVerifierDetails = {
-		typeOfLogin: 'google',
-		verifier: 'walless-gc',
-		clientId: GOOGLE_CLIENT_ID,
-	};
-
 	try {
+		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
 		appState.authenticationLoading = true;
 
-		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
-		cache.loginResponse = await key.serviceProvider.triggerLogin(loginParams);
+		cache.loginResponse = await signInWithPopup(auth, googleProvider);
+		const { user } = cache.loginResponse;
+		const verifierToken = await user.getIdToken(true);
+		const verifier = 'walless-firebase';
+		const verifierId = user.uid;
+		const verifierParams = { verifier_id: user.uid };
+		const loginDetails = await customAuth.getTorusKey(
+			verifier,
+			verifierId,
+			verifierParams,
+			verifierToken,
+		);
+
+		key.serviceProvider.postboxKey = loginDetails.privateKey as never;
+		(key.serviceProvider as any).verifierName = verifier;
+		(key.serviceProvider as any).verifierId = verifierId;
+
 		await key.initialize();
 		const status = await importAvailableShares();
 
@@ -92,12 +100,12 @@ export const recoverWithPasscode = async (passcode: string) => {
 
 export const storeAuthenticatedRecords = async (
 	passcode: string,
-	login?: TorusLoginResponse,
+	login?: UserCredential,
 ): Promise<void> => {
 	await key.reconstructKey();
 	const privateKeys = await key.modules.privateKeyModule.getPrivateKeys();
 
-	if (login?.userInfo) {
+	if (login?.user) {
 		await setProfile(makeProfile(login));
 	}
 

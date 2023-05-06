@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { Stack } from '@walless/ui';
-import { handleChangeImage } from 'features/home/EditTool/helpers';
+import { Stack, Text } from '@walless/ui';
 import {
 	ProjectTool,
 	ToolboxComponentProps,
@@ -8,21 +7,31 @@ import {
 import { editToolActions } from 'state/app';
 
 import ToolDescription from '../components/ToolDescription';
+import UploadImage from '../components/UploadImage';
 
 const EditProjectAvatar: FC<ToolboxComponentProps> = ({ setTarget }) => {
 	const onTarget = () => setTarget(ProjectTool.logo);
 
 	return (
-		<Stack onHoverIn={onTarget} onHoverOut={() => setTarget(null)}>
+		<Stack gap={10} onHoverIn={onTarget} onHoverOut={() => setTarget(null)}>
 			<ToolDescription
 				name="Logo/Icon"
 				description="Your project official logo/icon"
 			/>
-			<input
-				type="file"
-				accept="image/png,image/jpeg,image/jpg,image/gif"
-				onChange={(e) => handleChangeImage(e, editToolActions.setProjectLogo)}
-			/>
+			<Stack flexDirection="row" gap={10} alignItems="center">
+				<UploadImage
+					width={40}
+					height={40}
+					handleGetImage={editToolActions.setProjectLogo}
+				/>
+
+				<Stack>
+					<Text fontSize={12}>Upload image (jpg, png)</Text>
+					<Text fontSize={10} color="#566674">
+						50 x 50px. File limit: 200 KB
+					</Text>
+				</Stack>
+			</Stack>
 		</Stack>
 	);
 };

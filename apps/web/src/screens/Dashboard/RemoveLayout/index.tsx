@@ -10,9 +10,10 @@ import RemoveSymbol from './RemoveSymbol';
 
 const RemoveLayout: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const { name, networkMeta, _id } = config.context as ExtensionDocument;
-	const removeLayout = () => {
-		db.remove(config.context);
-		router.navigate('/');
+	const removeLayout = async () => {
+		config.context._deleted = true;
+		await db.put(config.context);
+		await router.navigate('/');
 		modalActions.destroy(`navigator-orb-${_id}`);
 	};
 	const imageBackground = {

@@ -13,10 +13,15 @@ export const styles = StyleSheet.create({
 		gap: 0,
 		padding: 16,
 		backgroundColor: '#0E141A',
-		fontSize: 20,
+		fontSize: 14,
 	},
 	text: {
-		fontSize: 16,
+		fontSize: 14,
+		color: '#566674',
+	},
+	focus: {
+		borderWidth: 1,
+		borderColor: '#49596A',
 	},
 });
 export type SelectionRequiredFields = {
@@ -26,7 +31,7 @@ export type SelectionRequiredFields = {
 };
 
 export interface SelectionContext<T extends object> {
-	selected: T;
+	selected?: T;
 	title: string;
 	items: T[];
 	getRequiredFields: (item: T) => SelectionRequiredFields;

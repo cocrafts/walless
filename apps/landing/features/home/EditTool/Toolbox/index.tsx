@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { Stack } from '@walless/ui';
 import BulletSeparator from 'components/BulletSeparator';
 
@@ -73,4 +73,4 @@ const Toolbox: FC<ToolboxProps> = ({
 	);
 };
 
-export default Toolbox;
+export default memo(Toolbox);

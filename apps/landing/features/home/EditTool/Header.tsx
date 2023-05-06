@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Text } from '@walless/ui';
 
 const Header = () => {
@@ -9,4 +10,4 @@ const Header = () => {
 	);
 };
 
-export default Header;
+export default memo(Header);

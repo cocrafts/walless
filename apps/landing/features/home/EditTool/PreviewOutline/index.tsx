@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { Stack } from '@walless/ui';
 import Image from 'next/image';
 
@@ -39,4 +39,4 @@ const PreviewOutline: FC<PreviewOutlineProps> = ({
 	);
 };
 
-export default PreviewOutline;
+export default memo(PreviewOutline);

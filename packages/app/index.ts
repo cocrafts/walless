@@ -12,4 +12,3 @@ export * from './modals/NotificationModal';
 export * from './state/app';
 export * from './state/tokenList';
 export * from './utils/authentication';
-export * from './utils/transaction';

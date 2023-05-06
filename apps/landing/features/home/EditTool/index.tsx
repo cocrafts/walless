@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Stack } from '@walless/ui';
 import { ContainerStack } from 'components/styled';
 
-import Detail from './preview/Detail';
-import Project from './preview/Project';
+import Detail from './PreviewScreen/Detail';
+import Project from './PreviewScreen/Project';
+import DetailTools from './Toolbox/tools/Detail';
 import ProjectTools from './Toolbox/tools/Project';
 import Header from './Header';
 import { Target, ToolboxItem } from './internal';
@@ -18,10 +19,10 @@ const tools: ToolboxItem[] = [
 		components: ProjectTools,
 	},
 	{
-		name: 'Token info',
+		name: 'Detail info',
 		preview: Detail,
-		previewImage: '/img/preview/token-info.png',
-		components: [],
+		previewImage: '/img/preview/detail-info.png',
+		components: DetailTools,
 	},
 ];
 
@@ -34,7 +35,7 @@ const EditTool = () => {
 			<Header />
 
 			<Stack marginTop={60} marginBottom={80} justifyContent="center">
-				{activeTool?.preview && <activeTool.preview target={target} />}
+				<activeTool.preview target={target} />
 			</Stack>
 
 			<Stack marginBottom={20} alignSelf="flex-start">

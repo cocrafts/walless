@@ -1,16 +1,26 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Image, Stack, Text } from '@walless/ui';
+import { appState } from 'state/app';
+import { useSnapshot } from 'valtio';
 
 import { ProjectState, ProjectTool, Target } from '../../internal';
 import TargetWrapper from '../TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';
 interface Props {
-	projectState: ProjectState;
 	target: Target;
 }
 
-const LayoutCard: FC<Props> = ({ target, projectState }) => {
+const LayoutCard: FC<Props> = ({ target }) => {
+	const snap = useSnapshot(appState);
+	const [projectState, setProjectState] = useState<ProjectState>(
+		snap.tools.project,
+	);
+
+	useEffect(() => {
+		setProjectState(appState.tools.project);
+	}, [snap]);
+
 	return (
 		<Stack backgroundColor="#131C24" maxWidth={320} borderRadius={12}>
 			<TargetWrapper isTargeted={target === ProjectTool.banner}>

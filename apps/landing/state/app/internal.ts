@@ -2,14 +2,12 @@ import { ProjectState } from 'features/home/EditTool/internal';
 import { proxy } from 'valtio';
 
 export interface AppState {
-	counter: number;
 	tools: {
 		project: ProjectState;
 	};
 }
 
 export const appState = proxy<AppState>({
-	counter: 0,
 	tools: {
 		project: {
 			name: 'Sui',

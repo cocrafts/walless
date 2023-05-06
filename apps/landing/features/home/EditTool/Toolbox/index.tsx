@@ -19,12 +19,12 @@ const Toolbox: FC<ToolboxProps> = ({
 
 	return (
 		<Stack
-			width="100%"
 			backgroundColor="#000000"
 			flexDirection="row"
 			borderRadius={10}
+			width="100%"
 		>
-			<Stack flexGrow={1}>
+			<Stack flex={1}>
 				<Stack
 					flexDirection="row"
 					alignItems="center"
@@ -47,7 +47,7 @@ const Toolbox: FC<ToolboxProps> = ({
 				/>
 
 				<Stack flexDirection="row" flexGrow={1}>
-					{activeTool.components.map((component, idx) => (
+					{activeTool.components.map((ToolComponent, idx) => (
 						<Stack
 							key={idx}
 							borderRightWidth={idx < activeTool.components.length - 1 ? 1 : 0}
@@ -55,7 +55,7 @@ const Toolbox: FC<ToolboxProps> = ({
 							width={`${100 / activeTool.components.length}%`}
 							padding={20}
 						>
-							{component({ setTarget })}
+							<ToolComponent setTarget={setTarget} />
 						</Stack>
 					))}
 				</Stack>

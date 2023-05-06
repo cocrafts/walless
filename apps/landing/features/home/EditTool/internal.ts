@@ -1,10 +1,41 @@
-export const handleChangeImage = (
-	event: React.ChangeEvent<HTMLInputElement>,
-	callback: (url: string) => void,
-) => {
-	if (!event.target.files?.length) return;
+import { FC } from 'react';
 
-	const reader = new FileReader();
-	reader.onload = (e) => callback(e.target?.result as string);
-	reader.readAsDataURL((event.target.files as FileList)[0]);
-};
+export enum ProjectTool {
+	name,
+	description,
+	logo,
+	banner,
+}
+
+export interface ProjectState {
+	name: string;
+	description: string;
+	logo: string;
+	banner: string;
+}
+
+export enum DetailTool {}
+
+export type Target = ProjectTool | DetailTool | null;
+
+export interface PreviewProps {
+	target: Target;
+}
+
+export interface ToolboxProps {
+	tools: ToolboxItem[];
+	activeTool: ToolboxItem;
+	setActiveTool: (tool: ToolboxItem) => void;
+	setTarget: (target: Target) => void;
+}
+
+export interface ToolboxComponentProps {
+	setTarget: (target: Target) => void;
+}
+
+export interface ToolboxItem {
+	name: string;
+	preview: FC<PreviewProps>;
+	previewImage: string;
+	components: FC<ToolboxComponentProps>[];
+}

@@ -1,28 +1,31 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Image, Stack, Text } from '@walless/ui';
+import { appState } from 'state/app';
+import { useSnapshot } from 'valtio';
 
+import { ProjectState, ProjectTool, Target } from '../../internal';
 import TargetWrapper from '../TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';
-import {
-	initialLayoutCardProps,
-	LayoutCardComponent,
-	LayoutCardProps,
-} from '.';
-
 interface Props {
-	item: LayoutCardProps;
-	activeComponent: LayoutCardComponent | null;
+	target: Target;
 }
 
-const LayoutCard: FC<Props> = ({ item, activeComponent }) => {
+const LayoutCard: FC<Props> = ({ target }) => {
+	const snap = useSnapshot(appState);
+	const [projectState, setProjectState] = useState<ProjectState>(
+		snap.tools.project,
+	);
+
+	useEffect(() => {
+		setProjectState(appState.tools.project);
+	}, [snap]);
+
 	return (
 		<Stack backgroundColor="#131C24" maxWidth={320} borderRadius={12}>
-			<TargetWrapper
-				isTargeted={activeComponent === LayoutCardComponent.coverImage}
-			>
+			<TargetWrapper isTargeted={target === ProjectTool.banner}>
 				<Image
-					src={item.coverImage}
+					src={projectState.banner}
 					width={320}
 					height={133}
 					borderTopLeftRadius={12}
@@ -37,34 +40,28 @@ const LayoutCard: FC<Props> = ({ item, activeComponent }) => {
 				justifyContent="flex-end"
 				marginTop={-20}
 			>
-				<TargetWrapper
-					isTargeted={activeComponent === LayoutCardComponent.avatar}
-				>
+				<TargetWrapper isTargeted={target === ProjectTool.logo}>
 					<Stack
 						width={32}
 						height={32}
 						borderRadius={8}
+						borderWidth={1}
+						borderColor="#131C24"
 						alignItems="center"
 						justifyContent="center"
 						overflow="hidden"
 					>
-						<Image src={item.avatar} width={32} height={32} />
+						<Image src={projectState.logo} width={32} height={32} />
 					</Stack>
 				</TargetWrapper>
 
-				<TargetWrapper
-					isTargeted={activeComponent === LayoutCardComponent.projectName}
-				>
+				<TargetWrapper isTargeted={target === ProjectTool.name}>
 					<Text fontSize={14} marginTop={4} fontWeight="600">
-						{item.projectName === ''
-							? initialLayoutCardProps.projectName
-							: item.projectName}
+						{projectState.name === '' ? 'Project name' : projectState.name}
 					</Text>
 				</TargetWrapper>
 
-				<TargetWrapper
-					isTargeted={activeComponent === LayoutCardComponent.description}
-				>
+				<TargetWrapper isTargeted={target === ProjectTool.description}>
 					<Text
 						fontSize={12}
 						fontWeight="400"
@@ -76,9 +73,9 @@ const LayoutCard: FC<Props> = ({ item, activeComponent }) => {
 						numberOfLines={2}
 						marginTop={4}
 					>
-						{item.description === ''
-							? initialLayoutCardProps.description
-							: item.description}
+						{projectState.description === ''
+							? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+							: projectState.description}
 					</Text>
 				</TargetWrapper>
 

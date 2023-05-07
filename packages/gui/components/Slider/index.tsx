@@ -10,7 +10,12 @@ import { useSharedValue, withSpring } from 'react-native-reanimated';
 import { idleLayout } from '../../utils/style';
 
 import ItemContainer from './ItemContainer';
-import { type SlideAnimator, type SlideOption, slideAnimators } from './shared';
+import {
+	type SlideAnimator,
+	type SlideOption,
+	type SliderHandle,
+	slideAnimators,
+} from './shared';
 
 interface Props {
 	style?: ViewStyle;
@@ -19,12 +24,6 @@ interface Props {
 	activeItem: SlideOption;
 	onItemSelect?: (item: SlideOption) => void;
 	animator?: SlideAnimator;
-}
-
-export interface SliderHandle {
-	slideNext: () => void;
-	slideBack: () => void;
-	slideTo: (index: number) => void;
 }
 
 export const Slider = forwardRef<SliderHandle, Props>(
@@ -54,7 +53,7 @@ export const Slider = forwardRef<SliderHandle, Props>(
 			setLayout(nativeEvent.layout);
 		};
 
-		useImperativeHandle(ref, () => ({
+		const navigator = {
 			slideNext: () => {
 				const nextIndex = activeIndex + 1;
 				const safeIndex = nextIndex > items.length - 1 ? 0 : nextIndex;
@@ -65,12 +64,14 @@ export const Slider = forwardRef<SliderHandle, Props>(
 				const safeIndex = previousIndex < 0 ? items.length - 1 : previousIndex;
 				handleItemSelect(items[safeIndex]);
 			},
-			slideTo: (index) => {
+			slideTo: (index: number) => {
 				if (index > 0 && index < items.length - 1) {
 					handleItemSelect(items[index]);
 				}
 			},
-		}));
+		};
+
+		useImperativeHandle(ref, () => navigator);
 
 		useEffect(() => handleItemSelect(activeItem), [activeItem]);
 
@@ -90,7 +91,7 @@ export const Slider = forwardRef<SliderHandle, Props>(
 								animatedOffset={offset}
 								animator={animator}
 							>
-								<InnerComponent item={item} />
+								<InnerComponent item={item} navigator={navigator} />
 							</ItemContainer>
 						);
 					})}

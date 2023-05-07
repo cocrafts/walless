@@ -13,19 +13,19 @@ import { StyleProp } from 'react-native';
 import { injectedFontStyle } from '../../utils/font';
 
 type Props = {
+	style?: StyleProp<TextStyle>;
 	focusStyle?: StyleProp<TextStyle>;
-	containerStyle?: StyleProp<TextStyle>;
+	importantStyle?: StyleProp<TextStyle>;
 	inputStyle?: StyleProp<TextStyle>;
-	importantInputStyle?: StyleProp<TextStyle>;
 	prefix?: ReactNode;
 	suffix?: ReactNode;
 } & TextInputProps;
 
 export const Input: FC<Props> = ({
+	style,
 	focusStyle,
-	containerStyle,
+	importantStyle,
 	inputStyle,
-	importantInputStyle,
 	prefix,
 	suffix,
 	placeholderTextColor,
@@ -45,15 +45,17 @@ export const Input: FC<Props> = ({
 		if (onBlur) onBlur(e);
 	};
 
-	const textInputStyle = [
-		injectedFontStyle(styles.textInput),
-		inputStyle,
+	const containerStyle = [
+		styles.container,
+		style,
 		focused && (focusStyle ? focusStyle : styles.focusStyle),
-		importantInputStyle,
+		importantStyle,
 	];
 
+	const textInputStyle = [injectedFontStyle(styles.textInput), inputStyle];
+
 	return (
-		<View style={[styles.container, containerStyle]}>
+		<View style={containerStyle}>
 			{prefix}
 			<TextInput
 				style={textInputStyle}
@@ -74,16 +76,17 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-	},
-	textInput: {
 		width: 336,
 		height: 48,
-		backgroundColor: '#0E141A',
 		borderRadius: 15,
 		paddingHorizontal: 16,
-		fontWeight: '400',
+		backgroundColor: '#0E141A',
 		borderWidth: 1,
 		borderColor: 'transparent',
+	},
+	textInput: {
+		flex: 1,
+		fontWeight: '400',
 	},
 	focusStyle: {
 		borderColor: '#49596A',

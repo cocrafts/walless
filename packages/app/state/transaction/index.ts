@@ -28,6 +28,10 @@ export const transactionActions = {
 		transactionContext.amount = 0;
 		transactionContext.signatureString = '';
 	},
+	injectRequiredElements: (elements: InjectedElements) => {
+		injectedElements.tokens = elements.tokens;
+		injectedElements.getTransactionFee = elements.getTransactionFee;
+	},
 };
 
 export * from './inject';

@@ -12,17 +12,25 @@ interface Props {
 	onClose: () => void;
 	onPressSendButton: () => void;
 	getTransactionFee: (network: Networks) => Promise<number>;
+	checkValidAddress: (
+		keyStr: string,
+		network: Networks,
+	) => { valid: boolean; message: string };
 }
 
 export const SendTokenScreen: FC<Props> = ({
 	tokenList,
+	onClose,
 	getTransactionFee,
+	checkValidAddress,
 }) => {
 	console.log({ tokenList, getTransactionFee });
 
 	transactionActions.injectRequiredElements({
 		tokens: tokenList,
 		getTransactionFee: getTransactionFee,
+		handleClose: onClose,
+		checkValidAddress: checkValidAddress,
 	});
 
 	return (
@@ -40,14 +48,16 @@ export default SendTokenScreen;
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		flexDirection: 'row',
 		height: 576,
 		width: 400,
 	},
 	slideContainer: {
 		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
 		paddingHorizontal: 28,
-		paddingVertical: 28,
+		paddingBottom: 28,
+		paddingTop: 16,
 	},
 });

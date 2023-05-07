@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { SendTokenScreen } from '@walless/app';
 import { modalActions, ModalConfigs } from '@walless/gui';
 import { useTokens } from 'utils/hooks';
-import { getTransactionFee } from 'utils/transaction';
+import { checkValidAddress, getTransactionFee } from 'utils/transaction';
 
 export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	console.log(config.context);
@@ -17,6 +17,7 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				getTransactionFee={getTransactionFee}
 				onClose={() => modalActions.hide(config.id as string)}
 				onPressSendButton={() => console.log('Handle send token')}
+				checkValidAddress={checkValidAddress}
 			/>
 		</View>
 	);
@@ -26,7 +27,6 @@ export default SendModal;
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		backgroundColor: '#141B21',
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,

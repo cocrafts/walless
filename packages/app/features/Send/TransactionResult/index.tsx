@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
 const TransactionResult = () => {
@@ -10,5 +9,3 @@ const TransactionResult = () => {
 };
 
 export default TransactionResult;
-
-const styles = StyleSheet.create({});

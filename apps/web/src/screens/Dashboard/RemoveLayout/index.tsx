@@ -31,7 +31,7 @@ const RemoveLayout: FC<{ config: ModalConfigs }> = ({ config }) => {
 				<View style={imageBackground}>
 					<Image
 						source={{ uri: networkMeta?.iconUri }}
-						alt=""
+						alt="network logo"
 						style={styles.image}
 					/>
 				</View>

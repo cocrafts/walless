@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Token } from '@walless/core';
-import { Input, Select, View } from '@walless/gui';
+import { Select, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -11,6 +11,7 @@ import {
 } from '../../../../state/transaction';
 import { NavButton } from '../../components';
 
+import { AmountInput } from './AmountInput';
 import { NetworkFee } from './NetworkFee';
 import { RecipientInput } from './RecipientInput';
 import { TotalCost } from './TotalCost';
@@ -44,16 +45,13 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 			<RecipientInput />
 
-			<Input
-				placeholder="Token amount"
-				onChangeText={transactionActions.setAmount}
-			/>
+			<AmountInput />
 
 			<NetworkFee />
 
 			<View style={styles.totalLine} />
 
-			<TotalCost costText="1000.1 SOL" />
+			<TotalCost />
 
 			<NavButton title="Continue" onPress={onContinue} />
 		</View>
@@ -68,11 +66,11 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		gap: 12,
 	},
 	totalLine: {
 		width: 336,
 		height: 1,
 		backgroundColor: '#566674',
+		opacity: 0.2,
 	},
 });

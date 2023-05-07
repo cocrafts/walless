@@ -1,12 +1,14 @@
-import { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
+import { useSnapshot } from 'valtio';
 
-interface Props {
-	costText: string;
-}
+import { transactionContext } from '../../../../state/transaction';
 
-export const TotalCost: FC<Props> = ({ costText }) => {
+export const TotalCost = () => {
+	const { token, amount } = useSnapshot(transactionContext);
+
+	const costStr = `${amount} ${token?.metadata?.symbol}`;
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
@@ -14,7 +16,7 @@ export const TotalCost: FC<Props> = ({ costText }) => {
 			</View>
 
 			<View style={styles.valueContainer}>
-				<Text style={styles.costText}>{costText}</Text>
+				<Text style={styles.costText}>{costStr}</Text>
 				<Text style={styles.equalText}>~ 0 secs</Text>
 			</View>
 		</View>
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		width: '100%',
-		marginVertical: 8,
+		marginVertical: 10,
 	},
 	titleContainer: {
 		display: 'flex',

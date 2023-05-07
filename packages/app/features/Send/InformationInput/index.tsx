@@ -2,7 +2,7 @@ import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { type SliderHandle, View } from '@walless/gui';
 
-import { CollectiblesTab, TabBar, TokensTab } from './components';
+import { CollectiblesTab, Header, TabBar, TokensTab } from './components';
 
 interface Props {
 	navigator: SliderHandle;
@@ -17,7 +17,7 @@ const InformationInput: FC<Props> = ({ navigator }) => {
 
 	return (
 		<View style={styles.container}>
-			<View></View>
+			<Header />
 
 			<TabBar isTokensTab={isTokensTab} setIsTokensTab={setIsTokensTab} />
 

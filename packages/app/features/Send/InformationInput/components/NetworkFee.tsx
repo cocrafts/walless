@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';

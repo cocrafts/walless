@@ -8,14 +8,14 @@ import Collectibles from './components/Collectibles';
 import History from './components/History';
 import TokenValue from './components/TokenValue';
 import Widgets from './components/Widgets';
-import SendTokenScreen from './modals/SendToken';
+import SendModal from './modals/SendModal';
 
 const ProfileScreen = () => {
 	const handleSend = () => {
 		modalActions.show({
 			id: 'send-token',
 			bindingDirection: BindDirections.InnerBottom,
-			component: SendTokenScreen,
+			component: SendModal,
 			animateDirection: AnimateDirections.Top,
 		});
 	};

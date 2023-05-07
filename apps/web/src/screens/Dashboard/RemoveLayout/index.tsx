@@ -80,9 +80,6 @@ const styles = StyleSheet.create({
 		alignItems: 'baseline',
 		justifyContent: 'space-between',
 	},
-	// imageBackground: {
-	// 	backgroundColor: networkMeta?.iconColor || 'white',
-	// },
 	image: {
 		width: 20,
 		height: 20,

@@ -7,10 +7,12 @@ import { useSnapshot } from 'valtio';
 import {
 	injectedElements,
 	transactionActions,
+	transactionContext,
 } from '../../../../state/transaction';
 import { NavButton } from '../../components';
 
 import { NetworkFee } from './NetworkFee';
+import { RecipientInput } from './RecipientInput';
 import { TotalCost } from './TotalCost';
 
 interface Props {
@@ -20,6 +22,7 @@ interface Props {
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const { tokens } = useSnapshot(injectedElements);
+	const { token } = useSnapshot(transactionContext);
 
 	const getRequiredFieldsForSelectToken = (item: Token) => {
 		return {
@@ -34,13 +37,12 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 			<Select
 				title="Select token"
 				items={tokens as Token[]}
+				selected={token as Token}
 				getRequiredFields={getRequiredFieldsForSelectToken}
 				onSelect={transactionActions.setToken}
 			/>
-			<Input
-				placeholder="Recipient account"
-				onChangeText={transactionActions.setReceiver}
-			/>
+
+			<RecipientInput />
 
 			<Input
 				placeholder="Token amount"

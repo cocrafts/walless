@@ -33,7 +33,7 @@ const EditTool = () => {
 		<ContainerStack marginTop={72} maxWidth={1500} alignItems="center">
 			<Header />
 
-			<Stack marginTop={60} marginBottom={-40} justifyContent="center">
+			<Stack marginTop={40} marginBottom={-50} justifyContent="center">
 				<activeTool.preview />
 			</Stack>
 

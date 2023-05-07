@@ -4,7 +4,7 @@ import { appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 
 import { ProjectState, ProjectTool } from '../../internal';
-import TargetWrapper from '../TargetWrapper';
+import TargetWrapper from '../components/TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';
 
@@ -18,12 +18,14 @@ const LayoutCard: FC = () => {
 		setProjectState(appState.tools.project);
 	}, [snap]);
 
+	const width = 332;
+
 	return (
-		<Stack backgroundColor="#131C24" maxWidth={320} borderRadius={12}>
+		<Stack backgroundColor="#131C24" width={width} borderRadius={12}>
 			<TargetWrapper isTargeted={snap.tools.target === ProjectTool.banner}>
 				<Image
 					src={projectState.banner}
-					width={320}
+					width={width}
 					height={133}
 					borderTopLeftRadius={12}
 					borderTopRightRadius={12}

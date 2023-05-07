@@ -1,11 +1,13 @@
 import { FC } from 'react';
-import { Stack, Text } from '@walless/ui';
+import { Text } from '@walless/ui';
+
+import ScreenContainer from '../components/ScreenContainer';
 
 const Detail: FC = () => {
 	return (
-		<Stack>
+		<ScreenContainer>
 			<Text>Detail component</Text>
-		</Stack>
+		</ScreenContainer>
 	);
 };
 

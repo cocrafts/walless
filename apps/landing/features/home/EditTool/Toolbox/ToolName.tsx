@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Text } from '@walless/ui';
+import { Button, Text } from '@walless/ui';
 
 interface Props {
 	name: string;
@@ -9,16 +9,19 @@ interface Props {
 
 const ToolName: FC<Props> = ({ name, isActive, onPress }) => {
 	return (
-		<Text
+		<Button
 			width={100}
+			backgroundColor="transparent"
+			padding={0}
+			paddingHorizontal={0}
 			paddingVertical={20}
-			fontSize={16}
-			color={isActive ? 'white' : '#566674'}
-			cursor="pointer"
+			alignItems="flex-start"
 			onPress={onPress}
 		>
-			{name}
-		</Text>
+			<Text fontSize={16} color={isActive ? 'white' : '#566674'}>
+				{name}
+			</Text>
+		</Button>
 	);
 };
 

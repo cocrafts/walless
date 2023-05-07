@@ -1,5 +1,5 @@
 import { Plus } from '@walless/icons';
-import { Stack, Text } from '@walless/ui';
+import { Button, Stack, Text } from '@walless/ui';
 
 const LayoutCardBottomPart = () => {
 	return (
@@ -43,16 +43,17 @@ const LayoutCardBottomPart = () => {
 				</Stack>
 			</Stack>
 
-			<Stack
+			<Button
 				backgroundColor="#0694D3"
 				width={24}
 				height={24}
 				alignItems="center"
 				justifyContent="center"
+				padding={0}
 				borderRadius={8}
 			>
 				<Plus size={12} />
-			</Stack>
+			</Button>
 		</Stack>
 	);
 };

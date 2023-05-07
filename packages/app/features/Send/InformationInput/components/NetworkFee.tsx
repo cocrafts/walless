@@ -7,6 +7,7 @@ import { useSnapshot } from 'valtio';
 
 import {
 	injectedElements,
+	transactionActions,
 	transactionContext,
 } from '../../../../state/transaction';
 
@@ -15,9 +16,7 @@ interface Props {
 }
 
 export const NetworkFee: FC<Props> = () => {
-	const [feeString, setFeeString] = useState<string>(' ');
-
-	const { token } = useSnapshot(transactionContext);
+	const { token, transactionFee } = useSnapshot(transactionContext);
 	const { getTransactionFee } = useSnapshot(injectedElements);
 
 	// const feeString = token?.network ? getTransactionFee() '';
@@ -25,10 +24,18 @@ export const NetworkFee: FC<Props> = () => {
 		(async () => {
 			if (token?.network) {
 				const fee = await getTransactionFee(token.network as Networks);
-				setFeeString(`${fee} ${token.network}`);
+				transactionActions.setTransactionFee(fee);
 			}
 		})();
 	}, [token]);
+
+	let networkToken = '';
+	if (token?.network == Networks.solana) {
+		networkToken = 'SOL';
+	} else if (token?.network == Networks.sui) {
+		networkToken = 'SUI';
+	}
+	const feeString = `${transactionFee ? transactionFee : 0} ${networkToken}`;
 
 	return (
 		<View style={styles.container}>

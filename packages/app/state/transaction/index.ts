@@ -23,9 +23,10 @@ export const transactionActions = {
 		transactionContext.signatureString = signature;
 	},
 	resetTransactionContext: () => {
+		transactionContext.token = undefined;
 		transactionContext.sender = '';
 		transactionContext.receiver = '';
-		transactionContext.amount = 0;
+		transactionContext.amount = undefined;
 		transactionContext.signatureString = '';
 	},
 	injectRequiredElements: (elements: InjectedElements) => {

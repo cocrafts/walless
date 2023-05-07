@@ -6,7 +6,7 @@ export interface TransactionContext {
 	receiver: string;
 	token?: Token;
 	transactionFee?: number;
-	amount: number;
+	amount?: number;
 	signatureString: string;
 }
 
@@ -18,6 +18,5 @@ export type PendingTransactionContext = Omit<
 export const transactionContext = proxy<TransactionContext>({
 	sender: '',
 	receiver: '',
-	amount: 0,
 	signatureString: '',
 });

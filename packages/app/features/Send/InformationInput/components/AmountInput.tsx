@@ -49,7 +49,7 @@ export const AmountInput: FC = () => {
 				</Text>
 			)}
 			<Input
-				value={String(amount)}
+				value={amount ? String(amount) : ''}
 				importantStyle={!!errorText && styles.errorInputStyle}
 				placeholder="Token amount"
 				onChangeText={transactionActions.setAmount}

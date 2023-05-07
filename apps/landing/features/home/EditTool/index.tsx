@@ -7,7 +7,7 @@ import Project from './PreviewScreen/Project';
 import DetailTools from './Toolbox/tools/Detail';
 import ProjectTools from './Toolbox/tools/Project';
 import Header from './Header';
-import { Target, ToolboxItem } from './internal';
+import { ToolboxItem } from './internal';
 import PreviewOutline from './PreviewOutline';
 import Toolbox from './Toolbox';
 
@@ -28,14 +28,13 @@ const tools: ToolboxItem[] = [
 
 const EditTool = () => {
 	const [activeTool, setActiveTool] = useState<ToolboxItem>(tools[0] ?? null);
-	const [target, setTarget] = useState<Target>(null);
 
 	return (
 		<ContainerStack marginTop={72} maxWidth={1500} alignItems="center">
 			<Header />
 
-			<Stack marginTop={60} marginBottom={80} justifyContent="center">
-				<activeTool.preview target={target} />
+			<Stack marginTop={40} marginBottom={-50} justifyContent="center">
+				<activeTool.preview />
 			</Stack>
 
 			<Stack marginBottom={20} alignSelf="flex-start">
@@ -50,7 +49,6 @@ const EditTool = () => {
 				tools={tools}
 				activeTool={activeTool}
 				setActiveTool={setActiveTool}
-				setTarget={setTarget}
 			/>
 		</ContainerStack>
 	);

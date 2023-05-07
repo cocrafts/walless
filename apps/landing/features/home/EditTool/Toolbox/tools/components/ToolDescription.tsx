@@ -28,10 +28,10 @@ const ToolDescription: FC<Props> = ({ name, description }) => {
 							borderRadius={6}
 							padding={12}
 							width={160}
-							backgroundColor="white"
+							backgroundColor="#19232C"
 							textAlign="center"
-							color="#19232C"
-							fontSize={12}
+							color="white"
+							fontSize={10}
 						>
 							{description}
 						</Text>
@@ -42,11 +42,11 @@ const ToolDescription: FC<Props> = ({ name, description }) => {
 							width={12}
 							height={12}
 							borderRadius={3}
-							backgroundColor="white"
+							backgroundColor="#19232C"
 						/>
 					</Stack>
 				)}
-				<Exclamation size={12} color="#FFFFFF4D" />
+				<Exclamation size={10} color="#FFFFFF4D" />
 			</Stack>
 		</Stack>
 	);

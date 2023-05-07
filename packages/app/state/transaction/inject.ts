@@ -5,10 +5,17 @@ export interface InjectedElements {
 	tokens: Token[];
 	getTransactionFee: (network: Networks) => Promise<number>;
 	handleClose: () => void;
+	checkValidAddress: (
+		keyStr: string,
+		network: Networks,
+	) => { valid: boolean; message: string };
 }
 
 export const injectedElements = proxy<InjectedElements>({
 	tokens: [],
 	getTransactionFee: async () => 0,
 	handleClose: () => console.log('close'),
+	checkValidAddress: () => {
+		return { valid: true, message: '' };
+	},
 });

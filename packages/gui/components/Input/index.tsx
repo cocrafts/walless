@@ -16,6 +16,7 @@ type Props = {
 	focusStyle?: StyleProp<TextStyle>;
 	containerStyle?: StyleProp<TextStyle>;
 	inputStyle?: StyleProp<TextStyle>;
+	importantInputStyle?: StyleProp<TextStyle>;
 	prefix?: ReactNode;
 	suffix?: ReactNode;
 } & TextInputProps;
@@ -24,6 +25,7 @@ export const Input: FC<Props> = ({
 	focusStyle,
 	containerStyle,
 	inputStyle,
+	importantInputStyle,
 	prefix,
 	suffix,
 	placeholderTextColor,
@@ -43,15 +45,18 @@ export const Input: FC<Props> = ({
 		if (onBlur) onBlur(e);
 	};
 
+	const textInputStyle = [
+		injectedFontStyle(styles.textInput),
+		inputStyle,
+		focused && (focusStyle ? focusStyle : styles.focusStyle),
+		importantInputStyle,
+	];
+
 	return (
 		<View style={[styles.container, containerStyle]}>
 			{prefix}
 			<TextInput
-				style={[
-					injectedFontStyle(styles.textInput),
-					inputStyle,
-					focused && (focusStyle ? focusStyle : styles.focusStyle),
-				]}
+				style={textInputStyle}
 				placeholderTextColor={
 					placeholderTextColor ? placeholderTextColor : '#566674'
 				}
@@ -77,9 +82,10 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		paddingHorizontal: 16,
 		fontWeight: '400',
+		borderWidth: 1,
+		borderColor: 'transparent',
 	},
 	focusStyle: {
-		borderWidth: 1,
 		borderColor: '#49596A',
 	},
 });

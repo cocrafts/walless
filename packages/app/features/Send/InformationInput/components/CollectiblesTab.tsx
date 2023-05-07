@@ -1,10 +1,10 @@
-import { FC } from 'react';
-import { Stack, Text } from '@walless/ui';
+import { type FC } from 'react';
+import { Text, View } from '@walless/gui';
 
 export const CollectiblesTab: FC = () => {
 	return (
-		<Stack>
+		<View>
 			<Text>In development</Text>
-		</Stack>
+		</View>
 	);
 };

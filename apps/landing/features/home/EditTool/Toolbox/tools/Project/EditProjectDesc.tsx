@@ -1,23 +1,24 @@
 import { FC } from 'react';
 import { Edit } from '@walless/icons';
 import { Stack } from '@walless/ui';
-import {
-	ProjectTool,
-	ToolboxComponentProps,
-} from 'features/home/EditTool/internal';
+import { ProjectTool } from 'features/home/EditTool/internal';
 import { appState, editToolActions } from 'state/app';
 import { useSnapshot } from 'valtio';
 
 import TextLimit from '../components/TextLimit';
 import ToolDescription from '../components/ToolDescription';
 
-const EditProjectDesc: FC<ToolboxComponentProps> = ({ setTarget }) => {
+const EditProjectDesc: FC = () => {
 	const projectSnap = useSnapshot(appState.tools.project);
 	const maxLength = 100;
-	const onTarget = () => setTarget(ProjectTool.description);
+	const onTarget = () => editToolActions.setTarget(ProjectTool.description);
 
 	return (
-		<Stack gap={10} onHoverIn={onTarget} onHoverOut={() => setTarget(null)}>
+		<Stack
+			gap={10}
+			onHoverIn={onTarget}
+			onHoverOut={editToolActions.unsetTarget}
+		>
 			<Stack
 				flexDirection="row"
 				justifyContent="space-between"

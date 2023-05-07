@@ -1,6 +1,14 @@
+import { Target } from 'features/home/EditTool/internal';
+
 import { appState } from './internal';
 
 export const editToolActions = {
+	setTarget: (target: Target) => {
+		appState.tools.target = target;
+	},
+	unsetTarget: () => {
+		appState.tools.target = null;
+	},
 	setProjectName: (name: string) => {
 		appState.tools.project.name = name;
 	},

@@ -3,15 +3,12 @@ import { Image, Stack, Text } from '@walless/ui';
 import { appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 
-import { ProjectState, ProjectTool, Target } from '../../internal';
+import { ProjectState, ProjectTool } from '../../internal';
 import TargetWrapper from '../TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';
-interface Props {
-	target: Target;
-}
 
-const LayoutCard: FC<Props> = ({ target }) => {
+const LayoutCard: FC = () => {
 	const snap = useSnapshot(appState);
 	const [projectState, setProjectState] = useState<ProjectState>(
 		snap.tools.project,
@@ -23,7 +20,7 @@ const LayoutCard: FC<Props> = ({ target }) => {
 
 	return (
 		<Stack backgroundColor="#131C24" maxWidth={320} borderRadius={12}>
-			<TargetWrapper isTargeted={target === ProjectTool.banner}>
+			<TargetWrapper isTargeted={snap.tools.target === ProjectTool.banner}>
 				<Image
 					src={projectState.banner}
 					width={320}
@@ -41,7 +38,7 @@ const LayoutCard: FC<Props> = ({ target }) => {
 				marginTop={-20}
 				overflow="hidden"
 			>
-				<TargetWrapper isTargeted={target === ProjectTool.logo}>
+				<TargetWrapper isTargeted={snap.tools.target === ProjectTool.logo}>
 					<Stack
 						width={32}
 						height={32}
@@ -56,13 +53,15 @@ const LayoutCard: FC<Props> = ({ target }) => {
 					</Stack>
 				</TargetWrapper>
 
-				<TargetWrapper isTargeted={target === ProjectTool.name}>
+				<TargetWrapper isTargeted={snap.tools.target === ProjectTool.name}>
 					<Text fontSize={14} marginTop={4} fontWeight="600">
 						{projectState.name === '' ? 'Project name' : projectState.name}
 					</Text>
 				</TargetWrapper>
 
-				<TargetWrapper isTargeted={target === ProjectTool.description}>
+				<TargetWrapper
+					isTargeted={snap.tools.target === ProjectTool.description}
+				>
 					<Text
 						fontSize={12}
 						fontWeight="400"

@@ -1,19 +1,20 @@
 import { FC } from 'react';
 import { Stack, Text } from '@walless/ui';
-import {
-	ProjectTool,
-	ToolboxComponentProps,
-} from 'features/home/EditTool/internal';
+import { ProjectTool } from 'features/home/EditTool/internal';
 import { editToolActions } from 'state/app';
 
 import ToolDescription from '../components/ToolDescription';
 import UploadImage from '../components/UploadImage';
 
-const EditProjectAvatar: FC<ToolboxComponentProps> = ({ setTarget }) => {
-	const onTarget = () => setTarget(ProjectTool.logo);
+const EditProjectAvatar: FC = () => {
+	const onTarget = () => editToolActions.setTarget(ProjectTool.logo);
 
 	return (
-		<Stack gap={10} onHoverIn={onTarget} onHoverOut={() => setTarget(null)}>
+		<Stack
+			gap={10}
+			onHoverIn={onTarget}
+			onHoverOut={editToolActions.unsetTarget}
+		>
 			<ToolDescription
 				name="Logo/Icon"
 				description="Your project official logo/icon"

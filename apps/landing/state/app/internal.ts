@@ -1,14 +1,16 @@
-import { ProjectState } from 'features/home/EditTool/internal';
+import { ProjectState, Target } from 'features/home/EditTool/internal';
 import { proxy } from 'valtio';
 
 export interface AppState {
 	tools: {
+		target: Target;
 		project: ProjectState;
 	};
 }
 
 export const appState = proxy<AppState>({
 	tools: {
+		target: null,
 		project: {
 			name: 'Sui',
 			description:

@@ -1,14 +1,12 @@
 import { FC } from 'react';
 import { Stack } from '@walless/ui';
 
-import { PreviewProps } from '../../internal';
-
 import LayoutCard from './LayoutCard';
 
-const Project: FC<PreviewProps> = ({ target }) => {
+const Project: FC = () => {
 	return (
 		<Stack>
-			<LayoutCard target={target} />
+			<LayoutCard />
 		</Stack>
 	);
 };

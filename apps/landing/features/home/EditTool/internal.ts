@@ -1,5 +1,18 @@
 import { FC } from 'react';
 
+export interface ToolboxProps {
+	tools: ToolboxItem[];
+	activeTool: ToolboxItem;
+	setActiveTool: (tool: ToolboxItem) => void;
+}
+
+export interface ToolboxItem {
+	name: string;
+	preview: FC;
+	previewImage: string;
+	components: FC[];
+}
+
 export enum ProjectTool {
 	name,
 	description,
@@ -17,25 +30,3 @@ export interface ProjectState {
 export enum DetailTool {}
 
 export type Target = ProjectTool | DetailTool | null;
-
-export interface PreviewProps {
-	target: Target;
-}
-
-export interface ToolboxProps {
-	tools: ToolboxItem[];
-	activeTool: ToolboxItem;
-	setActiveTool: (tool: ToolboxItem) => void;
-	setTarget: (target: Target) => void;
-}
-
-export interface ToolboxComponentProps {
-	setTarget: (target: Target) => void;
-}
-
-export interface ToolboxItem {
-	name: string;
-	preview: FC<PreviewProps>;
-	previewImage: string;
-	components: FC<ToolboxComponentProps>[];
-}

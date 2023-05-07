@@ -42,7 +42,7 @@ const SocialCard = () => {
 			</Stack>
 
 			<Button backgroundColor="#0694D3" borderRadius={10}>
-				Interested? Contact us
+				<Text>Interested? Contact us</Text>
 			</Button>
 		</Stack>
 	);

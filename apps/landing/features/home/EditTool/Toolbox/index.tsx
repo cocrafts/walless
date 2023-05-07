@@ -7,12 +7,7 @@ import { ToolboxProps } from '../internal';
 import SocialCard from './SocialCard';
 import ToolName from './ToolName';
 
-const Toolbox: FC<ToolboxProps> = ({
-	tools,
-	activeTool,
-	setActiveTool,
-	setTarget,
-}) => {
+const Toolbox: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
 	const borderColor = '#56667480';
 	const activeIndex = tools.findIndex((tool) => tool.name === activeTool.name);
 	const bulletLeft = 20 + activeIndex * 100 + activeIndex * 32;
@@ -55,7 +50,7 @@ const Toolbox: FC<ToolboxProps> = ({
 							width={`${100 / activeTool.components.length}%`}
 							padding={20}
 						>
-							<ToolComponent setTarget={setTarget} />
+							<ToolComponent />
 						</Stack>
 					))}
 				</Stack>

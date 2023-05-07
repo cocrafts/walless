@@ -10,6 +10,7 @@ export { Check } from './components/Check';
 export { CheckCircle } from './components/CheckCircle';
 export { ChevronDown } from './components/ChevronDown';
 export { ChevronRight } from './components/ChevronRight';
+export { ChevronUp } from './components/ChevronUp';
 export { Compass } from './components/Compass';
 export { Copy } from './components/Copy';
 export { Discord } from './components/Discord';

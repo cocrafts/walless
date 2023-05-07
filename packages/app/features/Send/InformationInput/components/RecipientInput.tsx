@@ -1,0 +1,79 @@
+import { type FC, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { Networks, UnknownObject } from '@walless/core';
+import { Input, Text, View } from '@walless/gui';
+import { useSnapshot } from 'valtio';
+
+import {
+	injectedElements,
+	transactionActions,
+	transactionContext,
+} from '../../../../state/transaction';
+
+export const RecipientInput: FC = () => {
+	const { checkValidAddress } = useSnapshot(injectedElements);
+	const { token, receiver } = useSnapshot(transactionContext);
+	const [errorText, setErrorText] = useState<string>();
+
+	const handlerBlur = (e: UnknownObject) => {
+		if (token) {
+			if (receiver.length > 0) {
+				const result = checkValidAddress(
+					e.target.value,
+					token?.network as Networks,
+				);
+
+				if (!result.valid) setErrorText(result.message);
+				else setErrorText('');
+			} else setErrorText('');
+		}
+	};
+
+	return (
+		<View style={styles.container}>
+			<Input
+				importantInputStyle={!!errorText && styles.errorInputStyle}
+				placeholder="Recipient account"
+				onChangeText={transactionActions.setReceiver}
+				onBlur={handlerBlur}
+			/>
+			<View style={styles.bottomBox}>
+				{!!errorText && <Text style={styles.errorText}>{errorText}</Text>}
+			</View>
+		</View>
+	);
+};
+
+const styles = StyleSheet.create({
+	container: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		width: 336,
+		justifyContent: 'space-between',
+		marginBottom: 6,
+		marginTop: 14,
+	},
+	title: {
+		fontSize: 20,
+	},
+	closeButton: {
+		backgroundColor: 'none',
+		paddingHorizontal: 0,
+		paddingVertical: 0,
+	},
+	bottomBox: {
+		height: 14,
+		marginTop: 2,
+		marginRight: 'auto',
+		paddingLeft: 6,
+	},
+	errorText: {
+		fontSize: 13,
+		color: '#AE3939',
+	},
+	errorInputStyle: {
+		borderColor: '#AE3939',
+		color: '#AE3939',
+	},
+});

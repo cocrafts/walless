@@ -52,6 +52,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# configs
+GoogleService-info.plist
+google-services.json
+apps/**/ios/tmp.xcconfig
+
 # turbo
 .turbo
 

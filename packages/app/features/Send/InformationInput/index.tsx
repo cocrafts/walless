@@ -2,7 +2,10 @@ import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { type SliderHandle, View } from '@walless/gui';
 
+import { showError } from '../utils';
+
 import { CollectiblesTab, Header, TabBar, TokensTab } from './components';
+import { totalCheckFieldsToContinue } from './internal';
 
 interface Props {
 	navigator: SliderHandle;
@@ -12,7 +15,13 @@ const InformationInput: FC<Props> = ({ navigator }) => {
 	const [isTokensTab, setIsTokensTab] = useState(true);
 
 	const handlePressContinue = () => {
-		navigator.slideNext();
+		const checkedResult = totalCheckFieldsToContinue();
+
+		if (!checkedResult.valid) {
+			showError(checkedResult.message);
+		} else {
+			navigator.slideNext();
+		}
 	};
 
 	return (

@@ -32,7 +32,8 @@ export const RecipientInput: FC = () => {
 	return (
 		<View style={styles.container}>
 			<Input
-				importantInputStyle={!!errorText && styles.errorInputStyle}
+				value={receiver}
+				importantStyle={!!errorText && styles.errorInputStyle}
 				placeholder="Recipient account"
 				onChangeText={transactionActions.setReceiver}
 				onBlur={handlerBlur}
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: 336,
 		justifyContent: 'space-between',
-		marginBottom: 6,
+		marginBottom: 4,
 		marginTop: 14,
 	},
 	title: {
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
 	},
 	bottomBox: {
 		height: 14,
-		marginTop: 2,
+		marginTop: 1,
 		marginRight: 'auto',
 		paddingLeft: 6,
 	},

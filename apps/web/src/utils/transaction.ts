@@ -55,6 +55,20 @@ export const constructTransaction = async ({
 	throw Error('Network or Token is not supported');
 };
 
+export const checkValidAddress = (keyStr: string, network: Networks) => {
+	try {
+		if (network == Networks.solana) {
+			new PublicKey(keyStr);
+			return { valid: true, message: '' };
+		} else if (network == Networks.sui) {
+			return { valid: true, message: '' };
+		}
+		return { valid: false, message: 'Unsupported network ' + network };
+	} catch (error) {
+		return { valid: false, message: (error as Error).message };
+	}
+};
+
 export const getTransactionFee = async (network: Networks) => {
 	if (network == Networks.solana) {
 		const instructions = [

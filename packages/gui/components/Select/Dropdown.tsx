@@ -1,6 +1,6 @@
 import { type FC, useMemo, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-import { Search as SearchIcon } from '@walless/icons';
+import { ChevronUp, Search as SearchIcon } from '@walless/icons';
 import { throttle } from 'lodash';
 
 import { Hoverable, modalActions, ModalConfigs, Text, View } from '../../';
@@ -42,6 +42,9 @@ const Dropdown: FC<Props> = ({ config }) => {
 				onPress={handleMainButtonPress}
 			>
 				<Text style={mutualStyles.text}>{title}</Text>
+				<View style={mutualStyles.rightIcon}>
+					<ChevronUp size={16} color="#566674" />
+				</View>
 			</Hoverable>
 
 			<View

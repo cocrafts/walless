@@ -4,6 +4,7 @@ export const styles = StyleSheet.create({
 		padding: 0,
 	},
 	button: {
+		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
@@ -22,6 +23,25 @@ export const styles = StyleSheet.create({
 	focus: {
 		borderWidth: 1,
 		borderColor: '#49596A',
+	},
+	item: {
+		flex: 1,
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+	},
+	itemIcon: {
+		width: 18,
+		height: 18,
+		borderRadius: 8,
+	},
+	itemName: {
+		color: '#566674',
+		fontSize: 14,
+	},
+	rightIcon: {
+		marginLeft: 'auto',
 	},
 });
 export type SelectionRequiredFields = {

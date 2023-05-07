@@ -17,7 +17,7 @@ export const transactionActions = {
 		transactionContext.transactionFee = fee;
 	},
 	setAmount: (amount: string) => {
-		transactionContext.amount = Number(amount);
+		transactionContext.amount = amount;
 	},
 	setSignatureString: (signature: string) => {
 		transactionContext.signatureString = signature;

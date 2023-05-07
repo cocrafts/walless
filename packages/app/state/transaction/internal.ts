@@ -6,7 +6,7 @@ export interface TransactionContext {
 	receiver: string;
 	token?: Token;
 	transactionFee?: number;
-	amount?: number;
+	amount?: string;
 	signatureString: string;
 }
 

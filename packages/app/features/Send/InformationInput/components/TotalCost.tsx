@@ -7,7 +7,9 @@ import { transactionContext } from '../../../../state/transaction';
 export const TotalCost = () => {
 	const { token, amount } = useSnapshot(transactionContext);
 
-	const costStr = `${amount} ${token?.metadata?.symbol || ''}`;
+	const costStr = `${amount ? parseFloat(amount) : 0} ${
+		token?.metadata?.symbol || ''
+	}`;
 
 	return (
 		<View style={styles.container}>

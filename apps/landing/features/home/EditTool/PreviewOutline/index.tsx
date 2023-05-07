@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { Stack } from '@walless/ui';
+import { Button, Stack } from '@walless/ui';
 import Image from 'next/image';
 
 import { ToolboxItem } from '../internal';
@@ -20,8 +20,9 @@ const PreviewOutline: FC<PreviewOutlineProps> = ({
 	return (
 		<Stack flexDirection="row" alignItems="flex-end" gap={12}>
 			{tools.map((tool) => (
-				<Stack
+				<Button
 					key={tool.name}
+					padding={0}
 					borderWidth={2}
 					borderRadius={5}
 					borderColor={activeTool === tool ? '#19A3E1' : 'white'}
@@ -33,7 +34,7 @@ const PreviewOutline: FC<PreviewOutlineProps> = ({
 						width={56 * (activeTool === tool ? activeSize : 1)}
 						height={84 * (activeTool === tool ? activeSize : 1)}
 					/>
-				</Stack>
+				</Button>
 			))}
 		</Stack>
 	);

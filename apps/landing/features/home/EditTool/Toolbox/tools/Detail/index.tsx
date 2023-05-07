@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { ToolboxComponentProps } from 'features/home/EditTool/internal';
 
-const DetailTools: FC<ToolboxComponentProps>[] = [];
+const DetailTools: FC[] = [];
 
 export default DetailTools;

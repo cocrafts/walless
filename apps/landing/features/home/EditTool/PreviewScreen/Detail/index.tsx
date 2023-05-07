@@ -1,10 +1,13 @@
-import { Stack, Text } from '@walless/ui';
+import { FC } from 'react';
+import { Text } from '@walless/ui';
 
-const Detail = () => {
+import ScreenContainer from '../components/ScreenContainer';
+
+const Detail: FC = () => {
 	return (
-		<Stack>
+		<ScreenContainer>
 			<Text>Detail component</Text>
-		</Stack>
+		</ScreenContainer>
 	);
 };
 

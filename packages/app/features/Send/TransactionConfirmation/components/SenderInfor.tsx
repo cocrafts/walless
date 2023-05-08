@@ -6,6 +6,7 @@ import { useSnapshot } from 'valtio';
 
 import {
 	injectedElements,
+	transactionActions,
 	transactionContext,
 } from '../../../../state/transaction';
 
@@ -19,6 +20,10 @@ export const SenderInfor: FC<Props> = () => {
 
 	const publicKey = publicKeys.find((key) => key.network == token?.network);
 
+	if (publicKey) {
+		transactionActions.setSender(publicKey._id);
+	}
+
 	const iconUri = { uri: '' };
 	let walletTitle = '';
 	if (publicKey?.network == Networks.solana) {
@@ -28,8 +33,6 @@ export const SenderInfor: FC<Props> = () => {
 		iconUri.uri = 'img/network/sui-icon-sm.png';
 		walletTitle = 'SUI';
 	}
-
-	console.log(iconUri);
 
 	return (
 		<View style={styles.container}>

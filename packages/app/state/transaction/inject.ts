@@ -14,7 +14,7 @@ export interface InjectedElements {
 	) => { valid: boolean; message: string };
 	createAndSendTransaction: (
 		payload: TransactionPayload,
-		passcode: string,
+		passcode?: string,
 	) => Promise<ResponsePayload>;
 }
 

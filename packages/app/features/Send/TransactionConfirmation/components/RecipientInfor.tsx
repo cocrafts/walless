@@ -32,8 +32,6 @@ export const RecipientInfor: FC<Props> = () => {
 		feeStr = `${transactionFee} SUI`;
 	}
 
-	console.log(iconUri);
-
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Recipient account</Text>

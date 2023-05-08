@@ -2,7 +2,7 @@ import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import { type TokenDocument } from '@walless/store';
+import { type MetadataDocument, type TokenDocument } from '@walless/store';
 
 import { type GetSolanaMetadataFunction, getSolanaMetadata } from './metadata';
 
@@ -26,6 +26,8 @@ export const getTokensByOwner = async (
 		})
 		.filter((t) => t.account.data.amount > 1);
 };
+
+export const solMint = '11111111111111111111111111111111';
 
 export const getTokenMetadata = async (
 	connection: Connection,
@@ -89,5 +91,36 @@ export const getSolanaTokensByAddress = async (
 		} as TokenDocument;
 	});
 
+	resultPromises.push(
+		(async () => {
+			const balance = await connection.getBalance(key);
+
+			return {
+				_id: `${address}/${solMint}`,
+				network: Networks.solana,
+				type: 'Token',
+				account: {
+					mint: solMint,
+					owner: 'system',
+					address,
+					balance: String(balance),
+					decimals: 9,
+				},
+				metadata: solMetadata,
+			};
+		})(),
+	);
+
 	return await Promise.all(resultPromises);
+};
+
+export const solMetadata: MetadataDocument = {
+	_id: solMint,
+	type: 'Metadata',
+	network: Networks.solana,
+	timestamp: new Date().toISOString(),
+	name: 'Solana',
+	symbol: 'SOL',
+	imageUri:
+		'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
 };

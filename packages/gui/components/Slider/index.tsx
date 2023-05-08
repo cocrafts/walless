@@ -65,7 +65,7 @@ export const Slider = forwardRef<SliderHandle, Props>(
 				handleItemSelect(items[safeIndex]);
 			},
 			slideTo: (index: number) => {
-				if (index > 0 && index < items.length - 1) {
+				if (index > -1 && index < items.length) {
 					handleItemSelect(items[index]);
 				}
 			},

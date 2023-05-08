@@ -1,4 +1,5 @@
-import { Networks, Token } from '@walless/core';
+import { Networks, Token, TransactionPayload } from '@walless/core';
+import { ResponsePayload } from '@walless/messaging';
 import { PublicKeyDocument } from '@walless/store';
 import { proxy } from 'valtio';
 
@@ -11,6 +12,10 @@ export interface InjectedElements {
 		keyStr: string,
 		network: Networks,
 	) => { valid: boolean; message: string };
+	createAndSendTransaction: (
+		payload: TransactionPayload,
+		passcode: string,
+	) => Promise<ResponsePayload>;
 }
 
 export const injectedElements = proxy<InjectedElements>({
@@ -20,5 +25,8 @@ export const injectedElements = proxy<InjectedElements>({
 	handleClose: () => console.log('close'),
 	checkValidAddress: () => {
 		return { valid: true, message: '' };
+	},
+	createAndSendTransaction: async () => {
+		return {};
 	},
 });

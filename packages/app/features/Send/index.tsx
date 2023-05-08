@@ -1,40 +1,30 @@
 import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Networks, Token } from '@walless/core';
 import { slideAnimators, Slider } from '@walless/gui';
-import { PublicKeyDocument } from '@walless/store';
 
-import { transactionActions } from '../../state/transaction';
+import { InjectedElements, transactionActions } from '../../state/transaction';
 
 import { sendScreens } from './shared';
 
-interface Props {
-	tokenList: Token[];
-	addressList: PublicKeyDocument[];
+type Props = Omit<InjectedElements, 'handleClose'> & {
 	onClose: () => void;
-	onPressSendButton: () => void;
-	getTransactionFee: (network: Networks) => Promise<number>;
-	checkValidAddress: (
-		keyStr: string,
-		network: Networks,
-	) => { valid: boolean; message: string };
-}
+};
 
 export const SendTokenScreen: FC<Props> = ({
-	tokenList,
-	addressList,
+	tokens,
+	publicKeys,
 	onClose,
 	getTransactionFee,
 	checkValidAddress,
+	createAndSendTransaction,
 }) => {
-	console.log({ tokenList, getTransactionFee });
-
 	transactionActions.injectRequiredElements({
-		tokens: tokenList,
-		publicKeys: addressList,
-		getTransactionFee: getTransactionFee,
+		tokens: tokens,
+		publicKeys: publicKeys,
+		getTransactionFee,
 		handleClose: onClose,
-		checkValidAddress: checkValidAddress,
+		checkValidAddress,
+		createAndSendTransaction,
 	});
 
 	return (

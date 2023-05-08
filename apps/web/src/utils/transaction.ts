@@ -9,11 +9,39 @@ import {
 	TransactionMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
-import { Networks } from '@walless/core';
+import { Networks, Token, TransactionPayload } from '@walless/core';
 import { db } from 'utils/storage';
 
 const solConn = new Connection(clusterApiUrl('devnet'));
 const sampleKeypair = Keypair.generate();
+
+import { RequestType, ResponsePayload } from '@walless/messaging';
+import { requestHandleTransaction } from 'bridge/listeners';
+import { encode } from 'bs58';
+
+export const createAndSend = async (
+	payload: TransactionPayload,
+	passcode?: string,
+) => {
+	const transaction = await constructTransaction(payload);
+
+	let res;
+	if (transaction instanceof VersionedTransaction) {
+		res = await requestHandleTransaction({
+			type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
+			transaction: encode(transaction.serialize()),
+			passcode,
+		});
+	} else if (transaction instanceof TransactionBlock) {
+		res = await requestHandleTransaction({
+			type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
+			transaction: transaction.serialize(),
+			passcode,
+		});
+	}
+
+	return res as ResponsePayload;
+};
 
 export const getWalletPublicKey = async (network: Networks) => {
 	return (
@@ -25,7 +53,7 @@ export const getWalletPublicKey = async (network: Networks) => {
 
 type SendTokenProps = {
 	sender: string;
-	token: string;
+	token: string | Token;
 	network: Networks;
 	receiver: string;
 	amount: number;

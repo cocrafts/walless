@@ -35,6 +35,8 @@ export const transactionActions = {
 		injectedElements.getTransactionFee = elements.getTransactionFee;
 		injectedElements.handleClose = elements.handleClose;
 		injectedElements.checkValidAddress = elements.checkValidAddress;
+		injectedElements.createAndSendTransaction =
+			elements.createAndSendTransaction;
 	},
 };
 

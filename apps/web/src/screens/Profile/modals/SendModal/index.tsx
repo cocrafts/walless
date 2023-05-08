@@ -3,23 +3,25 @@ import { StyleSheet, View } from 'react-native';
 import { SendTokenScreen } from '@walless/app';
 import { modalActions, ModalConfigs } from '@walless/gui';
 import { usePublicKeys, useTokens } from 'utils/hooks';
-import { checkValidAddress, getTransactionFee } from 'utils/transaction';
+import {
+	checkValidAddress,
+	createAndSend,
+	getTransactionFee,
+} from 'utils/transaction';
 
 export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
-	console.log(config.context);
-
 	const tokenList = useTokens();
 	const addressList = usePublicKeys();
 
 	return (
 		<View style={styles.container}>
 			<SendTokenScreen
-				tokenList={tokenList}
-				addressList={addressList}
+				tokens={tokenList}
+				publicKeys={addressList}
 				getTransactionFee={getTransactionFee}
 				onClose={() => modalActions.hide(config.id as string)}
-				onPressSendButton={() => console.log('Handle send token')}
 				checkValidAddress={checkValidAddress}
+				createAndSendTransaction={createAndSend}
 			/>
 		</View>
 	);

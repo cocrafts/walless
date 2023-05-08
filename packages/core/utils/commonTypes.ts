@@ -1,3 +1,5 @@
+import { Token } from './entityTypes';
+
 export interface EncryptedWithPasscode {
 	iv: string;
 	salt: string;
@@ -47,4 +49,13 @@ export enum Networks {
 	ethereum = 'ethereum',
 	solana = 'solana',
 	sui = 'sui',
+}
+
+export interface TransactionPayload {
+	sender: string;
+	receiver: string;
+	amount: number;
+	network: Networks;
+	token: string | Token;
+	passcode?: string;
 }

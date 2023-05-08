@@ -15,6 +15,7 @@ import { db } from 'utils/storage';
 const solConn = new Connection(clusterApiUrl('devnet'));
 const sampleKeypair = Keypair.generate();
 
+import { createTransferInstruction, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { RequestType, ResponsePayload } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
@@ -72,6 +73,16 @@ export const constructTransaction = async ({
 				new PublicKey(sender),
 				new PublicKey(receiver),
 				amount,
+			);
+		} else if (
+			(token as Token).account &&
+			(token as Token).network == Networks.solana
+		) {
+			return await constructSendSPLTokenTransactionInSol(
+				new PublicKey(sender),
+				new PublicKey(receiver),
+				amount,
+				token as Token,
 			);
 		}
 	} else if (network == Networks.sui) {
@@ -142,6 +153,34 @@ const constructSendSOLTransaction = async (
 		payerKey: new PublicKey(sender),
 		recentBlockhash: blockhash,
 		instructions,
+	}).compileToV0Message();
+
+	return new VersionedTransaction(message);
+};
+
+const constructSendSPLTokenTransactionInSol = async (
+	sender: PublicKey,
+	receiver: PublicKey,
+	amount: number,
+	token: Token,
+) => {
+	const transactionInstruction = createTransferInstruction(
+		sender,
+		receiver,
+		new PublicKey(token.account.owner as string),
+		amount,
+		[sender],
+		TOKEN_PROGRAM_ID,
+	);
+
+	const blockhash = await solConn
+		.getLatestBlockhash()
+		.then((res) => res.blockhash);
+
+	const message = new TransactionMessage({
+		payerKey: new PublicKey(sender),
+		recentBlockhash: blockhash,
+		instructions: [transactionInstruction],
 	}).compileToV0Message();
 
 	return new VersionedTransaction(message);

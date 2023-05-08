@@ -1,8 +1,7 @@
-import { type TokenDocument } from '@walless/store';
 import { proxy } from 'valtio';
 
 export interface TokenListState {
-	tokens: TokenDocument[];
+	tokens: unknown;
 }
 
 export const tokenListState = proxy<TokenListState>({

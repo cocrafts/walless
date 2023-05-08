@@ -25,6 +25,12 @@ const PasscodeInput: FC<Props> = ({ navigator }) => {
 
 	const { createAndSendTransaction } = useSnapshot(injectedElements);
 
+	const handleBack = () => {
+		navigator.slideBack();
+		setPassode('');
+		setError('');
+	};
+
 	const handlePasscodeChange = async (passcode: string) => {
 		setPassode(passcode);
 		if (passcode.length == 6) {
@@ -40,13 +46,14 @@ const PasscodeInput: FC<Props> = ({ navigator }) => {
 			let res;
 			try {
 				res = await createAndSendTransaction(payload, passcode);
+				console.log({ res });
 				if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
 					setError('Wrong passcode');
 					setPassode('');
 				} else if (res.responseCode == ResponseCode.SUCCESS) {
-					navigator.slideTo(3);
+					navigator.slideNext();
 				} else if (res.responseCode == ResponseCode.ERROR) {
-					navigator.slideTo(3);
+					navigator.slideNext();
 				} else {
 					showError('Something was wrong');
 					setPassode('');
@@ -62,7 +69,7 @@ const PasscodeInput: FC<Props> = ({ navigator }) => {
 
 	return (
 		<View style={styles.container}>
-			<Header onBack={() => navigator.slideBack()} />
+			<Header onBack={handleBack} />
 
 			<Image style={styles.icon} source={{ uri: 'img/icon.png' }} />
 			<View style={styles.titleBlock}>

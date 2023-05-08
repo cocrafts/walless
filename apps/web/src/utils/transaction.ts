@@ -15,7 +15,11 @@ import { db } from 'utils/storage';
 const solConn = new Connection(clusterApiUrl('devnet'));
 const sampleKeypair = Keypair.generate();
 
-import { createTransferInstruction, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import {
+	createAssociatedTokenAccountInstruction,
+	createTransferInstruction,
+	getAssociatedTokenAddressSync,
+} from '@solana/spl-token';
 import { RequestType, ResponsePayload } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
@@ -164,13 +168,41 @@ const constructSendSPLTokenTransactionInSol = async (
 	amount: number,
 	token: Token,
 ) => {
-	const transactionInstruction = createTransferInstruction(
+	const mintAddress = new PublicKey(token.account.mint as string);
+
+	const AssociatedAddressOfSender = getAssociatedTokenAddressSync(
+		mintAddress,
 		sender,
+	);
+	const AssociatedAddressOfReceiver = getAssociatedTokenAddressSync(
+		mintAddress,
 		receiver,
-		new PublicKey(token.account.owner as string),
-		amount,
-		[sender],
-		TOKEN_PROGRAM_ID,
+	);
+
+	const associatedAccountOfReceiver = await solConn.getAccountInfo(
+		AssociatedAddressOfReceiver,
+	);
+
+	const instructions = [];
+
+	if (!associatedAccountOfReceiver) {
+		instructions.push(
+			createAssociatedTokenAccountInstruction(
+				sender,
+				AssociatedAddressOfReceiver,
+				receiver,
+				mintAddress,
+			),
+		);
+	}
+
+	instructions.push(
+		createTransferInstruction(
+			AssociatedAddressOfSender,
+			AssociatedAddressOfReceiver,
+			sender,
+			amount,
+		),
 	);
 
 	const blockhash = await solConn
@@ -180,7 +212,7 @@ const constructSendSPLTokenTransactionInSol = async (
 	const message = new TransactionMessage({
 		payerKey: new PublicKey(sender),
 		recentBlockhash: blockhash,
-		instructions: [transactionInstruction],
+		instructions: instructions,
 	}).compileToV0Message();
 
 	return new VersionedTransaction(message);

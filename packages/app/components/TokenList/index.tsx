@@ -4,6 +4,7 @@ import {
 	type StyleProp,
 	type ViewStyle,
 	FlatList,
+	StyleSheet,
 } from 'react-native';
 import { type TokenDocument } from '@walless/store';
 
@@ -22,7 +23,16 @@ export const TokenList: FC<Props> = ({
 	items,
 }) => {
 	const renderItem: ListRenderItem<TokenDocument> = ({ item, index }) => {
-		return <TokenItem index={index} item={item} />;
+		const isFirst = index === 0;
+		const isLast = index === items.length - 1;
+
+		return (
+			<TokenItem
+				index={index}
+				item={item}
+				style={[isFirst && styles.firstItem, isLast && styles.lastItem]}
+			/>
+		);
 	};
 
 	return (
@@ -37,3 +47,14 @@ export const TokenList: FC<Props> = ({
 };
 
 export default TokenList;
+
+const styles = StyleSheet.create({
+	firstItem: {
+		borderTopLeftRadius: 12,
+		borderTopRightRadius: 12,
+	},
+	lastItem: {
+		borderBottomLeftRadius: 12,
+		borderBottomRightRadius: 12,
+	},
+});

@@ -11,12 +11,12 @@ export const sendScreens: SlideOption[] = [
 		component: InformationInput,
 	},
 	{
-		id: 'PasscodeInput',
-		component: PasscodeInput,
-	},
-	{
 		id: 'TransactionConfirmation',
 		component: TransactionConfirmation,
+	},
+	{
+		id: 'PasscodeInput',
+		component: PasscodeInput,
 	},
 	{
 		id: 'TransactionResult',

@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Networks, Token } from '@walless/core';
 import { slideAnimators, Slider } from '@walless/gui';
+import { PublicKeyDocument } from '@walless/store';
 
 import { transactionActions } from '../../state/transaction';
 
@@ -9,6 +10,7 @@ import { sendScreens } from './shared';
 
 interface Props {
 	tokenList: Token[];
+	addressList: PublicKeyDocument[];
 	onClose: () => void;
 	onPressSendButton: () => void;
 	getTransactionFee: (network: Networks) => Promise<number>;
@@ -20,6 +22,7 @@ interface Props {
 
 export const SendTokenScreen: FC<Props> = ({
 	tokenList,
+	addressList,
 	onClose,
 	getTransactionFee,
 	checkValidAddress,
@@ -28,6 +31,7 @@ export const SendTokenScreen: FC<Props> = ({
 
 	transactionActions.injectRequiredElements({
 		tokens: tokenList,
+		publicKeys: addressList,
 		getTransactionFee: getTransactionFee,
 		handleClose: onClose,
 		checkValidAddress: checkValidAddress,

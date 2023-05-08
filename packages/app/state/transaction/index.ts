@@ -31,6 +31,7 @@ export const transactionActions = {
 	},
 	injectRequiredElements: (elements: InjectedElements) => {
 		injectedElements.tokens = elements.tokens;
+		injectedElements.publicKeys = elements.publicKeys;
 		injectedElements.getTransactionFee = elements.getTransactionFee;
 		injectedElements.handleClose = elements.handleClose;
 		injectedElements.checkValidAddress = elements.checkValidAddress;

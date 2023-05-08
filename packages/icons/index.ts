@@ -9,6 +9,7 @@ export { Cart } from './components/Cart';
 export { Check } from './components/Check';
 export { CheckCircle } from './components/CheckCircle';
 export { ChevronDown } from './components/ChevronDown';
+export { ChevronLeft } from './components/ChevronLeft';
 export { ChevronRight } from './components/ChevronRight';
 export { ChevronUp } from './components/ChevronUp';
 export { Compass } from './components/Compass';

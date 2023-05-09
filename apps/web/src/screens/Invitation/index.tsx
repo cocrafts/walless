@@ -40,9 +40,9 @@ const InvitationScreen = () => {
 				<View style={styles.titleContainer}>
 					<Text style={styles.title}>{title}</Text>
 					<Text style={styles.subText}>
-						Secure your passcode! It&apos;s essential for accessing your account
-						and authorizing transfers.
+						You need an invite code to join Walless.
 					</Text>
+					<Text style={styles.subText}>Enter your invite code here..</Text>
 				</View>
 
 				<InvitationFeature onInvitationCodeChange={onInvitationCodeChange} />

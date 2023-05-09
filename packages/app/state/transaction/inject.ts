@@ -16,6 +16,10 @@ export interface InjectedElements {
 		payload: TransactionPayload,
 		passcode?: string,
 	) => Promise<ResponsePayload>;
+	getTransactionResult: (
+		signature: string,
+		networkd: Networks,
+	) => Promise<{ time?: Date }>;
 }
 
 export const injectedElements = proxy<InjectedElements>({
@@ -27,6 +31,9 @@ export const injectedElements = proxy<InjectedElements>({
 		return { valid: true, message: '' };
 	},
 	createAndSendTransaction: async () => {
+		return {};
+	},
+	getTransactionResult: async () => {
 		return {};
 	},
 });

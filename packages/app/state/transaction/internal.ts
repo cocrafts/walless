@@ -10,6 +10,7 @@ export interface TransactionContext {
 	amount?: string;
 	signatureString: string;
 	status?: ResponseCode;
+	time?: Date;
 }
 
 export type PendingTransactionContext = Omit<

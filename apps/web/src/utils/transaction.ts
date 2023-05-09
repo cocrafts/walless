@@ -7,6 +7,7 @@ import {
 	PublicKey,
 	SystemProgram,
 	TransactionMessage,
+	VersionedMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
 import { Networks, Token, TransactionPayload } from '@walless/core';
@@ -23,6 +24,40 @@ import {
 import { RequestType, ResponsePayload } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
+
+// These methods must be implemented by sync connection
+export const getLatestBlockhashOnSolana = async () => {
+	return await solConn.getLatestBlockhash().then((res) => res.blockhash);
+};
+
+export const getFeeForMessageOnSolana = async (message: VersionedMessage) => {
+	return (await solConn.getFeeForMessage(message)).value;
+};
+
+export const getParsedTransactionOnSolana = async (signature: string) => {
+	return await solConn.getParsedTransaction(signature, {
+		maxSupportedTransactionVersion: 0,
+	});
+};
+
+export const getTransactionResult = async (
+	signature: string,
+	network: Networks,
+) => {
+	let time;
+	if (network == Networks.solana) {
+		const parsedTransaction = await getParsedTransactionOnSolana(signature);
+		const blockTime = parsedTransaction?.blockTime;
+
+		if (blockTime) time = new Date(blockTime);
+	}
+
+	return {
+		time,
+	};
+};
+
+// ---------------------------------------------------------
 
 export const createAndSend = async (
 	payload: TransactionPayload,
@@ -124,15 +159,11 @@ export const getTransactionFee = async (network: Networks) => {
 
 		const message = new TransactionMessage({
 			payerKey: sampleKeypair.publicKey,
-			recentBlockhash: await solConn
-				.getLatestBlockhash()
-				.then((res) => res.blockhash),
+			recentBlockhash: await getLatestBlockhashOnSolana(),
 			instructions,
 		}).compileToV0Message();
 
-		return (
-			((await solConn.getFeeForMessage(message)).value || 0) / LAMPORTS_PER_SOL
-		);
+		return ((await getFeeForMessageOnSolana(message)) || 0) / LAMPORTS_PER_SOL;
 	} else return 0;
 };
 
@@ -149,9 +180,7 @@ const constructSendSOLTransaction = async (
 		}),
 	];
 
-	const blockhash = await solConn
-		.getLatestBlockhash()
-		.then((res) => res.blockhash);
+	const blockhash = await getLatestBlockhashOnSolana();
 
 	const message = new TransactionMessage({
 		payerKey: new PublicKey(sender),
@@ -205,9 +234,7 @@ const constructSendSPLTokenTransactionInSol = async (
 		),
 	);
 
-	const blockhash = await solConn
-		.getLatestBlockhash()
-		.then((res) => res.blockhash);
+	const blockhash = await getLatestBlockhashOnSolana();
 
 	const message = new TransactionMessage({
 		payerKey: new PublicKey(sender),

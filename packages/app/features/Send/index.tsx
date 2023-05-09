@@ -10,13 +10,14 @@ type Props = Omit<InjectedElements, 'handleClose'> & {
 	onClose: () => void;
 };
 
-export const SendTokenScreen: FC<Props> = ({
+export const SendFeature: FC<Props> = ({
 	tokens,
 	publicKeys,
 	onClose,
 	getTransactionFee,
 	checkValidAddress,
 	createAndSendTransaction,
+	getTransactionResult,
 }) => {
 	transactionActions.injectRequiredElements({
 		tokens: tokens,
@@ -28,6 +29,7 @@ export const SendTokenScreen: FC<Props> = ({
 		},
 		checkValidAddress,
 		createAndSendTransaction,
+		getTransactionResult,
 	});
 
 	return (
@@ -41,7 +43,7 @@ export const SendTokenScreen: FC<Props> = ({
 	);
 };
 
-export default SendTokenScreen;
+export default SendFeature;
 
 const styles = StyleSheet.create({
 	container: {

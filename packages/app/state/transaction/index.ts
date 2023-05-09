@@ -26,6 +26,9 @@ export const transactionActions = {
 	setStatus: (status: ResponseCode) => {
 		transactionContext.status = status;
 	},
+	setTime: () => {
+		transactionContext.time = new Date();
+	},
 	resetTransactionContext: () => {
 		transactionContext.token = undefined;
 		transactionContext.sender = '';
@@ -33,6 +36,7 @@ export const transactionActions = {
 		transactionContext.amount = undefined;
 		transactionContext.signatureString = '';
 		transactionContext.status = undefined;
+		transactionContext.time = undefined;
 	},
 	injectRequiredElements: (elements: InjectedElements) => {
 		injectedElements.tokens = elements.tokens;
@@ -42,6 +46,7 @@ export const transactionActions = {
 		injectedElements.checkValidAddress = elements.checkValidAddress;
 		injectedElements.createAndSendTransaction =
 			elements.createAndSendTransaction;
+		injectedElements.getTransactionResult = elements.getTransactionResult;
 	},
 };
 

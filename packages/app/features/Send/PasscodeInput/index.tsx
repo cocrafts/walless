@@ -50,6 +50,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 				transactionActions.setStatus(res.responseCode as ResponseCode);
 
 				if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
+					showError('Passcode is NOT matched');
 					setError('Wrong passcode');
 				} else if (res.responseCode == ResponseCode.SUCCESS) {
 					transactionActions.setSignatureString(

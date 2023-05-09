@@ -10,8 +10,6 @@ export const Token = () => {
 
 	const iconUri = { uri: token?.metadata?.imageUri };
 
-	console.log(time);
-
 	return (
 		<View style={styles.container}>
 			<Image style={styles.tokenIcon} source={iconUri} />

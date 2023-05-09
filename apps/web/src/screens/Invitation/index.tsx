@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { InvitationFeature } from '@walless/app';
 import { Anchor, Text, View } from '@walless/gui';
 import { appState } from 'state/app';

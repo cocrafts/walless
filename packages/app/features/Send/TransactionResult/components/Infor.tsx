@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
+import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -16,7 +17,7 @@ interface Props {
 
 export const Information: FC<Props> = () => {
 	const { publicKeys } = useSnapshot(injectedElements);
-	const { token, transactionFee, receiver, sender, signatureString } =
+	const { token, transactionFee, receiver, sender, status } =
 		useSnapshot(transactionContext);
 
 	const publicKey = publicKeys.find((key) => key.network == token?.network);
@@ -46,11 +47,8 @@ export const Information: FC<Props> = () => {
 			<View style={styles.inforLine}>
 				<Text>Status</Text>
 				<Text style={styles.inforText}> </Text>
-				{signatureString.length > 0 ? (
-					<GreenTag title="Success" />
-				) : (
-					<RedTag title="Failed" />
-				)}
+				{status == ResponseCode.SUCCESS && <GreenTag title="Success" />}
+				{status == ResponseCode.ERROR && <RedTag title="Failed" />}
 			</View>
 
 			<View style={styles.seperatedLine}></View>

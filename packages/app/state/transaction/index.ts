@@ -1,4 +1,5 @@
 import { Token } from '@walless/core';
+import { ResponseCode } from '@walless/messaging';
 
 import { InjectedElements, injectedElements } from './inject';
 import { transactionContext } from './internal';
@@ -22,12 +23,16 @@ export const transactionActions = {
 	setSignatureString: (signature: string) => {
 		transactionContext.signatureString = signature;
 	},
+	setStatus: (status: ResponseCode) => {
+		transactionContext.status = status;
+	},
 	resetTransactionContext: () => {
 		transactionContext.token = undefined;
 		transactionContext.sender = '';
 		transactionContext.receiver = '';
 		transactionContext.amount = undefined;
 		transactionContext.signatureString = '';
+		transactionContext.status = undefined;
 	},
 	injectRequiredElements: (elements: InjectedElements) => {
 		injectedElements.tokens = elements.tokens;

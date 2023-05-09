@@ -1,4 +1,5 @@
 import { Token } from '@walless/core';
+import { ResponseCode } from '@walless/messaging';
 import { proxy } from 'valtio';
 
 export interface TransactionContext {
@@ -8,6 +9,7 @@ export interface TransactionContext {
 	transactionFee?: number;
 	amount?: string;
 	signatureString: string;
+	status?: ResponseCode;
 }
 
 export type PendingTransactionContext = Omit<

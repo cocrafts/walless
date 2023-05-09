@@ -1,14 +1,19 @@
 import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
-import { Networks, UserProfile } from '@walless/core';
+import { type UserProfile, Networks, runtime } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import {
 	type PrivateKeyDocument,
 	type PublicKeyDocument,
 	type SettingDocument,
 } from '@walless/store';
-import { signInWithPopup, UserCredential } from 'firebase/auth';
+import {
+	GoogleAuthProvider,
+	signInWithCredential,
+	signInWithPopup,
+	UserCredential,
+} from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
 import { db } from 'utils/pouch';
 import { router } from 'utils/routing';
@@ -42,10 +47,21 @@ export const signInWithGoogle = async () => {
 		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
 		appState.authenticationLoading = true;
 
-		cache.loginResponse = await signInWithPopup(auth, googleProvider);
+		if (runtime.isExtension) {
+			const response = await chrome.identity.getAuthToken({
+				interactive: true,
+				scopes: ['email', 'profile'],
+			});
+			const credential = GoogleAuthProvider.credential(null, response.token);
+			cache.loginResponse = await signInWithCredential(auth, credential);
+		} else {
+			cache.loginResponse = await signInWithPopup(auth, googleProvider);
+			console.log(cache.loginResponse);
+		}
+
 		const { user } = cache.loginResponse;
 		const verifierToken = await user.getIdToken(true);
-		const verifier = 'walless-firebase';
+		const verifier = WEB3AUTH_ID;
 		const verifierId = user.uid;
 		const verifierParams = { verifier_id: user.uid };
 		const loginDetails = await customAuth.getTorusKey(

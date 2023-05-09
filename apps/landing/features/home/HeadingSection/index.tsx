@@ -53,7 +53,12 @@ const HeadingSection = () => {
 	);
 
 	return (
-		<Stack height={height} marginVertical={64} $md={{ marginVertical: 0 }}>
+		<Stack
+			height={height}
+			minHeight={500}
+			marginVertical={64}
+			$md={{ marginVertical: 0 }}
+		>
 			<ContainerStack fullscreen maxWidth={1500}>
 				{particleElement}
 				{contentElement}

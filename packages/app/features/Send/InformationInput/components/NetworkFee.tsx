@@ -19,7 +19,6 @@ export const NetworkFee: FC<Props> = () => {
 	const { token, transactionFee } = useSnapshot(transactionContext);
 	const { getTransactionFee } = useSnapshot(injectedElements);
 
-	// const feeString = token?.network ? getTransactionFee() '';
 	useEffect(() => {
 		(async () => {
 			if (token?.network) {
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'center',
-		alignItems: 'center',
+		alignItems: 'flex-start',
 		gap: 4,
 	},
 	titleText: {

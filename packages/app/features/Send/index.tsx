@@ -22,7 +22,10 @@ export const SendTokenScreen: FC<Props> = ({
 		tokens: tokens,
 		publicKeys: publicKeys,
 		getTransactionFee,
-		handleClose: onClose,
+		handleClose: () => {
+			onClose();
+			transactionActions.resetTransactionContext();
+		},
 		checkValidAddress,
 		createAndSendTransaction,
 	});

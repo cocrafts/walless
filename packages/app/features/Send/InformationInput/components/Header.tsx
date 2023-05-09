@@ -4,23 +4,15 @@ import { Button, Text, View } from '@walless/gui';
 import { Times } from '@walless/icons';
 import { useSnapshot } from 'valtio';
 
-import {
-	injectedElements,
-	transactionActions,
-} from '../../../../state/transaction';
+import { injectedElements } from '../../../../state/transaction';
 
 export const Header: FC = () => {
 	const { handleClose } = useSnapshot(injectedElements);
 
-	const handleCloseExtended = () => {
-		transactionActions.resetTransactionContext();
-		handleClose();
-	};
-
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Send</Text>
-			<Button style={styles.closeButton} onPress={handleCloseExtended}>
+			<Button style={styles.closeButton} onPress={handleClose}>
 				<Times size={16} />
 			</Button>
 		</View>

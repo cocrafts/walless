@@ -8,9 +8,15 @@ export interface SliderHandle {
 	slideTo: (index: number) => void;
 }
 
+export interface SlideComponentProps {
+	item: SlideOption;
+	navigator: SliderHandle;
+	activedId: string;
+}
+
 export interface SlideOption {
 	id: string;
-	component: FC<{ item: SlideOption; navigator: SliderHandle }>;
+	component: FC<SlideComponentProps>;
 }
 
 export type SlideAnimator = (context: {

@@ -1,8 +1,8 @@
 import { Networks } from '@walless/core';
 import { decryptWithPasscode } from '@walless/crypto';
 import { PrivateKeyRecord } from '@walless/storage';
-
-import { db } from '../storage';
+import { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
+import { db } from 'utils/pouch';
 
 export const settings = {
 	requirePasscode: true,
@@ -28,11 +28,18 @@ export const triggerActionToGetPrivateKey = async () => {
 };
 
 export const getPrivateKey = async (network: Networks, passcode: string) => {
-	const publicKey = await db.publicKeys.get({ network: network });
-
-	const encryptedKey = await db.privateKeys.get({
-		id: publicKey?.privateKeyId,
+	const result = await db.find({
+		selector: {
+			type: 'PublicKey',
+			network: network,
+		},
 	});
 
-	return await decryptWithPasscode(passcode, encryptedKey as PrivateKeyRecord);
+	const publicKey = result.docs as PublicKeyDocument[];
+
+	const encryptedKey = (await db.get(
+		publicKey[0].privateKeyId,
+	)) as PrivateKeyDocument;
+
+	return await decryptWithPasscode(passcode, encryptedKey);
 };

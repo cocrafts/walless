@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { slideAnimators, Slider } from '@walless/gui';
+import { Slider } from '@walless/gui';
 
 import { InjectedElements, transactionActions } from '../../state/transaction';
 
@@ -38,7 +38,7 @@ export const SendFeature: FC<Props> = ({
 			slideContainerStyle={styles.slideContainer}
 			activeItem={sendScreens[0]}
 			items={sendScreens}
-			animator={slideAnimators.bounce}
+			// animator={slideAnimators.bounce}
 		></Slider>
 	);
 };

@@ -37,6 +37,7 @@ export const transactionActions = {
 		transactionContext.signatureString = '';
 		transactionContext.status = undefined;
 		transactionContext.time = undefined;
+		transactionContext.transactionFee = 0;
 	},
 	injectRequiredElements: (elements: InjectedElements) => {
 		injectedElements.tokens = elements.tokens;

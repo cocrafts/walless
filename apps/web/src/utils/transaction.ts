@@ -58,7 +58,7 @@ export const getWalletPublicKey = async (network: Networks) => {
 
 type SendTokenProps = {
 	sender: string;
-	token: string | Token;
+	token: Token;
 	network: Networks;
 	receiver: string;
 	amount: number;
@@ -72,7 +72,7 @@ export const constructTransaction = async ({
 	amount,
 }: SendTokenProps) => {
 	if (network == Networks.solana) {
-		if (token == 'SOL') {
+		if (token.metadata?.symbol == 'SOL') {
 			return await constructSendSOLTransaction(
 				new PublicKey(sender),
 				new PublicKey(receiver),
@@ -90,7 +90,7 @@ export const constructTransaction = async ({
 			);
 		}
 	} else if (network == Networks.sui) {
-		if (token == 'SUI') {
+		if (token.metadata?.symbol == 'SUI') {
 			return await constructSendSUITransaction(receiver, amount);
 		}
 	}
@@ -145,7 +145,7 @@ const constructSendSOLTransaction = async (
 		SystemProgram.transfer({
 			fromPubkey: sender,
 			toPubkey: receiver,
-			lamports: amount * LAMPORTS_PER_SOL,
+			lamports: amount,
 		}),
 	];
 
@@ -224,11 +224,7 @@ const constructSendSUITransaction = async (
 ) => {
 	const tx = new TransactionBlock();
 
-	const DECIMALS = 10 ** 9;
-
-	const [coin] = tx.splitCoins({ kind: 'GasCoin' }, [
-		tx.pure(amount * DECIMALS),
-	]);
+	const [coin] = tx.splitCoins({ kind: 'GasCoin' }, [tx.pure(amount)]);
 
 	tx.transferObjects([coin], tx.pure(receiver));
 	return tx;

@@ -56,6 +56,6 @@ export interface TransactionPayload {
 	receiver: string;
 	amount: number;
 	network: Networks;
-	token: string | Token;
+	token: Token;
 	passcode?: string;
 }

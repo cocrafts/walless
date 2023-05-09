@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
 		height: iconSize,
 		borderRadius: iconSize / 2,
 		overflow: 'hidden',
+		backgroundColor: 'rgba(255, 255, 255, 0.1)',
 	},
 	iconWrapper: {
 		width: wrapperSize,

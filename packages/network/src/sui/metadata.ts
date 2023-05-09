@@ -15,7 +15,7 @@ export const getSuiMetadata: GetSuiMetadataFunction = (data) => {
 	if (data.type === '0x2::coin::Coin<0x2::sui::SUI>') {
 		result.name = 'Sui';
 		result.symbol = 'SUI';
-		result.imageUri = '/img/network/sui-icon-sm.png';
+		result.imageUri = '/img/network/sui-icon.png';
 	} else {
 		result.name = 'unknown';
 		result.symbol = 'unknown';

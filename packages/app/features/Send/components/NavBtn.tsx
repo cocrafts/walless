@@ -1,20 +1,21 @@
 import { FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { Button } from '@walless/gui';
 
 interface Props {
 	title: string;
 	onPress?: () => void;
+	style?: ViewStyle;
 }
 
-export const NavButton: FC<Props> = ({ title, onPress }) => {
+export const NavButton: FC<Props> = ({ title, onPress, style }) => {
 	const handlePress = () => {
 		onPress && onPress();
 	};
 
 	return (
 		<Button
-			style={styles.button}
+			style={{ ...styles.button, ...style }}
 			titleStyle={styles.title}
 			title={title}
 			onPress={handlePress}
@@ -24,7 +25,6 @@ export const NavButton: FC<Props> = ({ title, onPress }) => {
 
 const styles = StyleSheet.create({
 	button: {
-		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#0694D3',

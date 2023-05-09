@@ -91,7 +91,11 @@ export const Slider = forwardRef<SliderHandle, Props>(
 								animatedOffset={offset}
 								animator={animator}
 							>
-								<InnerComponent item={item} navigator={navigator} />
+								<InnerComponent
+									item={item}
+									navigator={navigator}
+									activedId={innerActive.id}
+								/>
 							</ItemContainer>
 						);
 					})}

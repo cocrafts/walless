@@ -1,4 +1,5 @@
 import { clearSolanaSubscriptions, subscribeSolanaChanges } from './solana';
+import { clearSuiSubscriptions, subscribeSuiChanges } from './sui';
 
 interface Shared {
 	cleanupTimeout?: number;
@@ -9,13 +10,13 @@ export const shared: Shared = {
 };
 
 const startSubscriber = async () => {
-	await Promise.all([subscribeSolanaChanges()]);
+	await Promise.all([subscribeSolanaChanges(), subscribeSuiChanges()]);
 
 	console.log('subscriber started!');
 };
 
 const stopSubscriber = async () => {
-	await Promise.all([clearSolanaSubscriptions()]);
+	await Promise.all([clearSolanaSubscriptions(), clearSuiSubscriptions()]);
 	shared.cleanupTimeout = undefined;
 
 	console.log('subscriber stopped!');

@@ -24,7 +24,7 @@ export const tokens = createTokens({
 		text: '#fefefe',
 		link: '#19A3E1',
 		navigationText: '#fefefe',
-		navigationBackground: '#19232C',
+		navigationBackground: '#162028',
 	},
 	size: defaultTokens.size,
 	radius: defaultTokens.radius,

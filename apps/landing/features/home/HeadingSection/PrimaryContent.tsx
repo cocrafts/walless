@@ -90,7 +90,7 @@ export const PrimaryContent: FC = () => {
 			>
 				<Anchor href="https://forms.gle/tpQz8tm3JPALGJiJ7" target="_blank">
 					<Button
-						title="Join waitlist"
+						title="Get early access"
 						width={buttonWidth}
 						marginHorizontal={8}
 					/>

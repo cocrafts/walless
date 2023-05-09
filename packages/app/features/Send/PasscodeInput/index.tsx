@@ -46,6 +46,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 			let res;
 			try {
 				res = await createAndSendTransaction(payload, passcode);
+				transactionActions.setTime();
 				transactionActions.setStatus(res.responseCode as ResponseCode);
 
 				if (res.responseCode == ResponseCode.WRONG_PASSCODE) {

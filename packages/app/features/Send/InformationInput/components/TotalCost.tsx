@@ -27,14 +27,12 @@ export const TotalCost = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		width: '100%',
 		marginVertical: 10,
 	},
 	titleContainer: {
-		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'flex-start',
@@ -46,7 +44,6 @@ const styles = StyleSheet.create({
 		color: '#EEEEEE',
 	},
 	valueContainer: {
-		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'flex-end',
 		gap: 4,

@@ -20,7 +20,6 @@ export const AmountInput: FC = () => {
 	}
 
 	const handlerBlur = (e: UnknownObject) => {
-		console.log(e.target.value.length);
 		if (token && e.target.value.length > 0) {
 			const amount = parseFloat(e.target.value);
 			if (isNaN(amount)) {
@@ -72,7 +71,6 @@ export const AmountInput: FC = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
 		width: 336,

@@ -53,7 +53,6 @@ export const NetworkFee: FC<Props> = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		width: '100%',
@@ -61,7 +60,6 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 	},
 	titleContainer: {
-		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'flex-start',
@@ -73,7 +71,6 @@ const styles = StyleSheet.create({
 		color: '#566674',
 	},
 	valueContainer: {
-		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'flex-end',
 		gap: 4,

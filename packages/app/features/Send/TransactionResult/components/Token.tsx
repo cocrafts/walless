@@ -31,8 +31,6 @@ export const Token = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
-		flexDirection: 'column',
 		alignItems: 'center',
 		width: '100%',
 		gap: 11,

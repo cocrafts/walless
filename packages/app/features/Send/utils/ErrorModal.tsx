@@ -19,7 +19,6 @@ export const ErrorModal: FC<Props> = ({ config }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: 400,

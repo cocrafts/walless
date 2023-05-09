@@ -28,7 +28,6 @@ export const Header: FC<Props> = ({ onBack }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		width: 336,

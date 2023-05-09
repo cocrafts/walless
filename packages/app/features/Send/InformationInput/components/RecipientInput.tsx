@@ -47,8 +47,6 @@ export const RecipientInput: FC = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
-		flexDirection: 'column',
 		alignItems: 'center',
 		width: 336,
 		justifyContent: 'space-between',

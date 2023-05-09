@@ -64,7 +64,6 @@ export const RecipientInfor: FC<Props> = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
 		gap: 12,

@@ -22,10 +22,7 @@ export const BigToken = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
-		flexDirection: 'column',
 		alignItems: 'center',
-		width: '100%',
 		gap: 11,
 	},
 	tokenIcon: {

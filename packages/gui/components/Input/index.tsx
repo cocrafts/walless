@@ -73,7 +73,6 @@ export const Input: FC<Props> = ({
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		width: 336,

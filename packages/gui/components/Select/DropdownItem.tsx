@@ -43,7 +43,6 @@ const DropdownItem: FC<Props> = ({ selected, name, icon, onPress, style }) => {
 const styles = StyleSheet.create({
 	itemButton: {
 		flex: 1,
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 9,

@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
 	tokenIcon: {
 		width: 100,
 		height: 100,
+		borderRadius: 1000,
 	},
 	amountContainer: {
 		flexDirection: 'row',

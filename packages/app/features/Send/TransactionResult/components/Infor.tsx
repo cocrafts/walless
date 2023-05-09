@@ -8,7 +8,7 @@ import {
 	injectedElements,
 	transactionContext,
 } from '../../../../state/transaction';
-import { GreenTag } from '../../components/tags';
+import { GreenTag, RedTag } from '../../components/tags';
 
 interface Props {
 	onBack?: () => void;
@@ -34,11 +34,6 @@ export const Information: FC<Props> = () => {
 		feeStr = `${transactionFee} SUI`;
 	}
 
-	let status = 'Failed';
-	if (signatureString.length > 0) {
-		status = 'Success';
-	}
-
 	return (
 		<View style={styles.container}>
 			<View style={styles.inforLine}>
@@ -51,7 +46,11 @@ export const Information: FC<Props> = () => {
 			<View style={styles.inforLine}>
 				<Text>Status</Text>
 				<Text style={styles.inforText}> </Text>
-				<GreenTag title={status} />
+				{signatureString.length > 0 ? (
+					<GreenTag title="Success" />
+				) : (
+					<RedTag title="Failed" />
+				)}
 			</View>
 
 			<View style={styles.seperatedLine}></View>

@@ -1,12 +1,13 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Networks, Token, TransactionPayload } from '@walless/core';
-import { SliderHandle, Text, View } from '@walless/gui';
+import { SlideComponentProps, Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
 import {
 	injectedElements,
+	transactionActions,
 	transactionContext,
 } from '../../../state/transaction';
 import PasscodeFeature from '../../Passcode';
@@ -14,14 +15,12 @@ import { showError } from '../utils';
 
 import { Header } from './components';
 
-interface Props {
-	navigator: SliderHandle;
-}
-
-const PasscodeInput: FC<Props> = ({ navigator }) => {
+type Props = SlideComponentProps;
+const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 	const { token, sender, receiver, amount } = useSnapshot(transactionContext);
 	const [error, setError] = useState<string>('');
 	const [passcode, setPassode] = useState<string>('');
+	const [renderPasscode, setRenderPasscode] = useState(false);
 
 	const { createAndSendTransaction } = useSnapshot(injectedElements);
 
@@ -43,29 +42,36 @@ const PasscodeInput: FC<Props> = ({ navigator }) => {
 				token: token as Token,
 				network: token?.network as Networks,
 			};
+
 			let res;
 			try {
 				res = await createAndSendTransaction(payload, passcode);
-				console.log({ res });
+
 				if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
 					setError('Wrong passcode');
-					setPassode('');
 				} else if (res.responseCode == ResponseCode.SUCCESS) {
+					transactionActions.setSignatureString(res.signatureString);
 					navigator.slideNext();
 				} else if (res.responseCode == ResponseCode.ERROR) {
 					navigator.slideNext();
 				} else {
 					showError('Something was wrong');
-					setPassode('');
 				}
-				console.log(error);
 			} catch (error) {
-				console.log(error);
+				showError((error as Error).message);
 			}
+
+			setPassode('');
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
 	};
+
+	useEffect(() => {
+		if (item.id == activedId) {
+			setTimeout(() => setRenderPasscode(true), 200);
+		} else setRenderPasscode(false);
+	}, [activedId]);
 
 	return (
 		<View style={styles.container}>
@@ -80,11 +86,13 @@ const PasscodeInput: FC<Props> = ({ navigator }) => {
 					}
 				</Text>
 			</View>
-			<PasscodeFeature
-				passcode={passcode}
-				error={error}
-				onPasscodeChange={handlePasscodeChange}
-			/>
+			{renderPasscode && (
+				<PasscodeFeature
+					passcode={passcode}
+					error={error}
+					onPasscodeChange={handlePasscodeChange}
+				/>
+			)}
 		</View>
 	);
 };

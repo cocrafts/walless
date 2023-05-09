@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		width: 336,
-		marginBottom: 40,
 	},
 	closeButton: {
 		backgroundColor: 'none',

@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 18,
 		fontWeight: '500',
+		color: '#FFFFFF',
 	},
 	closeButton: {
 		backgroundColor: 'none',

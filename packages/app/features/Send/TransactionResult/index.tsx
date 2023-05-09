@@ -25,7 +25,7 @@ const TransactionResult: FC<Props> = ({ navigator }) => {
 
 	return (
 		<View style={styles.container}>
-			<Header onBack={() => navigator.slideBack()} />
+			<Header />
 
 			<Token />
 

@@ -5305,6 +5305,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mysten/bcs@npm:0.7.1":
+  version: 0.7.1
+  resolution: "@mysten/bcs@npm:0.7.1"
+  dependencies:
+    bs58: ^5.0.0
+  checksum: 481de08ef55abc2499a32e71e5398239b6844add4e2387e5abd47cd14276fb657ddff561673d1081d7f3c9e463fa8f7f2fd99deb129aa883d4c1a37d31e7f057
+  languageName: node
+  linkType: hard
+
 "@mysten/sui.js@npm:0.32.0":
   version: 0.32.0
   resolution: "@mysten/sui.js@npm:0.32.0"
@@ -5324,22 +5333,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mysten/sui.js@npm:0.32.1":
-  version: 0.32.1
-  resolution: "@mysten/sui.js@npm:0.32.1"
+"@mysten/sui.js@npm:0.33.0":
+  version: 0.33.0
+  resolution: "@mysten/sui.js@npm:0.33.0"
   dependencies:
-    "@mysten/bcs": 0.7.0
-    "@noble/curves": ^0.9.0
+    "@mysten/bcs": 0.7.1
+    "@noble/curves": ^1.0.0
     "@noble/hashes": ^1.3.0
-    "@scure/bip32": ^1.2.0
+    "@scure/bip32": ^1.3.0
     "@scure/bip39": ^1.2.0
     "@suchipi/femver": ^1.0.0
     jayson: ^4.0.0
-    msw: ^1.2.1
     rpc-websockets: ^7.5.1
     superstruct: ^1.0.3
     tweetnacl: ^1.0.3
-  checksum: 10bbe7a50d4883642d96e6e9f15aab0402fae166841b2ff4197c012bb49fef3797a71b95850b4d37ba385c3a42bb2eb0dc7fb18bd7393c2e6f064fb42ce5dc59
+  checksum: 1ad4de39dedbd203ad55f571ca48201302e719412d7a77d320cf3a7ef29b4a918d19dd5f1aaaf04829825a12964460bae58c8ab26eee4f07d794565f3ede453f
   languageName: node
   linkType: hard
 
@@ -5432,7 +5440,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/curves@npm:1.0.0, @noble/curves@npm:~1.0.0":
+"@noble/curves@npm:1.0.0, @noble/curves@npm:^1.0.0, @noble/curves@npm:~1.0.0":
   version: 1.0.0
   resolution: "@noble/curves@npm:1.0.0"
   dependencies:
@@ -6090,7 +6098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@scure/bip32@npm:1.3.0, @scure/bip32@npm:^1.2.0":
+"@scure/bip32@npm:1.3.0, @scure/bip32@npm:^1.2.0, @scure/bip32@npm:^1.3.0":
   version: 1.3.0
   resolution: "@scure/bip32@npm:1.3.0"
   dependencies:
@@ -8793,7 +8801,7 @@ __metadata:
     eslint: 8.38.0
   peerDependencies:
     "@metaplex-foundation/js": 0.18.3
-    "@mysten/sui.js": 0.32.1
+    "@mysten/sui.js": 0.33.0
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
     "@walless/core": "*"
@@ -8813,7 +8821,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/core@workspace:packages/core"
   dependencies:
-    "@mysten/sui.js": 0.32.1
+    "@mysten/sui.js": 0.33.0
     "@solana/web3.js": 1.75.0
     eslint: 8.38.0
   languageName: unknown
@@ -8965,7 +8973,7 @@ __metadata:
     eslint: 8.38.0
   peerDependencies:
     "@metaplex-foundation/js": 0.18.3
-    "@mysten/sui.js": 0.32.1
+    "@mysten/sui.js": 0.33.0
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
   languageName: unknown
@@ -9045,7 +9053,7 @@ __metadata:
   dependencies:
     "@metacraft/cli-web3-polyfills": ^0.0.7
     "@metaplex-foundation/js": 0.18.3
-    "@mysten/sui.js": 0.32.1
+    "@mysten/sui.js": 0.33.0
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
     "@tamagui/animations-css": 1.15.16

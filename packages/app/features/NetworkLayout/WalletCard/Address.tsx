@@ -3,21 +3,21 @@ import { type ViewStyle, Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
-import { TokenRecord } from '@walless/storage';
+import { PublicKeyDocument } from '@walless/store';
 
 import { CardSkin } from './shared';
 
 interface Props {
 	index: number;
 	skin: CardSkin;
-	token: TokenRecord;
+	item: PublicKeyDocument;
 	onCopyAddress?: (value: string) => void;
 }
 
 export const WalletAddress: FC<Props> = ({
 	index,
+	item,
 	skin,
-	token,
 	onCopyAddress,
 }) => {
 	const { iconSrc, iconColor = '#ffffff', iconSize } = skin;
@@ -36,7 +36,7 @@ export const WalletAddress: FC<Props> = ({
 	};
 
 	const handleCopy = () => {
-		token.id && onCopyAddress?.(token.id);
+		item._id && onCopyAddress?.(item._id);
 	};
 
 	return (
@@ -45,7 +45,7 @@ export const WalletAddress: FC<Props> = ({
 				<Image style={iconStyle} source={iconSrc} />
 			</View>
 			<Text style={styles.addressText}>
-				{`Wallet #${index + 1}: ${shortenAddress(token.id as string)}`}
+				{`Wallet #${index + 1}: ${shortenAddress(item._id as string)}`}
 			</Text>
 			<Hoverable onPress={handleCopy}>
 				<View style={styles.iconWrapper}>

@@ -9,7 +9,6 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { type TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useTokens } from 'utils/hooks';
@@ -23,38 +22,24 @@ interface Props {
 export const SuiDashboard: FC<Props> = () => {
 	const tokens = useTokens(Networks.sui);
 	const publicKeys = usePublicKeys(Networks.sui);
-	const address = publicKeys[0]?._id as string;
-	const token: TokenRecord = {
-		id: address,
-		network: Networks.sui,
-		metadata: { symbol: 'SOL' },
-		account: { balance: '0', decimals: 9 },
-	};
-	const cloneCard = (card: TokenRecord, suffix: string) => ({
-		...card,
-		id: card.id + suffix,
-	});
-	const cards = token?.id
-		? [token, cloneCard(token, 'asdofi'), cloneCard(token, 'asdfklasjfdl')]
-		: [];
 
 	return (
 		<Stack flex={1} padding={12} gap={18}>
 			<Stack horizontal gap={12}>
-				{cards.map((token, index) => {
+				{publicKeys.map((item, index) => {
 					return (
 						<WalletCard
 							key={index}
 							index={index}
+							item={item}
 							skin={suiCardSkin}
-							token={token}
 						/>
 					);
 				})}
 			</Stack>
 			<Stack alignItems="center" gap={18}>
 				<MainFeatures onReceivePress={() => showReceiveModal(Networks.sui)} />
-				<SlideHandler items={cards} activeItem={cards[0]} />
+				<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
 			</Stack>
 			<Stack>
 				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />

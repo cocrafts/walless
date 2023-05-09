@@ -26,7 +26,6 @@ export const SolanaDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const tokens = useTokens(Networks.solana);
 	const publicKeys = usePublicKeys(Networks.solana);
-
 	const address = publicKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,

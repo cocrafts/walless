@@ -1,18 +1,19 @@
 import { type FC } from 'react';
+import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
 	MainFeatures,
 	SlideHandler,
 	TabsHeader,
+	TokenList,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { TokenRecord } from '@walless/storage';
+import { type TokenRecord } from '@walless/storage';
 import { Stack } from '@walless/ui';
 import { showReceiveModal } from 'state/app/modal';
-import { usePublicKeys } from 'utils/hooks';
+import { usePublicKeys, useTokens } from 'utils/hooks';
 
-import EmptyTab from './EmptyTab';
 import { layoutTabs } from './shared';
 
 interface Props {
@@ -20,8 +21,9 @@ interface Props {
 }
 
 export const SuiDashboard: FC<Props> = () => {
-	const keys = usePublicKeys(Networks.sui);
-	const address = keys[0]?._id as string;
+	const tokens = useTokens(Networks.sui);
+	const publicKeys = usePublicKeys(Networks.sui);
+	const address = publicKeys[0]?._id as string;
 	const token: TokenRecord = {
 		id: address,
 		network: Networks.sui,
@@ -56,13 +58,22 @@ export const SuiDashboard: FC<Props> = () => {
 			</Stack>
 			<Stack>
 				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />
-				<EmptyTab />
+				<TokenList
+					contentContainerStyle={styles.tokenListInner}
+					items={tokens}
+				/>
 			</Stack>
 		</Stack>
 	);
 };
 
 export default SuiDashboard;
+
+const styles = StyleSheet.create({
+	tokenListInner: {
+		paddingVertical: 12,
+	},
+});
 
 const suiCardSkin: CardSkin = {
 	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },

@@ -1,4 +1,5 @@
 import { Metadata as MplMetadata } from '@metaplex-foundation/mpl-token-metadata';
+import { SuiObjectData } from '@mysten/sui.js';
 
 export interface Setting {
 	version: string;
@@ -27,6 +28,7 @@ export interface AssetMetadata {
 	symbol?: string;
 	imageUri?: string;
 	mpl?: MplMetadata;
+	sod?: SuiObjectData;
 }
 
 export interface TokenAccount {

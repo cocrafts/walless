@@ -1,9 +1,9 @@
 import { type FC } from 'react';
-import { type ViewStyle, StyleSheet } from 'react-native';
+import { type StyleProp, type ViewStyle, StyleSheet } from 'react-native';
 import { Input, View } from '@walless/gui';
 
 interface Props {
-	containerStyle?: ViewStyle;
+	containerStyle?: StyleProp<ViewStyle>;
 	onInvitationCodeChange?: (value: string) => void;
 }
 
@@ -23,9 +23,5 @@ export default InvitationFeature;
 const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
-	},
-	newPasscodeText: {
-		textDecorationLine: 'underline',
-		color: '#566674',
 	},
 });

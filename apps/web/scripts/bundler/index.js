@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const fs = require('fs-extra');
 const { readFileSync } = require('fs');
 const archiver = require('archiver');
@@ -28,6 +30,7 @@ const cloneExtensionBuild = async (platform, override = {}) => {
 	const indexTemplate = readFileSync('./metacraft/index.html', 'utf8');
 	const popupTemplate = indexTemplate.replace('<body>', '<body class="popup">');
 
+	mergedManifest.oauth2.client_id = process.env.EXTENSION_CLIENT_ID;
 	fs.outputFileSync('./metacraft/popup.html', popupTemplate);
 	fs.copySync(`./metacraft`, `./builds/${platform}`);
 	fs.writeJsonSync(manifestUri, mergedManifest, { spaces: 2 });

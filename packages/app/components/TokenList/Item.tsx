@@ -47,7 +47,8 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 
 export default TokenItem;
 
-const iconSize = 40;
+const iconSize = 28;
+const wrapperSize = iconSize + 12;
 
 const styles = StyleSheet.create({
 	container: {
@@ -63,9 +64,9 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	iconWrapper: {
-		width: iconSize,
-		height: iconSize,
-		borderRadius: iconSize / 2,
+		width: wrapperSize,
+		height: wrapperSize,
+		borderRadius: wrapperSize / 2,
 		backgroundColor: '#202634',
 		alignItems: 'center',
 		justifyContent: 'center',

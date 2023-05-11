@@ -1,83 +1,55 @@
 import { type FC } from 'react';
-import {
-	type StyleProp,
-	type ViewStyle,
-	Image,
-	StyleSheet,
-} from 'react-native';
-import { shortenAddress, TokenAccount } from '@walless/core';
-import { Hoverable, Text, View } from '@walless/gui';
-import { type TokenDocument } from '@walless/store';
-
-const formatTokenValue = (item: TokenAccount) => {
-	return parseFloat(item.balance) / 10 ** item.decimals;
-};
+import { type StyleProp, type ViewStyle } from 'react-native';
+import { shortenAddress } from '@walless/core';
+import { type MetadataDocument } from '@walless/store';
+import { Image, Stack, Text } from '@walless/ui';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	index: number;
-	item: TokenDocument;
+	item: MetadataDocument;
 }
 
-export const TokenItem: FC<Props> = ({ style, item }) => {
-	const { metadata = {}, account } = item;
-	const { name, symbol, imageUri } = metadata;
+export const TokenItem: FC<Props> = ({ item }) => {
+	const iconSize = 40;
+	const { _id, name, symbol, imageUri } = item;
 	const iconSource = {
 		uri: imageUri || '/img/question.png',
 	};
 
 	return (
-		<Hoverable style={[styles.container, style]}>
-			<View>
-				<View style={styles.iconWrapper}>
+		<Stack
+			flexDirection="row"
+			backgroundColor={'#131C24'}
+			paddingVertical={10}
+			paddingHorizontal={12}
+		>
+			<Stack>
+				<Stack
+					width={iconSize}
+					height={iconSize}
+					borderRadius={iconSize / 2}
+					backgroundColor={'#202634'}
+					alignItems="center"
+					justifyContent="center"
+				>
 					<Image
-						style={styles.iconImg}
-						source={iconSource}
+						src={iconSource}
+						width={iconSize}
+						height={iconSize}
+						borderRadius={iconSize / 2}
 						resizeMode="cover"
 					/>
-				</View>
-			</View>
-			<View style={styles.infoContainer}>
-				<Text>{symbol || name || shortenAddress(account.mint)}</Text>
-			</View>
-			<View style={styles.balanceContainer}>
-				<Text>{formatTokenValue(account)}</Text>
-			</View>
-		</Hoverable>
+				</Stack>
+			</Stack>
+			<Stack flex={1} paddingVertical={4} paddingHorizontal={12}>
+				<Text>{symbol || name || shortenAddress(_id)}</Text>
+			</Stack>
+			<Stack paddingVertical={4}>
+				<Text>0</Text>
+			</Stack>
+		</Stack>
 	);
 };
 
 export default TokenItem;
-
-const iconSize = 40;
-
-const styles = StyleSheet.create({
-	container: {
-		flexDirection: 'row',
-		backgroundColor: '#131C24',
-		paddingVertical: 10,
-		paddingHorizontal: 12,
-	},
-	iconImg: {
-		width: iconSize,
-		height: iconSize,
-		borderRadius: iconSize / 2,
-		overflow: 'hidden',
-	},
-	iconWrapper: {
-		width: iconSize,
-		height: iconSize,
-		borderRadius: iconSize / 2,
-		backgroundColor: '#202634',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	infoContainer: {
-		flex: 1,
-		paddingVertical: 4,
-		paddingHorizontal: 12,
-	},
-	balanceContainer: {
-		paddingVertical: 4,
-	},
-});

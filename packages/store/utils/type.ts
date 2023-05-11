@@ -5,6 +5,7 @@ import {
 	type HydratedKey,
 	type Setting,
 	type Token,
+	type TrustedDomain,
 	Networks,
 } from '@walless/core';
 import PouchDB from 'pouchdb-core';
@@ -16,6 +17,7 @@ export type DocumentType =
 	| 'PublicKey'
 	| 'Token'
 	| 'Metadata'
+	| 'TrustedDomain'
 	| 'Extension';
 
 export interface IndexedDocument {
@@ -48,3 +50,5 @@ export type ExtensionDocument = PouchDocument<ExtensionConfig>;
 export type TokenDocument = PouchDocument<Token>;
 
 export type MetadataDocument = PouchDocument<AssetMetadata>;
+
+export type TrustedDomainDocument = PouchDocument<TrustedDomain>;

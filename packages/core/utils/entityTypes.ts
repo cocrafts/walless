@@ -51,3 +51,9 @@ export interface Collectible {
 	collectionId?: string;
 	metadata?: AssetMetadata;
 }
+
+export interface TrustedDomain {
+	trusted: boolean;
+	timestamp: string;
+	connectCount: number;
+}

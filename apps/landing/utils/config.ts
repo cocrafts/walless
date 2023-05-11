@@ -22,5 +22,16 @@ export const resources = {
 				uri: '/img/home/preview-under-realm.png',
 			},
 		},
+		detail: {
+			backgroundSrc: {
+				uri: '/img/network/sky-card-bg.png',
+			},
+			largeIconSrc: {
+				uri: '/img/network/solana-icon-lg.png',
+			},
+			iconSrc: {
+				uri: '/img/network/solana-icon-sm.png',
+			},
+		},
 	},
 };

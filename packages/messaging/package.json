@@ -11,7 +11,8 @@
   },
   "peerDependencies": {
     "@walless/core": "*",
-    "@walless/crypto": "*"
+    "@walless/crypto": "*",
+    "@walless/store": "*"
   },
   "devDependencies": {
     "eslint": "8.38.0"

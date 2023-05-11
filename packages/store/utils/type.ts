@@ -1,15 +1,17 @@
 import {
-	AssetMetadata,
-	EncryptedWithPasscode,
-	ExtensionConfig,
+	type AssetMetadata,
+	type EncryptedWithPasscode,
+	type ExtensionConfig,
+	type HydratedKey,
+	type Setting,
+	type Token,
 	Networks,
-	Setting,
-	Token,
 } from '@walless/core';
 import PouchDB from 'pouchdb-core';
 
 export type DocumentType =
 	| 'Setting'
+	| 'EncryptionKey'
 	| 'PrivateKey'
 	| 'PublicKey'
 	| 'Token'
@@ -27,6 +29,8 @@ export type PouchDocument<T> = PouchDB.Core.Document<
 >;
 
 export type SettingDocument = PouchDocument<Setting>;
+
+export type EncryptionKeyDocument = PouchDocument<HydratedKey>;
 
 export type PrivateKeyDocument = PouchDocument<
 	EncryptedWithPasscode & {

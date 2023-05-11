@@ -1,5 +1,6 @@
 import { createEncryptionKeyVault } from '@walless/messaging';
-import { createStorage } from '@walless/storage';
+import { create } from '@walless/store';
+import IDBPouch from 'pouchdb-adapter-idb';
 
-export const db = createStorage();
+export const db = create('engine', IDBPouch);
 export const encryptionKeyVault = createEncryptionKeyVault(db);

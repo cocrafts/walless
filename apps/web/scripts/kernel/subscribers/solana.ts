@@ -2,8 +2,7 @@ import { AccountChangeCallback, PublicKey } from '@solana/web3.js';
 import { getSolanaTokensByAddress } from '@walless/network';
 import { PublicKeyDocument } from '@walless/store';
 import { flatten } from 'lodash';
-import { selectors } from 'utils/helper';
-import modules from 'utils/modules';
+import modules, { selectors } from 'utils/modules';
 
 import { solanaConnection } from '../utils/connection';
 import { connection, getLazySolanaMetatadata } from '../utils/solana';

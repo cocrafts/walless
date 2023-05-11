@@ -1,8 +1,7 @@
 import { getSuiTokensByAddress } from '@walless/network';
 import { PublicKeyDocument } from '@walless/store';
 import { flatten } from 'lodash';
-import { selectors } from 'utils/helper';
-import modules from 'utils/modules';
+import modules, { selectors } from 'utils/modules';
 
 import { provider } from '../utils/sui';
 

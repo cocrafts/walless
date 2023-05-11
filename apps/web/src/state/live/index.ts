@@ -5,8 +5,7 @@ import {
 	TokenDocument,
 } from '@walless/store';
 import { tokenActions, tokenState } from 'state/tokens';
-import { selectors } from 'utils/helper';
-import modules from 'utils/modules';
+import modules, { selectors } from 'utils/modules';
 
 import { extensionActions, extensionState } from '../extension';
 import { walletActions, walletState } from '../wallet';

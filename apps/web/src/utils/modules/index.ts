@@ -12,4 +12,6 @@ export const injectModules = async () => {
 	return modules;
 };
 
+export * from './helper';
+
 export default modules;

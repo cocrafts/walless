@@ -1,5 +1,12 @@
 import { Metaplex } from '@metaplex-foundation/js';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { type Connection, PublicKey } from '@solana/web3.js';
+import { Networks } from '@walless/core';
+import { type MetadataDocument } from '@walless/store';
+
+export type GetNftCollections = (
+	connection: Connection,
+	mintAddress: string,
+) => Promise<MetadataDocument>;
 
 export const getNftsByOwner = async (
 	connection: Connection,
@@ -9,10 +16,26 @@ export const getNftsByOwner = async (
 	return metaplex.nfts().findAllByOwner({ owner });
 };
 
-export const getNftCollections = async (
+export const getNftCollections: GetNftCollections = async (
 	connection: Connection,
-	mintAddress: PublicKey,
+	mintAddress: string,
 ) => {
+	const result: MetadataDocument = {
+		_id: mintAddress,
+		type: 'Metadata',
+		network: Networks.solana,
+		timestamp: new Date().toISOString(),
+	};
+	const mint = new PublicKey(mintAddress);
 	const metaplex = new Metaplex(connection);
-	return metaplex.nfts().findByMint({ mintAddress });
+	const collection = await metaplex.nfts().findByMint({ mintAddress: mint });
+	if (collection.collectionDetails) {
+		result.name = collection.json?.name;
+		result.symbol = collection.json?.symbol;
+		result.imageUri = collection.json?.image;
+
+		return result;
+	} else {
+		throw Error;
+	}
 };

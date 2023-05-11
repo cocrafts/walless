@@ -15,7 +15,7 @@ import {
 	UserCredential,
 } from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
-import { db } from 'utils/pouch';
+import modules from 'utils/modules';
 import { router } from 'utils/routing';
 import {
 	configureSecurityQuestionShare,
@@ -34,7 +34,7 @@ const cache: InternalCache = {};
 export const setProfile = async (profile: UserProfile) => {
 	appState.profile = profile;
 
-	await db.upsert<SettingDocument>('settings', async (doc) => {
+	await modules.storage.upsert<SettingDocument>('settings', async (doc) => {
 		doc.type = 'Setting';
 		doc.version = '0.0.1';
 		doc.profile = profile;
@@ -141,7 +141,7 @@ export const storeAuthenticatedRecords = async (
 		const encrypted = await encryptWithPasscode(passcode, key);
 
 		writePromises.push(
-			db.put<PrivateKeyDocument>({
+			modules.storage.put<PrivateKeyDocument>({
 				_id: id,
 				type: 'PrivateKey',
 				keyType: type,
@@ -156,7 +156,7 @@ export const storeAuthenticatedRecords = async (
 			const suiAddress = suiPair.getPublicKey().toSuiAddress();
 
 			writePromises.push(
-				db.put<PublicKeyDocument>({
+				modules.storage.put<PublicKeyDocument>({
 					_id: solAddress,
 					type: 'PublicKey',
 					privateKeyId: id,
@@ -165,7 +165,7 @@ export const storeAuthenticatedRecords = async (
 			);
 
 			writePromises.push(
-				db.put<PublicKeyDocument>({
+				modules.storage.put<PublicKeyDocument>({
 					_id: suiAddress,
 					privateKeyId: id,
 					type: 'PublicKey',

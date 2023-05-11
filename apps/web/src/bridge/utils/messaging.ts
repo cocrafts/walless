@@ -1,4 +1,4 @@
 import { createMessenger } from '@walless/messaging';
-import { encryptionKeyVault } from 'utils/storage';
+import modules from 'utils/modules';
 
-export const encryptedMessenger = createMessenger(encryptionKeyVault);
+export const encryptedMessenger = createMessenger(modules.encryptionKeyVault);

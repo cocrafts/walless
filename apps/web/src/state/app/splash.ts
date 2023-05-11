@@ -1,11 +1,11 @@
 import { type BootstrapResult, appState } from '@walless/app';
 import { SettingDocument } from '@walless/store';
-import { db } from 'utils/pouch';
+import modules from 'utils/modules';
 import { router } from 'utils/routing';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	const response: BootstrapResult = {};
-	const setting = await db.safeGet<SettingDocument>('settings');
+	const setting = await modules.storage.safeGet<SettingDocument>('settings');
 
 	if (setting?.profile?.email) {
 		response.profile = setting.profile;

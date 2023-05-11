@@ -1,7 +1,7 @@
 import { runtime } from '@walless/core';
 import { Channels } from '@walless/messaging';
 import { SettingDocument } from '@walless/store';
-import { db } from 'utils/pouch';
+import modules from 'utils/modules';
 import { registerServiceWorker } from 'utils/service-worker';
 
 import { encryptedMessenger } from './utils/messaging';
@@ -23,7 +23,7 @@ export const injectRuntime = async (): Promise<void> => {
 };
 
 const launchTabIfNotLoggedIn = async () => {
-	const settings = await db.safeGet<SettingDocument>('settings');
+	const settings = await modules.storage.safeGet<SettingDocument>('settings');
 
 	if (!settings?.profile?.email) {
 		chrome.tabs.query(

@@ -1,12 +1,13 @@
 import { getSuiTokensByAddress } from '@walless/network';
 import { PublicKeyDocument } from '@walless/store';
 import { flatten } from 'lodash';
-import { db, selectors } from 'utils/pouch';
+import { selectors } from 'utils/helper';
+import modules from 'utils/modules';
 
 import { provider } from '../utils/sui';
 
 export const subscribeSuiChanges = async () => {
-	const result = await db.find(selectors.suiKeys);
+	const result = await modules.storage.find(selectors.suiKeys);
 	const keys = result.docs as PublicKeyDocument[];
 	const tokenPromises = [];
 
@@ -19,7 +20,7 @@ export const subscribeSuiChanges = async () => {
 
 	await Promise.all(
 		tokenDocuments.map((token) => {
-			return db.upsert(token._id, async () => {
+			return modules.storage.upsert(token._id, async () => {
 				return token;
 			});
 		}),

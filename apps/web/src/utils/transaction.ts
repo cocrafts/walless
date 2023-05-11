@@ -11,7 +11,7 @@ import {
 	VersionedTransaction,
 } from '@solana/web3.js';
 import { Networks, Token, TransactionPayload } from '@walless/core';
-import { db } from 'utils/storage';
+import modules from 'utils/modules';
 
 const solConn = new Connection(clusterApiUrl('devnet'));
 const sampleKeypair = Keypair.generate();
@@ -85,10 +85,10 @@ export const createAndSend = async (
 
 export const getWalletPublicKey = async (network: Networks) => {
 	return (
-		await db.publicKeys.get({
-			network: network,
+		await modules.storage.find({
+			selector: { network: network },
 		})
-	)?.id;
+	).docs[0]._id;
 };
 
 type SendTokenProps = {

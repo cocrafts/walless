@@ -53,7 +53,9 @@ export const SolanaDashboard: FC<Props> = () => {
 				<MainFeatures
 					onReceivePress={() => showReceiveModal(Networks.solana)}
 				/>
-				<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
+				{publicKeys.length > 1 && (
+					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
+				)}
 			</Stack>
 			<Stack>
 				<TabsHeader

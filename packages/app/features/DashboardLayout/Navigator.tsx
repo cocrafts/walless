@@ -5,6 +5,7 @@ import { Compass } from '@walless/icons';
 import { ExtensionDocument } from '@walless/store';
 
 import NavigatorOrb from './NavigatorOrb';
+import RemoveLayout from './RemoveLayout';
 
 interface Props {
 	size?: number;
@@ -12,6 +13,7 @@ interface Props {
 	extensions: ExtensionDocument[];
 	getIsExtensionActive?: (item: ExtensionDocument) => boolean;
 	onExtensionPress?: (item: ExtensionDocument) => void;
+	onRemoveLayout: (item: ExtensionDocument) => void;
 }
 
 export const DashboardNavigator: FC<Props> = ({
@@ -20,6 +22,7 @@ export const DashboardNavigator: FC<Props> = ({
 	extensions,
 	getIsExtensionActive,
 	onExtensionPress,
+	onRemoveLayout,
 }) => {
 	const containerStyle = { width: size };
 	const exploreItem: Partial<ExtensionDocument> = {
@@ -48,13 +51,15 @@ export const DashboardNavigator: FC<Props> = ({
 							item={item}
 							isActive={isActive}
 							onPress={onExtensionPress}
+							ContextComponent={RemoveLayout}
+							onRemoveLayout={onRemoveLayout}
 						/>
 					);
 				})}
 				<NavigatorOrb
 					item={exploreItem as never}
-					onPress={onExtensionPress}
 					isActive={getIsExtensionActive?.(exploreItem as never)}
+					onPress={onExtensionPress}
 				>
 					<Compass size={22} />
 				</NavigatorOrb>

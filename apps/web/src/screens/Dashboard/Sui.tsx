@@ -39,7 +39,9 @@ export const SuiDashboard: FC<Props> = () => {
 			</Stack>
 			<Stack alignItems="center" gap={18}>
 				<MainFeatures onReceivePress={() => showReceiveModal(Networks.sui)} />
-				<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
+				{publicKeys.length > 1 && (
+					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
+				)}
 			</Stack>
 			<Stack>
 				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />

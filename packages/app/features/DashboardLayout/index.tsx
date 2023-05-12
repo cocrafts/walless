@@ -14,6 +14,7 @@ interface Props {
 	extensions: ExtensionDocument[];
 	getIsExtensionActive?: (item: ExtensionDocument) => boolean;
 	onExtensionPress?: (item: ExtensionDocument) => void;
+	onRemoveLayout: (item: ExtensionDocument) => void;
 }
 
 export const DashboardLayout: FC<Props> = ({
@@ -24,6 +25,7 @@ export const DashboardLayout: FC<Props> = ({
 	extensions,
 	getIsExtensionActive,
 	onExtensionPress,
+	onRemoveLayout,
 }) => {
 	return (
 		<View style={[styles.container, style]}>
@@ -33,6 +35,7 @@ export const DashboardLayout: FC<Props> = ({
 				extensions={extensions}
 				getIsExtensionActive={getIsExtensionActive}
 				onExtensionPress={onExtensionPress}
+				onRemoveLayout={onRemoveLayout}
 			/>
 			<ScrollView
 				showsVerticalScrollIndicator={false}

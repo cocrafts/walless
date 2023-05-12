@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 import { TextInput } from 'react-native';
-import { Button, Stack, Text } from '@walless/ui';
+import { Plus } from '@walless/icons';
+import { Button, Stack } from '@walless/ui';
 
 interface Props {
 	address?: string;
@@ -30,9 +31,7 @@ const InputAddress: FC<Props> = ({ address = '', onSubmit }) => {
 					backgroundColor={'transparent'}
 					onPress={handleSubmit}
 				>
-					<Text fontSize={12} color={'#566674'}>
-						Add more
-					</Text>
+					<Plus size={18} color={'#566674'} />
 				</Button>
 			</Stack>
 		</Stack>

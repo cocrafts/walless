@@ -1,8 +1,22 @@
 import { Twitter } from '@walless/icons';
-import { Button, Stack, Text } from '@walless/ui';
+import { Anchor, Button, Stack, Text } from '@walless/ui';
 import Image from 'next/image';
 
 const SocialCard = () => {
+	const tweetContent = [
+		'We just bring our UI elements onto this web3 wallet @walless_wallet with only a few clicks.',
+		'This demo shows how seamless the UI of wallet to our app! 🔥',
+		'Want to customize a wallet layout to your own brand?\n👉🌐 https://walless.io/',
+		'', // empty line to separate the content and hashtags
+	];
+
+	const tweetHastags = ['web3wallet', 'Solana', 'Solanawallet'];
+
+	const tweetShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+		tweetContent.join('\n\n'),
+	)}&hashtags=${encodeURIComponent(tweetHastags.join(','))}
+		`;
+
 	return (
 		<Stack
 			backgroundColor="#172028"
@@ -37,7 +51,9 @@ const SocialCard = () => {
 					gap={4}
 				>
 					<Twitter size={16} />
-					<Text fontWeight="500">Tweet</Text>
+					<Anchor href={tweetShare} target="_blank" color="white">
+						Tweet
+					</Anchor>
 				</Button>
 			</Stack>
 

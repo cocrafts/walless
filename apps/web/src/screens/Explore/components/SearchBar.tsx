@@ -23,6 +23,7 @@ const SearchBar: FC<Props> = ({ onSearch }) => {
 				placeholder="Explore exciting project"
 				placeholderTextColor="#566674"
 				fontSize={15}
+				color={'#000000'}
 				flex={1}
 				padding={12}
 				paddingRight={8}

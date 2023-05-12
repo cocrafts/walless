@@ -1,21 +1,26 @@
+import { Linking } from 'react-native';
 import { Twitter } from '@walless/icons';
 import { Anchor, Button, Stack, Text } from '@walless/ui';
 import Image from 'next/image';
 
 const SocialCard = () => {
 	const tweetContent = [
-		'We just bring our UI elements onto this web3 wallet @walless_wallet with only a few clicks.',
-		'This demo shows how seamless the UI of wallet to our app! 🔥',
-		'Want to customize a wallet layout to your own brand?\n👉🌐 https://walless.io/',
+		"I just created our own Dapp/ Game's UI elements into a crypto wallet with @walless_wallet.",
+		'I can custom everything from color, logo, banner,...',
+		'This no-code wallet tool makes our dev work so much easier.',
+		'Try Walless now 👉 https://walless.io/',
 		'', // empty line to separate the content and hashtags
 	];
 
-	const tweetHastags = ['web3wallet', 'Solana', 'Solanawallet'];
+	const tweetHastags = ['web3wallet', 'Solana', 'wallet'];
 
 	const tweetShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
 		tweetContent.join('\n\n'),
 	)}&hashtags=${encodeURIComponent(tweetHastags.join(','))}
 		`;
+
+	const handleContact = () =>
+		Linking.openURL('https://forms.gle/UypLEFvZsc1BxAXdA');
 
 	return (
 		<Stack
@@ -57,7 +62,11 @@ const SocialCard = () => {
 				</Button>
 			</Stack>
 
-			<Button backgroundColor="#0694D3" borderRadius={10}>
+			<Button
+				backgroundColor="#0694D3"
+				borderRadius={10}
+				onPress={handleContact}
+			>
 				<Text>Interested? Contact us</Text>
 			</Button>
 		</Stack>

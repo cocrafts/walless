@@ -30,7 +30,12 @@ const EditTool = () => {
 	const [activeTool, setActiveTool] = useState<ToolboxItem>(tools[0] ?? null);
 
 	return (
-		<ContainerStack marginTop={72} maxWidth={1500} alignItems="center">
+		<ContainerStack
+			marginTop={72}
+			maxWidth={1500}
+			scale={0.8}
+			alignItems="center"
+		>
 			<Header />
 
 			<Stack marginTop={40} marginBottom={-50} justifyContent="center">

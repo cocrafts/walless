@@ -25,7 +25,7 @@ export const WalletBalance: FC<Props> = ({ token }) => {
 				</TargetWrapper>
 			</Stack>
 			<Text opacity={0.6} marginLeft={34}>
-				~ 0USD
+				~ 0 USD
 			</Text>
 		</Stack>
 	);

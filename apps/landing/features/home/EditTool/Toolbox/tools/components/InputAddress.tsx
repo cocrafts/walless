@@ -1,14 +1,19 @@
 import { type FC, useState } from 'react';
 import { TextInput } from 'react-native';
-import { Button, Stack, Text } from '@walless/ui';
+import { Plus } from '@walless/icons';
+import { Button, Stack } from '@walless/ui';
 
 interface Props {
+	address?: string;
 	onSubmit: (value: string) => void;
 }
 
-const InputAddress: FC<Props> = ({ onSubmit }) => {
-	const [value, setValue] = useState('');
-	const handleSubmit = () => onSubmit(value);
+const InputAddress: FC<Props> = ({ address = '', onSubmit }) => {
+	const [value, setValue] = useState(address);
+	const handleSubmit = () => {
+		onSubmit(value);
+		setValue('');
+	};
 
 	return (
 		<Stack
@@ -18,7 +23,7 @@ const InputAddress: FC<Props> = ({ onSubmit }) => {
 			flexDirection="row"
 			gap={4}
 		>
-			<TextInput onChangeText={(text) => setValue(text)} />
+			<TextInput value={value} onChangeText={(text) => setValue(text)} />
 			<Stack>
 				<Button
 					padding={10}
@@ -26,9 +31,7 @@ const InputAddress: FC<Props> = ({ onSubmit }) => {
 					backgroundColor={'transparent'}
 					onPress={handleSubmit}
 				>
-					<Text fontSize={12} color={'#566674'}>
-						Add more
-					</Text>
+					<Plus size={18} color={'#566674'} />
 				</Button>
 			</Stack>
 		</Stack>

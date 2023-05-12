@@ -72,8 +72,11 @@ export const signInWithGoogle = async () => {
 		);
 
 		key.serviceProvider.postboxKey = loginDetails.privateKey as never;
+
+		/* eslint-disable */
 		(key.serviceProvider as any).verifierName = verifier;
 		(key.serviceProvider as any).verifierId = verifierId;
+		/* eslint-enable */
 
 		await key.initialize();
 		const status = await importAvailableShares();

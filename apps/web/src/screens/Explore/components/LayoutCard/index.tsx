@@ -1,14 +1,33 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { modules } from '@walless/app';
 import { Heart } from '@walless/icons';
 import { Image, Stack, Text } from '@walless/ui';
 import { LayoutCardProps } from 'screens/Explore/internal';
 
 import AddLayoutBtn from './AddLayoutBtn';
+import RemoveLayoutBtn from './RemoveLayoutBtn ';
 
-const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
+const LayoutCard: FC<LayoutCardProps> = ({
+	item,
+	onLovePress,
+	onAddPress,
+	onRemovePress,
+}) => {
 	const { storeMeta } = item;
 	const coverSrc = { uri: storeMeta.coverUri };
 	const iconSrc = { uri: storeMeta.iconUri };
+	const [isAdded, setIsAdded] = useState(false);
+
+	useEffect(() => {
+		modules.storage
+			.get(item._id)
+			.then(() => {
+				setIsAdded(true);
+			})
+			.catch(() => {
+				setIsAdded(false);
+			});
+	}, [modules.storage]);
 
 	return (
 		<Stack backgroundColor="#131C24" height={259} borderRadius={12}>
@@ -103,7 +122,11 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 						</Stack>
 					</Stack>
 
-					<AddLayoutBtn handleAddLayout={() => onAddPress?.(item)} />
+					{isAdded ? (
+						<RemoveLayoutBtn onRemovePress={() => onRemovePress?.(item)} />
+					) : (
+						<AddLayoutBtn handleAddLayout={() => onAddPress?.(item)} />
+					)}
 				</Stack>
 			</Stack>
 		</Stack>

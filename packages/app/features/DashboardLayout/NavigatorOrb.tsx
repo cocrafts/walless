@@ -1,4 +1,4 @@
-import { type FC, type ReactNode, useRef } from 'react';
+import { type FC, type ReactNode, useEffect, useRef } from 'react';
 import { Image, StyleSheet, ViewStyle } from 'react-native';
 import {
 	Easing,
@@ -48,6 +48,7 @@ export const NavigatorOrb: FC<Props> = ({
 	const iconUri = item.storeMeta?.iconUri;
 	const iconSource = { uri: iconUri };
 	const offset = useSharedValue(0);
+	const radius = useSharedValue(isActive ? 1000 : 15);
 	const hoverBarStyle = useAnimatedStyle(() => {
 		return {
 			opacity: offset.value,
@@ -58,10 +59,15 @@ export const NavigatorOrb: FC<Props> = ({
 		};
 	}, [offset]);
 
-	const orbStyle = {
-		backgroundColor: iconColor,
-		borderRadius: isActive ? 1000 : 15,
-	};
+	const orbStyle = useAnimatedStyle(() => {
+		return {
+			backgroundColor: iconColor,
+			borderRadius: withTiming(radius.value, {
+				duration: 320,
+				easing: Easing.bezier(0.51, 0.58, 0.23, 0.99),
+			}),
+		};
+	}, [isActive]);
 
 	const iconImgStyle = {
 		width: iconSize,
@@ -102,6 +108,10 @@ export const NavigatorOrb: FC<Props> = ({
 		});
 	};
 
+	useEffect(() => {
+		radius.value = isActive ? orbSize / 2 : 15;
+	}, [isActive]);
+
 	return (
 		<View ref={containerRef} style={styles.container}>
 			{hasUpdate && <View style={styles.activityDot} />}
@@ -131,7 +141,7 @@ export default NavigatorOrb;
 
 const orbSize = 40;
 const barWidth = 4;
-const barHoverHeight = 8;
+const barHoverHeight = 18;
 const barStyle: ViewStyle = {
 	backgroundColor: 'white',
 	position: 'absolute',

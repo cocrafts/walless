@@ -1,8 +1,13 @@
 import { type FC } from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	type ViewStyle,
+	Image,
+	StyleSheet,
+	TouchableOpacity,
+} from 'react-native';
 import { modalActions, Text, View } from '@walless/gui';
-import { ModalConfigs } from '@walless/gui';
-import { ExtensionDocument } from '@walless/store';
+import { type ModalConfigs } from '@walless/gui';
+import { type ExtensionDocument } from '@walless/store';
 
 import RemoveSymbol from './RemoveSymbol';
 
@@ -26,7 +31,7 @@ const RemoveLayout: FC<{
 		modalActions.destroy(`navigator-orb-${item._id}`);
 	};
 
-	const imageBackground = {
+	const imageBackground: ViewStyle = {
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: 36,

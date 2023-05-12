@@ -12,7 +12,7 @@ export const injectModules = async () => {
 
 	modules.engine = createEngine({
 		storage: modules.storage,
-		defaultEndpoint: 'testnet',
+		defaultEndpoint: __DEV__ ? 'devnet' : 'mainnet',
 	});
 
 	modules.engine.start();

@@ -179,4 +179,5 @@ export const storeAuthenticatedRecords = async (
 	}
 
 	await Promise.all(writePromises);
+	modules.engine.start();
 };

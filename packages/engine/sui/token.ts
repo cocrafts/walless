@@ -18,7 +18,6 @@ export const suiTokensByAddress = async ({
 	metadataFetcher = getSuiMetadata,
 }: TokenByAddressOption): Promise<TokenDocument[]> => {
 	const { data } = await connection.getAllCoins({ owner: address });
-	console.log(data, address);
 	const details = await connection.multiGetObjects({
 		ids: data.map((i) => i.coinObjectId),
 		options: { showType: true, showDisplay: true },

@@ -1,10 +1,8 @@
 import { runtime } from '@walless/core';
-import { Channels } from '@walless/messaging';
 import { SettingDocument } from '@walless/store';
 import modules from 'utils/modules';
 import { registerServiceWorker } from 'utils/service-worker';
 
-import { encryptedMessenger } from './utils/messaging';
 import { registerMessageHandlers } from './listeners';
 
 export const injectRuntime = async (): Promise<void> => {
@@ -12,7 +10,6 @@ export const injectRuntime = async (): Promise<void> => {
 
 	if (runtime.isExtension) {
 		await launchTabIfNotLoggedIn();
-		await encryptedMessenger.send(Channels.kernel, {} as never);
 	} else {
 		if (__DEV__) {
 			require('../../scripts/kernel');

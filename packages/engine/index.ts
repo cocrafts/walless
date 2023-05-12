@@ -10,6 +10,7 @@ export interface Engine {
 	start: () => void;
 	setEndpoint: (network: Networks, id: Endpoint) => void;
 	getEndpoint: (network: Networks) => Endpoint;
+	getConnection: <T>(network: Networks) => T;
 }
 
 interface CreateEngineOptions {
@@ -55,6 +56,7 @@ export const createEngine = ({
 			crawlers.sui.start();
 			crawlers.solana.start();
 		},
+		getConnection: (network) => crawlers[network]?.connection,
 	};
 };
 

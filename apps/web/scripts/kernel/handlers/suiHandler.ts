@@ -6,8 +6,8 @@ import {
 	ResponsePayload,
 } from '@walless/messaging';
 import { decode } from 'bs58';
+import modules from 'utils/modules';
 
-import { suiProvider } from '../utils/connection';
 import {
 	getPrivateKey,
 	settings,
@@ -23,7 +23,10 @@ export const handleSignTransaction: MessengerCallback = async (
 		return;
 	}
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
-	const signer = new RawSigner(keypair, suiProvider);
+	const signer = new RawSigner(
+		keypair,
+		modules.engine.getConnection(Networks.sui),
+	);
 
 	const transaction = TransactionBlock.from(payload.transaction as string);
 
@@ -67,7 +70,10 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 	}
 
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(0, 32));
-	const signer = new RawSigner(keypair, suiProvider);
+	const signer = new RawSigner(
+		keypair,
+		modules.engine.getConnection(Networks.sui),
+	);
 
 	const transaction = TransactionBlock.from(payload.transaction as string);
 
@@ -93,7 +99,10 @@ export const handleSignMessage: MessengerCallback = async (
 		return;
 	}
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
-	const signer = new RawSigner(keypair, suiProvider);
+	const signer = new RawSigner(
+		keypair,
+		modules.engine.getConnection(Networks.sui),
+	);
 
 	const message = decode(payload.message);
 

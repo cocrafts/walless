@@ -7,8 +7,8 @@ import {
 } from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
 import { decode, encode } from 'bs58';
+import modules from 'utils/modules';
 
-import { solanaConnection } from '../utils/connection';
 import {
 	getPrivateKey,
 	settings,
@@ -74,7 +74,7 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 
 	try {
 		responsePayload.signatureString = await signAndSendTransaction(
-			solanaConnection,
+			modules.engine.getConnection(Networks.solana),
 			transaction,
 			payload.options || {},
 			privateKey as Uint8Array,

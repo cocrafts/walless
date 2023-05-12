@@ -8,11 +8,9 @@ import {
 	MessengerMessageListener,
 	MessengerSend,
 } from '@walless/messaging';
-import { isEmpty } from 'lodash';
 import modules from 'utils/modules';
 
 import { onKernelMessage } from './handlers/kernel';
-import { handleWalletClose, handleWalletOpen } from './subscribers';
 
 const channels = [
 	Channels.ui,
@@ -32,10 +30,8 @@ export const initializeMessaging = async (): Promise<void> => {
 
 	if (runtime.isExtension) {
 		const callbackRegistry: Record<string, MessengerCallback> = {};
-		const portRegistry: Record<string, chrome.runtime.Port> = {};
 
 		runtime.onConnect.addListener((port) => {
-			const portId = extractPortId(port);
 			const handleInComingMessage = async (message: EncryptedMessage) => {
 				const registeredCallback = callbackRegistry[port.name];
 				const isEncrypted = !!message?.iv;
@@ -55,18 +51,10 @@ export const initializeMessaging = async (): Promise<void> => {
 			const handleDisconnect = () => {
 				port.onMessage.removeListener(handleInComingMessage);
 				port.onDisconnect.removeListener(handleDisconnect);
-				delete portRegistry[portId];
-
-				if (isEmpty(portRegistry)) {
-					handleWalletClose();
-				}
 			};
 
 			port.onMessage.addListener(handleInComingMessage);
 			port.onDisconnect.addListener(handleDisconnect);
-
-			if (isEmpty(portRegistry)) handleWalletOpen();
-			portRegistry[portId] = port;
 		});
 
 		sendMessage = async (channelId, payload) => {
@@ -82,19 +70,7 @@ export const initializeMessaging = async (): Promise<void> => {
 
 		sendMessage = encryptedMessenger.send;
 		registerIncomingMessage = encryptedMessenger.onMessage;
-
-		handleWalletOpen();
 	}
 
 	registerIncomingMessage?.('kernel', onKernelMessage);
-};
-
-interface RuntimeSender {
-	id: string;
-	documentId?: string;
-}
-
-export const extractPortId = (port: chrome.runtime.Port): string => {
-	const { id, documentId } = (port?.sender || {}) as RuntimeSender;
-	return documentId || id;
 };

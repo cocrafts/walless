@@ -12,8 +12,11 @@ export const createConnectionPool = <T>({
 	return {
 		create,
 		get: (id) => {
-			if (cache[id]) return cache[id];
-			return create(id);
+			if (!cache[id]) {
+				cache[id] = create(id);
+			}
+
+			return cache[id];
 		},
 	};
 };

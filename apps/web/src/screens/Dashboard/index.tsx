@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { Outlet } from 'react-router-dom';
-import { DashboardLayout, modules } from '@walless/app';
+import { DashboardLayout } from '@walless/app';
+import { modules } from '@walless/ioc';
 import { type ExtensionDocument } from '@walless/store';
 import { appState } from 'state/app';
 import { extensionState } from 'state/extension';

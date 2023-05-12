@@ -25,7 +25,7 @@ export const TabItem: FC<Props> = ({
 			paddingVertical={6}
 			onPress={() => onPress?.(item)}
 		>
-			<Text fontSize={14} fontWeight="600" color={color}>
+			<Text fontSize={14} fontWeight="500" color={color}>
 				{item.title}
 			</Text>
 		</Button>

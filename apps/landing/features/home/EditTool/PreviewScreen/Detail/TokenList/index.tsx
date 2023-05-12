@@ -1,60 +1,29 @@
-import { type FC } from 'react';
-import {
-	type ListRenderItem,
-	type StyleProp,
-	type ViewStyle,
-	FlatList,
-	StyleSheet,
-} from 'react-native';
-import { type TokenDocument } from '@walless/store';
+import { type FC, Fragment } from 'react';
+import { type MetadataDocument } from '@walless/store';
+import { ScrollView } from '@walless/ui';
 
 import Separator from './Separator';
 import TokenItem from './TokenItem';
 
 interface Props {
-	style?: StyleProp<ViewStyle>;
-	contentContainerStyle?: StyleProp<ViewStyle>;
-	items: TokenDocument[];
+	items: MetadataDocument[];
 }
 
-export const TokenList: FC<Props> = ({
-	style,
-	contentContainerStyle = { paddingVertical: 12 },
-	items,
-}) => {
-	const renderItem: ListRenderItem<TokenDocument> = ({ item, index }) => {
-		const isFirst = index === 0;
-		const isLast = index === items.length - 1;
-
-		return (
-			<TokenItem
-				index={index}
-				item={item}
-				style={[isFirst && styles.firstItem, isLast && styles.lastItem]}
-			/>
-		);
-	};
-
+export const TokenList: FC<Props> = ({ items }) => {
 	return (
-		<FlatList
-			style={style}
-			contentContainerStyle={contentContainerStyle}
-			data={items}
-			renderItem={renderItem}
-			ItemSeparatorComponent={Separator}
-		/>
+		<ScrollView marginVertical={12}>
+			{items.map((item, index) => {
+				const isLast = index === items.length - 1;
+
+				return (
+					<Fragment key={item._id}>
+						<TokenItem index={0} item={item} />
+						{!isLast && <Separator />}
+					</Fragment>
+				);
+			})}
+		</ScrollView>
 	);
 };
 
 export default TokenList;
-
-const styles = StyleSheet.create({
-	firstItem: {
-		borderTopLeftRadius: 12,
-		borderTopRightRadius: 12,
-	},
-	lastItem: {
-		borderBottomLeftRadius: 12,
-		borderBottomRightRadius: 12,
-	},
-});

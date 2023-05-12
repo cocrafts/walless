@@ -1,3 +1,4 @@
+import { MetadataDocument } from '@walless/store';
 import { Target } from 'features/home/EditTool/internal';
 
 import { appState } from './internal';
@@ -20,6 +21,22 @@ export const editToolActions = {
 	},
 	setProjectBanner: (banner: string) => {
 		appState.tools.project.banner = banner;
+	},
+	setDetailToken: (tokenMetadata: MetadataDocument) => {
+		appState.tools.detail.tokens[tokenMetadata._id] = tokenMetadata;
+	},
+	deleteDetailToken: (id: string) => {
+		delete appState.tools.detail.tokens[id];
+	},
+	setDetailCollectibe: (collectibleMetadata: MetadataDocument) => {
+		appState.tools.detail.collectibles[collectibleMetadata._id] =
+			collectibleMetadata;
+	},
+	deleteDetailCollectible: (id: string) => {
+		delete appState.tools.detail.collectibles[id];
+	},
+	setDetailIcon: (icon: string) => {
+		appState.tools.detail.icon = icon;
 	},
 };
 

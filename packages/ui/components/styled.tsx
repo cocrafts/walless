@@ -32,7 +32,7 @@ export type CircleProps = GetProps<typeof Circle>;
 
 export const Text = styled(TamaguiText, {
 	name: 'Text',
-	color: '#dedede',
+	color: '#FFFFFF',
 	fontFamily: 'Rubik',
 });
 

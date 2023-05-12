@@ -7,12 +7,12 @@ const SocialCard = () => {
 	const tweetContent = [
 		"I just created our own Dapp/ Game's UI elements into a crypto wallet with @walless_wallet.",
 		'I can custom everything from color, logo, banner,...',
-		'This no-code wallettool makes our dev work so much easier.',
+		'This no-code wallet tool makes our dev work so much easier.',
 		'Try Walless now 👉 https://walless.io/',
 		'', // empty line to separate the content and hashtags
 	];
 
-	const tweetHastags = ['web3wallet', 'Solana'];
+	const tweetHastags = ['web3wallet', 'Solana', 'wallet'];
 
 	const tweetShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
 		tweetContent.join('\n\n'),

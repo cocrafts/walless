@@ -41,10 +41,10 @@ export const TokenItem: FC<Props> = ({ item }) => {
 				/>
 			</Stack>
 			<Stack flex={1} paddingVertical={4} paddingHorizontal={12}>
-				<Text>{symbol || name || shortenAddress(_id)}</Text>
+				<Text fontWeight={'500'}>{symbol || name || shortenAddress(_id)}</Text>
 			</Stack>
 			<Stack paddingVertical={4}>
-				<Text>0</Text>
+				<Text fontWeight={'500'}>0</Text>
 			</Stack>
 		</Stack>
 	);

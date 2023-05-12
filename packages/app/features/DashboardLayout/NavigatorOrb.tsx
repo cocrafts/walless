@@ -25,8 +25,8 @@ interface Props {
 	isActive?: boolean;
 	hasUpdate?: boolean;
 	children?: ReactNode;
-	onPress?: (item: ExtensionDocument) => void;
 	component?: FC<{ config: ModalConfigs }>;
+	onPress?: (item: ExtensionDocument) => void;
 }
 
 export const NavigatorOrb: FC<Props> = ({
@@ -34,8 +34,8 @@ export const NavigatorOrb: FC<Props> = ({
 	isActive,
 	hasUpdate,
 	children,
-	onPress,
 	component,
+	onPress,
 }) => {
 	const containerRef = useRef(null);
 	const iconColor = item.storeMeta?.iconColor || 'white';
@@ -83,7 +83,7 @@ export const NavigatorOrb: FC<Props> = ({
 		modalActions.show({
 			id: `navigator-orb-${item._id}`,
 			component: component,
-			context: item,
+			context: { item },
 			bindingRef: containerRef,
 			maskActiveOpacity: 0,
 			bindingDirection: BindDirections.Right,

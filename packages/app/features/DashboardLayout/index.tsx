@@ -1,8 +1,10 @@
-import { type FC, type ReactNode } from 'react';
+import { type FC, type ReactNode, useEffect } from 'react';
 import { type ViewStyle, ScrollView, StyleSheet } from 'react-native';
 import { UserProfile } from '@walless/core';
 import { View } from '@walless/gui';
 import { ExtensionDocument } from '@walless/store';
+
+import { appState } from '../../state/app';
 
 import Navigator from './Navigator';
 
@@ -14,6 +16,7 @@ interface Props {
 	extensions: ExtensionDocument[];
 	getIsExtensionActive?: (item: ExtensionDocument) => boolean;
 	onExtensionPress?: (item: ExtensionDocument) => void;
+	onRemoveLayout: (item: ExtensionDocument) => void;
 }
 
 export const DashboardLayout: FC<Props> = ({
@@ -24,7 +27,12 @@ export const DashboardLayout: FC<Props> = ({
 	extensions,
 	getIsExtensionActive,
 	onExtensionPress,
+	onRemoveLayout,
 }) => {
+	useEffect(() => {
+		appState.removeLayout = onRemoveLayout;
+	}, []);
+
 	return (
 		<View style={[styles.container, style]}>
 			<Navigator

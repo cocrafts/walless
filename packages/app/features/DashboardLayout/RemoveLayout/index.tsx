@@ -3,19 +3,26 @@ import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { modalActions, Text, View } from '@walless/gui';
 import { ModalConfigs } from '@walless/gui';
 import { ExtensionDocument } from '@walless/store';
-import { db } from 'utils/pouch';
-import { router } from 'utils/routing';
+
+import { appState } from '../../../state/app';
 
 import RemoveSymbol from './RemoveSymbol';
 
-const RemoveLayout: FC<{ config: ModalConfigs }> = ({ config }) => {
-	const { name, networkMeta, _id } = config.context as ExtensionDocument;
+type Layout = ExtensionDocument & {
+	_deleted?: boolean;
+};
 
-	const removeLayout = async () => {
-		config.context._deleted = true;
-		await db.put(config.context);
-		await router.navigate('/');
-		modalActions.destroy(`navigator-orb-${_id}`);
+export interface RemoveContextProps {
+	item: Layout;
+}
+
+const RemoveLayout: FC<{ config: ModalConfigs }> = ({ config }) => {
+	const { item } = config.context as RemoveContextProps;
+
+	const handleRemoveLayout = async () => {
+		item._deleted = true;
+		await appState.removeLayout(item);
+		modalActions.destroy(`navigator-orb-${item._id}`);
 	};
 
 	const imageBackground = {
@@ -24,20 +31,20 @@ const RemoveLayout: FC<{ config: ModalConfigs }> = ({ config }) => {
 		width: 36,
 		height: 36,
 		borderRadius: 6,
-		backgroundColor: networkMeta?.iconColor || 'white',
+		backgroundColor: item.networkMeta?.iconColor || 'white',
 	};
 
 	return (
-		<TouchableOpacity style={styles.container} onPress={removeLayout}>
+		<TouchableOpacity style={styles.container} onPress={handleRemoveLayout}>
 			<View style={styles.layoutInfoContainer}>
 				<View style={imageBackground}>
 					<Image
-						source={{ uri: networkMeta?.iconUri }}
+						source={{ uri: item.networkMeta?.iconUri }}
 						alt="network logo"
 						style={styles.image}
 					/>
 				</View>
-				<Text style={styles.layoutTitle}>{name}</Text>
+				<Text style={styles.layoutTitle}>{item.name}</Text>
 			</View>
 			<View style={styles.separatingLine} />
 			<View style={styles.removeCTAContainer}>

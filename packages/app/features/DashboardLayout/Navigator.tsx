@@ -4,9 +4,8 @@ import { UserProfile } from '@walless/core';
 import { Compass } from '@walless/icons';
 import { ExtensionDocument } from '@walless/store';
 
-import RemoveLayout from '../../../../apps/web/src/screens/Dashboard/RemoveLayout';
-
 import NavigatorOrb from './NavigatorOrb';
+import RemoveLayout from './RemoveLayout';
 
 interface Props {
 	size?: number;
@@ -56,8 +55,8 @@ export const DashboardNavigator: FC<Props> = ({
 				})}
 				<NavigatorOrb
 					item={exploreItem as never}
-					onPress={onExtensionPress}
 					isActive={getIsExtensionActive?.(exploreItem as never)}
+					onPress={onExtensionPress}
 				>
 					<Compass size={22} />
 				</NavigatorOrb>

@@ -5,6 +5,7 @@ import { ExtensionDocument } from '@walless/store';
 import { appState } from 'state/app';
 import { extensionState } from 'state/extension';
 import { useLocation, useParams, useSnapshot } from 'utils/hooks';
+import db from 'utils/pouch';
 import { router } from 'utils/routing';
 
 export const DashboardScreen: FC = () => {
@@ -22,12 +23,18 @@ export const DashboardScreen: FC = () => {
 		await router.navigate(`/${item._id}`);
 	};
 
+	const removeLayout = async (layout: ExtensionDocument) => {
+		await db.put(layout);
+		await router.navigate('/');
+	};
+
 	return (
 		<DashboardLayout
 			profile={profile}
 			extensions={extensions}
 			getIsExtensionActive={getRouteActive}
 			onExtensionPress={handleExtensionPress}
+			onRemoveLayout={removeLayout}
 		>
 			<Outlet />
 		</DashboardLayout>

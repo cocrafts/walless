@@ -1,0 +1,24 @@
+{
+  "name": "@walless/engine",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "@mysten/sui.js": "0.33.0",
+    "@solana/web3.js": "1.75.0",
+    "@solana/spl-token": "0.3.7",
+    "@walless/core": "*",
+    "@walless/store": "*",
+    "@walless/network": "*",
+    "valtio": "1.10.4"
+  },
+  "devDependencies": {
+    "eslint": "8.38.0"
+  }
+}

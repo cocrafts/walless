@@ -8836,6 +8836,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@walless/engine@*, @walless/engine@workspace:packages/engine":
+  version: 0.0.0-use.local
+  resolution: "@walless/engine@workspace:packages/engine"
+  dependencies:
+    "@mysten/sui.js": 0.33.0
+    "@solana/web3.js": 1.75.0
+    "@walless/core": "*"
+    "@walless/store": "*"
+    eslint: 8.38.0
+    valtio: 1.10.4
+  languageName: unknown
+  linkType: soft
+
 "@walless/eslint-config@*, @walless/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@walless/eslint-config@workspace:packages/eslint-config"
@@ -8915,6 +8928,7 @@ __metadata:
   peerDependencies:
     "@walless/core": "*"
     "@walless/crypto": "*"
+    "@walless/store": "*"
   languageName: unknown
   linkType: soft
 
@@ -9064,6 +9078,7 @@ __metadata:
     "@tkey/web-storage": 9.0.0
     "@walless/core": "*"
     "@walless/crypto": "*"
+    "@walless/engine": "*"
     "@walless/gui": "*"
     "@walless/icons": "*"
     "@walless/markdown": "*"

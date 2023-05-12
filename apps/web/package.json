@@ -25,6 +25,7 @@
     "@tkey/web-storage": "9.0.0",
     "@walless/core": "*",
     "@walless/crypto": "*",
+    "@walless/engine": "*",
     "@walless/gui": "*",
     "@walless/icons": "*",
     "@walless/markdown": "*",

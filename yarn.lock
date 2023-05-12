@@ -8841,8 +8841,10 @@ __metadata:
   resolution: "@walless/engine@workspace:packages/engine"
   dependencies:
     "@mysten/sui.js": 0.33.0
+    "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
     "@walless/core": "*"
+    "@walless/network": "*"
     "@walless/store": "*"
     eslint: 8.38.0
     valtio: 1.10.4

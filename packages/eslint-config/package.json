@@ -2,7 +2,14 @@
   "name": "@walless/eslint-config",
   "version": "0.0.1",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "base.js"
+  ],
   "license": "MIT",
+  "scripts": {
+    "publish": "npm publish --access public"
+  },
   "dependencies": {
     "@next/eslint-plugin-next": "^13.2.4",
     "@typescript-eslint/eslint-plugin": "^5.57.0",

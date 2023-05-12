@@ -1,14 +1,4 @@
 import { Networks } from '@walless/core';
-import { configure, create } from '@walless/store';
-import IDBPouch from 'pouchdb-adapter-idb';
-
-export const db = create('engine', IDBPouch);
-
-export const initializeStorage = async () => {
-	await configure(db);
-};
-
-export default db;
 
 export const selectors = {
 	allExtensions: { selector: { type: 'Extension' } },
@@ -16,4 +6,5 @@ export const selectors = {
 	solanaKeys: { selector: { type: 'PublicKey', network: Networks.solana } },
 	suiKeys: { selector: { type: 'PublicKey', network: Networks.sui } },
 	allTokens: { selector: { type: 'Token' } },
+	trustedDomains: { selector: { type: 'TrustedDomain' } },
 };

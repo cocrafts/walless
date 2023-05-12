@@ -9,9 +9,9 @@ import {
 	MessengerSend,
 } from '@walless/messaging';
 import { isEmpty } from 'lodash';
+import modules from 'utils/modules';
 
 import { onKernelMessage } from './handlers/kernel';
-import { encryptionKeyVault } from './storage';
 import { handleWalletClose, handleWalletOpen } from './subscribers';
 
 const channels = [
@@ -27,7 +27,7 @@ export let registerIncomingMessage: MessengerMessageListener;
 
 export const initializeMessaging = async (): Promise<void> => {
 	await Promise.all(
-		channels.map((id) => encryptionKeyVault.createAndHydrate(id)),
+		channels.map((id) => modules.encryptionKeyVault.createAndHydrate(id)),
 	);
 
 	if (runtime.isExtension) {
@@ -42,7 +42,7 @@ export const initializeMessaging = async (): Promise<void> => {
 
 				if (registeredCallback) {
 					if (isEncrypted) {
-						const key = await encryptionKeyVault.get(port.name);
+						const key = await modules.encryptionKeyVault.get(port.name);
 						const decrypted = await decryptMessage(message, key);
 
 						registeredCallback?.(decrypted, port);
@@ -78,7 +78,7 @@ export const initializeMessaging = async (): Promise<void> => {
 			callbackRegistry[channelId] = handler;
 		};
 	} else {
-		const encryptedMessenger = createMessenger(encryptionKeyVault);
+		const encryptedMessenger = createMessenger(modules.encryptionKeyVault);
 
 		sendMessage = encryptedMessenger.send;
 		registerIncomingMessage = encryptedMessenger.onMessage;

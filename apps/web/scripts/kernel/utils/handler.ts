@@ -2,7 +2,7 @@ import { Networks } from '@walless/core';
 import { decryptWithPasscode } from '@walless/crypto';
 import { PrivateKeyRecord } from '@walless/storage';
 import { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
-import { db } from 'utils/pouch';
+import modules, { selectors } from 'utils/modules';
 
 export const settings = {
 	requirePasscode: true,
@@ -10,11 +10,11 @@ export const settings = {
 
 export const triggerActionToGetPrivateKey = async () => {
 	try {
-		const publicKey = await db.publicKeys.get({ network: Networks.solana });
-
-		const encryptedKey = await db.privateKeys.get({
-			id: publicKey?.privateKeyId,
-		});
+		const response = await modules.storage.find(selectors.solanaKeys);
+		const [publicKey] = response.docs as PublicKeyDocument[];
+		const encryptedKey = await modules.storage.safeGet<PrivateKeyDocument>(
+			publicKey._id,
+		);
 
 		return await decryptWithPasscode(
 			'123456',
@@ -28,18 +28,16 @@ export const triggerActionToGetPrivateKey = async () => {
 };
 
 export const getPrivateKey = async (network: Networks, passcode: string) => {
-	const result = await db.find({
+	const result = await modules.storage.find({
 		selector: {
 			type: 'PublicKey',
 			network: network,
 		},
 	});
+	const [publicKey] = result.docs as PublicKeyDocument[];
+	const encryptedKey = await modules.storage.safeGet<PrivateKeyDocument>(
+		publicKey.privateKeyId,
+	);
 
-	const publicKey = result.docs as PublicKeyDocument[];
-
-	const encryptedKey = (await db.get(
-		publicKey[0].privateKeyId,
-	)) as PrivateKeyDocument;
-
-	return await decryptWithPasscode(passcode, encryptedKey);
+	return await decryptWithPasscode(passcode, encryptedKey as never);
 };

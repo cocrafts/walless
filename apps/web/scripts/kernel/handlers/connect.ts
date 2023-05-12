@@ -1,16 +1,20 @@
-import { ConnectOptions } from '@walless/core';
-import { MessengerCallback } from '@walless/messaging';
-
-import { db } from '../storage';
+import { type ConnectOptions } from '@walless/core';
+import { type MessengerCallback } from '@walless/messaging';
+import {
+	type PublicKeyDocument,
+	type TrustedDomainDocument,
+} from '@walless/store';
+import modules, { selectors } from 'utils/modules';
 
 export const handleConnect: MessengerCallback = async (payload, channel) => {
 	const { onlyIfTrusted, domain } = payload.options as ConnectOptions;
 
-	const trustedDomains = await db.trustedDomains.toArray();
+	const domainResponse = await modules.storage.find(selectors.trustedDomains);
+	const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 
 	if (onlyIfTrusted) {
 		let isTrusted = true;
-		const savedDomain = trustedDomains.find((i) => i.domainName == domain);
+		const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
 		if (savedDomain) {
 			if (!savedDomain.trusted) isTrusted = false;
 		} else {
@@ -24,7 +28,8 @@ export const handleConnect: MessengerCallback = async (payload, channel) => {
 		}
 	}
 
-	const publicKeys = await db.publicKeys.toArray();
+	const keyResponse = await modules.storage.find(selectors.allKeys);
+	const publicKeys = keyResponse.docs as PublicKeyDocument[];
 	console.log('All public keys: ', publicKeys);
 
 	console.log('send back response:', publicKeys);
@@ -37,13 +42,17 @@ export const handleConnect: MessengerCallback = async (payload, channel) => {
 
 const triggerRequireTrustedDomain = async (domainName: string) => {
 	// Temporary trigger method for simulate user action to trust any site
-	const newTrustedDomain = await db.trustedDomains.add({
-		id: domainName,
-		domainName: domainName,
-		trusted: true,
-		timestamp: new Date(),
-		connectCount: 0,
-	});
+	const newTrustedDomain = await modules.storage.upsert(
+		domainName,
+		async () => {
+			return {
+				type: 'TrustedDomain',
+				trusted: true,
+				timestamp: new Date().toISOString(),
+				connectCount: 0,
+			};
+		},
+	);
 	console.log('New trust domain: ', newTrustedDomain);
 	return true;
 };

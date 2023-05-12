@@ -1,17 +1,19 @@
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import {
-	MessengerCallback,
+	type MessengerCallback,
+	type ResponsePayload,
 	ResponseCode,
-	ResponsePayload,
 } from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
 import { decode, encode } from 'bs58';
 
 import { solanaConnection } from '../utils/connection';
-import { triggerActionToGetPrivateKey } from '../utils/handler';
-
-import { getPrivateKey, settings } from './../utils/handler';
+import {
+	getPrivateKey,
+	settings,
+	triggerActionToGetPrivateKey,
+} from '../utils/handler';
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,

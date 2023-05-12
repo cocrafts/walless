@@ -1,6 +1,7 @@
 import {
 	type AssetMetadata,
 	type EncryptedWithPasscode,
+	type Endpoint,
 	type ExtensionConfig,
 	type HydratedKey,
 	type Setting,
@@ -23,6 +24,7 @@ export type DocumentType =
 export interface IndexedDocument {
 	type: DocumentType;
 	network?: Networks;
+	endpoint?: Endpoint;
 	timestamp?: string;
 }
 

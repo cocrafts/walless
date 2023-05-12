@@ -32,9 +32,10 @@ export const configure = async (db: PouchDB.Database): Promise<void> => {
 		cache.configured = true;
 
 		await db.createIndex({
-			index: { fields: ['type', 'network'] },
+			index: { fields: ['type', 'network', 'endpoint'] },
 		});
 	}
 };
 
+export * from './utils/helper';
 export * from './utils/type';

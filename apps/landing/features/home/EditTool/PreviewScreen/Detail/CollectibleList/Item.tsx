@@ -8,7 +8,7 @@ interface Props {
 
 const CollectibleItem: FC<Props> = ({ item }) => {
 	const imgSize = 130;
-	const { symbol, imageUri } = item;
+	const { name, imageUri } = item;
 	const iconSource = {
 		uri: imageUri || '/img/question.png',
 	};
@@ -30,7 +30,7 @@ const CollectibleItem: FC<Props> = ({ item }) => {
 
 			<Stack alignItems="center">
 				<Text fontSize={16} fontWeight={'500'}>
-					{symbol}
+					{`${name?.slice(0, 10)}...`}
 				</Text>
 				<Text color={'#566674'} fontSize={13} fontWeight={'400'}>
 					40

@@ -11,6 +11,10 @@ More information at [Official website](https://walless.io) | [Discord](https://d
 - [Yarn](https://yarnpkg.com/getting-started/install) installed globally (`npm i -g yarn`) — highly suggested `version 3.5` or later.
 - [Metacraft CLI](https://github.com/cocrafts/metacraft-cli) installed globally (`npm i -g @metacraft/cli`)
 
+## Required configs
+- To actually run the project, different `.env` files need for different child Apps (under `apps/`). Right now, we did not have "public" env file for the crowd. We'll provide that in the near future, when security checks completed.
+- As Walless welcome anyone want to contribute, you can join our discord (see it on [our home page](https://walless.io)), and ask for collaboration program to have early access to our open-collaboration pipeline.
+
 ## CLI commands
 - Development: run `yarn dev` at project root (or `metacraft` under apps/home)
 - Build: `yarn build` (or `metacraft bundle` under apps/[name])

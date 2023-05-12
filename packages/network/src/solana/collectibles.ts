@@ -29,13 +29,9 @@ export const getNftCollections: GetNftCollections = async (
 	const mint = new PublicKey(mintAddress);
 	const metaplex = new Metaplex(connection);
 	const collection = await metaplex.nfts().findByMint({ mintAddress: mint });
-	if (collection.collectionDetails) {
-		result.name = collection.json?.name;
-		result.symbol = collection.json?.symbol;
-		result.imageUri = collection.json?.image;
+	result.name = collection.json?.name;
+	result.symbol = collection.json?.symbol;
+	result.imageUri = collection.json?.image;
 
-		return result;
-	} else {
-		throw Error;
-	}
+	return result;
 };

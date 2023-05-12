@@ -9,6 +9,9 @@ export const resources = {
 	},
 	home: {
 		preview: {
+			signin: {
+				uri: '/img/home/preview-signin.png',
+			},
 			explore: {
 				uri: '/img/home/preview-explore.png',
 			},

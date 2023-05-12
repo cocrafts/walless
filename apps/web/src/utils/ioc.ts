@@ -1,5 +1,5 @@
-import { modules } from '@walless/app';
 import { createEngine } from '@walless/engine';
+import { modules } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
 import IDBPouch from 'pouchdb-adapter-idb';
@@ -19,7 +19,5 @@ export const injectModules = async () => {
 
 	return modules;
 };
-
-export * from './helper';
 
 export default modules;

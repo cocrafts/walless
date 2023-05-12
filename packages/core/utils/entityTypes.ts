@@ -13,16 +13,6 @@ export interface UserProfile {
 	profileImage?: string;
 }
 
-export interface LegacySolanaMetadata {
-	address: string;
-	name?: string;
-	symbol?: string;
-	decimals?: number;
-	logoURI?: string;
-	extensions?: Record<string, string>;
-	tags: string[];
-}
-
 export interface AssetMetadata {
 	name?: string;
 	symbol?: string;

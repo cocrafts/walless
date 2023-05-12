@@ -51,6 +51,14 @@ export enum Networks {
 	sui = 'sui',
 }
 
+export enum Endpoints {
+	mainnet = 'mainnet',
+	testnet = 'testnet',
+	devnet = 'devnet',
+}
+
+export type Endpoint = Endpoints | string;
+
 export interface TransactionPayload {
 	sender: string;
 	receiver: string;
@@ -58,4 +66,22 @@ export interface TransactionPayload {
 	network: Networks;
 	token: Token;
 	passcode?: string;
+}
+
+export interface LegacySolanaMetadata {
+	address: string;
+	name?: string;
+	symbol?: string;
+	decimals?: number;
+	logoURI?: string;
+	extensions?: Record<string, string>;
+	tags: string[];
+}
+
+export interface LegacyMetadataSource {
+	name: string;
+	logoURI: string;
+	keywords: string[];
+	timestamp: string;
+	tokens: LegacySolanaMetadata[];
 }

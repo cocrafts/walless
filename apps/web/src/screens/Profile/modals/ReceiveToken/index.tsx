@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { ModalConfigs } from '@walless/app';
+import { type FC } from 'react';
 import { Networks } from '@walless/core';
+import { walletState } from '@walless/engine';
+import { type ModalConfigs } from '@walless/gui';
 import { Stack } from '@walless/ui';
-import { walletState } from 'state/wallet';
 import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
 

@@ -61,5 +61,6 @@ export const createEngine = ({
 };
 
 export * from './state/tokens';
+export * from './state/wallets';
 export * from './utils/crawler';
 export * from './utils/pool';

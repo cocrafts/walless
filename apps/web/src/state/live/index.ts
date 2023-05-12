@@ -1,14 +1,18 @@
 import {
+	tokenActions,
+	tokenState,
+	walletActions,
+	walletState,
+} from '@walless/engine';
+import {
 	ExtensionDocument,
 	PouchDocument,
 	PublicKeyDocument,
 	TokenDocument,
 } from '@walless/store';
-import { tokenActions, tokenState } from 'state/tokens';
 import modules, { selectors } from 'utils/modules';
 
 import { extensionActions, extensionState } from '../extension';
-import { walletActions, walletState } from '../wallet';
 
 export const initializeLiveState = async () => {
 	const extensionResponse = await modules.storage.find(selectors.allExtensions);

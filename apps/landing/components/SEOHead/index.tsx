@@ -29,8 +29,9 @@ const SEOHead: FC<SEOHeadProps> = ({
 			<meta property="og:type" content="website" />
 			<meta property="og:image" content={image} />
 			<meta property="og:image:width" content="1200" />
-			<meta property="og:image:height" content="630" />
+			<meta property="og:image:height" content="627" />
 			<meta property="twitter:image" content={image} />
+			<meta name="twitter:card" content="summary_large_image" />
 			<meta property="og:description" content={description} />
 			<meta property="og:url" content={url} />
 			<meta property="og:site_name" content={title} />

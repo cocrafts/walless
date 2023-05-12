@@ -32,12 +32,18 @@ export const ExploreScreen: FC = () => {
 	};
 
 	return (
-		<Stack gap={spacing} paddingHorizontal={spacing} paddingVertical={spacing}>
-			<Text fontSize={20} lineHeight={26} fontWeight="500" textAlign="center">
-				Choose a layout to start
-			</Text>
+		<Stack
+			gap={spacing + 8}
+			paddingHorizontal={spacing}
+			paddingVertical={spacing}
+		>
+			<Stack gap={spacing * 2} paddingTop={spacing}>
+				<Text fontSize={20} lineHeight={26} textAlign="center">
+					Choose a layout to start
+				</Text>
 
-			<SearchBar onSearch={handleSearch} />
+				<SearchBar onSearch={handleSearch} />
+			</Stack>
 
 			{extensions.map((layoutCard) => (
 				<LayoutCard

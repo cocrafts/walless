@@ -8,31 +8,6 @@ export interface LayoutCardProps {
 
 export const mockLayoutCards: ExtensionDocument[] = [
 	{
-		_id: 'sui',
-		name: 'Sui',
-		version: '0.0.1',
-		type: 'Extension',
-		extensionType: 'Layout',
-		timestamp: new Date().toISOString(),
-		storeMeta: {
-			iconUri: '/img/network/sui-icon-sm.png',
-			iconSize: 18,
-			iconColor: '#FFFFFF',
-			coverUri: '/img/explore/thumbnail-sui.png',
-			description:
-				'Layer 1 blockchain designed to make digital asset ownership fast, private, secure, and accessible to everyone.',
-			loveCount: 100,
-			activeCount: 567,
-		},
-		networkMeta: {
-			backgroundUri: '/img/network/sky-card-bg.png',
-			markUri: '/img/network/sui-icon-lg.png',
-			iconUri: '/img/network/sui-icon-sm.png',
-			iconColor: '#FFFFFF',
-			iconSize: 12,
-		},
-	},
-	{
 		_id: 'solana',
 		name: 'Solana',
 		version: '0.9.1',
@@ -55,6 +30,31 @@ export const mockLayoutCards: ExtensionDocument[] = [
 			iconUri: '/img/network/solana-icon-sm.png',
 			iconColor: '#000000',
 			iconSize: 16,
+		},
+	},
+	{
+		_id: 'sui',
+		name: 'Sui',
+		version: '0.0.1',
+		type: 'Extension',
+		extensionType: 'Layout',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/network/sui-icon-sm.png',
+			iconSize: 18,
+			iconColor: '#FFFFFF',
+			coverUri: '/img/explore/thumbnail-sui.png',
+			description:
+				'Layer 1 blockchain designed to make digital asset ownership fast, private, secure, and accessible to everyone.',
+			loveCount: 100,
+			activeCount: 567,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/network/sui-icon-lg.png',
+			iconUri: '/img/network/sui-icon-sm.png',
+			iconColor: '#FFFFFF',
+			iconSize: 12,
 		},
 	},
 	// {

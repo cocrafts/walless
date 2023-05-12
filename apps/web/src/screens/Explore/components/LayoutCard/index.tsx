@@ -31,6 +31,8 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 					height={iconWrapperSize}
 					borderRadius={8}
 					backgroundColor={storeMeta.iconColor}
+					borderWidth={1}
+					borderColor={'#131C24'}
 					alignItems="center"
 					justifyContent="center"
 				>

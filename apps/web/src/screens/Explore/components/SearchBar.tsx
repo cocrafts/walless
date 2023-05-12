@@ -15,7 +15,7 @@ const SearchBar: FC<Props> = ({ onSearch }) => {
 		<Stack
 			flexDirection="row"
 			alignItems="center"
-			backgroundColor="#0E141A"
+			backgroundColor="#FFFFFF"
 			borderRadius={10}
 			paddingHorizontal={10}
 		>

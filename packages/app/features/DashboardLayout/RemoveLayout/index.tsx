@@ -4,8 +4,6 @@ import { modalActions, Text, View } from '@walless/gui';
 import { ModalConfigs } from '@walless/gui';
 import { ExtensionDocument } from '@walless/store';
 
-import { appState } from '../../../state/app';
-
 import RemoveSymbol from './RemoveSymbol';
 
 type Layout = ExtensionDocument & {
@@ -16,12 +14,15 @@ export interface RemoveContextProps {
 	item: Layout;
 }
 
-const RemoveLayout: FC<{ config: ModalConfigs }> = ({ config }) => {
+const RemoveLayout: FC<{
+	config: ModalConfigs;
+	onRemoveLayout?: (item: Layout) => void;
+}> = ({ config, onRemoveLayout }) => {
 	const { item } = config.context as RemoveContextProps;
 
-	const handleRemoveLayout = async () => {
+	const handleRemoveLayout = () => {
 		item._deleted = true;
-		await appState.removeLayout(item);
+		onRemoveLayout?.(item);
 		modalActions.destroy(`navigator-orb-${item._id}`);
 	};
 

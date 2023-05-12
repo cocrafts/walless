@@ -25,8 +25,12 @@ interface Props {
 	isActive?: boolean;
 	hasUpdate?: boolean;
 	children?: ReactNode;
-	component?: FC<{ config: ModalConfigs }>;
+	ContextComponent?: FC<{
+		config: ModalConfigs;
+		onRemoveLayout?: (item: ExtensionDocument) => void;
+	}>;
 	onPress?: (item: ExtensionDocument) => void;
+	onRemoveLayout?: (item: ExtensionDocument) => void;
 }
 
 export const NavigatorOrb: FC<Props> = ({
@@ -34,8 +38,9 @@ export const NavigatorOrb: FC<Props> = ({
 	isActive,
 	hasUpdate,
 	children,
-	component,
+	ContextComponent,
 	onPress,
+	onRemoveLayout,
 }) => {
 	const containerRef = useRef(null);
 	const iconColor = item.storeMeta?.iconColor || 'white';
@@ -79,10 +84,12 @@ export const NavigatorOrb: FC<Props> = ({
 	};
 
 	const handleContextMenu = () => {
-		if (!component) return;
+		if (!ContextComponent) return;
 		modalActions.show({
 			id: `navigator-orb-${item._id}`,
-			component: component,
+			component: ({ config }) => (
+				<ContextComponent config={config} onRemoveLayout={onRemoveLayout} />
+			),
 			context: { item },
 			bindingRef: containerRef,
 			maskActiveOpacity: 0,

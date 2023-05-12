@@ -13,6 +13,7 @@ interface Props {
 	extensions: ExtensionDocument[];
 	getIsExtensionActive?: (item: ExtensionDocument) => boolean;
 	onExtensionPress?: (item: ExtensionDocument) => void;
+	onRemoveLayout: (item: ExtensionDocument) => void;
 }
 
 export const DashboardNavigator: FC<Props> = ({
@@ -21,6 +22,7 @@ export const DashboardNavigator: FC<Props> = ({
 	extensions,
 	getIsExtensionActive,
 	onExtensionPress,
+	onRemoveLayout,
 }) => {
 	const containerStyle = { width: size };
 	const exploreItem: Partial<ExtensionDocument> = {
@@ -49,7 +51,8 @@ export const DashboardNavigator: FC<Props> = ({
 							item={item}
 							isActive={isActive}
 							onPress={onExtensionPress}
-							component={RemoveLayout}
+							ContextComponent={RemoveLayout}
+							onRemoveLayout={onRemoveLayout}
 						/>
 					);
 				})}

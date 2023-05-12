@@ -1,5 +1,6 @@
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { Networks } from '@walless/core';
+import { modules } from '@walless/ioc';
 import {
 	type MessengerCallback,
 	type ResponsePayload,
@@ -7,7 +8,6 @@ import {
 } from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
 import { decode, encode } from 'bs58';
-import modules from 'utils/modules';
 
 import {
 	getPrivateKey,

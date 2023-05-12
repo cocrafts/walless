@@ -1,4 +1,5 @@
 import { runtime } from '@walless/core';
+import { modules } from '@walless/ioc';
 import {
 	type EncryptedMessage,
 	type MessengerCallback,
@@ -8,7 +9,6 @@ import {
 	createMessenger,
 	decryptMessage,
 } from '@walless/messaging';
-import modules from 'utils/modules';
 
 import { onKernelMessage } from './handlers/kernel';
 

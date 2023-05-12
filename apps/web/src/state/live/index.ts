@@ -4,13 +4,14 @@ import {
 	walletActions,
 	walletState,
 } from '@walless/engine';
+import { modules } from '@walless/ioc';
 import {
 	type ExtensionDocument,
 	type PouchDocument,
 	type PublicKeyDocument,
 	type TokenDocument,
+	selectors,
 } from '@walless/store';
-import modules, { selectors } from 'utils/modules';
 
 import { extensionActions, extensionState } from '../extension';
 

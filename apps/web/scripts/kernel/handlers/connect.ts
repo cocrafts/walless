@@ -1,10 +1,11 @@
 import { type ConnectOptions } from '@walless/core';
+import { modules } from '@walless/ioc';
 import { type MessengerCallback } from '@walless/messaging';
 import {
 	type PublicKeyDocument,
 	type TrustedDomainDocument,
+	selectors,
 } from '@walless/store';
-import modules, { selectors } from 'utils/modules';
 
 export const handleConnect: MessengerCallback = async (payload, channel) => {
 	const { onlyIfTrusted, domain } = payload.options as ConnectOptions;

@@ -11,7 +11,7 @@ import {
 	VersionedTransaction,
 } from '@solana/web3.js';
 import { type Token, type TransactionPayload, Networks } from '@walless/core';
-import modules from 'utils/modules';
+import { modules } from '@walless/ioc';
 
 const solConn = new Connection(clusterApiUrl('devnet'));
 const sampleKeypair = Keypair.generate();

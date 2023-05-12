@@ -20,7 +20,7 @@ export const CollectibeList: FC<Props> = ({ items }) => {
 						<CollectibleItem key={item._id} item={item} />
 					))}
 				</Stack>
-				<Stack flex={1} gap={15}>
+				<Stack flex={1} gap={15} flexBasis={0}>
 					{rightColumnItems.map((item) => (
 						<CollectibleItem key={item._id} item={item} />
 					))}

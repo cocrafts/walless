@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const TokenItem: FC<Props> = ({ item }) => {
-	const iconSize = 40;
+	const iconSize = 28;
 	const { _id, name, symbol, imageUri } = item;
 	const iconSource = {
 		uri: imageUri || '/img/question.png',
@@ -24,23 +24,21 @@ export const TokenItem: FC<Props> = ({ item }) => {
 			paddingVertical={10}
 			paddingHorizontal={12}
 		>
-			<Stack>
-				<Stack
+			<Stack
+				width={iconSize}
+				height={iconSize}
+				borderRadius={iconSize / 2}
+				backgroundColor={'#202634'}
+				alignItems="center"
+				justifyContent="center"
+			>
+				<Image
+					src={iconSource}
 					width={iconSize}
 					height={iconSize}
 					borderRadius={iconSize / 2}
-					backgroundColor={'#202634'}
-					alignItems="center"
-					justifyContent="center"
-				>
-					<Image
-						src={iconSource}
-						width={iconSize}
-						height={iconSize}
-						borderRadius={iconSize / 2}
-						resizeMode="cover"
-					/>
-				</Stack>
+					resizeMode="cover"
+				/>
 			</Stack>
 			<Stack flex={1} paddingVertical={4} paddingHorizontal={12}>
 				<Text>{symbol || name || shortenAddress(_id)}</Text>

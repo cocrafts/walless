@@ -1,8 +1,12 @@
+import { Linking } from 'react-native';
 import { Twitter } from '@walless/icons';
 import { Button, Stack, Text } from '@walless/ui';
 import Image from 'next/image';
 
 const SocialCard = () => {
+	const handleContact = () =>
+		Linking.openURL('https://forms.gle/UypLEFvZsc1BxAXdA');
+
 	return (
 		<Stack
 			backgroundColor="#172028"
@@ -41,7 +45,11 @@ const SocialCard = () => {
 				</Button>
 			</Stack>
 
-			<Button backgroundColor="#0694D3" borderRadius={10}>
+			<Button
+				backgroundColor="#0694D3"
+				borderRadius={10}
+				onPress={handleContact}
+			>
 				<Text>Interested? Contact us</Text>
 			</Button>
 		</Stack>

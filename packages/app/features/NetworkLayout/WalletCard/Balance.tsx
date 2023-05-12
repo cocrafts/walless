@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
 		height: 42,
 		fontSize: 35,
 		fontWeight: '500',
+		color: 'white',
 	},
 	protectedBalance: {
 		paddingTop: 7,

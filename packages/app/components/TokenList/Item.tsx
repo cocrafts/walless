@@ -26,20 +26,15 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 
 	return (
 		<Hoverable style={[styles.container, style]}>
-			<View>
-				<View style={styles.iconWrapper}>
-					<Image
-						style={styles.iconImg}
-						source={iconSource}
-						resizeMode="cover"
-					/>
-				</View>
-			</View>
+			<Image style={styles.iconImg} source={iconSource} resizeMode="cover" />
+
 			<View style={styles.infoContainer}>
-				<Text>{symbol || name || shortenAddress(account.mint)}</Text>
+				<Text style={styles.whiteBold}>
+					{symbol || name || shortenAddress(account.mint)}
+				</Text>
 			</View>
 			<View style={styles.balanceContainer}>
-				<Text>{formatTokenValue(account)}</Text>
+				<Text style={styles.whiteBold}>{formatTokenValue(account)}</Text>
 			</View>
 		</Hoverable>
 	);
@@ -48,13 +43,13 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 export default TokenItem;
 
 const iconSize = 28;
-const wrapperSize = iconSize + 12;
 
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
+		alignItems: 'center',
 		backgroundColor: '#131C24',
-		paddingVertical: 10,
+		paddingVertical: 12,
 		paddingHorizontal: 12,
 	},
 	iconImg: {
@@ -64,14 +59,6 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		backgroundColor: 'rgba(255, 255, 255, 0.1)',
 	},
-	iconWrapper: {
-		width: wrapperSize,
-		height: wrapperSize,
-		borderRadius: wrapperSize / 2,
-		backgroundColor: '#202634',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
 	infoContainer: {
 		flex: 1,
 		paddingVertical: 4,
@@ -79,5 +66,9 @@ const styles = StyleSheet.create({
 	},
 	balanceContainer: {
 		paddingVertical: 4,
+	},
+	whiteBold: {
+		color: 'white',
+		fontWeight: '600',
 	},
 });

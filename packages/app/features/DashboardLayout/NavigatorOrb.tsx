@@ -60,6 +60,7 @@ export const NavigatorOrb: FC<Props> = ({
 
 	const orbStyle = {
 		backgroundColor: iconColor,
+		borderRadius: isActive ? 1000 : 15,
 	};
 
 	const iconImgStyle = {
@@ -130,7 +131,7 @@ export default NavigatorOrb;
 
 const orbSize = 40;
 const barWidth = 4;
-const barHoverHeight = 18;
+const barHoverHeight = 8;
 const barStyle: ViewStyle = {
 	backgroundColor: 'white',
 	position: 'absolute',

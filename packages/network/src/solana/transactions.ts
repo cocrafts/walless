@@ -44,6 +44,6 @@ export const signAndSendTransaction = async (
 		}
 	} catch (error) {
 		console.log('error', error);
-		throw Error(error);
+		throw Error(error as never);
 	}
 };

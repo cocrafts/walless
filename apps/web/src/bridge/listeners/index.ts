@@ -1,4 +1,4 @@
-import { MessagePayload } from '@walless/messaging';
+import { type MessagePayload } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 
 export const registerMessageHandlers = async () => {

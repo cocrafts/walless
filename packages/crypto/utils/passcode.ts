@@ -1,4 +1,4 @@
-import { EncryptedWithPasscode } from '@walless/core';
+import { type EncryptedWithPasscode } from '@walless/core';
 
 import {
 	getDeriveBits,

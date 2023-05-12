@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Plus } from '@walless/icons';
 import { Button } from '@walless/ui';
 
 interface Props {
 	handleAddLayout: () => void;
 }
+
 const AddLayoutBtn: FC<Props> = ({ handleAddLayout }) => {
 	return (
 		<Button

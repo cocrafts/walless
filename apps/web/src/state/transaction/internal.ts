@@ -1,4 +1,4 @@
-import { Networks } from '@walless/core';
+import { type Networks } from '@walless/core';
 import { proxy } from 'valtio';
 
 export interface TransactionContext {

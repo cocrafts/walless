@@ -11,7 +11,7 @@ import { type PublicKeyDocument } from '@walless/store';
 
 import WalletAddress from './Address';
 import WalletBalance from './Balance';
-import { CardSkin } from './shared';
+import { type CardSkin } from './shared';
 
 interface Props {
 	style?: ViewStyle;

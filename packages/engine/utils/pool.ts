@@ -1,4 +1,4 @@
-import { ConnectionCreator, ConnectionPool } from './type';
+import { type ConnectionCreator, type ConnectionPool } from './type';
 
 type CreatePoolOptions<T> = {
 	create: ConnectionCreator<T>;

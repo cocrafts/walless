@@ -1,4 +1,4 @@
-import { MessengerCallback, RequestType } from '@walless/messaging';
+import { type MessengerCallback, RequestType } from '@walless/messaging';
 
 import { handleConnect } from './connect';
 import * as solanaHandler from './solanaHandler';

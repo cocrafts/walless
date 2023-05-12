@@ -11,7 +11,7 @@ import {
 import { ChevronDown } from '@walless/icons';
 
 import Dropdown from './Dropdown';
-import { SelectionContext, styles } from './shared';
+import { type SelectionContext, styles } from './shared';
 
 export const Select = <T extends object>({
 	selected,

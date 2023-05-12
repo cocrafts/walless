@@ -3,12 +3,12 @@
 import { forwardRef } from 'react';
 import { Linking } from 'react-native';
 import {
+	type ReactComponentWithRef,
+	type TamaguiElement,
+	type TextProps,
 	isWeb,
-	ReactComponentWithRef,
-	Text,
-	TextProps,
 	styled,
-	TamaguiElement,
+	Text,
 } from '@tamagui/core';
 
 export type AnchorProps = TextProps & {
@@ -34,17 +34,17 @@ export const Anchor: ReactComponentWithRef<AnchorProps, TamaguiElement> =
 					{...props}
 					{...(isWeb
 						? {
-							href,
-							target,
-						}
+								href,
+								target,
+						  }
 						: {
-							onPress: (event) => {
-								props.onPress?.(event);
-								if (href !== undefined) {
-									Linking.openURL(href);
-								}
-							},
-						})}
+								onPress: (event) => {
+									props.onPress?.(event);
+									if (href !== undefined) {
+										Linking.openURL(href);
+									}
+								},
+						  })}
 					ref={ref as any}
 				/>
 			);

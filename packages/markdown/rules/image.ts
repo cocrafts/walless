@@ -8,7 +8,7 @@ import {
 } from 'simple-markdown';
 
 import { useImageAspectRatio } from '../utils/hook';
-import { MarkdownState } from '../utils/types';
+import { type MarkdownState } from '../utils/types';
 
 interface AspectImageProps {
 	width: number;

@@ -1,8 +1,8 @@
 import { type FC, type ReactNode } from 'react';
 import { type ViewStyle, ScrollView, StyleSheet } from 'react-native';
-import { UserProfile } from '@walless/core';
+import { type UserProfile } from '@walless/core';
 import { View } from '@walless/gui';
-import { ExtensionDocument } from '@walless/store';
+import { type ExtensionDocument } from '@walless/store';
 
 import Navigator from './Navigator';
 

@@ -1,12 +1,12 @@
 import { runtime } from '@walless/core';
 import {
+	type EncryptedMessage,
+	type MessengerCallback,
+	type MessengerMessageListener,
+	type MessengerSend,
 	Channels,
 	createMessenger,
 	decryptMessage,
-	EncryptedMessage,
-	MessengerCallback,
-	MessengerMessageListener,
-	MessengerSend,
 } from '@walless/messaging';
 import modules from 'utils/modules';
 

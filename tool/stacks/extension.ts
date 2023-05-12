@@ -1,6 +1,6 @@
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
-import { StackContext, StaticSite } from 'sst/constructs';
+import { type StackContext, StaticSite } from 'sst/constructs';
 
 import { appDomainFromStage } from './shared';
 

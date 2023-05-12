@@ -5,10 +5,10 @@ import {
 	walletState,
 } from '@walless/engine';
 import {
-	ExtensionDocument,
-	PouchDocument,
-	PublicKeyDocument,
-	TokenDocument,
+	type ExtensionDocument,
+	type PouchDocument,
+	type PublicKeyDocument,
+	type TokenDocument,
 } from '@walless/store';
 import modules, { selectors } from 'utils/modules';
 

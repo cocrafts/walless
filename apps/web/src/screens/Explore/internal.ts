@@ -1,4 +1,4 @@
-import { ExtensionDocument } from '@walless/store';
+import { type ExtensionDocument } from '@walless/store';
 
 export interface LayoutCardProps {
 	item: ExtensionDocument;

@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { Image, Stack, Text } from '@walless/ui';
 import { appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 
-import { ProjectState, ProjectTool } from '../../internal';
+import { type ProjectState, ProjectTool } from '../../internal';
 import TargetWrapper from '../components/TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';

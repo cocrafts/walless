@@ -1,5 +1,6 @@
 import { TransactionBlock } from '@mysten/sui.js';
 import {
+	type VersionedMessage,
 	clusterApiUrl,
 	Connection,
 	Keypair,
@@ -7,10 +8,9 @@ import {
 	PublicKey,
 	SystemProgram,
 	TransactionMessage,
-	VersionedMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
-import { Networks, Token, TransactionPayload } from '@walless/core';
+import { type Token, type TransactionPayload, Networks } from '@walless/core';
 import modules from 'utils/modules';
 
 const solConn = new Connection(clusterApiUrl('devnet'));
@@ -21,7 +21,7 @@ import {
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
-import { RequestType, ResponsePayload } from '@walless/messaging';
+import { type ResponsePayload, RequestType } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
 

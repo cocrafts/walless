@@ -1,9 +1,9 @@
-import { JsonRpcProvider } from '@mysten/sui.js';
-import { PublicKeyDocument, selectors } from '@walless/store';
+import { type JsonRpcProvider } from '@mysten/sui.js';
+import { type PublicKeyDocument, selectors } from '@walless/store';
 import { flatten } from 'lodash';
 
 import { tokenActions } from '../state/tokens';
-import { EngineRunner } from '../utils/type';
+import { type EngineRunner } from '../utils/type';
 
 import { suiTokensByAddress } from './token';
 

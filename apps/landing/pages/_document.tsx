@@ -1,7 +1,7 @@
 import { Children } from 'react';
 import { AppRegistry } from 'react-native';
 import NextDocument, {
-	DocumentContext,
+	type DocumentContext,
 	Head,
 	Html,
 	Main,
@@ -16,7 +16,7 @@ export default class Document extends NextDocument {
 
 		const page = await renderPage();
 		// eslint-disable-next-line
-		const { getStyleElement } = (AppRegistry as any).getApplication('Main');
+		const {getStyleElement} = (AppRegistry as any).getApplication('Main');
 		const styleInner = { __html: Tamagui.getCSS() };
 		const styles = [
 			getStyleElement(),

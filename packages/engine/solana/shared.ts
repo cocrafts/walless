@@ -1,6 +1,6 @@
 import { PublicKey } from '@solana/web3.js';
-import { LegacyMetadataSource, Networks } from '@walless/core';
-import { MetadataDocument } from '@walless/store';
+import { type LegacyMetadataSource, Networks } from '@walless/core';
+import { type MetadataDocument } from '@walless/store';
 
 import legacyRegistry from './token-list.json';
 

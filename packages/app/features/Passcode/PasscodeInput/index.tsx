@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
 import {
 	type TextInput,
 	StyleSheet,

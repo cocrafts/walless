@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Path, Svg } from 'react-native-svg';
 
-import { Props } from './types';
+import { type Props } from './types';
 
 export const Message: FC<Props> = ({ size = 12, color = '#FFFFFF' }) => {
 	return (

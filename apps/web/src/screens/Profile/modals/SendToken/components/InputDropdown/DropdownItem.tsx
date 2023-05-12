@@ -1,8 +1,8 @@
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 import { Check } from '@walless/icons';
 import { Button, Stack } from '@walless/ui';
 
-import { DropdownItemProps } from '../../internal';
+import { type DropdownItemProps } from '../../internal';
 
 import IconText from './IconText';
 

@@ -1,4 +1,8 @@
-import { AesAlgorithm, AesKeyLength, HydratedKey } from '@walless/core';
+import {
+	type AesAlgorithm,
+	type AesKeyLength,
+	type HydratedKey,
+} from '@walless/core';
 
 export const createCryptoKey = async (
 	name: AesAlgorithm,

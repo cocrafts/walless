@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Edit } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { ProjectTool } from 'features/home/EditTool/internal';

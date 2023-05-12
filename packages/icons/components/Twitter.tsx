@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Path, Svg } from 'react-native-svg';
 
-import { Props } from './types';
+import { type Props } from './types';
 
 export const Twitter: FC<Props> = ({ size = 18, color = '#FFFFFF' }) => {
 	return (

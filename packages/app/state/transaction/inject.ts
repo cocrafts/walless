@@ -1,6 +1,10 @@
-import { Networks, Token, TransactionPayload } from '@walless/core';
-import { ResponsePayload } from '@walless/messaging';
-import { PublicKeyDocument } from '@walless/store';
+import {
+	type Networks,
+	type Token,
+	type TransactionPayload,
+} from '@walless/core';
+import { type ResponsePayload } from '@walless/messaging';
+import { type PublicKeyDocument } from '@walless/store';
 import { proxy } from 'valtio';
 
 export interface InjectedElements {

@@ -1,6 +1,6 @@
 import { TransactionBlock } from '@mysten/sui.js';
 import { VersionedTransaction } from '@solana/web3.js';
-import { Networks } from '@walless/core';
+import { type Networks } from '@walless/core';
 import { BindDirections, modalActions, modalState } from '@walless/gui';
 import { RequestType, ResponseCode } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';

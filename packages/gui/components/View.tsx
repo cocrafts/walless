@@ -6,7 +6,7 @@ import {
 	View as RNView,
 } from 'react-native';
 
-import { DynamicFlags, iStyles } from '../utils/style';
+import { type DynamicFlags, iStyles } from '../utils/style';
 
 type Props = DynamicFlags &
 	ViewProps & {

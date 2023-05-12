@@ -1,4 +1,4 @@
-import { Dimensions, ScaledSize } from 'react-native';
+import { type ScaledSize, Dimensions } from 'react-native';
 import { throttle } from 'lodash';
 import { proxy } from 'valtio';
 

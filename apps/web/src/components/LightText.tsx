@@ -1,5 +1,5 @@
-import { FC, ReactNode } from 'react';
-import { TextStyle } from 'react-native';
+import { type FC, type ReactNode } from 'react';
+import { type TextStyle } from 'react-native';
 import { Text } from '@walless/ui';
 
 interface Props extends TextStyle {

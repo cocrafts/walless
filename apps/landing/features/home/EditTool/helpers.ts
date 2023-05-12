@@ -1,5 +1,7 @@
+import { type ChangeEvent } from 'react';
+
 export const handleChangeImage = (
-	event: React.ChangeEvent<HTMLInputElement>,
+	event: ChangeEvent<HTMLInputElement>,
 	callback: (url: string) => void,
 ) => {
 	if (!event.target.files?.length) return;

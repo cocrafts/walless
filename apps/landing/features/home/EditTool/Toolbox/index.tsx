@@ -1,8 +1,8 @@
-import { FC, memo } from 'react';
+import { type FC, memo } from 'react';
 import { Stack } from '@walless/ui';
 import BulletSeparator from 'components/BulletSeparator';
 
-import { ToolboxProps } from '../internal';
+import { type ToolboxProps } from '../internal';
 
 import SocialCard from './SocialCard';
 import ToolName from './ToolName';

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 import { Exclamation } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
 

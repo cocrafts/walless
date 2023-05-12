@@ -1,5 +1,5 @@
 import { ImageBackground as RNImageBackground } from 'react-native';
-import { GetProps, styled } from '@tamagui/core';
+import { type GetProps, styled } from '@tamagui/core';
 
 export const ImageBackground = styled(RNImageBackground, {
 	name: 'ImageBackground',

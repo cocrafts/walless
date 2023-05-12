@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { type TextStyle, StyleSheet } from 'react-native';
 import { Button, View } from '@walless/gui';
 

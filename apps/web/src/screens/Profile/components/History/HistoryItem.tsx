@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
 

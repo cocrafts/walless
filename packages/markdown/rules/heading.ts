@@ -7,7 +7,7 @@ import {
 	defaultRules,
 } from 'simple-markdown';
 
-import { MarkdownState } from '../utils/types';
+import { type MarkdownState } from '../utils/types';
 
 export const heading: ParserRule & ReactOutputRule = {
 	...defaultRules.heading,

@@ -1,5 +1,5 @@
 import { type FC, type ReactNode, useEffect, useRef } from 'react';
-import { Image, StyleSheet, ViewStyle } from 'react-native';
+import { type ViewStyle, Image, StyleSheet } from 'react-native';
 import {
 	Easing,
 	interpolate,
@@ -8,15 +8,15 @@ import {
 	withTiming,
 } from 'react-native-reanimated';
 import {
+	type ModalConfigs,
 	AnimateDirections,
 	AnimatedView,
 	BindDirections,
 	ContextMenuContainer,
 	modalActions,
-	ModalConfigs,
 	View,
 } from '@walless/gui';
-import { ExtensionDocument } from '@walless/store';
+import { type ExtensionDocument } from '@walless/store';
 
 import ActiveBar from './ActiveBar';
 

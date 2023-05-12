@@ -1,5 +1,5 @@
 import { runtime } from '@walless/core';
-import { SettingDocument } from '@walless/store';
+import { type SettingDocument } from '@walless/store';
 import modules from 'utils/modules';
 import { registerServiceWorker } from 'utils/service-worker';
 

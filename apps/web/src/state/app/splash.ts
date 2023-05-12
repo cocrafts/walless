@@ -1,5 +1,5 @@
 import { type BootstrapResult, appState } from '@walless/app';
-import { SettingDocument } from '@walless/store';
+import { type SettingDocument } from '@walless/store';
 import modules from 'utils/modules';
 import { router } from 'utils/routing';
 

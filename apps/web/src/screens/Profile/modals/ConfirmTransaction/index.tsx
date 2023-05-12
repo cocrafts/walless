@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react';
-import { Networks } from '@walless/core';
-import { modalActions, ModalConfigs } from '@walless/gui';
+import { type FC, useEffect, useState } from 'react';
+import { type Networks } from '@walless/core';
+import { type ModalConfigs, modalActions } from '@walless/gui';
 import { Stack } from '@walless/ui';
 import { transactionActions } from 'state/transaction';
 import { getWalletPublicKey } from 'utils/transaction';
@@ -8,7 +8,7 @@ import { getWalletPublicKey } from 'utils/transaction';
 import ModalWrapper from '../components/ModalWrapper';
 import { walletName } from '../internal';
 import NavBtn from '../SendToken/components/NavBtn';
-import { DropdownItemProps } from '../SendToken/internal';
+import { type DropdownItemProps } from '../SendToken/internal';
 
 import AccountInfo from './AccountInfo';
 import Header from './Header';

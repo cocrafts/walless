@@ -2,9 +2,9 @@ import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
+	type TabAble,
 	MainFeatures,
 	SlideHandler,
-	TabAble,
 	TabsHeader,
 	TokenList,
 	WalletCard,

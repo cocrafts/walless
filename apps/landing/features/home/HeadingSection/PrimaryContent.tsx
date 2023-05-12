@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Button, Stack, Text } from '@walless/ui';
 import Anchor from 'components/Anchor';
 import BulletSeparator from 'components/BulletSeparator';

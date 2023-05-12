@@ -1,4 +1,4 @@
-import PouchDB from 'pouchdb-core';
+import type PouchDB from 'pouchdb-core';
 
 export type UpsertDiffFunc<T extends object> = (
 	doc: PouchDB.Core.Document<T>,

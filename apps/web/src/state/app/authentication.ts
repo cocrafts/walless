@@ -9,10 +9,10 @@ import {
 	type SettingDocument,
 } from '@walless/store';
 import {
+	type UserCredential,
 	GoogleAuthProvider,
 	signInWithCredential,
 	signInWithPopup,
-	UserCredential,
 } from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
 import modules from 'utils/modules';

@@ -1,4 +1,4 @@
-import { type EncryptionKeyDocument, Database } from '@walless/store';
+import { type Database, type EncryptionKeyDocument } from '@walless/store';
 
 import {
 	type CreateAndHydrateKeyVault,

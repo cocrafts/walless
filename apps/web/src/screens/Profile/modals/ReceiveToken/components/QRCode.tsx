@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import QRCode from 'react-native-qrcode-svg';
 import { Stack } from '@walless/ui';
 

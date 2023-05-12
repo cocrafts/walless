@@ -1,5 +1,5 @@
 import { ScrollView as ScrollViewNative } from 'react-native';
-import { GetProps, styled } from '@tamagui/core';
+import { type GetProps, styled } from '@tamagui/core';
 
 import { fullscreenStyle } from './shared';
 

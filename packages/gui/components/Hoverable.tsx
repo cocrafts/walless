@@ -4,8 +4,8 @@ import {
 	type MouseEvent,
 	type PressableProps,
 	type StyleProp,
+	type View,
 	type ViewStyle,
-	View,
 } from 'react-native';
 import {
 	useAnimatedStyle,
@@ -14,7 +14,7 @@ import {
 } from 'react-native-reanimated';
 
 import { injectedFontStyle } from '../utils/font';
-import { DynamicFlags, iStyles } from '../utils/style';
+import { type DynamicFlags, iStyles } from '../utils/style';
 
 import { AnimatedPressable } from './aliased';
 

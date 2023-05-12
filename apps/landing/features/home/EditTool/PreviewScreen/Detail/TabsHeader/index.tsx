@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { Stack } from '@walless/ui';
 
-import { TabAble } from '../shared';
+import { type TabAble } from '../shared';
 
 import TabItem from './TabItem';
 

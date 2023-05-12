@@ -1,5 +1,5 @@
-import { FC, ReactNode } from 'react';
-import { GetProps, StackProps, styled } from '@tamagui/core';
+import { type FC, type ReactNode } from 'react';
+import { type GetProps, type StackProps, styled } from '@tamagui/core';
 
 import { Stack, Text } from './styled';
 

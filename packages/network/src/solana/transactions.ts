@@ -1,8 +1,8 @@
 import {
-	Connection,
+	type Connection,
+	type MessageV0,
+	type SendOptions,
 	Keypair,
-	MessageV0,
-	SendOptions,
 	Transaction,
 	VersionedTransaction,
 } from '@solana/web3.js';

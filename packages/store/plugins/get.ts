@@ -1,4 +1,4 @@
-import PouchDB from 'pouchdb-core';
+import type PouchDB from 'pouchdb-core';
 
 export async function safeGet<T extends object>(
 	this: PouchDB.Database,

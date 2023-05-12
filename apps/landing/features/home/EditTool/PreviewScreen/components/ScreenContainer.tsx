@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import { Stack } from '@walless/ui';
 
 import Sidebar from './Sidebar';

@@ -3,7 +3,7 @@ import { type ViewStyle, StyleSheet } from 'react-native';
 import { Hoverable, View } from '@walless/gui';
 
 export interface SlideAble {
-	id?: string;
+	_id?: string;
 }
 
 interface Props {
@@ -24,7 +24,7 @@ export const SlideHandler: FC<Props> = ({
 	return (
 		<View style={[styles.container, style]}>
 			{items.map((item) => {
-				const isActive = item.id === activeItem.id;
+				const isActive = item._id === activeItem._id;
 				const itemStyle = {
 					width: indicatorWidth,
 					height: indicatorHeight,
@@ -32,7 +32,7 @@ export const SlideHandler: FC<Props> = ({
 					backgroundColor: isActive ? '#0694D3' : '#202D38',
 				};
 
-				return <Hoverable key={item.id} style={itemStyle} />;
+				return <Hoverable key={item._id} style={itemStyle} />;
 			})}
 		</View>
 	);

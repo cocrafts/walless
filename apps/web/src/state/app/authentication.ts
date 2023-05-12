@@ -1,16 +1,21 @@
 import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
-import { Networks, UserProfile } from '@walless/core';
+import { type UserProfile, Networks, runtime } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import {
 	type PrivateKeyDocument,
 	type PublicKeyDocument,
 	type SettingDocument,
 } from '@walless/store';
-import { signInWithPopup, UserCredential } from 'firebase/auth';
+import {
+	GoogleAuthProvider,
+	signInWithCredential,
+	signInWithPopup,
+	UserCredential,
+} from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
-import { db } from 'utils/pouch';
+import modules from 'utils/modules';
 import { router } from 'utils/routing';
 import {
 	configureSecurityQuestionShare,
@@ -29,7 +34,7 @@ const cache: InternalCache = {};
 export const setProfile = async (profile: UserProfile) => {
 	appState.profile = profile;
 
-	await db.upsert<SettingDocument>('settings', async (doc) => {
+	await modules.storage.upsert<SettingDocument>('settings', async (doc) => {
 		doc.type = 'Setting';
 		doc.version = '0.0.1';
 		doc.profile = profile;
@@ -42,10 +47,21 @@ export const signInWithGoogle = async () => {
 		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
 		appState.authenticationLoading = true;
 
-		cache.loginResponse = await signInWithPopup(auth, googleProvider);
+		if (runtime.isExtension) {
+			const response = await chrome.identity.getAuthToken({
+				interactive: true,
+				scopes: ['email', 'profile'],
+			});
+			const credential = GoogleAuthProvider.credential(null, response.token);
+			cache.loginResponse = await signInWithCredential(auth, credential);
+		} else {
+			cache.loginResponse = await signInWithPopup(auth, googleProvider);
+			console.log(cache.loginResponse);
+		}
+
 		const { user } = cache.loginResponse;
 		const verifierToken = await user.getIdToken(true);
-		const verifier = 'walless-firebase';
+		const verifier = WEB3AUTH_ID;
 		const verifierId = user.uid;
 		const verifierParams = { verifier_id: user.uid };
 		const loginDetails = await customAuth.getTorusKey(
@@ -56,8 +72,11 @@ export const signInWithGoogle = async () => {
 		);
 
 		key.serviceProvider.postboxKey = loginDetails.privateKey as never;
+
+		/* eslint-disable */
 		(key.serviceProvider as any).verifierName = verifier;
 		(key.serviceProvider as any).verifierId = verifierId;
+		/* eslint-enable */
 
 		await key.initialize();
 		const status = await importAvailableShares();
@@ -125,7 +144,7 @@ export const storeAuthenticatedRecords = async (
 		const encrypted = await encryptWithPasscode(passcode, key);
 
 		writePromises.push(
-			db.put<PrivateKeyDocument>({
+			modules.storage.put<PrivateKeyDocument>({
 				_id: id,
 				type: 'PrivateKey',
 				keyType: type,
@@ -140,7 +159,7 @@ export const storeAuthenticatedRecords = async (
 			const suiAddress = suiPair.getPublicKey().toSuiAddress();
 
 			writePromises.push(
-				db.put<PublicKeyDocument>({
+				modules.storage.put<PublicKeyDocument>({
 					_id: solAddress,
 					type: 'PublicKey',
 					privateKeyId: id,
@@ -149,7 +168,7 @@ export const storeAuthenticatedRecords = async (
 			);
 
 			writePromises.push(
-				db.put<PublicKeyDocument>({
+				modules.storage.put<PublicKeyDocument>({
 					_id: suiAddress,
 					privateKeyId: id,
 					type: 'PublicKey',

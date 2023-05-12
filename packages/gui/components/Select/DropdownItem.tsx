@@ -1,7 +1,8 @@
 import { type FC, useState } from 'react';
 import { Image, StyleSheet, ViewStyle } from 'react-native';
 import { StyleProp } from 'react-native';
-import { Hoverable, Text } from '@walless/gui';
+import { Hoverable, Text, View } from '@walless/gui';
+import { Check } from '@walless/icons';
 
 interface Props {
 	selected: boolean;
@@ -30,7 +31,11 @@ const DropdownItem: FC<Props> = ({ selected, name, icon, onPress, style }) => {
 		>
 			<Image source={iconSrc} style={styles.icon} />
 			<Text style={[styles.text, isHover && { color: '#FFFFFF' }]}>{name}</Text>
-			{selected && <Text>selected</Text>}
+			{selected && (
+				<View style={styles.checkIcon}>
+					<Check size={16} color="#566674" />
+				</View>
+			)}
 		</Hoverable>
 	);
 };
@@ -38,7 +43,6 @@ const DropdownItem: FC<Props> = ({ selected, name, icon, onPress, style }) => {
 const styles = StyleSheet.create({
 	itemButton: {
 		flex: 1,
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 9,
@@ -56,6 +60,9 @@ const styles = StyleSheet.create({
 	text: {
 		color: '#566674',
 		fontSize: 14,
+	},
+	checkIcon: {
+		marginLeft: 'auto',
 	},
 });
 

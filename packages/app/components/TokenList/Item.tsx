@@ -1,17 +1,23 @@
 import { type FC } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import {
+	type StyleProp,
+	type ViewStyle,
+	Image,
+	StyleSheet,
+} from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
-import { TokenDocument } from '@walless/store';
+import { type TokenDocument } from '@walless/store';
 
 import { formatTokenValue } from '../../utils/format';
 
 interface Props {
+	style?: StyleProp<ViewStyle>;
 	index: number;
 	item: TokenDocument;
 }
 
-export const TokenItem: FC<Props> = ({ item }) => {
+export const TokenItem: FC<Props> = ({ style, item }) => {
 	const { metadata = {}, account } = item;
 	const { name, symbol, imageUri } = metadata;
 	const iconSource = {
@@ -19,10 +25,14 @@ export const TokenItem: FC<Props> = ({ item }) => {
 	};
 
 	return (
-		<Hoverable style={styles.container}>
+		<Hoverable style={[styles.container, style]}>
 			<View>
 				<View style={styles.iconWrapper}>
-					<Image style={styles.iconImg} source={iconSource} />
+					<Image
+						style={styles.iconImg}
+						source={iconSource}
+						resizeMode="cover"
+					/>
 				</View>
 			</View>
 			<View style={styles.infoContainer}>
@@ -38,7 +48,7 @@ export const TokenItem: FC<Props> = ({ item }) => {
 export default TokenItem;
 
 const iconSize = 28;
-const iconWrapperSize = iconSize + 12;
+const wrapperSize = iconSize + 12;
 
 const styles = StyleSheet.create({
 	container: {
@@ -50,11 +60,14 @@ const styles = StyleSheet.create({
 	iconImg: {
 		width: iconSize,
 		height: iconSize,
+		borderRadius: iconSize / 2,
+		overflow: 'hidden',
+		backgroundColor: 'rgba(255, 255, 255, 0.1)',
 	},
 	iconWrapper: {
-		width: iconWrapperSize,
-		height: iconWrapperSize,
-		borderRadius: iconWrapperSize / 2,
+		width: wrapperSize,
+		height: wrapperSize,
+		borderRadius: wrapperSize / 2,
 		backgroundColor: '#202634',
 		alignItems: 'center',
 		justifyContent: 'center',

@@ -1,17 +1,14 @@
 import { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { TokenAccount } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
-import { TokenRecord } from '@walless/storage';
 
 interface Props {
 	onHide: (next: boolean) => void;
 	isPrivate?: boolean;
-	token: TokenRecord;
 }
 
-export const WalletBalance: FC<Props> = ({ onHide, isPrivate, token }) => {
+export const WalletBalance: FC<Props> = ({ onHide, isPrivate }) => {
 	const balanceTextStyle = [
 		styles.balanceText,
 		isPrivate && styles.protectedBalance,
@@ -23,13 +20,8 @@ export const WalletBalance: FC<Props> = ({ onHide, isPrivate, token }) => {
 				<Hoverable onPress={() => onHide?.(!isPrivate)}>
 					{isPrivate ? <EyeOff size={18} /> : <Eye size={18} />}
 				</Hoverable>
-				<Text style={balanceTextStyle}>
-					{getBalanceDisplay(token, isPrivate)}
-				</Text>
+				<Text style={balanceTextStyle}>$0.00</Text>
 			</View>
-			<Text style={styles.estimationText}>
-				{getEstimatedDisplay(token.account, isPrivate)}
-			</Text>
 		</View>
 	);
 };
@@ -44,6 +36,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingLeft: 5,
+		paddingBottom: 20,
 		gap: 10,
 	},
 	balanceText: {
@@ -59,32 +52,3 @@ const styles = StyleSheet.create({
 		marginLeft: 34,
 	},
 });
-
-const getEstimatedDisplay = (account: TokenAccount, isPrivate?: boolean) => {
-	const balance = parseFloat(account.balance);
-
-	if (isPrivate) {
-		return ' ';
-	} else if (balance === 0) {
-		return '~ 0 USD';
-	} else if (account.price) {
-		return `~ ${balance * account.price} USD`;
-	}
-
-	return '';
-};
-
-const getBalanceDisplay = (
-	{ metadata, account }: TokenRecord,
-	isPrivate?: boolean,
-) => {
-	const balance = parseFloat(account.balance);
-
-	if (isPrivate) {
-		return '******';
-	} else if (balance === 0) {
-		return `0 ${metadata?.symbol}`;
-	}
-
-	return `${account.balance} ${metadata?.symbol}`;
-};

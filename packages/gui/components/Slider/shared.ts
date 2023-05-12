@@ -2,9 +2,21 @@ import { type FC } from 'react';
 import { type LayoutRectangle, type ViewStyle } from 'react-native';
 import { type SharedValue, interpolate } from 'react-native-reanimated';
 
+export interface SliderHandle {
+	slideNext: () => void;
+	slideBack: () => void;
+	slideTo: (index: number) => void;
+}
+
+export interface SlideComponentProps {
+	item: SlideOption;
+	navigator: SliderHandle;
+	activedId: string;
+}
+
 export interface SlideOption {
 	id: string;
-	component: FC<{ item: SlideOption }>;
+	component: FC<SlideComponentProps>;
 }
 
 export type SlideAnimator = (context: {

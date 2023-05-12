@@ -2,16 +2,15 @@ import { AccountChangeCallback, PublicKey } from '@solana/web3.js';
 import { getSolanaTokensByAddress } from '@walless/network';
 import { PublicKeyDocument } from '@walless/store';
 import { flatten } from 'lodash';
-import { db } from 'utils/pouch';
+import modules, { selectors } from 'utils/modules';
 
 import { solanaConnection } from '../utils/connection';
-import { solanaKeysSelector } from '../utils/pouchSelectors';
 import { connection, getLazySolanaMetatadata } from '../utils/solana';
 
 const subscriptionMap: Record<string, number> = {};
 
 export const subscribeSolanaChanges = async () => {
-	const result = await db.find(solanaKeysSelector);
+	const result = await modules.storage.find(selectors.solanaKeys);
 	const keys = result.docs as PublicKeyDocument[];
 	const tokenPromises = [];
 
@@ -36,7 +35,7 @@ export const subscribeSolanaChanges = async () => {
 
 	await Promise.all(
 		tokenDocuments.map((token) => {
-			return db.upsert(token._id, async () => {
+			return modules.storage.upsert(token._id, async () => {
 				return token;
 			});
 		}),
@@ -60,7 +59,7 @@ const handleAccountChange: AccountChangeCallback = async ({ data, owner }) => {
 	const key = owner.toString();
 
 	console.log(data, owner, key, '<--');
-	await db.upsert(key, (doc) => {
+	await modules.storage.upsert(key, (doc) => {
 		return { ...doc } as never;
 	});
 };

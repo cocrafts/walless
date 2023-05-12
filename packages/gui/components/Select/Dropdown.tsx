@@ -1,6 +1,6 @@
 import { type FC, useMemo, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-import { Search as SearchIcon } from '@walless/icons';
+import { ChevronUp, Search as SearchIcon } from '@walless/icons';
 import { throttle } from 'lodash';
 
 import { Hoverable, modalActions, ModalConfigs, Text, View } from '../../';
@@ -42,6 +42,9 @@ const Dropdown: FC<Props> = ({ config }) => {
 				onPress={handleMainButtonPress}
 			>
 				<Text style={mutualStyles.text}>{title}</Text>
+				<View style={mutualStyles.rightIcon}>
+					<ChevronUp size={16} color="#566674" />
+				</View>
 			</Hoverable>
 
 			<View
@@ -90,12 +93,10 @@ const Dropdown: FC<Props> = ({ config }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		flexDirection: 'column',
 	},
 	dropdownContainer: {
 		flex: 1,
-		display: 'flex',
 		flexDirection: 'column',
 		backgroundColor: '#0E141A',
 		borderRadius: 15,
@@ -106,7 +107,6 @@ const styles = StyleSheet.create({
 	input: {
 		width: 308,
 		marginBottom: 10,
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 4,
@@ -116,13 +116,11 @@ const styles = StyleSheet.create({
 	},
 	notFoundView: {
 		height: 150,
-		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: 10,
 	},
 	notFoundIconBlock: {
-		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		height: 50,

@@ -33,7 +33,7 @@ export const HomeNavigation: FC = () => {
 					href="https://docs.google.com/forms/d/e/1FAIpQLSeMOQGfeYhq4i-V595JRc28VlY1YDpFeU0rPJkTymFH6nV21g/viewform"
 					target="_blank"
 				>
-					<Button title="Join waitlist" />
+					<Button title="Get early access" />
 				</Anchor>
 			</ContainerStack>
 		</Stack>

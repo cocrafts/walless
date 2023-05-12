@@ -9,6 +9,9 @@ export const resources = {
 	},
 	home: {
 		preview: {
+			signin: {
+				uri: '/img/home/preview-signin.png',
+			},
 			explore: {
 				uri: '/img/home/preview-explore.png',
 			},
@@ -20,6 +23,17 @@ export const resources = {
 			},
 			underRealm: {
 				uri: '/img/home/preview-under-realm.png',
+			},
+		},
+		detail: {
+			backgroundSrc: {
+				uri: '/img/network/sky-card-bg.png',
+			},
+			largeIconSrc: {
+				uri: '/img/network/solana-icon-lg.png',
+			},
+			iconSrc: {
+				uri: '/img/network/solana-icon-sm.png',
 			},
 		},
 	},

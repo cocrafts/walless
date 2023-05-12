@@ -1,7 +1,8 @@
-import { type ReactNode, forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import {
 	type GestureResponderEvent,
 	type MouseEvent,
+	type PressableProps,
 	type StyleProp,
 	type ViewStyle,
 	View,
@@ -21,17 +22,12 @@ interface MouseContext {
 	mouseIn?: boolean;
 }
 
-export type Props = Omit<DynamicFlags, 'cursorPointer'> & {
-	style?: StyleProp<ViewStyle>;
-	children?: ReactNode;
-	onHoverIn?: (event: MouseEvent) => void;
-	onHoverOut?: (event: MouseEvent) => void;
-	hoverOpacity?: number;
-	animationDuration?: number;
-	onPress?: (e: GestureResponderEvent) => void;
-	onLongPress?: (e: GestureResponderEvent) => void;
-	disabled?: boolean;
-};
+export type Props = Omit<DynamicFlags, 'cursorPointer'> &
+	PressableProps & {
+		style?: StyleProp<ViewStyle>;
+		hoverOpacity?: number;
+		animationDuration?: number;
+	};
 
 export const Hoverable = forwardRef<View, Props>(
 	(
@@ -48,6 +44,7 @@ export const Hoverable = forwardRef<View, Props>(
 			horizontal,
 			noSelect = true,
 			disabled,
+			hitSlop,
 		},
 		ref,
 	) => {
@@ -97,6 +94,7 @@ export const Hoverable = forwardRef<View, Props>(
 		return (
 			<AnimatedPressable
 				ref={ref}
+				hitSlop={hitSlop}
 				style={[containerStyle, dynamicStyle]}
 				disabled={disabled}
 				onHoverIn={handleHoverIn}

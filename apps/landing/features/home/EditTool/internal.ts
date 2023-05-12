@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { Networks } from '@walless/core';
+import { MetadataDocument } from '@walless/store';
 
 export interface ToolboxProps {
 	tools: ToolboxItem[];
@@ -27,6 +29,18 @@ export interface ProjectState {
 	banner: string;
 }
 
-export enum DetailTool {}
+export enum DetailTool {
+	networks,
+	token,
+	collectibles,
+	icon,
+}
+
+export interface DetailState {
+	networks: Networks[];
+	tokens: Record<string, MetadataDocument>;
+	collectibles: Record<string, MetadataDocument>;
+	icon: string;
+}
 
 export type Target = ProjectTool | DetailTool | null;

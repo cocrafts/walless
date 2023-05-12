@@ -1,14 +1,14 @@
-import { EncryptionKeyRecord, WallessDB } from '@walless/storage';
+import { type EncryptionKeyDocument, Database } from '@walless/store';
 
 import {
-	CreateAndHydrateKeyVault,
-	EncryptionKeyVault,
-	GetKeyVault,
+	type CreateAndHydrateKeyVault,
+	type EncryptionKeyVault,
+	type GetKeyVault,
 } from './types';
 
-export const createEncryptionKeyVault = (db: WallessDB): EncryptionKeyVault => {
+export const createEncryptionKeyVault = (db: Database): EncryptionKeyVault => {
 	const get: GetKeyVault = async (id) => {
-		const hydrated = await db.encryptionKeys.get(id);
+		const hydrated = await db.safeGet<EncryptionKeyDocument>(id);
 		if (!hydrated) throw new Error(`Encryption key not found for ${id}`);
 
 		return await crypto.subtle.importKey(
@@ -25,9 +25,15 @@ export const createEncryptionKeyVault = (db: WallessDB): EncryptionKeyVault => {
 		const keyUsages: ReadonlyArray<KeyUsage> = ['encrypt', 'decrypt'];
 		const key = await crypto.subtle.generateKey(keyParams, true, keyUsages);
 		const jwk = await crypto.subtle.exportKey('jwk', key);
-		const hydrated: EncryptionKeyRecord = { id, jwk, keyParams, keyUsages };
+		const hydrated: EncryptionKeyDocument = {
+			_id: id,
+			type: 'EncryptionKey',
+			jwk,
+			keyParams,
+			keyUsages,
+		};
 
-		await db.encryptionKeys.put(hydrated);
+		await db.upsert(id, async () => hydrated);
 		return key;
 	};
 

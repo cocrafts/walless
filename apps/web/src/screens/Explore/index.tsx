@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { ExtensionDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
-import { db } from 'utils/pouch';
+import modules from 'utils/modules';
 import { router } from 'utils/routing';
 
 import LayoutCard from './components/LayoutCard';
@@ -27,7 +27,7 @@ export const ExploreScreen: FC = () => {
 	};
 
 	const handleAddPress = async (extension: ExtensionDocument) => {
-		await db.put(extension);
+		await modules.storage.put(extension);
 		await router.navigate(extension._id);
 	};
 

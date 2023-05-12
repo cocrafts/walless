@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
 
 export const ModalContainer: FC<Props> = ({ item }) => {
 	const {
+		id,
 		component: InnerComponent,
 		bindingRectangle,
 		positionOffset,
@@ -81,7 +82,11 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	}, [top, left, opacity]);
 
 	useEffect(() => {
-		opacity.value = withSpring(item.hide ? 0 : 1);
+		opacity.value = withSpring(item.hide ? 0 : 1, {}, () => {
+			if (item.hide) {
+				modalActions.destroy(id);
+			}
+		});
 	}, [item.hide]);
 
 	useEffect(() => {

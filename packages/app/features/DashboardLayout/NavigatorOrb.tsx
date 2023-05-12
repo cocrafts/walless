@@ -107,7 +107,7 @@ export const NavigatorOrb: FC<Props> = ({
 			<AnimatedView style={[styles.hoverBar, hoverBarStyle]} />
 			<ContextMenuContainer
 				noSelect
-				style={[styles.orbStyle, orbStyle]}
+				contentContainerStyle={[styles.orbStyle, orbStyle]}
 				onHoverIn={handleHoverIn}
 				onHoverOut={handleHoverOut}
 				onPress={() => onPress?.(item)}

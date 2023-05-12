@@ -7,7 +7,7 @@ import {
 	StyleSheet,
 } from 'react-native';
 import { View } from '@walless/gui';
-import { type TokenRecord } from '@walless/storage';
+import { type PublicKeyDocument } from '@walless/store';
 
 import WalletAddress from './Address';
 import WalletBalance from './Balance';
@@ -15,18 +15,18 @@ import { CardSkin } from './shared';
 
 interface Props {
 	style?: ViewStyle;
-	index?: number;
 	width?: number;
+	index?: number;
+	item: PublicKeyDocument;
 	skin: CardSkin;
-	token: TokenRecord;
 	onCopyAddress?: (value: string) => void;
 }
 
 export const WalletCard: FC<Props> = ({
-	index = 0,
 	width = 312,
+	index = 0,
+	item,
 	skin,
-	token,
 	onCopyAddress,
 }) => {
 	const [isPrivate, setIsPrivate] = useState(false);
@@ -49,11 +49,11 @@ export const WalletCard: FC<Props> = ({
 		<ImageBackground style={containerStyle} source={skin.backgroundSrc}>
 			<WalletAddress
 				index={index}
+				item={item}
 				skin={skin}
-				token={token}
 				onCopyAddress={onCopyAddress}
 			/>
-			<WalletBalance token={token} isPrivate={isPrivate} onHide={handleHide} />
+			<WalletBalance isPrivate={isPrivate} onHide={handleHide} />
 			<View style={styles.markContainer}>
 				<Image style={styles.markImage} source={skin.largeIconSrc} />
 			</View>

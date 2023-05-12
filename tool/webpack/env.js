@@ -6,7 +6,8 @@ const setEnvironments =
 		const env = internal.configs.env();
 		const isProduction = internal.configs.isProduction(env);
 		const environments = [
-			'GOOGLE_CLIENT_ID',
+			'BROWSER_CLIENT_ID',
+			'EXTENSION_CLIENT_ID',
 			'FIREBASE_API_KEY',
 			'FIREBASE_AUTH_DOMAIN',
 			'FIREBASE_PROJECT_ID',
@@ -14,6 +15,7 @@ const setEnvironments =
 			'FIREBASE_MESSAGING_SENDER_ID',
 			'FIREBASE_APP_ID',
 			'FIREBASE_MEASUREMENT_ID',
+			'WEB3AUTH_ID',
 		].reduce((a, i) => {
 			a[i] = JSON.stringify(process.env[i]);
 			return a;

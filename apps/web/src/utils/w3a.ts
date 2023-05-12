@@ -23,7 +23,7 @@ import { w3aBaseUrl } from 'utils/config';
  * ------------------ */
 
 export const customAuthArgs: CustomAuthArgs = {
-	web3AuthClientId: 'walless-firebase',
+	web3AuthClientId: WEB3AUTH_ID,
 	network: 'testnet',
 	baseUrl: w3aBaseUrl,
 	redirectToOpener: true,

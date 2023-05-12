@@ -18,11 +18,11 @@ export const appState = proxy<AppState>({
 	tools: {
 		target: null,
 		project: {
-			name: 'Sui',
+			name: 'Solana',
 			description:
-				'Sui is an innovative, decentralized Layer 1 blockchain that redefines asset ownership.',
-			logo: '/img/preview/sui-logo.png',
-			banner: '/img/preview/sui-banner.png',
+				'Powerful for developers, fast for everyone. Very low, and consistent transaction fees.',
+			logo: '/img/preview/solana-logo.png',
+			banner: '/img/preview/solana-banner.png',
 		},
 		detail: {
 			networks: [Networks.solana],

@@ -1,3 +1,4 @@
+import { createEngine } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
@@ -8,6 +9,10 @@ export const injectModules = async () => {
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
 
 	await Promise.all([configure(modules.storage)]);
+	modules.engine = createEngine({
+		storage: modules.storage,
+		defaultEndpoint: 'mainnet',
+	});
 
 	return modules;
 };

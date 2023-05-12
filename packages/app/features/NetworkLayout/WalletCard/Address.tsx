@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
 	addressText: {
 		marginHorizontal: 5,
 		fontSize: 13,
+		color: 'white',
 	},
 	iconWrapper: {
 		width: iconWrapperSize,

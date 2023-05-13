@@ -43,6 +43,7 @@ const EditProjectDesc: FC = () => {
 					rows={3}
 					maxLength={maxLength}
 					style={{
+						fontFamily: 'Rubik',
 						wordWrap: 'break-word',
 					}}
 					defaultValue={projectSnap.description}

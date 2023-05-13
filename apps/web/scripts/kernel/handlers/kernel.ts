@@ -8,6 +8,8 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	if (payload.requestId) {
 		if (payload.type === RequestType.REQUEST_CONNECT) {
 			handleConnect(payload, channel);
+		} else if (payload.type == RequestType.GET_ENDPOINT_ON_SOLANA) {
+			solanaHandler.getEndpoint(payload, channel);
 		} else if (payload.type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
 			solanaHandler.handleSignMessage(payload, channel);
 		} else if (payload.type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {

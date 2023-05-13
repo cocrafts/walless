@@ -1,7 +1,11 @@
-import { TransactionBlock } from '@mysten/sui.js';
+import { Ed25519Keypair, TransactionBlock } from '@mysten/sui.js';
+import {
+	createAssociatedTokenAccountInstruction,
+	createTransferInstruction,
+	getAssociatedTokenAddressSync,
+} from '@solana/spl-token';
 import {
 	type VersionedMessage,
-	clusterApiUrl,
 	Connection,
 	Keypair,
 	LAMPORTS_PER_SOL,
@@ -12,30 +16,44 @@ import {
 } from '@solana/web3.js';
 import { type Token, type TransactionPayload, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-
-const solConn = new Connection(clusterApiUrl('devnet'));
-const sampleKeypair = Keypair.generate();
-
-import {
-	createAssociatedTokenAccountInstruction,
-	createTransferInstruction,
-	getAssociatedTokenAddressSync,
-} from '@solana/spl-token';
 import { type ResponsePayload, RequestType } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
 
+const sampleKeypair = Keypair.generate();
+const suiSampleKeypair = Ed25519Keypair.generate();
+
+let solConn: Connection | undefined;
+export const getSolanaConnection = async () => {
+	if (solConn) return solConn;
+	else {
+		const endpoint = (
+			await requestHandleTransaction({
+				type: RequestType.GET_ENDPOINT_ON_SOLANA,
+			})
+		).endpoint;
+
+		console.log(`Init solana connection, endpoint: ${endpoint}`);
+
+		solConn = new Connection(endpoint);
+		return solConn;
+	}
+};
+
 // These methods must be implemented by sync connection
 export const getLatestBlockhashOnSolana = async () => {
-	return await solConn.getLatestBlockhash().then((res) => res.blockhash);
+	const conn = await getSolanaConnection();
+	return await conn.getLatestBlockhash().then((res) => res.blockhash);
 };
 
 export const getFeeForMessageOnSolana = async (message: VersionedMessage) => {
-	return (await solConn.getFeeForMessage(message)).value;
+	const conn = await getSolanaConnection();
+	return (await conn.getFeeForMessage(message)).value || 0;
 };
 
 export const getParsedTransactionOnSolana = async (signature: string) => {
-	return await solConn.getParsedTransaction(signature, {
+	const conn = await getSolanaConnection();
+	return await conn.getParsedTransaction(signature, {
 		maxSupportedTransactionVersion: 0,
 	});
 };
@@ -164,6 +182,19 @@ export const getTransactionFee = async (network: Networks) => {
 		}).compileToV0Message();
 
 		return ((await getFeeForMessageOnSolana(message)) || 0) / LAMPORTS_PER_SOL;
+	} else if (network == Networks.sui) {
+		const tx = new TransactionBlock();
+
+		const amount = 0.1;
+
+		const [coin] = tx.splitCoins({ kind: 'GasCoin' }, [tx.pure(amount)]);
+
+		tx.transferObjects(
+			[coin],
+			tx.pure(suiSampleKeypair.getPublicKey().toSuiAddress()),
+		);
+
+		return 0;
 	} else return 0;
 };
 
@@ -208,7 +239,8 @@ const constructSendSPLTokenTransactionInSol = async (
 		receiver,
 	);
 
-	const associatedAccountOfReceiver = await solConn.getAccountInfo(
+	const conn = await getSolanaConnection();
+	const associatedAccountOfReceiver = await conn.getAccountInfo(
 		AssociatedAddressOfReceiver,
 	);
 

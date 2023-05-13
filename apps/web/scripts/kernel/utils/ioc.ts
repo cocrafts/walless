@@ -9,9 +9,10 @@ export const injectModules = async () => {
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
 
 	await Promise.all([configure(modules.storage)]);
+
 	modules.engine = createEngine({
 		storage: modules.storage,
-		defaultEndpoint: 'mainnet',
+		defaultEndpoint: __DEV__ ? 'devnet' : 'mainnet',
 	});
 
 	return modules;

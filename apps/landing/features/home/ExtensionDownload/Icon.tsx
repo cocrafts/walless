@@ -11,14 +11,18 @@ interface Props {
 }
 
 export const ExtensionIcon: FC<Props> = ({ size = 48, item }) => {
+	const opacity = item.disabled ? 0.3 : 1;
+	const href = item.disabled ? '#' : item.download;
+
 	return (
-		<Anchor href={item.download}>
+		<Anchor opacity={opacity} href={href}>
 			<Stack
 				animation="fast"
 				hoverStyle={{ opacity: 0.6 }}
 				pressStyle={{ opacity: 0.4 }}
 			>
 				<Image
+					style={[item.disabled && ({ filter: 'grayscale(100%)' } as never)]}
 					src={item.iconSrc}
 					alignSelf="center"
 					defaultSource={item.iconSrc}

@@ -1,5 +1,12 @@
 import { type FC, useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+	type NativeSyntheticEvent,
+	type TextInputKeyPressEventData,
+	StyleSheet,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { Plus } from '@walless/icons';
 
 interface Props {
@@ -9,9 +16,18 @@ interface Props {
 
 const InputAddress: FC<Props> = ({ address = '', onSubmit }) => {
 	const [value, setValue] = useState(address);
+
 	const handleSubmit = () => {
 		onSubmit(value);
 		setValue('');
+	};
+
+	const handleKeyPress = ({
+		nativeEvent,
+	}: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+		if (nativeEvent.key === 'Enter') {
+			handleSubmit();
+		}
 	};
 
 	return (
@@ -19,6 +35,7 @@ const InputAddress: FC<Props> = ({ address = '', onSubmit }) => {
 			<TextInput
 				style={styles.inputContainer}
 				value={value}
+				onKeyPress={handleKeyPress}
 				onChangeText={(text) => setValue(text)}
 			/>
 			<TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>

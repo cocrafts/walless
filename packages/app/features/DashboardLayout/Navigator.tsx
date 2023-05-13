@@ -28,7 +28,7 @@ export const DashboardNavigator: FC<Props> = ({
 	const exploreItem: Partial<ExtensionDocument> = {
 		_id: '',
 		storeMeta: {
-			iconColor: '#0694d3',
+			iconColor: '#243f56',
 		} as never,
 	};
 	const profileItem: Partial<ExtensionDocument> = {

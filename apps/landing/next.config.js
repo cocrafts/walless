@@ -1,5 +1,6 @@
 const withPlugins = require('next-compose-plugins');
 const { withTamagui } = require('@tamagui/next-plugin');
+const project = require('../web/package.json');
 
 module.exports = withPlugins(
 	[
@@ -23,6 +24,9 @@ module.exports = withPlugins(
 			forceSwcTransforms: true,
 			scrollRestoration: true,
 			legacyBrowsers: false,
+		},
+		env: {
+			EXTENSION_VERSION: project.version,
 		},
 		webpack: (config) => {
 			config.module.rules.push({

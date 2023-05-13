@@ -20,7 +20,9 @@ export const WalletBalance: FC<Props> = ({ onHide, isPrivate }) => {
 				<Hoverable onPress={() => onHide?.(!isPrivate)}>
 					{isPrivate ? <EyeOff size={18} /> : <Eye size={18} />}
 				</Hoverable>
-				<Text style={balanceTextStyle}>$0.00</Text>
+				<Text style={balanceTextStyle}>
+					{getValuationDisplay(0, isPrivate)}
+				</Text>
 			</View>
 		</View>
 	);
@@ -53,3 +55,11 @@ const styles = StyleSheet.create({
 		marginLeft: 34,
 	},
 });
+
+const getValuationDisplay = (valuation: number, isPrivate?: boolean) => {
+	if (isPrivate) {
+		return '******';
+	}
+
+	return '$0.00';
+};

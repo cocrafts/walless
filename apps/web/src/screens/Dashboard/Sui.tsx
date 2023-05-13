@@ -40,7 +40,7 @@ export const SuiDashboard: FC<Props> = () => {
 							item={item}
 							skin={suiCardSkin}
 							onCopyAddress={handleCopyAddress}
-							width={publicKeys.length == 1 ? 330 : 312}
+							width={publicKeys.length == 1 ? 328 : 312}
 						/>
 					);
 				})}

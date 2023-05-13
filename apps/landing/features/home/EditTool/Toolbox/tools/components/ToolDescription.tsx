@@ -11,12 +11,16 @@ const ToolDescription: FC<Props> = ({ name, description }) => {
 	const [hovered, setHovered] = useState(false);
 
 	return (
-		<Stack flexDirection="row" alignItems="center" gap={4}>
-			<Text>{name}</Text>
-			<Stack
-				onHoverIn={() => setHovered(true)}
-				onHoverOut={() => setHovered(false)}
-			>
+		<Stack
+			onHoverIn={() => setHovered(true)}
+			onHoverOut={() => setHovered(false)}
+			userSelect="none"
+			flexDirection="row"
+			alignItems="center"
+			gap={4}
+		>
+			<Text numberOfLines={1}>{name}</Text>
+			<Stack>
 				{hovered && (
 					<Stack
 						position="absolute"
@@ -27,11 +31,13 @@ const ToolDescription: FC<Props> = ({ name, description }) => {
 						<Text
 							borderRadius={6}
 							padding={12}
-							width={160}
+							width={180}
 							backgroundColor="#19232C"
+							shadowColor="rgba(0, 0, 0, 0.5)"
+							shadowRadius={12}
 							textAlign="center"
 							color="white"
-							fontSize={10}
+							fontSize={12}
 						>
 							{description}
 						</Text>

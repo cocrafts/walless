@@ -1,5 +1,4 @@
 import { type FC } from 'react';
-import { Edit } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { ProjectTool } from 'features/home/EditTool/internal';
 import { appState, editToolActions } from 'state/app';
@@ -38,11 +37,12 @@ const EditProjectDesc: FC = () => {
 				flexDirection="row"
 				gap={4}
 			>
-				<Edit color="#566674" />
 				<textarea
 					rows={3}
 					maxLength={maxLength}
 					style={{
+						flex: 1,
+						fontSize: 14,
 						fontFamily: 'Rubik',
 						wordWrap: 'break-word',
 					}}

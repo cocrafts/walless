@@ -12,23 +12,25 @@ const SocialCard = () => {
 		'', // empty line to separate the content and hashtags
 	];
 
-	const tweetHastags = ['web3wallet', 'Solana', 'wallet'];
+	const tweetHashTags = ['web3wallet', 'Solana', 'wallet'];
 
 	const tweetShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
 		tweetContent.join('\n\n'),
-	)}&hashtags=${encodeURIComponent(tweetHastags.join(','))}
+	)}&hashtags=${encodeURIComponent(tweetHashTags.join(','))}
 		`;
 
-	const handleContact = () =>
-		Linking.openURL('https://forms.gle/UypLEFvZsc1BxAXdA');
+	const handleContact = () => {
+		return Linking.openURL('https://forms.gle/UypLEFvZsc1BxAXdA');
+	};
 
 	return (
 		<Stack
+			alignSelf="center"
 			backgroundColor="#172028"
+			gap={12}
 			width={320}
 			padding={16}
 			borderRadius={10}
-			gap={12}
 		>
 			<Stack
 				flexDirection="row"

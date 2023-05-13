@@ -19,7 +19,7 @@ interface Props {
 
 export const WalletCard: FC<Props> = ({
 	index = 0,
-	width = 312,
+	width = 340,
 	skin,
 	token,
 }) => {

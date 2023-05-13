@@ -33,6 +33,7 @@ export const SuiDashboard: FC<Props> = () => {
 							index={index}
 							item={item}
 							skin={suiCardSkin}
+							width={publicKeys.length == 1 ? 330 : 312}
 						/>
 					);
 				})}

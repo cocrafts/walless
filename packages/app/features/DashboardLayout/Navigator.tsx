@@ -29,6 +29,7 @@ export const DashboardNavigator: FC<Props> = ({
 		_id: '',
 		storeMeta: {
 			iconColor: '#243f56',
+			iconActiveColor: '#1394d3',
 		} as never,
 	};
 	const profileItem: Partial<ExtensionDocument> = {
@@ -38,6 +39,7 @@ export const DashboardNavigator: FC<Props> = ({
 			iconSize: 40,
 		} as never,
 	};
+	const isExplorerActive = getIsExtensionActive?.(exploreItem as never);
 
 	return (
 		<View style={[styles.container, containerStyle]}>
@@ -58,10 +60,15 @@ export const DashboardNavigator: FC<Props> = ({
 				})}
 				<NavigatorOrb
 					item={exploreItem as never}
-					isActive={getIsExtensionActive?.(exploreItem as never)}
+					isActive={isExplorerActive}
 					onPress={onExtensionPress}
 				>
-					<Compass size={22} />
+					<Compass
+						size={22}
+						colors={
+							isExplorerActive ? ['#FFFFFF', '#0694D3'] : ['#0694D3', '#243f56']
+						}
+					/>
 				</NavigatorOrb>
 			</View>
 			<View style={styles.commandContainer}>

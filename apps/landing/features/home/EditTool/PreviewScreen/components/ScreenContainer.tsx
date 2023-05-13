@@ -15,12 +15,10 @@ const ScreenContainer: FC<Props> = ({ children }) => {
 			borderRadius={10}
 			backgroundColor="#0A1117"
 			flexDirection="row"
-			width={442}
+			maxWidth={442}
 		>
 			<Sidebar />
-			<Stack flex={1} alignItems="center">
-				{children}
-			</Stack>
+			<Stack flex={1}>{children}</Stack>
 		</Stack>
 	);
 };

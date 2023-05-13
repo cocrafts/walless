@@ -40,7 +40,11 @@ const EditTool = () => {
 			>
 				<activeTool.preview />
 			</Stack>
-			<Stack marginBottom={16} $xs={{ alignItems: 'flex-end' }}>
+			<Stack
+				marginBottom={16}
+				marginHorizontal={16}
+				$xs={{ alignItems: 'flex-end' }}
+			>
 				<PreviewOutline
 					tools={tools}
 					activeTool={activeTool}

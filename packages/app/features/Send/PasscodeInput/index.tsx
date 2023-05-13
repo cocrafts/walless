@@ -63,6 +63,9 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 					navigator.slideNext();
 				} else if (res.responseCode == ResponseCode.ERROR) {
 					navigator.slideNext();
+					if (res.message) {
+						showError(res.message);
+					}
 				} else {
 					showError('Something was wrong');
 				}

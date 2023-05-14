@@ -24,6 +24,7 @@ const EditDetailCard: FC = () => {
 			<Stack
 				backgroundColor="#19232C"
 				padding={5}
+				height={45}
 				borderRadius={8}
 				flexDirection="row"
 				gap={4}

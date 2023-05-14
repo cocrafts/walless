@@ -14,13 +14,14 @@ export const HomeNavigation: FC = () => {
 	const temporarilyDisabled = true;
 
 	return (
-		<Stack position="absolute" top={0} right={0} left={0}>
-			<ContainerStack
-				horizontal
-				backgroundColor="$navigationBg"
-				alignItems="center"
-				height={navigationHeight}
-			>
+		<Stack
+			backgroundColor="$navigationBg"
+			position="absolute"
+			top={0}
+			right={0}
+			left={0}
+		>
+			<ContainerStack horizontal alignItems="center" height={navigationHeight}>
 				<HomeButton />
 				<Stack horizontal flex={1} paddingLeft={12}>
 					{!temporarilyDisabled &&

@@ -1,7 +1,13 @@
 import { type FC, useState } from 'react';
-import { TextInput } from 'react-native';
+import {
+	type NativeSyntheticEvent,
+	type TextInputKeyPressEventData,
+	StyleSheet,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { Plus } from '@walless/icons';
-import { Button, Stack } from '@walless/ui';
 
 interface Props {
 	address?: string;
@@ -10,32 +16,55 @@ interface Props {
 
 const InputAddress: FC<Props> = ({ address = '', onSubmit }) => {
 	const [value, setValue] = useState(address);
+
 	const handleSubmit = () => {
 		onSubmit(value);
 		setValue('');
 	};
 
+	const handleKeyPress = ({
+		nativeEvent,
+	}: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+		if (nativeEvent.key === 'Enter') {
+			handleSubmit();
+		}
+	};
+
 	return (
-		<Stack
-			backgroundColor="#19232C"
-			paddingHorizontal={5}
-			borderRadius={8}
-			flexDirection="row"
-			gap={4}
-		>
-			<TextInput value={value} onChangeText={(text) => setValue(text)} />
-			<Stack>
-				<Button
-					padding={10}
-					borderRadius={8}
-					backgroundColor={'transparent'}
-					onPress={handleSubmit}
-				>
-					<Plus size={18} color={'#566674'} />
-				</Button>
-			</Stack>
-		</Stack>
+		<View style={styles.container}>
+			<TextInput
+				style={styles.inputContainer}
+				value={value}
+				onKeyPress={handleKeyPress}
+				onChangeText={(text) => setValue(text)}
+			/>
+			<TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
+				<Plus size={18} color={'#566674'} />
+			</TouchableOpacity>
+		</View>
 	);
 };
 
 export default InputAddress;
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		backgroundColor: '#19232C',
+		borderRadius: 8,
+	},
+	inputContainer: {
+		flex: 1,
+		minWidth: 0,
+		paddingHorizontal: 14,
+		paddingVertical: 14,
+		fontFamily: 'Rubik',
+	},
+	buttonContainer: {
+		borderTopRightRadius: 8,
+		borderBottomRightRadius: 8,
+		paddingHorizontal: 10,
+		justifyContent: 'center',
+		backgroundColor: 'rgba(0, 0, 0, 0.2)',
+	},
+});

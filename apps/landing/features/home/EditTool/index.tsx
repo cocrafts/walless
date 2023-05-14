@@ -30,26 +30,27 @@ const EditTool = () => {
 	const [activeTool, setActiveTool] = useState<ToolboxItem>(tools[0] ?? null);
 
 	return (
-		<ContainerStack
-			marginTop={72}
-			maxWidth={1500}
-			scale={0.8}
-			alignItems="center"
-		>
+		<ContainerStack marginTop={72}>
 			<Header />
-
-			<Stack marginTop={40} marginBottom={-50} justifyContent="center">
+			<Stack
+				marginTop={40}
+				marginBottom={-72}
+				justifyContent="center"
+				alignItems="center"
+			>
 				<activeTool.preview />
 			</Stack>
-
-			<Stack marginBottom={20} alignSelf="flex-start">
+			<Stack
+				marginBottom={16}
+				marginHorizontal={16}
+				$xs={{ alignItems: 'flex-end' }}
+			>
 				<PreviewOutline
 					tools={tools}
 					activeTool={activeTool}
 					setActiveTool={setActiveTool}
 				/>
 			</Stack>
-
 			<Toolbox
 				tools={tools}
 				activeTool={activeTool}

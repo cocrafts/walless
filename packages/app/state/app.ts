@@ -6,6 +6,7 @@ export interface AppState {
 	passcodeLoading: boolean;
 	passcodeError?: string;
 	authenticationLoading: boolean;
+	invitationError?: string;
 	profileReady: boolean;
 	profileLoading: boolean;
 	profile: UserProfile;

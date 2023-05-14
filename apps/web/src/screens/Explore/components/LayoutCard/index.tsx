@@ -11,12 +11,14 @@ import AddedLayoutBtn from './AddedLayoutBtn';
 import AddLayoutBtn from './AddLayoutBtn';
 
 const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
+	const [isAdded, setIsAdded] = useState(false);
 	const { map: extensionMap } = useSnapshot(extensionState);
+
 	const extensions = Array.from(extensionMap.values());
 	const { storeMeta } = item;
 	const coverSrc = { uri: storeMeta.coverUri };
 	const iconSrc = { uri: storeMeta.iconUri };
-	const [isAdded, setIsAdded] = useState(false);
+
 	const handleRemoveLayout = async () => {
 		const doc = await modules.storage.get(item._id);
 		doc._deleted = true;

@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
 		height: 40,
 		borderRadius: 12,
 	},
-	text: {},
+	text: {
+		color: '#FFFFFF',
+		fontSize: 14,
+		fontWeight: '500',
+	},
 });
 export default RemoveLayoutBtn;

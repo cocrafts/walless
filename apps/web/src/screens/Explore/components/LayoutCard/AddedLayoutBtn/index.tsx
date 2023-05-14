@@ -3,11 +3,12 @@ import { StyleSheet, View } from 'react-native';
 import {
 	AnimateDirections,
 	BindDirections,
-	Button,
+	Hoverable,
 	modalActions,
 } from '@walless/gui';
 import { Check } from '@walless/icons';
 
+import AddedLayoutAnnouncement from './AddedLayoutAnnouncement';
 import RemoveLayoutBtn from './RemoveLayoutBtn';
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 
 const AddedLayoutBtn: FC<Props> = ({ onRemove }) => {
 	const bindingRef = useRef(null);
+
 	const handlePress = () => {
 		modalActions.show({
 			id: 'remove-layout-modal',
@@ -23,18 +25,47 @@ const AddedLayoutBtn: FC<Props> = ({ onRemove }) => {
 				<RemoveLayoutBtn config={config} onRemove={onRemove} />
 			),
 			maskActiveOpacity: 0,
+			positionOffset: {
+				y: -4,
+			},
 			bindingRef: bindingRef,
 			bindingDirection: BindDirections.TopRight,
 			animateDirection: AnimateDirections.Inner,
 		});
 	};
 
+	const handleHoverIn = () => {
+		console.log('hover in');
+		modalActions.show({
+			id: 'added-layout-anouncement',
+			component: AddedLayoutAnnouncement,
+			withoutMask: true,
+			bindingRef: bindingRef,
+			bindingDirection: BindDirections.TopRight,
+			animateDirection: AnimateDirections.Inner,
+			positionOffset: {
+				y: -4,
+			},
+		});
+	};
+
+	const handleHoverOut = () => {
+		console.log('hover out');
+		modalActions.destroy('added-layout-anouncement');
+	};
+
 	return (
-		<Button style={styles.button} onPress={handlePress}>
+		<Hoverable
+			style={styles.button}
+			onPress={handlePress}
+			onHoverIn={handleHoverIn}
+			onHoverOut={handleHoverOut}
+			hoverOpacity={1}
+		>
 			<View ref={bindingRef}>
 				<Check size={24} color="#566674" />
 			</View>
-		</Button>
+		</Hoverable>
 	);
 };
 

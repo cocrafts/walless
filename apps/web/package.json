@@ -1,6 +1,6 @@
 {
   "name": "@walless/web",
-  "version": "0.2.8",
+  "version": "0.2.16",
   "private": true,
   "main": "index.web.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "@walless/engine": "*",
     "@walless/gui": "*",
     "@walless/icons": "*",
+    "@walless/ioc": "*",
     "@walless/markdown": "*",
     "@walless/messaging": "*",
     "@walless/network": "*",

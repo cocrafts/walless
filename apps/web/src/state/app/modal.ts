@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { NotificationModal } from '@walless/app';
-import { Networks } from '@walless/core';
+import { type Networks } from '@walless/core';
 import {
+	type ModalConfigs,
 	AnimateDirections,
 	BindDirections,
 	modalActions,
-	ModalConfigs,
 } from '@walless/gui';
 import ReceiveTokenScreen from 'screens/Profile/modals/ReceiveToken';
 

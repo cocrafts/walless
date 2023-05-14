@@ -1,9 +1,9 @@
-import { Connection } from '@solana/web3.js';
-import { PublicKeyDocument, selectors } from '@walless/store';
+import { type Connection } from '@solana/web3.js';
+import { type PublicKeyDocument, selectors } from '@walless/store';
 import { flatten } from 'lodash';
 
 import { tokenActions } from '../state/tokens';
-import { EngineRunner } from '../utils/type';
+import { type EngineRunner } from '../utils/type';
 
 import { createLazySolanaMetadataFetcher } from './metadata';
 import { solanaTokensByAddress } from './token';

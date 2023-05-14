@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Circle, Line, Svg } from 'react-native-svg';
 
-import { Props } from './types';
+import { type Props } from './types';
 
 export const AlertCircle: FC<Props> = ({ size = 24, color = '#FFFFFF' }) => {
 	return (

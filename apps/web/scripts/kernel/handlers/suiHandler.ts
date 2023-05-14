@@ -1,12 +1,12 @@
 import { Ed25519Keypair, RawSigner, TransactionBlock } from '@mysten/sui.js';
 import { Networks } from '@walless/core';
+import { modules } from '@walless/ioc';
 import {
-	MessengerCallback,
+	type MessengerCallback,
+	type ResponsePayload,
 	ResponseCode,
-	ResponsePayload,
 } from '@walless/messaging';
 import { decode } from 'bs58';
-import modules from 'utils/modules';
 
 import {
 	getPrivateKey,

@@ -1,8 +1,8 @@
-import { FC, Fragment } from 'react';
+import { type FC, Fragment } from 'react';
 import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme';
 import { GuiProvider } from '@walless/ui';
 import SEOHead from 'components/SEOHead';
-import { AppProps } from 'next/app';
+import { type AppProps } from 'next/app';
 
 import config from '../tamagui.config';
 

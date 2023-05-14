@@ -1,13 +1,13 @@
 import { createElement } from 'react';
-import { Stack, Text, TextProps } from '@tamagui/core';
+import { type TextProps, Stack, Text } from '@tamagui/core';
 import {
+	type ParserRule,
+	type ReactOutputRule,
+	type SingleASTNode,
 	defaultRules,
-	ParserRule,
-	ReactOutputRule,
-	SingleASTNode,
 } from 'simple-markdown';
 
-import { MarkdownConfig } from '../utils/types';
+import { type MarkdownConfig } from '../utils/types';
 
 export const list: ParserRule & ReactOutputRule = {
 	...defaultRules.list,

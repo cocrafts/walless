@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Image, Stack, Text } from '@walless/ui';
 
 export interface Collectible {

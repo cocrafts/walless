@@ -1,7 +1,7 @@
-import { FC, useState } from 'react';
-import { ExtensionDocument } from '@walless/store';
+import { type FC, useState } from 'react';
+import { modules } from '@walless/ioc';
+import { type ExtensionDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
-import modules from 'utils/modules';
 import { router } from 'utils/routing';
 
 import LayoutCard from './components/LayoutCard';

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { type UserProfile } from '@walless/core';
 import { Stack } from '@walless/ui';
 

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Button, Image } from '@walless/ui';
 import Anchor from 'components/Anchor';
 import { resources } from 'utils/config';

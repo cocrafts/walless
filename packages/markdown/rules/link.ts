@@ -6,7 +6,7 @@ import {
 } from 'simple-markdown';
 
 import { Anchor } from '../components/Anchor';
-import { MarkdownState } from '../utils/types';
+import { type MarkdownState } from '../utils/types';
 
 export const link: ParserRule & ReactOutputRule = {
 	...defaultRules.link,

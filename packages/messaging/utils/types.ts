@@ -1,4 +1,8 @@
-import { ChannelHashmap, MiniBroadcast, UnknownObject } from '@walless/core';
+import {
+	type ChannelHashmap,
+	type MiniBroadcast,
+	type UnknownObject,
+} from '@walless/core';
 
 export enum Channels {
 	'kernel' = 'kernel',
@@ -88,6 +92,7 @@ export enum ResponseCode {
 
 export enum RequestType {
 	REQUEST_CONNECT,
+	GET_ENDPOINT_ON_SOLANA,
 	SIGN_SEND_TRANSACTION_ON_SOLANA,
 	SIGN_TRANSACTION_ON_SOLANA,
 	SIGN_MESSAGE_ON_SOLANA,

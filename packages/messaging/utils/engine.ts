@@ -1,4 +1,4 @@
-import { RequestMetadata } from './types';
+import { type RequestMetadata } from './types';
 
 export const requestEngine: Record<string, RequestMetadata> = {};
 

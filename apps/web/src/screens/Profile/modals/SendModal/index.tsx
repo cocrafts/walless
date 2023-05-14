@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SendFeature } from '@walless/app';
-import { modalActions, ModalConfigs } from '@walless/gui';
+import { type ModalConfigs, modalActions } from '@walless/gui';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 import {
 	checkValidAddress,

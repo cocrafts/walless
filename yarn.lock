@@ -8892,6 +8892,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@walless/ioc@*, @walless/ioc@workspace:packages/ioc":
+  version: 0.0.0-use.local
+  resolution: "@walless/ioc@workspace:packages/ioc"
+  dependencies:
+    "@walless/messaging": "*"
+    "@walless/store": "*"
+    eslint: 8.38.0
+  languageName: unknown
+  linkType: soft
+
 "@walless/landing@workspace:apps/landing":
   version: 0.0.0-use.local
   resolution: "@walless/landing@workspace:apps/landing"
@@ -9083,6 +9093,7 @@ __metadata:
     "@walless/engine": "*"
     "@walless/gui": "*"
     "@walless/icons": "*"
+    "@walless/ioc": "*"
     "@walless/markdown": "*"
     "@walless/messaging": "*"
     "@walless/network": "*"

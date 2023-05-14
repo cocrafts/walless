@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { type ViewStyle, StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
-import { TabAble } from './shared';
+import { type TabAble } from './shared';
 import TabItem from './TabItem';
 
 interface Props {

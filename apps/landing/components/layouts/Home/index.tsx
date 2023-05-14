@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Theme } from '@tamagui/core';
 import { ScrollView, Stack } from '@walless/ui';
 
-import { LayoutProps } from '../shared';
+import { type LayoutProps } from '../shared';
 
 import Footer from './Footer';
 import Navigation, { navigationHeight } from './Navigation';
@@ -21,7 +21,7 @@ export const HomeLayout: FC<LayoutProps> = ({
 					showsVerticalScrollIndicator={false}
 					marginTop={navigationHeight}
 				>
-					<Stack $gtMd={{ marginHorizontal: 72 }}>{children}</Stack>
+					{children}
 					<Footer />
 				</ScrollView>
 				<Navigation />

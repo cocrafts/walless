@@ -15,8 +15,8 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import {
+	type ModalConfigs,
 	modalActions,
-	ModalConfigs,
 	rectangleAnimatedStyle,
 	rectangleBind,
 } from '../../states/modal';

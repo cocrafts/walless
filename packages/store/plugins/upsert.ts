@@ -1,6 +1,6 @@
-import PouchDB from 'pouchdb-core';
+import type PouchDB from 'pouchdb-core';
 
-import { UpsertDiffFunc } from './type';
+import { type UpsertDiffFunc } from './type';
 
 export async function upsert<T extends object>(
 	this: PouchDB.Database,

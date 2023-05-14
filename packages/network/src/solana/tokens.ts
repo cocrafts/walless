@@ -1,6 +1,6 @@
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { type Connection, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { type MetadataDocument, type TokenDocument } from '@walless/store';
 

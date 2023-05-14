@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 
 import EditDetailCard from './EditDetailCard';
 import EditDetailIcon from './EditDetailIcon';

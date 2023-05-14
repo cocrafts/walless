@@ -1,4 +1,4 @@
-import { type Endpoint, Networks } from '@walless/core';
+import { type Endpoint, type Networks } from '@walless/core';
 import { type Database } from '@walless/store';
 
 import { createCrawler } from './utils/crawler';

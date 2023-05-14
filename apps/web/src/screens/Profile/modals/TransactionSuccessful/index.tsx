@@ -1,13 +1,13 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import {
+	type ModalConfigs,
 	AnimateDirections,
 	BindDirections,
 	modalActions,
-	ModalConfigs,
 } from '@walless/gui';
 import { ArrowDown } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
-import { TransactionPayload } from 'state/transaction/send';
+import { type TransactionPayload } from 'state/transaction/send';
 
 import InfoItemDivider from '../components/InfoItemDivider';
 import InfoKeyValue from '../components/InfoKeyValue';

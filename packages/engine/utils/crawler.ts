@@ -1,11 +1,11 @@
-import { Endpoint } from '@walless/core';
+import { type Endpoint } from '@walless/core';
 import { type Database } from '@walless/store';
 
 import {
-	ConnectionPool,
-	EngineCrawler,
-	EngineRunner,
-	RunnerContext,
+	type ConnectionPool,
+	type EngineCrawler,
+	type EngineRunner,
+	type RunnerContext,
 } from './type';
 
 type CreateCrawlerOption<T> = EngineRunner<T> & {

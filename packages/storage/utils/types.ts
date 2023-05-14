@@ -1,13 +1,13 @@
 import {
 	type Collectible,
 	type EncryptedWithPasscode,
+	type ExtensionConfig,
 	type HydratedKey,
+	type Networks,
 	type Token,
 	type UserProfile,
-	ExtensionConfig,
-	Networks,
 } from '@walless/core';
-import { Dexie, Table } from 'dexie';
+import { type Dexie, type Table } from 'dexie';
 
 export interface SettingRecord {
 	id?: number;

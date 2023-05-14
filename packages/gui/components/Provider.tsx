@@ -2,7 +2,7 @@ import { type FC, type ReactNode, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { modalActions } from '../states/modal';
-import { themeActions, ThemeState } from '../states/theme';
+import { type ThemeState, themeActions } from '../states/theme';
 
 import ModalManager from './ModalManager';
 

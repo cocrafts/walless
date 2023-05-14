@@ -1,5 +1,5 @@
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { type Connection, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { type Database, type MetadataDocument } from '@walless/store';
 

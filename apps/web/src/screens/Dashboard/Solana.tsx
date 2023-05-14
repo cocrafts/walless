@@ -2,9 +2,9 @@ import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
+	type TabAble,
 	MainFeatures,
 	SlideHandler,
-	TabAble,
 	TabsHeader,
 	TokenList,
 	WalletCard,
@@ -45,6 +45,7 @@ export const SolanaDashboard: FC<Props> = () => {
 							item={item}
 							skin={suiCardSkin}
 							onCopyAddress={handleCopyAddress}
+							width={publicKeys.length == 1 ? 328 : 312}
 						/>
 					);
 				})}

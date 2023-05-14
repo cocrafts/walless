@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { UnknownObject } from '@walless/core';
+import { type UnknownObject } from '@walless/core';
 import { Button, Input, Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 

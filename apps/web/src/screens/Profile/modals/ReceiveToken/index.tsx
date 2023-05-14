@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { Networks } from '@walless/core';
+import { type Networks } from '@walless/core';
 import { walletState } from '@walless/engine';
 import { type ModalConfigs } from '@walless/gui';
 import { Stack } from '@walless/ui';
@@ -9,8 +9,11 @@ import { useSnapshot } from 'valtio';
 import ModalHeader from '../components/ModalHeader';
 import ModalWrapper from '../components/ModalWrapper';
 
-import Slider, { IndicatorOption, SlideOption } from './components/Slider';
-import WalletCard, { WalletProps } from './components/WalletCard';
+import Slider, {
+	type IndicatorOption,
+	type SlideOption,
+} from './components/Slider';
+import WalletCard, { type WalletProps } from './components/WalletCard';
 import WalletCardIndicator from './components/WalletCardIndicator';
 
 const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {

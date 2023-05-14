@@ -1,7 +1,11 @@
 import { type FC, useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Networks, Token, TransactionPayload } from '@walless/core';
-import { SlideComponentProps, Text, View } from '@walless/gui';
+import {
+	type Networks,
+	type Token,
+	type TransactionPayload,
+} from '@walless/core';
+import { type SlideComponentProps, Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
@@ -59,6 +63,9 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 					navigator.slideNext();
 				} else if (res.responseCode == ResponseCode.ERROR) {
 					navigator.slideNext();
+					if (res.message) {
+						showError(res.message);
+					}
 				} else {
 					showError('Something was wrong');
 				}

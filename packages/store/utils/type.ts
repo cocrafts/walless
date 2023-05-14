@@ -4,12 +4,12 @@ import {
 	type Endpoint,
 	type ExtensionConfig,
 	type HydratedKey,
+	type Networks,
 	type Setting,
 	type Token,
 	type TrustedDomain,
-	Networks,
 } from '@walless/core';
-import PouchDB from 'pouchdb-core';
+import type PouchDB from 'pouchdb-core';
 
 export type DocumentType =
 	| 'Setting'

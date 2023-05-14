@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
+import { type FC } from 'react';
+import { type ViewStyle, StyleSheet } from 'react-native';
 import { Button } from '@walless/gui';
 
 interface Props {

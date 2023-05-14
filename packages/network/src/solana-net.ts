@@ -5,7 +5,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 
 import { connection } from './utils/connection';
 import SolanaConnection from './connection';
-import { Token, TokenType } from './network-interface';
+import { type Token, TokenType } from './network-interface';
 
 // type QueryResult = {
 // 	balance: number;

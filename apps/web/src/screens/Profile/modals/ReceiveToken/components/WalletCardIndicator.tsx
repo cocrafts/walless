@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Hoverable } from '@walless/gui';
 import { Stack } from '@walless/ui';
 
-import { IndicatorOption } from './Slider';
-import { WalletProps } from './WalletCard';
+import { type IndicatorOption } from './Slider';
+import { type WalletProps } from './WalletCard';
 
 interface Props {
 	config: IndicatorOption;

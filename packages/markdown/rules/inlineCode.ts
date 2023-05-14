@@ -7,7 +7,7 @@ import {
 	defaultRules,
 } from 'simple-markdown';
 
-import { MarkdownConfig } from '../utils/types';
+import { type MarkdownConfig } from '../utils/types';
 
 export const inlineCode: ParserRule & ReactOutputRule = {
 	...defaultRules.inlineCode,

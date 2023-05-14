@@ -1,4 +1,4 @@
-import { RequestHashmap, UnknownObject } from '@walless/core';
+import { type RequestHashmap, type UnknownObject } from '@walless/core';
 
 let initialized = false;
 let queueInterval;

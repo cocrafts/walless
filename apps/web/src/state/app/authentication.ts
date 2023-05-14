@@ -3,19 +3,19 @@ import { Keypair as SolPair } from '@solana/web3.js';
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
 import { type UserProfile, Networks, runtime } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
+import { modules } from '@walless/ioc';
 import {
 	type PrivateKeyDocument,
 	type PublicKeyDocument,
 	type SettingDocument,
 } from '@walless/store';
 import {
+	type UserCredential,
 	GoogleAuthProvider,
 	signInWithCredential,
 	signInWithPopup,
-	UserCredential,
 } from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
-import modules from 'utils/modules';
 import { router } from 'utils/routing';
 import {
 	configureSecurityQuestionShare,

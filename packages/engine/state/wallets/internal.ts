@@ -1,4 +1,4 @@
-import { PublicKeyDocument } from '@walless/store';
+import { type PublicKeyDocument } from '@walless/store';
 import { proxy } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 

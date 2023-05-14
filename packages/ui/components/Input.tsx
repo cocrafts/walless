@@ -1,5 +1,5 @@
 import { TextInput } from 'react-native';
-import { GetProps, setupReactNative, styled } from '@tamagui/core';
+import { type GetProps, setupReactNative, styled } from '@tamagui/core';
 import { focusableInputHOC } from '@tamagui/focusable';
 
 setupReactNative({

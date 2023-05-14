@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { injectRuntime } from 'bridge/entry';
 import { initializeLiveState } from 'state/live';
-import { injectModules } from 'utils/modules';
+import { injectModules } from 'utils/ioc';
 
 import '@tamagui/polyfill-dev';
 import 'raf/polyfill';

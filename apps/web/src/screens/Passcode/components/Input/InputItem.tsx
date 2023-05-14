@@ -1,8 +1,8 @@
-import { FC, RefObject, useEffect, useRef, useState } from 'react';
+import { type FC, type RefObject, useEffect, useRef, useState } from 'react';
 import {
-	NativeSyntheticEvent,
-	TextInput,
-	TextInputKeyPressEventData,
+	type NativeSyntheticEvent,
+	type TextInput,
+	type TextInputKeyPressEventData,
 } from 'react-native';
 import { Input } from '@walless/ui';
 

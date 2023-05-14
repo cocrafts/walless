@@ -1,7 +1,11 @@
 import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Networks, Token, TransactionPayload } from '@walless/core';
-import { SliderHandle, View } from '@walless/gui';
+import {
+	type Networks,
+	type Token,
+	type TransactionPayload,
+} from '@walless/core';
+import { type SliderHandle, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 

@@ -1,6 +1,6 @@
 import { Connection, JsonRpcProvider } from '@mysten/sui.js';
 
-import { Token, TokenType } from './network-interface';
+import { type Token, TokenType } from './network-interface';
 
 const connection = new Connection({
 	fullnode: 'https://fullnode.devnet.sui.io',

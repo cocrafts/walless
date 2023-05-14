@@ -1,4 +1,4 @@
-import { Networks } from './../../../../core/utils/commonTypes';
+import { type Networks } from './../../../../core/utils/commonTypes';
 import { transactionContext } from './../../../state/transaction';
 import { injectedElements } from './../../../state/transaction/inject';
 

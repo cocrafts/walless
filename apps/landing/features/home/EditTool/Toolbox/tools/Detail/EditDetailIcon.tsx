@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Stack, Text } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
 import { editToolActions } from 'state/app';
@@ -28,7 +28,7 @@ const EditDetailIcon: FC = () => {
 
 				<Stack>
 					<Text fontSize={12}>Upload image (jpg, png)</Text>
-					<Text fontSize={10} color="#566674">
+					<Text fontSize={11} marginTop={2} color="#566674">
 						130 x 130px. File limit: 200 KB
 					</Text>
 				</Stack>

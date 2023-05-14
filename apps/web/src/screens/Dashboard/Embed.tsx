@@ -1,8 +1,10 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Stack, Text } from '@walless/ui';
 import SolanaDashboard from 'screens/Dashboard/Solana';
 import SuiDashboard from 'screens/Dashboard/Sui';
 import { useParams } from 'utils/hooks';
+
+import { TRexRunner } from './TRexRunner';
 
 export const Embed: FC = () => {
 	const { id } = useParams<'id'>();
@@ -11,6 +13,8 @@ export const Embed: FC = () => {
 		return <SolanaDashboard />;
 	} else if (id === 'sui') {
 		return <SuiDashboard />;
+	} else if (id === '000004') {
+		return <TRexRunner />;
 	}
 
 	return (

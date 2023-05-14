@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import { Stack } from '@walless/ui';
 
 interface Props {
@@ -12,6 +12,7 @@ const Sidebar: FC<Props> = ({ children }) => {
 			width={60}
 			borderRightWidth={1}
 			borderColor="#364654"
+			paddingVertical={20}
 		>
 			{children}
 		</Stack>

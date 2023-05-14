@@ -6,7 +6,7 @@ import PrivateKeyModule, {
 	SECP256K1Format,
 } from '@tkey/private-keys';
 import SecurityQuestionsModule from '@tkey/security-questions';
-import { TorusServiceProvider } from '@tkey/service-provider-torus';
+import { type TorusServiceProvider } from '@tkey/service-provider-torus';
 import { type WebStorageModule } from '@tkey/web-storage';
 import CustomAuth, { type CustomAuthArgs } from '@toruslabs/customauth';
 import { ThresholdResult } from '@walless/app';

@@ -1,5 +1,5 @@
 import { type FC, useEffect, useRef, useState } from 'react';
-import { TextInput } from 'react-native';
+import { type TextInput } from 'react-native';
 import { type StackProps, Stack } from '@walless/ui';
 
 import Pin from './Pin';

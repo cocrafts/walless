@@ -1,31 +1,25 @@
-import { FC, memo } from 'react';
+import { type FC } from 'react';
 import { Stack } from '@walless/ui';
 import BulletSeparator from 'components/BulletSeparator';
 
-import { ToolboxProps } from '../internal';
+import { type ToolboxProps } from '../internal';
 
 import SocialCard from './SocialCard';
 import ToolName from './ToolName';
 
 const Toolbox: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
-	const borderColor = '#56667480';
 	const activeIndex = tools.findIndex((tool) => tool.name === activeTool.name);
 	const bulletLeft = 20 + activeIndex * 100 + activeIndex * 32;
 
 	return (
 		<Stack
-			backgroundColor="#000000"
-			flexDirection="row"
+			horizontal
 			borderRadius={10}
-			width="100%"
+			backgroundColor="#000000"
+			flexWrap="wrap"
 		>
 			<Stack flex={1}>
-				<Stack
-					flexDirection="row"
-					alignItems="center"
-					gap={32}
-					paddingHorizontal={20}
-				>
+				<Stack horizontal alignItems="center" gap={32} paddingHorizontal={20}>
 					{tools.map((tool) => (
 						<ToolName
 							key={tool.name}
@@ -35,20 +29,21 @@ const Toolbox: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
 						/>
 					))}
 				</Stack>
-
 				<BulletSeparator
 					backgroundColor={borderColor}
 					paddingLeft={bulletLeft}
 				/>
-
-				<Stack flexDirection="row" flexGrow={1}>
-					{activeTool.components.map((ToolComponent, idx) => (
+				<Stack horizontal flex={1} flexWrap="wrap">
+					{activeTool.components.map((ToolComponent, i) => (
 						<Stack
-							key={idx}
-							borderRightWidth={idx < activeTool.components.length - 1 ? 1 : 0}
-							borderColor="#56667480"
-							width={`${100 / activeTool.components.length}%`}
+							key={i}
+							flex={1}
+							flexBasis={1}
 							padding={20}
+							minWidth={300}
+							borderBottomWidth={1}
+							borderLeftWidth={i === 0 ? 0 : 1}
+							borderColor={borderColor}
 						>
 							<ToolComponent />
 						</Stack>
@@ -57,8 +52,9 @@ const Toolbox: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
 			</Stack>
 
 			<Stack
-				paddingHorizontal={22}
+				flexGrow={1}
 				paddingVertical={32}
+				paddingHorizontal={22}
 				borderLeftWidth={1}
 				borderColor={borderColor}
 			>
@@ -68,4 +64,6 @@ const Toolbox: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
 	);
 };
 
-export default memo(Toolbox);
+export default Toolbox;
+
+const borderColor = 'rgba(255, 255, 255, 0.12)';

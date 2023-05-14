@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { LoginFeature } from '@walless/app';
 
 import { appActions, appState } from '../state/app';

@@ -1,14 +1,14 @@
-import { FC, ReactNode, useState } from 'react';
+import { type FC, type ReactNode, useState } from 'react';
 import {
-	NativeSyntheticEvent,
+	type NativeSyntheticEvent,
+	type TextInputFocusEventData,
+	type TextInputProps,
+	type TextStyle,
 	StyleSheet,
 	TextInput,
-	TextInputFocusEventData,
-	TextInputProps,
-	TextStyle,
 	View,
 } from 'react-native';
-import { StyleProp } from 'react-native';
+import { type StyleProp } from 'react-native';
 
 import { injectedFontStyle } from '../../utils/font';
 

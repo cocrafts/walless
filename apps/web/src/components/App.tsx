@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { type FC, useEffect, useRef } from 'react';
 import { type ViewStyle, StyleSheet, View } from 'react-native';
 import { RouterProvider } from 'react-router-dom';
 import { modalActions, ModalManager } from '@walless/gui';

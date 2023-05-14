@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { ChevronRight, Times } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
 

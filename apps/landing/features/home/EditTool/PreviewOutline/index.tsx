@@ -1,8 +1,8 @@
-import { FC, memo } from 'react';
+import { type FC, memo } from 'react';
 import { Button, Stack } from '@walless/ui';
 import Image from 'next/image';
 
-import { ToolboxItem } from '../internal';
+import { type ToolboxItem } from '../internal';
 
 interface PreviewOutlineProps {
 	tools: ToolboxItem[];

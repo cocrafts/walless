@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Button, Stack } from '@walless/ui';
 
 import Tab from './Tab';

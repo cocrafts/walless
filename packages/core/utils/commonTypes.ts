@@ -1,4 +1,4 @@
-import { Token } from './entityTypes';
+import { type Token } from './entityTypes';
 
 export interface EncryptedWithPasscode {
 	iv: string;

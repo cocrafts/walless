@@ -1,10 +1,9 @@
-import { ExtensionDocument } from '@walless/store';
+import { type ExtensionDocument } from '@walless/store';
 
 export interface LayoutCardProps {
 	item: ExtensionDocument;
 	onAddPress?: (item: ExtensionDocument) => void;
 	onLovePress?: (item: ExtensionDocument) => void;
-	onRemovePress: (item: ExtensionDocument) => void;
 }
 
 export const mockLayoutCards: ExtensionDocument[] = [
@@ -56,6 +55,30 @@ export const mockLayoutCards: ExtensionDocument[] = [
 			iconUri: '/img/network/sui-icon-sm.png',
 			iconColor: '#FFFFFF',
 			iconSize: 12,
+		},
+	},
+	{
+		_id: '000004',
+		name: 'T-Rex Runner',
+		version: '0.1.8',
+		type: 'Extension',
+		extensionType: 'Layout',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/t-rex-runner/runner-icon.png',
+			iconSize: 40,
+			iconColor: '#000000',
+			coverUri: '/img/t-rex-runner/runner-bg.png',
+			description: 'dApp version of the T-rex Runner you already known!',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/network/solana-icon-lg.png',
+			iconUri: '/img/explore/thumbnail-under-realm.png',
+			iconColor: '#000000',
+			iconSize: 40,
 		},
 	},
 ];

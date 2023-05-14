@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Networks, UnknownObject } from '@walless/core';
+import { type Networks, type UnknownObject } from '@walless/core';
 import { Input, Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 		width: 336,
 		justifyContent: 'space-between',
 		marginBottom: 4,
-		marginTop: 14,
+		marginTop: 19,
 	},
 	title: {
 		fontSize: 20,

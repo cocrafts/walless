@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import { Stack } from '@walless/ui';
 
 interface Props {
@@ -17,6 +17,7 @@ const TargetWrapper: FC<Props> = ({ children, isTargeted, zIndex = 9 }) => {
 				zIndex={zIndex}
 				width="100%"
 				height="100%"
+				borderRadius={8}
 				backgroundColor={isTargeted ? 'rgb(6, 148, 211, 0.7)' : 'transparent'}
 			/>
 			{children}

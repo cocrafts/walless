@@ -1,13 +1,13 @@
 /* eslint-disable */
 
-import { FC, forwardRef } from 'react';
+import { type FC, forwardRef } from 'react';
 import { Image as RNImage } from 'react-native';
 import {
-	GetProps,
+	type GetProps,
 	isWeb,
-	RadiusTokens,
+	type RadiusTokens,
 	setupReactNative,
-	StackProps,
+	type StackProps,
 	styled,
 	useMediaPropsActive,
 } from '@tamagui/core';

@@ -14,7 +14,7 @@ import { type CardSkin } from './WalletCard/shared';
 import CollectibeList from './CollectibleList';
 import { mockMetadata } from './internal';
 import MainFeatures from './MainFeatures';
-import { layoutTabs, TabAble } from './shared';
+import { type TabAble, layoutTabs } from './shared';
 import TabsHeader from './TabsHeader';
 import TokenList from './TokenList';
 import { WalletCard } from './WalletCard';

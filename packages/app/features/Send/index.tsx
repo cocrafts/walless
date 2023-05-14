@@ -2,7 +2,10 @@ import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Slider } from '@walless/gui';
 
-import { InjectedElements, transactionActions } from '../../state/transaction';
+import {
+	type InjectedElements,
+	transactionActions,
+} from '../../state/transaction';
 
 import { sendScreens } from './shared';
 

@@ -1,6 +1,6 @@
 import { type BootstrapResult, appState } from '@walless/app';
-import { SettingDocument } from '@walless/store';
-import modules from 'utils/modules';
+import { modules } from '@walless/ioc';
+import { type SettingDocument } from '@walless/store';
 import { router } from 'utils/routing';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {

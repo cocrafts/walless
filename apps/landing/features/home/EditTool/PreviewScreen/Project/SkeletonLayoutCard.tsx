@@ -1,18 +1,11 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Stack } from '@walless/ui';
 
 import SkeletonRect from './SkeletonRect';
 
 const SkeletonLayoutCard: FC = () => {
-	const width = 332;
-
 	return (
-		<Stack
-			width={width}
-			borderColor="#364654"
-			borderWidth={1}
-			borderRadius={12}
-		>
+		<Stack borderColor="#364654" borderWidth={1} borderRadius={12}>
 			<Stack
 				backgroundColor="#141C25"
 				height={133}

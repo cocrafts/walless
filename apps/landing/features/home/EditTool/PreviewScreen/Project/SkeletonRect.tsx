@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Stack } from '@walless/ui';
 
 interface Props {

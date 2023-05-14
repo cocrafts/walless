@@ -1,14 +1,14 @@
 import { type FC, type ReactNode, useEffect } from 'react';
 import { type LayoutRectangle, type ViewStyle } from 'react-native';
 import {
-	SharedValue,
+	type SharedValue,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
 import { AnimatedView } from '@walless/gui';
 
-import { SlideAnimator } from './shared';
+import { type SlideAnimator } from './shared';
 
 interface Props {
 	style?: ViewStyle;

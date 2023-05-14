@@ -1,10 +1,10 @@
 import { type FC, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import {
+	type SliderHandle,
 	Button,
 	slideAnimators,
 	Slider,
-	SliderHandle,
 	View,
 } from '@walless/gui';
 

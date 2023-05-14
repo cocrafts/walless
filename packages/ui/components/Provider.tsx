@@ -1,5 +1,5 @@
-import { FC, ReactNode } from 'react';
-import { TamaguiInternalConfig, TamaguiProvider } from '@tamagui/core';
+import { type FC, type ReactNode } from 'react';
+import { type TamaguiInternalConfig, TamaguiProvider } from '@tamagui/core';
 
 interface Props {
 	config: TamaguiInternalConfig;

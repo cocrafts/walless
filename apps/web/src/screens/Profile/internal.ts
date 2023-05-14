@@ -1,5 +1,5 @@
-import { Collectible } from './components/Collectibles/CollectibleCard';
-import { HistoryItemProps } from './components/History/HistoryItem';
+import { type Collectible } from './components/Collectibles/CollectibleCard';
+import { type HistoryItemProps } from './components/History/HistoryItem';
 
 export const mockCollectibles: Collectible[] = [
 	// {

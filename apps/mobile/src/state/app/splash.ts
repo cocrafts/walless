@@ -1,5 +1,5 @@
-import { appState, BootstrapResult } from '@walless/app';
-import { SettingDocument } from '@walless/store';
+import { type BootstrapResult, appState } from '@walless/app';
+import { type SettingDocument } from '@walless/store';
 
 import { navigate } from '../../utils/navigation';
 import { db } from '../../utils/pouchdb';

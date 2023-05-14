@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import Anchor from 'components/Anchor';
-import { NavigationConfig } from 'components/layouts/Home/Navigation/shared';
+import { type NavigationConfig } from 'components/layouts/Home/Navigation/shared';
 
 interface Props {
 	item: NavigationConfig;

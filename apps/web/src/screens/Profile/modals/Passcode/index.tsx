@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { PasscodeFeature } from '@walless/app';
 import { type ModalConfigs, Text, View } from '@walless/gui';

@@ -1,5 +1,5 @@
 import { type FC, type ReactNode, useEffect, useRef } from 'react';
-import { Image, StyleSheet, ViewStyle } from 'react-native';
+import { type ViewStyle, Image, StyleSheet } from 'react-native';
 import {
 	Easing,
 	interpolate,
@@ -7,16 +7,17 @@ import {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
+import { type ExtensionStoreMetadata } from '@walless/core';
 import {
+	type ModalConfigs,
 	AnimateDirections,
 	AnimatedView,
 	BindDirections,
 	ContextMenuContainer,
 	modalActions,
-	ModalConfigs,
 	View,
 } from '@walless/gui';
-import { ExtensionDocument } from '@walless/store';
+import { type ExtensionDocument } from '@walless/store';
 
 import ActiveBar from './ActiveBar';
 
@@ -43,7 +44,7 @@ export const NavigatorOrb: FC<Props> = ({
 	onRemoveLayout,
 }) => {
 	const containerRef = useRef(null);
-	const iconColor = item.storeMeta?.iconColor || 'white';
+	const iconColor = getIconColor(isActive, item.storeMeta);
 	const iconSize = item.storeMeta?.iconSize || 20;
 	const iconUri = item.storeMeta?.iconUri;
 	const iconSource = { uri: iconUri };
@@ -184,3 +185,15 @@ const styles = StyleSheet.create({
 	},
 	hoverBar: barStyle,
 });
+
+const getIconColor = (
+	isActive: boolean | undefined,
+	storeMeta: ExtensionStoreMetadata,
+	defaultColor = '#FFFFFF',
+) => {
+	if (isActive) {
+		return storeMeta?.iconActiveColor || storeMeta?.iconColor || defaultColor;
+	}
+
+	return storeMeta?.iconColor || defaultColor;
+};

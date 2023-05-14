@@ -1,30 +1,30 @@
 // import * as suiProvider from './providers/sui';
 import {
+	type SignedMessage,
+	type SignedTransaction,
+	type TransactionBlock,
 	Ed25519PublicKey as SuiPublicKey,
-	SignedMessage,
-	SignedTransaction,
-	TransactionBlock,
 } from '@mysten/sui.js';
-import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
+import { type SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 import {
+	type SendOptions,
 	PublicKey as SolanaPublicKey,
-	SendOptions,
 	VersionedTransaction,
 } from '@solana/web3.js';
 import {
-	ConnectFunc,
-	ConnectOptions,
+	type ConnectFunc,
+	type ConnectOptions,
+	type SignAllFunc,
+	type SignAndSendFunc,
+	type SignFunc,
+	type SignMessageFunc,
 	Networks,
-	SignAllFunc,
-	SignAndSendFunc,
-	SignFunc,
-	SignMessageFunc,
 } from '@walless/core';
-import { PublicKeyRecord } from '@walless/storage';
+import { type PublicKeyRecord } from '@walless/storage';
 import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
 
-import { PublicKeyType } from '../wallet-standard/src/util';
+import { type PublicKeyType } from '../wallet-standard/src/util';
 
 import * as mutualProvider from './providers/mutual';
 import * as solanaProvider from './providers/solana';

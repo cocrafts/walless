@@ -9,7 +9,9 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
+import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 
@@ -23,6 +25,10 @@ export const SuiDashboard: FC<Props> = () => {
 	const tokens = useTokens(Networks.sui);
 	const publicKeys = usePublicKeys(Networks.sui);
 
+	const handleCopyAddress = async (value: string) => {
+		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
+	};
+
 	return (
 		<Stack flex={1} padding={12} gap={18}>
 			<Stack horizontal gap={12}>
@@ -33,6 +39,8 @@ export const SuiDashboard: FC<Props> = () => {
 							index={index}
 							item={item}
 							skin={suiCardSkin}
+							onCopyAddress={handleCopyAddress}
+							width={publicKeys.length == 1 ? 328 : 312}
 						/>
 					);
 				})}

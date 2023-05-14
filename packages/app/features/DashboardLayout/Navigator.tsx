@@ -1,8 +1,8 @@
 import { type FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { UserProfile } from '@walless/core';
+import { type UserProfile } from '@walless/core';
 import { Compass } from '@walless/icons';
-import { ExtensionDocument } from '@walless/store';
+import { type ExtensionDocument } from '@walless/store';
 
 import NavigatorOrb from './NavigatorOrb';
 import RemoveLayout from './RemoveLayout';
@@ -28,7 +28,8 @@ export const DashboardNavigator: FC<Props> = ({
 	const exploreItem: Partial<ExtensionDocument> = {
 		_id: '',
 		storeMeta: {
-			iconColor: '#0694d3',
+			iconColor: '#243f56',
+			iconActiveColor: '#1394d3',
 		} as never,
 	};
 	const profileItem: Partial<ExtensionDocument> = {
@@ -38,6 +39,7 @@ export const DashboardNavigator: FC<Props> = ({
 			iconSize: 40,
 		} as never,
 	};
+	const isExplorerActive = getIsExtensionActive?.(exploreItem as never);
 
 	return (
 		<View style={[styles.container, containerStyle]}>
@@ -58,10 +60,15 @@ export const DashboardNavigator: FC<Props> = ({
 				})}
 				<NavigatorOrb
 					item={exploreItem as never}
-					isActive={getIsExtensionActive?.(exploreItem as never)}
+					isActive={isExplorerActive}
 					onPress={onExtensionPress}
 				>
-					<Compass size={22} />
+					<Compass
+						size={22}
+						colors={
+							isExplorerActive ? ['#FFFFFF', '#0694D3'] : ['#0694D3', '#243f56']
+						}
+					/>
 				</NavigatorOrb>
 			</View>
 			<View style={styles.commandContainer}>

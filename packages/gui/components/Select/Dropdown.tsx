@@ -3,10 +3,10 @@ import { StyleSheet, TextInput } from 'react-native';
 import { ChevronUp, Search as SearchIcon } from '@walless/icons';
 import { throttle } from 'lodash';
 
-import { Hoverable, modalActions, ModalConfigs, Text, View } from '../../';
+import { type ModalConfigs, Hoverable, modalActions, Text, View } from '../../';
 
 import DropdownItem from './DropdownItem';
-import { SelectionContext, styles as mutualStyles } from './shared';
+import { type SelectionContext, styles as mutualStyles } from './shared';
 
 interface Props {
 	config: ModalConfigs;

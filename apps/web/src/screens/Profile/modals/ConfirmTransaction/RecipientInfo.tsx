@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { Stack, Text } from '@walless/ui';
 
 import InfoItemDivider from '../components/InfoItemDivider';

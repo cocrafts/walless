@@ -1,22 +1,28 @@
-import { FC, useEffect, useState } from 'react';
-import { modules } from '@walless/app';
+import { type FC, useEffect, useState } from 'react';
+import { modalActions } from '@walless/gui';
 import { Heart } from '@walless/icons';
+import { modules } from '@walless/ioc';
 import { Image, Stack, Text } from '@walless/ui';
-import { LayoutCardProps } from 'screens/Explore/internal';
+import { type LayoutCardProps } from 'screens/Explore/internal';
+import { extensionState } from 'state/extension';
+import { useSnapshot } from 'valtio';
 
+import AddedLayoutBtn from './AddedLayoutBtn';
 import AddLayoutBtn from './AddLayoutBtn';
-import RemoveLayoutBtn from './RemoveLayoutBtn ';
 
-const LayoutCard: FC<LayoutCardProps> = ({
-	item,
-	onLovePress,
-	onAddPress,
-	onRemovePress,
-}) => {
+const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
+	const { map: extensionMap } = useSnapshot(extensionState);
+	const extensions = Array.from(extensionMap.values());
 	const { storeMeta } = item;
 	const coverSrc = { uri: storeMeta.coverUri };
 	const iconSrc = { uri: storeMeta.iconUri };
 	const [isAdded, setIsAdded] = useState(false);
+	const handleRemoveLayout = async () => {
+		const doc = await modules.storage.get(item._id);
+		doc._deleted = true;
+		await modules.storage.put(doc);
+		await modalActions.destroy('remove-layout-modal');
+	};
 
 	useEffect(() => {
 		modules.storage
@@ -27,7 +33,7 @@ const LayoutCard: FC<LayoutCardProps> = ({
 			.catch(() => {
 				setIsAdded(false);
 			});
-	}, [modules.storage]);
+	}, [extensions]);
 
 	return (
 		<Stack backgroundColor="#131C24" height={259} borderRadius={12}>
@@ -123,7 +129,7 @@ const LayoutCard: FC<LayoutCardProps> = ({
 					</Stack>
 
 					{isAdded ? (
-						<RemoveLayoutBtn onRemovePress={() => onRemovePress?.(item)} />
+						<AddedLayoutBtn onRemove={handleRemoveLayout} />
 					) : (
 						<AddLayoutBtn handleAddLayout={() => onAddPress?.(item)} />
 					)}

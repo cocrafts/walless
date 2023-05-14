@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { Image, Stack, Text } from '@walless/ui';
 import { appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 
-import { ProjectState, ProjectTool } from '../../internal';
+import { type ProjectState, ProjectTool } from '../../internal';
 import TargetWrapper from '../components/TargetWrapper';
 
 import LayoutCardBottomPart from './LayoutCardBottomPart';
@@ -18,20 +18,30 @@ const LayoutCard: FC = () => {
 		setProjectState(appState.tools.project);
 	}, [snap]);
 
-	const width = 332;
-
 	return (
-		<Stack backgroundColor="#131C24" width={width} borderRadius={12}>
-			<TargetWrapper isTargeted={snap.tools.target === ProjectTool.banner}>
-				<Image
-					src={projectState.banner}
-					width={width}
-					height={133}
-					borderTopLeftRadius={12}
-					borderTopRightRadius={12}
-				/>
-			</TargetWrapper>
-
+		<Stack backgroundColor="#131C24" borderRadius={12}>
+			<Image
+				src={projectState.banner}
+				width="100%"
+				height={133}
+				resizeMode="cover"
+				borderTopLeftRadius={12}
+				borderTopRightRadius={12}
+			/>
+			<Stack
+				position="absolute"
+				top={0}
+				left={0}
+				right={0}
+				height={133}
+				borderTopLeftRadius={8}
+				borderTopRightRadius={8}
+				backgroundColor={
+					snap.tools.target === ProjectTool.banner
+						? 'rgb(6, 148, 211, 0.7)'
+						: 'transparent'
+				}
+			/>
 			<Stack
 				paddingHorizontal={12}
 				paddingVertical={5}

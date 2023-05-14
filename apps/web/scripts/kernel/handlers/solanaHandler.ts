@@ -1,5 +1,10 @@
-import { Keypair, VersionedTransaction } from '@solana/web3.js';
+import {
+	type Connection,
+	Keypair,
+	VersionedTransaction,
+} from '@solana/web3.js';
 import { Networks } from '@walless/core';
+import { modules } from '@walless/ioc';
 import {
 	type MessengerCallback,
 	type ResponsePayload,
@@ -7,13 +12,48 @@ import {
 } from '@walless/messaging';
 import { signAndSendTransaction, signMessage } from '@walless/network';
 import { decode, encode } from 'bs58';
-import modules from 'utils/modules';
 
 import {
 	getPrivateKey,
 	settings,
 	triggerActionToGetPrivateKey,
 } from '../utils/handler';
+
+export const getEndpoint: MessengerCallback = async (payload, channel) => {
+	const conn = modules.engine.getConnection(Networks.solana) as Connection;
+	const endpoint = conn.rpcEndpoint;
+
+	const responsePayload: ResponsePayload = {
+		from: 'walless@kernel',
+		requestId: payload.requestId,
+		responseCode: ResponseCode.SUCCESS,
+		endpoint,
+	};
+
+	channel.postMessage(responsePayload);
+};
+
+export const handleSignMessage: MessengerCallback = async (
+	payload,
+	channel,
+) => {
+	const privateKey = await triggerActionToGetPrivateKey();
+
+	if (!privateKey) {
+		return;
+	}
+
+	const message = decode(payload.message);
+	const signature = signMessage(message, privateKey);
+
+	channel.postMessage({
+		from: 'walless@kernel',
+		requestId: payload.requestId,
+		signature: encode(signature),
+	});
+
+	return signature;
+};
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,
@@ -85,26 +125,4 @@ export const handleSignAndSendTransaction: MessengerCallback = async (
 	}
 
 	return channel.postMessage(responsePayload);
-};
-
-export const handleSignMessage: MessengerCallback = async (
-	payload,
-	channel,
-) => {
-	const privateKey = await triggerActionToGetPrivateKey();
-
-	if (!privateKey) {
-		return;
-	}
-
-	const message = decode(payload.message);
-	const signature = signMessage(message, privateKey);
-
-	channel.postMessage({
-		from: 'walless@kernel',
-		requestId: payload.requestId,
-		signature: encode(signature),
-	});
-
-	return signature;
 };

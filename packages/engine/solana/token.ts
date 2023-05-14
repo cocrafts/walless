@@ -1,9 +1,12 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { Connection, PublicKey } from '@solana/web3.js';
-import { Endpoint, Networks } from '@walless/core';
-import { TokenDocument } from '@walless/store';
+import { type Connection, PublicKey } from '@solana/web3.js';
+import { type Endpoint, Networks } from '@walless/core';
+import { type TokenDocument } from '@walless/store';
 
-import { getRemoteSolanaMetadata, GetSolanaMetadataFunction } from './metadata';
+import {
+	type GetSolanaMetadataFunction,
+	getRemoteSolanaMetadata,
+} from './metadata';
 import { solMetadata, solMint } from './shared';
 
 interface TokenByAddressOption {

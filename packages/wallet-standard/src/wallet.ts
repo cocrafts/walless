@@ -1,10 +1,10 @@
-import { Ed25519PublicKey } from '@mysten/sui.js';
+import { type Ed25519PublicKey } from '@mysten/sui.js';
 import {
-	SuiFeatures,
-	SuiSignAndExecuteTransactionBlockMethod,
-	SuiSignMessageInput,
-	SuiSignMessageMethod,
-	SuiSignTransactionBlockMethod,
+	type SuiFeatures,
+	type SuiSignAndExecuteTransactionBlockMethod,
+	type SuiSignMessageInput,
+	type SuiSignMessageMethod,
+	type SuiSignTransactionBlockMethod,
 } from '@mysten/wallet-standard';
 import {
 	type SolanaSignAndSendTransactionFeature,
@@ -21,11 +21,12 @@ import {
 	SolanaSignTransaction,
 } from '@solana/wallet-standard-features';
 import { Transaction, VersionedTransaction } from '@solana/web3.js';
-import { ConnectOptions, Networks } from '@walless/core';
-import Walless from '@walless/sdk';
+import { type ConnectOptions, Networks } from '@walless/core';
+import type Walless from '@walless/sdk';
 import type { Wallet, WalletAccount } from '@wallet-standard/base';
 import {
 	type StandardConnectFeature,
+	type StandardConnectInput,
 	type StandardConnectMethod,
 	type StandardDisconnectFeature,
 	type StandardDisconnectMethod,
@@ -34,7 +35,6 @@ import {
 	type StandardEventsNames,
 	type StandardEventsOnMethod,
 	StandardConnect,
-	StandardConnectInput,
 	StandardDisconnect,
 	StandardEvents,
 } from '@wallet-standard/features';

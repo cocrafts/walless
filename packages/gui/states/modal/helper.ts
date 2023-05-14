@@ -1,5 +1,5 @@
 import { type RefObject } from 'react';
-import { type LayoutRectangle, type ViewStyle, View } from 'react-native';
+import { type LayoutRectangle, type View, type ViewStyle } from 'react-native';
 import { type SharedValue, interpolate } from 'react-native-reanimated';
 
 import { type PositionOffset, AnimateDirections, BindDirections } from './type';

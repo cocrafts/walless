@@ -1,4 +1,4 @@
-import { ThemeState, themeState } from './internal';
+import { type ThemeState, themeState } from './internal';
 
 const setTheme = (theme: ThemeState) => {
 	Object.keys(theme).forEach((key) => {

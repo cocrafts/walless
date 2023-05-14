@@ -4,11 +4,11 @@ import { forwardRef } from 'react';
 import { Linking } from 'react-native';
 import {
 	isWeb,
-	ReactComponentWithRef,
+	type ReactComponentWithRef,
 	Text,
-	TextProps,
+	type TextProps,
 	styled,
-	TamaguiElement,
+	type TamaguiElement,
 } from '@tamagui/core';
 
 export type AnchorProps = TextProps & {

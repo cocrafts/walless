@@ -3,6 +3,7 @@ import { appState } from '@walless/app';
 import { copy } from './actions';
 import {
 	confirmPasscode,
+	enterInvitationCode,
 	recoverWithPasscode,
 	setProfile,
 	signInWithGoogle,
@@ -17,6 +18,7 @@ export const appActions = {
 	notify,
 	setProfile,
 	signInWithGoogle,
+	enterInvitationCode,
 	confirmPasscode,
 	recoverWithPasscode,
 	setLoading: (flag: boolean): void => {

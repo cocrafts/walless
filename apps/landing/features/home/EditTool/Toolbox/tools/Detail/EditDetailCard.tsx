@@ -1,15 +1,30 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import { Networks } from '@walless/core';
-import { Image, Stack } from '@walless/ui';
+import { Stack } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
 import { editToolActions } from 'state/app';
-import { resources } from 'utils/config';
 
-import ItemTag from '../components/ItemTag';
+import MultiOptionsDropdown, {
+	type DropdownOptionProps,
+} from '../components/MultiOptionsDropdown';
 import ToolDescription from '../components/ToolDescription';
+
+const options: DropdownOptionProps[] = [
+	{
+		id: Networks.solana,
+		icon: '/img/preview/solana-logo.png',
+		label: 'Solana',
+	},
+	{
+		id: Networks.sui,
+		icon: '/img/preview/sui-logo.png',
+		label: 'Sui',
+	},
+];
 
 const EditDetailCard: FC = () => {
 	const onTarget = () => editToolActions.setTarget(DetailTool.networks);
+	const [activeOptions, setActiveOptions] = useState<DropdownOptionProps[]>([]);
 
 	return (
 		<Stack
@@ -21,28 +36,12 @@ const EditDetailCard: FC = () => {
 				name="Supported Network(s)"
 				description="What network(s) does your project support?"
 			/>
-			<Stack
-				backgroundColor="#19232C"
-				padding={5}
-				height={45}
-				borderRadius={8}
-				flexDirection="row"
-				gap={4}
-			>
-				<ItemTag
-					prefix={
-						<Image
-							src={resources.home.detail.iconSrc}
-							width={20}
-							height={20}
-							borderRadius={10}
-						/>
-					}
-					id={Networks.solana}
-					label={Networks.solana}
-					onRemove={() => console.log('Not supported yet')}
-				/>
-			</Stack>
+
+			<MultiOptionsDropdown
+				options={options}
+				activeOptions={activeOptions}
+				setActiveOptions={setActiveOptions}
+			/>
 		</Stack>
 	);
 };

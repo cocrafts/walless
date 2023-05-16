@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SendFeature } from '@walless/app';
+import { type Networks } from '@walless/core';
 import { type ModalConfigs, modalActions } from '@walless/gui';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 import {
@@ -10,8 +11,13 @@ import {
 	getTransactionResult,
 } from 'utils/transaction';
 
+interface ModalContext {
+	layoutNetwork?: Networks;
+}
+
 export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
-	const tokenList = useTokens();
+	const { layoutNetwork } = config.context as ModalContext;
+	const tokenList = useTokens(layoutNetwork);
 	const addressList = usePublicKeys();
 
 	return (

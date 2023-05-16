@@ -8,6 +8,7 @@ import {
 	modalActions,
 } from '@walless/gui';
 import ReceiveTokenScreen from 'screens/Profile/modals/ReceiveToken';
+import SendModal from 'screens/Profile/modals/SendModal';
 
 export const showReceiveModal = (layoutNetWork: Networks) => {
 	modalActions.show({
@@ -17,6 +18,18 @@ export const showReceiveModal = (layoutNetWork: Networks) => {
 		animateDirection: AnimateDirections.Top,
 		context: {
 			network: layoutNetWork,
+		},
+	});
+};
+
+export const showSendModal = (layoutNetwork: Networks) => {
+	modalActions.show({
+		id: 'send-token',
+		bindingDirection: BindDirections.InnerBottom,
+		component: SendModal,
+		animateDirection: AnimateDirections.Top,
+		context: {
+			layoutNetwork,
 		},
 	});
 };

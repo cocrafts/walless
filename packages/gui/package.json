@@ -13,7 +13,7 @@
     "react": "^18.2.0",
     "react-native": "^0.71.6",
     "react-native-reanimated": "3.1.0",
-    "valtio": "^1.10.4"
+    "valtio": "1.10.5"
   },
   "devDependencies": {
     "eslint": "8.38.0"

@@ -1,6 +1,6 @@
 {
   "name": "@walless/web",
-  "version": "0.2.17",
+  "version": "0.2.21",
   "private": true,
   "main": "index.web.js",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@metaplex-foundation/js": "0.18.3",
-    "@mysten/sui.js": "0.33.0",
+    "@mysten/sui.js": "0.34.0",
     "@solana/spl-token": "0.3.7",
     "@solana/web3.js": "1.75.0",
     "@tamagui/animations-css": "1.15.16",
@@ -55,7 +55,7 @@
     "react-router-dom": "^6.10.0",
     "setimmediate": "^1.0.5",
     "tamagui": "1.15.16",
-    "valtio": "1.10.4"
+    "valtio": "1.10.5"
   },
   "devDependencies": {
     "@metacraft/cli-web3-polyfills": "^0.0.7",

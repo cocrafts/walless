@@ -16,7 +16,7 @@
     "html-to-image": "^1.11.11",
     "next": "^13.1.1",
     "react-dom": "^18.2.0",
-    "valtio": "1.10.4"
+    "valtio": "1.10.5"
   },
   "devDependencies": {
     "@tamagui/next-plugin": "1.15.16",

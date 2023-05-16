@@ -1,23 +1,17 @@
 import { MainFeatures } from '@walless/app';
 import { Networks } from '@walless/core';
-import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { Stack } from '@walless/ui';
+import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 
 import Collectibles from './components/Collectibles';
 import History from './components/History';
 import TokenValue from './components/TokenValue';
 import Widgets from './components/Widgets';
-import SendModal from './modals/SendModal';
 
 const ProfileScreen = () => {
 	const handleSend = () => {
-		modalActions.show({
-			id: 'send-token',
-			bindingDirection: BindDirections.InnerBottom,
-			component: SendModal,
-			animateDirection: AnimateDirections.Top,
-		});
+		appActions.showSendModal(Networks.solana);
 	};
 
 	return (

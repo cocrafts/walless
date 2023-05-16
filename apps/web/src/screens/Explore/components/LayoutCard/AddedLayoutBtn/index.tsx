@@ -35,7 +35,6 @@ const AddedLayoutBtn: FC<Props> = ({ onRemove }) => {
 	};
 
 	const handleHoverIn = () => {
-		console.log('hover in');
 		modalActions.show({
 			id: 'added-layout-anouncement',
 			component: AddedLayoutAnnouncement,
@@ -50,7 +49,6 @@ const AddedLayoutBtn: FC<Props> = ({ onRemove }) => {
 	};
 
 	const handleHoverOut = () => {
-		console.log('hover out');
 		modalActions.destroy('added-layout-anouncement');
 	};
 

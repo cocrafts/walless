@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { modalActions } from '@walless/gui';
 import { Heart } from '@walless/icons';
 import { modules } from '@walless/ioc';
+import { type ExtensionDocument } from '@walless/store';
 import { Image, Stack, Text } from '@walless/ui';
 import { type LayoutCardProps } from 'screens/Explore/internal';
 
@@ -19,9 +20,7 @@ const LayoutCard: FC<LayoutCardProps> = ({
 	const iconSrc = { uri: storeMeta.iconUri };
 
 	const handleRemoveLayout = async () => {
-		const doc = await modules.storage.get(item._id);
-		doc._deleted = true;
-		await modules.storage.put(doc);
+		modules.storage.docRemove<ExtensionDocument>(item._id);
 		await modalActions.destroy('remove-layout-modal');
 	};
 

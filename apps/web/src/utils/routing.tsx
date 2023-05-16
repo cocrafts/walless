@@ -2,6 +2,7 @@ import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import DashboardScreen from 'screens/Dashboard';
 import EmbeddedApp from 'screens/Dashboard/Embed';
 import ExploreScreen from 'screens/Explore';
+import InvitationScreen from 'screens/Invitation';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
 import ProfileScreen from 'screens/Profile';
@@ -46,6 +47,10 @@ export const router = createRouter([
 	{
 		path: '/login',
 		element: <LoginScreen />,
+	},
+	{
+		path: '/invitation',
+		element: <InvitationScreen />,
 	},
 	{
 		path: '/request-connection',

@@ -2,7 +2,7 @@ export interface ExtensionStoreMetadata {
 	iconUri: string;
 	iconSize: number;
 	iconColor: string;
-	iconActiveColor: string;
+	iconActiveColor?: string;
 	coverUri: string;
 	description: string;
 	loveCount: number;

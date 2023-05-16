@@ -11,7 +11,7 @@
   },
   "peerDependencies": {
     "@metaplex-foundation/js": "0.18.3",
-    "@mysten/sui.js": "0.33.0",
+    "@mysten/sui.js": "0.34.0",
     "@solana/spl-token": "0.3.7",
     "@solana/web3.js": "1.75.0",
     "@walless/core": "*",
@@ -23,7 +23,7 @@
     "react": "^18.2.0",
     "react-native-reanimated": "3.1.0",
     "tamagui": "1.15.16",
-    "valtio": "1.10.4"
+    "valtio": "1.10.5"
   },
   "devDependencies": {
     "eslint": "8.38.0"

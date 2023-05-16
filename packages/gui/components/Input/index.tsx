@@ -81,13 +81,13 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 		backgroundColor: '#0E141A',
 		borderWidth: 1,
-		borderColor: 'transparent',
+		borderColor: '#0E141A',
 	},
 	textInput: {
 		flex: 1,
 		fontWeight: '400',
 	},
 	focusStyle: {
-		borderColor: '#49596A',
+		borderColor: 'rgba(255, 255, 255, 0.1)',
 	},
 });

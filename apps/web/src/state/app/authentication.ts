@@ -10,12 +10,14 @@ import {
 	type SettingDocument,
 } from '@walless/store';
 import {
+	type User,
 	type UserCredential,
 	GoogleAuthProvider,
 	signInWithCredential,
 	signInWithPopup,
 } from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
+import { client, mutations, queries } from 'utils/graphql';
 import { router } from 'utils/routing';
 import {
 	configureSecurityQuestionShare,
@@ -56,41 +58,75 @@ export const signInWithGoogle = async () => {
 			cache.loginResponse = await signInWithCredential(auth, credential);
 		} else {
 			cache.loginResponse = await signInWithPopup(auth, googleProvider);
-			console.log(cache.loginResponse);
 		}
 
-		const { user } = cache.loginResponse;
-		const verifierToken = await user.getIdToken(true);
-		const verifier = WEB3AUTH_ID;
-		const verifierId = user.uid;
-		const verifierParams = { verifier_id: user.uid };
-		const loginDetails = await customAuth.getTorusKey(
-			verifier,
-			verifierId,
-			verifierParams,
-			verifierToken,
-		);
+		/* eslint-disable-next-line */
+		const response = await client.request<any>(queries.invitationAccount, {
+			email: cache.loginResponse.user.email,
+		});
 
-		key.serviceProvider.postboxKey = loginDetails.privateKey as never;
-
-		/* eslint-disable */
-		(key.serviceProvider as any).verifierName = verifier;
-		(key.serviceProvider as any).verifierId = verifierId;
-		/* eslint-enable */
-
-		await key.initialize();
-		const status = await importAvailableShares();
-
-		if (status === ThresholdResult.Initializing) {
-			await router.navigate('/passcode/create');
-		} else if (status === ThresholdResult.Missing) {
-			await router.navigate('/passcode/enter');
-		} else if (status === ThresholdResult.Ready) {
-			await setProfile(makeProfile(cache.loginResponse));
-			await router.navigate('/');
+		if (response.invitationAccount?.pk) {
+			await createKeyAndEnter();
+		} else {
+			await router.navigate('/invitation');
 		}
 	} finally {
 		appState.authenticationLoading = false;
+	}
+};
+
+export const createKeyAndEnter = async () => {
+	const user = cache.loginResponse?.user as User;
+	const verifierToken = await user.getIdToken(true);
+	const verifier = WEB3AUTH_ID;
+	const verifierId = user.uid;
+	const verifierParams = { verifier_id: user.uid };
+	const loginDetails = await customAuth.getTorusKey(
+		verifier,
+		verifierId,
+		verifierParams,
+		verifierToken,
+	);
+
+	key.serviceProvider.postboxKey = loginDetails.privateKey as never;
+
+	/* eslint-disable */
+	(key.serviceProvider as any).verifierName = verifier;
+	(key.serviceProvider as any).verifierId = verifierId;
+	/* eslint-enable */
+
+	await key.initialize();
+	const status = await importAvailableShares();
+
+	if (status === ThresholdResult.Initializing) {
+		await router.navigate('/passcode/create');
+	} else if (status === ThresholdResult.Missing) {
+		await router.navigate('/passcode/enter');
+	} else if (status === ThresholdResult.Ready) {
+		await setProfile(makeProfile(cache.loginResponse as never));
+		await router.navigate('/');
+	}
+};
+
+export const enterInvitationCode = async (code: string) => {
+	const user = cache.loginResponse?.user as User;
+	/* eslint-disable-next-line */
+	const response = await client.request<any>(queries.invitationCode, { code });
+
+	appState.invitationError = undefined;
+
+	if (!response.invitationCode) {
+		appState.invitationError = 'invitation code not valid!';
+	} else if (!response.invitationCode.email) {
+		const registerResponse = await client.request(mutations.bindInvitation, {
+			code,
+			email: user?.email || 'admin@stormgate.io',
+		});
+
+		console.log(registerResponse);
+		await createKeyAndEnter();
+	} else if (response.invitationCode?.email) {
+		appState.invitationError = 'invitation code used!';
 	}
 };
 

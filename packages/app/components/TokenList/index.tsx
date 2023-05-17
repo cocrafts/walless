@@ -1,4 +1,4 @@
-import { type FC, useEffect } from 'react';
+import { type FC } from 'react';
 import {
 	type ListRenderItem,
 	type StyleProp,
@@ -27,6 +27,7 @@ export const TokenList: FC<Props> = ({
 }) => {
 	const { tokens } = useSnapshot(tokenListState);
 	const tokensList: TokenDocument[] = [];
+	tokens.forEach((token) => tokensList.push(token as TokenDocument));
 
 	const renderItem: ListRenderItem<TokenDocument> = ({ item, index }) => {
 		const isFirst = index === 0;
@@ -41,10 +42,6 @@ export const TokenList: FC<Props> = ({
 			/>
 		);
 	};
-
-	useEffect(() => {
-		tokens.forEach((token) => tokensList.push(token as TokenDocument));
-	}, [tokens]);
 
 	return (
 		<FlatList

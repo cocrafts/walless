@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useEffect } from 'react';
 import {
 	type ListRenderItem,
 	type StyleProp,
@@ -7,6 +7,9 @@ import {
 	StyleSheet,
 } from 'react-native';
 import { type TokenDocument } from '@walless/store';
+import { useSnapshot } from 'valtio';
+
+import { tokenListState } from '../../state/tokenList';
 
 import TokenItem from './Item';
 import Separator from './Separator';
@@ -14,7 +17,7 @@ import Separator from './Separator';
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
-	items: TokenDocument[];
+	items?: TokenDocument[];
 }
 
 export const TokenList: FC<Props> = ({
@@ -22,9 +25,13 @@ export const TokenList: FC<Props> = ({
 	contentContainerStyle,
 	items,
 }) => {
+	const { tokens } = useSnapshot(tokenListState);
+	const tokensList: TokenDocument[] = [];
+
 	const renderItem: ListRenderItem<TokenDocument> = ({ item, index }) => {
 		const isFirst = index === 0;
-		const isLast = index === items.length - 1;
+		const lastIndex = items ? items.length - 1 : tokens.size - 1;
+		const isLast = index === lastIndex;
 
 		return (
 			<TokenItem
@@ -35,11 +42,15 @@ export const TokenList: FC<Props> = ({
 		);
 	};
 
+	useEffect(() => {
+		tokens.forEach((token) => tokensList.push(token as TokenDocument));
+	}, [tokens]);
+
 	return (
 		<FlatList
 			style={style}
 			contentContainerStyle={contentContainerStyle}
-			data={items}
+			data={items || tokensList}
 			renderItem={renderItem}
 			ItemSeparatorComponent={Separator}
 		/>

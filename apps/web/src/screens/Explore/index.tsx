@@ -2,7 +2,9 @@ import { type FC, useState } from 'react';
 import { modules } from '@walless/ioc';
 import { type ExtensionDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
+import { extensionState } from 'state/extension';
 import { router } from 'utils/routing';
+import { useSnapshot } from 'valtio';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
@@ -26,6 +28,8 @@ export const ExploreScreen: FC = () => {
 		console.log(extension);
 	};
 
+	const { map: installedMap } = useSnapshot(extensionState);
+
 	const handleAddPress = async (extension: ExtensionDocument) => {
 		await modules.storage.put(extension);
 		await router.navigate(extension._id);
@@ -45,14 +49,18 @@ export const ExploreScreen: FC = () => {
 				<SearchBar onSearch={handleSearch} />
 			</Stack>
 
-			{extensions.map((layoutCard) => (
-				<LayoutCard
-					key={layoutCard._id}
-					item={layoutCard}
-					onLovePress={handleLovePress}
-					onAddPress={handleAddPress}
-				/>
-			))}
+			{extensions.map((layoutCard) => {
+				const isAdded = !!installedMap.get(layoutCard._id);
+				return (
+					<LayoutCard
+						key={layoutCard._id}
+						item={layoutCard}
+						onLovePress={handleLovePress}
+						onAddPress={handleAddPress}
+						isAdded={isAdded}
+					/>
+				);
+			})}
 		</Stack>
 	);
 };

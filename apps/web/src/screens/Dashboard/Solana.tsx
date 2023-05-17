@@ -1,20 +1,20 @@
-import { type FC, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { type FC, useEffect, useState } from 'react';
 import {
 	type CardSkin,
 	type TabAble,
 	MainFeatures,
 	SlideHandler,
 	TabsHeader,
-	TokenList,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
-import { layoutTabs } from 'screens/Dashboard/shared';
+import { bottomSliderItems, layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
+import { tokenListActions } from 'state/tokens';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 
 interface Props {
@@ -25,7 +25,7 @@ export const SolanaDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const tokens = useTokens(Networks.solana);
 	const publicKeys = usePublicKeys(Networks.solana);
-	const onTabPress = (item: TabAble) => {
+	const handleTabPress = (item: TabAble) => {
 		const idx = layoutTabs.indexOf(item);
 		setActiveTabIndex(idx);
 	};
@@ -37,6 +37,10 @@ export const SolanaDashboard: FC<Props> = () => {
 	const handleSend = () => {
 		appActions.showSendModal(Networks.solana);
 	};
+
+	useEffect(() => {
+		tokenListActions.set(tokens);
+	}, [tokens]);
 
 	return (
 		<Stack flex={1} padding={12} gap={18}>
@@ -67,11 +71,11 @@ export const SolanaDashboard: FC<Props> = () => {
 				<TabsHeader
 					items={layoutTabs}
 					activeItem={layoutTabs[activeTabIndex]}
-					onTabPress={onTabPress}
+					onTabPress={handleTabPress}
 				/>
-				<TokenList
-					contentContainerStyle={styles.tokenListInner}
-					items={tokens}
+				<Slider
+					items={bottomSliderItems}
+					activeItem={bottomSliderItems[activeTabIndex]}
 				/>
 			</Stack>
 		</Stack>
@@ -87,9 +91,3 @@ const suiCardSkin: CardSkin = {
 	iconColor: '#000000',
 	iconSize: 16,
 };
-
-const styles = StyleSheet.create({
-	tokenListInner: {
-		paddingVertical: 12,
-	},
-});

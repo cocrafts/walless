@@ -1,29 +1,35 @@
-import { type FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { type FC, useEffect, useState } from 'react';
 import {
 	type CardSkin,
+	type TabAble,
 	MainFeatures,
 	SlideHandler,
 	TabsHeader,
-	TokenList,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
+import { tokenListActions } from 'state/tokens';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 
-import { layoutTabs } from './shared';
+import { bottomSliderItems, layoutTabs } from './shared';
 
 interface Props {
 	variant?: string;
 }
 
 export const SuiDashboard: FC<Props> = () => {
+	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const tokens = useTokens(Networks.sui);
 	const publicKeys = usePublicKeys(Networks.sui);
+	const handleTabPress = (item: TabAble) => {
+		const idx = layoutTabs.indexOf(item);
+		setActiveTabIndex(idx);
+	};
 
 	const handleCopyAddress = async (value: string) => {
 		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
@@ -32,6 +38,10 @@ export const SuiDashboard: FC<Props> = () => {
 	const handleSend = () => {
 		appActions.showSendModal(Networks.sui);
 	};
+
+	useEffect(() => {
+		tokenListActions.set(tokens);
+	}, [tokens]);
 
 	return (
 		<Stack flex={1} padding={12} gap={18}>
@@ -59,10 +69,14 @@ export const SuiDashboard: FC<Props> = () => {
 				)}
 			</Stack>
 			<Stack>
-				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />
-				<TokenList
-					contentContainerStyle={styles.tokenListInner}
-					items={tokens}
+				<TabsHeader
+					items={layoutTabs}
+					activeItem={layoutTabs[activeTabIndex]}
+					onTabPress={handleTabPress}
+				/>
+				<Slider
+					items={bottomSliderItems}
+					activeItem={bottomSliderItems[activeTabIndex]}
 				/>
 			</Stack>
 		</Stack>
@@ -70,12 +84,6 @@ export const SuiDashboard: FC<Props> = () => {
 };
 
 export default SuiDashboard;
-
-const styles = StyleSheet.create({
-	tokenListInner: {
-		paddingVertical: 12,
-	},
-});
 
 const suiCardSkin: CardSkin = {
 	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },

@@ -10,13 +10,13 @@
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
-    "@mysten/sui.js": "0.33.0",
+    "@mysten/sui.js": "0.34.0",
     "@solana/spl-token": "0.3.7",
     "@solana/web3.js": "1.75.0",
     "@walless/core": "*",
     "@walless/network": "*",
     "@walless/store": "*",
-    "valtio": "1.10.4"
+    "valtio": "1.10.5"
   },
   "devDependencies": {
     "eslint": "8.38.0"

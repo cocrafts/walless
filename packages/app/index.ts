@@ -3,6 +3,7 @@ export * from './components/SlideHandler';
 export * from './components/TabsHeader';
 export * from './components/TokenList';
 export * from './features/DashboardLayout';
+export * from './features/Invitation';
 export * from './features/Login';
 export * from './features/MainFeatures';
 export * from './features/NetworkLayout';

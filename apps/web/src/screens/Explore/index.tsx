@@ -1,4 +1,5 @@
 import { type FC, useState } from 'react';
+import { modalActions } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import { type ExtensionDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
@@ -15,6 +16,7 @@ const spacing = 12;
 export const ExploreScreen: FC = () => {
 	const [extensions, setExtensions] =
 		useState<ExtensionDocument[]>(mockLayoutCards);
+	const { map: installedMap } = useSnapshot(extensionState);
 
 	const handleSearch = (query: string) => {
 		const filteredLayouts = mockLayoutCards.filter((extension) =>
@@ -28,11 +30,15 @@ export const ExploreScreen: FC = () => {
 		console.log(extension);
 	};
 
-	const { map: installedMap } = useSnapshot(extensionState);
-
 	const handleAddPress = async (extension: ExtensionDocument) => {
+		console.log('add layout');
 		await modules.storage.put(extension);
 		await router.navigate(extension._id);
+	};
+
+	const handleRemoveLayout = async (extension: ExtensionDocument) => {
+		modules.storage.docRemove<ExtensionDocument>(extension._id);
+		await modalActions.destroy('remove-layout-modal');
 	};
 
 	return (
@@ -57,6 +63,7 @@ export const ExploreScreen: FC = () => {
 						item={layoutCard}
 						onLovePress={handleLovePress}
 						onAddPress={handleAddPress}
+						onRemovePress={handleRemoveLayout}
 						isAdded={isAdded}
 					/>
 				);

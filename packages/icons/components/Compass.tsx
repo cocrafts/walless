@@ -1,9 +1,9 @@
 import { type FC } from 'react';
 import { Circle, Path, Svg } from 'react-native-svg';
 
-import { type Props } from './types';
+import { type IconProps } from './types';
 
-export const Compass: FC<Props> = ({
+export const Compass: FC<IconProps> = ({
 	size = 24,
 	colors = ['#0694D3', '#243F56'],
 }) => {

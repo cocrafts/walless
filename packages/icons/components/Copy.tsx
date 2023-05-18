@@ -1,9 +1,9 @@
 import { type FC } from 'react';
 import { Path, Rect, Svg } from 'react-native-svg';
 
-import { type Props } from './types';
+import { type IconProps } from './types';
 
-export const Copy: FC<Props> = ({ size = 24, color = '#FFFFFF' }) => {
+export const Copy: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
 	return (
 		<Svg
 			width={size}

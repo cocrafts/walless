@@ -1,4 +1,5 @@
 import { type FC, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
 	type TabAble,
@@ -80,13 +81,14 @@ export const SolanaDashboard: FC<Props> = () => {
 					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
 				)}
 			</Stack>
-			<Stack>
+			<Stack flex={1}>
 				<TabsHeader
 					items={layoutTabs}
 					activeItem={layoutTabs[activeTabIndex]}
 					onTabPress={handleTabPress}
 				/>
 				<Slider
+					style={styles.sliderContainer}
 					items={bottomSliderItems}
 					activeItem={bottomSliderItems[activeTabIndex]}
 				/>
@@ -104,3 +106,9 @@ const suiCardSkin: CardSkin = {
 	iconColor: '#000000',
 	iconSize: 16,
 };
+
+const styles = StyleSheet.create({
+	sliderContainer: {
+		flex: 1,
+	},
+});

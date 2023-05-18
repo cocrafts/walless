@@ -1,7 +1,6 @@
 import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { TokenList } from '@walless/app';
-import { View } from '@walless/gui';
 import { type TokenDocument } from '@walless/store';
 
 interface Props {
@@ -9,17 +8,13 @@ interface Props {
 }
 
 export const TokenTab: FC<Props> = ({ tokens }) => {
-	return (
-		<View>
-			<TokenList items={tokens} contentContainerStyle={styles.tokenListInner} />
-		</View>
-	);
+	return <TokenList items={tokens} style={styles.tokenListContainer} />;
 };
 
 export default TokenTab;
 
 const styles = StyleSheet.create({
-	tokenListInner: {
-		paddingVertical: 12,
+	tokenListContainer: {
+		marginTop: 12,
 	},
 });

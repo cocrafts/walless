@@ -2,11 +2,16 @@ import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { TokenList } from '@walless/app';
 import { View } from '@walless/gui';
+import { type TokenDocument } from '@walless/store';
 
-export const TokenTab: FC = () => {
+interface Props {
+	tokens: TokenDocument[];
+}
+
+export const TokenTab: FC<Props> = ({ tokens }) => {
 	return (
 		<View>
-			<TokenList contentContainerStyle={styles.tokenListInner} />
+			<TokenList items={tokens} contentContainerStyle={styles.tokenListInner} />
 		</View>
 	);
 };

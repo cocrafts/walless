@@ -7,17 +7,15 @@ import {
 	StyleSheet,
 } from 'react-native';
 import { type TokenDocument } from '@walless/store';
-import { useSnapshot } from 'valtio';
-
-import { tokenListState } from '../../state/tokenList';
 
 import TokenItem from './Item';
+import ListEmpty from './ListEmpty';
 import Separator from './Separator';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
-	items?: TokenDocument[];
+	items: TokenDocument[];
 }
 
 export const TokenList: FC<Props> = ({
@@ -25,14 +23,9 @@ export const TokenList: FC<Props> = ({
 	contentContainerStyle,
 	items,
 }) => {
-	const { tokens } = useSnapshot(tokenListState);
-	const tokensList: TokenDocument[] = [];
-	tokens.forEach((token) => tokensList.push(token as TokenDocument));
-
 	const renderItem: ListRenderItem<TokenDocument> = ({ item, index }) => {
 		const isFirst = index === 0;
-		const lastIndex = items ? items.length - 1 : tokens.size - 1;
-		const isLast = index === lastIndex;
+		const isLast = index === items.length - 1;
 
 		return (
 			<TokenItem
@@ -47,9 +40,10 @@ export const TokenList: FC<Props> = ({
 		<FlatList
 			style={style}
 			contentContainerStyle={contentContainerStyle}
-			data={items || tokensList}
+			data={items}
 			renderItem={renderItem}
 			ItemSeparatorComponent={Separator}
+			ListEmptyComponent={ListEmpty}
 		/>
 	);
 };

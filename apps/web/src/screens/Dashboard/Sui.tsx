@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useState } from 'react';
 import {
 	type CardSkin,
 	type TabAble,
@@ -8,15 +8,16 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { Slider } from '@walless/gui';
+import { type SlideOption, Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
-import { tokenListActions } from 'state/tokens';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 
-import { bottomSliderItems, layoutTabs } from './shared';
+import EmptyTab from './EmptyTab';
+import { layoutTabs } from './shared';
+import TokenTab from './TokenTab';
 
 interface Props {
 	variant?: string;
@@ -26,6 +27,21 @@ export const SuiDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const tokens = useTokens(Networks.sui);
 	const publicKeys = usePublicKeys(Networks.sui);
+	const bottomSliderItems: SlideOption[] = [
+		{
+			id: 'tokens',
+			component: () => <TokenTab tokens={tokens} />,
+		},
+		{
+			id: 'collectibles',
+			component: EmptyTab,
+		},
+		{
+			id: 'activities',
+			component: EmptyTab,
+		},
+	];
+
 	const handleTabPress = (item: TabAble) => {
 		const idx = layoutTabs.indexOf(item);
 		setActiveTabIndex(idx);
@@ -38,10 +54,6 @@ export const SuiDashboard: FC<Props> = () => {
 	const handleSend = () => {
 		appActions.showSendModal(Networks.sui);
 	};
-
-	useEffect(() => {
-		tokenListActions.set(tokens);
-	}, [tokens]);
 
 	return (
 		<Stack flex={1} padding={12} gap={18}>

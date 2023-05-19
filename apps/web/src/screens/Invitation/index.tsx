@@ -35,36 +35,11 @@ const InvitationScreen = () => {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.contentContainer}>
-				<Image source={{ uri: '/img/bare-icon.png' }} style={styles.logo} />
-				<View style={styles.titleContainer}>
-					<Text style={styles.title}>{title}</Text>
-					<Text style={styles.subText}>
-						You need an invite code to join Walless.
-					</Text>
-					<Text style={styles.subText}>Enter your invite code here..</Text>
-				</View>
-
-				<InvitationFeature onInvitationCodeChange={onInvitationCodeChange} />
-
-				<View style={styles.noInvitationCodeContainer}>
-					<Text>
-						No code?{' '}
-						<TouchableOpacity>
-							{' '}
-							<Anchor href="https://discord.gg/3v7jwG45pe">
-								<View cursorPointer noSelect>
-									<Text style={styles.link}>Click here</Text>
-								</View>
-							</Anchor>
-						</TouchableOpacity>
-					</Text>
-				</View>
-
-				<View style={styles.buttonContainer}>
-					<Button content="Connect" isValid={isValid} onPress={handleConnect} />
-				</View>
-			</View>
+			<InvitationFeature
+				onEnter={onInvitationCodeChange}
+				logoSrc={{ uri: '/img/icon-lg.png' }}
+				error={invitationError}
+			/>
 		</View>
 	);
 };

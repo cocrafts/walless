@@ -1,9 +1,9 @@
 import { type FC } from 'react';
 import { Path, Svg } from 'react-native-svg';
 
-import { type Props } from './types';
+import { type IconProps } from './types';
 
-export const EyeOff: FC<Props> = ({ size = 24, color = '#FFFFFF' }) => {
+export const EyeOff: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
 	return (
 		<Svg width={size} height={size} viewBox="0 0 15 14" fill="none">
 			<Path

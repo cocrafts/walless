@@ -40,6 +40,7 @@ export const DashboardLayout: FC<Props> = ({
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				style={styles.scrollContainer}
+				contentContainerStyle={styles.contentContainer}
 			>
 				{children}
 			</ScrollView>
@@ -57,5 +58,7 @@ const styles = StyleSheet.create({
 	scrollContainer: {
 		flex: 1,
 	},
-	contentContainer: {},
+	contentContainer: {
+		flexGrow: 1,
+	},
 });

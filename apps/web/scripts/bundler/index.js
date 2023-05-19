@@ -30,7 +30,9 @@ const cloneExtensionBuild = async (platform, override = {}) => {
 	const indexTemplate = readFileSync('./metacraft/index.html', 'utf8');
 	const popupTemplate = indexTemplate.replace('<body>', '<body class="popup">');
 
+	mergedManifest.key = process.env.EXTENSION_PUBLIC_KEY;
 	mergedManifest.oauth2.client_id = process.env.EXTENSION_CLIENT_ID;
+
 	fs.outputFileSync('./metacraft/popup.html', popupTemplate);
 	fs.copySync(`./metacraft`, `./builds/${platform}`);
 	fs.writeJsonSync(manifestUri, mergedManifest, { spaces: 2 });

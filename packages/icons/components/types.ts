@@ -1,4 +1,4 @@
-export interface Props {
+export interface IconProps {
 	size?: number;
 	color?: string;
 	colors?: string[];

@@ -60,15 +60,20 @@ export const signInWithGoogle = async () => {
 			cache.loginResponse = await signInWithPopup(auth, googleProvider);
 		}
 
-		/* eslint-disable-next-line */
-		const response = await client.request<any>(queries.invitationAccount, {
-			email: cache.loginResponse.user.email,
-		});
-
-		if (response.invitationAccount?.pk) {
+		/* for Development mode, there is no invitation required - just let them in */
+		if (__DEV__) {
 			await createKeyAndEnter();
 		} else {
-			await router.navigate('/invitation');
+			/* eslint-disable-next-line */
+			const response = await client.request<any>(queries.invitationAccount, {
+				email: cache.loginResponse.user.email,
+			});
+
+			if (response.invitationAccount?.pk) {
+				await createKeyAndEnter();
+			} else {
+				await router.navigate('/invitation');
+			}
 		}
 	} finally {
 		appState.authenticationLoading = false;

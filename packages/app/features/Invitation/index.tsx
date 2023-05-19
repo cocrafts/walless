@@ -33,7 +33,7 @@ export const InvitationFeature: FC<Props> = ({
 	const [input, setInput] = useState('');
 	const logoStyle: ImageStyle = {
 		width: logoSize,
-		height: logoSize * 0.8,
+		height: logoSize,
 	};
 
 	const handleKeyPress = ({
@@ -48,9 +48,17 @@ export const InvitationFeature: FC<Props> = ({
 
 	return (
 		<View style={[styles.container, style]}>
-			<View style={styles.innerContainer}>
+			<View style={styles.headerContainer}>
 				<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
-				<Text>For early access, enter invitation code!</Text>
+				<View>
+					<Text style={styles.reminderText}>
+						Invitation code is require to access
+					</Text>
+					<Text style={styles.reminderText}>Walless Beta</Text>
+				</View>
+			</View>
+
+			<View style={styles.commandContainer}>
 				<Input
 					autoFocus
 					style={styles.inputContainer}
@@ -58,28 +66,34 @@ export const InvitationFeature: FC<Props> = ({
 					value={input}
 					onChangeText={setInput}
 					onKeyPress={handleKeyPress}
+					placeholder="Enter code"
+					placeholderTextColor={styles.placeholder.color}
 				/>
-				<View style={styles.commandContainer}>
-					{loading ? (
-						<ActivityIndicator color="white" />
-					) : (
-						<Button
-							style={styles.button}
-							title="Enter"
-							onPress={() => input.length > minLength && onEnter?.(input)}
-						/>
-					)}
-				</View>
-				<View style={styles.errorContainer}>
-					{error && <Text style={styles.errorText}>{error}</Text>}
-				</View>
+				{loading ? (
+					<ActivityIndicator color="white" />
+				) : (
+					<Button
+						style={styles.activeEnterButton}
+						onPress={() => input.length > minLength && onEnter?.(input)}
+					>
+						<Text style={styles.activeButtonTitle}> Count me in </Text>
+					</Button>
+				)}
 			</View>
+
 			<View style={styles.footerContainer}>
-				<Text style={styles.footerText}>
-					<Text>Having issues with log in? Visit </Text>
-					<Anchor href="https://walless.io/faq/login" title="Help page" />
-				</Text>
-				<Text style={styles.poweredText}>Powered by walless.io</Text>
+				<View style={styles.separate}>
+					<View style={styles.separateLine} />
+					<Text style={styles.separateText}>If don&apos;t have code</Text>
+					<View style={styles.separateLine} />
+				</View>
+				<Button style={styles.getCodeButton}>
+					<Text style={styles.activeButtonTitle}>Get invitation code</Text>
+				</Button>
+				<Anchor
+					titleStyle={styles.clickableText}
+					title="I already have Walless account"
+				/>
 			</View>
 		</View>
 	);
@@ -90,44 +104,92 @@ export default InvitationFeature;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: 32,
 	},
-	innerContainer: {
-		flex: 1,
+	headerContainer: {
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	reminderText: {
+		fontSize: 18,
+		fontWeight: '400',
+		textAlign: 'center',
+	},
 	commandContainer: {
-		minHeight: 50,
-		marginTop: 15,
+		alignItems: 'center',
 		justifyContent: 'center',
+		minHeight: 50,
+		gap: 24,
 	},
 	inputContainer: {
-		width: 200,
-		textAlign: 'center',
-		marginTop: 24,
+		width: 336,
+		height: 48,
 	},
-	button: {
-		width: 200,
+	placeholder: {
+		color: '#566674',
+	},
+	activeEnterButton: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 336,
+		height: 48,
 		paddingVertical: 12,
+	},
+	disabledEnterButton: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 336,
+		height: 48,
+		paddingVertical: 12,
+		backgroundColor: '#223240',
+	},
+	activeButtonTitle: {
+		fontSize: 16,
+		fontWeight: '500',
+		color: '#ffffff',
+	},
+	disabledButtonTitle: {
+		fontSize: 16,
+		fontWeight: '500',
+		color: '#566674',
+	},
+	separate: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: 8,
+	},
+	separateLine: {
+		width: 88,
+		height: 1,
+		backgroundColor: '#2A333C',
+	},
+	separateText: {
+		fontSize: 14,
+		color: '#566674',
+		fontWeight: '400',
+	},
+	getCodeButton: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 336,
+		height: 48,
+		backgroundColor: '#000000',
+	},
+	clickableText: {
+		fontSize: 14,
+		fontWeight: '400',
+		color: '#0694D3',
 	},
 	footerContainer: {
 		alignItems: 'center',
-		paddingBottom: 24,
-	},
-	errorContainer: {
-		minHeight: 50,
+		gap: 24,
 	},
 	errorText: {
 		fontSize: 13,
 		marginTop: 12,
 		color: 'red',
-	},
-	footerText: {
-		fontSize: 12,
-	},
-	poweredText: {
-		fontSize: 12,
-		color: '#5D6A73',
-		marginTop: 6,
 	},
 });

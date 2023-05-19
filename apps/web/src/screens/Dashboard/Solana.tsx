@@ -6,16 +6,19 @@ import {
 	MainFeatures,
 	SlideHandler,
 	TabsHeader,
-	TokenList,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { type SlideOption, Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useTokens } from 'utils/hooks';
+
+import EmptyTab from './EmptyTab';
+import TokenTab from './TokenTab';
 
 interface Props {
 	variant?: string;
@@ -25,7 +28,22 @@ export const SolanaDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const tokens = useTokens(Networks.solana);
 	const publicKeys = usePublicKeys(Networks.solana);
-	const onTabPress = (item: TabAble) => {
+	const bottomSliderItems: SlideOption[] = [
+		{
+			id: 'tokens',
+			component: () => <TokenTab tokens={tokens} />,
+		},
+		{
+			id: 'collectibles',
+			component: EmptyTab,
+		},
+		{
+			id: 'activities',
+			component: EmptyTab,
+		},
+	];
+
+	const handleTabPress = (item: TabAble) => {
 		const idx = layoutTabs.indexOf(item);
 		setActiveTabIndex(idx);
 	};
@@ -63,15 +81,16 @@ export const SolanaDashboard: FC<Props> = () => {
 					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
 				)}
 			</Stack>
-			<Stack>
+			<Stack flex={1}>
 				<TabsHeader
 					items={layoutTabs}
 					activeItem={layoutTabs[activeTabIndex]}
-					onTabPress={onTabPress}
+					onTabPress={handleTabPress}
 				/>
-				<TokenList
-					contentContainerStyle={styles.tokenListInner}
-					items={tokens}
+				<Slider
+					style={styles.sliderContainer}
+					items={bottomSliderItems}
+					activeItem={bottomSliderItems[activeTabIndex]}
 				/>
 			</Stack>
 		</Stack>
@@ -89,7 +108,7 @@ const suiCardSkin: CardSkin = {
 };
 
 const styles = StyleSheet.create({
-	tokenListInner: {
-		paddingVertical: 12,
+	sliderContainer: {
+		flex: 1,
 	},
 });

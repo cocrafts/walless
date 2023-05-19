@@ -9,6 +9,7 @@ import {
 import { type TokenDocument } from '@walless/store';
 
 import TokenItem from './Item';
+import ListEmpty from './ListEmpty';
 import Separator from './Separator';
 
 interface Props {
@@ -42,6 +43,7 @@ export const TokenList: FC<Props> = ({
 			data={items}
 			renderItem={renderItem}
 			ItemSeparatorComponent={Separator}
+			ListEmptyComponent={ListEmpty}
 		/>
 	);
 };

@@ -2,10 +2,11 @@ import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { type ModalConfigs, Text, View } from '@walless/gui';
 
-const AddedLayoutAnnouncement: FC<{ config: ModalConfigs }> = () => {
+const HoverAnnouncement: FC<{ config: ModalConfigs }> = ({ config }) => {
+	const { title } = config.context as { title: string };
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>Added layout</Text>
+			<Text style={styles.text}>{title}</Text>
 		</View>
 	);
 };
@@ -26,4 +27,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default AddedLayoutAnnouncement;
+export default HoverAnnouncement;

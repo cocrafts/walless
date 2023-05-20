@@ -1,0 +1,22 @@
+{
+  "name": "@walless/docs",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3006",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@walless/gui": "*",
+    "@walless/markdown": "*",
+    "next": "13.1.1",
+    "raf": "^3.4.1",
+    "react-dom": "18.2.0",
+    "react-native-web": "^0.19.4"
+  },
+  "devDependencies": {
+    "eslint": "8.38.0"
+  }
+}

@@ -1,0 +1,13 @@
+{
+	"extends": "@walless/tsconfig/next.json",
+	"include": ["**/*.ts", "**/*.tsx"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"components/*": ["./components/*"],
+			"pages/*": ["./pages/*"],
+			"utils/*": ["./utils/*"],
+			"state/*": ["./state/*"]
+		}
+	}
+}

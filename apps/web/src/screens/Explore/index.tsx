@@ -1,8 +1,11 @@
 import { type FC, useState } from 'react';
+import { modalActions } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import { type ExtensionDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
+import { extensionState } from 'state/extension';
 import { router } from 'utils/routing';
+import { useSnapshot } from 'valtio';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
@@ -13,6 +16,7 @@ const spacing = 12;
 export const ExploreScreen: FC = () => {
 	const [extensions, setExtensions] =
 		useState<ExtensionDocument[]>(mockLayoutCards);
+	const { map: installedMap } = useSnapshot(extensionState);
 
 	const handleSearch = (query: string) => {
 		const filteredLayouts = mockLayoutCards.filter((extension) =>
@@ -27,8 +31,14 @@ export const ExploreScreen: FC = () => {
 	};
 
 	const handleAddPress = async (extension: ExtensionDocument) => {
+		console.log('add layout');
 		await modules.storage.put(extension);
 		await router.navigate(extension._id);
+	};
+
+	const handleRemoveLayout = async (extension: ExtensionDocument) => {
+		modules.storage.docRemove<ExtensionDocument>(extension._id);
+		await modalActions.destroy('remove-layout-modal');
 	};
 
 	return (
@@ -45,14 +55,19 @@ export const ExploreScreen: FC = () => {
 				<SearchBar onSearch={handleSearch} />
 			</Stack>
 
-			{extensions.map((layoutCard) => (
-				<LayoutCard
-					key={layoutCard._id}
-					item={layoutCard}
-					onLovePress={handleLovePress}
-					onAddPress={handleAddPress}
-				/>
-			))}
+			{extensions.map((layoutCard) => {
+				const isAdded = !!installedMap.get(layoutCard._id);
+				return (
+					<LayoutCard
+						key={layoutCard._id}
+						item={layoutCard}
+						onLovePress={handleLovePress}
+						onAddPress={handleAddPress}
+						onRemovePress={handleRemoveLayout}
+						isAdded={isAdded}
+					/>
+				);
+			})}
 		</Stack>
 	);
 };

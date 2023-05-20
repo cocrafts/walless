@@ -1,9 +1,9 @@
 import { type FC } from 'react';
 import { Line, Polyline, Svg } from 'react-native-svg';
 
-import { type Props } from './types';
+import { type IconProps } from './types';
 
-export const ArrowDown: FC<Props> = ({ size = 24, color = '#FFFFFF' }) => {
+export const ArrowDown: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
 	return (
 		<Svg
 			width={size}

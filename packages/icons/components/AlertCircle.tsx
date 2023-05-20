@@ -1,9 +1,12 @@
 import { type FC } from 'react';
 import { Circle, Line, Svg } from 'react-native-svg';
 
-import { type Props } from './types';
+import { type IconProps } from './types';
 
-export const AlertCircle: FC<Props> = ({ size = 24, color = '#FFFFFF' }) => {
+export const AlertCircle: FC<IconProps> = ({
+	size = 24,
+	color = '#FFFFFF',
+}) => {
 	return (
 		<Svg
 			width={size}

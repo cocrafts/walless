@@ -1,29 +1,52 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {
 	type CardSkin,
+	type TabAble,
 	MainFeatures,
 	SlideHandler,
 	TabsHeader,
-	TokenList,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { type SlideOption, Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 
+import EmptyTab from './EmptyTab';
 import { layoutTabs } from './shared';
+import TokenTab from './TokenTab';
 
 interface Props {
 	variant?: string;
 }
 
 export const SuiDashboard: FC<Props> = () => {
+	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const tokens = useTokens(Networks.sui);
 	const publicKeys = usePublicKeys(Networks.sui);
+	const bottomSliderItems: SlideOption[] = [
+		{
+			id: 'tokens',
+			component: () => <TokenTab tokens={tokens} />,
+		},
+		{
+			id: 'collectibles',
+			component: EmptyTab,
+		},
+		{
+			id: 'activities',
+			component: EmptyTab,
+		},
+	];
+
+	const handleTabPress = (item: TabAble) => {
+		const idx = layoutTabs.indexOf(item);
+		setActiveTabIndex(idx);
+	};
 
 	const handleCopyAddress = async (value: string) => {
 		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
@@ -58,11 +81,16 @@ export const SuiDashboard: FC<Props> = () => {
 					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
 				)}
 			</Stack>
-			<Stack>
-				<TabsHeader items={layoutTabs} activeItem={layoutTabs[0]} />
-				<TokenList
-					contentContainerStyle={styles.tokenListInner}
-					items={tokens}
+			<Stack flex={1}>
+				<TabsHeader
+					items={layoutTabs}
+					activeItem={layoutTabs[activeTabIndex]}
+					onTabPress={handleTabPress}
+				/>
+				<Slider
+					style={styles.sliderContainer}
+					items={bottomSliderItems}
+					activeItem={bottomSliderItems[activeTabIndex]}
 				/>
 			</Stack>
 		</Stack>
@@ -71,12 +99,6 @@ export const SuiDashboard: FC<Props> = () => {
 
 export default SuiDashboard;
 
-const styles = StyleSheet.create({
-	tokenListInner: {
-		paddingVertical: 12,
-	},
-});
-
 const suiCardSkin: CardSkin = {
 	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },
 	largeIconSrc: { uri: '/img/network/sui-icon-lg.png' },
@@ -84,3 +106,9 @@ const suiCardSkin: CardSkin = {
 	iconColor: '#FFFFFF',
 	iconSize: 12,
 };
+
+const styles = StyleSheet.create({
+	sliderContainer: {
+		flex: 1,
+	},
+});

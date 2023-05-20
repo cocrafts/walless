@@ -1,9 +1,12 @@
 import { type FC } from 'react';
 import { Path, Svg } from 'react-native-svg';
 
-import { type Props } from './types';
+import { type IconProps } from './types';
 
-export const ArrowTopRight: FC<Props> = ({ size = 24, color = '#FFFFFF' }) => {
+export const ArrowTopRight: FC<IconProps> = ({
+	size = 24,
+	color = '#FFFFFF',
+}) => {
 	return (
 		<Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
 			<Path

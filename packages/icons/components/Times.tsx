@@ -1,9 +1,9 @@
 import { type FC } from 'react';
 import { Line, Svg } from 'react-native-svg';
 
-import { type Props } from './types';
+import { type IconProps } from './types';
 
-export const Times: FC<Props> = ({ size = 24, color = '#FFFFFF' }) => {
+export const Times: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
 	return (
 		<Svg
 			width={size}

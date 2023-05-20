@@ -20,6 +20,7 @@ export { Exclamation } from './components/Exclamation';
 export { Eye } from './components/Eye';
 export { EyeOff } from './components/EyeOff';
 export { Github } from './components/Github';
+export { Google } from './components/Google';
 export { Heart } from './components/Heart';
 export { IdCard } from './components/IdCard';
 export { LinkedIn } from './components/LinkedIn';

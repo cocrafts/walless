@@ -1,14 +1,43 @@
-import { type FC } from 'react';
-import { Heart } from '@walless/icons';
+import { type FC, useRef } from 'react';
+import { StyleSheet } from 'react-native';
+import { LayoutButton } from '@walless/app';
+import RemoveLayoutBtn from '@walless/app/components/LayoutButton/RemoveLayoutBtn';
+import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
+import { Heart, Plus } from '@walless/icons';
+import { type ExtensionDocument } from '@walless/store';
 import { Image, Stack, Text } from '@walless/ui';
 import { type LayoutCardProps } from 'screens/Explore/internal';
 
-import AddLayoutBtn from './AddLayoutBtn';
-
-const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
+const LayoutCard: FC<LayoutCardProps> = ({
+	item,
+	onLovePress,
+	onAddPress,
+	onRemovePress,
+	isAdded,
+}) => {
+	const bindingRef = useRef(null);
 	const { storeMeta } = item;
 	const coverSrc = { uri: storeMeta.coverUri };
 	const iconSrc = { uri: storeMeta.iconUri };
+
+	const handleShowRemoveModal = (extension: ExtensionDocument) => {
+		modalActions.show({
+			id: 'remove-layout-modal',
+			component: ({ config }) => (
+				<RemoveLayoutBtn
+					config={config}
+					onRemove={() => onRemovePress?.(extension)}
+				/>
+			),
+			maskActiveOpacity: 0,
+			bindingRef: bindingRef,
+			positionOffset: {
+				y: -4,
+			},
+			bindingDirection: BindDirections.TopRight,
+			animateDirection: AnimateDirections.Inner,
+		});
+	};
 
 	return (
 		<Stack backgroundColor="#131C24" height={259} borderRadius={12}>
@@ -103,7 +132,20 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 						</Stack>
 					</Stack>
 
-					<AddLayoutBtn handleAddLayout={() => onAddPress?.(item)} />
+					{isAdded ? (
+						<LayoutButton
+							style={styles.addedButton}
+							onPress={() => handleShowRemoveModal?.(item)}
+							hoverTitle="Added layout"
+							forwardedRef={bindingRef}
+						/>
+					) : (
+						<LayoutButton
+							style={styles.addButton}
+							onPress={() => onAddPress?.(item)}
+							icon={<Plus color="#ffffff" size={16} />}
+						/>
+					)}
 				</Stack>
 			</Stack>
 		</Stack>
@@ -112,4 +154,26 @@ const LayoutCard: FC<LayoutCardProps> = ({ item, onLovePress, onAddPress }) => {
 
 export default LayoutCard;
 
+const styles = StyleSheet.create({
+	addedButton: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#1F2A34',
+		width: 30,
+		height: 30,
+		paddingVertical: 4,
+		paddingHorizontal: 4,
+		borderRadius: 8,
+	},
+	addButton: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#0694D3',
+		width: 30,
+		height: 30,
+		paddingVertical: 4,
+		paddingHorizontal: 4,
+		borderRadius: 8,
+	},
+});
 const iconWrapperSize = 40;

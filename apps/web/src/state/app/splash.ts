@@ -21,7 +21,7 @@ export const launchApp = async ({
 	if (profile?.email) {
 		await router.navigate('/');
 	} else {
-		await router.navigate('/login');
+		await router.navigate('/invitation');
 	}
 
 	appState.loading = false;

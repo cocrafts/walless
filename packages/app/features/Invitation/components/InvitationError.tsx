@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { modalActions, Text, View } from '@walless/gui';
 import { Times } from '@walless/icons';

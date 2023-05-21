@@ -1,24 +1,34 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import {
 	type ImageSourcePropType,
-	type ImageStyle,
 	type NativeSyntheticEvent,
 	type TextInputKeyPressEventData,
 	type ViewStyle,
 	ActivityIndicator,
-	Image,
 	StyleSheet,
 } from 'react-native';
-import { Anchor, Button, Input, Text, View } from '@walless/gui';
+import {
+	BindDirections,
+	Button,
+	Input,
+	modalActions,
+	Text,
+	View,
+} from '@walless/gui';
+
+import GetCode from './components/GetCode';
+import InvitationError from './components/InvitationError';
+import InvitationHeader from './components/InvitationHeader';
 
 interface Props {
 	style?: ViewStyle;
 	logoSrc: ImageSourcePropType;
 	logoSize?: number;
 	minLength?: number;
-	onEnter?: (code: string) => void;
 	loading?: boolean;
 	error?: string;
+	onEnter?: (code: string) => void;
+	onNavigateToLogIn?: () => void;
 }
 
 export const InvitationFeature: FC<Props> = ({
@@ -27,14 +37,11 @@ export const InvitationFeature: FC<Props> = ({
 	logoSize = 120,
 	minLength = 3,
 	onEnter,
+	onNavigateToLogIn,
 	loading,
 	error,
 }) => {
 	const [input, setInput] = useState('');
-	const logoStyle: ImageStyle = {
-		width: logoSize,
-		height: logoSize,
-	};
 
 	const handleKeyPress = ({
 		nativeEvent,
@@ -46,17 +53,20 @@ export const InvitationFeature: FC<Props> = ({
 		}
 	};
 
+	useEffect(() => {
+		if (error !== '') {
+			modalActions.show({
+				id: 'invitation-error',
+				component: InvitationError,
+				withoutMask: true,
+				bindingDirection: BindDirections.Top,
+			});
+		}
+	}, [error]);
+
 	return (
 		<View style={[styles.container, style]}>
-			<View style={styles.headerContainer}>
-				<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
-				<View>
-					<Text style={styles.reminderText}>
-						Invitation code is require to access
-					</Text>
-					<Text style={styles.reminderText}>Walless Beta</Text>
-				</View>
-			</View>
+			<InvitationHeader logoSrc={logoSrc} logoSize={logoSize} />
 
 			<View style={styles.commandContainer}>
 				<Input
@@ -82,17 +92,12 @@ export const InvitationFeature: FC<Props> = ({
 			</View>
 
 			<View style={styles.footerContainer}>
-				<View style={styles.separate}>
-					<View style={styles.separateLine} />
-					<Text style={styles.separateText}>If don&apos;t have code</Text>
-					<View style={styles.separateLine} />
-				</View>
-				<Button style={styles.getCodeButton}>
-					<Text style={styles.activeButtonTitle}>Get invitation code</Text>
-				</Button>
-				<Anchor
+				<GetCode />
+				<Button
 					titleStyle={styles.clickableText}
 					title="I already have Walless account"
+					style={styles.transparentButton}
+					onPress={onNavigateToLogIn}
 				/>
 			</View>
 		</View>
@@ -107,15 +112,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: 32,
-	},
-	headerContainer: {
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	reminderText: {
-		fontSize: 18,
-		fontWeight: '400',
-		textAlign: 'center',
 	},
 	commandContainer: {
 		alignItems: 'center',
@@ -155,37 +151,20 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		color: '#566674',
 	},
-	separate: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		gap: 8,
-	},
-	separateLine: {
-		width: 88,
-		height: 1,
-		backgroundColor: '#2A333C',
-	},
-	separateText: {
-		fontSize: 14,
-		color: '#566674',
-		fontWeight: '400',
-	},
-	getCodeButton: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: 336,
-		height: 48,
-		backgroundColor: '#000000',
-	},
+
 	clickableText: {
 		fontSize: 14,
 		fontWeight: '400',
 		color: '#0694D3',
+		textAlign: 'center',
+	},
+	transparentButton: {
+		padding: 0,
+		backgroundColor: 'transparent',
 	},
 	footerContainer: {
 		alignItems: 'center',
-		gap: 24,
+		gap: 16,
 	},
 	errorText: {
 		fontSize: 13,

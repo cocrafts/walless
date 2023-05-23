@@ -9,9 +9,11 @@ import {
 	type ExtensionDocument,
 	type PouchDocument,
 	type PublicKeyDocument,
+	type SettingDocument,
 	type TokenDocument,
 	selectors,
 } from '@walless/store';
+import { settingsActions } from 'state/settings';
 
 import { extensionActions, extensionState } from '../extension';
 
@@ -22,10 +24,13 @@ export const initializeLiveState = async () => {
 	const publicKeys = publicKeyResponse.docs as PublicKeyDocument[];
 	const tokenResponse = await modules.storage.find(selectors.allTokens);
 	const tokens = tokenResponse.docs as TokenDocument[];
+	const settingsResponse = await modules.storage.find(selectors.settings);
+	const [settings] = settingsResponse.docs as SettingDocument[];
 
 	extensionActions.setExtensions(extensions);
 	walletActions.setItems(publicKeys);
 	tokenActions.setItems(tokens);
+	settingsActions.setSettings(settings);
 
 	const changes = modules.storage.changes({
 		since: 'now',
@@ -51,6 +56,8 @@ export const initializeLiveState = async () => {
 				walletState.map.set(id, item as PublicKeyDocument);
 			} else if (item?.type === 'Token') {
 				tokenState.map.set(id, item as TokenDocument);
+			} else if (item?.type === 'Setting') {
+				settingsActions.setSettings(item as SettingDocument);
 			}
 		}
 	});

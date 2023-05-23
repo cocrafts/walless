@@ -33,7 +33,12 @@ export const Button: FC<Props> = ({
 	];
 
 	return (
-		<Hoverable noSelect style={containerStyle} onPress={onPress}>
+		<Hoverable
+			noSelect
+			disabled={disabled}
+			style={containerStyle}
+			onPress={onPress}
+		>
 			{children || <Text style={[styles.title, titleStyle]}>{title}</Text>}
 		</Hoverable>
 	);

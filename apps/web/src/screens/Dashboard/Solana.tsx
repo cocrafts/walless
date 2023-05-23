@@ -15,7 +15,9 @@ import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
-import { usePublicKeys, useTokens } from 'utils/hooks';
+import { settingsActions } from 'state/settings';
+import { settingState } from 'state/settings/internal';
+import { usePublicKeys, useSnapshot, useTokens } from 'utils/hooks';
 
 import EmptyTab from './EmptyTab';
 import TokenTab from './TokenTab';
@@ -26,6 +28,7 @@ interface Props {
 
 export const SolanaDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
+	const { _id, isPrivate } = useSnapshot(settingState);
 	const tokens = useTokens(Networks.solana);
 	const publicKeys = usePublicKeys(Networks.solana);
 	const bottomSliderItems: SlideOption[] = [
@@ -56,6 +59,10 @@ export const SolanaDashboard: FC<Props> = () => {
 		appActions.showSendModal(Networks.solana);
 	};
 
+	const handleChangePrivateSetting = (next: boolean) => {
+		settingsActions.updatePrivateSettings({ _id: _id || '', isPrivate: next });
+	};
+
 	return (
 		<Stack flex={1} padding={12} gap={18}>
 			<Stack horizontal gap={12}>
@@ -66,7 +73,9 @@ export const SolanaDashboard: FC<Props> = () => {
 							index={index}
 							item={item}
 							skin={suiCardSkin}
+							isPrivate={isPrivate || false}
 							onCopyAddress={handleCopyAddress}
+							onChangePrivateSetting={handleChangePrivateSetting}
 							width={publicKeys.length == 1 ? 328 : 312}
 						/>
 					);

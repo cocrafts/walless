@@ -8994,6 +8994,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@walless/docs@workspace:apps/docs":
+  version: 0.0.0-use.local
+  resolution: "@walless/docs@workspace:apps/docs"
+  dependencies:
+    next: ^13.1.1
+    react-native-web: ^0.18.12
+  languageName: unknown
+  linkType: soft
+
 "@walless/engine@*, @walless/engine@workspace:packages/engine":
   version: 0.0.0-use.local
   resolution: "@walless/engine@workspace:packages/engine"

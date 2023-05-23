@@ -1,0 +1,15 @@
+{
+    "name": "@walless/docs",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev -p 3010",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "next": "^13.1.1",
+        "react-native-web": "^0.18.12"
+    }
+}

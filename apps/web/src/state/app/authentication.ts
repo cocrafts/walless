@@ -61,7 +61,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 		}
 
 		/* for Development mode, there is no invitation required - just let them in */
-		if (!__DEV__) {
+		if (__DEV__) {
 			await createKeyAndEnter();
 		} else {
 			/* eslint-disable-next-line */

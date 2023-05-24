@@ -44,7 +44,7 @@ export const setProfile = async (profile: UserProfile) => {
 	});
 };
 
-export const signInWithGoogle = async () => {
+export const signInWithGoogle = async (invitationCode?: string) => {
 	try {
 		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
 		appState.authenticationLoading = true;
@@ -69,10 +69,16 @@ export const signInWithGoogle = async () => {
 				email: cache.loginResponse.user.email,
 			});
 
-			if (response.invitationAccount?.pk) {
+			if (!response.invitationAccount && invitationCode) {
+				await client.request<boolean>(mutations.bindInvitation, {
+					code: invitationCode || appState.invitationCode,
+					email: cache.loginResponse.user.email,
+				});
 				await createKeyAndEnter();
+			} else if (!response.invitationAccount && !invitationCode) {
+				appState.isAbleToSignIn = false;
 			} else {
-				await router.navigate('/invitation');
+				await createKeyAndEnter();
 			}
 		}
 	} finally {
@@ -114,24 +120,19 @@ export const createKeyAndEnter = async () => {
 };
 
 export const enterInvitationCode = async (code: string) => {
-	const user = cache.loginResponse?.user as User;
 	/* eslint-disable-next-line */
 	const response = await client.request<any>(queries.invitationCode, { code });
 
 	appState.invitationError = undefined;
 
 	if (!response.invitationCode) {
-		appState.invitationError = 'invitation code not valid!';
-	} else if (!response.invitationCode.email) {
-		const registerResponse = await client.request(mutations.bindInvitation, {
-			code,
-			email: user?.email || 'admin@stormgate.io',
-		});
-
-		console.log(registerResponse);
-		await createKeyAndEnter();
+		appState.invitationError = 'This invitation code is invalid!';
 	} else if (response.invitationCode?.email) {
-		appState.invitationError = 'invitation code used!';
+		appState.invitationError =
+			'This invitation code is used by another account!';
+	} else {
+		appState.invitationCode = code;
+		await router.navigate('/login');
 	}
 };
 

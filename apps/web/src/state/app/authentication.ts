@@ -61,7 +61,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 		}
 
 		/* for Development mode, there is no invitation required - just let them in */
-		if (__DEV__) {
+		if (!__DEV__) {
 			await createKeyAndEnter();
 		} else {
 			/* eslint-disable-next-line */
@@ -77,6 +77,8 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 				await createKeyAndEnter();
 			} else if (!response.invitationAccount && !invitationCode) {
 				appState.isAbleToSignIn = false;
+				appState.signInError =
+					'The account does not exist. Enter your Invitation code';
 			} else {
 				await createKeyAndEnter();
 			}

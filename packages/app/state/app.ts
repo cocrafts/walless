@@ -9,6 +9,7 @@ export interface AppState {
 	invitationError?: string;
 	invitationCode?: string;
 	isAbleToSignIn?: boolean;
+	signInError?: string;
 	profileReady: boolean;
 	profileLoading: boolean;
 	profile: UserProfile;

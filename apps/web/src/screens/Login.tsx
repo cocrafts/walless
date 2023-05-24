@@ -9,6 +9,8 @@ export const LoginScreen: FC = () => {
 	const { authenticationLoading } = useSnapshot(appState);
 	const { invitationCode } = useSnapshot(appState);
 	const { isAbleToSignIn } = useSnapshot(appState);
+	const { signInError } = useSnapshot(appState);
+
 	const handleNavigateToGetInvitationCode = () => {
 		router.navigate('/invitation');
 		appState.isAbleToSignIn = true;
@@ -21,6 +23,7 @@ export const LoginScreen: FC = () => {
 			onGoogleSignIn={() => appActions.signInWithGoogle(invitationCode)}
 			isAbleToSignIn={isAbleToSignIn}
 			onGetInvitationCode={handleNavigateToGetInvitationCode}
+			error={signInError}
 		/>
 	);
 };

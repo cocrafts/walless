@@ -1,14 +1,13 @@
 import { type FC } from 'react';
 import {
 	type ImageSourcePropType,
-	type ImageStyle,
 	type ViewStyle,
-	ActivityIndicator,
-	Image,
 	StyleSheet,
 } from 'react-native';
-import { Anchor, Button, Text, View } from '@walless/gui';
-import { Google } from '@walless/icons';
+import { Anchor, Text, View } from '@walless/gui';
+
+import SignInHeader from './SignInHeader';
+import SignInInner from './SignInInner';
 
 interface Props {
 	style?: ViewStyle;
@@ -16,6 +15,8 @@ interface Props {
 	logoSize?: number;
 	onGoogleSignIn?: () => void;
 	loading?: boolean;
+	isAbleToSignIn?: boolean;
+	onGetInvitationCode?: () => void;
 }
 
 export const LoginFeature: FC<Props> = ({
@@ -24,37 +25,18 @@ export const LoginFeature: FC<Props> = ({
 	logoSize = 120,
 	onGoogleSignIn,
 	loading,
+	isAbleToSignIn = true,
+	onGetInvitationCode,
 }) => {
-	const logoStyle: ImageStyle = {
-		width: logoSize,
-		height: logoSize * 0.8,
-	};
-
 	return (
 		<View style={[styles.container, style]}>
-			<View style={styles.headerContainer}>
-				<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
-				<Text style={styles.title}>Sign in to continue</Text>
-			</View>
-			<View style={styles.innerContainer}>
-				<View style={styles.commandContainer}>
-					{loading ? (
-						<ActivityIndicator color="white" />
-					) : (
-						<Button style={styles.signInButton} onPress={onGoogleSignIn}>
-							<Google />{' '}
-							<Text style={styles.buttonText}>Sign in with Google</Text>
-						</Button>
-					)}
-				</View>
-				<Text style={styles.subText}>Advanced mode</Text>
-				<Button
-					style={styles.seedPhraseButton}
-					disabled
-					title="Create or Import"
-					titleStyle={styles.buttonText}
-				/>
-			</View>
+			<SignInHeader logoSrc={logoSrc} logoSize={logoSize} />
+			<SignInInner
+				isAbleToSignIn={isAbleToSignIn}
+				onGoogleSignIn={onGoogleSignIn}
+				loading={loading}
+				onGetInvitationCode={onGetInvitationCode}
+			/>
 			<View style={styles.footerContainer}>
 				<Text style={styles.footerText}>
 					<Text>Having issues with log in? Visit </Text>
@@ -73,50 +55,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'space-between',
 	},
-	headerContainer: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingTop: 48,
-	},
-	title: {
-		fontSize: 20,
-		fontWeight: '400',
-	},
-	innerContainer: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		gap: 18,
-		paddingBottom: 48,
-	},
-	commandContainer: {
-		justifyContent: 'center',
-	},
-	signInButton: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: '#0694D3',
-		gap: 8,
-		width: 342,
-		height: 48,
-		borderRadius: 16,
-	},
-	seedPhraseButton: {
-		backgroundColor: '#243F56',
-		width: 342,
-		height: 48,
-		borderRadius: 16,
-	},
-	buttonText: {
-		fontSize: 16,
-		fontWeight: '500',
-		color: 'white',
-	},
-	subText: {
-		fontSize: 14,
-		color: '#566674',
-		fontWeight: '400',
-	},
+
 	footerContainer: {
 		alignItems: 'center',
 		paddingBottom: 24,

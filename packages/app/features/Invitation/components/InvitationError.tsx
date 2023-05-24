@@ -1,8 +1,9 @@
+import { type FC } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { modalActions, Text, View } from '@walless/gui';
 import { Times } from '@walless/icons';
 
-const InvitationError = () => {
+const InvitationError: FC<{ content: string }> = ({ content }) => {
 	const handleExit = () => {
 		console.log('destroying modal');
 		modalActions.destroy('invitation-error');
@@ -13,7 +14,7 @@ const InvitationError = () => {
 			<TouchableOpacity style={styles.exitButton} onPress={handleExit}>
 				<Times size={16} />
 			</TouchableOpacity>
-			<Text>Invitation code is invalid</Text>
+			<Text>{content}</Text>
 		</View>
 	);
 };
@@ -32,6 +33,5 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		top: 8,
 		right: 8,
-		backgroundColor: 'blue',
 	},
 });

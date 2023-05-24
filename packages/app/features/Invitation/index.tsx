@@ -7,6 +7,7 @@ import {
 	ActivityIndicator,
 	StyleSheet,
 } from 'react-native';
+import { ErrorAnnouncement } from '@walless/app';
 import {
 	BindDirections,
 	Button,
@@ -17,7 +18,6 @@ import {
 } from '@walless/gui';
 
 import GetCode from './components/GetCode';
-import InvitationError from './components/InvitationError';
 import InvitationHeader from './components/InvitationHeader';
 
 interface Props {
@@ -57,8 +57,8 @@ export const InvitationFeature: FC<Props> = ({
 	useEffect(() => {
 		if (error) {
 			modalActions.show({
-				id: 'invitation-error',
-				component: () => <InvitationError content={error} />,
+				id: 'error-announcement',
+				component: () => <ErrorAnnouncement content={error} />,
 				maskActiveOpacity: 0,
 				bindingDirection: BindDirections.Top,
 			});

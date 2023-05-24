@@ -3,10 +3,9 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { modalActions, Text, View } from '@walless/gui';
 import { Times } from '@walless/icons';
 
-const InvitationError: FC<{ content: string }> = ({ content }) => {
+export const ErrorAnnouncement: FC<{ content: string }> = ({ content }) => {
 	const handleExit = () => {
-		console.log('destroying modal');
-		modalActions.destroy('invitation-error');
+		modalActions.destroy('error-announcement');
 	};
 
 	return (
@@ -14,12 +13,12 @@ const InvitationError: FC<{ content: string }> = ({ content }) => {
 			<TouchableOpacity style={styles.exitButton} onPress={handleExit}>
 				<Times size={16} />
 			</TouchableOpacity>
-			<Text>{content}</Text>
+			<Text style={styles.text}>{content}</Text>
 		</View>
 	);
 };
 
-export default InvitationError;
+export default ErrorAnnouncement;
 
 const styles = StyleSheet.create({
 	container: {
@@ -33,5 +32,9 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		top: 8,
 		right: 8,
+	},
+	text: {
+		marginHorizontal: 60,
+		textAlign: 'center',
 	},
 });

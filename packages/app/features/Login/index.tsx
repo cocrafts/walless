@@ -1,10 +1,11 @@
-import { type FC } from 'react';
+import { type FC, useEffect } from 'react';
 import {
 	type ImageSourcePropType,
 	type ViewStyle,
 	StyleSheet,
 } from 'react-native';
-import { Anchor, Text, View } from '@walless/gui';
+import { ErrorAnnouncement } from '@walless/app';
+import { Anchor, BindDirections, modalActions, Text, View } from '@walless/gui';
 
 import SignInHeader from './SignInHeader';
 import SignInInner from './SignInInner';
@@ -17,6 +18,7 @@ interface Props {
 	loading?: boolean;
 	isAbleToSignIn?: boolean;
 	onGetInvitationCode?: () => void;
+	error?: string;
 }
 
 export const LoginFeature: FC<Props> = ({
@@ -27,7 +29,19 @@ export const LoginFeature: FC<Props> = ({
 	loading,
 	isAbleToSignIn = true,
 	onGetInvitationCode,
+	error,
 }) => {
+	useEffect(() => {
+		if (!isAbleToSignIn && error) {
+			modalActions.show({
+				id: 'error-announcement',
+				component: () => <ErrorAnnouncement content={error} />,
+				maskActiveOpacity: 0,
+				bindingDirection: BindDirections.Top,
+			});
+		}
+	}, [error]);
+
 	return (
 		<View style={[styles.container, style]}>
 			<SignInHeader logoSrc={logoSrc} logoSize={logoSize} />

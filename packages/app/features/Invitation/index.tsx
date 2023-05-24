@@ -49,16 +49,17 @@ export const InvitationFeature: FC<Props> = ({
 		if (nativeEvent.key === 'Enter') {
 			if (input.length > minLength) {
 				onEnter?.(input);
+				console.log(input);
 			}
 		}
 	};
 
 	useEffect(() => {
-		if (error !== '') {
+		if (error) {
 			modalActions.show({
 				id: 'invitation-error',
-				component: InvitationError,
-				withoutMask: true,
+				component: () => <InvitationError content={error} />,
+				maskActiveOpacity: 0,
 				bindingDirection: BindDirections.Top,
 			});
 		}
@@ -83,8 +84,15 @@ export const InvitationFeature: FC<Props> = ({
 					<ActivityIndicator color="white" />
 				) : (
 					<Button
-						style={styles.activeEnterButton}
-						onPress={() => input.length > minLength && onEnter?.(input)}
+						disabled={input.length <= minLength}
+						style={
+							input.length >= minLength
+								? styles.activeEnterButton
+								: styles.disabledEnterButton
+						}
+						onPress={() => {
+							if (input.length >= minLength) onEnter?.(input);
+						}}
 					>
 						<Text style={styles.activeButtonTitle}> Count me in </Text>
 					</Button>

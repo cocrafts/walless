@@ -6,10 +6,8 @@ import { useSnapshot } from 'utils/hooks';
 import { router } from 'utils/routing';
 
 export const LoginScreen: FC = () => {
-	const { authenticationLoading } = useSnapshot(appState);
-	const { invitationCode } = useSnapshot(appState);
-	const { isAbleToSignIn } = useSnapshot(appState);
-	const { signInError } = useSnapshot(appState);
+	const { authenticationLoading, invitationCode, isAbleToSignIn, signInError } =
+		useSnapshot(appState);
 
 	const handleNavigateToGetInvitationCode = () => {
 		router.navigate('/invitation');

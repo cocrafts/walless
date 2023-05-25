@@ -10,7 +10,7 @@ const InvitationScreen = () => {
 	const { invitationError } = useSnapshot(appState);
 	appState.isAbleToSignIn = true;
 
-	const onInvitationCodeChange = async (value: string) => {
+	const onInvitationCodeChange = (value: string) => {
 		if (invitationError && value.length > 0) {
 			appState.invitationError = '';
 		}

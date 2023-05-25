@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'space-between',
 	},
-
 	footerContainer: {
 		alignItems: 'center',
 		paddingBottom: 24,

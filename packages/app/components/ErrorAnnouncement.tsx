@@ -5,7 +5,7 @@ import { Times } from '@walless/icons';
 
 export const ErrorAnnouncement: FC<{ content: string }> = ({ content }) => {
 	const handleExit = () => {
-		modalActions.destroy('error-announcement');
+		modalActions.hide('error-announcement');
 	};
 
 	return (

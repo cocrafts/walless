@@ -25,7 +25,7 @@ export interface TokenAccount {
 	mint?: string;
 	owner?: string;
 	address?: string;
-	price?: number;
+	quotes?: Record<string, number>;
 	balance: string;
 	decimals: number;
 }

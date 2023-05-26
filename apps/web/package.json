@@ -42,6 +42,7 @@
     "dexie": "3.2.3",
     "firebase": "^9.21.0",
     "graphql-request": "^6.1.0",
+    "numeral": "^2.0.6",
     "pouchdb-adapter-http": "^8.0.1",
     "pouchdb-adapter-idb": "^8.0.1",
     "pouchdb-core": "^8.0.1",

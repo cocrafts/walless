@@ -8998,7 +8998,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/docs@workspace:apps/docs"
   dependencies:
+    "@walless/gui": "*"
     next: ^13.1.1
+    raf: ^3.4.1
+    react-native: ^0.71.6
+    react-native-reanimated: 3.1.0
+    react-native-svg: 13.9.0
     react-native-web: ^0.18.12
   languageName: unknown
   linkType: soft

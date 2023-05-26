@@ -1,7 +1,11 @@
 module.exports = {
 	root: true,
 	extends: ['@walless/eslint-config'],
-	ignorePatterns: ['tool/batch/**', 'packages/core/utils/platform.ts'],
+	ignorePatterns: [
+		'tool/batch/**',
+		'packages/core/utils/platform.ts',
+		'packages/graphql/types.ts',
+	],
 	env: {
 		node: true,
 	},

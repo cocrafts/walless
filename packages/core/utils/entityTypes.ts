@@ -4,7 +4,7 @@ import { type SuiObjectData } from '@mysten/sui.js';
 export interface Setting {
 	version: string;
 	profile: UserProfile;
-	isPrivate?: boolean;
+	hideBalance: boolean;
 }
 
 export interface UserProfile {

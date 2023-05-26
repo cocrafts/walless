@@ -5,21 +5,20 @@ import { settingState } from './internal';
 
 export const settingsActions = {
 	setSettings: (settings: SettingDocument) => {
-		if (settings?._id) {
+		if (settings._id) {
 			settingState._id = settings._id;
-			settingState._rev = settings._rev;
-			settingState.isPrivate = settings.isPrivate;
+			settingState.hideBalance = settings.hideBalance;
 		}
 	},
 	updatePrivateSettings: async ({
 		_id,
-		isPrivate,
+		hideBalance,
 	}: {
 		_id: string;
-		isPrivate: boolean;
+		hideBalance: boolean;
 	}) => {
 		await modules.storage.upsert<SettingDocument>(_id, async (doc) => {
-			doc.isPrivate = isPrivate;
+			doc.hideBalance = hideBalance;
 
 			return doc;
 		});

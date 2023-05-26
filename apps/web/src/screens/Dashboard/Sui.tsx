@@ -27,7 +27,7 @@ interface Props {
 
 export const SuiDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
-	const { _id, isPrivate } = useSnapshot(settingState);
+	const { _id, hideBalance } = useSnapshot(settingState);
 	const tokens = useTokens(Networks.sui);
 	const publicKeys = usePublicKeys(Networks.sui);
 	const bottomSliderItems: SlideOption[] = [
@@ -59,7 +59,10 @@ export const SuiDashboard: FC<Props> = () => {
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
-		settingsActions.updatePrivateSettings({ _id: _id || '', isPrivate: next });
+		settingsActions.updatePrivateSettings({
+			_id,
+			hideBalance: next,
+		});
 	};
 
 	return (
@@ -72,7 +75,7 @@ export const SuiDashboard: FC<Props> = () => {
 							index={index}
 							item={item}
 							skin={suiCardSkin}
-							isPrivate={isPrivate || false}
+							hideBalance={hideBalance}
 							onCopyAddress={handleCopyAddress}
 							onChangePrivateSetting={handleChangePrivateSetting}
 							width={publicKeys.length == 1 ? 328 : 312}

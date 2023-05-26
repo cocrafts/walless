@@ -5,12 +5,12 @@ import { settingsActions, settingState } from 'state/settings';
 import { useSnapshot } from 'valtio';
 
 const TokenValue = () => {
-	const { _id, isPrivate } = useSnapshot(settingState);
+	const { _id, hideBalance } = useSnapshot(settingState);
 
 	const handleToggleTokenValue = async () => {
 		settingsActions.updatePrivateSettings({
-			_id: _id || '',
-			isPrivate: !isPrivate,
+			_id,
+			hideBalance: !hideBalance,
 		});
 	};
 
@@ -21,10 +21,10 @@ const TokenValue = () => {
 			</Text>
 			<Stack flexDirection="row" alignItems="center" gap={5}>
 				<Text fontSize={40} fontWeight="500" lineHeight={26}>
-					{isPrivate ? '****' : '$0,00'}
+					{hideBalance ? '****' : '$0,00'}
 				</Text>
 				<Hoverable onPress={handleToggleTokenValue}>
-					{isPrivate ? (
+					{hideBalance ? (
 						<Eye size={20} color="#566674" />
 					) : (
 						<EyeOff size={20} color="#566674" />

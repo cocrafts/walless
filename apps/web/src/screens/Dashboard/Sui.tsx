@@ -59,7 +59,7 @@ export const SuiDashboard: FC<Props> = () => {
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
-		settingsActions.updatePrivateSettings({
+		settingsActions.updateHiddenBalanceSettings({
 			_id,
 			hideBalance: next,
 		});

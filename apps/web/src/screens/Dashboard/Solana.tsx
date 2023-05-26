@@ -59,7 +59,7 @@ export const SolanaDashboard: FC<Props> = () => {
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
-		settingsActions.updatePrivateSettings({ _id, hideBalance: next });
+		settingsActions.updateHiddenBalanceSettings({ _id, hideBalance: next });
 	};
 
 	return (

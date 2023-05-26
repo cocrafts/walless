@@ -10,7 +10,7 @@ export const settingsActions = {
 			settingState.hideBalance = settings.hideBalance;
 		}
 	},
-	updatePrivateSettings: async ({
+	updateHiddenBalanceSettings: async ({
 		_id,
 		hideBalance,
 	}: {

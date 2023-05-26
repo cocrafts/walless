@@ -8,7 +8,7 @@ const TokenValue = () => {
 	const { _id, hideBalance } = useSnapshot(settingState);
 
 	const handleToggleTokenValue = async () => {
-		settingsActions.updatePrivateSettings({
+		settingsActions.updateHiddenBalanceSettings({
 			_id,
 			hideBalance: !hideBalance,
 		});

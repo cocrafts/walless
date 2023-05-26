@@ -25,3 +25,5 @@ export const settingsActions = {
 		});
 	},
 };
+
+export * from './internal';

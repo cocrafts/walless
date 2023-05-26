@@ -1,8 +1,7 @@
 import { Hoverable } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
-import { settingsActions } from 'state/settings';
-import { settingState } from 'state/settings/internal';
+import { settingsActions, settingState } from 'state/settings';
 import { useSnapshot } from 'valtio';
 
 const TokenValue = () => {

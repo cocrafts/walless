@@ -15,8 +15,7 @@ import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
-import { settingsActions } from 'state/settings';
-import { settingState } from 'state/settings/internal';
+import { settingsActions, settingState } from 'state/settings';
 import { usePublicKeys, useSnapshot, useTokens } from 'utils/hooks';
 
 import EmptyTab from './EmptyTab';

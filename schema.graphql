@@ -1,37 +1,69 @@
 # This file was generated. Do not edit manually.
 
 schema {
-    query: Query
-    mutation: Mutation
+	query: RootQuery
+	mutation: RootMutation
 }
 
 type InvitationAccount {
-    kind: String!
-    pk: String!
-    sk: String!
+	kind: String!
+	pk: String!
+	sk: String!
+	timestamp: String
 }
 
 type InvitationCode {
-    email: String
-    kind: String!
-    pk: String!
-    sk: String!
-    timestamp: String
+	email: String
+	kind: String!
+	pk: String!
+	sk: String!
+	timestamp: String
 }
 
-type Mutation {
-    bindInvitation(code: String!, email: String!): Boolean!
-    createUser(name: String!): User!
+type RootMutation {
+	bindInvitation(code: String!, email: String!): Boolean!
+	crawlTokenMeta: Int!
+	createUser(name: String!): User!
+	hydrateTokenMap: Int!
 }
 
-type Query {
-    greeting: String!
-    invitationAccount(email: String!): InvitationAccount
-    invitationCode(code: String!): InvitationCode
-    users: [User!]!
+type RootQuery {
+	greeting: String!
+	invitationAccount(email: String!): InvitationAccount
+	invitationCode(code: String!): InvitationCode
+	systemInfo: SystemInfo!
+	token(id: String!): TokenInfo
+	tokens(ids: [String!]!): [TokenInfo!]!
+	tokensByAddress(addresses: [String!]!): [TokenInfo!]!
+}
+
+type SystemInfo {
+	environment: String!
+	version: String!
+}
+
+type TokenInfo {
+	address: String
+	id: String!
+	name: String!
+	platforms: JSONObject!
+	quotes: JSONObject!
+	symbol: String!
+	timestamp: DateTime!
 }
 
 type User {
-    id: Int!
-    name: String!
+	id: Int!
+	name: String!
 }
+
+"""
+
+Implement the DateTime<Utc> scalar
+
+The input/output is a string in RFC3339 format.
+"""
+scalar DateTime
+
+"A scalar that can represent any JSON Object value."
+scalar JSONObject

@@ -1,16 +1,12 @@
 const { DefinePlugin } = require('webpack');
-const project = require('../web/package.json');
 
 module.exports = {
-	env: {
-		EXTENSION_VERSION: project.version,
-	},
 	swcMinify: true,
 	reactStrictMode: true,
 	transpilePackages: [
 		'@walless/gui',
 		'@walless/markdown',
-		'react-native-web',
+		'react',
 		'react-native',
 		'react-native-reanimated',
 		'react-native-svg',

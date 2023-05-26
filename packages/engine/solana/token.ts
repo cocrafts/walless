@@ -21,7 +21,7 @@ export const solanaTokensByAddress = async ({
 	connection,
 	address,
 	metadataFetcher = getRemoteSolanaMetadata,
-}: TokenByAddressOption) => {
+}: TokenByAddressOption): Promise<TokenDocument[]> => {
 	const key = new PublicKey(address);
 	const response = await connection.getParsedTokenAccountsByOwner(key, {
 		programId: TOKEN_PROGRAM_ID,
@@ -44,7 +44,7 @@ export const solanaTokensByAddress = async ({
 				decimals: info.tokenAmount?.decimals,
 			},
 			metadata: await metadataFetcher(connection, info.mint),
-		} as TokenDocument;
+		} satisfies TokenDocument;
 	});
 
 	resultPromises.push(
@@ -64,7 +64,7 @@ export const solanaTokensByAddress = async ({
 					decimals: 9,
 				},
 				metadata: solMetadata,
-			};
+			} satisfies TokenDocument;
 		})(),
 	);
 

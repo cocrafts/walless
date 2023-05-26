@@ -3,6 +3,13 @@ import { Keypair as SolPair } from '@solana/web3.js';
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
 import { type UserProfile, Networks, runtime } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
+import {
+	type InvitationAccount,
+	type InvitationCode,
+	mutations,
+	qlClient,
+	queries,
+} from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import {
 	type PrivateKeyDocument,
@@ -17,7 +24,6 @@ import {
 	signInWithPopup,
 } from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
-import { client, mutations, queries } from 'utils/graphql';
 import { router } from 'utils/routing';
 import {
 	configureSecurityQuestionShare,
@@ -64,18 +70,19 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 		if (__DEV__) {
 			await createKeyAndEnter();
 		} else {
-			/* eslint-disable-next-line */
-			const response = await client.request<any>(queries.invitationAccount, {
+			const { invitationAccount } = await qlClient.request<{
+				invitationAccount: InvitationAccount;
+			}>(queries.invitationAccount, {
 				email: cache.loginResponse.user.email,
 			});
 
-			if (!response.invitationAccount && invitationCode) {
-				await client.request<boolean>(mutations.bindInvitation, {
+			if (!invitationAccount && invitationCode) {
+				await qlClient.request(mutations.bindInvitation, {
 					code: invitationCode || appState.invitationCode,
 					email: cache.loginResponse.user.email,
 				});
 				await createKeyAndEnter();
-			} else if (!response.invitationAccount && !invitationCode) {
+			} else if (!invitationAccount && !invitationCode) {
 				appState.isAbleToSignIn = false;
 				appState.signInError =
 					'The account does not exist. Enter your Invitation code';
@@ -123,13 +130,13 @@ export const createKeyAndEnter = async () => {
 
 export const enterInvitationCode = async (code: string) => {
 	/* eslint-disable-next-line */
-	const response = await client.request<any>(queries.invitationCode, { code });
+	const { invitationCode } = await qlClient.request<{ invitationCode: InvitationCode }>(queries.invitationCode, { code });
 
 	appState.invitationError = undefined;
 
-	if (!response.invitationCode) {
+	if (!invitationCode) {
 		appState.invitationError = 'This invitation code is invalid!';
-	} else if (response.invitationCode?.email) {
+	} else if (invitationCode?.email) {
 		appState.invitationError =
 			'This invitation code is used by another account!';
 	} else {

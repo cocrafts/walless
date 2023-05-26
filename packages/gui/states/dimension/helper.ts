@@ -22,6 +22,10 @@ export const detectMobile = (): boolean => {
 	];
 
 	return toMatch.some((toMatchItem) => {
-		return navigator.userAgent?.match(toMatchItem);
+		try {
+			return navigator.userAgent?.match(toMatchItem);
+		} catch {
+			return false;
+		}
 	});
 };

@@ -1,24 +1,34 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import {
 	type ImageSourcePropType,
-	type ImageStyle,
 	type NativeSyntheticEvent,
 	type TextInputKeyPressEventData,
 	type ViewStyle,
 	ActivityIndicator,
-	Image,
 	StyleSheet,
 } from 'react-native';
-import { Anchor, Button, Input, Text, View } from '@walless/gui';
+import { ErrorAnnouncement } from '@walless/app';
+import {
+	BindDirections,
+	Button,
+	Input,
+	modalActions,
+	Text,
+	View,
+} from '@walless/gui';
+
+import GetCode from './components/GetCode';
+import InvitationHeader from './components/InvitationHeader';
 
 interface Props {
 	style?: ViewStyle;
 	logoSrc: ImageSourcePropType;
 	logoSize?: number;
 	minLength?: number;
-	onEnter?: (code: string) => void;
 	loading?: boolean;
 	error?: string;
+	onEnter?: (code: string) => void;
+	onNavigateToLogIn?: () => void;
 }
 
 export const InvitationFeature: FC<Props> = ({
@@ -27,14 +37,11 @@ export const InvitationFeature: FC<Props> = ({
 	logoSize = 120,
 	minLength = 3,
 	onEnter,
+	onNavigateToLogIn,
 	loading,
 	error,
 }) => {
 	const [input, setInput] = useState('');
-	const logoStyle: ImageStyle = {
-		width: logoSize,
-		height: logoSize * 0.8,
-	};
 
 	const handleKeyPress = ({
 		nativeEvent,
@@ -42,15 +49,27 @@ export const InvitationFeature: FC<Props> = ({
 		if (nativeEvent.key === 'Enter') {
 			if (input.length > minLength) {
 				onEnter?.(input);
+				console.log(input);
 			}
 		}
 	};
 
+	useEffect(() => {
+		if (error) {
+			modalActions.show({
+				id: 'error-announcement',
+				component: () => <ErrorAnnouncement content={error} />,
+				maskActiveOpacity: 0,
+				bindingDirection: BindDirections.Top,
+			});
+		}
+	}, [error]);
+
 	return (
 		<View style={[styles.container, style]}>
-			<View style={styles.innerContainer}>
-				<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
-				<Text>For early access, enter invitation code!</Text>
+			<InvitationHeader logoSrc={logoSrc} logoSize={logoSize} />
+
+			<View style={styles.commandContainer}>
 				<Input
 					autoFocus
 					style={styles.inputContainer}
@@ -58,28 +77,36 @@ export const InvitationFeature: FC<Props> = ({
 					value={input}
 					onChangeText={setInput}
 					onKeyPress={handleKeyPress}
+					placeholder="Enter code"
+					placeholderTextColor={styles.placeholder.color}
 				/>
-				<View style={styles.commandContainer}>
-					{loading ? (
-						<ActivityIndicator color="white" />
-					) : (
-						<Button
-							style={styles.button}
-							title="Enter"
-							onPress={() => input.length > minLength && onEnter?.(input)}
-						/>
-					)}
-				</View>
-				<View style={styles.errorContainer}>
-					{error && <Text style={styles.errorText}>{error}</Text>}
-				</View>
+				{loading ? (
+					<ActivityIndicator color="white" />
+				) : (
+					<Button
+						disabled={input.length <= minLength}
+						style={
+							input.length >= minLength
+								? styles.activeEnterButton
+								: styles.disabledEnterButton
+						}
+						onPress={() => {
+							if (input.length >= minLength) onEnter?.(input);
+						}}
+					>
+						<Text style={styles.activeButtonTitle}> Count me in </Text>
+					</Button>
+				)}
 			</View>
+
 			<View style={styles.footerContainer}>
-				<Text style={styles.footerText}>
-					<Text>Having issues with log in? Visit </Text>
-					<Anchor href="https://walless.io/faq/login" title="Help page" />
-				</Text>
-				<Text style={styles.poweredText}>Powered by walless.io</Text>
+				<GetCode />
+				<Button
+					titleStyle={styles.clickableText}
+					title="I already have Walless account"
+					style={styles.transparentButton}
+					onPress={onNavigateToLogIn}
+				/>
 			</View>
 		</View>
 	);
@@ -90,44 +117,66 @@ export default InvitationFeature;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-	},
-	innerContainer: {
-		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+		gap: 32,
 	},
 	commandContainer: {
-		minHeight: 50,
-		marginTop: 15,
+		alignItems: 'center',
 		justifyContent: 'center',
+		minHeight: 50,
+		gap: 24,
 	},
 	inputContainer: {
-		width: 200,
-		textAlign: 'center',
-		marginTop: 24,
+		width: 336,
+		height: 48,
 	},
-	button: {
-		width: 200,
+	placeholder: {
+		color: '#566674',
+	},
+	activeEnterButton: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 336,
+		height: 48,
 		paddingVertical: 12,
+	},
+	disabledEnterButton: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 336,
+		height: 48,
+		paddingVertical: 12,
+		backgroundColor: '#223240',
+	},
+	activeButtonTitle: {
+		fontSize: 16,
+		fontWeight: '500',
+		color: '#ffffff',
+	},
+	disabledButtonTitle: {
+		fontSize: 16,
+		fontWeight: '500',
+		color: '#566674',
+	},
+
+	clickableText: {
+		fontSize: 14,
+		fontWeight: '400',
+		color: '#0694D3',
+		textAlign: 'center',
+	},
+	transparentButton: {
+		padding: 0,
+		backgroundColor: 'transparent',
 	},
 	footerContainer: {
 		alignItems: 'center',
-		paddingBottom: 24,
-	},
-	errorContainer: {
-		minHeight: 50,
+		gap: 16,
 	},
 	errorText: {
 		fontSize: 13,
 		marginTop: 12,
 		color: 'red',
-	},
-	footerText: {
-		fontSize: 12,
-	},
-	poweredText: {
-		fontSize: 12,
-		color: '#5D6A73',
-		marginTop: 6,
 	},
 });

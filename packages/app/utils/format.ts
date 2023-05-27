@@ -7,9 +7,9 @@ export const parseTokenAccount = (item: TokenAccount): number => {
 
 export const formatQuote = (
 	value: number | undefined,
+	fallbackDisplay: string | number = '-',
 	format = '0.00',
 	suffix = ' USD',
-	fallbackDisplay = '-',
 ) => {
 	if (!value) return fallbackDisplay;
 	return `${numeral(value).format(format)}${suffix}`;

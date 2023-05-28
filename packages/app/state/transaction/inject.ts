@@ -22,7 +22,7 @@ export interface InjectedElements {
 	) => Promise<ResponsePayload>;
 	getTransactionResult: (
 		signature: string,
-		networkd: Networks,
+		network: Networks,
 	) => Promise<{ time?: Date }>;
 }
 

@@ -31,13 +31,13 @@ export const PasscodeFeature: FC<Props> = ({
 		let nextValue = value;
 		let nextIsCompleted = isCompleted;
 
-		const isFirstfCompleted =
+		const isFirstCompleted =
 			isCompleted && !createPasscodeRef.current.isConfirmation;
 		const isSecondCompleted =
 			isCompleted && createPasscodeRef.current.isConfirmation;
 
 		if (isCreate) {
-			if (isFirstfCompleted) {
+			if (isFirstCompleted) {
 				nextValue = '';
 				nextIsCompleted = false;
 				createPasscodeRef.current = { value, isConfirmation: true };

@@ -24,7 +24,7 @@ import { w3aBaseUrl } from 'utils/config';
 
 export const customAuthArgs: CustomAuthArgs = {
 	web3AuthClientId: WEB3AUTH_ID,
-	network: 'testnet',
+	network: __DEV__ ? 'testnet' : 'mainnet',
 	baseUrl: w3aBaseUrl,
 	redirectToOpener: true,
 	redirectPathName: 'w3a',
@@ -67,6 +67,8 @@ if (runtime.isExtension) {
 export const key = new ThresholdKey({
 	modules,
 	customAuthArgs,
+	manualSync: true,
+	enableLogging: true,
 }) as TypedThresholdKey;
 
 export const createAndStoreDeviceShare =
@@ -124,11 +126,11 @@ export const recoverDeviceShareFromPasscode = async (
 	passcode: string,
 ): Promise<boolean> => {
 	try {
-		const beforeDetails = await key.getKeyDetails();
+		const beforeDetails = key.getKeyDetails();
 		await key.modules.securityQuestions.inputShareFromSecurityQuestions(
 			passcode,
 		);
-		const afterDetails = await key.getKeyDetails();
+		const afterDetails = key.getKeyDetails();
 
 		if (beforeDetails.requiredShares > afterDetails.requiredShares) {
 			// await createAndStoreDeviceShare();

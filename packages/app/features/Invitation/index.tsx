@@ -28,7 +28,7 @@ interface Props {
 	loading?: boolean;
 	error?: string;
 	onEnter?: (code: string) => void;
-	onNavigateToLogIn?: () => void;
+	onLoginPress?: () => void;
 }
 
 export const InvitationFeature: FC<Props> = ({
@@ -37,11 +37,16 @@ export const InvitationFeature: FC<Props> = ({
 	logoSize = 120,
 	minLength = 3,
 	onEnter,
-	onNavigateToLogIn,
+	onLoginPress,
 	loading,
 	error,
 }) => {
 	const [input, setInput] = useState('');
+	const isLengthInvalid = input?.length < minLength;
+	const buttonTitleStyle = [
+		styles.buttonTitle,
+		isLengthInvalid && styles.disabledTitle,
+	];
 
 	const handleKeyPress = ({
 		nativeEvent,
@@ -49,7 +54,6 @@ export const InvitationFeature: FC<Props> = ({
 		if (nativeEvent.key === 'Enter') {
 			if (input.length > minLength) {
 				onEnter?.(input);
-				console.log(input);
 			}
 		}
 	};
@@ -68,7 +72,6 @@ export const InvitationFeature: FC<Props> = ({
 	return (
 		<View style={[styles.container, style]}>
 			<InvitationHeader logoSrc={logoSrc} logoSize={logoSize} />
-
 			<View style={styles.commandContainer}>
 				<Input
 					autoFocus
@@ -77,37 +80,22 @@ export const InvitationFeature: FC<Props> = ({
 					value={input}
 					onChangeText={setInput}
 					onKeyPress={handleKeyPress}
-					placeholder="Enter code"
+					placeholder="Enter Code"
 					placeholderTextColor={styles.placeholder.color}
 				/>
 				{loading ? (
 					<ActivityIndicator color="white" />
 				) : (
 					<Button
-						disabled={input.length <= minLength}
-						style={
-							input.length >= minLength
-								? styles.activeEnterButton
-								: styles.disabledEnterButton
-						}
-						onPress={() => {
-							if (input.length >= minLength) onEnter?.(input);
-						}}
+						disabled={isLengthInvalid}
+						style={[styles.enterButton]}
+						onPress={() => !isLengthInvalid && onEnter?.(input)}
 					>
-						<Text style={styles.activeButtonTitle}> Count me in </Text>
+						<Text style={buttonTitleStyle}>Count me in</Text>
 					</Button>
 				)}
 			</View>
-
-			<View style={styles.footerContainer}>
-				<GetCode />
-				<Button
-					titleStyle={styles.clickableText}
-					title="I already have Walless account"
-					style={styles.transparentButton}
-					onPress={onNavigateToLogIn}
-				/>
-			</View>
+			<GetCode onLoginPress={onLoginPress} />
 		</View>
 	);
 };
@@ -117,66 +105,29 @@ export default InvitationFeature;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
 		justifyContent: 'center',
 		gap: 32,
 	},
 	commandContainer: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		minHeight: 50,
-		gap: 24,
+		gap: 18,
 	},
 	inputContainer: {
-		width: 336,
-		height: 48,
+		textAlign: 'center',
 	},
 	placeholder: {
 		color: '#566674',
 	},
-	activeEnterButton: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: 336,
-		height: 48,
-		paddingVertical: 12,
+	enterButton: {
+		paddingVertical: 15,
 	},
 	disabledEnterButton: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: 336,
-		height: 48,
-		paddingVertical: 12,
 		backgroundColor: '#223240',
 	},
-	activeButtonTitle: {
-		fontSize: 16,
+	buttonTitle: {
 		fontWeight: '500',
 		color: '#ffffff',
 	},
-	disabledButtonTitle: {
-		fontSize: 16,
-		fontWeight: '500',
+	disabledTitle: {
 		color: '#566674',
-	},
-
-	clickableText: {
-		fontSize: 14,
-		fontWeight: '400',
-		color: '#0694D3',
-		textAlign: 'center',
-	},
-	transparentButton: {
-		padding: 0,
-		backgroundColor: 'transparent',
-	},
-	footerContainer: {
-		alignItems: 'center',
-		gap: 16,
-	},
-	errorText: {
-		fontSize: 13,
-		marginTop: 12,
-		color: 'red',
 	},
 });

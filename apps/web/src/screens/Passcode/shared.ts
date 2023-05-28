@@ -6,9 +6,9 @@ export const getScreenTitle = (
 ) => {
 	if (isCreation) {
 		if (isConfirmation) {
-			return 'Create your passcode';
-		} else {
 			return 'Confirm your passcode';
+		} else {
+			return 'Create passcode';
 		}
 	}
 

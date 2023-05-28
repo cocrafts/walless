@@ -18,7 +18,7 @@ const InvitationScreen = () => {
 		enterInvitationCode(value);
 	};
 
-	const handleAlreadyHaveAccount = () => {
+	const handleLoginPress = () => {
 		appState.invitationError = undefined;
 		router.navigate('/login');
 	};
@@ -29,7 +29,7 @@ const InvitationScreen = () => {
 				onEnter={onInvitationCodeChange}
 				logoSrc={{ uri: '/img/icon-lg.png' }}
 				error={invitationError}
-				onNavigateToLogIn={handleAlreadyHaveAccount}
+				onLoginPress={handleLoginPress}
 			/>
 		</View>
 	);
@@ -40,7 +40,7 @@ export default InvitationScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
 		justifyContent: 'center',
+		paddingHorizontal: 38,
 	},
 });

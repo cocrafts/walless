@@ -14,6 +14,7 @@
     "@solana/spl-token": "0.3.7",
     "@solana/web3.js": "1.75.0",
     "@walless/core": "*",
+    "@walless/graphql": "*",
     "@walless/network": "*",
     "@walless/store": "*",
     "valtio": "1.10.5"

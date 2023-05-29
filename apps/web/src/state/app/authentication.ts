@@ -3,6 +3,13 @@ import { Keypair as SolPair } from '@solana/web3.js';
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
 import { type UserProfile, Networks, runtime } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
+import {
+	type InvitationAccount,
+	type InvitationCode,
+	mutations,
+	qlClient,
+	queries,
+} from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import {
 	type PrivateKeyDocument,
@@ -17,7 +24,6 @@ import {
 	signInWithPopup,
 } from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
-import { client, mutations, queries } from 'utils/graphql';
 import { router } from 'utils/routing';
 import {
 	configureSecurityQuestionShare,
@@ -45,7 +51,7 @@ export const setProfile = async (profile: UserProfile) => {
 	});
 };
 
-export const signInWithGoogle = async () => {
+export const signInWithGoogle = async (invitationCode?: string) => {
 	try {
 		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
 		appState.authenticationLoading = true;
@@ -65,15 +71,24 @@ export const signInWithGoogle = async () => {
 		if (__DEV__) {
 			await createKeyAndEnter();
 		} else {
-			/* eslint-disable-next-line */
-			const response = await client.request<any>(queries.invitationAccount, {
+			const { invitationAccount } = await qlClient.request<{
+				invitationAccount: InvitationAccount;
+			}>(queries.invitationAccount, {
 				email: cache.loginResponse.user.email,
 			});
 
-			if (response.invitationAccount?.pk) {
+			if (!invitationAccount && invitationCode) {
+				await qlClient.request(mutations.bindInvitation, {
+					code: invitationCode || appState.invitationCode,
+					email: cache.loginResponse.user.email,
+				});
 				await createKeyAndEnter();
+			} else if (!invitationAccount && !invitationCode) {
+				appState.isAbleToSignIn = false;
+				appState.signInError =
+					'The account does not exist. Enter your Invitation code';
 			} else {
-				await router.navigate('/invitation');
+				await createKeyAndEnter();
 			}
 		}
 	} finally {
@@ -115,24 +130,19 @@ export const createKeyAndEnter = async () => {
 };
 
 export const enterInvitationCode = async (code: string) => {
-	const user = cache.loginResponse?.user as User;
 	/* eslint-disable-next-line */
-	const response = await client.request<any>(queries.invitationCode, { code });
+	const { invitationCode } = await qlClient.request<{ invitationCode: InvitationCode }>(queries.invitationCode, { code });
 
 	appState.invitationError = undefined;
 
-	if (!response.invitationCode) {
-		appState.invitationError = 'invitation code not valid!';
-	} else if (!response.invitationCode.email) {
-		const registerResponse = await client.request(mutations.bindInvitation, {
-			code,
-			email: user?.email || 'admin@stormgate.io',
-		});
-
-		console.log(registerResponse);
-		await createKeyAndEnter();
-	} else if (response.invitationCode?.email) {
-		appState.invitationError = 'invitation code used!';
+	if (!invitationCode) {
+		appState.invitationError = 'This invitation code is invalid!';
+	} else if (invitationCode?.email) {
+		appState.invitationError =
+			'This invitation code is used by another account!';
+	} else {
+		appState.invitationCode = code;
+		await router.navigate('/login');
 	}
 };
 

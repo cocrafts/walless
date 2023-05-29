@@ -75,17 +75,15 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		width: 336,
-		height: 48,
-		borderRadius: 15,
-		paddingHorizontal: 16,
 		backgroundColor: '#0E141A',
+		borderRadius: 15,
 		borderWidth: 1,
-		borderColor: '#0E141A',
+		borderColor: 'transparent',
 	},
 	textInput: {
 		flex: 1,
-		fontWeight: '400',
+		paddingVertical: 15,
+		paddingHorizontal: 16,
 	},
 	focusStyle: {
 		borderColor: 'rgba(255, 255, 255, 0.1)',

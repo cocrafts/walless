@@ -131,7 +131,6 @@ export const createKeyAndEnter = async () => {
 };
 
 export const enterInvitationCode = async (code: string) => {
-	/* eslint-disable-next-line */
 	const { invitationCode } = await qlClient.request<{
 		invitationCode: InvitationCode;
 	}>(queries.invitationCode, { code });

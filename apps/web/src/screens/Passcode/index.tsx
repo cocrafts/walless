@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, Linking, TouchableOpacity } from 'react-native';
 import { useLoaderData } from 'react-router-dom';
 import { PasscodeFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
 import { appActions, appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
+
+import { getScreenTitle, styles } from './shared';
 
 interface Params {
 	feature: string;
@@ -13,14 +15,10 @@ interface Params {
 export const PasscodeScreen = () => {
 	const { passcodeError } = useSnapshot(appState);
 	const { feature } = useLoaderData() as Params;
-	const isCreate = feature === 'create';
+	const isCreation = feature === 'create';
 	const [passcode, setPasscode] = useState('');
 	const [confirmation, setConfirmation] = useState(false);
-	const title = !isCreate
-		? 'Enter your passcode'
-		: confirmation
-		? 'Confirm your passcode'
-		: 'Create your passcode';
+	const title = getScreenTitle(isCreation, confirmation);
 
 	const onPasscodeChange = async (
 		value: string,
@@ -31,20 +29,20 @@ export const PasscodeScreen = () => {
 		if (passcodeError && value.length > 0) {
 			appState.passcodeError = '';
 		}
-		if (isCreate) {
+		if (isCreation) {
 			setConfirmation(!!isConfirmation);
 			if (isCompleted) {
-				appActions.confirmPasscode(value);
+				await appActions.confirmPasscode(value);
 			}
 		} else {
 			if (isCompleted) {
-				appActions.recoverWithPasscode(value);
+				await appActions.recoverWithPasscode(value);
 			}
 		}
 	};
 
-	const onLinkPress = () => {
-		Linking.openURL('https://discord.gg/3v7jwG45pe');
+	const onLinkPress = async () => {
+		await Linking.openURL('https://discord.gg/3v7jwG45pe');
 	};
 
 	useEffect(() => {
@@ -67,7 +65,7 @@ export const PasscodeScreen = () => {
 
 				<PasscodeFeature
 					passcode={passcode}
-					isCreate={isCreate}
+					isCreate={isCreation}
 					error={passcodeError}
 					onPasscodeChange={onPasscodeChange}
 				/>
@@ -88,44 +86,3 @@ export const PasscodeScreen = () => {
 };
 
 export default PasscodeScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	contentContainer: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'flex-start',
-		paddingHorizontal: 40,
-		paddingTop: 50,
-		paddingBottom: 20,
-		maxWidth: 410,
-		maxHeight: 600,
-	},
-	logo: {
-		width: 83,
-		height: 43,
-	},
-	titleContainer: {
-		paddingVertical: 40,
-	},
-	title: {
-		paddingBottom: 10,
-		fontSize: 20,
-		textAlign: 'center',
-	},
-	subText: {
-		color: '#566674',
-		textAlign: 'center',
-	},
-	footerContainer: {
-		flex: 1,
-		justifyContent: 'flex-end',
-	},
-	link: {
-		color: '#19A3E1',
-	},
-});

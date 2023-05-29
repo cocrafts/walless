@@ -52,7 +52,7 @@ export const Anchor: FC<Props> = ({
 			onPress={handlePress}
 		>
 			{isBrowser ? (
-				<a href={href} target={target}>
+				<a style={linkStyle} href={href} target={target}>
 					{innerElement}
 				</a>
 			) : (
@@ -63,3 +63,7 @@ export const Anchor: FC<Props> = ({
 };
 
 export default Anchor;
+
+const linkStyle = {
+	display: 'contents',
+};

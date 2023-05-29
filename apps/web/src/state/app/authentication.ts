@@ -46,7 +46,8 @@ export const setProfile = async (profile: UserProfile) => {
 		doc.type = 'Setting';
 		doc.version = '0.0.1';
 		doc.profile = profile;
-		doc.hideBalance = true;
+		doc.config = { hideBalance: true };
+
 		return doc;
 	});
 };
@@ -131,7 +132,9 @@ export const createKeyAndEnter = async () => {
 
 export const enterInvitationCode = async (code: string) => {
 	/* eslint-disable-next-line */
-	const { invitationCode } = await qlClient.request<{ invitationCode: InvitationCode }>(queries.invitationCode, { code });
+	const { invitationCode } = await qlClient.request<{
+		invitationCode: InvitationCode;
+	}>(queries.invitationCode, { code });
 
 	appState.invitationError = undefined;
 

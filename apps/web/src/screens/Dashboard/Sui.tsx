@@ -14,8 +14,7 @@ import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
-import { settingsActions, settingState } from 'state/settings';
-import { usePublicKeys, useSnapshot, useTokens } from 'utils/hooks';
+import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
 import EmptyTab from './EmptyTab';
 import { layoutTabs } from './shared';
@@ -27,7 +26,7 @@ interface Props {
 
 export const SuiDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
-	const { _id, hideBalance } = useSnapshot(settingState);
+	const { setting, setSetting } = useSettings();
 	const tokens = useTokens(Networks.sui);
 	const publicKeys = usePublicKeys(Networks.sui);
 	const bottomSliderItems: SlideOption[] = [
@@ -59,10 +58,7 @@ export const SuiDashboard: FC<Props> = () => {
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
-		settingsActions.updateHiddenBalanceSettings({
-			_id,
-			hideBalance: next,
-		});
+		setSetting.setPrivacy({ hideBalance: next });
 	};
 
 	return (
@@ -75,7 +71,7 @@ export const SuiDashboard: FC<Props> = () => {
 							index={index}
 							item={item}
 							skin={suiCardSkin}
-							hideBalance={hideBalance}
+							hideBalance={setting.hideBalance}
 							onCopyAddress={handleCopyAddress}
 							onChangePrivateSetting={handleChangePrivateSetting}
 							width={publicKeys.length == 1 ? 328 : 312}

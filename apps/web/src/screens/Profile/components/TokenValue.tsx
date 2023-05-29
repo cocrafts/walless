@@ -1,17 +1,13 @@
 import { Hoverable } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
-import { settingsActions, settingState } from 'state/settings';
-import { useSnapshot } from 'valtio';
+import { useSettings } from 'utils/hooks';
 
 const TokenValue = () => {
-	const { _id, hideBalance } = useSnapshot(settingState);
+	const { setting, setSetting } = useSettings();
 
 	const handleToggleTokenValue = async () => {
-		settingsActions.updateHiddenBalanceSettings({
-			_id,
-			hideBalance: !hideBalance,
-		});
+		setSetting.setPrivacy({ hideBalance: !setting.hideBalance });
 	};
 
 	return (
@@ -21,10 +17,10 @@ const TokenValue = () => {
 			</Text>
 			<Stack flexDirection="row" alignItems="center" gap={5}>
 				<Text fontSize={40} fontWeight="500" lineHeight={26}>
-					{hideBalance ? '****' : '$0,00'}
+					{setting.hideBalance ? '****' : '$0,00'}
 				</Text>
 				<Hoverable onPress={handleToggleTokenValue}>
-					{hideBalance ? (
+					{setting.hideBalance ? (
 						<Eye size={20} color="#566674" />
 					) : (
 						<EyeOff size={20} color="#566674" />

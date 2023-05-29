@@ -24,13 +24,14 @@ export const initializeLiveState = async () => {
 	const publicKeys = publicKeyResponse.docs as PublicKeyDocument[];
 	const tokenResponse = await modules.storage.find(selectors.allTokens);
 	const tokens = tokenResponse.docs as TokenDocument[];
-	const settingsResponse = await modules.storage.find(selectors.settings);
-	const [settings] = settingsResponse.docs as SettingDocument[];
+	const settings = (await modules.storage.safeGet(
+		'settings',
+	)) as SettingDocument;
 
 	extensionActions.setExtensions(extensions);
 	walletActions.setItems(publicKeys);
 	tokenActions.setItems(tokens);
-	settingsActions.setSettings(settings);
+	settingsActions.setConfigs(settings);
 
 	const changes = modules.storage.changes({
 		since: 'now',
@@ -57,7 +58,7 @@ export const initializeLiveState = async () => {
 			} else if (item?.type === 'Token') {
 				tokenState.map.set(id, item as TokenDocument);
 			} else if (item?.type === 'Setting') {
-				settingsActions.setSettings(item as SettingDocument);
+				settingsActions.setConfigs(item as SettingDocument);
 			}
 		}
 	});

@@ -1,28 +1,20 @@
 import { modules } from '@walless/ioc';
 import { type SettingDocument } from '@walless/store';
+import { appState } from 'state/app';
 
-import { settingState } from './internal';
+const id = 'settings';
 
 export const settingsActions = {
-	setSettings: (settings: SettingDocument) => {
+	setConfigs: (settings: SettingDocument) => {
 		if (settings._id) {
-			settingState._id = settings._id;
-			settingState.hideBalance = settings.hideBalance;
+			appState.settingConfig = settings.config;
 		}
 	},
-	updateHiddenBalanceSettings: async ({
-		_id,
-		hideBalance,
-	}: {
-		_id: string;
-		hideBalance: boolean;
-	}) => {
-		await modules.storage.upsert<SettingDocument>(_id, async (doc) => {
-			doc.hideBalance = hideBalance;
+	setPrivacy: async ({ hideBalance }: { hideBalance: boolean }) => {
+		await modules.storage.upsert<SettingDocument>(id, async (doc) => {
+			doc.config.hideBalance = hideBalance;
 
 			return doc;
 		});
 	},
 };
-
-export * from './internal';

@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { DashboardLayout } from '@walless/app';
 import { modules } from '@walless/ioc';
-import { type ExtensionDocument } from '@walless/store';
+import { type ExtensionDocument, type SettingDocument } from '@walless/store';
 import { appState } from 'state/app';
 import { extensionState } from 'state/extension';
 import { useLocation, useParams, useSnapshot } from 'utils/hooks';
@@ -28,7 +28,20 @@ export const DashboardScreen: FC = () => {
 		await router.navigate('/');
 	};
 
-	localStorage.setItem('pathname', pathname);
+	const setLatestPathname = async () => {
+		const setting = await modules.storage.safeGet<SettingDocument>('settings');
+		await modules.storage.put({
+			...setting,
+			profile: {
+				...setting?.profile,
+				currentScreen: pathname ?? '/',
+			},
+		});
+	};
+
+	useEffect(() => {
+		setLatestPathname();
+	}, [pathname]);
 
 	return (
 		<DashboardLayout

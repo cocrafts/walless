@@ -11,6 +11,7 @@ export interface UserProfile {
 	email?: string;
 	name?: string;
 	profileImage?: string;
+	currentScreen?: string;
 }
 
 export interface AssetMetadata {

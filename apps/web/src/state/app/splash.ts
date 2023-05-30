@@ -19,8 +19,7 @@ export const launchApp = async ({
 	profile,
 }: BootstrapResult): Promise<void> => {
 	if (profile?.email) {
-		const latestPathname = localStorage.getItem('pathname');
-		await router.navigate(latestPathname ?? '/');
+		await router.navigate(profile.currentScreen ?? '/');
 	} else {
 		await router.navigate('/invitation');
 	}

@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Text } from '@tamagui/core';
+import { Text } from '@walless/gui';
 import {
 	type ParserRule,
 	type ReactOutputRule,
@@ -21,7 +21,10 @@ export const heading: ParserRule & ReactOutputRule = {
 
 		return createElement(
 			Text,
-			{ key, lineHeight: fontSize * 1.2, marginVertical: fontSize / 2 },
+			{
+				key,
+				style: { lineHeight: fontSize * 1.2, marginVertical: fontSize / 2 },
+			},
 			output(node.content, { ...state, fontSize, fontWeight }),
 		);
 	},

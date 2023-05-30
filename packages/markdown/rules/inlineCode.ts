@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Text } from '@tamagui/core';
+import { Text } from '@walless/gui';
 import { transparentize } from 'color2k';
 import {
 	type ParserRule,
@@ -20,14 +20,19 @@ export const inlineCode: ParserRule & ReactOutputRule = {
 			Text,
 			{
 				key: state.key,
-				fontFamily,
-				fontWeight: '400',
-				fontSize,
-				backgroundColor: transparentize(colors.alt as never, transparentAmount),
-				borderRadius: 6,
-				paddingHorizontal: 5,
-				marginHorizontal: 2,
-				color: color || colors.secondary,
+				style: {
+					fontFamily,
+					fontWeight: '400',
+					fontSize,
+					backgroundColor: transparentize(
+						colors.alt as never,
+						transparentAmount,
+					),
+					borderRadius: 6,
+					paddingHorizontal: 5,
+					marginHorizontal: 2,
+					color: color || colors.secondary,
+				},
 			},
 			node.content,
 		);

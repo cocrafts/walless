@@ -15,12 +15,9 @@ const InvitationHeader: FC<Props> = ({ logoSrc, logoSize }) => {
 	return (
 		<View style={styles.container}>
 			<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
-			<View>
-				<Text style={styles.reminderText}>
-					Invitation code is require to access
-				</Text>
-				<Text style={styles.reminderText}>Walless Beta</Text>
-			</View>
+			<Text style={styles.reminderText}>
+				Invitation code is require to access{'\n'}Walless Beta
+			</Text>
 		</View>
 	);
 };
@@ -30,11 +27,9 @@ export default InvitationHeader;
 const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
-		justifyContent: 'center',
 	},
 	reminderText: {
-		fontSize: 18,
-		fontWeight: '400',
+		fontSize: 17,
 		textAlign: 'center',
 	},
 });

@@ -1,6 +1,6 @@
 import { createElement } from 'react';
 import { StyleSheet } from 'react-native';
-import { Stack } from '@tamagui/core';
+import { View } from '@walless/gui';
 import {
 	type ParserRule,
 	type ReactOutputRule,
@@ -10,11 +10,13 @@ import {
 export const hr: ParserRule & ReactOutputRule = {
 	...defaultRules.hr,
 	react: (node, output, state) => {
-		return createElement(Stack, {
+		return createElement(View, {
 			key: state.key,
-			marginVertical: 18,
-			borderBottomWidth: StyleSheet.hairlineWidth,
-			borderColor: 'rgba(255, 255, 255, 0.05)',
+			style: {
+				marginVertical: 18,
+				borderBottomWidth: StyleSheet.hairlineWidth,
+				borderColor: 'rgba(255, 255, 255, 0.05)',
+			},
 		});
 	},
 };

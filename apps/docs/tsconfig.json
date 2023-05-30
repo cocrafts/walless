@@ -5,10 +5,11 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "components/*": ["./components/*"],
-            "pages/*": ["./pages/*"],
-            "utils/*": ["./utils/*"],
-            "state/*": ["./state/*"]
+            "components/*": ["./src/components/*"],
+            "pages/*": ["./src/pages/*"],
+            "utils/*": ["./src/utils/*"],
+            "state/*": ["./src/state/*"],
+            "markdown/*": ["./src/markdown/*"]
         }
     }
 }

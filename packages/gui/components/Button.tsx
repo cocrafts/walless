@@ -1,13 +1,19 @@
 import { type FC, type ReactNode } from 'react';
-import { type TextStyle, type ViewStyle, StyleSheet, Text } from 'react-native';
+import {
+	type StyleProp,
+	type TextStyle,
+	type ViewStyle,
+	StyleSheet,
+	Text,
+} from 'react-native';
 
 import Hoverable from './Hoverable';
 
 interface Props {
-	style?: ViewStyle;
+	style?: StyleProp<ViewStyle>;
 	children?: ReactNode;
 	title?: string;
-	titleStyle?: TextStyle;
+	titleStyle?: StyleProp<TextStyle>;
 	onPress?: () => void;
 	outline?: boolean;
 	transparent?: boolean;

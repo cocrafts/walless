@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
+import { simplifyString } from './helpers';
 import { type DocsTree } from './types';
 
 export const loadMarkdown = async (markdownPath?: string) => {
@@ -13,9 +14,11 @@ export const loadMarkdown = async (markdownPath?: string) => {
 		.split(path.sep + 'markdown')[1]
 		.split(path.sep);
 
+	const relativePath = pathNodes.join('/')?.replace('.md', '') || '/';
+
 	const node: DocsTree = {
 		name: pathNodes[pathNodes.length - 1]?.replace('.md', '') || 'root',
-		path: pathNodes.join('/')?.replace('.md', '') || '/',
+		path: simplifyString(relativePath),
 	};
 
 	const stats = fs.statSync(markdownPath);

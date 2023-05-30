@@ -9,7 +9,6 @@ import {
 export const strong: ParserRule & ReactOutputRule = {
 	...defaultRules.strong,
 	react: (node, output, state) => {
-		console.log('strong here', state, node.content);
 		return createElement(
 			Text,
 			{

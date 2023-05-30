@@ -1,19 +1,22 @@
 import { type FC, useState } from 'react';
-import { type LayoutChangeEvent, type LayoutRectangle } from 'react-native';
-import { type StackProps } from '@tamagui/core';
-import { Stack } from '@walless/ui';
+import {
+	type LayoutChangeEvent,
+	type LayoutRectangle,
+	type ViewProps,
+} from 'react-native';
+import { View } from '@walless/gui';
 import { merge } from 'lodash';
 
 import { defaultConfigs } from './utils/default';
 import { parse, reactOutput } from './utils/internal';
 import { type MarkdownConfig, type MarkdownOptions } from './utils/types';
 
-type Props = StackProps & {
+type Props = ViewProps & {
 	content: string;
 	options?: Partial<MarkdownOptions>;
 };
 
-const Markdown: FC<Props> = ({ content, options, ...stackProps }) => {
+const Markdown: FC<Props> = ({ content, options, ...viewProps }) => {
 	const syntaxTree = parse(content);
 	const [layout, setLayout] = useState<LayoutRectangle>(initialLayout);
 
@@ -24,9 +27,9 @@ const Markdown: FC<Props> = ({ content, options, ...stackProps }) => {
 	};
 
 	return (
-		<Stack onLayout={onLayout} {...stackProps}>
+		<View onLayout={onLayout} {...viewProps}>
 			{reactOutput(syntaxTree, { config })}
-		</Stack>
+		</View>
 	);
 };
 

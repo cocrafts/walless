@@ -1,3 +1,5 @@
+import { simplifyString } from 'utils/helpers';
+
 import { type DocsTree } from '../types';
 
 export const loadContent = (
@@ -12,7 +14,7 @@ export const loadContent = (
 	else if (!docsTree.children) return;
 
 	for (const child of docsTree.children) {
-		if (child.name == nodes[0])
+		if (simplifyString(child.name) == nodes[0])
 			return loadContent(child, path, nodes.splice(1));
 	}
 };

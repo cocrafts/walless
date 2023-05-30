@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Text } from '@tamagui/core';
+import { type TextStyle, Text } from 'react-native';
 import {
 	type ParserRule,
 	type ReactOutputRule,
@@ -11,11 +11,11 @@ export const paragraph: ParserRule & ReactOutputRule = {
 	react: (node, output, state) => {
 		const { key } = state;
 
-		return createElement(
-			Text,
-			{ key, marginVertical: 8 },
-			output(node.content),
-		);
+		const style: TextStyle = {
+			marginVertical: 8,
+		};
+
+		return createElement(Text, { key, style }, output(node.content));
 	},
 };
 

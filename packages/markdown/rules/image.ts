@@ -1,6 +1,6 @@
 import { type FC, createElement } from 'react';
 import { type ImageURISource, Image } from 'react-native';
-import { Stack, Text } from '@tamagui/core';
+import { Text, View } from '@walless/gui';
 import {
 	type ParserRule,
 	type ReactOutputRule,
@@ -30,7 +30,7 @@ export const image: ParserRule & ReactOutputRule = {
 		const imageSrc = { uri: node.target };
 		const caption = node.title;
 
-		return createElement(Stack, { key }, [
+		return createElement(View, { key }, [
 			createElement(AspectImage, {
 				key: 'image',
 				width: layout.width,
@@ -41,11 +41,13 @@ export const image: ParserRule & ReactOutputRule = {
 					Text,
 					{
 						key: 'caption',
-						fontFamily,
-						textAlign: 'center',
-						fontSize: 12,
-						color: colors.alt,
-						marginTop: 3,
+						style: {
+							fontFamily,
+							textAlign: 'center',
+							fontSize: 12,
+							color: colors.alt,
+							marginTop: 3,
+						},
 					},
 					caption,
 				),

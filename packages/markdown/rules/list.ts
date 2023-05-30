@@ -1,5 +1,6 @@
 import { createElement } from 'react';
-import { type TextProps, Stack, Text } from '@tamagui/core';
+import { type TextStyle } from 'react-native';
+import { Text, View } from '@walless/gui';
 import {
 	type ParserRule,
 	type ReactOutputRule,
@@ -16,7 +17,7 @@ export const list: ParserRule & ReactOutputRule = {
 		const { fontFamily, fontSize, colors }: MarkdownConfig = config;
 		const items = node.items || [];
 
-		const textProps: TextProps = {
+		const textStyles: TextStyle = {
 			fontFamily,
 			fontSize,
 			fontWeight: '500',
@@ -44,27 +45,34 @@ export const list: ParserRule & ReactOutputRule = {
 
 			const generateListIcon = () => {
 				if (isTodo) {
-					return createElement(Stack, {
-						width: checkboxSize,
-						height: checkboxSize,
-						borderRadius: 3,
-						borderWidth: 2,
-						borderColor: selected ? colors.primary : colors.alt,
-						backgroundColor: selected ? colors.primary : 'transparent',
-						marginLeft: -3,
-						marginTop: 5,
-						marginRight: 6,
+					return createElement(View, {
+						style: {
+							width: checkboxSize,
+							height: checkboxSize,
+							borderRadius: 3,
+							borderWidth: 2,
+							borderColor: selected ? colors.primary : colors.alt,
+							backgroundColor: selected ? colors.primary : 'transparent',
+							marginLeft: -3,
+							marginTop: 5,
+							marginRight: 6,
+						},
 					});
 				} else if (node.ordered) {
 					return createElement(
 						Text,
-						{ ...textProps, marginRight: 6 },
+						{
+							style: {
+								...textStyles,
+								marginRight: 6,
+							},
+						},
 						`${i + 1}.`,
 					);
 				} else {
 					return createElement(
 						Text,
-						{ ...textProps, marginRight: 6, color: colors.alt },
+						{ style: { ...textStyles, marginRight: 6, color: colors.alt } },
 						'●',
 					);
 				}
@@ -72,13 +80,27 @@ export const list: ParserRule & ReactOutputRule = {
 
 			return createElement(
 				Text,
-				{ key: `${state.key}#${i}`, lineHeight: fontSize * 1.5 },
+				{
+					key: `${state.key}#${i}`,
+					style: {
+						lineHeight: fontSize * 1.5,
+					},
+				},
 				generateListIcon(),
 				content,
 			);
 		});
 
-		return createElement(Stack, { key: state.key, marginLeft: 8 }, bullets);
+		return createElement(
+			View,
+			{
+				key: state.key,
+				style: {
+					marginLeft: 8,
+				},
+			},
+			bullets,
+		);
 	},
 };
 

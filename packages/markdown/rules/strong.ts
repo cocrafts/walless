@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Text } from '@tamagui/core';
+import { Text } from 'react-native';
 import {
 	type ParserRule,
 	type ReactOutputRule,
@@ -9,10 +9,13 @@ import {
 export const strong: ParserRule & ReactOutputRule = {
 	...defaultRules.strong,
 	react: (node, output, state) => {
+		console.log('strong here', state, node.content);
 		return createElement(
 			Text,
-			{ key: state.key },
-			output(node.content, { ...state, fontWeight: '500' }),
+			{
+				key: state.key,
+			},
+			output(node.content, { ...state, fontWeight: '600' }),
 		);
 	},
 };

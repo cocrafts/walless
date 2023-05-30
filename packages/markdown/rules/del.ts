@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Text } from '@tamagui/core';
+import { Text } from '@walless/gui';
 import {
 	type ParserRule,
 	type ReactOutputRule,
@@ -13,7 +13,9 @@ export const del: ParserRule & ReactOutputRule = {
 			Text,
 			{
 				key: state.key,
-				textDecorationLine: 'line-through',
+				style: {
+					textDecorationLine: 'line-through',
+				},
 			},
 			output(node.content, state),
 		);

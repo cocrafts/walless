@@ -28,6 +28,8 @@ export const DashboardScreen: FC = () => {
 		await router.navigate('/');
 	};
 
+	localStorage.setItem('pathname', pathname);
+
 	return (
 		<DashboardLayout
 			profile={profile}

@@ -35,3 +35,12 @@ export const loadMarkdown = async (markdownPath?: string) => {
 
 	return node;
 };
+
+const compareDocsTree = (a: DocsTree, b: DocsTree) => {
+	if (!a.prefix && !b.prefix) return a.name > b.name ? 1 : -1;
+	else if (!a.prefix) return 1;
+	else if (!b.prefix) return -1;
+	else {
+		return a.prefix > b.prefix ? 1 : -1;
+	}
+};

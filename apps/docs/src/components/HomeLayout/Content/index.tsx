@@ -1,6 +1,5 @@
-import { type FC } from 'react';
-import { StyleSheet } from 'react-native';
-import { View } from '@walless/gui';
+import { type FC, Fragment } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import Markdown from '@walless/markdown';
 import { loadContent } from 'utils/content';
 import { type DocsTree } from 'utils/types';
@@ -21,13 +20,19 @@ export const Content: FC<Props> = ({ docsTree, docs, params }) => {
 	}
 
 	return (
-		<View horizontal style={styles.container}>
+		<Fragment>
+			<ScrollView
+				style={{ maxHeight: '90vh' }}
+				contentContainerStyle={styles.container}
+			>
+				<Markdown
+					style={{ maxWidth: 1000 }}
+					content={loadContent(docsTree, path) || '##Coming soon'}
+					options={{ lineHeight: 45 }}
+				/>
+			</ScrollView>
 			<SideNavigation nodes={node?.children as DocsTree[]} params={params} />
-			<Markdown
-				style={{ maxWidth: 1000 }}
-				content={loadContent(docsTree, path) || '##Coming soon'}
-			/>
-		</View>
+		</Fragment>
 	);
 };
 
@@ -37,6 +42,6 @@ const styles = StyleSheet.create({
 	container: {
 		paddingTop: 40,
 		gap: 30,
-		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });

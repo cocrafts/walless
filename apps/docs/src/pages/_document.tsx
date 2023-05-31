@@ -37,7 +37,6 @@ export const Document = () => {
 			<body
 				style={{
 					height: '100%',
-					overflow: 'hidden',
 				}}
 			>
 				<Main />

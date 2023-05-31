@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
 	container: {
 		minWidth: 200,
 		position: 'absolute',
+		top: 130,
 		left: 60,
 	},
 	shared: {

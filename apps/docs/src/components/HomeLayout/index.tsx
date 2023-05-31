@@ -1,6 +1,5 @@
-import { type FC } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
-import { View } from '@walless/gui';
+import { type FC, Fragment } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { useRouter } from 'next/router';
 import { type DocsTree } from 'utils/types';
 
@@ -21,17 +20,11 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 	}
 
 	return (
-		<View style={styles.container}>
+		<Fragment>
 			<TopNavigation docs={docs} docsTree={docsTree} />
 			<Content docsTree={docsTree} docs={docs} params={params} />
-		</View>
+		</Fragment>
 	);
 };
 
 export default HomeLayout;
-
-const styles = StyleSheet.create({
-	container: {
-		paddingHorizontal: 20,
-	},
-});

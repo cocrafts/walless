@@ -26337,7 +26337,6 @@ __metadata:
     mustache: ^4.2.0
     react-native: ^0.71.6
     react-native-reanimated: 3.1.0
-    react-native-syntax-highlighter: ^2.1.0
     rimraf: ^5.0.0
     sst: latest
     ts-jest: ^29.0.5

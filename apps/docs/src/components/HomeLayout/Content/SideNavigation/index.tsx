@@ -1,6 +1,7 @@
 import { type FC, Fragment } from 'react';
 import { StyleSheet } from 'react-native';
-import { Anchor, View } from '@walless/gui';
+import { Text, View } from '@walless/gui';
+import Link from 'next/link';
 import { type DocsTree } from 'utils/types';
 
 interface Props {
@@ -12,18 +13,30 @@ export const SideNavigation: FC<Props> = ({ nodes, params }) => {
 	const renderNode = (node: DocsTree, level = 0) => {
 		return (
 			<Fragment>
-				<Anchor
-					key={node.path}
-					title={node.name}
-					titleStyle={{
-						...styles[`lvl${level + 1}` as keyof typeof styles],
-						marginLeft: 12 * level,
-						marginBottom: 10,
-					}}
-					href={node.path}
-					disabled={!!node.children}
-					target="_self"
-				/>
+				{node.children ? (
+					<Text
+						style={{
+							...styles[`lvl${level + 1}` as keyof typeof styles],
+							...styles.shared,
+							marginLeft: 12 * level,
+						}}
+						selectable={false}
+					>
+						{node.name}
+					</Text>
+				) : (
+					<Link
+						key={node.path}
+						style={{
+							...styles[`lvl${level + 1}` as keyof typeof styles],
+							...styles.shared,
+							marginLeft: 12 * level,
+						}}
+						href={node.path}
+					>
+						{node.name}
+					</Link>
+				)}
 
 				{node.children &&
 					node.children.map((childNode: DocsTree) =>
@@ -47,6 +60,11 @@ export default SideNavigation;
 const styles = StyleSheet.create({
 	container: {
 		minWidth: 200,
+	},
+	shared: {
+		fontFamily: 'Rubik',
+		marginBottom: 10,
+		textDecorationLine: 'none',
 	},
 	lvl1: {
 		textTransform: 'uppercase',

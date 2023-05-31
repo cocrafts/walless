@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Anchor, Text } from '@walless/gui';
+import { Text, View } from '@walless/gui';
+import Link from 'next/link';
 
 interface Props {
 	isActive: boolean;
@@ -10,9 +11,13 @@ interface Props {
 
 export const NavigationItem: FC<Props> = ({ isActive, title, href }) => {
 	return (
-		<Anchor style={styles.container} href={href} target="_self">
-			<Text style={[styles.title, !isActive && styles.inActive]}>{title}</Text>
-		</Anchor>
+		<View style={styles.container}>
+			<Link href={href} style={{ textDecorationLine: 'none' }}>
+				<Text style={[styles.title, !isActive && styles.inActive]}>
+					{title}
+				</Text>
+			</Link>
+		</View>
 	);
 };
 
@@ -20,7 +25,7 @@ export default NavigationItem;
 
 const styles = StyleSheet.create({
 	container: {
-		paddingHorizontal: 25,
+		marginHorizontal: 25,
 	},
 	title: {
 		fontSize: 16,

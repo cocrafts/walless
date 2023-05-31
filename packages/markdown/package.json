@@ -12,6 +12,7 @@
   "dependencies": {
     "@tamagui/core": "1.15.16",
     "color2k": "^2.0.2",
+    "react-native-syntax-highlighter": "^2.1.0",
     "simple-markdown": "^0.7.3"
   },
   "devDependencies": {

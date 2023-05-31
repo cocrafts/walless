@@ -10,6 +10,7 @@ module.exports = {
 		'react-native',
 		'react-native-reanimated',
 		'react-native-svg',
+		'react-native-syntax-highlighter',
 	],
 	webpack: (config, { dev }) => {
 		config.module.rules.push({

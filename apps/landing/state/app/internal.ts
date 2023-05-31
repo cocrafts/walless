@@ -1,8 +1,8 @@
 import { Networks } from '@walless/core';
 import {
-	DetailState,
-	ProjectState,
-	Target,
+	type DetailState,
+	type ProjectState,
+	type Target,
 } from 'features/home/EditTool/internal';
 import { proxy } from 'valtio';
 

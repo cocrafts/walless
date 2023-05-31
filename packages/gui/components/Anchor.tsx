@@ -1,5 +1,10 @@
 import { type FC, type HTMLAttributeAnchorTarget, type ReactNode } from 'react';
-import { type TextStyle, type ViewStyle, Linking } from 'react-native';
+import {
+	type PressableProps,
+	type TextStyle,
+	type ViewStyle,
+	Linking,
+} from 'react-native';
 
 import { isBrowser } from '../utils/platform';
 import { iStyles } from '../utils/style';
@@ -7,7 +12,7 @@ import { iStyles } from '../utils/style';
 import Hoverable from './Hoverable';
 import Text from './Text';
 
-interface Props {
+type Props = PressableProps & {
 	style?: ViewStyle;
 	hoverOpacity?: number;
 	animationDuration?: number;
@@ -17,7 +22,7 @@ interface Props {
 	children?: ReactNode;
 	title?: string;
 	titleStyle?: TextStyle;
-}
+};
 
 export const Anchor: FC<Props> = ({
 	style,
@@ -29,6 +34,7 @@ export const Anchor: FC<Props> = ({
 	children,
 	title,
 	titleStyle,
+	...presableProps
 }) => {
 	const isHrefValid = (href?.length as number) > 0;
 
@@ -50,6 +56,7 @@ export const Anchor: FC<Props> = ({
 			hoverOpacity={hoverOpacity}
 			animationDuration={animationDuration}
 			onPress={handlePress}
+			{...presableProps}
 		>
 			{isBrowser ? (
 				<a style={linkStyle} href={href} target={target}>

@@ -1,5 +1,6 @@
 import { type ParserRules, defaultRules } from 'simple-markdown';
 
+import codeBlock from './codeBlock';
 import del from './del';
 import em from './em';
 import heading from './heading';
@@ -25,6 +26,7 @@ const rules: ParserRules = {
 	del,
 	heading,
 	inlineCode,
+	codeBlock,
 };
 
 export default rules;

@@ -22,12 +22,8 @@ export const Content: FC<Props> = ({ docsTree, docs, params }) => {
 
 	return (
 		<View horizontal style={styles.container}>
-			<View>
-				<SideNavigation nodes={node?.children as DocsTree[]} params={params} />
-			</View>
-			<View>
-				<Markdown content={loadContent(docsTree, path) || '##Coming soon'} />
-			</View>
+			<SideNavigation nodes={node?.children as DocsTree[]} params={params} />
+			<Markdown content={loadContent(docsTree, path) || '##Coming soon'} />
 		</View>
 	);
 };

@@ -19,7 +19,7 @@ export const loadContent = (
 	}
 };
 
-export const findLastNode = (node: DocsTree) => {
+export const getDefaultNode = (node: DocsTree) => {
 	let childNode: DocsTree = node;
 	while (childNode) {
 		if (!childNode.children) return childNode;

@@ -10,28 +10,26 @@ interface Props {
 }
 
 export const SideNavigation: FC<Props> = ({ nodes, params }) => {
-	const renderNode = (node: DocsTree, level = 0) => {
+	const renderNode = (node: DocsTree, level = 0, matchingPath = '') => {
+		matchingPath += `/${params[level]}`;
+		const isActive = node.path.includes(matchingPath);
+		const textActiveStyle = isActive ? 'underline' : 'none';
+		const style = {
+			...styles[`lvl${level + 1}` as keyof typeof styles],
+			...styles.shared,
+			marginLeft: 12 * level,
+		};
+
 		return (
 			<Fragment>
 				{node.children ? (
-					<Text
-						style={{
-							...styles[`lvl${level + 1}` as keyof typeof styles],
-							...styles.shared,
-							marginLeft: 12 * level,
-						}}
-						selectable={false}
-					>
+					<Text style={style} selectable={false}>
 						{node.name}
 					</Text>
 				) : (
 					<Link
 						key={node.path}
-						style={{
-							...styles[`lvl${level + 1}` as keyof typeof styles],
-							...styles.shared,
-							marginLeft: 12 * level,
-						}}
+						style={{ ...style, textDecoration: textActiveStyle }}
 						href={node.path}
 					>
 						{node.name}
@@ -40,13 +38,11 @@ export const SideNavigation: FC<Props> = ({ nodes, params }) => {
 
 				{node.children &&
 					node.children.map((childNode: DocsTree) =>
-						renderNode(childNode, level + 1),
+						renderNode(childNode, level + 1, matchingPath),
 					)}
 			</Fragment>
 		);
 	};
-
-	console.log(params);
 
 	return (
 		<View style={styles.container}>

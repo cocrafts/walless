@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Anchor, Button, View } from '@walless/gui';
 import { resources } from 'utils/config';
-import { findLastNode } from 'utils/content';
+import { getDefaultNode } from 'utils/content';
 import { type DocsTree } from 'utils/types';
 
 import NavigationItem from './Item';
@@ -14,7 +14,7 @@ interface Props {
 
 export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
 	const docsList = docsTree.children?.map((doc) => {
-		const link = findLastNode(doc)?.path;
+		const link = getDefaultNode(doc)?.path;
 		return {
 			name: doc.name,
 			path: doc.path,

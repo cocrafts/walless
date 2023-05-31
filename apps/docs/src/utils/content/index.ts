@@ -18,3 +18,14 @@ export const loadContent = (
 			return loadContent(child, path, nodes.splice(1));
 	}
 };
+
+export const findLastNode = (node: DocsTree) => {
+	let childNode: DocsTree = node;
+	while (childNode) {
+		if (!childNode.children) return childNode;
+
+		childNode = childNode.children[0];
+	}
+
+	return node;
+};

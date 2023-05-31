@@ -17,7 +17,7 @@ export const SideNavigation: FC<Props> = ({ nodes, params }) => {
 		const style = {
 			...styles[`lvl${level + 1}` as keyof typeof styles],
 			...styles.shared,
-			marginLeft: 12 * level,
+			marginLeft: 20 * level,
 		};
 
 		return (
@@ -56,6 +56,8 @@ export default SideNavigation;
 const styles = StyleSheet.create({
 	container: {
 		minWidth: 200,
+		position: 'absolute',
+		left: 60,
 	},
 	shared: {
 		fontFamily: 'Rubik',

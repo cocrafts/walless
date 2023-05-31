@@ -23,7 +23,10 @@ export const Content: FC<Props> = ({ docsTree, docs, params }) => {
 	return (
 		<View horizontal style={styles.container}>
 			<SideNavigation nodes={node?.children as DocsTree[]} params={params} />
-			<Markdown content={loadContent(docsTree, path) || '##Coming soon'} />
+			<Markdown
+				style={{ maxWidth: 1000 }}
+				content={loadContent(docsTree, path) || '##Coming soon'}
+			/>
 		</View>
 	);
 };
@@ -34,5 +37,6 @@ const styles = StyleSheet.create({
 	container: {
 		paddingTop: 40,
 		gap: 30,
+		justifyContent: 'center',
 	},
 });

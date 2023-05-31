@@ -3,4 +3,5 @@ export type DocsTree = {
 	path: string;
 	content?: string;
 	children?: DocsTree[];
+	prefix?: string;
 };

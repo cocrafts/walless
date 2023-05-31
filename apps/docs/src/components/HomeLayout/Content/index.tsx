@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const Content: FC<Props> = ({ docsTree, docs, params }) => {
-	const nodes = docsTree.children?.find((node) => node.path === `/${docs}`);
+	const node = docsTree.children?.find((node) => node.path === `/${docs}`);
 	let path = `/${docs}`;
 	for (const param of params) {
 		path += `/${param}`;
@@ -23,7 +23,7 @@ export const Content: FC<Props> = ({ docsTree, docs, params }) => {
 	return (
 		<View horizontal style={styles.container}>
 			<View>
-				<SideNavigation nodes={nodes?.children as DocsTree[]} params={params} />
+				<SideNavigation nodes={node?.children as DocsTree[]} params={params} />
 			</View>
 			<View>
 				<Markdown content={loadContent(docsTree, path) || 'Coming soon'} />

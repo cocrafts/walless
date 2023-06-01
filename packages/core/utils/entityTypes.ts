@@ -4,10 +4,10 @@ import { type SuiObjectData } from '@mysten/sui.js';
 export interface Setting {
 	version: string;
 	profile: UserProfile;
-	config: SettingConfig;
+	config: Config;
 }
 
-export interface SettingConfig {
+export interface Config {
 	hideBalance: boolean;
 }
 

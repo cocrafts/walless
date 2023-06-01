@@ -10,5 +10,4 @@ export const selectors = {
 	suiKeys: { selector: { type: 'PublicKey', network: Networks.sui } },
 	allTokens: { selector: { type: 'Token' } },
 	trustedDomains: { selector: { type: 'TrustedDomain' } },
-	settings: { selector: { type: 'Setting' } },
 };

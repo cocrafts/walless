@@ -4,10 +4,10 @@ import { Stack, Text } from '@walless/ui';
 import { useSettings } from 'utils/hooks';
 
 const TokenValue = () => {
-	const { setting, setSetting } = useSettings();
+	const { setting, setPrivacy } = useSettings();
 
 	const handleToggleTokenValue = async () => {
-		setSetting.setPrivacy({ hideBalance: !setting.hideBalance });
+		setPrivacy({ hideBalance: !setting.hideBalance });
 	};
 
 	return (

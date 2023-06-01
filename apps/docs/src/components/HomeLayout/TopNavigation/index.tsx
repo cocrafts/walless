@@ -41,7 +41,7 @@ export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
 					);
 				})}
 			</View>
-			<View>
+			<View style={{ width: styles.logo.width, alignItems: 'flex-end' }}>
 				<Button
 					style={styles.button}
 					title="Join waitlist"

@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Stack, Text } from '@tamagui/core';
+import { Text, View } from '@walless/gui';
 import {
 	type ParserRule,
 	type ReactOutputRule,
@@ -21,16 +21,24 @@ export const checkList: ParserRule & ReactOutputRule = {
 		const backgroundColor = node.listType === 'x' ? 'green' : 'transparent';
 		const size = 20;
 
-		return createElement(Stack, { key, flexDirection: 'row' }, [
-			createElement(Stack, {
-				width: size,
-				height: size,
-				borderRadius: 4,
-				backgroundColor,
+		return createElement(View, { key, style: { flexDirection: 'row' } }, [
+			createElement(View, {
+				style: {
+					width: size,
+					height: size,
+					borderRadius: 4,
+					backgroundColor,
+				},
 			}),
-			createElement(Stack, { flex: 1 }, [
-				createElement(Text, {}, output(node.content, state)),
-			]),
+			createElement(
+				View,
+				{
+					style: {
+						flex: 1,
+					},
+				},
+				[createElement(Text, {}, output(node.content, state))],
+			),
 		]);
 	},
 };

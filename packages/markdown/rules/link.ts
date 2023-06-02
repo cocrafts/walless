@@ -1,11 +1,11 @@
 import { createElement } from 'react';
+import { Anchor } from '@walless/gui';
 import {
 	type ParserRule,
 	type ReactOutputRule,
 	defaultRules,
 } from 'simple-markdown';
 
-import { Anchor } from '../components/Anchor';
 import { type MarkdownState } from '../utils/types';
 
 export const link: ParserRule & ReactOutputRule = {

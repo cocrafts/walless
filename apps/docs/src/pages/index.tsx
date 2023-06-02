@@ -1,3 +1,4 @@
+import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
 	useAnimatedStyle,
@@ -5,10 +6,19 @@ import Animated, {
 	withSpring,
 } from 'react-native-reanimated';
 import { Button, Text, View } from '@walless/gui';
+import Markdown from '@walless/markdown';
+import { type GetStaticProps } from 'next';
+import { loadContent } from 'utils/content';
+import { loadMarkdown } from 'utils/engine';
+import { type DocsTree } from 'utils/types';
 
 const AnimatedBox = Animated.createAnimatedComponent(View);
 
-const IndexPage = () => {
+interface Props {
+	docsTree: DocsTree;
+}
+
+const IndexPage: FC<Props> = ({ docsTree }) => {
 	const size = useSharedValue(1);
 
 	const boxStyle = useAnimatedStyle(() => {
@@ -31,11 +41,25 @@ const IndexPage = () => {
 			<Text style={styles.h1}>Hello tan</Text>
 			<AnimatedBox style={[styles.animatedBox, boxStyle]} />
 			<Button onPress={() => handlePress()} title={'Click me!'} />
+
+			<Markdown
+				content={
+					loadContent(docsTree, '/hi') || 'Not found markdown in this path'
+				}
+			/>
 		</View>
 	);
 };
 
 export default IndexPage;
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+	const docsTree = await loadMarkdown();
+
+	return {
+		props: { docsTree },
+	};
+};
 
 const styles = StyleSheet.create({
 	container: {

@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Text } from '@tamagui/core';
+import { Text } from '@walless/gui';
 import {
 	type ParserRule,
 	type ReactOutputRule,

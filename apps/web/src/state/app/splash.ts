@@ -1,18 +1,11 @@
 import { type BootstrapResult, appState } from '@walless/app';
-import { modules } from '@walless/ioc';
-import { type SettingDocument } from '@walless/store';
+import { initializeLiveState } from 'state/live';
 import { router } from 'utils/routing';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
-	const response: BootstrapResult = {};
-	const setting = await modules.storage.safeGet<SettingDocument>('settings');
+	await initializeLiveState();
 
-	if (setting?.profile?.email) {
-		response.profile = setting.profile;
-		appState.profile = setting.profile;
-	}
-
-	return response;
+	return appState;
 };
 
 export const launchApp = async ({

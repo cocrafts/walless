@@ -10,7 +10,17 @@ module.exports = {
 		'react-native',
 		'react-native-reanimated',
 		'react-native-svg',
+		'react-native-syntax-highlighter',
 	],
+	async redirects() {
+		return [
+			{
+				source: '/',
+				destination: '/getting-started/overview/introduction',
+				permanent: true,
+			},
+		];
+	},
 	webpack: (config, { dev }) => {
 		config.module.rules.push({
 			test: /\.md$/i,

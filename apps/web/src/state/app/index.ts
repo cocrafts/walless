@@ -1,6 +1,5 @@
 import { appState } from '@walless/app';
 
-import { copy } from './actions';
 import {
 	confirmPasscode,
 	enterInvitationCode,
@@ -9,7 +8,9 @@ import {
 	signInWithGoogle,
 } from './authentication';
 import { notify, showSendModal } from './modal';
+import { setPrivacy, sync } from './settings';
 import { bootstrap, launchApp } from './splash';
+import { copy } from './system';
 
 export const appActions = {
 	bootstrap,
@@ -25,6 +26,8 @@ export const appActions = {
 		appState.loading = flag;
 	},
 	showSendModal,
+	sync,
+	setPrivacy,
 };
 
 export { type AppState, appState } from '@walless/app';

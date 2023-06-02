@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC } from 'react';
 import {
 	type ImageStyle,
 	type ViewStyle,
@@ -19,7 +19,9 @@ interface Props {
 	index?: number;
 	item: PublicKeyDocument;
 	skin: CardSkin;
+	hideBalance: boolean;
 	onCopyAddress?: (value: string) => void;
+	onChangePrivateSetting?: (value: boolean) => void;
 }
 
 export const WalletCard: FC<Props> = ({
@@ -27,9 +29,10 @@ export const WalletCard: FC<Props> = ({
 	index = 0,
 	item,
 	skin,
+	hideBalance,
 	onCopyAddress,
+	onChangePrivateSetting,
 }) => {
-	const [isPrivate, setIsPrivate] = useState(false);
 	const height = (width * 145) / 318;
 	const containerStyle: ImageStyle = {
 		width,
@@ -42,7 +45,7 @@ export const WalletCard: FC<Props> = ({
 	};
 
 	const handleHide = (next: boolean) => {
-		setIsPrivate(next);
+		onChangePrivateSetting?.(next);
 	};
 
 	return (
@@ -53,7 +56,7 @@ export const WalletCard: FC<Props> = ({
 				skin={skin}
 				onCopyAddress={onCopyAddress}
 			/>
-			<WalletBalance isPrivate={isPrivate} onHide={handleHide} />
+			<WalletBalance hideBalance={hideBalance} onHide={handleHide} />
 			<View style={styles.markContainer}>
 				<Image style={styles.markImage} source={skin.largeIconSrc} />
 			</View>

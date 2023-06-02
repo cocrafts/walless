@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client';
 import { injectRuntime } from 'bridge/entry';
-import { initializeLiveState } from 'state/live';
 import { injectModules } from 'utils/ioc';
 
 import '@tamagui/polyfill-dev';
@@ -16,5 +15,5 @@ injectModules().then(async () => {
 
 	root.render(<App tamaguiConfig={tamaguiConfig} />);
 
-	await Promise.all([injectRuntime(), initializeLiveState()]);
+	await Promise.all([injectRuntime()]);
 });

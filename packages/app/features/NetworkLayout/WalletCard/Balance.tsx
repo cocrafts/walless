@@ -5,23 +5,23 @@ import { Eye, EyeOff } from '@walless/icons';
 
 interface Props {
 	onHide: (next: boolean) => void;
-	isPrivate?: boolean;
+	hideBalance: boolean;
 }
 
-export const WalletBalance: FC<Props> = ({ onHide, isPrivate }) => {
+export const WalletBalance: FC<Props> = ({ onHide, hideBalance }) => {
 	const balanceTextStyle = [
 		styles.balanceText,
-		isPrivate && styles.protectedBalance,
+		hideBalance && styles.protectedBalance,
 	];
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.balanceContainer}>
-				<Hoverable onPress={() => onHide?.(!isPrivate)}>
-					{isPrivate ? <EyeOff size={18} /> : <Eye size={18} />}
+				<Hoverable onPress={() => onHide?.(!hideBalance)}>
+					{hideBalance ? <EyeOff size={18} /> : <Eye size={18} />}
 				</Hoverable>
 				<Text style={balanceTextStyle}>
-					{getValuationDisplay(0, isPrivate)}
+					{getValuationDisplay(0, hideBalance)}
 				</Text>
 			</View>
 		</View>

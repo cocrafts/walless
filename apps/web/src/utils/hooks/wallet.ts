@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { type Networks } from '@walless/core';
 import { tokenState, walletState } from '@walless/engine';
 import { type PublicKeyDocument } from '@walless/store';
+import { appActions, appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
@@ -35,4 +36,14 @@ export const useTokens = (network?: Networks, address?: string) => {
 
 		return tokens;
 	}, [map, network, address]);
+};
+
+export const useSettings = () => {
+	const { config } = useSnapshot(appState);
+	const { setPrivacy } = appActions;
+
+	return {
+		setting: config,
+		setPrivacy,
+	};
 };

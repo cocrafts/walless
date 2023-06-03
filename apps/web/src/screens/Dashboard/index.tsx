@@ -2,10 +2,10 @@ import { type FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { DashboardLayout } from '@walless/app';
 import { modules } from '@walless/ioc';
-import { type ExtensionDocument, type SettingDocument } from '@walless/store';
+import { type ExtensionDocument } from '@walless/store';
 import { appState } from 'state/app';
 import { extensionState } from 'state/extension';
-import { useLocation, useParams, useSnapshot } from 'utils/hooks';
+import { useLocation, useParams, useSettings, useSnapshot } from 'utils/hooks';
 import { router } from 'utils/routing';
 
 export const DashboardScreen: FC = () => {
@@ -13,6 +13,7 @@ export const DashboardScreen: FC = () => {
 	const { pathname } = useLocation();
 	const { profile } = useSnapshot(appState);
 	const { map: extensionMap } = useSnapshot(extensionState);
+	const { setting, setPathname } = useSettings();
 	const extensions = Array.from(extensionMap.values());
 
 	const getRouteActive = (item: ExtensionDocument) => {
@@ -29,14 +30,10 @@ export const DashboardScreen: FC = () => {
 	};
 
 	const setLatestPathname = async () => {
-		const setting = await modules.storage.safeGet<SettingDocument>('settings');
-		await modules.storage.put({
-			...setting,
-			profile: {
-				...setting?.profile,
-				currentScreen: pathname ?? '/',
-			},
-		});
+		if (pathname !== setting?.currentScreen) {
+			console.log(setting?.currentScreen);
+			await setPathname({ currentScreen: pathname });
+		}
 	};
 
 	useEffect(() => {

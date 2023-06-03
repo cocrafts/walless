@@ -18,3 +18,15 @@ export const setPrivacy = async ({ hideBalance }: { hideBalance: boolean }) => {
 		return doc;
 	});
 };
+
+export const setPathname = async ({
+	currentScreen,
+}: {
+	currentScreen: string;
+}) => {
+	await modules.storage.upsert<SettingDocument>(id, async (doc) => {
+		doc.config.currentScreen = currentScreen;
+
+		return doc;
+	});
+};

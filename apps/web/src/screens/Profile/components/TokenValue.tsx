@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { Hoverable } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
 import { Stack, Text } from '@walless/ui';
+import { useSettings } from 'utils/hooks';
 
 const TokenValue = () => {
-	const [hideTokenValue, setHideTokenValue] = useState(true);
+	const { setting, setPrivacy } = useSettings();
 
-	const handleToggleTokenValue = () => {
-		setHideTokenValue(!hideTokenValue);
+	const handleToggleTokenValue = async () => {
+		setPrivacy({ hideBalance: !setting.hideBalance });
 	};
 
 	return (
@@ -16,15 +17,15 @@ const TokenValue = () => {
 			</Text>
 			<Stack flexDirection="row" alignItems="center" gap={5}>
 				<Text fontSize={40} fontWeight="500" lineHeight={26}>
-					{hideTokenValue ? '****' : '$0,00'}
+					{setting.hideBalance ? '****' : '$0,00'}
 				</Text>
-				<Stack onPress={handleToggleTokenValue}>
-					{hideTokenValue ? (
+				<Hoverable onPress={handleToggleTokenValue}>
+					{setting.hideBalance ? (
 						<Eye size={20} color="#566674" />
 					) : (
 						<EyeOff size={20} color="#566674" />
 					)}
-				</Stack>
+				</Hoverable>
 			</Stack>
 		</Stack>
 	);

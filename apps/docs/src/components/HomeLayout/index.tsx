@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 import { useRouter } from 'next/router';
+import { sharedStyles } from 'utils/style';
 import { type DocsTree } from 'utils/types';
 
 import Content from './Content';
@@ -22,11 +23,11 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.contentContainer}>
+			<View style={sharedStyles.container}>
 				<TopNavigation docs={docs} docsTree={docsTree} />
 			</View>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<View style={styles.contentContainer}>
+				<View style={sharedStyles.container}>
 					<Content docsTree={docsTree} docs={docs} params={params} />
 				</View>
 			</ScrollView>
@@ -37,11 +38,6 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 const styles = StyleSheet.create({
 	container: {
 		height: '100vh',
-	},
-	contentContainer: {
-		width: '100%',
-		maxWidth: 1620,
-		margin: 'auto',
 	},
 });
 

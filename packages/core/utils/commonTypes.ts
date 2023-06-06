@@ -49,6 +49,7 @@ export enum Networks {
 	ethereum = 'ethereum',
 	solana = 'solana',
 	sui = 'sui',
+	tezos = 'tezos',
 }
 
 export enum Endpoints {

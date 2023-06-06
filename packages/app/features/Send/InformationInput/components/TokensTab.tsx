@@ -63,8 +63,6 @@ export default TokensTab;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
 	},
 	totalLine: {
 		width: 336,

@@ -1,4 +1,5 @@
 import { type FC, Fragment } from 'react';
+import { StyleSheet } from 'react-native';
 import Markdown from '@walless/markdown';
 import { loadContent } from 'utils/content';
 import { sharedStyles } from 'utils/style';
@@ -22,7 +23,7 @@ export const Content: FC<Props> = ({ docsTree, docs, params }) => {
 	return (
 		<Fragment>
 			<Markdown
-				style={sharedStyles.contentContainer}
+				style={[sharedStyles.contentContainer, styles.container]}
 				content={loadContent(docsTree, path) || '##Coming soon'}
 				options={{ lineHeight: 45 }}
 			/>
@@ -30,5 +31,11 @@ export const Content: FC<Props> = ({ docsTree, docs, params }) => {
 		</Fragment>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		marginBottom: 200,
+	},
+});
 
 export default Content;

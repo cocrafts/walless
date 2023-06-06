@@ -26,10 +26,11 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 			<View style={sharedStyles.container}>
 				<TopNavigation docs={docs} docsTree={docsTree} />
 			</View>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<View style={sharedStyles.container}>
-					<Content docsTree={docsTree} docs={docs} params={params} />
-				</View>
+			<ScrollView
+				contentContainerStyle={sharedStyles.container}
+				showsVerticalScrollIndicator={false}
+			>
+				<Content docsTree={docsTree} docs={docs} params={params} />
 			</ScrollView>
 		</View>
 	);

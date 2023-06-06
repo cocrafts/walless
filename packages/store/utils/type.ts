@@ -9,7 +9,6 @@ import {
 	type Token,
 	type TrustedDomain,
 } from '@walless/core';
-import type PouchDB from 'pouchdb-core';
 
 export type DocumentType =
 	| 'Setting'

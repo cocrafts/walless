@@ -1,5 +1,6 @@
 import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
+import { generateSecretKey, InMemorySigner } from '@taquito/signer';
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
 import { type UserProfile, Networks, runtime } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
@@ -131,6 +132,7 @@ export const createKeyAndEnter = async () => {
 };
 
 export const enterInvitationCode = async (code: string) => {
+	/* eslint-disable-next-line */
 	const { invitationCode } = await qlClient.request<{
 		invitationCode: InvitationCode;
 	}>(queries.invitationCode, { code });
@@ -227,6 +229,36 @@ export const storeAuthenticatedRecords = async (
 					privateKeyId: id,
 					type: 'PublicKey',
 					network: Networks.sui,
+				}),
+			);
+
+			/**
+			 * For Tezos, we temporarily use base private as a seed to generate new private key
+			 * */
+			const tezosPair = await InMemorySigner.fromSecretKey(
+				generateSecretKey(key, "44'/1729'", 'ed25519'),
+			);
+			const tezosAddress = await tezosPair.publicKeyHash();
+
+			const encryptedTezosKey = await encryptWithPasscode(
+				passcode,
+				Buffer.from(await tezosPair.secretKey(), 'hex'),
+			);
+			writePromises.push(
+				modules.storage.put<PrivateKeyDocument>({
+					_id: id + Networks.tezos,
+					type: 'PrivateKey',
+					keyType: type,
+					...encryptedTezosKey,
+				}),
+			);
+
+			writePromises.push(
+				modules.storage.put<PublicKeyDocument>({
+					_id: tezosAddress,
+					privateKeyId: id + Networks.tezos,
+					type: 'PublicKey',
+					network: Networks.tezos,
 				}),
 			);
 		}

@@ -16,9 +16,9 @@ import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
-import EmptyTab from './EmptyTab';
+import EmptyTab from './components/EmptyTab';
+import TokenTab from './components/TokenTab';
 import { layoutTabs } from './shared';
-import TokenTab from './TokenTab';
 
 interface Props {
 	variant?: string;

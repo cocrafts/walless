@@ -57,9 +57,11 @@ export const WalletCard: FC<Props> = ({
 				onCopyAddress={onCopyAddress}
 			/>
 			<WalletBalance hideBalance={hideBalance} onHide={handleHide} />
-			<View style={styles.markContainer}>
-				<Image style={styles.markImage} source={skin.largeIconSrc} />
-			</View>
+			{skin.largeIconSrc && (
+				<View style={styles.markContainer}>
+					<Image style={styles.markImage} source={skin.largeIconSrc} />
+				</View>
+			)}
 		</ImageBackground>
 	);
 };

@@ -1,6 +1,6 @@
 import { type TabAble } from '@walless/app';
 
-import EmptyTab from './EmptyTab';
+import EmptyTab from './components/EmptyTab';
 
 export const layoutTabs: TabAble[] = [
 	{

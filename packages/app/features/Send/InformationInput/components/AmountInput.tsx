@@ -71,9 +71,6 @@ export const AmountInput: FC = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: 'column',
-		alignItems: 'center',
-		width: 336,
 		justifyContent: 'space-between',
 		marginBottom: 6,
 	},
@@ -96,6 +93,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 5,
 		backgroundColor: '#1E2830',
 		borderRadius: 6,
+		marginRight: 6,
 	},
 	titleMaxButton: {
 		fontSize: 10,

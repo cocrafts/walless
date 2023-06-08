@@ -1,4 +1,4 @@
-import { Stack } from '@walless/ui';
+import { Stack, Text } from '@walless/ui';
 import { appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
 
@@ -6,6 +6,7 @@ import Delimiter from './components/Delimiter';
 import FollowUs from './components/FollowUs';
 import Header from './components/Header';
 import HelpCenter from './components/HelpCenter';
+import LogOut from './components/LogOut';
 import MyWallets from './components/MyWallets';
 
 const SettingScreen = () => {
@@ -17,7 +18,15 @@ const SettingScreen = () => {
 			<Delimiter />
 			<Stack gap={16}>
 				<MyWallets />
-				<HelpCenter />
+				<Stack>
+					<Text color="#566674" fontSize={14} fontWeight="400">
+						Settings
+					</Text>
+					<Stack gap={8}>
+						<HelpCenter />
+						<LogOut />
+					</Stack>
+				</Stack>
 				<FollowUs />
 			</Stack>
 		</Stack>

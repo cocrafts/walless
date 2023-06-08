@@ -1,3 +1,4 @@
+import { Shield } from './components/Shield';
 export { AlertCircle } from './components/AlertCircle';
 export { ArrowBottomRight } from './components/ArrowBottomRight';
 export { ArrowDown } from './components/ArrowDown';
@@ -29,6 +30,7 @@ export { Message } from './components/Message';
 export { Plus } from './components/Plus';
 export { Search } from './components/Search';
 export { Setting } from './components/Setting';
+export { Shield } from './components/Shield';
 export { Swap } from './components/Swap';
 export { Times } from './components/Times';
 export { Twitter } from './components/Twitter';

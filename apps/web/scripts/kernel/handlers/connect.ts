@@ -1,14 +1,16 @@
-import { type ConnectOptions } from '@walless/core';
+import { type ConnectOptions, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import { type MessengerCallback } from '@walless/messaging';
+import { type MessengerCallback, Message } from '@walless/messaging';
 import {
 	type PublicKeyDocument,
 	type TrustedDomainDocument,
 	selectors,
 } from '@walless/store';
 
+import { handleClosePopup, handleOpenPopup, requestSourceMap } from './shared';
+
 export const handleConnect: MessengerCallback = async (payload, channel) => {
-	const { onlyIfTrusted, domain } = payload.options as ConnectOptions;
+	const { onlyIfTrusted, domain } = (payload.options as ConnectOptions) || {};
 
 	const domainResponse = await modules.storage.find(selectors.trustedDomains);
 	const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
@@ -29,16 +31,36 @@ export const handleConnect: MessengerCallback = async (payload, channel) => {
 		}
 	}
 
-	const keyResponse = await modules.storage.find(selectors.allKeys);
-	const publicKeys = keyResponse.docs as PublicKeyDocument[];
-	console.log('All public keys: ', publicKeys);
+	requestSourceMap[payload.requestId] = channel;
+	await handleOpenPopup(payload.requestId);
+};
 
-	console.log('send back response:', publicKeys);
-	channel.postMessage({
-		from: 'walless@kernel',
-		requestId: payload.requestId,
-		publicKeys: publicKeys,
-	});
+export const handleResolveConnect: MessengerCallback = async (payload) => {
+	const { requestId } = payload;
+	const sourceChannel = requestSourceMap[requestId];
+	if (sourceChannel) {
+		if (!payload.isApproved) {
+			sourceChannel.postMessage({
+				from: 'walless@kernel',
+				requestId,
+				message: Message.REJECT_REQUEST_CONNECT,
+			});
+		} else {
+			const keyResponse = await modules.storage.find(selectors.allKeys);
+			const publicKeys = keyResponse.docs as PublicKeyDocument[];
+			const solanaPublicKeys = publicKeys.find(
+				(key) => key.network === Networks.solana,
+			);
+
+			sourceChannel.postMessage({
+				from: 'walless@kernel',
+				requestId,
+				publicKeys: [solanaPublicKeys],
+			});
+		}
+		delete requestSourceMap[requestId];
+		handleClosePopup(requestId);
+	}
 };
 
 const triggerRequireTrustedDomain = async (domainName: string) => {

@@ -1,11 +1,29 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { AlertCircle, CheckCircle } from '@walless/icons';
+import { PopupType } from '@walless/messaging';
 import { Button, Image, Stack, Text } from '@walless/ui';
+import { handleRequestConnect } from 'bridge/listeners';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 
-import { logoSize, logoUri } from '../shared';
+import { initializeKernelConnect, logoSize, logoUri } from '../shared';
 
 const RequestConnection = () => {
+	const { requestId } = useParams();
+
+	const onClickButton = (isApproved: boolean) => {
+		handleRequestConnect(requestId as string, isApproved);
+	};
+
+	useEffect(() => {
+		/*
+		 * This is the function to establish a connect to background script
+		 * It's help to detect window close event under kernel
+		 */
+		initializeKernelConnect(PopupType.REQUEST_CONNECT_POPUP + '/' + requestId);
+	}, []);
+
 	return (
 		<Stack flex={1} backgroundColor="#19232C">
 			<HeaderRequest />
@@ -72,10 +90,14 @@ const RequestConnection = () => {
 					<LightText fontSize={14} textAlign="center">
 						Only connect to websites you trust!
 					</LightText>
-					<Button marginVertical={10} onPress={() => console.log('hmmmm')}>
+					<Button marginVertical={10} onPress={() => onClickButton(true)}>
 						<Text>Connect</Text>
 					</Button>
-					<Button backgroundColor="transparent" paddingVertical={0}>
+					<Button
+						backgroundColor="transparent"
+						paddingVertical={0}
+						onPress={() => onClickButton(false)}
+					>
 						<Text>Deny</Text>
 					</Button>
 				</Stack>

@@ -1,6 +1,6 @@
 import { type ConnectOptions, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import { type MessengerCallback, Message } from '@walless/messaging';
+import { type MessengerCallback, Message, PopupType } from '@walless/messaging';
 import {
 	type PublicKeyDocument,
 	type TrustedDomainDocument,
@@ -32,7 +32,7 @@ export const handleConnect: MessengerCallback = async (payload, channel) => {
 	}
 
 	requestSourceMap[payload.requestId] = channel;
-	await handleOpenPopup(payload.requestId);
+	await handleOpenPopup(PopupType.REQUEST_CONNECT_POPUP, payload.requestId);
 };
 
 export const handleResolveConnect: MessengerCallback = async (payload) => {

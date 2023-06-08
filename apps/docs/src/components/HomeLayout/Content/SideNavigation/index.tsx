@@ -21,14 +21,13 @@ export const SideNavigation: FC<Props> = ({ nodes, params }) => {
 		};
 
 		return (
-			<Fragment>
+			<Fragment key={node.path}>
 				{node.children ? (
 					<Text style={style} selectable={false}>
 						{node.name}
 					</Text>
 				) : (
 					<Link
-						key={node.path}
 						style={{ ...style, textDecoration: textActiveStyle }}
 						href={node.path}
 					>

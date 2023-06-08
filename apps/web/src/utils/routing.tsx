@@ -1,4 +1,5 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
+import { PopupType } from '@walless/messaging';
 import DashboardScreen from 'screens/Dashboard';
 import EmbeddedApp from 'screens/Dashboard/Embed';
 import ExploreScreen from 'screens/Explore';
@@ -53,7 +54,7 @@ export const router = createRouter([
 		element: <InvitationScreen />,
 	},
 	{
-		path: '/request-connection',
+		path: `/${PopupType.REQUEST_CONNECT_POPUP}/:requestId`,
 		element: <RequestConnection />,
 	},
 	{

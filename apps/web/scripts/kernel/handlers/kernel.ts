@@ -1,6 +1,6 @@
 import { type MessengerCallback, RequestType } from '@walless/messaging';
 
-import { handleConnect } from './connect';
+import { handleConnect, handleResolveConnect } from './connect';
 import * as solanaHandler from './solanaHandler';
 import * as suiHandler from './suiHandler';
 
@@ -8,6 +8,8 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	if (payload.requestId) {
 		if (payload.type === RequestType.REQUEST_CONNECT) {
 			handleConnect(payload, channel);
+		} else if (payload.type === RequestType.RESOLVE_REQUEST_CONNECT) {
+			handleResolveConnect(payload, channel);
 		} else if (payload.type == RequestType.GET_ENDPOINT_ON_SOLANA) {
 			solanaHandler.getEndpoint(payload, channel);
 		} else if (payload.type === RequestType.SIGN_MESSAGE_ON_SOLANA) {

@@ -18,7 +18,12 @@ export const bootstrap = async (): Promise<BootstrapResult> => {
 export const launchApp = async ({
 	profile,
 }: BootstrapResult): Promise<void> => {
-	if (profile?.email) {
+	const url = window.location.hash;
+	const path = url.slice(1);
+
+	if (path) {
+		await router.navigate(path);
+	} else if (profile?.email) {
 		await router.navigate('/');
 	} else {
 		await router.navigate('/invitation');

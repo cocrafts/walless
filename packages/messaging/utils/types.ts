@@ -99,4 +99,13 @@ export enum RequestType {
 	SIGH_EXECUTE_TRANSACTION_ON_SUI,
 	SIGN_TRANSACTION_ON_SUI,
 	SIGN_MESSAGE_ON_SUI,
+	RESOLVE_REQUEST_CONNECT,
+}
+
+export enum PopupType {
+	REQUEST_CONNECT_POPUP = 'request-connect-popup',
+}
+
+export enum Message {
+	REJECT_REQUEST_CONNECT = 'Connect request has been rejected',
 }

@@ -20,7 +20,7 @@ import {
 	type SignMessageFunc,
 	Networks,
 } from '@walless/core';
-import { type PublicKeyRecord } from '@walless/storage';
+import { type PublicKeyDocument } from '@walless/store';
 import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
 
@@ -61,17 +61,21 @@ export class Walless extends EventEmitter {
 
 		const publicKeys = response.publicKeys;
 
+		if (response.message) {
+			throw new Error(response.message);
+		}
+
 		this.#publicKeys = publicKeys
-			.map((pk: PublicKeyRecord) => {
+			.map((pk: PublicKeyDocument) => {
 				let publicKey: PublicKeyType;
 
 				// Prepare suitable public key for each network
 				if (pk.network === Networks.solana) {
-					publicKey = new SolanaPublicKey(pk.id as string);
+					publicKey = new SolanaPublicKey(pk._id as string);
 				} else if (pk.network === Networks.sui) {
 					publicKey = new SuiPublicKey(
 						new Uint8Array(
-							Buffer.from((pk.id as string).replace(/0x/, ''), 'hex'),
+							Buffer.from((pk._id as string).replace(/0x/, ''), 'hex'),
 						),
 					);
 				} else {

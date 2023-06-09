@@ -4,7 +4,7 @@ import { LogOut as LogOutIcon } from '@walless/icons';
 
 import ConfirmModal from './ConfirmModal';
 
-const LogOut = () => {
+export const LogOut = () => {
 	const handleShowLogOutModal = () => {
 		modalActions.show({
 			id: 'log-out-modal',

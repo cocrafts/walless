@@ -3,7 +3,7 @@ import { Stack } from '@walless/ui';
 
 import ForwardLink from './ForwardLink';
 
-const HelpCenter = () => {
+export const HelpCenter = () => {
 	return (
 		<Stack gap={12}>
 			<Stack gap={8}>

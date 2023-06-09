@@ -3,7 +3,7 @@ import { Stack, Text } from '@walless/ui';
 
 import ForwardLink from './ForwardLink';
 
-const FollowUs = () => {
+export const FollowUs = () => {
 	return (
 		<Stack gap={12}>
 			<Text fontSize={14} color="#566674">

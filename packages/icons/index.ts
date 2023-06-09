@@ -1,4 +1,3 @@
-import { Shield } from './components/Shield';
 export { AlertCircle } from './components/AlertCircle';
 export { ArrowBottomRight } from './components/ArrowBottomRight';
 export { ArrowDown } from './components/ArrowDown';
@@ -25,6 +24,7 @@ export { Google } from './components/Google';
 export { Heart } from './components/Heart';
 export { IdCard } from './components/IdCard';
 export { LinkedIn } from './components/LinkedIn';
+export { LogOut } from './components/LogOut';
 export { Mail } from './components/Mail';
 export { Message } from './components/Message';
 export { Plus } from './components/Plus';

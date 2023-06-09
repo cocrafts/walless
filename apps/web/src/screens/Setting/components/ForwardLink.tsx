@@ -39,9 +39,7 @@ export const ForwardLink: FC<Props> = ({
 						</Stack>
 					)}
 
-					<Text fontSize={14} fontWeight="400">
-						{title}
-					</Text>
+					<Text>{title}</Text>
 				</Stack>
 
 				<ArrowTopRight size={16} />

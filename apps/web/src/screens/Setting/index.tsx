@@ -21,9 +21,7 @@ const SettingScreen = () => {
 			<Stack gap={16}>
 				<MyWallets />
 				<Stack>
-					<Text color="#566674" fontSize={14} fontWeight="400">
-						Settings
-					</Text>
+					<Text color="#566674">Settings</Text>
 					<Stack gap={8}>
 						<HelpCenter />
 						<LogOut />

@@ -34,7 +34,9 @@ const ForwardLink: FC<Props> = ({ link, title, icon, iconBackground }) => {
 						</Stack>
 					)}
 
-					<Text>{title}</Text>
+					<Text fontSize={14} fontWeight="400">
+						{title}
+					</Text>
 				</Stack>
 
 				<ArrowTopRight size={16} />

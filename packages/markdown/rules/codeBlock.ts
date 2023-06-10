@@ -26,6 +26,7 @@ const codeBlock: ParserRule & ReactOutputRule = {
 						marginTop: '10px',
 					},
 				},
+				fontSize: 14,
 			},
 			node.content,
 		);

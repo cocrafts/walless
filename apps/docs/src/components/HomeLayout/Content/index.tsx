@@ -1,7 +1,8 @@
 import { type FC, Fragment } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Markdown from '@walless/markdown';
 import { loadContent } from 'utils/content';
+import { sharedStyles } from 'utils/style';
 import { type DocsTree } from 'utils/types';
 
 import SideNavigation from './SideNavigation';
@@ -21,27 +22,20 @@ export const Content: FC<Props> = ({ docsTree, docs, params }) => {
 
 	return (
 		<Fragment>
-			<ScrollView
-				style={{ maxHeight: '90vh' }}
-				contentContainerStyle={styles.container}
-			>
-				<Markdown
-					style={{ maxWidth: 1000 }}
-					content={loadContent(docsTree, path) || '##Coming soon'}
-					options={{ lineHeight: 45 }}
-				/>
-			</ScrollView>
+			<Markdown
+				style={[sharedStyles.contentContainer, styles.container]}
+				content={loadContent(docsTree, path) || '##Coming soon'}
+				options={{ lineHeight: 45 }}
+			/>
 			<SideNavigation nodes={node?.children as DocsTree[]} params={params} />
 		</Fragment>
 	);
 };
 
-export default Content;
-
 const styles = StyleSheet.create({
 	container: {
-		paddingTop: 40,
-		gap: 30,
-		alignItems: 'center',
+		marginBottom: 200,
 	},
 });
+
+export default Content;

@@ -9,6 +9,7 @@ export interface Setting {
 
 export interface Config {
 	hideBalance: boolean;
+	currentScreen: string;
 }
 
 export interface UserProfile {

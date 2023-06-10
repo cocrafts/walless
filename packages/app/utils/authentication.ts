@@ -1,4 +1,4 @@
-import { type UserProfile } from '@walless/core';
+import { type Config, type UserProfile } from '@walless/core';
 import { type UserCredential } from 'firebase/auth';
 
 export const makeProfile = ({ user }: UserCredential): UserProfile => {
@@ -18,4 +18,5 @@ export enum ThresholdResult {
 
 export interface BootstrapResult {
 	profile?: UserProfile;
+	config?: Config;
 }

@@ -11,7 +11,7 @@ export default {
 		};
 	},
 	stacks(app) {
-		app.stack(Landing);
 		app.stack(Extension);
+		app.stack(Landing);
 	},
 } satisfies SSTConfig;

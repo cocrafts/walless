@@ -1,14 +1,15 @@
 {
   "name": "@walless/web",
-  "version": "0.2.23",
+  "version": "0.2.25",
   "private": true,
   "main": "index.web.js",
   "scripts": {
     "dev": "metacraft",
     "dev:ext": "BUILD_TARGET=extension && metacraft",
     "batch": "node ../../tool/batch",
-    "build": "rimraf metacraft builds && yarn batch && metacraft bundle",
-    "build:ext": "BUILD_TARGET=extension && yarn build && node scripts/bundler",
+    "build": "yarn build:ext && yarn build:web",
+    "build:web": "rimraf metacraft build && yarn batch && metacraft bundle",
+    "build:ext": "BUILD_TARGET=extension && yarn build:web && node scripts/bundler",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
     "postinstall": "yarn batch"
   },

@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 16
+          node-version: 18
           registry-url: https://npm.pkg.github.com/
 
       - name: Install dependencies
@@ -31,3 +31,11 @@ jobs:
 
       - name: Run test cases
         run: yarn test
+
+      - name: Set branch name
+        id: branch
+        run: echo "::set-output name=BRANCH_NAME::${GITHUB_REF##*/}"
+
+      - name: Deploy
+        run: yarn deploy
+        if: github.ref == 'refs/heads/dev'

@@ -54,7 +54,7 @@ export const TezosDashboard: FC<Props> = () => {
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal(Networks.solana);
+		appActions.showSendModal(Networks.tezos);
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {

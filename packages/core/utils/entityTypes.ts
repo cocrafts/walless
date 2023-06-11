@@ -33,6 +33,12 @@ export interface TokenAccount {
 	quotes?: Record<string, number>;
 	balance: string;
 	decimals: number;
+
+	/**
+	 * This attribute use for tezos token identifier
+	 * (combine with address - smart contract address)
+	 * */
+	tokenId?: number;
 }
 
 export interface Token {

@@ -1,5 +1,5 @@
 import { type FC, useMemo, useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { ScrollView, StyleSheet, TextInput } from 'react-native';
 import { ChevronUp, Search as SearchIcon } from '@walless/icons';
 import { throttle } from 'lodash';
 
@@ -36,7 +36,7 @@ const Dropdown: FC<Props> = ({ config }) => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<View style={{ width: 336 }}>
 			<Hoverable
 				style={[mutualStyles.button, mutualStyles.focus]}
 				onPress={handleMainButtonPress}
@@ -47,13 +47,7 @@ const Dropdown: FC<Props> = ({ config }) => {
 				</View>
 			</Hoverable>
 
-			<View
-				style={[
-					mutualStyles.button,
-					mutualStyles.focus,
-					styles.dropdownContainer,
-				]}
-			>
+			<View style={styles.dropdownContainer}>
 				<View style={[mutualStyles.button, mutualStyles.focus, styles.input]}>
 					<SearchIcon size={17} color="#566674" />
 					<TextInput
@@ -64,27 +58,33 @@ const Dropdown: FC<Props> = ({ config }) => {
 					/>
 				</View>
 
-				{filterdItems.map((item, index) => {
-					const { id, name, icon } = getRequiredFields(item);
-					return (
-						<DropdownItem
-							key={index}
-							name={name}
-							icon={icon}
-							selected={!!selected && getRequiredFields(selected).id === id}
-							onPress={() => handleItemPress(item)}
-							style={styles.item}
-						/>
-					);
-				})}
-
-				{filterdItems.length == 0 && (
+				{filterdItems.length == 0 ? (
 					<View style={styles.notFoundView}>
 						<View style={styles.notFoundIconBlock}>
 							<SearchIcon size={17} color="#566674" />
 						</View>
 						<Text>{"We don't support this token yet!"}</Text>
 					</View>
+				) : (
+					<ScrollView
+						style={{
+							height: 200,
+						}}
+					>
+						{filterdItems.map((item, index) => {
+							const { id, name, icon } = getRequiredFields(item);
+							return (
+								<DropdownItem
+									key={index}
+									name={name}
+									icon={icon}
+									selected={!!selected && getRequiredFields(selected).id === id}
+									onPress={() => handleItemPress(item)}
+									style={styles.item}
+								/>
+							);
+						})}
+					</ScrollView>
 				)}
 			</View>
 		</View>
@@ -92,20 +92,17 @@ const Dropdown: FC<Props> = ({ config }) => {
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flexDirection: 'column',
-	},
 	dropdownContainer: {
-		flex: 1,
 		flexDirection: 'column',
 		backgroundColor: '#0E141A',
 		borderRadius: 15,
 		marginTop: 10,
-		alignItems: 'center',
 		paddingHorizontal: 7,
+		paddingVertical: 10,
+		borderWidth: 1,
+		borderColor: '#49596A',
 	},
 	input: {
-		width: 308,
 		marginBottom: 10,
 		flexDirection: 'row',
 		alignItems: 'center',

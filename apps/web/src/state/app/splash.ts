@@ -13,11 +13,7 @@ export const launchApp = async ({
 	config,
 }: BootstrapResult): Promise<void> => {
 	if (profile?.email) {
-		if (config?.currentScreen) {
-			await router.navigate(config.currentScreen);
-		} else {
-			await router.navigate('/');
-		}
+		await router.navigate(config?.latestLocation ?? '/');
 	} else {
 		await router.navigate('/invitation');
 	}

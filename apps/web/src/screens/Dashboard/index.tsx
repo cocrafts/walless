@@ -13,8 +13,8 @@ export const DashboardScreen: FC = () => {
 	const { pathname } = useLocation();
 	const { profile } = useSnapshot(appState);
 	const { map: extensionMap } = useSnapshot(extensionState);
-	const { setting, setPathname } = useSettings();
 	const extensions = Array.from(extensionMap.values());
+	const { setting, setPathname } = useSettings();
 
 	const getRouteActive = (item: ExtensionDocument) => {
 		return `/${item._id}` === pathname || extensionId === item._id;
@@ -29,15 +29,10 @@ export const DashboardScreen: FC = () => {
 		await router.navigate('/');
 	};
 
-	const setLatestPathname = async () => {
-		if (pathname !== setting?.currentScreen) {
-			console.log(setting?.currentScreen);
-			await setPathname({ currentScreen: pathname });
-		}
-	};
-
 	useEffect(() => {
-		setLatestPathname();
+		if (pathname !== setting?.latestLocation) {
+			setPathname(pathname);
+		}
 	}, [pathname]);
 
 	return (

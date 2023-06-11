@@ -18,9 +18,12 @@ export const tezosTokensByAddress = async ({
 	address,
 	metadataFetcher = getTezosMetadata,
 }: TokenByAddressOption): Promise<TokenDocument[]> => {
+	const tokens: TokenDocument[] = [];
+	const tezos = connection;
+
 	if (endpoint == tezosEndpoints.tezosMainnet) {
-		const tokens: TokenDocument[] = [tezosNativeToken];
 		tokens.push(
+			tezosNativeToken,
 			...KNOWN_TEZOS_MAINNET_TOKENS.map((token) => {
 				return {
 					...token,
@@ -30,13 +33,9 @@ export const tezosTokensByAddress = async ({
 				} as TokenDocument;
 			}),
 		);
-
-		return tokens;
 	} else if (endpoint == tezosEndpoints.ghostnetTestnet) {
-		// return [tezosNativeToken];
-
-		const tokens: TokenDocument[] = [tezosNativeToken];
 		tokens.push(
+			tezosNativeToken,
 			...KNOWN_TEZOS_MAINNET_TOKENS.map((token) => {
 				return {
 					...token,
@@ -46,13 +45,33 @@ export const tezosTokensByAddress = async ({
 				} as TokenDocument;
 			}),
 		);
-
-		return tokens;
 	} else {
 		// These params used to fetch unknown tokens
 		console.log({ connection, address, metadataFetcher });
-		throw Error('This network is not supported');
 	}
+
+	return await Promise.all(
+		tokens.map((token) => updateTokenBalance(token, tezos, address)),
+	);
+};
+
+const updateTokenBalance = async (
+	token: TokenDocument,
+	tezos: TezosToolkit,
+	address: string,
+) => {
+	try {
+		if (token._id === 'tezos-native-token') {
+			token.account.balance = (await tezos.tz.getBalance(address))
+				.toNumber()
+				.toString();
+		} else {
+			// Not handle yet
+		}
+	} catch {
+		console.log(`Fetch balance of ${token.metadata?.symbol} failed`);
+	}
+	return token;
 };
 
 const tezosNativeToken: TokenDocument = {

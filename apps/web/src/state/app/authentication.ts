@@ -17,6 +17,7 @@ import {
 	type PublicKeyDocument,
 	type SettingDocument,
 } from '@walless/store';
+import { decode } from 'bs58';
 import {
 	type User,
 	type UserCredential,
@@ -240,9 +241,12 @@ export const storeAuthenticatedRecords = async (
 			);
 			const tezosAddress = await tezosPair.publicKeyHash();
 
+			/**
+			 * Using bs58 to keep format of tezos key string
+			 * */
 			const encryptedTezosKey = await encryptWithPasscode(
 				passcode,
-				Buffer.from(await tezosPair.secretKey(), 'hex'),
+				decode(await tezosPair.secretKey()),
 			);
 			writePromises.push(
 				modules.storage.put<PrivateKeyDocument>({

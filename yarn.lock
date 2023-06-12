@@ -9537,6 +9537,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@taquito/tzip12@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/tzip12@npm:16.2.0"
+  dependencies:
+    "@taquito/michelson-encoder": ^16.2.0
+    "@taquito/taquito": ^16.2.0
+    "@taquito/tzip16": ^16.2.0
+  checksum: b3f028582df57dbbe03c86105bb59d72d1954975e4c4e6e0832bd0bac4180ea9473e0fc7a2d70c46189548fc56394f08804c7b6579e9bbd5d92115754dbd65ab
+  languageName: node
+  linkType: hard
+
+"@taquito/tzip16@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/tzip16@npm:16.2.0"
+  dependencies:
+    "@taquito/http-utils": ^16.2.0
+    "@taquito/michelson-encoder": ^16.2.0
+    "@taquito/rpc": ^16.2.0
+    "@taquito/taquito": ^16.2.0
+    "@taquito/utils": ^16.2.0
+    bignumber.js: ^9.1.0
+    crypto-js: ^4.1.1
+  checksum: 7cd56226a6c8157b90d514bbd5789aef8ca2f0c5dc0d5d7678a06952f240eb0967e2eb1ff16740a1347504780c6b21b268903ec28a5c5b1175056a98da0fdd55
+  languageName: node
+  linkType: hard
+
 "@taquito/utils@npm:^16.2.0":
   version: 16.2.0
   resolution: "@taquito/utils@npm:16.2.0"
@@ -10853,6 +10879,9 @@ __metadata:
     "@mysten/sui.js": 0.34.0
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
+    "@taquito/taquito": ^16.2.0
+    "@taquito/tzip12": ^16.2.0
+    "@taquito/tzip16": ^16.2.0
     "@walless/core": "*"
     "@walless/graphql": "*"
     "@walless/network": "*"
@@ -14622,7 +14651,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:^4.0.0":
+"crypto-js@npm:^4.0.0, crypto-js@npm:^4.1.1":
   version: 4.1.1
   resolution: "crypto-js@npm:4.1.1"
   checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
@@ -27416,8 +27445,6 @@ __metadata:
     "@graphql-codegen/typescript": ^4.0.0
     "@graphql-codegen/typescript-resolvers": ^4.0.0
     "@jest/globals": ^29.4.3
-    "@taquito/signer": ^16.2.0
-    "@taquito/taquito": ^16.2.0
     "@types/chrome": ^0.0.231
     "@types/lodash": ^4.14.191
     "@types/node": ^17.0.12

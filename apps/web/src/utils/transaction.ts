@@ -14,7 +14,12 @@ import {
 	TransactionMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
-import { type Token, type TransactionPayload, Networks } from '@walless/core';
+import {
+	type TezosTransaction,
+	type Token,
+	type TransactionPayload,
+	Networks,
+} from '@walless/core';
 import { modules } from '@walless/ioc';
 import { type ResponsePayload, RequestType } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
@@ -96,6 +101,12 @@ export const createAndSend = async (
 			transaction: transaction.serialize(),
 			passcode,
 		});
+	} else if (payload.network == Networks.tezos) {
+		res = await requestHandleTransaction({
+			type: RequestType.TRANSFER_TEZOS_TOKEN,
+			transaction: JSON.stringify(transaction),
+			passcode,
+		});
 	}
 
 	return res as ResponsePayload;
@@ -146,6 +157,15 @@ export const constructTransaction = async ({
 		if (token.metadata?.symbol == 'SUI') {
 			return await constructSendSUITransaction(receiver, amount);
 		}
+	} else if (network == Networks.tezos) {
+		if (token.metadata?.symbol == 'TEZ') {
+			console.log({ token });
+			// Important! amount is actual TEZ value (without decimals)
+			return constructSendTezTransaction(
+				receiver,
+				amount / 10 ** token.account.decimals,
+			);
+		}
 	}
 
 	throw Error('Network or Token is not supported');
@@ -157,6 +177,8 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 			new PublicKey(keyStr);
 			return { valid: true, message: '' };
 		} else if (network == Networks.sui) {
+			return { valid: true, message: '' };
+		} else if (network == Networks.tezos) {
 			return { valid: true, message: '' };
 		}
 		return { valid: false, message: 'Unsupported network ' + network };
@@ -287,4 +309,15 @@ const constructSendSUITransaction = async (
 
 	tx.transferObjects([coin], tx.pure(receiver));
 	return tx;
+};
+
+const constructSendTezTransaction = (
+	receiver: string,
+	amount: number,
+): TezosTransaction => {
+	return {
+		type: 'native',
+		receiver,
+		amount,
+	};
 };

@@ -38,7 +38,7 @@ export const ExploreScreen: FC = () => {
 
 	const handleRemoveLayout = async (extension: ExtensionDocument) => {
 		modules.storage.docRemove<ExtensionDocument>(extension._id);
-		await modalActions.destroy('remove-layout-modal');
+		modalActions.destroy('remove-layout-modal');
 	};
 
 	return (

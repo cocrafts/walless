@@ -1,4 +1,4 @@
-export async function docRemove<T extends object>(
+export async function docRemove<T extends { _deleted?: boolean }>(
 	this: PouchDB.Database,
 	id: string,
 ) {

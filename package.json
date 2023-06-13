@@ -9,6 +9,7 @@
   "scripts": {
     "batch": "node tool/batch",
     "build": "node tool/batch && turbo run build",
+    "deploy": "sst deploy --stage development",
     "dev": "turbo run dev",
     "test": "turbo run test",
     "gen": "node tool/gen",

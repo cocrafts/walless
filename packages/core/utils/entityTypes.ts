@@ -35,7 +35,7 @@ export interface TokenAccount {
 	decimals: number;
 
 	/**
-	 * This attribute use for tezos token identifier
+	 * This attribute is used for tezos token identifier
 	 * (combine with address - smart contract address)
 	 * */
 	tokenId?: number;

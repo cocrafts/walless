@@ -1,29 +1,14 @@
 {
-  "extends": "@walless/tsconfig/next.json",
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/utils/module.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "components/*": [
-        "./src/components/*"
-      ],
-      "pages/*": [
-        "./src/pages/*"
-      ],
-      "utils/*": [
-        "./src/utils/*"
-      ],
-      "state/*": [
-        "./src/state/*"
-      ],
-    }
-  }
+	"extends": "@walless/tsconfig/next.json",
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/module.d.ts"],
+	"exclude": ["node_modules"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"components/*": ["./components/*"],
+			"pages/*": ["./pages/*"],
+			"utils/*": ["./utils/*"],
+			"state/*": ["./state/*"]
+		}
+	}
 }

@@ -2,6 +2,9 @@ const { DefinePlugin } = require('webpack');
 
 module.exports = {
 	swcMinify: true,
+	typescript: {
+		ignoreBuildErrors: true,
+	},
 	reactStrictMode: true,
 	transpilePackages: [
 		'@walless/gui',

@@ -12,14 +12,9 @@ export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	const [_, setRender] = useState({});
 	const containerRef = useRef(null);
 
-	/**
-	 * This effect makes reanimated work
-	 * */
 	useEffect(function updateState() {
+		//  This effect makes reanimated work
 		setRender({});
-	}, []);
-
-	useEffect(() => {
 		modalActions.setContainerRef(containerRef);
 	}, []);
 

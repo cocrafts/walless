@@ -47,7 +47,6 @@ export const loadMarkdown = async (
 		node.children = children.flatMap((child) => (child ? child : []));
 		node.children.sort(compareDocsTree);
 	} else {
-		console.log(fileName);
 		if (fileName == 'index' && _parent) {
 			_parent.content = fs.readFileSync(markdownPath, 'utf-8');
 			return;

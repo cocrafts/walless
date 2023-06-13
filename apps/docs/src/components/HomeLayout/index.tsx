@@ -23,6 +23,7 @@ interface Props {
 export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 	const route = useRouter();
 	const drawerRef = useRef(null);
+	const { responsiveLevel, windowSize } = useSnapshot(dimensionState);
 
 	const node = docsTree.children?.find((node) => node.path === `/${docs}`);
 	let path = `/${docs}`;
@@ -30,19 +31,6 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 		for (const param of params) {
 			path += `/${param}`;
 		}
-	}
-
-	const { responsiveLevel, windowSize } = useSnapshot(dimensionState);
-
-	let scrollPaddingLeft = 20;
-	if (responsiveLevel >= 1) {
-		scrollPaddingLeft = 20;
-	} else if (windowSize.width < 1200) {
-		scrollPaddingLeft = 300;
-	} else if (windowSize.width < 1340) {
-		scrollPaddingLeft = 200;
-	} else if (windowSize.width < 1400) {
-		scrollPaddingLeft = 100;
 	}
 
 	const toggleLeftSideMenu = () => {
@@ -82,7 +70,7 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 						contentContainerStyle={[
 							sharedStyles.container,
 							{
-								paddingLeft: scrollPaddingLeft,
+								paddingLeft: getPaddingLeft(responsiveLevel, windowSize.width),
 							},
 						]}
 					>
@@ -114,5 +102,18 @@ const styles = StyleSheet.create({
 		left: 30,
 	},
 });
+
+const getPaddingLeft = (responsiveLevel: number, windowWidth: number) => {
+	if (responsiveLevel >= 1) {
+		return 20;
+	} else if (windowWidth < 1200) {
+		return 300;
+	} else if (windowWidth < 1340) {
+		return 200;
+	} else if (windowWidth < 1400) {
+		return 100;
+	}
+	return 20;
+};
 
 export default HomeLayout;

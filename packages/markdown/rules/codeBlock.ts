@@ -21,7 +21,7 @@ const codeBlock: ParserRule & ReactOutputRule = {
 						...vs2015['hljs'],
 						backgroundColor: '#161b22',
 						borderRadius: '10px',
-						overflow: 'hidden',
+						overflow: 'scroll',
 						padding: '16px',
 						marginTop: '10px',
 					},

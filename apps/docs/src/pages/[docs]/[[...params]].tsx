@@ -1,4 +1,5 @@
-import { type FC } from 'react';
+import { type FC, Fragment } from 'react';
+import { View } from 'react-native';
 import { type GetStaticPaths, type GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { HomeLayout } from 'src/components';
@@ -6,18 +7,22 @@ import { loadMarkdown } from 'utils/engine';
 import { type DocsTree } from 'utils/types';
 
 interface Props {
-	docsTree: DocsTree;
+	docsTree?: DocsTree;
 }
 
 const Home: FC<Props> = ({ docsTree }) => {
 	const router = useRouter();
 
 	return (
-		<HomeLayout
-			docs={router.query.docs as string}
-			params={router.query.params as string[]}
-			docsTree={docsTree}
-		/>
+		<Fragment>
+			{docsTree && (
+				<HomeLayout
+					docs={router.query.docs as string}
+					params={router.query.params as string[]}
+					docsTree={docsTree}
+				/>
+			)}
+		</Fragment>
 	);
 };
 

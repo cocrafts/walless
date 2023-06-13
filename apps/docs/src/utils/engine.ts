@@ -7,6 +7,7 @@ import { type DocsTree } from './types';
 export const loadMarkdown = async (
 	markdownPath?: string,
 	simplifiedParentPath?: string,
+	_parent?: DocsTree,
 ) => {
 	if (typeof markdownPath == 'undefined')
 		markdownPath = path.join(process.cwd(), 'markdown');
@@ -34,18 +35,23 @@ export const loadMarkdown = async (
 	const stats = fs.statSync(markdownPath);
 	if (stats.isDirectory()) {
 		const childrenNames = fs.readdirSync(markdownPath);
-		node.children = await Promise.all(
+		const children = await Promise.all(
 			childrenNames.map((name) =>
 				loadMarkdown(
 					path.join(markdownPath as string, name),
 					isRoot ? '' : node.path,
+					node,
 				),
 			),
 		);
-
+		node.children = children.flatMap((child) => (child ? child : []));
 		node.children.sort(compareDocsTree);
 	} else {
-		node.content = fs.readFileSync(markdownPath, 'utf-8');
+		console.log(fileName);
+		if (fileName == 'index' && _parent) {
+			_parent.content = fs.readFileSync(markdownPath, 'utf-8');
+			return;
+		} else node.content = fs.readFileSync(markdownPath, 'utf-8');
 	}
 
 	return node;

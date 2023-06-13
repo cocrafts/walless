@@ -2,17 +2,17 @@ import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { type StackContext, NextjsSite } from 'sst/constructs';
 
-import { landingDomainFromStage, sslArn } from './shared';
+import { documentDomainFromStage, sslArn } from './shared';
 
-export const Landing = ({ stack, app }: StackContext) => {
-	const domain = landingDomainFromStage(app.stage);
+export const Document = ({ stack, app }: StackContext) => {
+	const domain = documentDomainFromStage(app.stage);
 	const certificate = Certificate.fromCertificateArn(stack, 'w-cert', sslArn);
 	const hostedZone = HostedZone.fromLookup(stack, 'HostedZone', {
 		domainName: 'walless.io',
 	});
 
-	const site = new NextjsSite(stack as never, 'landing-edge', {
-		path: 'apps/landing',
+	const site = new NextjsSite(stack, 'document-edge', {
+		path: 'apps/docs',
 		timeout: '5 seconds',
 		memorySize: '1024 MB',
 		runtime: 'nodejs18.x',
@@ -28,4 +28,4 @@ export const Landing = ({ stack, app }: StackContext) => {
 	});
 };
 
-export default Landing;
+export default Document;

@@ -1,9 +1,6 @@
-name: Eslint
+name: CD Deploy
 on:
-  pull_request:
-    branches:
-      - "main"
-      - "dev"
+  workflow_dispatch:
 
 jobs:
   release:

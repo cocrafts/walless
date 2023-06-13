@@ -41,7 +41,7 @@ export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
 					);
 				})}
 			</View>
-			<View>
+			<View style={styles.buttonContainer}>
 				<Button
 					style={styles.button}
 					title="Join waitlist"
@@ -66,6 +66,10 @@ const styles = StyleSheet.create({
 	},
 	groupItem: {
 		justifyContent: 'center',
+	},
+	buttonContainer: {
+		width: 256,
+		alignItems: 'flex-end',
 	},
 	button: {
 		paddingHorizontal: 30,

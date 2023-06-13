@@ -8,8 +8,9 @@ export const sharedStyles = StyleSheet.create({
 		paddingHorizontal: 20,
 	},
 	contentContainer: {
-		paddingTop: 40,
-		maxWidth: 1024,
+		width: '100%',
+		paddingTop: 20,
+		maxWidth: 800,
 		marginHorizontal: 'auto',
 	},
 });

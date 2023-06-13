@@ -1,5 +1,4 @@
 import { type FC, Fragment } from 'react';
-import { View } from 'react-native';
 import { type GetStaticPaths, type GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { HomeLayout } from 'src/components';

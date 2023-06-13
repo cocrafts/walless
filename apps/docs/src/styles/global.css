@@ -1,5 +1,4 @@
 ::-webkit-scrollbar {
-    /* 1 */
     background-color: transparent;
 }
 
@@ -11,24 +10,7 @@
     width: 4px;
 }
 
-::-webkit-scrollbar-button {
-    /* 2 */
-}
-::-webkit-scrollbar-track {
-    /* 3 */
-}
-::-webkit-scrollbar-track-piece {
-    /* 4 */
-}
 ::-webkit-scrollbar-thumb {
-    /* 5 */
     border-radius: 10px;
     background-color: gray;
-}
-
-::-webkit-scrollbar-corner {
-    /* 6 */
-}
-::-webkit-resizer {
-    /* 7 */
 }

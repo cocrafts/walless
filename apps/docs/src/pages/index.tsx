@@ -15,7 +15,7 @@ import { type DocsTree } from 'utils/types';
 const AnimatedBox = Animated.createAnimatedComponent(View);
 
 interface Props {
-	docsTree: DocsTree;
+	docsTree?: DocsTree;
 }
 
 const IndexPage: FC<Props> = ({ docsTree }) => {
@@ -38,15 +38,17 @@ const IndexPage: FC<Props> = ({ docsTree }) => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.h1}>Hello tan</Text>
+			<Text style={styles.h1}>Hello Document Page</Text>
 			<AnimatedBox style={[styles.animatedBox, boxStyle]} />
 			<Button onPress={() => handlePress()} title={'Click me!'} />
 
-			<Markdown
-				content={
-					loadContent(docsTree, '/hi') || 'Not found markdown in this path'
-				}
-			/>
+			{docsTree && (
+				<Markdown
+					content={
+						loadContent(docsTree, '/') || 'Not found markdown in this path'
+					}
+				/>
+			)}
 		</View>
 	);
 };

@@ -13,7 +13,7 @@ import {
 } from '@walless/messaging';
 
 import { onKernelMessage } from './handlers/kernel';
-import { requestSourceMap } from './handlers/shared';
+import { requestMap } from './handlers/shared';
 
 const channels = [
 	Channels.ui,
@@ -54,14 +54,27 @@ export const initializeMessaging = async (): Promise<void> => {
 			const handleDisconnect = () => {
 				if (port.name.includes('/')) {
 					const [popupType, requestId] = port.name.split('/');
-					const sourceChannel = requestSourceMap[requestId];
+					const payload = {
+						from: 'walless@kernel',
+						requestId,
+					};
+					const sourceChannel = requestMap[requestId]?.channel;
 					if (popupType === PopupType.REQUEST_CONNECT_POPUP && sourceChannel) {
 						sourceChannel.postMessage({
-							from: 'walless@kernel',
-							requestId,
+							...payload,
 							message: Message.REJECT_REQUEST_CONNECT,
 						});
+					} else if (
+						popupType === PopupType.SIGN_MESSAGE_POPUP &&
+						sourceChannel
+					) {
+						sourceChannel.postMessage({
+							...payload,
+							message: Message.REJECT_REQUEST_SIGN_MESSAGE,
+						});
 					}
+
+					delete requestMap[requestId];
 				}
 				port.onMessage.removeListener(handleInComingMessage);
 				port.onDisconnect.removeListener(handleDisconnect);

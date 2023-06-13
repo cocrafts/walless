@@ -5,6 +5,7 @@ import {
 	RequestType,
 } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
+import { type PayloadOptions } from 'screens/Request/shared';
 
 export const registerMessageHandlers = async () => {
 	// Empty for now
@@ -35,5 +36,19 @@ export const handleRequestConnect = async (
 		encryptedMessenger.send(Channels.kernel, payload);
 	} catch (error) {
 		throw Error('Unable to handle connect request');
+	}
+};
+
+export const handleRequestSignMessage = async (options: PayloadOptions) => {
+	const payload: MessagePayload = {
+		from: PopupType.SIGN_MESSAGE_POPUP,
+		type: RequestType.RESOLVE_REQUEST_SIGN_MESSAGE,
+		...options,
+	};
+
+	try {
+		return await encryptedMessenger.request(Channels.kernel, payload, 10000);
+	} catch (error) {
+		throw Error('Unable to handle sign message request');
 	}
 };

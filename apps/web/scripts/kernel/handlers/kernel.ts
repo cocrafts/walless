@@ -14,6 +14,10 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			solanaHandler.getEndpoint(payload, channel);
 		} else if (payload.type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
 			solanaHandler.handleSignMessage(payload, channel);
+		} else if (payload.type === RequestType.REQUEST_PAYLOAD) {
+			solanaHandler.handleRequestPayload(payload, channel);
+		} else if (payload.type === RequestType.RESOLVE_REQUEST_SIGN_MESSAGE) {
+			solanaHandler.handleResolveSignMessage(payload, channel);
 		} else if (payload.type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {
 			solanaHandler.handleSignTransaction(payload, channel);
 		} else if (payload.type === RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA) {

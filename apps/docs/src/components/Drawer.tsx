@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import { type ReactElement, forwardRef, useImperativeHandle } from 'react';
 import { type ViewProps, StyleSheet, View } from 'react-native';
 import {
@@ -49,6 +48,8 @@ export const Drawer = forwardRef<DrawerType, DrawerProps>(
 		);
 	},
 );
+
+Drawer.displayName = 'Drawer';
 
 const menuWidth = 300;
 

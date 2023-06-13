@@ -1,9 +1,11 @@
 import { type FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Anchor, Button, View } from '@walless/gui';
+import { Anchor, Button, dimensionState, Hoverable, View } from '@walless/gui';
+import { Menu } from '@walless/icons';
 import { resources } from 'utils/config';
 import { getDefaultNode } from 'utils/content';
 import { type DocsTree } from 'utils/types';
+import { useSnapshot } from 'valtio';
 
 import NavigationItem from './Item';
 
@@ -13,6 +15,8 @@ interface Props {
 }
 
 export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
+	const { responsiveLevel } = useSnapshot(dimensionState);
+
 	const docsList = docsTree.children?.map((doc) => {
 		const link = getDefaultNode(doc)?.path;
 		return {
@@ -27,25 +31,40 @@ export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
 			<Anchor href="https://walless.io/">
 				<Image source={resources.walless.horizontalLogo} style={styles.logo} />
 			</Anchor>
-			<View horizontal style={styles.groupItem}>
-				{docsList?.map((doc) => {
-					const isActive = doc.path === `/${docs}`;
 
-					return (
-						<NavigationItem
-							key={doc.name}
-							isActive={isActive}
-							title={doc.name}
-							href={doc.link as string}
-						/>
-					);
-				})}
+			{responsiveLevel < 1 && (
+				<View horizontal style={styles.groupItem}>
+					{docsList?.map((doc) => {
+						return (
+							<NavigationItem
+								key={doc.name}
+								isActive={doc.path === `/${docs}`}
+								title={doc.name}
+								href={doc.link as string}
+							/>
+						);
+					})}
+				</View>
+			)}
+
+			<View style={styles.rightContainer}>
+				<Button
+					style={styles.joinButton}
+					title="Join waitlist"
+					titleStyle={styles.joinButtonTitle}
+				/>
+
+				{responsiveLevel >= 1 && (
+					<Hoverable
+						style={styles.menuButton}
+						onPress={() => {
+							console.log('hello onpress');
+						}}
+					>
+						<Menu />
+					</Hoverable>
+				)}
 			</View>
-			<Button
-				style={styles.button}
-				title="Join waitlist"
-				titleStyle={styles.buttonTitle}
-			/>
 		</View>
 	);
 };
@@ -65,13 +84,21 @@ const styles = StyleSheet.create({
 	groupItem: {
 		justifyContent: 'center',
 	},
-	button: {
+	rightContainer: {
+		flexDirection: 'row',
+		gap: 20,
+	},
+	joinButton: {
 		paddingHorizontal: 30,
 		paddingVertical: 8,
 		borderRadius: 12,
 	},
-	buttonTitle: {
+	joinButtonTitle: {
 		fontWeight: '500',
 		fontSize: 14,
+	},
+	menuButton: {
+		justifyContent: 'center',
+		paddingHorizontal: 6,
 	},
 });

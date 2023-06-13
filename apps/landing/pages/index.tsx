@@ -1,5 +1,5 @@
 import HomeLayout from 'components/layouts/Home';
-import EditTool from 'features/home/EditTool';
+import EasyOnboarding from 'features/home/EasyOnboarding';
 import ExtensionDownload from 'features/home/ExtensionDownload';
 import HeadingSection from 'features/home/HeadingSection';
 
@@ -7,8 +7,8 @@ export const IndexPage = () => {
 	return (
 		<HomeLayout>
 			<HeadingSection />
+			<EasyOnboarding />
 			<ExtensionDownload />
-			<EditTool />
 		</HomeLayout>
 	);
 };

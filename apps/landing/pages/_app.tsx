@@ -4,6 +4,8 @@ import { GuiProvider } from '@walless/ui';
 import SEOHead from 'components/SEOHead';
 import { type AppProps } from 'next/app';
 
+import 'raf/polyfill';
+
 import config from '../tamagui.config';
 
 import '@tamagui/core/reset.css';

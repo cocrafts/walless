@@ -1,3 +1,3 @@
-# Sanbox wallet
+# Sandbox wallet
 
 Up coming

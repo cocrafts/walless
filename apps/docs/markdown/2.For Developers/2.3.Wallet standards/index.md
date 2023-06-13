@@ -1,3 +1,3 @@
-# Simple integration with walless
+# Wallet standards
 
 Up coming

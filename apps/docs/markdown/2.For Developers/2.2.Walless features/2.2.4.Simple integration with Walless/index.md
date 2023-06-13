@@ -1,3 +1,3 @@
-# Sandbox wallet
+# Simple integration with Walless
 
 Up coming

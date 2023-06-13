@@ -1,4 +1,4 @@
-import { type FC, Fragment, useRef } from 'react';
+import { type FC, useRef } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { dimensionState, View } from '@walless/gui';
 import Markdown from '@walless/markdown';
@@ -8,6 +8,9 @@ import { sharedStyles } from 'utils/style';
 import { type DocsTree } from 'utils/types';
 import { useSnapshot } from 'valtio';
 
+import { type DrawerType, Drawer } from '../Drawer';
+
+import LeftMenu from './LeftMenu';
 import SideNavigation from './SideNavigation';
 import TopNavigation from './TopNavigation';
 
@@ -19,6 +22,7 @@ interface Props {
 
 export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 	const route = useRouter();
+	const drawerRef = useRef(null);
 
 	const node = docsTree.children?.find((node) => node.path === `/${docs}`);
 	let path = `/${docs}`;
@@ -41,16 +45,34 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 		scrollPaddingLeft = 100;
 	}
 
+	const toggleLeftSideMenu = () => {
+		if (drawerRef.current) (drawerRef.current as DrawerType).toggleMenu();
+	};
+
 	return (
-		<Fragment>
+		<Drawer
+			ref={drawerRef}
+			Component={
+				<LeftMenu
+					nodes={docsTree?.children as DocsTree[]}
+					params={params}
+					onPressItem={toggleLeftSideMenu}
+				/>
+			}
+		>
 			{route.isFallback ? (
 				<ActivityIndicator />
 			) : (
 				<View style={styles.container}>
 					<View style={[sharedStyles.container, styles.navigationContainer]}>
-						<TopNavigation docs={docs} docsTree={docsTree} />
+						<TopNavigation
+							docs={docs}
+							docsTree={docsTree}
+							onPressMenu={toggleLeftSideMenu}
+						/>
 						{responsiveLevel < 1 && (
 							<SideNavigation
+								containerStyle={styles.smallSideNavigationStyle}
 								nodes={node?.children as DocsTree[]}
 								params={params}
 							/>
@@ -72,7 +94,7 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 					</ScrollView>
 				</View>
 			)}
-		</Fragment>
+		</Drawer>
 	);
 };
 
@@ -85,6 +107,11 @@ const styles = StyleSheet.create({
 	},
 	markdownContainer: {
 		marginBottom: 100,
+	},
+	smallSideNavigationStyle: {
+		position: 'absolute',
+		top: 130,
+		left: 30,
 	},
 });
 

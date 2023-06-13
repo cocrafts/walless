@@ -18,14 +18,14 @@ export const appState = proxy<AppState>({
 	tools: {
 		target: null,
 		project: {
-			name: 'Solana',
+			name: 'Tezos',
 			description:
 				'Powerful for developers, fast for everyone. Very low, and consistent transaction fees.',
-			logo: '/img/preview/solana-logo.png',
+			logo: '/img/network/tezos-icon-sm.png',
 			banner: '/img/preview/solana-banner.png',
 		},
 		detail: {
-			networks: [Networks.solana],
+			networks: [Networks.tezos],
 			tokens: {},
 			collectibles: {},
 			icon: '/img/network/solana-icon-lg.png',

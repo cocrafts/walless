@@ -26,10 +26,7 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 			<View style={sharedStyles.container}>
 				<TopNavigation docs={docs} docsTree={docsTree} />
 			</View>
-			<ScrollView
-				contentContainerStyle={sharedStyles.container}
-				showsVerticalScrollIndicator={false}
-			>
+			<ScrollView contentContainerStyle={sharedStyles.container}>
 				<Content docsTree={docsTree} docs={docs} params={params} />
 			</ScrollView>
 		</View>
@@ -38,7 +35,7 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		height: '100vh',
+		height: '99vh',
 	},
 });
 

@@ -41,13 +41,11 @@ export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
 					);
 				})}
 			</View>
-			<View style={styles.buttonContainer}>
-				<Button
-					style={styles.button}
-					title="Join waitlist"
-					titleStyle={styles.buttonTitle}
-				/>
-			</View>
+			<Button
+				style={styles.button}
+				title="Join waitlist"
+				titleStyle={styles.buttonTitle}
+			/>
 		</View>
 	);
 };
@@ -58,26 +56,22 @@ const styles = StyleSheet.create({
 	container: {
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 20,
+		paddingVertical: 10,
 	},
 	logo: {
-		width: 256,
-		aspectRatio: 128 / 15,
+		width: 160,
+		aspectRatio: 128 / 14,
 	},
 	groupItem: {
 		justifyContent: 'center',
 	},
-	buttonContainer: {
-		width: 256,
-		alignItems: 'flex-end',
-	},
 	button: {
 		paddingHorizontal: 30,
-		paddingVertical: 10,
+		paddingVertical: 8,
 		borderRadius: 12,
 	},
 	buttonTitle: {
 		fontWeight: '500',
-		fontSize: 16,
+		fontSize: 14,
 	},
 });

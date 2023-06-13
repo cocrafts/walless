@@ -4,6 +4,8 @@ import Head from 'next/head';
 
 import 'raf/polyfill';
 
+import '../styles/global.css';
+
 export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [_, setRender] = useState({});

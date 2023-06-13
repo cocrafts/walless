@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "@walless/gui": "*",
-        "next": "^13.1.1",
+        "next": "13.4.5",
         "raf": "^3.4.1",
         "react-native": "^0.71.6",
         "react-native-reanimated": "3.1.0",

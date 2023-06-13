@@ -8,8 +8,7 @@ import 'raf/polyfill';
 import '../styles/global.css';
 
 export const App: FC<AppProps> = ({ Component, pageProps }) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [_, setRender] = useState({});
+	const [, setRender] = useState({});
 	const containerRef = useRef(null);
 
 	useEffect(function updateState() {

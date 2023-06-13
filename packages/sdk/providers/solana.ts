@@ -15,11 +15,14 @@ export const requestSignAndSendTransaction = async (
 };
 
 export const requestSignMessage = async (message: string) => {
-	return await sendRequest({
-		from: 'walless@sdk',
-		type: RequestType.SIGN_MESSAGE_ON_SOLANA,
-		message,
-	});
+	return await sendRequest(
+		{
+			from: 'walless@sdk',
+			type: RequestType.SIGN_MESSAGE_ON_SOLANA,
+			message,
+		},
+		60000,
+	);
 };
 
 export const requestSignTransaction = async (transaction: string) => {

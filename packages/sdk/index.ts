@@ -143,7 +143,11 @@ export class Walless extends EventEmitter {
 		}
 
 		const res = await solanaProvider.requestSignMessage(encode(message));
-		return { signature: decode(res.signature) };
+		if (res.signature) {
+			return { signature: decode(res.signature) };
+		} else {
+			throw new Error(res.message);
+		}
 	};
 
 	signMessageOnSui = async (message: Uint8Array): Promise<SignedMessage> => {

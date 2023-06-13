@@ -12,9 +12,10 @@ import NavigationItem from './Item';
 interface Props {
 	docs: string;
 	docsTree: DocsTree;
+	onPressMenu: () => void;
 }
 
-export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
+export const TopNavigation: FC<Props> = ({ docs, docsTree, onPressMenu }) => {
 	const { responsiveLevel } = useSnapshot(dimensionState);
 
 	const docsList = docsTree.children?.map((doc) => {
@@ -55,12 +56,7 @@ export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
 				/>
 
 				{responsiveLevel >= 1 && (
-					<Hoverable
-						style={styles.menuButton}
-						onPress={() => {
-							console.log('hello onpress');
-						}}
-					>
+					<Hoverable style={styles.menuButton} onPress={onPressMenu}>
 						<Menu />
 					</Hoverable>
 				)}

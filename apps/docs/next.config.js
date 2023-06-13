@@ -1,5 +1,7 @@
 const { DefinePlugin } = require('webpack');
+const path = require('path');
 
+/** @type {import('next').NextConfig} */
 module.exports = {
 	swcMinify: true,
 	typescript: {
@@ -24,7 +26,7 @@ module.exports = {
 			},
 		];
 	},
-	webpack: (config, { dev }) => {
+	webpack: (config, { dev, isServer, webpack }) => {
 		config.module.rules.push({
 			test: /\.md$/i,
 			type: 'asset/source',
@@ -48,6 +50,14 @@ module.exports = {
 				__DEV__: dev,
 			}),
 		);
+
+		if (isServer) {
+			config.plugins.push(
+				new webpack.ProvidePlugin({
+					requestAnimationFrame: path.resolve(__dirname, './raf.js'),
+				}),
+			);
+		}
 
 		return config;
 	},

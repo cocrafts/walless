@@ -1,18 +1,23 @@
 import { type FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Anchor, Button, View } from '@walless/gui';
+import { Anchor, Button, dimensionState, Hoverable, View } from '@walless/gui';
+import { Menu } from '@walless/icons';
 import { resources } from 'utils/config';
 import { getDefaultNode } from 'utils/content';
 import { type DocsTree } from 'utils/types';
+import { useSnapshot } from 'valtio';
 
 import NavigationItem from './Item';
 
 interface Props {
 	docs: string;
 	docsTree: DocsTree;
+	onPressMenu: () => void;
 }
 
-export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
+export const TopNavigation: FC<Props> = ({ docs, docsTree, onPressMenu }) => {
+	const { responsiveLevel } = useSnapshot(dimensionState);
+
 	const docsList = docsTree.children?.map((doc) => {
 		const link = getDefaultNode(doc)?.path;
 		return {
@@ -27,26 +32,34 @@ export const TopNavigation: FC<Props> = ({ docs, docsTree }) => {
 			<Anchor href="https://walless.io/">
 				<Image source={resources.walless.horizontalLogo} style={styles.logo} />
 			</Anchor>
-			<View horizontal style={styles.groupItem}>
-				{docsList?.map((doc) => {
-					const isActive = doc.path === `/${docs}`;
 
-					return (
-						<NavigationItem
-							key={doc.name}
-							isActive={isActive}
-							title={doc.name}
-							href={doc.link as string}
-						/>
-					);
-				})}
-			</View>
-			<View style={styles.buttonContainer}>
+			{responsiveLevel < 1 && (
+				<View horizontal style={styles.groupItem}>
+					{docsList?.map((doc) => {
+						return (
+							<NavigationItem
+								key={doc.name}
+								isActive={doc.path === `/${docs}`}
+								title={doc.name}
+								href={doc.link as string}
+							/>
+						);
+					})}
+				</View>
+			)}
+
+			<View style={styles.rightContainer}>
 				<Button
-					style={styles.button}
+					style={styles.joinButton}
 					title="Join waitlist"
-					titleStyle={styles.buttonTitle}
+					titleStyle={styles.joinButtonTitle}
 				/>
+
+				{responsiveLevel >= 1 && (
+					<Hoverable style={styles.menuButton} onPress={onPressMenu}>
+						<Menu />
+					</Hoverable>
+				)}
 			</View>
 		</View>
 	);
@@ -58,26 +71,30 @@ const styles = StyleSheet.create({
 	container: {
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 20,
+		paddingVertical: 10,
 	},
 	logo: {
-		width: 256,
-		aspectRatio: 128 / 15,
+		width: 160,
+		aspectRatio: 128 / 14,
 	},
 	groupItem: {
 		justifyContent: 'center',
 	},
-	buttonContainer: {
-		width: 256,
-		alignItems: 'flex-end',
+	rightContainer: {
+		flexDirection: 'row',
+		gap: 20,
 	},
-	button: {
+	joinButton: {
 		paddingHorizontal: 30,
-		paddingVertical: 10,
+		paddingVertical: 8,
 		borderRadius: 12,
 	},
-	buttonTitle: {
+	joinButtonTitle: {
 		fontWeight: '500',
-		fontSize: 16,
+		fontSize: 14,
+	},
+	menuButton: {
+		justifyContent: 'center',
+		paddingHorizontal: 6,
 	},
 });

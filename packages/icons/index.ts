@@ -25,6 +25,7 @@ export { Heart } from './components/Heart';
 export { IdCard } from './components/IdCard';
 export { LinkedIn } from './components/LinkedIn';
 export { Mail } from './components/Mail';
+export { Menu } from './components/Menu';
 export { Message } from './components/Message';
 export { Plus } from './components/Plus';
 export { Search } from './components/Search';

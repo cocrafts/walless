@@ -7,10 +7,11 @@ import {
 	selectors,
 } from '@walless/store';
 
-import { handleClosePopup, handleOpenPopup, requestSourceMap } from './shared';
+import { handleClosePopup, handleOpenPopup, requestMap } from './shared';
 
 export const handleConnect: MessengerCallback = async (payload, channel) => {
-	const { onlyIfTrusted, domain } = (payload.options as ConnectOptions) || {};
+	const { options = {}, requestId = '' } = payload;
+	const { onlyIfTrusted, domain } = options as ConnectOptions;
 
 	const domainResponse = await modules.storage.find(selectors.trustedDomains);
 	const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
@@ -31,16 +32,25 @@ export const handleConnect: MessengerCallback = async (payload, channel) => {
 		}
 	}
 
-	requestSourceMap[payload.requestId] = channel;
-	await handleOpenPopup(PopupType.REQUEST_CONNECT_POPUP, payload.requestId);
+	const popup = await handleOpenPopup(
+		PopupType.REQUEST_CONNECT_POPUP,
+		requestId,
+	);
+
+	requestMap[requestId] = {
+		channel,
+		payload,
+		popup,
+		resolve: false,
+	};
 };
 
 export const handleResolveConnect: MessengerCallback = async (payload) => {
-	const { requestId } = payload;
-	const sourceChannel = requestSourceMap[requestId];
-	if (sourceChannel) {
+	const { requestId = '' } = payload;
+	const requestSource = requestMap[requestId];
+	if (!requestSource?.resolve) {
 		if (!payload.isApproved) {
-			sourceChannel.postMessage({
+			requestSource.channel.postMessage({
 				from: 'walless@kernel',
 				requestId,
 				message: Message.REJECT_REQUEST_CONNECT,
@@ -52,13 +62,13 @@ export const handleResolveConnect: MessengerCallback = async (payload) => {
 				(key) => key.network === Networks.solana,
 			);
 
-			sourceChannel.postMessage({
+			requestSource.channel.postMessage({
 				from: 'walless@kernel',
 				requestId,
 				publicKeys: [solanaPublicKeys],
 			});
 		}
-		delete requestSourceMap[requestId];
+		requestSource.resolve = true;
 		handleClosePopup(requestId);
 	}
 };

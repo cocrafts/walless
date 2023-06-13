@@ -21304,7 +21304,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:13.4.5":
+"next@npm:13.4.5, next@npm:^13.1.1":
   version: 13.4.5
   resolution: "next@npm:13.4.5"
   dependencies:

@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { type SlideOption, Slider } from '@walless/gui';
 import { type ResponsePayload } from '@walless/messaging';
-import { handleRequestSignMessage } from 'bridge/listeners';
+import { handleRequestSignature } from 'bridge/listeners';
 
 import { type PayloadOptions } from '../shared';
 
@@ -19,7 +19,7 @@ export const RequestSignature = () => {
 	});
 
 	const handleDenyRequest = () => {
-		handleRequestSignMessage(options.current);
+		handleRequestSignature(options.current);
 	};
 
 	const handleApproveRequest = () => {
@@ -32,7 +32,7 @@ export const RequestSignature = () => {
 	): Promise<ResponsePayload> => {
 		options.current.passcode = passcode;
 
-		return await handleRequestSignMessage(options.current);
+		return await handleRequestSignature(options.current);
 	};
 
 	const sliderItems: SlideOption[] = [

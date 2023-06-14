@@ -58,7 +58,7 @@ export const router = createRouter([
 		element: <RequestConnection />,
 	},
 	{
-		path: `/${PopupType.SIGN_MESSAGE_POPUP}/:requestId`,
+		path: `/${PopupType.SIGNATURE_POPUP}/:requestId`,
 		element: <RequestSignature />,
 	},
 	{

@@ -39,10 +39,10 @@ export const handleRequestConnect = async (
 	}
 };
 
-export const handleRequestSignMessage = async (options: PayloadOptions) => {
+export const handleRequestSignature = async (options: PayloadOptions) => {
 	const payload: MessagePayload = {
-		from: PopupType.SIGN_MESSAGE_POPUP,
-		type: RequestType.RESOLVE_REQUEST_SIGN_MESSAGE,
+		from: PopupType.SIGNATURE_POPUP,
+		type: RequestType.RESOLVE_REQUEST_SIGNATURE,
 		...options,
 	};
 

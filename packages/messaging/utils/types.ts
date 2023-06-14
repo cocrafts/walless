@@ -30,6 +30,7 @@ export type MessagePayload = UnknownObject &
 		transaction?: string;
 		options?: unknown;
 		passcode?: string;
+		isApproved?: boolean;
 	};
 
 export type ResponsePayload = UnknownObject &
@@ -38,6 +39,7 @@ export type ResponsePayload = UnknownObject &
 		requestId?: string;
 		responseCode?: ResponseCode;
 		message?: string;
+		signature?: string;
 	};
 
 export interface RequestMetadata {
@@ -101,16 +103,17 @@ export enum RequestType {
 	SIGN_TRANSACTION_ON_SUI,
 	SIGN_MESSAGE_ON_SUI,
 	RESOLVE_REQUEST_CONNECT,
-	RESOLVE_REQUEST_SIGN_MESSAGE,
+	RESOLVE_REQUEST_SIGNATURE,
 	REQUEST_PAYLOAD,
 }
 
 export enum PopupType {
 	REQUEST_CONNECT_POPUP = 'request-connect-popup',
-	SIGN_MESSAGE_POPUP = 'request-sign-message-popup',
+	SIGNATURE_POPUP = 'request-signature-popup',
 }
 
 export enum Message {
 	REJECT_REQUEST_CONNECT = 'Connect request has been rejected',
 	REJECT_REQUEST_SIGN_MESSAGE = 'Sign message request has been rejected',
+	REJECT_REQUEST_SIGN_TRANSACTION = 'Sign transaction request has been rejected',
 }

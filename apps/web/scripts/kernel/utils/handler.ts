@@ -17,11 +17,11 @@ export const triggerActionToGetPrivateKey = async () => {
 		const response = await modules.storage.find(selectors.solanaKeys);
 		const [publicKey] = response.docs as PublicKeyDocument[];
 		const encryptedKey = await modules.storage.safeGet<PrivateKeyDocument>(
-			publicKey._id,
+			publicKey.privateKeyId,
 		);
 
 		return await decryptWithPasscode(
-			'123456',
+			'111111',
 			encryptedKey as PrivateKeyRecord,
 		);
 	} catch (error) {

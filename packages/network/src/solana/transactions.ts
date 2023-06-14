@@ -6,6 +6,7 @@ import {
 	Transaction,
 	VersionedTransaction,
 } from '@solana/web3.js';
+import { decode } from 'bs58';
 import { sign } from 'tweetnacl';
 
 export const signMessage = (message: Uint8Array, privateKey: Uint8Array) => {
@@ -46,4 +47,14 @@ export const signAndSendTransaction = async (
 		console.log('error', error);
 		throw Error(error as never);
 	}
+};
+
+export const simulateTransaction = async (
+	connection: Connection,
+	transaction: string,
+) => {
+	const tx = VersionedTransaction.deserialize(decode(transaction));
+
+	const simulatedTx = await connection.simulateTransaction(tx);
+	console.log(simulatedTx, '<-----');
 };

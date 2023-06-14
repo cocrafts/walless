@@ -64,10 +64,7 @@ export const initializeMessaging = async (): Promise<void> => {
 							...payload,
 							message: Message.REJECT_REQUEST_CONNECT,
 						});
-					} else if (
-						popupType === PopupType.SIGN_MESSAGE_POPUP &&
-						sourceChannel
-					) {
+					} else if (popupType === PopupType.SIGNATURE_POPUP && sourceChannel) {
 						sourceChannel.postMessage({
 							...payload,
 							message: Message.REJECT_REQUEST_SIGN_MESSAGE,

@@ -20,7 +20,7 @@ export const appState = proxy<AppState>({
 		project: {
 			name: 'Tezos',
 			description:
-				'Powerful for developers, fast for everyone. Very low, and consistent transaction fees.',
+				'Tezos is an open-source blockchain that can execute peer-to-peer transactions and serve as a platform for deploying smart contracts.',
 			logo: '/img/network/tezos-icon-sm.png',
 			banner: '/img/preview/solana-banner.png',
 		},

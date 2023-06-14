@@ -126,9 +126,13 @@ export class Walless extends EventEmitter {
 			encode(transaction.serialize()),
 		);
 
-		return VersionedTransaction.deserialize(
-			decode(res.signedTransaction),
-		) as never;
+		if (res.signedTransaction) {
+			return VersionedTransaction.deserialize(
+				decode(res.signedTransaction),
+			) as never;
+		} else {
+			throw new Error(res.message as string);
+		}
 	};
 
 	signAllTransactionsOnSolana: SignAllFunc = (transactions) => {

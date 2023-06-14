@@ -24,13 +24,13 @@ export const RequestSignatureApproval: FC<Props> = ({ onDeny, onApprove }) => {
 	const { requestId } = useParams();
 	const [payload, setPayload] = useState<MessagePayload>();
 	useEffect(() => {
-		initializeKernelConnect(`${PopupType.SIGN_MESSAGE_POPUP}/${requestId}`);
+		initializeKernelConnect(`${PopupType.SIGNATURE_POPUP}/${requestId}`);
 	}, []);
 
 	useEffect(() => {
 		encryptedMessenger
 			.request(Channels.kernel, {
-				from: PopupType.SIGN_MESSAGE_POPUP,
+				from: PopupType.SIGNATURE_POPUP,
 				type: RequestType.REQUEST_PAYLOAD,
 				requestId,
 			})
@@ -82,7 +82,11 @@ export const RequestSignatureApproval: FC<Props> = ({ onDeny, onApprove }) => {
 						<AlertCircle size={18} color="#566674" />
 					</Stack>
 					<LightText paddingHorizontal={15} paddingBottom={15} fontSize={14}>
-						{payload ? payload?.message : <ActivityIndicator />}
+						{payload ? (
+							payload?.message || payload?.transaction
+						) : (
+							<ActivityIndicator />
+						)}
 					</LightText>
 				</Stack>
 

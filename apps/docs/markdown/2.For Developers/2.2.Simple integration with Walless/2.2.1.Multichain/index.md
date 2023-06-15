@@ -1,4 +1,4 @@
-#Introduction
+# Multichain
 
 Mirror World Smart Platform was built to simplify the process of building Multi-Chain Web3 Web and Mobile applications for high-conversion or even for hobbyists that want to build simple applications. We offers easy-to-use APIs and cross-platform SDKs around 6 main solutions:
 

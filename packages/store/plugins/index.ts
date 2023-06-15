@@ -1,3 +1,4 @@
+import { clear } from './clear';
 import { docRemove } from './delete';
 import { safeGet } from './get';
 import { upsert } from './upsert';
@@ -8,4 +9,5 @@ export default {
 	upsert,
 	safeGet,
 	docRemove,
+	clear,
 };

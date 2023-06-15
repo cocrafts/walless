@@ -5,8 +5,11 @@ import { Text, View } from '@walless/gui';
 import { type ResponsePayload, ResponseCode } from '@walless/messaging';
 import { resources } from 'utils/config';
 
+import { Header } from './Header';
+
 interface Props {
 	activeId: number;
+	goBack?: () => void;
 	onPasscodeComplete: (passcode: string) => Promise<{
 		responseCode?: ResponseCode;
 		message?: string;
@@ -15,11 +18,18 @@ interface Props {
 
 export const RequestSignaturePasscode: FC<Props> = ({
 	activeId,
+	goBack,
 	onPasscodeComplete,
 }) => {
 	const [error, setError] = useState('');
 	const [passcode, setPasscode] = useState('');
 	const [renderPasscode, setRenderPasscode] = useState(false);
+
+	const handleBack = () => {
+		goBack?.();
+		setPasscode('');
+		setError('');
+	};
 
 	const onPasscodeChange = async (value: string, isCompleted?: boolean) => {
 		setPasscode(value);
@@ -47,7 +57,7 @@ export const RequestSignaturePasscode: FC<Props> = ({
 
 	return (
 		<View style={styles.container}>
-			{/* <Header onBack={handleBack} /> */}
+			<Header onBack={handleBack} />
 
 			<Image style={styles.icon} source={resources.walless.icon} />
 			<View style={styles.titleBlock}>
@@ -76,6 +86,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		gap: 40,
+		paddingVertical: 20,
 	},
 	icon: {
 		width: 120,

@@ -91,6 +91,7 @@ export enum ResponseCode {
 	REQUIRE_PASSCODE,
 	WRONG_PASSCODE,
 	ERROR,
+	REJECTED,
 }
 
 export enum RequestType {
@@ -112,8 +113,7 @@ export enum PopupType {
 	SIGNATURE_POPUP = 'request-signature-popup',
 }
 
-export enum Message {
+export enum ResponseMessage {
 	REJECT_REQUEST_CONNECT = 'Connect request has been rejected',
-	REJECT_REQUEST_SIGN_MESSAGE = 'Sign message request has been rejected',
-	REJECT_REQUEST_SIGN_TRANSACTION = 'Sign transaction request has been rejected',
+	REJECT_COMMON_REQUEST = 'Request has been rejected by user',
 }

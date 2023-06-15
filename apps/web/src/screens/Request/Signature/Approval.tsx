@@ -10,6 +10,7 @@ import {
 } from '@walless/messaging';
 import { Button, Image, Stack, Text } from '@walless/ui';
 import { encryptedMessenger } from 'bridge/utils/messaging';
+import { decode } from 'bs58';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 
@@ -35,7 +36,14 @@ export const RequestSignatureApproval: FC<Props> = ({ onDeny, onApprove }) => {
 				requestId,
 			})
 			.then((result) => {
-				setPayload(result as MessagePayload);
+				try {
+					const displayMessage = new TextDecoder().decode(
+						decode(result.message),
+					);
+					setPayload({ ...result, message: displayMessage } as MessagePayload);
+				} catch (err) {
+					console.log(err);
+				}
 			});
 	}, [requestId]);
 

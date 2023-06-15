@@ -50,6 +50,7 @@ export const RequestSignature = () => {
 			component: () => (
 				<RequestSignaturePasscode
 					activeId={activeIndex}
+					goBack={() => setActiveIndex(0)}
 					onPasscodeComplete={handleResovleRequest}
 				/>
 			),

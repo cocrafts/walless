@@ -46,7 +46,10 @@ export const setProfile = async (profile: UserProfile) => {
 		doc.type = 'Setting';
 		doc.version = '0.0.1';
 		doc.profile = profile;
-		doc.config = { hideBalance: true };
+		doc.config = {
+			hideBalance: true,
+			latestLocation: '/',
+		};
 
 		return doc;
 	});

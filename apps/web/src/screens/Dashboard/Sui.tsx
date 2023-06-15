@@ -58,7 +58,7 @@ export const SuiDashboard: FC<Props> = () => {
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
-		setPrivacy({ hideBalance: next });
+		setPrivacy(next);
 	};
 
 	return (

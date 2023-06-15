@@ -28,7 +28,7 @@ export const handleRequestConnect = async (
 	const payload: MessagePayload = {
 		from: PopupType.REQUEST_CONNECT_POPUP,
 		type: RequestType.RESOLVE_REQUEST_CONNECT,
-		requestId,
+		sourceRequestId: requestId,
 		isApproved,
 	};
 

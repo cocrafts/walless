@@ -8,12 +8,12 @@ import {
 	Channels,
 	createMessenger,
 	decryptMessage,
-	Message,
 	PopupType,
+	ResponseMessage,
 } from '@walless/messaging';
 
 import { onKernelMessage } from './handlers/kernel';
-import { requestMap } from './handlers/shared';
+import { requestMap } from './utils/shared';
 
 const channels = [
 	Channels.ui,
@@ -62,12 +62,12 @@ export const initializeMessaging = async (): Promise<void> => {
 					if (popupType === PopupType.REQUEST_CONNECT_POPUP && sourceChannel) {
 						sourceChannel.postMessage({
 							...payload,
-							message: Message.REJECT_REQUEST_CONNECT,
+							message: ResponseMessage.REJECT_REQUEST_CONNECT,
 						});
 					} else if (popupType === PopupType.SIGNATURE_POPUP && sourceChannel) {
 						sourceChannel.postMessage({
 							...payload,
-							message: Message.REJECT_REQUEST_SIGN_MESSAGE,
+							message: ResponseMessage.REJECT_COMMON_REQUEST,
 						});
 					}
 

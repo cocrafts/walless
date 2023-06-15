@@ -13,7 +13,7 @@ export const RequestSignature = () => {
 	const { requestId = '' } = useParams();
 	const [activeIndex, setActiveIndex] = useState(0);
 	const options = useRef<PayloadOptions>({
-		requestId,
+		sourceRequestId: requestId,
 		isApproved: false,
 		passcode: '',
 	});
@@ -27,7 +27,7 @@ export const RequestSignature = () => {
 		setActiveIndex(1);
 	};
 
-	const handleResovleRequest = async (
+	const handleResolveRequest = async (
 		passcode: string,
 	): Promise<ResponsePayload> => {
 		options.current.passcode = passcode;
@@ -50,7 +50,7 @@ export const RequestSignature = () => {
 			component: () => (
 				<RequestSignaturePasscode
 					activeId={activeIndex}
-					onPasscodeComplete={handleResovleRequest}
+					onPasscodeComplete={handleResolveRequest}
 				/>
 			),
 		},

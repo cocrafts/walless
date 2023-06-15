@@ -10,10 +10,7 @@ interface RequestContent {
 
 export const requestMap: Record<string, RequestContent> = {};
 
-export const handleOpenPopup = async (
-	popupType: PopupType,
-	requestId: string,
-) => {
+export const openPopup = async (popupType: PopupType, requestId: string) => {
 	return await chrome.windows.create({
 		type: 'popup',
 		width: 410,
@@ -23,7 +20,7 @@ export const handleOpenPopup = async (
 	});
 };
 
-export const handleClosePopup = (requestId: string) => {
+export const closePopup = (requestId: string) => {
 	chrome.windows.remove(requestMap[requestId].popup?.id as number, () => {
 		delete requestMap[requestId];
 	});

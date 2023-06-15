@@ -1,6 +1,7 @@
-import { type Networks } from '@walless/core';
+import { Networks } from '@walless/core';
 import { decryptWithPasscode } from '@walless/crypto';
 import { modules } from '@walless/ioc';
+import { RequestType } from '@walless/messaging';
 import { type PrivateKeyRecord } from '@walless/storage';
 import {
 	type PrivateKeyDocument,
@@ -44,4 +45,10 @@ export const getPrivateKey = async (network: Networks, passcode: string) => {
 	);
 
 	return await decryptWithPasscode(passcode, encryptedKey as never);
+};
+
+export const getNetwork = (requestType: RequestType) => {
+	const typeName = RequestType[requestType];
+	if (typeName.includes('ON_SOLANA')) return Networks.solana;
+	else if (typeName.includes('ON_SUI')) return Networks.sui;
 };

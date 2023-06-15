@@ -9,8 +9,8 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@walless/icons": "*",
         "@walless/gui": "*",
+        "@walless/icons": "*",
         "next": "13.4.5",
         "raf": "^3.4.1",
         "react-native": "^0.71.6",

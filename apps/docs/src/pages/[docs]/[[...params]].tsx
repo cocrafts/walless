@@ -33,7 +33,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 			{
 				params: {
 					docs: 'general',
-					params: ['introduction'],
+					params: [],
 				},
 			},
 		],

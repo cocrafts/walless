@@ -1,3 +1,0 @@
-# Wallet standards
-
-Up coming

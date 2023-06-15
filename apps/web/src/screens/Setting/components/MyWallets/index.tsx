@@ -4,7 +4,7 @@ import { usePublicKeys } from 'utils/hooks';
 
 import Wallet from './Wallet';
 
-const MyWallets = () => {
+export const MyWallets = () => {
 	const solanaKeys = usePublicKeys(Networks.solana);
 	const suiKeys = usePublicKeys(Networks.sui);
 

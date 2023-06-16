@@ -1,10 +1,9 @@
 import { type FC } from 'react';
+import { getTezosMetadata } from '@walless/network';
 import { Image, Stack } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
 import { appState, editToolActions } from 'state/app';
 import { resources } from 'utils/config';
-import { connection } from 'utils/connection';
-import { getLazySolanaMetatadata } from 'utils/solana';
 import { useSnapshot } from 'valtio';
 
 import InputAddress from '../components/InputAddress';
@@ -18,7 +17,10 @@ const EditDetailToken: FC = () => {
 
 	const onTarget = () => editToolActions.setTarget(DetailTool.token);
 	const handleAddToken = async (value: string) => {
-		const tokenMetadata = await getLazySolanaMetatadata(connection, value);
+		const tokenMetadata = await getTezosMetadata(value);
+
+		console.log('Tezos token metadata', tokenMetadata);
+
 		if (tokenMetadata) {
 			editToolActions.setDetailToken(tokenMetadata);
 		}

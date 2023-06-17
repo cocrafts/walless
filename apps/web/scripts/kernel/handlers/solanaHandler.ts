@@ -48,19 +48,9 @@ export const signTransaction: HandleMethod = async ({
 	payload,
 	responseMethod,
 }) => {
-	const connection = modules.engine.getConnection(
-		Networks.solana,
-	) as Connection;
-
 	const keypair = Keypair.fromSecretKey(privateKey);
-
 	const serializedTransaction = decode(payload.transaction as string);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
-
-	transaction.message.recentBlockhash = (
-		await connection.getLatestBlockhash()
-	).blockhash;
-
 	transaction.sign([keypair]);
 
 	responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {

@@ -26,11 +26,13 @@ export const handle = async (
 	requirePrivateKey = true,
 	network?: Networks,
 ) => {
-	const { requestId, sourceRequestId, passcode, isApproved } = payload;
+	const { from, type, requestId, sourceRequestId, passcode, isApproved } =
+		payload;
 	addRequestRecord(requestId, channel, payload);
 
-	if (payload.from == 'walless@sdk') {
-		if (payload.type === RequestType.REQUEST_CONNECT) {
+	if (from == 'walless@sdk') {
+		const requestSource = getRequestRecord(requestId);
+		if (type === RequestType.REQUEST_CONNECT) {
 			const { options = {}, requestId = '' } = payload;
 			const { onlyIfTrusted, domain } = options as ConnectOptions;
 
@@ -43,17 +45,23 @@ export const handle = async (
 				const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
 
 				if (!savedDomain) {
-					return openPopup(PopupType.REQUEST_CONNECT_POPUP, requestId);
+					const { id } = await openPopup(
+						PopupType.REQUEST_CONNECT_POPUP,
+						requestId,
+					);
+					requestSource.payload['popupId'] = id;
 				} else if (!savedDomain.trusted) {
 					return response(requestId, ResponseCode.REJECTED, {
-						message: ResponseMessage.REJECT_COMMON_REQUEST,
+						message: ResponseMessage.REJECT_REQUEST_CONNECT,
 					});
 				}
 			}
 		} else {
-			return openPopup(PopupType.SIGNATURE_POPUP, requestId);
+			const { id } = await openPopup(PopupType.SIGNATURE_POPUP, requestId);
+			requestSource.payload['popupId'] = id;
 		}
-	} else if (payload.from === PopupType.REQUEST_CONNECT_POPUP) {
+		return;
+	} else if (from === PopupType.REQUEST_CONNECT_POPUP) {
 		/**
 		 * Forwarded request
 		 * */
@@ -61,12 +69,13 @@ export const handle = async (
 			response(sourceRequestId, ResponseCode.REJECTED, {
 				message: ResponseMessage.REJECT_REQUEST_CONNECT,
 			});
-			return removeRequestRecord(payload.requestId);
+
+			return removeRequestRecord(requestId);
 		}
 
 		// Forward payload from source request to current request
 		payload = getRequestRecord(sourceRequestId).payload;
-	} else if (payload.from === PopupType.SIGNATURE_POPUP) {
+	} else if (from === PopupType.SIGNATURE_POPUP) {
 		/**
 		 * Forwarded request
 		 * */
@@ -74,7 +83,8 @@ export const handle = async (
 			response(sourceRequestId, ResponseCode.REJECTED, {
 				message: ResponseMessage.REJECT_COMMON_REQUEST,
 			});
-			return removeRequestRecord(payload.requestId);
+
+			return removeRequestRecord(requestId);
 		}
 
 		// Forward payload from source request to current request
@@ -97,5 +107,19 @@ export const handle = async (
 		privateKey: privateKey || new Uint8Array(),
 		payload: payload,
 		responseMethod: response,
+	});
+};
+
+export const handleRequestPayload = (
+	payload: UnknownObject,
+	channel: MiniBroadcast,
+) => {
+	const { sourceRequestId, requestId } = payload;
+	const { payload: sourcePayload } = getRequestRecord(sourceRequestId);
+	return channel.postMessage({
+		...sourcePayload,
+		from: 'walless@kernel',
+		requestId,
+		responseCode: ResponseCode.SUCCESS,
 	});
 };

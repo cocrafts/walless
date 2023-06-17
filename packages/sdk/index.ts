@@ -56,6 +56,7 @@ export class Walless extends EventEmitter {
 
 		const response = await mutualProvider.requestConnect({
 			...options,
+			onlyIfTrusted: options?.onlyIfTrusted || true, // set default onlyIfTrusted to true because options from wallet-standard seem not work
 			domain: hostName,
 		} as ConnectOptions);
 

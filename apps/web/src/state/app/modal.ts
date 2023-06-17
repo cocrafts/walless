@@ -22,7 +22,7 @@ export const showReceiveModal = (layoutNetWork: Networks) => {
 	});
 };
 
-export const showSendModal = (layoutNetwork: Networks) => {
+export const showSendModal = (layoutNetwork?: Networks) => {
 	modalActions.show({
 		id: 'send-token',
 		bindingDirection: BindDirections.InnerBottom,

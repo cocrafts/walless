@@ -24,11 +24,11 @@ interface Props {
 	variant?: string;
 }
 
-export const SolanaDashboard: FC<Props> = () => {
+export const TezosDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { setting, setPrivacy } = useSettings();
-	const tokens = useTokens(Networks.solana);
-	const publicKeys = usePublicKeys(Networks.solana);
+	const tokens = useTokens(Networks.tezos);
+	const publicKeys = usePublicKeys(Networks.tezos);
 	const bottomSliderItems: SlideOption[] = [
 		{
 			id: 'tokens',
@@ -54,11 +54,11 @@ export const SolanaDashboard: FC<Props> = () => {
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal(Networks.solana);
+		appActions.showSendModal(Networks.tezos);
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
-		setPrivacy(next);
+		setPrivacy({ hideBalance: next });
 	};
 
 	return (
@@ -70,7 +70,7 @@ export const SolanaDashboard: FC<Props> = () => {
 							key={index}
 							index={index}
 							item={item}
-							skin={suiCardSkin}
+							skin={tezosCardSkin}
 							hideBalance={setting.hideBalance}
 							onCopyAddress={handleCopyAddress}
 							onChangePrivateSetting={handleChangePrivateSetting}
@@ -104,13 +104,12 @@ export const SolanaDashboard: FC<Props> = () => {
 	);
 };
 
-export default SolanaDashboard;
+export default TezosDashboard;
 
-const suiCardSkin: CardSkin = {
-	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },
-	largeIconSrc: { uri: '/img/network/solana-icon-lg.png' },
-	iconSrc: { uri: '/img/network/solana-icon-sm.png' },
-	iconColor: '#000000',
+const tezosCardSkin: CardSkin = {
+	backgroundSrc: { uri: 'https://tezos.com/brand/CoinsTezos1.png' },
+	iconSrc: { uri: '/img/network/tezos-icon-sm.png' },
+	iconColor: '#2D7DF8',
 	iconSize: 16,
 };
 

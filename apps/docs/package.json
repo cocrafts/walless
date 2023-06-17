@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@walless/icons": "*",
         "@walless/gui": "*",
         "@walless/icons": "*",
         "next": "13.4.5",

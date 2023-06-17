@@ -33,6 +33,10 @@ export const Information: FC<Props> = () => {
 		iconUri.uri = 'img/network/sui-icon-sm.png';
 		networkStr = 'SUI';
 		feeStr = `${transactionFee} SUI`;
+	} else if (publicKey?.network == Networks.tezos) {
+		iconUri.uri = 'img/network/tezos-icon-sm.png';
+		networkStr = 'Tezos';
+		feeStr = `${transactionFee} TEZ`;
 	}
 
 	return (

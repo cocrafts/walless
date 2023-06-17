@@ -8037,6 +8037,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stablelib/blake2b@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@stablelib/blake2b@npm:1.0.1"
+  dependencies:
+    "@stablelib/binary": ^1.0.1
+    "@stablelib/hash": ^1.0.1
+    "@stablelib/wipe": ^1.0.1
+  checksum: 6bf19dc8381ea1bb288a14fd7dd0af3c634353d37619865db04fd2493a3a00a3be0ee1c477beefd9ff8fb5eadf7fab01ba5ead1e8745085e7095f5b49b09e5c2
+  languageName: node
+  linkType: hard
+
 "@stablelib/bytes@npm:^1.0.1":
   version: 1.0.1
   resolution: "@stablelib/bytes@npm:1.0.1"
@@ -8072,6 +8083,17 @@ __metadata:
   version: 1.0.1
   resolution: "@stablelib/constant-time@npm:1.0.1"
   checksum: dba4f4bf508de2ff15f7f0cbd875e70391aa3ba3698290fe1ed2feb151c243ba08a90fc6fb390ec2230e30fcc622318c591a7c0e35dcb8150afb50c797eac3d7
+  languageName: node
+  linkType: hard
+
+"@stablelib/ed25519@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@stablelib/ed25519@npm:1.0.3"
+  dependencies:
+    "@stablelib/random": ^1.0.2
+    "@stablelib/sha512": ^1.0.1
+    "@stablelib/wipe": ^1.0.1
+  checksum: e18279de078edac67396ba07dbb862dce0fe89efa8141c21a5b04108a29914bd51636019522323ca5097ec596a90b3028ed64e88ee009b0ac7de7c1ab6499ccb
   languageName: node
   linkType: hard
 
@@ -8120,6 +8142,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stablelib/nacl@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@stablelib/nacl@npm:1.0.4"
+  dependencies:
+    "@stablelib/poly1305": ^1.0.1
+    "@stablelib/random": ^1.0.2
+    "@stablelib/wipe": ^1.0.1
+    "@stablelib/x25519": ^1.0.3
+    "@stablelib/xsalsa20": ^1.0.2
+  checksum: 19ba657b2e545f15735dd195b212b4d186b6c2a5dc4034d9c73fe2eaf51fbb32fb077ba9ff902ad3f734ff889cc7400808f6266a89e3c4f6784efc0ab6cbc984
+  languageName: node
+  linkType: hard
+
+"@stablelib/pbkdf2@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@stablelib/pbkdf2@npm:1.0.1"
+  dependencies:
+    "@stablelib/binary": ^1.0.1
+    "@stablelib/hash": ^1.0.1
+    "@stablelib/hmac": ^1.0.1
+    "@stablelib/wipe": ^1.0.1
+  checksum: d1326e5901479f8a8b161c5620cea5fa666fcef5b7c4476d1e4c120a20feb3867a8a4fd84f02c4e09c55ce5f95e937cc0a240158af8d5720fbf357c7a6755bb8
+  languageName: node
+  linkType: hard
+
 "@stablelib/poly1305@npm:^1.0.1":
   version: 1.0.1
   resolution: "@stablelib/poly1305@npm:1.0.1"
@@ -8140,6 +8187,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stablelib/salsa20@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@stablelib/salsa20@npm:1.0.2"
+  dependencies:
+    "@stablelib/binary": ^1.0.1
+    "@stablelib/constant-time": ^1.0.1
+    "@stablelib/wipe": ^1.0.1
+  checksum: e986bc5ab85b2b145f8cde794aaffbf11c614e788811e22b302bfa21f77273e773b9cf617de083233ed3d12f8dfe4af86bf02e12fc840f1fb2a7fb232d867872
+  languageName: node
+  linkType: hard
+
 "@stablelib/sha256@npm:1.0.1":
   version: 1.0.1
   resolution: "@stablelib/sha256@npm:1.0.1"
@@ -8148,6 +8206,17 @@ __metadata:
     "@stablelib/hash": ^1.0.1
     "@stablelib/wipe": ^1.0.1
   checksum: 38669871e1bda72eb537629ebceac1c72da8890273a9fbe088f81f6d14c1ec04e78be8c5b455380a06c67f8e62b2508e11e9063fcc257dbaa1b5c27ac756ba77
+  languageName: node
+  linkType: hard
+
+"@stablelib/sha512@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@stablelib/sha512@npm:1.0.1"
+  dependencies:
+    "@stablelib/binary": ^1.0.1
+    "@stablelib/hash": ^1.0.1
+    "@stablelib/wipe": ^1.0.1
+  checksum: b7c82f7608a35948a2147a534c0c9afc80deab3fd5f72a2e27b2454e7c0c6944d39381be3abcb1b7fac5b824ba030ae3e98209d517a579c143d8ed63930b042f
   languageName: node
   linkType: hard
 
@@ -8166,6 +8235,17 @@ __metadata:
     "@stablelib/random": ^1.0.2
     "@stablelib/wipe": ^1.0.1
   checksum: f8537066b542b6770c1b5b2ae5ad0688d1b986e4bf818067c152c123a5471531987bbf024224f75f387f481ccc5b628e391e49e92102b8b1a3e2d449d6105402
+  languageName: node
+  linkType: hard
+
+"@stablelib/xsalsa20@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@stablelib/xsalsa20@npm:1.0.2"
+  dependencies:
+    "@stablelib/binary": ^1.0.1
+    "@stablelib/salsa20": ^1.0.2
+    "@stablelib/wipe": ^1.0.1
+  checksum: 797b545d008ad32947b680e57ec11ced85787e5cb292b6930b9700765375fb04f16466c0003f089b3ca0668413bb6c532ddf914eaf554281098c25cef6e560bc
   languageName: node
   linkType: hard
 
@@ -9359,6 +9439,148 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@taquito/core@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/core@npm:16.2.0"
+  checksum: 5861b6a01c095de8b513cd594116bc8e249101c422605026f6719cb945e7fa0ac901e121a00e69d2926d5697f4a026eae19ec17283008bf7c0cc4cd1754673bb
+  languageName: node
+  linkType: hard
+
+"@taquito/http-utils@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/http-utils@npm:16.2.0"
+  dependencies:
+    axios: ^0.26.0
+  checksum: 8dfd20312a8a8ca341622c5c6e8b02bd792caadef3fce53c0abe40280767f2b1d72c492124f94efef739c9d7b2f7d9887ba5c866fb8309497dee79fad6896dbc
+  languageName: node
+  linkType: hard
+
+"@taquito/local-forging@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/local-forging@npm:16.2.0"
+  dependencies:
+    "@taquito/core": ^16.2.0
+    "@taquito/utils": ^16.2.0
+    bignumber.js: ^9.1.0
+  checksum: 5d28c0eef1a213fb7a16ea135e07d7ebf6f01ef8145687032a1295825eb5a357611826982cdba07f573c23662e91d16d945de8c9f3d3c82344cf7eb539ffe25b
+  languageName: node
+  linkType: hard
+
+"@taquito/michel-codec@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/michel-codec@npm:16.2.0"
+  dependencies:
+    "@taquito/core": ^16.2.0
+  checksum: 4e35cc0718083155207cdb1fc941525b6b2991d86399e97349d67146fc6ca01ea5d942798d523cd45ce3e9808dc11d037269680bc5d9ed2c0b92c76aa87092e9
+  languageName: node
+  linkType: hard
+
+"@taquito/michelson-encoder@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/michelson-encoder@npm:16.2.0"
+  dependencies:
+    "@taquito/rpc": ^16.2.0
+    "@taquito/utils": ^16.2.0
+    bignumber.js: ^9.1.0
+    fast-json-stable-stringify: ^2.1.0
+  checksum: 78350bea3c631b571303232addc1619444ee6f7ec534817fc23de8039371822928840172eaa5b4a50fe056e74f9886c2dbe297823d4e66eb3886b00de2da3188
+  languageName: node
+  linkType: hard
+
+"@taquito/rpc@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/rpc@npm:16.2.0"
+  dependencies:
+    "@taquito/core": ^16.2.0
+    "@taquito/http-utils": ^16.2.0
+    "@taquito/utils": ^16.2.0
+    bignumber.js: ^9.1.0
+  checksum: 589cd8c223fbd7db75ab53f218a1f752f61bc4ac0cb7be169f71265f5b3e59274c3fd6f67846b6fcb35d515317e0bcd89a360c18935fa3f3549913ae65ac13ed
+  languageName: node
+  linkType: hard
+
+"@taquito/signer@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/signer@npm:16.2.0"
+  dependencies:
+    "@stablelib/blake2b": ^1.0.1
+    "@stablelib/ed25519": ^1.0.3
+    "@stablelib/hmac": ^1.0.1
+    "@stablelib/nacl": ^1.0.4
+    "@stablelib/pbkdf2": ^1.0.1
+    "@stablelib/sha512": ^1.0.1
+    "@taquito/taquito": ^16.2.0
+    "@taquito/utils": ^16.2.0
+    "@types/bn.js": ^5.1.1
+    bip39: 3.0.4
+    elliptic: ^6.5.4
+    pbkdf2: ^3.1.2
+    typedarray-to-buffer: ^4.0.0
+  checksum: c7496b15ee43d80fb62819180dc47619d775c72fe27f9a08e8b020ef2764f130c714d0457f924d370f8ad0d56cbd43ca2f0d2b3e78f4475b279160fc3af21e03
+  languageName: node
+  linkType: hard
+
+"@taquito/taquito@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/taquito@npm:16.2.0"
+  dependencies:
+    "@taquito/core": ^16.2.0
+    "@taquito/http-utils": ^16.2.0
+    "@taquito/local-forging": ^16.2.0
+    "@taquito/michel-codec": ^16.2.0
+    "@taquito/michelson-encoder": ^16.2.0
+    "@taquito/rpc": ^16.2.0
+    "@taquito/utils": ^16.2.0
+    bignumber.js: ^9.1.0
+    rxjs: ^6.6.3
+  checksum: 5672aa6da0548f89774ce42e9eeef99952541560cb55b122cecd678f48e657735ea5f77fed1a6c6f37973cfb088331590b379e89d443c6a4693a7f05af6b913d
+  languageName: node
+  linkType: hard
+
+"@taquito/tzip12@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/tzip12@npm:16.2.0"
+  dependencies:
+    "@taquito/michelson-encoder": ^16.2.0
+    "@taquito/taquito": ^16.2.0
+    "@taquito/tzip16": ^16.2.0
+  checksum: b3f028582df57dbbe03c86105bb59d72d1954975e4c4e6e0832bd0bac4180ea9473e0fc7a2d70c46189548fc56394f08804c7b6579e9bbd5d92115754dbd65ab
+  languageName: node
+  linkType: hard
+
+"@taquito/tzip16@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/tzip16@npm:16.2.0"
+  dependencies:
+    "@taquito/http-utils": ^16.2.0
+    "@taquito/michelson-encoder": ^16.2.0
+    "@taquito/rpc": ^16.2.0
+    "@taquito/taquito": ^16.2.0
+    "@taquito/utils": ^16.2.0
+    bignumber.js: ^9.1.0
+    crypto-js: ^4.1.1
+  checksum: 7cd56226a6c8157b90d514bbd5789aef8ca2f0c5dc0d5d7678a06952f240eb0967e2eb1ff16740a1347504780c6b21b268903ec28a5c5b1175056a98da0fdd55
+  languageName: node
+  linkType: hard
+
+"@taquito/utils@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@taquito/utils@npm:16.2.0"
+  dependencies:
+    "@stablelib/blake2b": ^1.0.1
+    "@stablelib/ed25519": ^1.0.3
+    "@taquito/core": ^16.2.0
+    "@types/bs58check": ^2.1.0
+    bignumber.js: ^9.1.0
+    blakejs: ^1.2.1
+    bs58check: ^2.1.2
+    buffer: ^6.0.3
+    elliptic: ^6.5.4
+    typedarray-to-buffer: ^4.0.0
+  checksum: 509e308dfc8ab937766a4fe6ac7d99555b46f45ab0a115717d24a66e628a3e9015f2c8d00ffeb2bae8c4ce9e5123578ab3b9852138b01ffdf86be17f1a744a29
+  languageName: node
+  linkType: hard
+
 "@tkey/chrome-storage@npm:9.0.0":
   version: 9.0.0
   resolution: "@tkey/chrome-storage@npm:9.0.0"
@@ -9928,6 +10150,15 @@ __metadata:
   dependencies:
     base-x: ^3.0.6
   checksum: 5063fed6bb3816f28eef3e689a05f8f85d03ce7c2e3ceefe77c349ed147023999eb024e863bf3fa81ba2bded690e5296efe4d34864c875097bd261614e37f786
+  languageName: node
+  linkType: hard
+
+"@types/bs58check@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@types/bs58check@npm:2.1.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: 1a54c922b45d0ea6b945cd4700195b58484b488abb8f75ea4882939bbef58bb7351fb0e203bb9e98d242d7abb8e10182277158b60dac97c4b5d422206ab91b86
   languageName: node
   linkType: hard
 
@@ -10648,6 +10879,9 @@ __metadata:
     "@mysten/sui.js": 0.34.0
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
+    "@taquito/taquito": ^16.2.0
+    "@taquito/tzip12": ^16.2.0
+    "@taquito/tzip16": ^16.2.0
     "@walless/core": "*"
     "@walless/graphql": "*"
     "@walless/network": "*"
@@ -10899,6 +11133,7 @@ __metadata:
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.75.0
     "@tamagui/animations-css": 1.15.16
+    "@taquito/signer": ^16.2.0
     "@tkey/chrome-storage": 9.0.0
     "@tkey/default": 9.0.0
     "@tkey/private-keys": 9.0.0
@@ -12400,6 +12635,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^0.26.0":
+  version: 0.26.1
+  resolution: "axios@npm:0.26.1"
+  dependencies:
+    follow-redirects: ^1.14.8
+  checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
+  languageName: node
+  linkType: hard
+
 "babel-core@npm:^7.0.0-bridge.0":
   version: 7.0.0-bridge.0
   resolution: "babel-core@npm:7.0.0-bridge.0"
@@ -12706,7 +12950,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bignumber.js@npm:^9.0.0, bignumber.js@npm:^9.0.1, bignumber.js@npm:^9.0.2, bignumber.js@npm:^9.1.1":
+"bignumber.js@npm:^9.0.0, bignumber.js@npm:^9.0.1, bignumber.js@npm:^9.0.2, bignumber.js@npm:^9.1.0, bignumber.js@npm:^9.1.1":
   version: 9.1.1
   resolution: "bignumber.js@npm:9.1.1"
   checksum: ad243b7e2f9120b112d670bb3d674128f0bd2ca1745b0a6c9df0433bd2c0252c43e6315d944c2ac07b4c639e7496b425e46842773cf89c6a2dcd4f31e5c4b11e
@@ -12761,6 +13005,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bip39@npm:3.0.4":
+  version: 3.0.4
+  resolution: "bip39@npm:3.0.4"
+  dependencies:
+    "@types/node": 11.11.6
+    create-hash: ^1.1.0
+    pbkdf2: ^3.0.9
+    randombytes: ^2.0.1
+  checksum: 79ce1600a03d1ba5053bdd4e6323f9463ec340764c7e52918b6c6b9dca81221940f2d9a65656447f108f9bc2c8d9ae8df319cca83bbd1dad63f53ef2768d9bae
+  languageName: node
+  linkType: hard
+
 "bl@npm:^4.0.2, bl@npm:^4.0.3, bl@npm:^4.1.0":
   version: 4.1.0
   resolution: "bl@npm:4.1.0"
@@ -12783,7 +13039,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"blakejs@npm:^1.1.0":
+"blakejs@npm:^1.1.0, blakejs@npm:^1.2.1":
   version: 1.2.1
   resolution: "blakejs@npm:1.2.1"
   checksum: d699ba116cfa21d0b01d12014a03e484dd76d483133e6dc9eb415aa70a119f08beb3bcefb8c71840106a00b542cba77383f8be60cd1f0d4589cb8afb922eefbe
@@ -14395,7 +14651,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:^4.0.0":
+"crypto-js@npm:^4.0.0, crypto-js@npm:^4.1.1":
   version: 4.1.1
   resolution: "crypto-js@npm:4.1.1"
   checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
@@ -16642,7 +16898,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4, follow-redirects@npm:^1.14.7":
+"follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4, follow-redirects@npm:^1.14.7, follow-redirects@npm:^1.14.8":
   version: 1.15.2
   resolution: "follow-redirects@npm:1.15.2"
   peerDependenciesMeta:
@@ -22274,7 +22530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pbkdf2@npm:^3.0.17, pbkdf2@npm:^3.0.3, pbkdf2@npm:^3.0.9":
+"pbkdf2@npm:^3.0.17, pbkdf2@npm:^3.0.3, pbkdf2@npm:^3.0.9, pbkdf2@npm:^3.1.2":
   version: 3.1.2
   resolution: "pbkdf2@npm:3.1.2"
   dependencies:
@@ -24413,6 +24669,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rxjs@npm:^6.6.3":
+  version: 6.6.7
+  resolution: "rxjs@npm:6.6.7"
+  dependencies:
+    tslib: ^1.9.0
+  checksum: bc334edef1bb8bbf56590b0b25734ba0deaf8825b703256a93714308ea36dff8a11d25533671adf8e104e5e8f256aa6fdfe39b2e248cdbd7a5f90c260acbbd1b
+  languageName: node
+  linkType: hard
+
 "rxjs@npm:^7.5.5":
   version: 7.8.0
   resolution: "rxjs@npm:7.8.0"
@@ -26361,7 +26626,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:1.14.1, tslib@npm:^1.11.1, tslib@npm:^1.8.1":
+"tslib@npm:1.14.1, tslib@npm:^1.11.1, tslib@npm:^1.8.1, tslib@npm:^1.9.0":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
@@ -26561,6 +26826,13 @@ __metadata:
     for-each: ^0.3.3
     is-typed-array: ^1.1.9
   checksum: 2228febc93c7feff142b8c96a58d4a0d7623ecde6c7a24b2b98eb3170e99f7c7eff8c114f9b283085cd59dcd2bd43aadf20e25bba4b034a53c5bb292f71f8956
+  languageName: node
+  linkType: hard
+
+"typedarray-to-buffer@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "typedarray-to-buffer@npm:4.0.0"
+  checksum: c1e4dc6597c98de417c3363da88263d92aefd23569a892b2d8a9b9385858b2c7323f6cae010ecb73fa63cae403d20763b8cad9a25a77f5597a9fb3da506ac7df
   languageName: node
   linkType: hard
 

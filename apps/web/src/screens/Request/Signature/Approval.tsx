@@ -1,44 +1,23 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC } from 'react';
 import { ActivityIndicator } from 'react-native';
-import { useParams } from 'react-router-dom';
 import { AlertCircle } from '@walless/icons';
-import {
-	type MessagePayload,
-	Channels,
-	PopupType,
-	RequestType,
-} from '@walless/messaging';
 import { Button, Image, Stack, Text } from '@walless/ui';
-import { encryptedMessenger } from 'bridge/utils/messaging';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 
-import { initializeKernelConnect, logoSize, logoUri } from '../shared';
+import { logoSize, logoUri } from '../shared';
 
 interface Props {
+	content?: string;
 	onDeny: () => void;
 	onApprove: () => void;
 }
 
-export const RequestSignatureApproval: FC<Props> = ({ onDeny, onApprove }) => {
-	const { requestId } = useParams();
-	const [payload, setPayload] = useState<MessagePayload>();
-	useEffect(() => {
-		initializeKernelConnect(`${PopupType.SIGNATURE_POPUP}/${requestId}`);
-	}, []);
-
-	useEffect(() => {
-		encryptedMessenger
-			.request(Channels.kernel, {
-				from: PopupType.SIGNATURE_POPUP,
-				type: RequestType.REQUEST_PAYLOAD,
-				requestId,
-			})
-			.then((result) => {
-				setPayload(result as MessagePayload);
-			});
-	}, [requestId]);
-
+export const RequestSignatureApproval: FC<Props> = ({
+	content,
+	onDeny,
+	onApprove,
+}) => {
 	return (
 		<Stack flex={1} backgroundColor="#19232C">
 			<HeaderRequest />
@@ -82,11 +61,7 @@ export const RequestSignatureApproval: FC<Props> = ({ onDeny, onApprove }) => {
 						<AlertCircle size={18} color="#566674" />
 					</Stack>
 					<LightText paddingHorizontal={15} paddingBottom={15} fontSize={14}>
-						{payload ? (
-							payload?.message || payload?.transaction
-						) : (
-							<ActivityIndicator />
-						)}
+						{content ? content : <ActivityIndicator />}
 					</LightText>
 				</Stack>
 

@@ -9,6 +9,7 @@ export interface Setting {
 
 export interface Config {
 	hideBalance: boolean;
+	latestLocation: string;
 }
 
 export interface UserProfile {

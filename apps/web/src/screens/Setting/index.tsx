@@ -1,4 +1,5 @@
-import { Stack, Text } from '@walless/ui';
+import { StyleSheet } from 'react-native';
+import { Text, View } from '@walless/gui';
 import { appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
 
@@ -15,22 +16,38 @@ const SettingScreen = () => {
 	const { profile } = useSnapshot(appState);
 
 	return (
-		<Stack paddingHorizontal={14} paddingVertical={28}>
+		<View style={styles.container}>
 			<Header profile={profile} />
 			<Delimiter />
-			<Stack gap={16}>
+			<View style={styles.innerContainer}>
 				<MyWallets />
-				<Stack>
-					<Text color="#566674">Settings</Text>
-					<Stack gap={8}>
+				<View>
+					<Text style={styles.text}>Settings</Text>
+					<View style={styles.settingContainer}>
 						<HelpCenter />
 						<LogOut />
-					</Stack>
-				</Stack>
+					</View>
+				</View>
 				<FollowUs />
-			</Stack>
-		</Stack>
+			</View>
+		</View>
 	);
 };
 
 export default SettingScreen;
+
+const styles = StyleSheet.create({
+	container: {
+		paddingHorizontal: 14,
+		paddingVertical: 28,
+	},
+	text: {
+		color: '#566674',
+	},
+	settingContainer: {
+		gap: 8,
+	},
+	innerContainer: {
+		gap: 16,
+	},
+});

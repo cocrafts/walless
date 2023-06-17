@@ -1,15 +1,11 @@
 import { Book, Message, Shield, Window } from '@walless/icons';
-import { Stack, Text } from '@walless/ui';
+import { Stack } from '@walless/ui';
 
 import ForwardLink from './ForwardLink';
 
 export const HelpCenter = () => {
 	return (
 		<Stack gap={12}>
-			<Text fontSize={14} color="#566674">
-				Help Center
-			</Text>
-
 			<Stack gap={8}>
 				<ForwardLink
 					link="https://discord.gg/uG2JEmTZXZ"

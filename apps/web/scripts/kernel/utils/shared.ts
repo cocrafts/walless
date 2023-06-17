@@ -20,8 +20,6 @@ export const openPopup = async (popupType: PopupType, requestId: string) => {
 	});
 };
 
-export const closePopup = (requestId: string) => {
-	chrome.windows.remove(requestMap[requestId].popup?.id as number, () => {
-		delete requestMap[requestId];
-	});
+export const closePopup = (popupId: number) => {
+	chrome.windows.remove(popupId);
 };

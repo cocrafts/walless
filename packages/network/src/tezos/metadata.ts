@@ -1,7 +1,7 @@
 import { compose, TezosToolkit } from '@taquito/taquito';
 import { tzip12 } from '@taquito/tzip12';
 import { tzip16 } from '@taquito/tzip16';
-import { type UnknownObject } from '@walless/core';
+import { type UnknownObject, Networks } from '@walless/core';
 import { type MetadataDocument, type TokenDocument } from '@walless/store';
 
 const connection = new TezosToolkit('https://uoi3x99n7c.tezosrpc.midl.dev');
@@ -18,9 +18,15 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 	contractAddress,
 	tokenId = 0,
 ) => {
-	const token = KNOWN_TEZOS_MAINNET_TOKENS.find((token) => {
-		return token.account.address === contractAddress;
-	});
+	let token: Omit<TokenDocument, '_id' | 'type' | 'network'> | undefined;
+
+	if (contractAddress == 'tez') {
+		token = tezosNativeToken;
+	} else {
+		token = KNOWN_TEZOS_MAINNET_TOKENS.find((token) => {
+			return token.account.address === contractAddress;
+		});
+	}
 
 	if (token) {
 		return {
@@ -47,6 +53,21 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 		endpoint: connection.rpc.getRpcUrl(),
 		type: 'Metadata',
 	};
+};
+
+const tezosNativeToken: TokenDocument = {
+	_id: 'tezos-native-token',
+	network: Networks.tezos,
+	type: 'Token',
+	metadata: {
+		name: 'Tezos',
+		symbol: 'TEZ',
+		imageUri: '/img/network/tezos-icon-sm.png',
+	},
+	account: {
+		balance: '0',
+		decimals: 6,
+	},
 };
 
 const KNOWN_TEZOS_MAINNET_TOKENS: Omit<

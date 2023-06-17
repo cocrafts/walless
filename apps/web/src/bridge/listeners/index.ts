@@ -52,3 +52,31 @@ export const handleRequestSignature = async (options: PayloadOptions) => {
 		throw Error('Unable to handle sign message request');
 	}
 };
+
+export const getMessageOrTransaction = async (requestId: string) => {
+	const payload = {
+		from: PopupType.SIGNATURE_POPUP,
+		type: RequestType.REQUEST_PAYLOAD,
+		sourceRequestId: requestId,
+	};
+
+	try {
+		const res = await encryptedMessenger.request(
+			Channels.kernel,
+			payload,
+			60000,
+		);
+
+		if ('message' in res) {
+			const displayMessage = new TextDecoder().decode(bs58.decode(res.message));
+			return {
+				...res,
+				message: displayMessage,
+			};
+		} else if ('transaction' in res) {
+			return res;
+		}
+	} catch (error) {
+		throw new Error('Unable to get message or transaction');
+	}
+};

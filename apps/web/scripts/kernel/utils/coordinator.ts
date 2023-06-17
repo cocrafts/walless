@@ -99,3 +99,17 @@ export const handle = async (
 		responseMethod: response,
 	});
 };
+
+export const handleRequestPayload = (
+	payload: UnknownObject,
+	channel: MiniBroadcast,
+) => {
+	const { sourceRequestId, requestId } = payload;
+	const { payload: sourcePayload } = getRequestRecord(sourceRequestId);
+	return channel.postMessage({
+		...sourcePayload,
+		from: 'walless@kernel',
+		requestId,
+		responseCode: ResponseCode.SUCCESS,
+	});
+};

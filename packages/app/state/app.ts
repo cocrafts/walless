@@ -25,5 +25,6 @@ export const appState = proxy<AppState>({
 	authenticationLoading: false,
 	config: {
 		hideBalance: true,
+		latestLocation: '/',
 	},
 });

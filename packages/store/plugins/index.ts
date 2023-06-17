@@ -8,6 +8,6 @@ export * from './type';
 export default {
 	upsert,
 	safeGet,
-	docRemove: removeDoc,
-	clear: clearAllDocs,
+	removeDoc,
+	clearAllDocs,
 };

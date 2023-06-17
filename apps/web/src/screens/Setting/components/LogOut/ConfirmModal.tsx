@@ -5,8 +5,8 @@ import { router } from 'utils/routing';
 
 const ConfirmModal = () => {
 	const handleLogOut = async () => {
-		await modalActions.destroy('log-out-modal');
-		await modules.storage.clear();
+		modalActions.destroy('log-out-modal');
+		await modules.storage.clearAllDocs();
 		await router.navigate('/login');
 	};
 

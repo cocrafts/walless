@@ -9,7 +9,12 @@ interface Props {
 	iconBackground?: string;
 }
 
-const ForwardLink: FC<Props> = ({ link, title, icon, iconBackground }) => {
+export const ForwardLink: FC<Props> = ({
+	link,
+	title,
+	icon,
+	iconBackground,
+}) => {
 	return (
 		<Anchor href={link} target="_blank">
 			<Button

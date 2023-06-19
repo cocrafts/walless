@@ -40,10 +40,11 @@ export const useTokens = (network?: Networks, address?: string) => {
 
 export const useSettings = () => {
 	const { config } = useSnapshot(appState);
-	const { setPrivacy } = appActions;
+	const { setPrivacy, setPathname } = appActions;
 
 	return {
 		setting: config,
 		setPrivacy,
+		setPathname,
 	};
 };

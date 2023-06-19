@@ -11,9 +11,17 @@ export const sync = (settings?: SettingDocument) => {
 	}
 };
 
-export const setPrivacy = async ({ hideBalance }: { hideBalance: boolean }) => {
+export const setPrivacy = async (hideBalance: boolean) => {
 	await modules.storage.upsert<SettingDocument>(id, async (doc) => {
 		doc.config.hideBalance = hideBalance;
+
+		return doc;
+	});
+};
+
+export const setPathname = async (latestScreen: string) => {
+	await modules.storage.upsert<SettingDocument>(id, async (doc) => {
+		doc.config.latestLocation = latestScreen;
 
 		return doc;
 	});

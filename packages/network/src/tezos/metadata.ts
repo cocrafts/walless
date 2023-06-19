@@ -20,7 +20,7 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 ) => {
 	let token: Omit<TokenDocument, '_id' | 'type' | 'network'> | undefined;
 
-	if (contractAddress == 'tez') {
+	if (contractAddress == '0x16939ef78684453bfdfb47825f8a5f714f12623a') {
 		token = tezosNativeToken;
 	} else {
 		token = KNOWN_TEZOS_MAINNET_TOKENS.find((token) => {
@@ -61,7 +61,7 @@ const tezosNativeToken: TokenDocument = {
 	type: 'Token',
 	metadata: {
 		name: 'Tezos',
-		symbol: 'TEZ',
+		symbol: 'XTZ',
 		imageUri: '/img/network/tezos-icon-sm.png',
 	},
 	account: {

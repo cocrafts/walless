@@ -58,7 +58,7 @@ export const TezosDashboard: FC<Props> = () => {
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
-		setPrivacy({ hideBalance: next });
+		setPrivacy(next);
 	};
 
 	return (

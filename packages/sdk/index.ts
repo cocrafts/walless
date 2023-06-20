@@ -26,7 +26,7 @@ import { EventEmitter } from 'eventemitter3';
 
 import { type PublicKeyType } from '../wallet-standard/src/util';
 
-import * as mutualProvider from './providers/mutual';
+import * as commonProvider from './providers/common';
 import * as solanaProvider from './providers/solana';
 import * as suiProvider from './providers/sui';
 
@@ -54,7 +54,7 @@ export class Walless extends EventEmitter {
 
 		const hostName = window.location.hostname;
 
-		const response = await mutualProvider.requestConnect({
+		const response = await commonProvider.requestConnect({
 			...options,
 			onlyIfTrusted: options?.onlyIfTrusted || true, // set default onlyIfTrusted to true because options from wallet-standard seem not work
 			domain: hostName,

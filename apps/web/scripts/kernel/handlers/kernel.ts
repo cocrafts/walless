@@ -3,7 +3,7 @@ import { type MessengerCallback, RequestType } from '@walless/messaging';
 import * as coordinator from '../utils/coordinator';
 import { getNetwork } from '../utils/handler';
 
-import { handleConnect } from './connect';
+import { handleConnect, handleRequestPayload } from './common';
 import * as solanaHandler from './solanaHandler';
 import * as suiHandler from './suiHandler';
 

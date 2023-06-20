@@ -1,6 +1,6 @@
 import { type MiniBroadcast, type UnknownObject } from '@walless/core';
 
-import { closePopup } from './shared';
+import { closePopup } from './popup';
 import { type ResponseMethod } from './types';
 const requestPool: Record<
 	string,

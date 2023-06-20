@@ -10,6 +10,6 @@ export const requestConnect = async (options: ConnectOptions) => {
 			type: RequestType.REQUEST_CONNECT,
 			options,
 		},
-		20000,
+		30000,
 	);
 };

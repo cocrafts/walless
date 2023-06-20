@@ -1,9 +1,8 @@
-import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
 import { type PublicKeyDocument, selectors } from '@walless/store';
 
-import { type HandleMethod } from './../utils/types';
+import { type HandleMethod } from '../utils/types';
 
 export const handleConnect: HandleMethod = async ({
 	payload,

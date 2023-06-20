@@ -1,14 +1,4 @@
-import { type MiniBroadcast } from '@walless/core';
-import { type MessagePayload, type PopupType } from '@walless/messaging';
-
-interface RequestContent {
-	channel: MiniBroadcast;
-	popup?: chrome.windows.Window;
-	payload: MessagePayload;
-	resolve: boolean;
-}
-
-export const requestMap: Record<string, RequestContent> = {};
+import { type PopupType } from '@walless/messaging';
 
 export const openPopup = async (popupType: PopupType, requestId: string) => {
 	return await chrome.windows.create({

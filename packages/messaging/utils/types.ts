@@ -26,11 +26,6 @@ export type MessagePayload = UnknownObject &
 		from?: string;
 		type: RequestType;
 		requestId?: string;
-		message?: string;
-		transaction?: string;
-		options?: unknown;
-		passcode?: string;
-		isApproved?: boolean;
 	};
 
 export type ResponsePayload = UnknownObject &
@@ -38,8 +33,6 @@ export type ResponsePayload = UnknownObject &
 		from?: string;
 		requestId?: string;
 		responseCode?: ResponseCode;
-		message?: string;
-		signature?: string;
 	};
 
 export interface RequestMetadata {

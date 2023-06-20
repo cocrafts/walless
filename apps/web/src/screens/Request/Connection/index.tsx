@@ -6,8 +6,9 @@ import { Button, Image, Stack, Text } from '@walless/ui';
 import { handleRequestConnect } from 'bridge/listeners';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
+import { initializeKernelConnect } from 'utils/helper';
 
-import { initializeKernelConnect, logoSize, logoUri } from '../shared';
+import { logoSize, logoUri } from '../shared';
 
 const RequestConnection = () => {
 	const { requestId } = useParams();
@@ -17,10 +18,6 @@ const RequestConnection = () => {
 	};
 
 	useEffect(() => {
-		/*
-		 * This is the function to establish a connect to background script
-		 * It's help to detect window close event under kernel
-		 */
 		initializeKernelConnect(PopupType.REQUEST_CONNECT_POPUP + '/' + requestId);
 	}, []);
 

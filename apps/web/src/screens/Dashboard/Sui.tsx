@@ -27,7 +27,7 @@ interface Props {
 export const SuiDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { setting, setPrivacy } = useSettings();
-	const tokens = useTokens(Networks.sui);
+	const { tokens } = useTokens(Networks.sui);
 	const publicKeys = usePublicKeys(Networks.sui);
 	const bottomSliderItems: SlideOption[] = [
 		{

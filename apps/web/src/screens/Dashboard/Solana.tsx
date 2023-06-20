@@ -27,7 +27,7 @@ interface Props {
 export const SolanaDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { setting, setPrivacy } = useSettings();
-	const tokens = useTokens(Networks.solana);
+	const { tokens, valuation } = useTokens(Networks.solana);
 	const publicKeys = usePublicKeys(Networks.solana);
 	const bottomSliderItems: SlideOption[] = [
 		{
@@ -70,6 +70,7 @@ export const SolanaDashboard: FC<Props> = () => {
 							key={index}
 							index={index}
 							item={item}
+							valuation={valuation}
 							skin={suiCardSkin}
 							hideBalance={setting.hideBalance}
 							onCopyAddress={handleCopyAddress}

@@ -27,7 +27,7 @@ interface Props {
 export const TezosDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { setting, setPrivacy } = useSettings();
-	const tokens = useTokens(Networks.tezos);
+	const { tokens } = useTokens(Networks.tezos);
 	const publicKeys = usePublicKeys(Networks.tezos);
 	const bottomSliderItems: SlideOption[] = [
 		{

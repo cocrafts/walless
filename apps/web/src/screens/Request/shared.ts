@@ -6,7 +6,3 @@ export interface PayloadOptions {
 	isApproved: boolean;
 	passcode: string;
 }
-
-export const initializeKernelConnect = (portName: string) => {
-	chrome.runtime.connect({ name: portName });
-};

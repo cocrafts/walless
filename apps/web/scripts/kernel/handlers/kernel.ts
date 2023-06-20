@@ -1,6 +1,6 @@
 import { type MessengerCallback, RequestType } from '@walless/messaging';
 
-import * as coordinator from '../utils/coordinator';
+import { handle } from '../utils/coordinator';
 import { getNetwork } from '../utils/handler';
 
 import { handleConnect, handleRequestPayload } from './common';
@@ -45,12 +45,6 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		const network = getNetwork(type);
 
 		if (handleMethod)
-			coordinator.handle(
-				channel,
-				payload,
-				handleMethod,
-				requirePrivateKey,
-				network,
-			);
+			handle({ channel, payload, handleMethod, requirePrivateKey, network });
 	}
 };

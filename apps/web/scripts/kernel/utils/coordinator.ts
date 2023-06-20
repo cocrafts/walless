@@ -1,31 +1,26 @@
-import {
-	type ConnectOptions,
-	type MiniBroadcast,
-	type Networks,
-	type UnknownObject,
-} from '@walless/core';
+import { type ConnectOptions, type Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { PopupType, ResponseCode, ResponseMessage } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
 import { type TrustedDomainDocument, selectors } from '@walless/store';
 
 import { getPrivateKey } from './handler';
+import { openPopup } from './popup';
 import {
 	addRequestRecord,
 	getRequestRecord,
 	removeRequestRecord,
 	response,
 } from './requestPool';
-import { openPopup } from './shared';
-import { type HandleMethod } from './types';
+import { type Handle } from './types';
 
-export const handle = async (
-	channel: MiniBroadcast,
-	payload: UnknownObject,
-	handleMethod: HandleMethod,
-	requirePrivateKey = true,
-	network?: Networks,
-) => {
+export const handle: Handle = async ({
+	channel,
+	payload,
+	handleMethod,
+	requirePrivateKey,
+	network,
+}) => {
 	const { from, type, requestId, sourceRequestId, passcode, isApproved } =
 		payload;
 	addRequestRecord(requestId, channel, payload);

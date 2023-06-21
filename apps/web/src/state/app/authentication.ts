@@ -191,6 +191,12 @@ export const storeAuthenticatedRecords = async (
 	if (privateKeys.length === 0) {
 		await key.modules.privateKeyModule.setPrivateKey('secp256k1n');
 		await key.modules.privateKeyModule.setPrivateKey('ed25519');
+
+		/**
+		 * This calling is used to sync private key with other metadata in previous step
+		 * Note: the sync method might takes time or gets failed
+		 * */
+		await key.syncLocalMetadataTransitions();
 	}
 
 	const writePromises = [];

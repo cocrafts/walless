@@ -23,7 +23,7 @@ export type ResponseMethod = (
 	responsePayload?: UnknownObject,
 ) => void;
 
-export type HandleProps = {
+export type CoordinatingHandleProps = {
 	channel: MiniBroadcast;
 	payload: UnknownObject;
 	handleMethod: HandleMethod;
@@ -31,4 +31,4 @@ export type HandleProps = {
 	network?: Networks;
 };
 
-export type Handle = (props: HandleProps) => void;
+export type CoordinatingHandle = (props: CoordinatingHandleProps) => void;

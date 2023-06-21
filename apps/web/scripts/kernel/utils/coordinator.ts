@@ -12,9 +12,9 @@ import {
 	removeRequestRecord,
 	response,
 } from './requestPool';
-import { type Handle } from './types';
+import { type CoordinatingHandle } from './types';
 
-export const handle: Handle = async ({
+export const handle: CoordinatingHandle = async ({
 	channel,
 	payload,
 	handleMethod,

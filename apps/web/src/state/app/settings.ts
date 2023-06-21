@@ -21,7 +21,8 @@ export const setPrivacy = async (hideBalance: boolean) => {
 
 export const setPathname = async (latestScreen: string) => {
 	await modules.storage.upsert<SettingDocument>(id, async (doc) => {
-		doc.config.latestLocation = latestScreen;
+		if (doc.config.latestLocation !== latestScreen)
+			doc.config.latestLocation = latestScreen;
 
 		return doc;
 	});

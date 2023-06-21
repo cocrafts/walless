@@ -183,7 +183,6 @@ export const storeAuthenticatedRecords = async (
 ): Promise<void> => {
 	await key.reconstructKey();
 	const privateKeys = await key.modules.privateKeyModule.getPrivateKeys();
-	console.log(privateKeys);
 
 	if (login?.user) {
 		await setProfile(makeProfile(login));
@@ -194,8 +193,8 @@ export const storeAuthenticatedRecords = async (
 		await key.modules.privateKeyModule.setPrivateKey('ed25519');
 
 		/**
-		 * This calling is used to sync private key metadata with other metadata before this step
-		 * Note: the sync method might takes time and or failed
+		 * This calling is used to sync private key with other metadata in previous step
+		 * Note: the sync method might takes time or gets failed
 		 * */
 		await key.syncLocalMetadataTransitions();
 	}

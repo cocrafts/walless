@@ -42,15 +42,11 @@ const DropdownItem: FC<Props> = ({ selected, name, icon, onPress, style }) => {
 
 const styles = StyleSheet.create({
 	itemButton: {
-		flex: 1,
 		flexDirection: 'row',
-		alignItems: 'center',
 		gap: 9,
 		paddingVertical: 12,
 		paddingHorizontal: 7,
 		borderRadius: 11,
-		width: 320,
-		height: 40,
 	},
 	icon: {
 		width: 18,

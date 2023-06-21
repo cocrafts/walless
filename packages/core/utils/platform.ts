@@ -1,6 +1,6 @@
 import { type UniversalRuntime } from './commonTypes';
 
-const userAgent = global.navigator?.userAgent.toLowerCase() || 'server';
+const userAgent = global.navigator?.userAgent?.toLowerCase() || 'server';
 const isOpera = userAgent.indexOf(' OPR/') !== -1;
 const isFirefox = userAgent.indexOf('firefox') !== -1;
 const isChrome =

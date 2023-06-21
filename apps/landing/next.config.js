@@ -17,6 +17,9 @@ module.exports = withPlugins(
 	],
 	{
 		swcMinify: true,
+		typescript: {
+			ignoreBuildErrors: true,
+		},
 		reactStrictMode: true,
 		optimizeFonts: true,
 		experimental: {

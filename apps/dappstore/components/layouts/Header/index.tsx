@@ -4,7 +4,7 @@ import { resources } from 'utils/config';
 
 import NavigationItem from './Item';
 
-export const Navigation = () => {
+export const Header = () => {
 	return (
 		<View horizontal style={styles.container}>
 			<Image source={resources.walless.horizontalLogo} style={styles.logo} />
@@ -27,7 +27,7 @@ export const Navigation = () => {
 	);
 };
 
-export default Navigation;
+export default Header;
 
 const styles = StyleSheet.create({
 	container: {

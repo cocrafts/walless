@@ -21,7 +21,8 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			solanaHandler.getEndpoint(payload, channel);
 			requirePrivateKey = false;
 		} else if (type === RequestType.REQUEST_PAYLOAD) {
-			handleRequestPayload(payload, channel);
+			handleMethod = handleRequestPayload;
+			requirePrivateKey = false;
 		} else if (type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
 			handleMethod = solanaHandler.signMessage;
 		} else if (type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {

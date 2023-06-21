@@ -1,8 +1,4 @@
-import {
-	type MiniBroadcast,
-	type UnknownObject,
-	Networks,
-} from '@walless/core';
+import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
 import { type PublicKeyDocument, selectors } from '@walless/store';
@@ -24,17 +20,12 @@ export const handleConnect: HandleMethod = async ({
 	});
 };
 
-export const handleRequestPayload = (
-	payload: UnknownObject,
-	channel: MiniBroadcast,
-) => {
+export const handleRequestPayload: HandleMethod = ({
+	payload,
+	responseMethod,
+}) => {
 	const { sourceRequestId, requestId } = payload;
 	const { payload: sourcePayload } = getRequestRecord(sourceRequestId);
 
-	return channel.postMessage({
-		...sourcePayload,
-		from: 'walless@kernel',
-		requestId,
-		responseCode: ResponseCode.SUCCESS,
-	});
+	responseMethod(requestId, ResponseCode.SUCCESS, sourcePayload);
 };

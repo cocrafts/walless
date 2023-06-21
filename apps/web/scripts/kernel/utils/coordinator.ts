@@ -70,7 +70,10 @@ export const handle: Handle = async ({
 
 		// Forward payload from source request to current request
 		payload = getRequestRecord(sourceRequestId).payload;
-	} else if (from === PopupType.SIGNATURE_POPUP) {
+	} else if (
+		from === PopupType.SIGNATURE_POPUP &&
+		type !== RequestType.REQUEST_PAYLOAD
+	) {
 		/**
 		 * Forwarded request
 		 * */
@@ -100,7 +103,7 @@ export const handle: Handle = async ({
 
 	handleMethod({
 		privateKey: privateKey || new Uint8Array(),
-		payload: payload,
+		payload,
 		responseMethod: response,
 	});
 };

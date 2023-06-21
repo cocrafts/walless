@@ -18,10 +18,10 @@ export const response: ResponseMethod = (
 	const { channel, payload } = requestPool[to];
 
 	channel.postMessage({
+		...responsePayload,
 		from: 'walless@kernel',
 		requestId: to,
 		responseCode,
-		...responsePayload,
 	});
 
 	if (payload.popupId) {

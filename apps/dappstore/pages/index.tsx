@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { ScrollView } from 'react-native';
 import { View } from '@walless/gui';
 import Navigation from 'components/layouts/Navigation';
+import LayoutSection from 'features/LayoutSection';
 import { sharedStyles } from 'utils/style';
 
 const IndexPage: FC = () => {
@@ -13,7 +14,11 @@ const IndexPage: FC = () => {
 			<ScrollView
 				contentContainerStyle={sharedStyles.container}
 				showsVerticalScrollIndicator={false}
-			></ScrollView>
+			>
+				<View style={sharedStyles.contentContainer}>
+					<LayoutSection />
+				</View>
+			</ScrollView>
 		</View>
 	);
 };

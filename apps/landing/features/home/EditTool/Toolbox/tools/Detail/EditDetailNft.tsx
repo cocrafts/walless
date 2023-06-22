@@ -1,6 +1,10 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
+import { StyleSheet, TextInput } from 'react-native';
+import { Networks } from '@walless/core';
+import { getTezosMetadata } from '@walless/network';
 import { Image, Stack } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
+import { parseInt } from 'lodash';
 import { appState, editToolActions } from 'state/app';
 import { resources } from 'utils/config';
 import { connection } from 'utils/connection';
@@ -12,15 +16,28 @@ import ItemTag from '../components/ItemTag';
 import ToolDescription from '../components/ToolDescription';
 
 const EditDetailNft: FC = () => {
+	const [tokenId, setTokenId] = useState<number>();
 	const { tools } = useSnapshot(appState);
-	const { collectibles } = tools.detail;
+	const { collectibles, networks } = tools.detail;
 	const collectiblesAddress = Object.keys(collectibles);
 
 	const onTarget = () => editToolActions.setTarget(DetailTool.collectibles);
 	const onAddCollectible = async (value: string) => {
-		const collectibeMetadata = await getSolanaNftCollection(connection, value);
-		if (collectibeMetadata) {
-			editToolActions.setDetailCollectibe(collectibeMetadata);
+		if (networks.length == 0) return;
+
+		if (networks[0] == Networks.tezos) {
+			const tezosNftMetadata = await getTezosMetadata(value, tokenId);
+			if (tezosNftMetadata) {
+				editToolActions.setDetailCollectibe(tezosNftMetadata);
+			}
+		} else if (networks[0] === Networks.solana) {
+			const collectibeMetadata = await getSolanaNftCollection(
+				connection,
+				value,
+			);
+			if (collectibeMetadata) {
+				editToolActions.setDetailCollectibe(collectibeMetadata);
+			}
 		}
 	};
 
@@ -38,7 +55,17 @@ const EditDetailNft: FC = () => {
 				name={'NFT Collectibles'}
 				description="Enter your NFT collectible address. If your project have more than 1 collectible, choose “Add more” to add."
 			/>
+
 			<InputAddress onSubmit={onAddCollectible} />
+			{networks.length >= 0 && networks[0] === Networks.tezos && (
+				<TextInput
+					onChangeText={(text) => setTokenId(parseInt(text))}
+					style={styles.tokenIdInputContainer}
+					placeholder={'Enter token id (Optional)'}
+					placeholderTextColor={'#566674'}
+				/>
+			)}
+
 			<Stack horizontal flexWrap="wrap" gap={10}>
 				{collectiblesAddress.map((address) => {
 					const collectible = collectibles[address];
@@ -67,3 +94,13 @@ const EditDetailNft: FC = () => {
 };
 
 export default EditDetailNft;
+
+const styles = StyleSheet.create({
+	tokenIdInputContainer: {
+		backgroundColor: '#19232C',
+		fontFamily: 'Rubik',
+		borderRadius: 8,
+		paddingHorizontal: 14,
+		paddingVertical: 14,
+	},
+});

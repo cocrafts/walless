@@ -4,12 +4,14 @@ import { tzip16 } from '@taquito/tzip16';
 import { type UnknownObject, Networks } from '@walless/core';
 import { type MetadataDocument, type TokenDocument } from '@walless/store';
 
+import { getURL } from '../utils/convert';
+
 const connection = new TezosToolkit('https://uoi3x99n7c.tezosrpc.midl.dev');
 
 export type GetTezosMetadataFunction = (
 	contractAddress: string,
 	tokenId?: number,
-) => Promise<MetadataDocument>;
+) => Promise<MetadataDocument | undefined>;
 
 /**
  * This method might be useful for manual importing token address
@@ -43,13 +45,18 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 		compose(tzip12, tzip16),
 	);
 
-	const metadata = await contract.tzip12().getTokenMetadata(tokenId);
+	let metadata: UnknownObject;
+	try {
+		metadata = await contract.tzip12().getTokenMetadata(tokenId);
+	} catch (_) {
+		return;
+	}
 
 	return {
-		_id: `${contractAddress}/${tokenId}`,
+		_id: `${contractAddress}`,
 		name: metadata.name,
 		symbol: metadata.symbol,
-		imageUri: (metadata as UnknownObject)['thumbnailUri'],
+		imageUri: getURL((metadata as UnknownObject)['thumbnailUri']),
 		endpoint: connection.rpc.getRpcUrl(),
 		type: 'Metadata',
 	};

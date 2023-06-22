@@ -4,21 +4,22 @@ import {
 	type TextInputKeyPressEventData,
 	StyleSheet,
 	TextInput,
-	TouchableOpacity,
 	View,
 } from 'react-native';
 import { Plus } from '@walless/icons';
+import { Button } from '@walless/ui';
 
 interface Props {
 	address?: string;
-	onSubmit: (value: string) => void;
+	onSubmit: (value: string) => Promise<void>;
 }
 
 const InputAddress: FC<Props> = ({ address = '', onSubmit }) => {
 	const [value, setValue] = useState(address);
 
-	const handleSubmit = () => {
-		onSubmit(value);
+	const handleSubmit = async () => {
+		setValue((value) => `Loading... ${value}`);
+		await onSubmit(value);
 		setValue('');
 	};
 
@@ -37,10 +38,12 @@ const InputAddress: FC<Props> = ({ address = '', onSubmit }) => {
 				value={value}
 				onKeyPress={handleKeyPress}
 				onChangeText={(text) => setValue(text)}
+				placeholder={'Enter address'}
+				placeholderTextColor={'#566674'}
 			/>
-			<TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
+			<Button style={styles.buttonContainer} onPress={handleSubmit}>
 				<Plus size={18} color={'#566674'} />
-			</TouchableOpacity>
+			</Button>
 		</View>
 	);
 };
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		borderTopRightRadius: 8,
 		borderBottomRightRadius: 8,
-		paddingHorizontal: 10,
+		padding: 10,
 		justifyContent: 'center',
 		backgroundColor: 'rgba(0, 0, 0, 0.2)',
 	},

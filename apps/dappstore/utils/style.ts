@@ -11,7 +11,7 @@ export const sharedStyles = StyleSheet.create({
 	},
 	contentContainer: {
 		paddingTop: 40,
-		maxWidth: 1024,
+		maxWidth: 1200,
 		margin: 'auto',
 	},
 });

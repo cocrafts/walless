@@ -1,4 +1,5 @@
 import { type FC } from 'react';
+import { Networks } from '@walless/core';
 import { getTezosMetadata } from '@walless/network';
 import { Image, Stack } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
@@ -12,19 +13,22 @@ import ToolDescription from '../components/ToolDescription';
 
 const EditDetailToken: FC = () => {
 	const { tools } = useSnapshot(appState);
-	const { tokens } = tools.detail;
+	const { tokens, networks } = tools.detail;
 	const tokensAddress = Object.keys(tokens);
 
 	const onTarget = () => editToolActions.setTarget(DetailTool.token);
-	const handleAddToken = async (value: string) => {
-		const tokenMetadata = await getTezosMetadata(value);
 
-		console.log('Tezos token metadata', tokenMetadata);
-
-		if (tokenMetadata) {
-			editToolActions.setDetailToken(tokenMetadata);
+	const handleAddToken = async (address: string, tokenId?: number) => {
+		if (networks[0] == Networks.tezos) {
+			const tezosTokenMetadata = await getTezosMetadata(address, tokenId);
+			if (tezosTokenMetadata) {
+				editToolActions.setDetailToken(tezosTokenMetadata);
+			}
+		} else if (networks[0] === Networks.solana) {
+			// Handle this
 		}
 	};
+
 	const handleRemoveToken = (id: string) => {
 		editToolActions.deleteDetailToken(id);
 	};
@@ -39,7 +43,10 @@ const EditDetailToken: FC = () => {
 				name={'Token'}
 				description="Enter your token address. If your project have more than 1 token, choose “Add more” to add."
 			/>
-			<InputAddress onSubmit={handleAddToken} />
+			<InputAddress
+				onSubmit={handleAddToken}
+				withOptional={networks[0] === Networks.tezos}
+			/>
 			<Stack horizontal flexWrap="wrap" gap={10}>
 				{tokensAddress.map((address) => {
 					const token = tokens[address];

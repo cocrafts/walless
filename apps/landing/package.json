@@ -1,27 +1,28 @@
 {
-  "name": "@walless/landing",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "dev": "next dev -p 3005",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@tamagui/animations-css": "1.15.16",
-    "@tamagui/next-theme": "1.15.16",
-    "@walless/markdown": "*",
-    "@walless/ui": "*",
-    "html-to-image": "^1.11.11",
-    "next": "13.4.5",
-    "react-dom": "^18.2.0",
-    "valtio": "1.10.5"
-  },
-  "devDependencies": {
-    "@tamagui/next-plugin": "1.15.16",
-    "eslint": "8.38.0",
-    "next-compose-plugins": "^2.2.1",
-    "next-transpile-modules": "10.0.0"
-  }
+    "name": "@walless/landing",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "dev": "next dev -p 3005",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@tamagui/animations-css": "1.15.16",
+        "@tamagui/next-theme": "1.15.16",
+        "@walless/markdown": "*",
+        "@walless/ui": "*",
+        "@walless/gui": "*",
+        "html-to-image": "^1.11.11",
+        "next": "13.4.5",
+        "react-dom": "^18.2.0",
+        "valtio": "1.10.5"
+    },
+    "devDependencies": {
+        "@tamagui/next-plugin": "1.15.16",
+        "eslint": "8.38.0",
+        "next-compose-plugins": "^2.2.1",
+        "next-transpile-modules": "10.0.0"
+    }
 }

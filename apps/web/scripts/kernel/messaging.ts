@@ -15,7 +15,6 @@ import {
 
 import { onKernelMessage } from './handlers/kernel';
 import { response } from './utils/requestPool';
-import { requestMap } from './utils/shared';
 
 const channels = [
 	Channels.ui,
@@ -73,8 +72,6 @@ export const initializeMessaging = async (): Promise<void> => {
 							return;
 						}
 					}
-
-					delete requestMap[requestId];
 				}
 				port.onMessage.removeListener(handleInComingMessage);
 				port.onDisconnect.removeListener(handleDisconnect);

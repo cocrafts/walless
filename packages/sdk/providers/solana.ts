@@ -6,12 +6,15 @@ export const requestSignAndSendTransaction = async (
 	transaction: string,
 	options: unknown,
 ) => {
-	return await sendRequest({
-		from: 'walless@sdk',
-		type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
-		transaction,
-		options,
-	});
+	return await sendRequest(
+		{
+			from: 'walless@sdk',
+			type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
+			transaction,
+			options,
+		},
+		60000,
+	);
 };
 
 export const requestSignMessage = async (message: string) => {

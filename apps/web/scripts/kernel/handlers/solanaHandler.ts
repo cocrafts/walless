@@ -78,8 +78,6 @@ export const signAndSendTransaction: HandleMethod = async ({
 
 	transaction.sign([keypair]);
 
-	console.log({ transaction });
-
 	const signatureString = await connection.sendTransaction(transaction);
 
 	responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {

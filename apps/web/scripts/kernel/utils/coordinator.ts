@@ -1,31 +1,26 @@
-import {
-	type ConnectOptions,
-	type MiniBroadcast,
-	type Networks,
-	type UnknownObject,
-} from '@walless/core';
+import { type ConnectOptions, type Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { PopupType, ResponseCode, ResponseMessage } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
 import { type TrustedDomainDocument, selectors } from '@walless/store';
 
 import { getPrivateKey } from './handler';
+import { openPopup } from './popup';
 import {
 	addRequestRecord,
 	getRequestRecord,
 	removeRequestRecord,
 	response,
 } from './requestPool';
-import { openPopup } from './shared';
-import { type HandleMethod } from './types';
+import { type CoordinatingHandle } from './types';
 
-export const handle = async (
-	channel: MiniBroadcast,
-	payload: UnknownObject,
-	handleMethod: HandleMethod,
-	requirePrivateKey = true,
-	network?: Networks,
-) => {
+export const handle: CoordinatingHandle = async ({
+	channel,
+	payload,
+	handleMethod,
+	requirePrivateKey,
+	network,
+}) => {
 	const { from, type, requestId, sourceRequestId, passcode, isApproved } =
 		payload;
 	addRequestRecord(requestId, channel, payload);
@@ -75,7 +70,10 @@ export const handle = async (
 
 		// Forward payload from source request to current request
 		payload = getRequestRecord(sourceRequestId).payload;
-	} else if (from === PopupType.SIGNATURE_POPUP) {
+	} else if (
+		from === PopupType.SIGNATURE_POPUP &&
+		type !== RequestType.REQUEST_PAYLOAD
+	) {
 		/**
 		 * Forwarded request
 		 * */
@@ -105,21 +103,7 @@ export const handle = async (
 
 	handleMethod({
 		privateKey: privateKey || new Uint8Array(),
-		payload: payload,
+		payload,
 		responseMethod: response,
-	});
-};
-
-export const handleRequestPayload = (
-	payload: UnknownObject,
-	channel: MiniBroadcast,
-) => {
-	const { sourceRequestId, requestId } = payload;
-	const { payload: sourcePayload } = getRequestRecord(sourceRequestId);
-	return channel.postMessage({
-		...sourcePayload,
-		from: 'walless@kernel',
-		requestId,
-		responseCode: ResponseCode.SUCCESS,
 	});
 };

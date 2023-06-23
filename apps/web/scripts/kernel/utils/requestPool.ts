@@ -1,6 +1,6 @@
 import { type MiniBroadcast, type UnknownObject } from '@walless/core';
 
-import { closePopup } from './shared';
+import { closePopup } from './popup';
 import { type ResponseMethod } from './types';
 const requestPool: Record<
 	string,
@@ -18,10 +18,10 @@ export const response: ResponseMethod = (
 	const { channel, payload } = requestPool[to];
 
 	channel.postMessage({
+		...responsePayload,
 		from: 'walless@kernel',
 		requestId: to,
 		responseCode,
-		...responsePayload,
 	});
 
 	if (payload.popupId) {

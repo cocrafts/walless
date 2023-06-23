@@ -11,8 +11,9 @@ import {
 	getMessageOrTransaction,
 	handleRequestSignature,
 } from 'bridge/listeners';
+import { initializeKernelConnect } from 'utils/helper';
 
-import { type PayloadOptions, initializeKernelConnect } from '../shared';
+import { type PayloadOptions } from '../shared';
 
 import RequestSignatureApproval from './Approval';
 import RequestSignaturePasscode from './Passcode';

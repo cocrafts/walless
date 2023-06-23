@@ -1,9 +1,9 @@
 import { type MessengerCallback, RequestType } from '@walless/messaging';
 
-import * as coordinator from '../utils/coordinator';
+import { handle } from '../utils/coordinator';
 import { getNetwork } from '../utils/handler';
 
-import { handleConnect } from './connect';
+import { handleConnect, handleRequestPayload } from './common';
 import * as solanaHandler from './solanaHandler';
 import * as suiHandler from './suiHandler';
 
@@ -21,7 +21,8 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			solanaHandler.getEndpoint(payload, channel);
 			requirePrivateKey = false;
 		} else if (type === RequestType.REQUEST_PAYLOAD) {
-			coordinator.handleRequestPayload(payload, channel);
+			handleMethod = handleRequestPayload;
+			requirePrivateKey = false;
 		} else if (type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
 			handleMethod = solanaHandler.signMessage;
 		} else if (type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {
@@ -45,12 +46,6 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		const network = getNetwork(type);
 
 		if (handleMethod)
-			coordinator.handle(
-				channel,
-				payload,
-				handleMethod,
-				requirePrivateKey,
-				network,
-			);
+			handle({ channel, payload, handleMethod, requirePrivateKey, network });
 	}
 };

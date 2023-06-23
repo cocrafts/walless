@@ -1,13 +1,13 @@
 const withPlugins = require('next-compose-plugins');
 const { withTamagui } = require('@tamagui/next-plugin');
 const project = require('../web/package.json');
+const { DefinePlugin } = require('webpack');
 
 module.exports = withPlugins(
 	[
 		withTamagui({
 			config: './tamagui.config.js',
 			components: ['@tamagui/core'],
-			useReactNativeWebLite: true,
 			disableExtraction: process.env.NODE_ENV !== 'production',
 			excludeReactNativeWebExports: ['Switch', 'ProgressBar', 'Picker'],
 		}),
@@ -36,6 +36,11 @@ module.exports = withPlugins(
 				test: /\.md$/i,
 				type: 'asset/source',
 			});
+			config.plugins.push(
+				new DefinePlugin({
+					'process.env.TAMAGUI_TARGET': '"web"',
+				}),
+			);
 
 			return config;
 		},

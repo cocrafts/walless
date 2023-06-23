@@ -54,7 +54,11 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 		_id: `${contractAddress}`,
 		name: metadata.name,
 		symbol: metadata.symbol,
-		imageUri: getURL((metadata as UnknownObject)['thumbnailUri']),
+		imageUri: getURL(
+			metadata.icon ||
+				(metadata as UnknownObject)['displayUri'] ||
+				(metadata as UnknownObject)['thumbnailUri'],
+		),
 		endpoint: connection.rpc.getRpcUrl(),
 		type: 'Metadata',
 	};

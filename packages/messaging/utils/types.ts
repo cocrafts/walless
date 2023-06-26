@@ -25,10 +25,7 @@ export type MessagePayload = UnknownObject &
 	IdentifiedPayload & {
 		from?: string;
 		type: RequestType;
-		messsage?: string;
-		transaction?: string;
-		options?: unknown;
-		passcode?: string;
+		requestId?: string;
 	};
 
 export type ResponsePayload = UnknownObject &
@@ -36,7 +33,6 @@ export type ResponsePayload = UnknownObject &
 		from?: string;
 		requestId?: string;
 		responseCode?: ResponseCode;
-		message?: string;
 	};
 
 export interface RequestMetadata {
@@ -88,6 +84,7 @@ export enum ResponseCode {
 	REQUIRE_PASSCODE,
 	WRONG_PASSCODE,
 	ERROR,
+	REJECTED,
 }
 
 export enum RequestType {
@@ -100,4 +97,17 @@ export enum RequestType {
 	SIGN_TRANSACTION_ON_SUI,
 	SIGN_MESSAGE_ON_SUI,
 	TRANSFER_TEZOS_TOKEN,
+	RESOLVE_REQUEST_CONNECT,
+	RESOLVE_REQUEST_SIGNATURE,
+	REQUEST_PAYLOAD,
+}
+
+export enum PopupType {
+	REQUEST_CONNECT_POPUP = 'request-connect-popup',
+	SIGNATURE_POPUP = 'request-signature-popup',
+}
+
+export enum ResponseMessage {
+	REJECT_REQUEST_CONNECT = 'Connect request has been rejected',
+	REJECT_COMMON_REQUEST = 'Request has been rejected by user',
 }

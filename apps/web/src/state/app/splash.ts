@@ -1,4 +1,5 @@
 import { type BootstrapResult, appState } from '@walless/app';
+import { PopupType } from '@walless/messaging';
 import { initializeLiveState } from 'state/live';
 import { router } from 'utils/routing';
 
@@ -12,8 +13,18 @@ export const launchApp = async ({
 	profile,
 	config,
 }: BootstrapResult): Promise<void> => {
+	const url = window.location.hash;
+	const path = url.slice(1);
+	const isSdkPopup =
+		path.includes(PopupType.REQUEST_CONNECT_POPUP) ||
+		path.includes(PopupType.SIGNATURE_POPUP);
+
 	if (profile?.email) {
-		await router.navigate(config?.latestLocation ?? '/');
+		if (isSdkPopup) {
+			await router.navigate(path);
+		} else {
+			await router.navigate(config?.latestLocation ?? '/');
+		}
 	} else {
 		await router.navigate('/invitation');
 	}

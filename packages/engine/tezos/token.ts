@@ -84,6 +84,7 @@ const tezosNativeToken: TokenDocument = {
 		imageUri: '/img/network/tezos-icon-sm.png',
 	},
 	account: {
+		address: 'tezos-native-token',
 		balance: '0',
 		decimals: 6,
 	},

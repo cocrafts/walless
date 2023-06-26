@@ -11,6 +11,7 @@ export const bootstrap = async (): Promise<BootstrapResult> => {
 
 export const launchApp = async ({
 	profile,
+	config,
 }: BootstrapResult): Promise<void> => {
 	const url = window.location.hash;
 	const path = url.slice(1);
@@ -22,7 +23,7 @@ export const launchApp = async ({
 		if (isSdkPopup) {
 			await router.navigate(path);
 		} else {
-			await router.navigate('/');
+			await router.navigate(config?.latestLocation ?? '/');
 		}
 	} else {
 		await router.navigate('/invitation');

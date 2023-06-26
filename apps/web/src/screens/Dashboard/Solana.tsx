@@ -17,8 +17,8 @@ import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
-import EmptyTab from './EmptyTab';
-import TokenTab from './TokenTab';
+import EmptyTab from './components/EmptyTab';
+import TokenTab from './components/TokenTab';
 
 interface Props {
 	variant?: string;
@@ -27,7 +27,7 @@ interface Props {
 export const SolanaDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { setting, setPrivacy } = useSettings();
-	const tokens = useTokens(Networks.solana);
+	const { tokens, valuation } = useTokens(Networks.solana);
 	const publicKeys = usePublicKeys(Networks.solana);
 	const bottomSliderItems: SlideOption[] = [
 		{
@@ -58,7 +58,7 @@ export const SolanaDashboard: FC<Props> = () => {
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
-		setPrivacy({ hideBalance: next });
+		setPrivacy(next);
 	};
 
 	return (
@@ -70,6 +70,7 @@ export const SolanaDashboard: FC<Props> = () => {
 							key={index}
 							index={index}
 							item={item}
+							valuation={valuation}
 							skin={suiCardSkin}
 							hideBalance={setting.hideBalance}
 							onCopyAddress={handleCopyAddress}

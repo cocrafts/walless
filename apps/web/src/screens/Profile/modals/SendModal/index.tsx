@@ -17,13 +17,13 @@ interface ModalContext {
 
 export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const { layoutNetwork } = config.context as ModalContext;
-	const tokenList = useTokens(layoutNetwork);
+	const { tokens } = useTokens(layoutNetwork);
 	const addressList = usePublicKeys();
 
 	return (
 		<View style={styles.container}>
 			<SendFeature
-				tokens={tokenList}
+				tokens={tokens}
 				publicKeys={addressList}
 				getTransactionFee={getTransactionFee}
 				onClose={() => modalActions.hide(config.id as string)}

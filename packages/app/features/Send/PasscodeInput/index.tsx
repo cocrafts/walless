@@ -58,7 +58,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 					setError('Wrong passcode');
 				} else if (res.responseCode == ResponseCode.SUCCESS) {
 					transactionActions.setSignatureString(
-						res.signatureString || res.signedTransaction?.digest,
+						res.signatureString || res.signedTransaction?.digest || res.hash,
 					);
 					navigator.slideNext();
 				} else if (res.responseCode == ResponseCode.ERROR) {

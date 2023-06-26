@@ -1,6 +1,6 @@
 import { Stack } from '@walless/ui';
 
-const Delimiter = () => {
+export const Delimiter = () => {
 	return (
 		<Stack
 			flexGrow={1}

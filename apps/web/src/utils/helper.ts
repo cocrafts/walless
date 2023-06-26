@@ -17,6 +17,11 @@ export const networkMap: Record<Networks, NetworkInfo> = {
 		icon: '/img/send-token/icon-sui.png',
 		network: Networks.sui,
 	},
+	[Networks.tezos]: {
+		name: 'Tezos',
+		icon: '/img/send-token/icon-tezos.png',
+		network: Networks.tezos,
+	},
 	[Networks.ethereum]: {
 		name: 'Ethereum',
 		icon: '/img/send-token/icon-ethereum.png',

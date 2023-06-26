@@ -20,30 +20,44 @@ export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
 	}, [map, network]);
 };
 
-export const useTokens = (network?: Networks, address?: string) => {
+export const useTokens = (
+	network?: Networks,
+	address?: string,
+	currency = 'usd',
+) => {
 	const { map } = useSnapshot(tokenState);
 	const tokens = Array.from(map.values());
 
 	return useMemo(() => {
-		if (network || address) {
-			return tokens.filter((i) => {
-				const isNetworkValid = network ? i.network === network : true;
-				const isAccountValid = address ? i.account?.address === address : true;
+		let valuation = 0;
+		const filteredTokens = [];
 
-				return isNetworkValid && isAccountValid;
-			});
+		for (const item of tokens) {
+			const isNetworkValid = network ? item.network === network : true;
+			const isAccountValid = address ? item.account?.address === address : true;
+
+			if (isNetworkValid && isAccountValid) {
+				const quote = item.account?.quotes?.[currency] || 0;
+
+				valuation += quote;
+				filteredTokens.push(item);
+			}
 		}
 
-		return tokens;
+		return {
+			tokens: filteredTokens,
+			valuation,
+		};
 	}, [map, network, address]);
 };
 
 export const useSettings = () => {
 	const { config } = useSnapshot(appState);
-	const { setPrivacy } = appActions;
+	const { setPrivacy, setPathname } = appActions;
 
 	return {
 		setting: config,
 		setPrivacy,
+		setPathname,
 	};
 };

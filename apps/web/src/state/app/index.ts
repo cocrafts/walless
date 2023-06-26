@@ -8,7 +8,7 @@ import {
 	signInWithGoogle,
 } from './authentication';
 import { notify, showSendModal } from './modal';
-import { setPrivacy, sync } from './settings';
+import { setPathname, setPrivacy, sync } from './settings';
 import { bootstrap, launchApp } from './splash';
 import { copy } from './system';
 
@@ -28,6 +28,7 @@ export const appActions = {
 	showSendModal,
 	sync,
 	setPrivacy,
+	setPathname,
 };
 
 export { type AppState, appState } from '@walless/app';

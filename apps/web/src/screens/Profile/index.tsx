@@ -11,7 +11,7 @@ import Widgets from './components/Widgets';
 
 const ProfileScreen = () => {
 	const handleSend = () => {
-		appActions.showSendModal(Networks.solana);
+		appActions.showSendModal();
 	};
 
 	return (

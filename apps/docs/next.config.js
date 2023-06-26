@@ -21,8 +21,8 @@ module.exports = {
 		return [
 			{
 				source: '/',
-				destination: '/getting-started/overview/introduction',
-				permanent: true,
+				destination: '/general/introduction',
+				permanent: false,
 			},
 		];
 	},

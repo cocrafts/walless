@@ -1,3 +1,0 @@
-# Wallet introduction
-
-Up coming

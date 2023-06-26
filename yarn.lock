@@ -7973,7 +7973,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/wallet-adapter-base@npm:^0.9.2":
+"@solana/wallet-adapter-base@npm:^0.9.2, @solana/wallet-adapter-base@npm:^0.9.22":
   version: 0.9.22
   resolution: "@solana/wallet-adapter-base@npm:0.9.22"
   dependencies:
@@ -8018,6 +8018,29 @@ __metadata:
     rpc-websockets: ^7.5.1
     superstruct: ^0.14.2
   checksum: 84f0e5238d42b25ab91af695b2cd5a9022bf489bdd7aedf47ae9ffdf2f6cd7aadf689323c984a63b54de8e0be579897f87dcd2df050830b53f6d1fad98d5c24c
+  languageName: node
+  linkType: hard
+
+"@solana/web3.js@npm:^1.77.3":
+  version: 1.77.3
+  resolution: "@solana/web3.js@npm:1.77.3"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@noble/curves": ^1.0.0
+    "@noble/hashes": ^1.3.0
+    "@solana/buffer-layout": ^4.0.0
+    agentkeepalive: ^4.2.1
+    bigint-buffer: ^1.1.5
+    bn.js: ^5.0.0
+    borsh: ^0.7.0
+    bs58: ^4.0.1
+    buffer: 6.0.3
+    fast-stable-stringify: ^1.0.0
+    jayson: ^4.1.0
+    node-fetch: ^2.6.7
+    rpc-websockets: ^7.5.1
+    superstruct: ^0.14.2
+  checksum: b73c903d9525393e436720997b78916b7bfcf007d229be14f86a810a99dba5926b97d48d2ec92931b8064aa3069ca1a07cc647ce406c436c28142099e741e731
   languageName: node
   linkType: hard
 
@@ -11102,6 +11125,16 @@ __metadata:
     react: ^18.2.0
     tamagui: 1.15.16
     valtio: 1.10.5
+  languageName: unknown
+  linkType: soft
+
+"@walless/wallet-adapter-solana@workspace:packages/wallet-adapter-solana":
+  version: 0.0.0-use.local
+  resolution: "@walless/wallet-adapter-solana@workspace:packages/wallet-adapter-solana"
+  dependencies:
+    "@solana/wallet-adapter-base": ^0.9.22
+    "@solana/web3.js": ^1.77.3
+    eslint: 8.38.0
   languageName: unknown
   linkType: soft
 
@@ -19015,6 +19048,28 @@ __metadata:
   bin:
     jayson: bin/jayson.js
   checksum: 39eed3dc8d0e35320b0234f0faf7d6195b0cdc6940ec969f603a3ea14de8da98f2bd2775e3b982fe1ee6de63e66428fbf322d426e659fa25ea86c8ac92c8710d
+  languageName: node
+  linkType: hard
+
+"jayson@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "jayson@npm:4.1.0"
+  dependencies:
+    "@types/connect": ^3.4.33
+    "@types/node": ^12.12.54
+    "@types/ws": ^7.4.4
+    JSONStream: ^1.3.5
+    commander: ^2.20.3
+    delay: ^5.0.0
+    es6-promisify: ^5.0.0
+    eyes: ^0.1.8
+    isomorphic-ws: ^4.0.1
+    json-stringify-safe: ^5.0.1
+    uuid: ^8.3.2
+    ws: ^7.4.5
+  bin:
+    jayson: bin/jayson.js
+  checksum: 86464322fbdc6db65d2bb4fc278cb6c86fad5c2a506065490d39459f09ba0d30f2b4fb740b33828a1424791419b6c8bd295dc54d361a4ad959bf70cc62b1ca7e
   languageName: node
   linkType: hard
 

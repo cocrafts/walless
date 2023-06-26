@@ -24,6 +24,7 @@ const codeBlock: ParserRule & ReactOutputRule = {
 						overflow: 'scroll',
 						padding: '16px',
 						marginTop: '10px',
+						marginBottom: '20px',
 					},
 				},
 				fontSize: 14,

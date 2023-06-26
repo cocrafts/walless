@@ -2,6 +2,8 @@ import { type MiniBroadcast, type UnknownObject } from '@walless/core';
 
 import { closePopup } from './popup';
 import { type ResponseMethod } from './types';
+
+// need to handle clean up timeout request in this pool
 const requestPool: Record<
 	string,
 	{

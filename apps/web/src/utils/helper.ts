@@ -17,6 +17,11 @@ export const networkMap: Record<Networks, NetworkInfo> = {
 		icon: '/img/send-token/icon-sui.png',
 		network: Networks.sui,
 	},
+	[Networks.tezos]: {
+		name: 'Tezos',
+		icon: '/img/send-token/icon-tezos.png',
+		network: Networks.tezos,
+	},
 	[Networks.ethereum]: {
 		name: 'Ethereum',
 		icon: '/img/send-token/icon-ethereum.png',
@@ -28,4 +33,12 @@ export const getNetworkInfo = (network?: Networks): NetworkInfo | undefined => {
 	if (network) {
 		return networkMap[network];
 	}
+};
+
+/*
+ * This is the function that help popup establish a connect to background script
+ * It's help to detect window close event under kernel
+ */
+export const initializeKernelConnect = (portName: string) => {
+	chrome.runtime.connect({ name: portName });
 };

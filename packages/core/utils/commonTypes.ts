@@ -46,9 +46,11 @@ export type ChannelHashmap = Record<string, MiniBroadcast>;
 export type RequestHashmap = Record<string, RequestContext>;
 
 export enum Networks {
+	tezos = 'tezos',
 	ethereum = 'ethereum',
 	solana = 'solana',
 	sui = 'sui',
+	tezos = 'tezos',
 }
 
 export enum Endpoints {

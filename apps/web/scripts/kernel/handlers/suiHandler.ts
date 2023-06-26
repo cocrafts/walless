@@ -104,7 +104,7 @@ export const handleSignMessage: MessengerCallback = async (
 		modules.engine.getConnection(Networks.sui),
 	);
 
-	const message = decode(payload.message);
+	const message = decode(payload.message as string);
 
 	const signedMessage = await signer.signMessage({ message: message });
 

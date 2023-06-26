@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, Fragment } from 'react';
 import { Stack } from '@walless/ui';
 
 import { type OnboardingStepProps } from '../internal';
@@ -20,7 +20,7 @@ const OnboardingContainer: FC<Props> = ({ onboardingSteps }) => {
 			}}
 		>
 			{onboardingSteps.map((step, index) => (
-				<>
+				<Fragment key={index}>
 					{index > 0 && (
 						<Stack
 							marginTop={256}
@@ -33,8 +33,8 @@ const OnboardingContainer: FC<Props> = ({ onboardingSteps }) => {
 							}}
 						/>
 					)}
-					<OnboardingStep key={index} {...step} />
-				</>
+					<OnboardingStep {...step} />
+				</Fragment>
 			))}
 		</Stack>
 	);

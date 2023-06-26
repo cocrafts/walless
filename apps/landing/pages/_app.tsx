@@ -1,4 +1,4 @@
-import { type FC, Fragment } from 'react';
+import { type FC, Fragment, useEffect, useState } from 'react';
 import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme';
 import { GuiProvider } from '@walless/ui';
 import SEOHead from 'components/SEOHead';
@@ -13,6 +13,12 @@ import '../style.css';
 
 export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	const [theme, setTheme] = useRootTheme();
+	const [, setRender] = useState({});
+
+	useEffect(function updateState() {
+		//  This effect makes reanimated work
+		setRender({});
+	}, []);
 
 	return (
 		<Fragment>

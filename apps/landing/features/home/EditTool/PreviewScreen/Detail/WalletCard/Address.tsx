@@ -36,7 +36,12 @@ export const WalletAddress: FC<Props> = ({ skin, index }) => {
 					alignItems="center"
 					justifyContent="center"
 				>
-					<Image src={iconSrc} width={iconSize} height={iconSize} />
+					<Image
+						src={iconSrc}
+						width={iconSize}
+						height={iconSize}
+						borderRadius={1000}
+					/>
 				</Stack>
 			</TargetWrapper>
 			<Text marginHorizontal={5} fontSize={13}>{`Wallet #${

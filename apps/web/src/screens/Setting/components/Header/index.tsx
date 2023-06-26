@@ -9,7 +9,7 @@ interface Props {
 	profile: UserProfile;
 }
 
-const Header: FC<Props> = ({ profile }) => {
+export const Header: FC<Props> = ({ profile }) => {
 	return (
 		<Stack gap={20}>
 			<Title />

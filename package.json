@@ -58,7 +58,7 @@
     "react-native": "^0.71.6",
     "react-native-reanimated": "3.1.0",
     "rimraf": "^5.0.0",
-    "sst": "latest",
+    "sst": "^2.13.2",
     "ts-jest": "^29.0.5",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
     "turbo": "latest",

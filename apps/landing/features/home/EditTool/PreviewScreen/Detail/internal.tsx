@@ -24,7 +24,7 @@ export const layoutTabs: TabAble[] = [
 export const mockMetadata: MetadataDocument = {
 	_id: '111111111111111111',
 	type: 'Metadata',
-	name: 'Solana',
-	symbol: 'SOL',
+	name: 'Tezos',
+	symbol: 'XTZ',
 	imageUri: '/img/network/solana-icon-lg.png',
 };

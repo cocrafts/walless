@@ -5,6 +5,7 @@ import { createCrawler } from './utils/crawler';
 import { type EngineCrawler } from './utils/type';
 import { solanaEngineRunner, solanaPool } from './solana';
 import { suiEngineRunner, suiPool } from './sui';
+import { tezosEngineRunner, tezosPool } from './tezos';
 
 export interface Engine {
 	start: () => void;
@@ -26,6 +27,7 @@ export const createEngine = ({
 		sui: defaultEndpoint,
 		solana: defaultEndpoint,
 		ethereum: defaultEndpoint,
+		tezos: defaultEndpoint,
 	};
 
 	/* eslint-disable-next-line */
@@ -44,6 +46,13 @@ export const createEngine = ({
 			start: solanaEngineRunner.start,
 			stop: solanaEngineRunner.stop,
 		}),
+		tezos: createCrawler({
+			storage,
+			endpoint: defaultEndpoint,
+			pool: tezosPool,
+			start: tezosEngineRunner.start,
+			stop: tezosEngineRunner.stop,
+		}),
 	};
 
 	return {
@@ -55,6 +64,7 @@ export const createEngine = ({
 		start: () => {
 			crawlers.sui.start();
 			crawlers.solana.start();
+			crawlers.tezos.start();
 		},
 		getConnection: (network) => crawlers[network]?.connection,
 	};

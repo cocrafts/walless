@@ -16,9 +16,9 @@ import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
-import EmptyTab from './EmptyTab';
+import EmptyTab from './components/EmptyTab';
+import TokenTab from './components/TokenTab';
 import { layoutTabs } from './shared';
-import TokenTab from './TokenTab';
 
 interface Props {
 	variant?: string;
@@ -27,7 +27,7 @@ interface Props {
 export const SuiDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { setting, setPrivacy } = useSettings();
-	const tokens = useTokens(Networks.sui);
+	const { tokens } = useTokens(Networks.sui);
 	const publicKeys = usePublicKeys(Networks.sui);
 	const bottomSliderItems: SlideOption[] = [
 		{
@@ -58,7 +58,7 @@ export const SuiDashboard: FC<Props> = () => {
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
-		setPrivacy({ hideBalance: next });
+		setPrivacy(next);
 	};
 
 	return (

@@ -32,6 +32,9 @@ export const SenderInfor: FC<Props> = () => {
 	} else if (publicKey?.network == Networks.sui) {
 		iconUri.uri = 'img/network/sui-icon-sm.png';
 		walletTitle = 'SUI';
+	} else if (publicKey?.network == Networks.tezos) {
+		iconUri.uri = 'img/network/tezos-icon-sm.png';
+		walletTitle = 'Tezos';
 	}
 
 	return (

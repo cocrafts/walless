@@ -9,6 +9,5 @@ export const solanaPool = createConnectionPool<Connection>({
 export const solanaEndpoints: Record<string, string> = {
 	devnet: clusterApiUrl('devnet'),
 	testnet: clusterApiUrl('testnet'),
-	mainnet:
-		'https://broken-billowing-sanctuary.solana-mainnet.quiknode.pro/269a66566cb8bd89906698287232cf38c5cae13a/',
+	mainnet: 'https://nd-863-074-236.p2pify.com/0e6f78c82b1fcf2cd179a29a1dd0302e',
 };

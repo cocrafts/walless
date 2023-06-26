@@ -107,7 +107,7 @@ export const importAvailableShares = async (): Promise<ThresholdResult> => {
 			await key.modules.webStorage?.inputShareFromWebStorage();
 		}
 
-		const { requiredShares, totalShares } = await key.getKeyDetails();
+		const { requiredShares, totalShares } = key.getKeyDetails();
 		const isReady = requiredShares <= 0;
 
 		if (isReady) {

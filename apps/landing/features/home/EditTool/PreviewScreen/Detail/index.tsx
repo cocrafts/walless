@@ -60,7 +60,7 @@ const Detail: FC = () => {
 			<Stack gap={18} width={380}>
 				<ScrollView width="100%" marginTop={12} horizontal paddingLeft={18}>
 					<WalletCard
-						skin={suiCardSkin}
+						skin={tezosCardSkin}
 						token={(mainToken as MetadataDocument) || mockMetadata}
 					/>
 				</ScrollView>
@@ -117,10 +117,10 @@ const Detail: FC = () => {
 
 export default Detail;
 
-const suiCardSkin: CardSkin = {
+const tezosCardSkin: CardSkin = {
 	backgroundSrc: resources.home.detail.backgroundSrc,
 	largeIconSrc: resources.home.detail.largeIconSrc,
 	iconSrc: resources.home.detail.iconSrc,
 	iconColor: '#000000',
-	iconSize: 16,
+	iconSize: 22,
 };

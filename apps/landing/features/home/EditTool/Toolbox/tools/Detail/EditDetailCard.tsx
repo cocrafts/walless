@@ -11,6 +11,11 @@ import ToolDescription from '../components/ToolDescription';
 
 const options: DropdownOptionProps[] = [
 	{
+		id: Networks.tezos,
+		icon: '/img/network/tezos-icon-sm.png',
+		label: 'Tezos',
+	},
+	{
 		id: Networks.solana,
 		icon: '/img/preview/solana-logo.png',
 		label: 'Solana',

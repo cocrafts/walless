@@ -39,7 +39,7 @@ export const tezosTokensByAddress = async ({
 			...KNOWN_TEZOS_MAINNET_TOKENS.map((token) => {
 				return {
 					...token,
-					_id: `${token.account.address}`,
+					_id: `${token.account.address}_${token.account.tokenId}`,
 					type: 'Token',
 					network: Networks.tezos,
 				} as TokenDocument;
@@ -84,6 +84,7 @@ const tezosNativeToken: TokenDocument = {
 		imageUri: '/img/network/tezos-icon-sm.png',
 	},
 	account: {
+		address: 'tezos-native-token',
 		balance: '0',
 		decimals: 6,
 	},

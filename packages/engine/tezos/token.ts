@@ -39,7 +39,7 @@ export const tezosTokensByAddress = async ({
 			...KNOWN_TEZOS_MAINNET_TOKENS.map((token) => {
 				return {
 					...token,
-					_id: `${token.account.address}`,
+					_id: `${token.account.address}_${token.account.tokenId}`,
 					type: 'Token',
 					network: Networks.tezos,
 				} as TokenDocument;

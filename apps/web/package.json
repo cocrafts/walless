@@ -1,6 +1,6 @@
 {
   "name": "@walless/web",
-  "version": "0.2.26",
+  "version": "0.2.34",
   "private": true,
   "main": "index.web.js",
   "scripts": {

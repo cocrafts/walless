@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { BulletSeparator } from '@walless/app';
 import { Button, Text, View } from '@walless/gui';
 import Image from 'next/image';
 
@@ -18,9 +19,12 @@ const WalletCustomizeSection = () => {
 					<Text style={styles.headingText}>
 						Customize your own wallet layout today
 					</Text>
-					<View>
-						<View />
-					</View>
+					<BulletSeparator
+						noBullet={false}
+						bulletWidth={12}
+						bulletHeight={6}
+						color="#19A3E1"
+					/>
 					<Text style={styles.subText}>
 						Discord servers are organized into topic-based channels where you
 						can collaborate

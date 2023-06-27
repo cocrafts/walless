@@ -10,14 +10,10 @@ import {
 	type ResponsePayload,
 	ResponseCode,
 } from '@walless/messaging';
-import { signAndSendTransaction, signMessage } from '@walless/network';
 import { decode, encode } from 'bs58';
+import { sign } from 'tweetnacl';
 
-import {
-	getPrivateKey,
-	settings,
-	triggerActionToGetPrivateKey,
-} from '../utils/handler';
+import { type HandleMethod } from '../utils/types';
 
 export const getEndpoint: MessengerCallback = async (payload, channel) => {
 	const conn = modules.engine.getConnection(Networks.solana) as Connection;
@@ -33,96 +29,58 @@ export const getEndpoint: MessengerCallback = async (payload, channel) => {
 	channel.postMessage(responsePayload);
 };
 
-export const handleSignMessage: MessengerCallback = async (
+export const signMessage: HandleMethod = async ({
+	privateKey,
 	payload,
-	channel,
-) => {
-	const privateKey = await triggerActionToGetPrivateKey();
+	responseMethod,
+}) => {
+	const message = decode(payload.message as string);
+	const keypair = Keypair.fromSecretKey(privateKey);
+	const signatureBytes = sign.detached(message, keypair.secretKey);
 
-	if (!privateKey) {
-		return;
-	}
-
-	const message = decode(payload.message);
-	const signature = signMessage(message, privateKey);
-
-	channel.postMessage({
-		from: 'walless@kernel',
-		requestId: payload.requestId,
-		signature: encode(signature),
+	responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
+		signature: encode(signatureBytes),
 	});
-
-	return signature;
 };
 
-export const handleSignTransaction: MessengerCallback = async (
+export const signTransaction: HandleMethod = async ({
+	privateKey,
 	payload,
-	channel,
-) => {
-	const privateKey = await triggerActionToGetPrivateKey();
+	responseMethod,
+}) => {
+	const keypair = Keypair.fromSecretKey(privateKey);
+	const serializedTransaction = decode(payload.transaction as string);
+	const transaction = VersionedTransaction.deserialize(serializedTransaction);
+	transaction.sign([keypair]);
 
-	if (!privateKey) {
-		return;
-	}
+	responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
+		signedTransaction: encode(transaction.serialize()),
+	});
+};
+
+export const signAndSendTransaction: HandleMethod = async ({
+	privateKey,
+	payload,
+	responseMethod,
+}) => {
+	const connection = modules.engine.getConnection(
+		Networks.solana,
+	) as Connection;
+
+	const keypair = Keypair.fromSecretKey(privateKey);
 
 	const serializedTransaction = decode(payload.transaction as string);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
-	const keypair = Keypair.fromSecretKey(privateKey);
+
+	transaction.message.recentBlockhash = (
+		await connection.getLatestBlockhash()
+	).blockhash;
 
 	transaction.sign([keypair]);
 
-	channel.postMessage({
-		from: 'walless@kernel',
-		requestId: payload.requestId,
-		signedTransaction: encode(transaction.serialize()),
+	const signatureString = await connection.sendTransaction(transaction);
+
+	responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
+		signatureString,
 	});
-
-	return transaction.serialize();
-};
-
-export const handleSignAndSendTransaction: MessengerCallback = async (
-	payload,
-	channel,
-) => {
-	const responsePayload: ResponsePayload = {
-		from: 'walless@kernel',
-		requestId: payload.requestId,
-		responseCode: ResponseCode.SUCCESS,
-	};
-
-	if (settings.requirePasscode && !payload.passcode) {
-		responsePayload.responseCode = ResponseCode.REQUIRE_PASSCODE;
-
-		return channel.postMessage(responsePayload);
-	}
-
-	let privateKey;
-	try {
-		privateKey = await getPrivateKey(
-			Networks.solana,
-			payload.passcode as string,
-		);
-	} catch (error) {
-		responsePayload.responseCode = ResponseCode.WRONG_PASSCODE;
-		responsePayload.message = (error as Error).message;
-
-		return channel.postMessage(responsePayload);
-	}
-
-	const serializedTransaction = decode(payload.transaction as string);
-	const transaction = VersionedTransaction.deserialize(serializedTransaction);
-
-	try {
-		responsePayload.signatureString = await signAndSendTransaction(
-			modules.engine.getConnection(Networks.solana),
-			transaction,
-			payload.options || {},
-			privateKey as Uint8Array,
-		);
-	} catch (error) {
-		responsePayload.responseCode = ResponseCode.ERROR;
-		responsePayload.message = (error as Error).message;
-	}
-
-	return channel.postMessage(responsePayload);
 };

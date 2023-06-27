@@ -2,13 +2,19 @@ import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
+import numeral from 'numeral';
 
 interface Props {
 	onHide: (next: boolean) => void;
 	hideBalance: boolean;
+	valuation?: number;
 }
 
-export const WalletBalance: FC<Props> = ({ onHide, hideBalance }) => {
+export const WalletBalance: FC<Props> = ({
+	onHide,
+	hideBalance,
+	valuation = 0,
+}) => {
 	const balanceTextStyle = [
 		styles.balanceText,
 		hideBalance && styles.protectedBalance,
@@ -21,7 +27,7 @@ export const WalletBalance: FC<Props> = ({ onHide, hideBalance }) => {
 					{hideBalance ? <EyeOff size={18} /> : <Eye size={18} />}
 				</Hoverable>
 				<Text style={balanceTextStyle}>
-					{getValuationDisplay(0, hideBalance)}
+					{getValuationDisplay(valuation, hideBalance)}
 				</Text>
 			</View>
 		</View>
@@ -61,5 +67,5 @@ const getValuationDisplay = (valuation: number, isPrivate?: boolean) => {
 		return '******';
 	}
 
-	return '$0.00';
+	return `$${numeral(valuation).format('0.00')}`;
 };

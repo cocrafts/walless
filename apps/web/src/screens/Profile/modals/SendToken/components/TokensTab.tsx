@@ -31,13 +31,13 @@ export const TokensTab: FC<Props> = ({ modalId }) => {
 		})();
 	}, [network]);
 
-	const allTokens = useTokens();
+	const { tokens } = useTokens();
 
 	return (
 		<Stack display="flex" alignItems="center" justifyContent="center" gap={12}>
 			<Select
 				title="Select token"
-				items={allTokens}
+				items={tokens}
 				selected={token as TokenDocument}
 				getRequiredFields={(item) => {
 					return {

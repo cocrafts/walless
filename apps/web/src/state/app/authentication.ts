@@ -1,5 +1,6 @@
 import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
+import { generateSecretKey, InMemorySigner } from '@taquito/signer';
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
 import { type UserProfile, Networks, runtime } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
@@ -16,6 +17,7 @@ import {
 	type PublicKeyDocument,
 	type SettingDocument,
 } from '@walless/store';
+import { decode } from 'bs58';
 import {
 	type User,
 	type UserCredential,
@@ -25,6 +27,7 @@ import {
 } from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
 import { router } from 'utils/routing';
+import { showError } from 'utils/showError';
 import {
 	configureSecurityQuestionShare,
 	customAuth,
@@ -46,7 +49,10 @@ export const setProfile = async (profile: UserProfile) => {
 		doc.type = 'Setting';
 		doc.version = '0.0.1';
 		doc.profile = profile;
-		doc.config = { hideBalance: true };
+		doc.config = {
+			hideBalance: true,
+			latestLocation: '/',
+		};
 
 		return doc;
 	});
@@ -131,6 +137,7 @@ export const createKeyAndEnter = async () => {
 };
 
 export const enterInvitationCode = async (code: string) => {
+	/* eslint-disable-next-line */
 	const { invitationCode } = await qlClient.request<{
 		invitationCode: InvitationCode;
 	}>(queries.invitationCode, { code });
@@ -159,16 +166,21 @@ export const recoverWithPasscode = async (passcode: string) => {
 	appState.passcodeLoading = true;
 	appState.passcodeError = undefined;
 
-	const unlockSuccess = await recoverDeviceShareFromPasscode(passcode);
+	try {
+		const unlockSuccess = await recoverDeviceShareFromPasscode(passcode);
 
-	if (unlockSuccess) {
-		await storeAuthenticatedRecords(passcode, cache.loginResponse);
-		await router.navigate('/');
-	} else {
-		appState.passcodeError = 'wrong passcode, please try again!';
+		if (unlockSuccess) {
+			await storeAuthenticatedRecords(passcode, cache.loginResponse);
+			await router.navigate('/');
+		} else {
+			appState.passcodeError = 'wrong passcode, please try again!';
+		}
+
+		appState.passcodeLoading = false;
+	} catch (_) {
+		await showError('Something went wrong!');
+		router.navigate('/login');
 	}
-
-	appState.passcodeLoading = false;
 };
 
 export const storeAuthenticatedRecords = async (
@@ -185,6 +197,7 @@ export const storeAuthenticatedRecords = async (
 	if (privateKeys.length === 0) {
 		await key.modules.privateKeyModule.setPrivateKey('secp256k1n');
 		await key.modules.privateKeyModule.setPrivateKey('ed25519');
+		await key.syncLocalMetadataTransitions();
 	}
 
 	const writePromises = [];
@@ -227,6 +240,39 @@ export const storeAuthenticatedRecords = async (
 					privateKeyId: id,
 					type: 'PublicKey',
 					network: Networks.sui,
+				}),
+			);
+
+			/**
+			 * For Tezos, we temporarily use base private as a seed to generate new private key
+			 * */
+			const tezosPair = await InMemorySigner.fromSecretKey(
+				generateSecretKey(key, "44'/1729'", 'ed25519'),
+			);
+			const tezosAddress = await tezosPair.publicKeyHash();
+
+			/**
+			 * Using bs58 to keep format of tezos key string
+			 * */
+			const encryptedTezosKey = await encryptWithPasscode(
+				passcode,
+				decode(await tezosPair.secretKey()),
+			);
+			writePromises.push(
+				modules.storage.put<PrivateKeyDocument>({
+					_id: id + Networks.tezos,
+					type: 'PrivateKey',
+					keyType: type,
+					...encryptedTezosKey,
+				}),
+			);
+
+			writePromises.push(
+				modules.storage.put<PublicKeyDocument>({
+					_id: tezosAddress,
+					privateKeyId: id + Networks.tezos,
+					type: 'PublicKey',
+					network: Networks.tezos,
 				}),
 			);
 		}

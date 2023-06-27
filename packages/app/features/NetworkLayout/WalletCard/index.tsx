@@ -19,6 +19,7 @@ interface Props {
 	index?: number;
 	item: PublicKeyDocument;
 	skin: CardSkin;
+	valuation?: number;
 	hideBalance: boolean;
 	onCopyAddress?: (value: string) => void;
 	onChangePrivateSetting?: (value: boolean) => void;
@@ -29,6 +30,7 @@ export const WalletCard: FC<Props> = ({
 	index = 0,
 	item,
 	skin,
+	valuation = 0,
 	hideBalance,
 	onCopyAddress,
 	onChangePrivateSetting,
@@ -56,10 +58,16 @@ export const WalletCard: FC<Props> = ({
 				skin={skin}
 				onCopyAddress={onCopyAddress}
 			/>
-			<WalletBalance hideBalance={hideBalance} onHide={handleHide} />
-			<View style={styles.markContainer}>
-				<Image style={styles.markImage} source={skin.largeIconSrc} />
-			</View>
+			<WalletBalance
+				hideBalance={hideBalance}
+				valuation={valuation}
+				onHide={handleHide}
+			/>
+			{skin.largeIconSrc && (
+				<View style={styles.markContainer}>
+					<Image style={styles.markImage} source={skin.largeIconSrc} />
+				</View>
+			)}
 		</ImageBackground>
 	);
 };

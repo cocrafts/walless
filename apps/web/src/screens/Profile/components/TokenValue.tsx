@@ -7,7 +7,7 @@ const TokenValue = () => {
 	const { setting, setPrivacy } = useSettings();
 
 	const handleToggleTokenValue = async () => {
-		setPrivacy({ hideBalance: !setting.hideBalance });
+		setPrivacy(!setting.hideBalance);
 	};
 
 	return (

@@ -10,6 +10,31 @@ export interface LayoutCardProps {
 
 export const mockLayoutCards: ExtensionDocument[] = [
 	{
+		_id: 'tezos',
+		name: 'Tezos',
+		version: '0.0.1',
+		type: 'Extension',
+		extensionType: 'Layout',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: 'img/network/tezos-icon-sm.png',
+			iconSize: 26,
+			iconColor: '#2D7DF8',
+			coverUri: 'https://tezos.com/brand/CleanTezos1.png',
+			description:
+				'A blockchain designed to evolve. Security focused. Upgradeable. Built to last',
+			loveCount: 100,
+			activeCount: 567,
+		},
+		networkMeta: {
+			backgroundUri: 'https://tezos.com/brand/NFTsTezos.png',
+			markUri: '',
+			iconUri: '',
+			iconColor: '#2D7DF8',
+			iconSize: 12,
+		},
+	},
+	{
 		_id: 'solana',
 		name: 'Solana',
 		version: '0.9.1',

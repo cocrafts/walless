@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, Fragment, useState } from 'react';
 import {
 	type NativeSyntheticEvent,
 	type TextInputKeyPressEventData,
@@ -10,16 +10,19 @@ import {
 import { Plus } from '@walless/icons';
 
 interface Props {
-	address?: string;
-	onSubmit: (value: string) => void;
+	onSubmit: (address: string, tokenId?: number) => Promise<void>;
+	withOptional?: boolean;
 }
 
-const InputAddress: FC<Props> = ({ address = '', onSubmit }) => {
-	const [value, setValue] = useState(address);
+const InputAddress: FC<Props> = ({ onSubmit, withOptional }) => {
+	const [address, setAddress] = useState('');
+	const [tokenId, setTokenId] = useState<number>();
 
-	const handleSubmit = () => {
-		onSubmit(value);
-		setValue('');
+	const handleSubmit = async () => {
+		setAddress((value) => `Loading... ${value}`);
+		await onSubmit(address, tokenId);
+		setAddress('');
+		setTokenId(undefined);
 	};
 
 	const handleKeyPress = ({
@@ -31,17 +34,30 @@ const InputAddress: FC<Props> = ({ address = '', onSubmit }) => {
 	};
 
 	return (
-		<View style={styles.container}>
-			<TextInput
-				style={styles.inputContainer}
-				value={value}
-				onKeyPress={handleKeyPress}
-				onChangeText={(text) => setValue(text)}
-			/>
-			<TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
-				<Plus size={18} color={'#566674'} />
-			</TouchableOpacity>
-		</View>
+		<Fragment>
+			<View style={styles.container}>
+				<TextInput
+					style={styles.inputContainer}
+					value={address}
+					onKeyPress={handleKeyPress}
+					onChangeText={(text) => setAddress(text)}
+					placeholder={'Enter address'}
+					placeholderTextColor={'#566674'}
+				/>
+				<TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
+					<Plus size={18} color={'#566674'} />
+				</TouchableOpacity>
+			</View>
+			{withOptional && (
+				<TextInput
+					value={tokenId ? tokenId.toString() : ''}
+					onChangeText={(text) => setTokenId(parseInt(text))}
+					style={styles.tokenIdInputContainer}
+					placeholder={'Enter token id (Optional)'}
+					placeholderTextColor={'#566674'}
+				/>
+			)}
+		</Fragment>
 	);
 };
 
@@ -63,8 +79,15 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		borderTopRightRadius: 8,
 		borderBottomRightRadius: 8,
-		paddingHorizontal: 10,
+		padding: 10,
 		justifyContent: 'center',
 		backgroundColor: 'rgba(0, 0, 0, 0.2)',
+	},
+	tokenIdInputContainer: {
+		backgroundColor: '#19232C',
+		fontFamily: 'Rubik',
+		borderRadius: 8,
+		paddingHorizontal: 14,
+		paddingVertical: 14,
 	},
 });

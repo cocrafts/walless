@@ -20,13 +20,13 @@ import {
 	type SignMessageFunc,
 	Networks,
 } from '@walless/core';
-import { type PublicKeyRecord } from '@walless/storage';
+import { type PublicKeyDocument } from '@walless/store';
 import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
 
 import { type PublicKeyType } from '../wallet-standard/src/util';
 
-import * as mutualProvider from './providers/mutual';
+import * as commonProvider from './providers/common';
 import * as solanaProvider from './providers/solana';
 import * as suiProvider from './providers/sui';
 
@@ -54,24 +54,29 @@ export class Walless extends EventEmitter {
 
 		const hostName = window.location.hostname;
 
-		const response = await mutualProvider.requestConnect({
+		const response = await commonProvider.requestConnect({
 			...options,
+			onlyIfTrusted: options?.onlyIfTrusted || true, // set default onlyIfTrusted to true because options from wallet-standard seem not work
 			domain: hostName,
 		} as ConnectOptions);
 
 		const publicKeys = response.publicKeys;
 
+		if (response.message) {
+			throw new Error(response.message);
+		}
+
 		this.#publicKeys = publicKeys
-			.map((pk: PublicKeyRecord) => {
+			.map((pk: PublicKeyDocument) => {
 				let publicKey: PublicKeyType;
 
 				// Prepare suitable public key for each network
 				if (pk.network === Networks.solana) {
-					publicKey = new SolanaPublicKey(pk.id as string);
+					publicKey = new SolanaPublicKey(pk._id as string);
 				} else if (pk.network === Networks.sui) {
 					publicKey = new SuiPublicKey(
 						new Uint8Array(
-							Buffer.from((pk.id as string).replace(/0x/, ''), 'hex'),
+							Buffer.from((pk._id as string).replace(/0x/, ''), 'hex'),
 						),
 					);
 				} else {
@@ -122,9 +127,13 @@ export class Walless extends EventEmitter {
 			encode(transaction.serialize()),
 		);
 
-		return VersionedTransaction.deserialize(
-			decode(res.signedTransaction),
-		) as never;
+		if (res.signedTransaction) {
+			return VersionedTransaction.deserialize(
+				decode(res.signedTransaction),
+			) as never;
+		} else {
+			throw new Error(res.message as string);
+		}
 	};
 
 	signAllTransactionsOnSolana: SignAllFunc = (transactions) => {
@@ -139,7 +148,11 @@ export class Walless extends EventEmitter {
 		}
 
 		const res = await solanaProvider.requestSignMessage(encode(message));
-		return { signature: decode(res.signature) };
+		if (res.signature) {
+			return { signature: decode(res.signature) };
+		} else {
+			throw new Error(res.message);
+		}
 	};
 
 	signMessageOnSui = async (message: Uint8Array): Promise<SignedMessage> => {

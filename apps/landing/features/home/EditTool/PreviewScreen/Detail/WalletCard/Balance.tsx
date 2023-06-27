@@ -20,7 +20,7 @@ export const WalletBalance: FC<Props> = ({ token }) => {
 				<Eye size={18} />
 				<TargetWrapper isTargeted={tools.target === DetailTool.token}>
 					<Text height={42} fontSize={35} fontWeight={'500'}>
-						0 {token?.symbol || 'SOL'}
+						0 {token?.symbol || 'XTZ'}
 					</Text>
 				</TargetWrapper>
 			</Stack>

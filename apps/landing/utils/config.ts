@@ -30,10 +30,10 @@ export const resources = {
 				uri: '/img/network/sky-card-bg.png',
 			},
 			largeIconSrc: {
-				uri: '/img/network/solana-icon-lg.png',
+				uri: '/img/network/tezos-icon-lg.png',
 			},
 			iconSrc: {
-				uri: '/img/network/solana-icon-sm.png',
+				uri: '/img/network/tezos-icon-sm.png',
 			},
 		},
 	},

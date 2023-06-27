@@ -10,7 +10,7 @@ GoogleSignin.configure({
 export const signInWithGoogle = async () => {
 	await CustomAuth.init({
 		redirectUri: 'metacraft://walless/auth',
-		network: 'testnet',
+		network: 'mainnet',
 	});
 
 	await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -18,7 +18,7 @@ export const signInWithGoogle = async () => {
 	const credential = auth.GoogleAuthProvider.credential(idToken);
 	const { user } = await auth().signInWithCredential(credential);
 	const verifierToken = await user.getIdToken(true);
-	const verifier = 'walless-firebase';
+	const verifier = 'walless-jwt';
 	const verifierId = user.uid;
 	const verifierParams = { verifierIdField: 'sub', verifier_id: user.uid };
 

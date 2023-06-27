@@ -6,9 +6,8 @@ export interface LayoutCardProps {
 	description: string;
 	loveCount: number;
 	activeCount: number;
-	onDetails: () => void;
-	activeLayoutId?: string;
-	setIsActiveId?: (id: string) => void;
+	activeLayoutId?: string | null;
+	setIsActiveId?: (id: string | null) => void;
 }
 
 export const defiList: LayoutCardProps[] = [
@@ -20,9 +19,6 @@ export const defiList: LayoutCardProps[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
 		activeCount: 0,
-		onDetails: () => {
-			console.log('the details are shown');
-		},
 	},
 	{
 		id: 'defi-2',
@@ -32,9 +28,6 @@ export const defiList: LayoutCardProps[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
 		activeCount: 0,
-		onDetails: () => {
-			console.log('the details are shown');
-		},
 	},
 	{
 		id: 'defi-3',
@@ -44,9 +37,6 @@ export const defiList: LayoutCardProps[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
 		activeCount: 0,
-		onDetails: () => {
-			console.log('the details are shown');
-		},
 	},
 	{
 		id: 'defi-4',
@@ -56,9 +46,6 @@ export const defiList: LayoutCardProps[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
 		activeCount: 0,
-		onDetails: () => {
-			console.log('the details are shown');
-		},
 	},
 ];
 
@@ -71,9 +58,6 @@ export const gamesList: LayoutCardProps[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
 		activeCount: 0,
-		onDetails: () => {
-			console.log('the details are shown');
-		},
 	},
 	{
 		id: 'game-2',
@@ -83,9 +67,6 @@ export const gamesList: LayoutCardProps[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
 		activeCount: 0,
-		onDetails: () => {
-			console.log('the details are shown');
-		},
 	},
 	{
 		id: 'game-3',
@@ -95,9 +76,6 @@ export const gamesList: LayoutCardProps[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
 		activeCount: 0,
-		onDetails: () => {
-			console.log('the details are shown');
-		},
 	},
 	{
 		id: 'game-4',
@@ -107,8 +85,5 @@ export const gamesList: LayoutCardProps[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
 		activeCount: 0,
-		onDetails: () => {
-			console.log('the details are shown');
-		},
 	},
 ];

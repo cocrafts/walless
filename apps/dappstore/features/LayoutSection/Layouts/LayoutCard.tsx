@@ -1,8 +1,9 @@
 import { type FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Hoverable, Text, View } from '@walless/gui';
+import { Hoverable, Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { type LayoutCardProps } from '../internal';
 
@@ -14,11 +15,15 @@ const LayoutCard: FC<LayoutCardProps> = ({
 	description,
 	loveCount,
 	activeCount,
-	onDetails,
 	activeLayoutId,
 	setIsActiveId,
 }) => {
 	const [isHovered, setIsHovered] = useState(false);
+	const router = useRouter();
+
+	const handleNavigateToLayoutDetails = () => {
+		router.push(`/layouts/${id}`);
+	};
 
 	useEffect(() => {
 		if (id !== activeLayoutId) {
@@ -36,7 +41,7 @@ const LayoutCard: FC<LayoutCardProps> = ({
 					: styles.container
 			}
 			onHoverIn={() => setIsActiveId?.(id)}
-			onHoverOut={() => setIsActiveId?.('')}
+			onHoverOut={() => setIsActiveId?.(null)}
 		>
 			<View style={styles.coverContainer}>
 				<Image src={coverImage} alt={title} fill={true} />
@@ -70,9 +75,13 @@ const LayoutCard: FC<LayoutCardProps> = ({
 					</View>
 
 					{isHovered && (
-						<Button style={styles.detailButton} onPress={onDetails}>
+						<Hoverable
+							style={styles.detailButton}
+							onPress={handleNavigateToLayoutDetails}
+							onHoverIn={() => setIsActiveId?.(id)}
+						>
 							<Text style={styles.detailText}>Details</Text>
-						</Button>
+						</Hoverable>
 					)}
 				</View>
 			</View>

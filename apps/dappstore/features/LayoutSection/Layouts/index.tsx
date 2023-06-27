@@ -9,8 +9,8 @@ import LayoutCard from './LayoutCard';
 interface Props {
 	typeOfLayout: string;
 	listOfLayouts: LayoutCardProps[];
-	activeLayoutId: string;
-	setActiveLayoutId: (id: string) => void;
+	activeLayoutId: string | null;
+	setActiveLayoutId: (id: string | null) => void;
 }
 
 const Layouts: FC<Props> = ({

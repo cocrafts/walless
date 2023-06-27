@@ -6,7 +6,7 @@ import { defiList, gamesList } from './internal';
 import Layouts from './Layouts';
 
 const LayoutSection = () => {
-	const [activeLayoutId, setActiveLayoutId] = useState('');
+	const [activeLayoutId, setActiveLayoutId] = useState<string | null>(null);
 
 	return (
 		<View style={styles.container}>

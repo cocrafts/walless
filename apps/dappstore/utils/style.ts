@@ -13,5 +13,6 @@ export const sharedStyles = StyleSheet.create({
 		paddingTop: 40,
 		maxWidth: 1200,
 		margin: 'auto',
+		gap: 88,
 	},
 });

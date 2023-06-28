@@ -204,6 +204,23 @@ export class Walless extends EventEmitter {
 
 		return signedTransaction;
 	};
+
+	installLayout = async (input: string): Promise<boolean> => {
+		if (!this.#publicKeys) {
+			throw new Error('wallet not connected');
+		}
+
+		let isSuccessfullyInstalled = false;
+		try {
+			console.log(`installed ${input} layout`);
+		} catch (error) {
+			throw new Error('not successfully installed');
+		} finally {
+			isSuccessfullyInstalled = true;
+		}
+
+		return isSuccessfullyInstalled;
+	};
 }
 
 export default Walless;

@@ -2,7 +2,6 @@ import { type ChromeExtensionStorageModule } from '@tkey/chrome-storage';
 import type {
 	GenerateNewShareResult,
 	ISeedPhraseFormat,
-	ISeedPhraseStore,
 	ModuleMap,
 } from '@tkey/common-types';
 import { generateID } from '@tkey/common-types';

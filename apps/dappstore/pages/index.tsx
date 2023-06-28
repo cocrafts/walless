@@ -1,14 +1,11 @@
 import { type FC } from 'react';
 import { ScrollView } from 'react-native';
-import { dimensionState, View } from '@walless/gui';
+import { View } from '@walless/gui';
 import { Footer, Header } from 'components/layouts';
+import LayoutSection from 'features/LayoutSection';
 import { sharedStyles } from 'utils/style';
-import { useSnapshot } from 'valtio';
 
 const IndexPage: FC = () => {
-	const snap = useSnapshot(dimensionState);
-	console.log('Is mobile', snap.isMobile);
-
 	return (
 		<View style={sharedStyles.minScreen}>
 			<View style={sharedStyles.container}>
@@ -17,7 +14,11 @@ const IndexPage: FC = () => {
 			<ScrollView
 				contentContainerStyle={sharedStyles.container}
 				showsVerticalScrollIndicator={false}
-			></ScrollView>
+			>
+				<View style={sharedStyles.contentContainer}>
+					<LayoutSection />
+				</View>
+			</ScrollView>
 			<Footer />
 		</View>
 	);

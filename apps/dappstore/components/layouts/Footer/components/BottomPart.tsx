@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 import { Anchor, dimensionState, Text, View } from '@walless/gui';
-import { useSnapshot } from 'valtio';
+// import { useSnapshot } from 'valtio';
 
 const BottomPart = () => {
-	const { isMobile } = useSnapshot(dimensionState);
+	// const { isMobile } = useSnapshot(dimensionState);
 
 	return (
-		<View style={isMobile ? styles.containerMobile : styles.containerDesktop}>
+		<View style={styles.containerMobile}>
 			<Text>Copyright @ 2023. All rights reserved.</Text>
 			<View>
 				<Anchor title="Terms & Conditions" href="/" />

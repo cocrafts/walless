@@ -2,19 +2,22 @@
   "name": "@walless/wallet-adapter-solana",
   "version": "0.0.1",
   "description": "This is Walless adapter for Solana",
-  "files": ["lib", "src"],
+  "files": [
+    "lib",
+    "src"
+  ],
   "type": "module",
   "sideEffects": false,
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
-  "types": "./lib/types/index.d.ts",
+  "main": "./lib/cjs/src/index.js",
+  "module": "./lib/esm/src/index.js",
+  "types": "./lib/types/src/index.d.ts",
   "exports": {
-    "require": "./lib/cjs/index.js",
-    "import": "./lib/esm/index.js",
-    "types": "./lib/types/index.d.ts"
+    "require": "./lib/cjs/src/index.js",
+    "import": "./lib/esm/src/index.js",
+    "types": "./lib/types/src/index.d.ts"
   },
   "scripts": {
-    "build": "tsc --build --verbose && pnpm run package",
+    "build": "tsc --build --verbose",
     "test": "jest",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
@@ -24,6 +27,7 @@
   },
   "devDependencies": {
     "@solana/web3.js": "^1.77.3",
-    "eslint": "8.38.0"
+    "eslint": "8.38.0",
+    "typescript": "^5.1.3"
   }
 }

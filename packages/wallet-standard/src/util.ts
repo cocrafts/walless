@@ -31,3 +31,6 @@ export const SuiSignAndExecuteTransactionBlock =
 	'sui:signAndExecuteTransactionBlock';
 
 export type PublicKeyType = SuiPublicKey | SolanaPublicKey;
+
+// Namespace for Walless
+export const WallessInstallLayout = 'walless:installLayout';

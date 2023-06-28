@@ -1,11 +1,18 @@
 import { type ChromeExtensionStorageModule } from '@tkey/chrome-storage';
-import type { GenerateNewShareResult, ModuleMap } from '@tkey/common-types';
+import type {
+	GenerateNewShareResult,
+	ISeedPhraseFormat,
+	ISeedPhraseStore,
+	ModuleMap,
+} from '@tkey/common-types';
+import { generateID } from '@tkey/common-types';
 import ThresholdKey from '@tkey/default';
 import PrivateKeyModule, {
 	ED25519Format,
 	SECP256K1Format,
 } from '@tkey/private-keys';
 import SecurityQuestionsModule from '@tkey/security-questions';
+import { SeedPhraseModule } from '@tkey/seed-phrase';
 import { type TorusServiceProvider } from '@tkey/service-provider-torus';
 import { type WebStorageModule } from '@tkey/web-storage';
 import CustomAuth, { type CustomAuthArgs } from '@toruslabs/customauth';
@@ -39,11 +46,29 @@ export type InternalModules = ModuleMap & {
 	chromeStorage?: ChromeExtensionStorageModule;
 	securityQuestions: SecurityQuestionsModule;
 	privateKeyModule: PrivateKeyModule;
+	seedPhraseModule: SeedPhraseModule;
 };
 
 export type TypedThresholdKey = ThresholdKey & {
 	serviceProvider: TorusServiceProvider;
 	modules: InternalModules;
+};
+
+export enum SeedPhraseFormatType {
+	PRIMARY = 'primary-seed-phrase',
+}
+
+const wallessSeedPhraseFormat: Partial<ISeedPhraseFormat> = {
+	type: SeedPhraseFormatType.PRIMARY,
+	validateSeedPhrase: () => true,
+	createSeedPhraseStore: async (seedPhrase) => {
+		if (!seedPhrase) throw Error('seed phrase can not be empty');
+		return {
+			id: generateID(),
+			type: SeedPhraseFormatType.PRIMARY,
+			seedPhrase: seedPhrase,
+		};
+	},
 };
 
 const modules: InternalModules = {
@@ -52,6 +77,9 @@ const modules: InternalModules = {
 		new SECP256K1Format(null as never),
 		new ED25519Format(null as never),
 	] as never),
+	seedPhraseModule: new SeedPhraseModule([
+		wallessSeedPhraseFormat as ISeedPhraseFormat,
+	]),
 };
 
 if (runtime.isExtension) {

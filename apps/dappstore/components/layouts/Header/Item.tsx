@@ -3,18 +3,19 @@ import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import Link from 'next/link';
 
+import { type NavigationItemProps } from '.';
+
 interface Props {
 	isActive: boolean;
-	title: string;
-	href: string;
+	item: NavigationItemProps;
 }
 
-export const NavigationItem: FC<Props> = ({ isActive, title, href }) => {
+export const NavigationItem: FC<Props> = ({ isActive, item }) => {
 	return (
 		<View style={styles.container}>
-			<Link href={href} style={{ textDecorationLine: 'none' }}>
+			<Link href={item.href} style={{ textDecorationLine: 'none' }}>
 				<Text style={[styles.title, !isActive && styles.inActive]}>
-					{title}
+					{item.title}
 				</Text>
 			</Link>
 		</View>

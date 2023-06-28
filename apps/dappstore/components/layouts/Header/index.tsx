@@ -1,20 +1,41 @@
 import { Image, StyleSheet } from 'react-native';
 import { Button, View } from '@walless/gui';
+import { useRouter } from 'next/router';
 import { resources } from 'utils/config';
 
 import NavigationItem from './Item';
 
-export const Navigation = () => {
+export interface NavigationItem {
+	title: string;
+	href: string;
+}
+
+export const navigationItems: NavigationItem[] = [
+	{
+		title: 'Explore',
+		href: '/',
+	},
+	{
+		title: 'Design Tool',
+		href: '/design',
+	},
+];
+
+export const Header = () => {
+	const router = useRouter();
+
 	return (
 		<View horizontal style={styles.container}>
 			<Image source={resources.walless.horizontalLogo} style={styles.logo} />
 			<View horizontal style={styles.groupItem}>
-				<NavigationItem isActive={true} title="Explore" href="/explore" />
-				<NavigationItem
-					isActive={false}
-					title="Design Tool"
-					href="/design-tool"
-				/>
+				{navigationItems.map((item) => (
+					<NavigationItem
+						key={item.href}
+						href={item.href}
+						title={item.title}
+						isActive={router.pathname === item.href}
+					/>
+				))}
 			</View>
 			<View style={styles.buttonContainer}>
 				<Button
@@ -27,7 +48,7 @@ export const Navigation = () => {
 	);
 };
 
-export default Navigation;
+export default Header;
 
 const styles = StyleSheet.create({
 	container: {

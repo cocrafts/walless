@@ -1,4 +1,6 @@
 import { type FC } from 'react';
+import { Networks } from '@walless/core';
+import { getTezosMetadata } from '@walless/network';
 import { Image, Stack } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
 import { appState, editToolActions } from 'state/app';
@@ -13,14 +15,26 @@ import ToolDescription from '../components/ToolDescription';
 
 const EditDetailNft: FC = () => {
 	const { tools } = useSnapshot(appState);
-	const { collectibles } = tools.detail;
+	const { collectibles, networks } = tools.detail;
 	const collectiblesAddress = Object.keys(collectibles);
 
 	const onTarget = () => editToolActions.setTarget(DetailTool.collectibles);
-	const onAddCollectible = async (value: string) => {
-		const collectibeMetadata = await getSolanaNftCollection(connection, value);
-		if (collectibeMetadata) {
-			editToolActions.setDetailCollectibe(collectibeMetadata);
+	const onAddCollectible = async (address: string, tokenId?: number) => {
+		if (networks.length == 0) return;
+
+		if (networks[0] == Networks.tezos) {
+			const tezosNftMetadata = await getTezosMetadata(address, tokenId);
+			if (tezosNftMetadata) {
+				editToolActions.setDetailCollectibe(tezosNftMetadata);
+			}
+		} else if (networks[0] === Networks.solana) {
+			const collectibeMetadata = await getSolanaNftCollection(
+				connection,
+				address,
+			);
+			if (collectibeMetadata) {
+				editToolActions.setDetailCollectibe(collectibeMetadata);
+			}
 		}
 	};
 
@@ -38,7 +52,12 @@ const EditDetailNft: FC = () => {
 				name={'NFT Collectibles'}
 				description="Enter your NFT collectible address. If your project have more than 1 collectible, choose “Add more” to add."
 			/>
-			<InputAddress onSubmit={onAddCollectible} />
+
+			<InputAddress
+				onSubmit={onAddCollectible}
+				withOptional={networks[0] === Networks.tezos}
+			/>
+
 			<Stack horizontal flexWrap="wrap" gap={10}>
 				{collectiblesAddress.map((address) => {
 					const collectible = collectibles[address];

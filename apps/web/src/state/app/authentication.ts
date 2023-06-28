@@ -27,6 +27,7 @@ import {
 } from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
 import { router } from 'utils/routing';
+import { showError } from 'utils/showError';
 import {
 	configureSecurityQuestionShare,
 	customAuth,
@@ -165,16 +166,21 @@ export const recoverWithPasscode = async (passcode: string) => {
 	appState.passcodeLoading = true;
 	appState.passcodeError = undefined;
 
-	const unlockSuccess = await recoverDeviceShareFromPasscode(passcode);
+	try {
+		const unlockSuccess = await recoverDeviceShareFromPasscode(passcode);
 
-	if (unlockSuccess) {
-		await storeAuthenticatedRecords(passcode, cache.loginResponse);
-		await router.navigate('/');
-	} else {
-		appState.passcodeError = 'wrong passcode, please try again!';
+		if (unlockSuccess) {
+			await storeAuthenticatedRecords(passcode, cache.loginResponse);
+			await router.navigate('/');
+		} else {
+			appState.passcodeError = 'wrong passcode, please try again!';
+		}
+
+		appState.passcodeLoading = false;
+	} catch (_) {
+		await showError('Something went wrong!');
+		router.navigate('/login');
 	}
-
-	appState.passcodeLoading = false;
 };
 
 export const storeAuthenticatedRecords = async (
@@ -191,6 +197,7 @@ export const storeAuthenticatedRecords = async (
 	if (privateKeys.length === 0) {
 		await key.modules.privateKeyModule.setPrivateKey('secp256k1n');
 		await key.modules.privateKeyModule.setPrivateKey('ed25519');
+		await key.syncLocalMetadataTransitions();
 	}
 
 	const writePromises = [];

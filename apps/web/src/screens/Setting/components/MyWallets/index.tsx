@@ -7,6 +7,9 @@ import Wallet from './Wallet';
 export const MyWallets = () => {
 	const solanaKeys = usePublicKeys(Networks.solana);
 	const suiKeys = usePublicKeys(Networks.sui);
+	const tezosKeys = usePublicKeys(Networks.tezos);
+	const suiIndex = solanaKeys.length;
+	const tezosIndex = suiIndex + suiKeys.length;
 
 	return (
 		<Stack gap={12}>
@@ -19,7 +22,10 @@ export const MyWallets = () => {
 					<Wallet key={item._id} index={index} item={item} />
 				))}
 				{suiKeys.map((item, index) => (
-					<Wallet key={item._id} index={index} item={item} />
+					<Wallet key={item._id} index={index + suiIndex} item={item} />
+				))}
+				{tezosKeys.map((item, index) => (
+					<Wallet key={item._id} index={index + tezosIndex} item={item} />
 				))}
 			</Stack>
 		</Stack>

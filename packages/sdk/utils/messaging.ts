@@ -46,14 +46,6 @@ export const sendRequest = <T extends UnknownObject>(
 	});
 };
 
-export const requestConnect = async (options: { onlyIfTrusted?: boolean }) => {
-	return await sendRequest({
-		from: 'walless@sdk',
-		type: 'request-connect',
-		options,
-	});
-};
-
 export const initializeMessaging = () => {
 	initialized = true;
 

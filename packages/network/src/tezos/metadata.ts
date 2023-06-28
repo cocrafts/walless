@@ -1,26 +1,27 @@
 import { compose, TezosToolkit } from '@taquito/taquito';
-import { tzip12 } from '@taquito/tzip12';
+import { tzip12, Tzip12Module } from '@taquito/tzip12';
 import { tzip16 } from '@taquito/tzip16';
 import { type UnknownObject, Networks } from '@walless/core';
 import { type MetadataDocument, type TokenDocument } from '@walless/store';
 
+import { getURL } from '../utils/convert';
+
 const connection = new TezosToolkit('https://uoi3x99n7c.tezosrpc.midl.dev');
+
+connection.addExtension(new Tzip12Module());
 
 export type GetTezosMetadataFunction = (
 	contractAddress: string,
 	tokenId?: number,
-) => Promise<MetadataDocument>;
+) => Promise<MetadataDocument | undefined>;
 
-/**
- * This method might be useful for manual importing token address
- * */
 export const getTezosMetadata: GetTezosMetadataFunction = async (
 	contractAddress,
 	tokenId = 0,
 ) => {
 	let token: Omit<TokenDocument, '_id' | 'type' | 'network'> | undefined;
 
-	if (contractAddress == 'tez') {
+	if (contractAddress == '0x16939ef78684453bfdfb47825f8a5f714f12623a') {
 		token = tezosNativeToken;
 	} else {
 		token = KNOWN_TEZOS_MAINNET_TOKENS.find((token) => {
@@ -38,18 +39,26 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 		};
 	}
 
-	const contract = await connection.contract.at(
-		contractAddress,
-		compose(tzip12, tzip16),
-	);
-
-	const metadata = await contract.tzip12().getTokenMetadata(tokenId);
+	let metadata: UnknownObject;
+	try {
+		const contract = await connection.contract.at(
+			contractAddress,
+			compose(tzip12, tzip16),
+		);
+		metadata = await contract.tzip12().getTokenMetadata(tokenId);
+	} catch (_) {
+		return;
+	}
 
 	return {
-		_id: `${contractAddress}/${tokenId}`,
+		_id: `${contractAddress}`,
 		name: metadata.name,
 		symbol: metadata.symbol,
-		imageUri: (metadata as UnknownObject)['thumbnailUri'],
+		imageUri: getURL(
+			metadata.icon ||
+				(metadata as UnknownObject)['displayUri'] ||
+				(metadata as UnknownObject)['thumbnailUri'],
+		),
 		endpoint: connection.rpc.getRpcUrl(),
 		type: 'Metadata',
 	};
@@ -61,7 +70,7 @@ const tezosNativeToken: TokenDocument = {
 	type: 'Token',
 	metadata: {
 		name: 'Tezos',
-		symbol: 'TEZ',
+		symbol: 'XTZ',
 		imageUri: '/img/network/tezos-icon-sm.png',
 	},
 	account: {

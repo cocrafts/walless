@@ -1,5 +1,10 @@
 import { type TezosToolkit } from '@taquito/taquito';
-import { type PublicKeyDocument, selectors } from '@walless/store';
+import { type TokenInfo, qlClient, queries } from '@walless/graphql';
+import {
+	type PublicKeyDocument,
+	type TokenDocument,
+	selectors,
+} from '@walless/store';
 import { flatten } from 'lodash';
 
 import { tokenActions } from '../state/tokens';
@@ -27,6 +32,31 @@ export const tezosEngineRunner: EngineRunner<TezosToolkit> = {
 
 		const tokenChunks = await Promise.all(tokenPromises);
 		const tokenDocuments = flatten(tokenChunks);
+		const makeId = (i: TokenDocument) => `${i.network}#${i.account.address}`;
+		const makeIdWithTokenId = (i: TokenDocument) =>
+			`${i.network}#${i.account.address?.toUpperCase()}_${i.account.tokenId}`;
+
+		const { tokensByAddress } = await qlClient.request<
+			{ tokensByAddress: TokenInfo[] },
+			{ addresses: string[] }
+		>(queries.tokensByAddress, {
+			addresses: [
+				...tokenDocuments.map(makeId),
+				...tokenDocuments.map(makeIdWithTokenId),
+			],
+		});
+
+		const quoteMap = tokensByAddress.reduce((a, i) => {
+			a[i.address as string] = i;
+			return a;
+		}, {} as Record<string, TokenInfo>);
+
+		for (const i of tokenDocuments) {
+			i.account.quotes =
+				quoteMap[makeId(i)].id !== 'walless-none'
+					? quoteMap[makeId(i)].quotes
+					: quoteMap[makeIdWithTokenId(i)].quotes;
+		}
 
 		tokenActions.setItems(tokenDocuments);
 	},

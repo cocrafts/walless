@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native';
 import { View } from '@walless/gui';
 import { Footer, Header } from 'components/layouts';
 import LayoutSection from 'features/LayoutSection';
+import WalletCustomizeSection from 'features/WalletCustomizeSection';
 import { sharedStyles } from 'utils/style';
 
 const IndexPage: FC = () => {
@@ -17,6 +18,8 @@ const IndexPage: FC = () => {
 			>
 				<View style={sharedStyles.contentContainer}>
 					<LayoutSection />
+
+					<WalletCustomizeSection />
 				</View>
 			</ScrollView>
 			<Footer />

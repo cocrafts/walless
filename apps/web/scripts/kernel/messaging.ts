@@ -8,9 +8,13 @@ import {
 	Channels,
 	createMessenger,
 	decryptMessage,
+	PopupType,
+	ResponseCode,
+	ResponseMessage,
 } from '@walless/messaging';
 
 import { onKernelMessage } from './handlers/kernel';
+import { response } from './utils/requestPool';
 
 const channels = [
 	Channels.ui,
@@ -49,6 +53,26 @@ export const initializeMessaging = async (): Promise<void> => {
 			};
 
 			const handleDisconnect = () => {
+				if (port.name.includes('/')) {
+					const [popupType, requestId] = port.name.split('/');
+					if (popupType === PopupType.REQUEST_CONNECT_POPUP) {
+						try {
+							response(requestId, ResponseCode.REJECTED, {
+								message: ResponseMessage.REJECT_REQUEST_CONNECT,
+							});
+						} catch (error) {
+							return;
+						}
+					} else if (popupType === PopupType.SIGNATURE_POPUP) {
+						try {
+							response(requestId, ResponseCode.REJECTED, {
+								message: ResponseMessage.REJECT_COMMON_REQUEST,
+							});
+						} catch (error) {
+							return;
+						}
+					}
+				}
 				port.onMessage.removeListener(handleInComingMessage);
 				port.onDisconnect.removeListener(handleDisconnect);
 			};

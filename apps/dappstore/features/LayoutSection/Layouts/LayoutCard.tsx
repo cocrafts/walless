@@ -1,6 +1,6 @@
 import { type FC, useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Button, Text, View } from '@walless/gui';
+import { StyleSheet } from 'react-native';
+import { Button, Hoverable, Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
 import Image from 'next/image';
 
@@ -18,24 +18,25 @@ const LayoutCard: FC<LayoutCardProps> = ({
 	activeLayoutId,
 	setIsActiveId,
 }) => {
-	const [isActive, setIsActive] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
 
 	useEffect(() => {
 		if (id !== activeLayoutId) {
-			setIsActive(false);
+			setIsHovered(false);
 		} else {
-			setIsActive(true);
+			setIsHovered(true);
 		}
 	}, [activeLayoutId]);
 
 	return (
-		<TouchableOpacity
+		<Hoverable
 			style={
-				isActive
+				isHovered
 					? { ...styles.container, backgroundColor: '#131C24' }
 					: styles.container
 			}
-			onPress={() => setIsActiveId?.(id)}
+			onHoverIn={() => setIsActiveId?.(id)}
+			onHoverOut={() => setIsActiveId?.('')}
 		>
 			<View style={styles.coverContainer}>
 				<Image src={coverImage} alt={title} fill={true} />
@@ -68,14 +69,14 @@ const LayoutCard: FC<LayoutCardProps> = ({
 						</View>
 					</View>
 
-					{isActive && (
+					{isHovered && (
 						<Button style={styles.detailButton} onPress={onDetails}>
 							<Text style={styles.detailText}>Details</Text>
 						</Button>
 					)}
 				</View>
 			</View>
-		</TouchableOpacity>
+		</Hoverable>
 	);
 };
 

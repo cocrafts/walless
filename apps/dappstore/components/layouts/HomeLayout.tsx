@@ -9,7 +9,7 @@ interface Props {
 	children: ReactNode;
 }
 
-const HomeLayout: FC<Props> = ({ children }) => {
+export const HomeLayout: FC<Props> = ({ children }) => {
 	return (
 		<View style={sharedStyles.minScreen}>
 			<View style={sharedStyles.container}>

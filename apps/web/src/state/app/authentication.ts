@@ -178,6 +178,8 @@ export const recoverWithPasscode = async (passcode: string) => {
 
 		appState.passcodeLoading = false;
 	} catch (_) {
+	} catch (e) {
+		console.log(e);
 		await showError('Something went wrong!');
 		router.navigate('/login');
 	}

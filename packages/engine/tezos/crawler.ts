@@ -36,26 +36,30 @@ export const tezosEngineRunner: EngineRunner<TezosToolkit> = {
 		const makeIdWithTokenId = (i: TokenDocument) =>
 			`${i.network}#${i.account.address?.toUpperCase()}_${i.account.tokenId}`;
 
-		const { tokensByAddress } = await qlClient.request<
-			{ tokensByAddress: TokenInfo[] },
-			{ addresses: string[] }
-		>(queries.tokensByAddress, {
-			addresses: [
-				...tokenDocuments.map(makeId),
-				...tokenDocuments.map(makeIdWithTokenId),
-			],
-		});
+		try {
+			const { tokensByAddress } = await qlClient.request<
+				{ tokensByAddress: TokenInfo[] },
+				{ addresses: string[] }
+			>(queries.tokensByAddress, {
+				addresses: [
+					...tokenDocuments.map(makeId),
+					...tokenDocuments.map(makeIdWithTokenId),
+				],
+			});
 
-		const quoteMap = tokensByAddress.reduce((a, i) => {
-			a[i.address as string] = i;
-			return a;
-		}, {} as Record<string, TokenInfo>);
+			const quoteMap = tokensByAddress.reduce((a, i) => {
+				a[i.address as string] = i;
+				return a;
+			}, {} as Record<string, TokenInfo>);
 
-		for (const i of tokenDocuments) {
-			i.account.quotes =
-				quoteMap[makeId(i)].id !== 'walless-none'
-					? quoteMap[makeId(i)].quotes
-					: quoteMap[makeIdWithTokenId(i)].quotes;
+			for (const i of tokenDocuments) {
+				i.account.quotes =
+					quoteMap[makeId(i)].id !== 'walless-none'
+						? quoteMap[makeId(i)].quotes
+						: quoteMap[makeIdWithTokenId(i)].quotes;
+			}
+		} catch (_) {
+			console.log('cannot fetch tezos token price');
 		}
 
 		tokenActions.setItems(tokenDocuments);

@@ -12,9 +12,7 @@ interface Props {
 export const HomeLayout: FC<Props> = ({ children }) => {
 	return (
 		<View style={sharedStyles.minScreen}>
-			<View style={sharedStyles.container}>
-				<Header />
-			</View>
+			<Header />
 			<ScrollView
 				contentContainerStyle={sharedStyles.contentContainer}
 				showsVerticalScrollIndicator={false}

@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
+import { BulletSeparator } from '@walless/app';
 import { View } from '@walless/gui';
+import { sharedStyles } from 'utils/style';
 
 import BottomPart from './components/BottomPart';
 import UpperPart from './components/UpperPart';
@@ -7,8 +9,11 @@ import UpperPart from './components/UpperPart';
 export const Footer = () => {
 	return (
 		<View style={styles.footerContainer}>
-			<UpperPart />
-			<BottomPart />
+			<View style={[{ gap: 64 }, sharedStyles.container]}>
+				<UpperPart />
+				<BulletSeparator noBullet={true} />
+				<BottomPart />
+			</View>
 		</View>
 	);
 };
@@ -16,7 +21,7 @@ export const Footer = () => {
 const styles = StyleSheet.create({
 	footerContainer: {
 		backgroundColor: '#131B22',
-		paddingVertical: 36,
+		paddingVertical: 72,
 		marginTop: 64,
 	},
 });

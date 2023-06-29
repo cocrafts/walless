@@ -2,6 +2,7 @@ import { Image, StyleSheet } from 'react-native';
 import { Button, View } from '@walless/gui';
 import { useRouter } from 'next/router';
 import { resources } from 'utils/config';
+import { sharedStyles } from 'utils/style';
 
 import NavigationItem from './Item';
 
@@ -51,6 +52,7 @@ export default Header;
 
 const styles = StyleSheet.create({
 	container: {
+		...sharedStyles.container,
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		paddingHorizontal: 40,

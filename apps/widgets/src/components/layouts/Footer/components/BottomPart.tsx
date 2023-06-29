@@ -1,16 +1,22 @@
 import { StyleSheet } from 'react-native';
-import { Anchor, dimensionState, Text, View } from '@walless/gui';
-// import { useSnapshot } from 'valtio';
+import { Anchor, Text, View } from '@walless/gui';
 
 const BottomPart = () => {
-	// const { isMobile } = useSnapshot(dimensionState);
-
 	return (
-		<View style={styles.containerMobile}>
-			<Text>Copyright @ 2023. All rights reserved.</Text>
-			<View>
-				<Anchor title="Terms & Conditions" href="/" />
+		<View style={styles.container}>
+			<Text style={styles.copyrightText}>
+				{process.env.EXTENSION_VERSION &&
+					`Version ${process.env.EXTENSION_VERSION}, `}
+				Copyright @ 2023. All rights reserved.
+			</Text>
+			<View style={styles.anchorContainer}>
 				<Anchor
+					titleStyle={styles.anchorStyle}
+					title="Terms & Conditions"
+					href="/"
+				/>
+				<Anchor
+					titleStyle={styles.anchorStyle}
 					title="Privacy Policy"
 					href="https://walless.io/privacy-policy"
 				/>
@@ -20,12 +26,20 @@ const BottomPart = () => {
 };
 
 const styles = StyleSheet.create({
-	containerMobile: {
-		flexDirection: 'column-reverse',
-	},
-	containerDesktop: {
+	container: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+	},
+	anchorContainer: {
+		flexDirection: 'row',
+		gap: 40,
+	},
+	copyrightText: {
+		color: '#566674',
+	},
+	anchorStyle: {
+		color: '#fff',
+		fontSize: 14,
 	},
 });
 

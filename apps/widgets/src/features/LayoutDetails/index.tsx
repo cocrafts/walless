@@ -1,38 +1,59 @@
 import { type FC } from 'react';
 import { type ViewStyle, StyleSheet } from 'react-native';
-import { Text, View } from '@walless/gui';
-import { Heart } from '@walless/icons';
-import { type LayoutProps } from 'features/LayoutSection/internal';
+import { View } from '@walless/gui';
+import { type LayoutProps } from 'features/internal';
 import Image from 'next/image';
+
+import DetailsTab from './components/DetailTabs';
+import Information from './components/Information';
+import RectangleButton from './components/RectangleButton';
 
 interface Props {
 	style?: ViewStyle;
 	layout: LayoutProps;
-	logoSize: number;
 }
 
-const LayoutDetails: FC<Props> = ({ layout, style, logoSize }) => {
-	const { logoImage, title, description, loveCount, activeCount }: LayoutProps =
-		layout;
+const LayoutDetails: FC<Props> = ({ layout, style }) => {
+	const information = {
+		website: '73rBGJKygfUzuK9gUkkQrFXNg88VgHojeUogYR4yuvHu',
+		category: '73rBGJKygfUzuK9gUkkQrFXNg88VgHojeUogYR4yuvHu',
+		lastUpdate: '73rBGJKygfUzuK9gUkkQrFXNg88VgHojeUogYR4yuvHu',
+	};
 
 	return (
 		<View style={style}>
-			<View style={styles.titleContainer}>
-				<Image src={logoImage} alt={title} width={logoSize} height={logoSize} />
-				<Text style={styles.title}>{title}</Text>
+			<View style={styles.coverContainer}>
+				<Image src={layout.coverImage} alt={layout.title} fill={true} />
 			</View>
+			<View style={styles.bodyContainer}>
+				<View style={styles.basicContainer}>
+					<Information
+						style={styles.informationContainer}
+						layout={layout}
+						logoSize={80}
+						titleStyle={styles.title}
+						descriptionStyle={styles.description}
+						activityStyle={styles.activityText}
+					/>
 
-			<Text>{description}</Text>
-
-			<View style={styles.bottomContainer}>
-				<View style={styles.activityContainer}>
-					<Heart colors={['white']} size={8} />
-					<Text style={styles.activityText}>{loveCount} Love</Text>
+					<View style={styles.buttonContainer}>
+						<RectangleButton
+							title="Get early access"
+							onPress={() => console.log('get early access')}
+						/>
+						<RectangleButton
+							title="Share layout"
+							onPress={() => console.log('Share layout')}
+							backgroundColor="#243F56"
+						/>
+					</View>
 				</View>
-
-				<View style={styles.activityContainer}>
-					<View style={styles.activeDisplay} />
-					<Text style={styles.activityText}>{activeCount} Active</Text>
+				<View>
+					<DetailsTab
+						screenshots={layout.screenshots ?? []}
+						information={layout.information ?? information}
+						comments={layout.comments ?? []}
+					/>
 				</View>
 			</View>
 		</View>
@@ -42,34 +63,45 @@ const LayoutDetails: FC<Props> = ({ layout, style, logoSize }) => {
 export default LayoutDetails;
 
 const styles = StyleSheet.create({
-	titleContainer: {
-		alignItems: 'center',
-		gap: 8,
+	coverContainer: {
+		width: 1200,
+		height: 600,
 	},
-	title: {
-		fontSize: 18,
-		fontWeight: '600',
-		color: '#ffffff',
-	},
-	bottomContainer: {
+	bodyContainer: {
+		flex: 1,
+		justifyContent: 'space-between',
 		width: '100%',
-		flexDirection: 'row',
-		gap: 4,
+		paddingHorizontal: 40,
+		gap: 40,
 	},
-	activityContainer: {
+	basicContainer: {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
-	activeDisplay: {
-		width: 6,
-		height: 6,
-		backgroundColor: '#0694D3',
-		borderRadius: 4,
+	informationContainer: {
+		flex: 1,
+		alignItems: 'flex-start',
+		marginTop: -40,
+		gap: 12,
+	},
+	title: {
+		color: '#ffffff',
+		fontSize: 24,
+		fontWeight: '600',
+	},
+	description: {
+		color: '#A4B3C1',
+		height: 48,
+		fontSize: 16,
+		fontWeight: '500',
 	},
 	activityText: {
 		margin: 8,
-		fontSize: 12,
 		color: '#566674',
+	},
+	buttonContainer: {
+		flex: 1,
+		gap: 16,
 	},
 });

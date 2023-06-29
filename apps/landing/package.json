@@ -11,9 +11,9 @@
     "dependencies": {
         "@tamagui/animations-css": "1.15.16",
         "@tamagui/next-theme": "1.15.16",
+        "@walless/gui": "*",
         "@walless/markdown": "*",
         "@walless/ui": "*",
-        "@walless/gui": "*",
         "html-to-image": "^1.11.11",
         "next": "13.4.5",
         "react-dom": "^18.2.0",

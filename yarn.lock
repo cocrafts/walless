@@ -10958,6 +10958,7 @@ __metadata:
     "@tamagui/animations-css": 1.15.16
     "@tamagui/next-plugin": 1.15.16
     "@tamagui/next-theme": 1.15.16
+    "@walless/gui": "*"
     "@walless/markdown": "*"
     "@walless/ui": "*"
     eslint: 8.38.0

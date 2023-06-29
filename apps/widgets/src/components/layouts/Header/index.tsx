@@ -1,5 +1,6 @@
 import { Image, StyleSheet } from 'react-native';
 import { Button, View } from '@walless/gui';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { resources } from 'utils/config';
 import { sharedStyles } from 'utils/style';
@@ -25,15 +26,22 @@ export const navigationItems: NavigationItemProps[] = [
 export const Header = () => {
 	const router = useRouter();
 
+	const isLayoutDetail = router.pathname.includes('/layouts/');
+
 	return (
 		<View horizontal style={styles.container}>
-			<Image source={resources.walless.horizontalLogo} style={styles.logo} />
+			<Link href="/">
+				<Image source={resources.walless.horizontalLogo} style={styles.logo} />
+			</Link>
 			<View horizontal style={styles.groupItem}>
 				{navigationItems.map((item) => (
 					<NavigationItem
 						key={item.href}
 						item={item}
-						isActive={router.pathname === item.href}
+						isActive={
+							router.pathname === item.href ||
+							(isLayoutDetail && item.href === '/')
+						}
 					/>
 				))}
 			</View>

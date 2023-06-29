@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
-import { defiList, gamesList } from './internal';
+import { defiList, gamesList } from '../internal';
+
 import Layouts from './Layouts';
 
 const LayoutSection = () => {

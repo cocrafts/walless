@@ -2,13 +2,13 @@ import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
-import { type LayoutCardProps } from '../internal';
+import { type LayoutProps } from '../internal';
 
 import LayoutCard from './LayoutCard';
 
 interface Props {
 	typeOfLayout: string;
-	listOfLayouts: LayoutCardProps[];
+	listOfLayouts: LayoutProps[];
 	activeLayoutId: string | null;
 	setActiveLayoutId: (id: string | null) => void;
 }
@@ -27,7 +27,7 @@ const Layouts: FC<Props> = ({
 				{listOfLayouts.map((layout) => (
 					<LayoutCard
 						key={layout.id}
-						{...layout}
+						layout={layout}
 						activeLayoutId={activeLayoutId}
 						setIsActiveId={setActiveLayoutId}
 					/>

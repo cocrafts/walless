@@ -1,8 +1,9 @@
 import { type FC } from 'react';
-import { type ViewProps, StyleSheet } from 'react-native';
+import { type ViewProps, type ViewStyle, StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
 type Props = ViewProps & {
+	style?: ViewStyle;
 	noBullet?: boolean;
 	bulletWidth?: number;
 	bulletHeight?: number;
@@ -11,12 +12,12 @@ type Props = ViewProps & {
 };
 
 export const BulletSeparator: FC<Props> = ({
+	style,
 	noBullet,
 	bulletWidth = 16,
 	bulletHeight = 3,
 	lineHeight = 1,
 	color = '#19A3E1',
-	...viewProps
 }) => {
 	const topOffset = (lineHeight - bulletHeight) / 2;
 
@@ -26,7 +27,7 @@ export const BulletSeparator: FC<Props> = ({
 			height: lineHeight,
 			borderRadius: lineHeight / 2,
 			backgroundColor: 'rgba(255, 255, 255, 0.2)',
-			...viewProps,
+			...(style || {}),
 		},
 		bullet: {
 			top: topOffset,

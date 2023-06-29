@@ -2,15 +2,16 @@ import { type FC } from 'react';
 import { type TextStyle, type ViewStyle, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
-import { type LayoutProps } from 'features/LayoutSection/internal';
+import { type LayoutProps } from 'features/internal';
 import Image from 'next/image';
 
 interface Props {
 	style?: ViewStyle;
 	layout: LayoutProps;
-	logoSize?: number;
+	logoSize: number;
 	titleStyle?: TextStyle;
 	descriptionStyle?: TextStyle;
+	activityStyle?: TextStyle;
 }
 
 const Information: FC<Props> = ({
@@ -19,6 +20,7 @@ const Information: FC<Props> = ({
 	logoSize,
 	titleStyle = styles.title,
 	descriptionStyle = styles.description,
+	activityStyle = styles.activityText,
 }) => {
 	const { logoImage, title, description, loveCount, activeCount }: LayoutProps =
 		layout;
@@ -35,12 +37,12 @@ const Information: FC<Props> = ({
 			<View style={styles.bottomContainer}>
 				<View style={styles.activityContainer}>
 					<Heart colors={['white']} size={8} />
-					<Text style={styles.activityText}>{loveCount} Love</Text>
+					<Text style={activityStyle}>{loveCount} Love</Text>
 				</View>
 
 				<View style={styles.activityContainer}>
 					<View style={styles.activeDisplay} />
-					<Text style={styles.activityText}>{activeCount} Active</Text>
+					<Text style={activityStyle}>{activeCount} Active</Text>
 				</View>
 			</View>
 		</View>
@@ -59,7 +61,10 @@ const styles = StyleSheet.create({
 		fontWeight: '600',
 		color: '#ffffff',
 	},
-	description: {},
+	description: {
+		color: '#A4B3C1',
+		height: 36,
+	},
 	bottomContainer: {
 		width: '100%',
 		flexDirection: 'row',

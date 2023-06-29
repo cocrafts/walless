@@ -8,7 +8,8 @@
 			"components/*": ["./components/*"],
 			"pages/*": ["./pages/*"],
 			"utils/*": ["./utils/*"],
-			"state/*": ["./state/*"]
+			"state/*": ["./state/*"],
+			"features/*": ["./features/*"]
 		}
 	}
 }

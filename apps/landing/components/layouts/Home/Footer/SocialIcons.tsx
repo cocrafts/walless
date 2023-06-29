@@ -28,7 +28,7 @@ const SocialIcons = () => {
 			<SocialIcon
 				size={48}
 				link="https://twitter.com/walless_wallet"
-				icon={<Twitter size={20} />}
+				icon={<Twitter size={40} />}
 			/>
 
 			<SocialIcon

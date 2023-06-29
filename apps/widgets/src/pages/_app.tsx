@@ -4,6 +4,8 @@ import { type AppProps } from 'next/app';
 
 import 'raf/polyfill';
 
+import '../../public/reset.css';
+
 export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [_, setRender] = useState({});

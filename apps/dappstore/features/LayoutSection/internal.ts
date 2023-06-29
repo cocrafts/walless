@@ -1,4 +1,4 @@
-export interface LayoutCardProps {
+export interface LayoutProps {
 	id: string;
 	coverImage: string;
 	logoImage: string;
@@ -6,15 +6,16 @@ export interface LayoutCardProps {
 	description: string;
 	loveCount: number;
 	activeCount: number;
-	activeLayoutId?: string | null;
-	setIsActiveId?: (id: string | null) => void;
+	screenshots?: string[];
+	information?: string;
+	comments?: string;
 }
 
-export const defiList: LayoutCardProps[] = [
+export const defiList: LayoutProps[] = [
 	{
 		id: 'defi-1',
-		coverImage: '/img/layouts/defi/cover/valorant.png',
-		logoImage: '/img/layouts/defi/logo/valorant.png',
+		coverImage: '/img/layouts/defi/cover/valorant.svg',
+		logoImage: '/img/layouts/defi/logo/valorant.svg',
 		title: 'Valorant',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
@@ -22,8 +23,8 @@ export const defiList: LayoutCardProps[] = [
 	},
 	{
 		id: 'defi-2',
-		coverImage: '/img/layouts/defi/cover/sui.png',
-		logoImage: '/img/layouts/defi/logo/sui.png',
+		coverImage: '/img/layouts/defi/cover/sui.svg',
+		logoImage: '/img/layouts/defi/logo/sui.svg',
 		title: 'Sui',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
@@ -31,8 +32,8 @@ export const defiList: LayoutCardProps[] = [
 	},
 	{
 		id: 'defi-3',
-		coverImage: '/img/layouts/defi/cover/solana.png',
-		logoImage: '/img/layouts/defi/logo/solana.png',
+		coverImage: '/img/layouts/defi/cover/solana.svg',
+		logoImage: '/img/layouts/defi/logo/solana.svg',
 		title: 'Solana',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
@@ -40,8 +41,8 @@ export const defiList: LayoutCardProps[] = [
 	},
 	{
 		id: 'defi-4',
-		coverImage: '/img/layouts/defi/cover/fortnite.png',
-		logoImage: '/img/layouts/defi/logo/sui.png',
+		coverImage: '/img/layouts/defi/cover/fortnite.svg',
+		logoImage: '/img/layouts/defi/logo/sui.svg',
 		title: 'Fortnite',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
@@ -49,11 +50,11 @@ export const defiList: LayoutCardProps[] = [
 	},
 ];
 
-export const gamesList: LayoutCardProps[] = [
+export const gamesList: LayoutProps[] = [
 	{
 		id: 'game-1',
-		coverImage: '/img/layouts/games/cover/valorant.png',
-		logoImage: '/img/layouts/games/logo/valorant.png',
+		coverImage: '/img/layouts/games/cover/valorant.svg',
+		logoImage: '/img/layouts/games/logo/valorant.svg',
 		title: 'Valorant',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
@@ -61,8 +62,8 @@ export const gamesList: LayoutCardProps[] = [
 	},
 	{
 		id: 'game-2',
-		coverImage: '/img/layouts/games/cover/magic-eden.png',
-		logoImage: '/img/layouts/games/logo/magic-eden.png',
+		coverImage: '/img/layouts/games/cover/magic-eden.svg',
+		logoImage: '/img/layouts/games/logo/magic-eden.svg',
 		title: 'Magic Eden',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
@@ -70,8 +71,8 @@ export const gamesList: LayoutCardProps[] = [
 	},
 	{
 		id: 'game-3',
-		coverImage: '/img/layouts/games/cover/nike.png',
-		logoImage: '/img/layouts/games/logo/nike.png',
+		coverImage: '/img/layouts/games/cover/nike.svg',
+		logoImage: '/img/layouts/games/logo/nike.svg',
 		title: 'Nike',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,
@@ -79,8 +80,8 @@ export const gamesList: LayoutCardProps[] = [
 	},
 	{
 		id: 'game-4',
-		coverImage: '/img/layouts/games/cover/adidas.png',
-		logoImage: '/img/layouts/games/logo/adidas.png',
+		coverImage: '/img/layouts/games/cover/adidas.svg',
+		logoImage: '/img/layouts/games/logo/adidas.svg',
 		title: 'Adidas',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		loveCount: 0,

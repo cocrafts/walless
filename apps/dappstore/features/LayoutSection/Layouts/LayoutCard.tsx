@@ -1,42 +1,39 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { type LayoutCardProps } from '../internal';
+import { type LayoutProps } from '../internal';
 
-const LayoutCard: FC<LayoutCardProps> = ({
-	id,
-	coverImage,
-	logoImage,
-	title,
-	description,
-	loveCount,
-	activeCount,
-	activeLayoutId,
-	setIsActiveId,
-}) => {
-	const [isHovered, setIsHovered] = useState(false);
+interface Props {
+	layout: LayoutProps;
+	activeLayoutId?: string | null;
+	setIsActiveId?: (id: string | null) => void;
+}
+
+const LayoutCard: FC<Props> = ({ layout, activeLayoutId, setIsActiveId }) => {
+	const {
+		id,
+		coverImage,
+		logoImage,
+		title,
+		description,
+		loveCount,
+		activeCount,
+	}: LayoutProps = layout;
+
 	const router = useRouter();
 
 	const handleNavigateToLayoutDetails = () => {
 		router.push(`/layouts/${id}`);
 	};
 
-	useEffect(() => {
-		if (id !== activeLayoutId) {
-			setIsHovered(false);
-		} else {
-			setIsHovered(true);
-		}
-	}, [activeLayoutId]);
-
 	return (
 		<Hoverable
 			style={
-				isHovered
+				id === activeLayoutId
 					? { ...styles.container, backgroundColor: '#131C24' }
 					: styles.container
 			}
@@ -74,7 +71,7 @@ const LayoutCard: FC<LayoutCardProps> = ({
 						</View>
 					</View>
 
-					{isHovered && (
+					{id === activeLayoutId && (
 						<Hoverable
 							style={styles.detailButton}
 							onPress={handleNavigateToLayoutDetails}
@@ -95,12 +92,10 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 12,
-		backgroundColor: 'transparent',
 		borderRadius: 12,
 	},
 	coverContainer: {
 		height: 124,
-		width: '100%',
 	},
 	titleContainer: {
 		flexDirection: 'row',

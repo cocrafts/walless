@@ -5,12 +5,12 @@ import { resources } from 'utils/config';
 
 import NavigationItem from './Item';
 
-export interface NavigationItem {
+export interface NavigationItemProps {
 	title: string;
 	href: string;
 }
 
-export const navigationItems: NavigationItem[] = [
+export const navigationItems: NavigationItemProps[] = [
 	{
 		title: 'Explore',
 		href: '/',
@@ -31,8 +31,7 @@ export const Header = () => {
 				{navigationItems.map((item) => (
 					<NavigationItem
 						key={item.href}
-						href={item.href}
-						title={item.title}
+						item={item}
 						isActive={router.pathname === item.href}
 					/>
 				))}
@@ -54,10 +53,11 @@ const styles = StyleSheet.create({
 	container: {
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 20,
+		paddingHorizontal: 40,
+		paddingVertical: 20,
 	},
 	logo: {
-		width: 256,
+		height: 20,
 		aspectRatio: 128 / 15,
 	},
 	groupItem: {

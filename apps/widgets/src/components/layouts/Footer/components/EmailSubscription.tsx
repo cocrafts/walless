@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		backgroundColor: 'transparent',
+		borderWidth: 0,
 	},
 	inputPlaceholder: {
 		color: '#566674',

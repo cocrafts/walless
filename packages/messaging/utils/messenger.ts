@@ -67,11 +67,11 @@ export const createMessenger = (
 	) => {
 		const revealed = await smartReveal(data, channel.name);
 		const requestId = revealed?.requestId;
-		const associatedRequest = requestHashmap[requestId];
+		const associatedRequest = requestHashmap[requestId as string];
 
 		if (associatedRequest) {
 			associatedRequest.resolve(revealed);
-			delete requestHashmap[requestId];
+			delete requestHashmap[requestId as string];
 		}
 	};
 
@@ -130,7 +130,7 @@ export const createMessenger = (
 		return new Promise((resolve, reject) => {
 			const channel = getChannel(channelId);
 
-			requestHashmap[payload.requestId] = {
+			requestHashmap[payload.requestId as string] = {
 				timestamp: new Date(),
 				timeout,
 				resolve,

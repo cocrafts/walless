@@ -1,14 +1,14 @@
 import { type RequestHashmap, type UnknownObject } from '@walless/core';
 
 let initialized = false;
-let queueInterval;
+let queueInterval: NodeJS.Timer | number | undefined;
 const requestHashmap: RequestHashmap = {};
 
 const runInterval = () => {
 	const queueSize = Object.keys(requestHashmap).length;
 
 	if (queueSize === 0) {
-		clearInterval(queueInterval);
+		clearInterval(queueInterval as number);
 	}
 
 	for (const id in requestHashmap) {
@@ -34,6 +34,7 @@ export const sendRequest = <T extends UnknownObject>(
 		requestHashmap[payload.requestId] = {
 			timestamp: new Date(),
 			timeout,
+			// @ts-expect-error can not predefine type in resolve
 			resolve,
 			reject,
 		};

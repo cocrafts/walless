@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 	footerContainer: {
 		backgroundColor: '#131B22',
 		paddingVertical: 72,
+		paddingHorizontal: 40,
 		marginTop: 64,
 	},
 });

@@ -1,7 +1,6 @@
 import {
 	type EventEmitter,
 	type SupportedTransactionVersions,
-	type TransactionOrVersionedTransaction,
 	type WalletName,
 	BaseMessageSignerWalletAdapter,
 	scopePollingDetectionStrategy,
@@ -16,7 +15,11 @@ import {
 	WalletSignMessageError,
 	WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey } from '@solana/web3.js';
+import {
+	type Transaction,
+	type VersionedTransaction,
+	PublicKey,
+} from '@solana/web3.js';
 
 interface WallessWalletEvents {
 	connect(...args: unknown[]): unknown;
@@ -28,15 +31,11 @@ interface WallessWallet extends EventEmitter<WallessWalletEvents> {
 	isWalless?: boolean;
 	publicKey?: { toBytes(): Uint8Array };
 	isConnected: boolean;
-	signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
-	signTransaction<
-		T extends TransactionOrVersionedTransaction<SupportedTransactionVersions>,
-	>(
+	signMessageOnSolana(message: Uint8Array): Promise<{ signature: Uint8Array }>;
+	signTransactionOnSolana<T extends Transaction | VersionedTransaction>(
 		transaction: T,
 	): Promise<T>;
-	signAllTransactions<
-		T extends TransactionOrVersionedTransaction<SupportedTransactionVersions>,
-	>(
+	signAllTransactionsOnSolana<T extends Transaction | VersionedTransaction>(
 		transactions: T[],
 	): Promise<T[]>;
 	connect(): Promise<void>;
@@ -44,7 +43,7 @@ interface WallessWallet extends EventEmitter<WallessWalletEvents> {
 }
 
 interface WallessWindow extends Window {
-	walless?: WallessWallet;
+	walless: WallessWallet;
 }
 
 declare const window: WallessWindow;
@@ -163,7 +162,7 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 			if (!wallet) throw new WalletNotConnectedError();
 
 			try {
-				const { signature } = await wallet.signMessage(message);
+				const { signature } = await wallet.signMessageOnSolana(message);
 				return signature;
 			} catch (error: any) {
 				throw new WalletSignMessageError(error.message, error);
@@ -174,15 +173,17 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 		}
 	}
 
-	async signTransaction<
-		T extends TransactionOrVersionedTransaction<SupportedTransactionVersions>,
-	>(transaction: T): Promise<T> {
+	async signTransaction<T extends Transaction | VersionedTransaction>(
+		transaction: T,
+	): Promise<T> {
 		try {
 			const wallet = this._wallet;
 			if (!wallet) throw new WalletNotConnectedError();
 
 			try {
-				return (await wallet.signTransaction(transaction)) || transaction;
+				return (
+					(await wallet.signTransactionOnSolana(transaction)) || transaction
+				);
 			} catch (error: any) {
 				throw new WalletSignTransactionError(error.message, error);
 			}
@@ -192,15 +193,18 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 		}
 	}
 
-	async signAllTransactions<
-		T extends TransactionOrVersionedTransaction<SupportedTransactionVersions>,
-	>(transactions: T[]): Promise<T[]> {
+	async signAllTransactions<T extends Transaction | VersionedTransaction>(
+		transactions: T[],
+	): Promise<T[]> {
 		try {
 			const wallet = this._wallet;
 			if (!wallet) throw new WalletNotConnectedError();
 
 			try {
-				return (await wallet.signAllTransactions(transactions)) || transactions;
+				return (
+					(await wallet.signAllTransactionsOnSolana(transactions)) ||
+					transactions
+				);
 			} catch (error: any) {
 				throw new WalletSignTransactionError(error.message, error);
 			}

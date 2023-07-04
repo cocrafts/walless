@@ -16,8 +16,8 @@ import {
 import { NavButton } from '../components';
 import { showError } from '../utils';
 
-import { RecipientInfor } from './components/RecipientInfor';
-import { SenderInfor } from './components/SenderInfor';
+import { RecipientInfo } from './components/RecipientInfo';
+import { SenderInfo } from './components/SenderInfo';
 import { BigToken, Header } from './components';
 
 interface Props {
@@ -55,9 +55,9 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 
 			<BigToken />
 
-			<SenderInfor />
+			<SenderInfo />
 
-			<RecipientInfor />
+			<RecipientInfo />
 
 			<NavButton title="Continue" onPress={handleContinue} />
 		</View>

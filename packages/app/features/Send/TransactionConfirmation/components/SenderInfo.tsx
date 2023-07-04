@@ -14,7 +14,7 @@ interface Props {
 	onBack?: () => void;
 }
 
-export const SenderInfor: FC<Props> = () => {
+export const SenderInfo: FC<Props> = () => {
 	const { publicKeys } = useSnapshot(injectedElements);
 	const { token } = useSnapshot(transactionContext);
 

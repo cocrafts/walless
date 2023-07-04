@@ -28,8 +28,8 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		},
 		networkMeta: {
 			backgroundUri: 'https://tezos.com/brand/NFTsTezos.png',
-			markUri: '',
-			iconUri: '',
+			markUri: 'img/network/tezos-icon-lg.png',
+			iconUri: 'img/network/tezos-icon-sm.png',
 			iconColor: '#2D7DF8',
 			iconSize: 12,
 		},
@@ -102,8 +102,8 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		},
 		networkMeta: {
 			backgroundUri: '/img/network/sky-card-bg.png',
-			markUri: '/img/network/solana-icon-lg.png',
-			iconUri: '/img/explore/thumbnail-under-realm.png',
+			markUri: '/img/t-rex-runner/runner-icon.png',
+			iconUri: '/img/t-rex-runner/runner-icon.png',
 			iconColor: '#000000',
 			iconSize: 40,
 		},

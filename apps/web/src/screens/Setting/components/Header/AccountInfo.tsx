@@ -1,6 +1,7 @@
 import { type FC } from 'react';
+import { Image, StyleSheet } from 'react-native';
 import { type UserProfile } from '@walless/core';
-import { Image, Stack, Text } from '@walless/ui';
+import { Text, View } from '@walless/gui';
 
 interface Props {
 	profile: UserProfile;
@@ -11,11 +12,28 @@ const AccountInfo: FC<Props> = ({ profile }) => {
 	const imageSource = { uri: profile.profileImage };
 
 	return (
-		<Stack flexDirection="row" alignItems="center" gap={16}>
-			<Image src={imageSource} width={50} height={50} borderRadius={10} />
-			<Text fontSize={20}>{displayName}</Text>
-		</Stack>
+		<View style={styles.container}>
+			<Image source={imageSource} style={styles.image} />
+			<Text style={styles.text}>{displayName}</Text>
+		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 16,
+	},
+	image: {
+		width: 50,
+		height: 50,
+		borderRadius: 10,
+	},
+	text: {
+		fontSize: 20,
+		color: 'white',
+	},
+});
 
 export default AccountInfo;

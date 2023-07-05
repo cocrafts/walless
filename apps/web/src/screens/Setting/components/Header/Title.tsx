@@ -1,27 +1,42 @@
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View } from '@walless/gui';
 import { ChevronRight } from '@walless/icons';
-import { Button, Stack, Text } from '@walless/ui';
 import { router } from 'utils/routing';
 
 const Title = () => {
 	return (
-		<Stack flexDirection="row" alignItems="center" gap={16}>
-			<Button
-				width={24}
-				height={24}
-				padding={0}
-				borderRadius="100%"
-				rotate="180deg"
-				backgroundColor="#25313D"
-				justifyContent="center"
-				alignItems="center"
+		<View style={styles.container}>
+			<TouchableOpacity
+				style={styles.button}
 				onPress={() => router.navigate('/profile')}
 			>
 				<ChevronRight size={18} />
-			</Button>
+			</TouchableOpacity>
 
-			<Text fontSize={20}>Settings</Text>
-		</Stack>
+			<Text style={styles.text}>Settings</Text>
+		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 16,
+	},
+	button: {
+		width: 24,
+		height: 24,
+		padding: 0,
+		borderRadius: 100,
+		backgroundColor: '#25313D',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	text: {
+		fontSize: 20,
+		color: 'white',
+	},
+});
 
 export default Title;

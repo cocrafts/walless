@@ -1,6 +1,7 @@
 import { type FC } from 'react';
+import { StyleSheet } from 'react-native';
 import { type UserProfile } from '@walless/core';
-import { Stack } from '@walless/ui';
+import { View } from '@walless/gui';
 
 import AccountInfo from './AccountInfo';
 import Title from './Title';
@@ -11,11 +12,17 @@ interface Props {
 
 export const Header: FC<Props> = ({ profile }) => {
 	return (
-		<Stack gap={20}>
+		<View style={styles.container}>
 			<Title />
 			<AccountInfo profile={profile} />
-		</Stack>
+		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		gap: 20,
+	},
+});
 
 export default Header;

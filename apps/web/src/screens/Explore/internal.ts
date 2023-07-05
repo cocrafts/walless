@@ -94,7 +94,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		storeMeta: {
 			iconUri: '/img/t-rex-runner/runner-icon.png',
 			iconSize: 40,
-			iconColor: '#000000',
+			iconColor: '#ffffff',
 			coverUri: '/img/t-rex-runner/runner-bg.png',
 			description: 'dApp version of the T-rex Runner you already known!',
 			loveCount: 46,
@@ -104,7 +104,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/t-rex-runner/runner-icon.png',
 			iconUri: '/img/t-rex-runner/runner-icon.png',
-			iconColor: '#000000',
+			iconColor: '#ffffff',
 			iconSize: 40,
 		},
 	},

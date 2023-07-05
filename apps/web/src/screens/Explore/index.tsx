@@ -31,7 +31,6 @@ export const ExploreScreen: FC = () => {
 	};
 
 	const handleAddPress = async (extension: ExtensionDocument) => {
-		console.log('add layout');
 		await modules.storage.put(extension);
 		await router.navigate(extension._id);
 	};

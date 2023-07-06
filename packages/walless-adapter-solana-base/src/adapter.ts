@@ -1,6 +1,7 @@
 import {
 	type EventEmitter,
 	type SupportedTransactionVersions,
+	type WalletError,
 	type WalletName,
 	BaseMessageSignerWalletAdapter,
 	scopePollingDetectionStrategy,
@@ -111,8 +112,9 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 
 			try {
 				await wallet?.connect();
-			} catch (error: any) {
-				throw new WalletConnectionError(error.message, error);
+			} catch (error: unknown) {
+				const walletError = error as WalletError;
+				throw new WalletConnectionError(walletError.message, walletError);
 			}
 
 			if (!wallet?.publicKey) throw new WalletAccountError();
@@ -120,8 +122,9 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 			let publicKey: PublicKey;
 			try {
 				publicKey = new PublicKey(wallet.publicKey.toBytes());
-			} catch (error: any) {
-				throw new WalletPublicKeyError(error.message, error);
+			} catch (error) {
+				const walletError = error as WalletError;
+				throw new WalletPublicKeyError(walletError.message, walletError);
 			}
 
 			wallet.on('disconnect', this._disconnected);
@@ -130,8 +133,9 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 			this._publicKey = publicKey;
 
 			this.emit('connect', publicKey);
-		} catch (error: any) {
-			this.emit('error', error);
+		} catch (error) {
+			const walletError = error as WalletError;
+			this.emit('error', walletError);
 			throw error;
 		} finally {
 			this._connecting = false;
@@ -148,8 +152,12 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 
 			try {
 				await wallet.disconnect();
-			} catch (error: any) {
-				this.emit('error', new WalletDisconnectionError(error.message, error));
+			} catch (error) {
+				const walletError = error as WalletError;
+				this.emit(
+					'error',
+					new WalletDisconnectionError(walletError.message, walletError),
+				);
 			}
 		}
 
@@ -164,11 +172,13 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 			try {
 				const { signature } = await wallet.signMessageOnSolana(message);
 				return signature;
-			} catch (error: any) {
-				throw new WalletSignMessageError(error.message, error);
+			} catch (error) {
+				const walletError = error as WalletError;
+				throw new WalletSignMessageError(walletError.message, walletError);
 			}
-		} catch (error: any) {
-			this.emit('error', error);
+		} catch (error) {
+			const walletError = error as WalletError;
+			this.emit('error', walletError);
 			throw error;
 		}
 	}
@@ -184,11 +194,13 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 				return (
 					(await wallet.signTransactionOnSolana(transaction)) || transaction
 				);
-			} catch (error: any) {
-				throw new WalletSignTransactionError(error.message, error);
+			} catch (error: unknown) {
+				const walletError = error as WalletError;
+				throw new WalletSignTransactionError(walletError.message, walletError);
 			}
-		} catch (error: any) {
-			this.emit('error', error);
+		} catch (error: unknown) {
+			const walletError = error as WalletError;
+			this.emit('error', walletError);
 			throw error;
 		}
 	}
@@ -205,11 +217,13 @@ export class WallessWalletAdapter extends BaseMessageSignerWalletAdapter {
 					(await wallet.signAllTransactionsOnSolana(transactions)) ||
 					transactions
 				);
-			} catch (error: any) {
-				throw new WalletSignTransactionError(error.message, error);
+			} catch (error) {
+				const walletError = error as WalletError;
+				throw new WalletSignTransactionError(walletError.message, walletError);
 			}
-		} catch (error: any) {
-			this.emit('error', error);
+		} catch (error) {
+			const walletError = error as WalletError;
+			this.emit('error', walletError);
 			throw error;
 		}
 	}

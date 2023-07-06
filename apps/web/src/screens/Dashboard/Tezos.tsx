@@ -81,7 +81,7 @@ export const TezosDashboard: FC<Props> = () => {
 			</Stack>
 			<Stack alignItems="center" gap={18}>
 				<MainFeatures
-					onReceivePress={() => showReceiveModal(Networks.solana)}
+					onReceivePress={() => showReceiveModal(Networks.tezos)}
 					onSendPress={handleSend}
 				/>
 				{publicKeys.length > 1 && (

@@ -30,8 +30,7 @@ export const ExploreScreen: FC = () => {
 		console.log(extension);
 	};
 
-	const handleAddPress = async (extension: ExtensionDocument) => {
-		console.log('add layout');
+	const handleAddLayout = async (extension: ExtensionDocument) => {
 		await modules.storage.put(extension);
 		await router.navigate(extension._id);
 	};
@@ -62,7 +61,7 @@ export const ExploreScreen: FC = () => {
 						key={layoutCard._id}
 						item={layoutCard}
 						onLovePress={handleLovePress}
-						onAddPress={handleAddPress}
+						onAddPress={handleAddLayout}
 						onRemovePress={handleRemoveLayout}
 						isAdded={isAdded}
 					/>

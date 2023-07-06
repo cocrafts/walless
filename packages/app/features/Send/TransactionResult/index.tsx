@@ -10,7 +10,7 @@ import {
 import { NavButton } from '../components';
 
 import { Header } from './components/Header';
-import { Information } from './components/Infor';
+import { Information } from './components/Information';
 import { Token } from './components';
 
 type Props = SlideComponentProps;

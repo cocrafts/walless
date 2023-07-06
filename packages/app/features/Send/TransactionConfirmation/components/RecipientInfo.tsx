@@ -13,7 +13,7 @@ interface Props {
 	onBack?: () => void;
 }
 
-export const RecipientInfor: FC<Props> = () => {
+export const RecipientInfo: FC<Props> = () => {
 	const { publicKeys } = useSnapshot(injectedElements);
 	const { token, transactionFee, receiver } = useSnapshot(transactionContext);
 

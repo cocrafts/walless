@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
 		width: 342,
 		height: 48,
 		borderRadius: 16,
+		justifyContent: 'center',
 	},
 	getInvitationCodeContainer: {
 		flexDirection: 'row',

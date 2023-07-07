@@ -20,6 +20,7 @@ import {
 	type SignMessageFunc,
 	Networks,
 } from '@walless/core';
+import { ResponseCode } from '@walless/messaging';
 import { type PublicKeyDocument } from '@walless/store';
 import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
@@ -212,11 +213,10 @@ export class Walless extends EventEmitter {
 
 		let isSuccessfullyInstalled = false;
 		try {
-			console.log(`installed ${input} layout`);
+			const { responseCode } = await commonProvider.requestInstallLayout(input);
+			isSuccessfullyInstalled = responseCode === ResponseCode.SUCCESS;
 		} catch (error) {
 			throw new Error('not successfully installed');
-		} finally {
-			isSuccessfullyInstalled = true;
 		}
 
 		return isSuccessfullyInstalled;

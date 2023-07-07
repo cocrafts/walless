@@ -13,3 +13,14 @@ export const requestConnect = async (options: ConnectOptions) => {
 		30000,
 	);
 };
+
+export const requestInstallLayout = async (input: string) => {
+	return await sendRequest(
+		{
+			from: 'walless@sdk',
+			type: RequestType.INSTALL_LAYOUT,
+			input,
+		},
+		30000,
+	);
+};

@@ -8,6 +8,12 @@ import { encryptedMessenger } from 'bridge/utils/messaging';
 import * as bs58 from 'bs58';
 import { type PayloadOptions } from 'screens/Request/shared';
 
+type PopupPayload = MessagePayload & {
+	sourceRequestId: string;
+	isApproved?: boolean;
+	options?: PayloadOptions;
+};
+
 export const registerMessageHandlers = async () => {
 	// Empty for now
 };
@@ -26,7 +32,7 @@ export const handleRequestConnect = async (
 	requestId: string,
 	isApproved: boolean,
 ) => {
-	const payload = {
+	const payload: PopupPayload = {
 		from: PopupType.REQUEST_CONNECT_POPUP,
 		type: RequestType.REQUEST_CONNECT,
 		sourceRequestId: requestId,
@@ -40,11 +46,29 @@ export const handleRequestConnect = async (
 	}
 };
 
+export const handleRequestInstallLayout = async (
+	requestId: string,
+	isApproved: boolean,
+) => {
+	const payload: PopupPayload = {
+		from: PopupType.REQUEST_INSTALL_LAYOUT_POPUP,
+		type: RequestType.INSTALL_LAYOUT,
+		sourceRequestId: requestId,
+		isApproved,
+	};
+
+	try {
+		return await encryptedMessenger.request(Channels.kernel, payload, 10000);
+	} catch (error) {
+		throw Error('Not successfully install layout');
+	}
+};
+
 export const handleRequestSignature = async (
 	options: PayloadOptions,
 	type: RequestType,
 ) => {
-	const payload = {
+	const payload: PopupPayload = {
 		from: PopupType.SIGNATURE_POPUP,
 		type,
 		...options,
@@ -58,7 +82,7 @@ export const handleRequestSignature = async (
 };
 
 export const getMessageOrTransaction = async (requestId: string) => {
-	const payload = {
+	const payload: PopupPayload = {
 		from: PopupType.SIGNATURE_POPUP,
 		type: RequestType.REQUEST_PAYLOAD,
 		sourceRequestId: requestId,

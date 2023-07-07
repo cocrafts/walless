@@ -51,6 +51,12 @@ export const handle: CoordinatingHandle = async ({
 					});
 				}
 			}
+		} else if (type === RequestType.INSTALL_LAYOUT) {
+			const { id } = await openPopup(
+				PopupType.REQUEST_INSTALL_LAYOUT_POPUP,
+				requestId,
+			);
+			requestSource.payload['popupId'] = id;
 		} else {
 			const { id } = await openPopup(PopupType.SIGNATURE_POPUP, requestId);
 			requestSource.payload['popupId'] = id;
@@ -63,6 +69,20 @@ export const handle: CoordinatingHandle = async ({
 		if (!isApproved) {
 			response(sourceRequestId, ResponseCode.REJECTED, {
 				message: ResponseMessage.REJECT_REQUEST_CONNECT,
+			});
+
+			return removeRequestRecord(requestId);
+		}
+
+		// Forward payload from source request to current request
+		payload = getRequestRecord(sourceRequestId).payload;
+	} else if (from === PopupType.REQUEST_INSTALL_LAYOUT_POPUP) {
+		/**
+		 * Forwarded request
+		 * */
+		if (!isApproved) {
+			response(sourceRequestId, ResponseCode.REJECTED, {
+				message: ResponseMessage.REJECT_INSTALL_LAYOUT_REQUEST,
 			});
 
 			return removeRequestRecord(requestId);
@@ -106,4 +126,7 @@ export const handle: CoordinatingHandle = async ({
 		payload,
 		responseMethod: response,
 	});
+
+	// Remove request record from popup that will not be response
+	removeRequestRecord(requestId);
 };

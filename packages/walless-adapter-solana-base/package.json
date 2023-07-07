@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "tsc --build --verbose",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "license": "MIT",

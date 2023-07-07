@@ -1,5 +1,5 @@
 import type { MiniBroadcast, Networks, UnknownObject } from '@walless/core';
-import type { ResponseCode } from '@walless/messaging';
+import type { MessagePayload, ResponseCode } from '@walless/messaging';
 
 export type HandleMethodProps = {
 	privateKey: Uint8Array;
@@ -28,3 +28,7 @@ export type CoordinatingHandleProps = {
 };
 
 export type CoordinatingHandle = (props: CoordinatingHandleProps) => void;
+
+export type InstallLayoutPayload = Required<MessagePayload> & {
+	input: string;
+};

@@ -20,7 +20,8 @@ export const launchApp = async ({
 	const path = url.slice(1);
 	const isSdkPopup =
 		path.includes(PopupType.REQUEST_CONNECT_POPUP) ||
-		path.includes(PopupType.SIGNATURE_POPUP);
+		path.includes(PopupType.SIGNATURE_POPUP) ||
+		path.includes(PopupType.REQUEST_INSTALL_LAYOUT_POPUP);
 
 	if (profile?.email) {
 		if (isSdkPopup) {

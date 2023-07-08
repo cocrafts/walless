@@ -1,8 +1,14 @@
 import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
 import { generateSecretKey, InMemorySigner } from '@taquito/signer';
+import { generateID } from '@tkey/common-types';
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
-import { type UserProfile, Networks, runtime } from '@walless/core';
+import {
+	type UnknownObject,
+	type UserProfile,
+	Networks,
+	runtime,
+} from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import {
 	type InvitationAccount,
@@ -17,7 +23,9 @@ import {
 	type PublicKeyDocument,
 	type SettingDocument,
 } from '@walless/store';
+import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
 import { decode } from 'bs58';
+import { derivePath } from 'ed25519-hd-key';
 import {
 	type User,
 	type UserCredential,
@@ -34,6 +42,7 @@ import {
 	importAvailableShares,
 	key,
 	recoverDeviceShareFromPasscode,
+	SeedPhraseFormatType,
 } from 'utils/w3a';
 
 interface InternalCache {
@@ -177,7 +186,8 @@ export const recoverWithPasscode = async (passcode: string) => {
 		}
 
 		appState.passcodeLoading = false;
-	} catch (_) {
+	} catch (e) {
+		console.log(e);
 		await showError('Something went wrong!');
 		router.navigate('/login');
 	}
@@ -188,16 +198,121 @@ export const storeAuthenticatedRecords = async (
 	login?: UserCredential,
 ): Promise<void> => {
 	await key.reconstructKey();
-	const privateKeys = await key.modules.privateKeyModule.getPrivateKeys();
 
 	if (login?.user) {
 		await setProfile(makeProfile(login));
 	}
 
+	// await initByPrivateKeyModule(passcode);
+	await initBySeedPhraseModule(passcode);
+	await key.syncLocalMetadataTransitions();
+
+	modules.engine.start();
+};
+
+const defaultPrefixDerivationPaths: Array<{ path: string; network: Networks }> =
+	[
+		{
+			path: "44'/501'",
+			network: Networks.solana,
+		},
+		{
+			path: "44'/784'",
+			network: Networks.sui,
+		},
+		{
+			path: "44'/1729'",
+			network: Networks.tezos,
+		},
+	];
+
+const initBySeedPhraseModule = async (passcode: string) => {
+	let seedPhrases = await key.modules.seedPhraseModule.getSeedPhrases();
+	if (seedPhrases.length === 0) {
+		await key.modules.seedPhraseModule.setSeedPhrase(
+			SeedPhraseFormatType.PRIMARY,
+			generateMnemonic(),
+		);
+		seedPhrases = await key.modules.seedPhraseModule.getSeedPhrases();
+	}
+
+	const writePromises: Promise<UnknownObject>[] = [];
+
+	for (let i = 0; i < seedPhrases.length; i++) {
+		const storedSeed = seedPhrases[i];
+		const rootSeed = mnemonicToSeedSync(storedSeed.seedPhrase);
+
+		defaultPrefixDerivationPaths.forEach(async (prefixObject) => {
+			let type;
+			let address;
+			let privateKey;
+			switch (prefixObject.network) {
+				case Networks.solana: {
+					const seed = derivePath(
+						`m/${prefixObject.path}/0'/0'`,
+						rootSeed.toString('hex'),
+					).key;
+					const keypair = SolPair.fromSeed(seed);
+					type = 'ed25519';
+					address = keypair.publicKey.toString();
+					privateKey = keypair.secretKey;
+					break;
+				}
+				case Networks.sui: {
+					const keypair = SuiPair.deriveKeypair(
+						storedSeed.seedPhrase,
+						`m/${prefixObject.path}/0'/0'/0'`,
+					);
+					type = 'ed25519';
+					address = keypair.getPublicKey().toSuiAddress();
+					privateKey = Buffer.from(keypair.export().privateKey, 'base64');
+					break;
+				}
+				case Networks.tezos: {
+					const keypair = await InMemorySigner.fromSecretKey(
+						generateSecretKey(
+							rootSeed,
+							`m/${prefixObject.path}/0'/0'`,
+							'ed25519',
+						),
+					);
+					type = 'ed25519';
+					address = await keypair.publicKeyHash();
+					privateKey = decode(await keypair.secretKey());
+					break;
+				}
+			}
+
+			if (privateKey && address) {
+				const id = generateID();
+				const encrypted = await encryptWithPasscode(passcode, privateKey);
+
+				writePromises.push(
+					modules.storage.put<PrivateKeyDocument>({
+						_id: id,
+						type: 'PrivateKey',
+						keyType: type || '',
+						...encrypted,
+					}),
+					modules.storage.put<PublicKeyDocument>({
+						_id: address,
+						type: 'PublicKey',
+						privateKeyId: id,
+						network: prefixObject.network,
+					}),
+				);
+			}
+		});
+	}
+
+	await Promise.all(writePromises);
+};
+
+export const initByPrivateKeyModule = async (passcode: string) => {
+	const privateKeys = await key.modules.privateKeyModule.getPrivateKeys();
 	if (privateKeys.length === 0) {
 		await key.modules.privateKeyModule.setPrivateKey('secp256k1n');
 		await key.modules.privateKeyModule.setPrivateKey('ed25519');
-		await key.syncLocalMetadataTransitions();
 	}
 
 	const writePromises = [];
@@ -279,5 +394,4 @@ export const storeAuthenticatedRecords = async (
 	}
 
 	await Promise.all(writePromises);
-	modules.engine.start();
 };

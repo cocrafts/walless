@@ -47,7 +47,7 @@ export const solanaTokensByAddress = async ({
 		} satisfies TokenDocument;
 	});
 
-	resultPromises.push(
+	resultPromises.unshift(
 		(async () => {
 			const balance = await connection.getBalance(key);
 

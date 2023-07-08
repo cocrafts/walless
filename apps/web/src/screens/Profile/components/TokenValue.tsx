@@ -1,22 +1,24 @@
-import { Hoverable } from '@walless/gui';
+import { StyleSheet, View } from 'react-native';
+import { Hoverable, Text } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
-import { Stack, Text } from '@walless/ui';
 import { useSettings } from 'utils/hooks';
 
 const TokenValue = () => {
 	const { setting, setPrivacy } = useSettings();
+	const balanceTextStyle = [
+		styles.balanceText,
+		setting.hideBalance && styles.protectedBalance,
+	];
 
 	const handleToggleTokenValue = async () => {
 		setPrivacy(!setting.hideBalance);
 	};
 
 	return (
-		<Stack alignItems="center" gap={16}>
-			<Text color="#566674" textAlign="center" fontSize={14}>
-				Token value
-			</Text>
-			<Stack flexDirection="row" alignItems="center" gap={5}>
-				<Text fontSize={40} fontWeight="500" lineHeight={26}>
+		<View style={styles.container}>
+			<Text style={styles.headingText}>Token value</Text>
+			<View style={styles.balanceContainer}>
+				<Text style={balanceTextStyle}>
 					{setting.hideBalance ? '****' : '$0,00'}
 				</Text>
 				<Hoverable onPress={handleToggleTokenValue}>
@@ -26,9 +28,35 @@ const TokenValue = () => {
 						<EyeOff size={20} color="#566674" />
 					)}
 				</Hoverable>
-			</Stack>
-		</Stack>
+			</View>
+		</View>
 	);
 };
 
 export default TokenValue;
+
+const styles = StyleSheet.create({
+	container: {
+		alignItems: 'center',
+		gap: 8,
+	},
+	headingText: {
+		textAlign: 'center',
+		color: '#566674',
+	},
+	balanceContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 12,
+		minHeight: 48,
+	},
+	balanceText: {
+		color: '#FFFFFF',
+		fontSize: 40,
+		fontWeight: '500',
+		lineHeight: 26,
+	},
+	protectedBalance: {
+		paddingTop: 16,
+	},
+});

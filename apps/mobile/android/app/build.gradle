@@ -2,6 +2,11 @@ apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 apply plugin: "com.google.gms.google-services"
 
+project.ext.envConfigFiles = [
+	debug: ".env.development",
+	release: ".env.production",
+]
+
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
@@ -101,7 +106,7 @@ android {
         applicationId "metacraft.walless"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 3
         versionName "1.0"
         manifestPlaceholders = [
             'torusRedirectScheme': 'metacraft',
@@ -125,6 +130,14 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            if (project.hasProperty('WALLESS_STORE_FILE')) {
+                storeFile file(WALLESS_STORE_FILE)
+                storePassword WALLESS_STORE_PASSWORD
+                keyAlias WALLESS_KEY_ALIAS
+                keyPassword WALLESS_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
@@ -133,7 +146,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

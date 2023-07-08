@@ -37,9 +37,10 @@ export const useTokens = (
 			const isAccountValid = address ? item.account?.address === address : true;
 
 			if (isNetworkValid && isAccountValid) {
-				const quote = item.account?.quotes?.[currency] || 0;
+				const { quotes, balance, decimals } = item.account;
+				const quote = quotes?.[currency] || 0;
 
-				valuation += quote;
+				valuation += quote * (parseInt(balance) / Math.pow(10, decimals));
 				filteredTokens.push(item);
 			}
 		}

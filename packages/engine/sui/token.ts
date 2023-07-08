@@ -40,7 +40,6 @@ export const suiTokensByAddress = async ({
 
 	const result: TokenDocument[] = new Array(data.length);
 
-	console.log(data, details);
 	for (let i = 0; i < data.length; i += 1) {
 		const object = data[i];
 		const detail = details[i];

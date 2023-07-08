@@ -1,5 +1,6 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { type AccountChangeCallback } from '@solana/web3.js';
 import {
 	type CardSkin,
 	type TabAble,
@@ -11,6 +12,7 @@ import {
 import { Networks } from '@walless/core';
 import { type SlideOption, Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
+import { SolanaNet } from '@walless/network';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
@@ -43,6 +45,37 @@ export const SolanaDashboard: FC<Props> = () => {
 			component: EmptyTab,
 		},
 	];
+
+	const handleAccountChange: AccountChangeCallback = (publicKey, info) => {
+		console.log('account change', publicKey, info);
+	};
+
+	useEffect(() => {
+		const subscribe = async () => {
+			console.log('publicKey', publicKeys[0]._id);
+
+			const connectionId = await SolanaNet.subscribeWithPublicKeyString(
+				publicKeys[0]._id,
+				handleAccountChange,
+			);
+
+			console.log('connectionId', connectionId);
+
+			return connectionId;
+		};
+
+		let id: number;
+
+		subscribe().then((connectionId) => {
+			console.log('subscribed', connectionId);
+			id = connectionId;
+		});
+
+		return () => {
+			console.log('unsubscribing', id);
+			SolanaNet.unsubscribe(id);
+		};
+	}, [publicKeys]);
 
 	const handleTabPress = (item: TabAble) => {
 		const idx = layoutTabs.indexOf(item);

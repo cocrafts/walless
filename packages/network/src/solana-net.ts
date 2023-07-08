@@ -17,7 +17,7 @@ type TokenAccount = {
 	amount: bigint;
 };
 
-export default class SolanaNet {
+export class SolanaNet {
 	/**
 	 * This function get all necessary for render wallet
 	 *
@@ -66,7 +66,7 @@ export default class SolanaNet {
 		return balance;
 	}
 
-	static async subcribeWithPublicKeyString(
+	static async subscribeWithPublicKeyString(
 		publicKeyString: string,
 		callback: web3.AccountChangeCallback,
 	) {
@@ -76,7 +76,7 @@ export default class SolanaNet {
 		);
 	}
 
-	static async unSubcribe(connectionId: number) {
+	static async unsubscribe(connectionId: number) {
 		SolanaConnection.getConnection().removeAccountChangeListener(connectionId);
 	}
 
@@ -85,3 +85,5 @@ export default class SolanaNet {
 		console.log(metaplex, '<--');
 	};
 }
+
+export default SolanaNet;

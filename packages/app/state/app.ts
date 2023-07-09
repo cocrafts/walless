@@ -1,4 +1,8 @@
-import { type Config, type UserProfile } from '@walless/core';
+import {
+	type Config,
+	type RemoteConfig,
+	type UserProfile,
+} from '@walless/core';
 import { proxy } from 'valtio';
 
 export interface AppState {
@@ -14,7 +18,17 @@ export interface AppState {
 	profileLoading: boolean;
 	profile: UserProfile;
 	config: Config;
+	remoteConfig: RemoteConfig;
 }
+
+export const defaultConfig: Config = {
+	hideBalance: true,
+	latestLocation: '/',
+};
+
+export const defaultRemoteConfig: RemoteConfig = {
+	experimentalEnabled: false,
+};
 
 export const appState = proxy<AppState>({
 	loading: true,
@@ -23,8 +37,6 @@ export const appState = proxy<AppState>({
 	profile: {},
 	passcodeLoading: false,
 	authenticationLoading: false,
-	config: {
-		hideBalance: true,
-		latestLocation: '/',
-	},
+	config: defaultConfig,
+	remoteConfig: defaultRemoteConfig,
 });

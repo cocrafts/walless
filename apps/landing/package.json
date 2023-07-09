@@ -14,6 +14,7 @@
         "@walless/gui": "*",
         "@walless/markdown": "*",
         "@walless/ui": "*",
+        "firebase": "^10.0.0",
         "html-to-image": "^1.11.11",
         "next": "13.4.5",
         "react-dom": "^18.2.0",

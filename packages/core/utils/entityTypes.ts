@@ -12,6 +12,10 @@ export interface Config {
 	latestLocation: string;
 }
 
+export interface RemoteConfig {
+	experimentalEnabled: boolean;
+}
+
 export interface UserProfile {
 	id?: string;
 	email?: string;

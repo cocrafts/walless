@@ -1,5 +1,5 @@
-import { type Metadata as MplMetadata } from '@metaplex-foundation/mpl-token-metadata';
-import { type SuiObjectData } from '@mysten/sui.js';
+import type { Metadata as MplMetadata } from '@metaplex-foundation/mpl-token-metadata';
+import type { SuiObjectData } from '@mysten/sui.js';
 
 export interface Setting {
 	version: string;

@@ -1,6 +1,12 @@
 import { type FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { type AccountChangeCallback, PublicKey } from '@solana/web3.js';
+import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import {
+	type AccountChangeCallback,
+	clusterApiUrl,
+	Connection,
+	PublicKey,
+} from '@solana/web3.js';
 import {
 	type CardSkin,
 	type TabAble,
@@ -10,6 +16,7 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
+import { tokenActions } from '@walless/engine';
 import { type SlideOption, Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
@@ -17,7 +24,6 @@ import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
-import { getSolanaConnection } from 'utils/transaction';
 
 import EmptyTab from './components/EmptyTab';
 import TokenTab from './components/TokenTab';
@@ -46,34 +52,47 @@ export const SolanaDashboard: FC<Props> = () => {
 		},
 	];
 
-	const handleProgramAccountChange: AccountChangeCallback = (info, context) => {
-		console.log('program account change', info, context);
+	const handleAccountChange: AccountChangeCallback = (info) => {
+		try {
+			const data = AccountLayout.decode(info.data);
+			const owner = data.owner.toString();
+			const mint = data.mint.toString();
+			const balance = data.amount.toString();
+			tokenActions.updateBalance(owner, mint, balance);
+		} catch (error) {
+			console.log('Error with SOL --->', error);
+		}
 	};
 
 	useEffect(() => {
-		const connection = getSolanaConnection();
+		const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 
-		let subscriptionId: number;
+		const subscriptionList: number[] = [];
 
-		connection.then((conn) => {
-			const publicKeyInstance = new PublicKey(publicKeys[0]._id);
+		subscriptionList.push(
+			connection.onAccountChange(
+				new PublicKey(publicKeys[0]._id),
+				handleAccountChange,
+			),
+		);
 
-			subscriptionId = conn.onAccountChange(
-				publicKeyInstance,
-				handleProgramAccountChange,
-			);
-
-			console.log('subscriptionId', subscriptionId);
-		});
+		connection
+			.getTokenAccountsByOwner(new PublicKey(publicKeys[0]._id), {
+				programId: TOKEN_PROGRAM_ID,
+			})
+			.then((res) => {
+				res.value.map((ata) =>
+					subscriptionList.push(
+						connection.onAccountChange(ata.pubkey, handleAccountChange),
+					),
+				);
+			});
 
 		return () => {
-			if (subscriptionId) {
-				console.log('remove subscription', subscriptionId);
-
-				connection.then((conn) => {
-					conn.removeProgramAccountChangeListener(subscriptionId);
-				});
-			}
+			subscriptionList.forEach((subscription) => {
+				connection.removeAccountChangeListener(subscription);
+				console.log('removed subscription', subscription);
+			});
 		};
 	}, []);
 

@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
-import {
-	type NativeSyntheticEvent,
-	type TextInput,
-	type TextInputKeyPressEventData,
+import type {
+	NativeSyntheticEvent,
+	TextInput,
+	TextInputKeyPressEventData,
 } from 'react-native';
 import { Input, Stack } from '@walless/ui';
 

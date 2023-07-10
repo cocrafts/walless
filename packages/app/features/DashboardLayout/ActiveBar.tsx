@@ -1,4 +1,5 @@
-import { type FC, useEffect } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import {
 	useAnimatedStyle,
 	useSharedValue,

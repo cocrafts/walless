@@ -1,6 +1,8 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { type SliderHandle, View } from '@walless/gui';
+import type { SliderHandle } from '@walless/gui';
+import { View } from '@walless/gui';
 
 import { showError } from '../utils';
 

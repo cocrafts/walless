@@ -1,10 +1,11 @@
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import { transactionContext } from '../../../../state/transaction';
 
-export const TotalCost = () => {
+export const TotalCost: FC = () => {
 	const { token, amount } = useSnapshot(transactionContext);
 
 	const costStr = `${amount ? parseFloat(amount) : 0} ${

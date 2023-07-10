@@ -1,10 +1,9 @@
 import { forwardRef, useState } from 'react';
-import {
-	type NativeSyntheticEvent,
-	type TextInputKeyPressEventData,
-	StyleSheet,
-	TextInput,
+import type {
+	NativeSyntheticEvent,
+	TextInputKeyPressEventData,
 } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import { View } from '@walless/gui';
 
 interface Props {

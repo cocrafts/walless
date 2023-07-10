@@ -1,10 +1,7 @@
-import { type FC, useEffect } from 'react';
-import {
-	type ImageSourcePropType,
-	type ViewStyle,
-	StyleSheet,
-	View,
-} from 'react-native';
+import type { FC } from 'react';
+import { useEffect } from 'react';
+import type { ImageSourcePropType, ViewStyle } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
 	runOnJS,
 	useAnimatedStyle,

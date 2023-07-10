@@ -1,11 +1,11 @@
-import { type FC, useEffect, useRef, useState } from 'react';
-import {
-	type NativeSyntheticEvent,
-	type TextInputKeyPressEventData,
-	type ViewStyle,
-	StyleSheet,
-	TouchableOpacity,
+import type { FC } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type {
+	NativeSyntheticEvent,
+	TextInputKeyPressEventData,
+	ViewStyle,
 } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Input, Text, View } from '@walless/gui';
 
 interface Props {

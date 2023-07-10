@@ -1,6 +1,7 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { type SlideComponentProps, View } from '@walless/gui';
+import type { SlideComponentProps } from '@walless/gui';
+import { View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import {

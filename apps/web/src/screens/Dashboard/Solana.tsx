@@ -1,6 +1,6 @@
 import { type FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { type ProgramAccountChangeCallback, PublicKey } from '@solana/web3.js';
+import { type AccountChangeCallback, PublicKey } from '@solana/web3.js';
 import {
 	type CardSkin,
 	type TabAble,
@@ -46,10 +46,7 @@ export const SolanaDashboard: FC<Props> = () => {
 		},
 	];
 
-	const handleProgramAccountChange: ProgramAccountChangeCallback = (
-		info,
-		context,
-	) => {
+	const handleProgramAccountChange: AccountChangeCallback = (info, context) => {
 		console.log('program account change', info, context);
 	};
 
@@ -61,10 +58,9 @@ export const SolanaDashboard: FC<Props> = () => {
 		connection.then((conn) => {
 			const publicKeyInstance = new PublicKey(publicKeys[0]._id);
 
-			subscriptionId = conn.onProgramAccountChange(
+			subscriptionId = conn.onAccountChange(
 				publicKeyInstance,
 				handleProgramAccountChange,
-				'confirmed',
 			);
 
 			console.log('subscriptionId', subscriptionId);

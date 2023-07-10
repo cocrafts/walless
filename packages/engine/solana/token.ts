@@ -1,7 +1,9 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { type Connection, PublicKey } from '@solana/web3.js';
-import { type Endpoint, Networks } from '@walless/core';
-import { type Database, type TokenDocument } from '@walless/store';
+import type { Connection } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
+import type { Endpoint } from '@walless/core';
+import { Networks } from '@walless/core';
+import type { Database, TokenDocument } from '@walless/store';
 
 import { getSolanaMetadata } from './metadata';
 import { solMetadata, solMint } from './shared';

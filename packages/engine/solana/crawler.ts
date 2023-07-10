@@ -1,14 +1,12 @@
-import { type Connection } from '@solana/web3.js';
-import { type TokenInfo, qlClient, queries } from '@walless/graphql';
-import {
-	type PublicKeyDocument,
-	type TokenDocument,
-	selectors,
-} from '@walless/store';
+import type { Connection } from '@solana/web3.js';
+import type { TokenInfo } from '@walless/graphql';
+import { qlClient, queries } from '@walless/graphql';
+import type { PublicKeyDocument, TokenDocument } from '@walless/store';
+import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
 
 import { tokenActions } from '../state/tokens';
-import { type EngineRunner } from '../utils/type';
+import type { EngineRunner } from '../utils/type';
 
 import { solanaTokensByAddress } from './token';
 

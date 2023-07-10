@@ -1,8 +1,9 @@
-import { type TezosToolkit, compose } from '@taquito/taquito';
+import type { TezosToolkit } from '@taquito/taquito';
+import { compose } from '@taquito/taquito';
 import { tzip12 } from '@taquito/tzip12';
 import { tzip16 } from '@taquito/tzip16';
-import { type UnknownObject } from '@walless/core';
-import { type MetadataDocument } from '@walless/store';
+import type { UnknownObject } from '@walless/core';
+import type { MetadataDocument } from '@walless/store';
 
 export type GetTezosMetadataFunction = (
 	tokenId: number,

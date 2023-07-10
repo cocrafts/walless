@@ -15,12 +15,7 @@ module.exports = {
 	],
 	rules: {
 		'@typescript-eslint/no-var-requires': 'off',
-		'@typescript-eslint/consistent-type-imports': [
-			'error',
-			{
-				fixStyle: 'inline-type-imports',
-			},
-		],
+		'@typescript-eslint/consistent-type-imports': 'error',
 
 		'simple-import-sort/exports': 'error',
 		'simple-import-sort/imports': [

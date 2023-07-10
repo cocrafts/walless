@@ -1,8 +1,8 @@
-import { type Endpoint, type Networks } from '@walless/core';
-import { type Database } from '@walless/store';
+import type { Endpoint, Networks } from '@walless/core';
+import type { Database } from '@walless/store';
 
 import { createCrawler } from './utils/crawler';
-import { type EngineCrawler } from './utils/type';
+import type { EngineCrawler } from './utils/type';
 import { solanaEngineRunner, solanaPool } from './solana';
 import { suiEngineRunner, suiPool } from './sui';
 import { tezosEngineRunner, tezosPool } from './tezos';

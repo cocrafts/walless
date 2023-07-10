@@ -1,7 +1,8 @@
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
-import { type Connection, PublicKey } from '@solana/web3.js';
+import type { Connection } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import { type Database, type MetadataDocument } from '@walless/store';
+import type { Database, MetadataDocument } from '@walless/store';
 
 import { METADATA_PROGRAM_KEY, tokenMap } from './shared';
 

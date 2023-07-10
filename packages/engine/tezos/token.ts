@@ -1,8 +1,10 @@
-import { type TezosToolkit } from '@taquito/taquito';
-import { type Endpoint, Networks } from '@walless/core';
-import { type TokenDocument } from '@walless/store';
+import type { TezosToolkit } from '@taquito/taquito';
+import type { Endpoint } from '@walless/core';
+import { Networks } from '@walless/core';
+import type { TokenDocument } from '@walless/store';
 
-import { type GetTezosMetadataFunction, getTezosMetadata } from './metadata';
+import type { GetTezosMetadataFunction } from './metadata';
+import { getTezosMetadata } from './metadata';
 import { tezosEndpoints } from './pool';
 
 interface TokenByAddressOption {

@@ -1,5 +1,6 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { type ProgramAccountChangeCallback, PublicKey } from '@solana/web3.js';
 import {
 	type CardSkin,
 	type TabAble,
@@ -16,6 +17,7 @@ import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
+import { getSolanaConnection } from 'utils/transaction';
 
 import EmptyTab from './components/EmptyTab';
 import TokenTab from './components/TokenTab';
@@ -43,6 +45,41 @@ export const SolanaDashboard: FC<Props> = () => {
 			component: EmptyTab,
 		},
 	];
+
+	const handleProgramAccountChange: ProgramAccountChangeCallback = (
+		info,
+		context,
+	) => {
+		console.log('program account change', info, context);
+	};
+
+	useEffect(() => {
+		const connection = getSolanaConnection();
+
+		let subscriptionId: number;
+
+		connection.then((conn) => {
+			const publicKeyInstance = new PublicKey(publicKeys[0]._id);
+
+			subscriptionId = conn.onProgramAccountChange(
+				publicKeyInstance,
+				handleProgramAccountChange,
+				'confirmed',
+			);
+
+			console.log('subscriptionId', subscriptionId);
+		});
+
+		return () => {
+			if (subscriptionId) {
+				console.log('remove subscription', subscriptionId);
+
+				connection.then((conn) => {
+					conn.removeProgramAccountChangeListener(subscriptionId);
+				});
+			}
+		};
+	}, []);
 
 	const handleTabPress = (item: TabAble) => {
 		const idx = layoutTabs.indexOf(item);

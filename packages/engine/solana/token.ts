@@ -1,26 +1,23 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { type Connection, PublicKey } from '@solana/web3.js';
 import { type Endpoint, Networks } from '@walless/core';
-import { type TokenDocument } from '@walless/store';
+import { type Database, type TokenDocument } from '@walless/store';
 
-import {
-	type GetSolanaMetadataFunction,
-	getRemoteSolanaMetadata,
-} from './metadata';
+import { getSolanaMetadata } from './metadata';
 import { solMetadata, solMint } from './shared';
 
 interface TokenByAddressOption {
 	endpoint: Endpoint;
+	storage: Database;
 	connection: Connection;
 	address: string;
-	metadataFetcher?: GetSolanaMetadataFunction;
 }
 
 export const solanaTokensByAddress = async ({
 	endpoint,
+	storage,
 	connection,
 	address,
-	metadataFetcher = getRemoteSolanaMetadata,
 }: TokenByAddressOption): Promise<TokenDocument[]> => {
 	const key = new PublicKey(address);
 	const response = await connection.getParsedTokenAccountsByOwner(key, {
@@ -30,6 +27,11 @@ export const solanaTokensByAddress = async ({
 	const resultPromises = response.value.map(async ({ account }) => {
 		const { data, owner } = account;
 		const info = data.parsed?.info || {};
+		const metadata = await getSolanaMetadata({
+			storage,
+			connection,
+			mintAddress: info.mint,
+		});
 
 		return {
 			_id: `${address}/${info.mint}`,
@@ -43,7 +45,7 @@ export const solanaTokensByAddress = async ({
 				balance: info.tokenAmount?.amount,
 				decimals: info.tokenAmount?.decimals,
 			},
-			metadata: await metadataFetcher(connection, info.mint),
+			metadata: metadata,
 		} satisfies TokenDocument;
 	});
 

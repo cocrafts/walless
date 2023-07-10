@@ -10,12 +10,10 @@ import { flatten } from 'lodash';
 import { tokenActions } from '../state/tokens';
 import { type EngineRunner } from '../utils/type';
 
-import { createLazySolanaMetadataFetcher } from './metadata';
 import { solanaTokensByAddress } from './token';
 
 export const solanaEngineRunner: EngineRunner<Connection> = {
 	start: async ({ endpoint, connection, storage }) => {
-		const lazyMetadata = createLazySolanaMetadataFetcher(storage);
 		const keyResult = await storage.find(selectors.solanaKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
@@ -24,9 +22,9 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 			tokenPromises.push(
 				solanaTokensByAddress({
 					endpoint,
+					storage,
 					connection,
 					address: key._id,
-					metadataFetcher: lazyMetadata,
 				}),
 			);
 		}

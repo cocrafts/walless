@@ -15,7 +15,7 @@ import type {
 	TokenDocument,
 } from '@walless/store';
 import { selectors } from '@walless/store';
-import { appActions, appState } from 'state/app';
+import { appState } from 'state/app';
 
 import { extensionActions, extensionState } from '../extension';
 

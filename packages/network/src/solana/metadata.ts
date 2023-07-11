@@ -1,7 +1,8 @@
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
-import { type Connection, PublicKey } from '@solana/web3.js';
+import type { Connection } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import { type MetadataDocument } from '@walless/store';
+import type { MetadataDocument } from '@walless/store';
 
 export const METADATA_PROGRAM_ID =
 	'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s';

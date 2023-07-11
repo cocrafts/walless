@@ -1,11 +1,5 @@
-import {
-	type Connection,
-	type MessageV0,
-	type SendOptions,
-	Keypair,
-	Transaction,
-	VersionedTransaction,
-} from '@solana/web3.js';
+import type { Connection, MessageV0, SendOptions } from '@solana/web3.js';
+import { Keypair, Transaction, VersionedTransaction } from '@solana/web3.js';
 import { decode } from 'bs58';
 import { sign } from 'tweetnacl';
 

@@ -1,20 +1,20 @@
-import {
-	type ChannelHashmap,
-	type MiniBroadcast,
-	type RequestHashmap,
-	type UniBroadcast,
-	runtime,
+import type {
+	ChannelHashmap,
+	MiniBroadcast,
+	RequestHashmap,
+	UniBroadcast,
 } from '@walless/core';
+import { runtime } from '@walless/core';
 import { decryptFromString, encryptToString } from '@walless/crypto';
 
-import {
-	type EncryptedMessage,
-	type EncryptionKeyVault,
-	type MessagePayload,
-	type Messenger,
-	type MessengerMessageListener,
-	type MessengerRequest,
-	type MessengerSend,
+import type {
+	EncryptedMessage,
+	EncryptionKeyVault,
+	MessagePayload,
+	Messenger,
+	MessengerMessageListener,
+	MessengerRequest,
+	MessengerSend,
 } from './types';
 
 export const createMessenger = (

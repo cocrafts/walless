@@ -1,7 +1,7 @@
-import {
-	type ChannelHashmap,
-	type MiniBroadcast,
-	type UnknownObject,
+import type {
+	ChannelHashmap,
+	MiniBroadcast,
+	UnknownObject,
 } from '@walless/core';
 
 export enum Channels {

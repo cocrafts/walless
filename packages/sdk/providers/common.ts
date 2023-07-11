@@ -1,4 +1,4 @@
-import { type ConnectOptions } from '@walless/core';
+import type { ConnectOptions } from '@walless/core';
 import { RequestType } from '@walless/messaging';
 
 import { sendRequest } from '../utils/messaging';

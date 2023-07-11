@@ -1,8 +1,10 @@
-import { type FC, Fragment } from 'react';
-import { type ViewStyle, StyleSheet } from 'react-native';
+import type { FC } from 'react';
+import { Fragment } from 'react';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import Link from 'next/link';
-import { type DocsTree } from 'utils/types';
+import type { DocsTree } from 'utils/types';
 
 interface Props {
 	nodes: DocsTree[];

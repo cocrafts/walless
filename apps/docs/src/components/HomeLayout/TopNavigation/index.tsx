@@ -1,10 +1,10 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Anchor, Button, dimensionState, Hoverable, View } from '@walless/gui';
 import { Menu } from '@walless/icons';
 import { resources } from 'utils/config';
 import { getDefaultNode } from 'utils/content';
-import { type DocsTree } from 'utils/types';
+import type { DocsTree } from 'utils/types';
 import { useSnapshot } from 'valtio';
 
 import NavigationItem from './Item';

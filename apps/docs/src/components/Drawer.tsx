@@ -1,5 +1,7 @@
-import { type ReactElement, forwardRef, useImperativeHandle } from 'react';
-import { type ViewProps, StyleSheet, View } from 'react-native';
+import type { ReactElement } from 'react';
+import { forwardRef, useImperativeHandle } from 'react';
+import type { ViewProps } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
 	useAnimatedStyle,
 	useSharedValue,

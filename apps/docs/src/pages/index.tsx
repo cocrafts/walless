@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import {
 	useAnimatedStyle,
@@ -7,10 +7,10 @@ import {
 } from 'react-native-reanimated';
 import { AnimatedView, Button, Text, View } from '@walless/gui';
 import Markdown from '@walless/markdown';
-import { type GetStaticProps } from 'next';
+import type { GetStaticProps } from 'next';
 import { loadContent } from 'utils/content';
 import { loadMarkdown } from 'utils/engine';
-import { type DocsTree } from 'utils/types';
+import type { DocsTree } from 'utils/types';
 
 interface Props {
 	docsTree?: DocsTree;

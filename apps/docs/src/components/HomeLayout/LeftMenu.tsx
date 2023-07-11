@@ -1,7 +1,7 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-import { type DocsTree } from 'utils/types';
+import type { DocsTree } from 'utils/types';
 
 import SideNavigation from './SideNavigation';
 

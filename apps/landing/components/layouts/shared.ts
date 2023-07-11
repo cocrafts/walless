@@ -1,5 +1,5 @@
-import { type ReactNode } from 'react';
-import { type StackProps } from '@tamagui/core';
+import type { ReactNode } from 'react';
+import type { StackProps } from '@tamagui/core';
 
 export type LayoutProps = StackProps & {
 	theme?: 'dark' | 'light';

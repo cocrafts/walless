@@ -1,5 +1,6 @@
-import { type FC } from 'react';
-import { type StackProps, Stack } from '@tamagui/core';
+import type { FC } from 'react';
+import type { StackProps } from '@tamagui/core';
+import { Stack } from '@tamagui/core';
 
 type Props = StackProps & {
 	size?: number;

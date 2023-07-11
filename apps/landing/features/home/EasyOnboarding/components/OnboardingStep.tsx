@@ -1,7 +1,7 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Image, Stack, Text } from '@walless/ui';
 
-import { type OnboardingStepProps } from '../internal';
+import type { OnboardingStepProps } from '../internal';
 
 const OnboardingStep: FC<OnboardingStepProps> = ({
 	title,

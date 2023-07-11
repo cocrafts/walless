@@ -1,9 +1,8 @@
-import { type UrlObject } from 'url';
-
-import { type FC, type HTMLAttributeAnchorTarget, type ReactNode } from 'react';
-import { type TextProps } from '@tamagui/core';
+import type { FC, HTMLAttributeAnchorTarget, ReactNode } from 'react';
+import type { TextProps } from '@tamagui/core';
 import { Text } from '@walless/ui';
 import Link from 'next/link';
+import type { UrlObject } from 'url';
 
 export type AnchorProps = TextProps & {
 	href: string | UrlObject;

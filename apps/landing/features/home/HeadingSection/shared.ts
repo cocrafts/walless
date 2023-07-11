@@ -1,7 +1,7 @@
-import { type FC } from 'react';
-import { type ViewStyle } from 'react-native';
+import type { FC } from 'react';
+import type { ViewStyle } from 'react-native';
+import type { ParticleProps } from 'components/icons/Walless';
 import {
-	type ParticleProps,
 	Walless02,
 	Walless03,
 	WallessLight01,

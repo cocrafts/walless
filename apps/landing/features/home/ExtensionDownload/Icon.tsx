@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Image, Stack, Text } from '@walless/ui';
 import Anchor from 'components/Anchor';
 
-import { type ExtensionConfig } from './shared';
+import type { ExtensionConfig } from './shared';
 
 interface Props {
 	size?: number;

@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Check } from '@walless/icons';
 import { Button, Image, Stack, Text } from '@walless/ui';
 
-import { type DropdownOptionProps } from '.';
+import type { DropdownOptionProps } from '.';
 
 interface Props {
 	option: DropdownOptionProps;

@@ -1,5 +1,5 @@
-import { type MetadataDocument } from '@walless/store';
-import { type Target } from 'features/home/EditTool/internal';
+import type { MetadataDocument } from '@walless/store';
+import type { Target } from 'features/home/EditTool/internal';
 
 import { appState } from './internal';
 

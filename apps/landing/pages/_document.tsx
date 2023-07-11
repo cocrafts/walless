@@ -1,12 +1,7 @@
 import { Children } from 'react';
 import { AppRegistry } from 'react-native';
-import NextDocument, {
-	type DocumentContext,
-	Head,
-	Html,
-	Main,
-	NextScript,
-} from 'next/document';
+import type { DocumentContext } from 'next/document';
+import NextDocument, { Head, Html, Main, NextScript } from 'next/document';
 
 import Tamagui from '../tamagui.config';
 

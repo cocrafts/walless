@@ -1,11 +1,11 @@
-import { type LegacySolanaMetadata, Networks } from '@walless/core';
-import {
-	type GetNftCollections,
-	type GetSolanaMetadataFunction,
-	getNftCollections,
-	getSolanaMetadata,
+import type { LegacySolanaMetadata } from '@walless/core';
+import { Networks } from '@walless/core';
+import type {
+	GetNftCollections,
+	GetSolanaMetadataFunction,
 } from '@walless/network';
-import { type MetadataDocument } from '@walless/store';
+import { getNftCollections, getSolanaMetadata } from '@walless/network';
+import type { MetadataDocument } from '@walless/store';
 
 import legacyRegistry from './solanaTokenList.json';
 

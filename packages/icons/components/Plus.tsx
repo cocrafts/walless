@@ -1,7 +1,7 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Line, Svg } from 'react-native-svg';
 
-import { type IconProps } from './types';
+import type { IconProps } from './types';
 
 export const Plus: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
 	return (

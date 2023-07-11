@@ -1,7 +1,7 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Path, Svg } from 'react-native-svg';
 
-import { type IconProps } from './types';
+import type { IconProps } from './types';
 
 export const Twitter: FC<IconProps> = ({ size = 18, color = '#FFFFFF' }) => {
 	return (

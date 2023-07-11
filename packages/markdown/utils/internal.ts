@@ -1,4 +1,5 @@
-import { type SingleASTNode, outputFor, parserFor } from 'simple-markdown';
+import type { SingleASTNode } from 'simple-markdown';
+import { outputFor, parserFor } from 'simple-markdown';
 
 import rules from '../rules';
 

@@ -28,7 +28,7 @@ export const editToolActions = {
 	deleteDetailToken: (id: string) => {
 		delete appState.tools.detail.tokens[id];
 	},
-	setDetailCollectibe: (collectibleMetadata: MetadataDocument) => {
+	setDetailCollectible: (collectibleMetadata: MetadataDocument) => {
 		appState.tools.detail.collectibles[collectibleMetadata._id] =
 			collectibleMetadata;
 	},

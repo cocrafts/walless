@@ -1,7 +1,8 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { modalActions } from '@walless/gui';
 import { modules } from '@walless/ioc';
-import { type ExtensionDocument } from '@walless/store';
+import type { ExtensionDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
 import { extensionState } from 'state/extension';
 import { router } from 'utils/routing';

@@ -1,4 +1,5 @@
-import { type BootstrapResult, appState } from '@walless/app';
+import type { BootstrapResult } from '@walless/app';
+import { appState } from '@walless/app';
 import { PopupType } from '@walless/messaging';
 import { initializeLiveState } from 'state/live';
 import { loadRemoteConfig } from 'utils/firebase';

@@ -1,5 +1,7 @@
-import { type FC, useEffect, useRef } from 'react';
-import { type ViewStyle, StyleSheet, View } from 'react-native';
+import type { FC } from 'react';
+import { useEffect, useRef } from 'react';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { RouterProvider } from 'react-router-dom';
 import { modalActions, ModalManager } from '@walless/gui';
 import { appState } from 'state/app';

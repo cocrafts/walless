@@ -1,5 +1,6 @@
-import { type FC, useState } from 'react';
-import { type ModalConfigs } from '@walless/gui';
+import type { FC } from 'react';
+import { useState } from 'react';
+import type { ModalConfigs } from '@walless/gui';
 
 import ModalHeader from '../components/ModalHeader';
 import ModalWrapper from '../components/ModalWrapper';

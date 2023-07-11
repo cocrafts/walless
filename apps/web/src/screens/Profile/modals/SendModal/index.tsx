@@ -1,8 +1,9 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SendFeature } from '@walless/app';
-import { type Networks } from '@walless/core';
-import { type ModalConfigs, modalActions } from '@walless/gui';
+import type { Networks } from '@walless/core';
+import type { ModalConfigs } from '@walless/gui';
+import { modalActions } from '@walless/gui';
 import { usePublicKeys, useTokens } from 'utils/hooks';
 import {
 	checkValidAddress,

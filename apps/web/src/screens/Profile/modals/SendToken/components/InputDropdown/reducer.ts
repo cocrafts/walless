@@ -1,4 +1,4 @@
-import { type DropdownItemProps } from '../../internal';
+import type { DropdownItemProps } from '../../internal';
 
 export type State = {
 	items: DropdownItemProps[];

@@ -1,8 +1,9 @@
-import { type ConnectOptions, type Networks } from '@walless/core';
+import type { ConnectOptions, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { PopupType, ResponseCode, ResponseMessage } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
-import { type TrustedDomainDocument, selectors } from '@walless/store';
+import type { TrustedDomainDocument } from '@walless/store';
+import { selectors } from '@walless/store';
 
 import { getPrivateKey } from './handler';
 import { openPopup } from './popup';
@@ -12,7 +13,7 @@ import {
 	removeRequestRecord,
 	response,
 } from './requestPool';
-import { type CoordinatingHandle } from './types';
+import type { CoordinatingHandle } from './types';
 
 export const handle: CoordinatingHandle = async ({
 	channel,

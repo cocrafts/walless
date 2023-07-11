@@ -1,4 +1,4 @@
-import { type TabAble } from '@walless/app';
+import type { TabAble } from '@walless/app';
 
 import EmptyTab from './components/EmptyTab';
 

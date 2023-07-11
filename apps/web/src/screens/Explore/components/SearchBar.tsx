@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Search } from '@walless/icons';
 import { Input, Stack } from '@walless/ui';
 

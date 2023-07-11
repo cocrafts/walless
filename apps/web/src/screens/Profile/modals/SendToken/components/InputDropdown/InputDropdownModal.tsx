@@ -1,12 +1,13 @@
-import { type FC } from 'react';
-import { type ModalConfigs, modalActions } from '@walless/gui';
+import type { FC } from 'react';
+import type { ModalConfigs } from '@walless/gui';
+import { modalActions } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';
 import { Input, ScrollView, Stack, Text } from '@walless/ui';
 
-import { type DropdownItemProps } from '../../internal';
+import type { DropdownItemProps } from '../../internal';
 
 import DropdownItem from './DropdownItem';
-import { type State } from './reducer';
+import type { State } from './reducer';
 
 interface DropdownProps {
 	modalId: string;

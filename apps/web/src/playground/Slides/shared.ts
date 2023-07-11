@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { type SlideOption } from '@walless/gui';
+import type { SlideOption } from '@walless/gui';
 
 import One from './One';
 import Two from './Two';

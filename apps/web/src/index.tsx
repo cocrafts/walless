@@ -1,5 +1,5 @@
-import { type FC } from 'react';
-import { type TamaguiInternalConfig } from '@tamagui/core';
+import type { FC } from 'react';
+import type { TamaguiInternalConfig } from '@tamagui/core';
 import { GuiProvider } from '@walless/ui';
 import App from 'components/App';
 

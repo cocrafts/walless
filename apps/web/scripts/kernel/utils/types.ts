@@ -1,9 +1,5 @@
-import {
-	type MiniBroadcast,
-	type Networks,
-	type UnknownObject,
-} from '@walless/core';
-import { type ResponseCode } from '@walless/messaging';
+import type { MiniBroadcast, Networks, UnknownObject } from '@walless/core';
+import type { ResponseCode } from '@walless/messaging';
 
 export type HandleMethodProps = {
 	privateKey: Uint8Array;

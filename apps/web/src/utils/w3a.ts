@@ -1,4 +1,4 @@
-import { type ChromeExtensionStorageModule } from '@tkey/chrome-storage';
+import type { ChromeExtensionStorageModule } from '@tkey/chrome-storage';
 import type {
 	GenerateNewShareResult,
 	ISeedPhraseFormat,
@@ -12,9 +12,10 @@ import PrivateKeyModule, {
 } from '@tkey/private-keys';
 import SecurityQuestionsModule from '@tkey/security-questions';
 import { SeedPhraseModule } from '@tkey/seed-phrase';
-import { type TorusServiceProvider } from '@tkey/service-provider-torus';
-import { type WebStorageModule } from '@tkey/web-storage';
-import CustomAuth, { type CustomAuthArgs } from '@toruslabs/customauth';
+import type { TorusServiceProvider } from '@tkey/service-provider-torus';
+import type { WebStorageModule } from '@tkey/web-storage';
+import type { CustomAuthArgs } from '@toruslabs/customauth';
+import CustomAuth from '@toruslabs/customauth';
 import { ThresholdResult } from '@walless/app';
 import { runtime } from '@walless/core';
 import { w3aBaseUrl } from 'utils/config';

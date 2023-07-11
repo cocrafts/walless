@@ -1,19 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { type SlideOption, Slider } from '@walless/gui';
-import {
-	type MessagePayload,
-	type RequestType,
-	type ResponsePayload,
-	PopupType,
+import type { SlideOption } from '@walless/gui';
+import { Slider } from '@walless/gui';
+import type {
+	MessagePayload,
+	RequestType,
+	ResponsePayload,
 } from '@walless/messaging';
+import { PopupType } from '@walless/messaging';
 import {
 	getMessageOrTransaction,
 	handleRequestSignature,
 } from 'bridge/listeners';
 import { initializeKernelConnect } from 'utils/helper';
 
-import { type PayloadOptions } from '../shared';
+import type { PayloadOptions } from '../shared';
 
 import RequestSignatureApproval from './Approval';
 import RequestSignaturePasscode from './Passcode';

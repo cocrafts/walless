@@ -1,4 +1,5 @@
-import { type MessengerCallback, RequestType } from '@walless/messaging';
+import type { MessengerCallback } from '@walless/messaging';
+import { RequestType } from '@walless/messaging';
 
 import { handle } from '../utils/coordinator';
 import { getNetwork } from '../utils/handler';

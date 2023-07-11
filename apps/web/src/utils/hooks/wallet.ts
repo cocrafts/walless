@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import { type Networks } from '@walless/core';
+import type { Networks } from '@walless/core';
 import { tokenState, walletState } from '@walless/engine';
-import { type PublicKeyDocument } from '@walless/store';
+import type { PublicKeyDocument } from '@walless/store';
 import { appActions, appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 

@@ -4,8 +4,8 @@ import {
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
+import type { VersionedMessage } from '@solana/web3.js';
 import {
-	type VersionedMessage,
 	Connection,
 	Keypair,
 	LAMPORTS_PER_SOL,
@@ -14,14 +14,15 @@ import {
 	TransactionMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
-import {
-	type TezosTransaction,
-	type Token,
-	type TransactionPayload,
-	Networks,
+import type {
+	TezosTransaction,
+	Token,
+	TransactionPayload,
 } from '@walless/core';
+import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import { type ResponsePayload, RequestType } from '@walless/messaging';
+import type { ResponsePayload } from '@walless/messaging';
+import { RequestType } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
 

@@ -3,32 +3,22 @@ import { Keypair as SolPair } from '@solana/web3.js';
 import { generateSecretKey, InMemorySigner } from '@taquito/signer';
 import { generateID } from '@tkey/common-types';
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
-import {
-	type UnknownObject,
-	type UserProfile,
-	Networks,
-	runtime,
-} from '@walless/core';
+import type { UnknownObject, UserProfile } from '@walless/core';
+import { Networks, runtime } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
-import {
-	type InvitationAccount,
-	type InvitationCode,
-	mutations,
-	qlClient,
-	queries,
-} from '@walless/graphql';
+import type { InvitationAccount, InvitationCode } from '@walless/graphql';
+import { mutations, qlClient, queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
-import {
-	type PrivateKeyDocument,
-	type PublicKeyDocument,
-	type SettingDocument,
+import type {
+	PrivateKeyDocument,
+	PublicKeyDocument,
+	SettingDocument,
 } from '@walless/store';
 import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
 import { decode } from 'bs58';
 import { derivePath } from 'ed25519-hd-key';
+import type { User, UserCredential } from 'firebase/auth';
 import {
-	type User,
-	type UserCredential,
 	GoogleAuthProvider,
 	signInWithCredential,
 	signInWithPopup,

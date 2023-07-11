@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Copy } from '@walless/icons';
 import { Button, Image, Stack, Text } from '@walless/ui';
 import { appActions } from 'state/app';

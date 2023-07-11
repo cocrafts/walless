@@ -1,14 +1,15 @@
-import { type FC, type ReactNode, useEffect } from 'react';
-import { type LayoutRectangle, type ViewStyle } from 'react-native';
+import type { FC, ReactNode } from 'react';
+import { useEffect } from 'react';
+import type { LayoutRectangle, ViewStyle } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
 import {
-	type SharedValue,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
 import { AnimatedView } from '@walless/gui';
 
-import { type SlideAnimator } from './shared';
+import type { SlideAnimator } from './shared';
 
 interface Props {
 	style?: ViewStyle;

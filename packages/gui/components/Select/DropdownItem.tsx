@@ -1,6 +1,8 @@
-import { type FC, useState } from 'react';
-import { type ViewStyle, Image, StyleSheet } from 'react-native';
-import { type StyleProp } from 'react-native';
+import type { FC } from 'react';
+import { useState } from 'react';
+import type { ViewStyle } from 'react-native';
+import type { StyleProp } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Check } from '@walless/icons';
 

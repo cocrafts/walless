@@ -1,12 +1,15 @@
-import { type FC, useMemo, useState } from 'react';
+import type { FC } from 'react';
+import { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, TextInput } from 'react-native';
 import { ChevronUp, Search as SearchIcon } from '@walless/icons';
 import { throttle } from 'lodash';
 
-import { type ModalConfigs, Hoverable, modalActions, Text, View } from '../../';
+import type { ModalConfigs } from '../../';
+import { Hoverable, modalActions, Text, View } from '../../';
 
 import DropdownItem from './DropdownItem';
-import { type SelectionContext, styles as mutualStyles } from './shared';
+import type { SelectionContext } from './shared';
+import { styles as mutualStyles } from './shared';
 
 interface Props {
 	config: ModalConfigs;

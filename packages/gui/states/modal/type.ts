@@ -1,5 +1,5 @@
-import { type FC, type RefObject } from 'react';
-import { type LayoutRectangle, type View, type ViewStyle } from 'react-native';
+import type { FC, RefObject } from 'react';
+import type { LayoutRectangle, View, ViewStyle } from 'react-native';
 
 export enum BindDirections {
 	Top,

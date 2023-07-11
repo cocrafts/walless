@@ -1,11 +1,11 @@
 import { forwardRef, useMemo, useRef } from 'react';
-import {
-	type GestureResponderEvent,
-	type MouseEvent,
-	type PressableProps,
-	type StyleProp,
-	type View,
-	type ViewStyle,
+import type {
+	GestureResponderEvent,
+	MouseEvent,
+	PressableProps,
+	StyleProp,
+	View,
+	ViewStyle,
 } from 'react-native';
 import {
 	useAnimatedStyle,
@@ -14,7 +14,8 @@ import {
 } from 'react-native-reanimated';
 
 import { injectedFontStyle } from '../utils/font';
-import { type DynamicFlags, iStyles } from '../utils/style';
+import type { DynamicFlags } from '../utils/style';
+import { iStyles } from '../utils/style';
 
 import { AnimatedPressable } from './aliased';
 

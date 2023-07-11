@@ -1,4 +1,5 @@
-import { type StyleProp, type TextStyle, StyleSheet } from 'react-native';
+import type { StyleProp, TextStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const WeightMap = {
 	normal: 'Regular',

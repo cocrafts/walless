@@ -1,5 +1,5 @@
-import { type Token } from '@walless/core';
-import { type ResponseCode } from '@walless/messaging';
+import type { Token } from '@walless/core';
+import type { ResponseCode } from '@walless/messaging';
 import { proxy } from 'valtio';
 
 export interface TransactionContext {

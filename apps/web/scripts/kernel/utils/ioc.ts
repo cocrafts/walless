@@ -10,10 +10,7 @@ export const injectModules = async () => {
 
 	await Promise.all([configure(modules.storage)]);
 
-	modules.engine = createEngine({
-		storage: modules.storage,
-		defaultEndpoint: __DEV__ ? 'devnet' : 'mainnet',
-	});
+	modules.engine = await createEngine(modules.storage);
 
 	return modules;
 };

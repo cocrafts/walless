@@ -1,11 +1,15 @@
-import { type Metadata as MplMetadata } from '@metaplex-foundation/mpl-token-metadata';
-import { type SuiObjectData } from '@mysten/sui.js';
+import type { Metadata as MplMetadata } from '@metaplex-foundation/mpl-token-metadata';
+import type { SuiObjectData } from '@mysten/sui.js';
+
+import type { Endpoint, Networks } from './commonTypes';
 
 export interface Setting {
 	version: string;
 	profile: UserProfile;
 	config: Config;
 }
+
+export type EndpointMap = Record<Networks, Endpoint>;
 
 export interface Config {
 	hideBalance: boolean;

@@ -1,8 +1,9 @@
-import { type FC } from 'react';
-import { type ViewStyle, StyleSheet } from 'react-native';
+import type { FC } from 'react';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
-import { type TabAble } from './shared';
+import type { TabAble } from './shared';
 import TabItem from './TabItem';
 
 interface Props {

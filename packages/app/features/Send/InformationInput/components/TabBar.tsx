@@ -1,5 +1,6 @@
-import { type FC } from 'react';
-import { type TextStyle, StyleSheet } from 'react-native';
+import type { FC } from 'react';
+import type { TextStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Button, View } from '@walless/gui';
 
 interface Props {

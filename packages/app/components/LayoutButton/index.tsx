@@ -1,5 +1,6 @@
-import { type FC, type ReactNode, type RefObject } from 'react';
-import { type StyleProp, type ViewStyle, View } from 'react-native';
+import type { FC, ReactNode, RefObject } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import {
 	AnimateDirections,
 	BindDirections,

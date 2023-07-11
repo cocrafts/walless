@@ -1,6 +1,6 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { type Token } from '@walless/core';
+import type { Token } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 

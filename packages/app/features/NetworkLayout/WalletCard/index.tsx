@@ -1,17 +1,12 @@
-import { type FC } from 'react';
-import {
-	type ImageStyle,
-	type ViewStyle,
-	Image,
-	ImageBackground,
-	StyleSheet,
-} from 'react-native';
+import type { FC } from 'react';
+import type { ImageStyle, ViewStyle } from 'react-native';
+import { Image, ImageBackground, StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
-import { type PublicKeyDocument } from '@walless/store';
+import type { PublicKeyDocument } from '@walless/store';
 
 import WalletAddress from './Address';
 import WalletBalance from './Balance';
-import { type CardSkin } from './shared';
+import type { CardSkin } from './shared';
 
 interface Props {
 	style?: ViewStyle;

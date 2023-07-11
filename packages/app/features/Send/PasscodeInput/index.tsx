@@ -1,11 +1,9 @@
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import {
-	type Networks,
-	type Token,
-	type TransactionPayload,
-} from '@walless/core';
-import { type SlideComponentProps, Text, View } from '@walless/gui';
+import type { Networks, Token, TransactionPayload } from '@walless/core';
+import type { SlideComponentProps } from '@walless/gui';
+import { Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 

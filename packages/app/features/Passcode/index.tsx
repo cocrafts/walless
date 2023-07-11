@@ -1,5 +1,7 @@
-import { type FC, useEffect, useRef, useState } from 'react';
-import { type ViewStyle, StyleSheet, TouchableOpacity } from 'react-native';
+import type { FC } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@walless/gui';
 
 import PasscodeInput from './PasscodeInput';

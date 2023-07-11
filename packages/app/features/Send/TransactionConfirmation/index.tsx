@@ -1,11 +1,8 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-	type Networks,
-	type Token,
-	type TransactionPayload,
-} from '@walless/core';
-import { type SliderHandle, View } from '@walless/gui';
+import type { Networks, Token, TransactionPayload } from '@walless/core';
+import type { SliderHandle } from '@walless/gui';
+import { View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 

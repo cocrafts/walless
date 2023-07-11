@@ -1,6 +1,7 @@
-import { type JsonRpcProvider } from '@mysten/sui.js';
-import { type Endpoint, Networks } from '@walless/core';
-import { type TokenDocument } from '@walless/store';
+import type { JsonRpcProvider } from '@mysten/sui.js';
+import type { Endpoint } from '@walless/core';
+import { Networks } from '@walless/core';
+import type { TokenDocument } from '@walless/store';
 
 import { type GetSuiMetadataFunction, getSuiMetadata } from './metadata';
 

@@ -1,7 +1,8 @@
-import { type Token } from '@walless/core';
-import { type ResponseCode } from '@walless/messaging';
+import type { Token } from '@walless/core';
+import type { ResponseCode } from '@walless/messaging';
 
-import { type InjectedElements, injectedElements } from './inject';
+import type { InjectedElements } from './inject';
+import { injectedElements } from './inject';
 import { transactionContext } from './internal';
 
 export const transactionActions = {

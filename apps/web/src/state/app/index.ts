@@ -8,7 +8,7 @@ import {
 	signInWithGoogle,
 } from './authentication';
 import { notify, showSendModal } from './modal';
-import { setPathname, setPrivacy, sync } from './settings';
+import { setPathname, setPrivacy } from './settings';
 import { bootstrap, launchApp } from './splash';
 import { copy } from './system';
 
@@ -26,7 +26,6 @@ export const appActions = {
 		appState.loading = flag;
 	},
 	showSendModal,
-	sync,
 	setPrivacy,
 	setPathname,
 };

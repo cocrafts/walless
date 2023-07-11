@@ -75,6 +75,7 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 	};
 };
 
+export * from './state/collectibles';
 export * from './state/tokens';
 export * from './state/wallets';
 export * from './utils/crawler';

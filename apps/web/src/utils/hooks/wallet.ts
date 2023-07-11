@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import type { Networks } from '@walless/core';
-import { tokenState, walletState } from '@walless/engine';
+import {
+	collectiblesState,
+	collectionsState,
+	tokenState,
+	walletState,
+} from '@walless/engine';
 import type { PublicKeyDocument } from '@walless/store';
 import { appActions, appState } from 'state/app';
 import { useSnapshot } from 'valtio';
@@ -50,6 +55,30 @@ export const useTokens = (
 			valuation,
 		};
 	}, [map, network, address]);
+};
+
+export const useNfts = (network?: Networks, address?: string) => {
+	const collectiblesMap = useSnapshot(collectiblesState).map;
+	const collectionsMap = useSnapshot(collectionsState).map;
+	const collectibles = Array.from(collectiblesMap.values());
+	const collections = Array.from(collectionsMap.values());
+
+	return {
+		collections: useMemo(
+			() =>
+				collections.filter(
+					(ele) => ele.network === network && ele._id.includes(address || ''),
+				),
+			[collectionsMap, network, address],
+		),
+		collectibles: useMemo(
+			() =>
+				collectibles.filter(
+					(ele) => ele.network === network && ele._id.includes(address || ''),
+				),
+			[collectiblesMap, network, address],
+		),
+	};
 };
 
 export const useSettings = () => {

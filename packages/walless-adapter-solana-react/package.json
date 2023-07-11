@@ -18,6 +18,7 @@
   },
   "scripts": {
     "build": "tsc --build --verbose",
+    "release": "yarn build && npm publish --access public",
     "test": "jest --passWithNoTests",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },

@@ -3,6 +3,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { installLayout } from '@walless/walless-adapter-solana-base';
 
 export function useWalless() {
+	const [isWallessConnected, setIsWallessConnected] = useState(false);
 	const walletContext = useWallet();
 	const extendMethods = { installLayout };
 	const handleIsNotWalless = () => {
@@ -10,16 +11,23 @@ export function useWalless() {
 	};
 
 	useEffect(() => {
-		if (wallet?.adapter.name !== 'Walless') {
+		setIsWallessConnected(
+			walletContext.wallet?.adapter.name.toLocaleLowerCase() === 'walless',
+		);
+	}, [walletContext]);
+
+	useEffect(() => {
+		if (!isWallessConnected) {
 			for (const method in extendMethods) {
 				extendMethods[method as keyof typeof extendMethods] =
 					handleIsNotWalless;
 			}
 		}
-	}, [wallet]);
+	}, [isWallessConnected]);
 
 	return {
 		...walletContext,
 		...extendMethods,
+		isWallessConnected,
 	};
 }

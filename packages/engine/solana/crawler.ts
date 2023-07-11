@@ -10,7 +10,6 @@ import { tokenActions } from '../state/tokens';
 import type { EngineRunner } from '../utils/type';
 
 import { solanaCollectiblesByAddress } from './collectibles';
-import { createLazySolanaMetadataFetcher } from './metadata';
 import { solanaTokensByAddress } from './token';
 
 export const solanaEngineRunner: EngineRunner<Connection> = {

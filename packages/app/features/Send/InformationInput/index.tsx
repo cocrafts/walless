@@ -44,8 +44,5 @@ const InformationInput: FC<Props> = ({ navigator }) => {
 export default InformationInput;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		width: 336,
-	},
+	container: { flex: 1 },
 });

@@ -63,9 +63,9 @@ export default TokensTab;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		rowGap: 16,
 	},
 	totalLine: {
-		width: 336,
 		height: 1,
 		backgroundColor: '#566674',
 		opacity: 0.2,

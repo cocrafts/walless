@@ -1,10 +1,18 @@
-import type { Networks, Token, TransactionPayload } from '@walless/core';
+import type {
+	Collectible,
+	Collection,
+	Networks,
+	Token,
+	TransactionPayload,
+} from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
 import type { PublicKeyDocument } from '@walless/store';
 import { proxy } from 'valtio';
 
 export interface InjectedElements {
 	tokens: Token[];
+	nftCollections: Collection[];
+	nftCollectibles: Collectible[];
 	publicKeys: PublicKeyDocument[];
 	getTransactionFee: (network: Networks) => Promise<number>;
 	handleClose: () => void;
@@ -24,6 +32,8 @@ export interface InjectedElements {
 
 export const injectedElements = proxy<InjectedElements>({
 	tokens: [],
+	nftCollections: [],
+	nftCollectibles: [],
 	publicKeys: [],
 	getTransactionFee: async () => 0,
 	handleClose: () => console.log('close'),

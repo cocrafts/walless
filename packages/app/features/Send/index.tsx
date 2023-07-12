@@ -2,17 +2,24 @@ import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Slider } from '@walless/gui';
 
-import type { InjectedElements } from '../../state/transaction';
+import type {
+	InjectedElements,
+	TransactionType,
+} from '../../state/transaction';
 import { transactionActions } from '../../state/transaction';
 
 import { sendScreens } from './shared';
 
 type Props = Omit<InjectedElements, 'handleClose'> & {
 	onClose: () => void;
+	type?: TransactionType;
 };
 
 export const SendFeature: FC<Props> = ({
+	type,
 	tokens,
+	nftCollections,
+	nftCollectibles,
 	publicKeys,
 	onClose,
 	getTransactionFee,
@@ -22,6 +29,8 @@ export const SendFeature: FC<Props> = ({
 }) => {
 	transactionActions.injectRequiredElements({
 		tokens: tokens,
+		nftCollections: nftCollections,
+		nftCollectibles: nftCollectibles,
 		publicKeys: publicKeys,
 		getTransactionFee,
 		handleClose: () => {
@@ -32,6 +41,8 @@ export const SendFeature: FC<Props> = ({
 		createAndSendTransaction,
 		getTransactionResult,
 	});
+
+	if (type) transactionActions.setType(type);
 
 	return (
 		<Slider

@@ -1,11 +1,16 @@
-import type { Token } from '@walless/core';
+import type { Collectible, Collection, Token } from '@walless/core';
 import type { ResponseCode } from '@walless/messaging';
 import { proxy } from 'valtio';
 
+export type TransactionType = 'Token' | 'Collectible';
+
 export interface TransactionContext {
+	type: TransactionType;
 	sender: string;
 	receiver: string;
 	token?: Token;
+	nftCollection?: Collection;
+	nftCollectible?: Collectible;
 	transactionFee?: number;
 	amount?: string;
 	signatureString: string;
@@ -19,6 +24,7 @@ export type PendingTransactionContext = Omit<
 >;
 
 export const transactionContext = proxy<TransactionContext>({
+	type: 'Token',
 	sender: '',
 	receiver: '',
 	signatureString: '',

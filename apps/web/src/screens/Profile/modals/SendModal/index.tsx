@@ -4,7 +4,7 @@ import { SendFeature } from '@walless/app';
 import type { Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions } from '@walless/gui';
-import { usePublicKeys, useTokens } from 'utils/hooks';
+import { useNfts, usePublicKeys, useTokens } from 'utils/hooks';
 import {
 	checkValidAddress,
 	createAndSend,
@@ -19,12 +19,15 @@ interface ModalContext {
 export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const { layoutNetwork } = config.context as ModalContext;
 	const { tokens } = useTokens(layoutNetwork);
+	const { collectibles, collections } = useNfts(layoutNetwork);
 	const addressList = usePublicKeys();
 
 	return (
 		<View style={styles.container}>
 			<SendFeature
 				tokens={tokens}
+				nftCollections={collections}
+				nftCollectibles={collectibles}
 				publicKeys={addressList}
 				getTransactionFee={getTransactionFee}
 				onClose={() => modalActions.hide(config.id as string)}

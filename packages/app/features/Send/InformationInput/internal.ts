@@ -1,6 +1,7 @@
-import type { Networks } from './../../../../core/utils/commonTypes';
-import { transactionContext } from './../../../state/transaction';
-import { injectedElements } from './../../../state/transaction/inject';
+import type { Networks } from '@walless/core';
+
+import { transactionContext } from '../../../state/transaction';
+import { injectedElements } from '../../../state/transaction';
 
 export const totalCheckFieldsToContinue = () => {
 	const { token, receiver, amount } = transactionContext;

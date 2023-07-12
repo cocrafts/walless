@@ -1,11 +1,15 @@
-import type { Token } from '@walless/core';
+import type { Collectible, Collection, Token } from '@walless/core';
 import type { ResponseCode } from '@walless/messaging';
 
 import type { InjectedElements } from './inject';
 import { injectedElements } from './inject';
+import type { TransactionType } from './internal';
 import { transactionContext } from './internal';
 
 export const transactionActions = {
+	setType: (type: TransactionType) => {
+		transactionContext.type = type;
+	},
 	setSender: (sender: string) => {
 		transactionContext.sender = sender;
 	},
@@ -14,6 +18,12 @@ export const transactionActions = {
 	},
 	setToken: (token: Token) => {
 		transactionContext.token = token;
+	},
+	setNftCollection: (collection: Collection) => {
+		transactionContext.nftCollection = collection;
+	},
+	setNftCollectible: (collectible: Collectible) => {
+		transactionContext.nftCollectible = collectible;
 	},
 	setTransactionFee: (fee: number) => {
 		transactionContext.transactionFee = fee;
@@ -31,7 +41,10 @@ export const transactionActions = {
 		transactionContext.time = new Date();
 	},
 	resetTransactionContext: () => {
+		transactionContext.type = 'Token';
 		transactionContext.token = undefined;
+		transactionContext.nftCollection = undefined;
+		transactionContext.nftCollectible = undefined;
 		transactionContext.sender = '';
 		transactionContext.receiver = '';
 		transactionContext.amount = undefined;
@@ -42,6 +55,8 @@ export const transactionActions = {
 	},
 	injectRequiredElements: (elements: InjectedElements) => {
 		injectedElements.tokens = elements.tokens;
+		injectedElements.nftCollections = elements.nftCollections;
+		injectedElements.nftCollectibles = elements.nftCollectibles;
 		injectedElements.publicKeys = elements.publicKeys;
 		injectedElements.getTransactionFee = elements.getTransactionFee;
 		injectedElements.handleClose = elements.handleClose;

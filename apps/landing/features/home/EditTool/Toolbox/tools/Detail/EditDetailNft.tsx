@@ -25,15 +25,15 @@ const EditDetailNft: FC = () => {
 		if (networks[0] == Networks.tezos) {
 			const tezosNftMetadata = await getTezosMetadata(address, tokenId);
 			if (tezosNftMetadata) {
-				editToolActions.setDetailCollectibe(tezosNftMetadata);
+				editToolActions.setDetailCollectible(tezosNftMetadata);
 			}
 		} else if (networks[0] === Networks.solana) {
-			const collectibeMetadata = await getSolanaNftCollection(
+			const collectibleMetadata = await getSolanaNftCollection(
 				connection,
 				address,
 			);
-			if (collectibeMetadata) {
-				editToolActions.setDetailCollectibe(collectibeMetadata);
+			if (collectibleMetadata) {
+				editToolActions.setDetailCollectible(collectibleMetadata);
 			}
 		}
 	};

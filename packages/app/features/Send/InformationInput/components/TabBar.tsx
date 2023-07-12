@@ -3,12 +3,14 @@ import type { TextStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Button, View } from '@walless/gui';
 
+import type { TransactionType } from '../../../../state/transaction';
+
 interface Props {
-	isTokensTab: boolean;
-	setIsTokensTab: (isTokensTab: boolean) => void;
+	curTab: TransactionType;
+	setCurTab: (type: TransactionType) => void;
 }
 
-export const TabBar: FC<Props> = ({ isTokensTab, setIsTokensTab }) => {
+export const TabBar: FC<Props> = ({ curTab, setCurTab }) => {
 	const activeButtonStyle = {
 		...styles.button,
 		backgroundColor: '#0694D3',
@@ -24,18 +26,22 @@ export const TabBar: FC<Props> = ({ isTokensTab, setIsTokensTab }) => {
 		<View style={styles.container}>
 			<Button
 				title="Tokens"
-				style={isTokensTab ? activeButtonStyle : styles.button}
-				titleStyle={isTokensTab ? activeButtonTitleStyle : styles.buttonTitle}
-				onPress={() => setIsTokensTab(true)}
+				style={curTab === 'Token' ? activeButtonStyle : styles.button}
+				titleStyle={
+					curTab === 'Token' ? activeButtonTitleStyle : styles.buttonTitle
+				}
+				onPress={() => setCurTab('Token')}
 			/>
 
 			<View style={styles.verticalLine} />
 
 			<Button
 				title="Collectibles"
-				style={!isTokensTab ? activeButtonStyle : styles.button}
-				titleStyle={!isTokensTab ? activeButtonTitleStyle : styles.buttonTitle}
-				onPress={() => setIsTokensTab(false)}
+				style={curTab === 'Collectible' ? activeButtonStyle : styles.button}
+				titleStyle={
+					curTab === 'Collectible' ? activeButtonTitleStyle : styles.buttonTitle
+				}
+				onPress={() => setCurTab('Collectible')}
 			/>
 		</View>
 	);

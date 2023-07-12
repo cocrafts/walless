@@ -64,20 +64,21 @@ export const useNfts = (network?: Networks, address?: string) => {
 	const collections = Array.from(collectionsMap.values());
 
 	return {
-		collections: useMemo(
-			() =>
-				collections.filter(
+		collections: useMemo(() => {
+			if (!network) return collections;
+			else
+				return collections.filter(
 					(ele) => ele.network === network && ele._id.includes(address || ''),
-				),
-			[collectionsMap, network, address],
-		),
-		collectibles: useMemo(
-			() =>
-				collectibles.filter(
+				);
+		}, [collectionsMap, network, address]),
+
+		collectibles: useMemo(() => {
+			if (!network) return collectibles;
+			else
+				return collectibles.filter(
 					(ele) => ele.network === network && ele._id.includes(address || ''),
-				),
-			[collectiblesMap, network, address],
-		),
+				);
+		}, [collectiblesMap, network, address]),
 	};
 };
 

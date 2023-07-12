@@ -17,6 +17,7 @@ import { styles } from './shared';
 export const Select = <T extends object>({
 	selected,
 	title,
+	notFoundText,
 	items,
 	getRequiredFields,
 	onSelect,
@@ -45,6 +46,7 @@ export const Select = <T extends object>({
 			context: {
 				selected,
 				title,
+				notFoundText,
 				items,
 				getRequiredFields,
 				onSelect,

@@ -2,13 +2,7 @@ import type { MessagePayload } from '@walless/messaging';
 import { Channels, PopupType, RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 import * as bs58 from 'bs58';
-import type { PayloadOptions } from 'screens/Request/shared';
-
-type PopupPayload = MessagePayload & {
-	sourceRequestId: string;
-	isApproved?: boolean;
-	options?: PayloadOptions;
-};
+import type { PayloadOptions, PopupPayload } from 'utils/types';
 
 export const registerMessageHandlers = async () => {
 	// Empty for now

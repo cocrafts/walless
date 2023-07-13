@@ -1,6 +1,6 @@
 import { modules } from '@walless/ioc';
 import type { ExtensionDocument } from '@walless/store';
-import { mockLayoutCards } from 'screens/Explore/internal';
+import { mockLayoutCards } from 'scripts/kernel/utils/mockExtension';
 
 import { extensionState } from './internal';
 

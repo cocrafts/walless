@@ -5,6 +5,7 @@ import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { extensionActions } from 'state/extension';
 
+import { addExtensionsById } from '../utils/helper';
 import { getRequestRecord } from '../utils/requestPool';
 import type { HandleMethod, InstallLayoutPayload } from '../utils/types';
 
@@ -36,9 +37,9 @@ export const handleInstallLayout: HandleMethod = async ({
 	payload,
 	responseMethod,
 }) => {
-	const { requestId, input } = payload as InstallLayoutPayload;
+	const { requestId, id } = payload as InstallLayoutPayload;
 	try {
-		await extensionActions.addExtensionsById(input);
+		await addExtensionsById(id);
 		responseMethod(requestId, ResponseCode.SUCCESS);
 	} catch (error) {
 		responseMethod(requestId, ResponseCode.ERROR);

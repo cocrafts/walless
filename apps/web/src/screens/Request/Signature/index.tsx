@@ -13,8 +13,7 @@ import {
 	handleRequestSignature,
 } from 'bridge/listeners';
 import { initializeKernelConnect } from 'utils/helper';
-
-import type { PayloadOptions } from '../shared';
+import type { PayloadOptions } from 'utils/types';
 
 import RequestSignatureApproval from './Approval';
 import RequestSignaturePasscode from './Passcode';

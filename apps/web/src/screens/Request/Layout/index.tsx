@@ -13,8 +13,16 @@ import { logoSize, logoUri } from '../shared';
 export const RequestLayout = () => {
 	const { requestId } = useParams();
 
-	const onClickButton = (isApproved: boolean) => {
-		handleRequestInstallLayout(requestId as string, isApproved);
+	const onApprovePress = () => {
+		handleRequestInstallLayout(requestId as string, true);
+	};
+
+	const onNeverAskAgainPress = () => {
+		handleRequestInstallLayout(requestId as string, false);
+	};
+
+	const onAskMeLaterPress = () => {
+		handleRequestInstallLayout(requestId as string, false);
 	};
 
 	useEffect(() => {
@@ -87,7 +95,7 @@ export const RequestLayout = () => {
 						<LightText fontSize={14} textAlign="center">
 							Only connect to websites you trust!
 						</LightText>
-						<Button marginVertical={10} onPress={() => onClickButton(true)}>
+						<Button marginVertical={10} onPress={onApprovePress}>
 							<Text>Accept</Text>
 						</Button>
 						<Stack
@@ -98,14 +106,14 @@ export const RequestLayout = () => {
 							<Button
 								backgroundColor="transparent"
 								padding={0}
-								onPress={() => onClickButton(false)}
+								onPress={onNeverAskAgainPress}
 							>
 								<LightText>Never Ask Again</LightText>
 							</Button>
 							<Button
 								backgroundColor="transparent"
 								padding={0}
-								onPress={() => onClickButton(false)}
+								onPress={onAskMeLaterPress}
 							>
 								<Text fontWeight="300">Ask me later</Text>
 							</Button>

@@ -45,7 +45,7 @@ export const RecipientInfo: FC<Props> = () => {
 					<Text style={styles.inforText}>{receiver.substring(0, 20)}...</Text>
 				</View>
 
-				<View style={styles.seperatedLine}></View>
+				<View style={styles.separatedLine}></View>
 
 				<View style={styles.inforLine}>
 					<Text>Network</Text>
@@ -55,7 +55,7 @@ export const RecipientInfo: FC<Props> = () => {
 					</View>
 				</View>
 
-				<View style={styles.seperatedLine}></View>
+				<View style={styles.separatedLine}></View>
 
 				<View style={styles.inforLine}>
 					<Text>Network fee</Text>
@@ -68,8 +68,6 @@ export const RecipientInfo: FC<Props> = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: 'column',
-		alignItems: 'center',
 		gap: 12,
 	},
 	title: {
@@ -84,7 +82,6 @@ const styles = StyleSheet.create({
 	},
 	inforLine: {
 		flexDirection: 'row',
-		width: 336,
 		justifyContent: 'space-between',
 	},
 	inforText: {
@@ -95,8 +92,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 9,
 	},
-	seperatedLine: {
-		width: 336,
+	separatedLine: {
 		height: 1,
 		backgroundColor: '#566674',
 		opacity: 0.2,

@@ -21,14 +21,14 @@ type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 	const { token, sender, receiver, amount } = useSnapshot(transactionContext);
 	const [error, setError] = useState<string>('');
-	const [passcode, setPassode] = useState<string>('');
+	const [passcode, setPasscode] = useState<string>('');
 	const [renderPasscode, setRenderPasscode] = useState(false);
 
 	const { createAndSendTransaction } = useSnapshot(injectedElements);
 
 	const handleBack = () => {
 		navigator.slideBack();
-		setPassode('');
+		setPasscode('');
 		setError('');
 	};
 
@@ -71,7 +71,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 				showError((error as Error).message);
 			}
 
-			setPassode('');
+			setPasscode('');
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		gap: 40,
-		width: 336,
 	},
 	icon: {
 		width: 120,

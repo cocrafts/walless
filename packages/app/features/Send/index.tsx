@@ -61,12 +61,9 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		height: 576,
-		width: 400,
 	},
 	slideContainer: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
 		paddingHorizontal: 28,
 		paddingBottom: 28,
 		paddingTop: 16,

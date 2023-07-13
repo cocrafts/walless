@@ -58,15 +58,15 @@ const styles = StyleSheet.create({
 	buttonBlock: {
 		marginTop: 'auto',
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		gap: 10,
 	},
 	otherButton: {
-		width: 166,
+		flex: 1,
 		backgroundColor: 'none',
 		borderWidth: 1,
 		borderColor: '#566674',
 	},
 	backButton: {
-		width: 166,
+		flex: 1,
 	},
 });

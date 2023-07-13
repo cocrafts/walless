@@ -66,7 +66,6 @@ export default TransactionConfirmation;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		width: 336,
 		gap: 14,
 	},
 });

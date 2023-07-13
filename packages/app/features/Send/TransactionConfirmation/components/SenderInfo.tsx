@@ -55,7 +55,6 @@ export const SenderInfo: FC<Props> = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		alignItems: 'center',
 		gap: 12,
 	},
 	title: {
@@ -66,11 +65,8 @@ const styles = StyleSheet.create({
 	},
 	inforBlock: {
 		flexDirection: 'row',
-		alignItems: 'center',
 		backgroundColor: '#0F151A',
-		width: 336,
-		height: 65,
-		paddingHorizontal: 15,
+		padding: 15,
 		borderRadius: 15,
 		gap: 17,
 	},

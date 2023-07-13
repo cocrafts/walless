@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		width: 336,
 		justifyContent: 'center',
 	},
 	title: {

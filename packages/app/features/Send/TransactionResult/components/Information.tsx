@@ -84,12 +84,12 @@ export const Information: FC<Props> = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		gap: 16,
+		gap: 14,
 	},
 	inforLine: {
 		flexDirection: 'row',
-		width: 336,
 		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	inforText: {
 		color: '#566674',
@@ -99,8 +99,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 9,
 	},
-	seperatedLine: {
-		width: 336,
+	separatedLine: {
 		height: 1,
 		backgroundColor: '#566674',
 		opacity: 0.2,

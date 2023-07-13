@@ -85,6 +85,10 @@ export const solanaCollectiblesByAddress = async ({
 					imageUri: nft.json?.image,
 					symbol: nft.json?.symbol,
 					description: nft.json?.description,
+					attributes: nft.json?.attributes?.map((ele) => ({
+						key: ele.trait_type || 'Unknown',
+						value: ele.value || 'Unknown',
+					})),
 				},
 				endpoint,
 				account: {

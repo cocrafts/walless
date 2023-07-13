@@ -34,6 +34,10 @@ export interface AssetMetadata {
 	mpl?: MplMetadata;
 	sod?: SuiObjectData;
 	description?: string;
+	attributes?: {
+		key: string;
+		value: string;
+	}[];
 }
 
 export interface TokenAccount {

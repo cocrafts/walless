@@ -15,4 +15,3 @@ export const addExtensionsById = async (id: string) => {
 
 	await modules.storage.put<ExtensionDocument>(extensionDoc);
 };
-

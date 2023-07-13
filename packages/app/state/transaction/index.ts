@@ -1,5 +1,9 @@
-import type { Collectible, Collection, Token } from '@walless/core';
 import type { ResponseCode } from '@walless/messaging';
+import type {
+	CollectibleDocument,
+	CollectionDocument,
+	TokenDocument,
+} from '@walless/store';
 
 import type { InjectedElements } from './inject';
 import { injectedElements } from './inject';
@@ -16,14 +20,20 @@ export const transactionActions = {
 	setReceiver: (receiver: string) => {
 		transactionContext.receiver = receiver;
 	},
-	setToken: (token: Token) => {
+	setToken: (token: TokenDocument) => {
 		transactionContext.token = token;
 	},
-	setNftCollection: (collection: Collection) => {
+	setNftCollection: (collection: CollectionDocument) => {
 		transactionContext.nftCollection = collection;
 	},
-	setNftCollectible: (collectible: Collectible) => {
+	setNftCollectible: (collectible: CollectibleDocument) => {
 		transactionContext.nftCollectible = collectible;
+		if (collectible.collectionId !== transactionContext.nftCollection?._id) {
+			const collection = injectedElements.nftCollections.find(
+				(ele) => ele._id === collectible.collectionId,
+			);
+			if (collection) transactionActions.setNftCollection(collection);
+		}
 	},
 	setTransactionFee: (fee: number) => {
 		transactionContext.transactionFee = fee;

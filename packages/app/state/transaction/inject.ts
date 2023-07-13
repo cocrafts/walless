@@ -1,18 +1,17 @@
-import type {
-	Collectible,
-	Collection,
-	Networks,
-	Token,
-	TransactionPayload,
-} from '@walless/core';
+import type { Networks, TransactionPayload } from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
-import type { PublicKeyDocument } from '@walless/store';
+import type {
+	CollectibleDocument,
+	CollectionDocument,
+	PublicKeyDocument,
+	TokenDocument,
+} from '@walless/store';
 import { proxy } from 'valtio';
 
 export interface InjectedElements {
-	tokens: Token[];
-	nftCollections: Collection[];
-	nftCollectibles: Collectible[];
+	tokens: TokenDocument[];
+	nftCollections: CollectionDocument[];
+	nftCollectibles: CollectibleDocument[];
 	publicKeys: PublicKeyDocument[];
 	getTransactionFee: (network: Networks) => Promise<number>;
 	handleClose: () => void;

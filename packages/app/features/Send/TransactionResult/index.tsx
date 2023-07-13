@@ -7,17 +7,17 @@ import { useSnapshot } from 'valtio';
 import {
 	injectedElements,
 	transactionActions,
+	transactionContext,
 } from '../../../state/transaction';
 import { NavButton } from '../components';
 
-import { Header } from './components/Header';
-import { Information } from './components/Information';
-import { Token } from './components';
+import { Header, Information, Nft, Token } from './components';
 
 type Props = SlideComponentProps;
 
 const TransactionResult: FC<Props> = ({ navigator }) => {
 	const { handleClose } = useSnapshot(injectedElements);
+	const { type } = useSnapshot(transactionContext);
 
 	const handlePressOtherTransaction = () => {
 		transactionActions.resetTransactionContext();
@@ -28,7 +28,7 @@ const TransactionResult: FC<Props> = ({ navigator }) => {
 		<View style={styles.container}>
 			<Header />
 
-			<Token />
+			{type === 'Token' ? <Token /> : <Nft />}
 
 			<Information />
 

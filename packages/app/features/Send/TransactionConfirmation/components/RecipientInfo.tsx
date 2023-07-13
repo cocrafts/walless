@@ -15,9 +15,14 @@ interface Props {
 
 export const RecipientInfo: FC<Props> = () => {
 	const { publicKeys } = useSnapshot(injectedElements);
-	const { token, transactionFee, receiver } = useSnapshot(transactionContext);
+	const { type, token, nftCollectible, transactionFee, receiver } =
+		useSnapshot(transactionContext);
 
-	const publicKey = publicKeys.find((key) => key.network == token?.network);
+	const publicKey = publicKeys.find(
+		(key) =>
+			key.network ===
+			(type === 'Token' ? token?.network : nftCollectible?.network),
+	);
 
 	const iconUri = { uri: '' };
 	let networkStr = '';

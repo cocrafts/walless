@@ -57,6 +57,10 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 				selected={nftCollectible as Collectible}
 				getRequiredFields={getRequiredFieldsForSelectToken}
 				onSelect={transactionActions.setNftCollectible}
+				itemStyle={styles.selectNftItem}
+				itemIconStyle={styles.selectNftIcon}
+				selectedItemStyle={styles.selectedNftItem}
+				selectedItemIconStyle={styles.selectedNftIcon}
 			/>
 
 			<RecipientInput />
@@ -79,5 +83,19 @@ const styles = StyleSheet.create({
 		height: 1,
 		backgroundColor: '#566674',
 		opacity: 0.2,
+	},
+	selectNftIcon: {
+		height: 53,
+		width: 53,
+	},
+	selectNftItem: {
+		paddingVertical: 8,
+	},
+	selectedNftIcon: {
+		height: 32,
+		width: 32,
+	},
+	selectedNftItem: {
+		paddingVertical: 9,
 	},
 });

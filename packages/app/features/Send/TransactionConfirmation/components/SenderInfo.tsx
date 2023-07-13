@@ -16,9 +16,13 @@ interface Props {
 
 export const SenderInfo: FC<Props> = () => {
 	const { publicKeys } = useSnapshot(injectedElements);
-	const { token } = useSnapshot(transactionContext);
+	const { type, token, nftCollectible } = useSnapshot(transactionContext);
 
-	const publicKey = publicKeys.find((key) => key.network == token?.network);
+	const publicKey = publicKeys.find(
+		(key) =>
+			key.network ===
+			(type === 'Token' ? token?.network : nftCollectible?.network),
+	);
 
 	if (publicKey) {
 		transactionActions.setSender(publicKey._id);

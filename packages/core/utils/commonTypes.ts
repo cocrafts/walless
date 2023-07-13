@@ -1,4 +1,4 @@
-import type { Token } from './entityTypes';
+import type { Collectible, Token } from './entityTypes';
 
 export interface EncryptedWithPasscode {
 	iv: string;
@@ -65,7 +65,7 @@ export interface TransactionPayload {
 	receiver: string;
 	amount: number;
 	network: Networks;
-	token: Token;
+	token: Token | Collectible;
 	passcode?: string;
 }
 

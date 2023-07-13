@@ -87,6 +87,9 @@ export const solanaCollectiblesByAddress = async ({
 					description: nft.json?.description,
 				},
 				endpoint,
+				account: {
+					mint: nft.mint.address.toString(),
+				},
 			});
 		});
 

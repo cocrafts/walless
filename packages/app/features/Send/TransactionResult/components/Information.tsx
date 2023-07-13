@@ -17,10 +17,21 @@ interface Props {
 
 export const Information: FC<Props> = () => {
 	const { publicKeys } = useSnapshot(injectedElements);
-	const { token, transactionFee, receiver, sender, status } =
-		useSnapshot(transactionContext);
+	const {
+		type,
+		token,
+		nftCollectible,
+		transactionFee,
+		receiver,
+		sender,
+		status,
+	} = useSnapshot(transactionContext);
 
-	const publicKey = publicKeys.find((key) => key.network == token?.network);
+	const publicKey = publicKeys.find(
+		(key) =>
+			key.network ==
+			(type === 'Token' ? token?.network : nftCollectible?.network),
+	);
 
 	const iconUri = { uri: '' };
 	let networkStr = '';
@@ -46,7 +57,7 @@ export const Information: FC<Props> = () => {
 				<Text style={styles.inforText}>{sender.substring(0, 20)}...</Text>
 			</View>
 
-			<View style={styles.seperatedLine}></View>
+			<View style={styles.separatedLine}></View>
 
 			<View style={styles.inforLine}>
 				<Text>Status</Text>
@@ -55,14 +66,14 @@ export const Information: FC<Props> = () => {
 				{status == ResponseCode.ERROR && <RedTag title="Failed" />}
 			</View>
 
-			<View style={styles.seperatedLine}></View>
+			<View style={styles.separatedLine}></View>
 
 			<View style={styles.inforLine}>
 				<Text>To</Text>
 				<Text style={styles.inforText}>{receiver.substring(0, 20)}...</Text>
 			</View>
 
-			<View style={styles.seperatedLine}></View>
+			<View style={styles.separatedLine}></View>
 
 			<View style={styles.inforLine}>
 				<Text>Network</Text>
@@ -72,7 +83,7 @@ export const Information: FC<Props> = () => {
 				</View>
 			</View>
 
-			<View style={styles.seperatedLine}></View>
+			<View style={styles.separatedLine}></View>
 
 			<View style={styles.inforLine}>
 				<Text>Network fee</Text>

@@ -62,10 +62,16 @@ export interface Collection {
 	metadata?: AssetMetadata;
 }
 
+export interface CollectibleAccount {
+	mint?: string;
+	owner?: string;
+}
+
 export interface Collectible {
 	network: string;
 	collectionId: string;
 	metadata?: AssetMetadata;
+	account: CollectibleAccount;
 }
 
 export interface TrustedDomain {

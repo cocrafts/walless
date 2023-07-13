@@ -17,17 +17,21 @@ interface Props {
 }
 
 export const NetworkFee: FC<Props> = () => {
-	const { token, transactionFee } = useSnapshot(transactionContext);
+	const { type, token, nftCollection, transactionFee } =
+		useSnapshot(transactionContext);
 	const { getTransactionFee } = useSnapshot(injectedElements);
 
 	useEffect(() => {
 		(async () => {
-			if (token?.network) {
+			if (type === 'Token' && token?.network) {
 				const fee = await getTransactionFee(token.network as Networks);
 				transactionActions.setTransactionFee(fee);
-			}
+			} else if (type === 'Collectible' && nftCollection?.network) {
+				const fee = await getTransactionFee(nftCollection.network as Networks);
+				transactionActions.setTransactionFee(fee);
+			} else transactionActions.setTransactionFee(0);
 		})();
-	}, [token]);
+	}, [type, token, nftCollection]);
 
 	let networkToken = '';
 	if (token?.network == Networks.solana) {

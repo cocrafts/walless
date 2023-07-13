@@ -29,7 +29,7 @@ export const SolanaDashboard: FC<Props> = () => {
 	const { setting, setPrivacy } = useSettings();
 	const publicKeys = usePublicKeys(Networks.solana);
 	const { tokens, valuation } = useTokens(Networks.solana);
-	const { collectibles, collections } = useNfts(Networks.solana);
+	const { collections } = useNfts(Networks.solana);
 
 	const bottomSliderItems: SlideOption[] = [
 		{
@@ -38,12 +38,7 @@ export const SolanaDashboard: FC<Props> = () => {
 		},
 		{
 			id: 'collectibles',
-			component: () => (
-				<CollectiblesTab
-					collectibles={collectibles}
-					collections={collections}
-				/>
-			),
+			component: () => <CollectiblesTab collections={collections} />,
 		},
 		{
 			id: 'activities',
@@ -127,5 +122,6 @@ const suiCardSkin: CardSkin = {
 const styles = StyleSheet.create({
 	sliderContainer: {
 		flex: 1,
+		height: '100%',
 	},
 });

@@ -38,6 +38,7 @@ export const TokenList: FC<Props> = ({
 
 	return (
 		<FlatList
+			showsVerticalScrollIndicator={false}
 			style={style}
 			contentContainerStyle={contentContainerStyle}
 			data={items}

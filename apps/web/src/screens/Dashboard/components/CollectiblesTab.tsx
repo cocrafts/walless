@@ -1,45 +1,42 @@
-import { type FC, useMemo, useState } from 'react';
-import { Image } from 'react-native';
-import { Hoverable, View } from '@walless/gui';
-import type { CollectibleDocument, CollectionDocument } from '@walless/store';
+import { type FC } from 'react';
+import { StyleSheet } from 'react-native';
+import { View } from '@walless/gui';
+import type { CollectionDocument } from '@walless/store';
+import { router } from 'utils/routing';
+
+import CollectibleItem from './CollectibleItem';
 
 interface Props {
 	collections?: CollectionDocument[];
-	collectibles?: CollectibleDocument[];
 }
 
-export const CollectiblesTab: FC<Props> = ({
-	collections = [],
-	collectibles = [],
-}) => {
-	const [collection, setCollection] = useState<CollectionDocument>();
-
-	const curCollectibles = useMemo(
-		() => collectibles.filter((ele) => ele.collectionId === collection?._id),
-		[collection],
-	);
+export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
+	const handlePressItem = (ele: CollectionDocument) => {
+		router.navigate(`/collections/${(ele._id as string).split('/')[1]}`);
+	};
 
 	return (
-		<View>
-			{!collection
-				? collections.map((ele) => (
-						<Hoverable key={ele._id} onPress={() => setCollection(ele)}>
-							<Image
-								source={{ uri: ele.metadata?.imageUri }}
-								style={{ height: 100 }}
-							/>
-						</Hoverable>
-				  ))
-				: curCollectibles.map((ele) => (
-						<View key={ele._id}>
-							<Image
-								source={{ uri: ele.metadata?.imageUri }}
-								style={{ height: 100 }}
-							/>
-						</View>
-				  ))}
+		<View style={styles.container}>
+			{collections.map((ele, index) => (
+				<CollectibleItem
+					key={index}
+					item={ele}
+					onPress={() => handlePressItem(ele)}
+				/>
+			))}
 		</View>
 	);
 };
 
 export default CollectiblesTab;
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'space-between',
+		rowGap: 10,
+		paddingTop: 10,
+		paddingBottom: 60,
+	},
+});

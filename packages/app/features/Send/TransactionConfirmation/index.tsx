@@ -5,10 +5,12 @@ import type { TransactionPayload } from '@walless/core';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
+import type { CollectibleDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
 	injectedElements,
+	transactionActions,
 	transactionContext,
 } from '../../../state/transaction';
 import { NavButton } from '../components';
@@ -24,7 +26,8 @@ interface Props {
 }
 
 const TransactionConfirmation: FC<Props> = ({ navigator }) => {
-	const { createAndSendTransaction } = useSnapshot(injectedElements);
+	const { createAndSendTransaction, handleSendNftSuccess } =
+		useSnapshot(injectedElements);
 	const { type, sender, receiver, amount, token, nftCollectible } =
 		useSnapshot(transactionContext);
 
@@ -60,6 +63,12 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 		if (res.responseCode == ResponseCode.REQUIRE_PASSCODE) {
 			navigator.slideNext();
 		} else if (res.responseCode == ResponseCode.SUCCESS) {
+			if (nftCollectible && handleSendNftSuccess)
+				handleSendNftSuccess(nftCollectible as CollectibleDocument);
+
+			transactionActions.setSignatureString(
+				res.signatureString || res.signedTransaction?.digest || res.hash,
+			);
 			navigator.slideTo(3);
 		} else {
 			showError('Something was wrong');

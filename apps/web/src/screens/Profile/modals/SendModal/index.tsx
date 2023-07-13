@@ -2,8 +2,10 @@ import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SendFeature } from '@walless/app';
 import type { Networks } from '@walless/core';
+import { collectiblesState } from '@walless/engine';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions } from '@walless/gui';
+import type { CollectibleDocument } from '@walless/store';
 import { useNfts, usePublicKeys, useTokens } from 'utils/hooks';
 import {
 	checkValidAddress,
@@ -14,10 +16,11 @@ import {
 
 interface ModalContext {
 	layoutNetwork?: Networks;
+	collectible?: CollectibleDocument;
 }
 
 export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
-	const { layoutNetwork } = config.context as ModalContext;
+	const { layoutNetwork, collectible } = config.context as ModalContext;
 	const { tokens } = useTokens(layoutNetwork);
 	const { collectibles, collections } = useNfts(layoutNetwork);
 	const addressList = usePublicKeys();
@@ -25,6 +28,7 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	return (
 		<View style={styles.container}>
 			<SendFeature
+				initCollectible={collectible}
 				tokens={tokens}
 				nftCollections={collections}
 				nftCollectibles={collectibles}
@@ -34,6 +38,9 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				checkValidAddress={checkValidAddress}
 				createAndSendTransaction={createAndSend}
 				getTransactionResult={getTransactionResult}
+				onSendNftSuccess={(collectible: CollectibleDocument) => {
+					collectiblesState.map.delete(collectible._id);
+				}}
 			/>
 		</View>
 	);

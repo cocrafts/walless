@@ -64,8 +64,9 @@ const styles = StyleSheet.create({
 	},
 	titleContainer: {
 		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'flex-start',
+		alignItems: 'center',
+		marginTop: 2,
+		marginBottom: 'auto',
 		gap: 4,
 	},
 	titleText: {

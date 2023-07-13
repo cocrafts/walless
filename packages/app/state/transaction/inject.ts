@@ -27,6 +27,7 @@ export interface InjectedElements {
 		signature: string,
 		network: Networks,
 	) => Promise<{ time?: Date }>;
+	handleSendNftSuccess?: (collectible: CollectibleDocument) => void;
 }
 
 export const injectedElements = proxy<InjectedElements>({

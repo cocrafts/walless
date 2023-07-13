@@ -10,6 +10,7 @@ import type {
 import type { SlideComponentProps } from '@walless/gui';
 import { Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
+import type { CollectibleDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -30,7 +31,8 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 	const [passcode, setPasscode] = useState<string>('');
 	const [renderPasscode, setRenderPasscode] = useState(false);
 
-	const { createAndSendTransaction } = useSnapshot(injectedElements);
+	const { createAndSendTransaction, handleSendNftSuccess } =
+		useSnapshot(injectedElements);
 
 	const handleBack = () => {
 		navigator.slideBack();
@@ -77,6 +79,8 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 					showError('Passcode is NOT matched');
 					setError('Wrong passcode');
 				} else if (res.responseCode == ResponseCode.SUCCESS) {
+					if (nftCollectible && handleSendNftSuccess)
+						handleSendNftSuccess(nftCollectible as CollectibleDocument);
 					transactionActions.setSignatureString(
 						res.signatureString || res.signedTransaction?.digest || res.hash,
 					);
@@ -109,7 +113,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 		<View style={styles.container}>
 			<Header onBack={handleBack} />
 
-			<Image style={styles.icon} source={{ uri: 'img/icon.png' }} />
+			<Image style={styles.icon} source={{ uri: '/img/icon.png' }} />
 			<View style={styles.titleBlock}>
 				<Text style={styles.title}>Confirm your passcode</Text>
 				<Text style={styles.description}>

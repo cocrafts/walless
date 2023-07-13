@@ -4,7 +4,11 @@ import { RequestType } from '@walless/messaging';
 import { handle } from '../utils/coordinator';
 import { getNetwork } from '../utils/handler';
 
-import { handleConnect, handleRequestPayload } from './common';
+import {
+	handleConnect,
+	handleInstallLayout,
+	handleRequestPayload,
+} from './common';
 import * as solanaHandler from './solanaHandler';
 import * as suiHandler from './suiHandler';
 import * as tezosHanlder from './tezosHandler';
@@ -24,6 +28,9 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			requirePrivateKey = false;
 		} else if (type === RequestType.REQUEST_PAYLOAD) {
 			handleMethod = handleRequestPayload;
+			requirePrivateKey = false;
+		} else if (type === RequestType.INSTALL_LAYOUT) {
+			handleMethod = handleInstallLayout;
 			requirePrivateKey = false;
 		} else if (type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
 			handleMethod = solanaHandler.signMessage;

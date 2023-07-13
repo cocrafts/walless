@@ -66,7 +66,7 @@ export const createMessenger = (
 		data: EncryptedMessage,
 	) => {
 		const revealed = await smartReveal(data, channel.name);
-		const requestId = revealed?.requestId;
+		const requestId = revealed?.requestId as string;
 		const associatedRequest = requestHashmap[requestId];
 
 		if (associatedRequest) {
@@ -130,7 +130,7 @@ export const createMessenger = (
 		return new Promise((resolve, reject) => {
 			const channel = getChannel(channelId);
 
-			requestHashmap[payload.requestId] = {
+			requestHashmap[payload.requestId as string] = {
 				timestamp: new Date(),
 				timeout,
 				resolve,

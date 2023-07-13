@@ -20,6 +20,7 @@ import type {
 	SignMessageFunc,
 } from '@walless/core';
 import { Networks } from '@walless/core';
+import { ResponseCode } from '@walless/messaging';
 import type { PublicKeyDocument } from '@walless/store';
 import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
@@ -203,6 +204,22 @@ export class Walless extends EventEmitter {
 			res.signedTransaction;
 
 		return signedTransaction;
+	};
+
+	installLayout = async (input: string): Promise<boolean> => {
+		if (!this.#publicKeys) {
+			throw new Error('wallet not connected');
+		}
+
+		let isSuccessfullyInstalled = false;
+		try {
+			const { responseCode } = await commonProvider.requestInstallLayout(input);
+			isSuccessfullyInstalled = responseCode === ResponseCode.SUCCESS;
+		} catch (error) {
+			throw new Error('not successfully installed');
+		}
+
+		return isSuccessfullyInstalled;
 	};
 }
 

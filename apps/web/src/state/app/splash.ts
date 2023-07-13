@@ -18,9 +18,8 @@ export const launchApp = async ({
 }: BootstrapResult): Promise<void> => {
 	const url = window.location.hash;
 	const path = url.slice(1);
-	const isSdkPopup =
-		path.includes(PopupType.REQUEST_CONNECT_POPUP) ||
-		path.includes(PopupType.SIGNATURE_POPUP);
+	const popupList = Object.values(PopupType);
+	const isSdkPopup = popupList.some((popup) => path.includes(popup));
 
 	if (profile?.email) {
 		if (isSdkPopup) {

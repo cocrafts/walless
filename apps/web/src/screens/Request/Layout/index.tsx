@@ -1,11 +1,36 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { AlertCircle } from '@walless/icons';
+import { PopupType } from '@walless/messaging';
 import { Anchor, Button, Image, Stack, Text } from '@walless/ui';
+import { handleRequestInstallLayout } from 'bridge/listeners';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
+import { initializeKernelConnect } from 'utils/helper';
 
 import { logoSize, logoUri } from '../shared';
 
 export const RequestLayout = () => {
+	const { requestId } = useParams();
+
+	const onApprovePress = () => {
+		handleRequestInstallLayout(requestId as string, true);
+	};
+
+	const onNeverAskAgainPress = () => {
+		handleRequestInstallLayout(requestId as string, false);
+	};
+
+	const onAskMeLaterPress = () => {
+		handleRequestInstallLayout(requestId as string, false);
+	};
+
+	useEffect(() => {
+		initializeKernelConnect(
+			PopupType.REQUEST_INSTALL_LAYOUT_POPUP + '/' + requestId,
+		);
+	}, []);
+
 	return (
 		<Stack flex={1} backgroundColor="#19232C">
 			<HeaderRequest />
@@ -70,7 +95,7 @@ export const RequestLayout = () => {
 						<LightText fontSize={14} textAlign="center">
 							Only connect to websites you trust!
 						</LightText>
-						<Button marginVertical={10} onPress={() => console.log('hmmmm')}>
+						<Button marginVertical={10} onPress={onApprovePress}>
 							<Text>Accept</Text>
 						</Button>
 						<Stack
@@ -78,10 +103,18 @@ export const RequestLayout = () => {
 							justifyContent="space-between"
 							alignItems="center"
 						>
-							<Button backgroundColor="transparent" padding={0}>
+							<Button
+								backgroundColor="transparent"
+								padding={0}
+								onPress={onNeverAskAgainPress}
+							>
 								<LightText>Never Ask Again</LightText>
 							</Button>
-							<Button backgroundColor="transparent" padding={0}>
+							<Button
+								backgroundColor="transparent"
+								padding={0}
+								onPress={onAskMeLaterPress}
+							>
 								<Text fontWeight="300">Ask me later</Text>
 							</Button>
 						</Stack>

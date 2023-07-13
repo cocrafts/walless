@@ -3,7 +3,6 @@ import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { extensionActions } from 'state/extension';
 
 import { addExtensionsById } from '../utils/helper';
 import { getRequestRecord } from '../utils/requestPool';

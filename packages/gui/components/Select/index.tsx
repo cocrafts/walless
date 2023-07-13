@@ -21,6 +21,10 @@ export const Select = <T extends object>({
 	items,
 	getRequiredFields,
 	onSelect,
+	itemStyle,
+	itemIconStyle,
+	selectedItemStyle,
+	selectedItemIconStyle,
 }: SelectionContext<T>) => {
 	const inputRef = useRef(null);
 
@@ -50,13 +54,15 @@ export const Select = <T extends object>({
 				items,
 				getRequiredFields,
 				onSelect,
+				itemStyle,
+				itemIconStyle,
 			},
 		});
 	};
 
 	return (
 		<View ref={inputRef}>
-			<Hoverable style={styles.button} onPress={openModal}>
+			<Hoverable style={[styles.button, selectedItemStyle]} onPress={openModal}>
 				<View style={styles.item}>
 					{!selectedMetadata ? (
 						<Text style={styles.text}>{title}</Text>
@@ -64,7 +70,7 @@ export const Select = <T extends object>({
 						<View style={styles.item}>
 							<Image
 								source={selectedMetadata.iconSrc}
-								style={styles.itemIcon}
+								style={[styles.itemIcon, selectedItemIconStyle]}
 							/>
 							<Text style={styles.itemName}>{selectedMetadata.name}</Text>
 						</View>

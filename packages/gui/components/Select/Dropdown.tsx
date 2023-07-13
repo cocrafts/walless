@@ -16,8 +16,16 @@ interface Props {
 }
 
 const Dropdown: FC<Props> = ({ config }) => {
-	const { selected, items, title, notFoundText, getRequiredFields, onSelect } =
-		config.context as SelectionContext<object>;
+	const {
+		selected,
+		items,
+		title,
+		notFoundText,
+		getRequiredFields,
+		onSelect,
+		itemStyle = {},
+		itemIconStyle = {},
+	} = config.context as SelectionContext<object>;
 
 	const [searchText, setSearchText] = useState('');
 
@@ -83,7 +91,8 @@ const Dropdown: FC<Props> = ({ config }) => {
 									icon={icon}
 									selected={!!selected && getRequiredFields(selected).id === id}
 									onPress={() => handleItemPress(item)}
-									style={styles.item}
+									style={itemStyle}
+									iconStyle={itemIconStyle}
 								/>
 							);
 						})}

@@ -5,16 +5,20 @@ import { DashboardLayout } from '@walless/app';
 import { modules } from '@walless/ioc';
 import type { ExtensionDocument } from '@walless/store';
 import { appState } from 'state/app';
-import { extensionState } from 'state/extension';
-import { useLocation, useParams, useSettings, useSnapshot } from 'utils/hooks';
+import {
+	useExtensions,
+	useLocation,
+	useParams,
+	useSettings,
+	useSnapshot,
+} from 'utils/hooks';
 import { router } from 'utils/routing';
 
 export const DashboardScreen: FC = () => {
 	const { id: extensionId } = useParams<'id'>();
 	const { pathname } = useLocation();
 	const { profile } = useSnapshot(appState);
-	const { map: extensionMap } = useSnapshot(extensionState);
-	const extensions = Array.from(extensionMap.values());
+	const extensions = useExtensions();
 	const { setting, setPathname } = useSettings();
 
 	const getRouteActive = (item: ExtensionDocument) => {

@@ -32,7 +32,10 @@ export const ExploreScreen: FC = () => {
 	};
 
 	const handleAddLayout = async (extension: ExtensionDocument) => {
-		await modules.storage.put(extension);
+		await modules.storage.put({
+			...extension,
+			timestamp: new Date().toISOString(),
+		});
 		await router.navigate(extension._id);
 	};
 

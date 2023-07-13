@@ -66,12 +66,12 @@ export const createMessenger = (
 		data: EncryptedMessage,
 	) => {
 		const revealed = await smartReveal(data, channel.name);
-		const requestId = revealed?.requestId;
-		const associatedRequest = requestHashmap[requestId as string];
+		const requestId = revealed?.requestId as string;
+		const associatedRequest = requestHashmap[requestId];
 
 		if (associatedRequest) {
 			associatedRequest.resolve(revealed);
-			delete requestHashmap[requestId as string];
+			delete requestHashmap[requestId];
 		}
 	};
 

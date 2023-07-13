@@ -8,7 +8,7 @@ const runInterval = () => {
 	const queueSize = Object.keys(requestHashmap).length;
 
 	if (queueSize === 0) {
-		clearInterval(queueInterval as number);
+		clearInterval(queueInterval as never);
 	}
 
 	for (const id in requestHashmap) {
@@ -34,8 +34,7 @@ export const sendRequest = <T extends UnknownObject>(
 		requestHashmap[payload.requestId] = {
 			timestamp: new Date(),
 			timeout,
-			// @ts-expect-error can not predefine type in resolve
-			resolve,
+			resolve: resolve as never,
 			reject,
 		};
 

@@ -26,30 +26,32 @@ export const solanaTokensByAddress = async ({
 		programId: TOKEN_PROGRAM_ID,
 	});
 
-	const resultPromises = response.value.map(async ({ account }) => {
-		const { data, owner } = account;
-		const info = data.parsed?.info || {};
-		const metadata = await getSolanaMetadata({
-			storage,
-			connection,
-			mintAddress: info.mint,
-		});
+	const resultPromises = response.value
+		.filter((ele) => ele.account.data.parsed.info.tokenAmount.decimals > 0)
+		.map(async ({ account }) => {
+			const { data, owner } = account;
+			const info = data.parsed?.info || {};
+			const metadata = await getSolanaMetadata({
+				storage,
+				connection,
+				mintAddress: info.mint,
+			});
 
-		return {
-			_id: `${address}/${info.mint}`,
-			network: Networks.solana,
-			endpoint,
-			type: 'Token',
-			account: {
-				mint: info.mint,
-				owner: owner.toString(),
-				address,
-				balance: info.tokenAmount?.amount,
-				decimals: info.tokenAmount?.decimals,
-			},
-			metadata: metadata,
-		} satisfies TokenDocument;
-	});
+			return {
+				_id: `${address}/${info.mint}`,
+				network: Networks.solana,
+				endpoint,
+				type: 'Token',
+				account: {
+					mint: info.mint,
+					owner: owner.toString(),
+					address,
+					balance: info.tokenAmount?.amount,
+					decimals: info.tokenAmount?.decimals,
+				},
+				metadata: metadata,
+			} satisfies TokenDocument;
+		});
 
 	resultPromises.unshift(
 		(async () => {

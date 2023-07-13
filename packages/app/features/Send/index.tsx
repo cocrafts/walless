@@ -1,27 +1,41 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Slider } from '@walless/gui';
+import type { CollectibleDocument } from '@walless/store';
 
-import type { InjectedElements } from '../../state/transaction';
+import type {
+	InjectedElements,
+	TransactionType,
+} from '../../state/transaction';
 import { transactionActions } from '../../state/transaction';
 
 import { sendScreens } from './shared';
 
-type Props = Omit<InjectedElements, 'handleClose'> & {
+type Props = Omit<InjectedElements, 'handleClose' | 'handleSendNftSuccess'> & {
 	onClose: () => void;
+	type?: TransactionType;
+	initCollectible?: CollectibleDocument;
+	onSendNftSuccess?: (collectible: CollectibleDocument) => void;
 };
 
 export const SendFeature: FC<Props> = ({
+	type,
+	initCollectible,
 	tokens,
+	nftCollections,
+	nftCollectibles,
 	publicKeys,
 	onClose,
 	getTransactionFee,
 	checkValidAddress,
 	createAndSendTransaction,
 	getTransactionResult,
+	onSendNftSuccess,
 }) => {
 	transactionActions.injectRequiredElements({
 		tokens: tokens,
+		nftCollections: nftCollections,
+		nftCollectibles: nftCollectibles,
 		publicKeys: publicKeys,
 		getTransactionFee,
 		handleClose: () => {
@@ -31,7 +45,14 @@ export const SendFeature: FC<Props> = ({
 		checkValidAddress,
 		createAndSendTransaction,
 		getTransactionResult,
+		handleSendNftSuccess: onSendNftSuccess,
 	});
+
+	if (type) transactionActions.setType(type);
+	if (initCollectible) {
+		transactionActions.setType('Collectible');
+		transactionActions.setNftCollectible(initCollectible);
+	}
 
 	return (
 		<Slider
@@ -50,12 +71,9 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		height: 576,
-		width: 400,
 	},
 	slideContainer: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
 		paddingHorizontal: 28,
 		paddingBottom: 28,
 		paddingTop: 16,

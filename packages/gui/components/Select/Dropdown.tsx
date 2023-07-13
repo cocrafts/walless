@@ -16,12 +16,20 @@ interface Props {
 }
 
 const Dropdown: FC<Props> = ({ config }) => {
-	const { selected, items, title, getRequiredFields, onSelect } =
-		config.context as SelectionContext<object>;
+	const {
+		selected,
+		items,
+		title,
+		notFoundText,
+		getRequiredFields,
+		onSelect,
+		itemStyle = {},
+		itemIconStyle = {},
+	} = config.context as SelectionContext<object>;
 
 	const [searchText, setSearchText] = useState('');
 
-	const filterdItems = useMemo(() => {
+	const filteredItems = useMemo(() => {
 		return items.filter((item) => {
 			if (searchText.length == 0) return true;
 			const { name } = getRequiredFields(item);
@@ -61,12 +69,12 @@ const Dropdown: FC<Props> = ({ config }) => {
 					/>
 				</View>
 
-				{filterdItems.length == 0 ? (
+				{filteredItems.length == 0 ? (
 					<View style={styles.notFoundView}>
 						<View style={styles.notFoundIconBlock}>
 							<SearchIcon size={17} color="#566674" />
 						</View>
-						<Text>{"We don't support this token yet!"}</Text>
+						<Text>{notFoundText || "We don't support this token yet!"}</Text>
 					</View>
 				) : (
 					<ScrollView
@@ -74,7 +82,7 @@ const Dropdown: FC<Props> = ({ config }) => {
 							height: 200,
 						}}
 					>
-						{filterdItems.map((item, index) => {
+						{filteredItems.map((item, index) => {
 							const { id, name, icon } = getRequiredFields(item);
 							return (
 								<DropdownItem
@@ -83,7 +91,8 @@ const Dropdown: FC<Props> = ({ config }) => {
 									icon={icon}
 									selected={!!selected && getRequiredFields(selected).id === id}
 									onPress={() => handleItemPress(item)}
-									style={styles.item}
+									style={itemStyle}
+									iconStyle={itemIconStyle}
 								/>
 							);
 						})}

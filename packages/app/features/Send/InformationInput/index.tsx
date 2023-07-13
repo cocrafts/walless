@@ -1,9 +1,13 @@
 import type { FC } from 'react';
-import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
+import { useSnapshot } from 'valtio';
 
+import {
+	transactionActions,
+	transactionContext,
+} from '../../../state/transaction';
 import { showError } from '../utils';
 
 import { CollectiblesTab, Header, TabBar, TokensTab } from './components';
@@ -14,11 +18,10 @@ interface Props {
 }
 
 const InformationInput: FC<Props> = ({ navigator }) => {
-	const [isTokensTab, setIsTokensTab] = useState(true);
+	const { type } = useSnapshot(transactionContext);
 
 	const handlePressContinue = () => {
 		const checkedResult = totalCheckFieldsToContinue();
-
 		if (!checkedResult.valid) {
 			showError(checkedResult.message);
 		} else {
@@ -30,12 +33,12 @@ const InformationInput: FC<Props> = ({ navigator }) => {
 		<View style={styles.container}>
 			<Header />
 
-			<TabBar isTokensTab={isTokensTab} setIsTokensTab={setIsTokensTab} />
+			<TabBar curTab={type} setCurTab={transactionActions.setType} />
 
-			{isTokensTab ? (
+			{type === 'Token' ? (
 				<TokensTab onContinue={handlePressContinue} />
 			) : (
-				<CollectiblesTab />
+				<CollectiblesTab onContinue={handlePressContinue} />
 			)}
 		</View>
 	);
@@ -44,8 +47,5 @@ const InformationInput: FC<Props> = ({ navigator }) => {
 export default InformationInput;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		width: 336,
-	},
+	container: { flex: 1 },
 });

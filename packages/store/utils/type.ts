@@ -1,5 +1,7 @@
 import type {
 	AssetMetadata,
+	Collectible,
+	Collection,
 	EncryptedWithPasscode,
 	Endpoint,
 	EndpointMap,
@@ -18,6 +20,8 @@ export type DocumentType =
 	| 'PrivateKey'
 	| 'PublicKey'
 	| 'Token'
+	| 'Collection'
+	| 'NFT'
 	| 'Metadata'
 	| 'TrustedDomain'
 	| 'Extension';
@@ -57,3 +61,7 @@ export type TokenDocument = PouchDocument<Token>;
 export type MetadataDocument = PouchDocument<AssetMetadata>;
 
 export type TrustedDomainDocument = PouchDocument<TrustedDomain>;
+
+export type CollectionDocument = PouchDocument<Collection>;
+
+export type CollectibleDocument = PouchDocument<Collectible>;

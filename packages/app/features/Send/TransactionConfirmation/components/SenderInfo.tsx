@@ -16,9 +16,13 @@ interface Props {
 
 export const SenderInfo: FC<Props> = () => {
 	const { publicKeys } = useSnapshot(injectedElements);
-	const { token } = useSnapshot(transactionContext);
+	const { type, token, nftCollectible } = useSnapshot(transactionContext);
 
-	const publicKey = publicKeys.find((key) => key.network == token?.network);
+	const publicKey = publicKeys.find(
+		(key) =>
+			key.network ===
+			(type === 'Token' ? token?.network : nftCollectible?.network),
+	);
 
 	if (publicKey) {
 		transactionActions.setSender(publicKey._id);
@@ -27,13 +31,13 @@ export const SenderInfo: FC<Props> = () => {
 	const iconUri = { uri: '' };
 	let walletTitle = '';
 	if (publicKey?.network == Networks.solana) {
-		iconUri.uri = 'img/network/solana-icon-sm.png';
+		iconUri.uri = '/img/network/solana-icon-sm.png';
 		walletTitle = 'Solana';
 	} else if (publicKey?.network == Networks.sui) {
-		iconUri.uri = 'img/network/sui-icon-sm.png';
+		iconUri.uri = '/img/network/sui-icon-sm.png';
 		walletTitle = 'SUI';
 	} else if (publicKey?.network == Networks.tezos) {
-		iconUri.uri = 'img/network/tezos-icon-sm.png';
+		iconUri.uri = '/img/network/tezos-icon-sm.png';
 		walletTitle = 'Tezos';
 	}
 
@@ -55,7 +59,6 @@ export const SenderInfo: FC<Props> = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		alignItems: 'center',
 		gap: 12,
 	},
 	title: {
@@ -66,11 +69,8 @@ const styles = StyleSheet.create({
 	},
 	inforBlock: {
 		flexDirection: 'row',
-		alignItems: 'center',
 		backgroundColor: '#0F151A',
-		width: 336,
-		height: 65,
-		paddingHorizontal: 15,
+		padding: 15,
 		borderRadius: 15,
 		gap: 17,
 	},

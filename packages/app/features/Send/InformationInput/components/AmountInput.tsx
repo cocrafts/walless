@@ -73,7 +73,7 @@ export const AmountInput: FC = () => {
 const styles = StyleSheet.create({
 	container: {
 		justifyContent: 'space-between',
-		marginBottom: 6,
+		marginTop: -16,
 	},
 	title: {
 		fontSize: 20,

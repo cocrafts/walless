@@ -1,10 +1,16 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import type { Networks, Token, TransactionPayload } from '@walless/core';
+import type {
+	Collectible,
+	Networks,
+	Token,
+	TransactionPayload,
+} from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
+import type { CollectibleDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -19,31 +25,49 @@ import { Header } from './components';
 
 type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
-	const { token, sender, receiver, amount } = useSnapshot(transactionContext);
+	const { type, token, nftCollectible, sender, receiver, amount } =
+		useSnapshot(transactionContext);
 	const [error, setError] = useState<string>('');
-	const [passcode, setPassode] = useState<string>('');
+	const [passcode, setPasscode] = useState<string>('');
 	const [renderPasscode, setRenderPasscode] = useState(false);
 
-	const { createAndSendTransaction } = useSnapshot(injectedElements);
+	const { createAndSendTransaction, handleSendNftSuccess } =
+		useSnapshot(injectedElements);
 
 	const handleBack = () => {
 		navigator.slideBack();
-		setPassode('');
+		setPasscode('');
 		setError('');
 	};
 
 	const handlePasscodeChange = async (passcode: string) => {
-		setPassode(passcode);
+		setPasscode(passcode);
 		if (passcode.length == 6) {
-			if (!token) return showError('Invalid token to transfer');
+			if (
+				(type === 'Token' && !token) ||
+				(type === 'Collectible' && !nftCollectible)
+			)
+				return showError('Invalid token to transfer');
 
 			const payload: TransactionPayload = {
 				sender: sender,
 				receiver: receiver,
-				amount: parseFloat(amount as string) * 10 ** token?.account.decimals,
-				token: token as Token,
-				network: token?.network as Networks,
-			};
+			} as TransactionPayload;
+
+			switch (type) {
+				case 'Token': {
+					payload.amount = parseFloat(amount as string);
+					payload.token = token as Token;
+					payload.network = token?.network as Networks;
+					break;
+				}
+				case 'Collectible': {
+					payload.amount = 1;
+					payload.token = nftCollectible as Collectible;
+					payload.network = nftCollectible?.network as Networks;
+					break;
+				}
+			}
 
 			let res;
 			try {
@@ -55,6 +79,8 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 					showError('Passcode is NOT matched');
 					setError('Wrong passcode');
 				} else if (res.responseCode == ResponseCode.SUCCESS) {
+					if (nftCollectible && handleSendNftSuccess)
+						handleSendNftSuccess(nftCollectible as CollectibleDocument);
 					transactionActions.setSignatureString(
 						res.signatureString || res.signedTransaction?.digest || res.hash,
 					);
@@ -71,7 +97,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 				showError((error as Error).message);
 			}
 
-			setPassode('');
+			setPasscode('');
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
@@ -87,7 +113,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 		<View style={styles.container}>
 			<Header onBack={handleBack} />
 
-			<Image style={styles.icon} source={{ uri: 'img/icon.png' }} />
+			<Image style={styles.icon} source={{ uri: '/img/icon.png' }} />
 			<View style={styles.titleBlock}>
 				<Text style={styles.title}>Confirm your passcode</Text>
 				<Text style={styles.description}>
@@ -114,7 +140,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		gap: 40,
-		width: 336,
 	},
 	icon: {
 		width: 120,

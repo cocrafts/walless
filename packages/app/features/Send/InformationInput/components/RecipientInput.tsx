@@ -47,10 +47,7 @@ export const RecipientInput: FC = () => {
 };
 
 const styles = StyleSheet.create({
-	container: {
-		marginBottom: 4,
-		marginTop: 19,
-	},
+	container: {},
 	title: {
 		fontSize: 20,
 	},
@@ -60,7 +57,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 0,
 	},
 	bottomBox: {
-		height: 14,
+		height: 15,
 		marginTop: 1,
 		marginRight: 'auto',
 		paddingLeft: 6,

@@ -17,7 +17,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		extensionType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
-			iconUri: 'img/network/tezos-icon-sm.png',
+			iconUri: '/img/network/tezos-icon-sm.png',
 			iconSize: 26,
 			iconColor: '#2D7DF8',
 			coverUri: 'https://tezos.com/brand/CleanTezos1.png',
@@ -28,8 +28,8 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		},
 		networkMeta: {
 			backgroundUri: 'https://tezos.com/brand/NFTsTezos.png',
-			markUri: 'img/network/tezos-icon-lg.png',
-			iconUri: 'img/network/tezos-icon-sm.png',
+			markUri: '/img/network/tezos-icon-lg.png',
+			iconUri: '/img/network/tezos-icon-sm.png',
 			iconColor: '#2D7DF8',
 			iconSize: 12,
 		},

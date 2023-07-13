@@ -28,15 +28,15 @@ export const RecipientInfo: FC<Props> = () => {
 	let networkStr = '';
 	let feeStr = '';
 	if (publicKey?.network == Networks.solana) {
-		iconUri.uri = 'img/network/solana-icon-sm.png';
+		iconUri.uri = '/img/network/solana-icon-sm.png';
 		networkStr = 'Solana';
 		feeStr = `${transactionFee} SOL`;
 	} else if (publicKey?.network == Networks.sui) {
-		iconUri.uri = 'img/network/sui-icon-sm.png';
+		iconUri.uri = '/img/network/sui-icon-sm.png';
 		networkStr = 'SUI';
 		feeStr = `${transactionFee} SUI`;
 	} else if (publicKey?.network == Networks.tezos) {
-		iconUri.uri = 'img/network/tezos-icon-sm.png';
+		iconUri.uri = '/img/network/tezos-icon-sm.png';
 		networkStr = 'Tezos';
 		feeStr = `${transactionFee} TEZ`;
 	}

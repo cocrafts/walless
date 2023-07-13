@@ -31,13 +31,13 @@ export const SenderInfo: FC<Props> = () => {
 	const iconUri = { uri: '' };
 	let walletTitle = '';
 	if (publicKey?.network == Networks.solana) {
-		iconUri.uri = 'img/network/solana-icon-sm.png';
+		iconUri.uri = '/img/network/solana-icon-sm.png';
 		walletTitle = 'Solana';
 	} else if (publicKey?.network == Networks.sui) {
-		iconUri.uri = 'img/network/sui-icon-sm.png';
+		iconUri.uri = '/img/network/sui-icon-sm.png';
 		walletTitle = 'SUI';
 	} else if (publicKey?.network == Networks.tezos) {
-		iconUri.uri = 'img/network/tezos-icon-sm.png';
+		iconUri.uri = '/img/network/tezos-icon-sm.png';
 		walletTitle = 'Tezos';
 	}
 

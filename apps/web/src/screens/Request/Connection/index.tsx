@@ -13,8 +13,12 @@ import { logoSize, logoUri } from '../shared';
 const RequestConnection = () => {
 	const { requestId } = useParams();
 
-	const onClickButton = (isApproved: boolean) => {
-		handleRequestConnect(requestId as string, isApproved);
+	const onApprovePress = () => {
+		handleRequestConnect(requestId as string, true);
+	};
+
+	const onRejectPress = () => {
+		handleRequestConnect(requestId as string, false);
 	};
 
 	useEffect(() => {
@@ -87,13 +91,13 @@ const RequestConnection = () => {
 					<LightText fontSize={14} textAlign="center">
 						Only connect to websites you trust!
 					</LightText>
-					<Button marginVertical={10} onPress={() => onClickButton(true)}>
+					<Button marginVertical={10} onPress={onApprovePress}>
 						<Text>Connect</Text>
 					</Button>
 					<Button
 						backgroundColor="transparent"
 						paddingVertical={0}
-						onPress={() => onClickButton(false)}
+						onPress={onRejectPress}
 					>
 						<Text>Deny</Text>
 					</Button>

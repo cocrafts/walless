@@ -62,7 +62,7 @@ export const router = createRouter([
 		element: <RequestSignature />,
 	},
 	{
-		path: '/request-layout',
+		path: `/${PopupType.REQUEST_INSTALL_LAYOUT_POPUP}/:requestId`,
 		element: <RequestLayout />,
 	},
 ]);

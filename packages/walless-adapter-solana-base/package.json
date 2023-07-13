@@ -1,0 +1,37 @@
+{
+  "name": "@walless/walless-adapter-solana-base",
+  "version": "0.0.1",
+  "description": "This is Walless adapter for Solana",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./lib/cjs/src/index.js",
+  "module": "./lib/esm/src/index.js",
+  "types": "./lib/types/src/index.d.ts",
+  "exports": {
+    "require": "./lib/cjs/src/index.js",
+    "import": "./lib/esm/src/index.js",
+    "types": "./lib/types/src/index.d.ts"
+  },
+  "scripts": {
+    "build": "tsc --build --verbose && yarn run package",
+    "release": "yarn build && npm publish --access public",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
+    "package": "shx mkdir -p lib/cjs && shx echo '{\"type\": \"commonjs\"}' > lib/cjs/package.json"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@solana/wallet-adapter-base": "^0.9.22"
+  },
+  "devDependencies": {
+    "@solana/web3.js": "^1.77.3",
+    "@walless/sdk": "*",
+    "eslint": "8.38.0",
+    "shx": "^0.3.4",
+    "typescript": "^5.1.3"
+  }
+}

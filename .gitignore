@@ -10,7 +10,6 @@ cdk.context.json
 apps/web/metacraft
 apps/**/builds
 packages/**/lib
-*.tgz
 .swc
 .tamagui
 .next

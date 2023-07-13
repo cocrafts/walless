@@ -61,7 +61,7 @@ export const SolanaDashboard: FC<Props> = () => {
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal(Networks.solana);
+		appActions.showSendModal({ layoutNetwork: Networks.solana });
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {

@@ -18,14 +18,20 @@ export const showReceiveModal = (layoutNetWork: Networks) => {
 	});
 };
 
-export const showSendModal = (layoutNetwork?: Networks) => {
+export interface SendModalConfig {
+	layoutNetwork?: Networks;
+	collectible?: Collectible;
+}
+
+export const showSendModal = (configs?: SendModalConfig) => {
 	modalActions.show({
 		id: 'send-token',
 		bindingDirection: BindDirections.InnerBottom,
 		component: SendModal,
 		animateDirection: AnimateDirections.Top,
 		context: {
-			layoutNetwork,
+			layoutNetwork: configs?.layoutNetwork,
+			collectible: configs?.collectible,
 		},
 	});
 };

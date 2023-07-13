@@ -55,7 +55,7 @@ export const SuiDashboard: FC<Props> = () => {
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal(Networks.sui);
+		appActions.showSendModal({ layoutNetwork: Networks.sui });
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {

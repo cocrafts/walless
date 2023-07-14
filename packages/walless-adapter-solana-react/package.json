@@ -17,8 +17,8 @@
     "types": "./lib/types/src/index.d.ts"
   },
   "scripts": {
-    "build": "tsc --build --verbose && yarn run package",
-    "release": "yarn build && npm publish --access public",
+    "bundle": "tsc --build --verbose && yarn run package",
+    "release": "yarn bundle && npm publish --access public",
     "test": "jest --passWithNoTests",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
     "package": "shx mkdir -p lib/cjs && shx echo '{\"type\": \"commonjs\"}' > lib/cjs/package.json"

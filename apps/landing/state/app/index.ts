@@ -1,5 +1,5 @@
-import { type MetadataDocument } from '@walless/store';
-import { type Target } from 'features/home/EditTool/internal';
+import type { MetadataDocument } from '@walless/store';
+import type { Target } from 'features/home/EditTool/internal';
 
 import { appState } from './internal';
 
@@ -28,7 +28,7 @@ export const editToolActions = {
 	deleteDetailToken: (id: string) => {
 		delete appState.tools.detail.tokens[id];
 	},
-	setDetailCollectibe: (collectibleMetadata: MetadataDocument) => {
+	setDetailCollectible: (collectibleMetadata: MetadataDocument) => {
 		appState.tools.detail.collectibles[collectibleMetadata._id] =
 			collectibleMetadata;
 	},

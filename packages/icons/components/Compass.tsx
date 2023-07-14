@@ -1,7 +1,7 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Circle, Path, Svg } from 'react-native-svg';
 
-import { type IconProps } from './types';
+import type { IconProps } from './types';
 
 export const Compass: FC<IconProps> = ({
 	size = 24,

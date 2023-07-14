@@ -1,15 +1,16 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { modalActions } from '@walless/gui';
 import { modules } from '@walless/ioc';
-import { type ExtensionDocument } from '@walless/store';
+import type { ExtensionDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
+import { mockLayoutCards } from 'scripts/kernel/utils/mockExtension';
 import { extensionState } from 'state/extension';
 import { router } from 'utils/routing';
 import { useSnapshot } from 'valtio';
 
 import LayoutCard from './components/LayoutCard';
 import SearchBar from './components/SearchBar';
-import { mockLayoutCards } from './internal';
 
 const spacing = 12;
 
@@ -31,7 +32,10 @@ export const ExploreScreen: FC = () => {
 	};
 
 	const handleAddLayout = async (extension: ExtensionDocument) => {
-		await modules.storage.put(extension);
+		await modules.storage.put({
+			...extension,
+			timestamp: new Date().toISOString(),
+		});
 		await router.navigate(extension._id);
 	};
 

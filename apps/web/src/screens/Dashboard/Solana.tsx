@@ -8,8 +8,6 @@ import {
 	PublicKey,
 } from '@solana/web3.js';
 import {
-	type CardSkin,
-	type TabAble,
 	MainFeatures,
 	SlideHandler,
 	TabsHeader,
@@ -24,10 +22,9 @@ import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
-import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
+import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
-import EmptyTab from './components/EmptyTab';
-import TokenTab from './components/TokenTab';
+import { CollectiblesTab, EmptyTab, TokenTab } from './components';
 
 interface Props {
 	variant?: string;
@@ -36,8 +33,10 @@ interface Props {
 export const SolanaDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { setting, setPrivacy } = useSettings();
-	const { tokens, valuation } = useTokens(Networks.solana);
 	const publicKeys = usePublicKeys(Networks.solana);
+	const { tokens, valuation } = useTokens(Networks.solana);
+	const { collections } = useNfts(Networks.solana);
+
 	const bottomSliderItems: SlideOption[] = [
 		{
 			id: 'tokens',
@@ -45,7 +44,7 @@ export const SolanaDashboard: FC<Props> = () => {
 		},
 		{
 			id: 'collectibles',
-			component: EmptyTab,
+			component: () => <CollectiblesTab collections={collections} />,
 		},
 		{
 			id: 'activities',
@@ -112,7 +111,7 @@ export const SolanaDashboard: FC<Props> = () => {
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal(Networks.solana);
+		appActions.showSendModal({ layoutNetwork: Networks.solana });
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
@@ -138,6 +137,7 @@ export const SolanaDashboard: FC<Props> = () => {
 					);
 				})}
 			</Stack>
+
 			<Stack alignItems="center" gap={18}>
 				<MainFeatures
 					onReceivePress={() => showReceiveModal(Networks.solana)}
@@ -147,6 +147,7 @@ export const SolanaDashboard: FC<Props> = () => {
 					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
 				)}
 			</Stack>
+
 			<Stack flex={1}>
 				<TabsHeader
 					items={layoutTabs}
@@ -176,5 +177,6 @@ const suiCardSkin: CardSkin = {
 const styles = StyleSheet.create({
 	sliderContainer: {
 		flex: 1,
+		height: '100%',
 	},
 });

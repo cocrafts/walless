@@ -1,4 +1,4 @@
-import { type PublicKeyDocument } from '@walless/store';
+import type { PublicKeyDocument } from '@walless/store';
 
 import { walletState } from './internal';
 

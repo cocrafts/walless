@@ -1,39 +1,44 @@
-import { type Ed25519PublicKey } from '@mysten/sui.js';
-import {
-	type SuiFeatures,
-	type SuiSignAndExecuteTransactionBlockMethod,
-	type SuiSignMessageInput,
-	type SuiSignMessageMethod,
-	type SuiSignTransactionBlockMethod,
+import type { Ed25519PublicKey } from '@mysten/sui.js';
+import type {
+	SuiFeatures,
+	SuiSignAndExecuteTransactionBlockMethod,
+	SuiSignMessageInput,
+	SuiSignMessageMethod,
+	SuiSignTransactionBlockMethod,
 } from '@mysten/wallet-standard';
+import type {
+	SolanaSignAndSendTransactionFeature,
+	SolanaSignAndSendTransactionMethod,
+	SolanaSignAndSendTransactionOutput,
+	SolanaSignMessageFeature,
+	SolanaSignMessageMethod,
+	SolanaSignMessageOutput,
+	SolanaSignTransactionFeature,
+	SolanaSignTransactionMethod,
+	SolanaSignTransactionOutput,
+} from '@solana/wallet-standard-features';
 import {
-	type SolanaSignAndSendTransactionFeature,
-	type SolanaSignAndSendTransactionMethod,
-	type SolanaSignAndSendTransactionOutput,
-	type SolanaSignMessageFeature,
-	type SolanaSignMessageMethod,
-	type SolanaSignMessageOutput,
-	type SolanaSignTransactionFeature,
-	type SolanaSignTransactionMethod,
-	type SolanaSignTransactionOutput,
 	SolanaSignAndSendTransaction,
 	SolanaSignMessage,
 	SolanaSignTransaction,
 } from '@solana/wallet-standard-features';
 import { Transaction, VersionedTransaction } from '@solana/web3.js';
-import { type ConnectOptions, Networks } from '@walless/core';
+import type { ConnectOptions } from '@walless/core';
+import { Networks } from '@walless/core';
 import type Walless from '@walless/sdk';
 import type { Wallet, WalletAccount } from '@wallet-standard/base';
+import type {
+	StandardConnectFeature,
+	StandardConnectInput,
+	StandardConnectMethod,
+	StandardDisconnectFeature,
+	StandardDisconnectMethod,
+	StandardEventsFeature,
+	StandardEventsListeners,
+	StandardEventsNames,
+	StandardEventsOnMethod,
+} from '@wallet-standard/features';
 import {
-	type StandardConnectFeature,
-	type StandardConnectInput,
-	type StandardConnectMethod,
-	type StandardDisconnectFeature,
-	type StandardDisconnectMethod,
-	type StandardEventsFeature,
-	type StandardEventsListeners,
-	type StandardEventsNames,
-	type StandardEventsOnMethod,
 	StandardConnect,
 	StandardDisconnect,
 	StandardEvents,
@@ -48,11 +53,16 @@ import {
 	SuiSignAndExecuteTransactionBlock,
 	SuiSignMessage,
 	SuiSignTransactionBlock,
+	WallessInstallLayout,
 } from './util';
 
 export const WallessNamespace = 'walless:';
 
 export type WallessFeature = {
+	[WallessInstallLayout]: {
+		version: string;
+		installLayout: (input: string) => Promise<boolean>;
+	};
 	[WallessNamespace]: {
 		walless: Walless;
 	};
@@ -132,6 +142,10 @@ export class WallessWallet implements Wallet {
 				version: '1.0.0',
 				signAndExecuteTransactionBlock:
 					this.#signAndExecuteTransactionBlockOnSui,
+			},
+			[WallessInstallLayout]: {
+				version: '1.0.0',
+				installLayout: this.#installLayout,
 			},
 			[WallessNamespace]: {
 				walless: this.#walless,
@@ -419,4 +433,10 @@ export class WallessWallet implements Wallet {
 
 			return signedTransaction;
 		};
+
+	#installLayout = async (input: string) => {
+		const isSuccessfullyInstalled = await this.#walless.installLayout(input);
+
+		return isSuccessfullyInstalled;
+	};
 }

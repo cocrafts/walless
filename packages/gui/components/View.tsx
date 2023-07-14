@@ -1,12 +1,10 @@
-import { type ReactNode, forwardRef, useMemo } from 'react';
-import {
-	type StyleProp,
-	type ViewProps,
-	type ViewStyle,
-	View as RNView,
-} from 'react-native';
+import type { ReactNode } from 'react';
+import { forwardRef, useMemo } from 'react';
+import type { StyleProp, ViewProps, ViewStyle } from 'react-native';
+import { View as RNView } from 'react-native';
 
-import { type DynamicFlags, iStyles } from '../utils/style';
+import type { DynamicFlags } from '../utils/style';
+import { iStyles } from '../utils/style';
 
 type Props = DynamicFlags &
 	ViewProps & {

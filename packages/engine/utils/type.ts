@@ -1,5 +1,5 @@
-import { type Endpoint } from '@walless/core';
-import { type Database } from '@walless/store';
+import type { Endpoint } from '@walless/core';
+import type { Database } from '@walless/store';
 
 export interface NetworkContext<T> {
 	endpoint: Endpoint;
@@ -14,7 +14,7 @@ export type RunnerContext<T> = NetworkContext<T> & {
 
 export type EngineRunner<T> = {
 	stop: (context: RunnerContext<T>) => Promise<void>;
-	start: (context: RunnerContext<T>) => Promise<void>;
+	start: (context: RunnerContext<T>) => Promise<void | void[]>;
 };
 
 export type EngineCrawler<T> = {

@@ -1,5 +1,5 @@
-import { type FC } from 'react';
-import { type CardSkin } from '@walless/app';
+import type { FC } from 'react';
+import type { CardSkin } from '@walless/app';
 import { shortenAddress } from '@walless/core';
 import { Copy } from '@walless/icons';
 import { Image, Stack, Text } from '@walless/ui';

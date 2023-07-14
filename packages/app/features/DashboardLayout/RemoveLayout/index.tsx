@@ -1,13 +1,9 @@
-import { type FC } from 'react';
-import {
-	type ViewStyle,
-	Image,
-	StyleSheet,
-	TouchableOpacity,
-} from 'react-native';
+import type { FC } from 'react';
+import type { ViewStyle } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import type { ModalConfigs } from '@walless/gui';
 import { modalActions, Text, View } from '@walless/gui';
-import { type ModalConfigs } from '@walless/gui';
-import { type ExtensionDocument } from '@walless/store';
+import type { ExtensionDocument } from '@walless/store';
 
 import RemoveSymbol from './RemoveSymbol';
 

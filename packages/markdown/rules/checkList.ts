@@ -1,11 +1,7 @@
 import { createElement } from 'react';
 import { Text, View } from '@walless/gui';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	blockRegex,
-	defaultRules,
-} from 'simple-markdown';
+import type { ParserRule, ReactOutputRule } from 'simple-markdown';
+import { blockRegex, defaultRules } from 'simple-markdown';
 
 export const checkList: ParserRule & ReactOutputRule = {
 	order: defaultRules.list.order - 1,

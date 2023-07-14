@@ -1,5 +1,5 @@
-import { type FC } from 'react';
-import { type MetadataDocument } from '@walless/store';
+import type { FC } from 'react';
+import type { MetadataDocument } from '@walless/store';
 import { Image, Stack, Text } from '@walless/ui';
 
 interface Props {

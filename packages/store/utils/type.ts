@@ -1,21 +1,27 @@
-import {
-	type AssetMetadata,
-	type EncryptedWithPasscode,
-	type Endpoint,
-	type ExtensionConfig,
-	type HydratedKey,
-	type Networks,
-	type Setting,
-	type Token,
-	type TrustedDomain,
+import type {
+	AssetMetadata,
+	Collectible,
+	Collection,
+	EncryptedWithPasscode,
+	Endpoint,
+	EndpointMap,
+	ExtensionConfig,
+	HydratedKey,
+	Networks,
+	Setting,
+	Token,
+	TrustedDomain,
 } from '@walless/core';
 
 export type DocumentType =
 	| 'Setting'
+	| 'EndpointMap'
 	| 'EncryptionKey'
 	| 'PrivateKey'
 	| 'PublicKey'
 	| 'Token'
+	| 'Collection'
+	| 'NFT'
 	| 'Metadata'
 	| 'TrustedDomain'
 	| 'Extension';
@@ -32,6 +38,8 @@ export type PouchDocument<T> = PouchDB.Core.Document<
 >;
 
 export type SettingDocument = PouchDocument<Setting>;
+
+export type EndpointsDocument = PouchDocument<EndpointMap>;
 
 export type EncryptionKeyDocument = PouchDocument<HydratedKey>;
 
@@ -53,3 +61,7 @@ export type TokenDocument = PouchDocument<Token>;
 export type MetadataDocument = PouchDocument<AssetMetadata>;
 
 export type TrustedDomainDocument = PouchDocument<TrustedDomain>;
+
+export type CollectionDocument = PouchDocument<Collection>;
+
+export type CollectibleDocument = PouchDocument<Collectible>;

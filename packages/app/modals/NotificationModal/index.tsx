@@ -1,6 +1,7 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { type ModalConfigs, Text, View } from '@walless/gui';
+import type { ModalConfigs } from '@walless/gui';
+import { Text, View } from '@walless/gui';
 
 interface ModalContext {
 	prefix?: FC;

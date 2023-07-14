@@ -1,14 +1,16 @@
-import { type FC, useRef } from 'react';
+import type { FC } from 'react';
+import { useRef } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { dimensionState, View } from '@walless/gui';
 import Markdown from '@walless/markdown';
 import { useRouter } from 'next/router';
 import { loadContent } from 'utils/content';
 import { sharedStyles } from 'utils/style';
-import { type DocsTree } from 'utils/types';
+import type { DocsTree } from 'utils/types';
 import { useSnapshot } from 'valtio';
 
-import { type DrawerType, Drawer } from '../Drawer';
+import type { DrawerType } from '../Drawer';
+import { Drawer } from '../Drawer';
 
 import LeftMenu from './LeftMenu';
 import SideNavigation from './SideNavigation';

@@ -1,5 +1,6 @@
-import { type FC, useEffect, useState } from 'react';
-import { type AppProps } from 'next/app';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import 'raf/polyfill';

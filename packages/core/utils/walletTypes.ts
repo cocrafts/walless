@@ -1,9 +1,9 @@
-import {
-	type PublicKey,
-	type SendOptions,
-	type Transaction,
-	type TransactionSignature,
-	type VersionedTransaction,
+import type {
+	PublicKey,
+	SendOptions,
+	Transaction,
+	TransactionSignature,
+	VersionedTransaction,
 } from '@solana/web3.js';
 
 export interface ConnectOptions {

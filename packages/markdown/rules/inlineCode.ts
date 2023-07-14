@@ -1,13 +1,10 @@
 import { createElement } from 'react';
 import { Text } from '@walless/gui';
 import { transparentize } from 'color2k';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	defaultRules,
-} from 'simple-markdown';
+import type { ParserRule, ReactOutputRule } from 'simple-markdown';
+import { defaultRules } from 'simple-markdown';
 
-import { type MarkdownConfig } from '../utils/types';
+import type { MarkdownConfig } from '../utils/types';
 
 export const inlineCode: ParserRule & ReactOutputRule = {
 	...defaultRules.inlineCode,

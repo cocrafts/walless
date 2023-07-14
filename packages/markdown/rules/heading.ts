@@ -1,13 +1,9 @@
 import { createElement } from 'react';
 import { Text } from '@walless/gui';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	blockRegex,
-	defaultRules,
-} from 'simple-markdown';
+import type { ParserRule, ReactOutputRule } from 'simple-markdown';
+import { blockRegex, defaultRules } from 'simple-markdown';
 
-import { type MarkdownState } from '../utils/types';
+import type { MarkdownState } from '../utils/types';
 
 export const heading: ParserRule & ReactOutputRule = {
 	...defaultRules.heading,

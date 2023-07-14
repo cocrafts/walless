@@ -1,7 +1,7 @@
-import {
-	type ChannelHashmap,
-	type MiniBroadcast,
-	type UnknownObject,
+import type {
+	ChannelHashmap,
+	MiniBroadcast,
+	UnknownObject,
 } from '@walless/core';
 
 export enum Channels {
@@ -100,14 +100,17 @@ export enum RequestType {
 	RESOLVE_REQUEST_CONNECT,
 	RESOLVE_REQUEST_SIGNATURE,
 	REQUEST_PAYLOAD,
+	INSTALL_LAYOUT,
 }
 
 export enum PopupType {
 	REQUEST_CONNECT_POPUP = 'request-connect-popup',
 	SIGNATURE_POPUP = 'request-signature-popup',
+	REQUEST_INSTALL_LAYOUT_POPUP = 'request-install-layout-popup',
 }
 
 export enum ResponseMessage {
 	REJECT_REQUEST_CONNECT = 'Connect request has been rejected',
 	REJECT_COMMON_REQUEST = 'Request has been rejected by user',
+	REJECT_INSTALL_LAYOUT_REQUEST = 'Install layout request has been rejected',
 }

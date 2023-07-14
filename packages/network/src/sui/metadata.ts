@@ -1,6 +1,6 @@
-import { type SuiObjectData } from '@mysten/sui.js';
+import type { SuiObjectData } from '@mysten/sui.js';
 import { Networks } from '@walless/core';
-import { type MetadataDocument } from '@walless/store';
+import type { MetadataDocument } from '@walless/store';
 
 export type GetSuiMetadataFunction = (data: SuiObjectData) => MetadataDocument;
 

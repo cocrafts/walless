@@ -1,10 +1,6 @@
-import { type FC } from 'react';
-import {
-	type StyleProp,
-	type TextProps,
-	type TextStyle,
-	Text as RNText,
-} from 'react-native';
+import type { FC } from 'react';
+import type { StyleProp, TextProps, TextStyle } from 'react-native';
+import { Text as RNText } from 'react-native';
 import { useSnapshot } from 'valtio';
 
 import { dimensionState } from '../states/dimension';

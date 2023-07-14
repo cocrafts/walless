@@ -1,8 +1,10 @@
-import { type RefObject } from 'react';
-import { type LayoutRectangle, type View, type ViewStyle } from 'react-native';
-import { type SharedValue, interpolate } from 'react-native-reanimated';
+import type { RefObject } from 'react';
+import type { LayoutRectangle, View, ViewStyle } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
+import { interpolate } from 'react-native-reanimated';
 
-import { type PositionOffset, AnimateDirections, BindDirections } from './type';
+import type { PositionOffset } from './type';
+import { AnimateDirections, BindDirections } from './type';
 
 export const referenceMap: Record<string, RefObject<View>> = {};
 

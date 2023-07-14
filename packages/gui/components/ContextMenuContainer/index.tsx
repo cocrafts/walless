@@ -1,9 +1,9 @@
-import { type FC } from 'react';
-import { type GestureResponderEvent } from 'react-native';
+import type { FC } from 'react';
+import type { GestureResponderEvent } from 'react-native';
 
 import Hoverable from '../Hoverable';
 
-import { type ContextMenuContainerProps } from './shared';
+import type { ContextMenuContainerProps } from './shared';
 
 export const ContextMenuContainer: FC<ContextMenuContainerProps> = ({
 	style,

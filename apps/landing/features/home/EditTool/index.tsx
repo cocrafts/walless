@@ -7,7 +7,7 @@ import Project from './PreviewScreen/Project';
 import DetailTools from './Toolbox/tools/Detail';
 import ProjectTools from './Toolbox/tools/Project';
 import Header from './Header';
-import { type ToolboxItem } from './internal';
+import type { ToolboxItem } from './internal';
 import PreviewOutline from './PreviewOutline';
 import Toolbox from './Toolbox';
 

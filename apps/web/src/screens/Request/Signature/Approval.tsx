@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { AlertCircle } from '@walless/icons';
 import { Button, Image, Stack, Text } from '@walless/ui';

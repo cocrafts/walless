@@ -1,51 +1,57 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { type Connection, PublicKey } from '@solana/web3.js';
-import { type Endpoint, Networks } from '@walless/core';
-import { type TokenDocument } from '@walless/store';
+import type { Connection } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
+import type { Endpoint } from '@walless/core';
+import { Networks } from '@walless/core';
+import type { Database, TokenDocument } from '@walless/store';
 
-import {
-	type GetSolanaMetadataFunction,
-	getRemoteSolanaMetadata,
-} from './metadata';
+import { getSolanaMetadata } from './metadata';
 import { solMetadata, solMint } from './shared';
 
 interface TokenByAddressOption {
 	endpoint: Endpoint;
+	storage: Database;
 	connection: Connection;
 	address: string;
-	metadataFetcher?: GetSolanaMetadataFunction;
 }
 
 export const solanaTokensByAddress = async ({
 	endpoint,
+	storage,
 	connection,
 	address,
-	metadataFetcher = getRemoteSolanaMetadata,
 }: TokenByAddressOption): Promise<TokenDocument[]> => {
 	const key = new PublicKey(address);
 	const response = await connection.getParsedTokenAccountsByOwner(key, {
 		programId: TOKEN_PROGRAM_ID,
 	});
 
-	const resultPromises = response.value.map(async ({ account }) => {
-		const { data, owner } = account;
-		const info = data.parsed?.info || {};
+	const resultPromises = response.value
+		.filter((ele) => ele.account.data.parsed.info.tokenAmount.decimals > 0)
+		.map(async ({ account }) => {
+			const { data, owner } = account;
+			const info = data.parsed?.info || {};
+			const metadata = await getSolanaMetadata({
+				storage,
+				connection,
+				mintAddress: info.mint,
+			});
 
-		return {
-			_id: `${address}/${info.mint}`,
-			network: Networks.solana,
-			endpoint,
-			type: 'Token',
-			account: {
-				mint: info.mint,
-				owner: owner.toString(),
-				address,
-				balance: info.tokenAmount?.amount,
-				decimals: info.tokenAmount?.decimals,
-			},
-			metadata: await metadataFetcher(connection, info.mint),
-		} satisfies TokenDocument;
-	});
+			return {
+				_id: `${address}/${info.mint}`,
+				network: Networks.solana,
+				endpoint,
+				type: 'Token',
+				account: {
+					mint: info.mint,
+					owner: owner.toString(),
+					address,
+					balance: info.tokenAmount?.amount,
+					decimals: info.tokenAmount?.decimals,
+				},
+				metadata: metadata,
+			} satisfies TokenDocument;
+		});
 
 	resultPromises.unshift(
 		(async () => {

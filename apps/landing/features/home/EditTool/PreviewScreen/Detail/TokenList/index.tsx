@@ -1,5 +1,6 @@
-import { type FC, Fragment } from 'react';
-import { type MetadataDocument } from '@walless/store';
+import type { FC } from 'react';
+import { Fragment } from 'react';
+import type { MetadataDocument } from '@walless/store';
 import { ScrollView } from '@walless/ui';
 
 import Separator from './Separator';

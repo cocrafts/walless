@@ -1,12 +1,9 @@
 import { createElement } from 'react';
 import { Text } from 'react-native';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	defaultRules,
-} from 'simple-markdown';
+import type { ParserRule, ReactOutputRule } from 'simple-markdown';
+import { defaultRules } from 'simple-markdown';
 
-import { type MarkdownState } from '../utils/types';
+import type { MarkdownState } from '../utils/types';
 
 export const text: ParserRule & ReactOutputRule = {
 	...defaultRules.text,

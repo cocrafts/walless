@@ -1,6 +1,6 @@
 import { Dexie } from 'dexie';
 
-import { type WallessDB } from './types';
+import type { WallessDB } from './types';
 
 const runMigrations = (instance: Dexie): Dexie => {
 	instance.version(2).stores({

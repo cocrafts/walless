@@ -1,6 +1,7 @@
-import { type FC, useEffect, useRef, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { modalActions, ModalManager, View } from '@walless/gui';
-import { type AppProps } from 'next/app';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import 'raf/polyfill';

@@ -1,6 +1,6 @@
 import { simplifyString } from 'utils/helpers';
 
-import { type DocsTree } from '../types';
+import type { DocsTree } from '../types';
 
 export const loadContent = (
 	docsTree: DocsTree,

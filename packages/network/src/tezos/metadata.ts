@@ -1,8 +1,9 @@
 import { compose, TezosToolkit } from '@taquito/taquito';
 import { tzip12, Tzip12Module } from '@taquito/tzip12';
 import { tzip16 } from '@taquito/tzip16';
-import { type UnknownObject, Networks } from '@walless/core';
-import { type MetadataDocument, type TokenDocument } from '@walless/store';
+import type { UnknownObject } from '@walless/core';
+import { Networks } from '@walless/core';
+import type { MetadataDocument, TokenDocument } from '@walless/store';
 
 import { getURL } from '../utils/convert';
 

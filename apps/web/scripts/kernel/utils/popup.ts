@@ -1,4 +1,4 @@
-import { type PopupType } from '@walless/messaging';
+import type { PopupType } from '@walless/messaging';
 
 export const openPopup = async (popupType: PopupType, requestId: string) => {
 	return await chrome.windows.create({

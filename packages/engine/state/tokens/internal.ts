@@ -1,4 +1,4 @@
-import { type TokenDocument } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { proxy } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 

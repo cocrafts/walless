@@ -1,10 +1,12 @@
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
-import { type PublicKeyDocument, selectors } from '@walless/store';
+import type { PublicKeyDocument } from '@walless/store';
+import { selectors } from '@walless/store';
 
+import { addExtensionsById } from '../utils/helper';
 import { getRequestRecord } from '../utils/requestPool';
-import { type HandleMethod } from '../utils/types';
+import type { HandleMethod, InstallLayoutPayload } from '../utils/types';
 
 export const handleConnect: HandleMethod = async ({
 	payload,
@@ -28,4 +30,18 @@ export const handleRequestPayload: HandleMethod = ({
 	const { payload: sourcePayload } = getRequestRecord(sourceRequestId);
 
 	responseMethod(requestId, ResponseCode.SUCCESS, sourcePayload);
+};
+
+export const handleInstallLayout: HandleMethod = async ({
+	payload,
+	responseMethod,
+}) => {
+	const { requestId, id } = payload as InstallLayoutPayload;
+	try {
+		await addExtensionsById(id);
+		responseMethod(requestId, ResponseCode.SUCCESS);
+	} catch (error) {
+		responseMethod(requestId, ResponseCode.ERROR);
+		throw Error(error as string);
+	}
 };

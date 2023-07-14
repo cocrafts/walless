@@ -1,15 +1,16 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import type { CardSkin, TabAble } from '@walless/app';
 import {
-	type CardSkin,
-	type TabAble,
 	MainFeatures,
 	SlideHandler,
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { type SlideOption, Slider } from '@walless/gui';
+import type { SlideOption } from '@walless/gui';
+import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
@@ -54,7 +55,7 @@ export const TezosDashboard: FC<Props> = () => {
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal(Networks.tezos);
+		appActions.showSendModal({ layoutNetwork: Networks.tezos });
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {

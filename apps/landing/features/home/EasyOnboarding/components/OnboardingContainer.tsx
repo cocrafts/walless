@@ -1,7 +1,8 @@
-import { type FC, Fragment } from 'react';
+import type { FC } from 'react';
+import { Fragment } from 'react';
 import { Stack } from '@walless/ui';
 
-import { type OnboardingStepProps } from '../internal';
+import type { OnboardingStepProps } from '../internal';
 
 import OnboardingStep from './OnboardingStep';
 

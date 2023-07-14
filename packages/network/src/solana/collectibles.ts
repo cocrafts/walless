@@ -1,7 +1,8 @@
 import { Metaplex } from '@metaplex-foundation/js';
-import { type Connection, PublicKey } from '@solana/web3.js';
+import type { Connection } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import { type MetadataDocument } from '@walless/store';
+import type { MetadataDocument } from '@walless/store';
 
 export type GetNftCollections = (
 	connection: Connection,

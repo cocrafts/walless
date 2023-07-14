@@ -1,10 +1,11 @@
-import { type FC, type ReactNode, useEffect, useState } from 'react';
+import type { FC, ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { Compass } from '@walless/icons';
 import { Image, Stack } from '@walless/ui';
 import { appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 
-import { type ProjectState } from '../../internal';
+import type { ProjectState } from '../../internal';
 import { ProjectTool } from '../../internal';
 
 import Sidebar from './Sidebar';

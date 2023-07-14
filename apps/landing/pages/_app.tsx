@@ -1,8 +1,9 @@
-import { type FC, Fragment, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme';
 import { GuiProvider } from '@walless/ui';
 import SEOHead from 'components/SEOHead';
-import { type AppProps } from 'next/app';
+import type { AppProps } from 'next/app';
 
 import 'raf/polyfill';
 

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
@@ -17,24 +17,35 @@ interface Props {
 
 export const Information: FC<Props> = () => {
 	const { publicKeys } = useSnapshot(injectedElements);
-	const { token, transactionFee, receiver, sender, status } =
-		useSnapshot(transactionContext);
+	const {
+		type,
+		token,
+		nftCollectible,
+		transactionFee,
+		receiver,
+		sender,
+		status,
+	} = useSnapshot(transactionContext);
 
-	const publicKey = publicKeys.find((key) => key.network == token?.network);
+	const publicKey = publicKeys.find(
+		(key) =>
+			key.network ==
+			(type === 'Token' ? token?.network : nftCollectible?.network),
+	);
 
 	const iconUri = { uri: '' };
 	let networkStr = '';
 	let feeStr = '';
 	if (publicKey?.network == Networks.solana) {
-		iconUri.uri = 'img/network/solana-icon-sm.png';
+		iconUri.uri = '/img/network/solana-icon-sm.png';
 		networkStr = 'Solana';
 		feeStr = `${transactionFee} SOL`;
 	} else if (publicKey?.network == Networks.sui) {
-		iconUri.uri = 'img/network/sui-icon-sm.png';
+		iconUri.uri = '/img/network/sui-icon-sm.png';
 		networkStr = 'SUI';
 		feeStr = `${transactionFee} SUI`;
 	} else if (publicKey?.network == Networks.tezos) {
-		iconUri.uri = 'img/network/tezos-icon-sm.png';
+		iconUri.uri = '/img/network/tezos-icon-sm.png';
 		networkStr = 'Tezos';
 		feeStr = `${transactionFee} TEZ`;
 	}
@@ -46,7 +57,7 @@ export const Information: FC<Props> = () => {
 				<Text style={styles.inforText}>{sender.substring(0, 20)}...</Text>
 			</View>
 
-			<View style={styles.seperatedLine}></View>
+			<View style={styles.separatedLine}></View>
 
 			<View style={styles.inforLine}>
 				<Text>Status</Text>
@@ -55,14 +66,14 @@ export const Information: FC<Props> = () => {
 				{status == ResponseCode.ERROR && <RedTag title="Failed" />}
 			</View>
 
-			<View style={styles.seperatedLine}></View>
+			<View style={styles.separatedLine}></View>
 
 			<View style={styles.inforLine}>
 				<Text>To</Text>
 				<Text style={styles.inforText}>{receiver.substring(0, 20)}...</Text>
 			</View>
 
-			<View style={styles.seperatedLine}></View>
+			<View style={styles.separatedLine}></View>
 
 			<View style={styles.inforLine}>
 				<Text>Network</Text>
@@ -72,7 +83,7 @@ export const Information: FC<Props> = () => {
 				</View>
 			</View>
 
-			<View style={styles.seperatedLine}></View>
+			<View style={styles.separatedLine}></View>
 
 			<View style={styles.inforLine}>
 				<Text>Network fee</Text>
@@ -84,12 +95,12 @@ export const Information: FC<Props> = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		gap: 16,
+		gap: 14,
 	},
 	inforLine: {
 		flexDirection: 'row',
-		width: 336,
 		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	inforText: {
 		color: '#566674',
@@ -99,8 +110,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 9,
 	},
-	seperatedLine: {
-		width: 336,
+	separatedLine: {
 		height: 1,
 		backgroundColor: '#566674',
 		opacity: 0.2,

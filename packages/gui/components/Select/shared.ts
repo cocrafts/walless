@@ -1,3 +1,4 @@
+import type { ImageStyle, StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -8,11 +9,12 @@ export const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		borderRadius: 15,
 		gap: 0,
-		padding: 16,
 		backgroundColor: '#0E141A',
 		fontSize: 14,
+		borderRadius: 15,
+		height: 48,
+		paddingHorizontal: 16,
 	},
 	text: {
 		fontSize: 14,
@@ -29,9 +31,9 @@ export const styles = StyleSheet.create({
 		gap: 10,
 	},
 	itemIcon: {
-		width: 18,
-		height: 18,
-		borderRadius: 8,
+		width: 20,
+		height: 20,
+		borderRadius: 10,
 	},
 	itemName: {
 		color: '#566674',
@@ -50,7 +52,12 @@ export type SelectionRequiredFields = {
 export interface SelectionContext<T extends object> {
 	selected?: T;
 	title: string;
+	notFoundText?: string;
 	items: T[];
 	getRequiredFields: (item: T) => SelectionRequiredFields;
 	onSelect: (item: T) => void;
+	itemStyle?: StyleProp<ViewStyle>;
+	itemIconStyle?: StyleProp<ImageStyle>;
+	selectedItemStyle?: StyleProp<ViewStyle>;
+	selectedItemIconStyle?: StyleProp<ImageStyle>;
 }

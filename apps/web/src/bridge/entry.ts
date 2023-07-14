@@ -1,6 +1,6 @@
 import { runtime } from '@walless/core';
 import { modules } from '@walless/ioc';
-import { type SettingDocument } from '@walless/store';
+import type { SettingDocument } from '@walless/store';
 import { registerServiceWorker } from 'utils/service-worker';
 
 import { registerMessageHandlers } from './listeners';

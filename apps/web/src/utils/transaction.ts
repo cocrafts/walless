@@ -4,8 +4,8 @@ import {
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
+import type { VersionedMessage } from '@solana/web3.js';
 import {
-	type VersionedMessage,
 	Connection,
 	Keypair,
 	LAMPORTS_PER_SOL,
@@ -14,14 +14,16 @@ import {
 	TransactionMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
-import {
-	type TezosTransaction,
-	type Token,
-	type TransactionPayload,
-	Networks,
+import type {
+	Collectible,
+	TezosTransaction,
+	Token,
+	TransactionPayload,
 } from '@walless/core';
+import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import { type ResponsePayload, RequestType } from '@walless/messaging';
+import type { ResponsePayload } from '@walless/messaging';
+import { RequestType } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
 
@@ -122,7 +124,7 @@ export const getWalletPublicKey = async (network: Networks) => {
 
 type SendTokenProps = {
 	sender: string;
-	token: Token;
+	token: Token | Collectible;
 	network: Networks;
 	receiver: string;
 	amount: number;
@@ -135,36 +137,32 @@ export const constructTransaction = async ({
 	receiver,
 	amount,
 }: SendTokenProps) => {
+	const decimals = (token as Token).account?.decimals
+		? 10 ** ((token as Token).account.decimals || 0)
+		: 1;
+
 	if (network == Networks.solana) {
 		if (token.metadata?.symbol == 'SOL') {
 			return await constructSendSOLTransaction(
 				new PublicKey(sender),
 				new PublicKey(receiver),
-				amount,
+				amount * decimals,
 			);
-		} else if (
-			(token as Token).account &&
-			(token as Token).network == Networks.solana
-		) {
+		} else if (token.network == Networks.solana) {
 			return await constructSendSPLTokenTransactionInSol(
 				new PublicKey(sender),
 				new PublicKey(receiver),
-				amount,
+				amount * decimals,
 				token as Token,
 			);
 		}
 	} else if (network == Networks.sui) {
 		if (token.metadata?.symbol == 'SUI') {
-			return await constructSendSUITransaction(receiver, amount);
+			return await constructSendSUITransaction(receiver, amount * decimals);
 		}
 	} else if (network == Networks.tezos) {
 		if (token.metadata?.symbol == 'TEZ') {
-			console.log({ token });
-			// Important! amount is actual TEZ value (without decimals)
-			return constructSendTezTransaction(
-				receiver,
-				amount / 10 ** token.account.decimals,
-			);
+			return constructSendTezTransaction(receiver, amount);
 		}
 	}
 
@@ -248,7 +246,7 @@ const constructSendSPLTokenTransactionInSol = async (
 	sender: PublicKey,
 	receiver: PublicKey,
 	amount: number,
-	token: Token,
+	token: Token | Collectible,
 ) => {
 	const mintAddress = new PublicKey(token.account.mint as string);
 

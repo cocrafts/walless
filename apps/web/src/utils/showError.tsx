@@ -1,8 +1,9 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { type UnknownObject } from '@walless/core';
+import type { UnknownObject } from '@walless/core';
+import type { ModalConfigs } from '@walless/gui';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
-import { type ModalConfigs, Text, View } from '@walless/gui';
+import { Text, View } from '@walless/gui';
 
 export const showError = async (errorText: string) => {
 	return new Promise((resolve) => {

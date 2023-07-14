@@ -2,12 +2,9 @@ import { Networks } from '@walless/core';
 import { decryptWithPasscode } from '@walless/crypto';
 import { modules } from '@walless/ioc';
 import { RequestType } from '@walless/messaging';
-import { type PrivateKeyRecord } from '@walless/storage';
-import {
-	type PrivateKeyDocument,
-	type PublicKeyDocument,
-	selectors,
-} from '@walless/store';
+import type { PrivateKeyRecord } from '@walless/storage';
+import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
+import { selectors } from '@walless/store';
 
 export const settings = {
 	requirePasscode: true,

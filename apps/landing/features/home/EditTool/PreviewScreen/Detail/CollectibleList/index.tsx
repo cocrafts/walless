@@ -1,5 +1,5 @@
-import { type FC } from 'react';
-import { type MetadataDocument } from '@walless/store';
+import type { FC } from 'react';
+import type { MetadataDocument } from '@walless/store';
 import { ScrollView, Stack } from '@walless/ui';
 
 import CollectibleItem from './Item';

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Stack } from '@walless/ui';
 
 const Separator: FC = () => {

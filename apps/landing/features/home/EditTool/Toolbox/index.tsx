@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Stack } from '@walless/ui';
 import BulletSeparator from 'components/BulletSeparator';
 
-import { type ToolboxProps } from '../internal';
+import type { ToolboxProps } from '../internal';
 
 import SocialCard from './SocialCard';
 import ToolName from './ToolName';

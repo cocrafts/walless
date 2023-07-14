@@ -77,6 +77,8 @@ export const handle: CoordinatingHandle = async ({
 
 		// Forward payload from source request to current request
 		payload = getRequestRecord(sourceRequestId).payload;
+		// Remove request record from popup that will not be response
+		removeRequestRecord(requestId);
 	} else if (from === PopupType.REQUEST_INSTALL_LAYOUT_POPUP) {
 		/**
 		 * Forwarded request
@@ -91,6 +93,8 @@ export const handle: CoordinatingHandle = async ({
 
 		// Forward payload from source request to current request
 		payload = getRequestRecord(sourceRequestId).payload;
+		// Remove request record from popup that will not be response
+		removeRequestRecord(requestId);
 	} else if (
 		from === PopupType.SIGNATURE_POPUP &&
 		type !== RequestType.REQUEST_PAYLOAD
@@ -108,6 +112,8 @@ export const handle: CoordinatingHandle = async ({
 
 		// Forward payload from source request to current request
 		payload = getRequestRecord(sourceRequestId).payload;
+		// Remove request record from popup that will not be response
+		removeRequestRecord(requestId);
 	}
 
 	// Normal flow
@@ -127,7 +133,4 @@ export const handle: CoordinatingHandle = async ({
 		payload,
 		responseMethod: response,
 	});
-
-	// Remove request record from popup that will not be response
-	removeRequestRecord(requestId);
 };

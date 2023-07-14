@@ -17,6 +17,7 @@ import {
 } from '@walless/app';
 import { Networks } from '@walless/core';
 import { tokenActions } from '@walless/engine';
+import { solMint } from '@walless/engine/solana/shared';
 import { type SlideOption, Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
@@ -53,15 +54,21 @@ export const SolanaDashboard: FC<Props> = () => {
 	];
 
 	const handleAccountChange: AccountChangeCallback = (info) => {
-		try {
+		let balance;
+		let mint;
+		let owner;
+
+		if (info.data.byteLength === 0) {
+			balance = info.lamports.toString();
+			mint = solMint;
+			owner = publicKeys[0]._id;
+		} else {
 			const data = AccountLayout.decode(info.data);
-			const owner = data.owner.toString();
-			const mint = data.mint.toString();
-			const balance = data.amount.toString();
-			tokenActions.updateBalance(owner, mint, balance);
-		} catch (error) {
-			console.log('Error with SOL --->', error);
+			owner = data.owner.toString();
+			mint = data.mint.toString();
+			balance = data.amount.toString();
 		}
+		tokenActions.updateBalance(owner, mint, balance);
 	};
 
 	useEffect(() => {
@@ -91,7 +98,6 @@ export const SolanaDashboard: FC<Props> = () => {
 		return () => {
 			subscriptionList.forEach((subscription) => {
 				connection.removeAccountChangeListener(subscription);
-				console.log('removed subscription', subscription);
 			});
 		};
 	}, []);

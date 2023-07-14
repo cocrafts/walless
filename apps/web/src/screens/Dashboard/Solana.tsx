@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import type { AccountChangeCallback } from '@solana/web3.js';
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+import type { CardSkin, TabAble } from '@walless/app';
 import {
 	MainFeatures,
 	SlideHandler,

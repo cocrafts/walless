@@ -14,6 +14,7 @@ export const Landing = ({ stack, app }: StackContext) => {
 
 	const site = new NextjsSite(stack as never, 'landing-edge', {
 		path: 'apps/landing',
+		edge: true,
 		timeout: '5 seconds',
 		memorySize: '1024 MB',
 		runtime: 'nodejs18.x',

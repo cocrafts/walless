@@ -5845,8 +5845,8 @@ __metadata:
   linkType: hard
 
 "@mapbox/node-pre-gyp@npm:^1.0.0":
-  version: 1.0.10
-  resolution: "@mapbox/node-pre-gyp@npm:1.0.10"
+  version: 1.0.11
+  resolution: "@mapbox/node-pre-gyp@npm:1.0.11"
   dependencies:
     detect-libc: ^2.0.0
     https-proxy-agent: ^5.0.0
@@ -5859,7 +5859,7 @@ __metadata:
     tar: ^6.1.11
   bin:
     node-pre-gyp: bin/node-pre-gyp
-  checksum: 1a98db05d955b74dad3814679593df293b9194853698f3f5f1ed00ecd93128cdd4b14fb8767fe44ac6981ef05c23effcfdc88710e7c1de99ccb6f647890597c8
+  checksum: b848f6abc531a11961d780db813cc510ca5a5b6bf3184d72134089c6875a91c44d571ba6c1879470020803f7803609e7b2e6e429651c026fe202facd11d444b8
   languageName: node
   linkType: hard
 
@@ -6179,11 +6179,11 @@ __metadata:
   linkType: hard
 
 "@next/eslint-plugin-next@npm:^13.2.4":
-  version: 13.4.9
-  resolution: "@next/eslint-plugin-next@npm:13.4.9"
+  version: 13.4.10
+  resolution: "@next/eslint-plugin-next@npm:13.4.10"
   dependencies:
     glob: 7.1.7
-  checksum: d57f1246fac54173c47a065404ba7237cfd6618648db4effbcdb30b5578b99edb3a2593df13ca617aa63c40e5e1336551089c506b2168a69a6cf8d5d7d045c0b
+  checksum: f14b99eb5d33b6ede9666ffafb596ee6be52157fc87b59d10d94e44b1e9836099ad450a67558c2aecf09c84b55f65a33c9254ab72df33f55f7cc9f4abee7b38c
   languageName: node
   linkType: hard
 
@@ -25842,9 +25842,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sst@npm:^2.13.2":
-  version: 2.21.3
-  resolution: "sst@npm:2.21.3"
+"sst@npm:^2.21.4":
+  version: 2.21.4
+  resolution: "sst@npm:2.21.4"
   dependencies:
     "@aws-cdk/aws-apigatewayv2-alpha": ^2.84.0-alpha.0
     "@aws-cdk/aws-apigatewayv2-authorizers-alpha": ^2.84.0-alpha.0
@@ -25919,7 +25919,7 @@ __metadata:
       optional: true
   bin:
     sst: cli/sst.js
-  checksum: b5ee3b8951b8b76d1089472f00735af42bd90422fb3d87455ac61f498859ff1fd4bcce947c4bc0a6997e40349149cbc51eba4da94c0a3408e8aa2fcfd2960fc6
+  checksum: 00b99d8570e8d434a8f0f5cc2c1cceffaa2deab59021dd7d39ce6daa6b2646e00b0800a6e6dc8c1d8d101c6e7bf1c0958b97b2a8596b1e1426df34dc3d6215bb
   languageName: node
   linkType: hard
 
@@ -27833,7 +27833,7 @@ __metadata:
     react-native-reanimated: 3.1.0
     rimraf: ^5.0.0
     shx: ^0.3.4
-    sst: ^2.13.2
+    sst: ^2.21.4
     ts-jest: ^29.0.5
     tsconfig-paths-webpack-plugin: ^4.0.1
     turbo: latest

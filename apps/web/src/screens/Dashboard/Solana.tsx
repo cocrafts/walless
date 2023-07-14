@@ -1,12 +1,9 @@
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import {
-	type AccountChangeCallback,
-	clusterApiUrl,
-	Connection,
-	PublicKey,
-} from '@solana/web3.js';
+import type { AccountChangeCallback } from '@solana/web3.js';
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 import {
 	MainFeatures,
 	SlideHandler,
@@ -16,7 +13,8 @@ import {
 import { Networks } from '@walless/core';
 import { tokenActions } from '@walless/engine';
 import { solMint } from '@walless/engine/solana/shared';
-import { type SlideOption, Slider } from '@walless/gui';
+import type { SlideOption } from '@walless/gui';
+import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';

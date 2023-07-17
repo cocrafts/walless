@@ -1,9 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import type { AccountChangeCallback } from '@solana/web3.js';
-import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import type { CardSkin, TabAble } from '@walless/app';
 import {
 	MainFeatures,
@@ -12,8 +10,7 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { tokenActions } from '@walless/engine';
-import { solMint } from '@walless/engine/solana/shared';
+import { subscribeAccountChangeEvent } from '@walless/engine/solana';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
@@ -51,53 +48,12 @@ export const SolanaDashboard: FC<Props> = () => {
 		},
 	];
 
-	const handleAccountChange: AccountChangeCallback = (info) => {
-		let balance;
-		let mint;
-		let owner;
-
-		if (info.data.byteLength === 0) {
-			balance = info.lamports.toString();
-			mint = solMint;
-			owner = publicKeys[0]._id;
-		} else {
-			const data = AccountLayout.decode(info.data);
-			owner = data.owner.toString();
-			mint = data.mint.toString();
-			balance = data.amount.toString();
-		}
-		tokenActions.updateBalance(owner, mint, balance);
-	};
-
 	useEffect(() => {
-		const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
-
-		const subscriptionList: number[] = [];
-
-		subscriptionList.push(
-			connection.onAccountChange(
-				new PublicKey(publicKeys[0]._id),
-				handleAccountChange,
-			),
+		const unsubscribe = subscribeAccountChangeEvent(
+			new PublicKey(publicKeys[0]._id),
 		);
 
-		connection
-			.getTokenAccountsByOwner(new PublicKey(publicKeys[0]._id), {
-				programId: TOKEN_PROGRAM_ID,
-			})
-			.then((res) => {
-				res.value.map((ata) =>
-					subscriptionList.push(
-						connection.onAccountChange(ata.pubkey, handleAccountChange),
-					),
-				);
-			});
-
-		return () => {
-			subscriptionList.forEach((subscription) => {
-				connection.removeAccountChangeListener(subscription);
-			});
-		};
+		return unsubscribe;
 	}, []);
 
 	const handleTabPress = (item: TabAble) => {

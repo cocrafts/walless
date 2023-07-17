@@ -1,7 +1,6 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { PublicKey } from '@solana/web3.js';
 import type { CardSkin, TabAble } from '@walless/app';
 import {
 	MainFeatures,
@@ -10,7 +9,6 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { subscribeAccountChangeEvent } from '@walless/engine/solana';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
@@ -47,14 +45,6 @@ export const SolanaDashboard: FC<Props> = () => {
 			component: EmptyTab,
 		},
 	];
-
-	useEffect(() => {
-		const unsubscribe = subscribeAccountChangeEvent(
-			new PublicKey(publicKeys[0]._id),
-		);
-
-		return unsubscribe;
-	}, []);
 
 	const handleTabPress = (item: TabAble) => {
 		const idx = layoutTabs.indexOf(item);

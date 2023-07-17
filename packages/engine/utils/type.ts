@@ -32,3 +32,18 @@ export type ConnectionPool<T> = {
 	create: ConnectionCreator<T>;
 	get: (id: string) => T;
 };
+
+export type RealtimeHandlerContext<GenericConnection> = {
+	storage: Database;
+	connection: GenericConnection;
+};
+
+export type EngineRealtimeHandler<GenericConnection> = {
+	subscribeAccountChangeEvent: (
+		context: RealtimeHandlerContext<GenericConnection>,
+	) => Promise<void>;
+};
+
+export type AbstractRealtimeHandler = {
+	subscribeAccountChangeEvent: () => void;
+};

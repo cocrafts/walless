@@ -2,8 +2,12 @@ import type { Endpoint, EndpointMap, Networks } from '@walless/core';
 import type { Database, EndpointsDocument } from '@walless/store';
 
 import { createCrawler } from './utils/crawler';
-import type { EngineCrawler } from './utils/type';
-import { solanaEngineRunner, solanaPool } from './solana';
+import type { AbstractRealtimeHandler, EngineCrawler } from './utils/type';
+import {
+	solanaEngineRealtimeEvents,
+	solanaEngineRunner,
+	solanaPool,
+} from './solana';
 import { suiEngineRunner, suiPool } from './sui';
 import { tezosEngineRunner, tezosPool } from './tezos';
 
@@ -60,6 +64,16 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 		}),
 	};
 
+	const realtimeHandler: Record<string, AbstractRealtimeHandler> = {
+		solana: {
+			subscribeAccountChangeEvent: () =>
+				solanaEngineRealtimeEvents.subscribeAccountChangeEvent({
+					storage,
+					connection: crawlers.solana.connection,
+				}),
+		},
+	};
+
 	return {
 		getEndpoint: (network) => endpoints[network],
 		setEndpoint: (network, id) => {
@@ -70,6 +84,7 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 			crawlers.sui.start();
 			crawlers.solana.start();
 			crawlers.tezos.start();
+			realtimeHandler.solana.subscribeAccountChangeEvent();
 		},
 		getConnection: (network) => crawlers[network]?.connection,
 	};

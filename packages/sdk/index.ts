@@ -221,6 +221,14 @@ export class Walless extends EventEmitter {
 
 		return isSuccessfullyInstalled;
 	};
+
+	checkInstalledLayout = async (id: string): Promise<boolean> => {
+		const { responseCode } = await commonProvider.requestCheckInstalledLayout(
+			id,
+		);
+
+		return responseCode === ResponseCode.SUCCESS;
+	};
 }
 
 export default Walless;

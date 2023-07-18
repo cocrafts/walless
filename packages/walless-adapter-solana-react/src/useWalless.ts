@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { installLayout } from '@walless/walless-adapter-solana-base';
+import {
+	checkInstalledLayout,
+	installLayout,
+} from '@walless/walless-adapter-solana-base';
 
 export function useWalless() {
 	const [isWallessConnected, setIsWallessConnected] = useState(false);
 	const walletContext = useWallet();
-	const extendMethods = { installLayout };
+	const extendMethods = { installLayout, checkInstalledLayout };
 	const handleIsNotWalless = () => {
 		throw new Error('only available to Walless wallet');
 	};

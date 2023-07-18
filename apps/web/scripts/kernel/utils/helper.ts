@@ -15,3 +15,9 @@ export const addExtensionsById = async (id: string) => {
 
 	await modules.storage.put<ExtensionDocument>(extensionDoc);
 };
+
+export const checkInstalledExtensionById = async (id: string) => {
+	const extension = await modules.storage.safeGet<ExtensionDocument>(id);
+
+	return extension ? true : false;
+};

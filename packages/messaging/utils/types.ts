@@ -101,6 +101,7 @@ export enum RequestType {
 	RESOLVE_REQUEST_SIGNATURE,
 	REQUEST_PAYLOAD,
 	INSTALL_LAYOUT,
+	CHECK_INSTALLED_LAYOUT,
 }
 
 export enum PopupType {

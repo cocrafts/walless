@@ -53,6 +53,7 @@ import {
 	SuiSignAndExecuteTransactionBlock,
 	SuiSignMessage,
 	SuiSignTransactionBlock,
+	WallessCheckInstalledLayout,
 	WallessInstallLayout,
 } from './util';
 
@@ -62,6 +63,10 @@ export type WallessFeature = {
 	[WallessInstallLayout]: {
 		version: string;
 		installLayout: (id: string) => Promise<boolean>;
+	};
+	[WallessCheckInstalledLayout]: {
+		version: string;
+		checkInstalledLayout: (id: string) => Promise<boolean>;
 	};
 	[WallessNamespace]: {
 		walless: Walless;
@@ -146,6 +151,10 @@ export class WallessWallet implements Wallet {
 			[WallessInstallLayout]: {
 				version: '1.0.0',
 				installLayout: this.#installLayout,
+			},
+			[WallessCheckInstalledLayout]: {
+				version: '1.0.0',
+				checkInstalledLayout: this.#checkInstalledLayout,
 			},
 			[WallessNamespace]: {
 				walless: this.#walless,
@@ -435,8 +444,10 @@ export class WallessWallet implements Wallet {
 		};
 
 	#installLayout = async (id: string) => {
-		const isSuccessfullyInstalled = await this.#walless.installLayout(id);
+		return await this.#walless.installLayout(id);
+	};
 
-		return isSuccessfullyInstalled;
+	#checkInstalledLayout = async (id: string) => {
+		return await this.#walless.checkInstalledLayout(id);
 	};
 }

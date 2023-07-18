@@ -4,7 +4,10 @@ import { ResponseCode } from '@walless/messaging';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
-import { addExtensionsById } from '../utils/helper';
+import {
+	addExtensionsById,
+	checkInstalledExtensionById,
+} from '../utils/helper';
 import { getRequestRecord } from '../utils/requestPool';
 import type { HandleMethod, InstallLayoutPayload } from '../utils/types';
 
@@ -43,5 +46,20 @@ export const handleInstallLayout: HandleMethod = async ({
 	} catch (error) {
 		responseMethod(requestId, ResponseCode.ERROR);
 		throw Error(error as string);
+	}
+};
+
+export const handleCheckInstalledLayout: HandleMethod = async ({
+	payload,
+	responseMethod,
+}) => {
+	const { requestId, id } = payload as InstallLayoutPayload;
+	console.log(requestId);
+	const isInstalled = await checkInstalledExtensionById(id);
+
+	if (isInstalled) {
+		responseMethod(requestId, ResponseCode.SUCCESS);
+	} else {
+		responseMethod(requestId, ResponseCode.ERROR);
 	}
 };

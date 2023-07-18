@@ -7,3 +7,7 @@ declare const window: Window & {
 export const installLayout = async (id: string) => {
 	return await window.walless.installLayout(id);
 };
+
+export const checkInstalledLayout = async (id: string) => {
+	return await window.walless.checkInstalledLayout(id);
+};

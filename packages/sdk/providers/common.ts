@@ -26,6 +26,13 @@ export const requestInstallLayout = async (id: string) => {
 		30000,
 	);
 };
+
+export const requestCheckInstalledLayout = async (id: string) => {
+	return await sendRequest(
+		{
+			from,
+			type: RequestType.CHECK_INSTALLED_LAYOUT,
+			id,
 		},
 		30000,
 	);

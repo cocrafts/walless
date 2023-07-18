@@ -26,7 +26,7 @@ export const handle: CoordinatingHandle = async ({
 		payload;
 	addRequestRecord(requestId, channel, payload);
 
-	if (from == 'walless@sdk') {
+	if (from == 'walless@sdk' && type !== RequestType.CHECK_INSTALLED_LAYOUT) {
 		const requestSource = getRequestRecord(requestId);
 		if (type === RequestType.REQUEST_CONNECT) {
 			const { options = {}, requestId = '' } = payload;

@@ -28,6 +28,9 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		} else if (type === RequestType.INSTALL_LAYOUT) {
 			handleMethod = commonHandler.handleInstallLayout;
 			requirePrivateKey = false;
+		} else if (type === RequestType.CHECK_INSTALLED_LAYOUT) {
+			handleMethod = commonHandler.handleCheckInstalledLayout;
+			requirePrivateKey = false;
 		} else if (type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
 			handleMethod = solanaHandler.signMessage;
 		} else if (type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {

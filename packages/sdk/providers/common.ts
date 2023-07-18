@@ -3,10 +3,12 @@ import { RequestType } from '@walless/messaging';
 
 import { sendRequest } from '../utils/messaging';
 
+const from = 'walless@sdk';
+
 export const requestConnect = async (options: ConnectOptions) => {
 	return await sendRequest(
 		{
-			from: 'walless@sdk',
+			from,
 			type: RequestType.REQUEST_CONNECT,
 			options,
 		},
@@ -14,12 +16,16 @@ export const requestConnect = async (options: ConnectOptions) => {
 	);
 };
 
-export const requestInstallLayout = async (input: string) => {
+export const requestInstallLayout = async (id: string) => {
 	return await sendRequest(
 		{
-			from: 'walless@sdk',
+			from,
 			type: RequestType.INSTALL_LAYOUT,
-			input,
+			id,
+		},
+		30000,
+	);
+};
 		},
 		30000,
 	);

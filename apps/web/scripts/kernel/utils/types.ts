@@ -30,5 +30,5 @@ export type CoordinatingHandleProps = {
 export type CoordinatingHandle = (props: CoordinatingHandleProps) => void;
 
 export type InstallLayoutPayload = Required<MessagePayload> & {
-	input: string;
+	id: string;
 };

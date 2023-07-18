@@ -61,7 +61,7 @@ export const WallessNamespace = 'walless:';
 export type WallessFeature = {
 	[WallessInstallLayout]: {
 		version: string;
-		installLayout: (input: string) => Promise<boolean>;
+		installLayout: (id: string) => Promise<boolean>;
 	};
 	[WallessNamespace]: {
 		walless: Walless;
@@ -434,8 +434,8 @@ export class WallessWallet implements Wallet {
 			return signedTransaction;
 		};
 
-	#installLayout = async (input: string) => {
-		const isSuccessfullyInstalled = await this.#walless.installLayout(input);
+	#installLayout = async (id: string) => {
+		const isSuccessfullyInstalled = await this.#walless.installLayout(id);
 
 		return isSuccessfullyInstalled;
 	};

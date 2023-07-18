@@ -4,6 +4,6 @@ declare const window: Window & {
 	walless: Walless;
 };
 
-export const installLayout = async (input: string): Promise<boolean> => {
-	return await window.walless.installLayout(input);
+export const installLayout = async (id: string) => {
+	return await window.walless.installLayout(id);
 };

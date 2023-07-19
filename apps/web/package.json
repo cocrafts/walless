@@ -1,6 +1,6 @@
 {
   "name": "@walless/web",
-  "version": "0.2.34",
+  "version": "0.2.35",
   "private": true,
   "main": "index.web.js",
   "scripts": {
@@ -57,7 +57,7 @@
     "raf": "^3.4.1",
     "react-native-qrcode-svg": "^6.2.0",
     "react-native-reanimated": "3.3.0",
-    "react-native-svg": "13.9.0",
+    "react-native-svg": "13.10.0",
     "react-native-web": "^0.18.12",
     "react-router-dom": "^6.10.0",
     "setimmediate": "^1.0.5",

@@ -12,11 +12,11 @@ export const measure = async (
 	viewRef: RefObject<View>,
 ): Promise<LayoutRectangle> =>
 	new Promise((resolve) => {
-		/* for Android, measure method won't behave well without collapsable = false */
+		/* for Android, measure method won't behave well without collapsible = false */
 		viewRef.current?.setNativeProps({ collapsable: false });
 
 		setTimeout(() => {
-			/* <-- at this point in time, collapsable = false must be ready/configured correctly */
+			/* <-- at this point in time, collapsible = false must be ready/configured correctly */
 			viewRef.current?.measure((x, y, width, height, px, py) => {
 				resolve({ x: px, y: py, width, height });
 			});
@@ -150,17 +150,19 @@ export const rectangleAnimatedStyle = (
 ): ViewStyle => {
 	'worklet';
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const transform: Array<any> = [];
 	const animatedStyle: ViewStyle = {
-		transform: [],
+		transform,
 		...baseStyle,
 	};
 
 	if (direction === AnimateDirections.Top) {
-		animatedStyle.transform?.push({
+		transform?.push({
 			translateY: interpolate(shared.value, [0, 1], [20, 0]),
 		});
 	} else if (direction === AnimateDirections.TopLeft) {
-		animatedStyle.transform?.push({
+		transform?.push({
 			translateY: interpolate(shared.value, [0, 1], [20, 0]),
 		});
 
@@ -170,7 +172,7 @@ export const rectangleAnimatedStyle = (
 			[100, 0],
 		);
 	} else if (direction === AnimateDirections.TopRight) {
-		animatedStyle.transform?.push({
+		transform?.push({
 			translateY: interpolate(shared.value, [0, 1], [20, 0]),
 		});
 
@@ -180,11 +182,11 @@ export const rectangleAnimatedStyle = (
 			[100, 0],
 		);
 	} else if (direction === AnimateDirections.Bottom) {
-		animatedStyle.transform?.push({
+		transform?.push({
 			translateY: interpolate(shared.value, [0, 1], [-20, 0]),
 		});
 	} else if (direction === AnimateDirections.BottomLeft) {
-		animatedStyle.transform?.push({
+		transform?.push({
 			translateY: interpolate(shared.value, [0, 1], [-20, 0]),
 		});
 
@@ -194,7 +196,7 @@ export const rectangleAnimatedStyle = (
 			[100, 0],
 		);
 	} else if (direction === AnimateDirections.BottomRight) {
-		animatedStyle.transform?.push({
+		transform?.push({
 			translateY: interpolate(shared.value, [0, 1], [-20, 0]),
 		});
 
@@ -204,19 +206,19 @@ export const rectangleAnimatedStyle = (
 			[100, 0],
 		);
 	} else if (direction === AnimateDirections.Left) {
-		animatedStyle.transform?.push({
+		transform?.push({
 			translateX: interpolate(shared.value, [0, 1], [20, 0]),
 		});
 	} else if (direction === AnimateDirections.Right) {
-		animatedStyle.transform?.push({
+		transform?.push({
 			translateX: interpolate(shared.value, [0, 1], [-20, 0]),
 		});
 	} else if (direction === AnimateDirections.Inner) {
-		animatedStyle.transform?.push({
+		transform?.push({
 			scale: interpolate(shared.value, [0, 1], [0.95, 1]),
 		});
 	} else {
-		animatedStyle.transform?.push({
+		transform?.push({
 			translateY: interpolate(shared.value, [0, 1], [-20, 0]),
 		});
 	}

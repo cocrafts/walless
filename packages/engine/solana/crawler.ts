@@ -1,6 +1,9 @@
-import type { Connection } from '@solana/web3.js';
+import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import type { AccountChangeCallback } from '@solana/web3.js';
+import { type Connection, PublicKey } from '@solana/web3.js';
 import type { TokenInfo } from '@walless/graphql';
 import { qlClient, queries } from '@walless/graphql';
+import { solMint } from '@walless/network';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
@@ -12,12 +15,56 @@ import type { EngineRunner } from '../utils/type';
 import { solanaCollectiblesByAddress } from './collectibles';
 import { solanaTokensByAddress } from './token';
 
+const subscriptionList: number[] = [];
+
 export const solanaEngineRunner: EngineRunner<Connection> = {
 	start: async ({ endpoint, connection, storage }) => {
 		const keyResult = await storage.find(selectors.solanaKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
 		const collectiblePromises = [];
+
+		// Realtime handler
+		if (keys[0]._id) {
+			const owner_pubkey = new PublicKey(keys[0]._id);
+
+			const handleAccountChange: AccountChangeCallback = (info) => {
+				let owner: string;
+				let mint: string;
+				let balance: string;
+
+				if (info.data.byteLength === 0) {
+					owner = owner_pubkey.toString();
+					mint = solMint;
+					balance = info.lamports.toString();
+				} else {
+					const data = AccountLayout.decode(info.data);
+					owner = data.owner.toString();
+					mint = data.mint.toString();
+					balance = data.amount.toString();
+				}
+
+				tokenActions.updateBalance(owner, mint, balance);
+			};
+
+			subscriptionList.push(
+				connection.onAccountChange(owner_pubkey, handleAccountChange),
+			);
+
+			const tokenAccounts = await connection.getTokenAccountsByOwner(
+				owner_pubkey,
+				{
+					programId: TOKEN_PROGRAM_ID,
+				},
+			);
+
+			tokenAccounts.value.forEach((ata) => {
+				subscriptionList.push(
+					connection.onAccountChange(ata.pubkey, handleAccountChange),
+				);
+			});
+		}
+		// End of realtime handler
 
 		for (const key of keys) {
 			tokenPromises.push(
@@ -81,7 +128,11 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 
 		return await Promise.all(promises);
 	},
-	stop: async () => {
+	stop: async ({ connection }) => {
+		subscriptionList.forEach((subscriptionId) => {
+			connection.removeAccountChangeListener(subscriptionId);
+		});
+
 		console.log('stop solana');
 	},
 };

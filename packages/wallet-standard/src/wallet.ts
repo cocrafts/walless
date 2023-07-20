@@ -38,11 +38,8 @@ import type {
 	StandardEventsNames,
 	StandardEventsOnMethod,
 } from '@wallet-standard/features';
-import {
-	StandardConnect,
-	StandardDisconnect,
-	StandardEvents,
-} from '@wallet-standard/features';
+// TODO: replace deprecated after successfully debug
+import { Connect, Disconnect, Events } from '@wallet-standard/features';
 import { decode } from 'bs58';
 
 import { SolanaWalletAccount, SuiWalletAccount } from './account';
@@ -114,15 +111,15 @@ export class WallessWallet implements Wallet {
 		SuiFeatures &
 		WallessFeature {
 		return {
-			[StandardConnect]: {
+			[Connect]: {
 				version: '1.0.0',
 				connect: this.#connect,
 			},
-			[StandardDisconnect]: {
+			[Disconnect]: {
 				version: '1.0.0',
 				disconnect: this.#disconnect,
 			},
-			[StandardEvents]: {
+			[Events]: {
 				version: '1.0.0',
 				on: this.#on,
 			},

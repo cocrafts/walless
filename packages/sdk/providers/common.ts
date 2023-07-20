@@ -37,3 +37,14 @@ export const requestCheckInstalledLayout = async (id: string) => {
 		30000,
 	);
 };
+
+export const requestOpenLayoutPopup = async (id: string) => {
+	return await sendRequest(
+		{
+			from,
+			type: RequestType.OPEN_LAYOUT_POPUP,
+			id,
+		},
+		30000,
+	);
+};

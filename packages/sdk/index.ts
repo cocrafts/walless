@@ -229,6 +229,12 @@ export class Walless extends EventEmitter {
 
 		return responseCode === ResponseCode.SUCCESS;
 	};
+
+	openLayoutPopup = async (id: string): Promise<boolean> => {
+		const { responseCode } = await commonProvider.requestOpenLayoutPopup(id);
+
+		return responseCode === ResponseCode.SUCCESS;
+	};
 }
 
 export default Walless;

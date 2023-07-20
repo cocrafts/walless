@@ -8,6 +8,7 @@ import {
 	addExtensionsById,
 	checkInstalledExtensionById,
 } from '../utils/helper';
+import { openPopup } from '../utils/popup';
 import { getRequestRecord } from '../utils/requestPool';
 import type { HandleMethod, InstallLayoutPayload } from '../utils/types';
 
@@ -58,6 +59,20 @@ export const handleCheckInstalledLayout: HandleMethod = async ({
 	const isInstalled = await checkInstalledExtensionById(id);
 
 	if (isInstalled) {
+		responseMethod(requestId, ResponseCode.SUCCESS);
+	} else {
+		responseMethod(requestId, ResponseCode.ERROR);
+	}
+};
+
+export const handleOpenLayoutPopup: HandleMethod = async ({
+	payload,
+	responseMethod,
+}) => {
+	const { requestId, id: layoutId } = payload;
+	const popup = await openPopup(layoutId, requestId);
+
+	if (popup) {
 		responseMethod(requestId, ResponseCode.SUCCESS);
 	} else {
 		responseMethod(requestId, ResponseCode.ERROR);

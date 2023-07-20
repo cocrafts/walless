@@ -35,3 +35,4 @@ export type PublicKeyType = SuiPublicKey | SolanaPublicKey;
 // Namespace for Walless
 export const WallessInstallLayout = 'walless:installLayout';
 export const WallessCheckInstalledLayout = 'walless:checkInstalledLayout';
+export const WallessOpenLayoutPopup = 'walless:openLayoutPopup';

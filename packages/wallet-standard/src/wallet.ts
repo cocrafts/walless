@@ -55,6 +55,7 @@ import {
 	SuiSignTransactionBlock,
 	WallessCheckInstalledLayout,
 	WallessInstallLayout,
+	WallessOpenLayoutPopup,
 } from './util';
 
 export const WallessNamespace = 'walless:';
@@ -67,6 +68,10 @@ export type WallessFeature = {
 	[WallessCheckInstalledLayout]: {
 		version: string;
 		checkInstalledLayout: (id: string) => Promise<boolean>;
+	};
+	[WallessOpenLayoutPopup]: {
+		version: string;
+		openLayoutPopup: (id: string) => Promise<boolean>;
 	};
 	[WallessNamespace]: {
 		walless: Walless;
@@ -155,6 +160,10 @@ export class WallessWallet implements Wallet {
 			[WallessCheckInstalledLayout]: {
 				version: '1.0.0',
 				checkInstalledLayout: this.#checkInstalledLayout,
+			},
+			[WallessOpenLayoutPopup]: {
+				version: '1.0.0',
+				openLayoutPopup: this.#openLayoutPopup,
 			},
 			[WallessNamespace]: {
 				walless: this.#walless,
@@ -449,5 +458,9 @@ export class WallessWallet implements Wallet {
 
 	#checkInstalledLayout = async (id: string) => {
 		return await this.#walless.checkInstalledLayout(id);
+	};
+
+	#openLayoutPopup = async (id: string) => {
+		return await this.#walless.openLayoutPopup(id);
 	};
 }

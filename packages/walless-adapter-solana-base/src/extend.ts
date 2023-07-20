@@ -11,3 +11,7 @@ export const installLayout = async (id: string) => {
 export const checkInstalledLayout = async (id: string) => {
 	return await window.walless.checkInstalledLayout(id);
 };
+
+export const openLayoutPopup = async (id: string) => {
+	return await window.walless.openLayoutPopup(id);
+};

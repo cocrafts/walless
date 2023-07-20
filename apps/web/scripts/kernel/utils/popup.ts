@@ -1,11 +1,14 @@
 import type { PopupType } from '@walless/messaging';
 
-export const openPopup = async (popupType: PopupType, requestId: string) => {
+export const openPopup = async (
+	popupType: PopupType | string,
+	requestId: string,
+) => {
 	return await chrome.windows.create({
 		type: 'popup',
 		width: 410,
 		height: 600,
-		url: `popup.html/#/${popupType}/${requestId}`,
+		url: `popup.html/#/${popupType}/${requestId}/popup`,
 		focused: true,
 	});
 };

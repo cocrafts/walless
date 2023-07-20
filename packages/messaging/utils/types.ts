@@ -102,6 +102,7 @@ export enum RequestType {
 	REQUEST_PAYLOAD,
 	INSTALL_LAYOUT,
 	CHECK_INSTALLED_LAYOUT,
+	OPEN_LAYOUT_POPUP,
 }
 
 export enum PopupType {

@@ -73,6 +73,12 @@ export const initializeMessaging = async (): Promise<void> => {
 						} catch (error) {
 							return;
 						}
+					} else if (popupType === PopupType.REQUEST_INSTALL_LAYOUT_POPUP) {
+						try {
+							response(requestId, ResponseCode.REJECTED);
+						} catch (error) {
+							return;
+						}
 					}
 				}
 				port.onMessage.removeListener(handleInComingMessage);

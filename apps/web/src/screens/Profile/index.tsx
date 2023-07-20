@@ -1,3 +1,4 @@
+import { Linking } from 'react-native';
 import { MainFeatures } from '@walless/app';
 import { Networks } from '@walless/core';
 import { Stack } from '@walless/ui';
@@ -12,6 +13,12 @@ import Widgets from './components/Widgets';
 const ProfileScreen = () => {
 	const handleSend = () => {
 		appActions.showSendModal();
+	};
+
+	const handleBuy = () => {
+		Linking.openURL(
+			'https://onramp-sandbox.gatefi.com/?merchantId=82ab6613-b943-4581-9050-b4f12a1522f7',
+		);
 	};
 
 	return (
@@ -31,6 +38,7 @@ const ProfileScreen = () => {
 			<MainFeatures
 				onSendPress={handleSend}
 				onReceivePress={() => showReceiveModal(Networks.sui)}
+				onBuyPress={handleBuy}
 			/>
 
 			<Collectibles />

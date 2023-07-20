@@ -1,10 +1,10 @@
 export const resources = {
 	walless: {
 		icon: {
-			uri: '/img/walless-icon.png',
+			uri: '/img/walless-icon.svg',
 		},
 		text: {
-			uri: '/img/walless-text.png',
+			uri: '/img/walless-text.svg',
 		},
 	},
 	home: {

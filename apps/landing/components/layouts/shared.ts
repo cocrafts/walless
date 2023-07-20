@@ -8,9 +8,9 @@ export type LayoutProps = StackProps & {
 
 export const imageSources = {
 	wallessIcon: {
-		uri: '/img/walless-icon.png',
+		uri: '/img/walless-icon.svg',
 	},
 	wallessText: {
-		uri: '/img/walless-text.png',
+		uri: '/img/walless-text.svg',
 	},
 };

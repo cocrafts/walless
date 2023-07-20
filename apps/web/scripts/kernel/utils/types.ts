@@ -24,6 +24,7 @@ export type CoordinatingHandleProps = {
 	payload: UnknownObject;
 	handleMethod: HandleMethod;
 	requirePrivateKey: boolean;
+	requireUserAction: boolean;
 	network?: Networks;
 };
 

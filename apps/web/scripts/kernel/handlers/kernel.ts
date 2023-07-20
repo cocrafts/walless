@@ -15,6 +15,7 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	if (requestId) {
 		let handleMethod;
 		let requirePrivateKey = true;
+		let requireUserAction = true;
 
 		if (type === RequestType.REQUEST_CONNECT) {
 			handleMethod = commonHandler.handleConnect;
@@ -31,6 +32,7 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		} else if (type === RequestType.CHECK_INSTALLED_LAYOUT) {
 			handleMethod = commonHandler.handleCheckInstalledLayout;
 			requirePrivateKey = false;
+			requireUserAction = false;
 		} else if (type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
 			handleMethod = solanaHandler.signMessage;
 		} else if (type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {
@@ -56,6 +58,13 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		const network = getNetwork(type);
 
 		if (handleMethod)
-			handle({ channel, payload, handleMethod, requirePrivateKey, network });
+			handle({
+				channel,
+				payload,
+				handleMethod,
+				requirePrivateKey,
+				requireUserAction,
+				network,
+			});
 	}
 };

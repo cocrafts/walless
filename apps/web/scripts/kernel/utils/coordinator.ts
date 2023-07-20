@@ -20,13 +20,14 @@ export const handle: CoordinatingHandle = async ({
 	payload,
 	handleMethod,
 	requirePrivateKey,
+	requireUserAction,
 	network,
 }) => {
 	const { from, type, requestId, sourceRequestId, passcode, isApproved } =
 		payload;
 	addRequestRecord(requestId, channel, payload);
 
-	if (from == 'walless@sdk' && type !== RequestType.CHECK_INSTALLED_LAYOUT) {
+	if (from == 'walless@sdk' && requireUserAction) {
 		const requestSource = getRequestRecord(requestId);
 		if (type === RequestType.REQUEST_CONNECT) {
 			const { options = {}, requestId = '' } = payload;
@@ -58,7 +59,7 @@ export const handle: CoordinatingHandle = async ({
 				requestId,
 			);
 			requestSource.payload['popupId'] = id;
-		} else {
+		} else if (requirePrivateKey) {
 			const { id } = await openPopup(PopupType.SIGNATURE_POPUP, requestId);
 			requestSource.payload['popupId'] = id;
 		}

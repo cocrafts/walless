@@ -71,7 +71,7 @@ export const handleRequestSignature = async (
 	}
 };
 
-export const getMessageOrTransaction = async (requestId: string) => {
+export const getDataFromSourceRequest = async (requestId: string) => {
 	const payload: PopupPayload = {
 		from: PopupType.SIGNATURE_POPUP,
 		type: RequestType.REQUEST_PAYLOAD,
@@ -92,6 +92,8 @@ export const getMessageOrTransaction = async (requestId: string) => {
 				message: displayMessage,
 			};
 		} else if ('transaction' in res) {
+			return res;
+		} else {
 			return res;
 		}
 	} catch (error) {

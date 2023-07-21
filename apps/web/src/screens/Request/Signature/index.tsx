@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import type { UnknownObject } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import type {
@@ -9,7 +10,7 @@ import type {
 } from '@walless/messaging';
 import { PopupType } from '@walless/messaging';
 import {
-	getMessageOrTransaction,
+	getDataFromSourceRequest,
 	handleRequestSignature,
 } from 'bridge/listeners';
 import { initializeKernelConnect } from 'utils/helper';
@@ -21,7 +22,8 @@ import RequestSignaturePasscode from './Passcode';
 export const RequestSignature = () => {
 	const { requestId = '' } = useParams();
 	const [activeIndex, setActiveIndex] = useState(0);
-	const [payload, setPayload] = useState<MessagePayload>();
+	const [payload, setPayload] = useState<MessagePayload>({});
+	const [sender, setSender] = useState<UnknownObject>({});
 	const options = useRef<PayloadOptions>({
 		sourceRequestId: requestId,
 		isApproved: false,
@@ -54,7 +56,8 @@ export const RequestSignature = () => {
 			id: 'approval',
 			component: () => (
 				<RequestSignatureApproval
-					content={payload?.message || payload?.transaction}
+					sender={sender}
+					content={payload.message || payload.transaction}
 					onDeny={handleDenyRequest}
 					onApprove={handleApproveRequest}
 				/>
@@ -76,8 +79,9 @@ export const RequestSignature = () => {
 	}, []);
 
 	useEffect(() => {
-		getMessageOrTransaction(requestId).then((result) => {
+		getDataFromSourceRequest(requestId).then((result) => {
 			setPayload(result as MessagePayload);
+			setSender(result?.sender);
 		});
 	}, [requestId]);
 

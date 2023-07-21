@@ -31,9 +31,13 @@ export const handleRequestPayload: HandleMethod = ({
 	responseMethod,
 }) => {
 	const { sourceRequestId, requestId } = payload;
-	const { payload: sourcePayload } = getRequestRecord(sourceRequestId);
+	const { payload: sourcePayload, channel: sourceChannel } =
+		getRequestRecord(sourceRequestId);
 
-	responseMethod(requestId, ResponseCode.SUCCESS, sourcePayload);
+	responseMethod(requestId, ResponseCode.SUCCESS, {
+		...sourceChannel,
+		...sourcePayload,
+	});
 };
 
 export const handleInstallLayout: HandleMethod = async ({

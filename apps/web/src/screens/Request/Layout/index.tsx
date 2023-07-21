@@ -1,9 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import type { UnknownObject } from '@walless/core';
 import { AlertCircle } from '@walless/icons';
 import { PopupType } from '@walless/messaging';
 import { Anchor, Button, Image, Stack, Text } from '@walless/ui';
-import { handleRequestInstallLayout } from 'bridge/listeners';
+import {
+	getDataFromSourceRequest,
+	handleRequestInstallLayout,
+} from 'bridge/listeners';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 import { initializeKernelConnect } from 'utils/helper';
@@ -11,6 +15,7 @@ import { initializeKernelConnect } from 'utils/helper';
 import { logoSize, logoUri } from '../shared';
 
 export const RequestLayout = () => {
+	const [sender, setSender] = useState<UnknownObject>({});
 	const { requestId } = useParams();
 
 	const onApprovePress = () => {
@@ -31,6 +36,16 @@ export const RequestLayout = () => {
 		);
 	}, []);
 
+	useEffect(() => {
+		getDataFromSourceRequest(requestId as string)
+			.then((result) => {
+				if (result?.sender) {
+					setSender(result.sender);
+				}
+			})
+			.catch((error) => console.log(error));
+	}, [requestId]);
+
 	return (
 		<Stack flex={1} backgroundColor="#19232C">
 			<HeaderRequest />
@@ -41,7 +56,7 @@ export const RequestLayout = () => {
 						Layout request
 					</Text>
 					<Image
-						src={logoUri}
+						src={sender?.tab?.favIconUrl || logoUri}
 						width={logoSize}
 						height={logoSize}
 						borderColor="#566674"
@@ -50,15 +65,17 @@ export const RequestLayout = () => {
 						marginVertical={10}
 					/>
 					<Text fontSize={18} fontWeight="400">
-						Under Realm
+						{sender?.tab?.title || 'Unknown'}
 					</Text>
-					<LightText fontSize={14}>underrealm.stormgate.io</LightText>
+					<LightText fontSize={14}>{sender?.tab?.url || 'Unknown'}</LightText>
 				</Stack>
 
 				<Stack paddingTop={30} alignItems="center">
 					<Text textAlign="center" fontSize={14} fontWeight="300">
-						Under Realm would like to add its custom layout appearance to your
-						Walless account.
+						{`${
+							sender?.tab?.title || 'Unknown'
+						} would like to add its custom layout appearance to your
+						Walless account.`}
 					</Text>
 
 					<Anchor

@@ -141,7 +141,5 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 		subscriptionList.forEach((subscriptionId) => {
 			connection.removeAccountChangeListener(subscriptionId);
 		});
-
-		console.log('stop solana');
 	},
 };

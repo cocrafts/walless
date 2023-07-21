@@ -16,6 +16,20 @@ export const collectibleActions = {
 			collectionsState.map.set(item._id, item);
 		}
 	},
+	updateCollectible: (owner: string, mint: string) => {
+		const id = `${owner}/${mint}`;
+
+		console.log('into engine -->');
+
+		const collectible = collectiblesState.map.get(id);
+		if (collectible) {
+			console.log('collectible', collectible);
+			collectiblesState.map.delete(id);
+			console.log('after removing', Array.from(collectiblesState.map).length);
+		}
+
+		console.log('out of engine -->');
+	},
 };
 
 export * from './internal';

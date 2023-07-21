@@ -16,6 +16,7 @@ const setEnvironments =
 			'FIREBASE_APP_ID',
 			'FIREBASE_MEASUREMENT_ID',
 			'WEB3AUTH_ID',
+			'GATEFI_MERCHANT_ID',
 		].reduce((a, i) => {
 			a[i] = JSON.stringify(process.env[i]);
 			return a;

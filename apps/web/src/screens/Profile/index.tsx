@@ -17,7 +17,7 @@ const ProfileScreen = () => {
 
 	const handleBuy = () => {
 		Linking.openURL(
-			'https://onramp-sandbox.gatefi.com/?merchantId=82ab6613-b943-4581-9050-b4f12a1522f7',
+			`https://onramp-sandbox.gatefi.com/?merchantId=${GATEFI_MERCHANT_ID}`,
 		);
 	};
 

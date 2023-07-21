@@ -55,7 +55,6 @@ export const handleCheckInstalledLayout: HandleMethod = async ({
 	responseMethod,
 }) => {
 	const { requestId, id } = payload as InstallLayoutPayload;
-	console.log(requestId);
 	const isInstalled = await checkInstalledExtensionById(id);
 
 	if (isInstalled) {

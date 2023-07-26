@@ -22,58 +22,7 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 		const keyResult = await storage.find(selectors.solanaKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
-		const collectiblePromises = [];
-
-		// Realtime handler
-		if (keys[0]._id) {
-			const owner_pubkey = new PublicKey(keys[0]._id);
-			const nfts: string[] = [];
-
-			const handleAccountChange: AccountChangeCallback = (info) => {
-				let owner: string;
-				let mint: string;
-				let balance: string;
-
-				const isSOL = info.data.byteLength === 0;
-
-				if (isSOL) {
-					owner = owner_pubkey.toString();
-					mint = solMint;
-					balance = info.lamports.toString();
-				} else {
-					const data = AccountLayout.decode(info.data);
-					owner = data.owner.toString();
-					mint = data.mint.toString();
-					balance = data.amount.toString();
-
-					const isNFT = nfts.includes(mint);
-					if (isNFT) {
-						collectibleActions.updateCollectible(owner, mint);
-					}
-				}
-
-				tokenActions.updateBalance(owner, mint, balance);
-			};
-
-			const parsedTokenAccounts =
-				await connection.getParsedTokenAccountsByOwner(owner_pubkey, {
-					programId: TOKEN_PROGRAM_ID,
-				});
-
-			subscriptionList.push(
-				connection.onAccountChange(owner_pubkey, handleAccountChange),
-			);
-
-			parsedTokenAccounts.value.forEach((ata) => {
-				subscriptionList.push(
-					connection.onAccountChange(ata.pubkey, handleAccountChange),
-				);
-				if (ata.account.data.parsed.info.tokenAmount.decimals === 0) {
-					nfts.push(ata.account.data.parsed.info.mint.toString());
-				}
-			});
-		}
-		// End of realtime handler
+		const promises = [];
 
 		for (const key of keys) {
 			tokenPromises.push(
@@ -85,7 +34,7 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 				}),
 			);
 
-			collectiblePromises.push(
+			promises.push(
 				solanaCollectiblesByAddress({
 					endpoint,
 					connection,
@@ -135,7 +84,7 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 			}),
 		);
 
-		return await Promise.all(promises);
+		await Promise.all(promises);
 	},
 	stop: async ({ connection }) => {
 		subscriptionList.forEach((subscriptionId) => {

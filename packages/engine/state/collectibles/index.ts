@@ -16,13 +16,19 @@ export const collectibleActions = {
 			collectionsState.map.set(item._id, item);
 		}
 	},
-	updateCollectible: (owner: string, mint: string) => {
-		const id = `${owner}/${mint}`;
-
+	updateCollectibleAmount: (id: string, amount: number) => {
 		const collectible = collectiblesState.map.get(id);
 		if (collectible) {
-			// TODO: Update collectible
+			const collection = collectionsState.map.get(collectible.collectionId);
+			if (collection) {
+				collection.count += amount - collectible.account.amount;
+			}
+			collectible.account.amount = amount;
+
+			return true;
 		}
+
+		return false;
 	},
 };
 

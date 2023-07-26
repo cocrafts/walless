@@ -1,21 +1,16 @@
-import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import type { AccountChangeCallback, Connection } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import type { Connection } from '@solana/web3.js';
 import type { TokenInfo } from '@walless/graphql';
 import { qlClient, queries } from '@walless/graphql';
-import { solMint } from '@walless/network';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
 
-import { collectibleActions } from '../state/collectibles';
 import { tokenActions } from '../state/tokens';
 import type { EngineRunner } from '../utils/type';
 
 import { solanaCollectiblesByAddress } from './collectibles';
+import { initRealTimeSubscription } from './subscription';
 import { solanaTokensByAddress } from './token';
-
-const subscriptionList: number[] = [];
 
 export const solanaEngineRunner: EngineRunner<Connection> = {
 	start: async ({ endpoint, connection, storage }) => {
@@ -43,7 +38,6 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 			);
 		}
 
-		const promises = [];
 		promises.push(
 			Promise.all(tokenPromises).then(async (tokenChunks) => {
 				const tokenDocuments = flatten(tokenChunks);
@@ -74,21 +68,14 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 		);
 
 		promises.push(
-			Promise.all(collectiblePromises).then(async (results) => {
-				collectibleActions.setCollections(
-					flatten(results.map((result) => result.collections)),
-				);
-				collectibleActions.setCollectibles(
-					flatten(results.map((result) => result.collectibles)),
-				);
-			}),
+			initRealTimeSubscription(connection, storage, endpoint, keys),
 		);
 
 		await Promise.all(promises);
 	},
-	stop: async ({ connection }) => {
-		subscriptionList.forEach((subscriptionId) => {
-			connection.removeAccountChangeListener(subscriptionId);
-		});
+	stop: async () => {
+		// subscriptionList.forEach((subscriptionId) => {
+		// 	connection.removeAccountChangeListener(subscriptionId);
+		// });
 	},
 };

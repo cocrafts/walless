@@ -10,3 +10,14 @@ export const tokensByAddress = gql`
 		}
 	}
 `;
+
+export const tokenById = gql`
+	query TokenById($id: String!) {
+		token(id: $id) {
+			id
+			address
+			name
+			quotes
+		}
+	}
+`;

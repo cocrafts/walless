@@ -1,4 +1,6 @@
+import { modules } from './../../ioc/index';
 import type { Connection } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import type { TokenInfo } from '@walless/graphql';
 import { qlClient, queries } from '@walless/graphql';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
@@ -10,7 +12,10 @@ import { tokenActions } from '../state/tokens';
 import type { EngineRunner } from '../utils/type';
 
 import { solanaCollectiblesByAddress } from './collectibles';
+import { getSolanaMetadata } from './metadata';
 import { solanaTokensByAddress } from './token';
+import { Token } from '@walless/core';
+import { getTokensByOwner } from '../../network';
 
 export const solanaEngineRunner: EngineRunner<Connection> = {
 	start: async ({ endpoint, connection, storage }) => {
@@ -37,6 +42,35 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 				}),
 			);
 		}
+
+		const getTransactions = async () => {
+			const transactionList = await connection
+				.getSignaturesForAddress(new PublicKey(keys[0]._id))
+				.then((result) => {
+					return result;
+				});
+			const signatureList = transactionList.map(
+				(transaction) => transaction.signature,
+			);
+			const transactionDetails = await connection.getParsedTransactions(
+				signatureList,
+				{ maxSupportedTransactionVersion: 0 },
+			);
+
+			transactionDetails.forEach((transaction, i) => {
+				if (
+					transaction !== null &&
+					transaction.blockTime !== null &&
+					transaction.blockTime !== undefined
+				) {
+					const date = new Date(transaction.blockTime * 1000);
+					const transactionInstructions =
+						transaction.transaction.message.instructions;
+				}
+			});
+		};
+
+		getTransactions();
 
 		const promises = [];
 		promises.push(

@@ -26,6 +26,9 @@ const BottomPart = () => {
 					gap: 36,
 				}}
 			>
+				<Link href="/disclaimer">
+					<Text fontSize={fontSize}>Beta Disclaimer</Text>
+				</Link>
 				<Link href="/">
 					<Text fontSize={fontSize}>Terms & Conditions</Text>
 				</Link>

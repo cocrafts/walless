@@ -1,6 +1,6 @@
-import { type FC } from 'react';
-import { type CardSkin } from '@walless/app';
-import { type MetadataDocument } from '@walless/store';
+import type { FC } from 'react';
+import type { CardSkin } from '@walless/app';
+import type { MetadataDocument } from '@walless/store';
 import { Image, ImageBackground, Stack } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
 import TargetWrapper from 'features/home/EditTool/TargetWrapper';

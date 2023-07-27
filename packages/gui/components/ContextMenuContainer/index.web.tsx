@@ -1,9 +1,9 @@
-import { type FC, type MouseEventHandler } from 'react';
+import type { FC, MouseEventHandler } from 'react';
 import { View } from 'react-native';
 
 import Hoverable from '../Hoverable';
 
-import { type ContextMenuContainerProps } from './shared';
+import type { ContextMenuContainerProps } from './shared';
 
 export const ContextMenuContainer: FC<ContextMenuContainerProps> = ({
 	style,

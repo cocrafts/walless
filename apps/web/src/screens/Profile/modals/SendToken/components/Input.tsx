@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import { Input as WallessInput, Stack } from '@walless/ui';
 
 interface Props {

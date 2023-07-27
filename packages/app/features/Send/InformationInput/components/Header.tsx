@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { Times } from '@walless/icons';
@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		paddingBottom: 28,
 		alignItems: 'center',
-		width: 336,
 		justifyContent: 'space-between',
 	},
 	title: {

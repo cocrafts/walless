@@ -1,10 +1,10 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Stack } from '@walless/ui';
 
 import QRCodeSVG from '../components/QRCode';
 import WalletAddress from '../components/WalletAddress';
 
-import { type SlideOption } from './Slider';
+import type { SlideOption } from './Slider';
 
 interface Props {
 	config: SlideOption;

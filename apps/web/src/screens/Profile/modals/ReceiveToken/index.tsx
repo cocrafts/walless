@@ -1,7 +1,7 @@
-import { type FC } from 'react';
-import { type Networks } from '@walless/core';
+import type { FC } from 'react';
+import type { Networks } from '@walless/core';
 import { walletState } from '@walless/engine';
-import { type ModalConfigs } from '@walless/gui';
+import type { ModalConfigs } from '@walless/gui';
 import { Stack } from '@walless/ui';
 import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
@@ -51,8 +51,6 @@ const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 	let items: SlideOption[];
 	if (config.context) {
 		const { network } = config.context as { network: Networks };
-
-		console.log(network);
 
 		items = moveSelectedItemToTop(walletList, network).map((wallet, index) => ({
 			id: `${index}`,

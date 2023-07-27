@@ -1,6 +1,7 @@
-import { type FC, useEffect, useRef, useState } from 'react';
-import { type ScrollView as TypeScrollView } from 'react-native';
-import { type MetadataDocument } from '@walless/store';
+import type { FC } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { ScrollView as TypeScrollView } from 'react-native';
+import type { MetadataDocument } from '@walless/store';
 import { ScrollView, Stack } from '@walless/ui';
 import { appState } from 'state/app';
 import { resources } from 'utils/config';
@@ -10,11 +11,12 @@ import { DetailTool } from '../../internal';
 import TargetWrapper from '../../TargetWrapper';
 import ScreenContainer from '../components/ScreenContainer';
 
-import { type CardSkin } from './WalletCard/shared';
+import type { CardSkin } from './WalletCard/shared';
 import CollectibeList from './CollectibleList';
 import { mockMetadata } from './internal';
 import MainFeatures from './MainFeatures';
-import { type TabAble, layoutTabs } from './shared';
+import type { TabAble } from './shared';
+import { layoutTabs } from './shared';
 import TabsHeader from './TabsHeader';
 import TokenList from './TokenList';
 import { WalletCard } from './WalletCard';

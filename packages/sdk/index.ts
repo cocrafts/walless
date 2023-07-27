@@ -1,30 +1,31 @@
 // import * as suiProvider from './providers/sui';
-import {
-	type SignedMessage,
-	type SignedTransaction,
-	type TransactionBlock,
-	Ed25519PublicKey as SuiPublicKey,
+import type {
+	SignedMessage,
+	SignedTransaction,
+	TransactionBlock,
 } from '@mysten/sui.js';
-import { type SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
+import { Ed25519PublicKey as SuiPublicKey } from '@mysten/sui.js';
+import type { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
+import type { SendOptions } from '@solana/web3.js';
 import {
-	type SendOptions,
 	PublicKey as SolanaPublicKey,
 	VersionedTransaction,
 } from '@solana/web3.js';
-import {
-	type ConnectFunc,
-	type ConnectOptions,
-	type SignAllFunc,
-	type SignAndSendFunc,
-	type SignFunc,
-	type SignMessageFunc,
-	Networks,
+import type {
+	ConnectFunc,
+	ConnectOptions,
+	SignAllFunc,
+	SignAndSendFunc,
+	SignFunc,
+	SignMessageFunc,
 } from '@walless/core';
-import { type PublicKeyDocument } from '@walless/store';
+import { Networks } from '@walless/core';
+import { ResponseCode } from '@walless/messaging';
+import type { PublicKeyDocument } from '@walless/store';
 import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
 
-import { type PublicKeyType } from '../wallet-standard/src/util';
+import type { PublicKeyType } from '../wallet-standard/src/util';
 
 import * as commonProvider from './providers/common';
 import * as solanaProvider from './providers/solana';
@@ -203,6 +204,36 @@ export class Walless extends EventEmitter {
 			res.signedTransaction;
 
 		return signedTransaction;
+	};
+
+	installLayout = async (id: string): Promise<boolean> => {
+		if (!this.#publicKeys) {
+			throw new Error('wallet not connected');
+		}
+
+		let isSuccessfullyInstalled = false;
+		try {
+			const { responseCode } = await commonProvider.requestInstallLayout(id);
+			isSuccessfullyInstalled = responseCode === ResponseCode.SUCCESS;
+		} catch (error) {
+			throw new Error('not successfully installed');
+		}
+
+		return isSuccessfullyInstalled;
+	};
+
+	checkInstalledLayout = async (id: string): Promise<boolean> => {
+		const { responseCode } = await commonProvider.requestCheckInstalledLayout(
+			id,
+		);
+
+		return responseCode === ResponseCode.SUCCESS;
+	};
+
+	openLayoutPopup = async (id: string): Promise<boolean> => {
+		const { responseCode } = await commonProvider.requestOpenLayoutPopup(id);
+
+		return responseCode === ResponseCode.SUCCESS;
 	};
 }
 

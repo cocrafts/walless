@@ -1,6 +1,7 @@
-import { type JsonRpcProvider } from '@mysten/sui.js';
-import { type Endpoint, Networks } from '@walless/core';
-import { type TokenDocument } from '@walless/store';
+import type { JsonRpcProvider } from '@mysten/sui.js';
+import type { Endpoint } from '@walless/core';
+import { Networks } from '@walless/core';
+import type { TokenDocument } from '@walless/store';
 
 import { type GetSuiMetadataFunction, getSuiMetadata } from './metadata';
 
@@ -10,6 +11,8 @@ interface TokenByAddressOption {
 	address: string;
 	metadataFetcher?: GetSuiMetadataFunction;
 }
+
+const suiCoinType = '0x2::sui::SUI';
 
 export const suiTokensByAddress = async ({
 	endpoint,
@@ -22,23 +25,38 @@ export const suiTokensByAddress = async ({
 		ids: data.map((i) => i.coinObjectId),
 		options: { showType: true, showDisplay: true },
 	});
+
+	if (data.length === 0) {
+		data.push({
+			balance: '0',
+			coinType: suiCoinType,
+		} as never);
+
+		details.push({
+			data: {
+				type: `0x2::coin::Coin<${suiCoinType}>`,
+			} as never,
+		});
+	}
+
 	const result: TokenDocument[] = new Array(data.length);
 
 	for (let i = 0; i < data.length; i += 1) {
 		const object = data[i];
+		const detail = details[i];
 
 		result[i] = {
-			_id: `${address}/${object.coinObjectId}`,
+			_id: `${address}/${object.coinType}`,
 			type: 'Token',
 			network: Networks.sui,
 			endpoint,
 			account: {
-				mint: object.coinObjectId,
+				mint: object.coinType,
 				address,
 				balance: object.balance,
 				decimals: 9,
 			},
-			metadata: metadataFetcher(details[i]?.data as never),
+			metadata: metadataFetcher(detail?.data as never),
 		} as TokenDocument;
 	}
 

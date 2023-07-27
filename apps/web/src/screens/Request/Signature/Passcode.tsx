@@ -1,8 +1,10 @@
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { PasscodeFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
-import { type ResponsePayload, ResponseCode } from '@walless/messaging';
+import type { ResponsePayload } from '@walless/messaging';
+import { ResponseCode } from '@walless/messaging';
 import { resources } from 'utils/config';
 
 interface Props {

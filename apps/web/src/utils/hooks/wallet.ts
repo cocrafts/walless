@@ -1,7 +1,12 @@
 import { useMemo } from 'react';
-import { type Networks } from '@walless/core';
-import { tokenState, walletState } from '@walless/engine';
-import { type PublicKeyDocument } from '@walless/store';
+import type { Networks } from '@walless/core';
+import {
+	collectiblesState,
+	collectionsState,
+	tokenState,
+	walletState,
+} from '@walless/engine';
+import type { PublicKeyDocument } from '@walless/store';
 import { appActions, appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 
@@ -37,9 +42,10 @@ export const useTokens = (
 			const isAccountValid = address ? item.account?.address === address : true;
 
 			if (isNetworkValid && isAccountValid) {
-				const quote = item.account?.quotes?.[currency] || 0;
+				const { quotes, balance, decimals } = item.account;
+				const quote = quotes?.[currency] || 0;
 
-				valuation += quote;
+				valuation += quote * (parseInt(balance) / Math.pow(10, decimals));
 				filteredTokens.push(item);
 			}
 		}
@@ -49,6 +55,40 @@ export const useTokens = (
 			valuation,
 		};
 	}, [map, network, address]);
+};
+
+export const useNfts = (network?: Networks, address?: string) => {
+	const collectiblesMap = useSnapshot(collectiblesState).map;
+	const collectionsMap = useSnapshot(collectionsState).map;
+
+	return {
+		collections: useMemo(() => {
+			const collections = Array.from(collectionsMap.values()).filter(
+				(ele) => ele.count > 0,
+			);
+
+			if (!network) return collections;
+			else
+				return collections.filter(
+					(ele) =>
+						ele.network === network &&
+						ele._id.includes(address || '') &&
+						ele.count > 0,
+				);
+		}, [collectionsMap, network, address]),
+
+		collectibles: useMemo(() => {
+			const collectibles = Array.from(collectiblesMap.values()).filter(
+				(ele) => ele.account.amount > 0,
+			);
+
+			if (!network) return collectibles;
+			else
+				return collectibles.filter(
+					(ele) => ele.network === network && ele._id.includes(address || ''),
+				);
+		}, [collectiblesMap, network, address]),
+	};
 };
 
 export const useSettings = () => {

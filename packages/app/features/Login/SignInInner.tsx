@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { Google } from '@walless/icons';
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
 		width: 342,
 		height: 48,
 		borderRadius: 16,
+		justifyContent: 'center',
 	},
 	getInvitationCodeContainer: {
 		flexDirection: 'row',

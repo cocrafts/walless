@@ -1,5 +1,5 @@
-import { type FC } from 'react';
-import { type StackProps } from '@tamagui/core';
+import type { FC } from 'react';
+import type { StackProps } from '@tamagui/core';
 import { Stack } from '@walless/ui';
 
 type Props = StackProps & {

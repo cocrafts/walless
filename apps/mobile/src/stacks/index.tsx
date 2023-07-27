@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { themeState } from '@walless/gui';
@@ -6,12 +6,8 @@ import { themeState } from '@walless/gui';
 import LoginScreen from '../screens/Login';
 import SplashScreen from '../screens/Splash';
 import { useSnapshot } from '../utils/hooks';
-import {
-	type RootParamList,
-	linking,
-	navigationRef,
-	screenOptions,
-} from '../utils/navigation';
+import type { RootParamList } from '../utils/navigation';
+import { linking, navigationRef, screenOptions } from '../utils/navigation';
 
 const Stack = createStackNavigator<RootParamList>();
 

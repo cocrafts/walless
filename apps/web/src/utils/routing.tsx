@@ -1,7 +1,9 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import { PopupType } from '@walless/messaging';
 import DashboardScreen from 'screens/Dashboard';
+import Collection from 'screens/Dashboard/Collection';
 import EmbeddedApp from 'screens/Dashboard/Embed';
+import Nft from 'screens/Dashboard/Nft';
 import ExploreScreen from 'screens/Explore';
 import InvitationScreen from 'screens/Invitation';
 import LoginScreen from 'screens/Login';
@@ -33,8 +35,16 @@ export const router = createRouter([
 				element: <SettingScreen />,
 			},
 			{
-				path: '/:id',
+				path: '/:id/*',
 				element: <EmbeddedApp />,
+			},
+			{
+				path: '/collections/:id',
+				element: <Collection />,
+			},
+			{
+				path: '/nfts/:id',
+				element: <Nft />,
 			},
 		],
 	},
@@ -62,7 +72,7 @@ export const router = createRouter([
 		element: <RequestSignature />,
 	},
 	{
-		path: '/request-layout',
+		path: `/${PopupType.REQUEST_INSTALL_LAYOUT_POPUP}/:requestId`,
 		element: <RequestLayout />,
 	},
 ]);

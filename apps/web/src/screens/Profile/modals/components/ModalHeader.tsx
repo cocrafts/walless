@@ -1,5 +1,6 @@
-import { type FC } from 'react';
-import { type ModalConfigs, modalActions } from '@walless/gui';
+import type { FC } from 'react';
+import type { ModalConfigs } from '@walless/gui';
+import { modalActions } from '@walless/gui';
 import { Times } from '@walless/icons';
 import { Button, Stack, Text } from '@walless/ui';
 

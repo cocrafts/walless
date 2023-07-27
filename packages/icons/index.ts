@@ -4,7 +4,7 @@ export { ArrowDown } from './components/ArrowDown';
 export { ArrowTopRight } from './components/ArrowTopRight';
 export { Bell } from './components/Bell';
 export { Book } from './components/Book';
-export { Bookmark } from './components/BookMark';
+export { Bookmark } from './components/Bookmark';
 export { Cart } from './components/Cart';
 export { Check } from './components/Check';
 export { CheckCircle } from './components/CheckCircle';

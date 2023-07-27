@@ -1,0 +1,40 @@
+{
+  "name": "@walless/walless-adapter-solana-react",
+  "version": "0.0.2",
+  "description": "This is Walless adapter react for Solana",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./lib/cjs/src/index.js",
+  "module": "./lib/esm/src/index.js",
+  "types": "./lib/types/src/index.d.ts",
+  "exports": {
+    "require": "./lib/cjs/src/index.js",
+    "import": "./lib/esm/src/index.js",
+    "types": "./lib/types/src/index.d.ts"
+  },
+  "scripts": {
+    "bundle": "tsc --build --verbose && yarn run package",
+    "release": "yarn bundle && npm publish --access public",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
+    "package": "shx mkdir -p lib/cjs && shx echo '{\"type\": \"commonjs\"}' > lib/cjs/package.json"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "dependencies": {
+    "@solana/wallet-adapter-react": "^0.15.32",
+    "@walless/walless-adapter-solana-base": "*"
+  },
+  "devDependencies": {
+    "@solana/web3.js": "^1.77.3",
+    "@walless/sdk": "*",
+    "eslint": "8.38.0",
+    "typescript": "^5.1.3"
+  }
+}

@@ -1,5 +1,5 @@
-import { type ReactNode } from 'react';
-import { type StackProps } from '@tamagui/core';
+import type { ReactNode } from 'react';
+import type { StackProps } from '@tamagui/core';
 
 export type LayoutProps = StackProps & {
 	theme?: 'dark' | 'light';
@@ -8,9 +8,9 @@ export type LayoutProps = StackProps & {
 
 export const imageSources = {
 	wallessIcon: {
-		uri: '/img/walless-icon.png',
+		uri: '/img/walless-icon.svg',
 	},
 	wallessText: {
-		uri: '/img/walless-text.png',
+		uri: '/img/walless-text.svg',
 	},
 };

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { ChevronLeft, Times } from '@walless/icons';

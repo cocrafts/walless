@@ -1,21 +1,17 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import {
-	type LayoutChangeEvent,
-	type LayoutRectangle,
-	type ViewStyle,
-	View,
+import type {
+	LayoutChangeEvent,
+	LayoutRectangle,
+	ViewStyle,
 } from 'react-native';
+import { View } from 'react-native';
 import { useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { idleLayout } from '../../utils/style';
 
 import ItemContainer from './ItemContainer';
-import {
-	type SlideAnimator,
-	type SlideOption,
-	type SliderHandle,
-	slideAnimators,
-} from './shared';
+import type { SlideAnimator, SlideOption, SliderHandle } from './shared';
+import { slideAnimators } from './shared';
 
 interface Props {
 	style?: ViewStyle;

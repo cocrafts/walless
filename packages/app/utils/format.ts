@@ -1,4 +1,4 @@
-import { type TokenAccount } from '@walless/core';
+import type { TokenAccount } from '@walless/core';
 import numeral from 'numeral';
 
 export const parseTokenAccount = (item: TokenAccount): number => {

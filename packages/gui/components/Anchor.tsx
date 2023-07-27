@@ -1,10 +1,6 @@
-import { type FC, type HTMLAttributeAnchorTarget, type ReactNode } from 'react';
-import {
-	type PressableProps,
-	type TextStyle,
-	type ViewStyle,
-	Linking,
-} from 'react-native';
+import type { FC, HTMLAttributeAnchorTarget, ReactNode } from 'react';
+import type { PressableProps, TextStyle, ViewStyle } from 'react-native';
+import { Linking } from 'react-native';
 
 import { isBrowser } from '../utils/platform';
 import { iStyles } from '../utils/style';

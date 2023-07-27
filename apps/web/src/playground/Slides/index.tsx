@@ -1,12 +1,8 @@
-import { type FC, useRef } from 'react';
+import type { FC } from 'react';
+import { useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-	type SliderHandle,
-	Button,
-	slideAnimators,
-	Slider,
-	View,
-} from '@walless/gui';
+import type { SliderHandle } from '@walless/gui';
+import { Button, slideAnimators, Slider, View } from '@walless/gui';
 
 import { slides } from './shared';
 

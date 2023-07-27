@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { type UserProfile } from '@walless/core';
+import type { UserProfile } from '@walless/core';
 import { Compass } from '@walless/icons';
-import { type ExtensionDocument } from '@walless/store';
+import type { ExtensionDocument } from '@walless/store';
 
 import NavigatorOrb from './NavigatorOrb';
 import RemoveLayout from './RemoveLayout';

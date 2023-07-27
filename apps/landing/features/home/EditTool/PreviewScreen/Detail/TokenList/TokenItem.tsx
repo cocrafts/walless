@@ -1,7 +1,7 @@
-import { type FC } from 'react';
-import { type StyleProp, type ViewStyle } from 'react-native';
+import type { FC } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { shortenAddress } from '@walless/core';
-import { type MetadataDocument } from '@walless/store';
+import type { MetadataDocument } from '@walless/store';
 import { Image, Stack, Text } from '@walless/ui';
 
 interface Props {

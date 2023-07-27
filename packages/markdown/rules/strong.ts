@@ -1,10 +1,7 @@
 import { createElement } from 'react';
 import { Text } from 'react-native';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	defaultRules,
-} from 'simple-markdown';
+import type { ParserRule, ReactOutputRule } from 'simple-markdown';
+import { defaultRules } from 'simple-markdown';
 
 export const strong: ParserRule & ReactOutputRule = {
 	...defaultRules.strong,
@@ -14,7 +11,7 @@ export const strong: ParserRule & ReactOutputRule = {
 			{
 				key: state.key,
 			},
-			output(node.content, { ...state, fontWeight: '600' }),
+			output(node.content, { ...state, fontWeight: '500' }),
 		);
 	},
 };

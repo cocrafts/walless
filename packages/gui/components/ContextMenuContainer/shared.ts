@@ -1,6 +1,6 @@
-import { type StyleProp, type ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 
-import { type Props as HoverableProps } from '../Hoverable';
+import type { Props as HoverableProps } from '../Hoverable';
 
 export type ContextMenuContainerProps = HoverableProps & {
 	contentContainerStyle?: StyleProp<ViewStyle>;

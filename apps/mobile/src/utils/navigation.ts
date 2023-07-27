@@ -1,12 +1,10 @@
-import {
-	type LinkingOptions,
-	type NavigatorScreenParams,
-	createNavigationContainerRef,
+import type {
+	LinkingOptions,
+	NavigatorScreenParams,
 } from '@react-navigation/native';
-import {
-	type StackNavigationOptions,
-	CardStyleInterpolators,
-} from '@react-navigation/stack';
+import { createNavigationContainerRef } from '@react-navigation/native';
+import type { StackNavigationOptions } from '@react-navigation/stack';
+import { CardStyleInterpolators } from '@react-navigation/stack';
 
 export type DashboardParamList = {
 	Explore: undefined;

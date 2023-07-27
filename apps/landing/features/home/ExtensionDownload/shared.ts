@@ -1,4 +1,4 @@
-import { type ImageURISource } from 'react-native';
+import type { ImageURISource } from 'react-native';
 
 export interface ExtensionConfig {
 	disabled: boolean;

@@ -1,12 +1,12 @@
-import { type FC, useEffect, useState } from 'react';
-import {
-	type ImageSourcePropType,
-	type NativeSyntheticEvent,
-	type TextInputKeyPressEventData,
-	type ViewStyle,
-	ActivityIndicator,
-	StyleSheet,
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
+import type {
+	ImageSourcePropType,
+	NativeSyntheticEvent,
+	TextInputKeyPressEventData,
+	ViewStyle,
 } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import { ErrorAnnouncement } from '@walless/app';
 import {
 	BindDirections,

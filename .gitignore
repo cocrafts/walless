@@ -9,6 +9,7 @@ cdk.context.json
 # builds
 apps/web/metacraft
 apps/**/builds
+packages/**/lib
 .swc
 .tamagui
 .next
@@ -47,13 +48,12 @@ yarn-error.log*
 
 # local env files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.test
+.env.development
+.env.production
 
 # configs
-GoogleService-info.plist
+GoogleService-Info.plist
 google-services.json
 apps/**/ios/tmp.xcconfig
 

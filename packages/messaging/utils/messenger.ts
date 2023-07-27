@@ -1,20 +1,20 @@
-import {
-	type ChannelHashmap,
-	type MiniBroadcast,
-	type RequestHashmap,
-	type UniBroadcast,
-	runtime,
+import type {
+	ChannelHashmap,
+	MiniBroadcast,
+	RequestHashmap,
+	UniBroadcast,
 } from '@walless/core';
+import { runtime } from '@walless/core';
 import { decryptFromString, encryptToString } from '@walless/crypto';
 
-import {
-	type EncryptedMessage,
-	type EncryptionKeyVault,
-	type MessagePayload,
-	type Messenger,
-	type MessengerMessageListener,
-	type MessengerRequest,
-	type MessengerSend,
+import type {
+	EncryptedMessage,
+	EncryptionKeyVault,
+	MessagePayload,
+	Messenger,
+	MessengerMessageListener,
+	MessengerRequest,
+	MessengerSend,
 } from './types';
 
 export const createMessenger = (
@@ -66,7 +66,7 @@ export const createMessenger = (
 		data: EncryptedMessage,
 	) => {
 		const revealed = await smartReveal(data, channel.name);
-		const requestId = revealed?.requestId;
+		const requestId = revealed?.requestId as string;
 		const associatedRequest = requestHashmap[requestId];
 
 		if (associatedRequest) {
@@ -130,7 +130,7 @@ export const createMessenger = (
 		return new Promise((resolve, reject) => {
 			const channel = getChannel(channelId);
 
-			requestHashmap[payload.requestId] = {
+			requestHashmap[payload.requestId as string] = {
 				timestamp: new Date(),
 				timeout,
 				resolve,

@@ -1,19 +1,13 @@
-import {
-	type Connection,
-	Keypair,
-	VersionedTransaction,
-} from '@solana/web3.js';
+import type { Connection } from '@solana/web3.js';
+import { Keypair, VersionedTransaction } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import {
-	type MessengerCallback,
-	type ResponsePayload,
-	ResponseCode,
-} from '@walless/messaging';
+import type { MessengerCallback, ResponsePayload } from '@walless/messaging';
+import { ResponseCode } from '@walless/messaging';
 import { decode, encode } from 'bs58';
 import { sign } from 'tweetnacl';
 
-import { type HandleMethod } from '../utils/types';
+import type { HandleMethod } from '../utils/types';
 
 export const getEndpoint: MessengerCallback = async (payload, channel) => {
 	const conn = modules.engine.getConnection(Networks.solana) as Connection;

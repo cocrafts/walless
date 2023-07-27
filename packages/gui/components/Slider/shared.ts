@@ -1,6 +1,7 @@
-import { type FC } from 'react';
-import { type LayoutRectangle, type ViewStyle } from 'react-native';
-import { type SharedValue, interpolate } from 'react-native-reanimated';
+import type { FC } from 'react';
+import type { LayoutRectangle, ViewStyle } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
+import { interpolate } from 'react-native-reanimated';
 
 export interface SliderHandle {
 	slideNext: () => void;

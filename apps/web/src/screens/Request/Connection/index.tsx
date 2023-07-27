@@ -7,14 +7,20 @@ import { handleRequestConnect } from 'bridge/listeners';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 import { initializeKernelConnect } from 'utils/helper';
+import { useRequestData } from 'utils/hooks';
 
 import { logoSize, logoUri } from '../shared';
 
 const RequestConnection = () => {
 	const { requestId } = useParams();
+	const { sender } = useRequestData(requestId as string);
 
-	const onClickButton = (isApproved: boolean) => {
-		handleRequestConnect(requestId as string, isApproved);
+	const onApprovePress = () => {
+		handleRequestConnect(requestId as string, true);
+	};
+
+	const onRejectPress = () => {
+		handleRequestConnect(requestId as string, false);
 	};
 
 	useEffect(() => {
@@ -31,7 +37,7 @@ const RequestConnection = () => {
 						Connection request
 					</Text>
 					<Image
-						src={logoUri}
+						src={sender.tab?.favIconUrl || logoUri}
 						width={logoSize}
 						height={logoSize}
 						borderColor="#566674"
@@ -40,9 +46,9 @@ const RequestConnection = () => {
 						marginVertical={10}
 					/>
 					<Text fontSize={18} fontWeight="400">
-						Under Realm
+						{sender.tab?.title || 'unknown'}
 					</Text>
-					<LightText fontSize={14}>underrealm.stormgate.io</LightText>
+					<LightText fontSize={14}>{sender.tab?.url || 'unknown'}</LightText>
 				</Stack>
 
 				<Stack
@@ -87,13 +93,13 @@ const RequestConnection = () => {
 					<LightText fontSize={14} textAlign="center">
 						Only connect to websites you trust!
 					</LightText>
-					<Button marginVertical={10} onPress={() => onClickButton(true)}>
+					<Button marginVertical={10} onPress={onApprovePress}>
 						<Text>Connect</Text>
 					</Button>
 					<Button
 						backgroundColor="transparent"
 						paddingVertical={0}
-						onPress={() => onClickButton(false)}
+						onPress={onRejectPress}
 					>
 						<Text>Deny</Text>
 					</Button>

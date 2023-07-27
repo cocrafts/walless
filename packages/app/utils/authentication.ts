@@ -1,5 +1,5 @@
-import { type Config, type UserProfile } from '@walless/core';
-import { type UserCredential } from 'firebase/auth';
+import type { Config, UserProfile } from '@walless/core';
+import type { UserCredential } from 'firebase/auth';
 
 export const makeProfile = ({ user }: UserCredential): UserProfile => {
 	return {

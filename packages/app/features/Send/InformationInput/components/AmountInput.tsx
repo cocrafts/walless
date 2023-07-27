@@ -1,6 +1,7 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { type UnknownObject } from '@walless/core';
+import type { UnknownObject } from '@walless/core';
 import { Button, Input, Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
@@ -72,7 +73,7 @@ export const AmountInput: FC = () => {
 const styles = StyleSheet.create({
 	container: {
 		justifyContent: 'space-between',
-		marginBottom: 6,
+		marginTop: -16,
 	},
 	title: {
 		fontSize: 20,

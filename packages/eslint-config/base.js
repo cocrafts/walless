@@ -9,18 +9,12 @@ module.exports = {
 	extends: [
 		'eslint:recommended',
 		'plugin:import/typescript',
-		'plugin:@next/next/recommended',
 		'plugin:@typescript-eslint/recommended',
 		'prettier',
 	],
 	rules: {
 		'@typescript-eslint/no-var-requires': 'off',
-		'@typescript-eslint/consistent-type-imports': [
-			'error',
-			{
-				fixStyle: 'inline-type-imports',
-			},
-		],
+		'@typescript-eslint/consistent-type-imports': 'error',
 
 		'simple-import-sort/exports': 'error',
 		'simple-import-sort/imports': [

@@ -1,5 +1,5 @@
-import { type Ed25519PublicKey as SuiPublicKey } from '@mysten/sui.js';
-import { type PublicKey as SolanaPublicKey } from '@solana/web3.js';
+import type { Ed25519PublicKey as SuiPublicKey } from '@mysten/sui.js';
+import type { PublicKey as SolanaPublicKey } from '@solana/web3.js';
 
 export function bytesEqual(a: Uint8Array, b: Uint8Array): boolean {
 	return arraysEqual(a, b);
@@ -31,3 +31,8 @@ export const SuiSignAndExecuteTransactionBlock =
 	'sui:signAndExecuteTransactionBlock';
 
 export type PublicKeyType = SuiPublicKey | SolanaPublicKey;
+
+// Namespace for Walless
+export const WallessInstallLayout = 'walless:installLayout';
+export const WallessCheckInstalledLayout = 'walless:checkInstalledLayout';
+export const WallessOpenLayoutPopup = 'walless:openLayoutPopup';

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Plus } from '@walless/icons';
 import { Button, Stack } from '@walless/ui';
 import { handleChangeImage } from 'features/home/EditTool/helpers';

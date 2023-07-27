@@ -1,13 +1,15 @@
-import { type FC, useEffect, useReducer, useRef } from 'react';
+import type { FC } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';
 import { Button, Stack, Text } from '@walless/ui';
 
-import { type DropdownItemProps, type DropdownProps } from '../../internal';
+import type { DropdownItemProps, DropdownProps } from '../../internal';
 
 import IconText from './IconText';
 import InputDropdownModal from './InputDropdownModal';
-import { type State, ActionType, reducer } from './reducer';
+import type { State } from './reducer';
+import { ActionType, reducer } from './reducer';
 
 const InputDropdown: FC<DropdownProps> = ({ name, items, setChosen }) => {
 	const dropdownRef = useRef(null);

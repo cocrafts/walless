@@ -1,11 +1,6 @@
-import { type FC, type ReactNode } from 'react';
-import {
-	type StyleProp,
-	type TextStyle,
-	type ViewStyle,
-	StyleSheet,
-	Text,
-} from 'react-native';
+import type { FC, ReactNode } from 'react';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 import Hoverable from './Hoverable';
 

@@ -1,4 +1,5 @@
-import { type ParserRules, defaultRules } from 'simple-markdown';
+import type { ParserRules } from 'simple-markdown';
+import { defaultRules } from 'simple-markdown';
 
 import codeBlock from './codeBlock';
 import del from './del';

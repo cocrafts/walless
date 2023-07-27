@@ -1,7 +1,7 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Button, Text } from '@walless/ui';
 
-import { type TabAble } from '../shared';
+import type { TabAble } from '../shared';
 
 interface Props {
 	item: TabAble;

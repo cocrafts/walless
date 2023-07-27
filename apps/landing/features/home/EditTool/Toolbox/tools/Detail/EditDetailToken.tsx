@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Networks } from '@walless/core';
 import { getTezosMetadata } from '@walless/network';
 import { Image, Stack } from '@walless/ui';

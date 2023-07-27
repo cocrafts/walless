@@ -1,10 +1,12 @@
-import { type BootstrapResult, appState } from '@walless/app';
-import { PopupType } from '@walless/messaging';
+import type { BootstrapResult } from '@walless/app';
+import { appState } from '@walless/app';
 import { initializeLiveState } from 'state/live';
+import { loadRemoteConfig } from 'utils/firebase';
 import { router } from 'utils/routing';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	await initializeLiveState();
+	appState.remoteConfig = loadRemoteConfig();
 
 	return appState;
 };
@@ -14,10 +16,8 @@ export const launchApp = async ({
 	config,
 }: BootstrapResult): Promise<void> => {
 	const url = window.location.hash;
-	const path = url.slice(1);
-	const isSdkPopup =
-		path.includes(PopupType.REQUEST_CONNECT_POPUP) ||
-		path.includes(PopupType.SIGNATURE_POPUP);
+	const isSdkPopup = url.includes('popup');
+	const path = url.slice(1).replace('/popup', '');
 
 	if (profile?.email) {
 		if (isSdkPopup) {

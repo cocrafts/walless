@@ -1,14 +1,13 @@
-import { type FC, createElement } from 'react';
-import { type ImageURISource, Image } from 'react-native';
+import type { FC } from 'react';
+import { createElement } from 'react';
+import type { ImageURISource } from 'react-native';
+import { Image } from 'react-native';
 import { Text, View } from '@walless/gui';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	defaultRules,
-} from 'simple-markdown';
+import type { ParserRule, ReactOutputRule } from 'simple-markdown';
+import { defaultRules } from 'simple-markdown';
 
 import { useImageAspectRatio } from '../utils/hook';
-import { type MarkdownState } from '../utils/types';
+import type { MarkdownState } from '../utils/types';
 
 interface AspectImageProps {
 	width: number;

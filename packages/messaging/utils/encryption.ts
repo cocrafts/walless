@@ -1,9 +1,9 @@
-import { type Database, type EncryptionKeyDocument } from '@walless/store';
+import type { Database, EncryptionKeyDocument } from '@walless/store';
 
-import {
-	type CreateAndHydrateKeyVault,
-	type EncryptionKeyVault,
-	type GetKeyVault,
+import type {
+	CreateAndHydrateKeyVault,
+	EncryptionKeyVault,
+	GetKeyVault,
 } from './types';
 
 export const createEncryptionKeyVault = (db: Database): EncryptionKeyVault => {

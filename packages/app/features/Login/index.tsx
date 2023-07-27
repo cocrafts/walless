@@ -1,9 +1,7 @@
-import { type FC, useEffect } from 'react';
-import {
-	type ImageSourcePropType,
-	type ViewStyle,
-	StyleSheet,
-} from 'react-native';
+import type { FC } from 'react';
+import { useEffect } from 'react';
+import type { ImageSourcePropType, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { ErrorAnnouncement } from '@walless/app';
 import { Anchor, BindDirections, modalActions, Text, View } from '@walless/gui';
 

@@ -1,13 +1,10 @@
 import { createElement } from 'react';
 import { Text } from '@walless/gui';
 import { transparentize } from 'color2k';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	defaultRules,
-} from 'simple-markdown';
+import type { ParserRule, ReactOutputRule } from 'simple-markdown';
+import { defaultRules } from 'simple-markdown';
 
-import { type MarkdownConfig } from '../utils/types';
+import type { MarkdownConfig } from '../utils/types';
 
 export const inlineCode: ParserRule & ReactOutputRule = {
 	...defaultRules.inlineCode,
@@ -31,7 +28,7 @@ export const inlineCode: ParserRule & ReactOutputRule = {
 					borderRadius: 6,
 					paddingHorizontal: 5,
 					marginHorizontal: 2,
-					color: color || colors.secondary,
+					color: color || colors.text,
 				},
 			},
 			node.content,

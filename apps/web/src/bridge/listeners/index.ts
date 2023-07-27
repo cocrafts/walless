@@ -92,6 +92,7 @@ export const getDataFromSourceRequest = async (requestId: string) => {
 				message: displayMessage,
 			};
 		} else if ('transaction' in res) {
+			// TODO: add transaction decode feature
 			return res;
 		} else {
 			return res;

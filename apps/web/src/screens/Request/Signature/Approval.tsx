@@ -9,7 +9,7 @@ import LightText from 'components/LightText';
 import { logoSize, logoUri } from '../shared';
 
 interface Props {
-	sender?: UnknownObject;
+	sender: UnknownObject;
 	content?: string;
 	onDeny: () => void;
 	onApprove: () => void;
@@ -31,7 +31,7 @@ export const RequestSignatureApproval: FC<Props> = ({
 						Your signature has been requested
 					</Text>
 					<Image
-						src={sender?.tab?.favIconUrl || logoUri}
+						src={sender.tab?.favIconUrl || logoUri}
 						width={logoSize}
 						height={logoSize}
 						borderColor="#566674"
@@ -40,9 +40,9 @@ export const RequestSignatureApproval: FC<Props> = ({
 						marginVertical={10}
 					/>
 					<Text fontSize={18} fontWeight="400">
-						{sender?.tab?.title || 'Unknown'}
+						{sender.tab?.title || 'Unknown'}
 					</Text>
-					<LightText fontSize={14}>{sender?.tab?.url}</LightText>
+					<LightText fontSize={14}>{sender.tab?.url}</LightText>
 				</Stack>
 
 				<Stack

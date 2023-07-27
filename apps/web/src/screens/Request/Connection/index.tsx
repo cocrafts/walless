@@ -1,22 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import type { UnknownObject } from '@walless/core';
 import { AlertCircle, CheckCircle } from '@walless/icons';
 import { PopupType } from '@walless/messaging';
 import { Button, Image, Stack, Text } from '@walless/ui';
-import {
-	getDataFromSourceRequest,
-	handleRequestConnect,
-} from 'bridge/listeners';
+import { handleRequestConnect } from 'bridge/listeners';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 import { initializeKernelConnect } from 'utils/helper';
+import { useRequestData } from 'utils/hooks';
 
 import { logoSize, logoUri } from '../shared';
 
 const RequestConnection = () => {
-	const [sender, setSender] = useState<UnknownObject>({});
 	const { requestId } = useParams();
+	const { sender } = useRequestData(requestId as string);
 
 	const onApprovePress = () => {
 		handleRequestConnect(requestId as string, true);
@@ -30,16 +27,6 @@ const RequestConnection = () => {
 		initializeKernelConnect(PopupType.REQUEST_CONNECT_POPUP + '/' + requestId);
 	}, []);
 
-	useEffect(() => {
-		getDataFromSourceRequest(requestId as string)
-			.then((result) => {
-				if (result?.sender) {
-					setSender(result.sender);
-				}
-			})
-			.catch((error) => console.log(error));
-	}, [requestId]);
-
 	return (
 		<Stack flex={1} backgroundColor="#19232C">
 			<HeaderRequest />
@@ -50,7 +37,7 @@ const RequestConnection = () => {
 						Connection request
 					</Text>
 					<Image
-						src={sender?.tab?.favIconUrl || logoUri}
+						src={sender.tab?.favIconUrl || logoUri}
 						width={logoSize}
 						height={logoSize}
 						borderColor="#566674"
@@ -59,9 +46,9 @@ const RequestConnection = () => {
 						marginVertical={10}
 					/>
 					<Text fontSize={18} fontWeight="400">
-						{sender?.tab?.title || 'unknown'}
+						{sender.tab?.title || 'unknown'}
 					</Text>
-					<LightText fontSize={14}>{sender?.tab?.url || 'unknown'}</LightText>
+					<LightText fontSize={14}>{sender.tab?.url || 'unknown'}</LightText>
 				</Stack>
 
 				<Stack

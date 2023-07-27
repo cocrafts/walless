@@ -1,4 +1,5 @@
-import { type ConnectOptions, Timeout } from '@walless/core';
+import type { ConnectOptions } from '@walless/core';
+import { Timeout } from '@walless/core';
 import { RequestType } from '@walless/messaging';
 
 import { sendRequest } from '../utils/messaging';

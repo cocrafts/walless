@@ -1,4 +1,4 @@
-import type { ConnectOptions } from '@walless/core';
+import { type ConnectOptions, Timeout } from '@walless/core';
 import { RequestType } from '@walless/messaging';
 
 import { sendRequest } from '../utils/messaging';
@@ -12,7 +12,7 @@ export const requestConnect = async (options: ConnectOptions) => {
 			type: RequestType.REQUEST_CONNECT,
 			options,
 		},
-		30000,
+		Timeout.thirtySeconds,
 	);
 };
 
@@ -23,7 +23,7 @@ export const requestInstallLayout = async (id: string) => {
 			type: RequestType.INSTALL_LAYOUT,
 			id,
 		},
-		30000,
+		Timeout.thirtySeconds,
 	);
 };
 
@@ -34,7 +34,7 @@ export const requestCheckInstalledLayout = async (id: string) => {
 			type: RequestType.CHECK_INSTALLED_LAYOUT,
 			id,
 		},
-		30000,
+		Timeout.thirtySeconds,
 	);
 };
 
@@ -45,6 +45,6 @@ export const requestOpenLayoutPopup = async (id: string) => {
 			type: RequestType.OPEN_LAYOUT_POPUP,
 			id,
 		},
-		30000,
+		Timeout.thirtySeconds,
 	);
 };

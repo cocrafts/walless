@@ -1,3 +1,4 @@
+import { Timeout } from '@walless/core';
 import type { MessagePayload } from '@walless/messaging';
 import { Channels, PopupType, RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
@@ -82,7 +83,7 @@ export const getDataFromSourceRequest = async (requestId: string) => {
 		const res = await encryptedMessenger.request(
 			Channels.kernel,
 			payload,
-			60000,
+			Timeout.sixtySeconds,
 		);
 
 		if ('message' in res) {

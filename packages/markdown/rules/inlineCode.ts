@@ -28,7 +28,7 @@ export const inlineCode: ParserRule & ReactOutputRule = {
 					borderRadius: 6,
 					paddingHorizontal: 5,
 					marginHorizontal: 2,
-					color: color || colors.secondary,
+					color: color || colors.text,
 				},
 			},
 			node.content,

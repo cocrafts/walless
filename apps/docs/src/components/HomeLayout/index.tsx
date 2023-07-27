@@ -54,12 +54,12 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 				<ActivityIndicator />
 			) : (
 				<View style={styles.container}>
+					<TopNavigation
+						docs={docs}
+						docsTree={docsTree}
+						onPressMenu={toggleLeftSideMenu}
+					/>
 					<View style={[sharedStyles.container, styles.navigationContainer]}>
-						<TopNavigation
-							docs={docs}
-							docsTree={docsTree}
-							onPressMenu={toggleLeftSideMenu}
-						/>
 						{responsiveLevel < 1 && (
 							<SideNavigation
 								containerStyle={styles.smallSideNavigationStyle}
@@ -79,7 +79,6 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 						<Markdown
 							style={[sharedStyles.contentContainer, styles.markdownContainer]}
 							content={loadContent(docsTree, path) || '##Coming soon'}
-							options={{ lineHeight: 45 }}
 						/>
 					</ScrollView>
 				</View>
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
 	},
 	smallSideNavigationStyle: {
 		position: 'absolute',
-		top: 130,
+		top: 18,
 		left: 30,
 	},
 });

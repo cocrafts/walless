@@ -1,12 +1,20 @@
 import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { modalActions, ModalManager, View } from '@walless/gui';
+import {
+	modalActions,
+	ModalManager,
+	paperTheme,
+	themeActions,
+	View,
+} from '@walless/gui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import 'raf/polyfill';
 
 import '../styles/global.css';
+
+themeActions.setTheme(paperTheme);
 
 export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	const [, setRender] = useState({});

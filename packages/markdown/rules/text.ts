@@ -10,16 +10,16 @@ export const text: ParserRule & ReactOutputRule = {
 	react: (node, output, state) => {
 		const { key, color, fontWeight, fontStyle, config } =
 			state as MarkdownState;
-		const { fontFamily, colors } = config;
+		const { colors } = config;
 
 		return createElement(
 			Text,
 			{
 				key,
 				style: {
-					fontFamily,
+					fontFamily: state.fontFamily || config.fontFamily,
 					fontSize: state.fontSize || config.fontSize,
-					lineHeight: config.fontSize * 1.2,
+					lineHeight: config.fontSize * 1.6,
 					fontWeight: fontWeight || config.fontWeight || '400',
 					fontStyle: fontStyle || 'normal',
 					color: color || colors.text,

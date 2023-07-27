@@ -1,3 +1,7 @@
+a {
+	text-decoration-line: none;
+}
+
 ::-webkit-scrollbar {
     background-color: transparent;
 }

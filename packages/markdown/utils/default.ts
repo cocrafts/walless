@@ -14,7 +14,8 @@ export const defaultColors: ThemeColors = {
 };
 
 export const defaultConfigs: Omit<MarkdownConfig, 'layout'> = {
-	fontFamily: 'Rubik',
+	headingFamily: 'Roboto Slab',
+	fontFamily: 'Roboto',
 	fontWeight: '400',
 	fontSize: 15,
 	lineHeight: 20,

@@ -56,8 +56,8 @@ export const initializeMessaging = async (): Promise<void> => {
 
 			const handleDisconnect = () => {
 				if (port.name.includes('/')) {
-					const [popupType, requestId] = port.name.split('/');
-					if (popupType === PopupType.REQUEST_CONNECT_POPUP) {
+					const [id, requestId] = port.name.split('/');
+					if (id === PopupType.REQUEST_CONNECT_POPUP) {
 						try {
 							response(requestId, ResponseCode.REJECTED, {
 								message: ResponseMessage.REJECT_REQUEST_CONNECT,
@@ -65,7 +65,7 @@ export const initializeMessaging = async (): Promise<void> => {
 						} catch (error) {
 							return;
 						}
-					} else if (popupType === PopupType.SIGNATURE_POPUP) {
+					} else if (id === PopupType.SIGNATURE_POPUP) {
 						try {
 							response(requestId, ResponseCode.REJECTED, {
 								message: ResponseMessage.REJECT_COMMON_REQUEST,
@@ -73,7 +73,7 @@ export const initializeMessaging = async (): Promise<void> => {
 						} catch (error) {
 							return;
 						}
-					} else if (popupType === PopupType.REQUEST_INSTALL_LAYOUT_POPUP) {
+					} else if (id === PopupType.REQUEST_INSTALL_LAYOUT_POPUP) {
 						try {
 							response(requestId, ResponseCode.REJECTED);
 						} catch (error) {

@@ -18,11 +18,14 @@ export interface ThemeColors {
 	altText: string;
 }
 
+export interface DocumentFonts {
+	heading: string;
+	body: string;
+}
 export interface ThemeState {
 	id: string;
 	dark: boolean;
 	defaultFontFamily: string;
-	defaultFontSize: number;
 	colors: ThemeColors;
 	sizes: ThemeSizes;
 }
@@ -30,8 +33,7 @@ export interface ThemeState {
 export const paperTheme: ThemeState = {
 	id: 'paper',
 	dark: false,
-	defaultFontFamily: 'Rubik',
-	defaultFontSize: 14,
+	defaultFontFamily: 'Roboto',
 	colors: {
 		primary: '#2C879B',
 		secondary: '#EB5757',
@@ -54,7 +56,6 @@ export const nightTheme: ThemeState = {
 	id: 'night',
 	dark: true,
 	defaultFontFamily: 'Rubik',
-	defaultFontSize: 14,
 	colors: {
 		primary: '#388BDF',
 		secondary: '#EB5757',

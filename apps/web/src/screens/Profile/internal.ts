@@ -1,5 +1,18 @@
+import { Networks } from '@walless/core';
+
 import type { Collectible } from './components/Collectibles/CollectibleCard';
-import type { HistoryItemProps } from './components/History/HistoryItem';
+
+export interface HistoryItemProps {
+	id: string;
+	type: 'sent' | 'received';
+	status: 'success' | 'pending' | 'failed';
+	toAddress: string;
+	fromAddress: string;
+	amount: number;
+	network: Networks;
+	token: string;
+	date: Date;
+}
 
 export const mockCollectibles: Collectible[] = [
 	// {
@@ -29,14 +42,26 @@ export const mockCollectibles: Collectible[] = [
 ];
 
 export const mockHistory: HistoryItemProps[] = [
-	// {
-	// 	id: '1',
-	// 	type: 'received',
-	// 	content: 'You have received 0.0001 ETH from 0x1234…5678',
-	// },
-	// {
-	// 	id: '2',
-	// 	type: 'sent',
-	// 	content: 'You have sent 0.0001 ETH to 0x1234…5678',
-	// },
+	{
+		id: '1',
+		type: 'sent',
+		status: 'success',
+		toAddress: 'abcd',
+		fromAddress: '1234',
+		amount: 1,
+		network: Networks.solana,
+		token: 'SOL',
+		date: new Date(),
+	},
+	{
+		id: '2',
+		type: 'received',
+		status: 'success',
+		toAddress: '1234',
+		fromAddress: 'abcd',
+		amount: 1,
+		network: Networks.solana,
+		token: 'SOL',
+		date: new Date(),
+	},
 ];

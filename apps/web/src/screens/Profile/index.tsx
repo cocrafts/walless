@@ -7,6 +7,7 @@ import { showReceiveModal } from 'state/app/modal';
 import Collectibles from './components/Collectibles';
 import History from './components/History';
 import TokenValue from './components/TokenValue';
+import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';
 
 const ProfileScreen = () => {
@@ -35,7 +36,7 @@ const ProfileScreen = () => {
 
 			<Collectibles />
 
-			<History />
+			<TransactionHistory />
 		</Stack>
 	);
 };

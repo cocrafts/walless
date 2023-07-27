@@ -14,7 +14,7 @@ export type RunnerContext<T> = NetworkContext<T> & {
 
 export type EngineRunner<T> = {
 	stop: (context: RunnerContext<T>) => Promise<void>;
-	start: (context: RunnerContext<T>) => Promise<void | void[]>;
+	start: (context: RunnerContext<T>) => Promise<void>;
 };
 
 export type EngineCrawler<T> = {

@@ -60,19 +60,28 @@ export const useTokens = (
 export const useNfts = (network?: Networks, address?: string) => {
 	const collectiblesMap = useSnapshot(collectiblesState).map;
 	const collectionsMap = useSnapshot(collectionsState).map;
-	const collectibles = Array.from(collectiblesMap.values());
-	const collections = Array.from(collectionsMap.values());
 
 	return {
 		collections: useMemo(() => {
+			const collections = Array.from(collectionsMap.values()).filter(
+				(ele) => ele.count > 0,
+			);
+
 			if (!network) return collections;
 			else
 				return collections.filter(
-					(ele) => ele.network === network && ele._id.includes(address || ''),
+					(ele) =>
+						ele.network === network &&
+						ele._id.includes(address || '') &&
+						ele.count > 0,
 				);
 		}, [collectionsMap, network, address]),
 
 		collectibles: useMemo(() => {
+			const collectibles = Array.from(collectiblesMap.values()).filter(
+				(ele) => ele.account.amount > 0,
+			);
+
 			if (!network) return collectibles;
 			else
 				return collectibles.filter(

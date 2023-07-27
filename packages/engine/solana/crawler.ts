@@ -5,11 +5,11 @@ import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
 
-import { collectibleActions } from '../state/collectibles';
 import { tokenActions } from '../state/tokens';
 import type { EngineRunner } from '../utils/type';
 
 import { solanaCollectiblesByAddress } from './collectibles';
+import { initRealTimeSubscription } from './subscription';
 import { solanaTokensByAddress } from './token';
 
 export const solanaEngineRunner: EngineRunner<Connection> = {
@@ -17,7 +17,7 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 		const keyResult = await storage.find(selectors.solanaKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
-		const collectiblePromises = [];
+		const promises = [];
 
 		for (const key of keys) {
 			tokenPromises.push(
@@ -29,7 +29,7 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 				}),
 			);
 
-			collectiblePromises.push(
+			promises.push(
 				solanaCollectiblesByAddress({
 					endpoint,
 					connection,
@@ -38,7 +38,6 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 			);
 		}
 
-		const promises = [];
 		promises.push(
 			Promise.all(tokenPromises).then(async (tokenChunks) => {
 				const tokenDocuments = flatten(tokenChunks);
@@ -69,19 +68,14 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 		);
 
 		promises.push(
-			Promise.all(collectiblePromises).then(async (results) => {
-				collectibleActions.setCollections(
-					flatten(results.map((result) => result.collections)),
-				);
-				collectibleActions.setCollectibles(
-					flatten(results.map((result) => result.collectibles)),
-				);
-			}),
+			initRealTimeSubscription(connection, storage, endpoint, keys),
 		);
 
-		return await Promise.all(promises);
+		await Promise.all(promises);
 	},
 	stop: async () => {
-		console.log('stop solana');
+		// subscriptionList.forEach((subscriptionId) => {
+		// 	connection.removeAccountChangeListener(subscriptionId);
+		// });
 	},
 };

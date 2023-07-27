@@ -8,6 +8,14 @@ export const tokenActions = {
 			tokenState.map.set(item._id, item);
 		}
 	},
+	updateBalance: (id: string, balance: string) => {
+		const token = tokenState.map.get(id);
+		if (token) {
+			token.account.balance = balance;
+			return true;
+		}
+		return false;
+	},
 };
 
 export * from './internal';

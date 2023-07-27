@@ -23,7 +23,7 @@ export const SideNavigation: FC<Props> = ({
 		matchingPath += `/${params ? params[level] : ''}`;
 
 		const isActive = node.path.includes(matchingPath);
-		const textActiveStyle = isActive ? 'underline' : 'none';
+		const color = isActive ? '#0694d3' : '#DEDEDE';
 
 		const style = {
 			...styles[`lvl${level + 1}` as keyof typeof styles],
@@ -39,7 +39,7 @@ export const SideNavigation: FC<Props> = ({
 					</Text>
 				) : (
 					<Link
-						style={{ ...style, textDecoration: textActiveStyle }}
+						style={{ ...style, color }}
 						href={node.path}
 						onClick={onPressItem}
 					>
@@ -64,23 +64,22 @@ export default SideNavigation;
 
 const styles = StyleSheet.create({
 	shared: {
-		fontFamily: 'Rubik',
-		textDecorationLine: 'none',
+		fontFamily: 'Roboto Slab',
 	},
 	lvl1: {
 		textTransform: 'uppercase',
 		fontSize: 15,
 		fontWeight: '500',
-		color: '#FFF',
+		color: '#DEDEDE',
 		marginTop: 16,
 	},
 	lvl2: {
-		color: '#566674',
+		color: '#DEDEDE',
 		marginTop: 10,
 	},
 	lvl3: {
 		fontSize: 14,
-		color: '#566674',
+		color: '#FFFFFF',
 		marginTop: 6,
 	},
 });

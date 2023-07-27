@@ -206,20 +206,34 @@ export class Walless extends EventEmitter {
 		return signedTransaction;
 	};
 
-	installLayout = async (input: string): Promise<boolean> => {
+	installLayout = async (id: string): Promise<boolean> => {
 		if (!this.#publicKeys) {
 			throw new Error('wallet not connected');
 		}
 
 		let isSuccessfullyInstalled = false;
 		try {
-			const { responseCode } = await commonProvider.requestInstallLayout(input);
+			const { responseCode } = await commonProvider.requestInstallLayout(id);
 			isSuccessfullyInstalled = responseCode === ResponseCode.SUCCESS;
 		} catch (error) {
 			throw new Error('not successfully installed');
 		}
 
 		return isSuccessfullyInstalled;
+	};
+
+	checkInstalledLayout = async (id: string): Promise<boolean> => {
+		const { responseCode } = await commonProvider.requestCheckInstalledLayout(
+			id,
+		);
+
+		return responseCode === ResponseCode.SUCCESS;
+	};
+
+	openLayoutPopup = async (id: string): Promise<boolean> => {
+		const { responseCode } = await commonProvider.requestOpenLayoutPopup(id);
+
+		return responseCode === ResponseCode.SUCCESS;
 	};
 }
 

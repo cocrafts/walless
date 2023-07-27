@@ -35,7 +35,7 @@ export const router = createRouter([
 				element: <SettingScreen />,
 			},
 			{
-				path: '/:id',
+				path: '/:id/*',
 				element: <EmbeddedApp />,
 			},
 			{

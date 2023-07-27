@@ -14,6 +14,7 @@ export const initializeMessaging = async () => {
 				if (type == 'sign-in-response') {
 					await chrome.runtime.sendMessage(data);
 				} else {
+					// TODO: use timeout from sdk that include in data
 					const response = await messenger.request('kernel', data);
 
 					window.postMessage(response);

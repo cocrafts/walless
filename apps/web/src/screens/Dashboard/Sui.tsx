@@ -15,6 +15,7 @@ import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
+import { onrampWithGateFi } from 'utils/gatefi';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
 import EmptyTab from './components/EmptyTab';
@@ -58,6 +59,12 @@ export const SuiDashboard: FC<Props> = () => {
 		appActions.showSendModal({ layoutNetwork: Networks.sui });
 	};
 
+	const handleBuy = () => {
+		onrampWithGateFi({
+			wallet: publicKeys[0]._id,
+		});
+	};
+
 	const handleChangePrivateSetting = (next: boolean) => {
 		setPrivacy(next);
 	};
@@ -84,6 +91,7 @@ export const SuiDashboard: FC<Props> = () => {
 				<MainFeatures
 					onReceivePress={() => showReceiveModal(Networks.sui)}
 					onSendPress={handleSend}
+					onBuyPress={handleBuy}
 				/>
 				{publicKeys.length > 1 && (
 					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />

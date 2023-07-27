@@ -12,6 +12,7 @@ declare global {
 	const FIREBASE_APP_ID: string;
 	const FIREBASE_MEASUREMENT_ID: string;
 	const WEB3AUTH_ID: string;
+	const GATEFI_ENDPOINT: string;
 	const GATEFI_MERCHANT_ID: string;
 }
 

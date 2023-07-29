@@ -7,11 +7,13 @@ import { handleRequestConnect } from 'bridge/listeners';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 import { initializeKernelConnect } from 'utils/helper';
+import { useRequestData } from 'utils/hooks';
 
 import { logoSize, logoUri } from '../shared';
 
 const RequestConnection = () => {
 	const { requestId } = useParams();
+	const { sender } = useRequestData(requestId as string);
 
 	const onApprovePress = () => {
 		handleRequestConnect(requestId as string, true);
@@ -35,7 +37,7 @@ const RequestConnection = () => {
 						Connection request
 					</Text>
 					<Image
-						src={logoUri}
+						src={sender.tab?.favIconUrl || logoUri}
 						width={logoSize}
 						height={logoSize}
 						borderColor="#566674"
@@ -44,9 +46,9 @@ const RequestConnection = () => {
 						marginVertical={10}
 					/>
 					<Text fontSize={18} fontWeight="400">
-						Under Realm
+						{sender.tab?.title || 'unknown'}
 					</Text>
-					<LightText fontSize={14}>underrealm.stormgate.io</LightText>
+					<LightText fontSize={14}>{sender.tab?.url || 'unknown'}</LightText>
 				</Stack>
 
 				<Stack

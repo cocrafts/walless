@@ -2,35 +2,31 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
-import type {
-	MessagePayload,
-	RequestType,
-	ResponsePayload,
-} from '@walless/messaging';
+import type { RequestType, ResponsePayload } from '@walless/messaging';
 import { PopupType } from '@walless/messaging';
-import {
-	getMessageOrTransaction,
-	handleRequestSignature,
-} from 'bridge/listeners';
+import { handleRequestSignature } from 'bridge/listeners';
 import { initializeKernelConnect } from 'utils/helper';
+import { useRequestData } from 'utils/hooks';
 import type { PayloadOptions } from 'utils/types';
 
 import RequestSignatureApproval from './Approval';
 import RequestSignaturePasscode from './Passcode';
 
 export const RequestSignature = () => {
-	const { requestId = '' } = useParams();
+	const { requestId } = useParams();
+	const { sender, message, transaction, type } = useRequestData(
+		requestId as string,
+	);
 	const [activeIndex, setActiveIndex] = useState(0);
-	const [payload, setPayload] = useState<MessagePayload>();
 	const options = useRef<PayloadOptions>({
-		sourceRequestId: requestId,
+		sourceRequestId: requestId as string,
 		isApproved: false,
 		passcode: '',
 	});
 
 	const handleDenyRequest = useCallback(async () => {
-		handleRequestSignature(options.current, payload?.type as RequestType);
-	}, [payload]);
+		handleRequestSignature(options.current, type as RequestType);
+	}, [type]);
 
 	const handleApproveRequest = () => {
 		options.current.isApproved = true;
@@ -41,12 +37,9 @@ export const RequestSignature = () => {
 		async (passcode: string): Promise<ResponsePayload> => {
 			options.current.passcode = passcode;
 
-			return await handleRequestSignature(
-				options.current,
-				payload?.type as RequestType,
-			);
+			return await handleRequestSignature(options.current, type as RequestType);
 		},
-		[payload],
+		[type],
 	);
 
 	const sliderItems: SlideOption[] = [
@@ -54,7 +47,8 @@ export const RequestSignature = () => {
 			id: 'approval',
 			component: () => (
 				<RequestSignatureApproval
-					content={payload?.message || payload?.transaction}
+					sender={sender}
+					content={message || transaction}
 					onDeny={handleDenyRequest}
 					onApprove={handleApproveRequest}
 				/>
@@ -74,12 +68,6 @@ export const RequestSignature = () => {
 	useEffect(() => {
 		initializeKernelConnect(`${PopupType.SIGNATURE_POPUP}/${requestId}`);
 	}, []);
-
-	useEffect(() => {
-		getMessageOrTransaction(requestId).then((result) => {
-			setPayload(result as MessagePayload);
-		});
-	}, [requestId]);
 
 	return (
 		<Slider

@@ -4,7 +4,11 @@ import { ResponseCode } from '@walless/messaging';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
-import { addExtensionsById } from '../utils/helper';
+import {
+	addExtensionsById,
+	checkInstalledExtensionById,
+} from '../utils/helper';
+import { openPopup } from '../utils/popup';
 import { getRequestRecord } from '../utils/requestPool';
 import type { HandleMethod, InstallLayoutPayload } from '../utils/types';
 
@@ -27,9 +31,13 @@ export const handleRequestPayload: HandleMethod = ({
 	responseMethod,
 }) => {
 	const { sourceRequestId, requestId } = payload;
-	const { payload: sourcePayload } = getRequestRecord(sourceRequestId);
+	const { payload: sourcePayload, channel: sourceChannel } =
+		getRequestRecord(sourceRequestId);
 
-	responseMethod(requestId, ResponseCode.SUCCESS, sourcePayload);
+	responseMethod(requestId, ResponseCode.SUCCESS, {
+		...sourceChannel,
+		...sourcePayload,
+	});
 };
 
 export const handleInstallLayout: HandleMethod = async ({
@@ -43,5 +51,33 @@ export const handleInstallLayout: HandleMethod = async ({
 	} catch (error) {
 		responseMethod(requestId, ResponseCode.ERROR);
 		throw Error(error as string);
+	}
+};
+
+export const handleCheckInstalledLayout: HandleMethod = async ({
+	payload,
+	responseMethod,
+}) => {
+	const { requestId, id } = payload as InstallLayoutPayload;
+	const isInstalled = await checkInstalledExtensionById(id);
+
+	if (isInstalled) {
+		responseMethod(requestId, ResponseCode.SUCCESS);
+	} else {
+		responseMethod(requestId, ResponseCode.ERROR);
+	}
+};
+
+export const handleOpenLayoutPopup: HandleMethod = async ({
+	payload,
+	responseMethod,
+}) => {
+	const { requestId, id: layoutId } = payload;
+	const popup = await openPopup(layoutId, requestId);
+
+	if (popup) {
+		responseMethod(requestId, ResponseCode.SUCCESS);
+	} else {
+		responseMethod(requestId, ResponseCode.ERROR);
 	}
 };

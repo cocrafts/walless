@@ -4,6 +4,7 @@ import { Anchor, Button, dimensionState, Hoverable, View } from '@walless/gui';
 import { Menu } from '@walless/icons';
 import { resources } from 'utils/config';
 import { getDefaultNode } from 'utils/content';
+import { sharedStyles } from 'utils/style';
 import type { DocsTree } from 'utils/types';
 import { useSnapshot } from 'valtio';
 
@@ -28,38 +29,43 @@ export const TopNavigation: FC<Props> = ({ docs, docsTree, onPressMenu }) => {
 	});
 
 	return (
-		<View horizontal style={styles.container}>
-			<Anchor href="https://walless.io/">
-				<Image source={resources.walless.horizontalLogo} style={styles.logo} />
-			</Anchor>
+		<View style={styles.container}>
+			<View style={[sharedStyles.container, styles.innerContainer]}>
+				<Anchor href="https://walless.io/">
+					<Image
+						source={resources.walless.horizontalLogo}
+						style={styles.logo}
+					/>
+				</Anchor>
 
-			{responsiveLevel < 1 && (
-				<View horizontal style={styles.groupItem}>
-					{docsList?.map((doc) => {
-						return (
-							<NavigationItem
-								key={doc.name}
-								isActive={doc.path === `/${docs}`}
-								title={doc.name}
-								href={doc.link as string}
-							/>
-						);
-					})}
-				</View>
-			)}
-
-			<View style={styles.rightContainer}>
-				<Button
-					style={styles.joinButton}
-					title="Join waitlist"
-					titleStyle={styles.joinButtonTitle}
-				/>
-
-				{responsiveLevel >= 1 && (
-					<Hoverable style={styles.menuButton} onPress={onPressMenu}>
-						<Menu />
-					</Hoverable>
+				{responsiveLevel < 1 && (
+					<View horizontal style={styles.groupItem}>
+						{docsList?.map((doc) => {
+							return (
+								<NavigationItem
+									key={doc.name}
+									isActive={doc.path === `/${docs}`}
+									title={doc.name}
+									href={doc.link as string}
+								/>
+							);
+						})}
+					</View>
 				)}
+
+				<View style={styles.rightContainer}>
+					<Button
+						style={styles.joinButton}
+						title="Join waitlist"
+						titleStyle={styles.joinButtonTitle}
+					/>
+
+					{responsiveLevel >= 1 && (
+						<Hoverable style={styles.menuButton} onPress={onPressMenu}>
+							<Menu />
+						</Hoverable>
+					)}
+				</View>
 			</View>
 		</View>
 	);
@@ -69,9 +75,13 @@ export default TopNavigation;
 
 const styles = StyleSheet.create({
 	container: {
+		backgroundColor: 'rgba(255, 255, 255, 0.05)',
+	},
+	innerContainer: {
+		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		paddingVertical: 10,
+		paddingVertical: 14,
 	},
 	logo: {
 		width: 160,

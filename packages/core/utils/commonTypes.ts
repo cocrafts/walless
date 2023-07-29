@@ -86,3 +86,8 @@ export interface LegacyMetadataSource {
 	timestamp: string;
 	tokens: LegacySolanaMetadata[];
 }
+
+export enum Timeout {
+	thirtySeconds = 30000,
+	sixtySeconds = 60000,
+}

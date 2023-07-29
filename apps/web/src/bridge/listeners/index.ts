@@ -1,3 +1,4 @@
+import { Timeout } from '@walless/core';
 import type { MessagePayload } from '@walless/messaging';
 import { Channels, PopupType, RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
@@ -71,7 +72,7 @@ export const handleRequestSignature = async (
 	}
 };
 
-export const getMessageOrTransaction = async (requestId: string) => {
+export const getDataFromSourceRequest = async (requestId: string) => {
 	const payload: PopupPayload = {
 		from: PopupType.SIGNATURE_POPUP,
 		type: RequestType.REQUEST_PAYLOAD,
@@ -82,7 +83,7 @@ export const getMessageOrTransaction = async (requestId: string) => {
 		const res = await encryptedMessenger.request(
 			Channels.kernel,
 			payload,
-			60000,
+			Timeout.sixtySeconds,
 		);
 
 		if ('message' in res) {
@@ -92,6 +93,9 @@ export const getMessageOrTransaction = async (requestId: string) => {
 				message: displayMessage,
 			};
 		} else if ('transaction' in res) {
+			// TODO: add transaction decode feature
+			return res;
+		} else {
 			return res;
 		}
 	} catch (error) {

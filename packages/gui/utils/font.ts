@@ -5,7 +5,7 @@ export const injectedFontStyle = (
 	style: StyleProp<TextStyle>,
 	defaultStyle?: StyleProp<TextStyle>,
 ): StyleProp<TextStyle> => {
-	const { fontFamily = 'Rubik' } = StyleSheet.flatten([style, defaultStyle]);
+	const { fontFamily } = StyleSheet.flatten([defaultStyle, style]);
 
 	return [defaultStyle, style, { fontFamily }];
 };

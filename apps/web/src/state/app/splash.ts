@@ -1,6 +1,5 @@
 import type { BootstrapResult } from '@walless/app';
 import { appState } from '@walless/app';
-import { PopupType } from '@walless/messaging';
 import { initializeLiveState } from 'state/live';
 import { loadRemoteConfig } from 'utils/firebase';
 import { router } from 'utils/routing';
@@ -17,9 +16,8 @@ export const launchApp = async ({
 	config,
 }: BootstrapResult): Promise<void> => {
 	const url = window.location.hash;
-	const path = url.slice(1);
-	const popupList = Object.values(PopupType);
-	const isSdkPopup = popupList.some((popup) => path.includes(popup));
+	const isSdkPopup = url.includes('popup');
+	const path = url.slice(1).replace('/popup', '');
 
 	if (profile?.email) {
 		if (isSdkPopup) {

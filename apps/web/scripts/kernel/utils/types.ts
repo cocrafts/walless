@@ -24,11 +24,12 @@ export type CoordinatingHandleProps = {
 	payload: UnknownObject;
 	handleMethod: HandleMethod;
 	requirePrivateKey: boolean;
+	requireUserAction: boolean;
 	network?: Networks;
 };
 
 export type CoordinatingHandle = (props: CoordinatingHandleProps) => void;
 
 export type InstallLayoutPayload = Required<MessagePayload> & {
-	input: string;
+	id: string;
 };

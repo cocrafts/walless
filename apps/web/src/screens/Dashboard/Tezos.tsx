@@ -16,6 +16,7 @@ import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
+import { onrampWithGateFi } from 'utils/gatefi';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
 import EmptyTab from './components/EmptyTab';
@@ -58,6 +59,10 @@ export const TezosDashboard: FC<Props> = () => {
 		appActions.showSendModal({ layoutNetwork: Networks.tezos });
 	};
 
+	const handleBuy = () => {
+		onrampWithGateFi({ wallet: publicKeys[0]._id });
+	};
+
 	const handleChangePrivateSetting = (next: boolean) => {
 		setPrivacy(next);
 	};
@@ -84,6 +89,7 @@ export const TezosDashboard: FC<Props> = () => {
 				<MainFeatures
 					onReceivePress={() => showReceiveModal(Networks.tezos)}
 					onSendPress={handleSend}
+					onBuyPress={handleBuy}
 				/>
 				{publicKeys.length > 1 && (
 					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />

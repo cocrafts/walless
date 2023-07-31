@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SendFeature } from '@walless/app';
 import type { Networks } from '@walless/core';
-import { collectiblesState } from '@walless/engine';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions } from '@walless/gui';
 import type { CollectibleDocument } from '@walless/store';
@@ -38,9 +37,6 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				checkValidAddress={checkValidAddress}
 				createAndSendTransaction={createAndSend}
 				getTransactionResult={getTransactionResult}
-				onSendNftSuccess={(collectible: CollectibleDocument) => {
-					collectiblesState.map.delete(collectible._id);
-				}}
 			/>
 		</View>
 	);

@@ -38,11 +38,8 @@ import type {
 	StandardEventsNames,
 	StandardEventsOnMethod,
 } from '@wallet-standard/features';
-import {
-	StandardConnect,
-	StandardDisconnect,
-	StandardEvents,
-} from '@wallet-standard/features';
+// TODO: replace deprecated after successfully debug
+import { Connect, Disconnect, Events } from '@wallet-standard/features';
 import { decode } from 'bs58';
 
 import { SolanaWalletAccount, SuiWalletAccount } from './account';
@@ -53,7 +50,9 @@ import {
 	SuiSignAndExecuteTransactionBlock,
 	SuiSignMessage,
 	SuiSignTransactionBlock,
+	WallessCheckInstalledLayout,
 	WallessInstallLayout,
+	WallessOpenLayoutPopup,
 } from './util';
 
 export const WallessNamespace = 'walless:';
@@ -61,7 +60,15 @@ export const WallessNamespace = 'walless:';
 export type WallessFeature = {
 	[WallessInstallLayout]: {
 		version: string;
-		installLayout: (input: string) => Promise<boolean>;
+		installLayout: (id: string) => Promise<boolean>;
+	};
+	[WallessCheckInstalledLayout]: {
+		version: string;
+		checkInstalledLayout: (id: string) => Promise<boolean>;
+	};
+	[WallessOpenLayoutPopup]: {
+		version: string;
+		openLayoutPopup: (id: string) => Promise<boolean>;
 	};
 	[WallessNamespace]: {
 		walless: Walless;
@@ -104,15 +111,15 @@ export class WallessWallet implements Wallet {
 		SuiFeatures &
 		WallessFeature {
 		return {
-			[StandardConnect]: {
+			[Connect]: {
 				version: '1.0.0',
 				connect: this.#connect,
 			},
-			[StandardDisconnect]: {
+			[Disconnect]: {
 				version: '1.0.0',
 				disconnect: this.#disconnect,
 			},
-			[StandardEvents]: {
+			[Events]: {
 				version: '1.0.0',
 				on: this.#on,
 			},
@@ -146,6 +153,14 @@ export class WallessWallet implements Wallet {
 			[WallessInstallLayout]: {
 				version: '1.0.0',
 				installLayout: this.#installLayout,
+			},
+			[WallessCheckInstalledLayout]: {
+				version: '1.0.0',
+				checkInstalledLayout: this.#checkInstalledLayout,
+			},
+			[WallessOpenLayoutPopup]: {
+				version: '1.0.0',
+				openLayoutPopup: this.#openLayoutPopup,
 			},
 			[WallessNamespace]: {
 				walless: this.#walless,
@@ -434,9 +449,15 @@ export class WallessWallet implements Wallet {
 			return signedTransaction;
 		};
 
-	#installLayout = async (input: string) => {
-		const isSuccessfullyInstalled = await this.#walless.installLayout(input);
+	#installLayout = async (id: string) => {
+		return await this.#walless.installLayout(id);
+	};
 
-		return isSuccessfullyInstalled;
+	#checkInstalledLayout = async (id: string) => {
+		return await this.#walless.checkInstalledLayout(id);
+	};
+
+	#openLayoutPopup = async (id: string) => {
+		return await this.#walless.openLayoutPopup(id);
 	};
 }

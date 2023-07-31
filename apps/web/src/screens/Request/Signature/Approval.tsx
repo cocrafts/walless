@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { ActivityIndicator } from 'react-native';
+import type { UnknownObject } from '@walless/core';
 import { AlertCircle } from '@walless/icons';
 import { Button, Image, Stack, Text } from '@walless/ui';
 import { HeaderRequest } from 'components/HeaderRequest';
@@ -8,12 +9,14 @@ import LightText from 'components/LightText';
 import { logoSize, logoUri } from '../shared';
 
 interface Props {
+	sender: UnknownObject;
 	content?: string;
 	onDeny: () => void;
 	onApprove: () => void;
 }
 
 export const RequestSignatureApproval: FC<Props> = ({
+	sender,
 	content,
 	onDeny,
 	onApprove,
@@ -28,7 +31,7 @@ export const RequestSignatureApproval: FC<Props> = ({
 						Your signature has been requested
 					</Text>
 					<Image
-						src={logoUri}
+						src={sender.tab?.favIconUrl || logoUri}
 						width={logoSize}
 						height={logoSize}
 						borderColor="#566674"
@@ -37,9 +40,9 @@ export const RequestSignatureApproval: FC<Props> = ({
 						marginVertical={10}
 					/>
 					<Text fontSize={18} fontWeight="400">
-						Under Realm
+						{sender.tab?.title || 'Unknown'}
 					</Text>
-					<LightText fontSize={14}>underrealm.stormgate.io</LightText>
+					<LightText fontSize={14}>{sender.tab?.url}</LightText>
 				</Stack>
 
 				<Stack

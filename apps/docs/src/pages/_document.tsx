@@ -16,7 +16,8 @@ export const Document = () => {
 					crossOrigin="anonymous"
 					href="https://fonts.gstatic.com"
 				/>
-				<link href={fontUri} rel="stylesheet" />
+				<link href={robotoUri} rel="stylesheet" />
+				<link href={robotoSlabUri} rel="stylesheet" />
 			</Head>
 			<body
 				style={{
@@ -32,5 +33,7 @@ export const Document = () => {
 
 export default Document;
 
-const fontUri =
-	'https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,900&display=swap';
+const robotoUri =
+	'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap';
+const robotoSlabUri =
+	'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500&display=swap';

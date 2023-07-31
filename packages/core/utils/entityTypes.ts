@@ -64,17 +64,19 @@ export interface Token {
 export interface Collection {
 	network: string;
 	metadata?: AssetMetadata;
+	count: number;
 }
 
 export interface CollectibleAccount {
-	mint?: string;
-	owner?: string;
+	mint: string;
+	owner: string;
+	amount: number;
 }
 
 export interface Collectible {
 	network: string;
 	collectionId: string;
-	metadata?: AssetMetadata;
+	metadata: AssetMetadata;
 	account: CollectibleAccount;
 }
 

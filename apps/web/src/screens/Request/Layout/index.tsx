@@ -7,11 +7,13 @@ import { handleRequestInstallLayout } from 'bridge/listeners';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 import { initializeKernelConnect } from 'utils/helper';
+import { useRequestData } from 'utils/hooks';
 
 import { logoSize, logoUri } from '../shared';
 
 export const RequestLayout = () => {
 	const { requestId } = useParams();
+	const { sender } = useRequestData(requestId as string);
 
 	const onApprovePress = () => {
 		handleRequestInstallLayout(requestId as string, true);
@@ -41,7 +43,7 @@ export const RequestLayout = () => {
 						Layout request
 					</Text>
 					<Image
-						src={logoUri}
+						src={sender.tab?.favIconUrl || logoUri}
 						width={logoSize}
 						height={logoSize}
 						borderColor="#566674"
@@ -50,15 +52,17 @@ export const RequestLayout = () => {
 						marginVertical={10}
 					/>
 					<Text fontSize={18} fontWeight="400">
-						Under Realm
+						{sender.tab?.title || 'Unknown'}
 					</Text>
-					<LightText fontSize={14}>underrealm.stormgate.io</LightText>
+					<LightText fontSize={14}>{sender.tab?.url || 'Unknown'}</LightText>
 				</Stack>
 
 				<Stack paddingTop={30} alignItems="center">
 					<Text textAlign="center" fontSize={14} fontWeight="300">
-						Under Realm would like to add its custom layout appearance to your
-						Walless account.
+						{`${
+							sender.tab?.title || 'Unknown'
+						} would like to add its custom layout appearance to your
+						Walless account.`}
 					</Text>
 
 					<Anchor

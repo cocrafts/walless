@@ -11,7 +11,7 @@ export const strong: ParserRule & ReactOutputRule = {
 			{
 				key: state.key,
 			},
-			output(node.content, { ...state, fontWeight: '600' }),
+			output(node.content, { ...state, fontWeight: '500' }),
 		);
 	},
 };

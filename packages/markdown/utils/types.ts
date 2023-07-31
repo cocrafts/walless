@@ -29,6 +29,7 @@ export interface ThemeColors {
 
 export interface MarkdownConfig {
 	fontFamily: string;
+	headingFamily: string;
 	fontSize: number;
 	fontWeight: FontWeight;
 	lineHeight: number;

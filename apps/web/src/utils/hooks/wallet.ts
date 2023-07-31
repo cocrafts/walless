@@ -6,6 +6,7 @@ import {
 	tokenState,
 	walletState,
 } from '@walless/engine';
+import { historyState } from '@walless/engine/state/history/internal';
 import type { PublicKeyDocument } from '@walless/store';
 import { appActions, appState } from 'state/app';
 import { useSnapshot } from 'valtio';
@@ -91,4 +92,23 @@ export const useSettings = () => {
 		setPrivacy,
 		setPathname,
 	};
+};
+
+export const useHistory = (network?: Networks, address?: string) => {
+	const { map } = useSnapshot(historyState);
+	const history = Array.from(map.values());
+
+	return useMemo(() => {
+		const filteredHistory = [];
+		for (const transaction of history) {
+			const isNetworkValid = network ? transaction.network === network : true;
+			const isAddressValid = address ? transaction.sender === address : true;
+
+			if (isNetworkValid && isAddressValid) {
+				filteredHistory.push(transaction);
+			}
+		}
+
+		return filteredHistory;
+	}, [map, network, address]);
 };

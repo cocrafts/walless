@@ -5,14 +5,21 @@ import { Hoverable, Text } from '@walless/gui';
 
 interface Props {
 	item: Collection;
+	collectibleCount: number;
 	onPress: () => void;
 }
 
-export const CollectionItem: FC<Props> = ({ item, onPress }) => {
+export const CollectionItem: FC<Props> = ({
+	item,
+	collectibleCount,
+	onPress,
+}) => {
 	return (
 		<Hoverable style={styles.container} onPress={onPress}>
 			<Image style={styles.image} source={{ uri: item.metadata?.imageUri }} />
-			<Text style={styles.text}>{item.metadata?.name}</Text>
+			<Text style={styles.text}>
+				{item.metadata?.name} ({collectibleCount})
+			</Text>
 		</Hoverable>
 	);
 };

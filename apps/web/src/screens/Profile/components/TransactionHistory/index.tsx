@@ -1,11 +1,15 @@
 import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
+import { historyState } from '@walless/engine/state/history/internal';
 import { Button, Text, View } from '@walless/gui';
-import { mockHistory } from 'screens/Profile/internal';
+import { useHistory } from 'utils/hooks';
 
 import HistoryItem from './HistoryItem';
 
 const TransactionHistory = () => {
+	const history = useHistory();
+	console.log('result', history);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -14,12 +18,12 @@ const TransactionHistory = () => {
 					<Text>See All</Text>
 				</Button>
 			</View>
-			{mockHistory.length === 0 ? (
+			{history.length === 0 ? (
 				<Text>You haven&apos;t had any transaction yet</Text>
 			) : (
 				<View style={styles.transactionsContainer}>
-					{mockHistory.map((item) => (
-						<HistoryItem key={item.id} {...item} />
+					{history.slice(0, 3).map((transaction) => (
+						<HistoryItem key={transaction.signature} {...transaction} />
 					))}
 				</View>
 			)}

@@ -1,22 +1,24 @@
 import { type FC } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { shortenAddress } from '@walless/core';
+import type { Transaction } from '@walless/engine/solana/transaction';
+import { Hoverable } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
 import type { IconProps } from '@walless/icons/components/types';
-import type { HistoryItemProps } from 'screens/Profile/internal';
 import { getNetworkInfo } from 'utils/helper';
 
-const HistoryItem: FC<HistoryItemProps> = ({
-	id,
+const HistoryItem: FC<Transaction> = ({
 	type,
-	status,
-	toAddress,
-	fromAddress,
 	amount,
 	network,
+	sender,
+	receiver,
+	status,
+	token,
 }) => {
 	const networkInfo = getNetworkInfo(network);
 	let Icon: FC<IconProps> = ArrowTopRight;
-	let address = `From: ${fromAddress}`;
+	let address = sender;
 	let color = '#ffffff';
 	let changeBalance = `- ${amount}`;
 
@@ -26,37 +28,58 @@ const HistoryItem: FC<HistoryItemProps> = ({
 		}
 	} else {
 		Icon = ArrowBottomRight;
-		address = `To: ${toAddress}`;
+		address = receiver;
 		color = '#2FC879';
 		changeBalance = `+ ${amount}`;
 	}
 
 	return (
-		<View style={styles.container}>
+		<Hoverable style={styles.container}>
 			<View style={styles.contentContainer}>
 				<View style={styles.leftPartContainer}>
-					<View>
+					<View style={styles.imageContainer}>
 						<Image
 							source={{
-								uri: networkInfo?.icon ?? '/img/network-solana/solana-icon.svg',
+								uri:
+									token.metadata?.imageUri ??
+									'/img/network-solana/solana-icon.svg',
 							}}
-							style={{ width: 32, height: 32, borderRadius: 16 }}
+							style={{
+								width: 32,
+								height: 32,
+								borderRadius: token.metadata?.mpl ? 8 : 32,
+							}}
 						/>
+						<View style={styles.iconContainer}>
+							<Icon size={14} color={color} />
+						</View>
 					</View>
 					<View>
-						<View style={styles.transactionTypeContainer}>
-							<Icon size={14} color={color} />
-							<Text style={styles.text}>
-								{type.charAt(0).toUpperCase() + type.slice(1)}
+						<Text style={styles.text}>
+							{type.charAt(0).toUpperCase() + type.slice(1)}
+						</Text>
+						<View style={styles.addressContainer}>
+							<Image
+								source={{
+									uri:
+										networkInfo?.icon ?? '/img/network-solana/solana-icon.svg',
+								}}
+								style={{ width: 16, height: 16, borderRadius: 4 }}
+							/>
+							<Text
+								numberOfLines={1}
+								ellipsizeMode="middle"
+								style={styles.address}
+							>
+								{shortenAddress(address)}
 							</Text>
 						</View>
-						<Text style={styles.address}>{address}</Text>
 					</View>
 				</View>
 
-				<Text style={{ color: color }}>{changeBalance}</Text>
+				<Text style={[{ color: color }]}>{changeBalance}</Text>
 			</View>
-		</View>
+		</Hoverable>
 	);
 };
 
@@ -69,7 +92,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	contentContainer: {
-		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
@@ -78,7 +100,25 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderRadius: 8,
 	},
-	addressContainer: {},
+	imageContainer: {
+		flexDirection: 'row',
+		alignItems: 'flex-end',
+	},
+	iconContainer: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: 16,
+		height: 16,
+		borderRadius: 16,
+		backgroundColor: '#131C24',
+		marginLeft: -8,
+		marginBottom: -4,
+	},
+	addressContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 4,
+	},
 	transactionTypeContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -88,9 +128,11 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 	},
 	address: {
+		flex: 1,
 		color: '#566674',
 	},
 	leftPartContainer: {
+		width: '70%',
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 8,

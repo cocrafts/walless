@@ -1,6 +1,5 @@
-import { Networks } from '@walless/core';
-
-import type { Collectible } from './components/Collectibles/CollectibleCard';
+import type { Collectible, Token } from '@walless/core';
+import type { Networks } from '@walless/core';
 
 export interface HistoryItemProps {
 	id: string;
@@ -10,7 +9,7 @@ export interface HistoryItemProps {
 	fromAddress: string;
 	amount: number;
 	network: Networks;
-	token: string;
+	token: Omit<Token, 'account'> | Omit<Collectible, 'account'>;
 	date: Date;
 }
 
@@ -39,29 +38,4 @@ export const mockCollectibles: Collectible[] = [
 	// 	thumbnail: '/img/profile/thumbnail-crypto-kitties.png',
 	// 	logo: '/img/profile/logo-crypto-kitties.png',
 	// },
-];
-
-export const mockHistory: HistoryItemProps[] = [
-	{
-		id: '1',
-		type: 'sent',
-		status: 'success',
-		toAddress: 'abcd',
-		fromAddress: '1234',
-		amount: 1,
-		network: Networks.solana,
-		token: 'SOL',
-		date: new Date(),
-	},
-	{
-		id: '2',
-		type: 'received',
-		status: 'success',
-		toAddress: '1234',
-		fromAddress: 'abcd',
-		amount: 1,
-		network: Networks.solana,
-		token: 'SOL',
-		date: new Date(),
-	},
 ];

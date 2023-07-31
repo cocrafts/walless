@@ -38,8 +38,7 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 				}),
 			);
 		}
-
-		getTransactions(connection, keys[0]._id);
+		await getTransactions(connection, keys[0]._id);
 
 		const promises = [];
 		promises.push(

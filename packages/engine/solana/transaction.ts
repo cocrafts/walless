@@ -8,14 +8,18 @@ import type { Collectible, Token } from '@walless/core';
 import { Networks } from '@walless/core';
 
 import { modules } from '../../ioc';
+import { historyActions } from '../state/history';
 
 import { getSolanaMetadata } from './metadata';
 
 export interface Transaction {
 	signature: string;
+	network: Networks;
+	type: 'sent' | 'received';
+	status: 'success' | 'pending' | 'failed';
 	sender: string;
 	receiver: string;
-	token: Omit<Token, 'account'> | Omit<Collectible, 'account'>;
+	token: Omit<Token, 'account'> | Omit<Collectible, 'account' | 'collectionId'>;
 	amount: number;
 	date: Date;
 }
@@ -36,15 +40,19 @@ export const getTokenAccountFromAta = async (
 	}
 };
 
-export const isParsedInstruction = (
+const isParsedInstruction = (
 	instruction: ParsedInstruction | PartiallyDecodedInstruction | undefined,
 ): instruction is ParsedInstruction => true;
 
 export const getTransactionDetails = async (
 	instruction: ParsedInstruction,
 	connection: Connection,
+	ownerPublicKey: string,
+	signature: string,
+	blockTime: number,
 ) => {
 	let transaction: Transaction;
+	const date = new Date(blockTime * 1000);
 
 	switch (instruction.program) {
 		case 'system' || null: {
@@ -58,13 +66,19 @@ export const getTransactionDetails = async (
 				metadata: solMetadata,
 			};
 
+			const type =
+				ownerPublicKey === instruction.parsed.info.source ? 'sent' : 'received';
+
 			transaction = {
-				signature: '',
+				signature: signature,
+				network: Networks.solana,
+				type: type,
+				status: 'success',
 				sender: instruction.parsed.info.source,
 				receiver: instruction.parsed.info.destination,
 				token: token,
 				amount: instruction.parsed.info.lamports / 10 ** 9,
-				date: new Date(),
+				date: date,
 			};
 			return transaction;
 		}
@@ -74,29 +88,41 @@ export const getTransactionDetails = async (
 				instruction.parsed.info.destination,
 				connection,
 			);
+			if (!tokenAccount) break;
+			console.log('tokenAccount: ', tokenAccount);
 
-			if (!tokenAccount) {
-				break;
-			}
 			const tokenMetadata = await getSolanaMetadata({
 				storage: modules.storage,
 				connection: connection,
 				mintAddress: tokenAccount.mint,
 			});
 
-			const token: Omit<Token, 'account'> = {
+			console.log(tokenMetadata);
+
+			const token:
+				| Omit<Token, 'account'>
+				| Omit<Collectible, 'account' | 'collectionId'> = {
 				network: Networks.solana,
 				metadata: tokenMetadata,
 			};
 
+			const type =
+				ownerPublicKey === instruction.parsed.info.authority
+					? 'sent'
+					: 'received';
+
 			transaction = {
-				signature: '',
+				signature: signature,
+				network: Networks.solana,
+				type: type,
+				status: 'success',
 				sender: instruction.parsed.info.authority,
 				receiver: tokenAccount.owner,
 				token: token,
 				amount:
-					instruction.parsed.info.amount / tokenAccount.tokenAmount.decimals,
-				date: new Date(),
+					instruction.parsed.info.amount /
+					10 ** tokenAccount.tokenAmount.decimals,
+				date: date,
 			};
 			return transaction;
 		}
@@ -107,45 +133,42 @@ export const getTransactions = async (
 	connection: Connection,
 	ownerPublicKey: string,
 ) => {
-	const transactions: Transaction[] = [];
-	const transactionList = await connection
-		.getSignaturesForAddress(new PublicKey(ownerPublicKey))
-		.then((result) => {
-			return result;
-		});
-	const signatureList = transactionList.map(
-		(transaction) => transaction.signature,
+	const confirmedSignatureInfos = await connection.getSignaturesForAddress(
+		new PublicKey(ownerPublicKey),
+		{ limit: 20 },
 	);
-	const transactionDetails = await connection.getParsedTransactions(
-		signatureList,
+	const signatures = confirmedSignatureInfos.map((info) => info.signature);
+
+	const parsedTransactions = await connection.getParsedTransactions(
+		signatures,
 		{ maxSupportedTransactionVersion: 0 },
 	);
 
-	transactionDetails.forEach(async (transaction, i) => {
-		if (
-			transaction !== null &&
-			transaction.blockTime !== null &&
-			transaction.blockTime !== undefined
-		) {
-			const date = new Date(transaction.blockTime * 1000);
-			const instruction = transaction.transaction.message.instructions.pop();
+	const promisesArray = parsedTransactions.map(async (transaction, i) => {
+		if (!transaction || !transaction.blockTime) return null;
 
-			console.log(`instruction ${i}: `, instruction);
-			if (isParsedInstruction(instruction)) {
-				const transactionDetails = await getTransactionDetails(
-					instruction,
-					connection,
-				);
-				if (transactionDetails) {
-					transactionDetails.signature = signatureList[i];
-					transactionDetails.date = date;
-					transactions.push(transactionDetails);
-				}
-			}
-		}
+		const instruction = transaction.transaction.message.instructions.pop();
+		if (!isParsedInstruction(instruction)) return null;
+		console.log(`instruction ${i}: `, instruction);
+
+		const transactionDetails = await getTransactionDetails(
+			instruction,
+			connection,
+			ownerPublicKey,
+			signatures[i],
+			transaction.blockTime,
+		);
+		if (!transactionDetails) return null;
+
+		return transactionDetails;
 	});
 
-	console.log('transactions: ', transactions);
+	let transactions = await Promise.all(promisesArray);
+
+	transactions = transactions.filter((transaction) => {
+		return transaction !== null;
+	});
+	historyActions.setItems(transactions);
 
 	return transactions;
 };

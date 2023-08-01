@@ -9,9 +9,7 @@ import { proxy } from 'valtio';
 export interface AppState {
 	loading: boolean;
 	passcodeLoading: boolean;
-	passcodeError?: string;
 	authenticationLoading: boolean;
-	invitationError?: string;
 	invitationCode?: string;
 	isAbleToSignIn?: boolean;
 	signInError?: string;

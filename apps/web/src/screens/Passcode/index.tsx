@@ -3,8 +3,13 @@ import { Image, Linking, TouchableOpacity } from 'react-native';
 import { useLoaderData } from 'react-router-dom';
 import { PasscodeFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
-import { appActions, appState } from 'state/app';
-import { useSnapshot } from 'utils/hooks';
+import { appActions } from 'state/app';
+import {
+	setupRemotePasscode,
+	validateAndRecoverWithPasscode,
+} from 'utils/authentication/passcode';
+import { router } from 'utils/routing';
+import { showError } from 'utils/showError';
 
 import { getScreenTitle, styles } from './shared';
 
@@ -13,11 +18,11 @@ interface Params {
 }
 
 export const PasscodeScreen = () => {
-	const { passcodeError } = useSnapshot(appState);
 	const { feature } = useLoaderData() as Params;
 	const isCreation = feature === 'create';
 	const [passcode, setPasscode] = useState('');
 	const [confirmation, setConfirmation] = useState(false);
+	const [passcodeError, setPasscodeError] = useState<string>();
 	const title = getScreenTitle(isCreation, confirmation);
 
 	const onPasscodeChange = async (
@@ -27,16 +32,28 @@ export const PasscodeScreen = () => {
 	) => {
 		setPasscode(value);
 		if (passcodeError && value.length > 0) {
-			appState.passcodeError = '';
+			setPasscodeError(undefined);
 		}
 		if (isCreation) {
 			setConfirmation(!!isConfirmation);
 			if (isCompleted) {
-				await appActions.confirmPasscode(value);
+				await setupRemotePasscode(passcode);
+				await appActions.initLocalDeviceByPasscode(passcode);
+				router.navigate('/');
 			}
 		} else {
 			if (isCompleted) {
-				await appActions.recoverWithPasscode(value);
+				try {
+					if (await validateAndRecoverWithPasscode(value)) {
+						await appActions.initLocalDeviceByPasscode(passcode);
+						router.navigate('/');
+					} else {
+						setPasscodeError('wrong passcode, please try again!');
+					}
+				} catch {
+					await showError('Something went wrong');
+					router.navigate('/login');
+				}
 			}
 		}
 	};

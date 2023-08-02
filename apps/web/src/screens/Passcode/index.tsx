@@ -37,15 +37,15 @@ export const PasscodeScreen = () => {
 		if (isCreation) {
 			setConfirmation(!!isConfirmation);
 			if (isCompleted) {
-				await setupRemotePasscode(passcode);
-				await appActions.initLocalDeviceByPasscode(passcode);
+				await setupRemotePasscode(value);
+				await appActions.initLocalDeviceByPasscode(value);
 				router.navigate('/');
 			}
 		} else {
 			if (isCompleted) {
 				try {
 					if (await validateAndRecoverWithPasscode(value)) {
-						await appActions.initLocalDeviceByPasscode(passcode);
+						await appActions.initLocalDeviceByPasscode(value);
 						router.navigate('/');
 					} else {
 						setPasscodeError('wrong passcode, please try again!');

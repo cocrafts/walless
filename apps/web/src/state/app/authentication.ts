@@ -98,7 +98,7 @@ export const createKeyAndEnter = async () => {
 	}
 };
 
-export const initLocalDeviceByPasscode = async (
+export const initLocalDeviceByPasscodeAndSync = async (
 	passcode: string,
 	login?: UserCredential,
 ): Promise<void> => {

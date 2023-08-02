@@ -15,12 +15,7 @@ export const SectionContainer: FC<Props> = ({
 	children,
 }) => {
 	return (
-		<View
-			style={[
-				{ ...styles.container, ...style },
-				horizontal ? { flexDirection: 'row' } : null,
-			]}
-		>
+		<View horizontal={horizontal} style={[{ ...styles.container, ...style }]}>
 			{children}
 		</View>
 	);

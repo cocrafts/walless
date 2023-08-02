@@ -36,5 +36,13 @@ export const resources = {
 				uri: '/img/network/tezos-icon-sm.png',
 			},
 		},
+		news: {
+			tzapacArticle: {
+				uri: '/img/home/news/tzapac-article.png',
+			},
+			twitterArticle: {
+				uri: '/img/home/news/twitter-article.png',
+			},
+		},
 	},
 };

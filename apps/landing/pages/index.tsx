@@ -4,6 +4,7 @@ import EditTool from 'features/home/EditTool';
 import ExtensionDownload from 'features/home/ExtensionDownload';
 import HeadingSection from 'features/home/HeadingSection';
 import News from 'features/home/News';
+import Partners from 'features/home/Partners';
 
 export const IndexPage = () => {
 	return (
@@ -13,6 +14,7 @@ export const IndexPage = () => {
 			<EasyOnboarding />
 			<EditTool />
 			<News />
+			<Partners />
 		</HomeLayout>
 	);
 };

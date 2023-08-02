@@ -15,7 +15,7 @@ export const SectionContainer: FC<Props> = ({
 	children,
 }) => {
 	return (
-		<View horizontal={horizontal} style={[{ ...styles.container, ...style }]}>
+		<View horizontal={horizontal} style={{ ...styles.container, ...style }}>
 			{children}
 		</View>
 	);

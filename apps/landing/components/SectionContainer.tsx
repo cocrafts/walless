@@ -26,9 +26,9 @@ export default SectionContainer;
 const styles = StyleSheet.create({
 	container: {
 		width: '100%',
-		maxWidth: 1620,
+		maxWidth: 1200,
 		marginHorizontal: 'auto',
-		marginVertical: 40,
+		marginVertical: 60,
 		paddingHorizontal: 18,
 	},
 });

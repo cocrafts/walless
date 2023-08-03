@@ -15,7 +15,7 @@ export const appActions = {
 	launchApp,
 	notify,
 	signInWithGoogle,
-	initLocalDeviceByPasscodeAndSync: initLocalDeviceByPasscodeAndSync,
+	initLocalDeviceByPasscodeAndSync,
 	setLoading: (flag: boolean): void => {
 		appState.loading = flag;
 	},

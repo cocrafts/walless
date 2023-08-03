@@ -1,14 +1,17 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import { PopupType } from '@walless/messaging';
+import CreatePasscodeScreen from 'screens/CreatePasscode';
 import DashboardScreen from 'screens/Dashboard';
 import Collection from 'screens/Dashboard/Collection';
 import EmbeddedApp from 'screens/Dashboard/Embed';
 import Nft from 'screens/Dashboard/Nft';
+import DeprecatedPasscodeScreen from 'screens/DeprecatedPasscode';
 import ExploreScreen from 'screens/Explore';
 import InvitationScreen from 'screens/Invitation';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
 import ProfileScreen from 'screens/Profile';
+import RecoveryScreen from 'screens/Recover';
 import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
 import RequestSignature from 'screens/Request/Signature';
@@ -62,6 +65,18 @@ export const router = createRouter([
 	{
 		path: '/invitation',
 		element: <InvitationScreen />,
+	},
+	{
+		path: '/recovery',
+		element: <RecoveryScreen />,
+	},
+	{
+		path: '/create-passcode',
+		element: <CreatePasscodeScreen />,
+	},
+	{
+		path: '/deprecated-passcode',
+		element: <DeprecatedPasscodeScreen />,
 	},
 	{
 		path: `/${PopupType.REQUEST_CONNECT_POPUP}/:requestId`,

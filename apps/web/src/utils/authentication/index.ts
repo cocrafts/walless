@@ -18,4 +18,5 @@ export const validateInvitationCode = async (code: string) => {
 
 export * from './keys';
 export * from './passcode';
+export * from './recovery';
 export * from './store';

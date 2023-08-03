@@ -9,9 +9,14 @@ import {
 	signInWithCredential,
 	signInWithPopup,
 } from 'firebase/auth';
-import { initBySeedPhraseModule, setProfile } from 'utils/authentication';
+import {
+	initAndSendRecoveryCode,
+	initBySeedPhraseModule,
+	setProfile,
+} from 'utils/authentication';
 import { auth, googleProvider } from 'utils/firebase';
 import { router } from 'utils/routing';
+import { showError } from 'utils/showError';
 import { customAuth, importAvailableShares, key } from 'utils/w3a';
 
 interface InternalCache {
@@ -19,6 +24,8 @@ interface InternalCache {
 }
 
 export const cache: InternalCache = {};
+
+const NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE = 3;
 
 export const signInWithGoogle = async (invitationCode?: string) => {
 	try {
@@ -89,9 +96,22 @@ export const createKeyAndEnter = async () => {
 	const status = await importAvailableShares();
 
 	if (status === ThresholdResult.Initializing) {
-		await router.navigate('/passcode/create');
+		if (await initAndSendRecoveryCode()) {
+			router.navigate('/create-passcode');
+		} else {
+			showError('Something went wrong');
+		}
 	} else if (status === ThresholdResult.Missing) {
-		await router.navigate('/passcode/enter');
+		if (
+			key.modules.securityQuestions.getSecurityQuestions() !==
+				'universal-passcode' ||
+			key.getKeyDetails().totalShares >
+				NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE
+		) {
+			router.navigate('/recovery');
+		} else {
+			router.navigate('/deprecated-passcode');
+		}
 	} else if (status === ThresholdResult.Ready) {
 		await setProfile(makeProfile(cache.loginResponse as never));
 		await router.navigate('/');

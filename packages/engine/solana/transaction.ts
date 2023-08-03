@@ -48,7 +48,7 @@ export const getTransactionDetails = async (
 	);
 
 	const status =
-		confirmation === 'finalized'
+		confirmation === 'finalized' || confirmation === 'confirmed'
 			? 'success'
 			: confirmation === 'processed'
 			? 'pending'
@@ -68,7 +68,9 @@ export const getTransactionDetails = async (
 		preBalance: 0,
 		postBalance: 0,
 		amount: 0,
-		date: new Date(parsedTransaction.blockTime! * 1000),
+		date: parsedTransaction.blockTime
+			? new Date(parsedTransaction.blockTime * 1000)
+			: new Date(),
 	};
 
 	if (
@@ -140,9 +142,6 @@ export const getTransactionDetails = async (
 				? 'sent'
 				: 'received';
 
-		if (!parsedTransaction.meta.postTokenBalances[1])
-			console.log(finalTransaction.signature);
-
 		if (finalTransaction.type === 'sent') {
 			finalTransaction.sender = ownerPublicKey;
 			finalTransaction.receiver =
@@ -209,10 +208,12 @@ export const getTransactions = async (
 	);
 
 	const promisesArray = parsedTransactions
-		.sort((a, b) => b!.blockTime! - a!.blockTime!)
+		.sort((a, b) => {
+			if (!a?.blockTime || !b?.blockTime) return 0;
+			return b.blockTime - a.blockTime;
+		})
 		.slice(0, 20)
-		.map(async (transaction, i) => {
-			console.log(`transaction ${i}: `, transaction);
+		.map(async (transaction) => {
 			if (!transaction || !transaction.blockTime) return null;
 
 			const transactionDetails = await getTransactionDetails(

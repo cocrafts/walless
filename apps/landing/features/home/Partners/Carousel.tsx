@@ -1,6 +1,6 @@
 import { type FC, useEffect, useRef, useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, StyleSheet, View as OriginalView } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import Animated, {
 	Easing,
 	useAnimatedStyle,
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const horizontalOffset = 220;
-const AnimatedView = Animated.createAnimatedComponent(OriginalView);
+const AnimatedView = Animated.createAnimatedComponent(View);
 
 export const Carousel: FC<Props> = ({
 	style,
@@ -94,7 +94,7 @@ export const Carousel: FC<Props> = ({
 				);
 			}}
 		>
-			<AnimatedView style={[{ flexDirection: 'row' }, animatedStyle]}>
+			<AnimatedView horizontal style={animatedStyle}>
 				{images.map((imageUri, idx) => (
 					<Image key={idx} source={imageUri} style={styles.image} />
 				))}

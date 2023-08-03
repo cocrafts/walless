@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { Stack, Text } from '@walless/ui';
+import { Image, StyleSheet } from 'react-native';
+import { Text, View } from '@walless/gui';
 import SolanaDashboard from 'screens/Dashboard/Solana';
 import SuiDashboard from 'screens/Dashboard/Sui';
 import { useParams } from 'utils/hooks';
@@ -18,13 +19,28 @@ export const Embed: FC = () => {
 		return <TRexRunner />;
 	} else if (id === 'tezos') {
 		return <TezosDashboard />;
+	} else if (id === '000003') {
+		return (
+			<Image
+				style={styles.image}
+				source={{ uri: '/img/explore/ur-mock-layout.png' }}
+				resizeMode="cover"
+			/>
+		);
 	}
 
 	return (
-		<Stack>
+		<View>
 			<Text>EmbeddedApp</Text>
-		</Stack>
+		</View>
 	);
 };
 
 export default Embed;
+
+const styles = StyleSheet.create({
+	image: {
+		width: 352,
+		height: 600,
+	},
+});

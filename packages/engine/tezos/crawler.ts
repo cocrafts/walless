@@ -1,16 +1,14 @@
-import { type TezosToolkit } from '@taquito/taquito';
-import { type TokenInfo, qlClient, queries } from '@walless/graphql';
-import {
-	type PublicKeyDocument,
-	type TokenDocument,
-	selectors,
-} from '@walless/store';
+import type { TezosToolkit } from '@taquito/taquito';
+import type { TokenInfo } from '@walless/graphql';
+import { qlClient, queries } from '@walless/graphql';
+import type { PublicKeyDocument, TokenDocument } from '@walless/store';
+import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
 
 import { tokenActions } from '../state/tokens';
-import { type EngineRunner } from '../utils/type';
+import type { EngineRunner } from '../utils/type';
 
-import { type Endpoints } from './../../core/utils/commonTypes';
+import type { Endpoints } from './../../core/utils/commonTypes';
 import { getTezosEndpointFromUnifiedEndpoint } from './pool';
 import { tezosTokensByAddress } from './token';
 
@@ -36,26 +34,30 @@ export const tezosEngineRunner: EngineRunner<TezosToolkit> = {
 		const makeIdWithTokenId = (i: TokenDocument) =>
 			`${i.network}#${i.account.address?.toUpperCase()}_${i.account.tokenId}`;
 
-		const { tokensByAddress } = await qlClient.request<
-			{ tokensByAddress: TokenInfo[] },
-			{ addresses: string[] }
-		>(queries.tokensByAddress, {
-			addresses: [
-				...tokenDocuments.map(makeId),
-				...tokenDocuments.map(makeIdWithTokenId),
-			],
-		});
+		try {
+			const { tokensByAddress } = await qlClient.request<
+				{ tokensByAddress: TokenInfo[] },
+				{ addresses: string[] }
+			>(queries.tokensByAddress, {
+				addresses: [
+					...tokenDocuments.map(makeId),
+					...tokenDocuments.map(makeIdWithTokenId),
+				],
+			});
 
-		const quoteMap = tokensByAddress.reduce((a, i) => {
-			a[i.address as string] = i;
-			return a;
-		}, {} as Record<string, TokenInfo>);
+			const quoteMap = tokensByAddress.reduce((a, i) => {
+				a[i.address as string] = i;
+				return a;
+			}, {} as Record<string, TokenInfo>);
 
-		for (const i of tokenDocuments) {
-			i.account.quotes =
-				quoteMap[makeId(i)].id !== 'walless-none'
-					? quoteMap[makeId(i)].quotes
-					: quoteMap[makeIdWithTokenId(i)].quotes;
+			for (const i of tokenDocuments) {
+				i.account.quotes =
+					quoteMap[makeId(i)].id !== 'walless-none'
+						? quoteMap[makeId(i)].quotes
+						: quoteMap[makeIdWithTokenId(i)].quotes;
+			}
+		} catch (_) {
+			console.log('cannot fetch tezos token price');
 		}
 
 		tokenActions.setItems(tokenDocuments);

@@ -1,4 +1,5 @@
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import SEOHead from 'components/SEOHead';
 import { type AppProps } from 'next/app';
 

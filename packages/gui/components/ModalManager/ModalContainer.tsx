@@ -1,11 +1,7 @@
-import { type FC, useEffect, useRef } from 'react';
-import {
-	type LayoutChangeEvent,
-	type LayoutRectangle,
-	StyleSheet,
-	TouchableWithoutFeedback,
-	View,
-} from 'react-native';
+import type { FC } from 'react';
+import { useEffect, useRef } from 'react';
+import type { LayoutChangeEvent, LayoutRectangle } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, {
 	Extrapolate,
 	interpolate,
@@ -14,8 +10,8 @@ import Animated, {
 	withSpring,
 } from 'react-native-reanimated';
 
+import type { ModalConfigs } from '../../states/modal';
 import {
-	type ModalConfigs,
 	modalActions,
 	rectangleAnimatedStyle,
 	rectangleBind,

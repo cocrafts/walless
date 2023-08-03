@@ -1,20 +1,22 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import type { CardSkin, TabAble } from '@walless/app';
 import {
-	type CardSkin,
-	type TabAble,
 	MainFeatures,
 	SlideHandler,
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { type SlideOption, Slider } from '@walless/gui';
+import type { SlideOption } from '@walless/gui';
+import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
+import { onrampWithGateFi } from 'utils/gatefi';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
 import EmptyTab from './components/EmptyTab';
@@ -54,7 +56,11 @@ export const TezosDashboard: FC<Props> = () => {
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal(Networks.tezos);
+		appActions.showSendModal({ layoutNetwork: Networks.tezos });
+	};
+
+	const handleBuy = () => {
+		onrampWithGateFi({ wallet: publicKeys[0]._id });
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
@@ -81,8 +87,9 @@ export const TezosDashboard: FC<Props> = () => {
 			</Stack>
 			<Stack alignItems="center" gap={18}>
 				<MainFeatures
-					onReceivePress={() => showReceiveModal(Networks.solana)}
+					onReceivePress={() => showReceiveModal(Networks.tezos)}
 					onSendPress={handleSend}
+					onBuyPress={handleBuy}
 				/>
 				{publicKeys.length > 1 && (
 					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />

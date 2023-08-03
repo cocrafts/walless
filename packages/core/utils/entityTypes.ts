@@ -1,5 +1,7 @@
-import { type Metadata as MplMetadata } from '@metaplex-foundation/mpl-token-metadata';
-import { type SuiObjectData } from '@mysten/sui.js';
+import type { Metadata as MplMetadata } from '@metaplex-foundation/mpl-token-metadata';
+import type { SuiObjectData } from '@mysten/sui.js';
+
+import type { Endpoint, Networks } from './commonTypes';
 
 export interface Setting {
 	version: string;
@@ -7,9 +9,15 @@ export interface Setting {
 	config: Config;
 }
 
+export type EndpointMap = Record<Networks, Endpoint>;
+
 export interface Config {
 	hideBalance: boolean;
 	latestLocation: string;
+}
+
+export interface RemoteConfig {
+	experimentalEnabled: boolean;
 }
 
 export interface UserProfile {
@@ -25,6 +33,11 @@ export interface AssetMetadata {
 	imageUri?: string;
 	mpl?: MplMetadata;
 	sod?: SuiObjectData;
+	description?: string;
+	attributes?: {
+		key: string;
+		value: string;
+	}[];
 }
 
 export interface TokenAccount {
@@ -48,10 +61,23 @@ export interface Token {
 	metadata?: AssetMetadata;
 }
 
+export interface Collection {
+	network: string;
+	metadata?: AssetMetadata;
+	count: number;
+}
+
+export interface CollectibleAccount {
+	mint: string;
+	owner: string;
+	amount: number;
+}
+
 export interface Collectible {
 	network: string;
-	collectionId?: string;
-	metadata?: AssetMetadata;
+	collectionId: string;
+	metadata: AssetMetadata;
+	account: CollectibleAccount;
 }
 
 export interface TrustedDomain {

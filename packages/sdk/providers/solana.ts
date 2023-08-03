@@ -1,3 +1,4 @@
+import { Timeout } from '@walless/core';
 import { RequestType } from '@walless/messaging';
 
 import { sendRequest } from '../utils/messaging';
@@ -13,7 +14,7 @@ export const requestSignAndSendTransaction = async (
 			transaction,
 			options,
 		},
-		60000,
+		Timeout.sixtySeconds,
 	);
 };
 
@@ -24,7 +25,7 @@ export const requestSignMessage = async (message: string) => {
 			type: RequestType.SIGN_MESSAGE_ON_SOLANA,
 			message,
 		},
-		60000,
+		Timeout.sixtySeconds,
 	);
 };
 
@@ -35,6 +36,6 @@ export const requestSignTransaction = async (transaction: string) => {
 			type: RequestType.SIGN_TRANSACTION_ON_SOLANA,
 			transaction,
 		},
-		60000,
+		Timeout.sixtySeconds,
 	);
 };

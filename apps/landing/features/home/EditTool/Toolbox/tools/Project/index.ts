@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 
 import EditProjectBanner from './EditProjectBanner';
 import EditProjectDesc from './EditProjectDesc';

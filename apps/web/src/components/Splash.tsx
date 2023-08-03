@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { SplashFeature } from '@walless/app';
 import { appActions } from 'state/app';
 

@@ -1,24 +1,25 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import type { CardSkin, TabAble } from '@walless/app';
 import {
-	type CardSkin,
-	type TabAble,
 	MainFeatures,
 	SlideHandler,
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
 import { Networks } from '@walless/core';
-import { type SlideOption, Slider } from '@walless/gui';
+import type { SlideOption } from '@walless/gui';
+import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
-import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
+import { onrampWithGateFi } from 'utils/gatefi';
+import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
-import EmptyTab from './components/EmptyTab';
-import TokenTab from './components/TokenTab';
+import { CollectiblesTab, EmptyTab, TokenTab } from './components';
 
 interface Props {
 	variant?: string;
@@ -27,8 +28,10 @@ interface Props {
 export const SolanaDashboard: FC<Props> = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const { setting, setPrivacy } = useSettings();
-	const { tokens, valuation } = useTokens(Networks.solana);
 	const publicKeys = usePublicKeys(Networks.solana);
+	const { tokens, valuation } = useTokens(Networks.solana);
+	const { collections } = useNfts(Networks.solana);
+
 	const bottomSliderItems: SlideOption[] = [
 		{
 			id: 'tokens',
@@ -36,7 +39,7 @@ export const SolanaDashboard: FC<Props> = () => {
 		},
 		{
 			id: 'collectibles',
-			component: EmptyTab,
+			component: () => <CollectiblesTab collections={collections} />,
 		},
 		{
 			id: 'activities',
@@ -54,7 +57,11 @@ export const SolanaDashboard: FC<Props> = () => {
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal(Networks.solana);
+		appActions.showSendModal({ layoutNetwork: Networks.solana });
+	};
+
+	const handleBuy = () => {
+		onrampWithGateFi({ wallet: publicKeys[0]._id });
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
@@ -80,15 +87,18 @@ export const SolanaDashboard: FC<Props> = () => {
 					);
 				})}
 			</Stack>
+
 			<Stack alignItems="center" gap={18}>
 				<MainFeatures
 					onReceivePress={() => showReceiveModal(Networks.solana)}
 					onSendPress={handleSend}
+					onBuyPress={handleBuy}
 				/>
 				{publicKeys.length > 1 && (
 					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
 				)}
 			</Stack>
+
 			<Stack flex={1}>
 				<TabsHeader
 					items={layoutTabs}
@@ -118,5 +128,6 @@ const suiCardSkin: CardSkin = {
 const styles = StyleSheet.create({
 	sliderContainer: {
 		flex: 1,
+		height: '100%',
 	},
 });

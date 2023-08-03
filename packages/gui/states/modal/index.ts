@@ -1,10 +1,10 @@
-import { type RefObject } from 'react';
-import { type View } from 'react-native';
+import type { RefObject } from 'react';
+import type { View } from 'react-native';
 import { proxy } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 
 import { measureRelative, referenceMap } from './helper';
-import { type ModalState, type ShowModalConfigs } from './type';
+import type { ModalState, ShowModalConfigs } from './type';
 
 export const modalState = proxy<ModalState>({
 	count: 0,

@@ -1,9 +1,10 @@
-import { type FC, Fragment } from 'react';
-import { type GetStaticPaths, type GetStaticProps } from 'next';
+import type { FC } from 'react';
+import { Fragment } from 'react';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { HomeLayout } from 'src/components';
 import { loadMarkdown } from 'utils/engine';
-import { type DocsTree } from 'utils/types';
+import type { DocsTree } from 'utils/types';
 
 interface Props {
 	docsTree?: DocsTree;

@@ -1,8 +1,8 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text } from '@walless/gui';
 
-import { type TabAble } from './shared';
+import type { TabAble } from './shared';
 
 interface Props {
 	item: TabAble;

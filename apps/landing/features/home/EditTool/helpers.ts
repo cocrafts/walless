@@ -1,4 +1,4 @@
-import { type ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react';
 
 export const handleChangeImage = (
 	event: ChangeEvent<HTMLInputElement>,

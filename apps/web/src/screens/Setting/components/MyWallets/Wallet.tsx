@@ -1,9 +1,9 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
-import { type PublicKeyDocument } from '@walless/store';
+import type { PublicKeyDocument } from '@walless/store';
 import { appActions } from 'state/app';
 import { getNetworkInfo } from 'utils/helper';
 

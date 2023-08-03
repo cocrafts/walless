@@ -1,5 +1,5 @@
-import { type Endpoint } from '@walless/core';
-import { type Database } from '@walless/store';
+import type { Endpoint } from '@walless/core';
+import type { Database } from '@walless/store';
 
 export interface NetworkContext<T> {
 	endpoint: Endpoint;

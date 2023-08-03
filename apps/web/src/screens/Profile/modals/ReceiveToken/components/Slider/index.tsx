@@ -1,5 +1,6 @@
-import { type FC, useState } from 'react';
-import { type ViewStyle } from 'react-native';
+import type { FC } from 'react';
+import { useState } from 'react';
+import type { ViewStyle } from 'react-native';
 import {
 	useAnimatedStyle,
 	useSharedValue,
@@ -7,7 +8,7 @@ import {
 } from 'react-native-reanimated';
 import { AnimatedView, View } from '@walless/gui';
 
-import { type IndicatorOption, type SlideOption } from './shared';
+import type { IndicatorOption, SlideOption } from './shared';
 
 interface Props {
 	style?: ViewStyle;

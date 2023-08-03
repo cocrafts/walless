@@ -1,12 +1,13 @@
-import { type FC, useRef } from 'react';
+import type { FC } from 'react';
+import { useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { LayoutButton } from '@walless/app';
 import RemoveLayoutBtn from '@walless/app/components/LayoutButton/RemoveLayoutBtn';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { Heart, Plus } from '@walless/icons';
-import { type ExtensionDocument } from '@walless/store';
+import type { ExtensionDocument } from '@walless/store';
 import { Image, Stack, Text } from '@walless/ui';
-import { type LayoutCardProps } from 'screens/Explore/internal';
+import type { LayoutCardProps } from 'screens/Explore/internal';
 
 const LayoutCard: FC<LayoutCardProps> = ({
 	item,

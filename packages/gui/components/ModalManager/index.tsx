@@ -1,8 +1,9 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSnapshot } from 'valtio';
 
-import { type ModalState, modalState } from '../../states/modal';
+import type { ModalState } from '../../states/modal';
+import { modalState } from '../../states/modal';
 
 import ModalContainer from './ModalContainer';
 

@@ -1,4 +1,4 @@
-import { type HTMLAttributeAnchorTarget } from 'react';
+import type { HTMLAttributeAnchorTarget } from 'react';
 
 export interface NavigationConfig {
 	title: string;

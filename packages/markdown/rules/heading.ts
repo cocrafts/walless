@@ -1,23 +1,19 @@
 import { createElement } from 'react';
 import { Text } from '@walless/gui';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	blockRegex,
-	defaultRules,
-} from 'simple-markdown';
+import type { ParserRule, ReactOutputRule } from 'simple-markdown';
+import { blockRegex, defaultRules } from 'simple-markdown';
 
-import { type MarkdownState } from '../utils/types';
+import type { MarkdownState } from '../utils/types';
 
 export const heading: ParserRule & ReactOutputRule = {
 	...defaultRules.heading,
 	match: blockRegex(/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n *)+/),
 	react: (node, output, state) => {
 		const { key, config } = state as MarkdownState;
-		const { fontSize: baseFontSize } = config;
+		const { fontSize: baseFontSize, headingFamily } = config;
 		const levelSizes = makeLevelSizes(baseFontSize);
 		const fontSize = levelSizes[node.level as never] || 8;
-		const fontWeight = '600';
+		const fontWeight = '500';
 
 		return createElement(
 			Text,
@@ -25,7 +21,12 @@ export const heading: ParserRule & ReactOutputRule = {
 				key,
 				style: { lineHeight: fontSize * 1.2, marginVertical: fontSize / 2 },
 			},
-			output(node.content, { ...state, fontSize, fontWeight }),
+			output(node.content, {
+				...state,
+				fontSize,
+				fontWeight,
+				fontFamily: headingFamily,
+			}),
 		);
 	},
 };

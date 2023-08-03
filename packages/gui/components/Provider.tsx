@@ -1,8 +1,10 @@
-import { type FC, type ReactNode, useEffect, useRef, useState } from 'react';
+import type { FC, ReactNode } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { modalActions } from '../states/modal';
-import { type ThemeState, themeActions } from '../states/theme';
+import type { ThemeState } from '../states/theme';
+import { themeActions } from '../states/theme';
 
 import ModalManager from './ModalManager';
 

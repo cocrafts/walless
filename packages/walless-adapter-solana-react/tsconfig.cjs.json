@@ -1,0 +1,11 @@
+{
+	"extends": "./tsconfig.base.json",
+	"include": ["src"],
+	"compilerOptions": {
+		"target": "ES2016",
+		"module": "CommonJS",
+		"sourceMap": true,
+		"outDir": "lib/cjs",
+		"composite": true
+	}
+}

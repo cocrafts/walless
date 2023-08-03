@@ -1,5 +1,14 @@
-import { type FirebaseOptions, initializeApp } from 'firebase/app';
+import { defaultRemoteConfig } from '@walless/app';
+import type { RemoteConfig } from '@walless/core';
+import type { FirebaseOptions } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import {
+	activate,
+	fetchConfig,
+	getAll,
+	getRemoteConfig,
+} from 'firebase/remote-config';
 
 const firebaseOptions: FirebaseOptions = {
 	apiKey: FIREBASE_API_KEY,
@@ -12,5 +21,20 @@ const firebaseOptions: FirebaseOptions = {
 };
 
 export const app = initializeApp(firebaseOptions);
+export const remoteConfig = getRemoteConfig(app);
 export const auth = getAuth();
 export const googleProvider = new GoogleAuthProvider();
+
+/* update interval: 10 seconds for dev, and 1 hour for prod */
+remoteConfig.settings.minimumFetchIntervalMillis = __DEV__ ? 10000 : 3600000;
+remoteConfig.defaultConfig = defaultRemoteConfig as never;
+
+export const loadRemoteConfig = (): RemoteConfig => {
+	activate(remoteConfig);
+	fetchConfig(remoteConfig); // fetch for next launch
+	const allConfig = getAll(remoteConfig);
+
+	return {
+		experimentalEnabled: allConfig.experimentalEnabled?.asBoolean(),
+	};
+};

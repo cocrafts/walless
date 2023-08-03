@@ -1,6 +1,6 @@
-import { type FC } from 'react';
-import { type Networks } from '@walless/core';
-import { type MetadataDocument } from '@walless/store';
+import type { FC } from 'react';
+import type { Networks } from '@walless/core';
+import type { MetadataDocument } from '@walless/store';
 
 export interface ToolboxProps {
 	tools: ToolboxItem[];

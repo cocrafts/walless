@@ -1,6 +1,6 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Eye } from '@walless/icons';
-import { type MetadataDocument } from '@walless/store';
+import type { MetadataDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
 import TargetWrapper from 'features/home/EditTool/TargetWrapper';

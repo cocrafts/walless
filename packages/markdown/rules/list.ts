@@ -1,14 +1,14 @@
 import { createElement } from 'react';
-import { type TextStyle } from 'react-native';
+import type { TextStyle } from 'react-native';
 import { Text, View } from '@walless/gui';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	type SingleASTNode,
-	defaultRules,
+import type {
+	ParserRule,
+	ReactOutputRule,
+	SingleASTNode,
 } from 'simple-markdown';
+import { defaultRules } from 'simple-markdown';
 
-import { type MarkdownConfig } from '../utils/types';
+import type { MarkdownConfig } from '../utils/types';
 
 export const list: ParserRule & ReactOutputRule = {
 	...defaultRules.list,

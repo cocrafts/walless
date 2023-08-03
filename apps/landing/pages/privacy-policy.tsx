@@ -1,4 +1,5 @@
-import Markdown, { type MarkdownOptions } from '@walless/markdown';
+import type { MarkdownOptions } from '@walless/markdown';
+import Markdown from '@walless/markdown';
 import HomeLayout from 'components/layouts/Home';
 import { ContainerStack } from 'components/styled';
 

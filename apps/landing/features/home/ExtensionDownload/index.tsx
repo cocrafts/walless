@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Stack, Text } from '@walless/ui';
 import DecorationSquare from 'components/DecorationSquare';
 import { ContainerStack } from 'components/styled';

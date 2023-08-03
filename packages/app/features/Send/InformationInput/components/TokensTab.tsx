@@ -1,6 +1,6 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { type Token } from '@walless/core';
+import type { Token } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
@@ -63,9 +63,9 @@ export default TokensTab;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		rowGap: 16,
 	},
 	totalLine: {
-		width: 336,
 		height: 1,
 		backgroundColor: '#566674',
 		opacity: 0.2,

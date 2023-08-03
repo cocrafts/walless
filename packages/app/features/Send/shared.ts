@@ -1,4 +1,4 @@
-import { type SlideOption } from '@walless/gui';
+import type { SlideOption } from '@walless/gui';
 
 import InformationInput from './InformationInput';
 import PasscodeInput from './PasscodeInput';

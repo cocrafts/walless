@@ -1,4 +1,4 @@
-import { type Token } from './entityTypes';
+import type { Collectible, Token } from './entityTypes';
 
 export interface EncryptedWithPasscode {
 	iv: string;
@@ -50,7 +50,6 @@ export enum Networks {
 	ethereum = 'ethereum',
 	solana = 'solana',
 	sui = 'sui',
-	tezos = 'tezos',
 }
 
 export enum Endpoints {
@@ -66,7 +65,7 @@ export interface TransactionPayload {
 	receiver: string;
 	amount: number;
 	network: Networks;
-	token: Token;
+	token: Token | Collectible;
 	passcode?: string;
 }
 
@@ -86,4 +85,9 @@ export interface LegacyMetadataSource {
 	keywords: string[];
 	timestamp: string;
 	tokens: LegacySolanaMetadata[];
+}
+
+export enum Timeout {
+	thirtySeconds = 30000,
+	sixtySeconds = 60000,
 }

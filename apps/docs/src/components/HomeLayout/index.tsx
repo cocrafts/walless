@@ -1,14 +1,16 @@
-import { type FC, useRef } from 'react';
+import type { FC } from 'react';
+import { useRef } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { dimensionState, View } from '@walless/gui';
 import Markdown from '@walless/markdown';
 import { useRouter } from 'next/router';
 import { loadContent } from 'utils/content';
 import { sharedStyles } from 'utils/style';
-import { type DocsTree } from 'utils/types';
+import type { DocsTree } from 'utils/types';
 import { useSnapshot } from 'valtio';
 
-import { type DrawerType, Drawer } from '../Drawer';
+import type { DrawerType } from '../Drawer';
+import { Drawer } from '../Drawer';
 
 import LeftMenu from './LeftMenu';
 import SideNavigation from './SideNavigation';
@@ -52,12 +54,12 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 				<ActivityIndicator />
 			) : (
 				<View style={styles.container}>
+					<TopNavigation
+						docs={docs}
+						docsTree={docsTree}
+						onPressMenu={toggleLeftSideMenu}
+					/>
 					<View style={[sharedStyles.container, styles.navigationContainer]}>
-						<TopNavigation
-							docs={docs}
-							docsTree={docsTree}
-							onPressMenu={toggleLeftSideMenu}
-						/>
 						{responsiveLevel < 1 && (
 							<SideNavigation
 								containerStyle={styles.smallSideNavigationStyle}
@@ -77,7 +79,6 @@ export const HomeLayout: FC<Props> = ({ docs, params, docsTree }) => {
 						<Markdown
 							style={[sharedStyles.contentContainer, styles.markdownContainer]}
 							content={loadContent(docsTree, path) || '##Coming soon'}
-							options={{ lineHeight: 45 }}
 						/>
 					</ScrollView>
 				</View>
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
 	},
 	smallSideNavigationStyle: {
 		position: 'absolute',
-		top: 130,
+		top: 18,
 		left: 30,
 	},
 });

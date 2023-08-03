@@ -1,19 +1,21 @@
 import {
+	defaultEndpoints,
 	tokenActions,
 	tokenState,
 	walletActions,
 	walletState,
 } from '@walless/engine';
 import { modules } from '@walless/ioc';
-import {
-	type ExtensionDocument,
-	type PouchDocument,
-	type PublicKeyDocument,
-	type SettingDocument,
-	type TokenDocument,
-	selectors,
+import type {
+	EndpointsDocument,
+	ExtensionDocument,
+	PouchDocument,
+	PublicKeyDocument,
+	SettingDocument,
+	TokenDocument,
 } from '@walless/store';
-import { appActions } from 'state/app';
+import { selectors } from '@walless/store';
+import { appState } from 'state/app';
 
 import { extensionActions, extensionState } from '../extension';
 
@@ -25,11 +27,20 @@ export const initializeLiveState = async () => {
 	const tokenResponse = await modules.storage.find(selectors.allTokens);
 	const tokens = tokenResponse.docs as TokenDocument[];
 	const settings = await modules.storage.safeGet<SettingDocument>('settings');
+	const endpoints = await modules.storage.safeGet<EndpointsDocument>(
+		'endpoints',
+	);
 
 	extensionActions.setExtensions(extensions);
 	walletActions.setItems(publicKeys);
 	tokenActions.setItems(tokens);
-	appActions.sync(settings);
+
+	if (settings) {
+		appState.config = settings.config;
+		appState.profile = settings.profile;
+	}
+
+	appState.endpoints = endpoints || defaultEndpoints;
 
 	const changes = modules.storage.changes({
 		since: 'now',
@@ -56,7 +67,11 @@ export const initializeLiveState = async () => {
 			} else if (item?.type === 'Token') {
 				tokenState.map.set(id, item as TokenDocument);
 			} else if (item?.type === 'Setting') {
-				appActions.sync(item as SettingDocument);
+				const settings = item as SettingDocument;
+				appState.profile = settings.profile;
+				appState.config = settings.config;
+			} else if (item?.type === 'EndpointMap') {
+				appState.endpoints = item as EndpointsDocument;
 			}
 		}
 	});

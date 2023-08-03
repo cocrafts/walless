@@ -1,6 +1,7 @@
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
-import { type StackContext, NextjsSite } from 'sst/constructs';
+import type { StackContext } from 'sst/constructs';
+import { NextjsSite } from 'sst/constructs';
 
 import { documentDomainFromStage, sslArn } from './shared';
 
@@ -13,6 +14,7 @@ export const Document = ({ stack, app }: StackContext) => {
 
 	const site = new NextjsSite(stack, 'document-edge', {
 		path: 'apps/docs',
+		edge: true,
 		timeout: '5 seconds',
 		memorySize: '1024 MB',
 		runtime: 'nodejs18.x',

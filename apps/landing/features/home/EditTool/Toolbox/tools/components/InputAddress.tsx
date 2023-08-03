@@ -1,12 +1,10 @@
-import { type FC, Fragment, useState } from 'react';
-import {
-	type NativeSyntheticEvent,
-	type TextInputKeyPressEventData,
-	StyleSheet,
-	TextInput,
-	TouchableOpacity,
-	View,
+import type { FC } from 'react';
+import { Fragment, useState } from 'react';
+import type {
+	NativeSyntheticEvent,
+	TextInputKeyPressEventData,
 } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { Plus } from '@walless/icons';
 
 interface Props {

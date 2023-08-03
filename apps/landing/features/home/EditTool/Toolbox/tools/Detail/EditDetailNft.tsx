@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Networks } from '@walless/core';
 import { getTezosMetadata } from '@walless/network';
 import { Image, Stack } from '@walless/ui';
@@ -25,15 +25,15 @@ const EditDetailNft: FC = () => {
 		if (networks[0] == Networks.tezos) {
 			const tezosNftMetadata = await getTezosMetadata(address, tokenId);
 			if (tezosNftMetadata) {
-				editToolActions.setDetailCollectibe(tezosNftMetadata);
+				editToolActions.setDetailCollectible(tezosNftMetadata);
 			}
 		} else if (networks[0] === Networks.solana) {
-			const collectibeMetadata = await getSolanaNftCollection(
+			const collectibleMetadata = await getSolanaNftCollection(
 				connection,
 				address,
 			);
-			if (collectibeMetadata) {
-				editToolActions.setDetailCollectibe(collectibeMetadata);
+			if (collectibleMetadata) {
+				editToolActions.setDetailCollectible(collectibleMetadata);
 			}
 		}
 	};

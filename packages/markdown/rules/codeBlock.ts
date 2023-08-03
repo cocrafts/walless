@@ -1,11 +1,8 @@
 import { createElement } from 'react';
 import SyntaxHighlighter from 'react-native-syntax-highlighter';
 import { vs2015 } from 'react-syntax-highlighter/styles/hljs';
-import {
-	type ParserRule,
-	type ReactOutputRule,
-	defaultRules,
-} from 'simple-markdown';
+import type { ParserRule, ReactOutputRule } from 'simple-markdown';
+import { defaultRules } from 'simple-markdown';
 
 const codeBlock: ParserRule & ReactOutputRule = {
 	...defaultRules.codeBlock,

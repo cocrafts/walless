@@ -1,9 +1,7 @@
-import { type FC, useEffect, useRef, useState } from 'react';
-import {
-	type TextInput,
-	StyleSheet,
-	TouchableWithoutFeedback,
-} from 'react-native';
+import type { FC } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { TextInput } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { View } from '@walless/gui';
 
 import SingleInput from './SingleInput';

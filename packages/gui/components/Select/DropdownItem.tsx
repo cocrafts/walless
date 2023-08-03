@@ -1,6 +1,8 @@
-import { type FC, useState } from 'react';
-import { type ViewStyle, Image, StyleSheet } from 'react-native';
-import { type StyleProp } from 'react-native';
+import type { FC } from 'react';
+import { useState } from 'react';
+import type { ImageStyle, ViewStyle } from 'react-native';
+import type { StyleProp } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Check } from '@walless/icons';
 
@@ -9,10 +11,18 @@ interface Props {
 	name: string;
 	icon: string;
 	style: StyleProp<ViewStyle>;
+	iconStyle?: StyleProp<ImageStyle>;
 	onPress: () => void;
 }
 
-const DropdownItem: FC<Props> = ({ selected, name, icon, onPress, style }) => {
+const DropdownItem: FC<Props> = ({
+	selected,
+	name,
+	icon,
+	onPress,
+	style,
+	iconStyle,
+}) => {
 	const [isHover, setIsHover] = useState(false);
 	const iconSrc = { uri: icon };
 
@@ -29,7 +39,7 @@ const DropdownItem: FC<Props> = ({ selected, name, icon, onPress, style }) => {
 			onHoverOut={() => setIsHover(false)}
 			style={containerStyle}
 		>
-			<Image source={iconSrc} style={styles.icon} />
+			<Image source={iconSrc} style={[styles.icon, iconStyle]} />
 			<Text style={[styles.text, isHover && { color: '#FFFFFF' }]}>{name}</Text>
 			{selected && (
 				<View style={styles.checkIcon}>
@@ -43,6 +53,7 @@ const DropdownItem: FC<Props> = ({ selected, name, icon, onPress, style }) => {
 const styles = StyleSheet.create({
 	itemButton: {
 		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 9,
 		paddingVertical: 12,
 		paddingHorizontal: 7,

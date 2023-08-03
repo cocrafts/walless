@@ -1,4 +1,5 @@
-import { type LayoutRectangle, Platform, StyleSheet } from 'react-native';
+import type { LayoutRectangle } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export const idleLayout: LayoutRectangle = {
 	x: 0,

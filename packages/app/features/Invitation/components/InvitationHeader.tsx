@@ -1,5 +1,6 @@
-import { type FC } from 'react';
-import { type ImageSourcePropType, Image, StyleSheet } from 'react-native';
+import type { FC } from 'react';
+import type { ImageSourcePropType } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
 interface Props {

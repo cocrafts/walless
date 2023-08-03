@@ -2,7 +2,7 @@ import { Stack } from '@walless/ui';
 import SectionTitle from 'components/SectionTitle';
 
 import OnboardingContainer from './components/OnboardingContainer';
-import { type OnboardingStepProps } from './internal';
+import type { OnboardingStepProps } from './internal';
 
 const onboardingSteps: OnboardingStepProps[] = [
 	{

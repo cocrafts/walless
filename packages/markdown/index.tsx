@@ -1,15 +1,16 @@
-import { type FC, useState } from 'react';
-import {
-	type LayoutChangeEvent,
-	type LayoutRectangle,
-	type ViewProps,
+import type { FC } from 'react';
+import { useState } from 'react';
+import type {
+	LayoutChangeEvent,
+	LayoutRectangle,
+	ViewProps,
 } from 'react-native';
 import { View } from '@walless/gui';
 import { merge } from 'lodash';
 
 import { defaultConfigs } from './utils/default';
 import { parse, reactOutput } from './utils/internal';
-import { type MarkdownConfig, type MarkdownOptions } from './utils/types';
+import type { MarkdownConfig, MarkdownOptions } from './utils/types';
 
 type Props = ViewProps & {
 	content: string;

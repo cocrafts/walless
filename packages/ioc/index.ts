@@ -1,6 +1,6 @@
-import { type Engine } from '@walless/engine';
-import { type EncryptionKeyVault } from '@walless/messaging';
-import { type Database } from '@walless/store';
+import type { Engine } from '@walless/engine';
+import type { EncryptionKeyVault } from '@walless/messaging';
+import type { Database } from '@walless/store';
 
 export interface DynamicModules {
 	engine: Engine;

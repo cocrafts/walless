@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { sharedStyles } from './shared';

@@ -1,15 +1,16 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
-import { type Networks } from '@walless/core';
+import type { Networks } from '@walless/core';
 import { BindDirections, modalActions, Select } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
-import { type TokenDocument } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
 import { useTokens } from 'utils/hooks';
 import { getTransactionFee } from 'utils/transaction';
 
 import ConfirmTransactionScreen from '../../ConfirmTransaction';
-import { type DropdownItemProps } from '../internal';
+import type { DropdownItemProps } from '../internal';
 
 import Input from './Input';
 import NavBtn from './NavBtn';

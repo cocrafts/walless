@@ -1,7 +1,8 @@
-import { type FC } from 'react';
-import { type ViewStyle, StyleSheet } from 'react-native';
+import type { FC } from 'react';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
-import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
+import { ArrowBottomRight, ArrowTopRight, Cart } from '@walless/icons';
 
 import FeatureButton from '../components/FeatureButton';
 
@@ -10,6 +11,7 @@ interface Props {
 	iconSize?: number;
 	onSendPress?: () => void;
 	onReceivePress?: () => void;
+	onBuyPress?: () => void;
 }
 
 export const MainFeatures: FC<Props> = ({
@@ -17,6 +19,7 @@ export const MainFeatures: FC<Props> = ({
 	iconSize = 18,
 	onSendPress,
 	onReceivePress,
+	onBuyPress,
 }) => {
 	return (
 		<View style={[styles.container, style]}>
@@ -25,6 +28,9 @@ export const MainFeatures: FC<Props> = ({
 			</FeatureButton>
 			<FeatureButton title="Receive" onPress={onReceivePress}>
 				<ArrowBottomRight size={iconSize} />
+			</FeatureButton>
+			<FeatureButton title="Buy" onPress={onBuyPress}>
+				<Cart size={iconSize} />
 			</FeatureButton>
 		</View>
 	);

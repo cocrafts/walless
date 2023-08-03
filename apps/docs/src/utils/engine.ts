@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { simplifyString } from './helpers';
-import { type DocsTree } from './types';
+import type { DocsTree } from './types';
 
 export const loadMarkdown = async (
 	markdownPath?: string,

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Bookmark } from '@walless/icons';
 import { Input, Stack } from '@walless/ui';
 import { ProjectTool } from 'features/home/EditTool/internal';

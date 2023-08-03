@@ -19,7 +19,8 @@ import { showReceiveModal } from 'state/app/modal';
 import { onrampWithGateFi } from 'utils/gatefi';
 import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
-import { CollectiblesTab, EmptyTab, TokenTab } from './components';
+import ActivityTab from './components/ActivityTab';
+import { CollectiblesTab, TokenTab } from './components';
 
 interface Props {
 	variant?: string;
@@ -43,7 +44,7 @@ export const SolanaDashboard: FC<Props> = () => {
 		},
 		{
 			id: 'activities',
-			component: EmptyTab,
+			component: () => <ActivityTab network={Networks.solana} />,
 		},
 	];
 

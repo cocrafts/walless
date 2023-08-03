@@ -64,7 +64,7 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 							<Icon size={14} color={color} />
 						</View>
 					</View>
-					<View>
+					<View style={{ gap: 4 }}>
 						<Text style={styles.text}>
 							{type.charAt(0).toUpperCase() + type.slice(1)}
 						</Text>

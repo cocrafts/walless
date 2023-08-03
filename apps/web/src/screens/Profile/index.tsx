@@ -6,7 +6,6 @@ import { showReceiveModal } from 'state/app/modal';
 import { onrampWithGateFi } from 'utils/gatefi';
 
 import Collectibles from './components/Collectibles';
-import History from './components/History';
 import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';

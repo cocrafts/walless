@@ -2,7 +2,7 @@ import type { InvitationCode } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { qlClient } from '@walless/graphql';
 
-export const validateInvitationCode = async (code: string) => {
+export const validateInvitationCode = async (code: string): Promise<string> => {
 	const { invitationCode } = await qlClient.request<{
 		invitationCode: InvitationCode;
 	}>(queries.invitationCode, { code });

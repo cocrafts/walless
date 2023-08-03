@@ -2,7 +2,6 @@ import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
 import { Keypair as SolPair } from '@solana/web3.js';
 import { generateSecretKey, InMemorySigner } from '@taquito/signer';
 import { generateID } from '@tkey/common-types';
-import type { UnknownObject } from '@walless/core';
 import { Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import { modules } from '@walless/ioc';
@@ -41,76 +40,74 @@ export const initBySeedPhraseModule = async (passcode: string) => {
 		seedPhrases = await key.modules.seedPhraseModule.getSeedPhrases();
 	}
 
-	const writePromises: Promise<UnknownObject>[] = [];
-
-	for (let i = 0; i < seedPhrases.length; i++) {
-		const storedSeed = seedPhrases[i];
+	const seedPhrasePromises = seedPhrases.map(async (storedSeed) => {
 		const rootSeed = mnemonicToSeedSync(storedSeed.seedPhrase);
-
-		defaultPrefixDerivationPaths.forEach(async (prefixObject) => {
-			let type;
-			let address;
-			let privateKey;
-			switch (prefixObject.network) {
-				case Networks.solana: {
-					const seed = derivePath(
-						`m/${prefixObject.path}/0'/0'`,
-						rootSeed.toString('hex'),
-					).key;
-					const keypair = SolPair.fromSeed(seed);
-					type = 'ed25519';
-					address = keypair.publicKey.toString();
-					privateKey = keypair.secretKey;
-					break;
-				}
-				case Networks.sui: {
-					const keypair = SuiPair.deriveKeypair(
-						storedSeed.seedPhrase,
-						`m/${prefixObject.path}/0'/0'/0'`,
-					);
-					type = 'ed25519';
-					address = keypair.getPublicKey().toSuiAddress();
-					privateKey = Buffer.from(keypair.export().privateKey, 'base64');
-					break;
-				}
-				case Networks.tezos: {
-					const keypair = await InMemorySigner.fromSecretKey(
-						generateSecretKey(
-							rootSeed,
+		return Promise.all(
+			defaultPrefixDerivationPaths.map(async (prefixObject) => {
+				let type;
+				let address;
+				let privateKey;
+				switch (prefixObject.network) {
+					case Networks.solana: {
+						const seed = derivePath(
 							`m/${prefixObject.path}/0'/0'`,
-							'ed25519',
-						),
-					);
-					type = 'ed25519';
-					address = await keypair.publicKeyHash();
-					privateKey = decode(await keypair.secretKey());
-					break;
+							rootSeed.toString('hex'),
+						).key;
+						const keypair = SolPair.fromSeed(seed);
+						type = 'ed25519';
+						address = keypair.publicKey.toString();
+						privateKey = keypair.secretKey;
+						break;
+					}
+					case Networks.sui: {
+						const keypair = SuiPair.deriveKeypair(
+							storedSeed.seedPhrase,
+							`m/${prefixObject.path}/0'/0'/0'`,
+						);
+						type = 'ed25519';
+						address = keypair.getPublicKey().toSuiAddress();
+						privateKey = Buffer.from(keypair.export().privateKey, 'base64');
+						break;
+					}
+					case Networks.tezos: {
+						const keypair = await InMemorySigner.fromSecretKey(
+							generateSecretKey(
+								rootSeed,
+								`m/${prefixObject.path}/0'/0'`,
+								'ed25519',
+							),
+						);
+						type = 'ed25519';
+						address = await keypair.publicKeyHash();
+						privateKey = decode(await keypair.secretKey());
+						break;
+					}
 				}
-			}
 
-			if (privateKey && address) {
-				const id = generateID();
-				const encrypted = await encryptWithPasscode(passcode, privateKey);
+				if (privateKey && address) {
+					const id = generateID();
+					const encrypted = await encryptWithPasscode(passcode, privateKey);
 
-				writePromises.push(
-					modules.storage.put<PrivateKeyDocument>({
-						_id: id,
-						type: 'PrivateKey',
-						keyType: type || '',
-						...encrypted,
-					}),
-					modules.storage.put<PublicKeyDocument>({
-						_id: address,
-						type: 'PublicKey',
-						privateKeyId: id,
-						network: prefixObject.network,
-					}),
-				);
-			}
-		});
-	}
+					return Promise.all([
+						modules.storage.put<PrivateKeyDocument>({
+							_id: id,
+							type: 'PrivateKey',
+							keyType: type || '',
+							...encrypted,
+						}),
+						modules.storage.put<PublicKeyDocument>({
+							_id: address,
+							type: 'PublicKey',
+							privateKeyId: id,
+							network: prefixObject.network,
+						}),
+					]);
+				}
+			}),
+		);
+	});
 
-	await Promise.all(writePromises);
+	await Promise.all(seedPhrasePromises);
 };
 
 /**

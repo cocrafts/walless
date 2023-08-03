@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
 		borderColor: 'transparent',
 	},
 	textInput: {
-		flex: 1,
 		paddingVertical: 15,
 		paddingHorizontal: 16,
 	},

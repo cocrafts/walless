@@ -9,7 +9,7 @@ export const Document = () => {
 			}}
 		>
 			<Head>
-				<link rel="shortcut icon" type="image/x-icon" href="/favicon.png" />
+				<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 				<link rel="preconnect" href="https://fonts.googleapis.com" />
 				<link
 					rel="preconnect"
@@ -18,11 +18,7 @@ export const Document = () => {
 				/>
 				<link href={fontUri} rel="stylesheet" />
 			</Head>
-			<body
-				style={{
-					height: '100%',
-				}}
-			>
+			<body>
 				<Main />
 				<NextScript />
 			</body>

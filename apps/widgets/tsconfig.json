@@ -1,0 +1,15 @@
+{
+	"extends": "@walless/tsconfig/next.json",
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/module.d.ts"],
+	"exclude": ["node_modules"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"pages/*": ["./src/pages/*"],
+			"components/*": ["./src/components/*"],
+			"features/*": ["./src/features/*"],
+			"utils/*": ["./src/utils/*"],
+			"state/*": ["./src/state/*"]
+		}
+	}
+}

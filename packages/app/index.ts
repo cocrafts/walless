@@ -1,3 +1,4 @@
+export * from './components/BulletSeparator';
 export * from './components/ErrorAnnouncement';
 export * from './components/FeatureButton';
 export * from './components/LayoutButton';

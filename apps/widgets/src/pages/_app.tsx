@@ -1,9 +1,11 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
+import SEOHead from 'components/SEOHead';
+import { type AppProps } from 'next/app';
 
 import 'raf/polyfill';
+
+import '../../public/reset.css';
 
 export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -18,9 +20,7 @@ export const App: FC<AppProps> = ({ Component, pageProps }) => {
 
 	return (
 		<>
-			<Head>
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-			</Head>
+			<SEOHead />
 			<Component {...pageProps} />
 		</>
 	);

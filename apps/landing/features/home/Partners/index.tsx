@@ -20,24 +20,28 @@ export const Partners = () => {
 			<View>
 				<Text style={styles.title}>Supporting partners</Text>
 				<View style={styles.carouselControlContainer}>
-					<Hoverable
-						style={{
-							...styles.outlineButton,
-							...styles.leftArrow,
-						}}
-						onPress={() => setActiveIndex(activeIndex - 1)}
-						disabled={isPrevDisable}
-					>
-						<ArrowRight />
-					</Hoverable>
+					<View style={isPrevDisable && styles.disabledButton}>
+						<Hoverable
+							style={{
+								...styles.outlineButton,
+								...styles.leftArrow,
+							}}
+							onPress={() => setActiveIndex(activeIndex - 1)}
+							disabled={isPrevDisable}
+						>
+							<ArrowRight />
+						</Hoverable>
+					</View>
 					<View style={styles.buttonSeparator} />
-					<Hoverable
-						style={styles.outlineButton}
-						onPress={() => setActiveIndex(activeIndex + 1)}
-						disabled={isNextDisable}
-					>
-						<ArrowRight />
-					</Hoverable>
+					<View style={isNextDisable && styles.disabledButton}>
+						<Hoverable
+							style={styles.outlineButton}
+							onPress={() => setActiveIndex(activeIndex + 1)}
+							disabled={isNextDisable}
+						>
+							<ArrowRight />
+						</Hoverable>
+					</View>
 				</View>
 			</View>
 			<Carousel
@@ -62,19 +66,22 @@ const styles = StyleSheet.create({
 		marginTop: 30,
 	},
 	outlineButton: {
-		width: 40,
-		height: 40,
+		width: 36,
+		height: 36,
 		borderRadius: 20,
 		borderColor: '#ffffff',
 		borderWidth: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	disabledButton: {
+		opacity: 0.5,
+	},
 	leftArrow: {
 		transform: [{ rotate: '180deg' }],
 	},
 	buttonSeparator: {
-		width: 30,
+		width: 15,
 	},
 	carouselContainer: {
 		marginLeft: 30,

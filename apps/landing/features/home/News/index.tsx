@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
 	},
 	contentContainer: {
 		width: '100%',
-		marginTop: 20,
+		marginTop: 30,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
 	cardContainer: {
 		flex: 1,
-		marginRight: 30,
+		marginRight: 20,
 		backgroundColor: '#202D38',
 		padding: 20,
 		borderRadius: 15,
@@ -78,11 +78,13 @@ const styles = StyleSheet.create({
 	},
 	cardTitle: {
 		fontSize: 18,
+		lineHeight: 26,
 		fontWeight: '500',
 		color: '#ffffff',
 	},
 	cardDescription: {
-		marginTop: 20,
+		marginTop: 10,
+		lineHeight: 20,
 		color: '#566674',
 	},
 	cardLink: {
@@ -92,7 +94,7 @@ const styles = StyleSheet.create({
 	cardLinkText: {
 		fontSize: 16,
 		color: '#ffffff',
-		marginRight: 10,
+		marginRight: 5,
 	},
 	image: {
 		aspectRatio: 283 / 196,

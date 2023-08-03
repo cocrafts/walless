@@ -1,11 +1,14 @@
 import { StyleSheet } from 'react-native';
 import { Button, modalActions, Text, View } from '@walless/gui';
+import { signOut } from 'firebase/auth';
+import { auth } from 'utils/firebase';
 import modules from 'utils/ioc';
 import { router } from 'utils/routing';
 
 const ConfirmModal = () => {
 	const handleLogOut = async () => {
 		modalActions.destroy('log-out-modal');
+		await signOut(auth);
 		await modules.storage.clearAllDocs();
 		await router.navigate('/login');
 	};

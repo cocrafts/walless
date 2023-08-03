@@ -1,21 +1,22 @@
 import { type FC } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import type { Transaction } from '@walless/engine/solana/transaction';
-import { Hoverable } from '@walless/gui';
+import {
+	AnimateDirections,
+	BindDirections,
+	Hoverable,
+	modalActions,
+} from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
 import type { IconProps } from '@walless/icons/components/types';
 import { getNetworkInfo } from 'utils/helper';
 
-const HistoryItem: FC<Transaction> = ({
-	type,
-	amount,
-	network,
-	sender,
-	receiver,
-	status,
-	token,
-}) => {
+import TransactionDetails from './TransactionDetails';
+
+const HistoryItem: FC<Transaction> = (transaction) => {
+	const { type, amount, network, sender, receiver, status, token } =
+		transaction;
 	const networkInfo = getNetworkInfo(network);
 	let Icon: FC<IconProps> = ArrowTopRight;
 	let address = sender;
@@ -33,8 +34,17 @@ const HistoryItem: FC<Transaction> = ({
 		changeBalance = `+ ${amount}`;
 	}
 
+	const handleShowDetailsModal = () => {
+		modalActions.show({
+			id: 'transactionDetails',
+			component: () => <TransactionDetails {...transaction} />,
+			bindingDirection: BindDirections.InnerBottom,
+			animateDirection: AnimateDirections.Top,
+		});
+	};
+
 	return (
-		<Hoverable style={styles.container}>
+		<Hoverable style={styles.container} onPress={handleShowDetailsModal}>
 			<View style={styles.contentContainer}>
 				<View style={styles.leftPartContainer}>
 					<View style={styles.imageContainer}>
@@ -77,7 +87,13 @@ const HistoryItem: FC<Transaction> = ({
 					</View>
 				</View>
 
-				<Text style={[{ color: color }]}>{changeBalance}</Text>
+				<Text
+					style={[styles.balance, { color: color }]}
+					numberOfLines={1}
+					ellipsizeMode={'tail'}
+				>
+					{changeBalance} {token.metadata?.symbol ?? 'SOL'}
+				</Text>
 			</View>
 		</Hoverable>
 	);
@@ -89,7 +105,7 @@ const styles = StyleSheet.create({
 	container: {
 		flexGrow: 1,
 		flexDirection: 'row',
-		width: '100%',
+		overflow: 'hidden',
 	},
 	contentContainer: {
 		flexDirection: 'row',
@@ -97,7 +113,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		backgroundColor: '#131C24',
-		padding: 10,
+		paddingVertical: 10,
+		paddingHorizontal: 12,
 		borderRadius: 8,
 	},
 	imageContainer: {
@@ -136,5 +153,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 8,
+	},
+	balance: {
+		textAlign: 'right',
 	},
 });

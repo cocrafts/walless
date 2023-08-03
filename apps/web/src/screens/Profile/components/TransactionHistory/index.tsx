@@ -1,8 +1,7 @@
-import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { historyState } from '@walless/engine/state/history/internal';
 import { Button, Text, View } from '@walless/gui';
 import { useHistory } from 'utils/hooks';
+import { router } from 'utils/routing';
 
 import HistoryItem from './HistoryItem';
 
@@ -14,7 +13,10 @@ const TransactionHistory = () => {
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<Text style={styles.title}>History</Text>
-				<Button style={styles.button}>
+				<Button
+					style={styles.button}
+					onPress={() => router.navigate('/history')}
+				>
 					<Text>See All</Text>
 				</Button>
 			</View>

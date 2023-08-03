@@ -14,6 +14,7 @@ import { historyActions } from '../state/history';
 import { getSolanaMetadata } from './metadata';
 
 export interface Transaction {
+	id: string;
 	signature: string;
 	network: Networks;
 	type: 'sent' | 'received';
@@ -55,6 +56,7 @@ export const getTransactionDetails = async (
 			: 'failed';
 
 	const finalTransaction: Transaction = {
+		id: parsedTransaction.transaction.signatures[0],
 		signature: parsedTransaction.transaction.signatures[0],
 		network: Networks.solana,
 		type: 'sent',
@@ -133,8 +135,10 @@ export const getTransactionDetails = async (
 			finalTransaction.postBalance =
 				parsedTransaction.meta.postTokenBalances[0].uiTokenAmount.uiAmount;
 
-		finalTransaction.amount = Math.abs(
-			finalTransaction.postBalance - finalTransaction.preBalance,
+		finalTransaction.amount = parseFloat(
+			Math.abs(
+				finalTransaction.postBalance - finalTransaction.preBalance,
+			).toPrecision(3),
 		);
 
 		finalTransaction.type =

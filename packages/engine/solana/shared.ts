@@ -35,3 +35,5 @@ export const tokenMap = (legacyRegistry as LegacyMetadataSource).tokens.reduce(
 	},
 	{} as Record<string, MetadataDocument>,
 );
+
+tokenMap[solMint] = solMetadata;

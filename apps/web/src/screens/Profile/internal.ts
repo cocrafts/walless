@@ -1,5 +1,17 @@
-import type { Collectible } from './components/Collectibles/CollectibleCard';
-import type { HistoryItemProps } from './components/History/HistoryItem';
+import type { Collectible, Token } from '@walless/core';
+import type { Networks } from '@walless/core';
+
+export interface HistoryItemProps {
+	id: string;
+	type: 'sent' | 'received';
+	status: 'success' | 'pending' | 'failed';
+	toAddress: string;
+	fromAddress: string;
+	amount: number;
+	network: Networks;
+	token: Omit<Token, 'account'> | Omit<Collectible, 'account'>;
+	date: Date;
+}
 
 export const mockCollectibles: Collectible[] = [
 	// {
@@ -25,18 +37,5 @@ export const mockCollectibles: Collectible[] = [
 	// 	name: 'Crypto Kitties',
 	// 	thumbnail: '/img/profile/thumbnail-crypto-kitties.png',
 	// 	logo: '/img/profile/logo-crypto-kitties.png',
-	// },
-];
-
-export const mockHistory: HistoryItemProps[] = [
-	// {
-	// 	id: '1',
-	// 	type: 'received',
-	// 	content: 'You have received 0.0001 ETH from 0x1234…5678',
-	// },
-	// {
-	// 	id: '2',
-	// 	type: 'sent',
-	// 	content: 'You have sent 0.0001 ETH to 0x1234…5678',
 	// },
 ];

@@ -34,7 +34,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		extensionType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
-			iconUri: '/img/network/solana-icon-sm.png',
+			iconUri: '/img/network/solana-icon-sm.svg',
 			iconSize: 24,
 			iconColor: '#0a090e',
 			coverUri: '/img/explore/thumbnail-solana.png',
@@ -46,7 +46,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		networkMeta: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/network/solana-icon-lg.png',
-			iconUri: '/img/network/solana-icon-sm.png',
+			iconUri: '/img/network/solana-icon-sm.svg',
 			iconColor: '#000000',
 			iconSize: 16,
 		},

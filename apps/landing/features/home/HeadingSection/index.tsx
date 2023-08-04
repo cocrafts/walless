@@ -59,7 +59,7 @@ const HeadingSection = () => {
 			marginVertical={64}
 			$md={{ marginVertical: 0 }}
 		>
-			<ContainerStack fullscreen maxWidth={1500}>
+			<ContainerStack fullscreen maxWidth={1200}>
 				{particleElement}
 				{contentElement}
 			</ContainerStack>

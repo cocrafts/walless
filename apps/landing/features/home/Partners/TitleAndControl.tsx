@@ -4,44 +4,28 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowRight } from '@walless/icons';
 
 interface Props {
-	activeIndex: number;
-	isPrevDisable: boolean;
-	isNextDisable: boolean;
-	handleActiveIndexChange: (next: number) => void;
+	onRightPress: () => void;
+	onLeftPress: () => void;
 }
 
-export const TitleAndControl: FC<Props> = ({
-	activeIndex,
-	isPrevDisable,
-	isNextDisable,
-	handleActiveIndexChange,
-}) => {
+export const TitleAndControl: FC<Props> = ({ onRightPress, onLeftPress }) => {
 	return (
 		<View>
 			<Text style={styles.title}>Supporting partners</Text>
 			<View style={styles.carouselControlContainer}>
-				<View style={isPrevDisable && styles.disabledButton}>
-					<Hoverable
-						style={{
-							...styles.outlineButton,
-							...styles.leftArrow,
-						}}
-						onPress={() => handleActiveIndexChange(activeIndex - 1)}
-						disabled={isPrevDisable}
-					>
-						<ArrowRight />
-					</Hoverable>
-				</View>
+				<Hoverable
+					style={{
+						...styles.outlineButton,
+						...styles.leftArrow,
+					}}
+					onPress={onLeftPress}
+				>
+					<ArrowRight />
+				</Hoverable>
 				<View style={styles.buttonSeparator} />
-				<View style={isNextDisable && styles.disabledButton}>
-					<Hoverable
-						style={styles.outlineButton}
-						onPress={() => handleActiveIndexChange(activeIndex + 1)}
-						disabled={isNextDisable}
-					>
-						<ArrowRight />
-					</Hoverable>
-				</View>
+				<Hoverable style={styles.outlineButton} onPress={onRightPress}>
+					<ArrowRight />
+				</Hoverable>
 			</View>
 		</View>
 	);
@@ -60,16 +44,13 @@ const styles = StyleSheet.create({
 		marginTop: 30,
 	},
 	outlineButton: {
-		width: 36,
-		height: 36,
-		borderRadius: 20,
+		width: 30,
+		height: 30,
+		borderRadius: 15,
 		borderColor: '#ffffff',
 		borderWidth: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-	},
-	disabledButton: {
-		opacity: 0.5,
 	},
 	leftArrow: {
 		transform: [{ rotate: '180deg' }],

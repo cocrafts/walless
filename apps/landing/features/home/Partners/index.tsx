@@ -1,37 +1,31 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import SectionContainer from 'components/SectionContainer';
 
-import Carousel from './Carousel';
+import Carousel from './CarouselNew';
 import TitleAndControl from './TitleAndControl';
 
 export const Partners = () => {
-	const [activeIndex, setActiveIndex] = useState(0);
-	const [isPrevDisable, setIsPrevDisable] = useState(false);
-	const [isNextDisable, setIsNextDisable] = useState(false);
+	const carouselRef = useRef<{
+		handleSlideLeftPress: () => void;
+		handleSlideRightPress: () => void;
+	}>();
 
-	const handleReachBounder = (isRightReach: boolean, isLeftReach: boolean) => {
-		setIsPrevDisable(isLeftReach);
-		setIsNextDisable(isRightReach);
+	const handleLeftPress = () => {
+		carouselRef.current?.handleSlideLeftPress();
 	};
 
-	const handleActiveIndexChange = (next: number) => {
-		setActiveIndex(next);
+	const handleRightPress = () => {
+		carouselRef.current?.handleSlideRightPress();
 	};
 
 	return (
 		<SectionContainer horizontal>
 			<TitleAndControl
-				activeIndex={activeIndex}
-				isPrevDisable={isPrevDisable}
-				isNextDisable={isNextDisable}
-				handleActiveIndexChange={handleActiveIndexChange}
+				onLeftPress={handleLeftPress}
+				onRightPress={handleRightPress}
 			/>
-			<Carousel
-				style={styles.carouselContainer}
-				activeIndex={activeIndex}
-				handleReachBounder={handleReachBounder}
-			/>
+			<Carousel ref={carouselRef} style={styles.carouselContainer} />
 		</SectionContainer>
 	);
 };

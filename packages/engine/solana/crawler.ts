@@ -39,8 +39,10 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 			);
 		}
 
-		const signatures = await getSignatureList(connection, keys[0]._id);
-		await getTransactions(connection, signatures, keys[0]._id);
+		if (keys[0]) {
+			const signatures = await getSignatureList(connection, keys[0]._id);
+			await getTransactions(connection, signatures, keys[0]._id);
+		}
 
 		promises.push(
 			Promise.all(tokenPromises).then(async (tokenChunks) => {

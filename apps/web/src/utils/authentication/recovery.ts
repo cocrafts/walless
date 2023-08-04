@@ -1,3 +1,4 @@
+import { gotenksClient, mutations } from '@walless/graphql';
 import { BN } from 'bn.js';
 import { key } from 'utils/w3a';
 
@@ -12,6 +13,12 @@ export const initAndSendRecoveryCode = async () => {
 
 		// send email
 		console.log(recoveryKey, '<-- recovery key');
+		await gotenksClient.request<{
+			messageId: string;
+		}>(mutations.sendEmergencyKit, {
+			key: recoveryKey,
+			receiver: 'sample@gmail.com',
+		});
 
 		return true;
 	} catch (e) {

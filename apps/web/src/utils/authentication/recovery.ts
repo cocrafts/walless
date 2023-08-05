@@ -11,13 +11,10 @@ export const initAndSendRecoveryCode = async () => {
 				newShare.newShareIndex.toString('hex')
 			].share.share.toString('hex');
 
-		// send email
-		console.log(recoveryKey, '<-- recovery key');
 		await gotenksClient.request<{
 			messageId: string;
 		}>(mutations.sendEmergencyKit, {
 			key: recoveryKey,
-			receiver: 'sample@gmail.com',
 		});
 
 		return true;

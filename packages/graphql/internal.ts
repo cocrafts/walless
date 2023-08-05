@@ -15,11 +15,6 @@ const gotenksEndpoint = __DEV__
 	? 'http://localhost:4000/graphql'
 	: 'https://api.walless.io/graphql';
 
-export const gotenksClient = new GraphQLClient(gotenksEndpoint, {
-	// errorPolicy: 'all',
-	// headers: () => {
-	// 	return {};
-	// },
-});
+export const gotenksClient = new GraphQLClient(gotenksEndpoint, {});
 
 export { gql } from 'graphql-request';

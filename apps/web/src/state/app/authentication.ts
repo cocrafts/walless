@@ -1,7 +1,7 @@
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
 import { runtime } from '@walless/core';
 import type { InvitationAccount } from '@walless/graphql';
-import { mutations, qlClient, queries } from '@walless/graphql';
+import { gotenksClient, mutations, qlClient, queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { User, UserCredential } from 'firebase/auth';
 import {
@@ -42,6 +42,11 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 		} else {
 			cache.loginResponse = await signInWithPopup(auth, googleProvider);
 		}
+
+		gotenksClient.setHeader(
+			'Authorization',
+			`Bearer ${await cache.loginResponse.user.getIdToken(true)}`,
+		);
 
 		/* for Development mode, there is no invitation required - just let them in */
 		if (__DEV__) {

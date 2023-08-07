@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@mysten/sui.js": "0.34.0",
-    "@solana/web3.js": "1.75.0"
+    "@solana/web3.js": "1.78.3"
   },
   "devDependencies": {
     "eslint": "8.38.0"

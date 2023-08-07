@@ -12,6 +12,7 @@ import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
 import ProfileScreen from 'screens/Profile';
 import RecoveryScreen from 'screens/Recover';
+import FullHistoryScreen from 'screens/Profile/components/TransactionHistory/FullHistory';
 import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
 import RequestSignature from 'screens/Request/Signature';
@@ -32,6 +33,10 @@ export const router = createRouter([
 			{
 				path: '/profile',
 				element: <ProfileScreen />,
+			},
+			{
+				path: '/history',
+				element: <FullHistoryScreen />,
 			},
 			{
 				path: '/setting',

@@ -1,3 +1,4 @@
+// TODO: complete the Carousel component
 import type { FC } from 'react';
 import { Fragment, useEffect, useRef } from 'react';
 import Animated, {
@@ -17,8 +18,8 @@ interface Props {
 }
 
 export const Carousel: FC<Props> = ({
-	horizontal,
-	itemSize,
+	// horizontal,
+	// itemSize,
 	speed = 600,
 	items,
 	renderItem,
@@ -35,10 +36,10 @@ export const Carousel: FC<Props> = ({
 
 	useEffect(() => {
 		const tick = setInterval(() => {
-			if (true) {
-				offset.value = 0;
-				index.current = 1;
-			}
+			// if (true) {
+			// 	offset.value = 0;
+			// 	index.current = 1;
+			// }
 			index.current = index.current + 1;
 			const nextOffset = 220 * index.current;
 			offset.value = withTiming(nextOffset, { duration: 200 });

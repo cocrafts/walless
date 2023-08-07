@@ -1,13 +1,20 @@
-import { type FC, useEffect, useRef, useState } from 'react';
+import type { FC } from 'react';
+import {
+	forwardRef,
+	useEffect,
+	useImperativeHandle,
+	useRef,
+	useState,
+} from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, Linking, StyleSheet } from 'react-native';
 import Animated, {
 	Easing,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import { View } from '@walless/gui';
+import { Hoverable, View } from '@walless/gui';
 
 import { partners } from './internal';
 
@@ -17,39 +24,48 @@ interface Props {
 	handleReachBounder: (isRightReach: boolean, isLeftReach: boolean) => void;
 }
 
-const horizontalOffset = 220;
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export const Carousel: FC<Props> = ({ style }) => {
+export const Carousel: FC<Props> = forwardRef(function Carousel(
+	{ style }: Props,
+	ref,
+) {
+	const [autoSlideId, setAutoSlideId] = useState<NodeJS.Timer>();
 	const layoutRef = useRef({
-		containerWidth: 0,
-		contentWidth: 0,
 		itemWidth: 0,
-		distanceToRightBorder: 1,
-		distanceToLeftBorder: 0,
-		isRightBorderReach: false,
-		isLeftBorderReach: true,
+		currentIndex: 0,
 	});
 
 	const currentPosition = useSharedValue(0);
 
-	const handleSlideRight = () => {
-		if (currentPosition.value > 0) {
-			currentPosition.value = -layoutRef.current.contentWidth;
+	const handleSlideLeftToRight = () => {
+		if (layoutRef.current.itemWidth === 0) return;
+
+		if (layoutRef.current.currentIndex === 0) {
+			layoutRef.current.currentIndex = partners.length;
+			currentPosition.value =
+				-layoutRef.current.currentIndex * layoutRef.current.itemWidth;
 		}
 
+		layoutRef.current.currentIndex -= 1;
 		currentPosition.value = withTiming(
-			currentPosition.value + layoutRef.current.itemWidth,
+			-layoutRef.current.currentIndex * layoutRef.current.itemWidth,
 			{ duration: 600, easing: Easing.bezier(0.41, 0.03, 0.33, 0.98) },
 		);
 	};
 
-	const handleSlideLeft = () => {
-		if (currentPosition.value < -2 * layoutRef.current.contentWidth) {
-			currentPosition.value = -layoutRef.current.contentWidth;
+	const handleSlideRightToLeft = () => {
+		// ignore the first render
+		if (layoutRef.current.itemWidth === 0) return;
+
+		if (layoutRef.current.currentIndex === partners.length) {
+			layoutRef.current.currentIndex = 0;
+			currentPosition.value = 0;
 		}
+
+		layoutRef.current.currentIndex += 1;
 		currentPosition.value = withTiming(
-			currentPosition.value - layoutRef.current.itemWidth,
+			-(layoutRef.current.currentIndex * layoutRef.current.itemWidth),
 			{ duration: 600, easing: Easing.bezier(0.41, 0.03, 0.33, 0.98) },
 		);
 	};
@@ -65,70 +81,52 @@ export const Carousel: FC<Props> = ({ style }) => {
 	}, [currentPosition]);
 
 	useEffect(() => {
-		setInterval(handleSlideLeft, 2500);
+		const autoSlide = setInterval(handleSlideLeftToRight, 2500);
+		setAutoSlideId(autoSlide);
+
+		return () => clearInterval(autoSlide);
 	}, []);
 
+	useImperativeHandle(ref, () => ({
+		handleSlideLeftPress: () => {
+			clearInterval(autoSlideId);
+			handleSlideRightToLeft();
+		},
+		handleSlideRightPress: () => {
+			clearInterval(autoSlideId);
+			handleSlideLeftToRight();
+		},
+	}));
+
 	return (
-		<View
-			horizontal
-			style={{ overflow: 'hidden', ...style }}
-			onLayout={({ nativeEvent }) => {
-				layoutRef.current.containerWidth = nativeEvent.layout.width;
-			}}
-		>
-			<AnimatedView
-				horizontal
-				style={animatedStyle}
-				onLayout={({ nativeEvent }) => {
-					layoutRef.current.contentWidth = nativeEvent.layout.width;
-					currentPosition.value = -nativeEvent.layout.width;
-				}}
-			>
+		<View horizontal style={{ overflow: 'hidden', ...style }}>
+			<AnimatedView horizontal style={animatedStyle}>
 				{partners.map((partner, idx) => (
-					<TouchableOpacity
-						key={idx}
-						style={styles.imageContainer}
-						onPress={() => Linking.openURL(partner.url)}
-						onLayout={({ nativeEvent }) => {
-							layoutRef.current.itemWidth = nativeEvent.layout.width;
-						}}
-					>
-						<Image source={partner.uri} style={styles.image} />
-					</TouchableOpacity>
+					<Hoverable key={idx} onPress={() => Linking.openURL(partner.url)}>
+						<View
+							onLayout={({ nativeEvent }) => {
+								layoutRef.current.itemWidth = nativeEvent.layout.width;
+							}}
+						>
+							<Image source={partner.uri} style={styles.image} />
+						</View>
+					</Hoverable>
 				))}
 			</AnimatedView>
 			<AnimatedView horizontal style={animatedStyle}>
 				{partners.map((partner, idx) => (
-					<TouchableOpacity
-						key={idx}
-						style={styles.imageContainer}
-						onPress={() => Linking.openURL(partner.url)}
-					>
+					<Hoverable key={idx} onPress={() => Linking.openURL(partner.url)}>
 						<Image source={partner.uri} style={styles.image} />
-					</TouchableOpacity>
-				))}
-			</AnimatedView>
-			<AnimatedView horizontal style={animatedStyle}>
-				{partners.map((partner, idx) => (
-					<TouchableOpacity
-						key={idx}
-						style={styles.imageContainer}
-						onPress={() => Linking.openURL(partner.url)}
-					>
-						<Image source={partner.uri} style={styles.image} />
-					</TouchableOpacity>
+					</Hoverable>
 				))}
 			</AnimatedView>
 		</View>
 	);
-};
+});
 
 export default Carousel;
 
 const styles = StyleSheet.create({
-	imageContainer: {
-		cursor: 'pointer',
-	},
 	image: {
 		width: 200,
 		height: 100,

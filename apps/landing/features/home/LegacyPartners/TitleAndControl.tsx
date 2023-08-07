@@ -4,44 +4,31 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowRight } from '@walless/icons';
 
 interface Props {
-	activeIndex: number;
-	isPrevDisable: boolean;
-	isNextDisable: boolean;
-	handleActiveIndexChange: (next: number) => void;
+	handleLeftPress: () => void;
+	handleRightPress: () => void;
 }
 
 export const TitleAndControl: FC<Props> = ({
-	activeIndex,
-	isPrevDisable,
-	isNextDisable,
-	handleActiveIndexChange,
+	handleLeftPress,
+	handleRightPress,
 }) => {
 	return (
 		<View>
 			<Text style={styles.title}>Supporting partners</Text>
 			<View style={styles.carouselControlContainer}>
-				<View style={isPrevDisable && styles.disabledButton}>
-					<Hoverable
-						style={{
-							...styles.outlineButton,
-							...styles.leftArrow,
-						}}
-						onPress={() => handleActiveIndexChange(activeIndex - 1)}
-						disabled={isPrevDisable}
-					>
-						<ArrowRight />
-					</Hoverable>
-				</View>
+				<Hoverable
+					style={{
+						...styles.outlineButton,
+						...styles.leftArrow,
+					}}
+					onPress={handleLeftPress}
+				>
+					<ArrowRight />
+				</Hoverable>
 				<View style={styles.buttonSeparator} />
-				<View style={isNextDisable && styles.disabledButton}>
-					<Hoverable
-						style={styles.outlineButton}
-						onPress={() => handleActiveIndexChange(activeIndex + 1)}
-						disabled={isNextDisable}
-					>
-						<ArrowRight />
-					</Hoverable>
-				</View>
+				<Hoverable style={styles.outlineButton} onPress={handleRightPress}>
+					<ArrowRight />
+				</Hoverable>
 			</View>
 		</View>
 	);

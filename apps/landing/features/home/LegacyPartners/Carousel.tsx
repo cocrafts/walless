@@ -20,17 +20,11 @@ interface Props {
 const horizontalOffset = 220;
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export const Carousel: FC<Props> = ({
-	style,
-	activeIndex = 0,
-	handleReachBounder,
-}) => {
-	const [isContentShorterThanContainer, setIsContentShorterThanContainer] =
-		useState(false);
-
+export const Carousel: FC<Props> = ({ style }) => {
 	const layoutRef = useRef({
 		containerWidth: 0,
-		contentWidth: partners.length * horizontalOffset,
+		contentWidth: 0,
+		itemWidth: 0,
 		distanceToRightBorder: 1,
 		distanceToLeftBorder: 0,
 		isRightBorderReach: false,
@@ -39,61 +33,81 @@ export const Carousel: FC<Props> = ({
 
 	const currentPosition = useSharedValue(0);
 
+	const handleSlideRight = () => {
+		if (currentPosition.value > 0) {
+			currentPosition.value = -layoutRef.current.contentWidth;
+		}
+
+		currentPosition.value = withTiming(
+			currentPosition.value + layoutRef.current.itemWidth,
+			{ duration: 600, easing: Easing.bezier(0.41, 0.03, 0.33, 0.98) },
+		);
+	};
+
+	const handleSlideLeft = () => {
+		if (currentPosition.value < -2 * layoutRef.current.contentWidth) {
+			currentPosition.value = -layoutRef.current.contentWidth;
+		}
+		currentPosition.value = withTiming(
+			currentPosition.value - layoutRef.current.itemWidth,
+			{ duration: 600, easing: Easing.bezier(0.41, 0.03, 0.33, 0.98) },
+		);
+	};
+
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
 			transform: [
 				{
-					translateX: withTiming(currentPosition.value, {
-						duration: 600,
-						easing: Easing.bezier(0.41, 0.03, 0.33, 0.98),
-					}),
+					translateX: currentPosition.value,
 				},
 			] as never[],
 		};
 	}, [currentPosition]);
 
 	useEffect(() => {
-		const next = -horizontalOffset * activeIndex;
-		if (isContentShorterThanContainer) {
-			layoutRef.current.isRightBorderReach = true;
-			layoutRef.current.isLeftBorderReach = true;
-		} else {
-			layoutRef.current.distanceToLeftBorder = -next;
-
-			layoutRef.current.distanceToRightBorder =
-				layoutRef.current.contentWidth +
-				next -
-				layoutRef.current.containerWidth;
-
-			layoutRef.current.isLeftBorderReach =
-				layoutRef.current.distanceToLeftBorder <= 0;
-
-			layoutRef.current.isRightBorderReach =
-				layoutRef.current.distanceToRightBorder <= 0;
-		}
-
-		handleReachBounder(
-			layoutRef.current.isRightBorderReach,
-			layoutRef.current.isLeftBorderReach,
-		);
-
-		currentPosition.value = next;
-		// This func used to control currentPosition at the right border of carousel
-		// next - (layoutRef.current.isRightBorderReach ? layoutRef.current.distanceToRightBorder - 20 : 0);
-	}, [activeIndex, isContentShorterThanContainer]);
+		setInterval(handleSlideLeft, 2500);
+	}, []);
 
 	return (
 		<View
+			horizontal
 			style={{ overflow: 'hidden', ...style }}
 			onLayout={({ nativeEvent }) => {
 				layoutRef.current.containerWidth = nativeEvent.layout.width;
-				layoutRef.current.distanceToRightBorder =
-					layoutRef.current.contentWidth - layoutRef.current.containerWidth;
-				setIsContentShorterThanContainer(
-					layoutRef.current.contentWidth < layoutRef.current.containerWidth,
-				);
 			}}
 		>
+			<AnimatedView
+				horizontal
+				style={animatedStyle}
+				onLayout={({ nativeEvent }) => {
+					layoutRef.current.contentWidth = nativeEvent.layout.width;
+					currentPosition.value = -nativeEvent.layout.width;
+				}}
+			>
+				{partners.map((partner, idx) => (
+					<TouchableOpacity
+						key={idx}
+						style={styles.imageContainer}
+						onPress={() => Linking.openURL(partner.url)}
+						onLayout={({ nativeEvent }) => {
+							layoutRef.current.itemWidth = nativeEvent.layout.width;
+						}}
+					>
+						<Image source={partner.uri} style={styles.image} />
+					</TouchableOpacity>
+				))}
+			</AnimatedView>
+			<AnimatedView horizontal style={animatedStyle}>
+				{partners.map((partner, idx) => (
+					<TouchableOpacity
+						key={idx}
+						style={styles.imageContainer}
+						onPress={() => Linking.openURL(partner.url)}
+					>
+						<Image source={partner.uri} style={styles.image} />
+					</TouchableOpacity>
+				))}
+			</AnimatedView>
 			<AnimatedView horizontal style={animatedStyle}>
 				{partners.map((partner, idx) => (
 					<TouchableOpacity
@@ -114,11 +128,11 @@ export default Carousel;
 const styles = StyleSheet.create({
 	imageContainer: {
 		cursor: 'pointer',
-		marginRight: 20,
 	},
 	image: {
 		width: 200,
 		height: 100,
+		marginRight: 20,
 		borderRadius: 10,
 	},
 });

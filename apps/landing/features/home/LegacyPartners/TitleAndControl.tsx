@@ -56,8 +56,9 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 	},
 	carouselControlContainer: {
+		flex: 1,
 		flexDirection: 'row',
-		marginTop: 30,
+		alignItems: 'flex-end',
 	},
 	outlineButton: {
 		width: 30,

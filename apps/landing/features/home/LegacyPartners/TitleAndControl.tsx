@@ -4,11 +4,14 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowRight } from '@walless/icons';
 
 interface Props {
-	onRightPress: () => void;
-	onLeftPress: () => void;
+	handleLeftPress: () => void;
+	handleRightPress: () => void;
 }
 
-export const TitleAndControl: FC<Props> = ({ onRightPress, onLeftPress }) => {
+export const TitleAndControl: FC<Props> = ({
+	handleLeftPress,
+	handleRightPress,
+}) => {
 	return (
 		<View>
 			<Text style={styles.title}>Supporting partners</Text>
@@ -18,12 +21,12 @@ export const TitleAndControl: FC<Props> = ({ onRightPress, onLeftPress }) => {
 						...styles.outlineButton,
 						...styles.leftArrow,
 					}}
-					onPress={onLeftPress}
+					onPress={handleLeftPress}
 				>
 					<ArrowRight />
 				</Hoverable>
 				<View style={styles.buttonSeparator} />
-				<Hoverable style={styles.outlineButton} onPress={onRightPress}>
+				<Hoverable style={styles.outlineButton} onPress={handleRightPress}>
 					<ArrowRight />
 				</Hoverable>
 			</View>
@@ -40,8 +43,9 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 	},
 	carouselControlContainer: {
+		flex: 1,
 		flexDirection: 'row',
-		marginTop: 30,
+		alignItems: 'flex-end',
 	},
 	outlineButton: {
 		width: 30,
@@ -51,6 +55,9 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	disabledButton: {
+		opacity: 0.5,
 	},
 	leftArrow: {
 		transform: [{ rotate: '180deg' }],

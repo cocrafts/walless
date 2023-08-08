@@ -17,8 +17,9 @@ const OnboardingStep: FC<OnboardingStepProps> = ({
 		>
 			<Image
 				src={imageUrl}
-				width={347}
-				height={507}
+				width={320}
+				height={'auto'}
+				aspectRatio={347 / 507}
 				borderWidth={1}
 				borderRadius={20}
 				borderColor="#566674"

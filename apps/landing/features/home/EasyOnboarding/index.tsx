@@ -24,7 +24,12 @@ const onboardingSteps: OnboardingStepProps[] = [
 
 const EasyOnboarding = () => {
 	return (
-		<Stack marginVertical={120} gap={72}>
+		<Stack
+			marginVertical={120}
+			gap={72}
+			maxWidth={1200}
+			marginHorizontal={'auto'}
+		>
 			<SectionTitle title="Onboard to Web3 as easy as 1-2-3" />
 			<OnboardingContainer onboardingSteps={onboardingSteps} />
 		</Stack>

@@ -61,5 +61,10 @@ export const resources = {
 				uri: '/img/home/news/twitter-article.png',
 			},
 		},
+		developer: {
+			main: {
+				uri: '/img/home/developer/main.png',
+			},
+		},
 	},
 };

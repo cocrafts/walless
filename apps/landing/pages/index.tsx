@@ -1,4 +1,5 @@
 import HomeLayout from 'components/layouts/Home';
+import Developer from 'features/home/Developer';
 import EasyOnboarding from 'features/home/EasyOnboarding';
 import EditTool from 'features/home/EditTool';
 import ExtensionDownload from 'features/home/ExtensionDownload';
@@ -14,6 +15,7 @@ export const IndexPage = () => {
 			<ExtensionDownload />
 			<EasyOnboarding />
 			<EditTool />
+			<Developer />
 			<News />
 			<Partners />
 		</HomeLayout>

@@ -1,6 +1,9 @@
 import type { FC } from 'react';
+import { useRef } from 'react';
 import { Fragment, useEffect, useState } from 'react';
+import { type View as ViewType, StyleSheet, View } from 'react-native';
 import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme';
+import { modalActions, ModalManager } from '@walless/gui';
 import { GuiProvider } from '@walless/ui';
 import SEOHead from 'components/SEOHead';
 import type { AppProps } from 'next/app';
@@ -16,9 +19,15 @@ export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	const [theme, setTheme] = useRootTheme();
 	const [, setRender] = useState({});
 
+	const containerRef = useRef<ViewType>();
+
 	useEffect(function updateState() {
 		//  This effect makes reanimated work
 		setRender({});
+	}, []);
+
+	useEffect(function setContainerRef() {
+		modalActions.setContainerRef(containerRef as never);
 	}, []);
 
 	return (
@@ -37,7 +46,10 @@ export const App: FC<AppProps> = ({ Component, pageProps }) => {
 					theme={theme}
 				>
 					<SEOHead />
-					<Component {...pageProps} />
+					<View ref={containerRef} style={styles.container}>
+						<Component {...pageProps} />
+						<ModalManager />
+					</View>
 				</GuiProvider>
 			</NextThemeProvider>
 		</Fragment>
@@ -45,3 +57,13 @@ export const App: FC<AppProps> = ({ Component, pageProps }) => {
 };
 
 export default App;
+
+const styles = StyleSheet.create({
+	container: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+	},
+});

@@ -1,16 +1,25 @@
 import type { FC } from 'react';
+import { modalActions } from '@walless/gui';
 import { Button, Stack, Text } from '@walless/ui';
 import Anchor from 'components/Anchor';
 import BulletSeparator from 'components/BulletSeparator';
 import DecorationSquare from 'components/DecorationSquare';
 
 import { features } from './shared';
+import SignUpModal from './SignUpModal';
 
 const spacing = 32;
 const contentMaxWidth = 750;
 const buttonWidth = 160;
 
 export const PrimaryContent: FC = () => {
+	const handleShowSignUpModal = () => {
+		modalActions.show({
+			id: 'signUp',
+			component: () => <SignUpModal />,
+		});
+	};
+
 	const headingElement = (
 		<Stack
 			horizontal
@@ -88,13 +97,14 @@ export const PrimaryContent: FC = () => {
 				justifyContent="center"
 				$sm={{ flex: 1 }}
 			>
-				<Anchor href="https://forms.gle/tpQz8tm3JPALGJiJ7" target="_blank">
-					<Button
-						title="Get early access"
-						width={buttonWidth}
-						marginHorizontal={8}
-					/>
-				</Anchor>
+				{/* <Anchor href="https://forms.gle/tpQz8tm3JPALGJiJ7" target="_blank"> */}
+				<Button
+					title="Get early access"
+					width={buttonWidth}
+					marginHorizontal={8}
+					onPress={handleShowSignUpModal}
+				/>
+				{/* </Anchor> */}
 				<Anchor
 					href="https://www.youtube.com/watch?v=_8NZZKDQ5hM&t=2s"
 					target="_blank"

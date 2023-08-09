@@ -1,25 +1,17 @@
 import type { FC } from 'react';
-import { modalActions } from '@walless/gui';
 import { Button, Stack, Text } from '@walless/ui';
 import Anchor from 'components/Anchor';
 import BulletSeparator from 'components/BulletSeparator';
 import DecorationSquare from 'components/DecorationSquare';
 
 import { features } from './shared';
-import SignUpModal from './SignUpModal';
+import { handleShowSignUpModal } from './SignUpModal';
 
 const spacing = 32;
 const contentMaxWidth = 750;
 const buttonWidth = 160;
 
 export const PrimaryContent: FC = () => {
-	const handleShowSignUpModal = () => {
-		modalActions.show({
-			id: 'signUp',
-			component: () => <SignUpModal />,
-		});
-	};
-
 	const headingElement = (
 		<Stack
 			horizontal

@@ -7,6 +7,13 @@ import ResultModal from '../Result';
 import FormInput from './FormInput';
 import InputDropdown from './InputDropdown';
 
+export const handleShowSignUpModal = () => {
+	modalActions.show({
+		id: 'signUp',
+		component: () => <SignUpModal />,
+	});
+};
+
 const SignUpModal = () => {
 	const [email, setEmail] = useState('');
 	const [twitter, setTwitter] = useState('');
@@ -20,6 +27,15 @@ const SignUpModal = () => {
 		'Designer',
 		'Other',
 	];
+
+	const handleSubmit = () => {
+		// we'll call api here to send email and calculate waitlist number
+		modalActions.destroy('signUp');
+		modalActions.show({
+			id: 'result',
+			component: () => <ResultModal waitlistNumber={130613} />,
+		});
+	};
 
 	useEffect(() => {
 		if (
@@ -68,17 +84,9 @@ const SignUpModal = () => {
 
 			<Button
 				disabled={!isActivate}
-				style={{ zIndex: -1 }}
 				title="Count me in"
 				titleStyle={styles.buttonText}
-				onPress={() => {
-					console.log('counted');
-					modalActions.destroy('signUp');
-					modalActions.show({
-						id: 'result',
-						component: () => <ResultModal waitlistNumber={130613} />,
-					});
-				}}
+				onPress={handleSubmit}
 			/>
 		</View>
 	);

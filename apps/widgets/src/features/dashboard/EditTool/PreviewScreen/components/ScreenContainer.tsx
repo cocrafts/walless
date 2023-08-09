@@ -1,89 +1,79 @@
 import type { FC, ReactNode } from 'react';
-import { useEffect, useState } from 'react';
-import { Image } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 import { Compass } from '@walless/icons';
 import { appState } from 'state/tool';
 import { useSnapshot } from 'valtio';
-
-import type { ProjectState } from '../../internal';
-import { ProjectTool } from '../../internal';
-
-import Sidebar from './Sidebar';
-import TargetWrapper from './TargetWrapper';
 
 interface Props {
 	children: ReactNode;
 }
 
 const ScreenContainer: FC<Props> = ({ children }) => {
-	const snap = useSnapshot(appState);
-	const [projectState, setProjectState] = useState<ProjectState>(
-		snap.tools.project,
-	);
-
-	useEffect(() => {
-		setProjectState(appState.tools.project);
-	}, [snap]);
+	const { tools } = useSnapshot(appState);
 
 	return (
-		<View
-			style={{
-				borderWidth: 1,
-				borderColor: '#364654',
-				borderRadius: 10,
-				backgroundColor: '#0A1117',
-				flexDirection: 'row',
-				maxWidth: 442,
-			}}
-		>
-			<Sidebar>
+		<View style={styles.container}>
+			<View style={styles.sideBar}>
+				<Image
+					style={{
+						width: 36,
+						height: 36,
+						borderRadius: 1000,
+					}}
+					source={{ uri: tools.project.logo }}
+				/>
+
 				<View
 					style={{
-						flex: 1,
-						justifyContent: 'space-between',
+						width: 36,
+						height: 36,
+						borderRadius: 10,
+						justifyContent: 'center',
 						alignItems: 'center',
+						backgroundColor: '#243F56',
 					}}
 				>
-					<View>
-						<TargetWrapper isTargeted={snap.tools.target === ProjectTool.logo}>
-							<Image
-								style={{
-									width: 36,
-									height: 36,
-									borderRadius: 1000,
-								}}
-								source={{ uri: projectState.logo }}
-							/>
-						</TargetWrapper>
-
-						<View
-							style={{
-								width: 36,
-								height: 36,
-								borderRadius: 10,
-								justifyContent: 'center',
-								alignItems: 'center',
-								backgroundColor: '#243F56',
-							}}
-						>
-							<Compass size={20} color="#0694D3" />
-						</View>
-					</View>
-
-					<Image
-						style={{
-							width: 36,
-							height: 36,
-							borderRadius: 1000,
-						}}
-						source={{ uri: '/img/avatar.png' }}
-					/>
+					<Compass size={20} color="#0694D3" />
 				</View>
-			</Sidebar>
-			<View>{children}</View>
+
+				<Image style={styles.avatar} source={{ uri: '/img/avatar.png' }} />
+			</View>
+
+			<View style={styles.childrenContainer}>{children}</View>
 		</View>
 	);
 };
 
 export default ScreenContainer;
+
+const styles = StyleSheet.create({
+	container: {
+		width: 442,
+		height: 650,
+		borderWidth: 1,
+		borderRadius: 10,
+		borderColor: '#364654',
+		backgroundColor: '#0A1117',
+		flexDirection: 'row',
+	},
+	sideBar: {
+		width: 60,
+		paddingVertical: 20,
+		borderRightWidth: 1,
+		borderColor: '#364654',
+		alignItems: 'center',
+		gap: 10,
+	},
+	avatar: {
+		width: 36,
+		height: 36,
+		borderRadius: 10,
+		marginTop: 'auto',
+	},
+	childrenContainer: {
+		flex: 1,
+		padding: 20,
+		gap: 20,
+	},
+});

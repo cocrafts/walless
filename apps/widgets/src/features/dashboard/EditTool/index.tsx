@@ -31,21 +31,20 @@ export const EditTool = () => {
 	return (
 		<View>
 			<Header />
-			<View>
+
+			<View horizontal>
 				<activeTool.preview />
-			</View>
-			<View>
 				<PreviewOutline
 					tools={tools}
 					activeTool={activeTool}
 					setActiveTool={setActiveTool}
 				/>
+				<Toolbox
+					tools={tools}
+					activeTool={activeTool}
+					setActiveTool={setActiveTool}
+				/>
 			</View>
-			<Toolbox
-				tools={tools}
-				activeTool={activeTool}
-				setActiveTool={setActiveTool}
-			/>
 		</View>
 	);
 };

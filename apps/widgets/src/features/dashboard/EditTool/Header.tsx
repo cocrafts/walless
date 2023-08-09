@@ -1,19 +1,25 @@
+import { StyleSheet } from 'react-native';
 import { Text } from '@walless/gui';
 
 const Header = () => {
 	return (
-		<Text
-			style={{
-				alignSelf: 'center',
-				fontSize: 30,
-				maxWidth: 600,
-				textAlign: 'center',
-			}}
-		>
-			Having <Text style={{ color: '#0694D3' }}>your own custom layout</Text> in
-			Walless has never been easier. Try it now!
+		<Text style={styles.mainText}>
+			Design tool - <Text style={styles.highlightedText}>Walless</Text>
 		</Text>
 	);
 };
 
 export default Header;
+
+const styles = StyleSheet.create({
+	mainText: {
+		alignSelf: 'center',
+		fontSize: 30,
+		maxWidth: 600,
+		textAlign: 'center',
+		marginBottom: 40,
+	},
+	highlightedText: {
+		color: '#0694D3',
+	},
+});

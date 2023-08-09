@@ -13,7 +13,10 @@ interface Props {
 
 export const CardNews: FC<Props> = ({ data, style }) => {
 	return (
-		<View style={[styles.cardContainer, style]}>
+		<Hoverable
+			style={[styles.cardContainer, style]}
+			onPress={() => Linking.openURL(data.link)}
+		>
 			<View style={styles.cardContent}>
 				<Text style={styles.cardTitle} numberOfLines={2}>
 					{data.title}
@@ -22,18 +25,14 @@ export const CardNews: FC<Props> = ({ data, style }) => {
 					{data.description}
 				</Text>
 				<View style={styles.cardLink}>
-					<Hoverable
-						horizontal
-						style={{ alignItems: 'center' }}
-						onPress={() => Linking.openURL(data.link)}
-					>
+					<View horizontal style={{ alignItems: 'center' }}>
 						<Text style={styles.cardLinkText}>Read</Text>
 						<ArrowRight size={20} />
-					</Hoverable>
+					</View>
 				</View>
 			</View>
 			<Image source={data.image} style={styles.image} />
-		</View>
+		</Hoverable>
 	);
 };
 

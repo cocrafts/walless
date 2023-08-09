@@ -1,9 +1,8 @@
 import { useRef } from 'react';
-import { Image, StyleSheet } from 'react-native';
-import type { CarouselItemRendererProps } from '@walless/gui';
-import { Carousel } from '@walless/gui';
+import { StyleSheet } from 'react-native';
 import SectionContainer from 'components/SectionContainer';
 
+import Carousel from './Carousel';
 import TitleAndControl from './TitleAndControl';
 
 export const Partners = () => {
@@ -20,26 +19,13 @@ export const Partners = () => {
 		carouselRef.current?.handleSlideRightPress();
 	};
 
-	const renderCarouselItem = ({ item }: CarouselItemRendererProps) => {
-		return (
-			<Image source={{ uri: item.id }} style={{ width: 200, height: 140 }} />
-		);
-	};
-
 	return (
 		<SectionContainer horizontal>
 			<TitleAndControl
-				onLeftPress={handleLeftPress}
-				onRightPress={handleRightPress}
+				handleLeftPress={handleLeftPress}
+				handleRightPress={handleRightPress}
 			/>
-			<Carousel
-				itemSize={200}
-				items={[
-					{ id: '/img/home/partners/tezos.png' },
-					{ id: '/img/home/partners/solana-university.png' },
-				]}
-				renderItem={renderCarouselItem}
-			/>
+			<Carousel ref={carouselRef} style={styles.carouselContainer} />
 		</SectionContainer>
 	);
 };

@@ -17,7 +17,7 @@ const CountMeIn = () => {
 
 	return (
 		<Stack gap={28}>
-			<Text fontWeight="600" fontSize={28} textAlign="center">
+			<Text fontWeight="600" fontSize={20} textAlign="center">
 				We don&apos;t want you miss latest{' '}
 				<Link href="/">
 					<Text color="#0694D3">updates</Text>

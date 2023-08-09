@@ -1,10 +1,18 @@
+import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Button, Text, View } from '@walless/gui';
+import { Button, modalActions, Text, View } from '@walless/gui';
+
+import ResultModal from '../Result';
 
 import FormInput from './FormInput';
 import InputDropdown from './InputDropdown';
 
 const SignUpModal = () => {
+	const [email, setEmail] = useState('');
+	const [twitter, setTwitter] = useState('');
+	const [selectedOption, setSelectedOption] = useState('Select one');
+	const [isActivate, setIsActivate] = useState(false);
+
 	const desciptionOptions = [
 		'Photographer',
 		'Content creator',
@@ -12,6 +20,16 @@ const SignUpModal = () => {
 		'Designer',
 		'Other',
 	];
+
+	useEffect(() => {
+		if (
+			email.length === 0 ||
+			twitter.length === 0 ||
+			selectedOption === 'Select one'
+		)
+			setIsActivate(false);
+		else setIsActivate(true);
+	}, [email, twitter, selectedOption]);
 
 	return (
 		<View style={styles.container}>
@@ -30,17 +48,37 @@ const SignUpModal = () => {
 			</View>
 
 			<View style={styles.contentContainer}>
-				<FormInput title="Email" placeholder="@wallessbio" />
-				<FormInput title="Twitter" placeholder="@wallessbio" />
+				<FormInput
+					title="Email"
+					placeholder="@wallessbio"
+					onChangeText={setEmail}
+				/>
+				<FormInput
+					title="Twitter"
+					placeholder="@wallessbio"
+					onChangeText={setTwitter}
+				/>
 				<InputDropdown
 					title="Describe yourself"
+					currentOption={selectedOption}
+					setCurrentOption={setSelectedOption}
 					optionList={desciptionOptions}
 				/>
 			</View>
+
 			<Button
+				disabled={!isActivate}
 				style={{ zIndex: -1 }}
 				title="Count me in"
 				titleStyle={styles.buttonText}
+				onPress={() => {
+					console.log('counted');
+					modalActions.destroy('signUp');
+					modalActions.show({
+						id: 'result',
+						component: () => <ResultModal waitlistNumber={130613} />,
+					});
+				}}
 			/>
 		</View>
 	);
@@ -66,12 +104,14 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 20,
 		fontWeight: '600',
+		color: '#ffffff',
 	},
 	contentContainer: {
 		gap: 12,
 	},
 	text: {
 		textAlign: 'center',
+		color: '#566674',
 	},
 	logoImage: {
 		width: 67,

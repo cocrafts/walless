@@ -17,12 +17,18 @@ import Dropdown from './Dropdown';
 
 interface Props {
 	title: string;
+	currentOption: string;
+	setCurrentOption: (option: string) => void;
 	optionList: string[];
 }
 
-const InputDropdown: FC<Props> = ({ title, optionList }) => {
+const InputDropdown: FC<Props> = ({
+	title,
+	optionList,
+	currentOption,
+	setCurrentOption,
+}) => {
 	const [isDropped, setIsDropped] = useState(false);
-	const [selectedOption, setSelectedOption] = useState('Select one');
 	const [width, setWidth] = useState(0);
 
 	const modalRef = useRef<ViewType>(null);
@@ -35,8 +41,8 @@ const InputDropdown: FC<Props> = ({ title, optionList }) => {
 					<Dropdown
 						containerWidth={width}
 						optionList={optionList}
-						selectedOption={selectedOption}
-						setSelectedOption={setSelectedOption}
+						selectedOption={currentOption}
+						setSelectedOption={setCurrentOption}
 						setIsDropped={setIsDropped}
 					/>
 				),
@@ -64,12 +70,11 @@ const InputDropdown: FC<Props> = ({ title, optionList }) => {
 					onLayout={() => {
 						modalRef.current?.measure((_x, _y, _width) => {
 							setWidth(_width);
-							console.log(_width);
 						});
 					}}
 				>
 					<Text>
-						{selectedOption === 'Select one' ? 'Select one...' : selectedOption}
+						{currentOption === 'Select one' ? 'Select one...' : currentOption}
 					</Text>
 					<TouchableOpacity onPress={() => setIsDropped(!isDropped)}>
 						<ChevronDown color="#43525F" size={20} />

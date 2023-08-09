@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Button, modalActions, Text, View } from '@walless/gui';
+import { resources } from 'utils/config';
 
 import ResultModal from '../Result';
 
@@ -50,10 +51,7 @@ const SignUpModal = () => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Image
-					source={{ uri: '/img/walless-icon.svg' }}
-					style={styles.logoImage}
-				/>
+				<Image source={resources.walless.icon} style={styles.logoImage} />
 				<Text style={[styles.text, styles.title]}>
 					Sign up for early access
 				</Text>

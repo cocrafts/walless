@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { useRef } from 'react';
 import { Fragment, useEffect, useState } from 'react';
-import { type View as ViewType, StyleSheet, View } from 'react-native';
+import type { View as ViewType } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme';
 import { modalActions, ModalManager } from '@walless/gui';
 import { GuiProvider } from '@walless/ui';

@@ -1,7 +1,8 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { Twitter } from '@walless/icons';
+import { resources } from 'utils/config';
 
 interface Props {
 	waitlistNumber: number;
@@ -11,10 +12,7 @@ const ResultModal: FC<Props> = ({ waitlistNumber }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Image
-					source={{ uri: '/img/walless-icon.svg' }}
-					style={styles.logoImage}
-				/>
+				<Image source={resources.walless.icon} style={styles.logoImage} />
 				<Text style={[styles.text, styles.title]}>
 					Yayyy! You&apos;re on the list!
 				</Text>

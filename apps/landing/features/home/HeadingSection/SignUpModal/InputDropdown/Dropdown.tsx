@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { modalActions, Text, View } from '@walless/gui';
 import { ChevronUp } from '@walless/icons';
@@ -84,8 +84,7 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	optionContainer: {
-		paddingVertical: 14,
-		paddingHorizontal: 14,
+		padding: 14,
 	},
 	option: {
 		color: '#ffffff',

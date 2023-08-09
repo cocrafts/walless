@@ -2,10 +2,17 @@ import { StyleSheet } from 'react-native';
 import { BulletSeparator } from '@walless/app';
 import { Button, Text, View } from '@walless/gui';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { particles } from './components/shared';
 
 const WalletCustomizeSection = () => {
+	const router = useRouter();
+
+	const handlePressNewLayout = () => {
+		router.push('/dashboard/design-tool');
+	};
+
 	return (
 		<View>
 			<View>
@@ -33,6 +40,7 @@ const WalletCustomizeSection = () => {
 						style={styles.button}
 						title="Make your layout"
 						titleStyle={styles.buttonText}
+						onPress={handlePressNewLayout}
 					/>
 				</View>
 

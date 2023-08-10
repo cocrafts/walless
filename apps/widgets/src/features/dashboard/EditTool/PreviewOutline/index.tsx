@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { memo } from 'react';
-import { View } from 'react-native';
-import { Button } from '@walless/gui';
+import { StyleSheet } from 'react-native';
+import { Button, View } from '@walless/gui';
 import Image from 'next/image';
 
 import type { ToolboxItem } from '../internal';
@@ -20,28 +20,40 @@ const PreviewOutline: FC<PreviewOutlineProps> = ({
 	const activeSize = 1.2;
 
 	return (
-		<View>
-			{tools.map((tool) => (
-				<Button
-					key={tool.name}
-					style={{
-						padding: 0,
-						borderWidth: 2,
-						borderRadius: 5,
-						borderColor: activeTool === tool ? '#19A3E1' : 'white',
-					}}
-					onPress={() => setActiveTool(tool)}
-				>
-					<Image
-						src={tool.previewImage}
-						alt={tool.name}
-						width={56 * (activeTool === tool ? activeSize : 1)}
-						height={84 * (activeTool === tool ? activeSize : 1)}
-					/>
-				</Button>
-			))}
+		<View horizontal style={styles.container}>
+			{tools.map((tool) => {
+				const borderColor = activeTool === tool ? '#19A3E1' : 'white';
+				return (
+					<Button
+						key={tool.name}
+						style={{ ...styles.button, borderColor }}
+						onPress={() => setActiveTool(tool)}
+					>
+						<Image
+							src={tool.previewImage}
+							alt={tool.name}
+							width={56 * (activeTool === tool ? activeSize : 1)}
+							height={84 * (activeTool === tool ? activeSize : 1)}
+						/>
+					</Button>
+				);
+			})}
 		</View>
 	);
 };
 
 export default memo(PreviewOutline);
+
+const styles = StyleSheet.create({
+	container: {
+		alignItems: 'flex-start',
+	},
+	button: {
+		padding: 0,
+		borderWidth: 2,
+		borderRadius: 5,
+		backgroundColor: 'transparent',
+		paddingHorizontal: 0,
+		paddingVertical: 0,
+	},
+});

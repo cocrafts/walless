@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
-import { HomeLayout } from 'components/layouts';
+import { DashboardLayout } from 'components/layouts';
 import { EditTool } from 'features/dashboard';
 
 const DesignToolPage = () => {
 	return (
-		<HomeLayout>
+		<DashboardLayout>
 			<EditTool />
-		</HomeLayout>
+		</DashboardLayout>
 	);
 };
 

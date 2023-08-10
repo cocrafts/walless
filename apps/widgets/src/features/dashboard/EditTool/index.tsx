@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
 import Detail from './PreviewScreen/Detail';
@@ -29,24 +30,39 @@ export const EditTool = () => {
 	const [activeTool, setActiveTool] = useState<ToolboxItem>(tools[0] ?? null);
 
 	return (
-		<View>
-			<Header />
-
-			<View horizontal>
+		<View horizontal style={styles.container}>
+			<View style={styles.leftContainer}>
+				<View horizontal style={styles.headerContainer}>
+					<Header />
+					<PreviewOutline
+						tools={tools}
+						activeTool={activeTool}
+						setActiveTool={setActiveTool}
+					/>
+				</View>
 				<activeTool.preview />
-				<PreviewOutline
-					tools={tools}
-					activeTool={activeTool}
-					setActiveTool={setActiveTool}
-				/>
-				<Toolbox
-					tools={tools}
-					activeTool={activeTool}
-					setActiveTool={setActiveTool}
-				/>
 			</View>
+
+			<Toolbox
+				tools={tools}
+				activeTool={activeTool}
+				setActiveTool={setActiveTool}
+			/>
 		</View>
 	);
 };
 
 export default EditTool;
+
+const styles = StyleSheet.create({
+	container: {
+		gap: 40,
+	},
+	leftContainer: {
+		gap: 20,
+	},
+	headerContainer: {
+		gap: 40,
+		justifyContent: 'space-between',
+	},
+});

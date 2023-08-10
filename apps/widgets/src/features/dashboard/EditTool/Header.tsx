@@ -4,7 +4,8 @@ import { Text } from '@walless/gui';
 const Header = () => {
 	return (
 		<Text style={styles.mainText}>
-			Design tool - <Text style={styles.highlightedText}>Walless</Text>
+			Design tool
+			{/* - <Text style={styles.highlightedText}>Walless</Text> */}
 		</Text>
 	);
 };

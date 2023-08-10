@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
 import type { ToolboxProps } from '../internal';
@@ -8,14 +9,7 @@ import ToolName from './ToolName';
 
 const Toolbox: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
 	return (
-		<View
-			style={{
-				borderRadius: 10,
-				backgroundColor: '#000000',
-				flexWrap: 'wrap',
-			}}
-			horizontal
-		>
+		<View style={styles.container}>
 			<View>
 				<View>
 					{tools.map((tool) => (
@@ -65,3 +59,12 @@ const Toolbox: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
 export default Toolbox;
 
 const borderColor = 'rgba(255, 255, 255, 0.12)';
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		borderRadius: 10,
+		backgroundColor: '#000000',
+		flexWrap: 'wrap',
+	},
+});

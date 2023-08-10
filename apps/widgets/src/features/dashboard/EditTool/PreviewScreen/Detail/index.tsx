@@ -59,52 +59,38 @@ const Detail: FC = () => {
 
 	return (
 		<ScreenContainer>
+			<WalletCard
+				skin={tezosCardSkin}
+				token={(mainToken as MetadataDocument) || mockMetadata}
+			/>
+
+			<MainFeatures />
+
+			<TabsHeader
+				items={layoutTabs}
+				activeItem={layoutTabs[activeTabIndex]}
+				onTabPress={onTabPress}
+			/>
+
 			<View>
-				<ScrollView horizontal>
-					<WalletCard
-						skin={tezosCardSkin}
-						token={(mainToken as MetadataDocument) || mockMetadata}
-					/>
-				</ScrollView>
-
-				<View>
-					<MainFeatures />
-				</View>
-
-				<View>
-					<View>
-						<TabsHeader
-							items={layoutTabs}
-							activeItem={layoutTabs[activeTabIndex]}
-							onTabPress={onTabPress}
-						/>
+				<TargetWrapper isTargeted={tools.target === DetailTool.token}>
+					<View
+						onLayout={({ nativeEvent }) =>
+							tabPositionRef.current?.position.push(nativeEvent.layout.x)
+						}
+					>
+						<TokenList items={subTokens as MetadataDocument[]} />
 					</View>
-					<View>
-						<TargetWrapper isTargeted={tools.target === DetailTool.token}>
-							<View
-								onLayout={({ nativeEvent }) =>
-									tabPositionRef.current?.position.push(nativeEvent.layout.x)
-								}
-							>
-								<TokenList items={subTokens as MetadataDocument[]} />
-							</View>
-						</TargetWrapper>
-						<TargetWrapper
-							isTargeted={tools.target === DetailTool.collectibles}
-						>
-							<View
-								onLayout={({ nativeEvent }) =>
-									tabPositionRef.current?.position.push(nativeEvent.layout.x)
-								}
-							>
-								<CollectibleList
-									items={collectiblesList as MetadataDocument[]}
-								/>
-							</View>
-						</TargetWrapper>
-						<View />
+				</TargetWrapper>
+				<TargetWrapper isTargeted={tools.target === DetailTool.collectibles}>
+					<View
+						onLayout={({ nativeEvent }) =>
+							tabPositionRef.current?.position.push(nativeEvent.layout.x)
+						}
+					>
+						<CollectibleList items={collectiblesList as MetadataDocument[]} />
 					</View>
-				</View>
+				</TargetWrapper>
 			</View>
 		</ScreenContainer>
 	);

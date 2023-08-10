@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { Eye } from '@walless/icons';
 import type { MetadataDocument } from '@walless/store';
@@ -15,16 +16,34 @@ export const WalletBalance: FC<Props> = ({ token }) => {
 	const { tools } = useSnapshot(appState);
 
 	return (
-		<View>
-			<View>
+		<View style={styles.container}>
+			<View horizontal style={styles.topContainer}>
 				<Eye size={18} />
 				<TargetWrapper isTargeted={tools.target === DetailTool.token}>
-					<Text>0 {token?.symbol || 'XTZ'}</Text>
+					<Text style={styles.token}>0 {token?.symbol || 'XTZ'}</Text>
 				</TargetWrapper>
 			</View>
-			<Text>~ 0 USD</Text>
+			<Text style={styles.price}>~ 0 USD</Text>
 		</View>
 	);
 };
 
 export default WalletBalance;
+
+const styles = StyleSheet.create({
+	container: {
+		alignItems: 'flex-start',
+	},
+	topContainer: {
+		alignItems: 'center',
+		gap: 10,
+	},
+	token: {
+		fontSize: 35,
+		fontWeight: '500',
+		color: '#ffffff',
+	},
+	price: {
+		marginLeft: 28,
+	},
+});

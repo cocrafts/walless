@@ -12,6 +12,7 @@ import { useSnapshot } from 'valtio';
 
 import InputAddress from '../components/InputAddress';
 import ItemTag from '../components/ItemTag';
+import ToolBox from '../components/ToolBox';
 import ToolDescription from '../components/ToolDescription';
 
 const EditDetailNft: FC = () => {
@@ -44,7 +45,7 @@ const EditDetailNft: FC = () => {
 	};
 
 	return (
-		<View onTouchStart={onTarget} onTouchEnd={editToolActions.unsetTarget}>
+		<ToolBox onHover={onTarget}>
 			<ToolDescription
 				name={'NFT Collectibles'}
 				description="Enter your NFT collectible address. If your project have more than 1 collectible, choose “Add more” to add."
@@ -86,7 +87,7 @@ const EditDetailNft: FC = () => {
 					);
 				})}
 			</View>
-		</View>
+		</ToolBox>
 	);
 };
 

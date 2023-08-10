@@ -10,6 +10,7 @@ import { useSnapshot } from 'valtio';
 
 import InputAddress from '../components/InputAddress';
 import ItemTag from '../components/ItemTag';
+import ToolBox from '../components/ToolBox';
 import ToolDescription from '../components/ToolDescription';
 
 const EditDetailToken: FC = () => {
@@ -35,7 +36,7 @@ const EditDetailToken: FC = () => {
 	};
 
 	return (
-		<View onTouchStart={onTarget} onTouchEnd={editToolActions.unsetTarget}>
+		<ToolBox onHover={onTarget}>
 			<ToolDescription
 				name={'Token'}
 				description="Enter your token address. If your project have more than 1 token, choose “Add more” to add."
@@ -73,7 +74,7 @@ const EditDetailToken: FC = () => {
 					);
 				})}
 			</View>
-		</View>
+		</ToolBox>
 	);
 };
 

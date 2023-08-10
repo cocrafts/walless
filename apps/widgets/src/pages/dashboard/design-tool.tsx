@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { DashboardLayout } from 'components/layouts';
 import { EditTool } from 'features/dashboard';
 
@@ -11,5 +10,3 @@ const DesignToolPage = () => {
 };
 
 export default DesignToolPage;
-
-const styles = StyleSheet.create({});

@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { useMedia } from '@tamagui/core';
 import { Button, Stack } from '@walless/ui';
-import Anchor from 'components/Anchor';
 import { ContainerStack } from 'components/styled';
+import { handleShowSignUpModal } from 'features/home/HeadingSection/SignUpModal';
 
 import HomeButton from './HomeButton';
 import NavItem from './NavItem';
@@ -30,12 +30,8 @@ export const HomeNavigation: FC = () => {
 							return <NavItem key={index} item={item} />;
 						})}
 				</Stack>
-				<Anchor
-					href="https://docs.google.com/forms/d/e/1FAIpQLSeMOQGfeYhq4i-V595JRc28VlY1YDpFeU0rPJkTymFH6nV21g/viewform"
-					target="_blank"
-				>
-					<Button title="Get early access" />
-				</Anchor>
+
+				<Button title="Get early access" onPress={handleShowSignUpModal} />
 			</ContainerStack>
 		</Stack>
 	);

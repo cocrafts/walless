@@ -25,7 +25,7 @@ module.exports = withPlugins(
 		typescript: {
 			ignoreBuildErrors: true,
 		},
-		reactStrictMode: true,
+		reactStrictMode: false,
 		optimizeFonts: true,
 		experimental: {
 			esmExternals: true,

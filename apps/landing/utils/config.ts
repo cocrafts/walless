@@ -6,6 +6,9 @@ export const resources = {
 		text: {
 			uri: '/img/walless-text.svg',
 		},
+		signUpIcon: {
+			uri: '/img/sign-up-icon.svg',
+		},
 	},
 	home: {
 		preview: {

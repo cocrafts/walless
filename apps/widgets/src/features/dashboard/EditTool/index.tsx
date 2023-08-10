@@ -32,15 +32,15 @@ export const EditTool = () => {
 	return (
 		<View horizontal style={styles.container}>
 			<View style={styles.leftContainer}>
-				<View horizontal style={styles.headerContainer}>
-					<Header />
+				<Header />
+				<activeTool.preview />
+				<View style={styles.outline}>
 					<PreviewOutline
 						tools={tools}
 						activeTool={activeTool}
 						setActiveTool={setActiveTool}
 					/>
 				</View>
-				<activeTool.preview />
 			</View>
 
 			<Toolbox
@@ -56,13 +56,12 @@ export default EditTool;
 
 const styles = StyleSheet.create({
 	container: {
-		gap: 40,
+		gap: 100,
 	},
 	leftContainer: {
 		gap: 20,
 	},
-	headerContainer: {
-		gap: 40,
-		justifyContent: 'space-between',
+	outline: {
+		marginLeft: 'auto',
 	},
 });

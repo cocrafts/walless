@@ -1,6 +1,5 @@
 import type { FC } from 'react';
-import { useRef } from 'react';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import type { View as ViewType } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme';

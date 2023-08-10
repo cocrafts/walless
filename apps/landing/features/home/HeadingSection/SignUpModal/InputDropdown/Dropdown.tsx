@@ -18,8 +18,10 @@ const Dropdown: FC<Props> = ({
 	setSelectedOption,
 	setIsDropped,
 }) => {
-	const selectedStyle = {
-		backgroundColor: '#1F2A34',
+	const handleSelectOption = (option: string) => {
+		setSelectedOption(option);
+		setIsDropped(false);
+		modalActions.hide('dropdown');
 	};
 
 	return (
@@ -44,13 +46,9 @@ const Dropdown: FC<Props> = ({
 						key={index}
 						style={[
 							styles.optionContainer,
-							selectedOption === option && selectedStyle,
+							selectedOption === option && styles.selectedStyle,
 						]}
-						onPress={() => {
-							setSelectedOption(option);
-							setIsDropped(false);
-							modalActions.hide('dropdown');
-						}}
+						onPress={() => handleSelectOption(option)}
 					>
 						<Text style={styles.option}>{option}</Text>
 					</TouchableOpacity>
@@ -88,5 +86,8 @@ const styles = StyleSheet.create({
 	},
 	option: {
 		color: '#ffffff',
+	},
+	selectedStyle: {
+		backgroundColor: '#1F2A34',
 	},
 });

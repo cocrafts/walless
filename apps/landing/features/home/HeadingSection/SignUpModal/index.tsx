@@ -43,9 +43,11 @@ const SignUpModal = () => {
 			email.length === 0 ||
 			twitter.length === 0 ||
 			selectedOption === 'Select one'
-		)
+		) {
 			setIsActivate(false);
-		else setIsActivate(true);
+		} else {
+			setIsActivate(true);
+		}
 	}, [email, twitter, selectedOption]);
 
 	return (

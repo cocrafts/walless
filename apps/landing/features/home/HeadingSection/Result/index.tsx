@@ -25,7 +25,7 @@ const ResultModal: FC<Props> = ({ waitlistNumber }) => {
 			<View style={styles.resultContainer}>
 				<View style={styles.resultImageContainer}>
 					<Image
-						source={{ uri: '/img/sign-up-icon.svg' }}
+						source={resources.walless.signUpIcon}
 						style={styles.resultImage}
 					/>
 				</View>

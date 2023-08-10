@@ -22,6 +22,12 @@ const Dropdown: FC<Props> = ({
 		backgroundColor: '#1F2A34',
 	};
 
+	const handleSelectOption = (option: string) => {
+		setSelectedOption(option);
+		setIsDropped(false);
+		modalActions.hide('dropdown');
+	};
+
 	return (
 		<View style={{ width: containerWidth }}>
 			<View style={styles.selectedOptionContainer}>
@@ -46,11 +52,7 @@ const Dropdown: FC<Props> = ({
 							styles.optionContainer,
 							selectedOption === option && selectedStyle,
 						]}
-						onPress={() => {
-							setSelectedOption(option);
-							setIsDropped(false);
-							modalActions.hide('dropdown');
-						}}
+						onPress={() => handleSelectOption(option)}
 					>
 						<Text style={styles.option}>{option}</Text>
 					</TouchableOpacity>

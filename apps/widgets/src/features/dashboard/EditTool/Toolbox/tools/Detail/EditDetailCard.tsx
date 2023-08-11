@@ -5,9 +5,7 @@ import { Select, View } from '@walless/gui';
 import { DetailTool } from 'features/dashboard/EditTool/internal';
 import { editToolActions } from 'state/tool';
 
-import MultiOptionsDropdown, {
-	type DropdownOptionProps,
-} from '../components/MultiOptionsDropdown';
+import { type DropdownOptionProps } from '../components/MultiOptionsDropdown';
 import ToolBox from '../components/ToolBox';
 import ToolDescription from '../components/ToolDescription';
 
@@ -41,7 +39,19 @@ const EditDetailCard: FC = () => {
 					description="What network(s) does your project support?"
 				/>
 
-				<Select items={options} onSelect={setActiveOption} />
+				<Select
+					selected={activeOption}
+					items={options}
+					onSelect={setActiveOption}
+					title={'Select network'}
+					getRequiredFields={function (item: DropdownOptionProps) {
+						return {
+							id: item.id,
+							name: item.label,
+							icon: item.icon,
+						};
+					}}
+				/>
 			</View>
 		</ToolBox>
 	);

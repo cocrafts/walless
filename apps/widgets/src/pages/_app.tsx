@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import type { View } from 'react-native';
-import { modalActions } from '@walless/gui';
+import { View } from 'react-native';
+import { modalActions, ModalManager } from '@walless/gui';
 import SEOHead from 'components/SEOHead';
 import { type AppProps } from 'next/app';
 
@@ -25,7 +25,10 @@ export const App: FC<AppProps> = ({ Component, pageProps }) => {
 	return (
 		<>
 			<SEOHead />
-			<Component {...pageProps} ref={containerRef} />
+			<View ref={containerRef}>
+				<Component {...pageProps} />
+				<ModalManager />
+			</View>
 		</>
 	);
 };

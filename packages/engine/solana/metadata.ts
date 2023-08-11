@@ -1,3 +1,4 @@
+import type { JsonMetadata } from '@metaplex-foundation/js';
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
@@ -68,7 +69,17 @@ export const getRemoteSolanaMetadata: GetSolanaMetadataFunction = async ({
 	const [metadata] = Metadata.deserialize(info.data);
 	result.name = metadata.data?.name;
 	result.symbol = metadata.data?.symbol;
-	result.imageUri = metadata.data?.uri;
+
+	try {
+		const offChainMetadata = (await fetch(metadata.data.uri, {
+			method: 'GET',
+		}).then((res) => res.json())) as JsonMetadata;
+
+		result.imageUri = offChainMetadata.image;
+	} catch {
+		console.log('fetch off chain failed');
+	}
+
 	result.mpl = metadata;
 
 	return result;

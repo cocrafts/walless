@@ -11,6 +11,7 @@ import type { EngineRunner } from '../utils/type';
 import { solanaCollectiblesByAddress } from './collectibles';
 import { initRealTimeSubscription } from './subscription';
 import { solanaTokensByAddress } from './token';
+import { getSignatureList, getTransactions } from './transaction';
 
 export const solanaEngineRunner: EngineRunner<Connection> = {
 	start: async ({ endpoint, connection, storage }) => {
@@ -36,6 +37,11 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 					address: key._id,
 				}),
 			);
+		}
+
+		if (keys[0]) {
+			const signatures = await getSignatureList(connection, keys[0]._id);
+			await getTransactions(connection, signatures, keys[0]._id);
 		}
 
 		promises.push(

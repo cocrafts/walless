@@ -3,7 +3,7 @@ import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import type { AccountInfo, Logs } from '@solana/web3.js';
 import { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import type { Endpoint } from '@walless/core';
+import type { AssetMetadata, Endpoint } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenInfo } from '@walless/graphql';
 import { qlClient, queries } from '@walless/graphql';
@@ -61,7 +61,6 @@ const handleAccountChange = async (
 	address: PublicKey,
 	info: AccountInfo<Buffer>,
 ) => {
-	console.log({ info });
 	const keyStr = address.toString();
 	let mint: string;
 	let balance: string;
@@ -127,12 +126,31 @@ const handleLogsChange = async (
 						.findByMint({ mintAddress: new PublicKey(ele.mint) });
 					addCollectibleToState(connection, endpoint, address.toString(), nft);
 				} else {
-					const { tokensByAddress } = await qlClient.request<
-						{ tokensByAddress: TokenInfo[] },
-						{ addresses: string[] }
-					>(queries.tokensByAddress, {
-						addresses: [`${Networks.solana}#${ele.mint}`],
-					});
+					let tokens: TokenInfo[] = [];
+					let metadata: AssetMetadata | undefined;
+
+					try {
+						const { tokensByAddress } = await qlClient.request<
+							{ tokensByAddress: TokenInfo[] },
+							{ addresses: string[] }
+						>(queries.tokensByAddress, {
+							addresses: [`${Networks.solana}#${ele.mint}`],
+						});
+
+						tokens = tokensByAddress;
+					} catch (error) {
+						console.log('tokens error', error);
+					}
+
+					try {
+						metadata = await getSolanaMetadata({
+							storage,
+							connection,
+							mintAddress: ele.mint,
+						});
+					} catch (error) {
+						console.log('metadata error', error);
+					}
 
 					const tokenDoc: TokenDocument = {
 						_id: `${address.toString()}/${ele.mint}`,
@@ -145,13 +163,9 @@ const handleLogsChange = async (
 							address: address.toString(),
 							balance: ele.uiTokenAmount.amount,
 							decimals: ele.uiTokenAmount.decimals,
-							quotes: tokensByAddress.length > 0 && tokensByAddress[0].quotes,
+							quotes: tokens.length > 0 && tokens[0].quotes,
 						},
-						metadata: await getSolanaMetadata({
-							storage,
-							connection,
-							mintAddress: ele.mint,
-						}),
+						metadata,
 					};
 
 					tokenState.map.set(tokenDoc._id, tokenDoc);

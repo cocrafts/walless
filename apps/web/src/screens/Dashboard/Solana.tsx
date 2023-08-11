@@ -16,9 +16,11 @@ import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
+import { onrampWithGateFi } from 'utils/gatefi';
 import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
-import { CollectiblesTab, EmptyTab, TokenTab } from './components';
+import ActivityTab from './components/ActivityTab';
+import { CollectiblesTab, TokenTab } from './components';
 
 interface Props {
 	variant?: string;
@@ -42,7 +44,7 @@ export const SolanaDashboard: FC<Props> = () => {
 		},
 		{
 			id: 'activities',
-			component: EmptyTab,
+			component: () => <ActivityTab network={Networks.solana} />,
 		},
 	];
 
@@ -57,6 +59,10 @@ export const SolanaDashboard: FC<Props> = () => {
 
 	const handleSend = () => {
 		appActions.showSendModal({ layoutNetwork: Networks.solana });
+	};
+
+	const handleBuy = () => {
+		onrampWithGateFi({ wallet: publicKeys[0]._id });
 	};
 
 	const handleChangePrivateSetting = (next: boolean) => {
@@ -87,6 +93,7 @@ export const SolanaDashboard: FC<Props> = () => {
 				<MainFeatures
 					onReceivePress={() => showReceiveModal(Networks.solana)}
 					onSendPress={handleSend}
+					onBuyPress={handleBuy}
 				/>
 				{publicKeys.length > 1 && (
 					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />

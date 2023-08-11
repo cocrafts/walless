@@ -5,6 +5,7 @@ import BulletSeparator from 'components/BulletSeparator';
 import DecorationSquare from 'components/DecorationSquare';
 
 import { features } from './shared';
+import { handleShowSignUpModal } from './SignUpModal';
 
 const spacing = 32;
 const contentMaxWidth = 750;
@@ -88,13 +89,12 @@ export const PrimaryContent: FC = () => {
 				justifyContent="center"
 				$sm={{ flex: 1 }}
 			>
-				<Anchor href="https://forms.gle/tpQz8tm3JPALGJiJ7" target="_blank">
-					<Button
-						title="Get early access"
-						width={buttonWidth}
-						marginHorizontal={8}
-					/>
-				</Anchor>
+				<Button
+					title="Get early access"
+					width={buttonWidth}
+					marginHorizontal={8}
+					onPress={handleShowSignUpModal}
+				/>
 				<Anchor
 					href="https://www.youtube.com/watch?v=_8NZZKDQ5hM&t=2s"
 					target="_blank"

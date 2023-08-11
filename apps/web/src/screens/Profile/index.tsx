@@ -3,10 +3,11 @@ import { Networks } from '@walless/core';
 import { Stack } from '@walless/ui';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
+import { onrampWithGateFi } from 'utils/gatefi';
 
 import Collectibles from './components/Collectibles';
-import History from './components/History';
 import TokenValue from './components/TokenValue';
+import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';
 
 const ProfileScreen = () => {
@@ -31,11 +32,12 @@ const ProfileScreen = () => {
 			<MainFeatures
 				onSendPress={handleSend}
 				onReceivePress={() => showReceiveModal(Networks.sui)}
+				onBuyPress={onrampWithGateFi}
 			/>
 
 			<Collectibles />
 
-			<History />
+			<TransactionHistory />
 		</Stack>
 	);
 };

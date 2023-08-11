@@ -6,6 +6,9 @@ export const resources = {
 		text: {
 			uri: '/img/walless-text.svg',
 		},
+		signUpIcon: {
+			uri: '/img/sign-up-icon.svg',
+		},
 	},
 	home: {
 		preview: {
@@ -34,6 +37,36 @@ export const resources = {
 			},
 			iconSrc: {
 				uri: '/img/network/tezos-icon-sm.png',
+			},
+		},
+		partners: {
+			tezos: {
+				uri: '/img/home/partners/tezos.png',
+			},
+			solanaUniversity: {
+				uri: '/img/home/partners/solana-university.png',
+			},
+			appworks: {
+				uri: '/img/home/partners/appworks.png',
+			},
+			superteamVietnam: {
+				uri: '/img/home/partners/superteam-vietnam.png',
+			},
+			sqrDao: {
+				uri: '/img/home/partners/sqr-dao.png',
+			},
+		},
+		news: {
+			tzapacArticle: {
+				uri: '/img/home/news/tzapac-article.png',
+			},
+			twitterArticle: {
+				uri: '/img/home/news/twitter-article.png',
+			},
+		},
+		developer: {
+			main: {
+				uri: '/img/home/developer/main.png',
 			},
 		},
 	},

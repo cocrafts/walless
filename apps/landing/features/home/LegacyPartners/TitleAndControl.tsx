@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowRight } from '@walless/icons';
 
+import { sharedStyles } from '../shared';
+
 interface Props {
 	handleLeftPress: () => void;
 	handleRightPress: () => void;
@@ -14,7 +16,7 @@ export const TitleAndControl: FC<Props> = ({
 }) => {
 	return (
 		<View>
-			<Text style={styles.title}>Supporting partners</Text>
+			<Text style={sharedStyles.title}>Supporting partners</Text>
 			<View style={styles.carouselControlContainer}>
 				<Hoverable
 					style={{
@@ -37,11 +39,6 @@ export const TitleAndControl: FC<Props> = ({
 export default TitleAndControl;
 
 const styles = StyleSheet.create({
-	title: {
-		fontSize: 32,
-		fontWeight: '500',
-		color: '#ffffff',
-	},
 	carouselControlContainer: {
 		flex: 1,
 		flexDirection: 'row',

@@ -4,13 +4,15 @@ import { Text, View } from '@walless/gui';
 import SectionContainer from 'components/SectionContainer';
 import { resources } from 'utils/config';
 
+import { sharedStyles } from '../shared';
+
 import TopDeveloper from './TopDeveloperSection';
 
 export const Developer: FC = () => {
 	return (
 		<SectionContainer style={styles.container}>
 			<TopDeveloper />
-			<Text style={styles.title}>
+			<Text style={[sharedStyles.title, styles.title]}>
 				Deliver seamless and unique experience to your users
 			</Text>
 			<Text style={styles.subText}>
@@ -37,13 +39,10 @@ const styles = StyleSheet.create({
 		maxWidth: 650,
 		marginTop: 15,
 		textAlign: 'center',
-		fontSize: 32,
-		fontWeight: '500',
 	},
 	subText: {
 		maxWidth: 720,
 		marginTop: 15,
-		wordSpacing: 3,
 		textAlign: 'center',
 		fontSize: 20,
 		opacity: 0.5,

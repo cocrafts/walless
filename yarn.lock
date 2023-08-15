@@ -11839,6 +11839,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@walless/adapter-solana-base@*, @walless/adapter-solana-base@workspace:packages/adapter-solana-base":
+  version: 0.0.0-use.local
+  resolution: "@walless/adapter-solana-base@workspace:packages/adapter-solana-base"
+  dependencies:
+    "@solana/wallet-adapter-base": ^0.9.22
+    "@solana/web3.js": 1.78.3
+    "@walless/sdk": "*"
+    eslint: 8.38.0
+    typescript: ^5.1.3
+  languageName: unknown
+  linkType: soft
+
+"@walless/adapter-solana-react@workspace:packages/adapter-solana-react":
+  version: 0.0.0-use.local
+  resolution: "@walless/adapter-solana-react@workspace:packages/adapter-solana-react"
+  dependencies:
+    "@solana/wallet-adapter-react": ^0.15.32
+    "@solana/web3.js": 1.78.3
+    "@walless/adapter-solana-base": "*"
+    "@walless/sdk": "*"
+    eslint: 8.38.0
+    typescript: ^5.1.3
+  peerDependencies:
+    react: ^18.2.0
+  languageName: unknown
+  linkType: soft
+
 "@walless/app@*, @walless/app@workspace:packages/app":
   version: 0.0.0-use.local
   resolution: "@walless/app@workspace:packages/app"
@@ -12148,33 +12175,6 @@ __metadata:
     react: ^18.2.0
     tamagui: 1.15.16
     valtio: 1.10.5
-  languageName: unknown
-  linkType: soft
-
-"@walless/walless-adapter-solana-base@*, @walless/walless-adapter-solana-base@workspace:packages/walless-adapter-solana-base":
-  version: 0.0.0-use.local
-  resolution: "@walless/walless-adapter-solana-base@workspace:packages/walless-adapter-solana-base"
-  dependencies:
-    "@solana/wallet-adapter-base": ^0.9.22
-    "@solana/web3.js": 1.78.3
-    "@walless/sdk": "*"
-    eslint: 8.38.0
-    typescript: ^5.1.3
-  languageName: unknown
-  linkType: soft
-
-"@walless/walless-adapter-solana-react@workspace:packages/walless-adapter-solana-react":
-  version: 0.0.0-use.local
-  resolution: "@walless/walless-adapter-solana-react@workspace:packages/walless-adapter-solana-react"
-  dependencies:
-    "@solana/wallet-adapter-react": ^0.15.32
-    "@solana/web3.js": 1.78.3
-    "@walless/sdk": "*"
-    "@walless/walless-adapter-solana-base": "*"
-    eslint: 8.38.0
-    typescript: ^5.1.3
-  peerDependencies:
-    react: ^18.2.0
   languageName: unknown
   linkType: soft
 

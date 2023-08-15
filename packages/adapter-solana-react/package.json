@@ -1,7 +1,7 @@
 {
-  "name": "@walless/walless-adapter-solana-base",
+  "name": "@walless/adapter-solana-react",
   "version": "0.0.2",
-  "description": "This is Walless adapter for Solana",
+  "description": "This is Walless adapter react for Solana",
   "files": [
     "lib",
     "src"
@@ -24,8 +24,12 @@
     "package": "shx mkdir -p lib/cjs && shx echo '{\"type\": \"commonjs\"}' > lib/cjs/package.json"
   },
   "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
   "dependencies": {
-    "@solana/wallet-adapter-base": "^0.9.22"
+    "@solana/wallet-adapter-react": "^0.15.32",
+    "@walless/adapter-solana-base": "*"
   },
   "devDependencies": {
     "@solana/web3.js": "1.78.3",

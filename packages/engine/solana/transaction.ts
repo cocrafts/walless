@@ -131,12 +131,17 @@ export const getTransactionDetails = async (
 			(item) => item.owner === ownerPublicKey,
 		);
 
-		if (!preBalance[0].uiTokenAmount.uiAmount) finalTransaction.preBalance = 0;
-		else finalTransaction.preBalance = preBalance[0].uiTokenAmount.uiAmount;
+		if (!preBalance[0]?.uiTokenAmount.uiAmount) {
+			finalTransaction.preBalance = 0;
+		} else {
+			finalTransaction.preBalance = preBalance[0].uiTokenAmount.uiAmount;
+		}
 
-		if (!postBalance[0].uiTokenAmount.uiAmount)
+		if (!postBalance[0]?.uiTokenAmount.uiAmount) {
 			finalTransaction.postBalance = 0;
-		else finalTransaction.postBalance = postBalance[0].uiTokenAmount.uiAmount;
+		} else {
+			finalTransaction.postBalance = postBalance[0].uiTokenAmount.uiAmount;
+		}
 
 		finalTransaction.amount = parseFloat(
 			Math.abs(

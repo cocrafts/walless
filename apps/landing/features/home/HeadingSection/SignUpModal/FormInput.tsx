@@ -1,22 +1,57 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
-import { Input, Text, View } from '@walless/gui';
+import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import { Hoverable, Input, Text, View } from '@walless/gui';
 
 interface Props {
 	title: string;
 	placeholder: string;
+	prefix?: ReactNode;
 	onChangeText: (text: string) => void;
 }
 
-const FormInput: FC<Props> = ({ title, placeholder, onChangeText }) => {
+const FormInput: FC<Props> = ({ title, placeholder, prefix, onChangeText }) => {
+	const borderOpacity = useSharedValue(0);
+	const handleHoverIn = () => {
+		borderOpacity.value = borderOpacity.value === 1 ? 1 : 0.7;
+	};
+	const handleHoverOut = () => {
+		borderOpacity.value = borderOpacity.value === 1 ? 1 : 0;
+	};
+	const handleFocus = () => {
+		borderOpacity.value = 1;
+	};
+	const handleBlur = () => {
+		borderOpacity.value = 0;
+	};
+
+	const animatedStyle = useAnimatedStyle(() => {
+		return {
+			borderWidth: 1,
+			borderRadius: 15,
+			borderColor: `rgba(86, 102, 116, ${borderOpacity.value})`,
+		};
+	}, [borderOpacity]);
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{title}</Text>
-			<Input
-				style={styles.inputContainer}
-				placeholder={placeholder}
-				onChangeText={(text) => onChangeText(text)}
-			/>
+			<Hoverable
+				horizontal
+				style={[styles.wrapContainer, animatedStyle]}
+				onHoverIn={handleHoverIn}
+				onHoverOut={handleHoverOut}
+			>
+				{prefix}
+				<Input
+					inputStyle={styles.input}
+					style={styles.inputContainer}
+					placeholder={placeholder}
+					onChangeText={(text) => onChangeText(text)}
+					onFocus={handleFocus}
+					onBlur={handleBlur}
+				/>
+			</Hoverable>
 		</View>
 	);
 };
@@ -30,7 +65,17 @@ const styles = StyleSheet.create({
 	title: {
 		color: '#566674',
 	},
-	inputContainer: {
+	wrapContainer: {
+		paddingLeft: 15,
 		backgroundColor: '#0E141A',
+		alignItems: 'center',
+	},
+	inputContainer: {
+		flex: 1,
+		borderWidth: 0,
+	},
+	input: {
+		fontFamily: 'Rubik',
+		paddingLeft: 0,
 	},
 });

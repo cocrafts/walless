@@ -5,6 +5,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import {
 	AnimateDirections,
 	BindDirections,
+	Hoverable,
 	modalActions,
 	Text,
 	View,
@@ -28,6 +29,7 @@ const InputDropdown: FC<Props> = ({
 }) => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [width, setWidth] = useState(0);
+	const handlePress = () => setIsDropped(!isDropped);
 
 	const modalRef = useRef<ViewType>(null);
 
@@ -54,14 +56,14 @@ const InputDropdown: FC<Props> = ({
 				animateDirection: AnimateDirections.Inner,
 			});
 		} else {
-			modalActions.destroy('dropdown');
+			modalActions.hide('dropdown');
 		}
 	}, [isDropped]);
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{title}</Text>
-			<View style={styles.contentContainer}>
+			<Hoverable style={styles.contentContainer} onPress={handlePress}>
 				<View
 					ref={modalRef}
 					style={styles.selectedOptionContainer}
@@ -74,11 +76,11 @@ const InputDropdown: FC<Props> = ({
 					<Text>
 						{currentOption === 'Select one' ? 'Select one...' : currentOption}
 					</Text>
-					<TouchableOpacity onPress={() => setIsDropped(!isDropped)}>
+					<TouchableOpacity onPress={handlePress}>
 						<ChevronDown color="#43525F" size={20} />
 					</TouchableOpacity>
 				</View>
-			</View>
+			</Hoverable>
 		</View>
 	);
 };

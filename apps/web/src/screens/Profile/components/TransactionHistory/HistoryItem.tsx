@@ -92,7 +92,8 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 					numberOfLines={1}
 					ellipsizeMode={'tail'}
 				>
-					{changeBalance} {token.metadata?.symbol ?? 'SOL'}
+					{changeBalance}{' '}
+					{token.metadata?.name?.replaceAll('\u0000', '') ?? 'SOL'}
 				</Text>
 			</View>
 		</Hoverable>

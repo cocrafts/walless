@@ -123,17 +123,20 @@ export const getTransactionDetails = async (
 
 		finalTransaction.token.metadata = tokenAccount;
 
-		if (!parsedTransaction.meta.preTokenBalances[0].uiTokenAmount.uiAmount)
-			finalTransaction.preBalance = 0;
-		else
-			finalTransaction.preBalance =
-				parsedTransaction.meta.preTokenBalances[0].uiTokenAmount.uiAmount;
+		const preBalance = parsedTransaction.meta.preTokenBalances.filter(
+			(item) => item.owner === ownerPublicKey,
+		);
 
-		if (!parsedTransaction.meta.postTokenBalances[0].uiTokenAmount.uiAmount)
+		const postBalance = parsedTransaction.meta.postTokenBalances.filter(
+			(item) => item.owner === ownerPublicKey,
+		);
+
+		if (!preBalance[0].uiTokenAmount.uiAmount) finalTransaction.preBalance = 0;
+		else finalTransaction.preBalance = preBalance[0].uiTokenAmount.uiAmount;
+
+		if (!postBalance[0].uiTokenAmount.uiAmount)
 			finalTransaction.postBalance = 0;
-		else
-			finalTransaction.postBalance =
-				parsedTransaction.meta.postTokenBalances[0].uiTokenAmount.uiAmount;
+		else finalTransaction.postBalance = postBalance[0].uiTokenAmount.uiAmount;
 
 		finalTransaction.amount = parseFloat(
 			Math.abs(
@@ -146,13 +149,17 @@ export const getTransactionDetails = async (
 				? 'sent'
 				: 'received';
 
+		if (parsedTransaction.meta.postTokenBalances.length === 1) return;
+
+		const partner = parsedTransaction.meta.postTokenBalances.filter(
+			(item) => item.owner !== ownerPublicKey,
+		);
+
 		if (finalTransaction.type === 'sent') {
 			finalTransaction.sender = ownerPublicKey;
-			finalTransaction.receiver =
-				parsedTransaction.meta.postTokenBalances[1].owner ?? '';
+			finalTransaction.receiver = partner[0].owner ?? '';
 		} else {
-			finalTransaction.sender =
-				parsedTransaction.meta.postTokenBalances[1].owner ?? '';
+			finalTransaction.sender = partner[0].owner ?? '';
 			finalTransaction.receiver = ownerPublicKey;
 		}
 	}

@@ -1,25 +1,30 @@
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { InvitationFeature } from '@walless/app';
 import { View } from '@walless/gui';
 import { appState } from 'state/app';
-import { enterInvitationCode } from 'state/app/authentication';
+import { validateInvitationCode } from 'utils/authentication';
 import { router } from 'utils/routing';
-import { useSnapshot } from 'valtio';
 
 const InvitationScreen = () => {
-	const { invitationError } = useSnapshot(appState);
+	const [invitationError, setInvitationError] = useState<string>();
 	appState.isAbleToSignIn = true;
 
-	const onInvitationCodeChange = (value: string) => {
+	const onInvitationCodeChange = async (value: string) => {
 		if (invitationError && value.length > 0) {
-			appState.invitationError = '';
+			setInvitationError(undefined);
 		}
 
-		enterInvitationCode(value);
+		try {
+			const code = await validateInvitationCode(value);
+			appState.invitationCode = code;
+		} catch (err) {
+			setInvitationError((err as Error).message);
+		}
 	};
 
 	const handleLoginPress = () => {
-		appState.invitationError = undefined;
+		setInvitationError(undefined);
 		router.navigate('/login');
 	};
 

@@ -110,7 +110,9 @@ export type RootQuery = {
   projects?: Maybe<Array<Maybe<Project>>>;
   systemInfo?: Maybe<SystemInfo>;
   token?: Maybe<TokenInfo>;
+  tokenByAddress?: Maybe<TokenInfo>;
   tokens?: Maybe<Array<Maybe<TokenInfo>>>;
+  tokensByAddress?: Maybe<Array<Maybe<TokenInfo>>>;
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
   walletInvitation?: Maybe<WalletInvitation>;
@@ -127,8 +129,18 @@ export type RootQueryTokenArgs = {
 };
 
 
+export type RootQueryTokenByAddressArgs = {
+  address: Scalars['String']['input'];
+};
+
+
 export type RootQueryTokensArgs = {
   ids: Array<InputMaybe<Scalars['String']['input']>>;
+};
+
+
+export type RootQueryTokensByAddressArgs = {
+  addresses: Array<InputMaybe<Scalars['String']['input']>>;
 };
 
 
@@ -354,7 +366,9 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
   systemInfo?: Resolver<Maybe<ResolversTypes['SystemInfo']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenArgs, 'id'>>;
+  tokenByAddress?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenByAddressArgs, 'address'>>;
   tokens?: Resolver<Maybe<Array<Maybe<ResolversTypes['TokenInfo']>>>, ParentType, ContextType, RequireFields<RootQueryTokensArgs, 'ids'>>;
+  tokensByAddress?: Resolver<Maybe<Array<Maybe<ResolversTypes['TokenInfo']>>>, ParentType, ContextType, RequireFields<RootQueryTokensByAddressArgs, 'addresses'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<RootQueryUserArgs, 'id'>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   walletInvitation?: Resolver<Maybe<ResolversTypes['WalletInvitation']>, ParentType, ContextType, Partial<RootQueryWalletInvitationArgs>>;

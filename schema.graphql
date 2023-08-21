@@ -124,7 +124,13 @@ type RootQuery {
   token(id: String!): TokenInfo
 
   """"""
+  tokenByAddress(address: String!): TokenInfo
+
+  """"""
   tokens(ids: [String]!): [TokenInfo]
+
+  """"""
+  tokensByAddress(addresses: [String]!): [TokenInfo]
 
   """"""
   user(id: String!): User

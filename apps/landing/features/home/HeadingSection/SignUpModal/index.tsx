@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import type { UnknownObject } from '@walless/core';
 import type { JoinWaitlistResult } from '@walless/graphql';
 import { mutations, qlClient } from '@walless/graphql';
@@ -25,16 +26,21 @@ const SignUpModal = () => {
 	const [twitterErr, setTwitterErr] = useState('');
 	const [selectedOption, setSelectedOption] = useState('Select one');
 	const [selectedOptionErr, setSelectedOptionErr] = useState('');
+	const [isCalling, setIsCalling] = useState(false);
 
 	const descriptionOptions = [
-		'Photographer',
 		'Content creator',
+		'Designer/Artist',
+		'Developer',
+		'Entrepreneur',
 		'Influencer',
-		'Designer',
+		'Trader',
 		'Other',
 	];
 
 	const handleSubmit = async () => {
+		if (isCalling) return;
+
 		let allValid = true;
 		const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w\w+)+$/;
 		if (email.length === 0) {
@@ -56,6 +62,7 @@ const SignUpModal = () => {
 		}
 
 		if (allValid) {
+			setIsCalling(true);
 			const { data, errors } = await qlClient.rawRequest(
 				mutations.joinWaitlist,
 				{
@@ -84,6 +91,7 @@ const SignUpModal = () => {
 					),
 				});
 			}
+			setIsCalling(false);
 		}
 	};
 
@@ -143,12 +151,16 @@ const SignUpModal = () => {
 				/>
 			</View>
 
-			<Button
-				title="Count me in"
-				style={styles.button}
-				titleStyle={styles.buttonText}
-				onPress={handleSubmit}
-			/>
+			{!isCalling ? (
+				<Button
+					title="Count me in"
+					style={styles.button}
+					titleStyle={styles.buttonText}
+					onPress={handleSubmit}
+				/>
+			) : (
+				<ActivityIndicator style={styles.loading} />
+			)}
 		</View>
 	);
 };
@@ -195,5 +207,8 @@ const styles = StyleSheet.create({
 	buttonText: {
 		fontSize: 18,
 		fontWeight: '500',
+	},
+	loading: {
+		paddingVertical: 20,
 	},
 });

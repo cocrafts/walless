@@ -21,7 +21,7 @@ const ResultModal: FC<Props> = ({ waitlistNumber }) => {
 		return numStr;
 	};
 
-	const twitterUrl = `https://twitter.com/intent/tweet?text=I've snagged a spot on @walless_wallet waitlist and be eligible for Weekly raffles. You don’t want to miss this web3 revolutionary! 🚀 Let's all go %23Walless together, start from👇&url=https://walless.io/${formatWaitlistNumber(
+	const twitterUrl = `https://twitter.com/intent/tweet?text=I've snagged a spot on @walless_wallet waitlist and be eligible for Weekly raffles. You don’t want to miss this web3 revolutionary!%0A🚀 Let's all go %23Walless together, start from👇&url=https://walless.io/${formatWaitlistNumber(
 		waitlistNumber,
 	)}`;
 

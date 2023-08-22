@@ -3,14 +3,14 @@ import { runtime } from '@walless/core';
 import type { WalletInvitation } from '@walless/graphql';
 import { mutations, qlClient, queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
-import type { User, UserCredential } from 'firebase/auth';
+import type { User } from 'firebase/auth';
 import {
 	GoogleAuthProvider,
 	signInWithCredential,
 	signInWithPopup,
 } from 'firebase/auth';
 import {
-	initAndSendRecoveryCode,
+	initAndRegisterWallet,
 	initBySeedPhraseModule,
 	setProfile,
 } from 'utils/authentication';
@@ -18,12 +18,6 @@ import { auth, googleProvider } from 'utils/firebase';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';
 import { customAuth, importAvailableShares, key } from 'utils/w3a';
-
-interface InternalCache {
-	loginResponse?: UserCredential;
-}
-
-export const cache: InternalCache = {};
 
 const NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE = 3;
 
@@ -38,9 +32,9 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 				scopes: ['email', 'profile'],
 			});
 			const credential = GoogleAuthProvider.credential(null, response.token);
-			cache.loginResponse = await signInWithCredential(auth, credential);
+			await signInWithCredential(auth, credential);
 		} else {
-			cache.loginResponse = await signInWithPopup(auth, googleProvider);
+			await signInWithPopup(auth, googleProvider);
 		}
 
 		/* for Development mode, there is no invitation required - just let them in */
@@ -50,13 +44,13 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 			const { walletInvitation } = await qlClient.request<{
 				walletInvitation: WalletInvitation;
 			}>(queries.walletInvitation, {
-				email: cache.loginResponse.user.email,
+				email: auth.currentUser?.email,
 			});
 
 			if (!walletInvitation && invitationCode) {
 				await qlClient.request(mutations.claimWalletInvitation, {
 					code: invitationCode || appState.invitationCode,
-					email: cache.loginResponse.user.email,
+					email: auth.currentUser?.email,
 				});
 				await createKeyAndEnter();
 			} else if (!walletInvitation && !invitationCode) {
@@ -73,7 +67,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 };
 
 export const createKeyAndEnter = async () => {
-	const user = cache.loginResponse?.user as User;
+	const user = auth.currentUser as User;
 	const verifierToken = await user.getIdToken(true);
 	const verifier = WEB3AUTH_ID;
 	const verifierId = user.uid;
@@ -96,37 +90,46 @@ export const createKeyAndEnter = async () => {
 	const status = await importAvailableShares();
 
 	if (status === ThresholdResult.Initializing) {
-		if (await initAndSendRecoveryCode()) {
+		const registeredAccount = await initAndRegisterWallet();
+
+		if (registeredAccount?.identifier) {
 			router.navigate('/create-passcode');
 		} else {
 			showError('Something went wrong');
 		}
 	} else if (status === ThresholdResult.Missing) {
-		if (
-			key.modules.securityQuestions.getSecurityQuestions() !==
-				'universal-passcode' ||
+		let isLegacyAccount = false;
+		try {
+			isLegacyAccount =
+				key.modules.securityQuestions.getSecurityQuestions() ===
+				'universal-passcode';
+		} catch (e) {
+			console.log(e);
+		}
+
+		const wasMigrated =
 			key.getKeyDetails().totalShares >
-				NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE
-		) {
+			NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE;
+		const isRecovery = !isLegacyAccount || wasMigrated;
+
+		if (isRecovery) {
 			router.navigate('/recovery');
 		} else {
 			router.navigate('/deprecated-passcode');
 		}
 	} else if (status === ThresholdResult.Ready) {
-		await setProfile(makeProfile(cache.loginResponse as never));
+		await setProfile(makeProfile({ user } as never));
 		await router.navigate('/');
 	}
 };
 
 export const initLocalDeviceByPasscodeAndSync = async (
 	passcode: string,
-	login?: UserCredential,
 ): Promise<void> => {
 	await key.reconstructKey();
 
-	login = login || cache.loginResponse;
-	if (login?.user) {
-		await setProfile(makeProfile(login));
+	if (auth.currentUser) {
+		await setProfile(makeProfile({ user: auth.currentUser } as never));
 	}
 
 	// await initByPrivateKeyModule(passcode);

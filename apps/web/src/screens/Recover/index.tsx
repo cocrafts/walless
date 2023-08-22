@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Input, Text, View } from '@walless/gui';
-import { recoverByRecoveryKey } from 'utils/authentication';
+import { recoverByEmergencyKey } from 'utils/authentication';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';
 
@@ -15,11 +15,11 @@ export const RecoveryScreen = () => {
 	const handlePressContinue = async () => {
 		if (
 			recoveryKey.current &&
-			(await recoverByRecoveryKey(recoveryKey.current))
+			(await recoverByEmergencyKey(recoveryKey.current))
 		) {
 			router.navigate('/create-passcode');
 		} else {
-			showError('Wrong  recovery key');
+			showError('Wrong recovery key');
 		}
 	};
 

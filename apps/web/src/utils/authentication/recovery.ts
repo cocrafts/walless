@@ -1,21 +1,34 @@
+import type { Account } from '@walless/graphql';
 import { mutations, qlClient } from '@walless/graphql';
-import { BN } from 'bn.js';
+import BN from 'bn.js';
 import { key } from 'utils/w3a';
 
-export const initAndSendRecoveryCode = async () => {
+export const initAndRegisterWallet = async (): Promise<Account | undefined> => {
 	try {
 		await key.reconstructKey();
 		const newShare = await key.generateNewShare();
-		const recoveryKey =
-			newShare.newShareStores[
-				newShare.newShareIndex.toString('hex')
-			].share.share.toString('hex');
-
-		await qlClient.request<{
-			messageId: string;
-		}>(mutations.sendEmergencyKit, {
-			key: recoveryKey,
+		const keyIndex = newShare.newShareIndex.toString('hex');
+		const recoveryBN = newShare.newShareStores[keyIndex].share.share;
+		const readableKey = toReadableString(recoveryBN);
+		const { registerAccount: account } = await qlClient.request<
+			{ registerAccount: Account },
+			{ key: string }
+		>(mutations.registerAccount, {
+			key: readableKey,
 		});
+
+		return account;
+	} catch (e) {
+		console.log(e);
+	}
+};
+
+export const recoverByEmergencyKey = async (readableKey: string) => {
+	try {
+		const recoveryBN = fromReadableString(readableKey);
+
+		await key.inputShare(recoveryBN);
+		await key.reconstructKey();
 
 		return true;
 	} catch (e) {
@@ -24,13 +37,53 @@ export const initAndSendRecoveryCode = async () => {
 	}
 };
 
-export const recoverByRecoveryKey = async (recoveryKey: string) => {
-	try {
-		await key.inputShare(new BN(recoveryKey, 'hex'));
-		await key.reconstructKey();
-		return true;
-	} catch (e) {
-		console.log(e);
-		return false;
+const baseChars = '0123456789abcdefghijklmnopqrstuvwxyz';
+
+const bnToCustomBase = (value: BN): string => {
+	if (value.isZero()) {
+		return baseChars[0];
 	}
+
+	let result = '';
+	const base = new BN(baseChars.length);
+
+	while (!value.isZero()) {
+		const remainder = value.mod(base);
+		result = baseChars[remainder.toNumber()] + result;
+		value = value.div(base);
+	}
+
+	return result;
+};
+
+const customBaseToBN = (value: string) => {
+	const base = new BN(baseChars.length);
+	let result = new BN(0);
+
+	for (let i = 0; i < value.length; i++) {
+		const charIndex = baseChars.indexOf(value[i]);
+		if (charIndex === -1) {
+			throw new Error(`Invalid character '${value[i]}' in custom base value`);
+		}
+		result = result.mul(base).add(new BN(charIndex));
+	}
+
+	return result;
+};
+
+const toReadableString = (value: BN): string => {
+	const base = bnToCustomBase(value).toUpperCase();
+	const groups = base.match(/.{1,6}/g) || [];
+
+	return reverse(groups.join('-'));
+};
+
+const fromReadableString = (readable: string) => {
+	const original = reverse(readable).toLowerCase().replace(/-/g, '');
+
+	return customBaseToBN(original);
+};
+
+const reverse = (source: string) => {
+	return source.split('').reduce((a, c) => c + a, '');
 };

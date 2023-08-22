@@ -1,15 +1,15 @@
-import type { InvitationCode } from '@walless/graphql';
+import type { WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { qlClient } from '@walless/graphql';
 
 export const validateInvitationCode = async (code: string): Promise<string> => {
-	const { invitationCode } = await qlClient.request<{
-		invitationCode: InvitationCode;
-	}>(queries.invitationCode, { code });
+	const { walletInvitation } = await qlClient.request<{
+		walletInvitation: WalletInvitation;
+	}>(queries.walletInvitation, { code });
 
-	if (!invitationCode) {
+	if (!walletInvitation) {
 		throw Error('This invitation code is invalid!');
-	} else if (invitationCode?.email) {
+	} else if (walletInvitation?.email) {
 		throw Error('This invitation code is used by another account!');
 	} else {
 		return code;

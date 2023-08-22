@@ -1,20 +1,14 @@
 import { GraphQLClient } from 'graphql-request';
 
 const endpoint = __DEV__
-	? 'https://api-dev.walless.io/light'
-	: 'https://api.walless.io/light';
+	? 'https://nerve-stg.walless.io/graphql'
+	: 'https://nerve.walless.io/graphql';
+
+export const qlInternals = {
+	makeHeaders: () => ({}),
+};
 
 export const qlClient = new GraphQLClient(endpoint, {
-	// errorPolicy: 'all',
-	// headers: () => {
-	// 	return {};
-	// },
+	errorPolicy: 'all',
+	headers: () => qlInternals.makeHeaders(),
 });
-
-const gotenksEndpoint = __DEV__
-	? 'http://localhost:4000/graphql'
-	: 'https://api.walless.io/graphql';
-
-export const gotenksClient = new GraphQLClient(gotenksEndpoint, {});
-
-export { gql } from 'graphql-request';

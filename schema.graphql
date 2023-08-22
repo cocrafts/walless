@@ -1,69 +1,212 @@
-# This file was generated. Do not edit manually.
-
 schema {
-	query: RootQuery
-	mutation: RootMutation
+  query: RootQuery
+  mutation: RootMutation
 }
 
-type InvitationAccount {
-	kind: String!
-	pk: String!
-	sk: String!
-	timestamp: String
-}
+""""""
+type Account {
+  """"""
+  createdAt: MongoDateTime
 
-type InvitationCode {
-	email: String
-	kind: String!
-	pk: String!
-	sk: String!
-	timestamp: String
-}
+  """"""
+  email: String
 
-type RootMutation {
-	bindInvitation(code: String!, email: String!): Boolean!
-	crawlTokenMeta: Int!
-	createUser(name: String!): User!
-	hydrateTokenMap: Int!
-}
+  """"""
+  id: ObjectID
 
-type RootQuery {
-	greeting: String!
-	invitationAccount(email: String!): InvitationAccount
-	invitationCode(code: String!): InvitationCode
-	systemInfo: SystemInfo!
-	token(id: String!): TokenInfo
-	tokens(ids: [String!]!): [TokenInfo!]!
-	tokensByAddress(addresses: [String!]!): [TokenInfo!]!
-}
+  """"""
+  identifier: String!
 
-type SystemInfo {
-	environment: String!
-	version: String!
-}
-
-type TokenInfo {
-	address: String
-	id: String!
-	name: String!
-	platforms: JSONObject!
-	quotes: JSONObject!
-	symbol: String!
-	timestamp: DateTime!
-}
-
-type User {
-	id: Int!
-	name: String!
+  """"""
+  updatedAt: MongoDateTime
 }
 
 """
-
-Implement the DateTime<Utc> scalar
-
-The input/output is a string in RFC3339 format.
+The `DateTime` scalar type represents a DateTime. The DateTime is serialized as an RFC 3339 quoted string
 """
 scalar DateTime
 
-"A scalar that can represent any JSON Object value."
-scalar JSONObject
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
+"""
+scalar JSON
+
+""""""
+type JoinWaitlistResult {
+  """"""
+  count: Int
+
+  """"""
+  description: String
+
+  """"""
+  email: String
+
+  """"""
+  twitter: String
+}
+
+"""MongoDB DateTime"""
+scalar MongoDateTime
+
+"""MongoDB ObjectID"""
+scalar ObjectID
+
+""""""
+type Project {
+  """"""
+  banner: String
+
+  """"""
+  description: String
+
+  """"""
+  detailIcon: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  logo: String
+
+  """"""
+  name: String
+
+  """"""
+  networks: [String]
+
+  """"""
+  nfts: [String]
+
+  """"""
+  tokens: [String]
+}
+
+""""""
+type RootMutation {
+  """"""
+  addProject(banner: String = "", description: String!, detailIcon: String = "", logo: String = "", name: String!, networks: [String] = ["[]"], nfts: [String] = ["[]"], tokens: [String] = ["[]"], userId: String!): Project
+
+  """"""
+  addUser(address: String!, name: String!): User
+
+  """"""
+  claimWalletInvitation(code: String!, email: String!): Boolean
+
+  """"""
+  joinWaitlist(description: String!, email: String!, twitter: String!): JoinWaitlistResult
+
+  """"""
+  registerAccount(key: String!): Account
+
+  """"""
+  sendEmergencyKit(key: String!): SendEmergencyKitResult
+}
+
+""""""
+type RootQuery {
+  """"""
+  counter: Int
+
+  """"""
+  greeting: String
+
+  """"""
+  project(id: String!): Project
+
+  """"""
+  projects: [Project]
+
+  """"""
+  systemInfo: SystemInfo
+
+  """"""
+  token(id: String!): TokenInfo
+
+  """"""
+  tokenByAddress(address: String!): TokenInfo
+
+  """"""
+  tokens(ids: [String]!): [TokenInfo]
+
+  """"""
+  tokensByAddress(addresses: [String]!): [TokenInfo]
+
+  """"""
+  user(id: String!): User
+
+  """"""
+  users: [User]
+
+  """"""
+  walletInvitation(code: String, email: String): WalletInvitation
+}
+
+""""""
+type SendEmergencyKitResult {
+  """"""
+  messageId: String
+}
+
+""""""
+type SystemInfo {
+  """"""
+  environment: String
+
+  """"""
+  version: String
+}
+
+""""""
+type TokenInfo {
+  """"""
+  address: String
+
+  """"""
+  id: String!
+
+  """"""
+  name: String!
+
+  """"""
+  platforms: JSON!
+
+  """"""
+  quotes: JSON!
+
+  """"""
+  symbol: String!
+
+  """"""
+  timestamp: DateTime!
+}
+
+""""""
+type User {
+  """"""
+  address: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  name: String
+
+  """Get all user projects of user"""
+  projects: [Project]
+}
+
+""""""
+type WalletInvitation {
+  """"""
+  code: String
+
+  """"""
+  email: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  timestamp: MongoDateTime
+}

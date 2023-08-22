@@ -1,4 +1,4 @@
-import { gotenksClient, mutations } from '@walless/graphql';
+import { mutations, qlClient } from '@walless/graphql';
 import { BN } from 'bn.js';
 import { key } from 'utils/w3a';
 
@@ -11,7 +11,7 @@ export const initAndSendRecoveryCode = async () => {
 				newShare.newShareIndex.toString('hex')
 			].share.share.toString('hex');
 
-		await gotenksClient.request<{
+		await qlClient.request<{
 			messageId: string;
 		}>(mutations.sendEmergencyKit, {
 			key: recoveryKey,

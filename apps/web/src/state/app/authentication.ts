@@ -1,7 +1,7 @@
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
 import { runtime } from '@walless/core';
-import type { InvitationAccount } from '@walless/graphql';
-import { gotenksClient, mutations, qlClient, queries } from '@walless/graphql';
+import type { WalletInvitation } from '@walless/graphql';
+import { mutations, qlClient, queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { User, UserCredential } from 'firebase/auth';
 import {
@@ -43,28 +43,23 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 			cache.loginResponse = await signInWithPopup(auth, googleProvider);
 		}
 
-		gotenksClient.setHeader(
-			'Authorization',
-			`Bearer ${await cache.loginResponse.user.getIdToken(true)}`,
-		);
-
 		/* for Development mode, there is no invitation required - just let them in */
 		if (__DEV__) {
 			await createKeyAndEnter();
 		} else {
-			const { invitationAccount } = await qlClient.request<{
-				invitationAccount: InvitationAccount;
-			}>(queries.invitationAccount, {
+			const { walletInvitation } = await qlClient.request<{
+				walletInvitation: WalletInvitation;
+			}>(queries.walletInvitation, {
 				email: cache.loginResponse.user.email,
 			});
 
-			if (!invitationAccount && invitationCode) {
-				await qlClient.request(mutations.bindInvitation, {
+			if (!walletInvitation && invitationCode) {
+				await qlClient.request(mutations.claimWalletInvitation, {
 					code: invitationCode || appState.invitationCode,
 					email: cache.loginResponse.user.email,
 				});
 				await createKeyAndEnter();
-			} else if (!invitationAccount && !invitationCode) {
+			} else if (!walletInvitation && !invitationCode) {
 				appState.isAbleToSignIn = false;
 				appState.signInError =
 					'The account does not exist. Enter your Invitation code';

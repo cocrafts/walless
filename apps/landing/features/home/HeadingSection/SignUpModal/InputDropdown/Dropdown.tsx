@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { modalActions, Text, View } from '@walless/gui';
+import { Text, View } from '@walless/gui';
 import { ChevronUp } from '@walless/icons';
 
 interface Props {
@@ -18,22 +18,26 @@ const Dropdown: FC<Props> = ({
 	setSelectedOption,
 	setIsDropped,
 }) => {
+	const handleCloseModal = () => {
+		setIsDropped(false);
+	};
+
 	const handleSelectOption = (option: string) => {
 		setSelectedOption(option);
-		setIsDropped(false);
-		modalActions.hide('dropdown');
+		handleCloseModal();
 	};
 
 	return (
 		<View style={{ width: containerWidth }}>
-			<View style={styles.selectedOptionContainer}>
+			<TouchableOpacity
+				style={styles.selectedOptionContainer}
+				onPress={handleCloseModal}
+			>
 				<Text>
 					{selectedOption === 'Select one' ? 'Select one...' : selectedOption}
 				</Text>
-				<TouchableOpacity onPress={() => setIsDropped(false)}>
-					<ChevronUp color="#43525F" size={20} />
-				</TouchableOpacity>
-			</View>
+				<ChevronUp color="#43525F" size={20} />
+			</TouchableOpacity>
 			<ScrollView
 				style={styles.dropdownContainer}
 				showsVerticalScrollIndicator={false}

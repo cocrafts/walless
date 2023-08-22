@@ -66,12 +66,13 @@ const SignUpModal = () => {
 			<View style={styles.contentContainer}>
 				<FormInput
 					title="Email"
-					placeholder="@wallessbio"
+					placeholder="example@gmail.com"
 					onChangeText={setEmail}
 				/>
 				<FormInput
 					title="Twitter"
-					placeholder="@wallessbio"
+					placeholder="wallessbio"
+					prefix={<Text style={{ color: '#566674' }}>@</Text>}
 					onChangeText={setTwitter}
 				/>
 				<InputDropdown

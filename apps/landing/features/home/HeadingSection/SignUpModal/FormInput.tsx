@@ -1,4 +1,8 @@
 import type { FC, ReactNode } from 'react';
+import type {
+	NativeSyntheticEvent,
+	TextInputFocusEventData,
+} from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { Hoverable, Input, Text, View } from '@walless/gui';
@@ -6,11 +10,24 @@ import { Hoverable, Input, Text, View } from '@walless/gui';
 interface Props {
 	title: string;
 	placeholder: string;
+	text: string;
 	prefix?: ReactNode;
 	onChangeText: (text: string) => void;
+	onFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+	onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+	error?: string;
 }
 
-const FormInput: FC<Props> = ({ title, placeholder, prefix, onChangeText }) => {
+const FormInput: FC<Props> = ({
+	title,
+	placeholder,
+	text,
+	onChangeText,
+	error,
+	onFocus,
+	onBlur,
+	prefix,
+}) => {
 	const borderOpacity = useSharedValue(0);
 	const handleHoverIn = () => {
 		borderOpacity.value = borderOpacity.value === 1 ? 1 : 0.7;
@@ -18,10 +35,12 @@ const FormInput: FC<Props> = ({ title, placeholder, prefix, onChangeText }) => {
 	const handleHoverOut = () => {
 		borderOpacity.value = borderOpacity.value === 1 ? 1 : 0;
 	};
-	const handleFocus = () => {
+	const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+		if (onFocus) onFocus(e);
 		borderOpacity.value = 1;
 	};
-	const handleBlur = () => {
+	const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+		if (onBlur) onBlur(e);
 		borderOpacity.value = 0;
 	};
 
@@ -44,6 +63,7 @@ const FormInput: FC<Props> = ({ title, placeholder, prefix, onChangeText }) => {
 			>
 				{prefix}
 				<Input
+					value={text}
 					inputStyle={styles.input}
 					style={styles.inputContainer}
 					placeholder={placeholder}
@@ -52,6 +72,8 @@ const FormInput: FC<Props> = ({ title, placeholder, prefix, onChangeText }) => {
 					onBlur={handleBlur}
 				/>
 			</Hoverable>
+
+			<Text style={styles.error}>{error}</Text>
 		</View>
 	);
 };
@@ -77,5 +99,11 @@ const styles = StyleSheet.create({
 	input: {
 		fontFamily: 'Rubik',
 		paddingLeft: 0,
+	},
+	error: {
+		marginLeft: 'auto',
+		color: '#F04438',
+		lineHeight: 14,
+		height: 14,
 	},
 });

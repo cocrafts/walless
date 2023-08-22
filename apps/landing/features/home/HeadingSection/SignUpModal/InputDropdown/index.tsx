@@ -1,11 +1,9 @@
 import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import type { View as ViewType } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import {
 	AnimateDirections,
 	BindDirections,
-	Hoverable,
 	modalActions,
 	Text,
 	View,
@@ -19,6 +17,7 @@ interface Props {
 	currentOption: string;
 	setCurrentOption: (option: string) => void;
 	optionList: string[];
+	error?: string;
 }
 
 const InputDropdown: FC<Props> = ({
@@ -26,12 +25,13 @@ const InputDropdown: FC<Props> = ({
 	optionList,
 	currentOption,
 	setCurrentOption,
+	error,
 }) => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [width, setWidth] = useState(0);
 	const handlePress = () => setIsDropped(!isDropped);
 
-	const modalRef = useRef<ViewType>(null);
+	const modalRef = useRef<TouchableOpacity>(null);
 
 	useEffect(() => {
 		if (isDropped) {
@@ -47,7 +47,7 @@ const InputDropdown: FC<Props> = ({
 					/>
 				),
 				maskActiveOpacity: 0,
-				bindingRef: modalRef,
+				bindingRef: modalRef as never,
 				bindingDirection: BindDirections.InnerTop,
 				positionOffset: {
 					x: 0,
@@ -63,8 +63,8 @@ const InputDropdown: FC<Props> = ({
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{title}</Text>
-			<Hoverable style={styles.contentContainer} onPress={handlePress}>
-				<View
+			<View style={styles.contentContainer}>
+				<TouchableOpacity
 					ref={modalRef}
 					style={styles.selectedOptionContainer}
 					onLayout={() => {
@@ -72,15 +72,15 @@ const InputDropdown: FC<Props> = ({
 							setWidth(_width);
 						});
 					}}
+					onPress={handlePress}
 				>
 					<Text>
 						{currentOption === 'Select one' ? 'Select one...' : currentOption}
 					</Text>
-					<TouchableOpacity onPress={handlePress}>
-						<ChevronDown color="#43525F" size={20} />
-					</TouchableOpacity>
-				</View>
-			</Hoverable>
+					<ChevronDown color="#43525F" size={20} />
+				</TouchableOpacity>
+			</View>
+			<Text style={styles.error}>{error}</Text>
 		</View>
 	);
 };
@@ -106,5 +106,11 @@ const styles = StyleSheet.create({
 		paddingVertical: 14,
 		backgroundColor: '#0E141A',
 		borderRadius: 14,
+	},
+	error: {
+		marginLeft: 'auto',
+		color: '#F04438',
+		lineHeight: 14,
+		height: 14,
 	},
 });

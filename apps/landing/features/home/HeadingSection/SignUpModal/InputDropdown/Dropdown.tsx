@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#0E141A',
 		borderRadius: 14,
 		overflow: 'hidden',
+		marginTop: 4,
 	},
 	optionContainer: {
 		padding: 14,

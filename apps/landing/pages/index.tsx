@@ -9,17 +9,17 @@ import Partners from 'features/home/LegacyPartners';
 import News from 'features/home/News';
 
 export const IndexPage = () => {
-    return (
-        <HomeLayout>
-            <HeadingSection />
-            <ExtensionDownload />
-            <EasyOnboarding />
-            <EditTool />
-            {/* <Developer /> */}
-            <News />
-            <Partners />
-        </HomeLayout>
-    );
+	return (
+		<HomeLayout>
+			<HeadingSection />
+			<ExtensionDownload />
+			<EasyOnboarding />
+			<EditTool />
+			{/* <Developer /> */}
+			<News />
+			<Partners />
+		</HomeLayout>
+	);
 };
 
 export default IndexPage;

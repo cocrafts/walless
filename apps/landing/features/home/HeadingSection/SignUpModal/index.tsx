@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import type { UnknownObject } from '@walless/core';
+import type { JoinWaitlistResult } from '@walless/graphql';
+import { mutations, qlClient } from '@walless/graphql';
 import { Button, modalActions, Text, View } from '@walless/gui';
 import { resources } from 'utils/config';
 
@@ -17,8 +20,11 @@ export const handleShowSignUpModal = () => {
 
 const SignUpModal = () => {
 	const [email, setEmail] = useState('');
+	const [emailErr, setEmailErr] = useState('');
 	const [twitter, setTwitter] = useState('');
+	const [twitterErr, setTwitterErr] = useState('');
 	const [selectedOption, setSelectedOption] = useState('Select one');
+	const [selectedOptionErr, setSelectedOptionErr] = useState('');
 
 	const descriptionOptions = [
 		'Photographer',
@@ -28,20 +34,72 @@ const SignUpModal = () => {
 		'Other',
 	];
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
+		let allValid = true;
+		const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w\w+)+$/;
 		if (email.length === 0) {
-			console.log('email');
-		} else if (twitter.length === 0) {
-			console.log('twitter');
-		} else if (selectedOption === 'Select one') {
-			console.log('description');
+			setEmailErr('This field is required');
+			allValid = false;
 		} else {
-			// we'll call api here to send email and calculate waitlist number
-			modalActions.show({
-				id: 'result',
-				component: () => <ResultModal waitlistNumber={130613} />,
-			});
+			if (!reg.test(email)) {
+				setEmailErr('Email is invalid');
+				allValid = false;
+			}
 		}
+		if (twitter.length === 0) {
+			setTwitterErr('This field is required');
+			allValid = false;
+		}
+		if (!descriptionOptions.includes(selectedOption)) {
+			setSelectedOptionErr('This field is required');
+			allValid = false;
+		}
+
+		if (allValid) {
+			const { data, errors } = await qlClient.rawRequest(
+				mutations.joinWaitlist,
+				{
+					email,
+					twitter,
+					description: selectedOption,
+				},
+			);
+			if (errors && errors.length > 0) {
+				const message = errors[0].message;
+				if (message.includes('duplicate')) {
+					if (message.includes('email')) {
+						setEmailErr('You are already on the waitlist');
+					} else if (message.includes('twitter')) {
+						setTwitterErr('Twitter handle already existed');
+					}
+				}
+			} else {
+				const response = (data as UnknownObject)
+					.joinWaitlist as JoinWaitlistResult;
+				modalActions.destroy('signUp');
+				modalActions.show({
+					id: 'result',
+					component: () => (
+						<ResultModal waitlistNumber={response.count as number} />
+					),
+				});
+			}
+		}
+	};
+
+	const handleChangeEmail = (text: string) => {
+		setEmailErr('');
+		setEmail(text);
+	};
+
+	const handleChangeTwitter = (text: string) => {
+		setTwitterErr('');
+		setTwitter(text);
+	};
+
+	const handleChangeSelectedOption = (text: string) => {
+		setSelectedOptionErr('');
+		setSelectedOption(text);
 	};
 
 	return (
@@ -55,22 +113,33 @@ const SignUpModal = () => {
 				</Text>
 			</View>
 
-			<View style={styles.contentContainer}>
+			<View>
 				<FormInput
 					title="Email"
+					text={email}
 					placeholder="zangimmortal@gmail.com"
-					onChangeText={setEmail}
+					onChangeText={handleChangeEmail}
+					error={emailErr}
 				/>
 				<FormInput
 					title="Twitter"
+					text={twitter}
 					placeholder="@zangimmortal"
-					onChangeText={setTwitter}
+					onChangeText={handleChangeTwitter}
+					error={twitterErr}
+					onFocus={() => {
+						if (twitter.length === 0) setTwitter('@');
+					}}
+					onBlur={() => {
+						if (twitter === '@') setTwitter('');
+					}}
 				/>
 				<InputDropdown
 					title="Describe yourself"
 					currentOption={selectedOption}
-					setCurrentOption={setSelectedOption}
+					setCurrentOption={handleChangeSelectedOption}
 					optionList={descriptionOptions}
+					error={selectedOptionErr}
 				/>
 			</View>
 
@@ -88,20 +157,18 @@ export default SignUpModal;
 
 const styles = StyleSheet.create({
 	container: {
-		width: '95%',
-		maxWidth: 440,
-		margin: 'auto',
+		maxWidth: 420,
 		paddingTop: 44,
 		paddingBottom: 32,
 		paddingHorizontal: 34,
 		backgroundColor: '#19232C',
 		borderRadius: 16,
-		gap: 24,
 	},
 	header: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: 6,
+		marginBottom: 24,
 	},
 	title: {
 		fontSize: 20,
@@ -113,9 +180,6 @@ const styles = StyleSheet.create({
 	description: {
 		lineHeight: 18,
 	},
-	contentContainer: {
-		gap: 12,
-	},
 	text: {
 		textAlign: 'center',
 		color: '#566674',
@@ -125,6 +189,7 @@ const styles = StyleSheet.create({
 		height: 35,
 	},
 	button: {
+		marginTop: 10,
 		paddingVertical: 12,
 	},
 	buttonText: {

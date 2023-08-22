@@ -17,6 +17,7 @@ interface Props {
 	currentOption: string;
 	setCurrentOption: (option: string) => void;
 	optionList: string[];
+	error?: string;
 }
 
 const InputDropdown: FC<Props> = ({
@@ -24,6 +25,7 @@ const InputDropdown: FC<Props> = ({
 	optionList,
 	currentOption,
 	setCurrentOption,
+	error,
 }) => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [width, setWidth] = useState(0);
@@ -77,6 +79,7 @@ const InputDropdown: FC<Props> = ({
 					<ChevronDown color="#43525F" size={20} />
 				</TouchableOpacity>
 			</View>
+			<Text style={styles.error}>{error}</Text>
 		</View>
 	);
 };
@@ -102,5 +105,11 @@ const styles = StyleSheet.create({
 		paddingVertical: 14,
 		backgroundColor: '#0E141A',
 		borderRadius: 14,
+	},
+	error: {
+		marginLeft: 'auto',
+		color: '#F04438',
+		lineHeight: 14,
+		height: 14,
 	},
 });

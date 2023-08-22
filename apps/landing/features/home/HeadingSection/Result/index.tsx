@@ -9,13 +9,23 @@ interface Props {
 }
 
 const ResultModal: FC<Props> = ({ waitlistNumber }) => {
+	const formatWaitlistNumber = (num: number) => {
+		let numStr = num.toString();
+		if (numStr.length < 5) {
+			numStr =
+				Array(5 - numStr.length)
+					.fill('0')
+					.join('') + numStr;
+		}
+
+		return numStr;
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<Image source={resources.walless.icon} style={styles.logoImage} />
-				<Text style={[styles.text, styles.title]}>
-					Yayyy! You&apos;re on the list!
-				</Text>
+				<Text style={styles.title}>Yayyy! You&apos;re on the list!</Text>
 				<Text style={styles.text}>
 					We&apos;re happy to have you here. You&apos;ll receive a confirmation
 					email shortly. Share this to your fellow explorers :)
@@ -30,7 +40,9 @@ const ResultModal: FC<Props> = ({ waitlistNumber }) => {
 					/>
 				</View>
 
-				<Text style={styles.waitlistNumber}>#{waitlistNumber}</Text>
+				<Text style={styles.waitlistNumber}>
+					#{formatWaitlistNumber(waitlistNumber)}
+				</Text>
 			</View>
 
 			<Button style={styles.button}>
@@ -45,10 +57,10 @@ export default ResultModal;
 
 const styles = StyleSheet.create({
 	container: {
-		width: '95%',
-		maxWidth: 440,
-		margin: 'auto',
-		padding: 32,
+		maxWidth: 420,
+		paddingTop: 44,
+		paddingBottom: 20,
+		paddingHorizontal: 34,
 		backgroundColor: '#19232C',
 		borderRadius: 16,
 		gap: 24,
@@ -62,6 +74,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: '#ffffff',
 		fontWeight: '600',
+		marginTop: 10,
 	},
 	logoImage: {
 		width: 67,
@@ -72,6 +85,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	waitlistNumber: {
+		marginLeft: 4,
 		fontSize: 50,
 		fontWeight: '500',
 		color: '#ffffff',

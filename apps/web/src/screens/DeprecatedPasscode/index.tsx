@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
-import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	ActivityIndicator,
+	Image,
+	Linking,
+	StyleSheet,
+	TouchableOpacity,
+} from 'react-native';
 import { PasscodeFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
 import { appActions } from 'state/app';
 import { validateAndRecoverWithPasscode } from 'utils/authentication';
-import { initAndSendRecoveryCode } from 'utils/authentication';
+import { initAndRegisterWallet } from 'utils/authentication';
 import { router } from 'utils/routing';
 
 export const DeprecatedPasscodeScreen = () => {
 	const [passcode, setPasscode] = useState('');
 	const [passcodeError, setPasscodeError] = useState<string>();
+	const [loading, setLoading] = useState(false);
 	const title = 'Enter your passcode';
 
 	const onPasscodeChange = async (value: string, isCompleted?: boolean) => {
@@ -18,9 +25,19 @@ export const DeprecatedPasscodeScreen = () => {
 
 		if (isCompleted) {
 			if (await validateAndRecoverWithPasscode(value)) {
-				await initAndSendRecoveryCode();
-				await appActions.initLocalDeviceByPasscodeAndSync(value);
-				router.navigate('/');
+				setLoading(true);
+				const registerdAccount = await initAndRegisterWallet();
+
+				if (registerdAccount?.identifier) {
+					await appActions.initLocalDeviceByPasscodeAndSync(value);
+					router.navigate('/');
+				} else {
+					setPasscodeError(
+						'Error during migrate account, please contact developer!',
+					);
+				}
+
+				setLoading(false);
 			} else {
 				setPasscodeError('Wrong passcode');
 			}
@@ -49,11 +66,15 @@ export const DeprecatedPasscodeScreen = () => {
 				</Text>
 			</View>
 
-			<PasscodeFeature
-				passcode={passcode}
-				error={passcodeError}
-				onPasscodeChange={onPasscodeChange}
-			/>
+			{loading ? (
+				<ActivityIndicator />
+			) : (
+				<PasscodeFeature
+					passcode={passcode}
+					error={passcodeError}
+					onPasscodeChange={onPasscodeChange}
+				/>
+			)}
 
 			<View style={styles.footerContainer}>
 				<Text>
@@ -97,6 +118,7 @@ export const styles = StyleSheet.create({
 	},
 	footerContainer: {
 		marginHorizontal: 'auto',
+		marginTop: 'auto',
 	},
 	link: {
 		color: '#19A3E1',

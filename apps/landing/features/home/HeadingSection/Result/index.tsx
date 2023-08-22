@@ -21,6 +21,10 @@ const ResultModal: FC<Props> = ({ waitlistNumber }) => {
 		return numStr;
 	};
 
+	const twitterUrl = `https://twitter.com/intent/tweet?text=I've snagged a spot on @walless_wallet waitlist and be eligible for Weekly raffles. You don’t want to miss this web3 revolutionary! 🚀 Let's all go %23Walless together, start from👇&url=https://walless.io/${formatWaitlistNumber(
+		waitlistNumber,
+	)}`;
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -45,10 +49,12 @@ const ResultModal: FC<Props> = ({ waitlistNumber }) => {
 				</Text>
 			</View>
 
-			<Button style={styles.button}>
-				<Twitter size={36} />
-				<Text style={styles.buttonText}>Share on Twitter</Text>
-			</Button>
+			<a target="_blank" href={twitterUrl} rel="noreferrer">
+				<Button style={styles.button}>
+					<Twitter size={36} />
+					<Text style={styles.buttonText}>Share on Twitter</Text>
+				</Button>
+			</a>
 		</View>
 	);
 };

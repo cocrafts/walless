@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Button, modalActions, Text, View } from '@walless/gui';
 import { resources } from 'utils/config';
@@ -19,9 +19,8 @@ const SignUpModal = () => {
 	const [email, setEmail] = useState('');
 	const [twitter, setTwitter] = useState('');
 	const [selectedOption, setSelectedOption] = useState('Select one');
-	const [isActivate, setIsActivate] = useState(false);
 
-	const desciptionOptions = [
+	const descriptionOptions = [
 		'Photographer',
 		'Content creator',
 		'Influencer',
@@ -30,61 +29,54 @@ const SignUpModal = () => {
 	];
 
 	const handleSubmit = () => {
-		// we'll call api here to send email and calculate waitlist number
-		modalActions.destroy('signUp');
-		modalActions.show({
-			id: 'result',
-			component: () => <ResultModal waitlistNumber={130613} />,
-		});
-	};
-
-	useEffect(() => {
-		if (
-			email.length === 0 ||
-			twitter.length === 0 ||
-			selectedOption === 'Select one'
-		) {
-			setIsActivate(false);
+		if (email.length === 0) {
+			console.log('email');
+		} else if (twitter.length === 0) {
+			console.log('twitter');
+		} else if (selectedOption === 'Select one') {
+			console.log('description');
 		} else {
-			setIsActivate(true);
+			// we'll call api here to send email and calculate waitlist number
+			modalActions.show({
+				id: 'result',
+				component: () => <ResultModal waitlistNumber={130613} />,
+			});
 		}
-	}, [email, twitter, selectedOption]);
+	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<Image source={resources.walless.icon} style={styles.logoImage} />
-				<Text style={[styles.text, styles.title]}>
-					Sign up for early access
-				</Text>
-				<Text style={styles.text}>
-					Shorter time to Alpha. Join our waitlist and enjoy Walless latest
-					updates and exclusive perks.
+				<Text style={styles.title}>Sign up for early access</Text>
+				<Text style={[styles.text, styles.description]}>
+					Shorter time to Alpha. Join our waitlist and enjoy the latest updates
+					and exclusive perks.
 				</Text>
 			</View>
 
 			<View style={styles.contentContainer}>
 				<FormInput
 					title="Email"
-					placeholder="@wallessbio"
+					placeholder="zangimmortal@gmail.com"
 					onChangeText={setEmail}
 				/>
 				<FormInput
 					title="Twitter"
-					placeholder="@wallessbio"
+					placeholder="@zangimmortal"
 					onChangeText={setTwitter}
 				/>
 				<InputDropdown
 					title="Describe yourself"
 					currentOption={selectedOption}
 					setCurrentOption={setSelectedOption}
-					optionList={desciptionOptions}
+					optionList={descriptionOptions}
 				/>
 			</View>
 
 			<Button
-				disabled={!isActivate}
 				title="Count me in"
+				style={styles.button}
 				titleStyle={styles.buttonText}
 				onPress={handleSubmit}
 			/>
@@ -99,7 +91,9 @@ const styles = StyleSheet.create({
 		width: '95%',
 		maxWidth: 440,
 		margin: 'auto',
-		padding: 32,
+		paddingTop: 44,
+		paddingBottom: 32,
+		paddingHorizontal: 34,
 		backgroundColor: '#19232C',
 		borderRadius: 16,
 		gap: 24,
@@ -113,6 +107,11 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: '600',
 		color: '#ffffff',
+		marginTop: 16,
+		marginBottom: 2,
+	},
+	description: {
+		lineHeight: 18,
 	},
 	contentContainer: {
 		gap: 12,
@@ -124,6 +123,9 @@ const styles = StyleSheet.create({
 	logoImage: {
 		width: 67,
 		height: 35,
+	},
+	button: {
+		paddingVertical: 12,
 	},
 	buttonText: {
 		fontSize: 18,

@@ -26,14 +26,15 @@ const Dropdown: FC<Props> = ({
 
 	return (
 		<View style={{ width: containerWidth }}>
-			<View style={styles.selectedOptionContainer}>
+			<TouchableOpacity
+				style={styles.selectedOptionContainer}
+				onPress={() => setIsDropped(false)}
+			>
 				<Text>
 					{selectedOption === 'Select one' ? 'Select one...' : selectedOption}
 				</Text>
-				<TouchableOpacity onPress={() => setIsDropped(false)}>
-					<ChevronUp color="#43525F" size={20} />
-				</TouchableOpacity>
-			</View>
+				<ChevronUp color="#43525F" size={20} />
+			</TouchableOpacity>
 			<ScrollView
 				style={styles.dropdownContainer}
 				showsVerticalScrollIndicator={false}

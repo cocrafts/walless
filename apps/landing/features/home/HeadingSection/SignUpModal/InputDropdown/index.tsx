@@ -29,6 +29,7 @@ const InputDropdown: FC<Props> = ({
 }) => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [width, setWidth] = useState(0);
+	const handlePress = () => setIsDropped(!isDropped);
 
 	const modalRef = useRef<TouchableOpacity>(null);
 
@@ -55,7 +56,7 @@ const InputDropdown: FC<Props> = ({
 				animateDirection: AnimateDirections.Inner,
 			});
 		} else {
-			modalActions.destroy('dropdown');
+			modalActions.hide('dropdown');
 		}
 	}, [isDropped]);
 
@@ -71,7 +72,7 @@ const InputDropdown: FC<Props> = ({
 							setWidth(_width);
 						});
 					}}
-					onPress={() => setIsDropped(!isDropped)}
+					onPress={handlePress}
 				>
 					<Text>
 						{currentOption === 'Select one' ? 'Select one...' : currentOption}

@@ -1,12 +1,11 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { modalActions } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import type { ExtensionDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
 import { mockLayoutCards } from 'scripts/kernel/utils/mockExtension';
 import { extensionState } from 'state/extension';
-import { auth } from 'utils/firebase';
 import { router } from 'utils/routing';
 import { useSnapshot } from 'valtio';
 
@@ -44,13 +43,6 @@ export const ExploreScreen: FC = () => {
 		modules.storage.removeDoc<ExtensionDocument>(extension._id);
 		modalActions.destroy('remove-layout-modal');
 	};
-
-	useEffect(() => {
-		const getJwt = async () =>
-			console.log(await auth.currentUser?.getIdToken(true));
-
-		getJwt();
-	}, []);
 
 	return (
 		<Stack

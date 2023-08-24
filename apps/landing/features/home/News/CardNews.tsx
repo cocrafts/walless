@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { Image, Linking, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
@@ -11,11 +11,24 @@ interface Props {
 	style: ViewStyle;
 }
 
+const MIN_CONTENT_WIDTH = 120;
+const IMAGE_IDEAL_WIDTH = 250;
+const TOTAL_HORIZONTAL_SPACING = 20 * 2 + 30;
+const BREAKPOINT =
+	MIN_CONTENT_WIDTH + IMAGE_IDEAL_WIDTH + TOTAL_HORIZONTAL_SPACING;
+
 export const CardNews: FC<Props> = ({ data, style }) => {
+	const [breaked, setBreaked] = useState(false);
+
 	return (
 		<Hoverable
 			style={[styles.cardContainer, style]}
 			onPress={() => Linking.openURL(data.link)}
+			onLayout={({
+				nativeEvent: {
+					layout: { width },
+				},
+			}) => setBreaked(width < BREAKPOINT)}
 		>
 			<View style={styles.cardContent}>
 				<Text style={styles.cardTitle} numberOfLines={2}>
@@ -24,12 +37,14 @@ export const CardNews: FC<Props> = ({ data, style }) => {
 				<Text style={styles.cardDescription} numberOfLines={3}>
 					{data.description}
 				</Text>
-				<View style={styles.cardLink}>
-					<View horizontal style={{ alignItems: 'center' }}>
-						<Text style={styles.cardLinkText}>Read</Text>
-						<ArrowRight size={20} />
+				{!breaked && (
+					<View style={styles.cardLink}>
+						<View horizontal style={{ alignItems: 'center' }}>
+							<Text style={styles.cardLinkText}>Read</Text>
+							<ArrowRight size={20} />
+						</View>
 					</View>
-				</View>
+				)}
 			</View>
 			<Image source={data.image} style={styles.image} />
 		</Hoverable>
@@ -49,11 +64,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flexWrap: 'wrap',
 		minWidth: 320,
+		rowGap: 20,
+		columnGap: 30,
 	},
 	cardContent: {
 		flex: 1,
-		marginRight: 30,
-		minWidth: 120,
+		minWidth: MIN_CONTENT_WIDTH,
 	},
 	cardTitle: {
 		fontSize: 18,
@@ -78,8 +94,8 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		aspectRatio: 283 / 196,
-		maxWidth: 250,
-		width: '100%',
+		minWidth: IMAGE_IDEAL_WIDTH,
+		flex: 1,
 		borderRadius: 10,
 	},
 });

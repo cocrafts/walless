@@ -63,7 +63,7 @@ export default Partners;
 
 const styles = StyleSheet.create({
 	sharedGap: {
-		gap: 24,
+		gap: 30,
 	},
 	container: {
 		minWidth: 320,

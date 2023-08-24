@@ -41,17 +41,19 @@ export default CardNews;
 const styles = StyleSheet.create({
 	cardContainer: {
 		flex: 1,
-		marginRight: 20,
 		backgroundColor: '#202D38',
 		padding: 20,
 		borderRadius: 15,
 		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'stretch',
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexWrap: 'wrap',
+		minWidth: 320,
 	},
 	cardContent: {
 		flex: 1,
 		marginRight: 30,
+		minWidth: 120,
 	},
 	cardTitle: {
 		fontSize: 18,
@@ -72,10 +74,12 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: '#ffffff',
 		marginRight: 5,
+		marginVertical: 10,
 	},
 	image: {
 		aspectRatio: 283 / 196,
-		width: 250,
+		maxWidth: 250,
+		width: '100%',
 		borderRadius: 10,
 	},
 });

@@ -1,9 +1,14 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { Text, View } from '@walless/gui';
 import SectionContainer from 'components/SectionContainer';
 
+import { sharedStyles } from '../shared';
+
 import Carousel from './Carousel';
-import TitleAndControl from './TitleAndControl';
+import CarouselControl from './CarouselControl';
+
+const SMALL_SCREEN_THRESHOLD = 648;
 
 export const Partners = () => {
 	const carouselRef = useRef<{
@@ -19,13 +24,37 @@ export const Partners = () => {
 		carouselRef.current?.handleSlideRightPress();
 	};
 
+	const [smallScreen, setSmallScreen] = useState(false);
+
 	return (
-		<SectionContainer horizontal>
-			<TitleAndControl
-				handleLeftPress={handleLeftPress}
-				handleRightPress={handleRightPress}
-			/>
-			<Carousel ref={carouselRef} style={styles.carouselContainer} />
+		<SectionContainer
+			horizontal={!smallScreen}
+			style={[styles.container, styles.sharedGap]}
+			onLayout={({
+				nativeEvent: {
+					layout: { width },
+				},
+			}) => setSmallScreen(width < SMALL_SCREEN_THRESHOLD)}
+		>
+			<View style={[styles.sharedGap, smallScreen && styles.smallContainer]}>
+				<Text style={sharedStyles.title}>Supporting partners</Text>
+				{!smallScreen && (
+					<CarouselControl
+						handleLeftPress={handleLeftPress}
+						handleRightPress={handleRightPress}
+					/>
+				)}
+			</View>
+
+			<View style={[styles.sharedGap, smallScreen && styles.smallContainer]}>
+				<Carousel ref={carouselRef} style={styles.carouselContainer} />
+				{smallScreen && (
+					<CarouselControl
+						handleLeftPress={handleLeftPress}
+						handleRightPress={handleRightPress}
+					/>
+				)}
+			</View>
 		</SectionContainer>
 	);
 };
@@ -33,8 +62,17 @@ export const Partners = () => {
 export default Partners;
 
 const styles = StyleSheet.create({
+	sharedGap: {
+		gap: 24,
+	},
+	container: {
+		minWidth: 320,
+	},
+	smallContainer: {
+		alignItems: 'center',
+	},
 	carouselContainer: {
-		marginLeft: 30,
 		flex: 1,
+		minWidth: 320,
 	},
 });

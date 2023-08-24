@@ -38,6 +38,8 @@ const styles = StyleSheet.create({
 		width: '100%',
 		marginTop: 30,
 		flexDirection: 'row',
+		flexWrap: 'wrap',
 		justifyContent: 'space-between',
+		gap: 30,
 	},
 });

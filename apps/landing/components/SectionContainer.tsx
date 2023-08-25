@@ -1,21 +1,24 @@
 import type { FC, ReactNode } from 'react';
-import type { ViewStyle } from 'react-native';
+import type { ViewProps } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
-interface Props {
+type Props = ViewProps & {
 	horizontal?: boolean;
-	style?: ViewStyle;
 	children: ReactNode;
-}
+};
 
 export const SectionContainer: FC<Props> = ({
 	horizontal = false,
-	style,
 	children,
+	...viewProps
 }) => {
 	return (
-		<View horizontal={horizontal} style={{ ...styles.container, ...style }}>
+		<View
+			horizontal={horizontal}
+			{...viewProps}
+			style={[styles.container, viewProps.style]}
+		>
 			{children}
 		</View>
 	);

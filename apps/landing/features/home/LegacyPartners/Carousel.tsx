@@ -81,7 +81,7 @@ export const Carousel: FC<Props> = forwardRef(function Carousel(
 	}, [currentPosition]);
 
 	useEffect(() => {
-		const autoSlide = setInterval(handleSlideLeftToRight, 2500);
+		const autoSlide = setInterval(handleSlideRightToLeft, 2500);
 		setAutoSlideId(autoSlide);
 
 		return () => clearInterval(autoSlide);
@@ -99,7 +99,10 @@ export const Carousel: FC<Props> = forwardRef(function Carousel(
 	}));
 
 	return (
-		<View horizontal style={{ overflow: 'hidden', ...style }}>
+		<View
+			horizontal
+			style={{ overflow: 'hidden', alignSelf: 'flex-start', ...style }}
+		>
 			<AnimatedView horizontal style={animatedStyle}>
 				{partners.map((partner, idx) => (
 					<Hoverable key={idx} onPress={() => Linking.openURL(partner.url)}>

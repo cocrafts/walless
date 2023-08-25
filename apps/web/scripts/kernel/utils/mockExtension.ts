@@ -2,31 +2,6 @@ import type { ExtensionDocument } from '@walless/store';
 
 export const mockLayoutCards: ExtensionDocument[] = [
 	{
-		_id: 'tezos',
-		name: 'Tezos',
-		version: '0.0.1',
-		type: 'Extension',
-		extensionType: 'Layout',
-		timestamp: new Date().toISOString(),
-		storeMeta: {
-			iconUri: '/img/network/tezos-icon-sm.png',
-			iconSize: 26,
-			iconColor: '#2D7DF8',
-			coverUri: 'https://tezos.com/brand/CleanTezos1.png',
-			description:
-				'A blockchain designed to evolve. Security focused. Upgradeable. Built to last',
-			loveCount: 100,
-			activeCount: 567,
-		},
-		networkMeta: {
-			backgroundUri: 'https://tezos.com/brand/NFTsTezos.png',
-			markUri: '/img/network/tezos-icon-lg.png',
-			iconUri: '/img/network/tezos-icon-sm.png',
-			iconColor: '#2D7DF8',
-			iconSize: 12,
-		},
-	},
-	{
 		_id: 'solana',
 		name: 'Solana',
 		version: '0.9.1',
@@ -77,6 +52,31 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		},
 	},
 	{
+		_id: 'tezos',
+		name: 'Tezos',
+		version: '0.0.1',
+		type: 'Extension',
+		extensionType: 'Layout',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/network/tezos-icon-sm.png',
+			iconSize: 26,
+			iconColor: '#2D7DF8',
+			coverUri: 'https://tezos.com/brand/CleanTezos1.png',
+			description:
+				'A blockchain designed to evolve. Security focused. Upgradeable. Built to last',
+			loveCount: 100,
+			activeCount: 567,
+		},
+		networkMeta: {
+			backgroundUri: 'https://tezos.com/brand/NFTsTezos.png',
+			markUri: '/img/network/tezos-icon-lg.png',
+			iconUri: '/img/network/tezos-icon-sm.png',
+			iconColor: '#2D7DF8',
+			iconSize: 12,
+		},
+	},
+	{
 		_id: '000004',
 		name: 'T-Rex Runner',
 		version: '0.1.8',
@@ -123,6 +123,31 @@ export const mockLayoutCards: ExtensionDocument[] = [
 			iconUri: '/img/explore/thumbnail-under-realm.png',
 			iconColor: '#000000',
 			iconSize: 16,
+		},
+	},
+	{
+		_id: '000005',
+		name: 'Pixeverse',
+		version: '0.1.8',
+		type: 'Extension',
+		extensionType: 'Layout',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/explore/logo-pixeverse.png',
+			iconSize: 40,
+			iconColor: '#ffffff',
+			coverUri: '/img/explore/thumbnail-pixeverse.png',
+			description:
+				'A hyper casual pixel-style game in which players step into the shoes of their ...',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/explore/logo-pixeverse.png',
+			iconUri: '/img/explore/logo-pixeverse.png',
+			iconColor: '#ffffff',
+			iconSize: 40,
 		},
 	},
 ];

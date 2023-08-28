@@ -9,36 +9,36 @@ export const KoalaGacha = () => {
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const [pubkey] = usePublicKeys(Networks.solana);
 
-	window.addEventListener('message', async (event) => {
-		if (event.origin === trustedOrigin) {
-			if (event.data === 'done') {
-				const jwt = await auth.currentUser?.getIdToken(true);
-				iframeRef?.current?.contentWindow?.postMessage(
-					{
-						jwt,
-						pubkey: pubkey._id,
-					},
-					trustedOrigin,
-				);
-			}
-		}
-	});
-
 	useEffect(() => {
-		const subscription = auth.onIdTokenChanged(async (user) => {
-			iframeRef?.current?.contentWindow?.postMessage(
-				{
-					jwt: await user?.getIdToken(),
-					pubkey: pubkey._id,
-				},
-				trustedOrigin,
-			);
-		});
+		const forwardContext = async () => {
+			const payload = {
+				apiUrl: __DEV__
+					? 'https://nerve-stg.walless.io/pixeverse'
+					: 'https://nerve.walless.io/pixeverse',
+				jwt: await auth.currentUser?.getIdToken(true),
+				address: pubkey._id,
+			};
+
+			iframeRef?.current?.contentWindow?.postMessage(payload, trustedOrigin);
+		};
+
+		const onPixeverseReady = async (event: MessageEvent) => {
+			const fromTrustedOrigin = event.origin === trustedOrigin;
+			const fromReadyEvent = event.data === 'on-pixeverse-ready';
+
+			if (fromTrustedOrigin && fromReadyEvent) {
+				forwardContext();
+			}
+		};
+
+		const cancelIdTokenSubscription = auth.onIdTokenChanged(forwardContext);
+		window.addEventListener('message', onPixeverseReady);
 
 		return () => {
-			subscription();
+			cancelIdTokenSubscription();
+			window.removeEventListener('message', onPixeverseReady);
 		};
-	}, []);
+	}, [pubkey]);
 
 	return (
 		<View style={{ width: 352, height: 600, justifyContent: 'center' }}>

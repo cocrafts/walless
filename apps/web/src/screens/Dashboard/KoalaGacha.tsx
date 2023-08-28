@@ -12,7 +12,7 @@ export const KoalaGacha = () => {
 	const gameUrl = useLocalBuild
 		? 'http://localhost:8080'
 		: 'https://cdn.stormgate.io/pixeverse/index.html';
-	const apiUrl = useLocalBuild
+	const apiUrl = __DEV__
 		? 'https://nerve-stg.walless.io/pixeverse'
 		: 'https://nerve.walless.io/pixeverse';
 	const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -40,6 +40,7 @@ export const KoalaGacha = () => {
 
 		const cancelIdTokenSubscription = auth.onIdTokenChanged(forwardContext);
 		window.addEventListener('message', onPixeverseReady);
+		iframeRef.current?.focus();
 
 		return () => {
 			cancelIdTokenSubscription();

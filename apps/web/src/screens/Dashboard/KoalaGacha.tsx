@@ -5,16 +5,23 @@ import { auth } from 'utils/firebase';
 import { usePublicKeys } from 'utils/hooks';
 
 export const KoalaGacha = () => {
-	const trustedOrigin = 'http://localhost:8080';
+	const useLocalBuild = false;
+	const trustedOrigin = useLocalBuild
+		? 'http://localhost:8080'
+		: 'https://cdn.stormgate.io';
+	const gameUrl = useLocalBuild
+		? 'http://localhost:8080'
+		: 'https://cdn.stormgate.io/pixeverse/index.html';
+	const apiUrl = useLocalBuild
+		? 'https://nerve-stg.walless.io/pixeverse'
+		: 'https://nerve.walless.io/pixeverse';
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const [pubkey] = usePublicKeys(Networks.solana);
 
 	useEffect(() => {
 		const forwardContext = async () => {
 			const payload = {
-				apiUrl: __DEV__
-					? 'https://nerve-stg.walless.io/pixeverse'
-					: 'https://nerve.walless.io/pixeverse',
+				apiUrl,
 				jwt: await auth.currentUser?.getIdToken(true),
 				address: pubkey._id,
 			};
@@ -45,7 +52,7 @@ export const KoalaGacha = () => {
 			<iframe
 				ref={iframeRef}
 				allow="web-share"
-				src="http://localhost:8080/"
+				src={gameUrl}
 				width={352}
 				height={600}
 				style={{ borderColor: 'transparent' }}

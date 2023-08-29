@@ -18,6 +18,7 @@ const InvitationScreen = () => {
 		try {
 			const code = await validateInvitationCode(value);
 			appState.invitationCode = code;
+			router.navigate('/login');
 		} catch (err) {
 			setInvitationError((err as Error).message);
 		}

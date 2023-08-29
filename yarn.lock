@@ -66,102 +66,102 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-cdk/asset-awscli-v1@npm:^2.2.177":
+"@aws-cdk/asset-awscli-v1@npm:^2.2.200":
   version: 2.2.200
   resolution: "@aws-cdk/asset-awscli-v1@npm:2.2.200"
   checksum: 0de92336887957e188092dc62a9b8fa87b8e602b8678faa361cc12680cedde46a2592dc1c73b33a0d2067e1a000d2afa762b2a14c07fb47b3fcad288a24ce7ed
   languageName: node
   linkType: hard
 
-"@aws-cdk/asset-kubectl-v20@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@aws-cdk/asset-kubectl-v20@npm:2.1.1"
-  checksum: f5883fae7b6d3d17e5125560a6efa5065d8b319c11ea6639caa68e315427c4fa266433db04b1a776cf12ccc8c8f8e9a3dfc0ac8cc3c0e73545f80b07808281e2
+"@aws-cdk/asset-kubectl-v20@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@aws-cdk/asset-kubectl-v20@npm:2.1.2"
+  checksum: 987bce26f54ba64596b7d15adf0c09603814ed56f06b498d17dc4b8859f4708662c9c48f88bba2810d8fac04cf84b8f3e51806c93cf65aeb6148ad76bc250f84
   languageName: node
   linkType: hard
 
-"@aws-cdk/asset-node-proxy-agent-v5@npm:^2.0.148":
+"@aws-cdk/asset-node-proxy-agent-v5@npm:^2.0.166":
   version: 2.0.166
   resolution: "@aws-cdk/asset-node-proxy-agent-v5@npm:2.0.166"
   checksum: d286c3d9e30d5acf6e3eef820bba74a87d4ff8e052183166702f22a615c0eed19471408df798d92208b12c8b8ecbaaa6cbe2b8b2729ec10c6446b5ef2081af37
   languageName: node
   linkType: hard
 
-"@aws-cdk/aws-apigatewayv2-alpha@npm:^2.84.0-alpha.0":
-  version: 2.84.0-alpha.0
-  resolution: "@aws-cdk/aws-apigatewayv2-alpha@npm:2.84.0-alpha.0"
+"@aws-cdk/aws-apigatewayv2-alpha@npm:^2.91.0-alpha.0":
+  version: 2.91.0-alpha.0
+  resolution: "@aws-cdk/aws-apigatewayv2-alpha@npm:2.91.0-alpha.0"
   peerDependencies:
-    aws-cdk-lib: 2.84.0
+    aws-cdk-lib: 2.91.0
     constructs: ^10.0.0
-  checksum: ae83bdc41a79f7db1acba5a7caca8334a44cfbf3a10e67fdbf4de833762ea4dc438eb874f49f69932ea5049416bc9ce9169a7ba5543546c2412f71ad500a6803
+  checksum: ac01e84e8b98386588bc3647e1bdc694340ad9ad03772a0020d62f73bc2b230185c5d36c7fa832a705d0cd0e3db303b008e22b9ea809f31dbd4469e171b545d2
   languageName: node
   linkType: hard
 
-"@aws-cdk/aws-apigatewayv2-authorizers-alpha@npm:^2.84.0-alpha.0":
-  version: 2.84.0-alpha.0
-  resolution: "@aws-cdk/aws-apigatewayv2-authorizers-alpha@npm:2.84.0-alpha.0"
+"@aws-cdk/aws-apigatewayv2-authorizers-alpha@npm:^2.91.0-alpha.0":
+  version: 2.91.0-alpha.0
+  resolution: "@aws-cdk/aws-apigatewayv2-authorizers-alpha@npm:2.91.0-alpha.0"
   peerDependencies:
-    "@aws-cdk/aws-apigatewayv2-alpha": 2.84.0-alpha.0
-    aws-cdk-lib: 2.84.0
+    "@aws-cdk/aws-apigatewayv2-alpha": 2.91.0-alpha.0
+    aws-cdk-lib: 2.91.0
     constructs: ^10.0.0
-  checksum: ddc657f077a60848fa38392556d86424da371d22fa2f4879c952be58cf29d123b8fac90c869f9189216bebf4e7c34b5b286e02ac0af2d707ac2327830d01f74d
+  checksum: 1c2372041c4f08301674fee3e72942632ddd979160b6564652a7c68cad1af4a583369a5335935e9a563906c23598a682abd0f88a6458926589765ae7ff0821f9
   languageName: node
   linkType: hard
 
-"@aws-cdk/aws-apigatewayv2-integrations-alpha@npm:^2.84.0-alpha.0":
-  version: 2.84.0-alpha.0
-  resolution: "@aws-cdk/aws-apigatewayv2-integrations-alpha@npm:2.84.0-alpha.0"
+"@aws-cdk/aws-apigatewayv2-integrations-alpha@npm:^2.91.0-alpha.0":
+  version: 2.91.0-alpha.0
+  resolution: "@aws-cdk/aws-apigatewayv2-integrations-alpha@npm:2.91.0-alpha.0"
   peerDependencies:
-    "@aws-cdk/aws-apigatewayv2-alpha": 2.84.0-alpha.0
-    aws-cdk-lib: 2.84.0
+    "@aws-cdk/aws-apigatewayv2-alpha": 2.91.0-alpha.0
+    aws-cdk-lib: 2.91.0
     constructs: ^10.0.0
-  checksum: ec5fd0fd3b3c19fc7c06a099dc751282d889ba0303c9b745e02011cdf93bc0bb90b9877e4a1aa38b570088cc550df832c5cafa7282a9762fd79b2d4818d49822
+  checksum: 397615eec19ffd30dee0a0c1675645b0f32cace36f56c12fde438ca3ca684cc9fc314a48da182cbd608ba9583768846ab1aec9bbb4ce6c3fd00f94ee28436bda
   languageName: node
   linkType: hard
 
-"@aws-cdk/cfnspec@npm:2.84.0-alpha.0":
-  version: 2.84.0-alpha.0
-  resolution: "@aws-cdk/cfnspec@npm:2.84.0-alpha.0"
+"@aws-cdk/cfnspec@npm:2.91.0-alpha.0":
+  version: 2.91.0-alpha.0
+  resolution: "@aws-cdk/cfnspec@npm:2.91.0-alpha.0"
   dependencies:
     fs-extra: ^9.1.0
     md5: ^2.3.0
-  checksum: 8c6913c485966c135140850495e7f814dd191152c8ff3670371a7140c1518b319a85960c99665ae6c917bebf219f71ba22f9fd8795d790d97ae5455f6315848b
+  checksum: 66651a3ce4e60f7e3fa851fb7e31194745a645c9d20038264fcbc4c7c4f84695b251672adbf6eb6c6d612cace1267a78b3f299367368ee89c748602a68c5380c
   languageName: node
   linkType: hard
 
-"@aws-cdk/cloud-assembly-schema@npm:2.84.0":
-  version: 2.84.0
-  resolution: "@aws-cdk/cloud-assembly-schema@npm:2.84.0"
+"@aws-cdk/cloud-assembly-schema@npm:2.91.0":
+  version: 2.91.0
+  resolution: "@aws-cdk/cloud-assembly-schema@npm:2.91.0"
   dependencies:
     jsonschema: ^1.4.1
-    semver: ^7.5.1
-  checksum: 1ee4e58520639275eda4598a4f96cb9562a5f7cfceb212422f21c528d95b30e606d71276c6f899ea063d1370b81be643c9346395a2e9f30b67a58b87b021f20e
+    semver: ^7.5.4
+  checksum: 8b2554eb987009421f89eb1b345bdbf298820dfe0b9e9aea09789e562dfa153ebacaecb45d9e93b89f80ff03bb1dda75801396386efd31487ab3926e4d2a2ebd
   languageName: node
   linkType: hard
 
-"@aws-cdk/cloudformation-diff@npm:2.84.0":
-  version: 2.84.0
-  resolution: "@aws-cdk/cloudformation-diff@npm:2.84.0"
+"@aws-cdk/cloudformation-diff@npm:2.91.0":
+  version: 2.91.0
+  resolution: "@aws-cdk/cloudformation-diff@npm:2.91.0"
   dependencies:
-    "@aws-cdk/cfnspec": 2.84.0-alpha.0
+    "@aws-cdk/cfnspec": 2.91.0-alpha.0
     chalk: ^4
     diff: ^5.1.0
     fast-deep-equal: ^3.1.3
     string-width: ^4.2.3
     table: ^6.8.1
-  checksum: 61c9145b5b819cfba1631155812e970558c760b0d7e65d80309d8bd706f5a7a039bc54f3a7a866556d43447fc8c6d380af762a574bddd841bb65d93795463af0
+  checksum: c0068fba776998adfa820585920c1d62e2794a51e34543ae83306694cf97c76917eb219de573787891fcd5c8ed4f050996202565478925fd6f3ccb68e592df31
   languageName: node
   linkType: hard
 
-"@aws-cdk/cx-api@npm:2.84.0":
-  version: 2.84.0
-  resolution: "@aws-cdk/cx-api@npm:2.84.0"
+"@aws-cdk/cx-api@npm:2.91.0":
+  version: 2.91.0
+  resolution: "@aws-cdk/cx-api@npm:2.91.0"
   dependencies:
-    "@aws-cdk/cloud-assembly-schema": 2.84.0
-    semver: ^7.5.1
+    "@aws-cdk/cloud-assembly-schema": 2.91.0
+    semver: ^7.5.4
   peerDependencies:
-    "@aws-cdk/cloud-assembly-schema": 2.84.0
-  checksum: c7a3129716b1c549ad60d6e8b258f7c653ac7b51218f4e52c17d58fb859c44d9fa12e20a02e8944ceb4f21a4feed4e441a2c35d3a837f8531e66769596e2a024
+    "@aws-cdk/cloud-assembly-schema": 2.91.0
+  checksum: f1bdaa93548db2bf42c385bccfa1903efb0c3df93368459c5ac08ca4e63cf7759427ba41ed5e1795a8fc12237289f4933a3b86fca29c4cb7ee930f45898be85f
   languageName: node
   linkType: hard
 
@@ -238,6 +238,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-crypto/sha256-js@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@aws-crypto/sha256-js@npm:5.0.0"
+  dependencies:
+    "@aws-crypto/util": ^5.0.0
+    "@aws-sdk/types": ^3.222.0
+    tslib: ^1.11.1
+  checksum: 0c312132538abd4c1dc1b484e76df70a24c5106fd9fa79cdbdbdf1aec970806c0b7817601c03f370d0617b72a70c14c812572efdeef84b7d4efd0e7db19c38fd
+  languageName: node
+  linkType: hard
+
 "@aws-crypto/supports-web-crypto@npm:^3.0.0":
   version: 3.0.0
   resolution: "@aws-crypto/supports-web-crypto@npm:3.0.0"
@@ -255,6 +266,17 @@ __metadata:
     "@aws-sdk/util-utf8-browser": ^3.0.0
     tslib: ^1.11.1
   checksum: d29d5545048721aae3d60b236708535059733019a105f8a64b4e4a8eab7cf8dde1546dc56bff7de20d36140a4d1f0f4693e639c5732a7059273a7b1e56354776
+  languageName: node
+  linkType: hard
+
+"@aws-crypto/util@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@aws-crypto/util@npm:5.0.0"
+  dependencies:
+    "@aws-sdk/types": ^3.222.0
+    "@aws-sdk/util-utf8-browser": ^3.0.0
+    tslib: ^1.11.1
+  checksum: 3416ed5865ee95ffb78aaeb7ac301861a54aede2bdb0565fbaf6ef6a4635eba5e06ed36ea377fc3bf89a075c28f64830b108e5188042fcac5d5ebf9cff3175d2
   languageName: node
   linkType: hard
 
@@ -7191,6 +7213,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lukeed/ms@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@lukeed/ms@npm:2.0.1"
+  checksum: c7b46933bf7bad3e024dcbbe2ad6201392b4ed2a05a717c0ef7e96a03fb885d44f08b4b749c392cc51c2736a6a45a08c77f1863ace1c072928fbfd9908a13db3
+  languageName: node
+  linkType: hard
+
 "@mapbox/node-pre-gyp@npm:^1.0.0":
   version: 1.0.10
   resolution: "@mapbox/node-pre-gyp@npm:1.0.10"
@@ -8416,6 +8445,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smithy/eventstream-codec@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "@smithy/eventstream-codec@npm:2.0.5"
+  dependencies:
+    "@aws-crypto/crc32": 3.0.0
+    "@smithy/types": ^2.2.2
+    "@smithy/util-hex-encoding": ^2.0.0
+    tslib: ^2.5.0
+  checksum: 472c0b1652e2afcf9dd9a8f122255d8b3b46019ead3c12ce8ceb3242d2dca525c5dcf6fd2fe57e03621283c8762b44d553a10eb0ce35eecaf2f4366c45bbf683
+  languageName: node
+  linkType: hard
+
 "@smithy/fetch-http-handler@npm:^2.0.1":
   version: 2.0.1
   resolution: "@smithy/fetch-http-handler@npm:2.0.1"
@@ -8627,6 +8668,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smithy/signature-v4@npm:^2.0.4":
+  version: 2.0.5
+  resolution: "@smithy/signature-v4@npm:2.0.5"
+  dependencies:
+    "@smithy/eventstream-codec": ^2.0.5
+    "@smithy/is-array-buffer": ^2.0.0
+    "@smithy/types": ^2.2.2
+    "@smithy/util-hex-encoding": ^2.0.0
+    "@smithy/util-middleware": ^2.0.0
+    "@smithy/util-uri-escape": ^2.0.0
+    "@smithy/util-utf8": ^2.0.0
+    tslib: ^2.5.0
+  checksum: addde648130897b54fd402c2ce968a16bc830ebcce4b1611bea6c1ce774b9737f0d0c90d6f50c69fe8fd5660efde6f399fc0d381d6511feb4cfc121cfd1410da
+  languageName: node
+  linkType: hard
+
 "@smithy/smithy-client@npm:^2.0.1":
   version: 2.0.1
   resolution: "@smithy/smithy-client@npm:2.0.1"
@@ -8654,6 +8711,15 @@ __metadata:
   dependencies:
     tslib: ^2.5.0
   checksum: 4afdd7c77b212abd9e0770a1489057aa0470f8a59061c4fb2175b1f12e02180db3d85e16f2cd870a95c17bd28a5a4b8ef1dff1ade6852f85eafea12872d9588e
+  languageName: node
+  linkType: hard
+
+"@smithy/types@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "@smithy/types@npm:2.2.2"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 2799a14620da60efb2a0aba1bf9adc553a5446dc447b9ee1d7a95410233a70dff2b5e563fecf84388137dabbe662c6bf3a2247ca20a1f266c1256f82e0f25fcf
   languageName: node
   linkType: hard
 
@@ -13494,7 +13560,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asn1.js@npm:^5.2.0, asn1.js@npm:^5.3.0, asn1.js@npm:^5.4.1":
+"asn1.js@npm:^5.2.0, asn1.js@npm:^5.4.1":
   version: 5.4.1
   resolution: "asn1.js@npm:5.4.1"
   dependencies:
@@ -13656,13 +13722,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-cdk-lib@npm:2.84.0":
-  version: 2.84.0
-  resolution: "aws-cdk-lib@npm:2.84.0"
+"aws-cdk-lib@npm:2.91.0":
+  version: 2.91.0
+  resolution: "aws-cdk-lib@npm:2.91.0"
   dependencies:
-    "@aws-cdk/asset-awscli-v1": ^2.2.177
-    "@aws-cdk/asset-kubectl-v20": ^2.1.1
-    "@aws-cdk/asset-node-proxy-agent-v5": ^2.0.148
+    "@aws-cdk/asset-awscli-v1": ^2.2.200
+    "@aws-cdk/asset-kubectl-v20": ^2.1.2
+    "@aws-cdk/asset-node-proxy-agent-v5": ^2.0.166
     "@balena/dockerignore": ^1.0.2
     case: 1.6.3
     fs-extra: ^11.1.1
@@ -13670,12 +13736,12 @@ __metadata:
     jsonschema: ^1.4.1
     minimatch: ^3.1.2
     punycode: ^2.3.0
-    semver: ^7.5.1
+    semver: ^7.5.4
     table: ^6.8.1
     yaml: 1.10.2
   peerDependencies:
     constructs: ^10.0.0
-  checksum: fa7ecfaf4b220fd3ea1dbd982245b47164400a925a25dc8fc9542ed003ba6a13ca9527fbc4eb190dafeaddcbeae8530b411e7db102adee07b9adb0312748f9c3
+  checksum: 11367a1ca64d57b9c8f023581cd6ccee1fa18706cf636e9f934be680e0282c79aa5c5087d40e93143c9469d1a3c3e6df784e0c5a8185cd390dad9591641074d0
   languageName: node
   linkType: hard
 
@@ -13726,9 +13792,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1379.0":
-  version: 2.1430.0
-  resolution: "aws-sdk@npm:2.1430.0"
+"aws-sdk@npm:^2.1432.0":
+  version: 2.1446.0
+  resolution: "aws-sdk@npm:2.1446.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -13740,7 +13806,7 @@ __metadata:
     util: ^0.12.4
     uuid: 8.0.0
     xml2js: 0.5.0
-  checksum: 6a0183d3be476bcc0800abefc61a311e4d74fd3957e1538863619ec1a5fd7d7138e3003d5cfb6e5fb2abddd3939af1f975df8c89a6e837d8b5584a149dfcee43
+  checksum: 85460fc56b9ff268975c9065d414bbe9e9f0e3c21ef3190493730cac959568ff2f731a300ed37dd30d2fd8678fcbb7dd34419e6f81f85bea2c844cfbfd6bf71f
   languageName: node
   linkType: hard
 
@@ -14791,21 +14857,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cdk-assets@npm:2.84.0":
-  version: 2.84.0
-  resolution: "cdk-assets@npm:2.84.0"
+"cdk-assets@npm:2.91.0":
+  version: 2.91.0
+  resolution: "cdk-assets@npm:2.91.0"
   dependencies:
-    "@aws-cdk/cloud-assembly-schema": 2.84.0
-    "@aws-cdk/cx-api": 2.84.0
+    "@aws-cdk/cloud-assembly-schema": 2.91.0
+    "@aws-cdk/cx-api": 2.91.0
     archiver: ^5.3.1
-    aws-sdk: ^2.1379.0
+    aws-sdk: ^2.1432.0
     glob: ^7.2.3
     mime: ^2.6.0
     yargs: ^16.2.0
   bin:
     cdk-assets: bin/cdk-assets
     docker-credential-cdk-assets: bin/docker-credential-cdk-assets
-  checksum: fa198fe691d3ce672de7fd4ae7dab5d325a16a4e30080d0231dabba2452aa996ff72ef4a99109a748b6aaf2555bae0faa79f31079f92faf7603bfcf319f073dc
+  checksum: 9baa6b25007a1d97769123dda15eb7e1c5ffe040d7e2900ee8bab0adbf00b78064b958199d9512e903e8b8a226dc86e0ce37841acaa85af003e231172b78399f
   languageName: node
   linkType: hard
 
@@ -15546,10 +15612,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"constructs@npm:10.1.156":
-  version: 10.1.156
-  resolution: "constructs@npm:10.1.156"
-  checksum: 4aeeced6363243162077ad21f0b674797b26959b22f3ed9734fa24e08b52a681be9742690db735009cdca06ea767019b70a738e417d200f2062125e6ad050644
+"constructs@npm:10.2.69":
+  version: 10.2.69
+  resolution: "constructs@npm:10.2.69"
+  checksum: 8e72083abf8cc860abace9fd2a551a5eef30dc130cb5fabff30614329e977771e8e7a0bfd7a26784de42ae0a1904ffe4f16f765994a2f948b94787927da09436
   languageName: node
   linkType: hard
 
@@ -17812,14 +17878,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-jwt@npm:^1.6.1":
-  version: 1.7.2
-  resolution: "fast-jwt@npm:1.7.2"
+"fast-jwt@npm:^3.1.1":
+  version: 3.2.0
+  resolution: "fast-jwt@npm:3.2.0"
   dependencies:
-    asn1.js: ^5.3.0
+    "@lukeed/ms": ^2.0.1
+    asn1.js: ^5.4.1
     ecdsa-sig-formatter: ^1.0.11
-    mnemonist: ^0.39.0
-  checksum: 0b0a71253eb1527e19ee87f1b35d15b0078b4ae6312563b65e5f0b184b7ad97c23cf444fe04daafadeb0a621025257e4fd0d85dfc50fb1328cd92b4c773734bc
+    mnemonist: ^0.39.5
+  checksum: 908c3b660e88836610672096f635e0d3b14f2aa54d84528b3a1a67344fa981b68f7567a23d56cf915702b0d07293855e165e9c4047492a767e1e95660d163545
   languageName: node
   linkType: hard
 
@@ -22741,7 +22808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mnemonist@npm:^0.39.0":
+"mnemonist@npm:^0.39.5":
   version: 0.39.5
   resolution: "mnemonist@npm:0.39.5"
   dependencies:
@@ -26434,7 +26501,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.5.1":
+"semver@npm:^7.5.4":
   version: 7.5.4
   resolution: "semver@npm:7.5.4"
   dependencies:
@@ -27128,9 +27195,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sst-aws-cdk@npm:2.84.0":
-  version: 2.84.0
-  resolution: "sst-aws-cdk@npm:2.84.0"
+"sst-aws-cdk@npm:2.91.0":
+  version: 2.91.0
+  resolution: "sst-aws-cdk@npm:2.91.0"
   dependencies:
     archiver: ^5.3.1
     chalk: ^4
@@ -27142,20 +27209,21 @@ __metadata:
       optional: true
   bin:
     cdk: bin/cdk
-  checksum: 35ab0aed58bf57865722868dfed8e11fb1a6f2b4d05a607cda6741fc0ac9b4c16a3772e858641f2a2455d015deb92bbd42bfb67d81754a066f8411ff6bcf93bf
+  checksum: d577fba8330ac21c6948124d6dff494b763374a81f768a1e3fe3a705e3fd0c68f51d3686a361dbe91c221159cd3a610c1c197f18f149f676c9e2a1a1547487a9
   languageName: node
   linkType: hard
 
-"sst@npm:^2.21.4":
-  version: 2.23.3
-  resolution: "sst@npm:2.23.3"
+"sst@npm:2.24.17":
+  version: 2.24.17
+  resolution: "sst@npm:2.24.17"
   dependencies:
-    "@aws-cdk/aws-apigatewayv2-alpha": ^2.84.0-alpha.0
-    "@aws-cdk/aws-apigatewayv2-authorizers-alpha": ^2.84.0-alpha.0
-    "@aws-cdk/aws-apigatewayv2-integrations-alpha": ^2.84.0-alpha.0
-    "@aws-cdk/cloud-assembly-schema": 2.84.0
-    "@aws-cdk/cloudformation-diff": 2.84.0
-    "@aws-cdk/cx-api": 2.84.0
+    "@aws-cdk/aws-apigatewayv2-alpha": ^2.91.0-alpha.0
+    "@aws-cdk/aws-apigatewayv2-authorizers-alpha": ^2.91.0-alpha.0
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": ^2.91.0-alpha.0
+    "@aws-cdk/cloud-assembly-schema": 2.91.0
+    "@aws-cdk/cloudformation-diff": 2.91.0
+    "@aws-cdk/cx-api": 2.91.0
+    "@aws-crypto/sha256-js": ^5.0.0
     "@aws-sdk/client-cloudformation": ^3.279.0
     "@aws-sdk/client-ecs": ^3.279.0
     "@aws-sdk/client-eventbridge": ^3.342.0
@@ -27176,25 +27244,26 @@ __metadata:
     "@babel/core": ^7.0.0-0
     "@babel/generator": ^7.20.5
     "@babel/plugin-syntax-typescript": ^7.21.4
+    "@smithy/signature-v4": ^2.0.4
     "@trpc/server": 9.16.0
     adm-zip: ^0.5.10
-    aws-cdk-lib: 2.84.0
+    aws-cdk-lib: 2.91.0
     aws-iot-device-sdk: ^2.2.12
     aws-sdk: ^2.1326.0
     builtin-modules: 3.2.0
-    cdk-assets: 2.84.0
+    cdk-assets: 2.91.0
     chalk: ^5.2.0
     chokidar: ^3.5.3
     ci-info: ^3.7.0
     colorette: ^2.0.19
     conf: ^10.2.0
-    constructs: 10.1.156
+    constructs: 10.2.69
     cross-spawn: ^7.0.3
     dendriform-immer-patch-optimiser: ^2.1.0
     dotenv: ^16.0.3
     esbuild: 0.18.13
     express: ^4.18.2
-    fast-jwt: ^1.6.1
+    fast-jwt: ^3.1.1
     get-port: ^6.1.2
     glob: ^8.0.3
     graphql: "*"
@@ -27210,7 +27279,7 @@ __metadata:
     ora: ^6.1.2
     react: 18.2.0
     remeda: ^1.3.0
-    sst-aws-cdk: 2.84.0
+    sst-aws-cdk: 2.91.0
     tree-kill: ^1.2.2
     undici: ^5.12.0
     uuid: ^9.0.0
@@ -27224,7 +27293,7 @@ __metadata:
       optional: true
   bin:
     sst: cli/sst.js
-  checksum: 1a62d43b234e230d95239f0eefc47ae2e1c3bf1c49a5dbdfa48f3a2f4421a7cfa5629d021c8d256be1c4e94c56736aa2d86050ff489c13f4a06684c16947cf76
+  checksum: 11062353b0a99ada11b66a76374962996c4a35c2801e7722ecad9717f936d2c75745477961114f0f9ad4cb2e9427aaf6ddebdca5c05618664eb4b9541a9d339a
   languageName: node
   linkType: hard
 
@@ -29142,7 +29211,7 @@ __metadata:
     archiver: ^5.3.1
     babel-plugin-module-resolver: ^4.1.0
     babel-plugin-transform-inline-environment-variables: ^0.4.4
-    constructs: 10.1.156
+    constructs: 10.2.69
     copy-webpack-plugin: ^11.0.0
     cross-env: ^7.0.3
     fs-extra: ^11.1.0
@@ -29153,7 +29222,7 @@ __metadata:
     react-native-reanimated: 3.1.0
     rimraf: ^5.0.0
     shx: ^0.3.4
-    sst: ^2.21.4
+    sst: 2.24.17
     ts-jest: ^29.0.5
     tsconfig-paths-webpack-plugin: ^4.0.1
     turbo: latest

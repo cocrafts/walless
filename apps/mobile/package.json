@@ -20,6 +20,7 @@
     "@toruslabs/customauth-react-native-sdk": "^4.0.1",
     "@walless/app": "*",
     "@walless/core": "*",
+    "@walless/crypto-keys": "*",
     "@walless/gui": "*",
     "@walless/icons": "*",
     "@walless/store": "*",

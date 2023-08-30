@@ -13,6 +13,7 @@ const monoPackages = {
 	'@walless/store': resolve(workspaceRoot, 'packages/store'),
 	'@walless/crypto': resolve(workspaceRoot, 'packages/crypto'),
 	'@walless/messaging': resolve(workspaceRoot, 'packages/messaging'),
+	'@walless/crypto-keys': resolve(workspaceRoot, 'packages/crypto-keys'),
 };
 
 module.exports = {

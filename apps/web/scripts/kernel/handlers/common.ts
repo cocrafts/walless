@@ -1,7 +1,8 @@
+import type { ConnectOptions } from '@walless/core';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
-import type { PublicKeyDocument } from '@walless/store';
+import type { PublicKeyDocument, TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
 import {
@@ -16,6 +17,27 @@ export const handleConnect: HandleMethod = async ({
 	payload,
 	responseMethod,
 }) => {
+	const connectOptions = payload.options as ConnectOptions;
+
+	if (connectOptions.domain) {
+		const doc = {
+			_id: connectOptions.domain,
+			type: 'TrustedDomain',
+			trusted: true,
+			connectCount: 1,
+		};
+		await modules.storage.upsert<TrustedDomainDocument>(
+			doc._id,
+			async (prevDoc) => {
+				if (prevDoc.connectCount) {
+					doc.connectCount = prevDoc.connectCount + 1;
+				}
+
+				return doc as TrustedDomainDocument;
+			},
+		);
+	}
+
 	const publicKeys = await modules.storage.find(selectors.allKeys);
 	const solKey = (publicKeys.docs as PublicKeyDocument[]).find(
 		(key) => key.network == Networks.solana,

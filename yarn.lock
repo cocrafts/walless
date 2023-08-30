@@ -66,102 +66,102 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-cdk/asset-awscli-v1@npm:^2.2.177":
+"@aws-cdk/asset-awscli-v1@npm:^2.2.200":
   version: 2.2.200
   resolution: "@aws-cdk/asset-awscli-v1@npm:2.2.200"
   checksum: 0de92336887957e188092dc62a9b8fa87b8e602b8678faa361cc12680cedde46a2592dc1c73b33a0d2067e1a000d2afa762b2a14c07fb47b3fcad288a24ce7ed
   languageName: node
   linkType: hard
 
-"@aws-cdk/asset-kubectl-v20@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@aws-cdk/asset-kubectl-v20@npm:2.1.1"
-  checksum: f5883fae7b6d3d17e5125560a6efa5065d8b319c11ea6639caa68e315427c4fa266433db04b1a776cf12ccc8c8f8e9a3dfc0ac8cc3c0e73545f80b07808281e2
+"@aws-cdk/asset-kubectl-v20@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@aws-cdk/asset-kubectl-v20@npm:2.1.2"
+  checksum: 987bce26f54ba64596b7d15adf0c09603814ed56f06b498d17dc4b8859f4708662c9c48f88bba2810d8fac04cf84b8f3e51806c93cf65aeb6148ad76bc250f84
   languageName: node
   linkType: hard
 
-"@aws-cdk/asset-node-proxy-agent-v5@npm:^2.0.148":
+"@aws-cdk/asset-node-proxy-agent-v5@npm:^2.0.166":
   version: 2.0.166
   resolution: "@aws-cdk/asset-node-proxy-agent-v5@npm:2.0.166"
   checksum: d286c3d9e30d5acf6e3eef820bba74a87d4ff8e052183166702f22a615c0eed19471408df798d92208b12c8b8ecbaaa6cbe2b8b2729ec10c6446b5ef2081af37
   languageName: node
   linkType: hard
 
-"@aws-cdk/aws-apigatewayv2-alpha@npm:^2.84.0-alpha.0":
-  version: 2.84.0-alpha.0
-  resolution: "@aws-cdk/aws-apigatewayv2-alpha@npm:2.84.0-alpha.0"
+"@aws-cdk/aws-apigatewayv2-alpha@npm:^2.91.0-alpha.0":
+  version: 2.91.0-alpha.0
+  resolution: "@aws-cdk/aws-apigatewayv2-alpha@npm:2.91.0-alpha.0"
   peerDependencies:
-    aws-cdk-lib: 2.84.0
+    aws-cdk-lib: 2.91.0
     constructs: ^10.0.0
-  checksum: ae83bdc41a79f7db1acba5a7caca8334a44cfbf3a10e67fdbf4de833762ea4dc438eb874f49f69932ea5049416bc9ce9169a7ba5543546c2412f71ad500a6803
+  checksum: ac01e84e8b98386588bc3647e1bdc694340ad9ad03772a0020d62f73bc2b230185c5d36c7fa832a705d0cd0e3db303b008e22b9ea809f31dbd4469e171b545d2
   languageName: node
   linkType: hard
 
-"@aws-cdk/aws-apigatewayv2-authorizers-alpha@npm:^2.84.0-alpha.0":
-  version: 2.84.0-alpha.0
-  resolution: "@aws-cdk/aws-apigatewayv2-authorizers-alpha@npm:2.84.0-alpha.0"
+"@aws-cdk/aws-apigatewayv2-authorizers-alpha@npm:^2.91.0-alpha.0":
+  version: 2.91.0-alpha.0
+  resolution: "@aws-cdk/aws-apigatewayv2-authorizers-alpha@npm:2.91.0-alpha.0"
   peerDependencies:
-    "@aws-cdk/aws-apigatewayv2-alpha": 2.84.0-alpha.0
-    aws-cdk-lib: 2.84.0
+    "@aws-cdk/aws-apigatewayv2-alpha": 2.91.0-alpha.0
+    aws-cdk-lib: 2.91.0
     constructs: ^10.0.0
-  checksum: ddc657f077a60848fa38392556d86424da371d22fa2f4879c952be58cf29d123b8fac90c869f9189216bebf4e7c34b5b286e02ac0af2d707ac2327830d01f74d
+  checksum: 1c2372041c4f08301674fee3e72942632ddd979160b6564652a7c68cad1af4a583369a5335935e9a563906c23598a682abd0f88a6458926589765ae7ff0821f9
   languageName: node
   linkType: hard
 
-"@aws-cdk/aws-apigatewayv2-integrations-alpha@npm:^2.84.0-alpha.0":
-  version: 2.84.0-alpha.0
-  resolution: "@aws-cdk/aws-apigatewayv2-integrations-alpha@npm:2.84.0-alpha.0"
+"@aws-cdk/aws-apigatewayv2-integrations-alpha@npm:^2.91.0-alpha.0":
+  version: 2.91.0-alpha.0
+  resolution: "@aws-cdk/aws-apigatewayv2-integrations-alpha@npm:2.91.0-alpha.0"
   peerDependencies:
-    "@aws-cdk/aws-apigatewayv2-alpha": 2.84.0-alpha.0
-    aws-cdk-lib: 2.84.0
+    "@aws-cdk/aws-apigatewayv2-alpha": 2.91.0-alpha.0
+    aws-cdk-lib: 2.91.0
     constructs: ^10.0.0
-  checksum: ec5fd0fd3b3c19fc7c06a099dc751282d889ba0303c9b745e02011cdf93bc0bb90b9877e4a1aa38b570088cc550df832c5cafa7282a9762fd79b2d4818d49822
+  checksum: 397615eec19ffd30dee0a0c1675645b0f32cace36f56c12fde438ca3ca684cc9fc314a48da182cbd608ba9583768846ab1aec9bbb4ce6c3fd00f94ee28436bda
   languageName: node
   linkType: hard
 
-"@aws-cdk/cfnspec@npm:2.84.0-alpha.0":
-  version: 2.84.0-alpha.0
-  resolution: "@aws-cdk/cfnspec@npm:2.84.0-alpha.0"
+"@aws-cdk/cfnspec@npm:2.91.0-alpha.0":
+  version: 2.91.0-alpha.0
+  resolution: "@aws-cdk/cfnspec@npm:2.91.0-alpha.0"
   dependencies:
     fs-extra: ^9.1.0
     md5: ^2.3.0
-  checksum: 8c6913c485966c135140850495e7f814dd191152c8ff3670371a7140c1518b319a85960c99665ae6c917bebf219f71ba22f9fd8795d790d97ae5455f6315848b
+  checksum: 66651a3ce4e60f7e3fa851fb7e31194745a645c9d20038264fcbc4c7c4f84695b251672adbf6eb6c6d612cace1267a78b3f299367368ee89c748602a68c5380c
   languageName: node
   linkType: hard
 
-"@aws-cdk/cloud-assembly-schema@npm:2.84.0":
-  version: 2.84.0
-  resolution: "@aws-cdk/cloud-assembly-schema@npm:2.84.0"
+"@aws-cdk/cloud-assembly-schema@npm:2.91.0":
+  version: 2.91.0
+  resolution: "@aws-cdk/cloud-assembly-schema@npm:2.91.0"
   dependencies:
     jsonschema: ^1.4.1
-    semver: ^7.5.1
-  checksum: 1ee4e58520639275eda4598a4f96cb9562a5f7cfceb212422f21c528d95b30e606d71276c6f899ea063d1370b81be643c9346395a2e9f30b67a58b87b021f20e
+    semver: ^7.5.4
+  checksum: 8b2554eb987009421f89eb1b345bdbf298820dfe0b9e9aea09789e562dfa153ebacaecb45d9e93b89f80ff03bb1dda75801396386efd31487ab3926e4d2a2ebd
   languageName: node
   linkType: hard
 
-"@aws-cdk/cloudformation-diff@npm:2.84.0":
-  version: 2.84.0
-  resolution: "@aws-cdk/cloudformation-diff@npm:2.84.0"
+"@aws-cdk/cloudformation-diff@npm:2.91.0":
+  version: 2.91.0
+  resolution: "@aws-cdk/cloudformation-diff@npm:2.91.0"
   dependencies:
-    "@aws-cdk/cfnspec": 2.84.0-alpha.0
+    "@aws-cdk/cfnspec": 2.91.0-alpha.0
     chalk: ^4
     diff: ^5.1.0
     fast-deep-equal: ^3.1.3
     string-width: ^4.2.3
     table: ^6.8.1
-  checksum: 61c9145b5b819cfba1631155812e970558c760b0d7e65d80309d8bd706f5a7a039bc54f3a7a866556d43447fc8c6d380af762a574bddd841bb65d93795463af0
+  checksum: c0068fba776998adfa820585920c1d62e2794a51e34543ae83306694cf97c76917eb219de573787891fcd5c8ed4f050996202565478925fd6f3ccb68e592df31
   languageName: node
   linkType: hard
 
-"@aws-cdk/cx-api@npm:2.84.0":
-  version: 2.84.0
-  resolution: "@aws-cdk/cx-api@npm:2.84.0"
+"@aws-cdk/cx-api@npm:2.91.0":
+  version: 2.91.0
+  resolution: "@aws-cdk/cx-api@npm:2.91.0"
   dependencies:
-    "@aws-cdk/cloud-assembly-schema": 2.84.0
-    semver: ^7.5.1
+    "@aws-cdk/cloud-assembly-schema": 2.91.0
+    semver: ^7.5.4
   peerDependencies:
-    "@aws-cdk/cloud-assembly-schema": 2.84.0
-  checksum: c7a3129716b1c549ad60d6e8b258f7c653ac7b51218f4e52c17d58fb859c44d9fa12e20a02e8944ceb4f21a4feed4e441a2c35d3a837f8531e66769596e2a024
+    "@aws-cdk/cloud-assembly-schema": 2.91.0
+  checksum: f1bdaa93548db2bf42c385bccfa1903efb0c3df93368459c5ac08ca4e63cf7759427ba41ed5e1795a8fc12237289f4933a3b86fca29c4cb7ee930f45898be85f
   languageName: node
   linkType: hard
 
@@ -238,6 +238,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-crypto/sha256-js@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@aws-crypto/sha256-js@npm:5.0.0"
+  dependencies:
+    "@aws-crypto/util": ^5.0.0
+    "@aws-sdk/types": ^3.222.0
+    tslib: ^1.11.1
+  checksum: 0c312132538abd4c1dc1b484e76df70a24c5106fd9fa79cdbdbdf1aec970806c0b7817601c03f370d0617b72a70c14c812572efdeef84b7d4efd0e7db19c38fd
+  languageName: node
+  linkType: hard
+
 "@aws-crypto/supports-web-crypto@npm:^3.0.0":
   version: 3.0.0
   resolution: "@aws-crypto/supports-web-crypto@npm:3.0.0"
@@ -255,6 +266,17 @@ __metadata:
     "@aws-sdk/util-utf8-browser": ^3.0.0
     tslib: ^1.11.1
   checksum: d29d5545048721aae3d60b236708535059733019a105f8a64b4e4a8eab7cf8dde1546dc56bff7de20d36140a4d1f0f4693e639c5732a7059273a7b1e56354776
+  languageName: node
+  linkType: hard
+
+"@aws-crypto/util@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@aws-crypto/util@npm:5.0.0"
+  dependencies:
+    "@aws-sdk/types": ^3.222.0
+    "@aws-sdk/util-utf8-browser": ^3.0.0
+    tslib: ^1.11.1
+  checksum: 3416ed5865ee95ffb78aaeb7ac301861a54aede2bdb0565fbaf6ef6a4635eba5e06ed36ea377fc3bf89a075c28f64830b108e5188042fcac5d5ebf9cff3175d2
   languageName: node
   linkType: hard
 
@@ -6021,15 +6043,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/cli@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@graphql-codegen/cli@npm:4.0.0"
+"@graphql-codegen/cli@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@graphql-codegen/cli@npm:5.0.0"
   dependencies:
     "@babel/generator": ^7.18.13
     "@babel/template": ^7.18.10
     "@babel/types": ^7.18.13
     "@graphql-codegen/core": ^4.0.0
-    "@graphql-codegen/plugin-helpers": ^5.0.0
+    "@graphql-codegen/plugin-helpers": ^5.0.1
     "@graphql-tools/apollo-engine-loader": ^8.0.0
     "@graphql-tools/code-file-loader": ^8.0.0
     "@graphql-tools/git-loader": ^8.0.0
@@ -6040,13 +6062,12 @@ __metadata:
     "@graphql-tools/prisma-loader": ^8.0.0
     "@graphql-tools/url-loader": ^8.0.0
     "@graphql-tools/utils": ^10.0.0
-    "@parcel/watcher": ^2.1.0
     "@whatwg-node/fetch": ^0.8.0
     chalk: ^4.1.0
     cosmiconfig: ^8.1.3
     debounce: ^1.2.0
     detect-indent: ^6.0.0
-    graphql-config: ^5.0.1
+    graphql-config: ^5.0.2
     inquirer: ^8.0.0
     is-glob: ^4.0.1
     jiti: ^1.17.1
@@ -6058,39 +6079,43 @@ __metadata:
     string-env-interpolation: ^1.0.1
     ts-log: ^2.2.3
     tslib: ^2.4.0
-    yaml: ^1.10.0
+    yaml: ^2.3.1
     yargs: ^17.0.0
   peerDependencies:
+    "@parcel/watcher": ^2.1.0
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+  peerDependenciesMeta:
+    "@parcel/watcher":
+      optional: true
   bin:
     gql-gen: cjs/bin.js
     graphql-code-generator: cjs/bin.js
     graphql-codegen: cjs/bin.js
     graphql-codegen-esm: esm/bin.js
-  checksum: 34f57f0aef8a0bb2581cfab3952eba23df62df31988cce2128b58646ccb076240dac538a35d5cb040100b323fd0845dc7417bead337c66b71a62949f0ad3124d
+  checksum: 55c3cafb08ee33667a896aa1c56e27ff2b6eae123d6116ff299be308038a543fb7d58c4179f34a3dff64079065d549dc05bfd95208c8c3024cecdd6307c0353b
   languageName: node
   linkType: hard
 
-"@graphql-codegen/client-preset@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@graphql-codegen/client-preset@npm:4.0.0"
+"@graphql-codegen/client-preset@npm:4.1.0":
+  version: 4.1.0
+  resolution: "@graphql-codegen/client-preset@npm:4.1.0"
   dependencies:
     "@babel/helper-plugin-utils": ^7.20.2
     "@babel/template": ^7.20.7
     "@graphql-codegen/add": ^5.0.0
-    "@graphql-codegen/gql-tag-operations": 4.0.0
-    "@graphql-codegen/plugin-helpers": ^5.0.0
-    "@graphql-codegen/typed-document-node": ^5.0.0
-    "@graphql-codegen/typescript": ^4.0.0
-    "@graphql-codegen/typescript-operations": ^4.0.0
-    "@graphql-codegen/visitor-plugin-common": ^4.0.0
+    "@graphql-codegen/gql-tag-operations": 4.0.1
+    "@graphql-codegen/plugin-helpers": ^5.0.1
+    "@graphql-codegen/typed-document-node": ^5.0.1
+    "@graphql-codegen/typescript": ^4.0.1
+    "@graphql-codegen/typescript-operations": ^4.0.1
+    "@graphql-codegen/visitor-plugin-common": ^4.0.1
     "@graphql-tools/documents": ^1.0.0
     "@graphql-tools/utils": ^10.0.0
     "@graphql-typed-document-node/core": 3.2.0
     tslib: ~2.5.0
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: e21c939258a36df9ea4e8b127c3b5b8d3f53bc8756689fb4e2947ce9dd164c7f5fe560b576b31eb5c39e6579c429d519edba9990540354a97881d61eccdb33c1
+  checksum: e4b87a443b1437fc61e2d033af24079a41f6879cfa38af4364d6351decb61a7951d787d4f430324ded7c01ae096a6dbd2d20d00205291c37382c1ea8a820ee19
   languageName: node
   linkType: hard
 
@@ -6108,18 +6133,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/gql-tag-operations@npm:4.0.0":
-  version: 4.0.0
-  resolution: "@graphql-codegen/gql-tag-operations@npm:4.0.0"
+"@graphql-codegen/gql-tag-operations@npm:4.0.1":
+  version: 4.0.1
+  resolution: "@graphql-codegen/gql-tag-operations@npm:4.0.1"
   dependencies:
     "@graphql-codegen/plugin-helpers": ^5.0.0
-    "@graphql-codegen/visitor-plugin-common": 4.0.0
+    "@graphql-codegen/visitor-plugin-common": 4.0.1
     "@graphql-tools/utils": ^10.0.0
     auto-bind: ~4.0.0
     tslib: ~2.5.0
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 3f8cf805ea17781093be07240fa208a112e2424b9319fbafa20c43bc21d7e596093c9e56871b27dac7d14ab9353cbc331839cb2bd13e91f693ab0455254c858c
+  checksum: 58369a848aa88a532f4720c4ef73b61a91516d9bd6d8e4edaf7f3353d7585e688ce169f832f2575f2558f80591594945b7f0c82b0d8458320144a26a2b2bb8be
   languageName: node
   linkType: hard
 
@@ -6139,6 +6164,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@graphql-codegen/plugin-helpers@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@graphql-codegen/plugin-helpers@npm:5.0.1"
+  dependencies:
+    "@graphql-tools/utils": ^10.0.0
+    change-case-all: 1.0.15
+    common-tags: 1.8.2
+    import-from: 4.0.0
+    lodash: ~4.17.0
+    tslib: ~2.5.0
+  peerDependencies:
+    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: 97faa8f87f41292bb5263097b1613733faf07fd0ff375ac89438aa0f2cd91e163d088b63dcafcdb6d66beaba8f7d13005bb980793e71979e9ad61fdfd206a730
+  languageName: node
+  linkType: hard
+
 "@graphql-codegen/schema-ast@npm:^4.0.0":
   version: 4.0.0
   resolution: "@graphql-codegen/schema-ast@npm:4.0.0"
@@ -6152,33 +6193,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/typed-document-node@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@graphql-codegen/typed-document-node@npm:5.0.0"
+"@graphql-codegen/typed-document-node@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@graphql-codegen/typed-document-node@npm:5.0.1"
   dependencies:
     "@graphql-codegen/plugin-helpers": ^5.0.0
-    "@graphql-codegen/visitor-plugin-common": 4.0.0
+    "@graphql-codegen/visitor-plugin-common": 4.0.1
     auto-bind: ~4.0.0
     change-case-all: 1.0.15
     tslib: ~2.5.0
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: ba6a927442d312b94f0b6035bfc5895da72b4098fd05c696a11145b4b180a963f28e20c521f4d301ee219174ac10c90db9040db08d1cfc829f729a741031f389
+  checksum: d1e9d88b0d7796de034769d1c7c02be16cbc3710c00a198e4431034d51c7fb8f56c4ba418ff53c9647898649d07eb9c26fb09f11111d79fa1cc83b34decb6e69
   languageName: node
   linkType: hard
 
-"@graphql-codegen/typescript-operations@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@graphql-codegen/typescript-operations@npm:4.0.0"
+"@graphql-codegen/typescript-operations@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@graphql-codegen/typescript-operations@npm:4.0.1"
   dependencies:
     "@graphql-codegen/plugin-helpers": ^5.0.0
-    "@graphql-codegen/typescript": ^4.0.0
-    "@graphql-codegen/visitor-plugin-common": 4.0.0
+    "@graphql-codegen/typescript": ^4.0.1
+    "@graphql-codegen/visitor-plugin-common": 4.0.1
     auto-bind: ~4.0.0
     tslib: ~2.5.0
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 8bacb9b3b016aea1d19f6d676933c4f3675fd874c4844a43924b49ed95e151d43e87a4433518980f26eefac556a4aa75e1ce370714e72fb23eee3cfca7e20b1a
+  checksum: 82cd58ceb7406a3ff7aa5b36a58c9303fd819259679c2de10411f9e22c4fd142068d711714f68259c64eab86ea0a2b3d761959fa59fa5140ca3f1382a5ab5169
   languageName: node
   linkType: hard
 
@@ -6213,7 +6254,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/visitor-plugin-common@npm:4.0.0, @graphql-codegen/visitor-plugin-common@npm:^4.0.0":
+"@graphql-codegen/typescript@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@graphql-codegen/typescript@npm:4.0.1"
+  dependencies:
+    "@graphql-codegen/plugin-helpers": ^5.0.0
+    "@graphql-codegen/schema-ast": ^4.0.0
+    "@graphql-codegen/visitor-plugin-common": 4.0.1
+    auto-bind: ~4.0.0
+    tslib: ~2.5.0
+  peerDependencies:
+    graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: f360b7204dc33b918d1ece88b65a46a4eac89e7c3f729886e954ebdc405d1279de6fc5a688580a4aba50826ca663dae03bcda2ac72189f5afbfc1a1727d188a6
+  languageName: node
+  linkType: hard
+
+"@graphql-codegen/visitor-plugin-common@npm:4.0.0":
   version: 4.0.0
   resolution: "@graphql-codegen/visitor-plugin-common@npm:4.0.0"
   dependencies:
@@ -6230,6 +6286,26 @@ __metadata:
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
   checksum: 2e6048987b772b39a20718d5e48eba847ff60a9d364338ca2576643eb970d61effc6629636154f5cee36a44d8299cd624551f279ddff6a02f364b1fd48cef718
+  languageName: node
+  linkType: hard
+
+"@graphql-codegen/visitor-plugin-common@npm:4.0.1, @graphql-codegen/visitor-plugin-common@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@graphql-codegen/visitor-plugin-common@npm:4.0.1"
+  dependencies:
+    "@graphql-codegen/plugin-helpers": ^5.0.0
+    "@graphql-tools/optimize": ^2.0.0
+    "@graphql-tools/relay-operation-optimizer": ^7.0.0
+    "@graphql-tools/utils": ^10.0.0
+    auto-bind: ~4.0.0
+    change-case-all: 1.0.15
+    dependency-graph: ^0.11.0
+    graphql-tag: ^2.11.0
+    parse-filepath: ^1.0.2
+    tslib: ~2.5.0
+  peerDependencies:
+    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: 72fe72850bcf9907c46ee85cf80ca5f7313418953fc6bc09b761145260ceb9e79199e92c7b3467e9b6371342e70234af5e1be7ee664457a4fdec92ea3bed878a
   languageName: node
   linkType: hard
 
@@ -7137,6 +7213,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lukeed/ms@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@lukeed/ms@npm:2.0.1"
+  checksum: c7b46933bf7bad3e024dcbbe2ad6201392b4ed2a05a717c0ef7e96a03fb885d44f08b4b749c392cc51c2736a6a45a08c77f1863ace1c072928fbfd9908a13db3
+  languageName: node
+  linkType: hard
+
 "@mapbox/node-pre-gyp@npm:^1.0.0":
   version: 1.0.10
   resolution: "@mapbox/node-pre-gyp@npm:1.0.10"
@@ -7644,19 +7727,6 @@ __metadata:
   version: 1.0.3
   resolution: "@open-draft/until@npm:1.0.3"
   checksum: 323e92ebef0150ed0f8caedc7d219b68cdc50784fa4eba0377eef93533d3f46514eb2400ced83dda8c51bddc3d2c7b8e9cf95e5ec85ab7f62dfc015d174f62f2
-  languageName: node
-  linkType: hard
-
-"@parcel/watcher@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@parcel/watcher@npm:2.1.0"
-  dependencies:
-    is-glob: ^4.0.3
-    micromatch: ^4.0.5
-    node-addon-api: ^3.2.1
-    node-gyp: latest
-    node-gyp-build: ^4.3.0
-  checksum: 17f512ad6d5dbb40053ceea7091f8af754afc63786b8f050b225b89a8ba24900468aad8bc4edb25c0349b4c0c8d061f50aa19242c0af52cbc30e6ebf50c7bf4c
   languageName: node
   linkType: hard
 
@@ -8375,6 +8445,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smithy/eventstream-codec@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "@smithy/eventstream-codec@npm:2.0.5"
+  dependencies:
+    "@aws-crypto/crc32": 3.0.0
+    "@smithy/types": ^2.2.2
+    "@smithy/util-hex-encoding": ^2.0.0
+    tslib: ^2.5.0
+  checksum: 472c0b1652e2afcf9dd9a8f122255d8b3b46019ead3c12ce8ceb3242d2dca525c5dcf6fd2fe57e03621283c8762b44d553a10eb0ce35eecaf2f4366c45bbf683
+  languageName: node
+  linkType: hard
+
 "@smithy/fetch-http-handler@npm:^2.0.1":
   version: 2.0.1
   resolution: "@smithy/fetch-http-handler@npm:2.0.1"
@@ -8586,6 +8668,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smithy/signature-v4@npm:^2.0.4":
+  version: 2.0.5
+  resolution: "@smithy/signature-v4@npm:2.0.5"
+  dependencies:
+    "@smithy/eventstream-codec": ^2.0.5
+    "@smithy/is-array-buffer": ^2.0.0
+    "@smithy/types": ^2.2.2
+    "@smithy/util-hex-encoding": ^2.0.0
+    "@smithy/util-middleware": ^2.0.0
+    "@smithy/util-uri-escape": ^2.0.0
+    "@smithy/util-utf8": ^2.0.0
+    tslib: ^2.5.0
+  checksum: addde648130897b54fd402c2ce968a16bc830ebcce4b1611bea6c1ce774b9737f0d0c90d6f50c69fe8fd5660efde6f399fc0d381d6511feb4cfc121cfd1410da
+  languageName: node
+  linkType: hard
+
 "@smithy/smithy-client@npm:^2.0.1":
   version: 2.0.1
   resolution: "@smithy/smithy-client@npm:2.0.1"
@@ -8613,6 +8711,15 @@ __metadata:
   dependencies:
     tslib: ^2.5.0
   checksum: 4afdd7c77b212abd9e0770a1489057aa0470f8a59061c4fb2175b1f12e02180db3d85e16f2cd870a95c17bd28a5a4b8ef1dff1ade6852f85eafea12872d9588e
+  languageName: node
+  linkType: hard
+
+"@smithy/types@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "@smithy/types@npm:2.2.2"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 2799a14620da60efb2a0aba1bf9adc553a5446dc447b9ee1d7a95410233a70dff2b5e563fecf84388137dabbe662c6bf3a2247ca20a1f266c1256f82e0f25fcf
   languageName: node
   linkType: hard
 
@@ -11839,6 +11946,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@walless/adapter-solana-base@*, @walless/adapter-solana-base@workspace:packages/adapter-solana-base":
+  version: 0.0.0-use.local
+  resolution: "@walless/adapter-solana-base@workspace:packages/adapter-solana-base"
+  dependencies:
+    "@solana/wallet-adapter-base": ^0.9.22
+    "@solana/web3.js": 1.78.3
+    "@walless/sdk": "*"
+    eslint: 8.38.0
+    typescript: ^5.1.3
+  languageName: unknown
+  linkType: soft
+
+"@walless/adapter-solana-react@workspace:packages/adapter-solana-react":
+  version: 0.0.0-use.local
+  resolution: "@walless/adapter-solana-react@workspace:packages/adapter-solana-react"
+  dependencies:
+    "@solana/wallet-adapter-react": ^0.15.32
+    "@solana/web3.js": 1.78.3
+    "@walless/adapter-solana-base": "*"
+    "@walless/sdk": "*"
+    eslint: 8.38.0
+    typescript: ^5.1.3
+  peerDependencies:
+    react: ^18.2.0
+  languageName: unknown
+  linkType: soft
+
 "@walless/app@*, @walless/app@workspace:packages/app":
   version: 0.0.0-use.local
   resolution: "@walless/app@workspace:packages/app"
@@ -12151,33 +12285,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/walless-adapter-solana-base@*, @walless/walless-adapter-solana-base@workspace:packages/walless-adapter-solana-base":
-  version: 0.0.0-use.local
-  resolution: "@walless/walless-adapter-solana-base@workspace:packages/walless-adapter-solana-base"
-  dependencies:
-    "@solana/wallet-adapter-base": ^0.9.22
-    "@solana/web3.js": 1.78.3
-    "@walless/sdk": "*"
-    eslint: 8.38.0
-    typescript: ^5.1.3
-  languageName: unknown
-  linkType: soft
-
-"@walless/walless-adapter-solana-react@workspace:packages/walless-adapter-solana-react":
-  version: 0.0.0-use.local
-  resolution: "@walless/walless-adapter-solana-react@workspace:packages/walless-adapter-solana-react"
-  dependencies:
-    "@solana/wallet-adapter-react": ^0.15.32
-    "@solana/web3.js": 1.78.3
-    "@walless/sdk": "*"
-    "@walless/walless-adapter-solana-base": "*"
-    eslint: 8.38.0
-    typescript: ^5.1.3
-  peerDependencies:
-    react: ^18.2.0
-  languageName: unknown
-  linkType: soft
-
 "@walless/wallet-standard@*, @walless/wallet-standard@workspace:packages/wallet-standard":
   version: 0.0.0-use.local
   resolution: "@walless/wallet-standard@workspace:packages/wallet-standard"
@@ -12230,6 +12337,7 @@ __metadata:
     "@web3auth/ethereum-provider": 5.2.0
     "@web3auth/solana-provider": 5.2.0
     bip39: ^3.1.0
+    bn.js: ^5.2.1
     dexie: 3.2.3
     ed25519-hd-key: ^1.3.0
     eslint: 8.38.0
@@ -13452,7 +13560,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asn1.js@npm:^5.2.0, asn1.js@npm:^5.3.0, asn1.js@npm:^5.4.1":
+"asn1.js@npm:^5.2.0, asn1.js@npm:^5.4.1":
   version: 5.4.1
   resolution: "asn1.js@npm:5.4.1"
   dependencies:
@@ -13614,13 +13722,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-cdk-lib@npm:2.84.0":
-  version: 2.84.0
-  resolution: "aws-cdk-lib@npm:2.84.0"
+"aws-cdk-lib@npm:2.91.0":
+  version: 2.91.0
+  resolution: "aws-cdk-lib@npm:2.91.0"
   dependencies:
-    "@aws-cdk/asset-awscli-v1": ^2.2.177
-    "@aws-cdk/asset-kubectl-v20": ^2.1.1
-    "@aws-cdk/asset-node-proxy-agent-v5": ^2.0.148
+    "@aws-cdk/asset-awscli-v1": ^2.2.200
+    "@aws-cdk/asset-kubectl-v20": ^2.1.2
+    "@aws-cdk/asset-node-proxy-agent-v5": ^2.0.166
     "@balena/dockerignore": ^1.0.2
     case: 1.6.3
     fs-extra: ^11.1.1
@@ -13628,12 +13736,12 @@ __metadata:
     jsonschema: ^1.4.1
     minimatch: ^3.1.2
     punycode: ^2.3.0
-    semver: ^7.5.1
+    semver: ^7.5.4
     table: ^6.8.1
     yaml: 1.10.2
   peerDependencies:
     constructs: ^10.0.0
-  checksum: fa7ecfaf4b220fd3ea1dbd982245b47164400a925a25dc8fc9542ed003ba6a13ca9527fbc4eb190dafeaddcbeae8530b411e7db102adee07b9adb0312748f9c3
+  checksum: 11367a1ca64d57b9c8f023581cd6ccee1fa18706cf636e9f934be680e0282c79aa5c5087d40e93143c9469d1a3c3e6df784e0c5a8185cd390dad9591641074d0
   languageName: node
   linkType: hard
 
@@ -13684,9 +13792,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1379.0":
-  version: 2.1430.0
-  resolution: "aws-sdk@npm:2.1430.0"
+"aws-sdk@npm:^2.1432.0":
+  version: 2.1446.0
+  resolution: "aws-sdk@npm:2.1446.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -13698,7 +13806,7 @@ __metadata:
     util: ^0.12.4
     uuid: 8.0.0
     xml2js: 0.5.0
-  checksum: 6a0183d3be476bcc0800abefc61a311e4d74fd3957e1538863619ec1a5fd7d7138e3003d5cfb6e5fb2abddd3939af1f975df8c89a6e837d8b5584a149dfcee43
+  checksum: 85460fc56b9ff268975c9065d414bbe9e9f0e3c21ef3190493730cac959568ff2f731a300ed37dd30d2fd8678fcbb7dd34419e6f81f85bea2c844cfbfd6bf71f
   languageName: node
   linkType: hard
 
@@ -14749,21 +14857,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cdk-assets@npm:2.84.0":
-  version: 2.84.0
-  resolution: "cdk-assets@npm:2.84.0"
+"cdk-assets@npm:2.91.0":
+  version: 2.91.0
+  resolution: "cdk-assets@npm:2.91.0"
   dependencies:
-    "@aws-cdk/cloud-assembly-schema": 2.84.0
-    "@aws-cdk/cx-api": 2.84.0
+    "@aws-cdk/cloud-assembly-schema": 2.91.0
+    "@aws-cdk/cx-api": 2.91.0
     archiver: ^5.3.1
-    aws-sdk: ^2.1379.0
+    aws-sdk: ^2.1432.0
     glob: ^7.2.3
     mime: ^2.6.0
     yargs: ^16.2.0
   bin:
     cdk-assets: bin/cdk-assets
     docker-credential-cdk-assets: bin/docker-credential-cdk-assets
-  checksum: fa198fe691d3ce672de7fd4ae7dab5d325a16a4e30080d0231dabba2452aa996ff72ef4a99109a748b6aaf2555bae0faa79f31079f92faf7603bfcf319f073dc
+  checksum: 9baa6b25007a1d97769123dda15eb7e1c5ffe040d7e2900ee8bab0adbf00b78064b958199d9512e903e8b8a226dc86e0ce37841acaa85af003e231172b78399f
   languageName: node
   linkType: hard
 
@@ -15504,10 +15612,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"constructs@npm:10.1.156":
-  version: 10.1.156
-  resolution: "constructs@npm:10.1.156"
-  checksum: 4aeeced6363243162077ad21f0b674797b26959b22f3ed9734fa24e08b52a681be9742690db735009cdca06ea767019b70a738e417d200f2062125e6ad050644
+"constructs@npm:10.2.69":
+  version: 10.2.69
+  resolution: "constructs@npm:10.2.69"
+  checksum: 8e72083abf8cc860abace9fd2a551a5eef30dc130cb5fabff30614329e977771e8e7a0bfd7a26784de42ae0a1904ffe4f16f765994a2f948b94787927da09436
   languageName: node
   linkType: hard
 
@@ -17770,14 +17878,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-jwt@npm:^1.6.1":
-  version: 1.7.2
-  resolution: "fast-jwt@npm:1.7.2"
+"fast-jwt@npm:^3.1.1":
+  version: 3.2.0
+  resolution: "fast-jwt@npm:3.2.0"
   dependencies:
-    asn1.js: ^5.3.0
+    "@lukeed/ms": ^2.0.1
+    asn1.js: ^5.4.1
     ecdsa-sig-formatter: ^1.0.11
-    mnemonist: ^0.39.0
-  checksum: 0b0a71253eb1527e19ee87f1b35d15b0078b4ae6312563b65e5f0b184b7ad97c23cf444fe04daafadeb0a621025257e4fd0d85dfc50fb1328cd92b4c773734bc
+    mnemonist: ^0.39.5
+  checksum: 908c3b660e88836610672096f635e0d3b14f2aa54d84528b3a1a67344fa981b68f7567a23d56cf915702b0d07293855e165e9c4047492a767e1e95660d163545
   languageName: node
   linkType: hard
 
@@ -18748,9 +18857,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-config@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "graphql-config@npm:5.0.1"
+"graphql-config@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "graphql-config@npm:5.0.2"
   dependencies:
     "@graphql-tools/graphql-file-loader": ^8.0.0
     "@graphql-tools/json-file-loader": ^8.0.0
@@ -18769,7 +18878,7 @@ __metadata:
   peerDependenciesMeta:
     cosmiconfig-toml-loader:
       optional: true
-  checksum: 5d6d8f5313c3aa6c3e0e0865b61243ed0b7109fe4e04f42212ccae997557e31804bc27669c2965465a61080727c7a8b6a8438f0eff721a3b1a9a407dc67729c2
+  checksum: 3349131e18ace3871d7d9752ba9ff78f625c19ee254524469232b6e8e81d69596b2d90e0309fcfeced387b4abfb793f77be87c556eedffa7eae6c08d0432d6d7
   languageName: node
   linkType: hard
 
@@ -22699,7 +22808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mnemonist@npm:^0.39.0":
+"mnemonist@npm:^0.39.5":
   version: 0.39.5
   resolution: "mnemonist@npm:0.39.5"
   dependencies:
@@ -23122,15 +23231,6 @@ __metadata:
   dependencies:
     node-gyp: latest
   checksum: 31fb22d674648204f8dd94167eb5aac896c841b84a9210d614bf5d97c74ef059cc6326389cf0c54d2086e35312938401d4cc82e5fcd679202503eb8ac84814f8
-  languageName: node
-  linkType: hard
-
-"node-addon-api@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "node-addon-api@npm:3.2.1"
-  dependencies:
-    node-gyp: latest
-  checksum: 2369986bb0881ccd9ef6bacdf39550e07e089a9c8ede1cbc5fc7712d8e2faa4d50da0e487e333d4125f8c7a616c730131d1091676c9d499af1d74560756b4a18
   languageName: node
   linkType: hard
 
@@ -26401,7 +26501,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.5.1":
+"semver@npm:^7.5.4":
   version: 7.5.4
   resolution: "semver@npm:7.5.4"
   dependencies:
@@ -27095,9 +27195,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sst-aws-cdk@npm:2.84.0":
-  version: 2.84.0
-  resolution: "sst-aws-cdk@npm:2.84.0"
+"sst-aws-cdk@npm:2.91.0":
+  version: 2.91.0
+  resolution: "sst-aws-cdk@npm:2.91.0"
   dependencies:
     archiver: ^5.3.1
     chalk: ^4
@@ -27109,20 +27209,21 @@ __metadata:
       optional: true
   bin:
     cdk: bin/cdk
-  checksum: 35ab0aed58bf57865722868dfed8e11fb1a6f2b4d05a607cda6741fc0ac9b4c16a3772e858641f2a2455d015deb92bbd42bfb67d81754a066f8411ff6bcf93bf
+  checksum: d577fba8330ac21c6948124d6dff494b763374a81f768a1e3fe3a705e3fd0c68f51d3686a361dbe91c221159cd3a610c1c197f18f149f676c9e2a1a1547487a9
   languageName: node
   linkType: hard
 
-"sst@npm:^2.21.4":
-  version: 2.23.3
-  resolution: "sst@npm:2.23.3"
+"sst@npm:2.24.17":
+  version: 2.24.17
+  resolution: "sst@npm:2.24.17"
   dependencies:
-    "@aws-cdk/aws-apigatewayv2-alpha": ^2.84.0-alpha.0
-    "@aws-cdk/aws-apigatewayv2-authorizers-alpha": ^2.84.0-alpha.0
-    "@aws-cdk/aws-apigatewayv2-integrations-alpha": ^2.84.0-alpha.0
-    "@aws-cdk/cloud-assembly-schema": 2.84.0
-    "@aws-cdk/cloudformation-diff": 2.84.0
-    "@aws-cdk/cx-api": 2.84.0
+    "@aws-cdk/aws-apigatewayv2-alpha": ^2.91.0-alpha.0
+    "@aws-cdk/aws-apigatewayv2-authorizers-alpha": ^2.91.0-alpha.0
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": ^2.91.0-alpha.0
+    "@aws-cdk/cloud-assembly-schema": 2.91.0
+    "@aws-cdk/cloudformation-diff": 2.91.0
+    "@aws-cdk/cx-api": 2.91.0
+    "@aws-crypto/sha256-js": ^5.0.0
     "@aws-sdk/client-cloudformation": ^3.279.0
     "@aws-sdk/client-ecs": ^3.279.0
     "@aws-sdk/client-eventbridge": ^3.342.0
@@ -27143,25 +27244,26 @@ __metadata:
     "@babel/core": ^7.0.0-0
     "@babel/generator": ^7.20.5
     "@babel/plugin-syntax-typescript": ^7.21.4
+    "@smithy/signature-v4": ^2.0.4
     "@trpc/server": 9.16.0
     adm-zip: ^0.5.10
-    aws-cdk-lib: 2.84.0
+    aws-cdk-lib: 2.91.0
     aws-iot-device-sdk: ^2.2.12
     aws-sdk: ^2.1326.0
     builtin-modules: 3.2.0
-    cdk-assets: 2.84.0
+    cdk-assets: 2.91.0
     chalk: ^5.2.0
     chokidar: ^3.5.3
     ci-info: ^3.7.0
     colorette: ^2.0.19
     conf: ^10.2.0
-    constructs: 10.1.156
+    constructs: 10.2.69
     cross-spawn: ^7.0.3
     dendriform-immer-patch-optimiser: ^2.1.0
     dotenv: ^16.0.3
     esbuild: 0.18.13
     express: ^4.18.2
-    fast-jwt: ^1.6.1
+    fast-jwt: ^3.1.1
     get-port: ^6.1.2
     glob: ^8.0.3
     graphql: "*"
@@ -27177,7 +27279,7 @@ __metadata:
     ora: ^6.1.2
     react: 18.2.0
     remeda: ^1.3.0
-    sst-aws-cdk: 2.84.0
+    sst-aws-cdk: 2.91.0
     tree-kill: ^1.2.2
     undici: ^5.12.0
     uuid: ^9.0.0
@@ -27191,7 +27293,7 @@ __metadata:
       optional: true
   bin:
     sst: cli/sst.js
-  checksum: 1a62d43b234e230d95239f0eefc47ae2e1c3bf1c49a5dbdfa48f3a2f4421a7cfa5629d021c8d256be1c4e94c56736aa2d86050ff489c13f4a06684c16947cf76
+  checksum: 11062353b0a99ada11b66a76374962996c4a35c2801e7722ecad9717f936d2c75745477961114f0f9ad4cb2e9427aaf6ddebdca5c05618664eb4b9541a9d339a
   languageName: node
   linkType: hard
 
@@ -29085,8 +29187,8 @@ __metadata:
     "@babel/plugin-proposal-private-methods": ^7.18.6
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
-    "@graphql-codegen/cli": ^4.0.0
-    "@graphql-codegen/client-preset": ^4.0.0
+    "@graphql-codegen/cli": 5.0.0
+    "@graphql-codegen/client-preset": 4.1.0
     "@graphql-codegen/typescript": ^4.0.0
     "@graphql-codegen/typescript-resolvers": ^4.0.0
     "@jest/globals": ^29.4.3
@@ -29109,7 +29211,7 @@ __metadata:
     archiver: ^5.3.1
     babel-plugin-module-resolver: ^4.1.0
     babel-plugin-transform-inline-environment-variables: ^0.4.4
-    constructs: 10.1.156
+    constructs: 10.2.69
     copy-webpack-plugin: ^11.0.0
     cross-env: ^7.0.3
     fs-extra: ^11.1.0
@@ -29120,7 +29222,7 @@ __metadata:
     react-native-reanimated: 3.1.0
     rimraf: ^5.0.0
     shx: ^0.3.4
-    sst: ^2.21.4
+    sst: 2.24.17
     ts-jest: ^29.0.5
     tsconfig-paths-webpack-plugin: ^4.0.1
     turbo: latest
@@ -30170,10 +30272,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:1.10.2, yaml@npm:^1.10.0":
+"yaml@npm:1.10.2":
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: ce4ada136e8a78a0b08dc10b4b900936912d15de59905b2bf415b4d33c63df1d555d23acb2a41b23cf9fb5da41c256441afca3d6509de7247daa062fd2c5ea5f
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "yaml@npm:2.3.1"
+  checksum: 2c7bc9a7cd4c9f40d3b0b0a98e370781b68b8b7c4515720869aced2b00d92f5da1762b4ffa947f9e795d6cd6b19f410bd4d15fdd38aca7bd96df59bd9486fb54
   languageName: node
   linkType: hard
 

@@ -41,7 +41,7 @@ export const tezosEngineRunner: EngineRunner<TezosToolkit> = {
 			>(queries.tokensByAddress, {
 				addresses: [
 					...tokenDocuments.map(makeId),
-					...tokenDocuments.map(makeIdWithTokenId),
+					...tokenDocuments.slice(1).map(makeIdWithTokenId),
 				],
 			});
 

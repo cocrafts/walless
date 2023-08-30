@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
-export const bindInvitation = gql`
-	mutation BindInvitation($code: String!, $email: String!) {
-		bindInvitation(code: $code, email: $email)
+export const claimWalletInvitation = gql`
+	mutation ClaimWalletInvitation($code: String!, $email: String!) {
+		claimWalletInvitation(code: $code, email: $email)
 	}
 `;

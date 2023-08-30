@@ -17,7 +17,7 @@ const makeExtensionConfig = (name: string, disabled = false) => ({
 export const extensions: ExtensionConfig[] = [
 	makeExtensionConfig('Chrome'),
 	makeExtensionConfig('Brave'),
-	makeExtensionConfig('Firefox', true),
-	makeExtensionConfig('Edge', true),
-	makeExtensionConfig('Opera', true),
+	makeExtensionConfig('Firefox'),
+	makeExtensionConfig('Edge'),
+	makeExtensionConfig('Opera'),
 ];

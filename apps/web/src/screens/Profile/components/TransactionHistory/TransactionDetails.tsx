@@ -67,7 +67,7 @@ const TransactionDetails: FC<Transaction> = ({
 							]}
 						/>
 						<Text style={styles.tokenName}>
-							{amount} {token.metadata?.symbol}
+							{amount} {token.metadata?.name?.replaceAll('\u0000', '').trim()}
 						</Text>
 					</View>
 					<Anchor
@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
 	},
 	tokenName: {
 		fontSize: 24,
+		textAlign: 'center',
 	},
 	subpartContainer: {
 		gap: 6,

@@ -4,7 +4,7 @@ import {
 	checkInstalledLayout,
 	installLayout,
 	openLayoutPopup,
-} from '@walless/walless-adapter-solana-base';
+} from '@walless/adapter-solana-base';
 
 export function useWalless() {
 	const [isWallessConnected, setIsWallessConnected] = useState(false);

@@ -5,6 +5,7 @@ import SolanaDashboard from 'screens/Dashboard/Solana';
 import SuiDashboard from 'screens/Dashboard/Sui';
 import { useParams } from 'utils/hooks';
 
+import { KoalaGacha } from './KoalaGacha';
 import TezosDashboard from './Tezos';
 import { TRexRunner } from './TRexRunner';
 
@@ -27,6 +28,8 @@ export const Embed: FC = () => {
 				resizeMode="cover"
 			/>
 		);
+	} else if (id === '000005') {
+		return <KoalaGacha />;
 	}
 
 	return (

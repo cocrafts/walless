@@ -7,7 +7,6 @@ import HistoryItem from './HistoryItem';
 
 const TransactionHistory = () => {
 	const history = useHistory();
-	console.log('result', history);
 
 	return (
 		<View style={styles.container}>

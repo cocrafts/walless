@@ -2,6 +2,7 @@ const withPlugins = require('next-compose-plugins');
 const { withTamagui } = require('@tamagui/next-plugin');
 const project = require('../web/package.json');
 const { DefinePlugin } = require('webpack');
+const path = require('path');
 
 module.exports = withPlugins(
 	[
@@ -36,16 +37,26 @@ module.exports = withPlugins(
 		env: {
 			EXTENSION_VERSION: project.version,
 		},
-		webpack: (config) => {
+		webpack: (config, { dev, isServer, webpack }) => {
 			config.module.rules.push({
 				test: /\.md$/i,
 				type: 'asset/source',
 			});
+
 			config.plugins.push(
 				new DefinePlugin({
+					__DEV__: dev,
 					'process.env.TAMAGUI_TARGET': '"web"',
 				}),
 			);
+
+			if (isServer) {
+				config.plugins.push(
+					new webpack.ProvidePlugin({
+						requestAnimationFrame: path.resolve(__dirname, './raf.js'),
+					}),
+				);
+			}
 
 			return config;
 		},

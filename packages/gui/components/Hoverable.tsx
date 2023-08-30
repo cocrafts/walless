@@ -41,6 +41,7 @@ export const Hoverable = forwardRef<View, Props>(
 			animationDuration = 50,
 			onPress,
 			onLongPress,
+			onLayout,
 			fullscreen,
 			horizontal,
 			noSelect = true,
@@ -104,6 +105,7 @@ export const Hoverable = forwardRef<View, Props>(
 				onPressOut={handlePressOut}
 				onPress={onPress}
 				onLongPress={handleLongPress}
+				onLayout={onLayout}
 			>
 				{children}
 			</AnimatedPressable>

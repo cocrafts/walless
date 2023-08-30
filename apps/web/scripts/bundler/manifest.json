@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Walless",
+  "name": "Walless wallet",
   "version": "0.1.0",
   "description": "A versatile wallet for gamers & non-web3 users",
   "author": "https://walless.io",
@@ -15,12 +15,6 @@
   "action": {
     "default_popup": "popup.html",
     "default_title": "Open Walless"
-  },
-  "oauth2": {
-    "scopes": [
-      "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/userinfo.profile"
-    ]
   },
   "host_permissions": [
     "file://*/*",

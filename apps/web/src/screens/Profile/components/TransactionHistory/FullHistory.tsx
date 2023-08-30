@@ -49,9 +49,12 @@ const FullHistoryScreen = () => {
 						return isOnTheSameDate ? (
 							<HistoryItem key={transaction.signature} {...transaction} />
 						) : (
-							<View style={styles.dateAndTransactionContainer}>
+							<View
+								key={transaction.signature}
+								style={styles.dateAndTransactionContainer}
+							>
 								<Text>{transactionDate}</Text>
-								<HistoryItem key={transaction.signature} {...transaction} />
+								<HistoryItem {...transaction} />
 							</View>
 						);
 					})}

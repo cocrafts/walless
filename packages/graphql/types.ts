@@ -37,52 +37,46 @@ export type JoinWaitlistResult = {
   twitter?: Maybe<Scalars['String']['output']>;
 };
 
-export type Project = {
-  __typename?: 'Project';
-  banner?: Maybe<Scalars['String']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  detailIcon?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ObjectID']['output']>;
-  logo?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  networks?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  nfts?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  tokens?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
 export type RootMutation = {
   __typename?: 'RootMutation';
-  addProject?: Maybe<Project>;
-  addUser?: Maybe<User>;
+  addWidget?: Maybe<Widget>;
   claimWalletInvitation?: Maybe<Scalars['Boolean']['output']>;
+  deleteWidget?: Maybe<Scalars['Boolean']['output']>;
+  deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
   joinWaitlist?: Maybe<JoinWaitlistResult>;
   registerAccount?: Maybe<Account>;
+  registerWidgetAccount?: Maybe<Account>;
   sendEmergencyKit?: Maybe<SendEmergencyKitResult>;
+  updateWidgetStatus?: Maybe<Scalars['Boolean']['output']>;
 };
 
 
-export type RootMutationAddProjectArgs = {
+export type RootMutationAddWidgetArgs = {
   banner?: InputMaybe<Scalars['String']['input']>;
   description: Scalars['String']['input'];
-  detailIcon?: InputMaybe<Scalars['String']['input']>;
+  largeLogo?: InputMaybe<Scalars['String']['input']>;
   logo?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   networks?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  nfts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  tokens?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  nfts?: InputMaybe<Array<InputMaybe<WidgetTokenInput>>>;
+  tokens?: InputMaybe<Array<InputMaybe<WidgetTokenInput>>>;
   userId: Scalars['String']['input'];
-};
-
-
-export type RootMutationAddUserArgs = {
-  address: Scalars['String']['input'];
-  name: Scalars['String']['input'];
 };
 
 
 export type RootMutationClaimWalletInvitationArgs = {
   code: Scalars['String']['input'];
   email: Scalars['String']['input'];
+};
+
+
+export type RootMutationDeleteWidgetArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type RootMutationDeleteWidgetAccountArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -98,29 +92,38 @@ export type RootMutationRegisterAccountArgs = {
 };
 
 
+export type RootMutationRegisterWidgetAccountArgs = {
+  email: Scalars['String']['input'];
+  pubkey: Scalars['String']['input'];
+};
+
+
 export type RootMutationSendEmergencyKitArgs = {
   key: Scalars['String']['input'];
+};
+
+
+export type RootMutationUpdateWidgetStatusArgs = {
+  id: Scalars['String']['input'];
+  status: WidgetStatus;
 };
 
 export type RootQuery = {
   __typename?: 'RootQuery';
   counter?: Maybe<Scalars['Int']['output']>;
   greeting?: Maybe<Scalars['String']['output']>;
-  project?: Maybe<Project>;
-  projects?: Maybe<Array<Maybe<Project>>>;
   systemInfo?: Maybe<SystemInfo>;
   token?: Maybe<TokenInfo>;
   tokenByAddress?: Maybe<TokenInfo>;
   tokens?: Maybe<Array<Maybe<TokenInfo>>>;
   tokensByAddress?: Maybe<Array<Maybe<TokenInfo>>>;
-  user?: Maybe<User>;
-  users?: Maybe<Array<Maybe<User>>>;
   walletInvitation?: Maybe<WalletInvitation>;
-};
-
-
-export type RootQueryProjectArgs = {
-  id: Scalars['String']['input'];
+  widget?: Maybe<Widget>;
+  widgetAccount?: Maybe<WidgetAccount>;
+  widgetAccountByPubkey?: Maybe<WidgetAccount>;
+  widgetAccounts?: Maybe<Array<Maybe<WidgetAccount>>>;
+  widgets?: Maybe<Array<Maybe<Widget>>>;
+  widgetsByStatus?: Maybe<Array<Maybe<Widget>>>;
 };
 
 
@@ -144,14 +147,29 @@ export type RootQueryTokensByAddressArgs = {
 };
 
 
-export type RootQueryUserArgs = {
+export type RootQueryWalletInvitationArgs = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type RootQueryWidgetArgs = {
   id: Scalars['String']['input'];
 };
 
 
-export type RootQueryWalletInvitationArgs = {
-  code?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
+export type RootQueryWidgetAccountArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type RootQueryWidgetAccountByPubkeyArgs = {
+  pubkey: Scalars['String']['input'];
+};
+
+
+export type RootQueryWidgetsByStatusArgs = {
+  status: WidgetStatus;
 };
 
 export type SendEmergencyKitResult = {
@@ -165,6 +183,12 @@ export type SystemInfo = {
   version?: Maybe<Scalars['String']['output']>;
 };
 
+export type Token = {
+  __typename?: 'Token';
+  address: Scalars['String']['output'];
+  id?: Maybe<Scalars['String']['output']>;
+};
+
 export type TokenInfo = {
   __typename?: 'TokenInfo';
   address?: Maybe<Scalars['String']['output']>;
@@ -176,21 +200,47 @@ export type TokenInfo = {
   timestamp: Scalars['DateTime']['output'];
 };
 
-export type User = {
-  __typename?: 'User';
-  address?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ObjectID']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  /** Get all user projects of user */
-  projects?: Maybe<Array<Maybe<Project>>>;
-};
-
 export type WalletInvitation = {
   __typename?: 'WalletInvitation';
   code?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ObjectID']['output']>;
   timestamp?: Maybe<Scalars['MongoDateTime']['output']>;
+};
+
+export type Widget = {
+  __typename?: 'Widget';
+  banner?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ObjectID']['output']>;
+  largeLogo?: Maybe<Scalars['String']['output']>;
+  logo?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  networks?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  nfts?: Maybe<Array<Maybe<Token>>>;
+  status?: Maybe<WidgetStatus>;
+  tokens?: Maybe<Array<Maybe<Token>>>;
+};
+
+export type WidgetAccount = {
+  __typename?: 'WidgetAccount';
+  createdAt?: Maybe<Scalars['MongoDateTime']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ObjectID']['output']>;
+  identifier: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['MongoDateTime']['output']>;
+};
+
+export enum WidgetStatus {
+  Accepted = 'ACCEPTED',
+  Deployed = 'DEPLOYED',
+  InReview = 'IN_REVIEW',
+  Rejected = 'REJECTED'
+}
+
+export type WidgetTokenInput = {
+  address: Scalars['String']['input'];
+  id?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -272,15 +322,18 @@ export type ResolversTypes = {
   JoinWaitlistResult: ResolverTypeWrapper<JoinWaitlistResult>;
   MongoDateTime: ResolverTypeWrapper<Scalars['MongoDateTime']['output']>;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']['output']>;
-  Project: ResolverTypeWrapper<Project>;
   RootMutation: ResolverTypeWrapper<{}>;
   RootQuery: ResolverTypeWrapper<{}>;
   SendEmergencyKitResult: ResolverTypeWrapper<SendEmergencyKitResult>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
+  Token: ResolverTypeWrapper<Token>;
   TokenInfo: ResolverTypeWrapper<TokenInfo>;
-  User: ResolverTypeWrapper<User>;
   WalletInvitation: ResolverTypeWrapper<WalletInvitation>;
+  Widget: ResolverTypeWrapper<Widget>;
+  WidgetAccount: ResolverTypeWrapper<WidgetAccount>;
+  WidgetStatus: WidgetStatus;
+  WidgetTokenInput: WidgetTokenInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -293,15 +346,17 @@ export type ResolversParentTypes = {
   JoinWaitlistResult: JoinWaitlistResult;
   MongoDateTime: Scalars['MongoDateTime']['output'];
   ObjectID: Scalars['ObjectID']['output'];
-  Project: Project;
   RootMutation: {};
   RootQuery: {};
   SendEmergencyKitResult: SendEmergencyKitResult;
   String: Scalars['String']['output'];
   SystemInfo: SystemInfo;
+  Token: Token;
   TokenInfo: TokenInfo;
-  User: User;
   WalletInvitation: WalletInvitation;
+  Widget: Widget;
+  WidgetAccount: WidgetAccount;
+  WidgetTokenInput: WidgetTokenInput;
 };
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
@@ -337,41 +392,33 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'ObjectID';
 }
 
-export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
-  banner?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  detailIcon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
-  logo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  networks?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
-  nfts?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
-  tokens?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type RootMutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootMutation'] = ResolversParentTypes['RootMutation']> = {
-  addProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<RootMutationAddProjectArgs, 'banner' | 'description' | 'detailIcon' | 'logo' | 'name' | 'networks' | 'nfts' | 'tokens' | 'userId'>>;
-  addUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<RootMutationAddUserArgs, 'address' | 'name'>>;
+  addWidget?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationAddWidgetArgs, 'banner' | 'description' | 'largeLogo' | 'logo' | 'name' | 'networks' | 'userId'>>;
   claimWalletInvitation?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationClaimWalletInvitationArgs, 'code' | 'email'>>;
+  deleteWidget?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetArgs, 'id'>>;
+  deleteWidgetAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetAccountArgs, 'id'>>;
   joinWaitlist?: Resolver<Maybe<ResolversTypes['JoinWaitlistResult']>, ParentType, ContextType, RequireFields<RootMutationJoinWaitlistArgs, 'description' | 'email' | 'twitter'>>;
   registerAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterAccountArgs, 'key'>>;
+  registerWidgetAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterWidgetAccountArgs, 'email' | 'pubkey'>>;
   sendEmergencyKit?: Resolver<Maybe<ResolversTypes['SendEmergencyKitResult']>, ParentType, ContextType, RequireFields<RootMutationSendEmergencyKitArgs, 'key'>>;
+  updateWidgetStatus?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetStatusArgs, 'id' | 'status'>>;
 };
 
 export type RootQueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootQuery'] = ResolversParentTypes['RootQuery']> = {
   counter?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   greeting?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  project?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<RootQueryProjectArgs, 'id'>>;
-  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
   systemInfo?: Resolver<Maybe<ResolversTypes['SystemInfo']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenArgs, 'id'>>;
   tokenByAddress?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenByAddressArgs, 'address'>>;
   tokens?: Resolver<Maybe<Array<Maybe<ResolversTypes['TokenInfo']>>>, ParentType, ContextType, RequireFields<RootQueryTokensArgs, 'ids'>>;
   tokensByAddress?: Resolver<Maybe<Array<Maybe<ResolversTypes['TokenInfo']>>>, ParentType, ContextType, RequireFields<RootQueryTokensByAddressArgs, 'addresses'>>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<RootQueryUserArgs, 'id'>>;
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   walletInvitation?: Resolver<Maybe<ResolversTypes['WalletInvitation']>, ParentType, ContextType, Partial<RootQueryWalletInvitationArgs>>;
+  widget?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootQueryWidgetArgs, 'id'>>;
+  widgetAccount?: Resolver<Maybe<ResolversTypes['WidgetAccount']>, ParentType, ContextType, RequireFields<RootQueryWidgetAccountArgs, 'id'>>;
+  widgetAccountByPubkey?: Resolver<Maybe<ResolversTypes['WidgetAccount']>, ParentType, ContextType, RequireFields<RootQueryWidgetAccountByPubkeyArgs, 'pubkey'>>;
+  widgetAccounts?: Resolver<Maybe<Array<Maybe<ResolversTypes['WidgetAccount']>>>, ParentType, ContextType>;
+  widgets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Widget']>>>, ParentType, ContextType>;
+  widgetsByStatus?: Resolver<Maybe<Array<Maybe<ResolversTypes['Widget']>>>, ParentType, ContextType, RequireFields<RootQueryWidgetsByStatusArgs, 'status'>>;
 };
 
 export type SendEmergencyKitResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SendEmergencyKitResult'] = ResolversParentTypes['SendEmergencyKitResult']> = {
@@ -382,6 +429,12 @@ export type SendEmergencyKitResultResolvers<ContextType = any, ParentType extend
 export type SystemInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['SystemInfo'] = ResolversParentTypes['SystemInfo']> = {
   environment?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   version?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = {
+  address?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -396,19 +449,34 @@ export type TokenInfoResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type WalletInvitationResolvers<ContextType = any, ParentType extends ResolversParentTypes['WalletInvitation'] = ResolversParentTypes['WalletInvitation']> = {
   code?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type WidgetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Widget'] = ResolversParentTypes['Widget']> = {
+  banner?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
+  largeLogo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  logo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  networks?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  nfts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Token']>>>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['WidgetStatus']>, ParentType, ContextType>;
+  tokens?: Resolver<Maybe<Array<Maybe<ResolversTypes['Token']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type WidgetAccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['WidgetAccount'] = ResolversParentTypes['WidgetAccount']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
+  identifier?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -419,13 +487,14 @@ export type Resolvers<ContextType = any> = {
   JoinWaitlistResult?: JoinWaitlistResultResolvers<ContextType>;
   MongoDateTime?: GraphQLScalarType;
   ObjectID?: GraphQLScalarType;
-  Project?: ProjectResolvers<ContextType>;
   RootMutation?: RootMutationResolvers<ContextType>;
   RootQuery?: RootQueryResolvers<ContextType>;
   SendEmergencyKitResult?: SendEmergencyKitResultResolvers<ContextType>;
   SystemInfo?: SystemInfoResolvers<ContextType>;
+  Token?: TokenResolvers<ContextType>;
   TokenInfo?: TokenInfoResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
   WalletInvitation?: WalletInvitationResolvers<ContextType>;
+  Widget?: WidgetResolvers<ContextType>;
+  WidgetAccount?: WidgetAccountResolvers<ContextType>;
 };
 

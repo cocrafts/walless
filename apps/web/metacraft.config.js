@@ -97,6 +97,7 @@ module.exports = {
 		web3Polyfills,
 		setEnvironments({
 			BUILD_TARGET: JSON.stringify(process.env.BUILD_TARGET),
+			BROWSER_CLIENT_ID: JSON.stringify(process.env.BROWSER_CLIENT_ID),
 			process: {
 				env: {
 					TAMAGUI_TARGET: JSON.stringify('web'),

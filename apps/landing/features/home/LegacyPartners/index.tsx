@@ -75,5 +75,6 @@ const styles = StyleSheet.create({
 	carouselContainer: {
 		maxWidth: '100%',
 		flex: 1,
+		borderRadius: 10,
 	},
 });

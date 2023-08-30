@@ -9,7 +9,7 @@ export const openPopup = async (id: string, requestId: string) => {
 		type: 'popup',
 		width: 410,
 		height: 600,
-		url: `popup.html/#/${id}/${requestId}/popup`,
+		url: `popup.html#/${id}/${requestId}/popup`,
 		focused: true,
 	});
 };

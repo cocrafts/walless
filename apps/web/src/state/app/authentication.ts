@@ -27,11 +27,14 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 		appState.authenticationLoading = true;
 
 		if (runtime.isExtension) {
-			const response = await chrome.identity.getAuthToken({
+			const responseUrl = await chrome.identity.launchWebAuthFlow({
 				interactive: true,
-				scopes: ['email', 'profile'],
+				url: getGoogleAuthURL(),
 			});
-			const credential = GoogleAuthProvider.credential(null, response.token);
+			const queryString = responseUrl?.split('#')?.[1];
+			const searchParams = new URLSearchParams(queryString);
+			const token = searchParams.get('access_token');
+			const credential = GoogleAuthProvider.credential(null, token);
 			await signInWithCredential(auth, credential);
 		} else {
 			await signInWithPopup(auth, googleProvider);
@@ -137,4 +140,16 @@ export const initLocalDeviceByPasscodeAndSync = async (
 	await key.syncLocalMetadataTransitions();
 
 	modules.engine.start();
+};
+
+const getGoogleAuthURL = () => {
+	const redirectURL = chrome.identity.getRedirectURL();
+	const scopes = ['openid', 'email', 'profile'];
+	let authURL = 'https://accounts.google.com/o/oauth2/auth';
+	authURL += `?client_id=${BROWSER_CLIENT_ID}`;
+	authURL += `&response_type=token`;
+	authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
+	authURL += `&scope=${encodeURIComponent(scopes.join(' '))}`;
+
+	return authURL;
 };

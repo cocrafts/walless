@@ -20,6 +20,10 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		if (type === RequestType.REQUEST_CONNECT) {
 			handleMethod = commonHandler.handleConnect;
 			requirePrivateKey = false;
+		} else if (type === RequestType.REQUEST_DISCONNECT) {
+			handleMethod = commonHandler.handleDisconnect;
+			requirePrivateKey = false;
+			requireUserAction = false;
 		} else if (type == RequestType.GET_ENDPOINT_ON_SOLANA) {
 			solanaHandler.getEndpoint(payload, channel);
 			requirePrivateKey = false;

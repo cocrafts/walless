@@ -17,6 +17,14 @@ export const requestConnect = async (options: ConnectOptions) => {
 	);
 };
 
+export const requestDisconnect = async (options: ConnectOptions) => {
+	return await sendRequest({
+		from,
+		type: RequestType.REQUEST_DISCONNECT,
+		options,
+	});
+};
+
 export const requestInstallLayout = async (id: string) => {
 	return await sendRequest(
 		{

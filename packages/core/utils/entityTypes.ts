@@ -83,4 +83,5 @@ export interface Collectible {
 export interface TrustedDomain {
 	trusted: boolean;
 	connectCount: number;
+	connect: boolean;
 }

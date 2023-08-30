@@ -25,6 +25,7 @@ export const handleConnect: HandleMethod = async ({
 			type: 'TrustedDomain',
 			trusted: true,
 			connectCount: 1,
+			connect: true,
 		};
 		await modules.storage.upsert<TrustedDomainDocument>(
 			doc._id,
@@ -46,6 +47,26 @@ export const handleConnect: HandleMethod = async ({
 	responseMethod(payload.requestId, ResponseCode.SUCCESS, {
 		publicKeys: [solKey],
 	});
+};
+
+export const handleDisconnect: HandleMethod = async ({
+	payload,
+	responseMethod,
+}) => {
+	const connectOptions = payload.options as ConnectOptions;
+	console.log('disconnect request');
+
+	if (connectOptions.domain) {
+		await modules.storage.upsert<TrustedDomainDocument>(
+			connectOptions.domain,
+			async (doc) => {
+				doc.connect = false;
+				return doc as TrustedDomainDocument;
+			},
+		);
+	}
+
+	responseMethod(payload.requestId, ResponseCode.SUCCESS);
 };
 
 export const handleRequestPayload: HandleMethod = ({

@@ -31,7 +31,7 @@ export const HomeNavigation: FC = () => {
 						})}
 				</Stack>
 
-				<Button title="Get early access" onPress={handleShowSignUpModal} />
+				<Button title="Join Waitlist" onPress={handleShowSignUpModal} />
 			</ContainerStack>
 		</Stack>
 	);

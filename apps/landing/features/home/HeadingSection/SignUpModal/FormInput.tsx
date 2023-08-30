@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from 'react';
+import { useEffect } from 'react';
 import type {
 	NativeSyntheticEvent,
 	TextInputFocusEventData,
@@ -28,29 +29,46 @@ const FormInput: FC<Props> = ({
 	onBlur,
 	prefix,
 }) => {
-	const borderOpacity = useSharedValue(0);
+	const borderColor = useSharedValue('transparent');
+
 	const handleHoverIn = () => {
-		borderOpacity.value = borderOpacity.value === 1 ? 1 : 0.7;
+		borderColor.value = '#566674';
 	};
+
 	const handleHoverOut = () => {
-		borderOpacity.value = borderOpacity.value === 1 ? 1 : 0;
+		console.log('hover out: ', error);
+		if (error !== '') borderColor.value = '#E34237';
+		else borderColor.value = 'transparent';
 	};
+
 	const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+		console.log('focus: ', error);
+
 		if (onFocus) onFocus(e);
-		borderOpacity.value = 1;
+		borderColor.value = '#566674';
 	};
+
 	const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+		console.log('blur: ', error);
+
 		if (onBlur) onBlur(e);
-		borderOpacity.value = 0;
+		if (error !== '') borderColor.value = '#E34237';
+		else borderColor.value = 'transparent';
 	};
 
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
-			borderWidth: 1,
-			borderRadius: 15,
-			borderColor: `rgba(86, 102, 116, ${borderOpacity.value})`,
+			borderColor: borderColor.value,
 		};
-	}, [borderOpacity]);
+	}, [borderColor]);
+
+	useEffect(() => {
+		if (error !== '') {
+			borderColor.value = '#E34237';
+		} else {
+			borderColor.value = 'transparent';
+		}
+	}, [error]);
 
 	return (
 		<View style={styles.container}>
@@ -89,6 +107,9 @@ const styles = StyleSheet.create({
 	},
 	wrapContainer: {
 		paddingLeft: 15,
+		borderWidth: 1,
+		borderColor: 'transparent',
+		borderRadius: 15,
 		backgroundColor: '#0E141A',
 		alignItems: 'center',
 	},

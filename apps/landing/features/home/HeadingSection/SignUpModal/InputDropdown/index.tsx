@@ -60,10 +60,16 @@ const InputDropdown: FC<Props> = ({
 		}
 	}, [isDropped]);
 
+	const errorStyle = {
+		borderWidth: 1,
+		borderRadius: 15,
+		borderColor: '#E34237',
+	};
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{title}</Text>
-			<View style={styles.contentContainer}>
+			<View style={[styles.contentContainer, error ? errorStyle : {}]}>
 				<TouchableOpacity
 					ref={modalRef}
 					style={styles.selectedOptionContainer}

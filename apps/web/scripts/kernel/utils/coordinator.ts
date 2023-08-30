@@ -33,14 +33,12 @@ export const handle: CoordinatingHandle = async ({
 			const { options = {}, requestId = '' } = payload;
 			const { onlyIfTrusted, domain } = options as ConnectOptions;
 
-			const domainResponse = await modules.storage.find(
-				selectors.trustedDomains,
-			);
-			const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
-
 			if (onlyIfTrusted) {
+				const domainResponse = await modules.storage.find(
+					selectors.trustedDomains,
+				);
+				const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 				const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
-
 				if (!savedDomain) {
 					const { id } = await openPopup(
 						PopupType.REQUEST_CONNECT_POPUP,
@@ -62,8 +60,9 @@ export const handle: CoordinatingHandle = async ({
 		} else if (requirePrivateKey) {
 			const { id } = await openPopup(PopupType.SIGNATURE_POPUP, requestId);
 			requestSource.payload['popupId'] = id;
+		} else {
+			return;
 		}
-		return;
 	} else if (from === PopupType.REQUEST_CONNECT_POPUP) {
 		/**
 		 * Forwarded request

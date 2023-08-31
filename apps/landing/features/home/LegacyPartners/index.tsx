@@ -46,15 +46,16 @@ export const Partners = () => {
 				)}
 			</View>
 
-			<View style={[styles.sharedGap, smallScreen && styles.smallContainer]}>
-				<Carousel ref={carouselRef} style={styles.carouselContainer} />
-				{smallScreen && (
+			<Carousel ref={carouselRef} style={styles.carouselContainer} />
+
+			{smallScreen && (
+				<View style={styles.smallContainer}>
 					<CarouselControl
 						handleLeftPress={handleLeftPress}
 						handleRightPress={handleRightPress}
 					/>
-				)}
-			</View>
+				</View>
+			)}
 		</SectionContainer>
 	);
 };
@@ -72,7 +73,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	carouselContainer: {
+		maxWidth: '100%',
 		flex: 1,
-		minWidth: 320,
+		borderRadius: 10,
 	},
 });

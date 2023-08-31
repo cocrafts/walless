@@ -16,12 +16,6 @@
     "default_popup": "popup.html",
     "default_title": "Open Walless"
   },
-  "oauth2": {
-    "scopes": [
-      "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/userinfo.profile"
-    ]
-  },
   "host_permissions": [
     "file://*/*",
     "http://*/*",

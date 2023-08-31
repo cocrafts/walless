@@ -90,7 +90,7 @@ export const PrimaryContent: FC = () => {
 				$sm={{ flex: 1 }}
 			>
 				<Button
-					title="Get early access"
+					title="Join Waitlist"
 					width={buttonWidth}
 					marginHorizontal={8}
 					onPress={handleShowSignUpModal}

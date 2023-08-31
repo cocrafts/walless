@@ -1,3 +1,14 @@
 {
-  "extends": "@walless/tsconfig/application.json"
+  "extends": "@walless/tsconfig/application.json",
+	"include": [
+		"src",
+		"index*.js",
+		"../../globals.d.ts"
+	],
+	"exclude": [
+		"node_modules"
+	],
+	"compilerOptions": {
+		"baseUrl": "."
+	}
 }

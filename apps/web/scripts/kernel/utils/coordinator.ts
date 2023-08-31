@@ -11,6 +11,7 @@ import {
 	addRequestRecord,
 	getRequestRecord,
 	removeRequestRecord,
+	requestPool,
 	response,
 } from './requestPool';
 import type { CoordinatingHandle } from './types';
@@ -40,6 +41,17 @@ export const handle: CoordinatingHandle = async ({
 				const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 				const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
 				if (!savedDomain || !savedDomain.connect) {
+					Object.values(requestPool).map((ele) => {
+						if (
+							ele.payload.requestId !== requestId &&
+							ele.payload.type === RequestType.REQUEST_CONNECT &&
+							ele.payload.options.domain === domain
+						) {
+							chrome.windows.remove(ele.payload.popupId);
+							response(ele.payload.requestId, ResponseCode.REJECTED);
+						}
+					});
+
 					const { id } = await openPopup(
 						PopupType.REQUEST_CONNECT_POPUP,
 						requestId,

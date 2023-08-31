@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import type { Widget, WidgetStatus } from '@walless/graphql';
-import { qlClient } from '@walless/graphql';
 import { mutations, queries } from '@walless/graphql';
 import { Text } from '@walless/gui';
 import { HomeLayout } from 'components/layouts';
 import { WidgetInfo } from 'features/AdminDashboard';
+import { qlClient } from 'utils/graphql';
 
 const fetchWidgetsData = async () => {
 	const data = await qlClient.request<{ widgets: Widget[] }>(

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { type Widget, WidgetStatus } from '@walless/graphql';
+import type { Widget } from '@walless/graphql';
+import { WidgetStatus } from '@walless/graphql';
 import { Button, Text, View } from '@walless/gui';
 import Image from 'next/image';
 

@@ -1,75 +1,60 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { type Maybe, type Widget, WidgetStatus } from '@walless/graphql';
+import { type Widget, WidgetStatus } from '@walless/graphql';
 import { Button, Text, View } from '@walless/gui';
 import Image from 'next/image';
 
 interface RowProps {
 	title: string;
-	value: Maybe<string | undefined>;
+	value?: string | null;
 }
 
-const RowText: FC<RowProps> = ({ title, value }) => (
-	<View style={styles.row}>
-		<Text style={styles.title}>{title}</Text>
-		{value ? (
-			<Text style={styles.value}>{value}</Text>
-		) : (
-			<Text style={styles.value}>No value</Text>
-		)}
+const TextRow: FC<RowProps> = ({ title, value }) => (
+	<View style={styles.rowContainer}>
+		<Text style={styles.rowTitleText}>{title}</Text>
+		<Text style={styles.rowValueContainer}>{value ?? 'No value'}</Text>
 	</View>
 );
 
-const RowImage: FC<RowProps> = ({ title, value }) => (
-	<View style={[styles.row, { flexDirection: 'column' }]}>
-		<Text style={styles.title}>{title}</Text>
-		{value ? (
-			<Image src={value} alt={title} width={100} height={100} />
-		) : (
-			<Text style={styles.value}>No value</Text>
-		)}
+const ImageRow: FC<RowProps> = ({ title, value }) => (
+	<View style={[styles.rowContainer, { flexDirection: 'column' }]}>
+		<Text style={styles.rowTitleText}>{title}</Text>
+		<Image src={value ?? ''} alt={title} width={100} height={100} />
 	</View>
 );
 
-interface WidgetInfoProps extends Widget {
+interface Props {
+	item: Widget;
 	onUpdateStatus: (id: string, status: WidgetStatus) => void;
 }
 
-export const WidgetInfo: FC<WidgetInfoProps> = ({
-	id,
-	name,
-	description,
-	networks,
-	logo,
-	largeLogo,
-	banner,
-	status,
-	onUpdateStatus,
-}) => {
+export const WidgetInfo: FC<Props> = ({ item, onUpdateStatus }) => {
 	const statusList = Object.values(WidgetStatus) as WidgetStatus[];
 
+	const onStatusChange = (status: WidgetStatus) => {
+		item.status !== status && onUpdateStatus(item.id, status);
+	};
+
 	return (
-		<View style={styles.table}>
-			<RowText title="id" value={id} />
-			<RowText title="name" value={name} />
-			<RowText title="description" value={description} />
-			<RowText title="networks" value={networks?.join(', ')} />
+		<View style={styles.tableContainer}>
+			<TextRow title="id" value={item.id} />
+			<TextRow title="name" value={item.name} />
+			<TextRow title="description" value={item.description} />
+			<TextRow title="networks" value={item.networks?.join(', ')} />
 			<View style={styles.imageContainer}>
-				<RowImage title="logo" value={logo} />
-				<RowImage title="largeLogo" value={largeLogo} />
-				<RowImage title="banner" value={banner} />
+				<ImageRow title="logo" value={item.logo} />
+				<ImageRow title="largeLogo" value={item.largeLogo} />
+				<ImageRow title="banner" value={item.banner} />
 			</View>
-			<View style={styles.row}>
-				<Text style={styles.title}>status</Text>
+			<View style={styles.rowContainer}>
+				<Text style={styles.rowTitleText}>status</Text>
 				<View style={styles.statusContainer}>
 					{statusList.map((statusEnum) => (
 						<Button
 							key={statusEnum}
 							title={statusEnum}
-							onPress={() =>
-								status !== statusEnum && onUpdateStatus(id, statusEnum)
-							}
-							style={status !== statusEnum && styles.inactiveStatus}
+							onPress={() => onStatusChange(statusEnum)}
+							style={item.status !== statusEnum && styles.inactiveStatus}
 						/>
 					))}
 				</View>
@@ -79,7 +64,7 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
 };
 
 const styles = StyleSheet.create({
-	table: {
+	tableContainer: {
 		backgroundColor: '#131B22',
 		flex: 1,
 		borderWidth: 1,
@@ -89,15 +74,15 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 36,
 		gap: 23,
 	},
-	row: {
+	rowContainer: {
 		flexDirection: 'row',
 		gap: 12,
 	},
-	title: {
+	rowTitleText: {
 		minWidth: 120,
 		color: '#0694D3',
 	},
-	value: {
+	rowValueContainer: {
 		minWidth: 200,
 	},
 	imageContainer: {

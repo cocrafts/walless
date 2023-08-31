@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 import type { Widget, WidgetStatus } from '@walless/graphql';
 import { qlClient } from '@walless/graphql';
-import { updateWidgetStatus } from '@walless/graphql/mutation';
-import { allWidgets } from '@walless/graphql/query';
+import { mutations, queries } from '@walless/graphql';
 import { Text } from '@walless/gui';
 import { HomeLayout } from 'components/layouts';
 import { WidgetInfo } from 'features/AdminDashboard';
 
 const fetchWidgetsData = async () => {
-	interface Data {
-		widgets: Widget[];
-	}
-	const data = (await qlClient.request(allWidgets)) as Data;
+	const data = await qlClient.request<{ widgets: Widget[] }>(
+		queries.allWidgets,
+	);
 	return data.widgets;
 };
 
@@ -29,13 +27,13 @@ const AdminDashboardPage = () => {
 	}, [isChanged]);
 
 	const handleUpdateStatus = async (id: string, status: WidgetStatus) => {
-		interface Data {
-			updateWidgetStatus: boolean;
-		}
-		const data = (await qlClient.request(updateWidgetStatus, {
-			id,
-			status,
-		})) as Data;
+		const data = await qlClient.request<{ updateWidgetStatus: boolean }>(
+			mutations.updateWidgetStatus,
+			{
+				id,
+				status,
+			},
+		);
 		setIsChanged(data.updateWidgetStatus);
 	};
 
@@ -47,7 +45,7 @@ const AdminDashboardPage = () => {
 				<WidgetInfo
 					key={widget.id}
 					onUpdateStatus={handleUpdateStatus}
-					{...widget}
+					item={widget}
 				/>
 			))}
 		</HomeLayout>

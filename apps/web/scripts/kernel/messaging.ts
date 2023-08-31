@@ -39,11 +39,11 @@ export const initializeMessaging = async (): Promise<void> => {
 		const callbackRegistry: Record<string, MessengerCallback> = {};
 
 		runtime.onConnect.addListener((port) => {
-			console.log('Connecting with:', port.sender?.url);
+			console.log('connecting with:', port.sender?.url);
 			const handleInComingMessage = async (
 				message: EncryptedMessage | MessagePayload,
 			) => {
-				console.log('On message');
+				console.log('on message');
 				const registeredCallback = callbackRegistry[port.name];
 				const isEncrypted = !!message?.iv;
 
@@ -55,13 +55,13 @@ export const initializeMessaging = async (): Promise<void> => {
 							key,
 						);
 						console.log(
-							`\tMessage info: \n\t - from: ${decrypted.from}, \n\t - type: ${decrypted.type} \n\t - requestId: ${decrypted.requestId}`,
+							`\tmessage info: \n\t - from: ${decrypted.from}, \n\t - type: ${decrypted.type} \n\t - requestId: ${decrypted.requestId}`,
 						);
 						registeredCallback?.(decrypted, port);
 					} else {
 						const payload = message as MessagePayload;
 						console.log(
-							`\tMessage info: \n\t - from: ${payload.from}, \n\t - type: ${payload.type} \n\t - requestId: ${payload.requestId}`,
+							`\tmessage info: \n\t - from: ${payload.from}, \n\t - type: ${payload.type} \n\t - requestId: ${payload.requestId}`,
 						);
 						registeredCallback?.(message as never, port);
 					}

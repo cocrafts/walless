@@ -39,7 +39,6 @@ export const handle: CoordinatingHandle = async ({
 				);
 				const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 				const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
-				console.log({ savedDomain });
 				if (!savedDomain || !savedDomain.connect) {
 					const { id } = await openPopup(
 						PopupType.REQUEST_CONNECT_POPUP,

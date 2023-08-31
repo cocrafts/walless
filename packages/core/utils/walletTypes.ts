@@ -7,7 +7,7 @@ import type {
 } from '@solana/web3.js';
 
 export interface ConnectOptions {
-	onlyIfTrusted: boolean;
+	onlyIfTrusted?: boolean;
 	domain?: string;
 }
 

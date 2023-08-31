@@ -2,6 +2,7 @@ import { runtime } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type {
 	EncryptedMessage,
+	MessagePayload,
 	MessengerCallback,
 	MessengerMessageListener,
 	MessengerSend,
@@ -38,23 +39,37 @@ export const initializeMessaging = async (): Promise<void> => {
 		const callbackRegistry: Record<string, MessengerCallback> = {};
 
 		runtime.onConnect.addListener((port) => {
-			const handleInComingMessage = async (message: EncryptedMessage) => {
+			console.log('Connecting with:', port.sender?.url);
+			const handleInComingMessage = async (
+				message: EncryptedMessage | MessagePayload,
+			) => {
+				console.log('On message');
 				const registeredCallback = callbackRegistry[port.name];
 				const isEncrypted = !!message?.iv;
 
 				if (registeredCallback) {
 					if (isEncrypted) {
 						const key = await modules.encryptionKeyVault.get(port.name);
-						const decrypted = await decryptMessage(message, key);
-
+						const decrypted = await decryptMessage(
+							message as EncryptedMessage,
+							key,
+						);
+						console.log(
+							`\tMessage info: \n\t - from: ${decrypted.from}, \n\t - type: ${decrypted.type} \n\t - requestId: ${decrypted.requestId}`,
+						);
 						registeredCallback?.(decrypted, port);
 					} else {
+						const payload = message as MessagePayload;
+						console.log(
+							`\tMessage info: \n\t - from: ${payload.from}, \n\t - type: ${payload.type} \n\t - requestId: ${payload.requestId}`,
+						);
 						registeredCallback?.(message as never, port);
 					}
 				}
 			};
 
-			const handleDisconnect = () => {
+			const handleDisconnect = (port: chrome.runtime.Port) => {
+				console.log('Disconnected with:', port.sender?.url);
 				if (port.name.includes('/')) {
 					const [id, requestId] = port.name.split('/');
 					if (id === PopupType.REQUEST_CONNECT_POPUP) {

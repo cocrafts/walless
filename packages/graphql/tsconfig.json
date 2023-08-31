@@ -1,0 +1,6 @@
+{
+  "extends": "@walless/tsconfig/base.json",
+	"include": [
+		"../../globals.d.ts"
+	]
+}

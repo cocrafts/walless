@@ -3,30 +3,26 @@ import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import type { AccountInfo, Logs } from '@solana/web3.js';
 import { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import type { AssetMetadata, Endpoint } from '@walless/core';
+import type { AssetMetadata } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenInfo } from '@walless/graphql';
-import { qlClient, queries } from '@walless/graphql';
+import { queries } from '@walless/graphql';
 import { solMint } from '@walless/network';
-import type {
-	Database,
-	PublicKeyDocument,
-	TokenDocument,
-} from '@walless/store';
+import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 
 import { collectibleActions } from '../state/collectibles';
 import { tokenActions, tokenState } from '../state/tokens';
+import type { RunnerContext } from '../utils/type';
 
 import { addCollectibleToState } from './collectibles';
 import { getSolanaMetadata } from './metadata';
 
 export const initRealTimeSubscription = async (
-	connection: Connection,
-	storage: Database,
-	endpoint: Endpoint,
+	context: RunnerContext<Connection>,
 	publicKeys: PublicKeyDocument[],
 ) => {
-	const newConnection = new Connection(connection.rpcEndpoint, 'confirmed');
+	const { connection } = context;
+	const fastConnection = new Connection(connection.rpcEndpoint, 'confirmed');
 
 	if (publicKeys.length > 0 && publicKeys[0]._id) {
 		const ownerPublicKey = new PublicKey(publicKeys[0]._id);
@@ -44,20 +40,19 @@ export const initRealTimeSubscription = async (
 		];
 
 		accountKeys.forEach(async (key) => {
-			newConnection.onAccountChange(key, (info) =>
-				handleAccountChange(connection, endpoint, ownerPublicKey, info),
+			fastConnection.onAccountChange(key, (info) =>
+				handleAccountChange(context, ownerPublicKey, info),
 			);
 		});
 
-		newConnection.onLogs(ownerPublicKey, (logs) => {
-			handleLogsChange(connection, storage, endpoint, ownerPublicKey, logs);
+		fastConnection.onLogs(ownerPublicKey, (logs) => {
+			handleLogsChange(context, ownerPublicKey, logs);
 		});
 	}
 };
 
 const handleAccountChange = async (
-	connection: Connection,
-	endpoint: Endpoint,
+	{ connection, endpoint }: RunnerContext<Connection>,
 	address: PublicKey,
 	info: AccountInfo<Buffer>,
 ) => {
@@ -97,9 +92,7 @@ const handleAccountChange = async (
 };
 
 const handleLogsChange = async (
-	connection: Connection,
-	storage: Database,
-	endpoint: Endpoint,
+	{ connection, qlClient, storage, endpoint }: RunnerContext<Connection>,
 	address: PublicKey,
 	logs: Logs,
 ) => {

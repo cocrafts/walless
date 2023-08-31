@@ -4,6 +4,7 @@ import type { Widget } from '@walless/graphql';
 import { WidgetStatus } from '@walless/graphql';
 import { Button, Text, View } from '@walless/gui';
 import Image from 'next/image';
+import { widgetAction } from 'state/index';
 
 interface RowProps {
 	title: string;
@@ -26,14 +27,13 @@ const ImageRow: FC<RowProps> = ({ title, value }) => (
 
 interface Props {
 	item: Widget;
-	onUpdateStatus: (id: string, status: WidgetStatus) => void;
 }
 
-export const WidgetInfo: FC<Props> = ({ item, onUpdateStatus }) => {
+export const WidgetInfo: FC<Props> = ({ item }) => {
 	const statusList = Object.values(WidgetStatus) as WidgetStatus[];
 
 	const onStatusChange = (status: WidgetStatus) => {
-		item.status !== status && onUpdateStatus(item.id, status);
+		item.status !== status && widgetAction.updateWidgetStatus(item.id, status);
 	};
 
 	return (

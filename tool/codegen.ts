@@ -1,8 +1,11 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: './apps/web/.env.development' });
 
 const config: CodegenConfig = {
 	overwrite: true,
-	schema: 'https://nerve.walless.io/graphql',
+	schema: process.env.GRAPHQL_ENDPOINT,
 	generates: {
 		'./packages/graphql/types.ts': {
 			plugins: ['typescript', 'typescript-resolvers'],

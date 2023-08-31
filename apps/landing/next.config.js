@@ -36,6 +36,7 @@ module.exports = withPlugins(
 		},
 		env: {
 			EXTENSION_VERSION: project.version,
+			GRAPHQL_ENDPOINT: process.env.GRAPHQL_ENDPOINT,
 		},
 		webpack: (config, { dev, isServer, webpack }) => {
 			config.module.rules.push({

@@ -1,5 +1,6 @@
 import type { Endpoint } from '@walless/core';
 import type { Database } from '@walless/store';
+import type { GraphQLClient } from 'graphql-request';
 
 import type {
 	ConnectionPool,
@@ -10,6 +11,7 @@ import type {
 
 type CreateCrawlerOption<T> = EngineRunner<T> & {
 	storage: Database;
+	qlClient: GraphQLClient;
 	endpoint: Endpoint;
 	pool: ConnectionPool<T>;
 };
@@ -21,6 +23,7 @@ type CrawlerInternal<T> = {
 
 export const createCrawler = <T>({
 	storage,
+	qlClient,
 	pool,
 	stop,
 	start,
@@ -33,6 +36,7 @@ export const createCrawler = <T>({
 
 	const createRunnerContext = (): RunnerContext<T> => ({
 		storage,
+		qlClient,
 		endpoint: internal.endpoint,
 		connection: internal.connection,
 	});

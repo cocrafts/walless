@@ -247,9 +247,6 @@ enum WidgetStatus {
   ACCEPTED
 
   """"""
-  DEPLOYED
-
-  """"""
   IN_REVIEW
 
   """"""

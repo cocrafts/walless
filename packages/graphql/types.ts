@@ -233,7 +233,6 @@ export type WidgetAccount = {
 
 export enum WidgetStatus {
   Accepted = 'ACCEPTED',
-  Deployed = 'DEPLOYED',
   InReview = 'IN_REVIEW',
   Rejected = 'REJECTED'
 }

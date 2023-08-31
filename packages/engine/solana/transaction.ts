@@ -7,8 +7,8 @@ import type {
 import { PublicKey } from '@solana/web3.js';
 import type { Collectible, Token } from '@walless/core';
 import { Networks } from '@walless/core';
+import { modules } from '@walless/ioc';
 
-import { modules } from '../../ioc';
 import { historyActions } from '../state/history';
 
 import { getSolanaMetadata } from './metadata';

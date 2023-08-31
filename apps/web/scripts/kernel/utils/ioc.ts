@@ -4,13 +4,15 @@ import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
 import IDBPouch from 'pouchdb-adapter-idb';
 
+import { qlClient } from './graphql';
+
 export const injectModules = async () => {
-	modules.storage = create('engine', IDBPouch);
+	const storage = create('engine', IDBPouch);
+	modules.storage = storage;
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
 
 	await Promise.all([configure(modules.storage)]);
-
-	modules.engine = await createEngine(modules.storage);
+	modules.engine = await createEngine({ storage, qlClient });
 
 	return modules;
 };

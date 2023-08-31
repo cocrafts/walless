@@ -4,7 +4,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "utils/module.d.ts"
+		"../../globals.d.ts"
   ],
   "exclude": [
     "node_modules"

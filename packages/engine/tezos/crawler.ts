@@ -1,6 +1,6 @@
 import type { TezosToolkit } from '@taquito/taquito';
 import type { TokenInfo } from '@walless/graphql';
-import { qlClient, queries } from '@walless/graphql';
+import { queries } from '@walless/graphql';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
@@ -13,7 +13,7 @@ import { getTezosEndpointFromUnifiedEndpoint } from './pool';
 import { tezosTokensByAddress } from './token';
 
 export const tezosEngineRunner: EngineRunner<TezosToolkit> = {
-	start: async ({ endpoint, connection, storage }) => {
+	start: async ({ endpoint, connection, storage, qlClient }) => {
 		const keyResult = await storage.find(selectors.tezosKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
@@ -56,8 +56,8 @@ export const tezosEngineRunner: EngineRunner<TezosToolkit> = {
 						? quoteMap[makeId(i)].quotes
 						: quoteMap[makeIdWithTokenId(i)].quotes;
 			}
-		} catch (_) {
-			console.log('cannot fetch tezos token price');
+		} catch (error) {
+			console.log('cannot fetch tezos token price', error);
 		}
 
 		tokenActions.setItems(tokenDocuments);

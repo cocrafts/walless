@@ -1,6 +1,6 @@
 import type { JsonRpcProvider } from '@mysten/sui.js';
 import type { TokenInfo } from '@walless/graphql';
-import { qlClient, queries } from '@walless/graphql';
+import { queries } from '@walless/graphql';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
@@ -11,7 +11,7 @@ import type { EngineRunner } from '../utils/type';
 import { suiTokensByAddress } from './token';
 
 export const suiEngineRunner: EngineRunner<JsonRpcProvider> = {
-	start: async ({ endpoint, connection, storage }) => {
+	start: async ({ endpoint, connection, storage, qlClient }) => {
 		const keyResult = await storage.find(selectors.suiKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
@@ -46,8 +46,8 @@ export const suiEngineRunner: EngineRunner<JsonRpcProvider> = {
 			for (const i of tokenDocuments) {
 				i.account.quotes = quoteMap[makeId(i)].quotes;
 			}
-		} catch (_) {
-			console.log('cannot fetch sui token price');
+		} catch (error) {
+			console.log('cannot fetch sui token price', error);
 		}
 
 		tokenActions.setItems(tokenDocuments);

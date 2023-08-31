@@ -1,5 +1,6 @@
 import type { Endpoint, EndpointMap, Networks } from '@walless/core';
 import type { Database, EndpointsDocument } from '@walless/store';
+import type { GraphQLClient } from 'graphql-request';
 
 import { createCrawler } from './utils/crawler';
 import type { EngineCrawler } from './utils/type';
@@ -22,7 +23,15 @@ export const defaultEndpoints: EndpointMap = {
 	tezos: defaultEndpoint,
 };
 
-export const createEngine = async (storage: Database): Promise<Engine> => {
+export interface EngineOptions {
+	storage: Database;
+	qlClient: GraphQLClient;
+}
+
+export const createEngine = async ({
+	storage,
+	qlClient,
+}: EngineOptions): Promise<Engine> => {
 	let endpoints = (await storage.safeGet('endpoints')) as EndpointsDocument;
 
 	if (!endpoints) {
@@ -39,6 +48,7 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 	const crawlers: Record<string, EngineCrawler<any>> = {
 		sui: createCrawler({
 			storage,
+			qlClient,
 			endpoint: endpoints.sui,
 			pool: suiPool,
 			start: suiEngineRunner.start,
@@ -46,6 +56,7 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 		}),
 		solana: createCrawler({
 			storage,
+			qlClient,
 			endpoint: endpoints.solana,
 			pool: solanaPool,
 			start: solanaEngineRunner.start,
@@ -53,6 +64,7 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 		}),
 		tezos: createCrawler({
 			storage,
+			qlClient,
 			endpoint: endpoints.tezos,
 			pool: tezosPool,
 			start: tezosEngineRunner.start,

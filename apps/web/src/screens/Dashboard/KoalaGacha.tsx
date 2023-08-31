@@ -5,32 +5,22 @@ import { auth } from 'utils/firebase';
 import { usePublicKeys } from 'utils/hooks';
 
 export const KoalaGacha = () => {
-	const useLocalBuild = false;
-	const trustedOrigin = useLocalBuild
-		? 'http://localhost:8080'
-		: 'https://cdn.stormgate.io';
-	const gameUrl = useLocalBuild
-		? 'http://localhost:8080'
-		: 'https://cdn.stormgate.io/pixeverse/index.html';
-	const apiUrl = __DEV__
-		? 'https://nerve-stg.walless.io/pixeverse'
-		: 'https://nerve.walless.io/pixeverse';
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const [pubkey] = usePublicKeys(Networks.solana);
 
 	useEffect(() => {
 		const forwardContext = async () => {
 			const payload = {
-				apiUrl,
+				apiUrl: PIXEVERSE_ENDPOINT,
 				jwt: await auth.currentUser?.getIdToken(true),
 				address: pubkey._id,
 			};
 
-			iframeRef?.current?.contentWindow?.postMessage(payload, trustedOrigin);
+			iframeRef?.current?.contentWindow?.postMessage(payload, PIXEVERSE_ORIGIN);
 		};
 
 		const onPixeverseReady = async (event: MessageEvent) => {
-			const fromTrustedOrigin = event.origin === trustedOrigin;
+			const fromTrustedOrigin = event.origin === PIXEVERSE_ORIGIN;
 			const fromReadyEvent = event.data === 'on-pixeverse-ready';
 
 			if (fromTrustedOrigin && fromReadyEvent) {
@@ -53,7 +43,7 @@ export const KoalaGacha = () => {
 			<iframe
 				ref={iframeRef}
 				allow="web-share"
-				src={gameUrl}
+				src={PIXEVERSE_URL}
 				width={352}
 				height={600}
 				style={{ borderColor: 'transparent' }}

@@ -54,21 +54,25 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
 			<RowText title="name" value={name} />
 			<RowText title="description" value={description} />
 			<RowText title="networks" value={networks?.join(', ')} />
-			<RowImage title="logo" value={logo} />
-			<RowImage title="largeLogo" value={largeLogo} />
-			<RowImage title="banner" value={banner} />
+			<View style={styles.imageContainer}>
+				<RowImage title="logo" value={logo} />
+				<RowImage title="largeLogo" value={largeLogo} />
+				<RowImage title="banner" value={banner} />
+			</View>
 			<View style={styles.row}>
 				<Text style={styles.title}>status</Text>
-				{statusList.map((statusEnum) => (
-					<Button
-						key={statusEnum}
-						title={statusEnum}
-						onPress={() =>
-							status !== statusEnum && onUpdateStatus(id, statusEnum)
-						}
-						style={status !== statusEnum && styles.inactiveStatus}
-					/>
-				))}
+				<View style={styles.statusContainer}>
+					{statusList.map((statusEnum) => (
+						<Button
+							key={statusEnum}
+							title={statusEnum}
+							onPress={() =>
+								status !== statusEnum && onUpdateStatus(id, statusEnum)
+							}
+							style={status !== statusEnum && styles.inactiveStatus}
+						/>
+					))}
+				</View>
 			</View>
 		</View>
 	);
@@ -76,11 +80,14 @@ export const WidgetInfo: FC<WidgetInfoProps> = ({
 
 const styles = StyleSheet.create({
 	table: {
+		backgroundColor: '#131B22',
 		flex: 1,
 		borderWidth: 1,
 		borderColor: 'white',
-		padding: 16,
-		gap: 16,
+		borderRadius: 12,
+		paddingVertical: 36,
+		paddingHorizontal: 36,
+		gap: 23,
 	},
 	row: {
 		flex: 1,
@@ -88,11 +95,19 @@ const styles = StyleSheet.create({
 		gap: 12,
 	},
 	title: {
-		minWidth: 120,
-		color: 'orange',
+		minWidth: 80,
+		color: '#0694D3',
 	},
 	value: {
 		minWidth: 200,
+	},
+	imageContainer: {
+		flexDirection: 'row',
+		gap: 60,
+	},
+	statusContainer: {
+		flexDirection: 'row',
+		gap: 12,
 	},
 	inactiveStatus: {
 		backgroundColor: '#243F56',

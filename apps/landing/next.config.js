@@ -37,6 +37,7 @@ module.exports = withPlugins(
 		env: {
 			EXTENSION_VERSION: project.version,
 			GRAPHQL_ENDPOINT: process.env.GRAPHQL_ENDPOINT,
+			SOLANA_CLUSTER_URL: process.env.SOLANA_CLUSTER_URL,
 		},
 		webpack: (config, { dev, isServer, webpack }) => {
 			config.module.rules.push({

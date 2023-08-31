@@ -18,3 +18,4 @@ declare const GRAPHQL_ENDPOINT: string;
 declare const PIXEVERSE_ENDPOINT: string;
 declare const PIXEVERSE_ORIGIN: string;
 declare const PIXEVERSE_URL: string;
+declare const SOLANA_CLUSTER_URL: string;

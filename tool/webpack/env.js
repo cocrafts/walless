@@ -20,6 +20,9 @@ const setEnvironments =
 			'GATEFI_MERCHANT_ID',
 			'BUILD_TARGET',
 			'GRAPHQL_ENDPOINT',
+			'PIXEVERSE_ENDPOINT',
+			'PIXEVERSE_ORIGIN',
+			'PIXEVERSE_URL',
 		].reduce((a, i) => {
 			a[i] = JSON.stringify(process.env[i]);
 			return a;

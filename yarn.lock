@@ -16540,6 +16540,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^16.3.1":
+  version: 16.3.1
+  resolution: "dotenv@npm:16.3.1"
+  checksum: 15d75e7279018f4bafd0ee9706593dd14455ddb71b3bcba9c52574460b7ccaf67d5cf8b2c08a5af1a9da6db36c956a04a1192b101ee102a3e0cf8817bbcf3dfd
+  languageName: node
+  linkType: hard
+
 "dset@npm:^3.1.1, dset@npm:^3.1.2":
   version: 3.1.2
   resolution: "dset@npm:3.1.2"
@@ -29214,6 +29221,7 @@ __metadata:
     constructs: 10.2.69
     copy-webpack-plugin: ^11.0.0
     cross-env: ^7.0.3
+    dotenv: ^16.3.1
     fs-extra: ^11.1.0
     jest: ^29.4.3
     metro-react-native-babel-preset: 0.73.9

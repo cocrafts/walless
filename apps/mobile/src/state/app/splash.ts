@@ -1,13 +1,13 @@
 import type { BootstrapResult } from '@walless/app';
 import { appState } from '@walless/app';
+import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
 
 import { navigate } from '../../utils/navigation';
-import { db } from '../../utils/pouchdb';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	const response: BootstrapResult = {};
-	const setting = await db.safeGet<SettingDocument>('settings');
+	const setting = await modules.storage.safeGet<SettingDocument>('settings');
 
 	if (setting?.profile?.email) {
 		response.profile = setting.profile;

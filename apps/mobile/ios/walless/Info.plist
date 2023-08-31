@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>${AUTH_URL_SCHEME}</string>
+				<string>${REVERSED_CLIENT_ID}</string>
 			</array>
 		</dict>
 	</array>

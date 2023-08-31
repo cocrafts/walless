@@ -2,10 +2,10 @@ import { AppRegistry } from 'react-native';
 
 import './src/utils/shim';
 
-import { initializeServices } from './src/utils/initializer';
+import { injectModules } from './src/utils/ioc';
 import { name as appName } from './app.json';
 import App from './src';
 
-AppRegistry.registerComponent(appName, () => App);
-
-initializeServices();
+injectModules().then(async () => {
+	AppRegistry.registerComponent(appName, () => App);
+});

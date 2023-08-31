@@ -6,6 +6,7 @@ const projectModules = resolve(projectRoot, 'node_modules');
 const workspaceModules = resolve(workspaceRoot, 'node_modules');
 
 const monoPackages = {
+	'@walless/ioc': resolve(workspaceRoot, 'packages/ioc'),
 	'@walless/core': resolve(workspaceRoot, 'packages/core'),
 	'@walless/gui': resolve(workspaceRoot, 'packages/gui'),
 	'@walless/app': resolve(workspaceRoot, 'packages/app'),
@@ -13,6 +14,8 @@ const monoPackages = {
 	'@walless/store': resolve(workspaceRoot, 'packages/store'),
 	'@walless/crypto': resolve(workspaceRoot, 'packages/crypto'),
 	'@walless/messaging': resolve(workspaceRoot, 'packages/messaging'),
+	'@walless/network': resolve(workspaceRoot, 'packages/network'),
+	'@walless/engine': resolve(workspaceRoot, 'packages/engine'),
 };
 
 module.exports = {

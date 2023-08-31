@@ -1,4 +1,3 @@
-import { Networks } from '@walless/core';
 import type {
 	DetailState,
 	ProjectState,
@@ -25,7 +24,7 @@ export const appState = proxy<AppState>({
 			banner: '/img/preview/tezos-banner.jpeg',
 		},
 		detail: {
-			networks: [Networks.tezos],
+			networks: [],
 			tokens: {},
 			collectibles: {},
 			icon: '/img/network/tezos-icon-lg.png',

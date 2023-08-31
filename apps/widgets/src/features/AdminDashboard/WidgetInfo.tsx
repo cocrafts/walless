@@ -21,7 +21,7 @@ const RowText: FC<RowProps> = ({ title, value }) => (
 );
 
 const RowImage: FC<RowProps> = ({ title, value }) => (
-	<View style={styles.row}>
+	<View style={[styles.row, { flexDirection: 'column' }]}>
 		<Text style={styles.title}>{title}</Text>
 		{value ? (
 			<Image src={value} alt={title} width={100} height={100} />
@@ -90,12 +90,11 @@ const styles = StyleSheet.create({
 		gap: 23,
 	},
 	row: {
-		flex: 1,
 		flexDirection: 'row',
 		gap: 12,
 	},
 	title: {
-		minWidth: 80,
+		minWidth: 120,
 		color: '#0694D3',
 	},
 	value: {
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
 	},
 	imageContainer: {
 		flexDirection: 'row',
-		gap: 60,
+		gap: 20,
 	},
 	statusContainer: {
 		flexDirection: 'row',

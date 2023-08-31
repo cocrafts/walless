@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import type { Widget, WidgetStatus } from '@walless/graphql';
 import { qlClient } from '@walless/graphql';
 import { updateWidgetStatus } from '@walless/graphql/mutation';
@@ -6,30 +6,37 @@ import { allWidgets } from '@walless/graphql/query';
 import { Text } from '@walless/gui';
 import { HomeLayout } from 'components/layouts';
 import { WidgetInfo } from 'features/AdminDashboard';
-import type { GetServerSideProps } from 'next';
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	const localEndpoint = 'http://localhost:8080/graphql';
-	qlClient.setEndpoint(localEndpoint);
-
-	const data = (await qlClient.request(allWidgets)) as { widgets: Widget[] };
-
-	return {
-		props: {
-			widgets: data.widgets,
-		},
-	};
+const fetchWidgetsData = async () => {
+	interface Data {
+		widgets: Widget[];
+	}
+	const data = (await qlClient.request(allWidgets)) as Data;
+	return data.widgets;
 };
 
-interface Props {
-	widgets: Widget[];
-}
+const AdminDashboardPage = () => {
+	const [widgets, setWidgets] = useState<Widget[]>([]);
+	const [isChanged, setIsChanged] = useState(false);
 
-const AdminDashboardPage: FC<Props> = ({ widgets }) => {
+	useEffect(() => {
+		try {
+			fetchWidgetsData().then(setWidgets);
+			setIsChanged(false);
+		} catch (error) {
+			console.error(error);
+		}
+	}, [isChanged]);
+
 	const handleUpdateStatus = async (id: string, status: WidgetStatus) => {
-		console.log('--> update status', id, status);
-		const data = await qlClient.request(updateWidgetStatus, { id, status });
-		console.log('--> response', data);
+		interface Data {
+			updateWidgetStatus: boolean;
+		}
+		const data = (await qlClient.request(updateWidgetStatus, {
+			id,
+			status,
+		})) as Data;
+		setIsChanged(data.updateWidgetStatus);
 	};
 
 	return (

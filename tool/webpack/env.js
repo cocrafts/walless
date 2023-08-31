@@ -18,6 +18,8 @@ const setEnvironments =
 			'WEB3AUTH_ID',
 			'GATEFI_ENDPOINT',
 			'GATEFI_MERCHANT_ID',
+			'BUILD_TARGET',
+			'GRAPHQL_ENDPOINT',
 		].reduce((a, i) => {
 			a[i] = JSON.stringify(process.env[i]);
 			return a;

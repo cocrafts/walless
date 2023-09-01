@@ -61,6 +61,7 @@
     "rimraf": "^5.0.0",
     "shx": "^0.3.4",
     "sst": "2.24.17",
+    "superstruct": "^1.0.3",
     "ts-jest": "^29.0.5",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
     "turbo": "latest",

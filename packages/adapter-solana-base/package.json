@@ -28,7 +28,7 @@
     "@solana/wallet-adapter-base": "^0.9.22"
   },
   "devDependencies": {
-    "@solana/web3.js": "1.78.3",
+    "@solana/web3.js": "1.78.4",
     "@walless/sdk": "*",
     "eslint": "8.38.0",
     "typescript": "^5.1.3"

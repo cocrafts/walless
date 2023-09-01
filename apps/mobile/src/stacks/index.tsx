@@ -31,7 +31,7 @@ export const AppStack: FC = () => {
 				<Stack.Screen
 					name="Login"
 					component={LoginScreen}
-					options={screenOptions.fade}
+					options={screenOptions.bottomFade}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

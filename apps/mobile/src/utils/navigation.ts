@@ -44,7 +44,10 @@ export const linking: LinkingOptions<RootParamList> = {
 
 interface ScreenOptions {
 	navigator: StackNavigationOptions;
+	slide: StackNavigationOptions;
 	fade: StackNavigationOptions;
+	bottomFade: StackNavigationOptions;
+	bottomReveal: StackNavigationOptions;
 }
 
 export const screenOptions: ScreenOptions = {
@@ -52,8 +55,17 @@ export const screenOptions: ScreenOptions = {
 		headerShown: false,
 		animationEnabled: true,
 	},
+	slide: {
+		cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+	},
 	fade: {
 		cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+	},
+	bottomFade: {
+		cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+	},
+	bottomReveal: {
+		cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid,
 	},
 };
 

@@ -1,12 +1,12 @@
-import type { ExtensionDocument } from '@walless/store';
+import type { ExtensionDocument, WidgetDocument } from '@walless/store';
 
-export const mockLayoutCards: ExtensionDocument[] = [
+export const mockWidgets: WidgetDocument[] = [
 	{
 		_id: '000005',
 		name: 'Pixeverse',
 		version: '0.1.8',
-		type: 'Extension',
-		extensionType: 'Layout',
+		type: 'Widget',
+		widgetType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-pixeverse.png',
@@ -30,8 +30,8 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		_id: 'solana',
 		name: 'Solana',
 		version: '0.9.1',
-		type: 'Extension',
-		extensionType: 'Layout',
+		type: 'Widget',
+		widgetType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/network/solana-icon-sm.svg',
@@ -55,8 +55,8 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		_id: 'sui',
 		name: 'Sui',
 		version: '0.0.1',
-		type: 'Extension',
-		extensionType: 'Layout',
+		type: 'Widget',
+		widgetType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/network/sui-icon-sm.png',
@@ -80,8 +80,8 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		_id: 'tezos',
 		name: 'Tezos',
 		version: '0.0.1',
-		type: 'Extension',
-		extensionType: 'Layout',
+		type: 'Widget',
+		widgetType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/network/tezos-icon-sm.png',
@@ -105,8 +105,8 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		_id: '000004',
 		name: 'T-Rex Runner',
 		version: '0.1.8',
-		type: 'Extension',
-		extensionType: 'Layout',
+		type: 'Widget',
+		widgetType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/t-rex-runner/runner-icon.png',
@@ -129,8 +129,8 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		_id: '000003',
 		name: 'Under Realm',
 		version: '0.1.8',
-		type: 'Extension',
-		extensionType: 'Layout',
+		type: 'Widget',
+		widgetType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-under-realm.png',

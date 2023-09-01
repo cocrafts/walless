@@ -58,7 +58,7 @@ export type PublicKeyDocument = PouchDocument<{
 
 export type ExtensionDocument = PouchDocument<ExtensionConfig>;
 
-export type WidgetDocument = PouchDocument<ExtensionConfig>;
+export type WidgetDocument = PouchDocument<Widget>;
 
 export type TokenDocument = PouchDocument<Token>;
 

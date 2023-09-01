@@ -33,7 +33,7 @@ const InvitationScreen = () => {
 		<View style={styles.container}>
 			<InvitationFeature
 				onEnter={onInvitationCodeChange}
-				logoSrc={{ uri: '/img/icon-lg.png' }}
+				logoSrc={{ uri: '/img/icon.png' }}
 				error={invitationError}
 				onLoginPress={handleLoginPress}
 			/>

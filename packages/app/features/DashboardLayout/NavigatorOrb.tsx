@@ -9,7 +9,7 @@ import {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import type { ExtensionStoreMetadata } from '@walless/core';
+import type { WidgetStoreOptions } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -19,21 +19,21 @@ import {
 	modalActions,
 	View,
 } from '@walless/gui';
-import type { ExtensionDocument } from '@walless/store';
+import type { WidgetDocument } from '@walless/store';
 
 import ActiveBar from './ActiveBar';
 
 interface Props {
-	item: ExtensionDocument;
+	item: WidgetDocument;
 	isActive?: boolean;
 	hasUpdate?: boolean;
 	children?: ReactNode;
 	ContextComponent?: FC<{
 		config: ModalConfigs;
-		onRemoveLayout?: (item: ExtensionDocument) => void;
+		onRemoveLayout?: (item: WidgetDocument) => void;
 	}>;
-	onPress?: (item: ExtensionDocument) => void;
-	onRemoveLayout?: (item: ExtensionDocument) => void;
+	onPress?: (item: WidgetDocument) => void;
+	onRemoveLayout?: (item: WidgetDocument) => void;
 }
 
 export const NavigatorOrb: FC<Props> = ({
@@ -190,12 +190,14 @@ const styles = StyleSheet.create({
 
 const getIconColor = (
 	isActive: boolean | undefined,
-	storeMeta: ExtensionStoreMetadata,
+	storeOptions: WidgetStoreOptions,
 	defaultColor = '#FFFFFF',
 ) => {
 	if (isActive) {
-		return storeMeta?.iconActiveColor || storeMeta?.iconColor || defaultColor;
+		return (
+			storeOptions?.iconActiveColor || storeOptions?.iconColor || defaultColor
+		);
 	}
 
-	return storeMeta?.iconColor || defaultColor;
+	return storeOptions?.iconColor || defaultColor;
 };

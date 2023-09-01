@@ -89,7 +89,7 @@ export const InvitationFeature: FC<Props> = ({
 				) : (
 					<Button
 						disabled={isLengthInvalid}
-						style={[styles.enterButton]}
+						style={styles.enterButton}
 						onPress={() => !isLengthInvalid && onEnter?.(input)}
 					>
 						<Text style={buttonTitleStyle}>Count me in</Text>

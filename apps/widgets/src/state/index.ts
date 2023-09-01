@@ -7,7 +7,6 @@ import { appState } from './internal';
 export const widgetAction = {
 	fetchWidgets: async () => {
 		try {
-			console.log('fetching widgets');
 			const data = await qlClient.request<{ widgets: Widget[] }>(
 				queries.allWidgets,
 			);
@@ -31,6 +30,12 @@ export const widgetAction = {
 		} catch (error) {
 			console.error(error);
 		}
+	},
+};
+
+export const authAction = {
+	updatePubkey: (pubkey: string) => {
+		appState.auth.profile.pubkey = pubkey;
 	},
 };
 

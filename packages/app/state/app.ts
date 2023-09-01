@@ -4,6 +4,7 @@ import type {
 	RemoteConfig,
 	UserProfile,
 } from '@walless/core';
+import { defaultEndpoints } from '@walless/engine';
 import { proxy } from 'valtio';
 
 export interface AppState {
@@ -39,5 +40,5 @@ export const appState = proxy<AppState>({
 	authenticationLoading: false,
 	config: defaultConfig,
 	remoteConfig: defaultRemoteConfig,
-	endpoints: {} as never,
+	endpoints: defaultEndpoints,
 });

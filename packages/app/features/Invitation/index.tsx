@@ -6,6 +6,7 @@ import type {
 	TextInputKeyPressEventData,
 	ViewStyle,
 } from 'react-native';
+import { Platform } from 'react-native';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { ErrorAnnouncement } from '@walless/app';
 import {
@@ -74,7 +75,7 @@ export const InvitationFeature: FC<Props> = ({
 			<InvitationHeader logoSrc={logoSrc} logoSize={logoSize} />
 			<View style={styles.commandContainer}>
 				<Input
-					autoFocus
+					autoFocus={autoFocus}
 					style={styles.inputContainer}
 					maxLength={24}
 					value={input}
@@ -101,6 +102,11 @@ export const InvitationFeature: FC<Props> = ({
 };
 
 export default InvitationFeature;
+
+const autoFocus = Platform.select({
+	web: true,
+	default: false,
+});
 
 const styles = StyleSheet.create({
 	container: {

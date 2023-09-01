@@ -4,9 +4,10 @@ import type { GraphQLClient } from 'graphql-request';
 
 import { createCrawler } from './utils/crawler';
 import type { EngineCrawler } from './utils/type';
-import { solanaEngineRunner, solanaPool } from './solana';
-import { suiEngineRunner, suiPool } from './sui';
-import { tezosEngineRunner, tezosPool } from './tezos';
+import { solanaEngineRunner, solanaPool } from './sol';
+// import { solanaEngineRunner, solanaPool } from './solana';
+// import { suiEngineRunner, suiPool } from './sui';
+// import { tezosEngineRunner, tezosPool } from './tezos';
 
 export interface Engine {
 	start: () => void;
@@ -46,14 +47,6 @@ export const createEngine = async ({
 
 	/* eslint-disable-next-line */
 	const crawlers: Record<string, EngineCrawler<any>> = {
-		sui: createCrawler({
-			storage,
-			qlClient,
-			endpoint: endpoints.sui,
-			pool: suiPool,
-			start: suiEngineRunner.start,
-			stop: suiEngineRunner.stop,
-		}),
 		solana: createCrawler({
 			storage,
 			qlClient,
@@ -62,14 +55,30 @@ export const createEngine = async ({
 			start: solanaEngineRunner.start,
 			stop: solanaEngineRunner.stop,
 		}),
-		tezos: createCrawler({
-			storage,
-			qlClient,
-			endpoint: endpoints.tezos,
-			pool: tezosPool,
-			start: tezosEngineRunner.start,
-			stop: tezosEngineRunner.stop,
-		}),
+		// solana: createCrawler({
+		// 	storage,
+		// 	qlClient,
+		// 	endpoint: endpoints.solana,
+		// 	pool: solanaPool,
+		// 	start: solanaEngineRunner.start,
+		// 	stop: solanaEngineRunner.stop,
+		// }),
+		// sui: createCrawler({
+		// 	storage,
+		// 	qlClient,
+		// 	endpoint: endpoints.sui,
+		// 	pool: suiPool,
+		// 	start: suiEngineRunner.start,
+		// 	stop: suiEngineRunner.stop,
+		// }),
+		// tezos: createCrawler({
+		// 	storage,
+		// 	qlClient,
+		// 	endpoint: endpoints.tezos,
+		// 	pool: tezosPool,
+		// 	start: tezosEngineRunner.start,
+		// 	stop: tezosEngineRunner.stop,
+		// }),
 	};
 
 	return {
@@ -79,15 +88,16 @@ export const createEngine = async ({
 			crawlers[network]?.setEndpoint(id);
 		},
 		start: () => {
-			crawlers.sui.start();
-			crawlers.solana.start();
-			crawlers.tezos.start();
+			crawlers.sui?.start();
+			crawlers.solana?.start();
+			crawlers.tezos?.start();
 		},
 		getConnection: (network) => crawlers[network]?.connection,
 	};
 };
 
 export * from './state/collectibles';
+export * from './state/key';
 export * from './state/tokens';
 export * from './state/wallets';
 export * from './utils/crawler';

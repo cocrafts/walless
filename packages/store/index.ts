@@ -4,12 +4,13 @@ import find from 'pouchdb-find';
 import mapreduce from 'pouchdb-mapreduce';
 import replication from 'pouchdb-replication';
 
+import type { TypedFind } from './utils/type';
 import helpers from './plugins';
 
-export type Database = PouchDB.Database & typeof helpers;
+export type Database = Omit<PouchDB.Database, 'find'> &
+	typeof helpers & { find: TypedFind };
 
 const cache: { instance: Database; configured: boolean } = {} as never;
-
 export const create = (
 	name: string,
 	storageEngine: PouchDB.Plugin,

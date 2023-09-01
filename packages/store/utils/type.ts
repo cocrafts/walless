@@ -11,6 +11,7 @@ import type {
 	Setting,
 	Token,
 	TrustedDomain,
+	Widget,
 } from '@walless/core';
 
 export type DocumentType =
@@ -24,6 +25,7 @@ export type DocumentType =
 	| 'NFT'
 	| 'Metadata'
 	| 'TrustedDomain'
+	| 'Widget'
 	| 'Extension';
 
 export interface IndexedDocument {
@@ -56,6 +58,8 @@ export type PublicKeyDocument = PouchDocument<{
 
 export type ExtensionDocument = PouchDocument<ExtensionConfig>;
 
+export type WidgetDocument = PouchDocument<ExtensionConfig>;
+
 export type TokenDocument = PouchDocument<Token>;
 
 export type MetadataDocument = PouchDocument<AssetMetadata>;
@@ -65,3 +69,10 @@ export type TrustedDomainDocument = PouchDocument<TrustedDomain>;
 export type CollectionDocument = PouchDocument<Collection>;
 
 export type CollectibleDocument = PouchDocument<Collectible>;
+
+export type TypedFind = <T extends object, F extends object = never>(
+	request?: PouchDB.Find.FindRequest<F> | undefined,
+) => Promise<{
+	docs: Array<T>;
+	warning?: string | undefined;
+}>;

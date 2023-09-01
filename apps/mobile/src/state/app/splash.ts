@@ -1,29 +1,27 @@
 import type { BootstrapResult } from '@walless/app';
+import { liveActions } from '@walless/app';
 import { appState } from '@walless/app';
 import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
-
-import { navigate } from '../../utils/navigation';
+import { loadRemoteConfig } from 'utils/firebase';
+import { navigate } from 'utils/navigation';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
-	const response: BootstrapResult = {};
-	const setting = await modules.storage.safeGet<SettingDocument>('settings');
+	appState.remoteConfig = loadRemoteConfig();
+	await liveActions.initialize();
+	await liveActions.watchAndSync();
 
-	if (setting?.profile?.email) {
-		response.profile = setting.profile;
-		appState.profile = setting.profile;
-	}
-
-	return response;
+	return appState;
 };
 
 export const launchApp = async ({
 	profile,
+	config,
 }: BootstrapResult): Promise<void> => {
 	if (profile?.email) {
 		navigate('Dashboard');
 	} else {
-		navigate('Login');
+		navigate('Invitation');
 	}
 
 	appState.loading = false;

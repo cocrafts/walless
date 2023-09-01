@@ -3,8 +3,8 @@ import type { Networks } from '@walless/core';
 import {
 	collectiblesState,
 	collectionsState,
+	keyState,
 	tokenState,
-	walletState,
 } from '@walless/engine';
 import { historyState } from '@walless/engine/state/history/internal';
 import type { PublicKeyDocument } from '@walless/store';
@@ -12,7 +12,7 @@ import { appActions, appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
-	const { map } = useSnapshot(walletState);
+	const { map } = useSnapshot(keyState);
 	const keys = Array.from(map.values());
 
 	return useMemo(() => {

@@ -9,6 +9,17 @@
 		"node_modules"
 	],
 	"compilerOptions": {
-		"baseUrl": "."
+		"baseUrl": ".",
+    "paths": {
+      "components/*": [
+        "./src/components/*"
+      ],
+      "utils/*": [
+        "./src/utils/*"
+      ],
+      "state/*": [
+        "./src/state/*"
+      ]
+		}
 	}
 }

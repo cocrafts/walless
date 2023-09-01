@@ -76,7 +76,7 @@ export const InvitationFeature: FC<Props> = ({
 			<View style={styles.commandContainer}>
 				<Input
 					autoFocus={autoFocus}
-					style={styles.inputContainer}
+					inputStyle={styles.codeInput}
 					maxLength={24}
 					value={input}
 					onChangeText={setInput}
@@ -117,7 +117,10 @@ const styles = StyleSheet.create({
 	commandContainer: {
 		gap: 18,
 	},
-	inputContainer: {
+	codeInput: {
+		height: 52,
+		paddingVertical: 0,
+		color: '#FFFFFF',
 		textAlign: 'center',
 	},
 	placeholder: {

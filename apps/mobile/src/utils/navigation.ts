@@ -17,6 +17,7 @@ export type DashboardParamList = {
 
 export type RootParamList = {
 	Splash: undefined;
+	Invitation: undefined;
 	Login: undefined;
 	Dashboard: NavigatorScreenParams<DashboardParamList>;
 };
@@ -26,6 +27,7 @@ export const linking: LinkingOptions<RootParamList> = {
 	config: {
 		screens: {
 			Splash: '/splash',
+			Invitation: '/invitation',
 			Login: '/login',
 			Dashboard: {
 				path: '/',

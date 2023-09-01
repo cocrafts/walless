@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { themeState } from '@walless/gui';
 
+import InvitationScreen from '../screens/Invitation';
 import LoginScreen from '../screens/Login';
 import SplashScreen from '../screens/Splash';
 import { useSnapshot } from '../utils/hooks';
@@ -20,6 +21,11 @@ export const AppStack: FC = () => {
 				<Stack.Screen
 					name="Splash"
 					component={SplashScreen}
+					options={screenOptions.fade}
+				/>
+				<Stack.Screen
+					name="Invitation"
+					component={InvitationScreen}
 					options={screenOptions.fade}
 				/>
 				<Stack.Screen

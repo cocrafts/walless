@@ -3,8 +3,8 @@ apply plugin: "com.facebook.react"
 apply plugin: "com.google.gms.google-services"
 
 project.ext.envConfigFiles = [
-	debug: ".env.development",
-	release: ".env.production",
+	debug: "./../../web/.env.development",
+	release: "./../../web/.env.production",
 ]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

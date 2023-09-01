@@ -9,19 +9,17 @@ import { SeedPhraseModule } from '@tkey/seed-phrase';
 import { ShareSerializationModule } from '@tkey/share-serialization';
 import { ShareTransferModule } from '@tkey/share-transfer';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
-import CustomAuth from '@toruslabs/customauth';
 
 export const customAuthArgs: CustomAuthArgs = {
 	web3AuthClientId: Config.WEB3AUTH_ID as string,
-	network: __DEV__ ? 'testnet' : 'mainnet',
-	baseUrl: 'https:app.walless.io',
-	redirectToOpener: true,
+	network: 'mainnet',
+	baseUrl: 'metacraft://walless/auth',
+	redirectToOpener: false,
 	redirectPathName: 'w3a',
 	enableLogging: false,
 	popupFeatures: 'width=380,height=600',
 };
 
-export const customAuth = new CustomAuth(customAuthArgs);
 export enum SeedPhraseFormatType {
 	PRIMARY = 'primary-seed-phrase',
 }
@@ -59,5 +57,5 @@ export const key = new ThresholdKey({
 	modules,
 	customAuthArgs,
 	manualSync: true,
-	enableLogging: __DEV__,
+	enableLogging: false,
 });

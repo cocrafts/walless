@@ -31,7 +31,7 @@ import { w3aBaseUrl } from 'utils/config';
 
 export const customAuthArgs: CustomAuthArgs = {
 	web3AuthClientId: WEB3AUTH_ID,
-	network: __DEV__ ? 'testnet' : 'mainnet',
+	network: 'mainnet',
 	baseUrl: w3aBaseUrl,
 	redirectToOpener: true,
 	redirectPathName: 'w3a',

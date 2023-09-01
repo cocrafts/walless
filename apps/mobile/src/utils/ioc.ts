@@ -1,11 +1,12 @@
 import WebSQLite from 'react-native-quick-websql';
-// import { createEngine } from '@walless/engine';
+import { createEngine } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
 import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
 
 import { initializeAuth } from './firebase';
+import { qlClient } from './graphql';
 
 export const injectModules = async () => {
 	const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
@@ -15,8 +16,8 @@ export const injectModules = async () => {
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
 
 	await Promise.all([initializeAuth(), configure(modules.storage)]);
-	// modules.engine = await createEngine({ storage, qlClient });
-	// modules.engine.start();
+	modules.engine = await createEngine({ storage, qlClient });
+	modules.engine.start();
 
 	return modules;
 };

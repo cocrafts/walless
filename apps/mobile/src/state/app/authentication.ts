@@ -58,15 +58,11 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 
 	key.serviceProvider.postboxKey = loginDetails.privateKey as never;
 	await key.initialize();
-	console.log(getSharesStatus);
 	const status = await getSharesStatus();
 
 	if (status === ThresholdResult.Initializing) {
-		console.log('initializing account (first time)');
 		const registeredAccount = await initAndRegisterWallet();
-		console.log('here', registeredAccount);
 		if (registeredAccount?.identifier) {
-			console.log('navigate to create passcode');
 			navigate('CreatePasscode');
 		} else {
 			// showError('Something went wrong');
@@ -91,10 +87,8 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 			navigate('Recovery');
 		} else {
 			navigate('DeprecatedPasscode');
-			console.log('using deprecated passcode');
 		}
 	} else if (status === ThresholdResult.Ready) {
-		console.log('ready to continue');
 		await setProfile(makeProfile({ user } as never));
 		navigate('Dashboard');
 	}

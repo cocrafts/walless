@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { themeState } from '@walless/gui';
 
+import CreatePasscodeScreen from '../screens/CreatePasscode';
+import DashboardScreen from '../screens/Dashboard';
 import InvitationScreen from '../screens/Invitation';
 import LoginScreen from '../screens/Login';
 import SplashScreen from '../screens/Splash';
@@ -31,6 +33,16 @@ export const AppStack: FC = () => {
 				<Stack.Screen
 					name="Login"
 					component={LoginScreen}
+					options={screenOptions.bottomFade}
+				/>
+				<Stack.Screen
+					name="CreatePasscode"
+					component={CreatePasscodeScreen}
+					options={screenOptions.bottomFade}
+				/>
+				<Stack.Screen
+					name="Dashboard"
+					component={DashboardScreen}
 					options={screenOptions.bottomFade}
 				/>
 			</Stack.Navigator>

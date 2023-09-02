@@ -7,9 +7,15 @@ import CustomAuth from '@toruslabs/customauth-react-native-sdk';
 import { appState } from '@walless/app';
 import {
 	getSharesStatus,
+	initAndRegisterWallet,
+	initBySeedPhraseModule,
+	makeProfile,
 	NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE,
+	setProfile,
 	ThresholdResult,
 } from '@walless/auth';
+import { modules } from '@walless/ioc';
+import { navigate } from 'utils/navigation';
 import { customAuthArgs, key } from 'utils/w3a';
 
 GoogleSignin.configure({
@@ -58,13 +64,16 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 
 	if (status === ThresholdResult.Initializing) {
 		console.log('initializing account (first time)');
-		// const registeredAccount = await initAndRegisterWallet();
-		// if (registeredAccount?.identifier) {
-		// 	// router.navigate('/create-passcode');
-		// } else {
-		// 	// showError('Something went wrong');
-		// 	console.log('something went wrong');
-		// }
+		const registeredAccount = await initAndRegisterWallet();
+		console.log('here', registeredAccount);
+		if (registeredAccount?.identifier) {
+			// router.navigate('/create-passcode');
+			console.log('navigate to create passcode');
+			navigate('CreatePasscode');
+		} else {
+			// showError('Something went wrong');
+			console.log('something went wrong');
+		}
 	} else if (status === ThresholdResult.Missing) {
 		let isLegacyAccount = false;
 		try {
@@ -92,4 +101,20 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 		// await setProfile(makeProfile({ user } as never));
 		// await router.navigate('/');
 	}
+};
+
+export const initLocalDeviceByPasscodeAndSync = async (
+	passcode: string,
+): Promise<void> => {
+	await key.reconstructKey();
+
+	if (auth().currentUser) {
+		await setProfile(makeProfile({ user: auth().currentUser } as never));
+	}
+
+	// await initByPrivateKeyModule(passcode);
+	await initBySeedPhraseModule(passcode);
+	// await key.syncLocalMetadataTransitions();
+
+	modules.engine.start();
 };

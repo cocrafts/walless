@@ -39,8 +39,20 @@ export const widgetAction = {
 };
 
 export const authAction = {
+	getLoginMessage: async (pubkey: string) => {
+		try {
+			const data = await qlClient.request<{ loginMessage: string }>(
+				queries.loginMessage,
+				{ pubkey },
+			);
+			return data.loginMessage;
+		} catch (error) {
+			console.error(error);
+		}
+	},
 	handleSignIn: async (pubkey: string, signedMessage: Uint8Array) => {
 		console.log('--> handleSignIn', { pubkey, signedMessage });
+		// TODO: verify signed message in gotenks
 		appState.auth.authenticated = true;
 	},
 	handleSignOut: async () => {

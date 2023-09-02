@@ -1,5 +1,11 @@
 import { gql } from 'graphql-request';
 
+export const loginMessage = gql`
+	query LoginMessage($pubkey: String!) {
+		loginMessage(pubkey: $pubkey)
+	}
+`;
+
 export const allWidgets = gql`
 	query Widgets {
 		widgets {

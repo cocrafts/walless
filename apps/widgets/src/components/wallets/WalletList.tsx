@@ -34,8 +34,12 @@ export const WalletList = () => {
 	const handleConnectAndSignIn = async () => {
 		if (!wallet || !wallet.adapter.publicKey || !signMessage) return;
 		try {
-			const message: Uint8Array = new TextEncoder().encode('Hello world');
-			const signature = await signMessage(message);
+			const message = await authAction.getLoginMessage(
+				wallet.adapter.publicKey.toBase58(),
+			);
+			if (!message) return;
+			const messageInBytes = new TextEncoder().encode(message);
+			const signature = await signMessage(messageInBytes);
 			authAction.handleSignIn(wallet.adapter.publicKey.toBase58(), signature);
 			widgetAction.fetchWidgets();
 		} catch (error) {

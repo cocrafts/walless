@@ -18,6 +18,7 @@ export type Scalars = {
   JSON: { input: any; output: any; }
   MongoDateTime: { input: any; output: any; }
   ObjectID: { input: any; output: any; }
+  Uint32: { input: any; output: any; }
 };
 
 export type Account = {
@@ -35,6 +36,13 @@ export type JoinWaitlistResult = {
   description?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   twitter?: Maybe<Scalars['String']['output']>;
+};
+
+export type Nonce = {
+  __typename?: 'Nonce';
+  identifier: Scalars['String']['output'];
+  timestamp: Scalars['MongoDateTime']['output'];
+  value: Scalars['Uint32']['output'];
 };
 
 export type RootMutation = {
@@ -112,6 +120,9 @@ export type RootQuery = {
   __typename?: 'RootQuery';
   counter?: Maybe<Scalars['Int']['output']>;
   greeting?: Maybe<Scalars['String']['output']>;
+  loginMessage?: Maybe<Scalars['String']['output']>;
+  nonce?: Maybe<Nonce>;
+  nonces?: Maybe<Array<Maybe<Nonce>>>;
   systemInfo?: Maybe<SystemInfo>;
   token?: Maybe<TokenInfo>;
   tokenByAddress?: Maybe<TokenInfo>;
@@ -124,6 +135,16 @@ export type RootQuery = {
   widgetAccounts?: Maybe<Array<Maybe<WidgetAccount>>>;
   widgets?: Maybe<Array<Maybe<Widget>>>;
   widgetsByStatus?: Maybe<Array<Maybe<Widget>>>;
+};
+
+
+export type RootQueryLoginMessageArgs = {
+  pubkey: Scalars['String']['input'];
+};
+
+
+export type RootQueryNonceArgs = {
+  identifier: Scalars['String']['input'];
 };
 
 
@@ -320,6 +341,7 @@ export type ResolversTypes = {
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   JoinWaitlistResult: ResolverTypeWrapper<JoinWaitlistResult>;
   MongoDateTime: ResolverTypeWrapper<Scalars['MongoDateTime']['output']>;
+  Nonce: ResolverTypeWrapper<Nonce>;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']['output']>;
   RootMutation: ResolverTypeWrapper<{}>;
   RootQuery: ResolverTypeWrapper<{}>;
@@ -328,6 +350,7 @@ export type ResolversTypes = {
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
   Token: ResolverTypeWrapper<Token>;
   TokenInfo: ResolverTypeWrapper<TokenInfo>;
+  Uint32: ResolverTypeWrapper<Scalars['Uint32']['output']>;
   WalletInvitation: ResolverTypeWrapper<WalletInvitation>;
   Widget: ResolverTypeWrapper<Widget>;
   WidgetAccount: ResolverTypeWrapper<WidgetAccount>;
@@ -344,6 +367,7 @@ export type ResolversParentTypes = {
   JSON: Scalars['JSON']['output'];
   JoinWaitlistResult: JoinWaitlistResult;
   MongoDateTime: Scalars['MongoDateTime']['output'];
+  Nonce: Nonce;
   ObjectID: Scalars['ObjectID']['output'];
   RootMutation: {};
   RootQuery: {};
@@ -352,6 +376,7 @@ export type ResolversParentTypes = {
   SystemInfo: SystemInfo;
   Token: Token;
   TokenInfo: TokenInfo;
+  Uint32: Scalars['Uint32']['output'];
   WalletInvitation: WalletInvitation;
   Widget: Widget;
   WidgetAccount: WidgetAccount;
@@ -387,12 +412,19 @@ export interface MongoDateTimeScalarConfig extends GraphQLScalarTypeConfig<Resol
   name: 'MongoDateTime';
 }
 
+export type NonceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Nonce'] = ResolversParentTypes['Nonce']> = {
+  identifier?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['MongoDateTime'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['Uint32'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ObjectID'], any> {
   name: 'ObjectID';
 }
 
 export type RootMutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootMutation'] = ResolversParentTypes['RootMutation']> = {
-  addWidget?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationAddWidgetArgs, 'banner' | 'description' | 'largeLogo' | 'logo' | 'name' | 'networks' | 'userId'>>;
+  addWidget?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationAddWidgetArgs, 'description' | 'name' | 'networks' | 'userId'>>;
   claimWalletInvitation?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationClaimWalletInvitationArgs, 'code' | 'email'>>;
   deleteWidget?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetArgs, 'id'>>;
   deleteWidgetAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetAccountArgs, 'id'>>;
@@ -406,6 +438,9 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
 export type RootQueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootQuery'] = ResolversParentTypes['RootQuery']> = {
   counter?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   greeting?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  loginMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<RootQueryLoginMessageArgs, 'pubkey'>>;
+  nonce?: Resolver<Maybe<ResolversTypes['Nonce']>, ParentType, ContextType, RequireFields<RootQueryNonceArgs, 'identifier'>>;
+  nonces?: Resolver<Maybe<Array<Maybe<ResolversTypes['Nonce']>>>, ParentType, ContextType>;
   systemInfo?: Resolver<Maybe<ResolversTypes['SystemInfo']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenArgs, 'id'>>;
   tokenByAddress?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenByAddressArgs, 'address'>>;
@@ -448,6 +483,10 @@ export type TokenInfoResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export interface Uint32ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Uint32'], any> {
+  name: 'Uint32';
+}
+
 export type WalletInvitationResolvers<ContextType = any, ParentType extends ResolversParentTypes['WalletInvitation'] = ResolversParentTypes['WalletInvitation']> = {
   code?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -485,6 +524,7 @@ export type Resolvers<ContextType = any> = {
   JSON?: GraphQLScalarType;
   JoinWaitlistResult?: JoinWaitlistResultResolvers<ContextType>;
   MongoDateTime?: GraphQLScalarType;
+  Nonce?: NonceResolvers<ContextType>;
   ObjectID?: GraphQLScalarType;
   RootMutation?: RootMutationResolvers<ContextType>;
   RootQuery?: RootQueryResolvers<ContextType>;
@@ -492,6 +532,7 @@ export type Resolvers<ContextType = any> = {
   SystemInfo?: SystemInfoResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
   TokenInfo?: TokenInfoResolvers<ContextType>;
+  Uint32?: GraphQLScalarType;
   WalletInvitation?: WalletInvitationResolvers<ContextType>;
   Widget?: WidgetResolvers<ContextType>;
   WidgetAccount?: WidgetAccountResolvers<ContextType>;

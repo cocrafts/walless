@@ -1,4 +1,4 @@
-import type { Endpoint } from '@walless/core';
+import type { Endpoint, EndpointMap } from '@walless/core';
 import type { Database } from '@walless/store';
 import type { GraphQLClient } from 'graphql-request';
 
@@ -52,4 +52,13 @@ export const createCrawler = <T>({
 			internal.connection = pool.get(endpoint);
 		},
 	};
+};
+
+const defaultEndpoint: Endpoint = __DEV__ ? 'devnet' : 'mainnet';
+
+export const defaultEndpoints: EndpointMap = {
+	solana: defaultEndpoint,
+	sui: defaultEndpoint,
+	ethereum: defaultEndpoint,
+	tezos: defaultEndpoint,
 };

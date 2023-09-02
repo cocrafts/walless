@@ -2,7 +2,7 @@ import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
 
-import { tokenActions } from '../../state/tokens';
+import { tokenActions } from '../../state/token';
 
 import type { SolanaRunner } from './shared';
 import { getTokenQuotes } from './shared';

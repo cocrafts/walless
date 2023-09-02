@@ -6,10 +6,7 @@ export interface AppState {
 		widgets: Widget[];
 	};
 	auth: {
-		profile: {
-			pubkey: string;
-		};
-		accessToken: string;
+		authenticated: boolean;
 	};
 }
 
@@ -18,9 +15,6 @@ export const appState = proxy<AppState>({
 		widgets: [],
 	},
 	auth: {
-		profile: {
-			pubkey: '',
-		},
-		accessToken: '',
+		authenticated: false,
 	},
 });

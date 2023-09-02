@@ -6,6 +6,11 @@ import { appState } from './internal';
 
 export const widgetAction = {
 	fetchWidgets: async () => {
+		if (!appState.auth.authenticated) {
+			appState.widgetStore.widgets = [];
+			return;
+		}
+
 		try {
 			const data = await qlClient.request<{ widgets: Widget[] }>(
 				queries.allWidgets,
@@ -34,8 +39,12 @@ export const widgetAction = {
 };
 
 export const authAction = {
-	updatePubkey: (pubkey: string) => {
-		appState.auth.profile.pubkey = pubkey;
+	handleSignIn: async (pubkey: string, signedMessage: Uint8Array) => {
+		console.log('--> handleSignIn', { pubkey, signedMessage });
+		appState.auth.authenticated = true;
+	},
+	handleSignOut: async () => {
+		appState.auth.authenticated = false;
 	},
 };
 

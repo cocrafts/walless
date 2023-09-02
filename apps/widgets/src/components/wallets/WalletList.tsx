@@ -1,34 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Button, Text, View } from '@walless/gui';
-import { authAction } from 'state/index';
+import { Button, View } from '@walless/gui';
+import { appState, authAction, widgetAction } from 'state/index';
+import { useSnapshot } from 'valtio';
 
 export const WalletList = () => {
-	const {
-		wallets,
-		select,
-		connecting,
-		connected,
-		wallet,
-		disconnect,
-		publicKey,
-	} = useWallet();
+	const { wallets, select, wallet, signMessage } = useWallet();
+	const { authenticated } = useSnapshot(appState.auth);
 
-	const walletInfo = useMemo(() => {
-		if (connecting) return `Connecting to ${wallet?.adapter.name}`;
-		if (connected) return `Connected to ${wallet?.adapter.name}`;
-		if (wallet) return `Pending on ${wallet?.adapter.name}...`;
-		return 'No wallet selected';
-	}, [connecting, connected, wallet]);
-
-	const [laterRender, setLaterRender] = useState(false);
-
-	useEffect(() => {
-		setLaterRender(true);
-	}, []);
-
-	authAction.updatePubkey(publicKey?.toBase58() ?? '');
+	const connectStatus = useMemo(() => {
+		if (!wallet) return '';
+		if (wallet.adapter.connected) return `Connected to ${wallet.adapter.name}`;
+		return `Connecting to ${wallet.adapter.name}...`;
+	}, [wallet?.adapter.connecting, wallet?.adapter.connected]);
 
 	const getBackground = (walletName: string) => {
 		const unselectedBackground = '#202D38';
@@ -39,37 +24,74 @@ export const WalletList = () => {
 		if (!wallet) return selectableBackground;
 
 		if (walletName === wallet.adapter.name) {
-			if (connected) return connectedBackground;
-			if (connecting) return connectingBackground;
+			if (wallet.adapter.connected) return connectedBackground;
+			return connectingBackground;
 		}
 
 		return unselectedBackground;
 	};
 
+	const handleConnectAndSignIn = async () => {
+		if (!wallet || !wallet.adapter.publicKey || !signMessage) return;
+		try {
+			const message: Uint8Array = new TextEncoder().encode('Hello world');
+			const signature = await signMessage(message);
+			authAction.handleSignIn(wallet.adapter.publicKey.toBase58(), signature);
+			widgetAction.fetchWidgets();
+		} catch (error) {
+			wallet.adapter.disconnect();
+		}
+	};
+
+	const handleDisconnect = () => {
+		wallet?.adapter.disconnect();
+		authAction.handleSignOut();
+		widgetAction.fetchWidgets();
+	};
+
+	useEffect(() => {
+		handleConnectAndSignIn();
+	}, [wallet?.adapter.publicKey]);
+
+	const [laterRender, setLaterRender] = useState(false);
+
+	useEffect(() => {
+		setLaterRender(true);
+	}, []);
+
+	if (!laterRender) return null;
+
 	return (
 		<View style={styles.container}>
-			{laterRender && (
-				<>
-					<View style={styles.walletsContainer}>
-						{wallets.map((walletItem) => (
-							<Button
-								key={walletItem.adapter.name}
-								onPress={() => select(walletItem.adapter.name)}
-								disabled={connected || connecting}
-								title={walletItem.adapter.name}
-								style={{
-									backgroundColor: getBackground(walletItem.adapter.name),
-								}}
-							/>
-						))}
-						<Button
-							onPress={disconnect}
-							disabled={!wallet}
-							title="Disconnect"
-						/>
-					</View>
-					<Text style={styles.walletInfoText}>{walletInfo}</Text>
-				</>
+			{!authenticated &&
+				wallets.map((walletItem) => (
+					<Button
+						key={walletItem.adapter.name}
+						onPress={() => select(walletItem.adapter.name)}
+						disabled={wallet?.adapter.connected || wallet?.adapter.connecting}
+						title={
+							walletItem?.adapter.name === wallet?.adapter.name
+								? connectStatus
+								: walletItem.adapter.name
+						}
+						style={{
+							backgroundColor: getBackground(walletItem.adapter.name),
+						}}
+					/>
+				))}
+
+			{authenticated && (
+				<Button
+					title={'Logout'}
+					style={{
+						backgroundColor: '#F04438',
+					}}
+					onPress={handleDisconnect}
+				/>
+			)}
+
+			{!authenticated && wallet && (
+				<Button onPress={handleDisconnect} title="Disconnect" />
 			)}
 		</View>
 	);
@@ -77,10 +99,6 @@ export const WalletList = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		gap: 32,
-		alignItems: 'center',
-	},
-	walletsContainer: {
 		flexDirection: 'row',
 		gap: 16,
 	},

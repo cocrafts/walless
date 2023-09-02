@@ -58,7 +58,6 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 
 	key.serviceProvider.postboxKey = loginDetails.privateKey as never;
 	await key.initialize();
-	console.log(key.getKeyDetails(), '<-- key details');
 	console.log(getSharesStatus);
 	const status = await getSharesStatus();
 
@@ -74,7 +73,6 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 			console.log('something went wrong');
 		}
 	} else if (status === ThresholdResult.Missing) {
-		console.log('missing here');
 		let isLegacyAccount = false;
 		try {
 			isLegacyAccount =
@@ -90,16 +88,15 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 		const isRecovery = !isLegacyAccount || wasMigrated;
 
 		if (isRecovery) {
-			console.log('is recovery');
 			navigate('Recovery');
 		} else {
-			// router.navigate('/deprecated-passcode');
+			navigate('DeprecatedPasscode');
 			console.log('using deprecated passcode');
 		}
 	} else if (status === ThresholdResult.Ready) {
 		console.log('ready to continue');
-		// await setProfile(makeProfile({ user } as never));
-		// await router.navigate('/');
+		await setProfile(makeProfile({ user } as never));
+		navigate('Dashboard');
 	}
 };
 

@@ -5,6 +5,7 @@ import { themeState } from '@walless/gui';
 
 import CreatePasscodeScreen from '../screens/CreatePasscode';
 import DashboardScreen from '../screens/Dashboard';
+import DeprecatedPasscodeScreen from '../screens/DeprecatedPasscode';
 import InvitationScreen from '../screens/Invitation';
 import LoginScreen from '../screens/Login';
 import RecoveryScreen from '../screens/Recovery';
@@ -34,6 +35,11 @@ export const AppStack: FC = () => {
 				<Stack.Screen
 					name="Login"
 					component={LoginScreen}
+					options={screenOptions.bottomFade}
+				/>
+				<Stack.Screen
+					name="DeprecatedPasscode"
+					component={DeprecatedPasscodeScreen}
 					options={screenOptions.bottomFade}
 				/>
 				<Stack.Screen

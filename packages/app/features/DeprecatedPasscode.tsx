@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
@@ -8,12 +9,16 @@ import {
 } from 'react-native';
 import { PasscodeFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
-import { appActions } from 'state/app';
-import { validateAndRecoverWithPasscode } from 'utils/authentication';
-import { initAndRegisterWallet } from 'utils/authentication';
-import { router } from 'utils/routing';
 
-export const DeprecatedPasscodeScreen = () => {
+interface Props {
+	validatePasscode: (passcode: string) => Promise<boolean>;
+	onSuccess: (passcode: string) => Promise<void>;
+}
+
+export const DeprecatedPasscode: FC<Props> = ({
+	validatePasscode,
+	onSuccess,
+}) => {
 	const [passcode, setPasscode] = useState('');
 	const [passcodeError, setPasscodeError] = useState<string>();
 	const [loading, setLoading] = useState(false);
@@ -24,19 +29,9 @@ export const DeprecatedPasscodeScreen = () => {
 		if (passcodeError && value.length > 0) setPasscodeError(undefined);
 
 		if (isCompleted) {
-			if (await validateAndRecoverWithPasscode(value)) {
+			if (await validatePasscode(passcode)) {
 				setLoading(true);
-				const registerdAccount = await initAndRegisterWallet();
-
-				if (registerdAccount?.identifier) {
-					await appActions.initLocalDeviceByPasscodeAndSync(value);
-					router.navigate('/');
-				} else {
-					setPasscodeError(
-						'Error during migrate account, please contact developer!',
-					);
-				}
-
+				await onSuccess(passcode);
 				setLoading(false);
 			} else {
 				setPasscodeError('Wrong passcode');
@@ -90,9 +85,9 @@ export const DeprecatedPasscodeScreen = () => {
 	);
 };
 
-export default DeprecatedPasscodeScreen;
+export default DeprecatedPasscode;
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 40,

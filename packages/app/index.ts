@@ -7,6 +7,7 @@ export * from './components/TabsHeader';
 export * from './components/TokenList';
 export * from './features/CreatePasscode';
 export * from './features/DashboardLayout';
+export * from './features/DeprecatedPasscode';
 export * from './features/Invitation';
 export * from './features/Login';
 export * from './features/MainFeatures';

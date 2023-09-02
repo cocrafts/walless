@@ -19,6 +19,7 @@ export type RootParamList = {
 	Splash: undefined;
 	Invitation: undefined;
 	Login: undefined;
+	DeprecatedPasscode: undefined;
 	CreatePasscode: undefined;
 	Recovery: undefined;
 	Dashboard: NavigatorScreenParams<DashboardParamList>;

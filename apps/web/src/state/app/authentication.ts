@@ -1,4 +1,3 @@
-import { appState } from '@walless/app';
 import {
 	makeProfile,
 	NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE,
@@ -6,6 +5,7 @@ import {
 	ThresholdResult,
 } from '@walless/auth';
 import { runtime } from '@walless/core';
+import { appState } from '@walless/engine';
 import type { WalletInvitation } from '@walless/graphql';
 import { mutations, queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';

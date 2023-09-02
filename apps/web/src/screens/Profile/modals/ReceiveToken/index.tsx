@@ -1,6 +1,6 @@
 import type { FC } from 'react';
-import { keyState } from '@walless/app';
 import type { Networks } from '@walless/core';
+import { keyState } from '@walless/engine';
 import type { ModalConfigs } from '@walless/gui';
 import { Stack } from '@walless/ui';
 import { getNetworkInfo } from 'utils/helper';

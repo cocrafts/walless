@@ -4,7 +4,6 @@ import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import CustomAuth from '@toruslabs/customauth-react-native-sdk';
-import { appState } from '@walless/app';
 import {
 	getSharesStatus,
 	initAndRegisterWallet,
@@ -14,6 +13,7 @@ import {
 	setProfile,
 	ThresholdResult,
 } from '@walless/auth';
+import { appState } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import { navigate } from 'utils/navigation';
 import { customAuthArgs, key } from 'utils/w3a';

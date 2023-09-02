@@ -1,11 +1,10 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { mockWidgets, widgetState } from '@walless/app';
+import { mockWidgets, widgetState } from '@walless/engine';
 import { modalActions } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import { Stack, Text } from '@walless/ui';
-import { extensionState } from 'state/extension';
 import { router } from 'utils/routing';
 import { useSnapshot } from 'valtio';
 

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { appState } from '@walless/app';
 import { Networks, shortenAddress } from '@walless/core';
+import { appState } from '@walless/engine';
 import type { Transaction } from '@walless/engine/solana/transaction';
 import { Anchor, Text, View } from '@walless/gui';
 import { ArrowDown } from '@walless/icons';

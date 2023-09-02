@@ -2,9 +2,9 @@ import type { Endpoint, EndpointMap, Networks } from '@walless/core';
 import type { Database, EndpointsDocument } from '@walless/store';
 import type { GraphQLClient } from 'graphql-request';
 
+import { solanaEngineRunner, solanaPool } from './network/solana';
 import { createCrawler } from './utils/crawler';
 import type { EngineCrawler } from './utils/type';
-import { solanaEngineRunner, solanaPool } from './sol';
 // import { suiEngineRunner, suiPool } from './sui';
 // import { tezosEngineRunner, tezosPool } from './tezos';
 

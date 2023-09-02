@@ -1,12 +1,8 @@
-import type { PublicKey } from '@solana/web3.js';
-import { Keypair } from '@solana/web3.js';
-import type { TokenInfo } from '@walless/graphql';
-import { queries } from '@walless/graphql';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { chunk, flatten } from 'lodash';
+import { flatten } from 'lodash';
 
-import { tokenActions } from '../state/tokens';
+import { tokenActions } from '../../state/tokens';
 
 import type { SolanaRunner } from './shared';
 import { getTokenQuotes } from './shared';

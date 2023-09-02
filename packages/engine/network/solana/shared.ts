@@ -8,8 +8,8 @@ import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import pThrottle from 'p-throttle';
 
-import { createConnectionPool } from '../utils/pool';
-import type { EngineRunner, RunnerContext } from '../utils/type';
+import { createConnectionPool } from '../../utils/pool';
+import type { EngineRunner, RunnerContext } from '../../utils/type';
 
 export type SolanaRunner = EngineRunner<Connection>;
 export type SolanaContext = RunnerContext<Connection>;

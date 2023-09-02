@@ -1,12 +1,11 @@
 import { CreatePasscode } from '@walless/app';
-import { navigate } from 'utils/navigation';
-
-import { initLocalDeviceByPasscodeAndSync } from '../state/app/authentication';
+import { appActions } from 'state/app';
+import { router } from 'utils/routing';
 
 export const CreatePasscodeScreen = () => {
 	const handleOnComplete = async (passcode: string) => {
-		await initLocalDeviceByPasscodeAndSync(passcode);
-		navigate('Dashboard');
+		await appActions.initLocalDeviceByPasscodeAndSync(passcode);
+		router.navigate('/');
 	};
 
 	return <CreatePasscode onComplete={handleOnComplete} />;

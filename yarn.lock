@@ -12369,6 +12369,7 @@ __metadata:
     "@walless/app": "*"
     "@walless/auth": "*"
     "@walless/core": "*"
+    "@walless/graphql": "*"
     "@walless/gui": "*"
     "@walless/icons": "*"
     "@walless/store": "*"

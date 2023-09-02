@@ -5,6 +5,7 @@ export * from './components/LayoutButton';
 export * from './components/SlideHandler';
 export * from './components/TabsHeader';
 export * from './components/TokenList';
+export * from './features/CreatePasscode';
 export * from './features/DashboardLayout';
 export * from './features/Invitation';
 export * from './features/Login';

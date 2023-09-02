@@ -1,11 +1,14 @@
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
 import { PasscodeFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
-import { appActions } from 'state/app';
-import { router } from 'utils/routing';
 
-export const CreatePasscodeScreen = () => {
+interface Props {
+	onComplete?: (passcode: string) => void;
+}
+
+export const CreatePasscode: FC<Props> = ({ onComplete }) => {
 	const [passcode, setPasscode] = useState('');
 	const [confirmation, setConfirmation] = useState(false);
 	const [passcodeError, setPasscodeError] = useState<string>();
@@ -20,9 +23,8 @@ export const CreatePasscodeScreen = () => {
 		if (passcodeError && value.length > 0) setPasscodeError(undefined);
 
 		setConfirmation(!!isConfirmation);
-		if (isCompleted) {
-			await appActions.initLocalDeviceByPasscodeAndSync(value);
-			router.navigate('/');
+		if (isCompleted && onComplete) {
+			onComplete(value);
 		}
 	};
 
@@ -69,7 +71,7 @@ export const CreatePasscodeScreen = () => {
 	);
 };
 
-export default CreatePasscodeScreen;
+export default CreatePasscode;
 
 export const styles = StyleSheet.create({
 	container: {

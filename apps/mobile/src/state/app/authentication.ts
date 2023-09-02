@@ -4,7 +4,18 @@ import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import CustomAuth from '@toruslabs/customauth-react-native-sdk';
-import { appState, recoverByEmergencyKey } from '@walless/app';
+import { appState } from '@walless/app';
+import {
+	getSharesStatus,
+	initAndRegisterWallet,
+	initBySeedPhraseModule,
+	makeProfile,
+	NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE,
+	setProfile,
+	ThresholdResult,
+} from '@walless/auth';
+import { modules } from '@walless/ioc';
+import { navigate } from 'utils/navigation';
 import { customAuthArgs, key } from 'utils/w3a';
 
 GoogleSignin.configure({
@@ -47,5 +58,54 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 
 	key.serviceProvider.postboxKey = loginDetails.privateKey as never;
 	await key.initialize();
-	console.log(key.getKeyDetails(), '<-- key details');
+	const status = await getSharesStatus();
+
+	if (status === ThresholdResult.Initializing) {
+		const registeredAccount = await initAndRegisterWallet();
+		if (registeredAccount?.identifier) {
+			navigate('CreatePasscode');
+		} else {
+			// showError('Something went wrong');
+			console.log('something went wrong');
+		}
+	} else if (status === ThresholdResult.Missing) {
+		let isLegacyAccount = false;
+		try {
+			isLegacyAccount =
+				key.modules.securityQuestions.getSecurityQuestions() ===
+				'universal-passcode';
+		} catch (e) {
+			console.log(e);
+		}
+
+		const wasMigrated =
+			key.getKeyDetails().totalShares >
+			NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE;
+		const isRecovery = !isLegacyAccount || wasMigrated;
+
+		if (isRecovery) {
+			navigate('Recovery');
+		} else {
+			navigate('DeprecatedPasscode');
+		}
+	} else if (status === ThresholdResult.Ready) {
+		await setProfile(makeProfile({ user } as never));
+		navigate('Dashboard');
+	}
+};
+
+export const initLocalDeviceByPasscodeAndSync = async (
+	passcode: string,
+): Promise<void> => {
+	await key.reconstructKey();
+
+	if (auth().currentUser) {
+		await setProfile(makeProfile({ user: auth().currentUser } as never));
+	}
+
+	// await initByPrivateKeyModule(passcode);
+	await initBySeedPhraseModule(passcode);
+	// await key.syncLocalMetadataTransitions();
+
+	modules.engine.start();
 };

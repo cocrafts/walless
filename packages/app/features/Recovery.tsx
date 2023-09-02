@@ -1,26 +1,17 @@
+import type { FC } from 'react';
 import { useRef } from 'react';
 import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Input, Text, View } from '@walless/gui';
-import { recoverByEmergencyKey } from 'utils/authentication';
-import { router } from 'utils/routing';
-import { showError } from 'utils/showError';
 
-export const RecoveryScreen = () => {
+interface Props {
+	onPressContinue: (key?: string) => void;
+}
+
+export const Recovery: FC<Props> = ({ onPressContinue }) => {
 	const recoveryKey = useRef<string>();
 
 	const handleChangeText = (text: string) => {
 		recoveryKey.current = text;
-	};
-
-	const handlePressContinue = async () => {
-		if (
-			recoveryKey.current &&
-			(await recoverByEmergencyKey(recoveryKey.current))
-		) {
-			router.navigate('/create-passcode');
-		} else {
-			showError('Wrong recovery key');
-		}
 	};
 
 	const onLinkPress = async () => {
@@ -43,7 +34,9 @@ export const RecoveryScreen = () => {
 				<Button
 					titleStyle={styles.continueButtonTitle}
 					title="Continue"
-					onPress={handlePressContinue}
+					onPress={() => {
+						onPressContinue && onPressContinue(recoveryKey.current);
+					}}
 				/>
 			</View>
 
@@ -61,9 +54,9 @@ export const RecoveryScreen = () => {
 	);
 };
 
-export default RecoveryScreen;
+export default Recovery;
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 40,

@@ -1,37 +1,35 @@
-import type ThresholdKey from '@tkey/default';
-import type { Config, UserProfile } from '@walless/core';
+import type { Account } from '@walless/graphql';
+import { mutations } from '@walless/graphql';
 import BN from 'bn.js';
-import type { UserCredential } from 'firebase/auth';
 
-export const makeProfile = ({ user }: UserCredential): UserProfile => {
-	return {
-		id: user.uid,
-		email: user.email as never,
-		name: user.displayName as never,
-		profileImage: user.photoURL as never,
-	};
+import { injectedModules } from './ioc';
+
+export const initAndRegisterWallet = async (): Promise<Account | undefined> => {
+	try {
+		await injectedModules.key.reconstructKey();
+		const newShare = await injectedModules.key.generateNewShare();
+		const keyIndex = newShare.newShareIndex.toString('hex');
+		const recoveryBN = newShare.newShareStores[keyIndex].share.share;
+		const readableKey = toReadableString(recoveryBN);
+		const { registerAccount: account } = await injectedModules.qlClient.request<
+			{ registerAccount: Account },
+			{ key: string }
+		>(mutations.registerAccount, {
+			key: readableKey,
+		});
+
+		return account;
+	} catch (e) {
+		console.log(e);
+	}
 };
 
-export enum ThresholdResult {
-	Initializing = 'initializing',
-	Ready = 'ready',
-	Missing = 'missing',
-}
-
-export interface BootstrapResult {
-	profile?: UserProfile;
-	config?: Config;
-}
-
-export const recoverByEmergencyKey = async (
-	key: ThresholdKey,
-	readableKey: string,
-) => {
+export const recoverByEmergencyKey = async (readableKey: string) => {
 	try {
 		const recoveryBN = fromReadableString(readableKey);
 
-		await key.inputShare(recoveryBN);
-		await key.reconstructKey();
+		await injectedModules.key.inputShare(recoveryBN);
+		await injectedModules.key.reconstructKey();
 
 		return true;
 	} catch (e) {

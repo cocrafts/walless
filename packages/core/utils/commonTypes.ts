@@ -25,6 +25,9 @@ export interface UniversalRuntime {
 	isServer: boolean;
 	isBrowser: boolean;
 	isExtension: boolean;
+	isIOS: boolean;
+	isAndroid: boolean;
+	isMobile: boolean;
 	onConnect: chrome.runtime.ExtensionConnectEvent;
 	onMessage: chrome.runtime.ExtensionMessageEvent;
 	connect: (connectInfo?: chrome.runtime.ConnectInfo) => chrome.runtime.Port;

@@ -3,8 +3,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { themeState } from '@walless/gui';
 
+import CreatePasscodeScreen from '../screens/CreatePasscode';
+import DashboardScreen from '../screens/Dashboard';
+import DeprecatedPasscodeScreen from '../screens/DeprecatedPasscode';
 import InvitationScreen from '../screens/Invitation';
 import LoginScreen from '../screens/Login';
+import RecoveryScreen from '../screens/Recovery';
 import SplashScreen from '../screens/Splash';
 import { useSnapshot } from '../utils/hooks';
 import type { RootParamList } from '../utils/navigation';
@@ -31,6 +35,26 @@ export const AppStack: FC = () => {
 				<Stack.Screen
 					name="Login"
 					component={LoginScreen}
+					options={screenOptions.bottomFade}
+				/>
+				<Stack.Screen
+					name="DeprecatedPasscode"
+					component={DeprecatedPasscodeScreen}
+					options={screenOptions.bottomFade}
+				/>
+				<Stack.Screen
+					name="CreatePasscode"
+					component={CreatePasscodeScreen}
+					options={screenOptions.bottomFade}
+				/>
+				<Stack.Screen
+					name="Recovery"
+					component={RecoveryScreen}
+					options={screenOptions.bottomFade}
+				/>
+				<Stack.Screen
+					name="Dashboard"
+					component={DashboardScreen}
 					options={screenOptions.bottomFade}
 				/>
 			</Stack.Navigator>

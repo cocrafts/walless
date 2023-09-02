@@ -1,7 +1,6 @@
 import Config from 'react-native-config';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import type { ISeedPhraseFormat, ModuleMap } from '@tkey/common-types';
-import { generateID } from '@tkey/common-types';
 import ThresholdKey from '@tkey/default';
 import { ReactNativeStorageModule } from '@tkey/react-native-storage';
 import SecurityQuestionsModule from '@tkey/security-questions';
@@ -9,6 +8,7 @@ import { SeedPhraseModule } from '@tkey/seed-phrase';
 import { ShareSerializationModule } from '@tkey/share-serialization';
 import { ShareTransferModule } from '@tkey/share-transfer';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
+import { type TypedThresholdKey, wallessSeedPhraseFormat } from '@walless/auth';
 
 export const customAuthArgs: CustomAuthArgs = {
 	web3AuthClientId: Config.WEB3AUTH_ID as string,
@@ -18,23 +18,6 @@ export const customAuthArgs: CustomAuthArgs = {
 	redirectPathName: 'w3a',
 	enableLogging: false,
 	popupFeatures: 'width=380,height=600',
-};
-
-export enum SeedPhraseFormatType {
-	PRIMARY = 'primary-seed-phrase',
-}
-
-const wallessSeedPhraseFormat: Partial<ISeedPhraseFormat> = {
-	type: SeedPhraseFormatType.PRIMARY,
-	validateSeedPhrase: () => true,
-	createSeedPhraseStore: async (seedPhrase) => {
-		if (!seedPhrase) throw Error('seed phrase can not be empty');
-		return {
-			id: generateID(),
-			type: SeedPhraseFormatType.PRIMARY,
-			seedPhrase: seedPhrase,
-		};
-	},
 };
 
 const shareTransferModule = new ShareTransferModule();
@@ -58,4 +41,4 @@ export const key = new ThresholdKey({
 	customAuthArgs,
 	manualSync: true,
 	enableLogging: false,
-});
+}) as TypedThresholdKey;

@@ -1,0 +1,6 @@
+{
+    "extends": "@walless/tsconfig/react-native-library.json",
+    "compilerOptions": {
+        "module": "ESNext",
+    }
+}

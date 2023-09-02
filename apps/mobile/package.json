@@ -19,14 +19,11 @@
     "@react-native-google-signin/google-signin": "^9.0.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
-    "@tkey/react-native-storage": "^11.0.0",
-    "@tkey/seed-phrase": "^11.0.2",
-    "@tkey/service-provider-sfa": "^10.1.1",
-    "@tkey/share-serialization": "^11.0.2",
-    "@tkey/share-transfer": "^11.0.2",
     "@toruslabs/customauth-react-native-sdk": "^4.0.1",
     "@walless/app": "*",
+    "@walless/auth": "*",
     "@walless/core": "*",
+    "@walless/graphql": "*",
     "@walless/gui": "*",
     "@walless/icons": "*",
     "@walless/store": "*",
@@ -46,7 +43,7 @@
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-get-random-values": "^1.9.0",
-    "react-native-quick-base64": "^2.0.5",
+    "react-native-quick-base64": "^2.0.7",
     "react-native-quick-crypto": "^0.6.1",
     "react-native-quick-sqlite": "^8.0.2",
     "react-native-quick-websql": "^0.3.0",
@@ -64,6 +61,10 @@
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "eslint": "8.38.0",
     "react-test-renderer": "18.2.0"
+  },
+  "peerDependencies": {
+    "@tkey/react-native-storage": "^11.0.0",
+    "@tkey/seed-phrase": "^11.0.2"
   },
   "jest": {
     "preset": "react-native"

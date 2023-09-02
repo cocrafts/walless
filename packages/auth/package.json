@@ -15,7 +15,7 @@
     "@tkey/private-keys": "9.0.0",
     "@tkey/react-native-storage": "^11.0.0",
     "@tkey/security-questions": "9.0.0",
-    "@tkey/seed-phrase": "^8.1.0-alpha.0",
+    "@tkey/seed-phrase": "^11.0.2",
     "@tkey/web-storage": "9.0.0"
   }
 }

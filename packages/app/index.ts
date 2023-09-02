@@ -19,6 +19,7 @@ export * from './features/Send';
 export * from './features/Splash';
 export * from './modals/NotificationModal';
 export * from './state/app';
+export * from './state/collectible';
 export * from './state/key';
 export * from './state/live';
 export * from './state/token';

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { appState } from '@walless/app';
 import { Networks, shortenAddress } from '@walless/core';

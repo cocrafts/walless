@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import type { Transaction } from '@walless/engine/solana/transaction';

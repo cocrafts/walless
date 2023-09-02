@@ -1,5 +1,5 @@
-import { defaultRemoteConfig } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
+import { defaultRemoteConfig } from '@walless/engine';
 import type { FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';

@@ -1,12 +1,12 @@
 import auth from '@react-native-firebase/auth';
 import remoteConfig from '@react-native-firebase/remote-config';
-import { defaultConfig } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
+import { defaultRemoteConfig } from '@walless/engine';
 
 const minimumFetchIntervalMillis = __DEV__
 	? 10000 // 10 seconds for development
 	: 3600000; // 1 hour for prod
-remoteConfig().setDefaults(defaultConfig as never);
+remoteConfig().setDefaults(defaultRemoteConfig as never);
 remoteConfig().setConfigSettings({ minimumFetchIntervalMillis });
 
 export const loadRemoteConfig = (): RemoteConfig => {

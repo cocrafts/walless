@@ -20,7 +20,8 @@
     "@walless/graphql": "*",
     "@walless/network": "*",
     "@walless/store": "*",
-    "p-limit": "4.0.0",
+    "p-limit": "^4.0.0",
+    "p-throttle": "^5.1.0",
     "valtio": "1.10.5"
   },
   "devDependencies": {

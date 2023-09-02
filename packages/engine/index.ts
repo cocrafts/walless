@@ -5,7 +5,6 @@ import type { GraphQLClient } from 'graphql-request';
 import { createCrawler } from './utils/crawler';
 import type { EngineCrawler } from './utils/type';
 import { solanaEngineRunner, solanaPool } from './sol';
-// import { solanaEngineRunner, solanaPool } from './solana';
 // import { suiEngineRunner, suiPool } from './sui';
 // import { tezosEngineRunner, tezosPool } from './tezos';
 

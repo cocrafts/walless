@@ -4,6 +4,8 @@ import type {
 	PublicKey,
 } from '@solana/web3.js';
 import { clusterApiUrl, Connection } from '@solana/web3.js';
+import type { TokenInfo } from '@walless/graphql';
+import { queries } from '@walless/graphql';
 import pThrottle from 'p-throttle';
 
 import { createConnectionPool } from '../utils/pool';
@@ -32,4 +34,21 @@ export const throttle = pThrottle({ limit: 4, interval: 1000 });
 
 export const tokenFilter = ({ account }: ParsedAccount) => {
 	return account.data.parsed.info.tokenAmount.decimals > 0;
+};
+
+export const getTokenQuotes = async (
+	{ qlClient }: SolanaContext,
+	addresses: string[],
+): Promise<Record<string, TokenInfo>> => {
+	const result: Record<string, TokenInfo> = {};
+	const response = await qlClient.request<
+		{ tokensByAddress: TokenInfo[] },
+		{ addresses: string[] }
+	>(queries.tokensByAddress, { addresses });
+
+	for (const item of response.tokensByAddress || []) {
+		result[item.address as string] = item;
+	}
+
+	return result;
 };

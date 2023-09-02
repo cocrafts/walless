@@ -16,6 +16,7 @@
     "@tkey/react-native-storage": "^11.0.0",
     "@tkey/security-questions": "9.0.0",
     "@tkey/seed-phrase": "^11.0.2",
-    "@tkey/web-storage": "9.0.0"
+    "@tkey/web-storage": "9.0.0",
+    "react-native-encrypted-storage": "^4.0.3"
   }
 }

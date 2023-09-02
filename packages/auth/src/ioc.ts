@@ -7,10 +7,4 @@ export interface DynamicAuthModules {
 	qlClient: GraphQLClient;
 }
 
-export interface DynamicAuthConfig {
-	w3aId: string;
-	w3aBaseUrl: string;
-}
-
 export const injectedModules = {} as DynamicAuthModules;
-export const injectedConfig = {} as DynamicAuthConfig;

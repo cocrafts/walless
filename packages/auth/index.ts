@@ -17,7 +17,11 @@ export const validateInvitationCode = async (code: string): Promise<string> => {
 	}
 };
 
+export const NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE = 3;
+
+export { injectedModules as authModules } from './src/ioc';
 export * from './src/keys';
 export * from './src/passcode';
 export * from './src/recovery';
 export * from './src/store';
+export * from './src/w3a';

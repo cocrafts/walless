@@ -346,7 +346,7 @@ PODS:
     - React-Core
   - react-native-get-random-values (1.9.0):
     - React-Core
-  - react-native-quick-base64 (2.0.5):
+  - react-native-quick-base64 (2.0.7):
     - React-Core
   - react-native-quick-crypto (0.6.1):
     - OpenSSL-Universal
@@ -744,7 +744,7 @@ SPEC CHECKSUMS:
   react-native-config: 5330c8258265c1e5fdb8c009d2cabd6badd96727
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-get-random-values: dee677497c6a740b71e5612e8dbd83e7539ed5bb
-  react-native-quick-base64: e657e9197e61b60a9dec49807843052b830da254
+  react-native-quick-base64: a5dbe4528f1453e662fcf7351029500b8b63e7bb
   react-native-quick-crypto: 455c1b411db006dba1026a30681ececb19180187
   react-native-quick-sqlite: 2b225dadc63b670f027111e58f6f169773f6d755
   react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4

@@ -46,7 +46,7 @@
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-get-random-values": "^1.9.0",
-    "react-native-quick-base64": "^2.0.5",
+    "react-native-quick-base64": "^2.0.7",
     "react-native-quick-crypto": "^0.6.1",
     "react-native-quick-sqlite": "^8.0.2",
     "react-native-quick-websql": "^0.3.0",

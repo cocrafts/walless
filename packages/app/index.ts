@@ -18,4 +18,3 @@ export * from './modals/NotificationModal';
 export * from './state/app';
 export * from './state/live';
 export * from './state/widget';
-export * from './utils/authentication';

@@ -16,7 +16,7 @@ import type { TorusServiceProvider } from '@tkey/service-provider-torus';
 import type { WebStorageModule } from '@tkey/web-storage';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
 import CustomAuth from '@toruslabs/customauth';
-import { ThresholdResult } from '@walless/app';
+import { ThresholdResult } from '@walless/auth';
 import { runtime } from '@walless/core';
 import { w3aBaseUrl } from 'utils/config';
 

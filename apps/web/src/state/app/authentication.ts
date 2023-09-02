@@ -1,4 +1,10 @@
-import { appState, makeProfile, ThresholdResult } from '@walless/app';
+import { appState } from '@walless/app';
+import {
+	makeProfile,
+	NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE,
+	setProfile,
+	ThresholdResult,
+} from '@walless/auth';
 import { runtime } from '@walless/core';
 import type { WalletInvitation } from '@walless/graphql';
 import { mutations, queries } from '@walless/graphql';
@@ -12,15 +18,12 @@ import {
 import {
 	initAndRegisterWallet,
 	initBySeedPhraseModule,
-	setProfile,
 } from 'utils/authentication';
 import { auth, googleProvider } from 'utils/firebase';
 import { qlClient } from 'utils/graphql';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';
 import { customAuth, importAvailableShares, key } from 'utils/w3a';
-
-const NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE = 3;
 
 export const signInWithGoogle = async (invitationCode?: string) => {
 	try {

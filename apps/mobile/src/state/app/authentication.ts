@@ -4,7 +4,12 @@ import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import CustomAuth from '@toruslabs/customauth-react-native-sdk';
-import { appState, recoverByEmergencyKey } from '@walless/app';
+import { appState } from '@walless/app';
+import {
+	getSharesStatus,
+	NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE,
+	ThresholdResult,
+} from '@walless/auth';
 import { customAuthArgs, key } from 'utils/w3a';
 
 GoogleSignin.configure({
@@ -48,4 +53,43 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 	key.serviceProvider.postboxKey = loginDetails.privateKey as never;
 	await key.initialize();
 	console.log(key.getKeyDetails(), '<-- key details');
+	console.log(getSharesStatus);
+	const status = await getSharesStatus();
+
+	if (status === ThresholdResult.Initializing) {
+		console.log('initializing account (first time)');
+		// const registeredAccount = await initAndRegisterWallet();
+		// if (registeredAccount?.identifier) {
+		// 	// router.navigate('/create-passcode');
+		// } else {
+		// 	// showError('Something went wrong');
+		// 	console.log('something went wrong');
+		// }
+	} else if (status === ThresholdResult.Missing) {
+		let isLegacyAccount = false;
+		try {
+			isLegacyAccount =
+				key.modules.securityQuestions.getSecurityQuestions() ===
+				'universal-passcode';
+		} catch (e) {
+			console.log(e);
+		}
+
+		const wasMigrated =
+			key.getKeyDetails().totalShares >
+			NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE;
+		const isRecovery = !isLegacyAccount || wasMigrated;
+
+		if (isRecovery) {
+			console.log('need to recovery');
+			// router.navigate('/recovery');
+		} else {
+			// router.navigate('/deprecated-passcode');
+			console.log('using deprecated passcode');
+		}
+	} else if (status === ThresholdResult.Ready) {
+		console.log('ready to continue');
+		// await setProfile(makeProfile({ user } as never));
+		// await router.navigate('/');
+	}
 };

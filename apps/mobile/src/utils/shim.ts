@@ -1,8 +1,10 @@
+import { Buffer } from 'react-native-buffer';
 import { shim } from 'react-native-quick-base64';
 
 import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
 
+global.Buffer = Buffer as never;
 shim();
 
 /* Avoid using node dependent modules */

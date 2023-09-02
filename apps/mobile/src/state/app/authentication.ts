@@ -67,7 +67,6 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 		const registeredAccount = await initAndRegisterWallet();
 		console.log('here', registeredAccount);
 		if (registeredAccount?.identifier) {
-			// router.navigate('/create-passcode');
 			console.log('navigate to create passcode');
 			navigate('CreatePasscode');
 		} else {
@@ -75,6 +74,7 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 			console.log('something went wrong');
 		}
 	} else if (status === ThresholdResult.Missing) {
+		console.log('missing here');
 		let isLegacyAccount = false;
 		try {
 			isLegacyAccount =
@@ -90,8 +90,8 @@ const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
 		const isRecovery = !isLegacyAccount || wasMigrated;
 
 		if (isRecovery) {
-			console.log('need to recovery');
-			// router.navigate('/recovery');
+			console.log('is recovery');
+			navigate('Recovery');
 		} else {
 			// router.navigate('/deprecated-passcode');
 			console.log('using deprecated passcode');

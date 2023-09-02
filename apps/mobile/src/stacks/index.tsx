@@ -7,6 +7,7 @@ import CreatePasscodeScreen from '../screens/CreatePasscode';
 import DashboardScreen from '../screens/Dashboard';
 import InvitationScreen from '../screens/Invitation';
 import LoginScreen from '../screens/Login';
+import RecoveryScreen from '../screens/Recovery';
 import SplashScreen from '../screens/Splash';
 import { useSnapshot } from '../utils/hooks';
 import type { RootParamList } from '../utils/navigation';
@@ -38,6 +39,11 @@ export const AppStack: FC = () => {
 				<Stack.Screen
 					name="CreatePasscode"
 					component={CreatePasscodeScreen}
+					options={screenOptions.bottomFade}
+				/>
+				<Stack.Screen
+					name="Recovery"
+					component={RecoveryScreen}
 					options={screenOptions.bottomFade}
 				/>
 				<Stack.Screen

@@ -13,6 +13,7 @@ export * from './features/MainFeatures';
 export * from './features/NetworkLayout';
 export * from './features/Passcode';
 export * from './features/Password';
+export * from './features/Recovery';
 export * from './features/Send';
 export * from './features/Splash';
 export * from './modals/NotificationModal';

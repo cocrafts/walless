@@ -20,6 +20,7 @@ export type RootParamList = {
 	Invitation: undefined;
 	Login: undefined;
 	CreatePasscode: undefined;
+	Recovery: undefined;
 	Dashboard: NavigatorScreenParams<DashboardParamList>;
 };
 

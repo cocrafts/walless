@@ -1,11 +1,32 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Text, View } from '@walless/gui';
+import { Button, Text, View } from '@walless/gui';
+import { navigate } from 'utils/navigation';
 
 export const DashboardScreen: FC = () => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Dashboard</Text>
+			<View style={styles.buttonContainer}>
+				<Button
+					onPress={() => {
+						navigate('Login');
+					}}
+					title="Login"
+				/>
+				<Button
+					onPress={() => {
+						navigate('CreatePasscode');
+					}}
+					title="Create Passcode"
+				/>
+				<Button
+					onPress={() => {
+						navigate('Recovery');
+					}}
+					title="Recovery"
+				/>
+			</View>
 		</View>
 	);
 };
@@ -21,5 +42,8 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: 50,
 		fontWeight: '500',
+	},
+	buttonContainer: {
+		gap: 10,
 	},
 });

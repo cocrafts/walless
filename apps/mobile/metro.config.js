@@ -10,12 +10,14 @@ const monoPackages = {
 	'@walless/core': resolve(workspaceRoot, 'packages/core'),
 	'@walless/gui': resolve(workspaceRoot, 'packages/gui'),
 	'@walless/app': resolve(workspaceRoot, 'packages/app'),
+	'@walless/auth': resolve(workspaceRoot, 'packages/auth'),
 	'@walless/icons': resolve(workspaceRoot, 'packages/icons'),
 	'@walless/store': resolve(workspaceRoot, 'packages/store'),
 	'@walless/crypto': resolve(workspaceRoot, 'packages/crypto'),
 	'@walless/messaging': resolve(workspaceRoot, 'packages/messaging'),
 	'@walless/network': resolve(workspaceRoot, 'packages/network'),
 	'@walless/engine': resolve(workspaceRoot, 'packages/engine'),
+	'@walless/graphql': resolve(workspaceRoot, 'packages/graphql'),
 };
 
 module.exports = {

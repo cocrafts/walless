@@ -16,6 +16,12 @@ export const DashboardScreen: FC = () => {
 				/>
 				<Button
 					onPress={() => {
+						navigate('DeprecatedPasscode');
+					}}
+					title="Deprecated Passcode"
+				/>
+				<Button
+					onPress={() => {
 						navigate('CreatePasscode');
 					}}
 					title="Create Passcode"
@@ -44,6 +50,7 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 	},
 	buttonContainer: {
+		marginTop: 20,
 		gap: 10,
 	},
 });

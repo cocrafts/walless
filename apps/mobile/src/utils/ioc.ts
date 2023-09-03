@@ -19,7 +19,6 @@ export const injectModules = async () => {
 	modules.storage = storage;
 	modules.qlClient = qlClient;
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
-
 	await Promise.all([initializeAuth(), configure(modules.storage)]);
 	modules.engine = await createEngine();
 	modules.engine.start();

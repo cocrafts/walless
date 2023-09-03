@@ -22,10 +22,9 @@ declare const SOLANA_CLUSTER_URL: string;
 
 declare module 'react-native-config' {
 	export interface NativeConfig {
-		GOOGLE_CLIENT_ID_IOS: string;
-		GOOGLE_CLIENT_ID_ANDROID: string;
 		FIREBASE_API_KEY: string;
 		BUILD_TARGET: string;
+		GOOGLE_SIGNIN_CLIENT_ID: string;
 		BROWSER_CLIENT_ID: string;
 		EXTENSION_CLIENT_ID: string;
 		FIREBASE_AUTH_DOMAIN: string;

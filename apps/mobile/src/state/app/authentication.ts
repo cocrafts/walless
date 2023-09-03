@@ -1,4 +1,3 @@
-import { Platform } from 'react-native';
 import Config from 'react-native-config';
 import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import auth from '@react-native-firebase/auth';
@@ -19,10 +18,8 @@ import { navigate } from 'utils/navigation';
 import { customAuthArgs, key } from 'utils/w3a';
 
 GoogleSignin.configure({
-	webClientId: Platform.select({
-		android: Config.GOOGLE_CLIENT_ID_ANDROID,
-		default: Config.GOOGLE_CLIENT_ID_IOS,
-	}),
+	webClientId: Config.GOOGLE_SIGNIN_CLIENT_ID,
+	offlineAccess: true,
 });
 
 export const signInWithGoogle = async () => {

@@ -19,7 +19,7 @@ export const getAllTokensByAddress = async (
 	})();
 
 	const resolveNativeToken = async () => {
-		const balance = await connection.getBalance(key);
+		const balance = await throttle(() => connection.getBalance(key))();
 
 		return {
 			_id: `${address}/${solMint}`,

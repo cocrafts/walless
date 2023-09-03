@@ -1,6 +1,11 @@
-import type { UnknownObject, UserProfile } from '@walless/core';
+import type { Config, UnknownObject, UserProfile } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
+
+export interface BootstrapResult {
+	profile?: UserProfile;
+	config?: Config;
+}
 
 export const makeProfile = ({ user }: { user: UnknownObject }): UserProfile => {
 	return {

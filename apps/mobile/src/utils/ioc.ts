@@ -1,6 +1,5 @@
 import Config from 'react-native-config';
 import WebSQLite from 'react-native-quick-websql';
-import { authModules } from '@walless/auth';
 import { createEngine } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
@@ -18,13 +17,11 @@ export const injectModules = async () => {
 	modules.config = Config;
 	modules.storage = storage;
 	modules.qlClient = qlClient;
+	modules.thresholdKey = key as never;
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
 	await Promise.all([initializeAuth(), configure(modules.storage)]);
 	modules.engine = await createEngine();
 	modules.engine.start();
-
-	authModules.key = key;
-	authModules.qlClient = qlClient;
 
 	return modules;
 };

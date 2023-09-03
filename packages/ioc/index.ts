@@ -28,6 +28,7 @@ export interface DynamicModules {
 	storage: Database;
 	qlClient: GraphQLClient;
 	encryptionKeyVault: EncryptionKeyVault;
+	thresholdKey?: never;
 }
 
 export const modules: DynamicModules = {} as never;

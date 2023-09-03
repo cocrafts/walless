@@ -8,6 +8,7 @@ import { initializeAuth } from 'utils/firebase';
 import { makeConfig } from '../../scripts/kernel/utils/config';
 
 import { qlClient } from './graphql';
+import { key } from './w3a';
 
 export const injectModules = async () => {
 	const storage = create('engine', IDBPouch);
@@ -15,6 +16,7 @@ export const injectModules = async () => {
 	modules.config = makeConfig() as never;
 	modules.storage = storage;
 	modules.qlClient = qlClient;
+	modules.thresholdKey = key as never;
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
 	await Promise.all([initializeAuth(), configure(modules.storage)]);
 	modules.engine = await createEngine();

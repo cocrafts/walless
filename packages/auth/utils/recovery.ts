@@ -1,17 +1,18 @@
 import type { Account } from '@walless/graphql';
 import { mutations } from '@walless/graphql';
+import { modules } from '@walless/ioc';
 import BN from 'bn.js';
 
-import { injectedModules } from './ioc';
+import { key } from './w3a';
 
 export const initAndRegisterWallet = async (): Promise<Account | undefined> => {
 	try {
-		await injectedModules.key.reconstructKey();
-		const newShare = await injectedModules.key.generateNewShare();
+		await key().reconstructKey();
+		const newShare = await key().generateNewShare();
 		const keyIndex = newShare.newShareIndex.toString('hex');
 		const recoveryBN = newShare.newShareStores[keyIndex].share.share;
 		const readableKey = toReadableString(recoveryBN);
-		const { registerAccount: account } = await injectedModules.qlClient.request<
+		const { registerAccount: account } = await modules.qlClient.request<
 			{ registerAccount: Account },
 			{ key: string }
 		>(mutations.registerAccount, {
@@ -28,8 +29,8 @@ export const recoverByEmergencyKey = async (readableKey: string) => {
 	try {
 		const recoveryBN = fromReadableString(readableKey);
 
-		await injectedModules.key.inputShare(recoveryBN);
-		await injectedModules.key.reconstructKey();
+		await key().inputShare(recoveryBN);
+		await key().reconstructKey();
 
 		return true;
 	} catch (e) {

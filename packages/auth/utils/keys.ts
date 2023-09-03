@@ -1,7 +1,6 @@
 import { Networks } from '@walless/core';
 
-import { injectedModules } from './ioc';
-import { SeedPhraseFormatType } from './w3a';
+import { key, SeedPhraseFormatType } from './w3a';
 
 export const defaultPrefixDerivationPaths: Array<{
 	path: string;
@@ -22,15 +21,15 @@ export const defaultPrefixDerivationPaths: Array<{
 ];
 
 export const initBySeedPhraseModule = async (passcode: string) => {
-	let seedPhrases =
-		await injectedModules.key.modules.seedPhraseModule.getSeedPhrases();
+	let seedPhrases = await key().modules.seedPhraseModule.getSeedPhrases();
+
 	if (seedPhrases.length === 0) {
-		await injectedModules.key.modules.seedPhraseModule.setSeedPhrase(
+		await key().modules.seedPhraseModule.setSeedPhrase(
 			SeedPhraseFormatType.PRIMARY,
 			'hello world from my friend and family you may love this journey',
 		);
-		seedPhrases =
-			await injectedModules.key.modules.seedPhraseModule.getSeedPhrases();
+
+		seedPhrases = await key().modules.seedPhraseModule.getSeedPhrases();
 	}
 	console.log('init by seed phrase module', seedPhrases, passcode);
 };

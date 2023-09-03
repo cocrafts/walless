@@ -13,8 +13,7 @@ import type { SeedPhraseModule } from '@tkey/seed-phrase';
 import type { TorusServiceProvider } from '@tkey/service-provider-torus';
 import type { WebStorageModule } from '@tkey/web-storage';
 import { runtime } from '@walless/core';
-
-import { injectedModules } from './ioc';
+import { modules } from '@walless/ioc';
 
 export enum ThresholdResult {
 	Initializing = 'initializing',
@@ -40,6 +39,10 @@ export enum SeedPhraseFormatType {
 	PRIMARY = 'primary-seed-phrase',
 }
 
+export const key = (): TypedThresholdKey => {
+	return modules.thresholdKey as never;
+};
+
 export const wallessSeedPhraseFormat: Partial<ISeedPhraseFormat> = {
 	type: SeedPhraseFormatType.PRIMARY,
 	validateSeedPhrase: () => true,
@@ -55,15 +58,15 @@ export const wallessSeedPhraseFormat: Partial<ISeedPhraseFormat> = {
 
 export const createAndStoreDeviceShare =
 	async (): Promise<GenerateNewShareResult> => {
-		await injectedModules.key.reconstructKey();
+		await key().reconstructKey();
 
-		const shareResult = await injectedModules.key.generateNewShare();
+		const shareResult = await key().generateNewShare();
 		const share = shareResult.newShareStores[1];
 
 		if (global.chrome?.runtime) {
-			await injectedModules.key.modules.chromeStorage?.storeDeviceShare(share);
+			await key().modules.chromeStorage?.storeDeviceShare(share);
 		} else {
-			await injectedModules.key.modules.webStorage?.storeDeviceShare(share);
+			await key().modules.webStorage?.storeDeviceShare(share);
 		}
 
 		return shareResult;
@@ -72,10 +75,10 @@ export const createAndStoreDeviceShare =
 export const configureSecurityQuestionShare = async (
 	passcode: string,
 ): Promise<void> => {
-	await injectedModules.key.reconstructKey();
+	await key().reconstructKey();
 
 	const question = 'universal-passcode';
-	await injectedModules.key.modules.securityQuestions.generateNewShareWithSecurityQuestions(
+	await key().modules.securityQuestions.generateNewShareWithSecurityQuestions(
 		passcode,
 		question,
 	);
@@ -84,17 +87,17 @@ export const configureSecurityQuestionShare = async (
 export const getSharesStatus = async (): Promise<ThresholdResult> => {
 	try {
 		if (runtime.isMobile) {
-			await injectedModules.key.modules.reactNativeStorage?.inputShareFromReactNativeStorage();
+			await key().modules.reactNativeStorage?.inputShareFromReactNativeStorage();
 		} else if (global.chrome?.runtime) {
-			await injectedModules.key.modules.chromeStorage?.inputShareFromChromeExtensionStorage();
+			await key().modules.chromeStorage?.inputShareFromChromeExtensionStorage();
 		} else {
-			await injectedModules.key.modules.webStorage?.inputShareFromWebStorage();
+			await key().modules.webStorage?.inputShareFromWebStorage();
 		}
 	} catch (e) {
 		console.log('Failed to import existing share.');
 	}
 
-	const { requiredShares, totalShares } = injectedModules.key.getKeyDetails();
+	const { requiredShares, totalShares } = key().getKeyDetails();
 	const isReady = requiredShares <= 0;
 
 	if (isReady) {
@@ -110,11 +113,11 @@ export const recoverDeviceShareFromPasscode = async (
 	passcode: string,
 ): Promise<boolean> => {
 	try {
-		const beforeDetails = injectedModules.key.getKeyDetails();
-		await injectedModules.key.modules.securityQuestions.inputShareFromSecurityQuestions(
+		const beforeDetails = key().getKeyDetails();
+		await key().modules.securityQuestions.inputShareFromSecurityQuestions(
 			passcode,
 		);
-		const afterDetails = injectedModules.key.getKeyDetails();
+		const afterDetails = key().getKeyDetails();
 
 		if (beforeDetails.requiredShares > afterDetails.requiredShares) {
 			// await createAndStoreDeviceShare();

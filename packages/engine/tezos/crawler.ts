@@ -1,6 +1,7 @@
 import type { TezosToolkit } from '@taquito/taquito';
 import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
+import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
@@ -13,8 +14,8 @@ import { getTezosEndpointFromUnifiedEndpoint } from './pool';
 import { tezosTokensByAddress } from './token';
 
 export const tezosEngineRunner: EngineRunner<TezosToolkit> = {
-	start: async ({ endpoint, connection, storage, qlClient }) => {
-		const keyResult = await storage.find(selectors.tezosKeys);
+	start: async ({ endpoint, connection }) => {
+		const keyResult = await modules.storage.find(selectors.tezosKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
 
@@ -35,7 +36,7 @@ export const tezosEngineRunner: EngineRunner<TezosToolkit> = {
 			`${i.network}#${i.account.address?.toUpperCase()}_${i.account.tokenId}`;
 
 		try {
-			const { tokensByAddress } = await qlClient.request<
+			const { tokensByAddress } = await modules.qlClient.request<
 				{ tokensByAddress: TokenInfo[] },
 				{ addresses: string[] }
 			>(queries.tokensByAddress, {

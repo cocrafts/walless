@@ -1,6 +1,7 @@
 import type { Engine } from '@walless/engine';
 import type { EncryptionKeyVault } from '@walless/messaging';
 import type { Database } from '@walless/store';
+import type { GraphQLClient } from 'graphql-request';
 
 export interface NativeConfig {
 	FIREBASE_API_KEY: string;
@@ -25,6 +26,7 @@ export interface DynamicModules {
 	config: NativeConfig;
 	engine: Engine;
 	storage: Database;
+	qlClient: GraphQLClient;
 	encryptionKeyVault: EncryptionKeyVault;
 }
 

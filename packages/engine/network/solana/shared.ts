@@ -6,6 +6,7 @@ import type {
 import { clusterApiUrl, Connection } from '@solana/web3.js';
 import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
+import { modules } from '@walless/ioc';
 import pThrottle from 'p-throttle';
 
 import { createConnectionPool } from '../../utils/pool';
@@ -19,13 +20,17 @@ export interface ParsedAccount {
 }
 
 export const solanaPool = createConnectionPool<Connection>({
-	create: (id) => new Connection(solanaEndpoints[id]),
+	create: (id) => new Connection(getSolanaEndpoint(id)),
 });
 
-export const solanaEndpoints: Record<string, string> = {
-	devnet: clusterApiUrl('devnet'),
-	testnet: clusterApiUrl('testnet'),
-	mainnet: clusterApiUrl('mainnet-beta'),
+export const getSolanaEndpoint = (endpoint: string) => {
+	const map: Record<string, string> = {
+		devnet: clusterApiUrl('devnet'),
+		testnet: clusterApiUrl('testnet'),
+		mainnet: modules.config.SOLANA_CLUSTER_URL,
+	};
+
+	return map[endpoint];
 };
 
 export const now = Date.now();
@@ -37,11 +42,10 @@ export const tokenFilter = ({ account }: ParsedAccount) => {
 };
 
 export const getTokenQuotes = async (
-	{ qlClient }: SolanaContext,
 	addresses: string[],
 ): Promise<Record<string, TokenInfo>> => {
 	const result: Record<string, TokenInfo> = {};
-	const response = await qlClient.request<
+	const response = await modules.qlClient.request<
 		{ tokensByAddress: TokenInfo[] },
 		{ addresses: string[] }
 	>(queries.tokensByAddress, { addresses });

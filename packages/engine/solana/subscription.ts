@@ -7,6 +7,7 @@ import type { AssetMetadata } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
+import { modules } from '@walless/ioc';
 import { solMint } from '@walless/network';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 
@@ -92,7 +93,7 @@ const handleAccountChange = async (
 };
 
 const handleLogsChange = async (
-	{ connection, qlClient, storage, endpoint }: RunnerContext<Connection>,
+	{ connection, endpoint }: RunnerContext<Connection>,
 	address: PublicKey,
 	logs: Logs,
 ) => {
@@ -123,7 +124,7 @@ const handleLogsChange = async (
 					let metadata: AssetMetadata | undefined;
 
 					try {
-						const { tokensByAddress } = await qlClient.request<
+						const { tokensByAddress } = await modules.qlClient.request<
 							{ tokensByAddress: TokenInfo[] },
 							{ addresses: string[] }
 						>(queries.tokensByAddress, {
@@ -137,7 +138,6 @@ const handleLogsChange = async (
 
 					try {
 						metadata = await getSolanaMetadata({
-							storage,
 							connection,
 							mintAddress: ele.mint,
 						});

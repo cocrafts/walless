@@ -1,6 +1,6 @@
 import type { Endpoint, Networks } from '@walless/core';
-import type { Database, EndpointsDocument } from '@walless/store';
-import type { GraphQLClient } from 'graphql-request';
+import { modules } from '@walless/ioc';
+import type { EndpointsDocument } from '@walless/store';
 
 import { solanaEngineRunner, solanaPool } from './network/solana';
 import { createCrawler, defaultEndpoints } from './utils/crawler';
@@ -15,16 +15,10 @@ export interface Engine {
 	getConnection: <T>(network: Networks) => T;
 }
 
-export interface EngineOptions {
-	storage: Database;
-	qlClient: GraphQLClient;
-}
-
-export const createEngine = async ({
-	storage,
-	qlClient,
-}: EngineOptions): Promise<Engine> => {
-	let endpoints = (await storage.safeGet('endpoints')) as EndpointsDocument;
+export const createEngine = async (): Promise<Engine> => {
+	let endpoints = (await modules.storage.safeGet(
+		'endpoints',
+	)) as EndpointsDocument;
 
 	if (!endpoints) {
 		endpoints = {
@@ -33,38 +27,30 @@ export const createEngine = async ({
 			...defaultEndpoints,
 		};
 
-		storage.upsert('endpoints', async () => endpoints);
+		modules.storage.upsert('endpoints', async () => endpoints);
 	}
 
 	/* eslint-disable-next-line */
 	const crawlers: Record<string, EngineCrawler<any>> = {
 		solana: createCrawler({
-			storage,
-			qlClient,
 			endpoint: endpoints.solana,
 			pool: solanaPool,
 			start: solanaEngineRunner.start,
 			stop: solanaEngineRunner.stop,
 		}),
 		// solana: createCrawler({
-		// 	storage,
-		// 	qlClient,
 		// 	endpoint: endpoints.solana,
 		// 	pool: solanaPool,
 		// 	start: solanaEngineRunner.start,
 		// 	stop: solanaEngineRunner.stop,
 		// }),
 		// sui: createCrawler({
-		// 	storage,
-		// 	qlClient,
 		// 	endpoint: endpoints.sui,
 		// 	pool: suiPool,
 		// 	start: suiEngineRunner.start,
 		// 	stop: suiEngineRunner.stop,
 		// }),
 		// tezos: createCrawler({
-		// 	storage,
-		// 	qlClient,
 		// 	endpoint: endpoints.tezos,
 		// 	pool: tezosPool,
 		// 	start: tezosEngineRunner.start,

@@ -3,6 +3,7 @@ import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { PublicKey } from '@solana/web3.js';
 import type { LegacyMetadataSource } from '@walless/core';
 import { Networks } from '@walless/core';
+import { modules } from '@walless/ioc';
 import type { MetadataDocument } from '@walless/store';
 
 import localMetadata from './local-metadata.json';
@@ -31,8 +32,8 @@ const getLocalMeta: GetMetadataFunc = async (_, mintAddress) => {
 	return localRegistry[mintAddress];
 };
 
-const getCachedMeta: GetMetadataFunc = async ({ storage }, mintAddress) => {
-	const cached = await storage.safeGet<MetadataDocument>(mintAddress);
+const getCachedMeta: GetMetadataFunc = async (_, mintAddress) => {
+	const cached = await modules.storage.safeGet<MetadataDocument>(mintAddress);
 	const timestamp = new Date(cached?.timestamp || '2000-01-01');
 	const cachedTime = new Date().getTime() - timestamp.getTime();
 	const cacheTimeout = 60000 * 60 * 24; // one day cache

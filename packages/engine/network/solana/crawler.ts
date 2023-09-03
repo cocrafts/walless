@@ -1,3 +1,4 @@
+import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
@@ -10,8 +11,9 @@ import { getAllTokensByAddress } from './token';
 
 export const solanaEngineRunner: SolanaRunner = {
 	start: async (context) => {
-		const { storage } = context;
-		const key = await storage.find<PublicKeyDocument>(selectors.solanaKeys);
+		const key = await modules.storage.find<PublicKeyDocument>(
+			selectors.solanaKeys,
+		);
 		const tokenChunkPromises = key.docs.map((item) => {
 			return getAllTokensByAddress(context, item._id);
 		});
@@ -19,7 +21,7 @@ export const solanaEngineRunner: SolanaRunner = {
 		const allTokens = flatten(tokenChunks);
 		const makeId = (i: TokenDocument) => `${i.network}#${i.account.mint}`;
 		const tokenIds = allTokens.map(makeId);
-		const quotes = await getTokenQuotes(context, tokenIds);
+		const quotes = await getTokenQuotes(tokenIds);
 
 		for (const token of allTokens) {
 			token.account.quotes = quotes[makeId(token)].quotes;

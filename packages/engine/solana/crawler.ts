@@ -1,6 +1,7 @@
 import type { Connection } from '@solana/web3.js';
 import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
+import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
@@ -15,8 +16,8 @@ import { getSignatureList, getTransactions } from './transaction';
 
 export const solanaEngineRunner: EngineRunner<Connection> = {
 	start: async (context) => {
-		const { endpoint, connection, storage, qlClient } = context;
-		const keyResult = await storage.find(selectors.solanaKeys);
+		const { endpoint, connection } = context;
+		const keyResult = await modules.storage.find(selectors.solanaKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
 		const promises = [];
@@ -25,7 +26,6 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 			tokenPromises.push(
 				solanaTokensByAddress({
 					endpoint,
-					storage,
 					connection,
 					address: key._id,
 				}),
@@ -51,7 +51,7 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 				const makeId = (i: TokenDocument) => `${i.network}#${i.account.mint}`;
 
 				try {
-					const { tokensByAddress } = await qlClient.request<
+					const { tokensByAddress } = await modules.qlClient.request<
 						{ tokensByAddress: TokenInfo[] },
 						{ addresses: string[] }
 					>(queries.tokensByAddress, {

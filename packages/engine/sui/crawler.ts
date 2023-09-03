@@ -1,6 +1,7 @@
 import type { JsonRpcProvider } from '@mysten/sui.js';
 import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
+import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
@@ -11,8 +12,8 @@ import type { EngineRunner } from '../utils/type';
 import { suiTokensByAddress } from './token';
 
 export const suiEngineRunner: EngineRunner<JsonRpcProvider> = {
-	start: async ({ endpoint, connection, storage, qlClient }) => {
-		const keyResult = await storage.find(selectors.suiKeys);
+	start: async ({ endpoint, connection }) => {
+		const keyResult = await modules.storage.find(selectors.suiKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
 
@@ -31,7 +32,7 @@ export const suiEngineRunner: EngineRunner<JsonRpcProvider> = {
 		const makeId = (i: TokenDocument) => `${i.network}#${i.account.mint}`;
 
 		try {
-			const { tokensByAddress } = await qlClient.request<{
+			const { tokensByAddress } = await modules.qlClient.request<{
 				tokensByAddress: TokenInfo[];
 				addresses: string[];
 			}>(queries.tokensByAddress, {

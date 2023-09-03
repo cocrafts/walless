@@ -3,12 +3,12 @@ import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import type { Database, MetadataDocument } from '@walless/store';
+import { modules } from '@walless/ioc';
+import type { MetadataDocument } from '@walless/store';
 
 import { METADATA_PROGRAM_KEY, tokenMap } from './shared';
 
 export interface GetSolanaMetadataOptions {
-	storage: Database;
 	connection: Connection;
 	mintAddress: string;
 }
@@ -35,10 +35,9 @@ export const getLocalSolanaMetadata: GetSolanaMetadataFunction = async ({
 }) => tokenMap[mintAddress];
 
 export const getCachedSolanaMetadata: GetSolanaMetadataFunction = async ({
-	storage,
 	mintAddress,
 }) => {
-	const cached = await storage.safeGet<MetadataDocument>(mintAddress);
+	const cached = await modules.storage.safeGet<MetadataDocument>(mintAddress);
 	const timestamp = new Date(cached?.timestamp || '2000-01-01');
 	const cachedTime = new Date().getTime() - timestamp.getTime();
 

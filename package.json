@@ -57,6 +57,7 @@
     "metro-react-native-babel-preset": "0.73.9",
     "mustache": "^4.2.0",
     "react-native": "^0.71.6",
+    "react-native-buffer": "^6.0.3",
     "react-native-reanimated": "3.1.0",
     "rimraf": "^5.0.0",
     "shx": "^0.3.4",

@@ -12240,7 +12240,8 @@ __metadata:
     "@walless/network": "*"
     "@walless/store": "*"
     eslint: 8.38.0
-    p-limit: 4.0.0
+    p-limit: ^4.0.0
+    p-throttle: ^5.1.0
     valtio: 1.10.5
   languageName: unknown
   linkType: soft
@@ -12299,6 +12300,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/ioc@workspace:packages/ioc"
   dependencies:
+    "@walless/engine": "*"
     "@walless/messaging": "*"
     "@walless/store": "*"
     eslint: 8.38.0
@@ -23784,21 +23786,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"p-limit@npm:4.0.0":
-  version: 4.0.0
-  resolution: "p-limit@npm:4.0.0"
-  dependencies:
-    yocto-queue: ^1.0.0
-  checksum: 01d9d70695187788f984226e16c903475ec6a947ee7b21948d6f597bed788e3112cc7ec2e171c1d37125057a5f45f3da21d8653e04a3a793589e12e9e80e756b
-  languageName: node
-  linkType: hard
-
 "p-limit@npm:^2.0.0, p-limit@npm:^2.2.0":
   version: 2.3.0
   resolution: "p-limit@npm:2.3.0"
   dependencies:
     p-try: ^2.0.0
   checksum: 84ff17f1a38126c3314e91ecfe56aecbf36430940e2873dadaa773ffe072dc23b7af8e46d4b6485d302a11673fe94c6b67ca2cfbb60c989848b02100d0594ac1
+  languageName: node
+  linkType: hard
+
+"p-limit@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "p-limit@npm:4.0.0"
+  dependencies:
+    yocto-queue: ^1.0.0
+  checksum: 01d9d70695187788f984226e16c903475ec6a947ee7b21948d6f597bed788e3112cc7ec2e171c1d37125057a5f45f3da21d8653e04a3a793589e12e9e80e756b
   languageName: node
   linkType: hard
 
@@ -23835,6 +23837,13 @@ __metadata:
   dependencies:
     aggregate-error: ^3.0.0
   checksum: cb0ab21ec0f32ddffd31dfc250e3afa61e103ef43d957cc45497afe37513634589316de4eb88abdfd969fe6410c22c0b93ab24328833b8eb1ccc087fc0442a1c
+  languageName: node
+  linkType: hard
+
+"p-throttle@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "p-throttle@npm:5.1.0"
+  checksum: c412429cbb759a0772a083200a556e5866d4a7cb5383a9cc85880f47f07f4b1787fc33d2c824ab659fff0fc4a34a56e1d0712e88808f0c0ae0ffbe93b54f46c1
   languageName: node
   linkType: hard
 
@@ -25113,6 +25122,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-buffer@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "react-native-buffer@npm:6.0.3"
+  dependencies:
+    ieee754: ^1.2.1
+    react-native-fast-base64: ^0.1.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-fast-base64: "*"
+  checksum: 5a7c1f13791c30e0c6cf83c7f51858296d1b22619e65b9a520f4453ca52e9207a6400974ebe9b2ac2ba2d864022ea7407ac933a916b7c3ceceb439ba0ff8cfb9
+  languageName: node
+  linkType: hard
+
 "react-native-codegen@npm:^0.71.5":
   version: 0.71.5
   resolution: "react-native-codegen@npm:0.71.5"
@@ -25144,6 +25167,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 9d2999c58559f1e4f66d1baf2c3edeff96cf42027900850d94c6bbea24ac9715047ce69bf6e8a73b68aff4508cf35dd88ac494ad5905933286ef3b75cd123e30
+  languageName: node
+  linkType: hard
+
+"react-native-fast-base64@npm:^0.1.1":
+  version: 0.1.2
+  resolution: "react-native-fast-base64@npm:0.1.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 7bb9b4076ee5ad4bd2b393ddd5661dc33609f1996c78389fea05970bc643947334270ef68117a32537f718a3b86df6832d19f13827819d1156701ef9eb7ab0c1
   languageName: node
   linkType: hard
 
@@ -28510,31 +28543,31 @@ __metadata:
 
 "typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 1f8f3b6aaea19f0f67cba79057674ba580438a7db55057eb89cc06950483c5d632115c14077f6663ea76fd09fce3c190e6414bb98582ec80aa5a4eaf345d5b68
+  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
   languageName: node
   linkType: hard
 
 "typescript@patch:typescript@^5.0.4#~builtin<compat/typescript>":
   version: 5.0.4
-  resolution: "typescript@patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"
+  resolution: "typescript@patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: d26b6ba97b6d163c55dbdffd9bbb4c211667ebebc743accfeb2c8c0154aace7afd097b51165a72a5bad2cf65a4612259344ff60f8e642362aa1695c760d303ac
+  checksum: bb309d320c59a26565fb3793dba550576ab861018ff3fd1b7fccabbe46ae4a35546bc45f342c0a0b6f265c801ccdf64ffd68f548f117ceb7f0eac4b805cd52a9
   languageName: node
   linkType: hard
 
 "typescript@patch:typescript@^5.1.3#~builtin<compat/typescript>":
   version: 5.1.6
-  resolution: "typescript@patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"
+  resolution: "typescript@patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f53bfe97f7c8b2b6d23cf572750d4e7d1e0c5fff1c36d859d0ec84556a827b8785077bc27676bf7e71fae538e517c3ecc0f37e7f593be913d884805d931bc8be
+  checksum: 21e88b0a0c0226f9cb9fd25b9626fb05b4c0f3fddac521844a13e1f30beb8f14e90bd409a9ac43c812c5946d714d6e0dee12d5d02dfc1c562c5aacfa1f49b606
   languageName: node
   linkType: hard
 
@@ -29150,6 +29183,7 @@ __metadata:
     metro-react-native-babel-preset: 0.73.9
     mustache: ^4.2.0
     react-native: ^0.71.6
+    react-native-buffer: ^6.0.3
     react-native-reanimated: 3.1.0
     rimraf: ^5.0.0
     shx: ^0.3.4

@@ -3,6 +3,7 @@ import { modules } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
 import IDBPouch from 'pouchdb-adapter-idb';
+import { initializeAuth } from 'utils/firebase';
 
 import { qlClient } from './graphql';
 
@@ -12,7 +13,7 @@ export const injectModules = async () => {
 	modules.storage = storage;
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
 
-	await Promise.all([configure(modules.storage)]);
+	await Promise.all([initializeAuth(), configure(modules.storage)]);
 	modules.engine = await createEngine({ storage, qlClient });
 	modules.engine.start();
 

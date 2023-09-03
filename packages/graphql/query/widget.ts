@@ -6,6 +6,15 @@ export const loginMessage = gql`
 	}
 `;
 
+export const widgetProfile = gql`
+	query WidgetProfile($pubkey: String!, $signature: String!) {
+		widgetProfile(pubkey: $pubkey, signature: $signature) {
+			pubkey
+			role
+		}
+	}
+`;
+
 export const allWidgets = gql`
 	query Widgets {
 		widgets {

@@ -133,6 +133,7 @@ export type RootQuery = {
   widgetAccount?: Maybe<WidgetAccount>;
   widgetAccountByPubkey?: Maybe<WidgetAccount>;
   widgetAccounts?: Maybe<Array<Maybe<WidgetAccount>>>;
+  widgetProfile?: Maybe<WidgetProfile>;
   widgets?: Maybe<Array<Maybe<Widget>>>;
   widgetsByStatus?: Maybe<Array<Maybe<Widget>>>;
 };
@@ -186,6 +187,12 @@ export type RootQueryWidgetAccountArgs = {
 
 export type RootQueryWidgetAccountByPubkeyArgs = {
   pubkey: Scalars['String']['input'];
+};
+
+
+export type RootQueryWidgetProfileArgs = {
+  pubkey: Scalars['String']['input'];
+  signature: Scalars['String']['input'];
 };
 
 
@@ -250,6 +257,12 @@ export type WidgetAccount = {
   id?: Maybe<Scalars['ObjectID']['output']>;
   identifier: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['MongoDateTime']['output']>;
+};
+
+export type WidgetProfile = {
+  __typename?: 'WidgetProfile';
+  pubkey: Scalars['String']['output'];
+  role: Scalars['String']['output'];
 };
 
 export enum WidgetStatus {
@@ -354,6 +367,7 @@ export type ResolversTypes = {
   WalletInvitation: ResolverTypeWrapper<WalletInvitation>;
   Widget: ResolverTypeWrapper<Widget>;
   WidgetAccount: ResolverTypeWrapper<WidgetAccount>;
+  WidgetProfile: ResolverTypeWrapper<WidgetProfile>;
   WidgetStatus: WidgetStatus;
   WidgetTokenInput: WidgetTokenInput;
 };
@@ -380,6 +394,7 @@ export type ResolversParentTypes = {
   WalletInvitation: WalletInvitation;
   Widget: Widget;
   WidgetAccount: WidgetAccount;
+  WidgetProfile: WidgetProfile;
   WidgetTokenInput: WidgetTokenInput;
 };
 
@@ -451,6 +466,7 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   widgetAccount?: Resolver<Maybe<ResolversTypes['WidgetAccount']>, ParentType, ContextType, RequireFields<RootQueryWidgetAccountArgs, 'id'>>;
   widgetAccountByPubkey?: Resolver<Maybe<ResolversTypes['WidgetAccount']>, ParentType, ContextType, RequireFields<RootQueryWidgetAccountByPubkeyArgs, 'pubkey'>>;
   widgetAccounts?: Resolver<Maybe<Array<Maybe<ResolversTypes['WidgetAccount']>>>, ParentType, ContextType>;
+  widgetProfile?: Resolver<Maybe<ResolversTypes['WidgetProfile']>, ParentType, ContextType, RequireFields<RootQueryWidgetProfileArgs, 'pubkey' | 'signature'>>;
   widgets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Widget']>>>, ParentType, ContextType>;
   widgetsByStatus?: Resolver<Maybe<Array<Maybe<ResolversTypes['Widget']>>>, ParentType, ContextType, RequireFields<RootQueryWidgetsByStatusArgs, 'status'>>;
 };
@@ -518,6 +534,12 @@ export type WidgetAccountResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type WidgetProfileResolvers<ContextType = any, ParentType extends ResolversParentTypes['WidgetProfile'] = ResolversParentTypes['WidgetProfile']> = {
+  pubkey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Account?: AccountResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
@@ -536,5 +558,6 @@ export type Resolvers<ContextType = any> = {
   WalletInvitation?: WalletInvitationResolvers<ContextType>;
   Widget?: WidgetResolvers<ContextType>;
   WidgetAccount?: WidgetAccountResolvers<ContextType>;
+  WidgetProfile?: WidgetProfileResolvers<ContextType>;
 };
 

@@ -142,6 +142,9 @@ type RootQuery {
   widgetAccounts: [WidgetAccount]
 
   """"""
+  widgetProfile(pubkey: String!, signature: String!): WidgetProfile
+
+  """"""
   widgets: [Widget]
 
   """"""
@@ -263,6 +266,15 @@ type WidgetAccount {
 
   """"""
   updatedAt: MongoDateTime
+}
+
+""""""
+type WidgetProfile {
+  """"""
+  pubkey: String!
+
+  """"""
+  role: String!
 }
 
 """"""

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Button, View } from '@walless/gui';
+import Base58 from 'bs58';
 import { appState, authAction, widgetAction } from 'state/index';
 import { useSnapshot } from 'valtio';
 
@@ -38,10 +39,14 @@ export const WalletList = () => {
 				wallet.adapter.publicKey.toBase58(),
 			);
 			if (!message) return;
-			const messageInBytes = new TextEncoder().encode(message);
-			const signature = await signMessage(messageInBytes);
-			authAction.handleSignIn(wallet.adapter.publicKey.toBase58(), signature);
-			widgetAction.fetchWidgets();
+			const messageBytes = new TextEncoder().encode(message);
+			const signatureBytes = await signMessage(messageBytes);
+			const signatureBase58 = Base58.encode(signatureBytes);
+			await authAction.handleSignIn(
+				wallet.adapter.publicKey.toBase58(),
+				signatureBase58,
+			);
+			await widgetAction.fetchWidgets();
 		} catch (error) {
 			wallet.adapter.disconnect();
 		}

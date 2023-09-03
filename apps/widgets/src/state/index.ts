@@ -1,4 +1,4 @@
-import type { Widget } from '@walless/graphql';
+import type { Widget, WidgetProfile } from '@walless/graphql';
 import { mutations, queries } from '@walless/graphql';
 import { qlClient } from 'utils/graphql';
 
@@ -50,10 +50,16 @@ export const authAction = {
 			console.error(error);
 		}
 	},
-	handleSignIn: async (pubkey: string, signedMessage: Uint8Array) => {
-		console.log('--> handleSignIn', { pubkey, signedMessage });
-		// TODO: verify signed message in gotenks
-		appState.auth.authenticated = true;
+	handleSignIn: async (pubkeyBase58: string, signatureBase58: string) => {
+		try {
+			await qlClient.request<{ widgetProfile: WidgetProfile }>(
+				queries.widgetProfile,
+				{ pubkey: pubkeyBase58, signature: signatureBase58 },
+			);
+			appState.auth.authenticated = true;
+		} catch (error) {
+			console.error(error);
+		}
 	},
 	handleSignOut: async () => {
 		appState.auth.authenticated = false;

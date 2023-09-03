@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { widgetState } from '@walless/app';
+import { widgetState } from '@walless/engine';
 import sortBy from 'lodash/sortBy';
 import { useSnapshot } from 'valtio';
 

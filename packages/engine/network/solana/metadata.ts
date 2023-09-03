@@ -82,11 +82,10 @@ export const METADATA_PROGRAM_ID =
 	'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s';
 export const METADATA_PROGRAM_KEY = new PublicKey(METADATA_PROGRAM_ID);
 
-const solMetadata: MetadataDocument = {
+export const solMetadata: MetadataDocument = {
 	_id: solMint,
 	type: 'Metadata',
 	network: Networks.solana,
-	timestamp: new Date().toISOString(),
 	name: 'SOL',
 	symbol: 'SOL',
 	imageUri:

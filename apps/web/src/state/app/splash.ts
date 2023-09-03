@@ -1,5 +1,5 @@
-import type { BootstrapResult } from '@walless/app';
-import { appState, liveActions } from '@walless/app';
+import type { BootstrapResult } from '@walless/auth';
+import { appState, liveActions } from '@walless/engine';
 import { loadRemoteConfig } from 'utils/firebase';
 import { router } from 'utils/routing';
 

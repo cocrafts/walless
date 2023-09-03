@@ -1,14 +1,6 @@
-import {
-	defaultEndpoints,
-	keyActions,
-	keyState,
-	tokenActions,
-	tokenState,
-} from '@walless/engine';
 import { modules } from '@walless/ioc';
 import type {
 	EndpointsDocument,
-	ExtensionDocument,
 	PouchDocument,
 	PublicKeyDocument,
 	SettingDocument,
@@ -18,6 +10,8 @@ import type {
 import { selectors as f } from '@walless/store';
 
 import { appState } from './app';
+import { keyActions, keyState } from './key';
+import { tokenActions, tokenState } from './token';
 import { widgetActions, widgetState } from './widget';
 
 const initialize = async () => {

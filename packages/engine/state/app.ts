@@ -4,8 +4,9 @@ import type {
 	RemoteConfig,
 	UserProfile,
 } from '@walless/core';
-import { defaultEndpoints } from '@walless/engine';
 import { proxy } from 'valtio';
+
+import { defaultEndpoints } from '../utils/crawler';
 
 export interface AppState {
 	loading: boolean;

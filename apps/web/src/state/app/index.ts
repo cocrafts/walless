@@ -1,4 +1,4 @@
-import { appState } from '@walless/app';
+import { appState } from '@walless/engine';
 
 import {
 	initLocalDeviceByPasscodeAndSync,
@@ -24,4 +24,4 @@ export const appActions = {
 	setPathname,
 };
 
-export { type AppState, appState } from '@walless/app';
+export { type AppState, appState } from '@walless/engine';

@@ -20,7 +20,6 @@ import {
 	initBySeedPhraseModule,
 } from 'utils/authentication';
 import { auth, googleProvider } from 'utils/firebase';
-import { qlClient } from 'utils/graphql';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';
 import { customAuth, importAvailableShares, key } from 'utils/w3a';
@@ -48,14 +47,14 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 		if (__DEV__) {
 			await createKeyAndEnter();
 		} else {
-			const { walletInvitation } = await qlClient.request<{
+			const { walletInvitation } = await modules.qlClient.request<{
 				walletInvitation: WalletInvitation;
 			}>(queries.walletInvitation, {
 				email: auth.currentUser?.email,
 			});
 
 			if (!walletInvitation && invitationCode) {
-				await qlClient.request(mutations.claimWalletInvitation, {
+				await modules.qlClient.request(mutations.claimWalletInvitation, {
 					code: invitationCode || appState.invitationCode,
 					email: auth.currentUser?.email,
 				});

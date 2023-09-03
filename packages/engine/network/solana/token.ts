@@ -3,7 +3,7 @@ import { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 
-import { getMetadata } from './metadata';
+import { getMetadata, solMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
 import { throttle, tokenFilter } from './shared';
 
@@ -17,6 +17,26 @@ export const getAllTokensByAddress = async (
 	const response = await throttle(() => {
 		return connection.getParsedTokenAccountsByOwner(key, filter);
 	})();
+
+	const resolveNativeToken = async () => {
+		const balance = await connection.getBalance(key);
+
+		return {
+			_id: `${address}/${solMint}`,
+			network: Networks.solana,
+			endpoint,
+			type: 'Token',
+			account: {
+				mint: solMint,
+				owner: 'system',
+				address,
+				balance: String(balance),
+				decimals: 9,
+			},
+			metadata: solMetadata,
+		} satisfies TokenDocument;
+	};
+
 	const resultPromises = response.value
 		.filter(tokenFilter as never)
 		.map(async ({ account }): Promise<TokenDocument> => {
@@ -39,6 +59,8 @@ export const getAllTokensByAddress = async (
 				metadata: metadata,
 			};
 		});
+
+	resultPromises.unshift(resolveNativeToken());
 
 	return await Promise.all(resultPromises);
 };

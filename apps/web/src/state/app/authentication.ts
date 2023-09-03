@@ -1,6 +1,12 @@
-import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
+import {
+	initBySeedPhraseModule,
+	makeProfile,
+	setProfile,
+	signInWithTorusKey,
+} from '@walless/auth';
 import { runtime } from '@walless/core';
 import { appState } from '@walless/engine';
+import { modules } from '@walless/ioc';
 import type { User } from 'firebase/auth';
 import {
 	GoogleAuthProvider,
@@ -68,5 +74,13 @@ export const signInWithGoogle = async () => {
 export const initLocalDeviceByPasscodeAndSync = async (
 	passcode: string,
 ): Promise<void> => {
-	console.log(passcode);
+	if (auth.currentUser) {
+		const profile = makeProfile({ user: auth.currentUser } as never);
+		await setProfile(profile);
+	}
+
+	await key.reconstructKey();
+	await initBySeedPhraseModule(passcode);
+	await key.syncLocalMetadataTransitions();
+	modules.engine.start();
 };

@@ -63,16 +63,13 @@ export const signInWithGoogle = async () => {
 export const initLocalDeviceByPasscodeAndSync = async (
 	passcode: string,
 ): Promise<void> => {
-	console.log(passcode, '<---');
-	await key.reconstructKey();
-
 	if (auth().currentUser) {
-		await setProfile(makeProfile({ user: auth().currentUser } as never));
+		const profile = makeProfile({ user: auth().currentUser } as never);
+		await setProfile(profile);
 	}
 
-	// await initByPrivateKeyModule(passcode);
+	await key.reconstructKey();
 	await initBySeedPhraseModule(passcode);
 	// await key.syncLocalMetadataTransitions();
-
 	modules.engine.start();
 };

@@ -1,3 +1,4 @@
+import Config from 'react-native-config';
 import WebSQLite from 'react-native-quick-websql';
 import { authModules } from '@walless/auth';
 import { createEngine } from '@walless/engine';
@@ -14,6 +15,7 @@ export const injectModules = async () => {
 	const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
 	const storage = create('engine', SQLiteAdapter);
 
+	modules.config = Config;
 	modules.storage = storage;
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
 

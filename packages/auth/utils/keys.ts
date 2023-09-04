@@ -7,7 +7,7 @@ import { Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import { modules } from '@walless/ioc';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
-import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
+import { generateMnemonic, mnemonicToSeed } from 'bip39';
 import { decode } from 'bs58';
 import { derivePath } from 'ed25519-hd-key';
 
@@ -46,7 +46,7 @@ export const initBySeedPhraseModule = async (passcode: string) => {
 	}
 
 	const forSeedPhrasePromises = seedPhrases.map(async (storedSeed) => {
-		const rootSeed = mnemonicToSeedSync(storedSeed.seedPhrase);
+		const rootSeed = await mnemonicToSeed(storedSeed.seedPhrase);
 		const forNetworkPromises = defaultPrefixDerivationPaths.map((option) => {
 			return generateAndStoreKeypairs(option, storedSeed, rootSeed, passcode);
 		});

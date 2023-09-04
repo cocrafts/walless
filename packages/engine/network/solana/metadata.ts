@@ -69,7 +69,6 @@ const getRemoteMeta: GetMetadataFunc = async ({ connection }, mintAddress) => {
 		}).then((res) => res.json())) as JsonMetadata;
 
 		result.imageUri = offChainMetadata.image;
-		console.log(metadata.data.uri);
 	} catch {
 		console.log('failed to fetch Solana metadata from off-chain source');
 	}

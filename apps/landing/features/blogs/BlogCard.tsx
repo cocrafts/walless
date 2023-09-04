@@ -26,21 +26,30 @@ const BlogCard: FC<BlogCardProps> = ({
 	date,
 	category,
 }) => {
+	const LARGE_SIZE = 800;
+	const isLarge = style?.width && style?.width >= LARGE_SIZE;
+
 	return (
 		<TouchableOpacity style={[styles.container, style]}>
 			<View style={styles.contentContainer}>
 				<View>
 					<View>
-						<Text style={styles.category}>{category}</Text>
+						<Text style={isLarge ? styles.largeCategory : styles.smallCategory}>
+							{category}
+						</Text>
 					</View>
 
-					<Text ellipsizeMode="tail" numberOfLines={2} style={styles.title}>
+					<Text
+						ellipsizeMode="tail"
+						numberOfLines={2}
+						style={isLarge ? styles.largeTitle : styles.smallTitle}
+					>
 						{title}
 					</Text>
 					<Text
 						ellipsizeMode="tail"
-						numberOfLines={5}
-						style={styles.description}
+						numberOfLines={isLarge ? 5 : 3}
+						style={isLarge ? styles.largeDescription : styles.smallDescription}
 					>
 						{description}
 					</Text>
@@ -76,13 +85,21 @@ export default BlogCard;
 const styles = StyleSheet.create({
 	container: {
 		width: '100%',
+		height: 'fit-content',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		flexDirection: 'row',
-		minHeight: 250,
+		backgroundColor: '#131C24',
 		padding: 30,
 		borderRadius: 20,
-		backgroundColor: '#131C24',
+		gap: 30,
+	},
+	largeContainer: {
+		padding: 50,
+		gap: 50,
+	},
+	smallContainer: {
+		padding: 30,
 		gap: 30,
 	},
 	contentContainer: {
@@ -94,19 +111,34 @@ const styles = StyleSheet.create({
 		flex: 1,
 		borderRadius: 15,
 	},
-	category: {
+	largeCategory: {
 		color: '#ffffff',
 		fontWeight: '500',
 		fontSize: 20,
 	},
-	title: {
+	smallCategory: {
+		color: '#ffffff',
+		fontWeight: '500',
+		fontSize: 16,
+	},
+	largeTitle: {
 		color: '#ffffff',
 		fontWeight: '500',
 		fontSize: 40,
 	},
-	description: {
+	smallTitle: {
+		color: '#ffffff',
+		fontWeight: '500',
+		fontSize: 20,
+	},
+	largeDescription: {
 		flex: 1,
 		color: '#566674',
 		fontSize: 20,
+	},
+	smallDescription: {
+		flex: 1,
+		color: '#566674',
+		fontSize: 16,
 	},
 });

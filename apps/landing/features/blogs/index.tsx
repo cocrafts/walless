@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import type { View as ViewRef } from 'react-native';
 import { ImageBackground, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { useRouter } from 'next/router';
@@ -14,11 +13,15 @@ import type { IndicatorOption, SlideOption } from './Slider';
 import Slider from './Slider';
 
 const BlogFeature = () => {
-	const [layout, setLayout] = useState({
+	const [slidingLayout, setSlidingLayout] = useState({
 		width: 1100,
 		height: 1100,
 	});
-	// const sliderRef = useRef<ViewRef>(null);
+
+	const [fullLayout, setFullLayout] = useState({
+		width: 1100,
+		height: 1100,
+	});
 
 	const router = useRouter();
 	const { category } = router.query as unknown as Query;
@@ -26,10 +29,11 @@ const BlogFeature = () => {
 	const categories = Object.keys(Category);
 
 	const largeBlogCardStyle = {
-		width: layout.width,
-		height: 420,
-		padding: 50,
-		gap: 50,
+		width: slidingLayout.width,
+	};
+
+	const smallBlogCardStyle = {
+		width: (fullLayout.width - 30) / 2,
 	};
 
 	const convertBlogToSlideOption = (
@@ -65,9 +69,8 @@ const BlogFeature = () => {
 			540,
 		),
 	);
-	const [fullListOfBlogs, setFullListOfBlogs] = useState<SlideOption[]>(
-		convertBlogToSlideOption(blogs),
-	);
+
+	const [fullListOfBlogs, setFullListOfBlogs] = useState<Blog[]>(blogs);
 
 	const handleNavigateToCategory = (category: string) => {
 		if (category === 'all') {
@@ -95,6 +98,8 @@ const BlogFeature = () => {
 
 		const temp = getListOfBlogs();
 
+		setFullListOfBlogs(temp);
+
 		setSlidingList(
 			convertBlogToSlideOption(
 				temp.slice(temp.length - 3),
@@ -103,14 +108,6 @@ const BlogFeature = () => {
 			),
 		);
 	}, [category]);
-
-	// useEffect(() => {
-	// 	sliderRef.current?.measure((_x, _y, _width, _height) => {
-	// 		setLayout({ width: _width, height: _height });
-	// 	});
-	// 	console.log('inside: ', sliderRef);
-	// }, [sliderRef]);
-	// console.log('outside: ', sliderRef);
 
 	return (
 		<View style={styles.container}>
@@ -136,14 +133,8 @@ const BlogFeature = () => {
 			{slidingList.length !== 0 && (
 				<View>
 					<View
-						// ref={sliderRef}
-						// onLayout={() => {
-						// 	sliderRef.current?.measure((_x, _y, _width, _height) => {
-						// 		setLayout({ width: _width, height: _height });
-						// 	});
-						// }}
 						onLayout={(event) => {
-							setLayout({
+							setSlidingLayout({
 								width: event.nativeEvent.layout.width,
 								height: event.nativeEvent.layout.height,
 							});
@@ -152,11 +143,32 @@ const BlogFeature = () => {
 						<Slider
 							style={styles.slider}
 							items={slidingList.reverse()}
-							distance={-layout.width}
+							distance={-slidingLayout.width}
 							indicator={indicator}
 						/>
 					</View>
-					<View></View>
+					<View
+						style={styles.blogsContainer}
+						onLayout={(event) => {
+							setFullLayout({
+								width: event.nativeEvent.layout.width,
+								height: event.nativeEvent.layout.height,
+							});
+						}}
+					>
+						{fullListOfBlogs.map((blog) => (
+							<BlogCard
+								key={blog.id}
+								style={smallBlogCardStyle}
+								title={blog.title}
+								coverImageSize={300}
+								category={blog.category}
+								coverImage={blog.coverImage}
+								description={blog.description}
+								date={blog.date}
+							/>
+						))}
+					</View>
 				</View>
 			)}
 		</View>
@@ -167,6 +179,7 @@ export default BlogFeature;
 const styles = StyleSheet.create({
 	container: {
 		width: '100%',
+		gap: 20,
 	},
 	heroSection: {
 		justifyContent: 'center',
@@ -193,9 +206,11 @@ const styles = StyleSheet.create({
 	category: {
 		color: '#566674',
 	},
-	slider: {
-		// height: 420,
-		// overflow: 'hidden',
-		// backgroundColor: 'red',
+	slider: {},
+	blogsContainer: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'space-between',
+		gap: 30,
 	},
 });

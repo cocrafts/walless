@@ -5,11 +5,11 @@ import { screenOptions } from 'utils/navigation';
 
 const Stack = createStackNavigator();
 
-export const DashboardStack: FC = () => {
+export const HomeStack: FC = () => {
 	return (
 		<Stack.Navigator screenOptions={screenOptions.navigator}>
 			<Stack.Screen
-				name="Home"
+				name="Network"
 				component={DashboardHomeScreen}
 				options={screenOptions.fade}
 			/>
@@ -17,4 +17,4 @@ export const DashboardStack: FC = () => {
 	);
 };
 
-export default DashboardStack;
+export default HomeStack;

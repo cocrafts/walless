@@ -1,3 +1,4 @@
+import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import type {
 	LinkingOptions,
 	NavigatorScreenParams,

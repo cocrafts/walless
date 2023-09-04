@@ -17,7 +17,7 @@ export const launchApp = async ({
 	if (profile?.email) {
 		navigate('Dashboard');
 	} else {
-		navigate('Invitation');
+		navigate('Authentication', { screen: 'Invitation' });
 	}
 
 	appState.loading = false;

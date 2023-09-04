@@ -1,13 +1,12 @@
 import type { FC } from 'react';
 import { LoginFeature } from '@walless/app';
-
-import { appActions, appState } from '../state/app';
-import { useSafeAreaInsets, useSnapshot } from '../utils/hooks';
+import { appActions, appState } from 'state/app';
+import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
 export const LoginScreen: FC = () => {
 	const insets = useSafeAreaInsets();
 	const { authenticationLoading } = useSnapshot(appState);
-	const logoSrc = require('../../assets/img/icon.png');
+	const logoSrc = require('assets/img/icon.png');
 	const containerStyle = {
 		paddingTop: insets.top,
 		paddingBottom: insets.bottom,

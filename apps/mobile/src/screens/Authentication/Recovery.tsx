@@ -5,7 +5,7 @@ import { navigate } from 'utils/navigation';
 export const RecoveryScreen = () => {
 	const handlePressContinue = async (key?: string) => {
 		if (key && (await recoverByEmergencyKey(key))) {
-			navigate('CreatePasscode');
+			navigate('Authentication', { screen: 'CreatePasscode' });
 		} else {
 			console.log('Wrong recovery key');
 		}

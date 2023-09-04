@@ -6,7 +6,7 @@ import { navigate } from 'utils/navigation';
 
 export const InvitationScreen: FC = () => {
 	const [invitationError, setInvitationError] = useState<string>();
-	const logoSrc = require('../../assets/img/icon.png');
+	const logoSrc = require('assets/img/icon.png');
 
 	const onInvitationCodeChange = async (value: string) => {
 		console.log(value);
@@ -14,7 +14,7 @@ export const InvitationScreen: FC = () => {
 
 	const handleLoginPress = () => {
 		setInvitationError(undefined);
-		navigate('Login');
+		navigate('Authentication', { screen: 'Login' });
 	};
 
 	return (

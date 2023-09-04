@@ -42,9 +42,15 @@ export const signInWithGoogle = async () => {
 			verifier,
 			verifierId,
 			privateKey: loginDetails.privateKey as string,
-			handlePasscode: async () => navigate('CreatePasscode'),
-			handleRecovery: async () => navigate('Recovery'),
-			handleDeprecatedPasscode: async () => navigate('DeprecatedPasscode'),
+			handlePasscode: async () => {
+				navigate('Authentication', { screen: 'CreatePasscode' });
+			},
+			handleRecovery: async () => {
+				navigate('Authentication', { screen: 'Recovery' });
+			},
+			handleDeprecatedPasscode: async () => {
+				navigate('Authentication', { screen: 'DeprecatedPasscode' });
+			},
 			handleReady: async () => {
 				await setProfile(makeProfile({ user } as never));
 				navigate('Dashboard');
@@ -60,9 +66,7 @@ export const signInWithGoogle = async () => {
 	}
 };
 
-export const initLocalDeviceByPasscodeAndSync = async (
-	passcode: string,
-): Promise<void> => {
+export const signInWithPasscode = async (passcode: string): Promise<void> => {
 	if (auth().currentUser) {
 		const profile = makeProfile({ user: auth().currentUser } as never);
 		await setProfile(profile);

@@ -11,14 +11,23 @@
 	"compilerOptions": {
 		"baseUrl": ".",
     "paths": {
-      "components/*": [
-        "./src/components/*"
+      "assets/*": [
+        "./assets/*"
       ],
       "utils/*": [
         "./src/utils/*"
       ],
       "state/*": [
         "./src/state/*"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "stacks/*": [
+        "./src/stacks/*"
+      ],
+      "screens/*": [
+        "./src/screens/*"
       ]
 		}
 	}

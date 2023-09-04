@@ -5,7 +5,10 @@ module.exports = {
 			'module-resolver',
 			{
 				alias: {
+					assets: './assets',
 					utils: './src/utils',
+					state: './src/state',
+					components: './src/components',
 					stacks: './src/stacks',
 					screens: './src/screens',
 					crypto: 'react-native-quick-crypto',

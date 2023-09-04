@@ -6,6 +6,14 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 import type { StackNavigationOptions } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 
+export type AuthenticationParamList = {
+	Login: undefined;
+	CreatePasscode: undefined;
+	DeprecatedPasscode: undefined;
+	Invitation: undefined;
+	Recovery: undefined;
+};
+
 export type DashboardParamList = {
 	Explore: undefined;
 	Profile: undefined;
@@ -17,11 +25,7 @@ export type DashboardParamList = {
 
 export type RootParamList = {
 	Splash: undefined;
-	Invitation: undefined;
-	Login: undefined;
-	DeprecatedPasscode: undefined;
-	CreatePasscode: undefined;
-	Recovery: undefined;
+	Authentication: NavigatorScreenParams<AuthenticationParamList>;
 	Dashboard: NavigatorScreenParams<DashboardParamList>;
 };
 
@@ -30,8 +34,16 @@ export const linking: LinkingOptions<RootParamList> = {
 	config: {
 		screens: {
 			Splash: '/splash',
-			Invitation: '/invitation',
-			Login: '/login',
+			Authentication: {
+				path: '/auth',
+				screens: {
+					Login: '/',
+					Invitation: '/invitation',
+					Recovery: '/recovery',
+					CreatePasscode: '/create-passcode',
+					DeprecatedPasscode: '/deprecated-passcode',
+				},
+			},
 			Dashboard: {
 				path: '/',
 				screens: {

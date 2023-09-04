@@ -70,6 +70,6 @@ export const initLocalDeviceByPasscodeAndSync = async (
 
 	await key.reconstructKey();
 	await initBySeedPhraseModule(passcode);
-	// await key.syncLocalMetadataTransitions();
+	await key.syncLocalMetadataTransitions();
 	modules.engine.start();
 };

@@ -1,4 +1,3 @@
-import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import type {
 	LinkingOptions,
 	NavigatorScreenParams,
@@ -94,4 +93,23 @@ export const navigate = (
 	if (navigationRef.isReady()) {
 		navigationRef.navigate(name as never, params as never);
 	}
+};
+
+export const resetRoute = (anchor: ResetAnchors) => {
+	if (anchor === 'Dashboard') {
+		navigationRef.reset({ index: 0, routes: [dashboardRoute] });
+	} else if (anchor === 'Invitation') {
+		navigationRef.reset({ index: 0, routes: [authenticationRoute] });
+	}
+};
+
+type ResetAnchors = 'Dashboard' | 'Invitation';
+
+const dashboardRoute = {
+	name: 'Dashboard',
+};
+
+const authenticationRoute = {
+	name: 'Authentication',
+	params: { screen: 'Invitation' },
 };

@@ -1,7 +1,7 @@
 import type { BootstrapResult } from '@walless/auth';
 import { appState, liveActions } from '@walless/engine';
 import { loadRemoteConfig } from 'utils/firebase';
-import { navigate } from 'utils/navigation';
+import { resetRoute } from 'utils/navigation';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	appState.remoteConfig = loadRemoteConfig();
@@ -15,9 +15,9 @@ export const launchApp = async ({
 	profile,
 }: BootstrapResult): Promise<void> => {
 	if (profile?.email) {
-		navigate('Dashboard');
+		resetRoute('Dashboard');
 	} else {
-		navigate('Authentication', { screen: 'Invitation' });
+		resetRoute('Invitation');
 	}
 
 	appState.loading = false;

@@ -22,6 +22,6 @@ export const validateAndRecoverWithPasscode = async (passcode: string) => {
 
 /**
  * @deprecated
- * This method is deprecated by using recovery flow
+ * This constant is deprecated by using recovery flow
  * */
 export const NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE = 3;

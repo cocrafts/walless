@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { CardSkin, TabAble } from '@walless/app';
 import {
-	MainFeatures,
+	MainFeatureButtons,
 	SlideHandler,
 	TabsHeader,
 	WalletCard,
@@ -86,7 +86,7 @@ export const TezosDashboard: FC<Props> = () => {
 				})}
 			</Stack>
 			<Stack alignItems="center" gap={18}>
-				<MainFeatures
+				<MainFeatureButtons
 					onReceivePress={() => showReceiveModal(Networks.tezos)}
 					onSendPress={handleSend}
 					onBuyPress={handleBuy}

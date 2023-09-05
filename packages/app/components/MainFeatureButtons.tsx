@@ -14,7 +14,7 @@ interface Props {
 	onBuyPress?: () => void;
 }
 
-export const MainFeatures: FC<Props> = ({
+export const MainFeatureButtons: FC<Props> = ({
 	style,
 	iconSize = 18,
 	onSendPress,
@@ -36,7 +36,7 @@ export const MainFeatures: FC<Props> = ({
 	);
 };
 
-export default MainFeatures;
+export default MainFeatureButtons;
 
 const styles = StyleSheet.create({
 	container: {

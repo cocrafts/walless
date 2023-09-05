@@ -1,3 +1,8 @@
+import { modules } from '@walless/ioc';
+
+import type { IFirebaseUser } from './helper';
+import { makeProfile, setProfile } from './helper';
+import { initBySeedPhraseModule } from './keys';
 import { NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE } from './passcode';
 import { initAndRegisterWallet } from './recovery';
 import { getSharesStatus, key, ThresholdResult } from './w3a';
@@ -63,4 +68,20 @@ export const signInWithTorusKey = async ({
 	} else if (status === ThresholdResult.Ready) {
 		await handleReady();
 	}
+};
+
+export const signInWithPasscode = async (
+	passcode: string,
+	user: IFirebaseUser | null,
+): Promise<void> => {
+	if (!user?.uid) {
+		throw new Error('signInWithPasscode requires user profile from firebase');
+	}
+
+	await setProfile(makeProfile(user as never));
+	await key().reconstructKey();
+	await initBySeedPhraseModule(passcode);
+	await key().syncLocalMetadataTransitions();
+
+	modules.engine?.start();
 };

@@ -1,4 +1,4 @@
-import type { Config, UnknownObject, UserProfile } from '@walless/core';
+import type { Config, UserProfile } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
 
@@ -7,7 +7,14 @@ export interface BootstrapResult {
 	config?: Config;
 }
 
-export const makeProfile = ({ user }: { user: UnknownObject }): UserProfile => {
+export interface IFirebaseUser {
+	uid: string;
+	email: string | null;
+	displayName: string | null;
+	photoURL: string | null;
+}
+
+export const makeProfile = ({ user }: { user: IFirebaseUser }): UserProfile => {
 	return {
 		id: user.uid,
 		email: user.email as never,

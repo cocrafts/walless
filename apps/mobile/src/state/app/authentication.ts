@@ -2,16 +2,10 @@ import Config from 'react-native-config';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import CustomAuth from '@toruslabs/customauth-react-native-sdk';
-import {
-	initBySeedPhraseModule,
-	makeProfile,
-	setProfile,
-	signInWithTorusKey,
-} from '@walless/auth';
+import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
 import { appState } from '@walless/engine';
-import { modules } from '@walless/ioc';
 import { navigate } from 'utils/navigation';
-import { customAuthArgs, key } from 'utils/w3a';
+import { customAuthArgs } from 'utils/w3a';
 
 GoogleSignin.configure({
 	webClientId: Config.GOOGLE_SIGNIN_CLIENT_ID,
@@ -64,16 +58,4 @@ export const signInWithGoogle = async () => {
 	} finally {
 		appState.authenticationLoading = false;
 	}
-};
-
-export const signInWithPasscode = async (passcode: string): Promise<void> => {
-	if (auth().currentUser) {
-		const profile = makeProfile({ user: auth().currentUser } as never);
-		await setProfile(profile);
-	}
-
-	await key.reconstructKey();
-	await initBySeedPhraseModule(passcode);
-	await key.syncLocalMetadataTransitions();
-	modules.engine.start();
 };

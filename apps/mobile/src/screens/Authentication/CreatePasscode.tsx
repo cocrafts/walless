@@ -1,10 +1,11 @@
+import auth from '@react-native-firebase/auth';
 import { CreatePasscode } from '@walless/app';
-import { appActions } from 'state/app';
+import { signInWithPasscode } from '@walless/auth';
 import { navigate } from 'utils/navigation';
 
 export const CreatePasscodeScreen = () => {
 	const handleOnComplete = async (passcode: string) => {
-		await appActions.signInWithPasscode(passcode);
+		await signInWithPasscode(passcode, auth().currentUser);
 		navigate('Dashboard');
 	};
 

@@ -1,10 +1,11 @@
 import { CreatePasscode } from '@walless/app';
-import { appActions } from 'state/app';
+import { signInWithPasscode } from '@walless/auth';
+import { auth } from 'utils/firebase';
 import { router } from 'utils/routing';
 
 export const CreatePasscodeScreen = () => {
 	const handleOnComplete = async (passcode: string) => {
-		await appActions.initLocalDeviceByPasscodeAndSync(passcode);
+		await signInWithPasscode(passcode, auth.currentUser);
 		router.navigate('/');
 	};
 

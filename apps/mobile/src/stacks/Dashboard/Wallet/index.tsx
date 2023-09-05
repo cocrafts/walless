@@ -1,20 +1,20 @@
 import type { FC } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import DashboardHomeScreen from 'screens/Dashboard/Home';
+import WalletNetworkScreen from 'screens/Dashboard/Wallet/Network';
 import { screenOptions } from 'utils/navigation';
 
 const Stack = createStackNavigator();
 
-export const HomeStack: FC = () => {
+export const WalletStack: FC = () => {
 	return (
 		<Stack.Navigator screenOptions={screenOptions.navigator}>
 			<Stack.Screen
 				name="Network"
-				component={DashboardHomeScreen}
+				component={WalletNetworkScreen}
 				options={screenOptions.fade}
 			/>
 		</Stack.Navigator>
 	);
 };
 
-export default HomeStack;
+export default WalletStack;

@@ -15,8 +15,10 @@ export type AuthenticationParamList = {
 };
 
 export type DashboardParamList = {
+	Wallet: undefined;
 	Explore: undefined;
 	Profile: undefined;
+	Contact: undefined;
 	Setting: undefined;
 	Extension: {
 		id?: string;

@@ -7,6 +7,7 @@ import { initializeAuth } from 'utils/firebase';
 
 import { makeConfig } from '../../scripts/kernel/utils/config';
 
+import { webAsset } from './config';
 import { qlClient } from './graphql';
 import { key } from './w3a';
 
@@ -14,6 +15,7 @@ export const injectModules = async () => {
 	const storage = create('engine', IDBPouch);
 
 	modules.config = makeConfig() as never;
+	modules.asset = webAsset;
 	modules.storage = storage;
 	modules.qlClient = qlClient;
 	modules.thresholdKey = key as never;

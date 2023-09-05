@@ -12,6 +12,7 @@ import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
+import { modules } from '@walless/ioc';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
@@ -76,7 +77,7 @@ export const TezosDashboard: FC<Props> = () => {
 							key={index}
 							index={index}
 							item={item}
-							skin={tezosCardSkin}
+							skin={makeCardSkin()}
 							hideBalance={setting.hideBalance}
 							onCopyAddress={handleCopyAddress}
 							onChangePrivateSetting={handleChangePrivateSetting}
@@ -113,11 +114,13 @@ export const TezosDashboard: FC<Props> = () => {
 
 export default TezosDashboard;
 
-const tezosCardSkin: CardSkin = {
-	backgroundSrc: { uri: 'https://tezos.com/brand/CoinsTezos1.png' },
-	iconSrc: { uri: '/img/network/tezos-icon-sm.png' },
-	iconColor: '#2D7DF8',
-	iconSize: 16,
+const makeCardSkin = (): CardSkin => {
+	return {
+		backgroundSrc: modules.asset.widget.tezos.cardBackground,
+		iconSrc: modules.asset.widget.tezos.cardIcon,
+		iconColor: '#2D7DF8',
+		iconSize: 16,
+	};
 };
 
 const styles = StyleSheet.create({

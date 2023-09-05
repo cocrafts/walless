@@ -1,3 +1,4 @@
+import type { ImageSourcePropType } from 'react-native';
 import type { Engine } from '@walless/engine';
 import type { EncryptionKeyVault } from '@walless/messaging';
 import type { Database } from '@walless/store';
@@ -22,8 +23,29 @@ export interface NativeConfig {
 	SOLANA_CLUSTER_URL: string;
 }
 
+export interface UniversalAsset {
+	widget: {
+		solana: {
+			cardIcon: ImageSourcePropType;
+			cardMark?: ImageSourcePropType;
+			cardBackground: ImageSourcePropType;
+		};
+		sui: {
+			cardIcon: ImageSourcePropType;
+			cardMark?: ImageSourcePropType;
+			cardBackground: ImageSourcePropType;
+		};
+		tezos: {
+			cardIcon: ImageSourcePropType;
+			cardMark?: ImageSourcePropType;
+			cardBackground: ImageSourcePropType;
+		};
+	};
+}
+
 export interface DynamicModules {
 	config: NativeConfig;
+	asset: UniversalAsset;
 	engine: Engine;
 	storage: Database;
 	qlClient: GraphQLClient;

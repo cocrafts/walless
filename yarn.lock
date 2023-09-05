@@ -12165,6 +12165,7 @@ __metadata:
   resolution: "@walless/app@workspace:packages/app"
   dependencies:
     eslint: 8.38.0
+    react-native-safe-area-context: ^4.7.2
   peerDependencies:
     "@metaplex-foundation/js": 0.18.3
     "@mysten/sui.js": 0.34.0
@@ -25393,6 +25394,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 5eb4e8d57f0fd072cbef74c7a31685149590706a3b0a05d7598fdbf6aa69707d09e9fb44494d2aa93c5f4ec9b669da10476b5e858f6b92d1d4290c3f94e43c4b
+  languageName: node
+  linkType: hard
+
+"react-native-safe-area-context@npm:^4.7.2":
+  version: 4.7.2
+  resolution: "react-native-safe-area-context@npm:4.7.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: a74a9c8b3d8642cab6e92ab12991279d3c0984c8ce09e64a4f5c6b08316001e796678bd3d5fa0e2601a334435c34ee914411a7cf7d8aa0460a49a177093b64ee
   languageName: node
   linkType: hard
 

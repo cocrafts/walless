@@ -7,15 +7,7 @@ import type { RootParamList } from 'utils/navigation';
 
 type Props = StackScreenProps<RootParamList, 'Splash'>;
 
-export const SplashWrapper: FC<Props> = (props) => {
-	// props.navigation.navigate('Dashboard', {
-	// 	screen: 'Home',
-	// 	params: {
-	// 		screen: 'Widget',
-	// 		params: { id: 'solana' },
-	// 	},
-	// });
-
+export const SplashWrapper: FC<Props> = () => {
 	return (
 		<SplashFeature
 			logoSrc={resources.walless.icon}

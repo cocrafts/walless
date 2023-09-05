@@ -13,13 +13,14 @@ import type { IndicatorOption, SlideOption } from './shared';
 interface Props {
 	style?: ViewStyle;
 	items: SlideOption[];
-	distance: number;
+	distance?: number;
 	onItemSelect?: (item: SlideOption) => void;
 	indicator?: IndicatorOption;
 }
 
-export const Slider: FC<Props> = ({ style, items, distance, indicator }) => {
+export const Slider: FC<Props> = ({ style, items, indicator }) => {
 	const [activeIndex, setActiveIndex] = useState(0);
+	const [itemWidth, setItemWidth] = useState(0);
 	const offset = useSharedValue(0);
 
 	const animatedStyle = useAnimatedStyle(
@@ -31,7 +32,7 @@ export const Slider: FC<Props> = ({ style, items, distance, indicator }) => {
 	);
 
 	const handleItemSelect = (index: number) => {
-		offset.value = withTiming(distance * index, {});
+		offset.value = withTiming(-itemWidth * index, {});
 		setActiveIndex(index);
 	};
 
@@ -45,7 +46,12 @@ export const Slider: FC<Props> = ({ style, items, distance, indicator }) => {
 						const { id, component: InnerComponent } = item;
 
 						return (
-							<View key={id}>
+							<View
+								key={id}
+								onLayout={(event) => {
+									setItemWidth(event.nativeEvent.layout.width);
+								}}
+							>
 								<InnerComponent config={item} />
 							</View>
 						);

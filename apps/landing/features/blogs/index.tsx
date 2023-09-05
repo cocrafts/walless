@@ -1,26 +1,17 @@
 import { useEffect, useState } from 'react';
-import type { ViewStyle } from 'react-native';
 import { ImageBackground, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { useRouter } from 'next/router';
 
-import Indicator from './Slider/Indicator';
 import BlogCard from './BlogCard';
 import CategoryItem from './CategoryItem';
 import type { Blog, Query } from './internal';
 import { blogs, Category } from './internal';
-import type { IndicatorOption, SlideOption } from './Slider';
-import Slider from './Slider';
+import SlidingSection from './SlidingSection.tsx';
 
 const BlogFeature = () => {
-	const [slidingLayout, setSlidingLayout] = useState({
-		width: 1100,
-		height: 1100,
-	});
-
 	const [fullLayout, setFullLayout] = useState({
-		width: 1100,
-		height: 1100,
+		width: 1150,
 	});
 
 	const router = useRouter();
@@ -28,47 +19,9 @@ const BlogFeature = () => {
 
 	const categories = Object.keys(Category);
 
-	const largeBlogCardStyle = {
-		width: slidingLayout.width,
-	};
-
 	const smallBlogCardStyle = {
 		width: (fullLayout.width - 30) / 2,
 	};
-
-	const convertBlogToSlideOption = (
-		blogs: Blog[],
-		style?: ViewStyle,
-		coverImageSize?: number,
-	): SlideOption[] => {
-		return blogs.map(
-			({ id, title, category, date, description, coverImage }, index) => {
-				return {
-					id: index.toString(),
-					component: () => (
-						<BlogCard
-							key={id}
-							style={style}
-							title={title}
-							coverImageSize={coverImageSize}
-							category={category}
-							coverImage={coverImage}
-							description={description}
-							date={date}
-						/>
-					),
-				};
-			},
-		);
-	};
-
-	const [slidingList, setSlidingList] = useState<SlideOption[]>(
-		convertBlogToSlideOption(
-			blogs.slice(blogs.length - 3),
-			largeBlogCardStyle,
-			540,
-		),
-	);
 
 	const [fullListOfBlogs, setFullListOfBlogs] = useState<Blog[]>(blogs);
 
@@ -78,12 +31,6 @@ const BlogFeature = () => {
 		} else {
 			router.push(`/blogs?category=${category}`);
 		}
-	};
-
-	const indicator: IndicatorOption = {
-		id: 'indicator',
-		component: Indicator,
-		context: { cardList: slidingList.reverse() },
 	};
 
 	useEffect(() => {
@@ -99,14 +46,6 @@ const BlogFeature = () => {
 		const temp = getListOfBlogs();
 
 		setFullListOfBlogs(temp);
-
-		setSlidingList(
-			convertBlogToSlideOption(
-				temp.slice(temp.length - 3),
-				largeBlogCardStyle,
-				480,
-			),
-		);
 	}, [category]);
 
 	return (
@@ -130,29 +69,15 @@ const BlogFeature = () => {
 				))}
 			</View>
 
-			{slidingList.length !== 0 && (
+			{fullListOfBlogs.length !== 0 && (
 				<View>
-					<View
-						onLayout={(event) => {
-							setSlidingLayout({
-								width: event.nativeEvent.layout.width,
-								height: event.nativeEvent.layout.height,
-							});
-						}}
-					>
-						<Slider
-							style={styles.slider}
-							items={slidingList.reverse()}
-							distance={-slidingLayout.width}
-							indicator={indicator}
-						/>
-					</View>
+					<SlidingSection listOfBlogs={fullListOfBlogs} />
+
 					<View
 						style={styles.blogsContainer}
 						onLayout={(event) => {
 							setFullLayout({
 								width: event.nativeEvent.layout.width,
-								height: event.nativeEvent.layout.height,
 							});
 						}}
 					>
@@ -161,7 +86,6 @@ const BlogFeature = () => {
 								key={blog.id}
 								style={smallBlogCardStyle}
 								title={blog.title}
-								coverImageSize={300}
 								category={blog.category}
 								coverImage={blog.coverImage}
 								description={blog.description}

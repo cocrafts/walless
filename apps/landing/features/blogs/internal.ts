@@ -30,7 +30,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Technical blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.technical,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -41,7 +45,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Technical blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.technical,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -52,7 +60,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Technical blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.technical,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -63,7 +75,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Technical blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.technical,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -74,7 +90,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Technical blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.technical,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -85,7 +105,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Technical blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.technical,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -96,7 +120,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Technical blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.technical,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -107,7 +135,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Technical blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.technical,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -118,7 +150,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Technical blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.technical,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -129,7 +165,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 
@@ -141,7 +181,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -152,7 +196,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -163,7 +211,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -174,7 +226,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -185,7 +241,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -196,7 +256,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -207,7 +271,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -218,7 +286,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -229,7 +301,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -240,7 +316,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Develop blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.develop,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -251,7 +331,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -262,7 +346,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -273,7 +361,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -284,7 +376,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -295,7 +391,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -306,7 +406,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -317,7 +421,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -328,7 +436,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -339,7 +451,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -350,7 +466,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a News blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.news,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 
@@ -362,7 +482,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -373,7 +497,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -384,7 +512,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -395,7 +527,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -406,7 +542,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -417,7 +557,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -428,7 +572,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -439,7 +587,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -450,7 +602,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 	{
@@ -461,7 +617,11 @@ export const blogs: Blog[] = [
 			'This is a blog about how to create a Product blog. Below is a spectrum of video providers loosely grouped by the types of services they offer. As you go right, you shift toward DIY and video that’s built into the app directly (also known as native video, but we’ll steer clear of that term to avoid confusion with native application development)....',
 		date: new Date(),
 		category: Category.product,
-		content: ['This is a blog about how to create a blog'],
+		content: [
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+		],
 		activityImages: [],
 	},
 ];

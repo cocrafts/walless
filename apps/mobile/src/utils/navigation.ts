@@ -14,8 +14,14 @@ export type AuthenticationParamList = {
 	Recovery: undefined;
 };
 
+export type HomeParamList = {
+	Widget: {
+		id?: string;
+	};
+};
+
 export type DashboardParamList = {
-	Wallet: undefined;
+	Home: NavigatorScreenParams<HomeParamList>;
 	Explore: undefined;
 	Profile: undefined;
 	Contact: undefined;
@@ -35,7 +41,7 @@ export const linking: LinkingOptions<RootParamList> = {
 	prefixes: ['walless://'],
 	config: {
 		screens: {
-			Splash: '/splash',
+			Splash: '/splash/:id',
 			Authentication: {
 				path: '/auth',
 				screens: {
@@ -49,7 +55,13 @@ export const linking: LinkingOptions<RootParamList> = {
 			Dashboard: {
 				path: '/',
 				screens: {
-					Explore: '/',
+					Home: {
+						path: '/',
+						screens: {
+							Widget: '/widget/:id',
+						},
+					},
+					Explore: '/explore',
 					Profile: '/profile',
 					Setting: '/setting',
 					Extension: '/:id',
@@ -97,21 +109,31 @@ export const navigate = (
 	}
 };
 
-export const resetRoute = (anchor: ResetAnchors) => {
-	if (anchor === 'Dashboard') {
-		navigationRef.reset({ index: 0, routes: [dashboardRoute] });
+export const resetRoute = (anchor: ResetAnchors, params?: object) => {
+	if (anchor === 'Widget') {
+		navigationRef.reset({ index: 0, routes: [widgetRoute(params)] });
 	} else if (anchor === 'Invitation') {
-		navigationRef.reset({ index: 0, routes: [authenticationRoute] });
+		navigationRef.reset({ index: 0, routes: [authenticationRoute(params)] });
 	}
 };
 
-type ResetAnchors = 'Dashboard' | 'Invitation';
+type ResetAnchors = 'Widget' | 'Invitation';
 
-const dashboardRoute = {
+const widgetRoute = (params?: object) => ({
 	name: 'Dashboard',
-};
+	params: {
+		screen: 'Home',
+		params: {
+			screen: 'Widget',
+			params,
+		},
+	},
+});
 
-const authenticationRoute = {
+const authenticationRoute = (params?: object) => ({
 	name: 'Authentication',
-	params: { screen: 'Invitation' },
-};
+	params: {
+		screen: 'Invitation',
+		params,
+	},
+});

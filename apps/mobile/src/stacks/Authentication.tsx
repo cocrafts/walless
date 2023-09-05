@@ -1,15 +1,19 @@
 import type { FC } from 'react';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import CreatePasscodeScreen from 'screens/Authentication/CreatePasscode';
 import DeprecatedPasscodeScreen from 'screens/Authentication/DeprecatedPasscode';
 import InvitationScreen from 'screens/Authentication/Invitation';
 import LoginScreen from 'screens/Authentication/Login';
 import RecoveryScreen from 'screens/Authentication/Recovery';
+import type { AuthenticationParamList, RootParamList } from 'utils/navigation';
 import { screenOptions } from 'utils/navigation';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AuthenticationParamList>();
 
-export const AuthenticationStack: FC = () => {
+type Props = StackScreenProps<RootParamList, 'Authentication'>;
+
+export const AuthenticationStack: FC<Props> = () => {
 	return (
 		<Stack.Navigator screenOptions={screenOptions.navigator}>
 			<Stack.Screen
@@ -33,7 +37,7 @@ export const AuthenticationStack: FC = () => {
 				options={screenOptions.bottomFade}
 			/>
 			<Stack.Screen
-				name="DepreatedPasscode"
+				name="DeprecatedPasscode"
 				component={DeprecatedPasscodeScreen}
 				options={screenOptions.bottomFade}
 			/>

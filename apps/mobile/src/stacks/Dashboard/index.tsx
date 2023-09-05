@@ -8,13 +8,15 @@ import ContactScreen from 'screens/Dashboard/Contact';
 import ExploreScreen from 'screens/Dashboard/Explore';
 import ProfileScreen from 'screens/Dashboard/Profile';
 import SettingScreen from 'screens/Dashboard/Setting';
-import type { DashboardParamList } from 'utils/navigation';
+import type { DashboardParamList, RootParamList } from 'utils/navigation';
 
-import WalletStack from './Wallet';
+import HomeStack from './Home';
 
 const Tab = createBottomTabNavigator<DashboardParamList>();
 
-export const DashboardStack: FC<StackScreenProps<DashboardParamList>> = () => {
+type Props = StackScreenProps<RootParamList, 'Dashboard'>;
+
+export const DashboardStack: FC<Props> = () => {
 	const screenOptions: BottomTabNavigationOptions = {
 		headerShown: false,
 	};
@@ -28,7 +30,7 @@ export const DashboardStack: FC<StackScreenProps<DashboardParamList>> = () => {
 			tabBar={TabBar}
 			sceneContainerStyle={sceneContainerStyle}
 		>
-			<Tab.Screen name="Wallet" component={WalletStack} />
+			<Tab.Screen name="Home" component={HomeStack} />
 			<Tab.Screen name="Explore" component={ExploreScreen} />
 			<Tab.Screen name="Contact" component={ContactScreen} />
 			<Tab.Screen name="Profile" component={ProfileScreen} />

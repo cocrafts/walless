@@ -17,4 +17,5 @@ export * from './features/Password';
 export * from './features/Recovery';
 export * from './features/Send';
 export * from './features/Splash';
+export * from './features/Widget';
 export * from './modals/NotificationModal';

@@ -1,3 +1,4 @@
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import type {
 	AccountInfo,
 	ParsedAccountData,
@@ -7,6 +8,7 @@ import { clusterApiUrl, Connection } from '@solana/web3.js';
 import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
+import type { TokenDocument } from '@walless/store';
 import pThrottle from 'p-throttle';
 
 import { createConnectionPool } from '../../utils/pool';
@@ -37,13 +39,34 @@ export const now = Date.now();
 /* Solana RPC have rate limit around 40 calls every 10 second */
 export const throttle = pThrottle({ limit: 4, interval: 1000 });
 
-export const tokenFilter = ({ account }: ParsedAccount) => {
-	return account.data.parsed.info.tokenAmount.decimals > 0;
+export const tokenProgramFilter = { programId: TOKEN_PROGRAM_ID };
+
+export enum TokenType {
+	Fungible,
+	SemiFungible,
+	NonFungible,
+}
+
+export const getTokenType = (
+	account: AccountInfo<ParsedAccountData>,
+): TokenType => {
+	const decimals = account.data.parsed.info.tokenAmount.decimals;
+
+	if (decimals === 0) {
+		return TokenType.NonFungible;
+	}
+
+	return TokenType.Fungible;
+};
+
+export const makeHashId = (i: TokenDocument) => {
+	return `${i.network}#${i.account.mint}`;
 };
 
 export const getTokenQuotes = async (
-	addresses: string[],
+	docs: TokenDocument[],
 ): Promise<Record<string, TokenInfo>> => {
+	const addresses = docs.map(makeHashId);
 	const result: Record<string, TokenInfo> = {};
 	const response = await modules.qlClient.request<
 		{ tokensByAddress: TokenInfo[] },

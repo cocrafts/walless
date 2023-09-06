@@ -1,66 +1,57 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey } from '@solana/web3.js';
+import type { AccountInfo, ParsedAccountData } from '@solana/web3.js';
+import type { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 
 import { getMetadata, solMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
-import { throttle, tokenFilter } from './shared';
+import { throttle } from './shared';
 
-export const getAllTokensByAddress = async (
+export const getNativeTokenDocument = async (
+	{ connection, endpoint }: SolanaContext,
+	key: PublicKey,
+): Promise<TokenDocument> => {
+	const address = key.toString();
+	const balance = await throttle(() => connection.getBalance(key))();
+
+	return {
+		_id: `${address}/${solMint}`,
+		network: Networks.solana,
+		endpoint,
+		type: 'Token',
+		account: {
+			mint: solMint,
+			owner: 'system',
+			address,
+			balance: String(balance),
+			decimals: 9,
+		},
+		metadata: solMetadata,
+	} satisfies TokenDocument;
+};
+
+export const getSPLTokenDocument = async (
 	context: SolanaContext,
-	address: string,
-) => {
-	const { connection, endpoint } = context;
-	const key = new PublicKey(address);
-	const filter = { programId: TOKEN_PROGRAM_ID };
-	const response = await throttle(() => {
-		return connection.getParsedTokenAccountsByOwner(key, filter);
-	})();
+	key: PublicKey,
+	account: AccountInfo<ParsedAccountData>,
+): Promise<TokenDocument> => {
+	const address = key.toString();
+	const { data, owner } = account;
+	const info = data.parsed?.info || {};
+	const metadata = await getMetadata(context, info.mint);
 
-	const resolveNativeToken = async () => {
-		const balance = await throttle(() => connection.getBalance(key))();
-
-		return {
-			_id: `${address}/${solMint}`,
-			network: Networks.solana,
-			endpoint,
-			type: 'Token',
-			account: {
-				mint: solMint,
-				owner: 'system',
-				address,
-				balance: String(balance),
-				decimals: 9,
-			},
-			metadata: solMetadata,
-		} satisfies TokenDocument;
+	return {
+		_id: `${address}/${info.mint}`,
+		network: Networks.solana,
+		endpoint: context.endpoint,
+		type: 'Token',
+		account: {
+			mint: info.mint,
+			owner: owner.toString(),
+			address,
+			balance: info.tokenAmount?.amount,
+			decimals: info.tokenAmount?.decimals,
+		},
+		metadata: metadata,
 	};
-
-	const resultPromises = response.value
-		.filter(tokenFilter as never)
-		.map(async ({ account }): Promise<TokenDocument> => {
-			const { data, owner } = account;
-			const info = data.parsed?.info || {};
-			const metadata = await getMetadata(context, info.mint);
-
-			return {
-				_id: `${address}/${info.mint}`,
-				network: Networks.solana,
-				endpoint,
-				type: 'Token',
-				account: {
-					mint: info.mint,
-					owner: owner.toString(),
-					address,
-					balance: info.tokenAmount?.amount,
-					decimals: info.tokenAmount?.decimals,
-				},
-				metadata: metadata,
-			};
-		});
-
-	resultPromises.unshift(resolveNativeToken());
-
-	return await Promise.all(resultPromises);
 };

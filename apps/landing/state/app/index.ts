@@ -1,3 +1,4 @@
+import type { Networks } from '@walless/core';
 import type { MetadataDocument } from '@walless/store';
 import type { Target } from 'features/home/EditTool/internal';
 
@@ -21,6 +22,9 @@ export const editToolActions = {
 	},
 	setProjectBanner: (banner: string) => {
 		appState.tools.project.banner = banner;
+	},
+	setNetworks: (networks: Networks[]) => {
+		appState.tools.detail.networks = networks;
 	},
 	setDetailToken: (tokenMetadata: MetadataDocument) => {
 		appState.tools.detail.tokens[tokenMetadata._id] = tokenMetadata;

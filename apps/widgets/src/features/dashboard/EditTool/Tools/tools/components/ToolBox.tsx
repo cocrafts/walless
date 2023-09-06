@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 20,
 		gap: 10,
-		minWidth: 350,
 		borderWidth: 1,
+		minWidth: 280,
 		borderColor: 'rgba(255, 255, 255, 0.12)',
 	},
 });

@@ -4,9 +4,10 @@ import { View } from '@walless/gui';
 
 import type { ToolboxProps } from '../internal';
 
+import ToolsContainer from './tools/components/ToolsContainer';
 import ToolName from './ToolName';
 
-const Toolbox: FC<ToolboxProps> = ({ tools, setActiveTool }) => {
+const Tools: FC<ToolboxProps> = ({ tools, activeTool, setActiveTool }) => {
 	return (
 		<View style={styles.container}>
 			{tools.map((tool) => (
@@ -19,13 +20,15 @@ const Toolbox: FC<ToolboxProps> = ({ tools, setActiveTool }) => {
 							onPress={() => setActiveTool(tool)}
 						/>
 					</View>
-					<View style={styles.toolsContainer}>
+					{/* <View style={styles.toolsContainer}>
 						{tool.components.map((ToolComponent, i) => (
 							<ToolComponent key={i} />
 						))}
-					</View>
+					</View> */}
 				</View>
 			))}
+
+			<ToolsContainer components={activeTool.components} />
 			{/* <View style={styles.toolsContainer}>
 				{activeTool.components.map((ToolComponent, i) => (
 					<ToolComponent key={i} />
@@ -35,7 +38,7 @@ const Toolbox: FC<ToolboxProps> = ({ tools, setActiveTool }) => {
 	);
 };
 
-export default Toolbox;
+export default Tools;
 
 const styles = StyleSheet.create({
 	toolsHeader: {},

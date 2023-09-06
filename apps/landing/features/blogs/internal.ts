@@ -5,7 +5,7 @@ export interface Blog {
 	description: string;
 	date: Date;
 	category: Category;
-	content: string[];
+	content: string[][];
 	activityImages: string[];
 }
 
@@ -31,11 +31,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.technical,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '2',
@@ -46,11 +60,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.technical,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '3',
@@ -61,11 +89,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.technical,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '4',
@@ -76,11 +118,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.technical,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '5',
@@ -91,11 +147,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.technical,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '6',
@@ -106,11 +176,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.technical,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '7',
@@ -121,11 +205,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.technical,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '8',
@@ -136,11 +234,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.technical,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '9',
@@ -151,11 +263,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.technical,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '10',
@@ -166,11 +292,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 
 	{
@@ -182,11 +322,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '12',
@@ -197,11 +351,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '13',
@@ -212,11 +380,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '14',
@@ -227,11 +409,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '15',
@@ -242,11 +438,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '16',
@@ -257,11 +467,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '17',
@@ -272,11 +496,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '18',
@@ -287,11 +525,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '19',
@@ -302,11 +554,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '20',
@@ -317,11 +583,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.develop,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '21',
@@ -332,11 +612,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '22',
@@ -347,11 +641,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '23',
@@ -362,11 +670,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '24',
@@ -377,11 +699,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '25',
@@ -392,11 +728,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '26',
@@ -407,11 +757,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '27',
@@ -422,11 +786,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '28',
@@ -437,11 +815,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '29',
@@ -452,11 +844,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '30',
@@ -467,11 +873,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.news,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 
 	{
@@ -483,11 +903,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '32',
@@ -498,11 +932,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '33',
@@ -513,11 +961,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '34',
@@ -528,11 +990,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '35',
@@ -543,11 +1019,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '36',
@@ -558,11 +1048,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '37',
@@ -573,11 +1077,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '38',
@@ -588,11 +1106,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '39',
@@ -603,11 +1135,25 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 	{
 		id: '40',
@@ -618,10 +1164,24 @@ export const blogs: Blog[] = [
 		date: new Date(),
 		category: Category.product,
 		content: [
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
-			'The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
-			'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
+			[
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+				' The work included the dismantling of 1.5 m wide facade type “PERI” scaffolding, with 0.5 m brackets, as well as other accessories such as lifts, weirs, and the like.',
+				'Munich, Germany At the beginning of November, in the center of Munich, a corner of the scaffolding on an antique building from 1897 built-in neo-baroque style. It is still an official building, serving as a ministry. Our 5 colleagues worked on this section and the work lasted 2 weeks.',
+			],
 		],
-		activityImages: [],
+		activityImages: [
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+			'/img/blogs/tezos-walless.svg',
+		],
 	},
 ];

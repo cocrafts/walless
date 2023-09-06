@@ -70,11 +70,11 @@ const BlogFeature = () => {
 			</View>
 
 			{fullListOfBlogs.length !== 0 && (
-				<View>
+				<View style={styles.blogsContainer}>
 					<SlidingSection listOfBlogs={fullListOfBlogs} />
 
 					<View
-						style={styles.blogsContainer}
+						style={styles.fullBlogsContainer}
 						onLayout={(event) => {
 							setFullLayout({
 								width: event.nativeEvent.layout.width,
@@ -85,6 +85,7 @@ const BlogFeature = () => {
 							<BlogCard
 								key={blog.id}
 								style={smallBlogCardStyle}
+								id={blog.id}
 								title={blog.title}
 								category={blog.category}
 								coverImage={blog.coverImage}
@@ -130,8 +131,10 @@ const styles = StyleSheet.create({
 	category: {
 		color: '#566674',
 	},
-	slider: {},
 	blogsContainer: {
+		gap: 60,
+	},
+	fullBlogsContainer: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',

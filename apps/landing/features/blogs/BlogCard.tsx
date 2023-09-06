@@ -4,11 +4,13 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { ArrowRight, BlogCategory } from '@walless/icons';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import type { Category } from './internal';
 
 export interface BlogCardProps {
 	style?: ViewStyle;
+	id: string;
 	title: string;
 	coverImage: string;
 	description: string;
@@ -18,6 +20,7 @@ export interface BlogCardProps {
 
 const BlogCard: FC<BlogCardProps> = ({
 	style,
+	id,
 	title,
 	coverImage,
 	description: description,
@@ -76,8 +79,17 @@ const BlogCard: FC<BlogCardProps> = ({
 		? styles.mediumContainer
 		: styles.smallContainer;
 
+	const router = useRouter();
+
+	const handleNavigateToLayoutDetails = () => {
+		router.push(`/blogs/${id}`);
+	};
+
 	return (
-		<TouchableOpacity style={[styles.container, containerStyle, style]}>
+		<TouchableOpacity
+			style={[styles.container, containerStyle, style]}
+			onPress={handleNavigateToLayoutDetails}
+		>
 			<View style={styles.contentContainer}>
 				<View style={styles.informationContainer}>
 					<View style={styles.categoryContainer}>

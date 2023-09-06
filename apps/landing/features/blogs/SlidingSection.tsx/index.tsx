@@ -31,6 +31,7 @@ const SlidingSection: FC<Props> = ({ listOfBlogs }) => {
 						<BlogCard
 							key={id}
 							style={style}
+							id={id}
 							title={title}
 							category={category}
 							coverImage={coverImage}

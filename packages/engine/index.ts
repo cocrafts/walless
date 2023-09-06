@@ -2,7 +2,8 @@ import type { Endpoint, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { EndpointsDocument } from '@walless/store';
 
-import { solanaEngineRunner, solanaPool } from './network/solana';
+import { solanaEngineRunner, solanaPool } from './crawlers/solana';
+import { suiEngineRunner, suiPool } from './crawlers/sui';
 import { createCrawler, defaultEndpoints } from './utils/crawler';
 import type { EngineCrawler } from './utils/type';
 // import { suiEngineRunner, suiPool } from './sui';
@@ -31,18 +32,12 @@ export const createEngine = async (): Promise<Engine> => {
 			start: solanaEngineRunner.start,
 			stop: solanaEngineRunner.stop,
 		}),
-		// solana: createCrawler({
-		// 	endpoint: endpoints.solana,
-		// 	pool: solanaPool,
-		// 	start: solanaEngineRunner.start,
-		// 	stop: solanaEngineRunner.stop,
-		// }),
-		// sui: createCrawler({
-		// 	endpoint: endpoints.sui,
-		// 	pool: suiPool,
-		// 	start: suiEngineRunner.start,
-		// 	stop: suiEngineRunner.stop,
-		// }),
+		sui: createCrawler({
+			endpoint: endpoints.sui,
+			pool: suiPool,
+			start: suiEngineRunner.start,
+			stop: suiEngineRunner.stop,
+		}),
 		// tezos: createCrawler({
 		// 	endpoint: endpoints.tezos,
 		// 	pool: tezosPool,

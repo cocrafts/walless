@@ -46,7 +46,7 @@ export const signInWithGoogle = async () => {
 				navigate('Authentication', { screen: 'DeprecatedPasscode' });
 			},
 			handleReady: async () => {
-				await setProfile(makeProfile({ user } as never));
+				await setProfile(makeProfile(user));
 				navigate('Dashboard');
 			},
 			handleError: async () => {

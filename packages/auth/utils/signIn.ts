@@ -78,7 +78,7 @@ export const signInWithPasscode = async (
 		throw new Error('signInWithPasscode requires user profile from firebase');
 	}
 
-	await setProfile(makeProfile(user as never));
+	await setProfile(makeProfile(user));
 	await key().reconstructKey();
 	await initBySeedPhraseModule(passcode);
 	await key().syncLocalMetadataTransitions();

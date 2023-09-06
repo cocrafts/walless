@@ -14,7 +14,7 @@ export interface IFirebaseUser {
 	photoURL: string | null;
 }
 
-export const makeProfile = ({ user }: { user: IFirebaseUser }): UserProfile => {
+export const makeProfile = (user: IFirebaseUser): UserProfile => {
 	return {
 		id: user.uid,
 		email: user.email as never,

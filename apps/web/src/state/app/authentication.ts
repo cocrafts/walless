@@ -59,7 +59,7 @@ export const signInWithGoogle = async () => {
 				router.navigate('/deprecated-passcode');
 			},
 			handleReady: async () => {
-				await setProfile(makeProfile({ user } as never));
+				await setProfile(makeProfile(user));
 				await router.navigate('/');
 			},
 			handleError: async () => showError('Something went wrong') as never,
@@ -75,7 +75,7 @@ export const initLocalDeviceByPasscodeAndSync = async (
 	passcode: string,
 ): Promise<void> => {
 	if (auth.currentUser) {
-		const profile = makeProfile({ user: auth.currentUser } as never);
+		const profile = makeProfile(auth.currentUser);
 		await setProfile(profile);
 	}
 

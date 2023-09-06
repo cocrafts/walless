@@ -16,22 +16,15 @@ export interface Engine {
 }
 
 export const createEngine = async (): Promise<Engine> => {
-	let endpoints = (await modules.storage.safeGet(
-		'endpoints',
-	)) as EndpointsDocument;
+	const { storage } = modules;
+	let endpoints = (await storage.safeGet('endpoints')) as EndpointsDocument;
 
 	if (!endpoints) {
-		endpoints = {
-			_id: 'endpoints',
-			type: 'EndpointMap',
-			...defaultEndpoints,
-		};
-
-		modules.storage.upsert('endpoints', async () => endpoints);
+		endpoints = { _id: 'endpoints', type: 'EndpointMap', ...defaultEndpoints };
+		storage.upsert('endpoints', async () => endpoints);
 	}
 
-	/* eslint-disable-next-line */
-	const crawlers: Record<string, EngineCrawler<any>> = {
+	const crawlers: Record<string, EngineCrawler<unknown>> = {
 		solana: createCrawler({
 			endpoint: endpoints.solana,
 			pool: solanaPool,
@@ -69,7 +62,7 @@ export const createEngine = async (): Promise<Engine> => {
 			crawlers.solana?.start();
 			crawlers.tezos?.start();
 		},
-		getConnection: (network) => crawlers[network]?.connection,
+		getConnection: (network) => crawlers[network]?.connection as never,
 	};
 };
 

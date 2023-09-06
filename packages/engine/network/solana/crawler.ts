@@ -1,8 +1,7 @@
-import { PublicKey } from '@solana/web3.js';
+import { Connection, PublicKey } from '@solana/web3.js';
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { flatten } from 'lodash';
 
 import { tokenActions } from '../../state/token';
 
@@ -15,41 +14,54 @@ import {
 	tokenProgramFilter,
 	TokenType,
 } from './shared';
+import { registerAccountChanges, watchLogs } from './subscription';
 import { getNativeTokenDocument, getSPLTokenDocument } from './token';
 
 export const solanaEngineRunner: SolanaRunner = {
 	start: async (context) => {
+		const { storage } = modules;
 		const { connection } = context;
-		const key = await modules.storage.find<PublicKeyDocument>(
-			selectors.solanaKeys,
-		);
+		const liveConnection = new Connection(connection.rpcEndpoint, 'confirmed');
+		const key = await storage.find<PublicKeyDocument>(selectors.solanaKeys);
 
 		for (const item of key.docs) {
-			const pk = new PublicKey(item._id);
-			const fungibleChunkPromises: Promise<TokenDocument>[] = [
-				getNativeTokenDocument(context, pk),
+			const currentPubkey = new PublicKey(item._id);
+			const accountKeys = [currentPubkey];
+			const fungiblePromises: Promise<TokenDocument>[] = [
+				getNativeTokenDocument(context, currentPubkey),
 			];
+
+			watchLogs(context, liveConnection, currentPubkey);
+
 			const parsedTokenAccounts = await throttle(() => {
-				return connection.getParsedTokenAccountsByOwner(pk, tokenProgramFilter);
+				return connection.getParsedTokenAccountsByOwner(
+					currentPubkey,
+					tokenProgramFilter,
+				);
 			})();
 
-			for (const { account } of parsedTokenAccounts.value) {
+			for (const { pubkey, account } of parsedTokenAccounts.value) {
 				const tokenType = getTokenType(account);
 
 				if (tokenType === TokenType.Fungible) {
-					fungibleChunkPromises.push(getSPLTokenDocument(context, pk, account));
+					fungiblePromises.push(getSPLTokenDocument(context, pubkey, account));
 				}
+
+				accountKeys.push(pubkey);
 			}
 
-			const fungibleChunks = await Promise.all(fungibleChunkPromises);
-			const flattenFungibles = flatten(fungibleChunks);
-			const quotes = await getTokenQuotes(fungibleChunks);
+			const fungibleTokens = await Promise.all(fungiblePromises);
+			const quotes = await getTokenQuotes(fungibleTokens);
 
-			for (const item of flattenFungibles) {
+			for (const item of fungibleTokens) {
 				item.account.quotes = quotes[makeHashId(item)].quotes;
 			}
 
-			tokenActions.setItems(flattenFungibles);
+			tokenActions.setItems(fungibleTokens);
+
+			for (const key of accountKeys) {
+				registerAccountChanges(context, liveConnection, key);
+			}
 		}
 	},
 	stop: async () => {

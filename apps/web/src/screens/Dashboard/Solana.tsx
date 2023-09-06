@@ -123,6 +123,7 @@ const makeCardSkin = (): CardSkin => {
 	return {
 		backgroundSrc: modules.asset.widget.solana.cardBackground,
 		iconSrc: modules.asset.widget.solana.cardIcon,
+		largeIconSrc: modules.asset.widget.solana.cardMark,
 		iconColor: '#000000',
 		iconSize: 16,
 	};

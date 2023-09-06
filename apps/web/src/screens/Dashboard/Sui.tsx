@@ -120,6 +120,7 @@ const makeCardSkin = (): CardSkin => {
 	return {
 		backgroundSrc: modules.asset.widget.sui.cardBackground,
 		iconSrc: modules.asset.widget.sui.cardIcon,
+		largeIconSrc: modules.asset.widget.sui.cardMark,
 		iconColor: '#FFFFFF',
 		iconSize: 12,
 	};

@@ -4,15 +4,15 @@ import { StyleSheet, View } from 'react-native';
 import { extractWidgetComponent } from './shared';
 
 interface Props {
-	id?: string;
+	id: string;
 }
 
 export const WidgetFeature: FC<Props> = ({ id }) => {
-	const WidgetComponent = extractWidgetComponent(id as string);
+	const WidgetComponent = extractWidgetComponent(id);
 
 	return (
 		<View style={styles.container}>
-			<WidgetComponent />
+			<WidgetComponent id={id} />
 		</View>
 	);
 };
@@ -22,7 +22,5 @@ export default WidgetFeature;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
 	},
 });

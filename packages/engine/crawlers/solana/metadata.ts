@@ -1,7 +1,6 @@
 import type { JsonMetadata } from '@metaplex-foundation/js';
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { PublicKey } from '@solana/web3.js';
-import type { LegacyMetadataSource } from '@walless/core';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { MetadataDocument } from '@walless/store';
@@ -81,6 +80,24 @@ export const solMint = '11111111111111111111111111111111';
 export const METADATA_PROGRAM_ID =
 	'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s';
 export const METADATA_PROGRAM_KEY = new PublicKey(METADATA_PROGRAM_ID);
+
+interface LegacySolanaMetadata {
+	address: string;
+	name?: string;
+	symbol?: string;
+	decimals?: number;
+	logoURI?: string;
+	extensions?: Record<string, string>;
+	tags: string[];
+}
+
+interface LegacyMetadataSource {
+	name: string;
+	logoURI: string;
+	keywords: string[];
+	timestamp: string;
+	tokens: LegacySolanaMetadata[];
+}
 
 export const solMetadata: MetadataDocument = {
 	_id: solMint,

@@ -72,24 +72,6 @@ export interface TransactionPayload {
 	passcode?: string;
 }
 
-export interface LegacySolanaMetadata {
-	address: string;
-	name?: string;
-	symbol?: string;
-	decimals?: number;
-	logoURI?: string;
-	extensions?: Record<string, string>;
-	tags: string[];
-}
-
-export interface LegacyMetadataSource {
-	name: string;
-	logoURI: string;
-	keywords: string[];
-	timestamp: string;
-	tokens: LegacySolanaMetadata[];
-}
-
 export enum Timeout {
 	thirtySeconds = 30000,
 	sixtySeconds = 60000,

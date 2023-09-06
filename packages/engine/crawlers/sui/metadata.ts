@@ -1,30 +1,48 @@
-import type { SuiObjectData } from '@mysten/sui.js';
 import { Networks } from '@walless/core';
 import type { MetadataDocument } from '@walless/store';
 
-import type { SuiContext } from './shared';
+import type { ICoin, SuiContext } from './shared';
+import suietMetadata from './suiet-metadata.json';
 
 export const getMetadata = async (
 	_: SuiContext,
-	data: SuiObjectData,
+	coin: ICoin,
 ): Promise<MetadataDocument> => {
+	const meta = suietRegistry[coin.coinType];
+
 	const result: MetadataDocument = {
-		_id: data.objectId,
+		_id: coin.coinType,
 		type: 'Metadata',
 		network: Networks.sui,
+		name: meta?.name || 'unknown',
+		symbol: meta?.symbol || 'unknown',
+		imageUri: meta?.imageUri || 'unknown',
 		timestamp: new Date().toISOString(),
 	};
 
-	if (data.type === '0x2::coin::Coin<0x2::sui::SUI>') {
-		result.name = 'Sui';
-		result.symbol = 'SUI';
-		result.imageUri = '/img/network/sui-icon.png';
-	} else {
-		result.name = 'unknown';
-		result.symbol = 'unknown';
-		result.imageUri = undefined;
-		result.sod = data;
-	}
-
 	return result;
 };
+
+const suietRegistry: Record<string, MetadataDocument> = {};
+
+interface SuietMetadata {
+	name: string;
+	symbol: string;
+	coin_type: string;
+	coingecko_id: string;
+	decimals: number;
+	icon_url: string;
+	project_url: string;
+	source: string;
+}
+
+for (const i of suietMetadata as SuietMetadata[]) {
+	suietRegistry[i.coin_type] = {
+		_id: i.coin_type,
+		type: 'Metadata',
+		network: Networks.sui,
+		name: i.name,
+		symbol: i.symbol,
+		imageUri: i.icon_url,
+	};
+}

@@ -14,7 +14,7 @@ export const getTokenDocument = async (
 	const { endpoint } = context;
 
 	return {
-		_id: `${owner}/${coin.coinType}`,
+		_id: `${owner}/${object.objectId}`,
 		type: 'Token',
 		network: Networks.sui,
 		endpoint,
@@ -24,6 +24,6 @@ export const getTokenDocument = async (
 			balance: coin.balance,
 			decimals: 9,
 		},
-		metadata: await getMetadata(context, object),
+		metadata: await getMetadata(context, coin),
 	};
 };

@@ -11895,7 +11895,6 @@ __metadata:
     react-native-reanimated: 3.3.0
     react-native-svg: 13.10.0
     react-native-web: ^0.18.12
-    valtio: ^1.10.5
   languageName: unknown
   linkType: soft
 
@@ -29008,21 +29007,6 @@ __metadata:
     react:
       optional: true
   checksum: a01d7cca44b3ff60213aa40470c42083f7522d8e2c2f2d9f696b0aa3eec4c3dba7393831d5ff47db1ad025904860d2788ce4d9654963ff3555481deb25376851
-  languageName: node
-  linkType: hard
-
-"valtio@npm:^1.10.5":
-  version: 1.11.1
-  resolution: "valtio@npm:1.11.1"
-  dependencies:
-    proxy-compare: 2.5.1
-    use-sync-external-store: 1.2.0
-  peerDependencies:
-    react: ">=16.8"
-  peerDependenciesMeta:
-    react:
-      optional: true
-  checksum: 9376cbb6151af788607126a0cf12f12473f4b4e0d7d18ad7825ae9a31a3bfee0af621bb21cde1b965f271e9ab5c2fd45b2df6be982b72439f08d69157c61982f
   languageName: node
   linkType: hard
 

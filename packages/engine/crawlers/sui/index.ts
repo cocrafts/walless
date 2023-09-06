@@ -47,14 +47,14 @@ export const suiEngineRunner: SuiRunner = {
 				);
 			}
 
-			const suiTokens = await Promise.all(docPromises);
-			const quotes = await getTokenQuotes(suiTokens);
+			const tokenDocs = await Promise.all(docPromises);
+			const quotes = await getTokenQuotes(tokenDocs);
 
-			for (const item of suiTokens) {
+			for (const item of tokenDocs) {
 				item.account.quotes = quotes[makeHashId(item)].quotes;
 			}
 
-			tokenActions.setItems(suiTokens);
+			tokenActions.setItems(tokenDocs);
 		}
 	},
 	stop: async () => {

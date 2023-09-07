@@ -17,6 +17,9 @@
     "@tkey/security-questions": "9.0.0",
     "@tkey/seed-phrase": "^11.0.2",
     "@tkey/web-storage": "9.0.0",
+    "@walless/core": "*",
+    "@walless/graphql": "*",
+    "@walless/ioc": "*",
     "react-native-encrypted-storage": "^4.0.3"
   }
 }

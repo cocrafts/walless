@@ -8,7 +8,8 @@ import { SeedPhraseModule } from '@tkey/seed-phrase';
 import { ShareSerializationModule } from '@tkey/share-serialization';
 import { ShareTransferModule } from '@tkey/share-transfer';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
-import { type TypedThresholdKey, wallessSeedPhraseFormat } from '@walless/auth';
+import type { TypedThresholdKey } from '@walless/auth';
+import { wallessSeedPhraseFormat } from '@walless/auth';
 
 export const customAuthArgs: CustomAuthArgs = {
 	web3AuthClientId: Config.WEB3AUTH_ID as string,

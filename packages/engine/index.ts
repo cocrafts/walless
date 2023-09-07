@@ -1,12 +1,12 @@
 import type { Endpoint, Networks } from '@walless/core';
-import type { Database, EndpointsDocument } from '@walless/store';
-import type { GraphQLClient } from 'graphql-request';
+import { modules } from '@walless/ioc';
+import type { EndpointsDocument } from '@walless/store';
 
-import { solanaEngineRunner, solanaPool } from './network/solana';
+import { solanaEngineRunner, solanaPool } from './crawlers/solana';
+import { suiEngineRunner, suiPool } from './crawlers/sui';
+import { tezosEngineRunner, tezosPool } from './crawlers/tezos';
 import { createCrawler, defaultEndpoints } from './utils/crawler';
 import type { EngineCrawler } from './utils/type';
-// import { suiEngineRunner, suiPool } from './sui';
-// import { tezosEngineRunner, tezosPool } from './tezos';
 
 export interface Engine {
 	start: () => void;
@@ -15,61 +15,34 @@ export interface Engine {
 	getConnection: <T>(network: Networks) => T;
 }
 
-export interface EngineOptions {
-	storage: Database;
-	qlClient: GraphQLClient;
-}
-
-export const createEngine = async ({
-	storage,
-	qlClient,
-}: EngineOptions): Promise<Engine> => {
+export const createEngine = async (): Promise<Engine> => {
+	const { storage } = modules;
 	let endpoints = (await storage.safeGet('endpoints')) as EndpointsDocument;
 
 	if (!endpoints) {
-		endpoints = {
-			_id: 'endpoints',
-			type: 'EndpointMap',
-			...defaultEndpoints,
-		};
-
+		endpoints = { _id: 'endpoints', type: 'EndpointMap', ...defaultEndpoints };
 		storage.upsert('endpoints', async () => endpoints);
 	}
 
-	/* eslint-disable-next-line */
-	const crawlers: Record<string, EngineCrawler<any>> = {
+	const crawlers: Record<string, EngineCrawler<unknown>> = {
 		solana: createCrawler({
-			storage,
-			qlClient,
 			endpoint: endpoints.solana,
 			pool: solanaPool,
 			start: solanaEngineRunner.start,
 			stop: solanaEngineRunner.stop,
 		}),
-		// solana: createCrawler({
-		// 	storage,
-		// 	qlClient,
-		// 	endpoint: endpoints.solana,
-		// 	pool: solanaPool,
-		// 	start: solanaEngineRunner.start,
-		// 	stop: solanaEngineRunner.stop,
-		// }),
-		// sui: createCrawler({
-		// 	storage,
-		// 	qlClient,
-		// 	endpoint: endpoints.sui,
-		// 	pool: suiPool,
-		// 	start: suiEngineRunner.start,
-		// 	stop: suiEngineRunner.stop,
-		// }),
-		// tezos: createCrawler({
-		// 	storage,
-		// 	qlClient,
-		// 	endpoint: endpoints.tezos,
-		// 	pool: tezosPool,
-		// 	start: tezosEngineRunner.start,
-		// 	stop: tezosEngineRunner.stop,
-		// }),
+		sui: createCrawler({
+			endpoint: endpoints.sui,
+			pool: suiPool,
+			start: suiEngineRunner.start,
+			stop: suiEngineRunner.stop,
+		}),
+		tezos: createCrawler({
+			endpoint: endpoints.tezos,
+			pool: tezosPool,
+			start: tezosEngineRunner.start,
+			stop: tezosEngineRunner.stop,
+		}),
 	};
 
 	return {
@@ -83,12 +56,13 @@ export const createEngine = async ({
 			crawlers.solana?.start();
 			crawlers.tezos?.start();
 		},
-		getConnection: (network) => crawlers[network]?.connection,
+		getConnection: (network) => crawlers[network]?.connection as never,
 	};
 };
 
 export * from './state/app';
 export * from './state/collectible';
+export * from './state/history';
 export * from './state/key';
 export * from './state/live';
 export * from './state/token';

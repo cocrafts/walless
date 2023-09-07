@@ -54,3 +54,9 @@ auth.onIdTokenChanged(async (user) => {
 		fireCache.idToken = undefined;
 	}
 });
+
+export const initializeAuth = async () => {
+	if (auth.currentUser) {
+		fireCache.idToken = await auth.currentUser.getIdToken();
+	}
+};

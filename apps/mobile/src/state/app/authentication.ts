@@ -1,111 +1,61 @@
-import { Platform } from 'react-native';
 import Config from 'react-native-config';
-import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import CustomAuth from '@toruslabs/customauth-react-native-sdk';
-import {
-	getSharesStatus,
-	initAndRegisterWallet,
-	initBySeedPhraseModule,
-	makeProfile,
-	NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE,
-	setProfile,
-	ThresholdResult,
-} from '@walless/auth';
+import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
 import { appState } from '@walless/engine';
-import { modules } from '@walless/ioc';
 import { navigate } from 'utils/navigation';
-import { customAuthArgs, key } from 'utils/w3a';
+import { customAuthArgs } from 'utils/w3a';
 
 GoogleSignin.configure({
-	webClientId: Platform.select({
-		android: Config.GOOGLE_CLIENT_ID_ANDROID,
-		default: Config.GOOGLE_CLIENT_ID_IOS,
-	}),
+	webClientId: Config.GOOGLE_SIGNIN_CLIENT_ID,
+	offlineAccess: true,
 });
 
 export const signInWithGoogle = async () => {
 	try {
 		appState.authenticationLoading = true;
-
 		const redirectUri = 'metacraft://walless/auth';
 		await CustomAuth.init({ redirectUri, network: customAuthArgs.network });
 		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
 		const { idToken } = await GoogleSignin.signIn();
 		const credential = auth.GoogleAuthProvider.credential(idToken);
 		const { user } = await auth().signInWithCredential(credential);
+		const verifierToken = await user.getIdToken(true);
+		const verifier = customAuthArgs.web3AuthClientId;
+		const verifierId = user.uid;
+		const verifierParams = { verifierIdField: 'sub', verifier_id: user.uid };
+		const loginDetails = await CustomAuth.getTorusKey(
+			verifier,
+			verifierId,
+			verifierParams,
+			verifierToken,
+		);
 
-		await createKeyAndEnter(user);
-	} catch (e) {
-		console.log(e);
+		await signInWithTorusKey({
+			verifier,
+			verifierId,
+			privateKey: loginDetails.privateKey as string,
+			handlePasscode: async () => {
+				navigate('Authentication', { screen: 'CreatePasscode' });
+			},
+			handleRecovery: async () => {
+				navigate('Authentication', { screen: 'Recovery' });
+			},
+			handleDeprecatedPasscode: async () => {
+				navigate('Authentication', { screen: 'DeprecatedPasscode' });
+			},
+			handleReady: async () => {
+				await setProfile(makeProfile(user));
+				navigate('Dashboard');
+			},
+			handleError: async () => {
+				console.log('something went wrong during register wallet');
+			},
+		});
+	} catch (error) {
+		console.log('error during sign-in', error);
 	} finally {
 		appState.authenticationLoading = false;
 	}
-};
-
-const createKeyAndEnter = async (user: FirebaseAuthTypes.User) => {
-	const verifierToken = await user.getIdToken(true);
-	const verifier = customAuthArgs.web3AuthClientId;
-	const verifierId = user.uid;
-	const verifierParams = { verifierIdField: 'sub', verifier_id: user.uid };
-	const loginDetails = await CustomAuth.getTorusKey(
-		verifier,
-		verifierId,
-		verifierParams,
-		verifierToken,
-	);
-
-	key.serviceProvider.postboxKey = loginDetails.privateKey as never;
-	await key.initialize();
-	const status = await getSharesStatus();
-
-	if (status === ThresholdResult.Initializing) {
-		const registeredAccount = await initAndRegisterWallet();
-		if (registeredAccount?.identifier) {
-			navigate('CreatePasscode');
-		} else {
-			// showError('Something went wrong');
-			console.log('something went wrong');
-		}
-	} else if (status === ThresholdResult.Missing) {
-		let isLegacyAccount = false;
-		try {
-			isLegacyAccount =
-				key.modules.securityQuestions.getSecurityQuestions() ===
-				'universal-passcode';
-		} catch (e) {
-			console.log(e);
-		}
-
-		const wasMigrated =
-			key.getKeyDetails().totalShares >
-			NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE;
-		const isRecovery = !isLegacyAccount || wasMigrated;
-
-		if (isRecovery) {
-			navigate('Recovery');
-		} else {
-			navigate('DeprecatedPasscode');
-		}
-	} else if (status === ThresholdResult.Ready) {
-		await setProfile(makeProfile({ user } as never));
-		navigate('Dashboard');
-	}
-};
-
-export const initLocalDeviceByPasscodeAndSync = async (
-	passcode: string,
-): Promise<void> => {
-	await key.reconstructKey();
-
-	if (auth().currentUser) {
-		await setProfile(makeProfile({ user: auth().currentUser } as never));
-	}
-
-	// await initByPrivateKeyModule(passcode);
-	await initBySeedPhraseModule(passcode);
-	// await key.syncLocalMetadataTransitions();
-
-	modules.engine.start();
 };

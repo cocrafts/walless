@@ -16,3 +16,5 @@ export const historyActions = {
 		return history;
 	},
 };
+
+export * from './internal';

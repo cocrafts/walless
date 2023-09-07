@@ -27,5 +27,8 @@
   },
   "devDependencies": {
     "eslint": "8.38.0"
+  },
+  "dependencies": {
+    "react-native-safe-area-context": "^4.7.2"
   }
 }

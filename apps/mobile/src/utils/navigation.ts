@@ -6,9 +6,25 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 import type { StackNavigationOptions } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 
+export type AuthenticationParamList = {
+	Login: undefined;
+	CreatePasscode: undefined;
+	DeprecatedPasscode: undefined;
+	Invitation: undefined;
+	Recovery: undefined;
+};
+
+export type HomeParamList = {
+	Widget: {
+		id?: string;
+	};
+};
+
 export type DashboardParamList = {
+	Home: NavigatorScreenParams<HomeParamList>;
 	Explore: undefined;
 	Profile: undefined;
+	Contact: undefined;
 	Setting: undefined;
 	Extension: {
 		id?: string;
@@ -17,11 +33,7 @@ export type DashboardParamList = {
 
 export type RootParamList = {
 	Splash: undefined;
-	Invitation: undefined;
-	Login: undefined;
-	DeprecatedPasscode: undefined;
-	CreatePasscode: undefined;
-	Recovery: undefined;
+	Authentication: NavigatorScreenParams<AuthenticationParamList>;
 	Dashboard: NavigatorScreenParams<DashboardParamList>;
 };
 
@@ -29,13 +41,27 @@ export const linking: LinkingOptions<RootParamList> = {
 	prefixes: ['walless://'],
 	config: {
 		screens: {
-			Splash: '/splash',
-			Invitation: '/invitation',
-			Login: '/login',
+			Splash: '/splash/:id',
+			Authentication: {
+				path: '/auth',
+				screens: {
+					Login: '/',
+					Invitation: '/invitation',
+					Recovery: '/recovery',
+					CreatePasscode: '/create-passcode',
+					DeprecatedPasscode: '/deprecated-passcode',
+				},
+			},
 			Dashboard: {
 				path: '/',
 				screens: {
-					Explore: '/',
+					Home: {
+						path: '/',
+						screens: {
+							Widget: '/widget/:id',
+						},
+					},
+					Explore: '/explore',
 					Profile: '/profile',
 					Setting: '/setting',
 					Extension: '/:id',
@@ -82,3 +108,32 @@ export const navigate = (
 		navigationRef.navigate(name as never, params as never);
 	}
 };
+
+export const resetRoute = (anchor: ResetAnchors, params?: object) => {
+	if (anchor === 'Widget') {
+		navigationRef.reset({ index: 0, routes: [widgetRoute(params)] });
+	} else if (anchor === 'Invitation') {
+		navigationRef.reset({ index: 0, routes: [authenticationRoute(params)] });
+	}
+};
+
+type ResetAnchors = 'Widget' | 'Invitation';
+
+const widgetRoute = (params?: object) => ({
+	name: 'Dashboard',
+	params: {
+		screen: 'Home',
+		params: {
+			screen: 'Widget',
+			params,
+		},
+	},
+});
+
+const authenticationRoute = (params?: object) => ({
+	name: 'Authentication',
+	params: {
+		screen: 'Invitation',
+		params,
+	},
+});

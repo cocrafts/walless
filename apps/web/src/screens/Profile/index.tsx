@@ -1,4 +1,4 @@
-import { MainFeatures } from '@walless/app';
+import { MainFeatureButtons } from '@walless/app';
 import { Networks } from '@walless/core';
 import { Stack } from '@walless/ui';
 import { appActions } from 'state/app';
@@ -29,7 +29,7 @@ const ProfileScreen = () => {
 
 			<TokenValue />
 
-			<MainFeatures
+			<MainFeatureButtons
 				onSendPress={handleSend}
 				onReceivePress={() => showReceiveModal(Networks.sui)}
 				onBuyPress={onrampWithGateFi}

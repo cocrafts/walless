@@ -1,9 +1,6 @@
 import { appState } from '@walless/engine';
 
-import {
-	initLocalDeviceByPasscodeAndSync,
-	signInWithGoogle,
-} from './authentication';
+import { signInWithGoogle } from './authentication';
 import { notify, showSendModal } from './modal';
 import { setPathname, setPrivacy } from './settings';
 import { bootstrap, launchApp } from './splash';
@@ -15,7 +12,6 @@ export const appActions = {
 	launchApp,
 	notify,
 	signInWithGoogle,
-	initLocalDeviceByPasscodeAndSync,
 	setLoading: (flag: boolean): void => {
 		appState.loading = flag;
 	},

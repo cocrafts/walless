@@ -36,23 +36,18 @@ const FormInput: FC<Props> = ({
 	};
 
 	const handleHoverOut = () => {
-		console.log('hover out: ', error);
-		if (error !== '') borderColor.value = '#E34237';
+		if (error) borderColor.value = '#E34237';
 		else borderColor.value = 'transparent';
 	};
 
 	const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-		console.log('focus: ', error);
-
 		if (onFocus) onFocus(e);
 		borderColor.value = '#566674';
 	};
 
 	const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-		console.log('blur: ', error);
-
 		if (onBlur) onBlur(e);
-		if (error !== '') borderColor.value = '#E34237';
+		if (error) borderColor.value = '#E34237';
 		else borderColor.value = 'transparent';
 	};
 
@@ -63,7 +58,7 @@ const FormInput: FC<Props> = ({
 	}, [borderColor]);
 
 	useEffect(() => {
-		if (error !== '') {
+		if (error) {
 			borderColor.value = '#E34237';
 		} else {
 			borderColor.value = 'transparent';

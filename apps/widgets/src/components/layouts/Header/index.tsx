@@ -1,9 +1,10 @@
 import { Image, StyleSheet } from 'react-native';
-import { Button, View } from '@walless/gui';
+import { Button, dimensionState, View } from '@walless/gui';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { resources } from 'utils/config';
 import { sharedStyles } from 'utils/style';
+import { useSnapshot } from 'valtio';
 
 import NavigationItem from './Item';
 
@@ -24,6 +25,7 @@ export const navigationItems: NavigationItemProps[] = [
 ];
 
 export const Header = () => {
+	const { responsiveLevel } = useSnapshot(dimensionState);
 	const router = useRouter();
 
 	const isLayoutDetail = router.pathname.includes('/layouts/');
@@ -34,24 +36,23 @@ export const Header = () => {
 				<Image source={resources.walless.horizontalLogo} style={styles.logo} />
 			</Link>
 			<View horizontal style={styles.groupItem}>
-				{navigationItems.map((item) => (
-					<NavigationItem
-						key={item.href}
-						item={item}
-						isActive={
-							router.pathname === item.href ||
-							(isLayoutDetail && item.href === '/')
-						}
-					/>
-				))}
+				{responsiveLevel < 2 &&
+					navigationItems.map((item) => (
+						<NavigationItem
+							key={item.href}
+							item={item}
+							isActive={
+								router.pathname === item.href ||
+								(isLayoutDetail && item.href === '/')
+							}
+						/>
+					))}
 			</View>
-			<View style={styles.buttonContainer}>
-				<Button
-					style={styles.button}
-					title="Join waitlist"
-					titleStyle={styles.buttonTitle}
-				/>
-			</View>
+			<Button
+				style={styles.button}
+				title="Join waitlist"
+				titleStyle={styles.buttonTitle}
+			/>
 		</View>
 	);
 };
@@ -61,9 +62,10 @@ export default Header;
 const styles = StyleSheet.create({
 	container: {
 		...sharedStyles.container,
+		maxWidth: 1200,
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		paddingHorizontal: 40,
+		paddingHorizontal: 16,
 		paddingVertical: 20,
 	},
 	logo: {
@@ -72,10 +74,6 @@ const styles = StyleSheet.create({
 	},
 	groupItem: {
 		justifyContent: 'center',
-	},
-	buttonContainer: {
-		width: 256,
-		alignItems: 'flex-end',
 	},
 	button: {
 		paddingHorizontal: 30,

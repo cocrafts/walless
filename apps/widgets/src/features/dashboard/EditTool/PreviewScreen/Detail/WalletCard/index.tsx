@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Image, ImageBackground, StyleSheet } from 'react-native';
 import type { CardSkin } from '@walless/app';
-import { View } from '@walless/gui';
+import { dimensionState, View } from '@walless/gui';
 import type { MetadataDocument } from '@walless/store';
 import { DetailTool } from 'features/dashboard/EditTool/internal';
 import TargetWrapper from 'features/dashboard/EditTool/TargetWrapper';
@@ -19,10 +19,16 @@ interface Props {
 }
 
 export const WalletCard: FC<Props> = ({ index = 0, skin, token }) => {
+	const { responsiveLevel } = useSnapshot(dimensionState);
 	const { tools } = useSnapshot(appState);
+	const containerHeight = responsiveLevel < 2 ? 155 : 135;
+	const imageWidth = responsiveLevel < 2 ? 130 : 110;
 
 	return (
-		<ImageBackground style={styles.container} source={skin.backgroundSrc}>
+		<ImageBackground
+			style={{ ...styles.container, height: containerHeight }}
+			source={skin.backgroundSrc}
+		>
 			<WalletAddress index={index} skin={skin} />
 			<WalletBalance token={token} />
 			<View style={styles.icon}>
@@ -31,7 +37,7 @@ export const WalletCard: FC<Props> = ({ index = 0, skin, token }) => {
 						source={
 							tools.detail.icon ? { uri: tools.detail.icon } : skin.iconSrc
 						}
-						style={styles.image}
+						style={{ width: imageWidth, aspectRatio: 1 }}
 					/>
 				</TargetWrapper>
 			</View>
@@ -41,8 +47,7 @@ export const WalletCard: FC<Props> = ({ index = 0, skin, token }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		height: 155,
-		padding: 18,
+		padding: 16,
 		borderRadius: 12,
 		overflow: 'hidden',
 		position: 'relative',
@@ -55,9 +60,5 @@ const styles = StyleSheet.create({
 		right: -34,
 		justifyContent: 'center',
 		zIndex: -1,
-	},
-	image: {
-		width: 130,
-		height: 130,
 	},
 });

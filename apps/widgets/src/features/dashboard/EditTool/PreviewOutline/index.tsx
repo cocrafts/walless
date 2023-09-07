@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import { memo } from 'react';
-import { StyleSheet } from 'react-native';
-import { Button, View } from '@walless/gui';
-import Image from 'next/image';
+import { Image, StyleSheet } from 'react-native';
+import { Button, dimensionState, View } from '@walless/gui';
+// import Image from 'next/image';
+import { useSnapshot } from 'valtio';
 
 import type { ToolboxItem } from '../internal';
 
@@ -17,10 +18,12 @@ const PreviewOutline: FC<PreviewOutlineProps> = ({
 	activeTool,
 	setActiveTool,
 }) => {
-	const activeSize = 1.2;
+	const { responsiveLevel } = useSnapshot(dimensionState);
+	const activeSize = responsiveLevel < 2 ? 1.2 : 1;
+	const width = [56, 56, 48, 40][responsiveLevel];
 
 	return (
-		<View horizontal style={styles.container}>
+		<View horizontal={responsiveLevel < 2} style={styles.container}>
 			{tools.map((tool) => {
 				const borderColor = activeTool === tool ? '#19A3E1' : 'white';
 				return (
@@ -30,10 +33,12 @@ const PreviewOutline: FC<PreviewOutlineProps> = ({
 						onPress={() => setActiveTool(tool)}
 					>
 						<Image
-							src={tool.previewImage}
+							source={{ uri: tool.previewImage }}
 							alt={tool.name}
-							width={56 * (activeTool === tool ? activeSize : 1)}
-							height={84 * (activeTool === tool ? activeSize : 1)}
+							style={{
+								width: width * (activeTool === tool ? activeSize : 1),
+								aspectRatio: 56 / 84,
+							}}
 						/>
 					</Button>
 				);
@@ -47,9 +52,9 @@ export default memo(PreviewOutline);
 const styles = StyleSheet.create({
 	container: {
 		alignItems: 'flex-start',
+		gap: 10,
 	},
 	button: {
-		padding: 0,
 		borderWidth: 2,
 		borderRadius: 5,
 		backgroundColor: 'transparent',

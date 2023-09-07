@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Button, Text, View } from '@walless/gui';
+import { Button, dimensionState, Text, View } from '@walless/gui';
 import { Plus } from '@walless/icons';
 import { appState } from 'state/tool';
 import { useSnapshot } from 'valtio';
@@ -9,13 +9,18 @@ import { ProjectTool } from '../../internal';
 import HighlightWrapper from '../components/TargetWrapper';
 
 const LayoutCard: FC = () => {
+	const { responsiveLevel } = useSnapshot(dimensionState);
 	const { tools } = useSnapshot(appState);
 	const project = tools.project;
+	const bannerHeight = [133, 133, 100, 100][responsiveLevel];
 
 	return (
 		<View style={styles.container}>
 			<HighlightWrapper highlighted={tools.target === ProjectTool.banner}>
-				<Image style={styles.banner} source={{ uri: project.banner }} />
+				<Image
+					style={{ ...styles.banner, height: bannerHeight }}
+					source={{ uri: project.banner }}
+				/>
 			</HighlightWrapper>
 
 			<View style={styles.content}>
@@ -32,7 +37,7 @@ const LayoutCard: FC = () => {
 				<HighlightWrapper
 					highlighted={tools.target === ProjectTool.description}
 				>
-					<Text style={styles.description}>
+					<Text style={styles.description} numberOfLines={2}>
 						{project.description === ''
 							? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 							: project.description}
@@ -60,7 +65,6 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	banner: {
-		height: 133,
 		resizeMode: 'cover',
 	},
 	content: {

@@ -1,15 +1,17 @@
 import { useState } from 'react';
+import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { View } from '@walless/gui';
+import { dimensionState, View } from '@walless/gui';
+import { useSnapshot } from 'valtio';
 
 import Detail from './PreviewScreen/Detail';
 import Project from './PreviewScreen/Project';
-import DetailTools from './Toolbox/tools/Detail';
-import ProjectTools from './Toolbox/tools/Project';
+import DetailTools from './Tools/tools/Detail';
+import ProjectTools from './Tools/tools/Project';
 import Header from './Header';
 import type { ToolboxItem } from './internal';
 import PreviewOutline from './PreviewOutline';
-import Toolbox from './Toolbox';
+import Tools from './Tools';
 
 const tools: ToolboxItem[] = [
 	{
@@ -27,14 +29,33 @@ const tools: ToolboxItem[] = [
 ];
 
 export const EditTool = () => {
+	const { responsiveLevel } = useSnapshot(dimensionState);
 	const [activeTool, setActiveTool] = useState<ToolboxItem>(tools[0] ?? null);
 
+	const outlineStyle: ViewStyle =
+		responsiveLevel > 1
+			? { marginLeft: 10, justifyContent: 'flex-end' }
+			: {
+					marginLeft: 'auto',
+					position: 'absolute',
+					bottom: 0,
+					width: '100%',
+			  };
+
+	const previewContainerStyle: ViewStyle =
+		responsiveLevel > 1
+			? { justifyContent: 'space-between' }
+			: { alignItems: 'center' };
+
 	return (
-		<View horizontal style={styles.container}>
-			<View style={styles.leftContainer}>
-				<Header />
+		<View style={styles.container}>
+			<Header />
+			<View
+				horizontal={responsiveLevel > 1}
+				style={[styles.previewContainer, previewContainerStyle]}
+			>
 				<activeTool.preview />
-				<View style={styles.outline}>
+				<View style={outlineStyle}>
 					<PreviewOutline
 						tools={tools}
 						activeTool={activeTool}
@@ -43,11 +64,13 @@ export const EditTool = () => {
 				</View>
 			</View>
 
-			<Toolbox
-				tools={tools}
-				activeTool={activeTool}
-				setActiveTool={setActiveTool}
-			/>
+			<View style={{ marginTop: 40 }}>
+				<Tools
+					tools={tools}
+					activeTool={activeTool}
+					setActiveTool={setActiveTool}
+				/>
+			</View>
 		</View>
 	);
 };
@@ -56,12 +79,20 @@ export default EditTool;
 
 const styles = StyleSheet.create({
 	container: {
-		gap: 100,
+		alignItems: 'center',
+		maxWidth: 1200,
+		paddingHorizontal: 16,
+		marginHorizontal: 'auto',
 	},
-	leftContainer: {
-		gap: 20,
+	previewContainer: {
+		width: '100%',
+		// alignItems: 'stretch',
+		marginTop: 40,
 	},
 	outline: {
 		marginLeft: 'auto',
+		// position: 'absolute',
+		bottom: 0,
+		// width: '100%',
 	},
 });

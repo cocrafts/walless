@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { View } from '@walless/gui';
+import { dimensionState, View } from '@walless/gui';
 import { Compass } from '@walless/icons';
 import { appState } from 'state/tool';
 import { useSnapshot } from 'valtio';
@@ -10,15 +10,16 @@ interface Props {
 }
 
 const ScreenContainer: FC<Props> = ({ children }) => {
+	const { responsiveLevel } = useSnapshot(dimensionState);
 	const { tools } = useSnapshot(appState);
+	const width = [442, 442, 400, 350][responsiveLevel];
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, { width }]}>
 			<View style={styles.sideBar}>
 				<Image
 					style={{
-						width: 36,
-						height: 36,
+						...styles.iconStyle,
 						borderRadius: 1000,
 					}}
 					source={{ uri: tools.project.logo }}
@@ -26,18 +27,19 @@ const ScreenContainer: FC<Props> = ({ children }) => {
 
 				<View
 					style={{
-						width: 36,
-						height: 36,
-						borderRadius: 10,
+						...styles.iconStyle,
 						justifyContent: 'center',
 						alignItems: 'center',
 						backgroundColor: '#243F56',
 					}}
 				>
-					<Compass size={20} color="#0694D3" />
+					<Compass size={[20, 20, 16, 10][responsiveLevel]} color="#0694D3" />
 				</View>
 
-				<Image style={styles.avatar} source={{ uri: '/img/avatar.png' }} />
+				<Image
+					style={{ ...styles.iconStyle, marginTop: 'auto' }}
+					source={{ uri: '/img/avatar.png' }}
+				/>
 			</View>
 
 			<View style={styles.childrenContainer}>{children}</View>
@@ -49,27 +51,30 @@ export default ScreenContainer;
 
 const styles = StyleSheet.create({
 	container: {
-		width: 442,
-		height: 650,
+		maxWidth: 442,
+		aspectRatio: 442 / 650,
 		borderWidth: 1,
 		borderRadius: 10,
 		borderColor: '#364654',
 		backgroundColor: '#0A1117',
 		flexDirection: 'row',
+		overflow: 'hidden',
 	},
 	sideBar: {
-		width: 60,
+		width: '14%',
+		maxWidth: 60,
 		paddingVertical: 20,
+		paddingHorizontal: 8,
 		borderRightWidth: 1,
 		borderColor: '#364654',
 		alignItems: 'center',
 		gap: 10,
 	},
-	avatar: {
-		width: 36,
-		height: 36,
+	iconStyle: {
+		width: '100%',
+		maxWidth: 36,
+		aspectRatio: 1,
 		borderRadius: 10,
-		marginTop: 'auto',
 	},
 	childrenContainer: {
 		flex: 1,

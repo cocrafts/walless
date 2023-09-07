@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, View } from '@walless/gui';
+import { Button, dimensionState, View } from '@walless/gui';
+import { useSnapshot } from 'valtio';
 
 import type { TabAble } from './shared';
 
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export const TabsHeader: FC<Props> = ({ items, activeItem, onTabPress }) => {
+	const { responsiveLevel } = useSnapshot(dimensionState);
+	const fontSize = [14, 14, 14, 12][responsiveLevel];
 	return (
 		<View horizontal style={styles.container}>
 			{items.map((item) => {
@@ -23,7 +26,7 @@ export const TabsHeader: FC<Props> = ({ items, activeItem, onTabPress }) => {
 						key={item.id}
 						style={{ ...styles.button, backgroundColor }}
 						title={item.title}
-						titleStyle={{ ...styles.buttonTitle, color }}
+						titleStyle={{ ...styles.buttonTitle, color, fontSize }}
 						onPress={() => onTabPress(item)}
 					/>
 				);
@@ -46,6 +49,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 8,
 	},
 	buttonTitle: {
-		fontWeight: '600',
+		fontWeight: '500',
 	},
 });

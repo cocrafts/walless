@@ -1,12 +1,12 @@
-import type { Endpoint, EndpointMap, Networks } from '@walless/core';
-import type { Database, EndpointsDocument } from '@walless/store';
-import type { GraphQLClient } from 'graphql-request';
+import type { Endpoint, Networks } from '@walless/core';
+import { modules } from '@walless/ioc';
+import type { EndpointsDocument } from '@walless/store';
 
-import { createCrawler } from './utils/crawler';
+import { solanaEngineRunner, solanaPool } from './crawlers/solana';
+import { suiEngineRunner, suiPool } from './crawlers/sui';
+import { tezosEngineRunner, tezosPool } from './crawlers/tezos';
+import { createCrawler, defaultEndpoints } from './utils/crawler';
 import type { EngineCrawler } from './utils/type';
-import { solanaEngineRunner, solanaPool } from './solana';
-import { suiEngineRunner, suiPool } from './sui';
-import { tezosEngineRunner, tezosPool } from './tezos';
 
 export interface Engine {
 	start: () => void;
@@ -15,56 +15,29 @@ export interface Engine {
 	getConnection: <T>(network: Networks) => T;
 }
 
-const defaultEndpoint: Endpoint = __DEV__ ? 'devnet' : 'mainnet';
-export const defaultEndpoints: EndpointMap = {
-	solana: defaultEndpoint,
-	sui: defaultEndpoint,
-	ethereum: defaultEndpoint,
-	tezos: defaultEndpoint,
-};
-
-export interface EngineOptions {
-	storage: Database;
-	qlClient: GraphQLClient;
-}
-
-export const createEngine = async ({
-	storage,
-	qlClient,
-}: EngineOptions): Promise<Engine> => {
+export const createEngine = async (): Promise<Engine> => {
+	const { storage } = modules;
 	let endpoints = (await storage.safeGet('endpoints')) as EndpointsDocument;
 
 	if (!endpoints) {
-		endpoints = {
-			_id: 'endpoints',
-			type: 'EndpointMap',
-			...defaultEndpoints,
-		};
-
+		endpoints = { _id: 'endpoints', type: 'EndpointMap', ...defaultEndpoints };
 		storage.upsert('endpoints', async () => endpoints);
 	}
 
-	/* eslint-disable-next-line */
-	const crawlers: Record<string, EngineCrawler<any>> = {
-		sui: createCrawler({
-			storage,
-			qlClient,
-			endpoint: endpoints.sui,
-			pool: suiPool,
-			start: suiEngineRunner.start,
-			stop: suiEngineRunner.stop,
-		}),
+	const crawlers: Record<string, EngineCrawler<unknown>> = {
 		solana: createCrawler({
-			storage,
-			qlClient,
 			endpoint: endpoints.solana,
 			pool: solanaPool,
 			start: solanaEngineRunner.start,
 			stop: solanaEngineRunner.stop,
 		}),
+		sui: createCrawler({
+			endpoint: endpoints.sui,
+			pool: suiPool,
+			start: suiEngineRunner.start,
+			stop: suiEngineRunner.stop,
+		}),
 		tezos: createCrawler({
-			storage,
-			qlClient,
 			endpoint: endpoints.tezos,
 			pool: tezosPool,
 			start: tezosEngineRunner.start,
@@ -79,16 +52,21 @@ export const createEngine = async ({
 			crawlers[network]?.setEndpoint(id);
 		},
 		start: () => {
-			crawlers.sui.start();
-			crawlers.solana.start();
-			crawlers.tezos.start();
+			crawlers.sui?.start();
+			crawlers.solana?.start();
+			crawlers.tezos?.start();
 		},
-		getConnection: (network) => crawlers[network]?.connection,
+		getConnection: (network) => crawlers[network]?.connection as never,
 	};
 };
 
-export * from './state/collectibles';
-export * from './state/tokens';
-export * from './state/wallets';
+export * from './state/app';
+export * from './state/collectible';
+export * from './state/history';
+export * from './state/key';
+export * from './state/live';
+export * from './state/token';
+export * from './state/transaction';
+export * from './state/widget';
 export * from './utils/crawler';
 export * from './utils/pool';

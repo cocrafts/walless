@@ -3,7 +3,7 @@ import type { ViewStyle } from 'react-native';
 import { ScrollView, StyleSheet } from 'react-native';
 import type { UserProfile } from '@walless/core';
 import { View } from '@walless/gui';
-import type { ExtensionDocument } from '@walless/store';
+import type { WidgetDocument } from '@walless/store';
 
 import Navigator from './Navigator';
 
@@ -12,10 +12,10 @@ interface Props {
 	children?: ReactNode;
 	navigatorSize?: number;
 	profile: UserProfile;
-	extensions: ExtensionDocument[];
-	getIsExtensionActive?: (item: ExtensionDocument) => boolean;
-	onExtensionPress?: (item: ExtensionDocument) => void;
-	onRemoveLayout: (item: ExtensionDocument) => void;
+	widgets: WidgetDocument[];
+	getIsExtensionActive?: (item: WidgetDocument) => boolean;
+	onExtensionPress?: (item: WidgetDocument) => void;
+	onRemoveLayout: (item: WidgetDocument) => void;
 }
 
 export const DashboardLayout: FC<Props> = ({
@@ -23,7 +23,7 @@ export const DashboardLayout: FC<Props> = ({
 	children,
 	navigatorSize,
 	profile,
-	extensions,
+	widgets,
 	getIsExtensionActive,
 	onExtensionPress,
 	onRemoveLayout,
@@ -33,7 +33,7 @@ export const DashboardLayout: FC<Props> = ({
 			<Navigator
 				size={navigatorSize}
 				profile={profile}
-				extensions={extensions}
+				widgets={widgets}
 				getIsExtensionActive={getIsExtensionActive}
 				onExtensionPress={onExtensionPress}
 				onRemoveLayout={onRemoveLayout}

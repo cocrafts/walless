@@ -5,7 +5,7 @@ import type { ModalConfigs } from '@walless/gui';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { Text, View } from '@walless/gui';
 
-export const showError = async (errorText: string) => {
+export const showError = async (errorText: string, timeout?: number) => {
 	return new Promise((resolve) => {
 		modalActions.show({
 			id: 'error-modal',
@@ -21,7 +21,7 @@ export const showError = async (errorText: string) => {
 		setTimeout(() => {
 			modalActions.hide('error-modal');
 			resolve(null);
-		}, 1000);
+		}, timeout || 1500);
 	});
 };
 
@@ -41,13 +41,14 @@ const ErrorModal: FC<Props> = ({ config }) => {
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 400,
 		backgroundColor: '#AE3939',
-		paddingVertical: 20,
+		padding: 20,
 	},
 	text: {
 		fontSize: 14,
+		textAlign: 'center',
 	},
 });

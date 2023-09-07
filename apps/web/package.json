@@ -1,6 +1,6 @@
 {
   "name": "@walless/web",
-  "version": "0.2.46",
+  "version": "0.2.47",
   "private": true,
   "main": "index.web.js",
   "scripts": {
@@ -17,15 +17,9 @@
     "@metaplex-foundation/js": "0.18.3",
     "@mysten/sui.js": "0.34.0",
     "@solana/spl-token": "0.3.7",
-    "@solana/web3.js": "1.78.3",
+    "@solana/web3.js": "1.78.4",
     "@tamagui/animations-css": "1.15.16",
     "@taquito/signer": "^16.2.0",
-    "@tkey/chrome-storage": "9.0.0",
-    "@tkey/default": "9.0.0",
-    "@tkey/private-keys": "9.0.0",
-    "@tkey/security-questions": "9.0.0",
-    "@tkey/seed-phrase": "^8.1.0-alpha.0",
-    "@tkey/web-storage": "9.0.0",
     "@walless/core": "*",
     "@walless/crypto": "*",
     "@walless/engine": "*",
@@ -37,7 +31,7 @@
     "@walless/messaging": "*",
     "@walless/network": "*",
     "@walless/sdk": "*",
-    "@walless/storage": "*",
+    "@walless/store": "*",
     "@walless/ui": "*",
     "@walless/wallet-standard": "*",
     "@web3auth/ethereum-provider": "5.2.0",
@@ -71,5 +65,13 @@
     "rimraf": "^5.0.1",
     "tamagui-loader": "1.15.16",
     "workbox-webpack-plugin": "^6.5.4"
+  },
+  "peerDependencies": {
+    "@tkey/chrome-storage": "9.0.0",
+    "@tkey/default": "9.0.0",
+    "@tkey/private-keys": "9.0.0",
+    "@tkey/security-questions": "9.0.0",
+    "@tkey/seed-phrase": "^11.0.2",
+    "@tkey/web-storage": "9.0.0"
   }
 }

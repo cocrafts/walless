@@ -1,11 +1,14 @@
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { BulletSeparator } from '@walless/app';
 import { View } from '@walless/gui';
 
 import TabTitle from './components/TabTitle';
-import CommentsTab, { type CommentProps } from './CommentsTab';
-import InformationTab, { type InfoProps } from './InformationTab';
+import type { CommentProps } from './CommentsTab';
+import CommentsTab from './CommentsTab';
+import type { InfoProps } from './InformationTab';
+import InformationTab from './InformationTab';
 import ScreenshotsTab from './ScreenshotsTab';
 
 interface Props {

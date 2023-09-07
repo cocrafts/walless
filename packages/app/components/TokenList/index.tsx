@@ -1,12 +1,7 @@
-import { type FC } from 'react';
-import {
-	type ListRenderItem,
-	type StyleProp,
-	type ViewStyle,
-	FlatList,
-	StyleSheet,
-} from 'react-native';
-import { type TokenDocument } from '@walless/store';
+import type { ComponentType, FC, ReactElement } from 'react';
+import type { ListRenderItem, StyleProp, ViewStyle } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
+import type { TokenDocument } from '@walless/store';
 
 import TokenItem from './Item';
 import ListEmpty from './ListEmpty';
@@ -16,12 +11,14 @@ interface Props {
 	style?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
 	items: TokenDocument[];
+	ListHeaderComponent?: ComponentType<TokenDocument> | ReactElement;
 }
 
 export const TokenList: FC<Props> = ({
 	style,
 	contentContainerStyle,
 	items,
+	ListHeaderComponent,
 }) => {
 	const renderItem: ListRenderItem<TokenDocument> = ({ item, index }) => {
 		const isFirst = index === 0;
@@ -38,6 +35,7 @@ export const TokenList: FC<Props> = ({
 
 	return (
 		<FlatList
+			ListHeaderComponent={ListHeaderComponent}
 			showsVerticalScrollIndicator={false}
 			style={style}
 			contentContainerStyle={contentContainerStyle}

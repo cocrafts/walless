@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { CardSkin, TabAble } from '@walless/app';
 import {
-	MainFeatures,
+	MainFeatureButtons,
 	SlideHandler,
 	TabsHeader,
 	WalletCard,
@@ -12,6 +12,7 @@ import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
+import { modules } from '@walless/ioc';
 import { Stack } from '@walless/ui';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
@@ -78,7 +79,7 @@ export const SuiDashboard: FC<Props> = () => {
 							key={index}
 							index={index}
 							item={item}
-							skin={suiCardSkin}
+							skin={makeCardSkin()}
 							hideBalance={setting.hideBalance}
 							onCopyAddress={handleCopyAddress}
 							onChangePrivateSetting={handleChangePrivateSetting}
@@ -88,7 +89,7 @@ export const SuiDashboard: FC<Props> = () => {
 				})}
 			</Stack>
 			<Stack alignItems="center" gap={18}>
-				<MainFeatures
+				<MainFeatureButtons
 					onReceivePress={() => showReceiveModal(Networks.sui)}
 					onSendPress={handleSend}
 					onBuyPress={handleBuy}
@@ -115,12 +116,14 @@ export const SuiDashboard: FC<Props> = () => {
 
 export default SuiDashboard;
 
-const suiCardSkin: CardSkin = {
-	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },
-	largeIconSrc: { uri: '/img/network/sui-icon-lg.png' },
-	iconSrc: { uri: '/img/network/sui-icon-sm.png' },
-	iconColor: '#FFFFFF',
-	iconSize: 12,
+const makeCardSkin = (): CardSkin => {
+	return {
+		backgroundSrc: modules.asset.widget.sui.cardBackground,
+		iconSrc: modules.asset.widget.sui.cardIcon,
+		largeIconSrc: modules.asset.widget.sui.cardMark,
+		iconColor: '#FFFFFF',
+		iconSize: 12,
+	};
 };
 
 const styles = StyleSheet.create({

@@ -3,8 +3,8 @@ apply plugin: "com.facebook.react"
 apply plugin: "com.google.gms.google-services"
 
 project.ext.envConfigFiles = [
-	debug: ".env.development",
-	release: ".env.production",
+	debug: "./../../web/.env.development",
+	release: "./../../web/.env.production",
 ]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
@@ -125,17 +125,17 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
         }
         release {
-            if (project.hasProperty('WALLESS_STORE_FILE')) {
-                storeFile file(WALLESS_STORE_FILE)
-                storePassword WALLESS_STORE_PASSWORD
-                keyAlias WALLESS_KEY_ALIAS
-                keyPassword WALLESS_KEY_PASSWORD
+            if (project.env.get("ANDROID_STORE_FILE")) {
+                storeFile file(project.env.get("ANDROID_STORE_FILE"))
+                storePassword project.env.get("ANDROID_STORE_PASSWORD")
+                keyAlias project.env.get("ANDROID_KEY_ALIAS")
+                keyPassword project.env.get("ANDROID_KEY_PASSWORD")
             }
         }
     }

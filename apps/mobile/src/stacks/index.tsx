@@ -1,17 +1,19 @@
 import type { FC } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import { themeState } from '@walless/gui';
+import SplashScreen from 'screens/Splash';
+import { useSnapshot } from 'utils/hooks';
+import type { RootParamList } from 'utils/navigation';
+import { linking, navigationRef, screenOptions } from 'utils/navigation';
 
-import LoginScreen from '../screens/Login';
-import SplashScreen from '../screens/Splash';
-import { useSnapshot } from '../utils/hooks';
-import type { RootParamList } from '../utils/navigation';
-import { linking, navigationRef, screenOptions } from '../utils/navigation';
+import AuthenticationStack from './Authentication';
+import DashboardStack from './Dashboard';
 
 const Stack = createStackNavigator<RootParamList>();
 
-export const AppStack: FC = () => {
+export const AppStack: FC<StackScreenProps<RootParamList>> = () => {
 	const theme = useSnapshot(themeState);
 
 	return (
@@ -23,9 +25,14 @@ export const AppStack: FC = () => {
 					options={screenOptions.fade}
 				/>
 				<Stack.Screen
-					name="Login"
-					component={LoginScreen}
+					name="Authentication"
+					component={AuthenticationStack}
 					options={screenOptions.fade}
+				/>
+				<Stack.Screen
+					name="Dashboard"
+					component={DashboardStack}
+					options={screenOptions.bottomFade}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

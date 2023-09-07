@@ -1,5 +1,4 @@
-import type { Endpoint } from '@walless/core';
-import type { Database } from '@walless/store';
+import type { Endpoint, EndpointMap } from '@walless/core';
 
 import type {
 	ConnectionPool,
@@ -9,7 +8,6 @@ import type {
 } from './type';
 
 type CreateCrawlerOption<T> = EngineRunner<T> & {
-	storage: Database;
 	endpoint: Endpoint;
 	pool: ConnectionPool<T>;
 };
@@ -20,7 +18,6 @@ type CrawlerInternal<T> = {
 };
 
 export const createCrawler = <T>({
-	storage,
 	pool,
 	stop,
 	start,
@@ -32,7 +29,6 @@ export const createCrawler = <T>({
 	};
 
 	const createRunnerContext = (): RunnerContext<T> => ({
-		storage,
 		endpoint: internal.endpoint,
 		connection: internal.connection,
 	});
@@ -48,4 +44,13 @@ export const createCrawler = <T>({
 			internal.connection = pool.get(endpoint);
 		},
 	};
+};
+
+const defaultEndpoint: Endpoint = __DEV__ ? 'devnet' : 'mainnet';
+
+export const defaultEndpoints: EndpointMap = {
+	solana: defaultEndpoint,
+	sui: defaultEndpoint,
+	ethereum: defaultEndpoint,
+	tezos: defaultEndpoint,
 };

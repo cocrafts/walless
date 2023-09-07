@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { CardSkin, TabAble } from '@walless/app';
 import {
-	MainFeatures,
+	MainFeatureButtons,
 	SlideHandler,
 	TabsHeader,
 	WalletCard,
@@ -12,6 +12,7 @@ import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
+import { modules } from '@walless/ioc';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
 import { appActions } from 'state/app';
@@ -79,7 +80,7 @@ export const SolanaDashboard: FC<Props> = () => {
 							index={index}
 							item={item}
 							valuation={valuation}
-							skin={suiCardSkin}
+							skin={makeCardSkin()}
 							hideBalance={setting.hideBalance}
 							onCopyAddress={handleCopyAddress}
 							onChangePrivateSetting={handleChangePrivateSetting}
@@ -90,7 +91,7 @@ export const SolanaDashboard: FC<Props> = () => {
 			</Stack>
 
 			<Stack alignItems="center" gap={18}>
-				<MainFeatures
+				<MainFeatureButtons
 					onReceivePress={() => showReceiveModal(Networks.solana)}
 					onSendPress={handleSend}
 					onBuyPress={handleBuy}
@@ -118,12 +119,14 @@ export const SolanaDashboard: FC<Props> = () => {
 
 export default SolanaDashboard;
 
-const suiCardSkin: CardSkin = {
-	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },
-	largeIconSrc: { uri: '/img/network/solana-icon-lg.png' },
-	iconSrc: { uri: '/img/network/solana-icon-sm.png' },
-	iconColor: '#000000',
-	iconSize: 16,
+const makeCardSkin = (): CardSkin => {
+	return {
+		backgroundSrc: modules.asset.widget.solana.cardBackground,
+		iconSrc: modules.asset.widget.solana.cardIcon,
+		largeIconSrc: modules.asset.widget.solana.cardMark,
+		iconColor: '#000000',
+		iconSize: 16,
+	};
 };
 
 const styles = StyleSheet.create({

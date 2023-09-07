@@ -2,6 +2,7 @@ module.exports = {
 	root: true,
 	extends: ['@walless/eslint-config'],
 	ignorePatterns: [
+		'node_modules',
 		'tool/batch/**',
 		'packages/core/utils/platform.ts',
 		'packages/graphql/types.ts',

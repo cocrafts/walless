@@ -63,17 +63,23 @@ const SignUpModal = () => {
 
 		if (allValid) {
 			setIsCalling(true);
+
+			const twitterHandle = `@${twitter}`;
+
 			const { data, errors } = await qlClient.rawRequest(
 				mutations.joinWaitlist,
 				{
-					email,
-					twitter,
+					email: email,
+					twitter: twitterHandle,
 					description: selectedOption,
 				},
 			);
 
+			console.log(data);
+
 			if (errors && errors.length > 0) {
 				const message = errors[0].message;
+
 				if (message.includes('duplicate')) {
 					if (message.includes('email')) {
 						setEmailErr('You are already on the waitlist');
@@ -110,10 +116,6 @@ const SignUpModal = () => {
 		setSelectedOptionErr('');
 		setSelectedOption(text);
 	};
-
-	// useEffect(() => {
-
-	// }, [twitter, email, selectedOption]);
 
 	return (
 		<View style={styles.container}>

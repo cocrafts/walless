@@ -7,7 +7,7 @@ export const sharedStyles = StyleSheet.create({
 	container: {
 		width: '100%',
 		maxWidth: 1620,
-		margin: 'auto',
+		marginHorizontal: 'auto',
 	},
 	contentContainer: {
 		paddingTop: 40,

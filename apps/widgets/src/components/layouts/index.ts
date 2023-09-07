@@ -1,3 +1,4 @@
+export { DashboardLayout } from './DashboardLayout';
 export { Footer } from './Footer';
 export { Header } from './Header';
 export { HomeLayout } from './HomeLayout';

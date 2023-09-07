@@ -1,7 +1,7 @@
 import { appState, makeProfile, ThresholdResult } from '@walless/app';
 import { runtime } from '@walless/core';
 import type { WalletInvitation } from '@walless/graphql';
-import { mutations, qlClient, queries } from '@walless/graphql';
+import { mutations, queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { User } from 'firebase/auth';
 import {
@@ -15,6 +15,7 @@ import {
 	setProfile,
 } from 'utils/authentication';
 import { auth, googleProvider } from 'utils/firebase';
+import { qlClient } from 'utils/graphql';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';
 import { customAuth, importAvailableShares, key } from 'utils/w3a';

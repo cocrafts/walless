@@ -1,6 +1,6 @@
 import type { Connection } from '@solana/web3.js';
 import type { TokenInfo } from '@walless/graphql';
-import { qlClient, queries } from '@walless/graphql';
+import { queries } from '@walless/graphql';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { flatten } from 'lodash';
@@ -14,7 +14,8 @@ import { solanaTokensByAddress } from './token';
 import { getSignatureList, getTransactions } from './transaction';
 
 export const solanaEngineRunner: EngineRunner<Connection> = {
-	start: async ({ endpoint, connection, storage }) => {
+	start: async (context) => {
+		const { endpoint, connection, storage, qlClient } = context;
 		const keyResult = await storage.find(selectors.solanaKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];
 		const tokenPromises = [];
@@ -65,18 +66,15 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 					for (const i of tokenDocuments) {
 						i.account.quotes = quoteMap[makeId(i)].quotes;
 					}
-				} catch (_) {
-					console.log('cannot fetch solana token price');
+				} catch (error) {
+					console.log('cannot fetch solana token price', error);
 				}
 
 				tokenActions.setItems(tokenDocuments);
 			}),
 		);
 
-		promises.push(
-			initRealTimeSubscription(connection, storage, endpoint, keys),
-		);
-
+		promises.push(initRealTimeSubscription(context, keys));
 		await Promise.all(promises);
 	},
 	stop: async () => {

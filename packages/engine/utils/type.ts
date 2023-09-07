@@ -1,5 +1,6 @@
 import type { Endpoint } from '@walless/core';
 import type { Database } from '@walless/store';
+import type { GraphQLClient } from 'graphql-request';
 
 export interface NetworkContext<T> {
 	endpoint: Endpoint;
@@ -8,6 +9,7 @@ export interface NetworkContext<T> {
 
 export type RunnerContext<T> = NetworkContext<T> & {
 	storage: Database;
+	qlClient: GraphQLClient;
 	endpoint: Endpoint;
 	connection: T;
 };

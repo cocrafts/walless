@@ -1,6 +1,7 @@
 import type { Account } from '@walless/graphql';
-import { mutations, qlClient } from '@walless/graphql';
+import { mutations } from '@walless/graphql';
 import BN from 'bn.js';
+import { qlClient } from 'utils/graphql';
 import { key } from 'utils/w3a';
 
 export const initAndRegisterWallet = async (): Promise<Account | undefined> => {

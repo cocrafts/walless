@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet } from 'react-native';
 import type { UnknownObject } from '@walless/core';
 import type { JoinWaitlistResult } from '@walless/graphql';
-import { mutations, qlClient } from '@walless/graphql';
+import { mutations } from '@walless/graphql';
 import { Button, modalActions, Text, View } from '@walless/gui';
 import { resources } from 'utils/config';
+import { qlClient } from 'utils/graphql';
 
 import ResultModal from '../Result';
 

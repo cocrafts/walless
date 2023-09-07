@@ -4,7 +4,7 @@ import { closePopup } from './popup';
 import type { ResponseMethod } from './types';
 
 // need to handle clean up timeout request in this pool
-const requestPool: Record<
+export const requestPool: Record<
 	string,
 	{
 		channel: MiniBroadcast;

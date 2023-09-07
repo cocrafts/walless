@@ -5,8 +5,10 @@ import { Text, View } from '@walless/gui';
 import { BlogCategory } from '@walless/icons';
 import Carousel from 'features/blogs/BlogDetails/Carousel/Carousel';
 import CarouselControl from 'features/blogs/BlogDetails/Carousel/CarouselControl';
-import type { Category } from 'features/blogs/internal';
+import { type Category, blogs } from 'features/blogs/internal';
 import Image from 'next/image';
+
+import BlogCard from '../BlogCard';
 
 interface Props {
 	id: string;
@@ -27,6 +29,8 @@ const BlogDetails: FC<Props> = ({
 	activityImages,
 }) => {
 	const [contentWidth, setContentWidth] = useState<number>(0);
+	const [blogCardContainerWidth, setBlogCardContainerWidth] =
+		useState<number>(0);
 
 	const carouselRef = useRef<{
 		handleSlideLeftPress: () => void;
@@ -40,6 +44,8 @@ const BlogDetails: FC<Props> = ({
 	const handleRightPress = () => {
 		carouselRef.current?.handleSlideRightPress();
 	};
+
+	const relatedBlogs = blogs.filter((blog) => blog.category === category);
 
 	return (
 		<View>
@@ -79,6 +85,7 @@ const BlogDetails: FC<Props> = ({
 							</View>
 						))}
 						<Image
+							style={styles.coverImage}
 							src={coverImage}
 							alt={coverImage}
 							width={contentWidth}
@@ -104,7 +111,29 @@ const BlogDetails: FC<Props> = ({
 					</View>
 				</View>
 			</View>
-			<View></View>
+			<View>
+				<Text style={styles.activities}>Related blogs</Text>
+				<View
+					style={styles.relatedBlogsContainer}
+					onLayout={(event) => {
+						setBlogCardContainerWidth(event.nativeEvent.layout.width);
+						console.log(event.nativeEvent.layout.width);
+					}}
+				>
+					{relatedBlogs.map((blog) => (
+						<BlogCard
+							key={blog.id}
+							style={{ width: (blogCardContainerWidth - 30) / 2 }}
+							id={blog.id}
+							title={blog.title}
+							category={blog.category}
+							coverImage={blog.coverImage}
+							date={blog.date}
+							description={blog.description}
+						/>
+					))}
+				</View>
+			</View>
 		</View>
 	);
 };
@@ -115,6 +144,9 @@ const styles = StyleSheet.create({
 	bodyContainer: {
 		flexDirection: 'row',
 		gap: 60,
+	},
+	coverImage: {
+		borderRadius: 18,
 	},
 	leftContainer: {
 		maxWidth: 300,
@@ -169,5 +201,11 @@ const styles = StyleSheet.create({
 		maxWidth: '100%',
 		flex: 1,
 		borderRadius: 10,
+	},
+	relatedBlogsContainer: {
+		flexDirection: 'row',
+		// justifyContent: 'space-between',
+		gap: 30,
+		flexWrap: 'wrap',
 	},
 });

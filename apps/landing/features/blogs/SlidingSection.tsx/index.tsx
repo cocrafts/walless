@@ -17,7 +17,6 @@ interface Props {
 
 const SlidingSection: FC<Props> = ({ listOfBlogs }) => {
 	const [slidingLayout, setSlidingLayout] = useState<ViewStyle | null>(null);
-	console.log('SlidingSection: ', slidingLayout);
 
 	const convertBlogToSlideOption = (
 		blogs: Blog[],
@@ -73,6 +72,7 @@ const SlidingSection: FC<Props> = ({ listOfBlogs }) => {
 				setSlidingLayout({
 					width: event.nativeEvent.layout.width,
 				});
+				console.log(event.nativeEvent.layout.height);
 			}}
 		>
 			<Slider

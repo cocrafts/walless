@@ -25,8 +25,6 @@ const styles = StyleSheet.create({
 		backgroundColor: 'transparent',
 	},
 	text: {
-		fontSize: 20,
-		marginVertical: 10,
 		fontWeight: '500',
 	},
 });

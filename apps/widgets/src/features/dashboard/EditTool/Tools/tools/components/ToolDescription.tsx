@@ -28,7 +28,7 @@ const ToolDescription: FC<Props> = ({ name, description }) => {
 						<View style={styles.popupArrow} />
 					</View>
 				)}
-				<Exclamation size={12} color="#FFFFFF4D" />
+				<Exclamation size={14} color="#FFFFFF4D" />
 			</View>
 		</Pressable>
 	);
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
 	},
 	descriptionContainer: {
 		position: 'relative',
+		justifyContent: 'center',
 	},
 	popup: {
 		width: 200,

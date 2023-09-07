@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Networks } from '@walless/core';
-import { Select, View } from '@walless/gui';
+import { Select } from '@walless/gui';
 import { DetailTool } from 'features/dashboard/EditTool/internal';
 import { editToolActions } from 'state/tool';
 
@@ -33,26 +33,25 @@ const EditDetailCard: FC = () => {
 
 	return (
 		<ToolBox onHover={onTarget}>
-			<View>
-				<ToolDescription
-					name="Supported Network(s)"
-					description="What network(s) does your project support?"
-				/>
+			<ToolDescription
+				name="Supported Network(s)"
+				description="What network(s) does your project support?"
+			/>
 
-				<Select
-					selected={activeOption}
-					items={options}
-					onSelect={setActiveOption}
-					title={'Select network'}
-					getRequiredFields={function (item: DropdownOptionProps) {
-						return {
-							id: item.id,
-							name: item.label,
-							icon: item.icon,
-						};
-					}}
-				/>
-			</View>
+			<Select
+				selected={activeOption}
+				items={options}
+				onSelect={setActiveOption}
+				title={'Select network'}
+				getRequiredFields={function (item: DropdownOptionProps) {
+					return {
+						id: item.id,
+						name: item.label,
+						icon: item.icon,
+					};
+				}}
+				selectedItemStyle={{ borderRadius: 8 }}
+			/>
 		</ToolBox>
 	);
 };

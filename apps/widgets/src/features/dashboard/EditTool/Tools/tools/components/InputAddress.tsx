@@ -70,14 +70,14 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		flex: 1,
 		minWidth: 0,
-		paddingHorizontal: 14,
-		paddingVertical: 14,
+		paddingHorizontal: 12,
+		paddingVertical: 12,
 		fontFamily: 'Rubik',
 	},
 	buttonContainer: {
 		borderTopRightRadius: 8,
 		borderBottomRightRadius: 8,
-		padding: 10,
+		padding: 12,
 		justifyContent: 'center',
 		backgroundColor: 'rgba(0, 0, 0, 0.2)',
 	},
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#19232C',
 		fontFamily: 'Rubik',
 		borderRadius: 8,
-		paddingHorizontal: 14,
-		paddingVertical: 14,
+		paddingHorizontal: 12,
+		paddingVertical: 12,
 	},
 });

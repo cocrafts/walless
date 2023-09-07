@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 	mainText: {
 		fontSize: 30,
 		maxWidth: 600,
+		color: '#ffffff',
 	},
 	highlightedText: {
 		color: '#0694D3',

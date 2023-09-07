@@ -12,7 +12,7 @@ import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
 import ProfileScreen from 'screens/Profile';
 import FullHistoryScreen from 'screens/Profile/components/TransactionHistory/FullHistory';
-import RecoveryScreen from 'screens/Recover';
+import RecoveryScreen from 'screens/Recovery';
 import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
 import RequestSignature from 'screens/Request/Signature';

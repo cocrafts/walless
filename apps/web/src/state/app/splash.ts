@@ -1,12 +1,12 @@
-import type { BootstrapResult } from '@walless/app';
-import { appState } from '@walless/app';
-import { initializeLiveState } from 'state/live';
+import type { BootstrapResult } from '@walless/auth';
+import { appState, liveActions } from '@walless/engine';
 import { loadRemoteConfig } from 'utils/firebase';
 import { router } from 'utils/routing';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
-	await initializeLiveState();
 	appState.remoteConfig = loadRemoteConfig();
+	await liveActions.initialize();
+	await liveActions.watchAndSync();
 
 	return appState;
 };

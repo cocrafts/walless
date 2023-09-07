@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import type { Networks } from '@walless/core';
 import {
-	collectiblesState,
-	collectionsState,
+	collectibleState,
+	collectionState,
+	keyState,
 	tokenState,
-	walletState,
 } from '@walless/engine';
 import { historyState } from '@walless/engine/state/history/internal';
 import type { PublicKeyDocument } from '@walless/store';
@@ -12,7 +12,7 @@ import { appActions, appState } from 'state/app';
 import { useSnapshot } from 'valtio';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
-	const { map } = useSnapshot(walletState);
+	const { map } = useSnapshot(keyState);
 	const keys = Array.from(map.values());
 
 	return useMemo(() => {
@@ -59,12 +59,12 @@ export const useTokens = (
 };
 
 export const useNfts = (network?: Networks, address?: string) => {
-	const collectiblesMap = useSnapshot(collectiblesState).map;
-	const collectionsMap = useSnapshot(collectionsState).map;
+	const collectibleMap = useSnapshot(collectibleState).map;
+	const collectionMap = useSnapshot(collectionState).map;
 
 	return {
 		collections: useMemo(() => {
-			const collections = Array.from(collectionsMap.values()).filter(
+			const collections = Array.from(collectionMap.values()).filter(
 				(ele) => ele.count > 0,
 			);
 
@@ -76,10 +76,10 @@ export const useNfts = (network?: Networks, address?: string) => {
 						ele._id.includes(address || '') &&
 						ele.count > 0,
 				);
-		}, [collectionsMap, network, address]),
+		}, [collectionMap, network, address]),
 
 		collectibles: useMemo(() => {
-			const collectibles = Array.from(collectiblesMap.values()).filter(
+			const collectibles = Array.from(collectibleMap.values()).filter(
 				(ele) => ele.account.amount > 0,
 			);
 
@@ -88,7 +88,7 @@ export const useNfts = (network?: Networks, address?: string) => {
 				return collectibles.filter(
 					(ele) => ele.network === network && ele._id.includes(address || ''),
 				);
-		}, [collectiblesMap, network, address]),
+		}, [collectibleMap, network, address]),
 	};
 };
 

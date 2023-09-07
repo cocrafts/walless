@@ -1,5 +1,4 @@
 import type { Endpoint } from '@walless/core';
-import type { Database } from '@walless/store';
 
 export interface NetworkContext<T> {
 	endpoint: Endpoint;
@@ -7,7 +6,6 @@ export interface NetworkContext<T> {
 }
 
 export type RunnerContext<T> = NetworkContext<T> & {
-	storage: Database;
 	endpoint: Endpoint;
 	connection: T;
 };

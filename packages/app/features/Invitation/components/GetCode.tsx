@@ -15,8 +15,9 @@ const GetCode: FC<Props> = ({ onLoginPress }) => {
 				<View style={styles.separateLine} />
 			</View>
 			<Anchor
-				title="Get invitation code"
+				style={styles.invitationCodeContainer}
 				titleStyle={styles.invitationCodeText}
+				title="Get invitation code"
 				href="https://docs.google.com/forms/d/e/1FAIpQLSeMOQGfeYhq4i-V595JRc28VlY1YDpFeU0rPJkTymFH6nV21g/viewform"
 			/>
 			<Anchor
@@ -47,13 +48,15 @@ const styles = StyleSheet.create({
 	separateText: {
 		color: '#566674',
 	},
+	invitationCodeContainer: {
+		borderRadius: 16,
+		backgroundColor: '#000000',
+	},
 	invitationCodeText: {
 		padding: 16,
 		fontWeight: '500',
 		textAlign: 'center',
-		borderRadius: 16,
 		color: '#ffffff',
-		backgroundColor: '#000000',
 	},
 	hadAccountText: {
 		color: '#0694D3',

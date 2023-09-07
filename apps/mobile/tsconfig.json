@@ -1,3 +1,34 @@
 {
-  "extends": "@walless/tsconfig/application.json"
+  "extends": "@walless/tsconfig/application.json",
+	"include": [
+		"src",
+		"index*.js",
+		"../../globals.d.ts"
+	],
+	"exclude": [
+		"node_modules"
+	],
+	"compilerOptions": {
+		"baseUrl": ".",
+    "paths": {
+      "assets/*": [
+        "./assets/*"
+      ],
+      "utils/*": [
+        "./src/utils/*"
+      ],
+      "state/*": [
+        "./src/state/*"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "stacks/*": [
+        "./src/stacks/*"
+      ],
+      "screens/*": [
+        "./src/screens/*"
+      ]
+		}
+	}
 }

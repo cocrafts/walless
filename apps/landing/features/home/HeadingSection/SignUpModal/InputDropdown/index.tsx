@@ -61,7 +61,6 @@ const InputDropdown: FC<Props> = ({
 	}, [isDropped]);
 
 	const errorStyle = {
-		borderWidth: 1,
 		borderRadius: 15,
 		borderColor: '#E34237',
 	};
@@ -103,6 +102,8 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		gap: 4,
 		zIndex: 999,
+		borderWidth: 1,
+		borderColor: 'transparent',
 	},
 	selectedOptionContainer: {
 		flexDirection: 'row',

@@ -27,5 +27,8 @@
   },
   "devDependencies": {
     "eslint": "8.38.0"
+  },
+  "dependencies": {
+    "aptos": "^1.19.0"
   }
 }

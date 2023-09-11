@@ -41,3 +41,6 @@ export const appState = proxy<AppState>({
 	remoteConfig: defaultRemoteConfig,
 	endpoints: {} as never,
 });
+
+export * from './aptosHackathon';
+export * from './aptosHackathon/actions';

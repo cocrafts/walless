@@ -2,7 +2,7 @@ import type { ExtensionDocument } from '@walless/store';
 
 export const mockLayoutCards: ExtensionDocument[] = [
 	{
-		_id: '000005',
+		_id: 'aptos',
 		name: 'Aptos',
 		version: '0.1.8',
 		type: 'Extension',
@@ -11,7 +11,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		storeMeta: {
 			iconUri: '/img/network/aptos-icon.svg',
 			iconSize: 40,
-			iconColor: '#ffffff',
+			iconColor: 'transparent',
 			coverUri: '/img/network/aptos-cover.svg',
 			description:
 				'Committed to developing products and applications on the Aptos blockchain that redefine the web3 user experience.',
@@ -20,9 +20,9 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		},
 		networkMeta: {
 			backgroundUri: '/img/network/sky-card-bg.png',
-			markUri: '/img/explore/logo-pixeverse.png',
-			iconUri: '/img/explore/logo-pixeverse.png',
-			iconColor: '#ffffff',
+			markUri: '/img/network/aptos-icon.svg',
+			iconUri: '/img/network/aptos-icon.svg',
+			iconColor: 'transparent',
 			iconSize: 40,
 		},
 	},

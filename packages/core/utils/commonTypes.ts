@@ -50,6 +50,7 @@ export enum Networks {
 	ethereum = 'ethereum',
 	solana = 'solana',
 	sui = 'sui',
+	aptos = 'aptos',
 }
 
 export enum Endpoints {

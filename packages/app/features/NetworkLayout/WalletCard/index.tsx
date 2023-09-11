@@ -45,6 +45,8 @@ export const WalletCard: FC<Props> = ({
 		onChangePrivateSetting?.(next);
 	};
 
+	console.log(skin.largeIconSrc);
+
 	return (
 		<ImageBackground style={containerStyle} source={skin.backgroundSrc}>
 			<WalletAddress

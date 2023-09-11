@@ -28,3 +28,7 @@ export const getNetwork = (requestType: RequestType) => {
 	if (typeName.includes('ON_SOLANA')) return Networks.solana;
 	else if (typeName.includes('ON_SUI')) return Networks.sui;
 };
+
+export const triggerActionToGetPrivateKey = async () => {
+	return await Uint8Array.from([1, 2, 3, 4]);
+};

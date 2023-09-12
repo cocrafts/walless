@@ -2,8 +2,9 @@ import type { Endpoint, EndpointMap, Networks } from '@walless/core';
 import type { Database, EndpointsDocument } from '@walless/store';
 import type { GraphQLClient } from 'graphql-request';
 
+import { aptosEngineRunner } from './aptos/crawler';
 import { createCrawler } from './utils/crawler';
-import type { EngineCrawler } from './utils/type';
+import type { ConnectionPool, EngineCrawler } from './utils/type';
 import { solanaEngineRunner, solanaPool } from './solana';
 import { suiEngineRunner, suiPool } from './sui';
 import { tezosEngineRunner, tezosPool } from './tezos';
@@ -21,6 +22,7 @@ export const defaultEndpoints: EndpointMap = {
 	sui: defaultEndpoint,
 	ethereum: defaultEndpoint,
 	tezos: defaultEndpoint,
+	aptos: defaultEndpoint,
 };
 
 export interface EngineOptions {
@@ -70,6 +72,18 @@ export const createEngine = async ({
 			start: tezosEngineRunner.start,
 			stop: tezosEngineRunner.stop,
 		}),
+		aptos: createCrawler({
+			storage,
+			qlClient,
+			endpoint: endpoints.aptos,
+			pool: {
+				get: (id) => {
+					return id;
+				},
+			} as ConnectionPool<unknown>,
+			start: aptosEngineRunner.start,
+			stop: aptosEngineRunner.stop,
+		}),
 	};
 
 	return {
@@ -82,6 +96,7 @@ export const createEngine = async ({
 			crawlers.sui.start();
 			crawlers.solana.start();
 			crawlers.tezos.start();
+			crawlers.aptos.start();
 		},
 		getConnection: (network) => crawlers[network]?.connection,
 	};

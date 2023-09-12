@@ -10,6 +10,8 @@ export const MyWallets = () => {
 	const tezosKeys = usePublicKeys(Networks.tezos);
 	const suiIndex = solanaKeys.length;
 	const tezosIndex = suiIndex + suiKeys.length;
+	const aptosKeys = usePublicKeys(Networks.aptos);
+	const aptosIndex = tezosIndex + tezosKeys.length;
 
 	return (
 		<Stack gap={12}>
@@ -26,6 +28,9 @@ export const MyWallets = () => {
 				))}
 				{tezosKeys.map((item, index) => (
 					<Wallet key={item._id} index={index + tezosIndex} item={item} />
+				))}
+				{aptosKeys.map((item, index) => (
+					<Wallet key={item._id} index={index + aptosIndex} item={item} />
 				))}
 			</Stack>
 		</Stack>

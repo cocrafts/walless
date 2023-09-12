@@ -6,6 +6,7 @@ import { Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import { modules } from '@walless/ioc';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
+import { AptosAccount, FaucetClient } from 'aptos';
 import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
 import { decode } from 'bs58';
 import { derivePath } from 'ed25519-hd-key';
@@ -106,6 +107,36 @@ export const initBySeedPhraseModule = async (passcode: string) => {
 			}),
 		);
 	});
+
+	// ---- Aptos Hackathon ----
+	const newAptosAccount = new AptosAccount();
+	const id = generateID();
+	const encrypted = await encryptWithPasscode(
+		passcode,
+		Buffer.from(newAptosAccount.toPrivateKeyObject().privateKeyHex),
+	);
+
+	const faucetClient = new FaucetClient(
+		'https://fullnode.devnet.aptoslabs.com',
+		'https://faucet.devnet.aptoslabs.com',
+	);
+
+	await faucetClient.fundAccount(newAptosAccount.address(), 0);
+
+	await modules.storage.put<PrivateKeyDocument>({
+		_id: id,
+		type: 'PrivateKey',
+		keyType: '',
+		...encrypted,
+	});
+
+	await modules.storage.put<PublicKeyDocument>({
+		_id: newAptosAccount.address().toShortString(),
+		type: 'PublicKey',
+		privateKeyId: id,
+		network: Networks.aptos,
+	});
+	// ---- End of Aptos Hackathon ----
 
 	await Promise.all(seedPhrasePromises);
 };

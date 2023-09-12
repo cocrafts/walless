@@ -215,6 +215,22 @@ export const getTransactionFee = async (network: Networks) => {
 		);
 
 		return 0;
+	} else if (network === Networks.aptos) {
+		const url = 'https://fullnode.devnet.aptoslabs.com/v1/estimate_gas_price';
+		const options = {
+			method: 'GET',
+			headers: { Accept: 'application/json' },
+		};
+
+		try {
+			const response = await fetch(url, options);
+			const data = await response.json();
+
+			return data.gas_estimate / 10 ** 8;
+		} catch (error) {
+			console.error(error);
+			return 0;
+		}
 	} else return 0;
 };
 

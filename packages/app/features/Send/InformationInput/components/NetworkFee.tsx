@@ -24,6 +24,8 @@ export const NetworkFee: FC<Props> = () => {
 	const [tokenForFee, setTokenForFee] = useState<Token | null>(null);
 	const { tokens } = useSnapshot(injectedElements);
 
+	const nativeToken = 'APT';
+
 	const handleSetTokenFee = (token: Token) => {
 		setTokenForFee(token);
 		setIsDropped(false);
@@ -78,7 +80,7 @@ export const NetworkFee: FC<Props> = () => {
 				<View style={styles.feeDisplay}>
 					<View style={styles.selectContainer}>
 						<Text style={styles.selectedToken}>
-							{tokenForFee?.metadata?.symbol ?? 'SOL'}
+							{tokenForFee?.metadata?.symbol ?? nativeToken}
 						</Text>
 						{isDropped && (
 							<View style={styles.dropdown}>

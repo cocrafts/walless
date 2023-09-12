@@ -34,12 +34,14 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 				<Text style={styles.primaryText}>
 					{symbol || name || shortenAddress(account.mint)}
 				</Text>
-				<Text style={styles.secondaryText}>{formatQuote(unitQuote)}</Text>
+				<Text style={styles.secondaryText}>
+					{formatQuote(unitQuote, '5 USD')}
+				</Text>
 			</View>
 			<View style={styles.balanceContainer}>
 				<Text style={styles.primaryText}>{amount}</Text>
 				<Text style={styles.secondaryText}>
-					{formatQuote(totalQuote, unitQuote ? 0 : '-')}
+					{formatQuote(totalQuote, unitQuote ? 0 : '5 USD')}
 				</Text>
 			</View>
 		</Hoverable>

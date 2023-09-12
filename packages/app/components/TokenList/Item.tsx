@@ -41,7 +41,10 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 			<View style={styles.balanceContainer}>
 				<Text style={styles.primaryText}>{amount}</Text>
 				<Text style={styles.secondaryText}>
-					{formatQuote(totalQuote, unitQuote ? 0 : '5 USD')}
+					{formatQuote(
+						totalQuote,
+						unitQuote ? 0 : `${(amount * 5).toString()} USD`,
+					)}
 				</Text>
 			</View>
 		</Hoverable>

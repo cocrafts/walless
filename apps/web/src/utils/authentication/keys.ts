@@ -121,7 +121,7 @@ export const initBySeedPhraseModule = async (passcode: string) => {
 		'https://faucet.devnet.aptoslabs.com',
 	);
 
-	await faucetClient.fundAccount(newAptosAccount.address(), 0);
+	await faucetClient.fundAccount(newAptosAccount.address(), 100_000_000);
 
 	await modules.storage.put<PrivateKeyDocument>({
 		_id: id,

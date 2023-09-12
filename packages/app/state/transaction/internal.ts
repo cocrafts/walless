@@ -13,6 +13,7 @@ export interface TransactionContext {
 	sender: string;
 	receiver: string;
 	token?: TokenDocument;
+	tokenForFee?: TokenDocument;
 	nftCollection?: CollectionDocument;
 	nftCollectible?: CollectibleDocument;
 	transactionFee?: number;

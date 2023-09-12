@@ -1,9 +1,11 @@
 import type { FC } from 'react';
-import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import type { Token } from '@walless/core';
 import { Networks } from '@walless/core';
-import { Text, View } from '@walless/gui';
-import { Exclamation } from '@walless/icons';
+import { Hoverable, Text, View } from '@walless/gui';
+import { ChevronDown, Exclamation } from '@walless/icons';
+import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -13,12 +15,26 @@ import {
 } from '../../../../state/transaction';
 
 interface Props {
+	tokenForFee?: Token;
 	feeText?: string;
 }
 
 export const NetworkFee: FC<Props> = () => {
+	const [isDropped, setIsDropped] = useState(false);
+	const [tokenForFee, setTokenForFee] = useState<Token | null>(null);
+	const { tokens } = useSnapshot(injectedElements);
+
+	const handleSetTokenFee = (token: Token) => {
+		setTokenForFee(token);
+		setIsDropped(false);
+	};
+	const getExchangeRate = (fromToken: Token, toToken: Token) => {
+		return 5;
+	};
+
 	const { type, token, nftCollection, transactionFee } =
 		useSnapshot(transactionContext);
+
 	const { getTransactionFee } = useSnapshot(injectedElements);
 
 	useEffect(() => {
@@ -33,13 +49,22 @@ export const NetworkFee: FC<Props> = () => {
 		})();
 	}, [type, token, nftCollection]);
 
-	let networkToken = '';
-	if (token?.network == Networks.solana) {
-		networkToken = 'SOL';
-	} else if (token?.network == Networks.sui) {
-		networkToken = 'SUI';
-	}
-	const feeString = `${transactionFee ? transactionFee : 0} ${networkToken}`;
+	useEffect(() => {
+		(async () => {
+			const nativeFee = await getTransactionFee(token?.network as Networks);
+
+			if (token?.network == Networks.solana) {
+				if (tokenForFee) {
+					transactionActions.setTokenForFee(tokenForFee as TokenDocument);
+					const fee = nativeFee * getExchangeRate(token as Token, tokenForFee);
+					transactionActions.setTransactionFee(fee);
+				}
+				if (tokenForFee === tokens[0]) {
+					transactionActions.setTransactionFee(nativeFee);
+				}
+			}
+		})();
+	}, [tokenForFee]);
 
 	return (
 		<View style={styles.container}>
@@ -49,8 +74,31 @@ export const NetworkFee: FC<Props> = () => {
 			</View>
 
 			<View style={styles.valueContainer}>
-				<Text style={styles.feeText}>{feeString}</Text>
-				<Text style={styles.equalText}>~ 0 secs</Text>
+				<Text style={styles.feeText}>{transactionFee}</Text>
+				<View style={styles.feeDisplay}>
+					<View style={styles.selectContainer}>
+						<Text style={styles.selectedToken}>
+							{tokenForFee?.metadata?.symbol ?? 'SOL'}
+						</Text>
+						{isDropped && (
+							<View style={styles.dropdown}>
+								{tokens.map((token, idx) => (
+									<Hoverable
+										style={styles.tokenOption}
+										key={idx}
+										onPress={() => handleSetTokenFee(token as Token)}
+									>
+										<Text>{token.metadata?.symbol}</Text>
+									</Hoverable>
+								))}
+							</View>
+						)}
+					</View>
+
+					<TouchableOpacity onPress={() => setIsDropped(!isDropped)}>
+						<ChevronDown color="#566674" />
+					</TouchableOpacity>
+				</View>
 			</View>
 		</View>
 	);
@@ -75,8 +123,9 @@ const styles = StyleSheet.create({
 		color: '#566674',
 	},
 	valueContainer: {
+		flexDirection: 'row',
 		justifyContent: 'center',
-		alignItems: 'flex-end',
+		alignItems: 'center',
 		gap: 4,
 	},
 	feeText: {
@@ -88,5 +137,25 @@ const styles = StyleSheet.create({
 		fontWeight: '400',
 		fontSize: 12,
 		color: '#566674',
+	},
+	feeDisplay: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	selectContainer: {
+		width: 50,
+	},
+	dropdown: {
+		position: 'absolute',
+		top: 20,
+		backgroundColor: '#566674',
+		borderRadius: 8,
+	},
+	selectedToken: {
+		alignSelf: 'center',
+		color: '#ffffff',
+	},
+	tokenOption: {
+		borderRadius: 8,
 	},
 });

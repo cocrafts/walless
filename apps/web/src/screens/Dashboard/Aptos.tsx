@@ -6,15 +6,31 @@ import { Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 export const Dashboard = () => {
-	const { aliceProfile, bobProfile, wallessPoolProfile } =
+	const { message, aliceProfile, bobProfile, wallessPoolProfile } =
 		useSnapshot(aptosHackathonState);
 
 	useEffect(() => {
 		aptosHackathonActions.initDemo();
 	}, []);
 
+	const getMessageStyleByStatus = (status: string) => {
+		switch (status) {
+			case 'success':
+				return styles.messageSuccess;
+			case 'error':
+				return styles.messageError;
+			default:
+				return {};
+		}
+	};
+
 	return (
 		<View style={styles.sliderContainer}>
+			{message.status !== 'none' && (
+				<Text style={getMessageStyleByStatus(message.status)}>
+					{message.status} : {message.text}
+				</Text>
+			)}
 			<AccountInfo {...aliceProfile} />
 			<AccountInfo {...bobProfile} />
 			<AccountInfo {...wallessPoolProfile} />
@@ -42,6 +58,12 @@ const styles = StyleSheet.create({
 	sliderContainer: {
 		padding: 10,
 		gap: 10,
+	},
+	messageSuccess: {
+		color: 'green',
+	},
+	messageError: {
+		color: 'red',
 	},
 	infoContainer: {
 		padding: 10,

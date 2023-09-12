@@ -1,6 +1,6 @@
 import type { AptosAccount, AptosClient, TokenClient } from 'aptos';
 
-import type { AptosTokenId } from '.';
+import type { AptosHackathonMessage, AptosTokenId } from '.';
 import { aptosHackathonState } from '.';
 
 const getBalance = async (client: AptosClient, account: AptosAccount) => {
@@ -28,6 +28,10 @@ const getToken = async (
 };
 
 export const aptosHackathonActions = {
+	updateMessage: (message: AptosHackathonMessage) => {
+		aptosHackathonState.message = message;
+	},
+
 	initDemo: async () => {
 		const {
 			collectionName,
@@ -45,12 +49,36 @@ export const aptosHackathonActions = {
 			tokenClient,
 		} = aptosHackathonState;
 
-		await faucetClient.fundAccount(bob.address(), 5_000_000);
-		await faucetClient.fundAccount(wallessPool.address(), 100_000_000);
-		bobProfile.octas = await getBalance(aptosClient, bob);
-		wallessPoolProfile.octas = await getBalance(aptosClient, wallessPool);
+		try {
+			aptosHackathonActions.updateMessage({
+				status: 'loading',
+				text: 'Funding accounts...',
+			});
+
+			await faucetClient.fundAccount(alice.address(), 0);
+			await faucetClient.fundAccount(bob.address(), 5_000_000);
+			await faucetClient.fundAccount(wallessPool.address(), 100_000_000);
+			aliceProfile.octas = await getBalance(aptosClient, alice);
+			bobProfile.octas = await getBalance(aptosClient, bob);
+			wallessPoolProfile.octas = await getBalance(aptosClient, wallessPool);
+
+			aptosHackathonActions.updateMessage({
+				status: 'success',
+				text: 'Funded bob and walless pool',
+			});
+		} catch (error) {
+			aptosHackathonActions.updateMessage({
+				status: 'error',
+				text: `${error}`,
+			});
+		}
 
 		try {
+			aptosHackathonActions.updateMessage({
+				status: 'loading',
+				text: 'Creating walless collection...',
+			});
+
 			const createCollectionTxHash = await tokenClient.createCollection(
 				wallessPool,
 				collectionName,
@@ -62,11 +90,24 @@ export const aptosHackathonActions = {
 				checkSuccess: true,
 			});
 			wallessPoolProfile.octas = await getBalance(aptosClient, wallessPool);
+
+			aptosHackathonActions.updateMessage({
+				status: 'success',
+				text: 'Created walless collection',
+			});
 		} catch (error) {
-			console.log('--> create collection error', error);
+			aptosHackathonActions.updateMessage({
+				status: 'error',
+				text: 'Error creating collection' + error,
+			});
 		}
 
 		try {
+			aptosHackathonActions.updateMessage({
+				status: 'loading',
+				text: 'Creating walless token...',
+			});
+
 			const createTokenTxHash = await tokenClient.createToken(
 				wallessPool,
 				collectionName,
@@ -79,18 +120,38 @@ export const aptosHackathonActions = {
 				checkSuccess: true,
 			});
 			wallessPoolProfile.octas = await getBalance(aptosClient, wallessPool);
+
+			aptosHackathonActions.updateMessage({
+				status: 'success',
+				text: 'Created walless token',
+			});
 		} catch (error) {
-			console.log('--> create token error', error);
+			aptosHackathonActions.updateMessage({
+				status: 'error',
+				text: `${error}`,
+			});
 		}
 
+		aptosHackathonActions.updateMessage({
+			status: 'loading',
+			text: 'Walless Pool minting walless token...',
+		});
 		wallessPoolProfile.token = await getToken(
 			tokenClient,
 			wallessPool,
 			tokenId,
 		);
+		aptosHackathonActions.updateMessage({
+			status: 'success',
+			text: 'Walless Pool minted walless token',
+		});
 
 		try {
-			await tokenClient.directTransferToken(
+			aptosHackathonActions.updateMessage({
+				status: 'loading',
+				text: 'Alice minting walless token...',
+			});
+			const transferTokenTxHash = await tokenClient.directTransferToken(
 				wallessPool,
 				alice,
 				wallessPool.address().hex(),
@@ -98,18 +159,29 @@ export const aptosHackathonActions = {
 				tokenName,
 				500,
 			);
+
+			await aptosClient.waitForTransactionWithResult(transferTokenTxHash, {
+				checkSuccess: true,
+			});
+
 			wallessPoolProfile.octas = await getBalance(aptosClient, wallessPool);
 			wallessPoolProfile.token = await getToken(
 				tokenClient,
 				wallessPool,
 				tokenId,
 			);
+			aliceProfile.octas = await getBalance(aptosClient, alice);
 			aliceProfile.token = await getToken(tokenClient, alice, tokenId);
+
+			aptosHackathonActions.updateMessage({
+				status: 'success',
+				text: 'Alice minted walless token',
+			});
 		} catch (error) {
-			console.log(
-				'--> direct transfer token from walless pool to alice error',
-				error,
-			);
+			aptosHackathonActions.updateMessage({
+				status: 'error',
+				text: `${error}`,
+			});
 		}
 	},
 };

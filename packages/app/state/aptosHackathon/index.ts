@@ -21,7 +21,13 @@ export interface AptosTokenId {
 	property_version: string;
 }
 
+export interface AptosHackathonMessage {
+	status: 'success' | 'error' | 'loading' | 'none';
+	text: string;
+}
+
 export interface AptosHackathonState {
+	message: AptosHackathonMessage;
 	aptosClient: AptosClient;
 	faucetClient: FaucetClient;
 	coinClient: CoinClient;
@@ -59,6 +65,10 @@ const collectionName = 'Walless Demo';
 const tokenName = 'Walless Token';
 
 export const aptosHackathonState = proxy<AptosHackathonState>({
+	message: {
+		status: 'none',
+		text: '',
+	},
 	aptosClient: aptosClient,
 	faucetClient: new FaucetClient(APTOS_NODE, APTOS_FAUCET),
 	coinClient: new CoinClient(aptosClient),

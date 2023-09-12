@@ -120,7 +120,7 @@ export default Dashboard;
 
 const aptosCardSkin: CardSkin = {
 	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },
-	largeIconSrc: { uri: '/img/network/aptos-cover.svg' },
+	largeIconSrc: { uri: '/img/network/aptos-icon.svg' },
 	iconSrc: { uri: '/img/network/aptos-icon.png' },
 	iconColor: '#000000',
 	iconSize: 16,

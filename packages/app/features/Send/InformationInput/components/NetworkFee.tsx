@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
 	},
 	dropdown: {
 		position: 'absolute',
+		width: 50,
 		top: 20,
 		backgroundColor: '#566674',
 		borderRadius: 8,
@@ -159,5 +160,6 @@ const styles = StyleSheet.create({
 	},
 	tokenOption: {
 		borderRadius: 8,
+		padding: 4,
 	},
 });

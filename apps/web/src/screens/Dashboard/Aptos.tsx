@@ -69,8 +69,6 @@ export const Dashboard: FC<Props> = () => {
 		setPrivacy(next);
 	};
 
-	console.log(aptosCardSkin);
-
 	return (
 		<Stack flex={1} padding={12} gap={18}>
 			<Stack horizontal gap={12}>

@@ -10,8 +10,6 @@ const APTOS_NODE = 'https://fullnode.devnet.aptoslabs.com';
 
 export const aptosEngineRunner: EngineRunner<unknown> = {
 	start: async (context) => {
-		console.log('--> Hello from aptos engine');
-
 		const { storage } = context;
 		const keyResult = await storage.find(selectors.aptosKeys);
 		const keys = keyResult.docs as PublicKeyDocument[];

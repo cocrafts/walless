@@ -15,6 +15,7 @@ import {
 	VersionedTransaction,
 } from '@solana/web3.js';
 import type {
+	AptosTransaction,
 	Collectible,
 	TezosTransaction,
 	Token,
@@ -109,6 +110,12 @@ export const createAndSend = async (
 			transaction: JSON.stringify(transaction),
 			passcode,
 		});
+	} else if (payload.network == Networks.aptos) {
+		res = await requestHandleTransaction({
+			type: RequestType.TRANSFER_APTOS_TOKEN,
+			transaction: JSON.stringify(transaction),
+			passcode,
+		});
 	}
 
 	return res as ResponsePayload;
@@ -164,6 +171,10 @@ export const constructTransaction = async ({
 		if (token.metadata?.symbol == 'TEZ') {
 			return constructSendTezTransaction(receiver, amount);
 		}
+	} else if (network == Networks.aptos) {
+		if (token.metadata?.symbol == 'APT') {
+			return constructSendAptTransaction(sender, receiver, amount);
+		}
 	}
 
 	throw Error('Network or Token is not supported');
@@ -177,6 +188,8 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 		} else if (network == Networks.sui) {
 			return { valid: true, message: '' };
 		} else if (network == Networks.tezos) {
+			return { valid: true, message: '' };
+		} else if (network == Networks.aptos) {
 			return { valid: true, message: '' };
 		}
 		return { valid: false, message: 'Unsupported network ' + network };
@@ -331,6 +344,19 @@ const constructSendTezTransaction = (
 ): TezosTransaction => {
 	return {
 		type: 'native',
+		receiver,
+		amount,
+	};
+};
+
+const constructSendAptTransaction = (
+	sender: string,
+	receiver: string,
+	amount: number,
+): AptosTransaction => {
+	return {
+		type: 'native',
+		sender,
 		receiver,
 		amount,
 	};

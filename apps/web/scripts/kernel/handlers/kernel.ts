@@ -4,6 +4,7 @@ import { RequestType } from '@walless/messaging';
 import { handle } from '../utils/coordinator';
 import { getNetwork } from '../utils/handler';
 
+import * as aptosHandler from './aptosHandler';
 import * as commonHandler from './common';
 import * as solanaHandler from './solanaHandler';
 import * as suiHandler from './suiHandler';
@@ -55,6 +56,8 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			suiHandler.handleSignAndExecuteTransaction(payload, channel);
 		} else if (payload.type === RequestType.TRANSFER_TEZOS_TOKEN) {
 			tezosHandler.handleTransferToken(payload, channel);
+		} else if (payload.type === RequestType.TRANSFER_APTOS_TOKEN) {
+			aptosHandler.handleTransferToken(payload, channel);
 		} else {
 			return channel.postMessage({
 				from: 'walless@kernel',

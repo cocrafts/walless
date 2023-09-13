@@ -48,3 +48,10 @@ export interface TezosTransaction {
 	amount: number;
 	tokenAddress?: string;
 }
+
+export interface AptosTransaction {
+	type: 'native' | 'custom';
+	sender: string;
+	receiver: string;
+	amount: number;
+}

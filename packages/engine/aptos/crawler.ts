@@ -6,7 +6,7 @@ import { AptosClient, HexString } from 'aptos';
 import { tokenActions } from '../state/tokens';
 import type { EngineRunner } from '../utils/type';
 
-const APTOS_NODE = 'https://fullnode.devnet.aptoslabs.com';
+import { APTOS_COIN, APTOS_DEVNET } from './shared';
 
 export const aptosEngineRunner: EngineRunner<unknown> = {
 	start: async (context) => {
@@ -17,13 +17,12 @@ export const aptosEngineRunner: EngineRunner<unknown> = {
 		// Aptos Hackathon
 		const pubkeyShortString = keys[0]._id;
 		const pubkey = new HexString(pubkeyShortString);
-		const aptosClient = new AptosClient(APTOS_NODE);
+		const aptosClient = new AptosClient(APTOS_DEVNET);
 
 		const tokenDocuments: TokenDocument[] = [];
 
 		const resources = await aptosClient.getAccountResources(pubkey.hex());
-		const aptosCoin = '0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>';
-		const accountResource = resources.find((r) => r.type === aptosCoin);
+		const accountResource = resources.find((r) => r.type === APTOS_COIN);
 		const balance = BigInt(
 			(accountResource!.data as any).coin.value,
 		).toString();

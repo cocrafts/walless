@@ -32,6 +32,13 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 		useSnapshot(transactionContext);
 
 	const handleContinue = async () => {
+		console.log('--> TransactionConfirmation');
+		console.log('type', type);
+		console.log('sender', sender);
+		console.log('receiver', receiver);
+		console.log('amount', amount);
+		console.log('token', token);
+
 		if (
 			(type === 'Token' && !token) ||
 			(type === 'Collectible' && !nftCollectible)

@@ -4,6 +4,10 @@ import { generateSecretKey, InMemorySigner } from '@taquito/signer';
 import { generateID } from '@tkey/common-types';
 import { Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
+import {
+	APTOS_DEVNET,
+	APTOS_FAUCET_DEVNET,
+} from '@walless/engine/aptos/shared';
 import { modules } from '@walless/ioc';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
 import { AptosAccount, FaucetClient } from 'aptos';
@@ -116,10 +120,7 @@ export const initBySeedPhraseModule = async (passcode: string) => {
 		Buffer.from(newAptosAccount.toPrivateKeyObject().privateKeyHex),
 	);
 
-	const faucetClient = new FaucetClient(
-		'https://fullnode.devnet.aptoslabs.com',
-		'https://faucet.devnet.aptoslabs.com',
-	);
+	const faucetClient = new FaucetClient(APTOS_DEVNET, APTOS_FAUCET_DEVNET);
 
 	await faucetClient.fundAccount(newAptosAccount.address(), 100_000_000);
 

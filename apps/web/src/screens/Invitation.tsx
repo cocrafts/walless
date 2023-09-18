@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { InvitationFeature } from '@walless/app';
+import { validateInvitationCode } from '@walless/auth';
 import { View } from '@walless/gui';
 import { appState } from 'state/app';
-import { validateInvitationCode } from 'utils/authentication';
 import { router } from 'utils/routing';
 
 const InvitationScreen = () => {

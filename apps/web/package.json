@@ -42,6 +42,7 @@
     "@walless/wallet-standard": "*",
     "@web3auth/ethereum-provider": "5.2.0",
     "@web3auth/solana-provider": "5.2.0",
+    "aptos": "^1.19.0",
     "bip39": "^3.1.0",
     "bn.js": "^5.2.1",
     "dexie": "3.2.3",

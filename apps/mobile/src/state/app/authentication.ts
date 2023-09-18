@@ -4,6 +4,9 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import CustomAuth from '@toruslabs/customauth-react-native-sdk';
 import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
 import { appState } from '@walless/engine';
+import type { WalletInvitation } from '@walless/graphql';
+import { mutations, queries } from '@walless/graphql';
+import { qlClient } from 'utils/graphql';
 import { navigate } from 'utils/navigation';
 import { customAuthArgs } from 'utils/w3a';
 
@@ -12,7 +15,7 @@ GoogleSignin.configure({
 	offlineAccess: true,
 });
 
-export const signInWithGoogle = async () => {
+export const signInWithGoogle = async (invitationCode?: string) => {
 	try {
 		appState.authenticationLoading = true;
 		const redirectUri = 'metacraft://walless/auth';
@@ -21,6 +24,29 @@ export const signInWithGoogle = async () => {
 		const { idToken } = await GoogleSignin.signIn();
 		const credential = auth.GoogleAuthProvider.credential(idToken);
 		const { user } = await auth().signInWithCredential(credential);
+
+		if (!__DEV__) {
+			const { walletInvitation } = await qlClient.request<{
+				walletInvitation: WalletInvitation;
+			}>(queries.walletInvitation, {
+				email: auth().currentUser?.email,
+			});
+
+			if (!walletInvitation && invitationCode) {
+				await qlClient.request(mutations.claimWalletInvitation, {
+					code: invitationCode || appState.invitationCode,
+					email: auth().currentUser?.email,
+				});
+			} else if (!walletInvitation && !invitationCode) {
+				appState.isAbleToSignIn = false;
+				appState.signInError =
+					'The account does not exist. Enter your Invitation code';
+				console.log('error', appState.signInError);
+				navigate('Authentication', { screen: 'Invitation' });
+				return;
+			}
+		}
+
 		const verifierToken = await user.getIdToken(true);
 		const verifier = customAuthArgs.web3AuthClientId;
 		const verifierId = user.uid;

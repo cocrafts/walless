@@ -5,10 +5,10 @@ import SolanaDashboard from 'screens/Dashboard/Solana';
 import SuiDashboard from 'screens/Dashboard/Sui';
 import { useParams } from 'utils/hooks';
 
+import AptosDashboard from './Aptos';
 import { KoalaGacha } from './KoalaGacha';
 import TezosDashboard from './Tezos';
 import { TRexRunner } from './TRexRunner';
-import AptosDashboard from './Aptos';
 
 export const Embed: FC = () => {
 	const { id } = useParams<'id'>();

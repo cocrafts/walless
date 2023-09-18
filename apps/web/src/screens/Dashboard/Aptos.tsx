@@ -1,14 +1,17 @@
-import { StyleSheet } from 'react-native';
-import { Networks } from '@walless/core';
-import { SlideOption, Slider, View } from '@walless/gui';
-import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
-import { CardSkin, TabsHeader, WalletCard } from '@walless/app';
-import { appActions } from 'state/app';
-import { Copy } from '@walless/icons';
-import { layoutTabs } from './shared';
 import { useState } from 'react';
-import { CollectiblesTab, TokenTab } from './components';
+import { StyleSheet } from 'react-native';
+import type { CardSkin, TabAble } from '@walless/app';
+import { TabsHeader, WalletCard } from '@walless/app';
+import { Networks } from '@walless/core';
+import type { SlideOption } from '@walless/gui';
+import { Slider, View } from '@walless/gui';
+import { Copy } from '@walless/icons';
+import { appActions } from 'state/app';
+import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
+
 import ActivityTab from './components/ActivityTab';
+import { CollectiblesTab, TokenTab } from './components';
+import { layoutTabs } from './shared';
 
 const AptosDashboard = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -88,7 +91,7 @@ const aptosCardSkin: CardSkin = {
 	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },
 	largeIconSrc: { uri: '/img/network/aptos-icon.svg' },
 	iconSrc: { uri: '/img/network/aptos-icon.svg' },
-	iconColor: '#000000',
+	iconColor: 'transparent',
 	iconSize: 16,
 };
 

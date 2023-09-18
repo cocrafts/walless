@@ -39,9 +39,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 				});
 			} else if (!walletInvitation && !invitationCode) {
 				appState.isAbleToSignIn = false;
-				appState.signInError =
-					'The account does not exist. Enter your Invitation code';
-				console.log('error', appState.signInError);
+				console.log('The account does not exist. Enter your Invitation code');
 				navigate('Authentication', { screen: 'Invitation' });
 				return;
 			}

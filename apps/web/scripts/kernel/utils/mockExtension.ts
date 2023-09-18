@@ -27,6 +27,31 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		},
 	},
 	{
+		_id: 'aptos',
+		name: 'Aptos',
+		version: '0.1.8',
+		type: 'Extension',
+		extensionType: 'Layout',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/explore/aptos-icon.svg',
+			iconSize: 40,
+			iconColor: '#ffffff',
+			coverUri: '/img/explore/aptos-thumbnail.svg',
+			description:
+				'A hyper casual pixel-style game in which players step into the shoes of their ...',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/explore/aptos-icon.svg',
+			iconUri: '/img/explore/aptos-icon.svg',
+			iconColor: '#ffffff',
+			iconSize: 40,
+		},
+	},
+	{
 		_id: 'solana',
 		name: 'Solana',
 		version: '0.9.1',

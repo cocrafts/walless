@@ -54,7 +54,6 @@ export const handleDisconnect: HandleMethod = async ({
 	responseMethod,
 }) => {
 	const connectOptions = payload.options as ConnectOptions;
-	console.log('disconnect request');
 
 	if (connectOptions.domain) {
 		await modules.storage.upsert<TrustedDomainDocument>(

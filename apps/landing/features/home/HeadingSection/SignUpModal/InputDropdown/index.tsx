@@ -60,10 +60,15 @@ const InputDropdown: FC<Props> = ({
 		}
 	}, [isDropped]);
 
+	const errorStyle = {
+		borderRadius: 15,
+		borderColor: '#E34237',
+	};
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{title}</Text>
-			<View style={styles.contentContainer}>
+			<View style={[styles.contentContainer, error ? errorStyle : {}]}>
 				<TouchableOpacity
 					ref={modalRef}
 					style={styles.selectedOptionContainer}
@@ -97,6 +102,8 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		gap: 4,
 		zIndex: 999,
+		borderWidth: 1,
+		borderColor: 'transparent',
 	},
 	selectedOptionContainer: {
 		flexDirection: 'row',

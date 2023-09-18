@@ -6,7 +6,7 @@ import type { TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
 import { getPrivateKey } from './handler';
-import { openPopup } from './popup';
+import { closePopup, openPopup } from './popup';
 import {
 	addRequestRecord,
 	getRequestRecord,
@@ -41,14 +41,18 @@ export const handle: CoordinatingHandle = async ({
 				const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 				const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
 				if (!savedDomain || !savedDomain.connect) {
-					Object.values(requestPool).map((ele) => {
+					Object.values(requestPool).forEach((ele) => {
 						if (
 							ele.payload.requestId !== requestId &&
 							ele.payload.type === RequestType.REQUEST_CONNECT &&
 							ele.payload.options.domain === domain
 						) {
-							chrome.windows.remove(ele.payload.popupId);
-							response(ele.payload.requestId, ResponseCode.REJECTED);
+							try {
+								response(ele.payload.requestId, ResponseCode.REJECTED);
+								closePopup(ele.payload.popupId);
+							} catch (error) {
+								console.error(error);
+							}
 						}
 					});
 
@@ -57,7 +61,6 @@ export const handle: CoordinatingHandle = async ({
 						requestId,
 					);
 					requestSource.payload['popupId'] = id;
-					return;
 				} else if (!savedDomain.trusted) {
 					return response(requestId, ResponseCode.REJECTED, {
 						message: ResponseMessage.REJECT_REQUEST_CONNECT,
@@ -73,9 +76,8 @@ export const handle: CoordinatingHandle = async ({
 		} else if (requirePrivateKey) {
 			const { id } = await openPopup(PopupType.SIGNATURE_POPUP, requestId);
 			requestSource.payload['popupId'] = id;
-		} else {
-			return;
 		}
+		return;
 	} else if (from === PopupType.REQUEST_CONNECT_POPUP) {
 		/**
 		 * Forwarded request

@@ -39,11 +39,9 @@ export const initializeMessaging = async (): Promise<void> => {
 		const callbackRegistry: Record<string, MessengerCallback> = {};
 
 		runtime.onConnect.addListener((port) => {
-			console.log('connecting with:', port.sender?.url);
 			const handleInComingMessage = async (
 				message: EncryptedMessage | MessagePayload,
 			) => {
-				console.log('on message');
 				const registeredCallback = callbackRegistry[port.name];
 				const isEncrypted = !!message?.iv;
 
@@ -54,22 +52,14 @@ export const initializeMessaging = async (): Promise<void> => {
 							message as EncryptedMessage,
 							key,
 						);
-						console.log(
-							`\tmessage info: \n\t - from: ${decrypted.from}, \n\t - type: ${decrypted.type} \n\t - requestId: ${decrypted.requestId}`,
-						);
 						registeredCallback?.(decrypted, port);
 					} else {
-						const payload = message as MessagePayload;
-						console.log(
-							`\tmessage info: \n\t - from: ${payload.from}, \n\t - type: ${payload.type} \n\t - requestId: ${payload.requestId}`,
-						);
 						registeredCallback?.(message as never, port);
 					}
 				}
 			};
 
 			const handleDisconnect = (port: chrome.runtime.Port) => {
-				console.log('Disconnected with:', port.sender?.url);
 				if (port.name.includes('/')) {
 					const [id, requestId] = port.name.split('/');
 					if (id === PopupType.REQUEST_CONNECT_POPUP) {

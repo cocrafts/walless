@@ -8,6 +8,7 @@ import { useParams } from 'utils/hooks';
 import { KoalaGacha } from './KoalaGacha';
 import TezosDashboard from './Tezos';
 import { TRexRunner } from './TRexRunner';
+import AptosDashboard from './Aptos';
 
 export const Embed: FC = () => {
 	const { id } = useParams<'id'>();
@@ -30,6 +31,8 @@ export const Embed: FC = () => {
 		);
 	} else if (id === '000005') {
 		return <KoalaGacha />;
+	} else if (id === 'aptos') {
+		return <AptosDashboard />;
 	}
 
 	return (

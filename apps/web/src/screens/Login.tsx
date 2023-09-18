@@ -6,7 +6,7 @@ import { useSnapshot } from 'utils/hooks';
 import { router } from 'utils/routing';
 
 export const LoginScreen: FC = () => {
-	const { authenticationLoading, invitationCode, isAbleToSignIn, signInError } =
+	const { authenticationLoading, isAbleToSignIn, signInError } =
 		useSnapshot(appState);
 
 	const handleNavigateToGetInvitationCode = () => {
@@ -18,7 +18,7 @@ export const LoginScreen: FC = () => {
 		<LoginFeature
 			loading={authenticationLoading}
 			logoSrc={resources.walless.icon}
-			onGoogleSignIn={() => appActions.signInWithGoogle(invitationCode)}
+			onGoogleSignIn={() => appActions.signInWithGoogle()}
 			isAbleToSignIn={isAbleToSignIn}
 			onGetInvitationCode={handleNavigateToGetInvitationCode}
 			error={signInError}

@@ -36,7 +36,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		storeMeta: {
 			iconUri: '/img/explore/aptos-icon.svg',
 			iconSize: 40,
-			iconColor: '#ffffff',
+			iconColor: 'transparent',
 			coverUri: '/img/explore/aptos-thumbnail.svg',
 			description:
 				'A hyper casual pixel-style game in which players step into the shoes of their ...',
@@ -47,7 +47,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/explore/aptos-icon.svg',
 			iconUri: '/img/explore/aptos-icon.svg',
-			iconColor: '#ffffff',
+			iconColor: 'transparent',
 			iconSize: 40,
 		},
 	},

@@ -42,6 +42,7 @@ export const addRequestRecord = (
 	channel: MiniBroadcast,
 	payload: UnknownObject,
 ) => {
+	payload['timestamp'] = Date.now();
 	requestPool[requestId] = { channel, payload };
 };
 

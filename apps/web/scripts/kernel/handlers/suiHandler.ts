@@ -3,41 +3,38 @@ import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { MessengerCallback, ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
-import { decode } from 'bs58';
 
-import {
-	getPrivateKey,
-	settings,
-	triggerActionToGetPrivateKey,
-} from '../utils/handler';
+import { getPrivateKey, settings } from '../utils/handler';
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
-	const privateKey = await triggerActionToGetPrivateKey();
-	if (!privateKey) {
-		return;
-	}
-	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
-	const signer = new RawSigner(
-		keypair,
-		modules.engine.getConnection(Networks.sui),
-	);
+	console.log(payload, channel);
+	return;
+	// const privateKey = await triggerActionToGetPrivateKey();
+	// if (!privateKey) {
+	// 	return;
+	// }
+	// const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
+	// const signer = new RawSigner(
+	// 	keypair,
+	// 	modules.engine.getConnection(Networks.sui),
+	// );
 
-	const transaction = TransactionBlock.from(payload.transaction as string);
+	// const transaction = TransactionBlock.from(payload.transaction as string);
 
-	const signedTransaction = await signer.signTransactionBlock({
-		transactionBlock: transaction,
-	});
+	// const signedTransaction = await signer.signTransactionBlock({
+	// 	transactionBlock: transaction,
+	// });
 
-	channel.postMessage({
-		from: 'walless@kernel',
-		requestId: payload.requestId,
-		signedTransaction,
-	});
+	// channel.postMessage({
+	// 	from: 'walless@kernel',
+	// 	requestId: payload.requestId,
+	// 	signedTransaction,
+	// });
 
-	return signedTransaction;
+	// return signedTransaction;
 };
 
 export const handleSignAndExecuteTransaction: MessengerCallback = async (
@@ -91,25 +88,27 @@ export const handleSignMessage: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
-	const privateKey = await triggerActionToGetPrivateKey();
-	if (!privateKey) {
-		return;
-	}
-	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
-	const signer = new RawSigner(
-		keypair,
-		modules.engine.getConnection(Networks.sui),
-	);
+	console.log(payload, channel);
+	return;
+	// const privateKey = await triggerActionToGetPrivateKey();
+	// if (!privateKey) {
+	// 	return;
+	// }
+	// const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
+	// const signer = new RawSigner(
+	// 	keypair,
+	// 	modules.engine.getConnection(Networks.sui),
+	// );
 
-	const message = decode(payload.message as string);
+	// const message = decode(payload.message as string);
 
-	const signedMessage = await signer.signMessage({ message: message });
+	// const signedMessage = await signer.signMessage({ message: message });
 
-	channel.postMessage({
-		from: 'walless@kernel',
-		requestId: payload.requestId,
-		signedMessage,
-	});
+	// channel.postMessage({
+	// 	from: 'walless@kernel',
+	// 	requestId: payload.requestId,
+	// 	signedMessage,
+	// });
 
-	return signedMessage;
+	// return signedMessage;
 };

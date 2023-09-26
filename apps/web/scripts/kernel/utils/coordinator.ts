@@ -6,7 +6,7 @@ import type { TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
 import { getPrivateKey } from './handler';
-import { openPopup } from './popup';
+import { closePopup, openPopup } from './popup';
 import {
 	addRequestRecord,
 	getRequestRecord,
@@ -41,14 +41,18 @@ export const handle: CoordinatingHandle = async ({
 				const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 				const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
 				if (!savedDomain || !savedDomain.connect) {
-					Object.values(requestPool).map((ele) => {
+					Object.values(requestPool).forEach((ele) => {
 						if (
 							ele.payload.requestId !== requestId &&
 							ele.payload.type === RequestType.REQUEST_CONNECT &&
 							ele.payload.options.domain === domain
 						) {
-							chrome.windows.remove(ele.payload.popupId);
+							try {
 							response(ele.payload.requestId, ResponseCode.REJECTED);
+								closePopup(ele.payload.popupId);
+							} catch (error) {
+								// empty
+							}
 						}
 					});
 

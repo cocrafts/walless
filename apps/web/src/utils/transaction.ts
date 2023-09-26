@@ -1,5 +1,6 @@
 import { Ed25519Keypair, TransactionBlock } from '@mysten/sui.js';
 import {
+	ACCOUNT_SIZE,
 	createAssociatedTokenAccountInstruction,
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
@@ -7,7 +8,6 @@ import {
 import type { VersionedMessage } from '@solana/web3.js';
 import {
 	Connection,
-	Keypair,
 	LAMPORTS_PER_SOL,
 	PublicKey,
 	SystemProgram,
@@ -27,7 +27,6 @@ import { RequestType } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
 
-const sampleKeypair = Keypair.generate();
 const suiSampleKeypair = Ed25519Keypair.generate();
 
 let solConn: Connection | undefined;
@@ -185,28 +184,38 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 	}
 };
 
-export const getTransactionFee = async (network: Networks) => {
-	if (network == Networks.solana) {
-		const instructions = [
-			SystemProgram.transfer({
-				fromPubkey: sampleKeypair.publicKey,
-				toPubkey: sampleKeypair.publicKey,
-				lamports: LAMPORTS_PER_SOL / 10,
-			}),
-		];
+export const getTransactionFee = async (payload: TransactionPayload) => {
+	const transaction = await constructTransaction(payload);
 
-		const message = new TransactionMessage({
-			payerKey: sampleKeypair.publicKey,
-			recentBlockhash: await getLatestBlockhashOnSolana(),
-			instructions,
-		}).compileToV0Message();
+	if (payload.network == Networks.solana) {
+		const message = (transaction as VersionedTransaction).message;
+		const transactionFeePromise = getFeeForMessageOnSolana(message);
+		const rentFeePromise = (async () => {
+			if (payload.token.metadata?.symbol == 'SOL') return 0;
+			const conn = await getSolanaConnection();
+			const receiverATAddress = getAssociatedTokenAddressSync(
+				new PublicKey(payload.token.account.mint as string),
+				new PublicKey(payload.receiver),
+			);
 
-		return ((await getFeeForMessageOnSolana(message)) || 0) / LAMPORTS_PER_SOL;
-	} else if (network == Networks.sui) {
+			const receiverATAccount = await conn.getAccountInfo(receiverATAddress);
+
+			if (!receiverATAccount) {
+				return await conn.getMinimumBalanceForRentExemption(ACCOUNT_SIZE);
+			}
+
+			return 0;
+		})();
+
+		const [txFee, rentFee] = await Promise.all([
+			transactionFeePromise,
+			rentFeePromise,
+		]);
+
+		return (txFee + rentFee || 0) / LAMPORTS_PER_SOL;
+	} else if (payload.network == Networks.sui) {
 		const tx = new TransactionBlock();
-
 		const amount = 0.1;
-
 		const [coin] = tx.splitCoins({ kind: 'GasCoin' }, [tx.pure(amount)]);
 
 		tx.transferObjects(

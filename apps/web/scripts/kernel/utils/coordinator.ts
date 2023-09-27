@@ -48,10 +48,10 @@ export const handle: CoordinatingHandle = async ({
 							ele.payload.options.domain === domain
 						) {
 							try {
-							response(ele.payload.requestId, ResponseCode.REJECTED);
+								response(ele.payload.requestId, ResponseCode.REJECTED);
 								closePopup(ele.payload.popupId);
 							} catch (error) {
-								// empty
+								console.error(error);
 							}
 						}
 					});

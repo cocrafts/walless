@@ -1,7 +1,6 @@
 import { runtime } from '@walless/core';
 
 (function () {
-	console.log(runtime.isExtension);
 	if (runtime.isExtension) {
 		if (chrome && chrome?.runtime?.id) {
 			// Keep Manifest V3 service worker alive

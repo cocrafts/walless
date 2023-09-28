@@ -12,7 +12,7 @@ import {
 import { NavButton } from '../../components';
 
 import { AmountInput } from './AmountInput';
-import { NetworkFee } from './NetworkFee';
+import { NetworkFee } from './NetworkFee/NetworkFee';
 import { RecipientInput } from './RecipientInput';
 import { TotalCost } from './TotalCost';
 

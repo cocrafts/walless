@@ -23,6 +23,9 @@ export const transactionActions = {
 	setToken: (token: TokenDocument) => {
 		transactionContext.token = token;
 	},
+	setTokenForFee: (token: TokenDocument) => {
+		transactionContext.tokenForFee = token;
+	},
 	setNftCollection: (collection: CollectionDocument) => {
 		transactionContext.nftCollection = collection;
 	},

@@ -12,7 +12,7 @@ import {
 } from '../../../../state/transaction';
 import { NavButton } from '../../components';
 
-import { NetworkFee } from './NetworkFee';
+import { NetworkFee } from './NetworkFee/NetworkFee';
 import { RecipientInput } from './RecipientInput';
 
 interface Props {

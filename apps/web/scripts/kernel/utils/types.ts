@@ -21,7 +21,7 @@ export type ResponseMethod = (
 
 export type CoordinatingHandleProps = {
 	channel: MiniBroadcast;
-	payload: UnknownObject;
+	payload: UnknownObject | MessagePayload;
 	handleMethod: HandleMethod;
 	requirePrivateKey: boolean;
 	requireUserAction: boolean;

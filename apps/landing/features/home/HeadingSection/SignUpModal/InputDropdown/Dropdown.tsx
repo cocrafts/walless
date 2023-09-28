@@ -28,7 +28,7 @@ const Dropdown: FC<Props> = ({
 	};
 
 	return (
-		<View style={{ width: containerWidth }}>
+		<View style={{ width: containerWidth + 2 }}>
 			<TouchableOpacity
 				style={styles.selectedOptionContainer}
 				onPress={handleCloseModal}

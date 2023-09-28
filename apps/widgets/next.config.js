@@ -10,6 +10,14 @@ module.exports = {
 		'react-native-reanimated',
 		'react-native-svg',
 	],
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: '**',
+			},
+		],
+	},
 	webpack: (config, { dev }) => {
 		config.resolve.alias = {
 			...(config.resolve.alias || {}),

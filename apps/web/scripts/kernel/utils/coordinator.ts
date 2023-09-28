@@ -61,7 +61,6 @@ export const handle: CoordinatingHandle = async ({
 						requestId,
 					);
 					requestSource.payload['popupId'] = id;
-					return;
 				} else if (!savedDomain.trusted) {
 					return response(requestId, ResponseCode.REJECTED, {
 						message: ResponseMessage.REJECT_REQUEST_CONNECT,
@@ -77,9 +76,8 @@ export const handle: CoordinatingHandle = async ({
 		} else if (requirePrivateKey) {
 			const { id } = await openPopup(PopupType.SIGNATURE_POPUP, requestId);
 			requestSource.payload['popupId'] = id;
-		} else {
-			return;
 		}
+		return;
 	} else if (from === PopupType.REQUEST_CONNECT_POPUP) {
 		/**
 		 * Forwarded request

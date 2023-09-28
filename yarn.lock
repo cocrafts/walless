@@ -8972,6 +8972,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@solana/wallet-adapter-base@npm:^0.9.23":
+  version: 0.9.23
+  resolution: "@solana/wallet-adapter-base@npm:0.9.23"
+  dependencies:
+    "@solana/wallet-standard-features": ^1.1.0
+    "@wallet-standard/base": ^1.0.1
+    "@wallet-standard/features": ^1.0.3
+    eventemitter3: ^4.0.7
+  peerDependencies:
+    "@solana/web3.js": ^1.77.3
+  checksum: bd2fc54ae3d82758378c3eb92ab47b976335376082323d3e954e1c18dd35db1fa503eb8d2dd1dd6f6d7936cedfc02ff5db7a5e2f8fc00f6c7d37cf131df906cc
+  languageName: node
+  linkType: hard
+
 "@solana/wallet-adapter-react@npm:^0.15.32":
   version: 0.15.33
   resolution: "@solana/wallet-adapter-react@npm:0.15.33"
@@ -9002,6 +9016,16 @@ __metadata:
     "@wallet-standard/base": ^1.0.1
     "@wallet-standard/features": ^1.0.3
   checksum: 3dcc1b30dcf9a76a9317ab59aa9a4cb0c25e74b95ceee6bcc3219af47c0a8b5c64832bdb98c044835b6fc32d80e4099dc85c8e2d99e4dcff0e3d4bee6374c17b
+  languageName: node
+  linkType: hard
+
+"@solana/wallet-standard-features@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@solana/wallet-standard-features@npm:1.1.0"
+  dependencies:
+    "@wallet-standard/base": ^1.0.1
+    "@wallet-standard/features": ^1.0.3
+  checksum: fc55221bfe006397908bcd951d03e85afc76947207554d5c77b4043f0776c25fb47e3609f6fa5aaad3120a526a351316402ffd4682dcdc23ec13c2b22b5f1970
   languageName: node
   linkType: hard
 
@@ -12019,10 +12043,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/dappstore@workspace:apps/widgets"
   dependencies:
+    "@solana/wallet-adapter-base": ^0.9.23
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.7
     "@types/react-native": ^0.71.2
     "@walless/gui": "*"
+    "@walless/walless-adapter-solana-base": ^0.0.2
+    bs58: ^5.0.0
     next: 13.4.9
     raf: ^3.4.1
     react-native: ^0.71.6
@@ -12284,6 +12311,15 @@ __metadata:
     valtio: 1.10.5
   languageName: unknown
   linkType: soft
+
+"@walless/walless-adapter-solana-base@npm:^0.0.2":
+  version: 0.0.2
+  resolution: "@walless/walless-adapter-solana-base@npm:0.0.2"
+  dependencies:
+    "@solana/wallet-adapter-base": ^0.9.22
+  checksum: 96561afccc9c044af04f7c3c9457503cde8f29b5c8039226162c1b56b1c83c3ef611a758fe8b820c9728ce9c2e3ed4f224cae72adc3ab07d1e0fec1f9400563f
+  languageName: node
+  linkType: hard
 
 "@walless/wallet-standard@*, @walless/wallet-standard@workspace:packages/wallet-standard":
   version: 0.0.0-use.local

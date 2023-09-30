@@ -4,7 +4,11 @@ import {
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
-import type { VersionedMessage } from '@solana/web3.js';
+import {
+	createTransferInstruction,
+	getAssociatedTokenAddressSync,
+} from '@solana/spl-token';
+import type { VersionedMessage, VersionedMessage } from '@solana/web3.js';
 import {
 	Connection,
 	Keypair,
@@ -12,6 +16,14 @@ import {
 	PublicKey,
 	SystemProgram,
 	TransactionMessage,
+	VersionedTransaction,
+} from '@solana/web3.js';
+import {
+	clusterApiUrl,
+	Connection,
+	Keypair,
+	PublicKey,
+	Transaction,
 	VersionedTransaction,
 } from '@solana/web3.js';
 import type {
@@ -24,11 +36,26 @@ import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
+import axios from 'axios';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
+import base58 from 'bs58';
+import * as dotenv from 'dotenv';
 
 const sampleKeypair = Keypair.generate();
 const suiSampleKeypair = Ed25519Keypair.generate();
+
+dotenv.config();
+
+axios.defaults.baseURL = process.env.OCTANE_ENDPOINT;
+const privateKeyStr = process.env.PRIVATE_KEY;
+const connection = new Connection(clusterApiUrl('devnet'));
+
+const keypair = Keypair.fromSecretKey(base58.decode(privateKeyStr ?? ''));
+const ata = getAssociatedTokenAddressSync(
+	new PublicKey('7aeyZfAc5nVxycY4XEfXvTZ4tsEcqPs8p3gJhEmreXoz'),
+	keypair.publicKey,
+);
 
 let solConn: Connection | undefined;
 export const getSolanaConnection = async () => {
@@ -168,6 +195,14 @@ export const constructTransaction = async ({
 
 	throw Error('Network or Token is not supported');
 };
+
+export const constructTransactionAbstractFee = async ({
+	sender,
+	token,
+	network,
+	receiver,
+	amount,
+}) => {};
 
 export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {

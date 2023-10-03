@@ -21,6 +21,7 @@ import type {
 	TransactionPayload,
 } from '@walless/core';
 import { Networks } from '@walless/core';
+import { getAptosConnection } from '@walless/engine/aptos/utils';
 import { modules } from '@walless/ioc';
 import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
@@ -178,6 +179,8 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 			return { valid: true, message: '' };
 		} else if (network == Networks.tezos) {
 			return { valid: true, message: '' };
+		} else if (network == Networks.aptos) {
+			return { valid: true, message: '' };
 		}
 		return { valid: false, message: 'Unsupported network ' + network };
 	} catch (error) {
@@ -215,6 +218,10 @@ export const getTransactionFee = async (network: Networks) => {
 		);
 
 		return 0;
+	} else if (network == Networks.aptos) {
+		const connection = await getAptosConnection();
+		const fee = await connection.estimateGasPrice();
+		return fee.gas_estimate / 10 ** 8;
 	} else return 0;
 };
 

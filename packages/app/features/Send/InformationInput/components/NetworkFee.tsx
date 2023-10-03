@@ -38,7 +38,10 @@ export const NetworkFee: FC<Props> = () => {
 		networkToken = 'SOL';
 	} else if (token?.network == Networks.sui) {
 		networkToken = 'SUI';
+	} else if (token?.network == Networks.aptos) {
+		networkToken = 'APT';
 	}
+
 	const feeString = `${transactionFee ? transactionFee : 0} ${networkToken}`;
 
 	return (

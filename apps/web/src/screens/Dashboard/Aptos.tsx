@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { CardSkin, TabAble } from '@walless/app';
-import { TabsHeader, WalletCard } from '@walless/app';
+import {
+	MainFeatures,
+	SlideHandler,
+	TabsHeader,
+	WalletCard,
+} from '@walless/app';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { appActions } from 'state/app';
+import { showReceiveModal } from 'state/app/modal';
+import { onrampWithGateFi } from 'utils/gatefi';
 import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
 import ActivityTab from './components/ActivityTab';
@@ -50,6 +57,14 @@ const AptosDashboard = () => {
 		setActiveTabIndex(idx);
 	};
 
+	const handleSend = () => {
+		appActions.showSendModal({ layoutNetwork: Networks.aptos });
+	};
+
+	const handleBuy = () => {
+		onrampWithGateFi({ wallet: publicKeys[0]._id });
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.walletsContainer}>
@@ -66,6 +81,17 @@ const AptosDashboard = () => {
 						width={publicKeys.length == 1 ? 328 : 312}
 					/>
 				))}
+			</View>
+
+			<View style={styles.mainFeaturesContainer}>
+				<MainFeatures
+					onReceivePress={() => showReceiveModal(Networks.aptos)}
+					onSendPress={handleSend}
+					onBuyPress={handleBuy}
+				/>
+				{publicKeys.length > 1 && (
+					<SlideHandler items={publicKeys} activeItem={publicKeys[0]} />
+				)}
 			</View>
 
 			<View>
@@ -99,6 +125,10 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 12,
+		gap: 18,
+	},
+	mainFeaturesContainer: {
+		alignItems: 'center',
 		gap: 18,
 	},
 	walletsContainer: {

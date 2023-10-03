@@ -6,6 +6,7 @@ import {
 	FlatList,
 	StyleSheet,
 } from 'react-native';
+import { View } from '@walless/gui';
 import { type TokenDocument } from '@walless/store';
 
 import TokenItem from './Item';
@@ -37,15 +38,17 @@ export const TokenList: FC<Props> = ({
 	};
 
 	return (
-		<FlatList
-			showsVerticalScrollIndicator={false}
-			style={style}
-			contentContainerStyle={contentContainerStyle}
-			data={items}
-			renderItem={renderItem}
-			ItemSeparatorComponent={Separator}
-			ListEmptyComponent={ListEmpty}
-		/>
+		<View>
+			<FlatList
+				showsVerticalScrollIndicator={false}
+				style={style}
+				contentContainerStyle={contentContainerStyle}
+				data={items}
+				renderItem={renderItem}
+				ItemSeparatorComponent={Separator}
+				ListEmptyComponent={ListEmpty}
+			/>
+		</View>
 	);
 };
 

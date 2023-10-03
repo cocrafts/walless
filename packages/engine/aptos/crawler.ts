@@ -1,11 +1,10 @@
+import { Networks } from '@walless/core';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { type Provider, FaucetClient, HexString } from 'aptos';
+import { type Provider, HexString } from 'aptos';
 
 import { tokenActions } from '../state/tokens';
 import type { EngineRunner } from '../utils/type';
-
-import { APTOS_DEVNET, APTOS_FAUCET_DEVNET } from './shared';
 
 export const aptosEngineRunner: EngineRunner<Provider> = {
 	start: async (context) => {
@@ -17,16 +16,31 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 		const pubkey = new HexString(keys[0]._id);
 
 		try {
-			const data = await connection.getAccountResources(pubkey);
-			console.log('--> data', data);
+			const coinsData = await connection.getAccountCoinsData(pubkey);
 
 			const tokenDocuments: TokenDocument[] = [];
 
+			coinsData.current_fungible_asset_balances.forEach((coin) => {
+				tokenDocuments.push({
+					_id: `${pubkey.toString()}/${coin.asset_type}`,
+					account: {
+						balance: coin.amount,
+						decimals: coin.metadata?.decimals ?? 0,
+						owner: pubkey.toString(),
+					},
+					network: Networks.aptos,
+					type: 'Token',
+					metadata: {
+						name: coin.metadata?.name ?? 'Unknown',
+						symbol: coin.metadata?.symbol ?? 'Unknown',
+						imageUri: coin.metadata?.icon_uri ?? '/img/network/aptos-icon.svg',
+					},
+				});
+			});
+
 			tokenActions.setItems(tokenDocuments);
 		} catch (error) {
-			// Create account in devnet for __DEV__ mode
-			const faucet = new FaucetClient(APTOS_DEVNET, APTOS_FAUCET_DEVNET);
-			await faucet.fundAccount(pubkey, 1000000000);
+			console.log('--> aptos crawler', error);
 		}
 	},
 	stop: async () => {

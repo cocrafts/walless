@@ -2,7 +2,13 @@ import { Networks } from '@walless/core';
 import { getAptosConnection } from '@walless/engine/aptos/utils';
 import type { ResponsePayload } from '@walless/messaging';
 import { type MessengerCallback, ResponseCode } from '@walless/messaging';
-import { APTOS_COIN, AptosAccount, CoinClient, HexString } from 'aptos';
+import {
+	APTOS_COIN,
+	AptosAccount,
+	CoinClient,
+	FungibleAssetClient,
+	HexString,
+} from 'aptos';
 
 import { getPrivateKey, settings } from '../utils/handler';
 
@@ -41,20 +47,27 @@ export const handleTransferToken: MessengerCallback = async (
 		const fromAccount = new AptosAccount(privateKey, fromPubkey);
 		const isNativeAPT = txData.token === APTOS_COIN;
 		const connection = await getAptosConnection();
-		const coinClient = new CoinClient(connection.aptosClient);
 
 		if (isNativeAPT) {
+			const coinClient = new CoinClient(connection.aptosClient);
 			const txHash = await coinClient.transfer(
 				fromAccount,
 				toPubkey,
 				txData.amount * 10 ** txData.decimals,
 			);
-
 			await connection.waitForTransaction(txHash);
-
 			responsePayload.hash = txHash;
 		} else {
-			// TODO: handle transfer other coins
+			const token = new HexString(txData.token as string);
+			const fungibleClient = new FungibleAssetClient(connection);
+			const txHash = await fungibleClient.transfer(
+				fromAccount,
+				token,
+				toPubkey,
+				txData.amount * 10 ** txData.decimals,
+			);
+			await connection.waitForTransaction(txHash);
+			responsePayload.hash = txHash;
 		}
 	} catch (error) {
 		console.log({ error });

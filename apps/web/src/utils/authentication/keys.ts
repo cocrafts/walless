@@ -118,7 +118,7 @@ export const initBySeedPhraseModule = async (passcode: string) => {
 	const id = generateID();
 	const encrypted = await encryptWithPasscode(
 		passcode,
-		Buffer.from(newAptosAccount.toPrivateKeyObject().privateKeyHex),
+		newAptosAccount.signingKey.secretKey,
 	);
 
 	await modules.storage.put<PrivateKeyDocument>({

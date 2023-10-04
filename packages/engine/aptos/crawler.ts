@@ -22,11 +22,12 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 
 			coinsData.current_fungible_asset_balances.forEach((coin) => {
 				tokenDocuments.push({
-					_id: `${pubkey.toString()}/${coin.asset_type}`,
+					_id: coin.asset_type,
 					account: {
 						balance: coin.amount,
 						decimals: coin.metadata?.decimals ?? 0,
 						owner: pubkey.toString(),
+						address: coin.asset_type,
 					},
 					network: Networks.aptos,
 					type: 'Token',

@@ -110,6 +110,12 @@ export const createAndSend = async (
 			transaction: JSON.stringify(transaction),
 			passcode,
 		});
+	} else if (payload.network == Networks.aptos) {
+		res = await requestHandleTransaction({
+			type: RequestType.TRANSFER_APTOS_TOKEN,
+			transaction: JSON.stringify(transaction),
+			passcode,
+		});
 	}
 
 	return res as ResponsePayload;
@@ -165,6 +171,14 @@ export const constructTransaction = async ({
 		if (token.metadata?.symbol == 'TEZ') {
 			return constructSendTezTransaction(receiver, amount);
 		}
+	} else if (network == Networks.aptos) {
+		return {
+			from: sender,
+			to: receiver,
+			token: (token as Token).account.address,
+			amount: amount,
+			decimals: (token as Token).account?.decimals,
+		};
 	}
 
 	throw Error('Network or Token is not supported');

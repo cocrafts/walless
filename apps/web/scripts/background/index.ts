@@ -1,8 +1,7 @@
-import { runtime } from '@walless/core';
-
-(function () {
-	if (runtime.isExtension) {
-		if (chrome && chrome?.runtime?.id) {
+const keepBackgroundAlive = () => {
+	const runtime = global.chrome?.runtime;
+	if (runtime) {
+		if (runtime?.id) {
 			// Keep Manifest V3 service worker alive
 			chrome.runtime.onInstalled.addListener(() => {
 				chrome.alarms.get('keep-alive', (a) => {
@@ -19,8 +18,9 @@ import { runtime } from '@walless/core';
 			Function.prototype();
 		});
 	}
-})();
+};
 
+keepBackgroundAlive();
 importScripts('kernel.js');
 
 export default {};

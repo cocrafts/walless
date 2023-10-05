@@ -16,6 +16,11 @@ export const webAsset: UniversalAsset = {
 			cardIcon: { uri: '/img/widget/tezos-icon.png' },
 			cardBackground: { uri: '/img/widget/tezos-card-bg.png' },
 		},
+		ethereum: {
+			cardIcon: { uri: '' },
+			cardMark: { uri: '' },
+			cardBackground: { uri: '' },
+		},
 	},
 };
 

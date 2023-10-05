@@ -8,6 +8,10 @@ export const settings = {
 	requirePasscode: true,
 };
 
+export const triggerActionToGetPrivateKey = async () => {
+	return '';
+};
+
 export const getPrivateKey = async (network: Networks, passcode: string) => {
 	const result = await modules.storage.find({
 		selector: {

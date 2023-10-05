@@ -4,23 +4,38 @@ import type { MetadataDocument } from '@walless/store';
 import type { ICoin, SuiContext } from './shared';
 import suietMetadata from './suiet-metadata.json';
 
-export const getMetadata = async (
-	_: SuiContext,
-	coin: ICoin,
-): Promise<MetadataDocument> => {
-	const meta = suietRegistry[coin.coinType];
+type GetMetadataFunc = (
+	coinType: string,
+	context?: SuiContext,
+) => Promise<MetadataDocument | undefined>;
 
-	const result: MetadataDocument = {
-		_id: coin.coinType,
+export const getMetadata = async (
+	context: SuiContext,
+	coin: ICoin,
+): Promise<MetadataDocument | undefined> => {
+	const fetchers: GetMetadataFunc[] = [getSuietMetadata, getOnChainMetadata];
+
+	for (const fetcher of fetchers) {
+		const result = await fetcher(coin.coinType, context);
+		if (result) return { ...result, timestamp: new Date().toISOString() };
+	}
+};
+
+const getOnChainMetadata: GetMetadataFunc = async (coinType, context) => {
+	const coinMetadata = await context?.connection.getCoinMetadata({ coinType });
+
+	return {
+		_id: coinType,
 		type: 'Metadata',
 		network: Networks.sui,
-		name: meta?.name || 'unknown',
-		symbol: meta?.symbol || 'unknown',
-		imageUri: meta?.imageUri || 'unknown',
-		timestamp: new Date().toISOString(),
-	};
+		name: coinMetadata?.name,
+		symbol: coinMetadata?.symbol,
+		imageUri: coinMetadata?.iconUrl,
+	} as MetadataDocument;
+};
 
-	return result;
+const getSuietMetadata = async (coinType: string) => {
+	return suietRegistry[coinType];
 };
 
 const suietRegistry: Record<string, MetadataDocument> = {};

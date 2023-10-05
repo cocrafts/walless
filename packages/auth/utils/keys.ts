@@ -32,6 +32,10 @@ export const defaultPrefixDerivationPaths: DerivationOptions[] = [
 		path: "44'/1729'",
 		network: Networks.tezos,
 	},
+	{
+		path: "44'/637'",
+		network: Networks.aptos,
+	},
 ];
 
 export const initBySeedPhraseModule = async (passcode: string) => {
@@ -88,30 +92,17 @@ const generateAndStoreKeypairs = async (
 		keyType = 'ed25519';
 		address = await keypair.publicKeyHash();
 		privateKey = decode(await keypair.secretKey()) as never;
+	} else if (network === Networks.aptos) {
+		const mnemonics = storedSeed.seedPhrase;
+		const keypair = AptosAccount.fromDerivePath(
+			`m/${path}/0'/0'/0'`,
+			mnemonics,
+		);
+
+		keyType = 'ed25519';
+		address = keypair.address().toString();
+		privateKey = keypair.signingKey.secretKey as never;
 	}
-
-	// TODO: handle aptos as above networks
-	const newAptosAccount = new AptosAccount();
-	const id = generateID();
-	const encrypted = await encryptWithPasscode(
-		passcode,
-		newAptosAccount.signingKey.secretKey,
-	);
-
-	await modules.storage.put<PrivateKeyDocument>({
-		_id: id,
-		type: 'PrivateKey',
-		keyType: '',
-		...encrypted,
-	});
-
-	await modules.storage.put<PublicKeyDocument>({
-		_id: newAptosAccount.address().toShortString(),
-		type: 'PublicKey',
-		privateKeyId: id,
-		network: Networks.aptos,
-	});
-	// END TODO
 
 	if (privateKey && address && keyType) {
 		const id = generateID();

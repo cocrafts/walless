@@ -27,8 +27,6 @@ interface ConnectionOptions {
 	faucet?: string;
 }
 
-export const suiCoinType = '0x2::sui::SUI';
-
 export const suiEndpoints: Record<string, ConnectionOptions> = {
 	devnet: {
 		fullnode: 'https://fullnode.devnet.sui.io',

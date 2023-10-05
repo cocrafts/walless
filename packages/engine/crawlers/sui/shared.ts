@@ -18,7 +18,7 @@ export const throttle = pThrottle({ limit: 4, interval: 1000 });
 
 export interface ICoin {
 	coinType: string;
-	balance: string;
+	totalBalance: string;
 }
 
 interface ConnectionOptions {

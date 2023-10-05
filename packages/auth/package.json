@@ -1,0 +1,26 @@
+{
+  "name": "@walless/auth",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "@tkey/chrome-storage": "9.0.0",
+    "@tkey/default": "9.0.0",
+    "@tkey/private-keys": "9.0.0",
+    "@tkey/react-native-storage": "^11.0.0",
+    "@tkey/security-questions": "9.0.0",
+    "@tkey/seed-phrase": "^11.0.2",
+    "@tkey/web-storage": "9.0.0",
+    "@walless/core": "*",
+    "@walless/graphql": "*",
+    "@walless/ioc": "*",
+    "aptos": "^1.20.0",
+    "react-native-encrypted-storage": "^4.0.3"
+  }
+}

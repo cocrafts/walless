@@ -25,6 +25,9 @@ export interface UniversalRuntime {
 	isServer: boolean;
 	isBrowser: boolean;
 	isExtension: boolean;
+	isIOS: boolean;
+	isAndroid: boolean;
+	isMobile: boolean;
 	onConnect: chrome.runtime.ExtensionConnectEvent;
 	onMessage: chrome.runtime.ExtensionMessageEvent;
 	connect: (connectInfo?: chrome.runtime.ConnectInfo) => chrome.runtime.Port;
@@ -68,24 +71,6 @@ export interface TransactionPayload {
 	network: Networks;
 	token: Token | Collectible;
 	passcode?: string;
-}
-
-export interface LegacySolanaMetadata {
-	address: string;
-	name?: string;
-	symbol?: string;
-	decimals?: number;
-	logoURI?: string;
-	extensions?: Record<string, string>;
-	tags: string[];
-}
-
-export interface LegacyMetadataSource {
-	name: string;
-	logoURI: string;
-	keywords: string[];
-	timestamp: string;
-	tokens: LegacySolanaMetadata[];
 }
 
 export enum Timeout {

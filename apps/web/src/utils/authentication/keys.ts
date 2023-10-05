@@ -6,7 +6,6 @@ import { Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import { modules } from '@walless/ioc';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
-import { AptosAccount } from 'aptos';
 import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
 import { decode } from 'bs58';
 import { derivePath } from 'ed25519-hd-key';
@@ -111,30 +110,6 @@ export const initBySeedPhraseModule = async (passcode: string) => {
 			}),
 		);
 	});
-
-	// STATUS: old code shipped from branch aptos-hackathon
-	// TODO: handle aptos as the above networks
-	const newAptosAccount = new AptosAccount();
-	const id = generateID();
-	const encrypted = await encryptWithPasscode(
-		passcode,
-		newAptosAccount.signingKey.secretKey,
-	);
-
-	await modules.storage.put<PrivateKeyDocument>({
-		_id: id,
-		type: 'PrivateKey',
-		keyType: '',
-		...encrypted,
-	});
-
-	await modules.storage.put<PublicKeyDocument>({
-		_id: newAptosAccount.address().toShortString(),
-		type: 'PublicKey',
-		privateKeyId: id,
-		network: Networks.aptos,
-	});
-	// END TODO
 
 	await Promise.all(seedPhrasePromises);
 };

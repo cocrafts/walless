@@ -2,6 +2,7 @@ import { Networks } from '@walless/core';
 
 export const selectors = {
 	allExtensions: { selector: { type: 'Extension' } },
+	allWidgets: { selector: { type: 'Widget' } },
 	allKeys: { selector: { type: 'PublicKey' } },
 	keyByNetwork: (network: Networks) => ({
 		selector: { type: 'PublicKey', network },

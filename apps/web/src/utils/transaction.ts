@@ -21,7 +21,7 @@ import type {
 	TransactionPayload,
 } from '@walless/core';
 import { Networks } from '@walless/core';
-import { getAptosConnection } from '@walless/engine/aptos/utils';
+import { getAptosConnection } from '@walless/engine/crawlers/aptos/utils';
 import { modules } from '@walless/ioc';
 import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { CardSkin, TabAble } from '@walless/app';
 import {
-	MainFeatures,
+	MainFeatureButtons,
 	SlideHandler,
 	TabsHeader,
 	WalletCard,
@@ -27,6 +27,7 @@ const AptosDashboard = () => {
 
 	const publicKeys = usePublicKeys(Networks.aptos);
 	const { tokens, valuation } = useTokens(Networks.aptos);
+
 	const { collections } = useNfts(Networks.aptos);
 
 	const bottomSliderItems: SlideOption[] = [
@@ -84,7 +85,7 @@ const AptosDashboard = () => {
 			</View>
 
 			<View style={styles.mainFeaturesContainer}>
-				<MainFeatures
+				<MainFeatureButtons
 					onReceivePress={() => showReceiveModal(Networks.aptos)}
 					onSendPress={handleSend}
 					onBuyPress={handleBuy}
@@ -115,8 +116,8 @@ export default AptosDashboard;
 
 const aptosCardSkin: CardSkin = {
 	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },
-	largeIconSrc: { uri: '/img/network/aptos-icon.svg' },
-	iconSrc: { uri: '/img/network/aptos-icon.svg' },
+	largeIconSrc: { uri: '/img/explore/logo-trans-aptos.svg' },
+	iconSrc: { uri: '/img/explore/logo-trans-aptos.svg' },
 	iconColor: 'transparent',
 	iconSize: 16,
 };

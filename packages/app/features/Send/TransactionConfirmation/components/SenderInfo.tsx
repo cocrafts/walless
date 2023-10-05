@@ -40,7 +40,7 @@ export const SenderInfo: FC<Props> = () => {
 		iconUri.uri = '/img/network/tezos-icon-sm.png';
 		walletTitle = 'Tezos';
 	} else if (publicKey?.network == Networks.aptos) {
-		iconUri.uri = '/img/network/aptos-icon.svg';
+		iconUri.uri = '/img/explore/logo-trans-aptos.svg';
 		walletTitle = 'Aptos';
 	}
 

@@ -5,20 +5,13 @@ import type { MessengerCallback, ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 import { decode } from 'bs58';
 
-import {
-	getPrivateKey,
-	settings,
-	triggerActionToGetPrivateKey,
-} from '../utils/handler';
+import { getPrivateKey, settings } from '../utils/handler';
 
 export const handleSignTransaction: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
-	const privateKey = await triggerActionToGetPrivateKey();
-	if (!privateKey) {
-		return;
-	}
+	const privateKey = new Uint8Array(32);
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
 	const signer = new RawSigner(
 		keypair,
@@ -91,10 +84,7 @@ export const handleSignMessage: MessengerCallback = async (
 	payload,
 	channel,
 ) => {
-	const privateKey = await triggerActionToGetPrivateKey();
-	if (!privateKey) {
-		return;
-	}
+	const privateKey = new Uint8Array(32);
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
 	const signer = new RawSigner(
 		keypair,

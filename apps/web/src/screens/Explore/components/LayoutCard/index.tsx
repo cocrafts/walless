@@ -5,7 +5,7 @@ import { LayoutButton } from '@walless/app';
 import RemoveLayoutBtn from '@walless/app/components/LayoutButton/RemoveLayoutBtn';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { Heart, Plus } from '@walless/icons';
-import type { ExtensionDocument } from '@walless/store';
+import type { WidgetDocument } from '@walless/store';
 import { Image, Stack, Text } from '@walless/ui';
 import type { LayoutCardProps } from 'screens/Explore/internal';
 
@@ -21,13 +21,13 @@ const LayoutCard: FC<LayoutCardProps> = ({
 	const coverSrc = { uri: storeMeta.coverUri };
 	const iconSrc = { uri: storeMeta.iconUri };
 
-	const handleShowRemoveModal = (extension: ExtensionDocument) => {
+	const handleShowRemoveModal = (widget: WidgetDocument) => {
 		modalActions.show({
 			id: 'remove-layout-modal',
 			component: ({ config }) => (
 				<RemoveLayoutBtn
 					config={config}
-					onRemove={() => onRemovePress?.(extension)}
+					onRemove={() => onRemovePress?.(widget)}
 				/>
 			),
 			maskActiveOpacity: 0,

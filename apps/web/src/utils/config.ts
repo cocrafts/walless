@@ -1,3 +1,24 @@
+import type { UniversalAsset } from '@walless/ioc';
+
+export const webAsset: UniversalAsset = {
+	widget: {
+		solana: {
+			cardIcon: { uri: '/img/widget/solana-icon.png' },
+			cardMark: { uri: '/img/widget/solana-mark.png' },
+			cardBackground: { uri: '/img/widget/sky-card-bg.png' },
+		},
+		sui: {
+			cardIcon: { uri: '/img/widget/sui-icon.png' },
+			cardMark: { uri: '/img/widget/sui-mark.png' },
+			cardBackground: { uri: '/img/widget/sky-card-bg.png' },
+		},
+		tezos: {
+			cardIcon: { uri: '/img/widget/tezos-icon.png' },
+			cardBackground: { uri: '/img/widget/tezos-card-bg.png' },
+		},
+	},
+};
+
 export const resources = {
 	walless: {
 		icon: {

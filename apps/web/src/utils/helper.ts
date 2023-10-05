@@ -29,7 +29,7 @@ export const networkMap: Record<Networks, NetworkInfo> = {
 	},
 	[Networks.aptos]: {
 		name: 'Aptos',
-		icon: '/img/network/aptos-icon.svg',
+		icon: '/img/explore/logo-trans-aptos.svg',
 		network: Networks.aptos,
 	},
 };

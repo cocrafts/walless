@@ -1,5 +1,5 @@
 import { Networks } from '@walless/core';
-import { getAptosConnection } from '@walless/engine/aptos/utils';
+import { getAptosConnection } from '@walless/engine/crawlers/aptos/utils';
 import type { ResponsePayload } from '@walless/messaging';
 import { type MessengerCallback, ResponseCode } from '@walless/messaging';
 import {

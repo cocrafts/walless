@@ -1,9 +1,9 @@
 import type { WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
-import { qlClient } from 'utils/graphql';
+import { modules } from '@walless/ioc';
 
 export const validateInvitationCode = async (code: string): Promise<string> => {
-	const { walletInvitation } = await qlClient.request<{
+	const { walletInvitation } = await modules.qlClient.request<{
 		walletInvitation: WalletInvitation;
 	}>(queries.walletInvitation, { code });
 

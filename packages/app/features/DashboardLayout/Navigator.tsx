@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
 import { Compass } from '@walless/icons';
-import type { ExtensionDocument } from '@walless/store';
+import type { WidgetDocument } from '@walless/store';
 
 import NavigatorOrb from './NavigatorOrb';
 import RemoveLayout from './RemoveLayout';
@@ -10,29 +10,29 @@ import RemoveLayout from './RemoveLayout';
 interface Props {
 	size?: number;
 	profile: UserProfile;
-	extensions: ExtensionDocument[];
-	getIsExtensionActive?: (item: ExtensionDocument) => boolean;
-	onExtensionPress?: (item: ExtensionDocument) => void;
-	onRemoveLayout: (item: ExtensionDocument) => void;
+	widgets: WidgetDocument[];
+	getIsExtensionActive?: (item: WidgetDocument) => boolean;
+	onExtensionPress?: (item: WidgetDocument) => void;
+	onRemoveLayout: (item: WidgetDocument) => void;
 }
 
 export const DashboardNavigator: FC<Props> = ({
 	size = 58,
 	profile,
-	extensions,
+	widgets,
 	getIsExtensionActive,
 	onExtensionPress,
 	onRemoveLayout,
 }) => {
 	const containerStyle = { width: size };
-	const exploreItem: Partial<ExtensionDocument> = {
+	const exploreItem: Partial<WidgetDocument> = {
 		_id: '',
 		storeMeta: {
 			iconColor: '#243f56',
 			iconActiveColor: '#1394d3',
 		} as never,
 	};
-	const profileItem: Partial<ExtensionDocument> = {
+	const profileItem: Partial<WidgetDocument> = {
 		_id: 'profile',
 		storeMeta: {
 			iconUri: profile.profileImage as string,
@@ -44,7 +44,7 @@ export const DashboardNavigator: FC<Props> = ({
 	return (
 		<View style={[styles.container, containerStyle]}>
 			<View style={styles.orbContainer}>
-				{extensions.map((item) => {
+				{widgets.map((item) => {
 					const isActive = getIsExtensionActive?.(item);
 
 					return (

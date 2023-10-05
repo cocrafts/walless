@@ -7,7 +7,7 @@ import { tokenActions } from '../../state/token';
 import { getTokenQuotes, makeHashId } from '../../utils/api';
 
 import type { SuiRunner } from './shared';
-import { suiCoinType } from './shared';
+import { suiTokenSubscribe, suiTokenUnsubscribe } from './subscription';
 import { getTokenDocument } from './token';
 
 export const suiEngineRunner: SuiRunner = {
@@ -55,10 +55,13 @@ export const suiEngineRunner: SuiRunner = {
 			}
 
 			tokenActions.setItems(tokenDocs);
+
+			suiTokenSubscribe(connection, owner);
 		}
 	},
 	stop: async () => {
 		console.log('stop!');
+		suiTokenUnsubscribe();
 	},
 };
 

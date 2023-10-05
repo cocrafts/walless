@@ -55,7 +55,7 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		} else if (type === RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI) {
 			suiHandler.handleSignAndExecuteTransaction(payload, channel);
 		} else if (type === RequestType.TRANSFER_APTOS_TOKEN) {
-			aptosHandler.handleTransferToken(payload, channel);
+			handleMethod = aptosHandler.handleTransferToken;
 		} else if (payload.type === RequestType.TRANSFER_TEZOS_TOKEN) {
 			tezosHandler.handleTransferToken(payload, channel);
 		} else {

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Token } from '@walless/core';
-import { Hoverable, Text, View, modalActions } from '@walless/gui';
+import { Hoverable, modalActions, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 
 interface Props {

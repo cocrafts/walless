@@ -47,6 +47,10 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			handleMethod = solanaHandler.signTransaction;
 		} else if (type === RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA) {
 			handleMethod = solanaHandler.signAndSendTransaction;
+		} else if (
+			type === RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA
+		) {
+			handleMethod = solanaHandler.signTransactionAbstractionFee;
 		} else if (type === RequestType.SIGN_MESSAGE_ON_SUI) {
 			suiHandler.handleSignMessage(payload, channel);
 		} else if (type === RequestType.SIGN_TRANSACTION_ON_SUI) {

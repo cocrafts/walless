@@ -60,18 +60,23 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 
 		const res = await createAndSendTransaction(payload);
 
-		if (res.responseCode == ResponseCode.REQUIRE_PASSCODE) {
-			navigator.slideNext();
-		} else if (res.responseCode == ResponseCode.SUCCESS) {
-			if (nftCollectible && handleSendNftSuccess)
-				handleSendNftSuccess(nftCollectible as CollectibleDocument);
+		try {
+			if (res.responseCode == ResponseCode.REQUIRE_PASSCODE) {
+				navigator.slideNext();
+			} else if (res.responseCode == ResponseCode.SUCCESS) {
+				if (nftCollectible && handleSendNftSuccess)
+					handleSendNftSuccess(nftCollectible as CollectibleDocument);
 
-			transactionActions.setSignatureString(
-				res.signatureString || res.signedTransaction?.digest || res.hash,
-			);
-			navigator.slideTo(3);
-		} else {
-			showError('Something was wrong');
+				transactionActions.setSignatureString(
+					res.signatureString || res.signedTransaction?.digest || res.hash,
+				);
+				navigator.slideTo(3);
+			} else {
+				showError('Something was wrong');
+			}
+		} catch (error) {
+			console.log('...', error);
+			throw error;
 		}
 	};
 

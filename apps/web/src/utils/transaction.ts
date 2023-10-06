@@ -1,22 +1,16 @@
+import { TokenAccount } from './../../../../packages/core/utils/entityTypes';
+import { corePlugins } from '@metaplex-foundation/js';
 import { Ed25519Keypair, TransactionBlock } from '@mysten/sui.js';
 import {
 	createAssociatedTokenAccountInstruction,
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
+import { VersionedMessage } from '@solana/web3.js';
 import {
-	createTransferInstruction,
-	getAssociatedTokenAddressSync,
-} from '@solana/spl-token';
-import type { VersionedMessage, VersionedMessage } from '@solana/web3.js';
-import {
-	Connection,
-	Keypair,
 	LAMPORTS_PER_SOL,
-	PublicKey,
 	SystemProgram,
 	TransactionMessage,
-	VersionedTransaction,
 } from '@solana/web3.js';
 import {
 	clusterApiUrl,
@@ -41,21 +35,18 @@ import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
 import base58 from 'bs58';
 import * as dotenv from 'dotenv';
+import { usePublicKeys } from './hooks';
 
 const sampleKeypair = Keypair.generate();
 const suiSampleKeypair = Ed25519Keypair.generate();
 
-dotenv.config();
+// dotenv.config();
 
-axios.defaults.baseURL = process.env.OCTANE_ENDPOINT;
-const privateKeyStr = process.env.PRIVATE_KEY;
+// axios.defaults.baseURL = process.env.OCTANE_ENDPOINT;
+// const privateKeyStr = process.env.PRIVATE_KEY;
 const connection = new Connection(clusterApiUrl('devnet'));
 
-const keypair = Keypair.fromSecretKey(base58.decode(privateKeyStr ?? ''));
-const ata = getAssociatedTokenAddressSync(
-	new PublicKey('7aeyZfAc5nVxycY4XEfXvTZ4tsEcqPs8p3gJhEmreXoz'),
-	keypair.publicKey,
-);
+// const keypair = Keypair.fromSecretKey(base58.decode(privateKeyStr ?? ''));
 
 let solConn: Connection | undefined;
 export const getSolanaConnection = async () => {
@@ -115,15 +106,26 @@ export const createAndSend = async (
 	payload: TransactionPayload,
 	passcode?: string,
 ) => {
-	const transaction = await constructTransaction(payload);
+	const transaction =
+		payload.token.metadata?.symbol === 'SOL'
+			? await constructTransaction(payload)
+			: await constructTransactionAbstractFee(payload);
 
 	let res;
+
 	if (transaction instanceof VersionedTransaction) {
-		res = await requestHandleTransaction({
-			type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
-			transaction: encode(transaction.serialize()),
-			passcode,
-		});
+		res =
+			payload.token.metadata?.symbol === 'SOL'
+				? await requestHandleTransaction({
+						type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
+						transaction: encode(transaction.serialize()),
+						passcode,
+				  })
+				: await requestHandleTransaction({
+						type: RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
+						transaction: encode(transaction.serialize()),
+						passcode,
+				  });
 	} else if (transaction instanceof TransactionBlock) {
 		res = await requestHandleTransaction({
 			type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
@@ -164,6 +166,7 @@ export const constructTransaction = async ({
 	receiver,
 	amount,
 }: SendTokenProps) => {
+	console.log('constructTransaction');
 	const decimals = (token as Token).account?.decimals
 		? 10 ** ((token as Token).account.decimals || 0)
 		: 1;
@@ -199,10 +202,78 @@ export const constructTransaction = async ({
 export const constructTransactionAbstractFee = async ({
 	sender,
 	token,
-	network,
 	receiver,
 	amount,
-}) => {};
+}: SendTokenProps) => {
+	const bh = await connection.getLatestBlockhash();
+
+	const blockhash = bh.blockhash;
+
+	const lastValidBlockHeight = bh.lastValidBlockHeight;
+	const transaction = new Transaction({
+		blockhash,
+		lastValidBlockHeight,
+	});
+
+	const instructions = [];
+
+	const senderPublicKey = new PublicKey(sender);
+
+	const mintAddress = new PublicKey(token.account.mint as string);
+
+	const decimals = (token as Token).account?.decimals;
+
+	const senderAta = getAssociatedTokenAddressSync(mintAddress, senderPublicKey);
+
+	const octaneConfig = (
+		await axios.get(
+			'https://h54f2ajwqf.execute-api.ap-south-1.amazonaws.com/api/gasilon/',
+			{
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json',
+				},
+			},
+		)
+	).data;
+
+	const feePayer = new PublicKey(octaneConfig.feePayer);
+
+	const feePayerAta = getAssociatedTokenAddressSync(mintAddress, feePayer);
+
+	const receiverPublicKey = new PublicKey(receiver);
+	const receiverAta = getAssociatedTokenAddressSync(
+		mintAddress,
+		receiverPublicKey,
+	);
+
+	instructions.push(
+		createTransferInstruction(
+			senderAta,
+			feePayerAta,
+			senderPublicKey,
+			0.01 * 10 ** decimals, // hard code required 0.01 Token as gas fee (decimals is 9)
+		),
+	);
+
+	instructions.push(
+		createTransferInstruction(
+			senderAta,
+			receiverAta,
+			senderPublicKey,
+			amount * 10 ** decimals,
+		),
+	);
+
+	transaction.feePayer = feePayer;
+	transaction.add(...instructions);
+
+	const finalTransaction = new VersionedTransaction(
+		VersionedMessage.deserialize(transaction.serializeMessage()),
+	);
+
+	return finalTransaction;
+};
 
 export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {
@@ -274,7 +345,9 @@ const constructSendSOLTransaction = async (
 		instructions,
 	}).compileToV0Message();
 
-	return new VersionedTransaction(message);
+	const a = new VersionedTransaction(message);
+	console.log(a);
+	return a;
 };
 
 const constructSendSPLTokenTransactionInSol = async (

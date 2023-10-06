@@ -11,8 +11,8 @@ import {
 } from '../../../../state/transaction';
 import { NavButton } from '../../components';
 
-import { AmountInput } from './AmountInput';
 import { NetworkFee } from './NetworkFee/NetworkFee';
+import { AmountInput } from './AmountInput';
 import { RecipientInput } from './RecipientInput';
 import { TotalCost } from './TotalCost';
 

@@ -4,7 +4,9 @@ import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { MessengerCallback, ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
+import axios from 'axios';
 import { decode, encode } from 'bs58';
+import base58 from 'bs58';
 import { sign } from 'tweetnacl';
 
 import type { HandleMethod } from '../utils/types';
@@ -45,6 +47,7 @@ export const signTransaction: HandleMethod = async ({
 	const keypair = Keypair.fromSecretKey(privateKey);
 	const serializedTransaction = decode(payload.transaction as string);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
+
 	transaction.sign([keypair]);
 
 	responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
@@ -77,4 +80,44 @@ export const signAndSendTransaction: HandleMethod = async ({
 	responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
 		signatureString,
 	});
+};
+
+export const signTransactionAbstractionFee: HandleMethod = async ({
+	privateKey,
+	payload,
+	responseMethod,
+}) => {
+	const keypair = Keypair.fromSecretKey(privateKey);
+
+	const serializedTransaction = decode(payload.transaction as string);
+	const transaction = VersionedTransaction.deserialize(serializedTransaction);
+
+	transaction.sign([keypair]);
+
+	const txStr = base58.encode(transaction.serialize());
+
+	fetch(
+		'https://h54f2ajwqf.execute-api.ap-south-1.amazonaws.com/api/gasilon/solana/transfer',
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				transaction: txStr,
+			}),
+		},
+	)
+		.then((res) => {
+			res.json().then((data) => {
+				responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
+					signatureString: data.signature,
+				});
+			});
+		})
+		.catch(() => {
+			responseMethod(payload.requestId as string, ResponseCode.ERROR, {
+				message: 'Error in signing transaction',
+			});
+		});
 };

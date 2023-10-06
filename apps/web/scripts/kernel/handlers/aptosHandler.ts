@@ -10,7 +10,7 @@ import {
 
 import type { HandleMethod } from '../utils/types';
 
-export const handleTransferToken: HandleMethod = async ({
+export const handleTransferCoin: HandleMethod = async ({
 	privateKey,
 	payload,
 	responseMethod,
@@ -32,6 +32,9 @@ export const handleTransferToken: HandleMethod = async ({
 				fromAccount,
 				toPubkey,
 				txData.amount * 10 ** txData.decimals,
+				{
+					createReceiverIfMissing: true,
+				},
 			);
 			await connection.waitForTransaction(txHash);
 		} else {
@@ -45,8 +48,6 @@ export const handleTransferToken: HandleMethod = async ({
 			);
 			await connection.waitForTransaction(txHash);
 		}
-
-		console.log('--> aptos handler txHash', txHash);
 
 		responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
 			signatureString: txHash,

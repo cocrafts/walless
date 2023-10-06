@@ -112,7 +112,7 @@ export const createAndSend = async (
 		});
 	} else if (payload.network == Networks.aptos) {
 		res = await requestHandleTransaction({
-			type: RequestType.TRANSFER_APTOS_TOKEN,
+			type: RequestType.TRANSFER_APTOS_COIN,
 			transaction: JSON.stringify(transaction),
 			passcode,
 		});

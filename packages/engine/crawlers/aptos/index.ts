@@ -2,7 +2,7 @@ import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { AptosAccount, HexString, Network, Provider } from 'aptos';
+import { HexString, Network, Provider } from 'aptos';
 
 import { tokenActions } from '../../state/token';
 import { createConnectionPool } from '../../utils/pool';

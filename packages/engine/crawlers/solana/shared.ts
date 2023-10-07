@@ -6,7 +6,6 @@ import type {
 } from '@solana/web3.js';
 import { clusterApiUrl, Connection } from '@solana/web3.js';
 import { modules } from '@walless/ioc';
-import type { TokenDocument } from '@walless/store';
 import pThrottle from 'p-throttle';
 
 import { createConnectionPool } from '../../utils/pool';

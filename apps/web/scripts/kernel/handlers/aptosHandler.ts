@@ -109,14 +109,6 @@ export const handleClaimToken: HandleMethod = async ({
 		const connection = await getAptosConnection();
 		const tokenClient = new TokenClient(connection.aptosClient);
 
-		console.log({
-			account,
-			sender,
-			creator,
-			collectionName,
-			name,
-		});
-
 		const txHash = await tokenClient.claimToken(
 			account,
 			sender,

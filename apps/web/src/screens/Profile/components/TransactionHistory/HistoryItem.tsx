@@ -52,7 +52,7 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 							source={{
 								uri:
 									token.metadata?.imageUri ??
-									'/img/network-solana/solana-icon.svg',
+									'/img/send-token/unknown-token.jpeg',
 							}}
 							style={{
 								width: 32,
@@ -93,7 +93,7 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 					ellipsizeMode={'tail'}
 				>
 					{changeBalance}{' '}
-					{token.metadata?.name?.replaceAll('\u0000', '') ?? 'SOL'}
+					{token.metadata?.name?.replaceAll('\u0000', '') ?? 'Unknown'}
 				</Text>
 			</View>
 		</Hoverable>

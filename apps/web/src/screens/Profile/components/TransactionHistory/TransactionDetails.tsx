@@ -60,7 +60,11 @@ const TransactionDetails: FC<Transaction> = ({
 				<View style={styles.tokenContainer}>
 					<View style={styles.tokenContainer}>
 						<Image
-							source={{ uri: token.metadata?.imageUri }}
+							source={{
+								uri:
+									token.metadata?.imageUri ??
+									'/img/send-token/unknown-token.jpeg',
+							}}
 							style={[
 								styles.tokenImage,
 								token.metadata?.mpl ? nftStyle : tokenStyle,

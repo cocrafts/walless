@@ -1,5 +1,5 @@
 import { Recovery } from '@walless/app';
-import { recoverByEmergencyKey } from 'utils/authentication';
+import { recoverByEmergencyKey } from '@walless/auth';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';
 

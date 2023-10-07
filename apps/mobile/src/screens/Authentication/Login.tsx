@@ -5,7 +5,7 @@ import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
 export const LoginScreen: FC = () => {
 	const insets = useSafeAreaInsets();
-	const { authenticationLoading } = useSnapshot(appState);
+	const { authenticationLoading, invitationCode } = useSnapshot(appState);
 	const logoSrc = require('assets/img/icon.png');
 	const containerStyle = {
 		paddingTop: insets.top,
@@ -17,7 +17,7 @@ export const LoginScreen: FC = () => {
 			style={containerStyle}
 			loading={authenticationLoading}
 			logoSrc={logoSrc}
-			onGoogleSignIn={appActions.signInWithGoogle}
+			onGoogleSignIn={() => appActions.signInWithGoogle(invitationCode)}
 		/>
 	);
 };

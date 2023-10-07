@@ -6,7 +6,7 @@ import type { HomeParamList } from 'utils/navigation';
 type Props = StackScreenProps<HomeParamList, 'Widget'>;
 
 export const WidgetScreen: FC<Props> = ({ route }) => {
-	return <WidgetFeature id={route.params?.id} />;
+	return <WidgetFeature id={route.params?.id as string} />;
 };
 
 export default WidgetScreen;

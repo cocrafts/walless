@@ -3,11 +3,11 @@ import { Image, Linking, TouchableOpacity } from 'react-native';
 import { useLoaderData } from 'react-router-dom';
 import { PasscodeFeature } from '@walless/app';
 import { signInWithPasscode } from '@walless/auth';
-import { Text, View } from '@walless/gui';
 import {
 	setupRemotePasscode,
 	validateAndRecoverWithPasscode,
-} from 'utils/authentication/passcode';
+} from '@walless/auth';
+import { Text, View } from '@walless/gui';
 import { auth } from 'utils/firebase';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';

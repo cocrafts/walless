@@ -1,7 +1,7 @@
 import { DeprecatedPasscode } from '@walless/app';
 import { signInWithPasscode } from '@walless/auth';
-import { validateAndRecoverWithPasscode } from 'utils/authentication';
-import { initAndRegisterWallet } from 'utils/authentication';
+import { validateAndRecoverWithPasscode } from '@walless/auth';
+import { initAndRegisterWallet } from '@walless/auth';
 import { auth } from 'utils/firebase';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';

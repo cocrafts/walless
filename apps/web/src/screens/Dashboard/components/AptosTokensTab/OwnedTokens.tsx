@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
 		rowGap: 10,
-		paddingTop: 10,
 		paddingBottom: 60,
 	},
 });

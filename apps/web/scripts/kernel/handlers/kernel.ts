@@ -18,52 +18,68 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		let requirePrivateKey = true;
 		let requireUserAction = true;
 
-		if (type === RequestType.REQUEST_CONNECT) {
-			handleMethod = commonHandler.handleConnect;
-			requirePrivateKey = false;
-		} else if (type === RequestType.REQUEST_DISCONNECT) {
-			handleMethod = commonHandler.handleDisconnect;
-			requirePrivateKey = false;
-			requireUserAction = false;
-		} else if (type == RequestType.GET_ENDPOINT_ON_SOLANA) {
-			solanaHandler.getEndpoint(payload, channel);
-			requirePrivateKey = false;
-		} else if (type === RequestType.REQUEST_PAYLOAD) {
-			handleMethod = commonHandler.handleRequestPayload;
-			requirePrivateKey = false;
-		} else if (type === RequestType.INSTALL_LAYOUT) {
-			handleMethod = commonHandler.handleInstallLayout;
-			requirePrivateKey = false;
-		} else if (type === RequestType.CHECK_INSTALLED_LAYOUT) {
-			handleMethod = commonHandler.handleCheckInstalledLayout;
-			requirePrivateKey = false;
-			requireUserAction = false;
-		} else if (type === RequestType.OPEN_LAYOUT_POPUP) {
-			handleMethod = commonHandler.handleOpenLayoutPopup;
-			requirePrivateKey = false;
-			requireUserAction = false;
-		} else if (type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
-			handleMethod = solanaHandler.signMessage;
-		} else if (type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {
-			handleMethod = solanaHandler.signTransaction;
-		} else if (type === RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA) {
-			handleMethod = solanaHandler.signAndSendTransaction;
-		} else if (type === RequestType.SIGN_MESSAGE_ON_SUI) {
-			suiHandler.handleSignMessage(payload, channel);
-		} else if (type === RequestType.SIGN_TRANSACTION_ON_SUI) {
-			suiHandler.handleSignTransaction(payload, channel);
-		} else if (type === RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI) {
-			suiHandler.handleSignAndExecuteTransaction(payload, channel);
-		} else if (type === RequestType.TRANSFER_APTOS_COIN) {
-			handleMethod = aptosHandler.handleTransferCoin;
-		} else if (payload.type === RequestType.TRANSFER_TEZOS_TOKEN) {
-			tezosHandler.handleTransferToken(payload, channel);
-		} else {
-			return channel.postMessage({
-				from: 'walless@kernel',
-				requestId: payload.requestId,
-				message: 'Invalid request type!',
-			});
+		switch (type) {
+			case RequestType.REQUEST_CONNECT:
+				handleMethod = commonHandler.handleConnect;
+				requirePrivateKey = false;
+				break;
+			case RequestType.REQUEST_DISCONNECT:
+				handleMethod = commonHandler.handleDisconnect;
+				requirePrivateKey = false;
+				requireUserAction = false;
+				break;
+			case RequestType.GET_ENDPOINT_ON_SOLANA:
+				solanaHandler.getEndpoint(payload, channel);
+				requirePrivateKey = false;
+				break;
+			case RequestType.REQUEST_PAYLOAD:
+				handleMethod = commonHandler.handleRequestPayload;
+				requirePrivateKey = false;
+				break;
+			case RequestType.INSTALL_LAYOUT:
+				handleMethod = commonHandler.handleInstallLayout;
+				requirePrivateKey = false;
+				break;
+			case RequestType.CHECK_INSTALLED_LAYOUT:
+				handleMethod = commonHandler.handleCheckInstalledLayout;
+				requirePrivateKey = false;
+				requireUserAction = false;
+				break;
+			case RequestType.OPEN_LAYOUT_POPUP:
+				handleMethod = commonHandler.handleOpenLayoutPopup;
+				requirePrivateKey = false;
+				requireUserAction = false;
+				break;
+			case RequestType.SIGN_MESSAGE_ON_SOLANA:
+				handleMethod = solanaHandler.signMessage;
+				break;
+			case RequestType.SIGN_TRANSACTION_ON_SOLANA:
+				handleMethod = solanaHandler.signTransaction;
+				break;
+			case RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA:
+				handleMethod = solanaHandler.signAndSendTransaction;
+				break;
+			case RequestType.SIGN_MESSAGE_ON_SUI:
+				suiHandler.handleSignMessage(payload, channel);
+				break;
+			case RequestType.SIGN_TRANSACTION_ON_SUI:
+				suiHandler.handleSignTransaction(payload, channel);
+				break;
+			case RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI:
+				suiHandler.handleSignAndExecuteTransaction(payload, channel);
+				break;
+			case RequestType.TRANSFER_APTOS_COIN:
+				handleMethod = aptosHandler.handleTransferCoin;
+				break;
+			case RequestType.TRANSFER_TEZOS_TOKEN:
+				tezosHandler.handleTransferToken(payload, channel);
+				break;
+			default:
+				return channel.postMessage({
+					from: 'walless@kernel',
+					requestId: payload.requestId,
+					message: 'Invalid request type!',
+				});
 		}
 
 		const network = getNetwork(type);

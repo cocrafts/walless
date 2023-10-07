@@ -1,14 +1,45 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Hoverable, Text, View } from '@walless/gui';
+import { PasscodeFeature } from '@walless/app';
+import { Hoverable, modalActions, Text, View } from '@walless/gui';
+import { RequestType } from '@walless/messaging';
+import { encryptedMessenger } from 'bridge/utils/messaging';
 
 interface Props {
+	pubkey: string;
 	directTransfer: boolean;
 }
 
 const indicatorSize = 16;
 
-const DirectTransfer: FC<Props> = ({ directTransfer }) => {
+const DirectTransfer: FC<Props> = ({ pubkey, directTransfer }) => {
+	const [disabled, setDisabled] = useState(false);
+
+	const handleDirectTransfer = async () => {
+		modalActions.show({
+			component: () => (
+				<PasscodeFeature
+					onPasscodeChange={async (value, isCompleted) => {
+						if (!isCompleted) {
+							return;
+						}
+						await encryptedMessenger.request('kernel', {
+							type: RequestType.UPDATE_APTOS_DIRECT_TRANSFER,
+							transaction: JSON.stringify({
+								pubkey,
+								directTransfer: !directTransfer,
+							}),
+							passcode: value,
+						});
+						modalActions.hide('passcode');
+						setDisabled(true);
+					}}
+				/>
+			),
+			id: 'passcode',
+		});
+	};
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Allow direct transfer</Text>
@@ -21,6 +52,8 @@ const DirectTransfer: FC<Props> = ({ directTransfer }) => {
 						alignItems: directTransfer ? 'flex-end' : 'flex-start',
 					},
 				]}
+				onPress={handleDirectTransfer}
+				disabled={disabled}
 			>
 				<View style={styles.statusIndicator} />
 			</Hoverable>

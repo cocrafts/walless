@@ -37,23 +37,23 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 		for (const key of keys) {
 			const pubkey = new HexString(key._id);
 
-			try {
-				const resource = await connection.getAccountResource(
-					pubkey,
-					'0x3::token::TokenStore',
-				);
-				const hasOptedIn = (resource.data as TokenResource).direct_transfer;
-				aptosActions.setDirectTransfer(hasOptedIn);
-			} catch (error) {
-				aptosActions.setDirectTransfer(false);
-			}
-
 			const constructAptosData = async () => {
 				try {
 					const tokenDocuments = await getCoins(connection, pubkey);
 					tokenActions.setItems(tokenDocuments);
 				} catch (error) {
 					console.log('--> aptos crawler coins error', error);
+				}
+
+				try {
+					const resource = await connection.getAccountResource(
+						pubkey,
+						'0x3::token::TokenStore',
+					);
+					const hasOptedIn = (resource.data as TokenResource).direct_transfer;
+					aptosActions.setDirectTransfer(hasOptedIn);
+				} catch (error) {
+					aptosActions.setDirectTransfer(false);
 				}
 			};
 

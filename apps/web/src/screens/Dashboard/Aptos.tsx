@@ -36,7 +36,7 @@ const AptosDashboard = () => {
 		},
 		{
 			id: 'collectibles',
-			component: () => <AptosTokensTab />,
+			component: () => <AptosTokensTab pubkey={publicKeys[0]._id} />,
 		},
 		{
 			id: 'activities',

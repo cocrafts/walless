@@ -6,6 +6,7 @@ import {
 	CoinClient,
 	FungibleAssetClient,
 	HexString,
+	TokenClient,
 } from 'aptos';
 
 import type { HandleMethod } from '../utils/types';
@@ -48,6 +49,37 @@ export const handleTransferCoin: HandleMethod = async ({
 			);
 			await connection.waitForTransaction(txHash);
 		}
+
+		responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
+			signatureString: txHash,
+		});
+	} catch (error) {
+		console.log({ error });
+		responseMethod(payload.requestId as string, ResponseCode.ERROR, {
+			error,
+		});
+	}
+};
+
+export const handleUpdateDirectTransfer: HandleMethod = async ({
+	privateKey,
+	payload,
+	responseMethod,
+}) => {
+	try {
+		const txData = JSON.parse(payload.transaction as string);
+		const directTransfer = txData.directTransfer as boolean;
+		const pubkey = new HexString(txData.pubkey as string);
+		const account = new AptosAccount(privateKey, pubkey);
+
+		const connection = await getAptosConnection();
+		const tokenClient = new TokenClient(connection.aptosClient);
+
+		const txHash = await tokenClient.optInTokenTransfer(
+			account,
+			directTransfer,
+		);
+		await connection.waitForTransaction(txHash);
 
 		responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
 			signatureString: txHash,

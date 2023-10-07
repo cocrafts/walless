@@ -68,11 +68,14 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			case RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI:
 				suiHandler.handleSignAndExecuteTransaction(payload, channel);
 				break;
+			case RequestType.TRANSFER_TEZOS_TOKEN:
+				tezosHandler.handleTransferToken(payload, channel);
+				break;
 			case RequestType.TRANSFER_APTOS_COIN:
 				handleMethod = aptosHandler.handleTransferCoin;
 				break;
-			case RequestType.TRANSFER_TEZOS_TOKEN:
-				tezosHandler.handleTransferToken(payload, channel);
+			case RequestType.UPDATE_APTOS_DIRECT_TRANSFER:
+				handleMethod = aptosHandler.handleUpdateDirectTransfer;
 				break;
 			default:
 				return channel.postMessage({

@@ -40,12 +40,14 @@ export const aptosActions = {
 	},
 	setPendingTokens: (tokens: AptosPendingToken[]) => {
 		const { pendingTokens } = aptosState;
+		pendingTokens.clear();
 		for (const token of tokens) {
 			pendingTokens.set(token.tokenDataId, token);
 		}
 	},
 	setOwnedTokens: (tokens: AptosToken[]) => {
 		const { ownedTokens } = aptosState;
+		ownedTokens.clear();
 		for (const token of tokens) {
 			ownedTokens.set(token.tokenDataId, token);
 		}

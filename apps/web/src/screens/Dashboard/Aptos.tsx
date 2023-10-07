@@ -14,10 +14,11 @@ import { Copy } from '@walless/icons';
 import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { onrampWithGateFi } from 'utils/gatefi';
-import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
+import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
 import ActivityTab from './components/ActivityTab';
-import { CollectiblesTab, TokenTab } from './components';
+import AptosTokensTab from './components/AptosTokensTab';
+import { TokenTab } from './components';
 import { layoutTabs } from './shared';
 
 const AptosDashboard = () => {
@@ -28,8 +29,6 @@ const AptosDashboard = () => {
 	const publicKeys = usePublicKeys(Networks.aptos);
 	const { tokens, valuation } = useTokens(Networks.aptos);
 
-	const { collections } = useNfts(Networks.aptos);
-
 	const bottomSliderItems: SlideOption[] = [
 		{
 			id: 'tokens',
@@ -37,7 +36,7 @@ const AptosDashboard = () => {
 		},
 		{
 			id: 'collectibles',
-			component: () => <CollectiblesTab collections={collections} />,
+			component: () => <AptosTokensTab />,
 		},
 		{
 			id: 'activities',

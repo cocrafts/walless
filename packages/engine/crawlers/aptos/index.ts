@@ -3,7 +3,7 @@ import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { HexString, Network, Provider } from 'aptos';
 
-import { aptosActions } from '../../state/aptos';
+import { aptosActions, aptosState } from '../../state/aptos';
 import { tokenActions } from '../../state/token';
 import { createConnectionPool } from '../../utils/pool';
 import type { EngineRunner } from '../../utils/type';
@@ -52,21 +52,29 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 						'0x3::token::TokenStore',
 					);
 					const hasOptedIn = (resource.data as TokenResource).direct_transfer;
-					aptosActions.setDirectTransfer(hasOptedIn);
+					if (hasOptedIn !== aptosState.directTransfer) {
+						aptosActions.setDirectTransfer(hasOptedIn);
+					}
 				} catch (error) {
 					aptosActions.setDirectTransfer(false);
 				}
 
 				try {
 					const pendingNfts = await getPendingTokens(endpoint, pubkey);
-					aptosActions.setPendingTokens(pendingNfts);
+					// NOTE: it is better to have a deep comparison here
+					if (pendingNfts.length !== aptosState.pendingTokens.size) {
+						aptosActions.setPendingTokens(pendingNfts);
+					}
 				} catch (error) {
 					console.log('--> aptos crawler error', error);
 				}
 
 				try {
 					const ownedTokens = await getOwnedTokens(connection, pubkey);
-					aptosActions.setOwnedTokens(ownedTokens);
+					// NOTE: it is better to have a deep comparison here
+					if (ownedTokens.length !== aptosState.ownedTokens.size) {
+						aptosActions.setOwnedTokens(ownedTokens);
+					}
 				} catch (error) {
 					console.log('--> aptos crawler error', error);
 				}

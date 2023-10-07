@@ -1,6 +1,7 @@
 import type { FC } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
+import type { Token } from '@walless/core';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
@@ -17,21 +18,43 @@ interface Props {
 }
 
 export const NetworkFee: FC<Props> = () => {
-	const { type, token, nftCollection, transactionFee } =
-		useSnapshot(transactionContext);
+	const {
+		type,
+		token,
+		nftCollection,
+		transactionFee,
+		sender,
+		receiver,
+		amount,
+	} = useSnapshot(transactionContext);
 	const { getTransactionFee } = useSnapshot(injectedElements);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		(async () => {
-			if (type === 'Token' && token?.network) {
-				const fee = await getTransactionFee(token.network as Networks);
+			setLoading(true);
+			if (type === 'Token' && token?.network && amount && sender && receiver) {
+				const fee = await getTransactionFee({
+					sender,
+					receiver,
+					amount: parseFloat(amount),
+					network: token.network,
+					token: token as Token,
+				});
 				transactionActions.setTransactionFee(fee);
 			} else if (type === 'Collectible' && nftCollection?.network) {
-				const fee = await getTransactionFee(nftCollection.network as Networks);
+				const fee = await getTransactionFee({
+					sender,
+					receiver,
+					amount: 1,
+					network: nftCollection.network,
+					token: token as Token,
+				});
 				transactionActions.setTransactionFee(fee);
 			} else transactionActions.setTransactionFee(0);
+			setLoading(false);
 		})();
-	}, [type, token, nftCollection]);
+	}, [type, token, nftCollection, amount, sender, receiver]);
 
 	let networkToken = '';
 	if (token?.network == Networks.solana) {
@@ -49,7 +72,12 @@ export const NetworkFee: FC<Props> = () => {
 			</View>
 
 			<View style={styles.valueContainer}>
-				<Text style={styles.feeText}>{feeString}</Text>
+				{loading ? (
+					<Text style={styles.feeText}>loading...</Text>
+				) : (
+					<Text style={styles.feeText}>{feeString}</Text>
+				)}
+
 				<Text style={styles.equalText}>~ 0 secs</Text>
 			</View>
 		</View>

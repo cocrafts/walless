@@ -1,22 +1,30 @@
-import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import type { PublicKeyDocument, TokenDocument } from '@walless/store';
+import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { HexString, Network, Provider } from 'aptos';
 
+import { aptosActions } from '../../state/aptos';
 import { tokenActions } from '../../state/token';
 import { createConnectionPool } from '../../utils/pool';
 import type { EngineRunner } from '../../utils/type';
 
+import { getCoins } from './coins';
+
 export const aptosPool = createConnectionPool<Provider>({
-	create: (id) => new Provider(aptosEndpoints[id] as Network),
+	create: (id) => new Provider(aptosEndpoints[id]),
 });
 
-export const aptosEndpoints: Record<string, string> = {
+export const aptosEndpoints: Record<string, Network> = {
 	devnet: Network.DEVNET,
 	testnet: Network.TESTNET,
 	mainnet: Network.MAINNET,
 };
+
+interface TokenResource {
+	direct_transfer: boolean;
+}
+
+let interval: NodeJS.Timeout[] = [];
 
 export const aptosEngineRunner: EngineRunner<Provider> = {
 	start: async (context) => {
@@ -30,37 +38,32 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 			const pubkey = new HexString(key._id);
 
 			try {
-				const coinsData = await connection.getAccountCoinsData(pubkey);
-
-				const tokenDocuments: TokenDocument[] = [];
-
-				coinsData.current_fungible_asset_balances.forEach((coin) => {
-					tokenDocuments.push({
-						_id: coin.asset_type,
-						account: {
-							balance: coin.amount,
-							decimals: coin.metadata?.decimals ?? 0,
-							owner: pubkey.toString(),
-							address: coin.asset_type,
-						},
-						network: Networks.aptos,
-						type: 'Token',
-						metadata: {
-							name: coin.metadata?.name ?? 'Unknown',
-							symbol: coin.metadata?.symbol ?? 'Unknown',
-							imageUri:
-								coin.metadata?.icon_uri ?? '/img/explore/logo-trans-aptos.svg',
-						},
-					});
-				});
-
-				tokenActions.setItems(tokenDocuments);
+				const resource = await connection.getAccountResource(
+					pubkey,
+					'0x3::token::TokenStore',
+				);
+				const hasOptedIn = (resource.data as TokenResource).direct_transfer;
+				aptosActions.setDirectTransfer(hasOptedIn);
 			} catch (error) {
-				console.log('--> aptos crawler', error);
+				aptosActions.setDirectTransfer(false);
 			}
+
+			const constructAptosData = async () => {
+				try {
+					const tokenDocuments = await getCoins(connection, pubkey);
+					tokenActions.setItems(tokenDocuments);
+				} catch (error) {
+					console.log('--> aptos crawler coins error', error);
+				}
+			};
+
+			interval.push(setInterval(constructAptosData, 1000 * 5));
 		}
 	},
 	stop: async () => {
-		// MIGHT UPDATE THIS IN THE FUTURE
+		for (const item of interval) {
+			clearInterval(item);
+		}
+		interval = [];
 	},
 };

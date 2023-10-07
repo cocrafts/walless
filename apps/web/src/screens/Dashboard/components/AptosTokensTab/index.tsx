@@ -9,6 +9,7 @@ import { Slider, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import DirectTransfer from './DirectTransfer';
+import OwnedTokens from './OwnedTokens';
 import PendingTokens from './PendingTokens';
 
 interface Props {
@@ -46,7 +47,7 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 	const bottomSliderItems: SlideOption[] = [
 		{
 			id: 'owned',
-			component: () => <View />,
+			component: () => <OwnedTokens />,
 		},
 		{
 			id: 'pending',

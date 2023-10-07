@@ -6,6 +6,7 @@ export interface AptosToken {
 	creatorAddress: string;
 	collectionId: string;
 	collectionName: string;
+	collectionUri: string;
 	tokenDataId: string;
 	name: string;
 	description: string;

@@ -30,6 +30,9 @@ export interface QueryPendingNftsResponse {
 		creator_address: string;
 		collection_id: string;
 		collection_name: string;
+		current_collection_v2: {
+			uri: string;
+		};
 		current_token_data_v2: {
 			token_uri: string;
 			description: string;
@@ -62,6 +65,9 @@ export const queryPendingNfts = gql`
 			creator_address
 			collection_id
 			collection_name
+			current_collection_v2 {
+				uri
+			}
 			current_token_data_v2 {
 				token_uri
 				description

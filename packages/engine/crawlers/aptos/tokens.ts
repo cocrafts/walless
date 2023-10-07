@@ -24,6 +24,7 @@ export const getPendingTokens = async (endpoint: string, pubkey: HexString) => {
 						token.current_token_data_v2.current_token_ownership.owner_address,
 					collectionId: token.collection_id,
 					collectionName: token.collection_name,
+					collectionUri: token.current_collection_v2.uri,
 					tokenDataId: token.token_data_id,
 					name: token.name,
 					description: token.current_token_data_v2.description,
@@ -52,6 +53,7 @@ export const getOwnedTokens = async (
 				collectionId: token.current_token_data?.collection_id ?? '',
 				collectionName:
 					token.current_token_data?.current_collection?.collection_name ?? '',
+				collectionUri: token.current_token_data?.current_collection?.uri ?? '',
 				tokenDataId: token.token_data_id,
 				name: token.current_token_data?.token_name ?? '',
 				description: token.current_token_data?.description ?? '',

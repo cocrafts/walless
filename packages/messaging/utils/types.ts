@@ -107,6 +107,7 @@ export enum RequestType {
 
 	TRANSFER_APTOS_COIN,
 	UPDATE_APTOS_DIRECT_TRANSFER,
+	CLAIM_APTOS_TOKEN,
 }
 
 export enum PopupType {

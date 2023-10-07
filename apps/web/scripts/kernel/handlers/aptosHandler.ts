@@ -91,3 +91,48 @@ export const handleUpdateDirectTransfer: HandleMethod = async ({
 		});
 	}
 };
+
+export const handleClaimToken: HandleMethod = async ({
+	privateKey,
+	payload,
+	responseMethod,
+}) => {
+	try {
+		const txData = JSON.parse(payload.transaction as string);
+		const pubkey = new HexString(txData.pubkey as string);
+		const account = new AptosAccount(privateKey, pubkey);
+		const sender = new HexString(txData.sender as string);
+		const creator = new HexString(txData.creator as string);
+		const collectionName = txData.collectionName as string;
+		const name = txData.name as string;
+
+		const connection = await getAptosConnection();
+		const tokenClient = new TokenClient(connection.aptosClient);
+
+		console.log({
+			account,
+			sender,
+			creator,
+			collectionName,
+			name,
+		});
+
+		const txHash = await tokenClient.claimToken(
+			account,
+			sender,
+			creator,
+			collectionName,
+			name,
+		);
+		await connection.waitForTransaction(txHash);
+
+		responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
+			signatureString: txHash,
+		});
+	} catch (error) {
+		console.log({ error });
+		responseMethod(payload.requestId as string, ResponseCode.ERROR, {
+			error,
+		});
+	}
+};

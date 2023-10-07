@@ -2,22 +2,28 @@ import { proxy } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 
 export interface AptosToken {
-	fromAddress: string;
-	toAddress: string;
+	ownerAddress: string;
 	creatorAddress: string;
 	collectionId: string;
 	collectionName: string;
 	tokenDataId: string;
 	name: string;
+	description: string;
+	uri: string;
 	lastTransactionVersion: number;
 	lastTransactionTimestamp: number;
 	propertyVersion: number;
 	amount: number;
 }
 
+export type AptosPendingToken = AptosToken & {
+	fromAddress: string;
+	toAddress: string;
+};
+
 export interface AptosState {
 	directTransfer: boolean;
-	pendingTokens: Map<string, AptosToken>;
+	pendingTokens: Map<string, AptosPendingToken>;
 	ownedTokens: Map<string, AptosToken>;
 }
 
@@ -31,7 +37,7 @@ export const aptosActions = {
 	setDirectTransfer: (directTransfer: boolean) => {
 		aptosState.directTransfer = directTransfer;
 	},
-	setPendingTokens: (tokens: AptosToken[]) => {
+	setPendingTokens: (tokens: AptosPendingToken[]) => {
 		const { pendingTokens } = aptosState;
 		for (const token of tokens) {
 			pendingTokens.set(token.tokenDataId, token);

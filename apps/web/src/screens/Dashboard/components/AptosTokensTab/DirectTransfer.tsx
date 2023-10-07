@@ -1,42 +1,52 @@
 import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { PasscodeFeature } from '@walless/app';
-import { Hoverable, modalActions, Text, View } from '@walless/gui';
+import RequirePasscodeModal from '@walless/app/modals/RequirePasscode';
+import {
+	BindDirections,
+	Hoverable,
+	modalActions,
+	Text,
+	View,
+} from '@walless/gui';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 
 interface Props {
 	pubkey: string;
 	directTransfer: boolean;
+	fee: number;
 }
 
 const indicatorSize = 16;
 
-const DirectTransfer: FC<Props> = ({ pubkey, directTransfer }) => {
+const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 	const [disabled, setDisabled] = useState(false);
 
 	const handleDirectTransfer = async () => {
 		modalActions.show({
 			component: () => (
-				<PasscodeFeature
-					onPasscodeChange={async (value, isCompleted) => {
-						if (!isCompleted) {
-							return;
-						}
-						await encryptedMessenger.request('kernel', {
+				<RequirePasscodeModal
+					title={`Turn ${directTransfer ? 'off' : 'on'} direct transfer`}
+					description={`Toggle this flag will submit an on-chain transaction and will require a ${fee} APT gas fee.`}
+					onPasscodeComplete={async (passcode) => {
+						const res = await encryptedMessenger.request('kernel', {
 							type: RequestType.UPDATE_APTOS_DIRECT_TRANSFER,
 							transaction: JSON.stringify({
 								pubkey,
 								directTransfer: !directTransfer,
 							}),
-							passcode: value,
+							passcode,
 						});
+						return res;
+					}}
+					onActionComplete={() => {
 						modalActions.hide('passcode');
 						setDisabled(true);
 					}}
 				/>
 			),
 			id: 'passcode',
+			bindingDirection: BindDirections.InnerBottom,
 		});
 	};
 
@@ -80,7 +90,7 @@ const styles = StyleSheet.create({
 	statusContainer: {
 		padding: indicatorSize / 4,
 		minWidth: indicatorSize * 2 + indicatorSize / 2,
-		borderRadius: 10,
+		borderRadius: 1000,
 		backgroundColor: '#566674',
 	},
 	statusIndicator: {

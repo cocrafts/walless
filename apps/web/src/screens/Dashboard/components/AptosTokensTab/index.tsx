@@ -51,7 +51,7 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 		},
 		{
 			id: 'pending',
-			component: () => <PendingTokens tokens={pendingTokens} fee={fee} />,
+			component: () => <PendingTokens fee={fee} />,
 		},
 	];
 

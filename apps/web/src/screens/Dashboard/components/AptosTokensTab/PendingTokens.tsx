@@ -2,21 +2,23 @@ import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import RequirePasscodeModal from '@walless/app/modals/RequirePasscode';
 import { shortenAddress } from '@walless/core';
-import type { AptosToken } from '@walless/engine';
+import { type AptosPendingToken, aptosState } from '@walless/engine';
 import { BindDirections, Button, modalActions, Text, View } from '@walless/gui';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
+import { useSnapshot } from 'valtio';
 
 interface Props {
-	tokens: AptosToken[];
 	fee: number;
 }
 
-const PendingTokens: FC<Props> = ({ tokens, fee }) => {
+const PendingTokens: FC<Props> = ({ fee }) => {
+	const tokens = Array.from(useSnapshot(aptosState).pendingTokens.values());
+
 	const timestampToDate = (timestamp: number) =>
 		new Date(timestamp).toLocaleString();
 
-	const handleClaimToken = async (token: AptosToken) => {
+	const handleClaimToken = async (token: AptosPendingToken) => {
 		modalActions.show({
 			component: () => (
 				<RequirePasscodeModal

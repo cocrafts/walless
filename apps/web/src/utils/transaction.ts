@@ -1,23 +1,19 @@
-import { TokenAccount } from './../../../../packages/core/utils/entityTypes';
-import { corePlugins } from '@metaplex-foundation/js';
 import { Ed25519Keypair, TransactionBlock } from '@mysten/sui.js';
 import {
 	createAssociatedTokenAccountInstruction,
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
-import { VersionedMessage } from '@solana/web3.js';
-import {
-	LAMPORTS_PER_SOL,
-	SystemProgram,
-	TransactionMessage,
-} from '@solana/web3.js';
 import {
 	clusterApiUrl,
 	Connection,
 	Keypair,
+	LAMPORTS_PER_SOL,
 	PublicKey,
+	SystemProgram,
 	Transaction,
+	TransactionMessage,
+	VersionedMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
 import type {
@@ -33,20 +29,11 @@ import { RequestType } from '@walless/messaging';
 import axios from 'axios';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
-import base58 from 'bs58';
-import * as dotenv from 'dotenv';
-import { usePublicKeys } from './hooks';
 
 const sampleKeypair = Keypair.generate();
 const suiSampleKeypair = Ed25519Keypair.generate();
 
-// dotenv.config();
-
-// axios.defaults.baseURL = process.env.OCTANE_ENDPOINT;
-// const privateKeyStr = process.env.PRIVATE_KEY;
 const connection = new Connection(clusterApiUrl('devnet'));
-
-// const keypair = Keypair.fromSecretKey(base58.decode(privateKeyStr ?? ''));
 
 let solConn: Connection | undefined;
 export const getSolanaConnection = async () => {

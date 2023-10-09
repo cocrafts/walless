@@ -1,17 +1,24 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import {
+	getAssociatedTokenAddressSync,
+	TOKEN_PROGRAM_ID,
+} from '@solana/spl-token';
 import type {
 	ConfirmedSignatureInfo,
 	Connection,
+	ParsedInstruction,
 	ParsedTransactionWithMeta,
 } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import type { Collectible, Token } from '@walless/core';
+import type { Collectible, Token, TokenAccount } from '@walless/core';
 import { Networks } from '@walless/core';
 
 import { modules } from '../../ioc';
 import { historyActions } from '../state/history';
 
 import { getSolanaMetadata } from './metadata';
+
+const FEE_PAYER = '87S1RnHRrhRNMGtZWrdAqbPBj9on7Z2FdFx5LaYdcSCg';
+const SOL_MINT_ADDRESS = '11111111111111111111111111111111';
 
 export interface Transaction {
 	id: string;
@@ -21,8 +28,9 @@ export interface Transaction {
 	status: 'success' | 'pending' | 'failed';
 	sender: string;
 	receiver: string;
-	token: Omit<Token, 'account'> | Omit<Collectible, 'account' | 'collectionId'>;
+	token: Token | Omit<Collectible, 'account' | 'collectionId'>;
 	fee: number;
+	tokenForFee?: Token;
 	preBalance?: number;
 	postBalance?: number;
 	amount: number;
@@ -34,6 +42,295 @@ const getConfirmation = async (connection: Connection, signature: string) => {
 		searchTransactionHistory: true,
 	});
 	return result.value?.confirmationStatus;
+};
+
+const isAbstractionFee = (meta: ParsedTransactionWithMeta['meta']) => {
+	const tokenBalances = meta?.postTokenBalances;
+
+	for (const tokenBalance of tokenBalances ?? []) {
+		if (tokenBalance.owner === FEE_PAYER) {
+			return true;
+		}
+	}
+
+	return false;
+};
+
+const getTransactionTokenForFee = async (
+	meta: ParsedTransactionWithMeta['meta'],
+	connection: Connection,
+) => {
+	if (!isAbstractionFee(meta)) {
+		return;
+	}
+
+	const tokenBalances = meta?.postTokenBalances;
+
+	for (const tokenBalance of tokenBalances ?? []) {
+		if (tokenBalance.owner === FEE_PAYER) {
+			const network = Networks.solana;
+			const account: TokenAccount = {
+				mint: tokenBalance.mint,
+				owner: tokenBalance.owner,
+				address: getAssociatedTokenAddressSync(
+					new PublicKey(tokenBalance.owner),
+					new PublicKey(tokenBalance.mint),
+				).toString(),
+				balance: tokenBalance.uiTokenAmount.uiAmount?.toString() || '',
+				decimals: tokenBalance.uiTokenAmount.decimals,
+			};
+			const metadata = await getSolanaMetadata({
+				storage: modules.storage,
+				connection: connection,
+				mintAddress: tokenBalance.mint,
+			});
+
+			const token: Token = {
+				network,
+				account,
+				metadata,
+			};
+
+			return token;
+		}
+	}
+};
+
+const getTransactionFee = (
+	transaction: ParsedTransactionWithMeta,
+	tokenForFee?: Token,
+) => {
+	let fee = transaction.meta?.fee;
+
+	if (isAbstractionFee(transaction.meta)) {
+		const instruction = transaction.transaction.message.instructions[0];
+		const feeLamports = (instruction as ParsedInstruction).parsed?.info.amount;
+		const decimals = tokenForFee?.account.decimals ?? 0;
+
+		if (feeLamports) {
+			fee = feeLamports / 10 ** decimals;
+		}
+	}
+
+	return fee;
+};
+
+const getTransactionToken = async (
+	meta: ParsedTransactionWithMeta['meta'],
+	type: 'sent' | 'received',
+	sender: string,
+	receiver: string,
+	connection: Connection,
+) => {
+	let token: Token = {
+		network: Networks.solana,
+		account: {
+			mint: '',
+			owner: '',
+			address: '',
+			balance: '',
+			decimals: 0,
+		},
+		metadata: {
+			name: 'Unknown',
+			symbol: '',
+			imageUri: '/img/send-token/unknown-token.jpeg',
+		},
+	};
+
+	if (
+		!meta?.preTokenBalances ||
+		!meta?.postTokenBalances ||
+		meta?.postTokenBalances.length === 0 ||
+		meta?.preTokenBalances.length === 0
+	) {
+		const solMetadata = await getSolanaMetadata({
+			storage: modules.storage,
+			connection: connection,
+			mintAddress: SOL_MINT_ADDRESS,
+		});
+
+		token = {
+			network: Networks.solana,
+			account: {
+				mint: SOL_MINT_ADDRESS,
+				owner: '',
+				address: '',
+				balance: '',
+				decimals: 9,
+			},
+			metadata: solMetadata,
+		};
+
+		return token;
+	}
+
+	const tokenBalances = meta.postTokenBalances;
+
+	for (const tokenBalance of tokenBalances) {
+		if (
+			tokenBalance.owner !== FEE_PAYER &&
+			tokenBalance.owner !== (type === 'sent' ? sender : receiver)
+		) {
+			const network = Networks.solana;
+			const account: TokenAccount = {
+				mint: tokenBalance.mint,
+				owner: tokenBalance.owner,
+				address: getAssociatedTokenAddressSync(
+					new PublicKey(tokenBalance?.owner ?? ''),
+					new PublicKey(tokenBalance.mint),
+				).toString(),
+				balance: tokenBalance.uiTokenAmount.uiAmount?.toString() || '',
+				decimals: tokenBalance.uiTokenAmount.decimals,
+			};
+			const metadata = await getSolanaMetadata({
+				storage: modules.storage,
+				connection: connection,
+				mintAddress: tokenBalance.mint,
+			});
+
+			token = {
+				network,
+				account,
+				metadata,
+			};
+
+			return token;
+		}
+	}
+
+	return token;
+};
+
+const getTransactionBalances = (
+	meta: ParsedTransactionWithMeta['meta'],
+	ownerPublicKey: string,
+) => {
+	if (
+		!meta?.preTokenBalances ||
+		!meta?.postTokenBalances ||
+		meta?.postTokenBalances.length === 0 ||
+		meta?.preTokenBalances.length === 0
+	) {
+		return {
+			preBalance: 0,
+			postBalance: 0,
+		};
+	} else {
+		let preBalance = 0;
+		let postBalance = 0;
+		const preBalances = meta.preTokenBalances.filter(
+			(item) => item.owner === ownerPublicKey,
+		);
+
+		const postBalances = meta.postTokenBalances.filter(
+			(item) => item.owner === ownerPublicKey,
+		);
+
+		if (!preBalances[0]?.uiTokenAmount.uiAmount) {
+			preBalance = 0;
+		} else {
+			preBalance = preBalances[0].uiTokenAmount.uiAmount;
+		}
+
+		if (!postBalances[0]?.uiTokenAmount.uiAmount) {
+			postBalance = 0;
+		} else {
+			postBalance = postBalances[0].uiTokenAmount.uiAmount;
+		}
+
+		const amount = parseFloat(
+			Math.abs(postBalance - preBalance).toPrecision(3),
+		);
+
+		return {
+			preBalance,
+			postBalance,
+		};
+	}
+};
+
+const getTransactionAmount = ({
+	preBalance,
+	postBalance,
+}: {
+	preBalance: number;
+	postBalance: number;
+}) => {
+	const amount = parseFloat(Math.abs(postBalance - preBalance).toPrecision(3));
+
+	return amount;
+};
+
+const getTransactionType = (
+	transaction: ParsedTransactionWithMeta,
+	ownerPublicKey: string,
+) => {
+	if (
+		!transaction.meta?.preTokenBalances ||
+		!transaction.meta?.postTokenBalances ||
+		transaction.meta.postTokenBalances.length === 0 ||
+		transaction.meta.preTokenBalances.length === 0
+	) {
+		const sender =
+			transaction.transaction.message.accountKeys[0].pubkey.toString();
+
+		const type = ownerPublicKey === sender ? 'sent' : 'received';
+
+		return type;
+	}
+
+	const { preBalance, postBalance } = getTransactionBalances(
+		transaction.meta,
+		ownerPublicKey,
+	);
+
+	const type = postBalance - preBalance < 0 ? 'sent' : 'received';
+
+	return type;
+};
+
+const getTransactionPartners = (
+	transaction: ParsedTransactionWithMeta,
+	ownerPublicKey: string,
+	type: 'sent' | 'received',
+) => {
+	let sender = '';
+	let receiver = '';
+
+	if (
+		!transaction.meta?.preTokenBalances ||
+		!transaction.meta?.postTokenBalances ||
+		transaction.meta.postTokenBalances.length === 0 ||
+		transaction.meta.preTokenBalances.length === 0
+	) {
+		const sender =
+			transaction.transaction.message.accountKeys[0].pubkey.toString();
+		const receiver =
+			transaction.transaction.message.accountKeys[1].pubkey.toString();
+
+		return {
+			sender,
+			receiver,
+		};
+	}
+
+	const partner = transaction.meta?.postTokenBalances.filter(
+		(item) => item.owner !== ownerPublicKey,
+	);
+
+	if (type === 'sent') {
+		sender = ownerPublicKey;
+		receiver = partner[0].owner ?? '';
+	} else {
+		sender = partner[0].owner ?? '';
+		receiver = ownerPublicKey;
+	}
+
+	return {
+		sender,
+		receiver,
+	};
 };
 
 export const getTransactionDetails = async (
@@ -55,119 +352,57 @@ export const getTransactionDetails = async (
 			? 'pending'
 			: 'failed';
 
+	const type = getTransactionType(parsedTransaction, ownerPublicKey);
+
+	const { sender, receiver } = getTransactionPartners(
+		parsedTransaction,
+		ownerPublicKey,
+		type,
+	);
+
+	const token = await getTransactionToken(
+		parsedTransaction.meta,
+		type,
+		sender,
+		receiver,
+		connection,
+	);
+
+	const tokenForFee = await getTransactionTokenForFee(
+		parsedTransaction.meta,
+		connection,
+	);
+
+	const fee = getTransactionFee(parsedTransaction, tokenForFee);
+
+	const { preBalance, postBalance } = getTransactionBalances(
+		parsedTransaction.meta,
+		ownerPublicKey,
+	);
+
+	const amount = getTransactionAmount({
+		preBalance,
+		postBalance,
+	});
+
 	const finalTransaction: Transaction = {
 		id: parsedTransaction.transaction.signatures[0],
 		signature: parsedTransaction.transaction.signatures[0],
 		network: Networks.solana,
-		type: 'sent',
-		status: status,
-		sender: '',
-		receiver: '',
-		token: {
-			network: Networks.solana,
-		},
-		fee: parsedTransaction.meta.fee / 10 ** 9,
-		preBalance: 0,
-		postBalance: 0,
-		amount: 0,
+		type,
+		status,
+		sender,
+		receiver,
+		token,
+		tokenForFee,
+		fee: fee ?? 0,
+		preBalance,
+		postBalance,
+		amount,
 		date: parsedTransaction.blockTime
 			? new Date(parsedTransaction.blockTime * 1000)
 			: new Date(),
 	};
-
-	if (
-		!parsedTransaction.meta.preTokenBalances ||
-		!parsedTransaction.meta.postTokenBalances ||
-		parsedTransaction.meta.postTokenBalances.length === 0 ||
-		parsedTransaction.meta.preTokenBalances.length === 0
-	) {
-		const solMetadata = await getSolanaMetadata({
-			storage: modules.storage,
-			connection: connection,
-			mintAddress: '11111111111111111111111111111111',
-		});
-		finalTransaction.token.metadata = solMetadata;
-
-		finalTransaction.sender =
-			parsedTransaction.transaction.message.accountKeys[0].pubkey.toString();
-		finalTransaction.receiver =
-			parsedTransaction.transaction.message.accountKeys[1].pubkey.toString();
-
-		finalTransaction.type =
-			ownerPublicKey === finalTransaction.sender ? 'sent' : 'received';
-
-		finalTransaction.preBalance =
-			parsedTransaction.meta.preBalances[
-				finalTransaction.type === 'sent' ? 0 : 1
-			] /
-			10 ** 9;
-		finalTransaction.postBalance =
-			parsedTransaction.meta.postBalances[
-				finalTransaction.type === 'sent' ? 0 : 1
-			] /
-			10 ** 9;
-
-		finalTransaction.amount = parseFloat(
-			Math.abs(
-				finalTransaction.postBalance -
-					finalTransaction.preBalance +
-					finalTransaction.fee,
-			).toPrecision(3),
-		);
-	} else {
-		const tokenAccount = await getSolanaMetadata({
-			storage: modules.storage,
-			connection,
-			mintAddress: parsedTransaction.meta.postTokenBalances[0].mint,
-		});
-
-		finalTransaction.token.metadata = tokenAccount;
-
-		const preBalance = parsedTransaction.meta.preTokenBalances.filter(
-			(item) => item.owner === ownerPublicKey,
-		);
-
-		const postBalance = parsedTransaction.meta.postTokenBalances.filter(
-			(item) => item.owner === ownerPublicKey,
-		);
-
-		if (!preBalance[0]?.uiTokenAmount.uiAmount) {
-			finalTransaction.preBalance = 0;
-		} else {
-			finalTransaction.preBalance = preBalance[0].uiTokenAmount.uiAmount;
-		}
-
-		if (!postBalance[0]?.uiTokenAmount.uiAmount) {
-			finalTransaction.postBalance = 0;
-		} else {
-			finalTransaction.postBalance = postBalance[0].uiTokenAmount.uiAmount;
-		}
-
-		finalTransaction.amount = parseFloat(
-			Math.abs(
-				finalTransaction.postBalance - finalTransaction.preBalance,
-			).toPrecision(3),
-		);
-
-		finalTransaction.type =
-			finalTransaction.postBalance - finalTransaction.preBalance < 0
-				? 'sent'
-				: 'received';
-
-		if (parsedTransaction.meta.postTokenBalances.length === 1) return;
-
-		const partner = parsedTransaction.meta.postTokenBalances.filter(
-			(item) => item.owner !== ownerPublicKey,
-		);
-
-		if (finalTransaction.type === 'sent') {
-			finalTransaction.sender = ownerPublicKey;
-			finalTransaction.receiver = partner[0].owner ?? '';
-		} else {
-			finalTransaction.sender = partner[0].owner ?? '';
-			finalTransaction.receiver = ownerPublicKey;
-		}
-	}
 
 	return finalTransaction;
 };

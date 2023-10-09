@@ -32,9 +32,7 @@ export const NetworkFee: FC<Props> = () => {
 
 	const { tokens } = useSnapshot(injectedElements);
 
-	const [tokenForFee, setTokenForFee] = useState<Token | null>(
-		tokens[0] as Token,
-	);
+	const [tokenForFee, setTokenForFee] = useState<Token>(tokens[0] as Token);
 
 	const { type, token, nftCollection, transactionFee } =
 		useSnapshot(transactionContext);
@@ -92,6 +90,7 @@ export const NetworkFee: FC<Props> = () => {
 					<TokenFeeDropDown
 						tokens={tokens as TokenDocument[]}
 						onSelect={handleSetTokenFee}
+						selectedToken={tokenForFee as Token}
 					/>
 				),
 				bindingRef: dropdownRef,
@@ -115,19 +114,6 @@ export const NetworkFee: FC<Props> = () => {
 						<Text style={styles.selectedToken}>
 							{tokenForFee?.metadata?.symbol}
 						</Text>
-						{/* {isDropped && (
-							<View style={styles.dropdown}>
-								{tokens.map((token, idx) => (
-									<Hoverable
-										style={styles.tokenOption}
-										key={idx}
-										onPress={() => handleSetTokenFee(token as Token)}
-									>
-										<Text>{token.metadata?.symbol}</Text>
-									</Hoverable>
-								))}
-							</View>
-						)} */}
 					</View>
 
 					<TouchableOpacity onPress={() => setIsDropped(!isDropped)}>

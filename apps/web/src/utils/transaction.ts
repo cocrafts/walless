@@ -215,15 +215,17 @@ export const constructTransactionAbstractFee = async ({
 		lastValidBlockHeight,
 	});
 
-	const instructions = [];
-
-	const senderPublicKey = new PublicKey(sender);
-
 	const mintAddress = new PublicKey(token.account.mint as string);
-
 	const decimals = (token as Token).account?.decimals;
 
+	const senderPublicKey = new PublicKey(sender);
 	const senderAta = getAssociatedTokenAddressSync(mintAddress, senderPublicKey);
+
+	const receiverPublicKey = new PublicKey(receiver);
+	const receiverAta = getAssociatedTokenAddressSync(
+		mintAddress,
+		receiverPublicKey,
+	);
 
 	const octaneConfig = (
 		await axios.get(
@@ -237,15 +239,13 @@ export const constructTransactionAbstractFee = async ({
 		)
 	).data;
 
-	const feePayer = new PublicKey(octaneConfig.feePayer);
-
-	const feePayerAta = getAssociatedTokenAddressSync(mintAddress, feePayer);
-
-	const receiverPublicKey = new PublicKey(receiver);
-	const receiverAta = getAssociatedTokenAddressSync(
+	const feePayerPublicKey = new PublicKey(octaneConfig.feePayer);
+	const feePayerAta = getAssociatedTokenAddressSync(
 		mintAddress,
-		receiverPublicKey,
+		feePayerPublicKey,
 	);
+
+	const instructions = [];
 
 	instructions.push(
 		createTransferInstruction(
@@ -256,6 +256,17 @@ export const constructTransactionAbstractFee = async ({
 		),
 	);
 
+	if (!receiverAta) {
+		instructions.push(
+			createAssociatedTokenAccountInstruction(
+				senderPublicKey,
+				receiverAta,
+				receiverPublicKey,
+				mintAddress,
+			),
+		);
+	}
+
 	instructions.push(
 		createTransferInstruction(
 			senderAta,
@@ -265,7 +276,7 @@ export const constructTransactionAbstractFee = async ({
 		),
 	);
 
-	transaction.feePayer = feePayer;
+	transaction.feePayer = feePayerPublicKey;
 	transaction.add(...instructions);
 
 	const finalTransaction = new VersionedTransaction(

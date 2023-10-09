@@ -7,19 +7,24 @@ import type { TokenDocument } from '@walless/store';
 interface Props {
 	tokens: TokenDocument[];
 	onSelect: (token: Token) => void;
+	selectedToken?: Token;
 }
 
-const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect }) => {
+const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 	const handleSelectToken = (token: TokenDocument) => {
 		onSelect(token);
 		modalActions.destroy('NetworkFee');
+	};
+
+	const selectedStyle = {
+		backgroundColor: '#000000',
 	};
 
 	return (
 		<View style={styles.dropdown}>
 			{tokens.map((token, idx) => (
 				<Hoverable
-					style={styles.tokenOption}
+					style={[styles.tokenOption, token === selectedToken && selectedStyle]}
 					key={idx}
 					onPress={() => handleSelectToken(token)}
 				>

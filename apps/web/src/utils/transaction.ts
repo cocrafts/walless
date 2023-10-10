@@ -29,6 +29,7 @@ import { RequestType } from '@walless/messaging';
 import axios from 'axios';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
+import base58 from 'bs58';
 
 const sampleKeypair = Keypair.generate();
 const suiSampleKeypair = Ed25519Keypair.generate();
@@ -141,6 +142,7 @@ export const getWalletPublicKey = async (network: Networks) => {
 type SendTokenProps = {
 	sender: string;
 	token: Token | Collectible;
+	tokenForFee: Token;
 	network: Networks;
 	receiver: string;
 	amount: number;
@@ -153,7 +155,6 @@ export const constructTransaction = async ({
 	receiver,
 	amount,
 }: SendTokenProps) => {
-	console.log('constructTransaction');
 	const decimals = (token as Token).account?.decimals
 		? 10 ** ((token as Token).account.decimals || 0)
 		: 1;
@@ -189,6 +190,7 @@ export const constructTransaction = async ({
 export const constructTransactionAbstractFee = async ({
 	sender,
 	token,
+	tokenForFee,
 	receiver,
 	amount,
 }: SendTokenProps) => {
@@ -203,10 +205,18 @@ export const constructTransactionAbstractFee = async ({
 	});
 
 	const mintAddress = new PublicKey(token.account.mint as string);
+	const tokenForFeeMintAddress = new PublicKey(
+		tokenForFee.account.mint as string,
+	);
 	const decimals = (token as Token).account?.decimals;
 
 	const senderPublicKey = new PublicKey(sender);
 	const senderAta = getAssociatedTokenAddressSync(mintAddress, senderPublicKey);
+
+	const senderTokenForFeeAta = getAssociatedTokenAddressSync(
+		tokenForFeeMintAddress,
+		senderPublicKey,
+	);
 
 	const receiverPublicKey = new PublicKey(receiver);
 	const receiverAta = getAssociatedTokenAddressSync(
@@ -228,47 +238,153 @@ export const constructTransactionAbstractFee = async ({
 
 	const feePayerPublicKey = new PublicKey(octaneConfig.feePayer);
 	const feePayerAta = getAssociatedTokenAddressSync(
-		mintAddress,
+		tokenForFeeMintAddress,
 		feePayerPublicKey,
 	);
 
 	const instructions = [];
 
-	instructions.push(
-		createTransferInstruction(
-			senderAta,
-			feePayerAta,
-			senderPublicKey,
-			0.01 * 10 ** decimals, // hard code required 0.01 Token as gas fee (decimals is 9)
-		),
+	const temporaryFeePaymentInstruction = createTransferInstruction(
+		senderTokenForFeeAta,
+		feePayerAta,
+		senderPublicKey,
+		10 ** 6,
 	);
 
-	if (!receiverAta) {
-		instructions.push(
-			createAssociatedTokenAccountInstruction(
-				senderPublicKey,
-				receiverAta,
-				receiverPublicKey,
-				mintAddress,
-			),
-		);
-	}
-
-	instructions.push(
-		createTransferInstruction(
-			senderAta,
+	const receiverTokenAtaCreationInstruction =
+		createAssociatedTokenAccountInstruction(
+			feePayerPublicKey,
 			receiverAta,
-			senderPublicKey,
-			amount * 10 ** decimals,
-		),
+			receiverPublicKey,
+			mintAddress,
+		);
+
+	const transferInstruction = createTransferInstruction(
+		senderAta,
+		receiverAta,
+		senderPublicKey,
+		amount * 10 ** decimals,
 	);
+
+	instructions.push(temporaryFeePaymentInstruction);
+	if (!receiverAta) {
+		instructions.push(receiverTokenAtaCreationInstruction);
+	}
+	instructions.push(transferInstruction);
 
 	transaction.feePayer = feePayerPublicKey;
 	transaction.add(...instructions);
 
-	const finalTransaction = new VersionedTransaction(
+	const initTransaction = new VersionedTransaction(
 		VersionedMessage.deserialize(transaction.serializeMessage()),
 	);
+
+	const transactionString = base58.encode(initTransaction.serialize());
+
+	let finalTransaction = initTransaction;
+
+	const data = await (
+		await fetch(
+			'https://h54f2ajwqf.execute-api.ap-south-1.amazonaws.com/api/gasilon/solana/getFee',
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					transaction: transactionString,
+				}),
+			},
+		)
+	)
+		.json()
+		.then((data) => {
+			return data;
+		});
+
+	const transactionWithFee = new Transaction({
+		blockhash,
+		lastValidBlockHeight,
+	});
+
+	const feePaymentInstruction = createTransferInstruction(
+		senderTokenForFeeAta,
+		feePayerAta,
+		senderPublicKey,
+		data.totalByFeeToken * 10 ** 9,
+	);
+
+	const finalInstructions = [];
+
+	finalInstructions.push(feePaymentInstruction);
+	if (!receiverAta) {
+		finalInstructions.push(receiverTokenAtaCreationInstruction);
+	}
+	finalInstructions.push(transferInstruction);
+
+	transactionWithFee.add(...finalInstructions);
+	transactionWithFee.feePayer = feePayerPublicKey;
+
+	finalTransaction = new VersionedTransaction(
+		VersionedMessage.deserialize(transactionWithFee.serializeMessage()),
+	);
+
+	// .then((res) => {
+	// 	res.json().then((data) => {
+	// 		if (data.totalByFeeToken) {
+	// 			const transactionWithFee = new Transaction({
+	// 				blockhash,
+	// 				lastValidBlockHeight,
+	// 			});
+
+	// 			transactionWithFee.feePayer = feePayerPublicKey;
+
+	// 			const instructionsWithFee = [];
+
+	// 			instructionsWithFee.push(
+	// 				createTransferInstruction(
+	// 					senderTokenForFeeAta,
+	// 					feePayerAta,
+	// 					senderPublicKey,
+	// 					data.totalByFeeToken * 10 ** 9,
+	// 				),
+	// 			);
+
+	// 			if (!receiverAta) {
+	// 				instructionsWithFee.push(
+	// 					createAssociatedTokenAccountInstruction(
+	// 						feePayerPublicKey,
+	// 						receiverAta,
+	// 						receiverPublicKey,
+	// 						mintAddress,
+	// 					),
+	// 				);
+	// 			}
+
+	// 			instructionsWithFee.push(
+	// 				createTransferInstruction(
+	// 					senderAta,
+	// 					receiverAta,
+	// 					senderPublicKey,
+	// 					amount * 10 ** decimals,
+	// 				),
+	// 			);
+
+	// 			transactionWithFee.add(...instructionsWithFee);
+
+	// 			finalTransaction = new VersionedTransaction(
+	// 				VersionedMessage.deserialize(transactionWithFee.serializeMessage()),
+	// 			);
+
+	// 			return finalTransaction;
+	// 		}
+	// 		console.log(data, '<--- data');
+	// 	});
+	// 	console.log(res.status);
+	// })
+	// .catch((error) => {
+	// 	console.log(error);
+	// });
 
 	return finalTransaction;
 };
@@ -343,9 +459,8 @@ const constructSendSOLTransaction = async (
 		instructions,
 	}).compileToV0Message();
 
-	const a = new VersionedTransaction(message);
-	console.log(a);
-	return a;
+	const finalTransaction = new VersionedTransaction(message);
+	return finalTransaction;
 };
 
 const constructSendSPLTokenTransactionInSol = async (

@@ -1,4 +1,5 @@
 import type { Networks, TransactionPayload } from '@walless/core';
+import { tokenState } from '@walless/engine';
 import type { ResponsePayload } from '@walless/messaging';
 import type {
 	CollectibleDocument,
@@ -8,8 +9,12 @@ import type {
 } from '@walless/store';
 import { proxy } from 'valtio';
 
+const { map } = tokenState;
+const tokens = Array.from(map.values());
+
 export interface InjectedElements {
 	tokens: TokenDocument[];
+	tokenForFee?: TokenDocument;
 	nftCollections: CollectionDocument[];
 	nftCollectibles: CollectibleDocument[];
 	publicKeys: PublicKeyDocument[];
@@ -32,6 +37,7 @@ export interface InjectedElements {
 
 export const injectedElements = proxy<InjectedElements>({
 	tokens: [],
+	tokenForFee: tokens[0],
 	nftCollections: [],
 	nftCollectibles: [],
 	publicKeys: [],

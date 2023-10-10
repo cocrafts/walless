@@ -66,6 +66,7 @@ export interface TransactionPayload {
 	amount: number;
 	network: Networks;
 	token: Token | Collectible;
+	tokenForFee: Token;
 	passcode?: string;
 }
 

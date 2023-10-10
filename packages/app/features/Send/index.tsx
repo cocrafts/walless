@@ -34,6 +34,7 @@ export const SendFeature: FC<Props> = ({
 }) => {
 	transactionActions.injectRequiredElements({
 		tokens: tokens,
+		tokenForFee: tokens[0],
 		nftCollections: nftCollections,
 		nftCollectibles: nftCollectibles,
 		publicKeys: publicKeys,

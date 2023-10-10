@@ -25,7 +25,7 @@ import { Header } from './components';
 
 type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
-	const { type, token, nftCollectible, sender, receiver, amount } =
+	const { type, token, tokenForFee, nftCollectible, sender, receiver, amount } =
 		useSnapshot(transactionContext);
 	const [error, setError] = useState<string>('');
 	const [passcode, setPasscode] = useState<string>('');
@@ -52,6 +52,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 			const payload: TransactionPayload = {
 				sender: sender,
 				receiver: receiver,
+				tokenForFee: token as Token,
 			} as TransactionPayload;
 
 			switch (type) {
@@ -59,12 +60,14 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 					payload.amount = parseFloat(amount as string);
 					payload.token = token as Token;
 					payload.network = token?.network as Networks;
+					payload.tokenForFee = tokenForFee as Token;
 					break;
 				}
 				case 'Collectible': {
 					payload.amount = 1;
 					payload.token = nftCollectible as Collectible;
 					payload.network = nftCollectible?.network as Networks;
+					payload.tokenForFee = tokenForFee as Token;
 					break;
 				}
 			}

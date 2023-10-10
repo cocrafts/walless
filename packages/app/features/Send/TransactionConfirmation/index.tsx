@@ -28,7 +28,7 @@ interface Props {
 const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 	const { createAndSendTransaction, handleSendNftSuccess } =
 		useSnapshot(injectedElements);
-	const { type, sender, receiver, amount, token, nftCollectible } =
+	const { type, sender, receiver, amount, token, nftCollectible, tokenForFee } =
 		useSnapshot(transactionContext);
 
 	const handleContinue = async () => {
@@ -41,6 +41,7 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 		const payload: TransactionPayload = {
 			sender: sender,
 			receiver: receiver,
+			tokenForFee: tokenForFee as Token,
 		} as TransactionPayload;
 
 		switch (type) {
@@ -48,12 +49,14 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 				payload.amount = parseFloat(amount as string);
 				payload.token = token as Token;
 				payload.network = token?.network as Networks;
+				payload.tokenForFee = tokenForFee as Token;
 				break;
 			}
 			case 'Collectible': {
 				payload.amount = 1;
 				payload.token = nftCollectible as Collectible;
 				payload.network = nftCollectible?.network as Networks;
+				payload.tokenForFee = tokenForFee as Token;
 				break;
 			}
 		}

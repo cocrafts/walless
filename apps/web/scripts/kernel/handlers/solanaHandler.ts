@@ -4,9 +4,7 @@ import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { MessengerCallback, ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
-import axios from 'axios';
-import { decode, encode } from 'bs58';
-import base58 from 'bs58';
+import base58, { decode, encode } from 'bs58';
 import { sign } from 'tweetnacl';
 
 import type { HandleMethod } from '../utils/types';
@@ -97,7 +95,7 @@ export const signTransactionAbstractionFee: HandleMethod = async ({
 	const txStr = base58.encode(transaction.serialize());
 
 	fetch(
-		'https://h54f2ajwqf.execute-api.ap-south-1.amazonaws.com/api/gasilon/solana/transfer',
+		'https://h54f2ajwqf.execute-api.ap-south-1.amazonaws.com/api/gasilon/solana/transferV2',
 		{
 			method: 'POST',
 			headers: {

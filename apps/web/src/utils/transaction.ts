@@ -205,10 +205,11 @@ export const constructTransactionAbstractFee = async ({
 	});
 
 	const mintAddress = new PublicKey(token.account.mint as string);
+	console.log(tokenForFee, '<--- tokenForFee');
 	const tokenForFeeMintAddress = new PublicKey(
 		tokenForFee.account.mint as string,
 	);
-	const decimals = (token as Token).account?.decimals;
+	const decimals = (token as Token).account?.decimals ?? 0;
 
 	const senderPublicKey = new PublicKey(sender);
 	const senderAta = getAssociatedTokenAddressSync(mintAddress, senderPublicKey);

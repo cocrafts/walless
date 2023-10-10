@@ -1,12 +1,13 @@
 import { Image, StyleSheet } from 'react-native';
-import { Button, Text, View } from '@walless/gui';
+import { Anchor, Button, Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
 import { transactionContext } from '../../../../state/transaction';
 
 export const Nft = () => {
-	const { nftCollectible, time, status } = useSnapshot(transactionContext);
+	const { nftCollectible, time, status, signatureString } =
+		useSnapshot(transactionContext);
 
 	const iconUri = { uri: nftCollectible?.metadata?.imageUri };
 
@@ -19,7 +20,11 @@ export const Nft = () => {
 			</View>
 			<View>
 				{status == ResponseCode.SUCCESS && (
-					<Button style={styles.shareButton} title="Share" />
+					<Anchor
+						style={styles.shareButton}
+						title="Share"
+						href={`https://solscan.io/tx/${signatureString}?cluster=devnet`}
+					/>
 				)}
 			</View>
 		</View>

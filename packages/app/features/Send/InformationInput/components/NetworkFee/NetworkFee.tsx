@@ -44,6 +44,7 @@ export const NetworkFee: FC<Props> = () => {
 		} else {
 			setTokenForFee(tokenForFee);
 			setIsDropped(false);
+			transactionActions.setTokenForFee(tokenForFee as TokenDocument);
 		}
 	};
 

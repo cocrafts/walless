@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import type { Token } from '@walless/core';
 import { Hoverable, modalActions, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
@@ -17,7 +17,7 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 	};
 
 	const selectedStyle = {
-		backgroundColor: '#000000',
+		backgroundColor: '#56667466',
 	};
 
 	return (
@@ -28,7 +28,15 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 					key={idx}
 					onPress={() => handleSelectToken(token)}
 				>
-					<Text>{token.metadata?.symbol}</Text>
+					<Image
+						source={{
+							uri:
+								token.metadata?.imageUri ??
+								'/img/send-token/unknown-token.jpeg',
+						}}
+						style={styles.tokenIcon}
+					/>
+					<Text numberOfLines={1}>{token.metadata?.symbol ?? 'Unknown'}</Text>
 				</Hoverable>
 			))}
 		</View>
@@ -39,12 +47,24 @@ export default TokenFeeDropDown;
 
 const styles = StyleSheet.create({
 	dropdown: {
-		width: 50,
-		backgroundColor: '#566674',
+		width: 100,
+		backgroundColor: '#1E2830',
 		borderRadius: 8,
+		paddingVertical: 6,
+		paddingHorizontal: 4,
 	},
 	tokenOption: {
-		borderRadius: 8,
-		padding: 4,
+		flexDirection: 'row',
+		alignItems: 'center',
+		paddingVertical: 4,
+		paddingHorizontal: 4,
+		borderRadius: 4,
+		gap: 4,
+		overflow: 'hidden',
+	},
+	tokenIcon: {
+		width: 12,
+		height: 12,
+		borderRadius: 12,
 	},
 });

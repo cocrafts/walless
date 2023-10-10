@@ -26,6 +26,7 @@ export const SendFeature: FC<Props> = ({
 	nftCollectibles,
 	publicKeys,
 	onClose,
+	getTransactionAbstractFee,
 	getTransactionFee,
 	checkValidAddress,
 	createAndSendTransaction,
@@ -39,6 +40,7 @@ export const SendFeature: FC<Props> = ({
 		nftCollectibles: nftCollectibles,
 		publicKeys: publicKeys,
 		getTransactionFee,
+		getTransactionAbstractFee,
 		handleClose: () => {
 			onClose();
 			transactionActions.resetTransactionContext();

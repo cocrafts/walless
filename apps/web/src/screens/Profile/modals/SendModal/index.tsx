@@ -9,6 +9,7 @@ import { useNfts, usePublicKeys, useTokens } from 'utils/hooks';
 import {
 	checkValidAddress,
 	createAndSend,
+	getTransactionAbstractFee,
 	getTransactionFee,
 	getTransactionResult,
 } from 'utils/transaction';
@@ -33,6 +34,7 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				nftCollectibles={collectibles}
 				publicKeys={addressList}
 				getTransactionFee={getTransactionFee}
+				getTransactionAbstractFee={getTransactionAbstractFee}
 				onClose={() => modalActions.hide(config.id as string)}
 				checkValidAddress={checkValidAddress}
 				createAndSendTransaction={createAndSend}
@@ -46,7 +48,7 @@ export default SendModal;
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#141B21',
+		backgroundColor: '#131C24',
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 		width: 400,

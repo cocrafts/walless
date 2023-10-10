@@ -187,13 +187,10 @@ export const constructTransaction = async ({
 	throw Error('Network or Token is not supported');
 };
 
-export const constructTransactionAbstractFee = async ({
-	sender,
-	token,
-	tokenForFee,
-	receiver,
-	amount,
-}: SendTokenProps) => {
+const constructTransactionAbstractFeeTemplate = async (
+	{ sender, token, tokenForFee, receiver, amount }: SendTokenProps,
+	fee?: number,
+) => {
 	const bh = await connection.getLatestBlockhash();
 
 	const blockhash = bh.blockhash;
@@ -205,7 +202,6 @@ export const constructTransactionAbstractFee = async ({
 	});
 
 	const mintAddress = new PublicKey(token.account.mint as string);
-	console.log(tokenForFee, '<--- tokenForFee');
 	const tokenForFeeMintAddress = new PublicKey(
 		tokenForFee.account.mint as string,
 	);
@@ -245,11 +241,11 @@ export const constructTransactionAbstractFee = async ({
 
 	const instructions = [];
 
-	const temporaryFeePaymentInstruction = createTransferInstruction(
+	const feePaymentInstruction = createTransferInstruction(
 		senderTokenForFeeAta,
 		feePayerAta,
 		senderPublicKey,
-		10 ** 6,
+		(fee ?? 1) * 10 ** tokenForFee.account.decimals,
 	);
 
 	const receiverTokenAtaCreationInstruction =
@@ -267,7 +263,7 @@ export const constructTransactionAbstractFee = async ({
 		amount * 10 ** decimals,
 	);
 
-	instructions.push(temporaryFeePaymentInstruction);
+	instructions.push(feePaymentInstruction);
 	if (!receiverAta) {
 		instructions.push(receiverTokenAtaCreationInstruction);
 	}
@@ -276,13 +272,50 @@ export const constructTransactionAbstractFee = async ({
 	transaction.feePayer = feePayerPublicKey;
 	transaction.add(...instructions);
 
-	const initTransaction = new VersionedTransaction(
+	const finalTransaction = new VersionedTransaction(
 		VersionedMessage.deserialize(transaction.serializeMessage()),
 	);
 
-	const transactionString = base58.encode(initTransaction.serialize());
+	return finalTransaction;
+};
 
-	let finalTransaction = initTransaction;
+export const constructTransactionAbstractFee = async (
+	sendTokenProps: SendTokenProps,
+) => {
+	const fee = await getTransactionAbstractFee(sendTokenProps);
+
+	const transaction = await constructTransactionAbstractFeeTemplate(
+		sendTokenProps,
+		fee,
+	);
+
+	return transaction;
+};
+
+export const checkValidAddress = (keyStr: string, network: Networks) => {
+	try {
+		if (network == Networks.solana) {
+			new PublicKey(keyStr);
+			return { valid: true, message: '' };
+		} else if (network == Networks.sui) {
+			return { valid: true, message: '' };
+		} else if (network == Networks.tezos) {
+			return { valid: true, message: '' };
+		}
+		return { valid: false, message: 'Unsupported network ' + network };
+	} catch (error) {
+		return { valid: false, message: (error as Error).message };
+	}
+};
+
+export const getTransactionAbstractFee = async (
+	sendTokenProps: SendTokenProps,
+) => {
+	const transaction = await constructTransactionAbstractFeeTemplate(
+		sendTokenProps,
+	);
+
+	const transactionString = base58.encode(transaction.serialize());
 
 	const data = await (
 		await fetch(
@@ -303,107 +336,7 @@ export const constructTransactionAbstractFee = async ({
 			return data;
 		});
 
-	const transactionWithFee = new Transaction({
-		blockhash,
-		lastValidBlockHeight,
-	});
-
-	const feePaymentInstruction = createTransferInstruction(
-		senderTokenForFeeAta,
-		feePayerAta,
-		senderPublicKey,
-		data.totalByFeeToken * 10 ** 9,
-	);
-
-	const finalInstructions = [];
-
-	finalInstructions.push(feePaymentInstruction);
-	if (!receiverAta) {
-		finalInstructions.push(receiverTokenAtaCreationInstruction);
-	}
-	finalInstructions.push(transferInstruction);
-
-	transactionWithFee.add(...finalInstructions);
-	transactionWithFee.feePayer = feePayerPublicKey;
-
-	finalTransaction = new VersionedTransaction(
-		VersionedMessage.deserialize(transactionWithFee.serializeMessage()),
-	);
-
-	// .then((res) => {
-	// 	res.json().then((data) => {
-	// 		if (data.totalByFeeToken) {
-	// 			const transactionWithFee = new Transaction({
-	// 				blockhash,
-	// 				lastValidBlockHeight,
-	// 			});
-
-	// 			transactionWithFee.feePayer = feePayerPublicKey;
-
-	// 			const instructionsWithFee = [];
-
-	// 			instructionsWithFee.push(
-	// 				createTransferInstruction(
-	// 					senderTokenForFeeAta,
-	// 					feePayerAta,
-	// 					senderPublicKey,
-	// 					data.totalByFeeToken * 10 ** 9,
-	// 				),
-	// 			);
-
-	// 			if (!receiverAta) {
-	// 				instructionsWithFee.push(
-	// 					createAssociatedTokenAccountInstruction(
-	// 						feePayerPublicKey,
-	// 						receiverAta,
-	// 						receiverPublicKey,
-	// 						mintAddress,
-	// 					),
-	// 				);
-	// 			}
-
-	// 			instructionsWithFee.push(
-	// 				createTransferInstruction(
-	// 					senderAta,
-	// 					receiverAta,
-	// 					senderPublicKey,
-	// 					amount * 10 ** decimals,
-	// 				),
-	// 			);
-
-	// 			transactionWithFee.add(...instructionsWithFee);
-
-	// 			finalTransaction = new VersionedTransaction(
-	// 				VersionedMessage.deserialize(transactionWithFee.serializeMessage()),
-	// 			);
-
-	// 			return finalTransaction;
-	// 		}
-	// 		console.log(data, '<--- data');
-	// 	});
-	// 	console.log(res.status);
-	// })
-	// .catch((error) => {
-	// 	console.log(error);
-	// });
-
-	return finalTransaction;
-};
-
-export const checkValidAddress = (keyStr: string, network: Networks) => {
-	try {
-		if (network == Networks.solana) {
-			new PublicKey(keyStr);
-			return { valid: true, message: '' };
-		} else if (network == Networks.sui) {
-			return { valid: true, message: '' };
-		} else if (network == Networks.tezos) {
-			return { valid: true, message: '' };
-		}
-		return { valid: false, message: 'Unsupported network ' + network };
-	} catch (error) {
-		return { valid: false, message: (error as Error).message };
-	}
+	return data.totalByFeeToken;
 };
 
 export const getTransactionFee = async (network: Networks) => {

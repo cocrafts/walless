@@ -19,6 +19,7 @@ export interface InjectedElements {
 	nftCollectibles: CollectibleDocument[];
 	publicKeys: PublicKeyDocument[];
 	getTransactionFee: (network: Networks) => Promise<number>;
+	getTransactionAbstractFee: (payload: TransactionPayload) => Promise<number>;
 	handleClose: () => void;
 	checkValidAddress: (
 		keyStr: string,
@@ -42,6 +43,7 @@ export const injectedElements = proxy<InjectedElements>({
 	nftCollectibles: [],
 	publicKeys: [],
 	getTransactionFee: async () => 0,
+	getTransactionAbstractFee: async () => 0,
 	handleClose: () => console.log('close'),
 	checkValidAddress: () => {
 		return { valid: true, message: '' };

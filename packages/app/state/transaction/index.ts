@@ -68,10 +68,13 @@ export const transactionActions = {
 	},
 	injectRequiredElements: (elements: InjectedElements) => {
 		injectedElements.tokens = elements.tokens;
+		injectedElements.tokenForFee = elements.tokenForFee;
 		injectedElements.nftCollections = elements.nftCollections;
 		injectedElements.nftCollectibles = elements.nftCollectibles;
 		injectedElements.publicKeys = elements.publicKeys;
 		injectedElements.getTransactionFee = elements.getTransactionFee;
+		injectedElements.getTransactionAbstractFee =
+			elements.getTransactionAbstractFee;
 		injectedElements.handleClose = elements.handleClose;
 		injectedElements.checkValidAddress = elements.checkValidAddress;
 		injectedElements.createAndSendTransaction =

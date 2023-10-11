@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet } from 'react-native';
 import type {
 	Collectible,
 	Networks,
@@ -25,6 +25,7 @@ import { Header } from './components';
 
 type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const { type, token, tokenForFee, nftCollectible, sender, receiver, amount } =
 		useSnapshot(transactionContext);
 	const [error, setError] = useState<string>('');
@@ -41,6 +42,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 	};
 
 	const handlePasscodeChange = async (passcode: string) => {
+		setIsLoading(true);
 		setPasscode(passcode);
 		if (passcode.length == 6) {
 			if (
@@ -104,6 +106,8 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
+
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -132,6 +136,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 					onPasscodeChange={handlePasscodeChange}
 				/>
 			)}
+			{isLoading && <ActivityIndicator size={'large'} />}
 		</View>
 	);
 };

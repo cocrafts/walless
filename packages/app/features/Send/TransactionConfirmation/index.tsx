@@ -1,5 +1,5 @@
-import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { type FC, useState } from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import type { Collectible, Networks, Token } from '@walless/core';
 import type { TransactionPayload } from '@walless/core';
 import type { SliderHandle } from '@walless/gui';
@@ -26,12 +26,15 @@ interface Props {
 }
 
 const TransactionConfirmation: FC<Props> = ({ navigator }) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const { createAndSendTransaction, handleSendNftSuccess } =
 		useSnapshot(injectedElements);
 	const { type, sender, receiver, amount, token, nftCollectible, tokenForFee } =
 		useSnapshot(transactionContext);
 
 	const handleContinue = async () => {
+		setIsLoading(true);
+
 		if (
 			(type === 'Token' && !token) ||
 			(type === 'Collectible' && !nftCollectible)
@@ -81,6 +84,8 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 			console.log('...', error);
 			throw error;
 		}
+
+		setIsLoading(false);
 	};
 
 	return (
@@ -93,7 +98,11 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 
 			<RecipientInfo />
 
-			<NavButton title="Continue" onPress={handleContinue} />
+			{isLoading ? (
+				<ActivityIndicator size={'large'} />
+			) : (
+				<NavButton title="Continue" onPress={handleContinue} />
+			)}
 		</View>
 	);
 };

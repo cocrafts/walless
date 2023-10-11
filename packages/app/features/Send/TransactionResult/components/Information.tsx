@@ -25,6 +25,7 @@ export const Information: FC<Props> = () => {
 		receiver,
 		sender,
 		status,
+		tokenForFee,
 	} = useSnapshot(transactionContext);
 
 	const publicKey = publicKeys.find(
@@ -39,7 +40,9 @@ export const Information: FC<Props> = () => {
 	if (publicKey?.network == Networks.solana) {
 		iconUri.uri = '/img/network/solana-icon-sm.png';
 		networkStr = 'Solana';
-		feeStr = `${transactionFee} SOL`;
+		feeStr = `${transactionFee?.toPrecision(4)} ${
+			tokenForFee?.metadata?.symbol ?? 'Unknown'
+		}`;
 	} else if (publicKey?.network == Networks.sui) {
 		iconUri.uri = '/img/network/sui-icon-sm.png';
 		networkStr = 'SUI';

@@ -7,7 +7,7 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import type { Collectible, Token, TransactionPayload } from '@walless/core';
-import { Networks } from '@walless/core';
+import type { Networks } from '@walless/core';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
@@ -51,7 +51,7 @@ export const NetworkFee: FC<Props> = () => {
 		sender: sender,
 		receiver: receiver,
 		tokenForFee: tokenForFee as Token,
-		amount: parseFloat(amount as string),
+		amount: parseFloat(amount ?? '1'),
 		token: token as Token,
 		network: token?.network as Networks,
 	};
@@ -70,48 +70,36 @@ export const NetworkFee: FC<Props> = () => {
 
 	useEffect(() => {
 		(async () => {
-			setIsFeeLoading(true);
+			if (!payload.receiver) {
+				transactionActions.setTransactionFee(0);
+				return;
+			}
 
 			if (type === 'Token' && token?.network) {
-				let fee = await getTransactionFee(token.network as Networks);
-
-				if (tokenForFee !== tokens[0]) {
-					fee = await getTransactionAbstractFee(payload);
-				}
-
-				transactionActions.setTransactionFee(fee);
-				setIsFeeLoading(false);
-			} else if (type === 'Collectible' && nftCollection?.network) {
-				let fee = await getTransactionFee(nftCollection.network as Networks);
-
-				payload.token = nftCollectible as Collectible;
-
-				if (tokenForFee !== tokens[0]) {
-					fee = await getTransactionAbstractFee(payload);
-				}
-
-				transactionActions.setTransactionFee(fee);
-				setIsFeeLoading(false);
-			} else transactionActions.setTransactionFee(0);
-		})();
-	}, [type, token, nftCollection]);
-
-	useEffect(() => {
-		(async () => {
-			if (token?.network == Networks.solana) {
 				setIsFeeLoading(true);
 
 				let fee = await getTransactionFee(token.network as Networks);
-
 				if (tokenForFee !== tokens[0]) {
 					fee = await getTransactionAbstractFee(payload);
 				}
-
 				transactionActions.setTransactionFee(fee);
+
 				setIsFeeLoading(false);
-			}
+			} else if (type === 'Collectible' && nftCollection?.network) {
+				setIsFeeLoading(true);
+
+				payload.token = nftCollectible as Collectible;
+
+				let fee = await getTransactionFee(nftCollection.network as Networks);
+				if (tokenForFee !== tokens[0]) {
+					fee = await getTransactionAbstractFee(payload);
+				}
+				transactionActions.setTransactionFee(fee);
+
+				setIsFeeLoading(false);
+			} else transactionActions.setTransactionFee(0);
 		})();
-	}, [tokenForFee]);
+	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
 
 	useEffect(() => {
 		if (isDropped) {
@@ -142,7 +130,9 @@ export const NetworkFee: FC<Props> = () => {
 				{isFeeLoading ? (
 					<ActivityIndicator size="small" color="#FFFFFF" />
 				) : (
-					<Text style={styles.feeText}>{transactionFee?.toPrecision(4)}</Text>
+					<Text style={styles.feeText}>
+						{parseFloat(transactionFee?.toPrecision(4) as string) ?? 0}
+					</Text>
 				)}
 				<View ref={dropdownRef} style={styles.feeDisplay}>
 					<View style={styles.selectContainer}>

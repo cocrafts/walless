@@ -24,7 +24,7 @@ const DropdownItem: FC<Props> = ({
 	iconStyle,
 }) => {
 	const [isHover, setIsHover] = useState(false);
-	const iconSrc = { uri: icon };
+	const iconSrc = { uri: icon ?? 'img/send-token/unknown-token.jpeg' };
 
 	const containerStyle = [
 		styles.itemButton,

@@ -32,8 +32,8 @@ export const Select = <T extends object>({
 	if (selected) {
 		const metadata = getRequiredFields(selected);
 		selectedMetadata = {
-			name: metadata.name,
-			iconSrc: { uri: metadata.icon },
+			name: metadata.name ?? 'Unknown',
+			iconSrc: { uri: metadata.icon ?? 'img/send-token/unknown-token.jpeg' },
 		};
 	}
 

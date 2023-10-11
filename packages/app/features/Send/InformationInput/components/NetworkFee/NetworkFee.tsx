@@ -131,7 +131,7 @@ export const NetworkFee: FC<Props> = () => {
 					<ActivityIndicator size="small" color="#FFFFFF" />
 				) : (
 					<Text style={styles.feeText}>
-						{parseFloat(transactionFee?.toPrecision(4) as string) ?? 0}
+						{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
 					</Text>
 				)}
 				<View ref={dropdownRef} style={styles.feeDisplay}>

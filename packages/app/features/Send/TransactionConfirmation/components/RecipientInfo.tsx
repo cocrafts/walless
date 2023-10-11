@@ -30,7 +30,9 @@ export const RecipientInfo: FC<Props> = () => {
 	if (publicKey?.network == Networks.solana) {
 		iconUri.uri = '/img/network/solana-icon-sm.png';
 		networkStr = 'Solana';
-		feeStr = `${transactionFee} ${tokenForFee?.metadata?.symbol ?? 'Unknown'}`;
+		feeStr = `${transactionFee?.toPrecision(7)} ${
+			tokenForFee?.metadata?.symbol ?? 'Unknown'
+		}`;
 	} else if (publicKey?.network == Networks.sui) {
 		iconUri.uri = '/img/network/sui-icon-sm.png';
 		networkStr = 'SUI';

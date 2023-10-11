@@ -15,6 +15,7 @@ declare const WEB3AUTH_ID: string;
 declare const GATEFI_ENDPOINT: string;
 declare const GATEFI_MERCHANT_ID: string;
 declare const GRAPHQL_ENDPOINT: string;
+declare const GASILON_ENDPOINT: string;
 declare const PIXEVERSE_ENDPOINT: string;
 declare const PIXEVERSE_ORIGIN: string;
 declare const PIXEVERSE_URL: string;

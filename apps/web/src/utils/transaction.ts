@@ -224,15 +224,12 @@ const constructTransactionAbstractFeeTemplate = async (
 	const receiverAtaInfo = await connection.getAccountInfo(receiverAta);
 
 	const octaneConfig = (
-		await axios.get(
-			'https://h54f2ajwqf.execute-api.ap-south-1.amazonaws.com/api/gasilon/',
-			{
-				headers: {
-					'Access-Control-Allow-Origin': '*',
-					'Content-Type': 'application/json',
-				},
+		await axios.get(GASILON_ENDPOINT, {
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
 			},
-		)
+		})
 	).data;
 
 	const feePayerPublicKey = new PublicKey(octaneConfig.feePayer);
@@ -243,7 +240,7 @@ const constructTransactionAbstractFeeTemplate = async (
 
 	const instructions = [];
 
-	fee = fee ? parseFloat(fee?.toPrecision(4)) : 1;
+	fee = fee ? parseFloat(fee?.toPrecision(7)) : 1;
 
 	const feePaymentInstruction = createTransferInstruction(
 		senderTokenForFeeAta,
@@ -323,18 +320,15 @@ export const getTransactionAbstractFee = async (
 	const transactionString = base58.encode(transaction.serialize());
 
 	const data = await (
-		await fetch(
-			'https://h54f2ajwqf.execute-api.ap-south-1.amazonaws.com/api/gasilon/solana/getFee',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					transaction: transactionString,
-				}),
+		await fetch(`${GASILON_ENDPOINT}/solana/getFee`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
 			},
-		)
+			body: JSON.stringify({
+				transaction: transactionString,
+			}),
+		})
 	)
 		.json()
 		.then((data) => {

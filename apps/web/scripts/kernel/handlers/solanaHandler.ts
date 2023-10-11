@@ -94,18 +94,15 @@ export const signTransactionAbstractionFee: HandleMethod = async ({
 
 	const txStr = base58.encode(transaction.serialize());
 
-	fetch(
-		'https://h54f2ajwqf.execute-api.ap-south-1.amazonaws.com/api/gasilon/solana/transferV2',
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				transaction: txStr,
-			}),
+	fetch(`${GASILON_ENDPOINT}/solana/transferV2`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
 		},
-	)
+		body: JSON.stringify({
+			transaction: txStr,
+		}),
+	})
 		.then((res) => {
 			res.json().then((data) => {
 				responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {

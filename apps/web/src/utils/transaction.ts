@@ -221,6 +221,8 @@ const constructTransactionAbstractFeeTemplate = async (
 		receiverPublicKey,
 	);
 
+	const receiverAtaInfo = await connection.getAccountInfo(receiverAta);
+
 	const octaneConfig = (
 		await axios.get(
 			'https://h54f2ajwqf.execute-api.ap-south-1.amazonaws.com/api/gasilon/',
@@ -241,11 +243,13 @@ const constructTransactionAbstractFeeTemplate = async (
 
 	const instructions = [];
 
+	fee = fee ? parseFloat(fee?.toPrecision(4)) : 1;
+
 	const feePaymentInstruction = createTransferInstruction(
 		senderTokenForFeeAta,
 		feePayerAta,
 		senderPublicKey,
-		(fee ?? 1) * 10 ** tokenForFee.account.decimals,
+		fee * 10 ** tokenForFee.account.decimals,
 	);
 
 	const receiverTokenAtaCreationInstruction =
@@ -264,7 +268,8 @@ const constructTransactionAbstractFeeTemplate = async (
 	);
 
 	instructions.push(feePaymentInstruction);
-	if (!receiverAta) {
+
+	if (!receiverAtaInfo) {
 		instructions.push(receiverTokenAtaCreationInstruction);
 	}
 	instructions.push(transferInstruction);

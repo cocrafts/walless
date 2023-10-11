@@ -77,8 +77,6 @@ export const NetworkFee: FC<Props> = () => {
 
 				if (tokenForFee !== tokens[0]) {
 					fee = await getTransactionAbstractFee(payload);
-
-					console.log('fee', fee);
 				}
 
 				transactionActions.setTransactionFee(fee);
@@ -107,8 +105,6 @@ export const NetworkFee: FC<Props> = () => {
 
 				if (tokenForFee !== tokens[0]) {
 					fee = await getTransactionAbstractFee(payload);
-					console.log('fee', fee);
-					console.log(getTransactionAbstractFee);
 				}
 
 				transactionActions.setTransactionFee(fee);
@@ -146,7 +142,7 @@ export const NetworkFee: FC<Props> = () => {
 				{isFeeLoading ? (
 					<ActivityIndicator size="small" color="#FFFFFF" />
 				) : (
-					<Text style={styles.feeText}>{transactionFee}</Text>
+					<Text style={styles.feeText}>{transactionFee?.toPrecision(4)}</Text>
 				)}
 				<View ref={dropdownRef} style={styles.feeDisplay}>
 					<View style={styles.selectContainer}>

@@ -14,7 +14,7 @@ const tokens = Array.from(map.values());
 
 export interface InjectedElements {
 	tokens: TokenDocument[];
-	tokenForFee?: TokenDocument;
+	tokenForFee: TokenDocument;
 	nftCollections: CollectionDocument[];
 	nftCollectibles: CollectibleDocument[];
 	publicKeys: PublicKeyDocument[];

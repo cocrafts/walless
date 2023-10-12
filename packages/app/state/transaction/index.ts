@@ -23,8 +23,8 @@ export const transactionActions = {
 	setToken: (token: TokenDocument) => {
 		transactionContext.token = token;
 	},
-	setTokenForFee: (token: TokenDocument) => {
-		transactionContext.tokenForFee = token;
+	setTokenForFee: (tokenForFee: TokenDocument) => {
+		transactionContext.tokenForFee = tokenForFee;
 	},
 	setNftCollection: (collection: CollectionDocument) => {
 		transactionContext.nftCollection = collection;
@@ -56,6 +56,7 @@ export const transactionActions = {
 	resetTransactionContext: () => {
 		transactionContext.type = 'Token';
 		transactionContext.token = undefined;
+		transactionContext.tokenForFee = undefined;
 		transactionContext.nftCollection = undefined;
 		transactionContext.nftCollectible = undefined;
 		transactionContext.sender = '';

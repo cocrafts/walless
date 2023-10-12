@@ -1,4 +1,5 @@
 import { Image, StyleSheet } from 'react-native';
+import { appState } from '@walless/app';
 import { Anchor, Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
@@ -6,10 +7,21 @@ import { useSnapshot } from 'valtio';
 import { transactionContext } from '../../../../state/transaction';
 
 export const Token = () => {
+	const { endpoints } = useSnapshot(appState);
 	const { token, amount, time, status, signatureString } =
 		useSnapshot(transactionContext);
 
 	const iconUri = { uri: token?.metadata?.imageUri };
+
+	let endpoint = 'devnet';
+
+	if (token?.network == 'solana') {
+		endpoint = endpoints.solana;
+	} else if (token?.network == 'sui') {
+		endpoint = endpoints.sui;
+	} else if (token?.network == 'tezos') {
+		endpoint = endpoints.tezos;
+	}
 
 	return (
 		<View style={styles.container}>
@@ -24,7 +36,7 @@ export const Token = () => {
 					<Anchor
 						style={styles.shareButton}
 						title="Share"
-						href={`https://solscan.io/tx/${signatureString}?cluster=devnet`}
+						href={`https://solscan.io/tx/${signatureString}?cluster=${endpoint}`}
 					/>
 				)}
 			</View>

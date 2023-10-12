@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Slider } from '@walless/gui';
 import type { CollectibleDocument } from '@walless/store';
@@ -7,7 +7,10 @@ import type {
 	InjectedElements,
 	TransactionType,
 } from '../../state/transaction';
-import { transactionActions } from '../../state/transaction';
+import {
+	transactionActions,
+	transactionContext,
+} from '../../state/transaction';
 
 import { sendScreens } from './shared';
 
@@ -33,23 +36,25 @@ export const SendFeature: FC<Props> = ({
 	getTransactionResult,
 	onSendNftSuccess,
 }) => {
-	transactionActions.injectRequiredElements({
-		tokens: tokens,
-		tokenForFee: tokens[0],
-		nftCollections: nftCollections,
-		nftCollectibles: nftCollectibles,
-		publicKeys: publicKeys,
-		getTransactionFee,
-		getTransactionAbstractFee,
-		handleClose: () => {
-			onClose();
-			transactionActions.resetTransactionContext();
-		},
-		checkValidAddress,
-		createAndSendTransaction,
-		getTransactionResult,
-		handleSendNftSuccess: onSendNftSuccess,
-	});
+	useEffect(() => {
+		transactionActions.injectRequiredElements({
+			tokens: tokens,
+			tokenForFee: tokens[0],
+			nftCollections: nftCollections,
+			nftCollectibles: nftCollectibles,
+			publicKeys: publicKeys,
+			getTransactionFee,
+			getTransactionAbstractFee,
+			handleClose: () => {
+				onClose();
+				transactionActions.resetTransactionContext();
+			},
+			checkValidAddress,
+			createAndSendTransaction,
+			getTransactionResult,
+			handleSendNftSuccess: onSendNftSuccess,
+		});
+	}, []);
 
 	if (type) transactionActions.setType(type);
 	if (initCollectible) {

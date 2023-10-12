@@ -95,7 +95,7 @@ export const createAndSend = async (
 	passcode?: string,
 ) => {
 	const transaction =
-		payload.token.metadata?.symbol === 'SOL'
+		payload.tokenForFee.metadata?.symbol === 'SOL'
 			? await constructTransaction(payload)
 			: await constructTransactionAbstractFee(payload);
 
@@ -103,7 +103,7 @@ export const createAndSend = async (
 
 	if (transaction instanceof VersionedTransaction) {
 		res =
-			payload.token.metadata?.symbol === 'SOL'
+			payload.tokenForFee.metadata?.symbol === 'SOL'
 				? await requestHandleTransaction({
 						type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
 						transaction: encode(transaction.serialize()),

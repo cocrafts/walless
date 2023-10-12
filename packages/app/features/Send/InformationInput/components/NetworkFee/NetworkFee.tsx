@@ -34,8 +34,6 @@ export const NetworkFee: FC<Props> = () => {
 	const { tokens, getTransactionFee, getTransactionAbstractFee } =
 		useSnapshot(injectedElements);
 
-	const [tokenForFee, setTokenForFee] = useState<Token>(tokens[0] as Token);
-
 	const {
 		type,
 		token,
@@ -45,56 +43,54 @@ export const NetworkFee: FC<Props> = () => {
 		sender,
 		amount,
 		nftCollectible,
+		tokenForFee,
 	} = useSnapshot(transactionContext);
 
-	const payload: TransactionPayload = {
-		sender: sender,
-		receiver: receiver,
-		tokenForFee: tokenForFee as Token,
-		amount: parseFloat(amount ?? '1'),
-		token: token as Token,
-		network: token?.network as Networks,
-	};
-
-	const handleSetTokenFee = (tokenForFee?: Token) => {
-		if (!tokenForFee) {
-			setTokenForFee(tokens[0] as Token);
-		} else {
-			setTokenForFee(tokenForFee);
-			setIsDropped(false);
-			transactionActions.setTokenForFee(tokenForFee as TokenDocument);
-		}
+	const handleSetTokenFee = (tokenForFee: Token) => {
+		transactionActions.setTokenForFee(tokenForFee as TokenDocument);
 	};
 
 	const dropdownRef = useRef(null);
 
 	useEffect(() => {
+		if (!tokenForFee) {
+			transactionActions.setTokenForFee(tokens[0] as TokenDocument);
+		}
+
 		(async () => {
-			if (!payload.receiver) {
+			const payload: TransactionPayload = {
+				sender: sender,
+				receiver: receiver,
+				tokenForFee: tokenForFee as Token,
+				amount: type === 'Token' ? parseFloat(amount ?? '0') : 1,
+				token:
+					type === 'Token' ? (token as Token) : (nftCollectible as Collectible),
+				network: token?.network as Networks,
+			};
+
+			if (payload.receiver === '' || payload.amount === 0) {
 				transactionActions.setTransactionFee(0);
 				return;
 			}
 
 			if (type === 'Token' && token?.network) {
 				setIsFeeLoading(true);
-
 				let fee = await getTransactionFee(token.network as Networks);
-				if (tokenForFee !== tokens[0]) {
+
+				if (tokenForFee?.metadata?.symbol !== 'SOL') {
 					fee = await getTransactionAbstractFee(payload);
 				}
-				transactionActions.setTransactionFee(fee);
+				transactionActions.setTransactionFee(parseFloat(fee.toPrecision(7)));
 
 				setIsFeeLoading(false);
 			} else if (type === 'Collectible' && nftCollection?.network) {
 				setIsFeeLoading(true);
 
-				payload.token = nftCollectible as Collectible;
-
 				let fee = await getTransactionFee(nftCollection.network as Networks);
-				if (tokenForFee !== tokens[0]) {
+				if (tokenForFee?.metadata?.symbol !== 'SOL') {
 					fee = await getTransactionAbstractFee(payload);
 				}
-				transactionActions.setTransactionFee(fee);
+				transactionActions.setTransactionFee(parseFloat(fee.toPrecision(7)));
 
 				setIsFeeLoading(false);
 			} else transactionActions.setTransactionFee(0);
@@ -187,11 +183,6 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: '#FFFFFF',
 	},
-	equalText: {
-		fontWeight: '400',
-		fontSize: 12,
-		color: '#566674',
-	},
 	feeDisplay: {
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -213,18 +204,7 @@ const styles = StyleSheet.create({
 		height: 12,
 		borderRadius: 12,
 	},
-	dropdown: {
-		position: 'absolute',
-		width: 50,
-		top: 20,
-		backgroundColor: '#566674',
-		borderRadius: 8,
-	},
 	selectedToken: {
 		color: '#ffffff',
-	},
-	tokenOption: {
-		borderRadius: 8,
-		padding: 4,
 	},
 });

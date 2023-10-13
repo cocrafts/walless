@@ -18,7 +18,7 @@ export const throttle = pThrottle({ limit: 4, interval: 1000 });
 
 export interface ICoin {
 	coinType: string;
-	balance: string;
+	totalBalance: string;
 }
 
 interface ConnectionOptions {
@@ -26,8 +26,6 @@ interface ConnectionOptions {
 	websocket?: string;
 	faucet?: string;
 }
-
-export const suiCoinType = '0x2::sui::SUI';
 
 export const suiEndpoints: Record<string, ConnectionOptions> = {
 	devnet: {

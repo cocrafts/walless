@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { InvitationFeature } from '@walless/app';
+import { validateInvitationCode } from '@walless/auth';
+import { appState } from 'state/app';
 import { navigate } from 'utils/navigation';
 
 export const InvitationScreen: FC = () => {
@@ -9,7 +11,17 @@ export const InvitationScreen: FC = () => {
 	const logoSrc = require('assets/img/icon.png');
 
 	const onInvitationCodeChange = async (value: string) => {
-		console.log(value);
+		if (invitationError && value.length > 0) {
+			setInvitationError(undefined);
+		}
+
+		try {
+			const code = await validateInvitationCode(value);
+			appState.invitationCode = code;
+			navigate('Authentication', { screen: 'Login' });
+		} catch (err) {
+			setInvitationError((err as Error).message);
+		}
 	};
 
 	const handleLoginPress = () => {

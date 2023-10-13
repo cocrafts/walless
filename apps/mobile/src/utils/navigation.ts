@@ -105,7 +105,7 @@ export const navigate = (
 	params?: RootParamList[keyof RootParamList],
 ) => {
 	if (navigationRef.isReady()) {
-		navigationRef.navigate(name as never, params as never);
+		navigationRef.navigate(name, params as never);
 	}
 };
 

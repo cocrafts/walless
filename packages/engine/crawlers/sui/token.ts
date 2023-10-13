@@ -1,4 +1,3 @@
-import type { SuiObjectData } from '@mysten/sui.js';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 
@@ -9,19 +8,18 @@ export const getTokenDocument = async (
 	context: SuiContext,
 	owner: string,
 	coin: ICoin,
-	object: SuiObjectData,
 ): Promise<TokenDocument> => {
 	const { endpoint } = context;
 
 	return {
-		_id: `${owner}/${object.objectId}`,
+		_id: `${owner}/${coin.coinType}`,
 		type: 'Token',
 		network: Networks.sui,
 		endpoint,
 		account: {
 			mint: coin.coinType,
 			address: endpoint,
-			balance: coin.balance,
+			balance: coin.totalBalance,
 			decimals: 9,
 		},
 		metadata: await getMetadata(context, coin),

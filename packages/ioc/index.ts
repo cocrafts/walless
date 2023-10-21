@@ -40,11 +40,6 @@ export interface UniversalAsset {
 			cardMark?: ImageSourcePropType;
 			cardBackground: ImageSourcePropType;
 		};
-		ethereum: {
-			cardIcon: ImageSourcePropType;
-			cardMark?: ImageSourcePropType;
-			cardBackground: ImageSourcePropType;
-		};
 	};
 }
 

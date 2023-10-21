@@ -10,7 +10,6 @@ import {
 	checkValidAddress,
 	createAndSend,
 	getTransactionFee,
-	getTransactionResult,
 } from 'utils/transaction';
 
 interface ModalContext {
@@ -24,6 +23,10 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const { collectibles, collections } = useNfts(layoutNetwork);
 	const addressList = usePublicKeys();
 
+	const handleClose = () => {
+		modalActions.hide(config.id as string);
+	};
+
 	return (
 		<View style={styles.container}>
 			<SendFeature
@@ -33,10 +36,9 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				nftCollectibles={collectibles}
 				publicKeys={addressList}
 				getTransactionFee={getTransactionFee}
-				onClose={() => modalActions.hide(config.id as string)}
+				onClose={handleClose}
 				checkValidAddress={checkValidAddress}
 				createAndSendTransaction={createAndSend}
-				getTransactionResult={getTransactionResult}
 			/>
 		</View>
 	);

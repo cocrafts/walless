@@ -1,12 +1,11 @@
-import { Ed25519Keypair, TransactionBlock } from '@mysten/sui.js';
+import { TransactionBlock } from '@mysten/sui.js';
 import {
 	createAssociatedTokenAccountInstruction,
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
-import type { VersionedMessage } from '@solana/web3.js';
+import type { Connection } from '@solana/web3.js';
 import {
-	Connection,
 	Keypair,
 	LAMPORTS_PER_SOL,
 	PublicKey,
@@ -26,63 +25,6 @@ import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
 import { encode } from 'bs58';
-
-const sampleKeypair = Keypair.generate();
-const suiSampleKeypair = Ed25519Keypair.generate();
-
-let solConn: Connection | undefined;
-export const getSolanaConnection = async () => {
-	if (solConn) return solConn;
-	else {
-		const endpoint = (
-			await requestHandleTransaction({
-				type: RequestType.GET_ENDPOINT_ON_SOLANA,
-			})
-		).endpoint;
-
-		console.log(`Init solana connection, endpoint: ${endpoint}`);
-
-		solConn = new Connection(endpoint);
-		return solConn;
-	}
-};
-
-// These methods must be implemented by sync connection
-export const getLatestBlockhashOnSolana = async () => {
-	const conn = await getSolanaConnection();
-	return await conn.getLatestBlockhash().then((res) => res.blockhash);
-};
-
-export const getFeeForMessageOnSolana = async (message: VersionedMessage) => {
-	const conn = await getSolanaConnection();
-	return (await conn.getFeeForMessage(message)).value || 0;
-};
-
-export const getParsedTransactionOnSolana = async (signature: string) => {
-	const conn = await getSolanaConnection();
-	return await conn.getParsedTransaction(signature, {
-		maxSupportedTransactionVersion: 0,
-	});
-};
-
-export const getTransactionResult = async (
-	signature: string,
-	network: Networks,
-) => {
-	let time;
-	if (network == Networks.solana) {
-		const parsedTransaction = await getParsedTransactionOnSolana(signature);
-		const blockTime = parsedTransaction?.blockTime;
-
-		if (blockTime) time = new Date(blockTime);
-	}
-
-	return {
-		time,
-	};
-};
-
-// ---------------------------------------------------------
 
 export const createAndSend = async (
 	payload: TransactionPayload,
@@ -114,12 +56,49 @@ export const createAndSend = async (
 	return res as ResponsePayload;
 };
 
-export const getWalletPublicKey = async (network: Networks) => {
-	return (
-		await modules.storage.find({
-			selector: { network: network },
-		})
-	).docs[0]._id;
+export const checkValidAddress = (keyStr: string, network: Networks) => {
+	try {
+		if (network == Networks.solana) {
+			new PublicKey(keyStr);
+			return { valid: true, message: '' };
+		} else if (network == Networks.sui) {
+			return { valid: true, message: '' };
+		} else if (network == Networks.tezos) {
+			return { valid: true, message: '' };
+		}
+		return { valid: false, message: 'Unsupported network ' + network };
+	} catch (error) {
+		return { valid: false, message: (error as Error).message };
+	}
+};
+
+export const getTransactionFee = async (network: Networks) => {
+	if (network == Networks.solana) {
+		const connection = modules.engine.getConnection(network) as Connection;
+		const sampleKeypair = Keypair.generate();
+		const instructions = [
+			SystemProgram.transfer({
+				fromPubkey: sampleKeypair.publicKey,
+				toPubkey: sampleKeypair.publicKey,
+				lamports: LAMPORTS_PER_SOL / 10,
+			}),
+		];
+
+		const message = new TransactionMessage({
+			payerKey: sampleKeypair.publicKey,
+			recentBlockhash: (await connection.getLatestBlockhash('finalized'))
+				.blockhash,
+			instructions,
+		}).compileToV0Message();
+
+		return (
+			((await connection.getFeeForMessage(message)).value || 0) /
+			LAMPORTS_PER_SOL
+		);
+	} else if (network == Networks.sui) {
+		// TODO: calculate fee on SUI
+		return 0;
+	} else return 0;
 };
 
 type SendTokenProps = {
@@ -130,7 +109,7 @@ type SendTokenProps = {
 	amount: number;
 };
 
-export const constructTransaction = async ({
+const constructTransaction = async ({
 	sender,
 	token,
 	network,
@@ -142,14 +121,17 @@ export const constructTransaction = async ({
 		: 1;
 
 	if (network == Networks.solana) {
+		const connection = modules.engine.getConnection(network) as Connection;
 		if (token.metadata?.symbol == 'SOL') {
 			return await constructSendSOLTransaction(
+				connection,
 				new PublicKey(sender),
 				new PublicKey(receiver),
 				amount * decimals,
 			);
 		} else if (token.network == Networks.solana) {
 			return await constructSendSPLTokenTransactionInSol(
+				connection,
 				new PublicKey(sender),
 				new PublicKey(receiver),
 				amount * decimals,
@@ -169,56 +151,8 @@ export const constructTransaction = async ({
 	throw Error('Network or Token is not supported');
 };
 
-export const checkValidAddress = (keyStr: string, network: Networks) => {
-	try {
-		if (network == Networks.solana) {
-			new PublicKey(keyStr);
-			return { valid: true, message: '' };
-		} else if (network == Networks.sui) {
-			return { valid: true, message: '' };
-		} else if (network == Networks.tezos) {
-			return { valid: true, message: '' };
-		}
-		return { valid: false, message: 'Unsupported network ' + network };
-	} catch (error) {
-		return { valid: false, message: (error as Error).message };
-	}
-};
-
-export const getTransactionFee = async (network: Networks) => {
-	if (network == Networks.solana) {
-		const instructions = [
-			SystemProgram.transfer({
-				fromPubkey: sampleKeypair.publicKey,
-				toPubkey: sampleKeypair.publicKey,
-				lamports: LAMPORTS_PER_SOL / 10,
-			}),
-		];
-
-		const message = new TransactionMessage({
-			payerKey: sampleKeypair.publicKey,
-			recentBlockhash: await getLatestBlockhashOnSolana(),
-			instructions,
-		}).compileToV0Message();
-
-		return ((await getFeeForMessageOnSolana(message)) || 0) / LAMPORTS_PER_SOL;
-	} else if (network == Networks.sui) {
-		const tx = new TransactionBlock();
-
-		const amount = 0.1;
-
-		const [coin] = tx.splitCoins({ kind: 'GasCoin' }, [tx.pure(amount)]);
-
-		tx.transferObjects(
-			[coin],
-			tx.pure(suiSampleKeypair.getPublicKey().toSuiAddress()),
-		);
-
-		return 0;
-	} else return 0;
-};
-
 const constructSendSOLTransaction = async (
+	connection: Connection,
 	sender: PublicKey,
 	receiver: PublicKey,
 	amount: number,
@@ -231,7 +165,8 @@ const constructSendSOLTransaction = async (
 		}),
 	];
 
-	const blockhash = await getLatestBlockhashOnSolana();
+	const blockhash = (await connection.getLatestBlockhash('finalized'))
+		.blockhash;
 
 	const message = new TransactionMessage({
 		payerKey: new PublicKey(sender),
@@ -243,50 +178,41 @@ const constructSendSOLTransaction = async (
 };
 
 const constructSendSPLTokenTransactionInSol = async (
+	connection: Connection,
 	sender: PublicKey,
 	receiver: PublicKey,
 	amount: number,
 	token: Token | Collectible,
 ) => {
 	const mintAddress = new PublicKey(token.account.mint as string);
-
-	const AssociatedAddressOfSender = getAssociatedTokenAddressSync(
-		mintAddress,
-		sender,
-	);
-	const AssociatedAddressOfReceiver = getAssociatedTokenAddressSync(
+	const senderATAddress = getAssociatedTokenAddressSync(mintAddress, sender);
+	const ReceiverATAddress = getAssociatedTokenAddressSync(
 		mintAddress,
 		receiver,
 	);
-
-	const conn = await getSolanaConnection();
-	const associatedAccountOfReceiver = await conn.getAccountInfo(
-		AssociatedAddressOfReceiver,
-	);
+	const receiverATA = await connection.getAccountInfo(ReceiverATAddress);
 
 	const instructions = [];
-
-	if (!associatedAccountOfReceiver) {
-		instructions.push(
-			createAssociatedTokenAccountInstruction(
-				sender,
-				AssociatedAddressOfReceiver,
-				receiver,
-				mintAddress,
-			),
+	if (!receiverATA) {
+		const createATAInstruction = createAssociatedTokenAccountInstruction(
+			sender,
+			ReceiverATAddress,
+			receiver,
+			mintAddress,
 		);
+		instructions.push(createATAInstruction);
 	}
 
-	instructions.push(
-		createTransferInstruction(
-			AssociatedAddressOfSender,
-			AssociatedAddressOfReceiver,
-			sender,
-			amount,
-		),
+	const transferInstruction = createTransferInstruction(
+		senderATAddress,
+		ReceiverATAddress,
+		sender,
+		amount,
 	);
+	instructions.push(transferInstruction);
 
-	const blockhash = await getLatestBlockhashOnSolana();
+	const blockhash = (await connection.getLatestBlockhash('finalized'))
+		.blockhash;
 
 	const message = new TransactionMessage({
 		payerKey: new PublicKey(sender),

@@ -29,7 +29,6 @@ export const SendFeature: FC<Props> = ({
 	getTransactionFee,
 	checkValidAddress,
 	createAndSendTransaction,
-	getTransactionResult,
 	onSendNftSuccess,
 }) => {
 	transactionActions.injectRequiredElements({
@@ -44,7 +43,6 @@ export const SendFeature: FC<Props> = ({
 		},
 		checkValidAddress,
 		createAndSendTransaction,
-		getTransactionResult,
 		handleSendNftSuccess: onSendNftSuccess,
 	});
 

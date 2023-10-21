@@ -73,7 +73,6 @@ export const transactionActions = {
 		injectedElements.checkValidAddress = elements.checkValidAddress;
 		injectedElements.createAndSendTransaction =
 			elements.createAndSendTransaction;
-		injectedElements.getTransactionResult = elements.getTransactionResult;
 		injectedElements.handleSendNftSuccess = elements.handleSendNftSuccess;
 	},
 };

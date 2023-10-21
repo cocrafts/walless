@@ -2,6 +2,7 @@ import { ImageBackground, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
 import { members, recruitments } from './internal';
+import Introduction from './Introduction';
 import MemberCard from './MemberCard';
 import RecruitmentCard from './RecruitmentCard';
 
@@ -15,58 +16,7 @@ const AboutUsFeature = () => {
 			>
 				<Text style={styles.title}>Our Team</Text>
 			</ImageBackground>
-			<View style={styles.introductionContainer}>
-				<View style={styles.introductionLeftPart}>
-					<View style={styles.introductionTextContainer}>
-						<Text style={styles.introductionText}>
-							Walless is a humble startup, we’re looking for curious,
-							enthusiastic developer who believe on the future of web3, and want
-							to shape it your way.
-						</Text>
-					</View>
-
-					<Text>Our team</Text>
-				</View>
-				<View style={styles.introductionRightPart}>
-					<View style={styles.valueContainer}>
-						<View style={styles.valueBlock}>
-							<Text style={styles.valueTitle}>Our value</Text>
-							<Text style={styles.valueContent}>
-								Walless operate in the Tribe model, we care more about your
-								personality than skills, we’ll become super-star together
-								instead of take it for granted. Flat structure - everyone is
-								peers, no layers, no boss, no decision making monopoly power. We
-								want a builder with dare to explore mindset!
-							</Text>
-						</View>
-						<View style={styles.valueBlock}>
-							<Text style={styles.valueTitle}>Our value</Text>
-							<Text style={styles.valueContent}>
-								Walless operate in the Tribe model, we care more about your
-								personality than skills, we’ll become super-star together
-								instead of take it for granted. Flat structure - everyone is
-								peers, no layers, no boss, no decision making monopoly power. We
-								want a builder with dare to explore mindset!
-							</Text>
-						</View>
-						<View style={styles.valueBlock}>
-							<Text style={styles.valueTitle}>Our value</Text>
-							<Text style={styles.valueContent}>
-								Walless operate in the Tribe model, we care more about your
-								personality than skills, we’ll become super-star together
-								instead of take it for granted. Flat structure - everyone is
-								peers, no layers, no boss, no decision making monopoly power. We
-								want a builder with dare to explore mindset!
-							</Text>
-						</View>
-					</View>
-					<View style={styles.subpart}>
-						<Text>8 members</Text>
-						<Text>2023</Text>
-					</View>
-				</View>
-				<View style={styles.separateLine} />
-			</View>
+			<Introduction />
 			<View style={styles.membersContainer}>
 				{members.map((item, idx) => (
 					<MemberCard key={idx} {...item} />
@@ -106,60 +56,6 @@ const styles = StyleSheet.create({
 		fontSize: 60,
 		fontWeight: '500',
 		color: '#ffffff',
-	},
-	introductionTextContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		minHeight: 500,
-	},
-	introductionText: {
-		color: '#ffffff',
-		fontSize: 40,
-		fontWeight: '500',
-		lineHeight: 60,
-	},
-	introductionContainer: {
-		flexDirection: 'row',
-		gap: 40,
-	},
-	introductionLeftPart: {
-		flex: 1,
-		height: '100%',
-	},
-	introductionRightPart: {
-		flex: 1,
-		height: '100%',
-	},
-	valueContainer: {
-		gap: 20,
-		minHeight: 500,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	valueBlock: {
-		gap: 6,
-	},
-	valueTitle: {
-		fontWeight: '600',
-		color: '#798997',
-		fontSize: 16,
-	},
-	valueContent: {
-		color: '#566674',
-		fontSize: 16,
-		lineHeight: 24,
-	},
-	subpart: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-	},
-	separateLine: {
-		position: 'absolute',
-		width: '100%',
-		height: 1,
-		backgroundColor: '#ffffff',
-		top: 492,
 	},
 	membersContainer: {
 		flexDirection: 'row',

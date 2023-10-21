@@ -48,7 +48,7 @@ const MemberCard: FC<MemberProps> = ({
 					</View>
 					<View>
 						<Text style={styles.nameText}>{name}</Text>
-						<Text style={styles.positionsText}>
+						<Text style={styles.smallText}>
 							{positions.map((item) => {
 								if (item === positions[0]) {
 									return item;
@@ -59,7 +59,7 @@ const MemberCard: FC<MemberProps> = ({
 						</Text>
 					</View>
 					<View style={styles.separatedLine} />
-					<Text style={styles.positionsText}>{description}</Text>
+					<Text style={styles.smallText}>{description}</Text>
 					<View style={styles.socialContainer}>
 						{socials.map((item, idx) => (
 							<SocialCard key={idx} image={item.image} url={item.url} />
@@ -97,10 +97,7 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		color: '#ffffff',
 	},
-	infoContainer: {
-		alignSelf: 'flex-end',
-	},
-	positionsText: {
+	smallText: {
 		color: '#ffffff',
 	},
 	separatedLine: {

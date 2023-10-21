@@ -26,7 +26,7 @@ export const members: MemberProps[] = [
 	{
 		name: 'Zang',
 		positions: ['Co-founder', 'CEO'],
-		avatar: '/img/members/zang.jpeg',
+		avatar: '/img/members/zang2.jpeg',
 		description:
 			'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the',
 		socials: [
@@ -43,7 +43,7 @@ export const members: MemberProps[] = [
 	{
 		name: "Long 'Leo' Pham",
 		positions: ['Strategic Advisor'],
-		avatar: '/img/members/zang.jpeg',
+		avatar: '/img/members/zang2.jpeg',
 		description:
 			'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the',
 		socials: [
@@ -94,7 +94,7 @@ export const members: MemberProps[] = [
 	{
 		name: 'Tuan Tran',
 		positions: ['Full-stack developer'],
-		avatar: '/img/members/zang.jpeg',
+		avatar: '/img/members/zang2.jpeg',
 		description:
 			'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the',
 		socials: [
@@ -115,7 +115,7 @@ export const members: MemberProps[] = [
 	{
 		name: 'Tan Le',
 		positions: ['Full-stack developer'],
-		avatar: '/img/members/zang.jpeg',
+		avatar: '/img/members/zang2.jpeg',
 		description:
 			'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the',
 		socials: [

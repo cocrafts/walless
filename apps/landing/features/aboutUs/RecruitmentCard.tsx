@@ -47,9 +47,9 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 	},
 	title: {
-		flex: 0.3,
 		color: '#ffffff',
-		fontSize: 48,
+		fontSize: 40,
+		width: '40%',
 		maxWidth: 400,
 	},
 	contentContainer: {

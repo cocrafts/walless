@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { ActivityIndicator } from 'react-native';
 import type { UnknownObject } from '@walless/core';
 import { AlertCircle } from '@walless/icons';
-import { Button, Image, Stack, Text } from '@walless/ui';
+import { Button, Image, ScrollView, Stack, Text } from '@walless/ui';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 
@@ -45,7 +45,8 @@ export const RequestSignatureApproval: FC<Props> = ({
 					<LightText fontSize={14}>{sender.tab?.url}</LightText>
 				</Stack>
 
-				<Stack
+				<ScrollView
+					maxHeight={220}
 					backgroundColor="#202D38"
 					borderRadius={15}
 					marginVertical={15}
@@ -66,7 +67,7 @@ export const RequestSignatureApproval: FC<Props> = ({
 					<LightText paddingHorizontal={15} paddingBottom={15} fontSize={14}>
 						{content ? content : <ActivityIndicator />}
 					</LightText>
-				</Stack>
+				</ScrollView>
 
 				<Stack flex={1} justifyContent="flex-end" paddingHorizontal={10}>
 					<LightText fontSize={14} textAlign="center">

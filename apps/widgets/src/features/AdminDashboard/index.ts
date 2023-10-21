@@ -1,0 +1,1 @@
+export { WidgetInfo } from './WidgetInfo';

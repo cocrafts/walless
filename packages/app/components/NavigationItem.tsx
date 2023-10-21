@@ -3,7 +3,10 @@ import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import Link from 'next/link';
 
-import { type NavigationItemProps } from '.';
+export interface NavigationItemProps {
+	title: string;
+	href: string;
+}
 
 interface Props {
 	isActive: boolean;

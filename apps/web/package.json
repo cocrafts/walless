@@ -29,7 +29,6 @@
     "@walless/ioc": "*",
     "@walless/markdown": "*",
     "@walless/messaging": "*",
-    "@walless/network": "*",
     "@walless/sdk": "*",
     "@walless/store": "*",
     "@walless/ui": "*",

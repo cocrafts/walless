@@ -1,0 +1,27 @@
+{
+    "name": "@walless/kernel",
+    "version": "0.0.1",
+    "main": "index.ts",
+    "types": "./index.ts",
+    "license": "MIT",
+    "scripts": {
+        "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+    },
+    "dependencies": {
+        "@walless/core": "*",
+        "@walless/crypto": "*",
+        "@walless/ioc": "*",
+        "@walless/store": "*",
+        "tweetnacl": "^1.0.3",
+        "@mysten/sui.js": "0.34.0"
+    },
+    "devDependencies": {
+        "eslint": "8.38.0"
+    },
+    "peerDependencies": {
+        "@solana/web3.js": "1.78.4",
+        "bs58": "5.0.0",
+        "@taquito/signer": "^16.2.0",
+        "@taquito/taquito": "^16.2.0"
+    }
+}

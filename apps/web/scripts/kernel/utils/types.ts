@@ -7,11 +7,7 @@ export type HandleMethodProps = {
 	responseMethod: ResponseMethod;
 };
 
-export type HandleMethod = ({
-	privateKey,
-	payload,
-	responseMethod,
-}: HandleMethodProps) => void;
+export type HandleMethod = (props: HandleMethodProps) => void;
 
 export type ResponseMethod = (
 	to: string,

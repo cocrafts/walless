@@ -1,8 +1,9 @@
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
-import type { LayoutRectangle, ViewStyle } from 'react-native';
-import type { SharedValue } from 'react-native-reanimated';
+import type { LayoutRectangle, View, ViewStyle } from 'react-native';
+import type { AnimatedStyleProp, SharedValue } from 'react-native-reanimated';
 import {
+	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
@@ -41,17 +42,15 @@ export const ItemContainer: FC<Props> = ({
 		height,
 	};
 
-	const animatedStyle = useAnimatedStyle(
-		() =>
-			animator({
-				offset: animatedOffset,
-				progress,
-				index,
-				activatedIndex,
-				layout: containerLayout,
-			}),
-		[animatedOffset, progress, activatedIndex, containerLayout],
-	);
+	const animatedStyle = useAnimatedStyle(() => {
+		return runOnJS(animator)({
+			offset: animatedOffset,
+			progress,
+			index,
+			activatedIndex,
+			layout: containerLayout,
+		}) as unknown as AnimatedStyleProp<ViewStyle>;
+	}, [animatedOffset, progress, activatedIndex, containerLayout]);
 
 	useEffect(() => {
 		progress.value = withTiming(index === activatedIndex ? 1 : 0, {
@@ -60,7 +59,13 @@ export const ItemContainer: FC<Props> = ({
 	}, [activatedIndex]);
 
 	return (
-		<AnimatedView style={[style, sizedStyle, animatedStyle]}>
+		<AnimatedView
+			style={[
+				style as AnimatedStyleProp<ViewStyle>,
+				sizedStyle as AnimatedStyleProp<ViewStyle>,
+				animatedStyle,
+			]}
+		>
 			{children}
 		</AnimatedView>
 	);

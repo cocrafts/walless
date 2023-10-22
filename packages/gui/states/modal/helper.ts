@@ -71,8 +71,8 @@ export const rectangleBind = async (
 	const result: LayoutRectangle = {
 		x: target.x + (target.width / 2 - current.width / 2) /* <- middle */,
 		y: target.y + (target.height / 2 - current.height / 2) /* <- center */,
-		width: current.width,
-		height: current.height,
+		width: target.width,
+		height: target.height,
 	};
 
 	if (direction === BindDirections.Top) {

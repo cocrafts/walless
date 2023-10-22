@@ -11,6 +11,7 @@ import type { Networks } from '@walless/core';
 import MainFeatureButtons from '../../components/MainFeatureButtons';
 import TokenList from '../../components/TokenList';
 import WalletCard from '../../components/WalletCard';
+import { copy } from '../../utils';
 import { useSafeAreaInsets } from '../../utils/hooks';
 import { usePublicKeys, useTokens } from '../../utils/hooks';
 import { showSendModal } from '../../utils/modal';
@@ -39,7 +40,10 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressSend = () => {
-		showSendModal();
+		console.log(tokens, '<-- tokens');
+		showSendModal({
+			layoutNetwork: id as Networks,
+		});
 	};
 
 	const listHeader = (
@@ -55,6 +59,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 							skin={cardSkin}
 							hideBalance={false}
 							width={headerLayout.width}
+							onCopyAddress={copy}
 						/>
 					);
 				})}

@@ -67,8 +67,8 @@ export default SendFeature;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		flexDirection: 'row',
-		height: 576,
 	},
 	slideContainer: {
 		flex: 1,

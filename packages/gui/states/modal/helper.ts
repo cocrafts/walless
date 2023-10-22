@@ -41,7 +41,7 @@ export const measureRelative = async (
 export const guardRectangleInside = async (
 	rectangle: LayoutRectangle,
 	targetRef: RefObject<View>,
-	padding = 5,
+	padding = 5, // auto add padding to modal container
 ): Promise<LayoutRectangle> => {
 	const guarded = { ...rectangle };
 	const target = await measure(targetRef);
@@ -140,7 +140,9 @@ export const rectangleBind = async (
 		result.y += offset.y || 0;
 	}
 
-	return guardRectangleInside(result, referenceMap.root);
+	// return guardRectangleInside(result, referenceMap.root);
+	// not use guard to make modal full-screen
+	return result;
 };
 
 export const rectangleAnimatedStyle = (

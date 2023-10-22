@@ -1,19 +1,24 @@
 import { TransactionBlock } from '@mysten/sui.js';
 import {
+	ACCOUNT_SIZE,
 	createAssociatedTokenAccountInstruction,
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
 import type { Connection } from '@solana/web3.js';
 import {
-	Keypair,
 	LAMPORTS_PER_SOL,
 	PublicKey,
 	SystemProgram,
 	TransactionMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
-import type { Collectible, TezosTransaction, Token } from '@walless/core';
+import type {
+	Collectible,
+	TezosTransaction,
+	Token,
+	TransactionPayload,
+} from '@walless/core';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 
@@ -33,31 +38,42 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 	}
 };
 
-export const getTransactionFee = async (network: Networks) => {
-	if (network == Networks.solana) {
-		const connection = modules.engine.getConnection(network) as Connection;
-		const sampleKeypair = Keypair.generate();
-		const instructions = [
-			SystemProgram.transfer({
-				fromPubkey: sampleKeypair.publicKey,
-				toPubkey: sampleKeypair.publicKey,
-				lamports: LAMPORTS_PER_SOL / 10,
-			}),
-		];
+export const getTransactionFee = async (payload: TransactionPayload) => {
+	const transaction = await constructTransaction(payload);
 
-		const message = new TransactionMessage({
-			payerKey: sampleKeypair.publicKey,
-			recentBlockhash: (await connection.getLatestBlockhash('finalized'))
-				.blockhash,
-			instructions,
-		}).compileToV0Message();
+	if (payload.network == Networks.solana) {
+		const connection = modules.engine.getConnection(
+			Networks.solana,
+		) as Connection;
+		const message = (transaction as VersionedTransaction).message;
+		const transactionFeePromise = connection
+			.getFeeForMessage(message)
+			.then((res) => res.value || 0);
 
-		return (
-			((await connection.getFeeForMessage(message)).value || 0) /
-			LAMPORTS_PER_SOL
-		);
-	} else if (network == Networks.sui) {
-		// TODO: calculate fee on SUI
+		const rentFeePromise = (async () => {
+			if (payload.token.metadata?.symbol == 'SOL') return 0;
+			const receiverATAddress = getAssociatedTokenAddressSync(
+				new PublicKey(payload.token.account.mint as string),
+				new PublicKey(payload.receiver),
+			);
+
+			const receiverATAccount =
+				await connection.getAccountInfo(receiverATAddress);
+
+			if (!receiverATAccount) {
+				return await connection.getMinimumBalanceForRentExemption(ACCOUNT_SIZE);
+			}
+
+			return 0;
+		})();
+
+		const [txFee, rentFee] = await Promise.all([
+			transactionFeePromise,
+			rentFeePromise,
+		]);
+
+		return (txFee + rentFee || 0) / LAMPORTS_PER_SOL;
+	} else if (payload.network == Networks.sui) {
 		return 0;
 	} else return 0;
 };

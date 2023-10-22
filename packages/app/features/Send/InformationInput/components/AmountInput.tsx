@@ -20,13 +20,12 @@ export const AmountInput: FC = () => {
 		balance = parseFloat(token.account.balance) / 10 ** token.account.decimals;
 	}
 
-	const handlerBlur = (e: UnknownObject) => {
-		if (token && e.target.value.length > 0) {
-			const amount = parseFloat(e.target.value);
-			if (isNaN(amount)) {
+	const handlerBlur = () => {
+		if (token && amount) {
+			if (isNaN(Number(amount))) {
 				setErrorText('Invalid amount number');
 			} else if (balance) {
-				if (amount > balance) {
+				if (Number(amount) > balance) {
 					setErrorText('Your balance is not enough');
 				} else {
 					setErrorText('');

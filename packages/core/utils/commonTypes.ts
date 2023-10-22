@@ -76,3 +76,19 @@ export enum Timeout {
 	thirtySeconds = 30000,
 	sixtySeconds = 60000,
 }
+
+export interface Transaction {
+	id: string;
+	signature: string;
+	network: Networks;
+	type: 'sent' | 'received';
+	status: 'success' | 'pending' | 'failed';
+	sender: string;
+	receiver: string;
+	token: Omit<Token, 'account'> | Omit<Collectible, 'account' | 'collectionId'>;
+	fee: number;
+	preBalance?: number;
+	postBalance?: number;
+	amount: number;
+	date: Date;
+}

@@ -5,6 +5,7 @@ import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, {
 	Extrapolate,
 	interpolate,
+	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
 	withSpring,
@@ -80,7 +81,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	useEffect(() => {
 		opacity.value = withSpring(item.hide ? 0 : 1, {}, () => {
 			if (item.hide) {
-				modalActions.destroy(id);
+				runOnJS(modalActions.destroy)(id);
 			}
 		});
 	}, [item.hide]);

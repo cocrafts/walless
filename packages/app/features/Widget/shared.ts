@@ -24,7 +24,7 @@ export const extractWidgetComponent = (id: string): WidgetComponent => {
 };
 
 export const getWalletCardSkin = (id: Networks): CardSkin => {
-	let asset = modules.asset.widget.ethereum;
+	let asset;
 	let iconSize = 16;
 	let iconColor = '#242424';
 
@@ -38,6 +38,8 @@ export const getWalletCardSkin = (id: Networks): CardSkin => {
 		iconColor = '#FFFFFF';
 		iconSize = 12;
 		asset = modules.asset.widget.sui;
+	} else {
+		throw Error('Unsupported network');
 	}
 
 	return {

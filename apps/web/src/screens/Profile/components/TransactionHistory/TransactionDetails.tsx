@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { getNetworkInfo } from '@walless/app/utils';
+import type { Transaction } from '@walless/core';
 import { Networks, shortenAddress } from '@walless/core';
 import { appState } from '@walless/engine';
-import type { Transaction } from '@walless/engine/solana/transaction';
 import { Anchor, Text, View } from '@walless/gui';
 import { ArrowDown } from '@walless/icons';
-import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
 
 import ModalContainer from './components/ModalContainer';

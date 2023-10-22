@@ -1,13 +1,12 @@
 import type { FC } from 'react';
-import { getNetworkInfo } from '@walless/app/utils';
 import type { Networks } from '@walless/core';
 import { keyState } from '@walless/engine';
 import type { ModalConfigs } from '@walless/gui';
-import { Stack } from '@walless/ui';
 import { useSnapshot } from 'valtio';
 
-import ModalHeader from '../components/ModalHeader';
-import ModalWrapper from '../components/ModalWrapper';
+import ModalHeader from '../../components/ModalHeader';
+import ModalWrapper from '../../components/ModalWrapper';
+import { getNetworkInfo } from '../../utils';
 
 import Slider, {
 	type IndicatorOption,
@@ -16,7 +15,7 @@ import Slider, {
 import WalletCard, { type WalletProps } from './components/WalletCard';
 import WalletCardIndicator from './components/WalletCardIndicator';
 
-const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
+const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const keyMap = useSnapshot(keyState);
 
 	const walletList: WalletProps[] = [];
@@ -74,23 +73,14 @@ const ReceiveTokenScreen: FC<{ config: ModalConfigs }> = ({ config }) => {
 	return (
 		<ModalWrapper>
 			<ModalHeader content="Receive" config={config} />
-			<Stack
-				flexGrow={1}
-				justifyContent="flex-start"
-				width={340}
-				overflow="hidden"
-				paddingVertical={28}
-				gap={10}
-			>
-				<Slider
-					style={style}
-					items={items}
-					distance={-340}
-					indicator={indicator}
-				/>
-			</Stack>
+			<Slider
+				style={style}
+				items={items}
+				distance={-340}
+				indicator={indicator}
+			/>
 		</ModalWrapper>
 	);
 };
 
-export default ReceiveTokenScreen;
+export default ReceiveModal;

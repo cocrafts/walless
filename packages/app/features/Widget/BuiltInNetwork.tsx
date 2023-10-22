@@ -1,6 +1,5 @@
 import type { FC } from 'react';
-import { useState } from 'react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type {
 	LayoutChangeEvent,
 	LayoutRectangle,
@@ -14,6 +13,7 @@ import TokenList from '../../components/TokenList';
 import WalletCard from '../../components/WalletCard';
 import { useSafeAreaInsets } from '../../utils/hooks';
 import { usePublicKeys, useTokens } from '../../utils/hooks';
+import { showSendModal } from '../../utils/modal';
 
 import { getWalletCardSkin } from './shared';
 
@@ -38,6 +38,10 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		setHeaderLayout(nativeEvent.layout);
 	};
 
+	const handlePressSend = () => {
+		showSendModal();
+	};
+
 	const listHeader = (
 		<View style={styles.headerContainer} onLayout={onHeaderLayout}>
 			{headerLayout?.width &&
@@ -54,7 +58,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 						/>
 					);
 				})}
-			<MainFeatureButtons />
+			<MainFeatureButtons onSendPress={handlePressSend} />
 		</View>
 	);
 

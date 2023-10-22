@@ -6,8 +6,8 @@ import type { Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions } from '@walless/gui';
 import type { CollectibleDocument } from '@walless/store';
-import { useNfts, usePublicKeys, useTokens } from 'utils/hooks';
-import { createAndSend } from 'utils/transaction';
+
+import { useNfts, usePublicKeys, useTokens } from '../../utils/hooks';
 
 interface ModalContext {
 	layoutNetwork?: Networks;
@@ -35,7 +35,9 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				getTransactionFee={getTransactionFee}
 				onClose={handleClose}
 				checkValidAddress={checkValidAddress}
-				createAndSendTransaction={createAndSend}
+				createAndSendTransaction={() => {
+					console.log('create and send');
+				}}
 			/>
 		</View>
 	);
@@ -45,9 +47,9 @@ export default SendModal;
 
 const styles = StyleSheet.create({
 	container: {
+		width: 100,
 		backgroundColor: '#141B21',
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
-		width: 400,
 	},
 });

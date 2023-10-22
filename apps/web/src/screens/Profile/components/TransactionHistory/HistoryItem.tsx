@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { getNetworkInfo } from '@walless/app/utils';
+import type { Transaction } from '@walless/core';
 import { shortenAddress } from '@walless/core';
-import type { Transaction } from '@walless/engine/solana/transaction';
 import {
 	AnimateDirections,
 	BindDirections,
@@ -10,7 +11,6 @@ import {
 } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
 import type { IconProps } from '@walless/icons/components/types';
-import { getNetworkInfo } from 'utils/helper';
 
 import TransactionDetails from './TransactionDetails';
 

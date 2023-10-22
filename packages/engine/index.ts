@@ -66,7 +66,6 @@ export * from './state/history';
 export * from './state/key';
 export * from './state/live';
 export * from './state/token';
-export * from './state/transaction';
 export * from './state/widget';
 export * from './utils/crawler';
 export * from './utils/pool';

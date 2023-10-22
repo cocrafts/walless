@@ -5,7 +5,7 @@ const splitChunks = (config) => {
 			dependOn: ['core-libs'],
 		},
 		'core-libs': {
-			import: ['react', 'react-dom', 'dexie'],
+			import: ['react', 'react-dom'],
 		},
 	};
 

@@ -49,49 +49,34 @@ type JoinWaitlistResult {
 """MongoDB DateTime"""
 scalar MongoDateTime
 
+""""""
+type Nonce {
+  """"""
+  identifier: String!
+
+  """"""
+  timestamp: MongoDateTime!
+
+  """"""
+  value: Uint32!
+}
+
 """MongoDB ObjectID"""
 scalar ObjectID
 
 """"""
-type Project {
-  """"""
-  banner: String
-
-  """"""
-  description: String
-
-  """"""
-  detailIcon: String
-
-  """"""
-  id: ObjectID
-
-  """"""
-  logo: String
-
-  """"""
-  name: String
-
-  """"""
-  networks: [String]
-
-  """"""
-  nfts: [String]
-
-  """"""
-  tokens: [String]
-}
-
-""""""
 type RootMutation {
   """"""
-  addProject(banner: String = "", description: String!, detailIcon: String = "", logo: String = "", name: String!, networks: [String] = ["[]"], nfts: [String] = ["[]"], tokens: [String] = ["[]"], userId: String!): Project
-
-  """"""
-  addUser(address: String!, name: String!): User
+  addWidget(banner: String, description: String!, largeLogo: String, logo: String, name: String!, networks: [String] = ["[]"], nfts: [WidgetTokenInput], tokens: [WidgetTokenInput], userId: String!): Widget
 
   """"""
   claimWalletInvitation(code: String!, email: String!): Boolean
+
+  """"""
+  deleteWidget(id: String!): Boolean
+
+  """"""
+  deleteWidgetAccount(id: String!): Boolean
 
   """"""
   joinWaitlist(description: String!, email: String!, twitter: String!): JoinWaitlistResult
@@ -100,7 +85,13 @@ type RootMutation {
   registerAccount(key: String!): Account
 
   """"""
+  registerWidgetAccount(email: String!, pubkey: String!): Account
+
+  """"""
   sendEmergencyKit(key: String!): SendEmergencyKitResult
+
+  """"""
+  updateWidgetStatus(id: String!, status: WidgetStatus!): Boolean
 }
 
 """"""
@@ -112,10 +103,13 @@ type RootQuery {
   greeting: String
 
   """"""
-  project(id: String!): Project
+  loginMessage(pubkey: String!): String
 
   """"""
-  projects: [Project]
+  nonce(identifier: String!): Nonce
+
+  """"""
+  nonces: [Nonce]
 
   """"""
   systemInfo: SystemInfo
@@ -133,13 +127,28 @@ type RootQuery {
   tokensByAddress(addresses: [String]!): [TokenInfo]
 
   """"""
-  user(id: String!): User
-
-  """"""
-  users: [User]
-
-  """"""
   walletInvitation(code: String, email: String): WalletInvitation
+
+  """"""
+  widget(id: String!): Widget
+
+  """"""
+  widgetAccount(id: String!): WidgetAccount
+
+  """"""
+  widgetAccountByPubkey(pubkey: String!): WidgetAccount
+
+  """"""
+  widgetAccounts: [WidgetAccount]
+
+  """"""
+  widgetProfile(pubkey: String!, signature: String!): WidgetProfile
+
+  """"""
+  widgets: [Widget]
+
+  """"""
+  widgetsByStatus(status: WidgetStatus!): [Widget]
 }
 
 """"""
@@ -155,6 +164,15 @@ type SystemInfo {
 
   """"""
   version: String
+}
+
+""""""
+type Token {
+  """"""
+  address: String!
+
+  """"""
+  id: String
 }
 
 """"""
@@ -181,20 +199,8 @@ type TokenInfo {
   timestamp: DateTime!
 }
 
-""""""
-type User {
-  """"""
-  address: String
-
-  """"""
-  id: ObjectID
-
-  """"""
-  name: String
-
-  """Get all user projects of user"""
-  projects: [Project]
-}
+"""The `Uint32` scalar type represents a 32-bit unsigned integer."""
+scalar Uint32
 
 """"""
 type WalletInvitation {
@@ -209,4 +215,85 @@ type WalletInvitation {
 
   """"""
   timestamp: MongoDateTime
+}
+
+""""""
+type Widget {
+  """"""
+  banner: String
+
+  """"""
+  description: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  largeLogo: String
+
+  """"""
+  logo: String
+
+  """"""
+  name: String
+
+  """"""
+  networks: [String]
+
+  """"""
+  nfts: [Token]
+
+  """"""
+  status: WidgetStatus
+
+  """"""
+  tokens: [Token]
+}
+
+""""""
+type WidgetAccount {
+  """"""
+  createdAt: MongoDateTime
+
+  """"""
+  email: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  identifier: String!
+
+  """"""
+  updatedAt: MongoDateTime
+}
+
+""""""
+type WidgetProfile {
+  """"""
+  pubkey: String!
+
+  """"""
+  role: String!
+}
+
+""""""
+enum WidgetStatus {
+  """"""
+  ACCEPTED
+
+  """"""
+  IN_REVIEW
+
+  """"""
+  REJECTED
+}
+
+""""""
+input WidgetTokenInput {
+  """"""
+  address: String!
+
+  """"""
+  id: String
 }

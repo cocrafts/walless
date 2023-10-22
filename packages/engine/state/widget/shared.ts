@@ -87,14 +87,14 @@ export const mockWidgets: WidgetDocument[] = [
 			iconUri: '/img/network/tezos-icon-sm.png',
 			iconSize: 26,
 			iconColor: '#2D7DF8',
-			coverUri: 'https://tezos.com/brand/CleanTezos1.png',
+			coverUri: '/img/explore/thumbnail-tezos.png',
 			description:
 				'A blockchain designed to evolve. Security focused. Upgradeable. Built to last',
 			loveCount: 100,
 			activeCount: 567,
 		},
 		networkMeta: {
-			backgroundUri: 'https://tezos.com/brand/NFTsTezos.png',
+			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/network/tezos-icon-lg.png',
 			iconUri: '/img/network/tezos-icon-sm.png',
 			iconColor: '#2D7DF8',

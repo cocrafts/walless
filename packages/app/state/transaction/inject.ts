@@ -13,7 +13,7 @@ export interface InjectedElements {
 	nftCollections: CollectionDocument[];
 	nftCollectibles: CollectibleDocument[];
 	publicKeys: PublicKeyDocument[];
-	getTransactionFee: (network: Networks) => Promise<number>;
+	getTransactionFee: (payload: TransactionPayload) => Promise<number>;
 	handleClose: () => void;
 	checkValidAddress: (
 		keyStr: string,

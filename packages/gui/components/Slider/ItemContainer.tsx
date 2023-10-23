@@ -1,9 +1,8 @@
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
-import type { LayoutRectangle, View, ViewStyle } from 'react-native';
+import type { LayoutRectangle, ViewStyle } from 'react-native';
 import type { AnimatedStyleProp, SharedValue } from 'react-native-reanimated';
 import {
-	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
@@ -43,7 +42,7 @@ export const ItemContainer: FC<Props> = ({
 	};
 
 	const animatedStyle = useAnimatedStyle(() => {
-		return runOnJS(animator)({
+		return animator({
 			offset: animatedOffset,
 			progress,
 			index,

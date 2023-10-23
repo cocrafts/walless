@@ -37,7 +37,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		<View style={styles.container}>
 			<Select
 				title="Select token"
-				items={tokens as Token[]}
+				items={tokens as unknown as Token[]}
 				selected={token as Token}
 				getRequiredFields={getRequiredFieldsForSelectToken}
 				onSelect={transactionActions.setToken}

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import type { Networks, UnknownObject } from '@walless/core';
+import type { Networks } from '@walless/core';
 import { Input, Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 

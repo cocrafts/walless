@@ -24,7 +24,7 @@ import { showError } from '../utils';
 import { Header } from './components';
 
 type Props = SlideComponentProps;
-const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
+const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 	const { type, token, nftCollectible, sender, receiver, amount } =
 		useSnapshot(transactionContext);
 	const [error, setError] = useState<string>('');
@@ -104,10 +104,10 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 	};
 
 	useEffect(() => {
-		if (item.id == activedId) {
+		if (item.id == activatedId) {
 			setTimeout(() => setRenderPasscode(true), 200);
 		} else setRenderPasscode(false);
-	}, [activedId]);
+	}, [activatedId]);
 
 	return (
 		<View style={styles.container}>

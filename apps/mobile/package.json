@@ -10,6 +10,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@craftzdog/pouchdb-collate-react-native": "^7.3.0",
     "@craftzdog/react-native-buffer": "^6.0.5",
     "@dreson4/react-native-quick-bip39": "0.0.5",

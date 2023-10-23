@@ -6,10 +6,13 @@ import { decode, encode } from 'bs58';
 import { sign } from 'tweetnacl';
 
 export const signMessage = async (
-	messageStr: string,
+	message: string | Uint8Array,
 	privateKey: Uint8Array,
 ) => {
-	const message = decode(messageStr);
+	if (typeof message === 'string') {
+		message = decode(message);
+	}
+
 	const keypair = Keypair.fromSecretKey(privateKey);
 	const signatureBytes = sign.detached(message, keypair.secretKey);
 
@@ -17,19 +20,22 @@ export const signMessage = async (
 };
 
 export const signTransaction = async (
-	transactionStr: string,
+	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,
 ) => {
 	const keypair = Keypair.fromSecretKey(privateKey);
-	const serializedTransaction = decode(transactionStr);
-	const transaction = VersionedTransaction.deserialize(serializedTransaction);
+
+	if (typeof transaction === 'string') {
+		const serializedTransaction = decode(transaction);
+		transaction = VersionedTransaction.deserialize(serializedTransaction);
+	}
 	transaction.sign([keypair]);
 
 	return encode(transaction.serialize());
 };
 
 export const signAndSendTransaction = async (
-	transactionStr: string,
+	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,
 ) => {
 	const connection = modules.engine.getConnection(
@@ -38,8 +44,10 @@ export const signAndSendTransaction = async (
 
 	const keypair = Keypair.fromSecretKey(privateKey);
 
-	const serializedTransaction = decode(transactionStr);
-	const transaction = VersionedTransaction.deserialize(serializedTransaction);
+	if (typeof transaction === 'string') {
+		const serializedTransaction = decode(transaction);
+		transaction = VersionedTransaction.deserialize(serializedTransaction);
+	}
 
 	if (!transaction.message.recentBlockhash) {
 		transaction.message.recentBlockhash = (

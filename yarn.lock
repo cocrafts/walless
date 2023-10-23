@@ -12383,7 +12383,7 @@ __metadata:
     "@walless/store": "*"
     "@walless/ui": "*"
     react: ^18.2.0
-    react-native-reanimated: 3.4.2
+    react-native-reanimated: "*"
     tamagui: 1.15.16
     valtio: 1.10.5
   languageName: unknown
@@ -12440,7 +12440,7 @@ __metadata:
     next: 13.4.9
     raf: ^3.4.1
     react-native: 0.71.14
-    react-native-reanimated: 3.4.2
+    react-native-reanimated: "*"
     react-native-svg: 13.10.0
     react-native-web: ^0.18.12
     valtio: ^1.10.5
@@ -12459,7 +12459,7 @@ __metadata:
     next: 13.4.9
     raf: ^3.4.1
     react-native: 0.71.14
-    react-native-reanimated: 3.4.2
+    react-native-reanimated: "*"
     react-native-svg: 13.10.0
     react-native-web: ^0.18.12
     valtio: 1.10.5
@@ -12527,7 +12527,7 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
     react-native: 0.71.14
-    react-native-reanimated: 3.4.2
+    react-native-reanimated: "*"
     valtio: 1.10.5
   languageName: unknown
   linkType: soft
@@ -12664,7 +12664,7 @@ __metadata:
     react-native-quick-crypto: 0.6.1
     react-native-quick-sqlite: 8.0.6
     react-native-quick-websql: 0.3.0
-    react-native-reanimated: 3.4.2
+    react-native-reanimated: "*"
     react-native-safe-area-context: ^4.5.1
     react-native-screens: ^3.20.0
     react-native-svg: 13.10.0
@@ -12786,7 +12786,7 @@ __metadata:
     pouchdb-replication: ^8.0.1
     raf: ^3.4.1
     react-native-qrcode-svg: ^6.2.0
-    react-native-reanimated: 3.3.0
+    react-native-reanimated: "*"
     react-native-svg: 13.10.0
     react-native-web: ^0.18.12
     react-router-dom: ^6.10.0
@@ -25696,9 +25696,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:3.3.0":
-  version: 3.3.0
-  resolution: "react-native-reanimated@npm:3.3.0"
+"react-native-reanimated@npm:*, react-native-reanimated@npm:3.5.4":
+  version: 3.5.4
+  resolution: "react-native-reanimated@npm:3.5.4"
   dependencies:
     "@babel/plugin-transform-object-assign": ^7.16.7
     "@babel/preset-typescript": ^7.16.7
@@ -25713,28 +25713,7 @@ __metadata:
     "@babel/plugin-transform-template-literals": ^7.0.0-0
     react: "*"
     react-native: "*"
-  checksum: 58096b28caef8af261c446eccb91a5a74caa303ba3520b1a2767c5b922b3d19b9a58612ab9b517a959c1b562b2e76e4cf4a8ffb21136960ed63375f6a4c37d1e
-  languageName: node
-  linkType: hard
-
-"react-native-reanimated@npm:3.4.2":
-  version: 3.4.2
-  resolution: "react-native-reanimated@npm:3.4.2"
-  dependencies:
-    "@babel/plugin-transform-object-assign": ^7.16.7
-    "@babel/preset-typescript": ^7.16.7
-    convert-source-map: ^2.0.0
-    invariant: ^2.2.4
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-    "@babel/plugin-proposal-nullish-coalescing-operator": ^7.0.0-0
-    "@babel/plugin-proposal-optional-chaining": ^7.0.0-0
-    "@babel/plugin-transform-arrow-functions": ^7.0.0-0
-    "@babel/plugin-transform-shorthand-properties": ^7.0.0-0
-    "@babel/plugin-transform-template-literals": ^7.0.0-0
-    react: "*"
-    react-native: "*"
-  checksum: b0e295e07ea1c965656b96c49bec69107ca41b54b23a4781def8aaae96e26e5c2a35ff19746ff95bd93ce72362e8f1743ef300fd709a440a17a8d06e27577616
+  checksum: 885449b11324f0399128d665c90e7179a095dfa603dd251e8b1d14df2efe73411acd724562837e114366769e69b8aac2b0a2ffc1f63d2b7dbf1a35024f074604
   languageName: node
   linkType: hard
 
@@ -29598,7 +29577,7 @@ __metadata:
     mustache: ^4.2.0
     react-native: ^0.71.14
     react-native-buffer: ^6.0.3
-    react-native-reanimated: 3.4.2
+    react-native-reanimated: 3.5.4
     rimraf: ^5.0.0
     shx: ^0.3.4
     sst: 2.24.17

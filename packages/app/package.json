@@ -20,7 +20,7 @@
     "@walless/store": "*",
     "@walless/ui": "*",
     "react": "^18.2.0",
-    "react-native-reanimated": "3.4.2",
+    "react-native-reanimated": "*",
     "tamagui": "1.15.16",
     "valtio": "1.10.5"
   },

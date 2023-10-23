@@ -8,6 +8,11 @@ import { getTokenQuotes, makeHashId } from '../../utils/api';
 
 import { getSuiCollectibles } from './collectibles';
 import type { SuiRunner } from './shared';
+import {
+	suiCollectibleSubscribe,
+	suiTokenSubscribe,
+	suiTokenUnsubscribe,
+} from './subscription';
 import { getTokenDocument } from './token';
 
 export const suiEngineRunner: SuiRunner = {
@@ -42,6 +47,7 @@ export const suiEngineRunner: SuiRunner = {
 			collectibleActions.setCollectibles(collectibleDocs);
 
 			suiTokenSubscribe(connection, owner);
+			suiCollectibleSubscribe(connection, owner);
 		}
 	},
 	stop: async () => {

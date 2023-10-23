@@ -42,7 +42,7 @@ export const decryptWithPasscode = async (
 	const key = pbkdf2Sync(passcode, salt, iterations, keylen, 'sha256');
 	const hmacKey = pbkdf2Sync(passcode, salt, iterations, keylen, 'sha256');
 	const hmac = createHmac('sha256', hmacKey);
-	hmac.update(encrypted.ct);
+	hmac.update(Buffer.from(encrypted.ct, 'hex'));
 	const computedMac = hmac.digest('hex');
 
 	if (computedMac !== encrypted.mac) {

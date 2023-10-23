@@ -54,3 +54,4 @@ export interface DynamicModules {
 }
 
 export const modules: DynamicModules = {} as never;
+export * from './utils';

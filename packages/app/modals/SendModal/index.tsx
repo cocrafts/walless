@@ -2,12 +2,12 @@ import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SendFeature } from '@walless/app';
 import { checkValidAddress, getTransactionFee } from '@walless/app/utils';
+import { useNfts, usePublicKeys, useTokens } from '@walless/app/utils/hooks';
 import type { Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions } from '@walless/gui';
+import { utils } from '@walless/ioc';
 import type { CollectibleDocument } from '@walless/store';
-
-import { useNfts, usePublicKeys, useTokens } from '../../utils/hooks';
 
 interface ModalContext {
 	layoutNetwork?: Networks;
@@ -35,9 +35,7 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				getTransactionFee={getTransactionFee}
 				onClose={handleClose}
 				checkValidAddress={checkValidAddress}
-				createAndSendTransaction={() => {
-					console.log('create and send');
-				}}
+				createAndSendTransaction={utils.createAndSend}
 			/>
 		</View>
 	);

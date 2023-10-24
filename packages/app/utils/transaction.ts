@@ -21,6 +21,7 @@ import type {
 } from '@walless/core';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
+import { TxnBuilderTypes } from 'aptos';
 
 export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {
@@ -31,6 +32,9 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 			return { valid: true, message: '' };
 		} else if (network == Networks.tezos) {
 			return { valid: true, message: '' };
+		} else if (network == Networks.aptos) {
+			const { AccountAddress } = TxnBuilderTypes;
+			return { valid: AccountAddress.isValid(keyStr), message: '' };
 		}
 		return { valid: false, message: 'Unsupported network ' + network };
 	} catch (error) {
@@ -123,6 +127,14 @@ export const constructTransaction = async ({
 		if (token.metadata?.symbol == 'TEZ') {
 			return constructSendTezTransaction(receiver, amount);
 		}
+	} else if (network == Networks.aptos) {
+		return {
+			from: sender,
+			to: receiver,
+			token: (token as Token).account.address,
+			amount: amount,
+			decimals: (token as Token).account?.decimals,
+		};
 	}
 
 	throw Error('Network or Token is not supported');

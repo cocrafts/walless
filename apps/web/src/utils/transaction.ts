@@ -33,6 +33,12 @@ export const createAndSend = async (
 			transaction: JSON.stringify(transaction),
 			passcode,
 		});
+	} else if (payload.network == Networks.aptos) {
+		res = await requestHandleTransaction({
+			type: RequestType.TRANSFER_COIN_ON_APTOS,
+			transaction: JSON.stringify(transaction),
+			passcode,
+		});
 	}
 
 	return res as ResponsePayload;

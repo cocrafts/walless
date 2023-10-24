@@ -106,6 +106,7 @@ export enum RequestType {
 	OPEN_LAYOUT_POPUP,
 	UPDATE_DIRECT_TRANSFER_ON_APTOS,
 	CLAIM_TOKEN_ON_APTOS,
+	TRANSFER_COIN_ON_APTOS,
 }
 
 export enum PopupType {

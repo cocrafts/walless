@@ -20,6 +20,7 @@ import type {
 	TransactionPayload,
 } from '@walless/core';
 import { Networks } from '@walless/core';
+import { getAptosConnection } from '@walless/engine/crawlers/aptos';
 import { modules } from '@walless/ioc';
 import { TxnBuilderTypes } from 'aptos';
 
@@ -79,6 +80,10 @@ export const getTransactionFee = async (payload: TransactionPayload) => {
 		return (txFee + rentFee || 0) / LAMPORTS_PER_SOL;
 	} else if (payload.network == Networks.sui) {
 		return 0;
+	} else if (payload.network == Networks.aptos) {
+		const connection = await getAptosConnection();
+		const fee = await connection.estimateGasPrice();
+		return fee.gas_estimate / 10 ** 8;
 	} else return 0;
 };
 

@@ -21,6 +21,7 @@
     "@walless/graphql": "*",
     "@walless/network": "*",
     "@walless/store": "*",
+    "aptos": "^1.20.0",
     "p-limit": "^4.0.0",
     "p-throttle": "^5.1.0",
     "valtio": "1.10.5"

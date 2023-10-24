@@ -58,6 +58,10 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			tezosHandler.handleTransferToken(payload, channel);
 		} else if (type === RequestType.TRANSFER_COIN_ON_APTOS) {
 			handleMethod = aptosHandlers.handleTransferCoin;
+		} else if (type === RequestType.CLAIM_TOKEN_ON_APTOS) {
+			handleMethod = aptosHandlers.handleClaimToken;
+		} else if (type === RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS) {
+			handleMethod = aptosHandlers.handleUpdateDirectTransfer;
 		} else {
 			return channel.postMessage({
 				from: 'walless@kernel',

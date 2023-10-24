@@ -17,6 +17,7 @@
     "@walless/core": "*",
     "@walless/crypto": "*",
     "@walless/gui": "*",
+    "@walless/network": "*",
     "@walless/store": "*",
     "@walless/ui": "*",
     "react": "^18.2.0",

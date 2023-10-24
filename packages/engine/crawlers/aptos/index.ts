@@ -1,31 +1,22 @@
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { HexString, Network, Provider } from 'aptos';
+import { HexString, Provider } from 'aptos';
 
 import { aptosActions, aptosState } from '../../state/aptos';
 import { tokenActions } from '../../state/token';
-import { createConnectionPool } from '../../utils/pool';
 import type { EngineRunner } from '../../utils/type';
 
 import { getCoins } from './coins';
 import { getOwnedTokens, getPendingTokens } from './tokens';
 
-export const aptosPool = createConnectionPool<Provider>({
-	create: (id) => new Provider(aptosEndpoints[id]),
-});
-
-export const aptosEndpoints: Record<string, Network> = {
-	devnet: Network.DEVNET,
-	testnet: Network.TESTNET,
-	mainnet: Network.MAINNET,
-};
+export * from './shared';
 
 interface TokenResource {
 	direct_transfer: boolean;
 }
 
-let interval: NodeJS.Timeout[] = [];
+let interval: number[] = [];
 
 export const aptosEngineRunner: EngineRunner<Provider> = {
 	start: async (context) => {

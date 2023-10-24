@@ -1,6 +1,7 @@
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 import type { HexString, Provider } from 'aptos';
+import { APTOS_COIN } from 'aptos';
 
 export const getCoins = async (provider: Provider, pubkey: HexString) => {
 	const coinsData = await provider.getAccountCoinsData(pubkey);
@@ -21,11 +22,15 @@ export const getCoins = async (provider: Provider, pubkey: HexString) => {
 			metadata: {
 				name: coin.metadata?.name ?? 'Unknown',
 				symbol: coin.metadata?.symbol ?? 'Unknown',
-				imageUri:
-					coin.metadata?.icon_uri ?? '/img/explore/logo-trans-aptos.svg',
+				imageUri: coin.metadata?.icon_uri ?? '/img/explore/logo-aptos.svg',
 			},
 		});
 	});
+
+	const aptosCoinIdx = tokenDocuments.findIndex(
+		(token) => token._id === APTOS_COIN,
+	);
+	tokenDocuments.unshift(tokenDocuments.splice(aptosCoinIdx, 1)[0]);
 
 	return tokenDocuments;
 };

@@ -61,6 +61,7 @@ export const createEngine = async (): Promise<Engine> => {
 };
 
 export * from './state/app';
+export * from './state/aptos'
 export * from './state/collectible';
 export * from './state/history';
 export * from './state/key';

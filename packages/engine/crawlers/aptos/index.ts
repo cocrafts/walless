@@ -16,7 +16,7 @@ interface TokenResource {
 	direct_transfer: boolean;
 }
 
-let interval: number[] = [];
+let interval: NodeJS.Timer[] = [];
 
 export const aptosEngineRunner: EngineRunner<Provider> = {
 	start: async (context) => {

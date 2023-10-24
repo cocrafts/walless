@@ -34,13 +34,22 @@ export const Information: FC<Props> = () => {
 			(type === 'Token' ? token?.network : nftCollectible?.network),
 	);
 
+	let tokenForFeeName = 'Unknown';
+
+	if (tokenForFee && tokenForFee.metadata?.symbol) {
+		tokenForFeeName = tokenForFee.metadata.symbol;
+		if (tokenForFeeName.includes('-Dev')) {
+			tokenForFeeName = tokenForFeeName.replace('-Dev', '');
+		}
+	}
+
 	const iconUri = { uri: '' };
 	let networkStr = '';
 	let feeStr = '';
 	if (publicKey?.network == Networks.solana) {
 		iconUri.uri = '/img/network/solana-icon-sm.png';
 		networkStr = 'Solana';
-		feeStr = `${transactionFee} ${tokenForFee?.metadata?.symbol ?? 'Unknown'}`;
+		feeStr = `${transactionFee} ${tokenForFeeName}`;
 	} else if (publicKey?.network == Networks.sui) {
 		iconUri.uri = '/img/network/sui-icon-sm.png';
 		networkStr = 'SUI';

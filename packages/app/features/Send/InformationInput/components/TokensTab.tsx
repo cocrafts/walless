@@ -13,6 +13,7 @@ import { NavButton } from '../../components';
 
 import { NetworkFee } from './NetworkFee/NetworkFee';
 import { AmountInput } from './AmountInput';
+import Balance from './Balance';
 import { RecipientInput } from './RecipientInput';
 import { TotalCost } from './TotalCost';
 
@@ -46,6 +47,8 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 			<RecipientInput />
 
 			<AmountInput />
+
+			<Balance />
 
 			<NetworkFee />
 

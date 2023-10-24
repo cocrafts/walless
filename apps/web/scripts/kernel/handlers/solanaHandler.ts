@@ -94,7 +94,7 @@ export const signTransactionAbstractionFee: HandleMethod = async ({
 
 	const txStr = base58.encode(transaction.serialize());
 
-	fetch(`${GASILON_ENDPOINT}/solana/transferV2`, {
+	fetch(`${GASILON_ENDPOINT}/solana/transfer`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

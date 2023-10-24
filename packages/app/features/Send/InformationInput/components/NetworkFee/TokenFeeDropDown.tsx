@@ -22,23 +22,36 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 
 	return (
 		<View style={styles.dropdown}>
-			{tokens.map((token, idx) => (
-				<Hoverable
-					style={[styles.tokenOption, token === selectedToken && selectedStyle]}
-					key={idx}
-					onPress={() => handleSelectToken(token)}
-				>
-					<Image
-						source={{
-							uri:
-								token.metadata?.imageUri ??
-								'/img/send-token/unknown-token.jpeg',
-						}}
-						style={styles.tokenIcon}
-					/>
-					<Text numberOfLines={1}>{token.metadata?.symbol ?? 'Unknown'}</Text>
-				</Hoverable>
-			))}
+			{tokens.map((token, idx) => {
+				let name = 'Unknown';
+
+				if (token && token.metadata?.symbol) {
+					name = token.metadata.symbol;
+					if (name.includes('-Dev')) {
+						name = name.replace('-Dev', '');
+					}
+				}
+				return (
+					<Hoverable
+						style={[
+							styles.tokenOption,
+							token === selectedToken && selectedStyle,
+						]}
+						key={idx}
+						onPress={() => handleSelectToken(token)}
+					>
+						<Image
+							source={{
+								uri:
+									token.metadata?.imageUri ??
+									'/img/send-token/unknown-token.jpeg',
+							}}
+							style={styles.tokenIcon}
+						/>
+						<Text numberOfLines={1}>{name}</Text>
+					</Hoverable>
+				);
+			})}
 		</View>
 	);
 };

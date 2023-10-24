@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
 	symbolText: {
 		fontSize: 20,
 		fontWeight: '500',
-		color: '#566674',
+		color: '#ffffff',
 	},
 });

@@ -6,8 +6,12 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import type { Collectible, Token, TransactionPayload } from '@walless/core';
-import type { Networks } from '@walless/core';
+import type {
+	Collectible,
+	Networks,
+	Token,
+	TransactionPayload,
+} from '@walless/core';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
@@ -30,6 +34,7 @@ interface Props {
 export const NetworkFee: FC<Props> = () => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
+	const [error, setError] = useState<string>('');
 
 	const { tokens, getTransactionFee, getTransactionAbstractFee } =
 		useSnapshot(injectedElements);
@@ -52,6 +57,15 @@ export const NetworkFee: FC<Props> = () => {
 
 	const dropdownRef = useRef(null);
 
+	let tokenForFeeName = 'Unknown';
+
+	if (tokenForFee && tokenForFee.metadata?.symbol) {
+		tokenForFeeName = tokenForFee.metadata.symbol;
+		if (tokenForFeeName.includes('-Dev')) {
+			tokenForFeeName = tokenForFeeName.replace('-Dev', '');
+		}
+	}
+
 	useEffect(() => {
 		if (!tokenForFee) {
 			transactionActions.setTokenForFee(tokens[0] as TokenDocument);
@@ -73,27 +87,17 @@ export const NetworkFee: FC<Props> = () => {
 				return;
 			}
 
-			if (type === 'Token' && token?.network) {
-				setIsFeeLoading(true);
-				let fee = await getTransactionFee(token.network as Networks);
+			setIsFeeLoading(true);
+			let fee = await getTransactionFee(payload.token.network as Networks);
 
-				if (tokenForFee?.metadata?.symbol !== 'SOL') {
-					fee = await getTransactionAbstractFee(payload);
-				}
-				transactionActions.setTransactionFee(parseFloat(fee.toPrecision(7)));
+			if (tokenForFee?.metadata?.symbol !== 'SOL') {
+				fee = await getTransactionAbstractFee(payload);
+			}
+			transactionActions.setTransactionFee(
+				parseFloat(fee.toPrecision(tokenForFee?.account?.decimals ?? 7)),
+			);
 
-				setIsFeeLoading(false);
-			} else if (type === 'Collectible' && nftCollection?.network) {
-				setIsFeeLoading(true);
-
-				let fee = await getTransactionFee(nftCollection.network as Networks);
-				if (tokenForFee?.metadata?.symbol !== 'SOL') {
-					fee = await getTransactionAbstractFee(payload);
-				}
-				transactionActions.setTransactionFee(parseFloat(fee.toPrecision(7)));
-
-				setIsFeeLoading(false);
-			} else transactionActions.setTransactionFee(0);
+			setIsFeeLoading(false);
 		})();
 	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
 
@@ -115,41 +119,100 @@ export const NetworkFee: FC<Props> = () => {
 		}
 	}, [isDropped]);
 
+	// useEffect(() => {
+	// 	if (tokenForFee?.metadata?.name === token?.metadata?.name) {
+	// 		if (
+	// 			token?.account.balance &&
+	// 			transactionFee &&
+	// 			amount &&
+	// 			parseFloat(token?.account.balance) <
+	// 				transactionFee * 10 ** token.account.decimals +
+	// 					parseFloat(amount) * 10 ** token.account.decimals
+	// 		) {
+	// 			modalActions.show({
+	// 				id: 'warning',
+	// 				component: () => (
+	// 					<WarningAnnouncement
+	// 						tokenName={tokenForFee?.metadata?.symbol ?? 'Unknown'}
+	// 					/>
+	// 				),
+	// 			});
+	// 		}
+	// 	} else {
+	// 		if (
+	// 			token?.account.balance &&
+	// 			transactionFee &&
+	// 			parseFloat(token?.account.balance) <
+	// 				transactionFee * 10 ** token.account.decimals
+	// 		) {
+	// 			modalActions.show({
+	// 				id: 'warning',
+	// 				component: () => (
+	// 					<WarningAnnouncement
+	// 						tokenName={tokenForFee?.metadata?.symbol ?? 'Unknown'}
+	// 					/>
+	// 				),
+	// 			});
+	// 		}
+	// 	}
+	// }, [transactionFee, tokenForFee, token, amount]);
+
+	useEffect(() => {
+		if (
+			parseFloat(tokenForFee?.account.balance as string) /
+				10 ** (tokenForFee?.account.decimals ?? 0) <
+			(transactionFee ?? 0)
+		) {
+			setError(
+				`Not enough ${
+					tokenForFee?.metadata?.symbol ?? 'Unknown'
+				}, select other token`,
+			);
+		} else {
+			setError('');
+		}
+	}, [transactionFee]);
+
 	return (
-		<View style={styles.container}>
-			<View style={styles.titleContainer}>
-				<Exclamation color="#566674" size={10} />
-				<Text style={styles.titleText}>Network fee</Text>
-			</View>
+		<View>
+			<View style={styles.container}>
+				<View style={styles.titleContainer}>
+					<Exclamation color="#566674" size={10} />
+					<Text style={styles.titleText}>Transaction fee</Text>
+				</View>
 
-			<View style={styles.valueContainer}>
-				{isFeeLoading ? (
-					<ActivityIndicator size="small" color="#FFFFFF" />
-				) : (
-					<Text style={styles.feeText}>
-						{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
-					</Text>
-				)}
-				<View ref={dropdownRef} style={styles.feeDisplay}>
-					<View style={styles.selectContainer}>
-						<Image
-							style={styles.tokenIcon}
-							source={{
-								uri:
-									tokenForFee?.metadata?.imageUri ??
-									'/img/send-token/unknown-token.jpeg',
-							}}
-						/>
-						<Text numberOfLines={1} style={styles.selectedToken}>
-							{tokenForFee?.metadata?.symbol ?? 'Unknown'}
+				<View style={styles.valueContainer}>
+					{isFeeLoading ? (
+						<ActivityIndicator size="small" color="#FFFFFF" />
+					) : (
+						<Text
+							style={[styles.feeText, error !== '' && { color: '#FC9B0A' }]}
+						>
+							{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
 						</Text>
-					</View>
+					)}
+					<View ref={dropdownRef} style={styles.feeDisplay}>
+						<View style={styles.selectContainer}>
+							<Image
+								style={styles.tokenIcon}
+								source={{
+									uri:
+										tokenForFee?.metadata?.imageUri ??
+										'/img/send-token/unknown-token.jpeg',
+								}}
+							/>
+							<Text numberOfLines={1} style={styles.selectedToken}>
+								{tokenForFeeName}
+							</Text>
+						</View>
 
-					<TouchableOpacity onPress={() => setIsDropped(!isDropped)}>
-						<ChevronDown size={20} color="#566674" />
-					</TouchableOpacity>
+						<TouchableOpacity onPress={() => setIsDropped(!isDropped)}>
+							<ChevronDown size={20} color="#566674" />
+						</TouchableOpacity>
+					</View>
 				</View>
 			</View>
+			<Text style={styles.error}>{error}</Text>
 		</View>
 	);
 };
@@ -206,5 +269,10 @@ const styles = StyleSheet.create({
 	},
 	selectedToken: {
 		color: '#ffffff',
+	},
+	error: {
+		color: '#FC9B0A',
+		alignSelf: 'flex-end',
+		marginTop: 6,
 	},
 });

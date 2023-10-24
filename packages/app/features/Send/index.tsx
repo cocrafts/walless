@@ -7,10 +7,7 @@ import type {
 	InjectedElements,
 	TransactionType,
 } from '../../state/transaction';
-import {
-	transactionActions,
-	transactionContext,
-} from '../../state/transaction';
+import { transactionActions } from '../../state/transaction';
 
 import { sendScreens } from './shared';
 

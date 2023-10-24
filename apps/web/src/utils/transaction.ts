@@ -5,7 +5,6 @@ import {
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
 import {
-	clusterApiUrl,
 	Connection,
 	Keypair,
 	LAMPORTS_PER_SOL,
@@ -28,13 +27,10 @@ import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
 import axios from 'axios';
 import { requestHandleTransaction } from 'bridge/listeners';
-import { encode } from 'bs58';
-import base58 from 'bs58';
+import base58, { encode } from 'bs58';
 
 const sampleKeypair = Keypair.generate();
 const suiSampleKeypair = Ed25519Keypair.generate();
-
-const connection = new Connection(clusterApiUrl('devnet'));
 
 let solConn: Connection | undefined;
 export const getSolanaConnection = async () => {
@@ -191,7 +187,8 @@ const constructTransactionAbstractFeeTemplate = async (
 	{ sender, token, tokenForFee, receiver, amount }: SendTokenProps,
 	fee?: number,
 ) => {
-	const bh = await connection.getLatestBlockhash();
+	const connection = await getSolanaConnection();
+	const bh = await connection.getLatestBlockhash('finalized');
 
 	const blockhash = bh.blockhash;
 
@@ -221,8 +218,6 @@ const constructTransactionAbstractFeeTemplate = async (
 		receiverPublicKey,
 	);
 
-	const receiverAtaInfo = await connection.getAccountInfo(receiverAta);
-
 	const octaneConfig = (
 		await axios.get(GASILON_ENDPOINT, {
 			headers: {
@@ -248,6 +243,8 @@ const constructTransactionAbstractFeeTemplate = async (
 		senderPublicKey,
 		fee * 10 ** tokenForFee.account.decimals,
 	);
+
+	const receiverAtaInfo = await connection.getAccountInfo(receiverAta);
 
 	const receiverTokenAtaCreationInstruction =
 		createAssociatedTokenAccountInstruction(
@@ -333,9 +330,16 @@ export const getTransactionAbstractFee = async (
 		.json()
 		.then((data) => {
 			return data;
+		})
+		.catch((err) => {
+			console.log(err);
 		});
 
-	return data.totalByFeeToken;
+	const { tokenForFee } = sendTokenProps;
+
+	return parseFloat(
+		data.totalByFeeToken.toFixed(tokenForFee.account.decimals ?? 7),
+	);
 };
 
 export const getTransactionFee = async (network: Networks) => {

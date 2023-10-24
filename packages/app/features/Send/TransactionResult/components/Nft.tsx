@@ -1,5 +1,5 @@
 import { Image, StyleSheet } from 'react-native';
-import { Anchor, Button, Text, View } from '@walless/gui';
+import { Anchor, Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
@@ -22,7 +22,7 @@ export const Nft = () => {
 				{status == ResponseCode.SUCCESS && (
 					<Anchor
 						style={styles.shareButton}
-						title="Share"
+						title="View on Solscan"
 						href={`https://solscan.io/tx/${signatureString}?cluster=devnet`}
 					/>
 				)}

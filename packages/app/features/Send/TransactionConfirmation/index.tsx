@@ -101,7 +101,7 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 			{isLoading ? (
 				<ActivityIndicator size={'large'} />
 			) : (
-				<NavButton title="Continue" onPress={handleContinue} />
+				<NavButton title="Confirm" onPress={handleContinue} />
 			)}
 		</View>
 	);

@@ -11,7 +11,9 @@ export const Token = () => {
 	const { token, amount, time, status, signatureString } =
 		useSnapshot(transactionContext);
 
-	const iconUri = { uri: token?.metadata?.imageUri };
+	const iconUri = {
+		uri: token?.metadata?.imageUri ?? 'img/send-token/unknown-token.jpeg',
+	};
 
 	let endpoint = 'devnet';
 
@@ -35,7 +37,7 @@ export const Token = () => {
 				{status == ResponseCode.SUCCESS && (
 					<Anchor
 						style={styles.shareButton}
-						title="Share"
+						title="View on Solscan"
 						href={`https://solscan.io/tx/${signatureString}?cluster=${endpoint}`}
 					/>
 				)}
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
 	symbolText: {
 		fontSize: 20,
 		fontWeight: '500',
-		color: '#566674',
+		color: '#ffffff',
 	},
 	dateText: {
 		fontSize: 12,

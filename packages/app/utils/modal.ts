@@ -30,6 +30,7 @@ export const showSendModal = (configs?: SendModalConfig) => {
 		bindingDirection: BindDirections.InnerBottom,
 		component: SendModal,
 		animateDirection: AnimateDirections.Top,
+		maskActiveOpacity: 0.7,
 		context: {
 			layoutNetwork: configs?.layoutNetwork,
 			collectible: configs?.collectible,

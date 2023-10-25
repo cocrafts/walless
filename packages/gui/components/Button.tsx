@@ -49,13 +49,13 @@ export default Button;
 
 const styles = StyleSheet.create({
 	container: {
-		paddingVertical: 10,
+		backgroundColor: '#0694D3',
 		paddingHorizontal: 20,
 		borderWidth: 1,
-		borderColor: 'transparent',
 		borderRadius: 15,
+		borderColor: 'transparent',
 		alignItems: 'center',
-		backgroundColor: '#0694D3',
+		justifyContent: 'center',
 	},
 	outlineContainer: {
 		backgroundColor: 'transparent',

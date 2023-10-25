@@ -45,10 +45,6 @@ export default SendModal;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		marginTop: 60,
-		marginBottom: 100,
-		height: 600,
 		backgroundColor: '#141B21',
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,

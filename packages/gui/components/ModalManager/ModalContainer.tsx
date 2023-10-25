@@ -1,12 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
-import type {
-	LayoutChangeEvent,
-	LayoutRectangle,
-	ViewStyle,
-} from 'react-native';
+import type { LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
-import type { AnimatedStyleProp } from 'react-native-reanimated';
 import Animated, {
 	Extrapolate,
 	interpolate,
@@ -63,7 +58,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 			left: left.value,
 			width: width.value,
 			opacity: opacity.value,
-		}) as AnimatedStyleProp<ViewStyle>;
+		});
 	}, [top, left, opacity]);
 
 	useEffect(() => {
@@ -127,5 +122,6 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0,
 		bottom: 0,
+		backgroundColor: 'black',
 	},
 });

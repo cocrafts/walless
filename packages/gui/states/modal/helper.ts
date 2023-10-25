@@ -41,7 +41,7 @@ export const measureRelative = async (
 export const guardRectangleInside = async (
 	rectangle: LayoutRectangle,
 	targetRef: RefObject<View>,
-	padding = 5, // auto add padding to modal container
+	padding = 0, // horizontal padding
 ): Promise<LayoutRectangle> => {
 	const guarded = { ...rectangle };
 	const target = await measure(targetRef);
@@ -66,7 +66,7 @@ export const rectangleBind = async (
 	current: LayoutRectangle,
 	direction?: BindDirections,
 	offset?: PositionOffset,
-	padding = 8,
+	padding = 0, // vertical padding
 ): Promise<LayoutRectangle> => {
 	const result: LayoutRectangle = {
 		x: target.x + (target.width / 2 - current.width / 2) /* <- middle */,

@@ -1,19 +1,17 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import type { Collectible, Collection } from '@walless/core';
 import { Select, View } from '@walless/gui';
-import type { CollectionDocument } from '@walless/store';
+import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../../state/transaction';
-import { NavButton } from '../../components';
+} from '../../../state/transaction';
+import { NavButton } from '../components';
 
-import { NetworkFee } from './NetworkFee';
-import { RecipientInput } from './RecipientInput';
+import { NetworkFee, RecipientInput } from './components';
 
 interface Props {
 	onContinue: () => void;
@@ -23,7 +21,9 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	const { nftCollections, nftCollectibles } = useSnapshot(injectedElements);
 	const { nftCollection, nftCollectible } = useSnapshot(transactionContext);
 
-	const getRequiredFieldsForSelectToken = (item: Collection | Collectible) => {
+	const getRequiredFieldsForSelectToken = (
+		item: CollectibleDocument | CollectionDocument,
+	) => {
 		return {
 			id: item.metadata?.name as string,
 			name: item.metadata?.name as string,
@@ -31,32 +31,28 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 		};
 	};
 
+	const filteredCollectibles = (nftCollection
+		? nftCollectibles.filter((e) => e.collectionId === nftCollection._id)
+		: nftCollectibles) as never as CollectibleDocument[];
+
 	return (
 		<View style={styles.container}>
 			<Select
 				title="Select collection"
 				notFoundText="Not found collections"
-				items={nftCollections as Collection[]}
-				selected={nftCollection as Collection}
-				getRequiredFields={getRequiredFieldsForSelectToken}
+				items={nftCollections as CollectionDocument[]}
+				selected={nftCollection as CollectionDocument}
 				onSelect={transactionActions.setNftCollection}
+				getRequiredFields={getRequiredFieldsForSelectToken}
 			/>
 
 			<Select
 				title="Select NFT"
 				notFoundText="Not found NFTs"
-				items={
-					(nftCollection
-						? nftCollectibles.filter(
-								(ele) =>
-									ele.collectionId ===
-									(nftCollection as CollectionDocument)._id,
-						  )
-						: nftCollectibles) as Collectible[]
-				}
-				selected={nftCollectible as Collectible}
-				getRequiredFields={getRequiredFieldsForSelectToken}
+				items={filteredCollectibles as CollectibleDocument[]}
+				selected={nftCollectible as CollectibleDocument}
 				onSelect={transactionActions.setNftCollectible}
+				getRequiredFields={getRequiredFieldsForSelectToken}
 				itemStyle={styles.selectNftItem}
 				itemIconStyle={styles.selectNftIcon}
 				selectedItemStyle={styles.selectedNftItem}

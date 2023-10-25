@@ -4,6 +4,7 @@ import type {
 	SuiObjectData,
 } from '@mysten/sui.js';
 import { Networks } from '@walless/core';
+import type { AssetMetadata } from '@walless/core';
 import type { CollectibleDocument } from '@walless/store';
 
 export const getSuiCollectibles = async (
@@ -35,19 +36,11 @@ export const getSuiCollectibles = async (
 	}
 
 	objectResponses
-		.filter((objResponse) => {
-			if (objResponse.data) {
-				return isCollectible(objResponse.data);
-			}
-
-			return false;
-		})
+		.filter((objResponse) => isCollectible(objResponse.data))
 		.forEach((objResponse) => {
-			if (objResponse.data) {
 				collectibleDocuments.push(
-					getCollectibleDocument(objResponse.data, owner),
-				);
-			}
+					getCollectibleDocument(objResponse.data!, owner),
+				);		
 		});
 
 	return collectibleDocuments;
@@ -58,36 +51,23 @@ const getCollectibleDocument = (
 	owner: string,
 ): CollectibleDocument => {
 	const collectibleId = `${owner}/${objResponse.objectId}`;
-	const formatMetadata = () => {
-		const metadata: CollectibleDocument['metadata'] = {
-			name: 'Unknown',
-			imageUri: 'Unknown',
-			description: 'Unknown',
-			sod: objResponse,
-		};
-		if (
-			objResponse.display?.data &&
-			typeof objResponse.display.data === 'object'
-		) {
-			const objectDisplay = objResponse.display.data;
-			if ('name' in objectDisplay) {
-				metadata.name = objectDisplay.name;
-			}
+    const metadata: AssetMetadata = {
+        sod: objResponse,
+    };
 
-			if ('image_url' in objectDisplay) {
-				metadata.imageUri = objectDisplay.image_url;
-			}
-
-			if ('description' in objectDisplay) {
-				metadata.description = objectDisplay.description;
-			}
-		}
-
-		return metadata;
-	};
+    if (
+        objResponse.display?.data &&
+        typeof objResponse.display.data === 'object'
+    ) {
+        const objectDisplay = objResponse.display.data;
+        metadata.name = objectDisplay.name || 'Unknown'
+        metadata.imageUri = objectDisplay.image_url || 'Unknown'
+        metadata.description = objectDisplay.description || 'Unknown'
+    }
 
 	return {
 		_id: collectibleId,
+        // TODO: research Sui nft collection
 		collectionId: 'Unknown',
 		account: {
 			mint: objResponse.objectId,
@@ -96,12 +76,14 @@ const getCollectibleDocument = (
 		},
 		network: Networks.sui,
 		type: 'NFT',
-		metadata: formatMetadata(),
+		metadata,
 	};
 };
 
-const isCollectible = (suiObject: SuiObjectData): boolean => {
-	if (isCollection(suiObject)) {
+const isCollectible = (suiObject: SuiObjectData | undefined): boolean => {
+	if (!suiObject) return false;
+
+    if (isCollection(suiObject)) {
 		return true;
 	}
 
@@ -109,9 +91,7 @@ const isCollectible = (suiObject: SuiObjectData): boolean => {
 	if (
 		suiObject.display?.data &&
 		typeof suiObject.display.data === 'object' &&
-		('image_url' in suiObject.display.data ||
-			'img_url' in suiObject.display.data ||
-			'url' in suiObject.display.data)
+        (suiObject.display.data.image_url || suiObject.display.data.img_url || suiObject.display.data.url)
 	) {
 		url =
 			suiObject.display.data.image_url ??
@@ -123,8 +103,8 @@ const isCollectible = (suiObject: SuiObjectData): boolean => {
 		!url &&
 		!!suiObject.content &&
 		'fields' in suiObject.content &&
-		'url' in suiObject.content.fields &&
-		!('ticket_id' in suiObject.content.fields)
+		suiObject.content.fields.url &&
+		!suiObject.content.fields.ticket_id
 	) {
 		url =
 			suiObject.content.fields.url &&
@@ -142,7 +122,7 @@ const isCollection = (suiObject: SuiObjectData): boolean => {
 	return (
 		!!suiObject.content &&
 		'fields' in suiObject.content &&
-		'logical_owner' in suiObject.content.fields &&
-		'bag' in suiObject.content.fields
+		suiObject.content.fields.logical_owner &&
+		suiObject.content.fields.bag
 	);
 };

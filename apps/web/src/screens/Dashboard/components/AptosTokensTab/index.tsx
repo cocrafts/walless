@@ -1,11 +1,12 @@
-import { type FC, useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
 import type { TabAble } from '@walless/app';
 import { TabsHeader } from '@walless/app';
 import { aptosState } from '@walless/engine';
 import { getAptosConnection } from '@walless/engine/crawlers/aptos';
 import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { useSnapshot } from 'valtio';
 
 import DirectTransfer from './DirectTransfer';

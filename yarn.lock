@@ -12380,6 +12380,7 @@ __metadata:
     "@walless/core": "*"
     "@walless/crypto": "*"
     "@walless/gui": "*"
+    "@walless/network": "*"
     "@walless/store": "*"
     "@walless/ui": "*"
     react: ^18.2.0
@@ -12479,6 +12480,7 @@ __metadata:
     "@taquito/tzip16": ^16.2.0
     "@walless/core": "*"
     "@walless/graphql": "*"
+    "@walless/network": "*"
     "@walless/store": "*"
     eslint: 8.38.0
     p-limit: ^4.0.0
@@ -12677,6 +12679,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@walless/network@*, @walless/network@workspace:packages/network":
+  version: 0.0.0-use.local
+  resolution: "@walless/network@workspace:packages/network"
+  dependencies:
+    "@metaplex-foundation/js": 0.18.3
+    "@mysten/sui.js": 0.34.0
+    "@solana/spl-token": 0.3.7
+    "@solana/web3.js": 1.78.4
+    eslint: 8.38.0
+  languageName: unknown
+  linkType: soft
+
 "@walless/sdk@*, @walless/sdk@workspace:packages/sdk":
   version: 0.0.0-use.local
   resolution: "@walless/sdk@workspace:packages/sdk"
@@ -12766,6 +12780,7 @@ __metadata:
     "@walless/ioc": "*"
     "@walless/markdown": "*"
     "@walless/messaging": "*"
+    "@walless/network": "*"
     "@walless/sdk": "*"
     "@walless/store": "*"
     "@walless/ui": "*"

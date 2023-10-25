@@ -5,12 +5,13 @@ import { View } from '@walless/gui';
 
 interface Props {
 	value: string;
+	size?: number;
 }
 
-const QRCodeSVG: FC<Props> = ({ value }) => {
+const QRCodeSVG: FC<Props> = ({ value, size }) => {
 	return (
 		<View style={styles.container}>
-			<QRCode value={value} size={168} />
+			<QRCode value={value} size={size || 168} />
 		</View>
 	);
 };
@@ -19,11 +20,9 @@ export default QRCodeSVG;
 
 const styles = StyleSheet.create({
 	container: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: 194,
-		height: 194,
+		padding: 12,
 		backgroundColor: '#FFFFFF',
 		borderRadius: 8,
+		alignSelf: 'center',
 	},
 });

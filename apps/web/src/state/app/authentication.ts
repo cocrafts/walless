@@ -1,7 +1,7 @@
 import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
 import { runtime } from '@walless/core';
 import { appState } from '@walless/engine';
-import { type WalletInvitation, mutations, queries } from '@walless/graphql';
+import { mutations, queries, type WalletInvitation } from '@walless/graphql';
 import type { User } from 'firebase/auth';
 import {
 	GoogleAuthProvider,

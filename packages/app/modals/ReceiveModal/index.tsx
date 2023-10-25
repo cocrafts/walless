@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { keyState } from '@walless/engine';
 import type { ModalConfigs } from '@walless/gui';
@@ -43,10 +44,6 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 		return [...selectedItems, ...filteredItems];
 	};
 
-	const style = {
-		gap: 20,
-	};
-
 	let items: SlideOption[];
 	if (config.context) {
 		const { network } = config.context as { network: Networks };
@@ -74,9 +71,8 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 		<ModalWrapper>
 			<ModalHeader content="Receive" config={config} />
 			<Slider
-				style={style}
+				style={styles.sliderContainer}
 				items={items}
-				distance={-340}
 				indicator={indicator}
 			/>
 		</ModalWrapper>
@@ -84,3 +80,10 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 };
 
 export default ReceiveModal;
+
+const styles = StyleSheet.create({
+	sliderContainer: {
+		gap: 20,
+		overflow: 'hidden',
+	},
+});

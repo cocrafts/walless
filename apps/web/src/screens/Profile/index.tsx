@@ -1,8 +1,8 @@
 import { MainFeatureButtons } from '@walless/app';
 import { showSendModal } from '@walless/app/utils';
+import { showReceiveModal } from '@walless/app/utils';
 import { Networks } from '@walless/core';
 import { Stack } from '@walless/ui';
-import { showReceiveModal } from 'state/app/modal';
 import { onrampWithGateFi } from 'utils/gatefi';
 
 import Collectibles from './components/Collectibles';
@@ -31,7 +31,7 @@ const ProfileScreen = () => {
 
 			<MainFeatureButtons
 				onSendPress={handleSend}
-				onReceivePress={() => showReceiveModal(Networks.sui)}
+				onReceivePress={() => showReceiveModal(Networks.solana)}
 				onBuyPress={onrampWithGateFi}
 			/>
 

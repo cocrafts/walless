@@ -19,12 +19,12 @@ const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
 	return (
 		<Button style={styles.container} onPress={handleCopied}>
 			<Image style={styles.networkIcon} source={{ uri: networkIcon }} />
-			<View>
+			<View style={styles.textBlock}>
 				<Text style={styles.network}>{network}</Text>
-				<Text style={styles.address}>{address}</Text>
+				<Text style={styles.address}>{address.substring(0, 16) + '...'}</Text>
 			</View>
 
-			<Copy color="#566674" size={24} />
+			<Copy color="#566674" size={20} />
 		</Button>
 	);
 };
@@ -34,20 +34,20 @@ export default WalletAddress;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
 		backgroundColor: '#0E141A',
-		width: 308,
-		height: 48,
-		borderRadius: 8,
-		gap: 12,
 		paddingHorizontal: 12,
 		paddingVertical: 8,
+		borderRadius: 14,
+		gap: 12,
 	},
 	networkIcon: {
 		width: 36,
 		height: 36,
 		borderRadius: 36,
+	},
+	textBlock: {
+		flex: 1,
+		gap: 2,
 	},
 	network: {
 		fontSize: 16,
@@ -58,9 +58,5 @@ const styles = StyleSheet.create({
 		fontWeight: '400',
 		color: '#566674',
 		fontSize: 14,
-		textOverflow: 'ellipsis',
-		overflow: 'hidden',
-		whiteSpace: 'nowrap',
-		width: 100,
 	},
 });

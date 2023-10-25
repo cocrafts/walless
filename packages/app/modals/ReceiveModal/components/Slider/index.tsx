@@ -13,14 +13,14 @@ import type { IndicatorOption, SlideOption } from './shared';
 interface Props {
 	style?: ViewStyle;
 	items: SlideOption[];
-	distance: number;
 	onItemSelect?: (item: SlideOption) => void;
 	indicator?: IndicatorOption;
 }
 
-export const Slider: FC<Props> = ({ style, items, distance, indicator }) => {
+export const Slider: FC<Props> = ({ style, items, indicator }) => {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const offset = useSharedValue(0);
+	const [childWidth, setChildWidth] = useState(0);
 
 	const animatedStyle = useAnimatedStyle(
 		() => ({
@@ -31,38 +31,47 @@ export const Slider: FC<Props> = ({ style, items, distance, indicator }) => {
 	);
 
 	const handleItemSelect = (index: number) => {
-		offset.value = withTiming(distance * index, {});
+		offset.value = withTiming(-childWidth * index, {});
 		setActiveIndex(index);
 	};
 
 	const Indicator = indicator?.component || (() => null);
 
 	return (
-		<View style={style}>
-			<AnimatedView style={animatedStyle}>
-				{items.map((item) => {
-					const { id, component: InnerComponent } = item;
+		<View
+			style={style}
+			onLayout={({ nativeEvent }) => {
+				setChildWidth(nativeEvent.layout.width);
+			}}
+		>
+			{childWidth > 0 && (
+				<>
+					<AnimatedView style={animatedStyle}>
+						{items.map((item) => {
+							const { id, component: InnerComponent } = item;
 
-					return (
-						<View key={id}>
-							<InnerComponent config={item} />
-						</View>
-					);
-				})}
-			</AnimatedView>
+							return (
+								<View style={{ width: childWidth }} key={id}>
+									<InnerComponent config={item} />
+								</View>
+							);
+						})}
+					</AnimatedView>
 
-			<View>
-				{indicator && (
-					<Indicator
-						config={{
-							component: Indicator,
-							context: indicator.context,
-							currentActiveIndex: activeIndex,
-							setCurrentActiveIndex: handleItemSelect,
-						}}
-					/>
-				)}
-			</View>
+					<View>
+						{indicator && (
+							<Indicator
+								config={{
+									component: Indicator,
+									context: indicator.context,
+									currentActiveIndex: activeIndex,
+									setCurrentActiveIndex: handleItemSelect,
+								}}
+							/>
+						)}
+					</View>
+				</>
+			)}
 		</View>
 	);
 };

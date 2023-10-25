@@ -14,7 +14,7 @@ import WalletCard from '../../components/WalletCard';
 import { copy } from '../../utils';
 import { useSafeAreaInsets } from '../../utils/hooks';
 import { usePublicKeys, useTokens } from '../../utils/hooks';
-import { showSendModal } from '../../utils/modal';
+import { showReceiveModal, showSendModal } from '../../utils/modal';
 
 import { getWalletCardSkin } from './shared';
 
@@ -40,10 +40,13 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressSend = () => {
-		console.log(tokens, '<-- tokens');
 		showSendModal({
 			layoutNetwork: id as Networks,
 		});
+	};
+
+	const handlePressReceive = () => {
+		showReceiveModal(id as Networks);
 	};
 
 	const listHeader = (
@@ -63,7 +66,11 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 						/>
 					);
 				})}
-			<MainFeatureButtons onSendPress={handlePressSend} />
+
+			<MainFeatureButtons
+				onSendPress={handlePressSend}
+				onReceivePress={handlePressReceive}
+			/>
 		</View>
 	);
 

@@ -9,13 +9,13 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { copy, showSendModal } from '@walless/app/utils';
+import { showReceiveModal } from '@walless/app/utils';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import { Stack } from '@walless/ui';
-import { showReceiveModal } from 'state/app/modal';
 import { onrampWithGateFi } from 'utils/gatefi';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 

@@ -49,7 +49,7 @@ const Introduction = () => {
 					</View>
 				</View>
 				<View style={styles.subpart}>
-					<Text>8 members</Text>
+					<Text>9 members</Text>
 					<Text>2023</Text>
 				</View>
 			</View>
@@ -65,17 +65,16 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		minHeight: 500,
 	},
 	introductionText: {
 		color: '#ffffff',
-		fontSize: 40,
+		fontSize: 28,
 		fontWeight: '500',
-		lineHeight: 60,
+		lineHeight: 48,
 	},
 	introductionContainer: {
 		flexDirection: 'row',
-		gap: 40,
+		gap: 60,
 	},
 	introductionLeftPart: {
 		flex: 1,
@@ -97,11 +96,11 @@ const styles = StyleSheet.create({
 	valueTitle: {
 		fontWeight: '600',
 		color: '#798997',
-		fontSize: 16,
+		fontSize: 14,
 	},
 	valueContent: {
 		color: '#566674',
-		fontSize: 16,
+		fontSize: 14,
 		lineHeight: 24,
 	},
 	subpart: {

@@ -42,34 +42,36 @@ export default AboutUsFeature;
 const styles = StyleSheet.create({
 	container: {
 		width: '100%',
-		gap: 40,
+		gap: 28,
 	},
 	heroSection: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: '100%',
-		height: 205,
+		paddingVertical: 60,
 		borderRadius: 30,
 		backgroundColor: '#19A3E1',
 		marginTop: 40,
 	},
 	title: {
-		fontSize: 60,
+		fontSize: 40,
 		fontWeight: '500',
 		color: '#ffffff',
 	},
 	membersContainer: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		// justifyContent: 'center',
 		flexWrap: 'wrap',
+		marginVertical: 40,
+		// paddingHorizontal: 40,
 	},
 	recruitmentContainer: {
 		flexDirection: 'row',
-		gap: 80,
+		gap: 40,
 		backgroundColor: '#0694D3',
-		paddingHorizontal: 80,
-		paddingTop: 60,
-		paddingBottom: 80,
+		paddingHorizontal: 60,
+		paddingTop: 40,
+		paddingBottom: 60,
 		borderTopRightRadius: 20,
 		borderTopLeftRadius: 20,
 	},
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
 	},
 	recruitmentTitle: {
 		color: '#ffffff',
-		fontSize: 32,
+		fontSize: 28,
 		fontWeight: '500',
 	},
 });

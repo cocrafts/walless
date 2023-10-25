@@ -41,15 +41,15 @@ export default RecruitmentCard;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
-		padding: 48,
-		gap: 30,
+		padding: 36,
+		gap: 20,
 		backgroundColor: '#131C24',
 		borderRadius: 20,
 	},
 	title: {
 		color: '#ffffff',
-		fontSize: 40,
-		width: '40%',
+		fontSize: 32,
+		width: '35%',
 		maxWidth: 400,
 	},
 	contentContainer: {
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
 	},
 	description: {
 		color: '#ffffff',
-		fontSize: 16,
 	},
 	descriptionContainer: {
 		flexDirection: 'row',
@@ -76,14 +75,15 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#0694D3',
-		height: 48,
 		maxWidth: 120,
-		paddingHorizontal: 36,
-		paddingVertical: 16,
+		paddingLeft: 40,
+		paddingRight: 40,
+		paddingTop: 8,
+		paddingBottom: 8,
 		borderRadius: 16,
 	},
 	applyUrl: {
 		color: '#ffffff',
-		fontSize: 18,
+		fontSize: 16,
 	},
 });

@@ -21,29 +21,44 @@ const MemberCard: FC<MemberProps> = ({
 	avatar,
 	description,
 	socials,
-	size = 312,
+	size = 212,
 }) => {
 	const [isHovered, setIsHovered] = useState(false);
+	const BIGGEST_NUMBER_OF_CARD = 5;
 	const containerStyle = {
 		width: size,
-		height: size,
+		height: (size * 312) / 362,
+	};
+
+	const containerMarginStyle = {
+		margin:
+			(1200 - size * BIGGEST_NUMBER_OF_CARD) / (BIGGEST_NUMBER_OF_CARD * 3),
+		borderRadius: size > 300 ? 20 : 12,
 	};
 
 	return (
 		<Hoverable
 			onHoverIn={() => setIsHovered(true)}
 			onHoverOut={() => setIsHovered(false)}
-			style={[styles.container, containerStyle]}
+			style={[styles.container, containerStyle, containerMarginStyle]}
 		>
-			<Image src={avatar} alt="" width={size} height={size} />
+			<Image
+				style={{
+					objectFit: 'cover',
+				}}
+				src={avatar}
+				alt=""
+				width={size}
+				height={(size * 312) / 362}
+			/>
 			{isHovered && (
 				<View style={[styles.hoveredContainer, containerStyle]}>
 					<View style={styles.imageBackground}>
 						<Image
-							src="/img/blogs/hover-image.svg"
+							src="/img/team/walless-logo-mask.svg"
 							alt=""
-							width={((size / 2) * 471) / 258}
-							height={size / 2}
+							width={(size  )}
+							height={(size  ) * 163 /314}
 						/>
 					</View>
 					<View>
@@ -59,7 +74,7 @@ const MemberCard: FC<MemberProps> = ({
 						</Text>
 					</View>
 					<View style={styles.separatedLine} />
-					<Text style={styles.smallText}>{description}</Text>
+					<Text ellipsizeMode='tail' numberOfLines={3} style={styles.smallText}>{description}</Text>
 					<View style={styles.socialContainer}>
 						{socials.map((item, idx) => (
 							<SocialCard key={idx} image={item.image} url={item.url} />
@@ -77,27 +92,27 @@ const styles = StyleSheet.create({
 	container: {
 		borderRadius: 20,
 		overflow: 'hidden',
-		marginVertical: 10,
 	},
 	hoveredContainer: {
 		position: 'absolute',
 		backgroundColor: '#19A3E1',
 		justifyContent: 'flex-end',
-		paddingHorizontal: 20,
-		paddingBottom: 20,
-		gap: 12,
+		paddingHorizontal: 12,
+		paddingBottom: 12,
+		gap: 8,
 	},
 	socialContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 6,
+		gap: 4,
 	},
 	nameText: {
-		fontSize: 20,
+		fontSize: 16,
 		fontWeight: '500',
 		color: '#ffffff',
 	},
 	smallText: {
+		fontSize: 12,
 		color: '#ffffff',
 	},
 	separatedLine: {
@@ -107,7 +122,7 @@ const styles = StyleSheet.create({
 	},
 	imageBackground: {
 		position: 'absolute',
-		bottom: 0,
-		right: 0,
+		bottom: -6,
+		right: -46,
 	},
 });

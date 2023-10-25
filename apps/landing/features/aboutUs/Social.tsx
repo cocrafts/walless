@@ -8,7 +8,7 @@ export interface SocialProps {
 	size?: number;
 }
 
-const SocialCard: FC<SocialProps> = ({ image, url, size = 30 }) => {
+const SocialCard: FC<SocialProps> = ({ image, url, size = 20 }) => {
 	return (
 		<Link href={url} target="_blank">
 			<Image src={image} alt={image} height={size} width={size} />

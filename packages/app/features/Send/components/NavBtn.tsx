@@ -5,11 +5,11 @@ import { Button } from '@walless/gui';
 
 interface Props {
 	title: string;
-	onPress?: () => void;
 	style?: ViewStyle;
+	onPress?: () => void;
 }
 
-export const NavButton: FC<Props> = ({ title, onPress, style }) => {
+export const NavButton: FC<Props> = ({ title, style, onPress }) => {
 	const handlePress = () => {
 		onPress && onPress();
 	};
@@ -26,8 +26,6 @@ export const NavButton: FC<Props> = ({ title, onPress, style }) => {
 
 const styles = StyleSheet.create({
 	button: {
-		justifyContent: 'center',
-		alignItems: 'center',
 		backgroundColor: '#0694D3',
 		borderRadius: 15,
 		height: 48,

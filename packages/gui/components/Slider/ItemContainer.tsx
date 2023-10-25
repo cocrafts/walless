@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 import type { LayoutRectangle, ViewStyle } from 'react-native';
-import type { AnimatedStyleProp, SharedValue } from 'react-native-reanimated';
+import type { SharedValue } from 'react-native-reanimated';
 import {
 	useAnimatedStyle,
 	useSharedValue,
@@ -48,7 +48,7 @@ export const ItemContainer: FC<Props> = ({
 			index,
 			activatedIndex,
 			layout: containerLayout,
-		}) as unknown as AnimatedStyleProp<ViewStyle>;
+		});
 	}, [animatedOffset, progress, activatedIndex, containerLayout]);
 
 	useEffect(() => {
@@ -58,13 +58,7 @@ export const ItemContainer: FC<Props> = ({
 	}, [activatedIndex]);
 
 	return (
-		<AnimatedView
-			style={[
-				style as AnimatedStyleProp<ViewStyle>,
-				sizedStyle as AnimatedStyleProp<ViewStyle>,
-				animatedStyle,
-			]}
-		>
+		<AnimatedView style={[style, sizedStyle, animatedStyle]}>
 			{children}
 		</AnimatedView>
 	);

@@ -11,8 +11,8 @@ export const showReceiveModal = (layoutNetWork: Networks) => {
 	modalActions.show({
 		id: 'receive-token',
 		bindingDirection: BindDirections.InnerBottom,
-		component: ReceiveModal,
 		animateDirection: AnimateDirections.Top,
+		component: ReceiveModal,
 		context: {
 			network: layoutNetWork,
 		},
@@ -28,8 +28,8 @@ export const showSendModal = (configs?: SendModalConfig) => {
 	modalActions.show({
 		id: 'send-token',
 		bindingDirection: BindDirections.InnerBottom,
-		component: SendModal,
 		animateDirection: AnimateDirections.Top,
+		component: SendModal,
 		context: {
 			layoutNetwork: configs?.layoutNetwork,
 			collectible: configs?.collectible,

@@ -8,14 +8,14 @@ import {
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
+import { copy, showSendModal } from '@walless/app/utils';
+import { showReceiveModal } from '@walless/app/utils';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import { Stack } from '@walless/ui';
-import { appActions } from 'state/app';
-import { showReceiveModal } from 'state/app/modal';
 import { onrampWithGateFi } from 'utils/gatefi';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
@@ -53,11 +53,11 @@ export const SuiDashboard: FC<Props> = () => {
 	};
 
 	const handleCopyAddress = async (value: string) => {
-		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
+		await copy(value, () => <Copy size={18} color="#FFFFFF" />);
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal({ layoutNetwork: Networks.sui });
+		showSendModal({ layoutNetwork: Networks.sui });
 	};
 
 	const handleBuy = () => {

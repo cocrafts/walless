@@ -2,9 +2,11 @@ import type { FC } from 'react';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 
+import type { TabAble } from '../../components/TabsHeader';
 import type { CardSkin } from '../../components/WalletCard';
 
 import BuiltInNetwork from './BuiltInNetwork';
+import { EmptyTab } from './components';
 import NotFound from './NotFound';
 
 export interface WidgetProps {
@@ -50,3 +52,21 @@ export const getWalletCardSkin = (id: Networks): CardSkin => {
 		iconSize,
 	};
 };
+
+export const layoutTabs: TabAble[] = [
+	{
+		id: 'tokens',
+		title: 'Tokens',
+		component: EmptyTab,
+	},
+	{
+		id: 'collectibles',
+		title: 'Collectibles',
+		component: EmptyTab,
+	},
+	{
+		id: 'activities',
+		title: 'Activities',
+		component: EmptyTab,
+	},
+];

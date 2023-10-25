@@ -1,5 +1,5 @@
 import { createEngine } from '@walless/engine';
-import { modules } from '@walless/ioc';
+import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
 import IDBPouch from 'pouchdb-adapter-idb';
@@ -9,9 +9,11 @@ import { makeConfig } from '../../scripts/kernel/utils/config';
 
 import { webAsset } from './config';
 import { qlClient } from './graphql';
+import { createAndSend } from './transaction';
 import { key } from './w3a';
 
 export const injectModules = async () => {
+	utils.createAndSend = createAndSend;
 	const storage = create('engine', IDBPouch);
 
 	modules.config = makeConfig() as never;

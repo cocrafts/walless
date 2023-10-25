@@ -41,5 +41,6 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		backgroundColor: 'transparent',
+		paddingHorizontal: 0,
 	},
 });

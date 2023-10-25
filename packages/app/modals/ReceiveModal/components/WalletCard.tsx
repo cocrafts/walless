@@ -22,7 +22,7 @@ const WalletCard: FC<Props> = ({ config }) => {
 
 	return (
 		<View style={styles.container}>
-			<QRCodeSVG value={address} />
+			<QRCodeSVG value={address} size={200} />
 			<WalletAddress
 				network={network}
 				networkIcon={networkIcon}
@@ -36,13 +36,15 @@ export default WalletCard;
 
 const styles = StyleSheet.create({
 	container: {
+		height: 400,
 		justifyContent: 'space-between',
-		alignItems: 'center',
-		width: 340,
-		height: 340,
 		backgroundColor: '#242F38',
 		borderRadius: 16,
-		paddingTop: 44,
-		paddingBottom: 20,
+		paddingTop: 50,
+		paddingBottom: 24,
+		paddingHorizontal: 24,
+	},
+	qr: {
+		alignItems: 'center',
 	},
 });

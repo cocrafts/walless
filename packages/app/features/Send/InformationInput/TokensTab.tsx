@@ -2,19 +2,22 @@ import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Token } from '@walless/core';
 import { Select, View } from '@walless/gui';
+import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../../state/transaction';
-import { NavButton } from '../../components';
+} from '../../../state/transaction';
+import { NavButton } from '../components';
 
-import { AmountInput } from './AmountInput';
-import { NetworkFee } from './NetworkFee';
-import { RecipientInput } from './RecipientInput';
-import { TotalCost } from './TotalCost';
+import {
+	AmountInput,
+	NetworkFee,
+	RecipientInput,
+	TotalCost,
+} from './components';
 
 interface Props {
 	temp?: string;
@@ -37,10 +40,10 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		<View style={styles.container}>
 			<Select
 				title="Select token"
-				items={tokens as unknown as Token[]}
-				selected={token as Token}
-				getRequiredFields={getRequiredFieldsForSelectToken}
+				items={tokens as TokenDocument[]}
+				selected={token as TokenDocument}
 				onSelect={transactionActions.setToken}
+				getRequiredFields={getRequiredFieldsForSelectToken}
 			/>
 
 			<RecipientInput />

@@ -16,10 +16,11 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#141B21',
 		justifyContent: 'space-between',
-		gap: 24,
+		gap: 60,
 		borderTopRightRadius: 20,
 		borderTopLeftRadius: 20,
-		paddingVertical: 28,
+		paddingTop: 20,
+		paddingBottom: 40,
 		paddingHorizontal: 28,
 	},
 });

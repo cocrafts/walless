@@ -8,6 +8,7 @@ import {
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
+import { copy, showSendModal } from '@walless/app/utils';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
@@ -15,7 +16,6 @@ import { Copy } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import { Stack } from '@walless/ui';
 import { layoutTabs } from 'screens/Dashboard/shared';
-import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { onrampWithGateFi } from 'utils/gatefi';
 import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
@@ -55,11 +55,11 @@ export const SolanaDashboard: FC<Props> = () => {
 	};
 
 	const handleCopyAddress = async (value: string) => {
-		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
+		await copy(value, () => <Copy size={18} color="#FFFFFF" />);
 	};
 
 	const handleSend = () => {
-		appActions.showSendModal({ layoutNetwork: Networks.solana });
+		showSendModal({ layoutNetwork: Networks.solana });
 	};
 
 	const handleBuy = () => {

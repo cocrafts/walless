@@ -1,7 +1,7 @@
 import { MainFeatureButtons } from '@walless/app';
+import { showSendModal } from '@walless/app/utils';
 import { Networks } from '@walless/core';
 import { Stack } from '@walless/ui';
-import { appActions } from 'state/app';
 import { showReceiveModal } from 'state/app/modal';
 import { onrampWithGateFi } from 'utils/gatefi';
 
@@ -12,7 +12,7 @@ import Widgets from './components/Widgets';
 
 const ProfileScreen = () => {
 	const handleSend = () => {
-		appActions.showSendModal();
+		showSendModal();
 	};
 
 	return (

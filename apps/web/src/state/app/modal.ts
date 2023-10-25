@@ -1,10 +1,9 @@
 import type { FC } from 'react';
 import { NotificationModal } from '@walless/app';
-import type { Collectible, Networks } from '@walless/core';
+import type { Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import ReceiveTokenScreen from 'screens/Profile/modals/ReceiveToken';
-import SendModal from 'screens/Profile/modals/SendModal';
 
 export const showReceiveModal = (layoutNetWork: Networks) => {
 	modalActions.show({
@@ -14,24 +13,6 @@ export const showReceiveModal = (layoutNetWork: Networks) => {
 		animateDirection: AnimateDirections.Top,
 		context: {
 			network: layoutNetWork,
-		},
-	});
-};
-
-export interface SendModalConfig {
-	layoutNetwork?: Networks;
-	collectible?: Collectible;
-}
-
-export const showSendModal = (configs?: SendModalConfig) => {
-	modalActions.show({
-		id: 'send-token',
-		bindingDirection: BindDirections.InnerBottom,
-		component: SendModal,
-		animateDirection: AnimateDirections.Top,
-		context: {
-			layoutNetwork: configs?.layoutNetwork,
-			collectible: configs?.collectible,
 		},
 	});
 };

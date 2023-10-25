@@ -12,11 +12,10 @@ export const getSuiCollectibles = async (
 ) => {
 	const collectibleDocuments: CollectibleDocument[] = [];
 	let objectResponses: PaginatedObjectsResponse['data'] = [];
-	let nextCursor: PaginatedObjectsResponse['nextCursor'] | undefined;
 	let cursor: PaginatedObjectsResponse['nextCursor'] | undefined;
-	while (nextCursor !== null) {
+	while (cursor !== null) {
 		const allOwnedObjects = await connection.getOwnedObjects({
-			owner,
+			owner: '0x2cb9a508ecf7b9aacd4f50fca38e647050a13a660d92c9662ef1f2d5260595d8',
 			cursor,
 			options: {
 				showType: true,
@@ -26,15 +25,13 @@ export const getSuiCollectibles = async (
 			},
 		});
 
-		cursor = allOwnedObjects.nextCursor;
+        objectResponses = [...objectResponses, ...allOwnedObjects.data];
 
-		if (allOwnedObjects.hasNextPage && nextCursor !== cursor) {
-			nextCursor = cursor;
+		if (allOwnedObjects.hasNextPage && cursor !== allOwnedObjects.nextCursor) {
+			cursor = allOwnedObjects.nextCursor;
 		} else {
-			nextCursor = null;
+			cursor = null;
 		}
-
-		objectResponses = [...objectResponses, ...allOwnedObjects.data];
 	}
 
 	objectResponses

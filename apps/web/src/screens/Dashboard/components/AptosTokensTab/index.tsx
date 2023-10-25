@@ -17,6 +17,8 @@ interface Props {
 	pubkey: string;
 }
 
+const APTOS_COIN_DECIMALS = 8;
+
 const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 	const aptosSnap = useSnapshot(aptosState);
 	const [fee, setFee] = useState(0);
@@ -25,9 +27,9 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 		const getFee = async () => {
 			const conn = await getAptosConnection();
 			const fee = await conn.estimateGasPrice();
-			return fee.gas_estimate / 10 ** 8;
+			setFee(fee.gas_estimate / 10 ** APTOS_COIN_DECIMALS);
 		};
-		getFee().then(setFee).catch(console.error);
+		getFee();
 	}, [aptosSnap]);
 
 	const ownedTokens = Array.from(aptosSnap.ownedTokens.values());

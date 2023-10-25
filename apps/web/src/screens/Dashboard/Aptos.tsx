@@ -20,6 +20,7 @@ import ActivityTab from './components/ActivityTab';
 import AptosTokensTab from './components/AptosTokensTab';
 import { TokenTab } from './components';
 import { layoutTabs } from './shared';
+import { modules } from '@walless/ioc';
 
 const AptosDashboard = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -74,7 +75,7 @@ const AptosDashboard = () => {
 						index={index}
 						item={item}
 						valuation={valuation}
-						skin={aptosCardSkin}
+						skin={makeCardSkin()}
 						hideBalance={setting.hideBalance}
 						onCopyAddress={handleCopyAddress}
 						onChangePrivateSetting={handleChangePrivateSetting}
@@ -113,12 +114,14 @@ const AptosDashboard = () => {
 
 export default AptosDashboard;
 
-const aptosCardSkin: CardSkin = {
-	backgroundSrc: { uri: '/img/network/sky-card-bg.png' },
-	largeIconSrc: { uri: '/img/explore/logo-aptos-large.svg' },
-	iconSrc: { uri: '/img/explore/logo-aptos.svg' },
-	iconColor: 'transparent',
-	iconSize: 16,
+const makeCardSkin = (): CardSkin => {
+	return {
+		backgroundSrc: modules.asset.widget.aptos.cardBackground,
+		iconSrc: modules.asset.widget.aptos.cardIcon,
+		largeIconSrc: modules.asset.widget.aptos.cardMark,
+		iconColor: '#000000',
+		iconSize: 16,
+	};
 };
 
 const styles = StyleSheet.create({

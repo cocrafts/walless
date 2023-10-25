@@ -95,7 +95,7 @@ const AptosDashboard = () => {
 				)}
 			</View>
 
-			<View>
+			<View style={styles.tabsContainer}>
 				<TabsHeader
 					items={layoutTabs}
 					activeItem={layoutTabs[activeTabIndex]}
@@ -137,6 +137,9 @@ const styles = StyleSheet.create({
 	walletsContainer: {
 		flexDirection: 'row',
 		gap: 12,
+	},
+	tabsContainer: {
+		flex: 1,
 	},
 	sliderContainer: {
 		flex: 1,

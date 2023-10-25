@@ -35,18 +35,16 @@ export const TokenList: FC<Props> = ({
 	};
 
 	return (
-		<View>
-			<FlatList
-				ListHeaderComponent={ListHeaderComponent}
-				showsVerticalScrollIndicator={false}
-				style={style}
-				contentContainerStyle={contentContainerStyle}
-				data={items}
-				renderItem={renderItem}
-				ItemSeparatorComponent={Separator}
-				ListEmptyComponent={ListEmpty}
-			/>
-		</View>
+		<FlatList
+			ListHeaderComponent={ListHeaderComponent}
+			showsVerticalScrollIndicator={false}
+			style={style}
+			contentContainerStyle={contentContainerStyle}
+			data={items}
+			renderItem={renderItem}
+			ItemSeparatorComponent={Separator}
+			ListEmptyComponent={ListEmpty}
+		/>
 	);
 };
 

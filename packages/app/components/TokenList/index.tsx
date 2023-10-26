@@ -6,7 +6,6 @@ import type { TokenDocument } from '@walless/store';
 import TokenItem from './Item';
 import ListEmpty from './ListEmpty';
 import Separator from './Separator';
-import { View } from '@walless/gui';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;

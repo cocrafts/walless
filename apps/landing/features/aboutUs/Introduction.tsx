@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
 	separateLine: {
 		borderTopColor: '#ffffff',
 		borderTopWidth: 1,
-		width: '100%',
 		paddingTop: 6,
 	},
 });

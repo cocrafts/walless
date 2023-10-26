@@ -28,7 +28,7 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 					transaction: JSON.stringify({
 						pubkey,
 						directTransfer: !directTransfer,
-					} as aptosHandlers.AptosDirectTransferPayload),
+					} satisfies aptosHandlers.AptosDirectTransferPayload),
 					passcode,
 				});
 				return res;

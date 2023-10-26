@@ -33,7 +33,7 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 						creator: token.creatorAddress,
 						collectionName: token.collectionName,
 						name: token.name,
-					} as aptosHandlers.AptosClaimTokenPayload),
+					} satisfies aptosHandlers.AptosClaimTokenPayload),
 					passcode,
 				});
 				return res;

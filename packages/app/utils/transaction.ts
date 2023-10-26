@@ -138,20 +138,25 @@ export const constructTransaction = async ({
 			return {
 				from: sender,
 				to: receiver,
-				creator: (token as Collectible).metadata.aptosToken?.creatorAddress,
-				collectionName: (token as Collectible).metadata.aptosToken
-					?.collectionName,
-				tokenName: (token as Collectible).metadata.name,
+				creator:
+					(token as Collectible).metadata.aptosToken?.creatorAddress || '',
+				collectionName:
+					(token as Collectible).metadata.aptosToken?.collectionName || '',
+				tokenName: (token as Collectible).metadata.name || '',
+				wallessCollectionId:
+					(token as Collectible).metadata.aptosToken?.wallessCollectionId || '',
+				wallessCollectibleId:
+					(token as Collectible).metadata.aptosToken?.collectibleId || '',
 				amount: amount,
-			} as aptosHandlers.AptosTokenPayload;
+			} satisfies aptosHandlers.AptosTokenPayload;
 		} else {
 			return {
 				from: sender,
 				to: receiver,
-				token: (token as Token).account.address,
+				token: (token as Token).account.address || '',
 				amount: amount,
 				decimals: (token as Token).account?.decimals,
-			} as aptosHandlers.AptosCoinPayload;
+			} satisfies aptosHandlers.AptosCoinPayload;
 		}
 	}
 

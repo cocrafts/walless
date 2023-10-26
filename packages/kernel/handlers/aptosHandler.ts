@@ -1,3 +1,4 @@
+import { collectibleState, collectionState } from '@walless/engine';
 import { getAptosConnection } from '@walless/engine/crawlers/aptos';
 import {
 	APTOS_COIN,
@@ -57,6 +58,8 @@ export const handleTransferCoin = async (
 };
 
 export interface AptosTokenPayload {
+	wallessCollectionId: string;
+	wallessCollectibleId: string;
 	from: string;
 	to: string;
 	creator: string;
@@ -113,6 +116,15 @@ export const handleTransferToken = async (
 	}
 
 	await connection.waitForTransaction(txHash);
+
+	collectibleState.map.delete(txData.wallessCollectibleId);
+	const collection = collectionState.map.get(txData.wallessCollectionId);
+	if (collection) {
+		collection.count--;
+		if (collection.count === 0) {
+			collectionState.map.delete(txData.wallessCollectionId);
+		}
+	}
 
 	return txHash;
 };

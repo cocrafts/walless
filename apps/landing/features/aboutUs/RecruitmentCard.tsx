@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { Fragment, type FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import Link from 'next/link';
@@ -18,7 +18,7 @@ const RecruitmentCard: FC<RecruitmentCardProps> = ({
 		<View style={styles.container}>
 			<Text style={styles.title}>{title}</Text>
 			<View style={styles.contentContainer}>
-				<View>
+				<Fragment>
 					{description.map((item, idx) => (
 						<View key={idx} style={styles.descriptionContainer}>
 							<View style={styles.bulletList} />
@@ -27,7 +27,7 @@ const RecruitmentCard: FC<RecruitmentCardProps> = ({
 							</Text>
 						</View>
 					))}
-				</View>
+				</Fragment>
 				<Link href={applyUrl} target="_blank" style={styles.applyUrlContainer}>
 					<Text style={styles.applyUrl}>Apply</Text>
 				</Link>

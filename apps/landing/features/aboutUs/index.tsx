@@ -5,6 +5,7 @@ import { members, recruitments } from './internal';
 import Introduction from './Introduction';
 import MemberCard from './MemberCard';
 import RecruitmentCard from './RecruitmentCard';
+import { Fragment } from 'react';
 
 const AboutUsFeature = () => {
 	return (
@@ -23,10 +24,10 @@ const AboutUsFeature = () => {
 				))}
 			</View>
 			<View style={styles.recruitmentContainer}>
-				<View>
+				<Fragment>
 					<Text style={styles.recruitmentTitle}>About</Text>
 					<Text style={styles.recruitmentTitle}>Open recruitment</Text>
-				</View>
+				</Fragment>
 				<View style={styles.recruitmentContentContainer}>
 					{recruitments.map((item, idx) => (
 						<RecruitmentCard key={idx} {...item} />

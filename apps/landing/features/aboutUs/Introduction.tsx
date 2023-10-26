@@ -46,17 +46,13 @@ const Introduction = () => {
 				</View>
 			</View>
 
-			<View>
-				<View style={styles.separateLine} />
-
-				<View style={styles.introductionContainer}>
-					<View style={styles.subpart}>
-						<Text>Our team</Text>
-					</View>
-					<View style={styles.subpart}>
-						<Text>9 members</Text>
-						<Text>2023</Text>
-					</View>
+			<View style={[styles.introductionContainer, styles.separateLine]}>
+				<View style={styles.subpart}>
+					<Text>Our team</Text>
+				</View>
+				<View style={styles.subpart}>
+					<Text>9 members</Text>
+					<Text>2023</Text>
 				</View>
 			</View>
 		</View>
@@ -93,7 +89,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-
 	valueBlock: {
 		gap: 6,
 	},
@@ -113,9 +108,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	separateLine: {
-		marginBottom: 6,
+		borderTopColor: '#ffffff',
+		borderTopWidth: 1,
 		width: '100%',
-		height: 1,
-		backgroundColor: '#ffffff',
+		paddingTop: 6,
 	},
 });

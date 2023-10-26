@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#0B1218',
 	},
 	text: {
+		width: '100%',
 		fontWeight: '600',
 		color: '#FFFFFF',
 		marginTop: 14,

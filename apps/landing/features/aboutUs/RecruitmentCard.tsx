@@ -19,16 +19,14 @@ const RecruitmentCard: FC<RecruitmentCardProps> = ({
 		<View style={styles.container}>
 			<Text style={styles.title}>{title}</Text>
 			<View style={styles.contentContainer}>
-				<Fragment>
-					{description.map((item, idx) => (
-						<View key={idx} style={styles.descriptionContainer}>
-							<View style={styles.bulletList} />
-							<Text numberOfLines={1} style={styles.description}>
-								{item}
-							</Text>
-						</View>
-					))}
-				</Fragment>
+				{description.map((item, idx) => (
+					<View key={idx} style={styles.descriptionContainer}>
+						<View style={styles.bulletList} />
+						<Text numberOfLines={1} style={styles.description}>
+							{item}
+						</Text>
+					</View>
+				))}
 				<Link href={applyUrl} target="_blank" style={styles.applyUrlContainer}>
 					<Text style={styles.applyUrl}>Apply</Text>
 				</Link>
@@ -55,7 +53,6 @@ const styles = StyleSheet.create({
 	},
 	contentContainer: {
 		flex: 1,
-		gap: 30,
 	},
 	description: {
 		color: '#ffffff',
@@ -82,6 +79,7 @@ const styles = StyleSheet.create({
 		paddingTop: 8,
 		paddingBottom: 8,
 		borderRadius: 16,
+		marginTop: 30,
 	},
 	applyUrl: {
 		color: '#ffffff',

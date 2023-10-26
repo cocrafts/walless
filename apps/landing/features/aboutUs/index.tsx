@@ -24,10 +24,10 @@ const AboutUsFeature = () => {
 				))}
 			</View>
 			<View style={styles.recruitmentContainer}>
-				<Fragment>
+				<View>
 					<Text style={styles.recruitmentTitle}>About</Text>
 					<Text style={styles.recruitmentTitle}>Open recruitment</Text>
-				</Fragment>
+				</View>
 				<View style={styles.recruitmentContentContainer}>
 					{recruitments.map((item, idx) => (
 						<RecruitmentCard key={idx} {...item} />

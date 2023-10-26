@@ -60,10 +60,8 @@ const styles = StyleSheet.create({
 	},
 	membersContainer: {
 		flexDirection: 'row',
-		// justifyContent: 'center',
 		flexWrap: 'wrap',
 		marginVertical: 40,
-		// paddingHorizontal: 40,
 	},
 	recruitmentContainer: {
 		flexDirection: 'row',

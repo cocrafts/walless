@@ -56,6 +56,67 @@ export const handleTransferCoin = async (
 	return txHash;
 };
 
+export interface AptosTokenPayload {
+	from: string;
+	to: string;
+	creator: string;
+	collectionName: string;
+	tokenName: string;
+	amount: number;
+}
+
+export const handleTransferToken = async (
+	privateKey: Uint8Array,
+	transaction: string,
+) => {
+	const txData = JSON.parse(transaction) as AptosTokenPayload;
+
+	const fromPubkey = new HexString(txData.from);
+	const toPubkey = new HexString(txData.to);
+	const creatorPubkey = new HexString(txData.creator);
+	const fromAccount = new AptosAccount(privateKey, fromPubkey);
+
+	const connection = await getAptosConnection();
+	const tokenClient = new TokenClient(connection.aptosClient);
+
+	const resource = await connection.getAccountResource(
+		toPubkey,
+		'0x3::token::TokenStore',
+	);
+	const hasOptedIn = (
+		resource.data as {
+			direct_transfer: boolean;
+		}
+	).direct_transfer;
+
+	let txHash: string = '';
+
+	if (hasOptedIn) {
+		txHash = await tokenClient.transferWithOptIn(
+			fromAccount,
+			creatorPubkey,
+			txData.collectionName,
+			txData.tokenName,
+			0,
+			toPubkey,
+			txData.amount,
+		);
+	} else {
+		txHash = await tokenClient.offerToken(
+			fromAccount,
+			toPubkey,
+			creatorPubkey,
+			txData.collectionName,
+			txData.tokenName,
+			txData.amount,
+		);
+	}
+
+	await connection.waitForTransaction(txHash);
+
+	return txHash;
+};
+
 export interface AptosDirectTransferPayload {
 	pubkey: string;
 	directTransfer: boolean;

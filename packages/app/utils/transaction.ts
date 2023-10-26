@@ -143,7 +143,7 @@ export const constructTransaction = async ({
 					?.collectionName,
 				tokenName: (token as Collectible).metadata.name,
 				amount: amount,
-			};
+			} as aptosHandlers.AptosTokenPayload;
 		} else {
 			return {
 				from: sender,

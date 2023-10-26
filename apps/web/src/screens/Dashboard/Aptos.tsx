@@ -54,7 +54,7 @@ const AptosDashboard = () => {
 	};
 
 	const handleSend = () => {
-		showSendModal({ layoutNetwork: Networks.solana });
+		showSendModal({ layoutNetwork: Networks.aptos });
 	};
 
 	const handleBuy = () => {

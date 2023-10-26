@@ -37,9 +37,6 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 				});
 				return res;
 			},
-			onActionComplete: () => {
-				modalActions.hide('passcode');
-			},
 		});
 	};
 

@@ -1,5 +1,5 @@
 import { showRequirePasscodeModal } from '@walless/app/utils';
-import { Hoverable, modalActions, Text, View } from '@walless/gui';
+import { Hoverable, Text, View } from '@walless/gui';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 import type { FC } from 'react';
@@ -33,7 +33,6 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 				return res;
 			},
 			onActionComplete: () => {
-				modalActions.hide('passcode');
 				setDisabled(true);
 			},
 		});

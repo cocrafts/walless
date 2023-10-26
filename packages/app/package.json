@@ -17,7 +17,6 @@
     "@walless/core": "*",
     "@walless/crypto": "*",
     "@walless/gui": "*",
-    "@walless/network": "*",
     "@walless/store": "*",
     "@walless/ui": "*",
     "react": "^18.2.0",
@@ -29,6 +28,6 @@
     "eslint": "8.38.0"
   },
   "dependencies": {
-    "react-native-safe-area-context": "^4.7.2"
+    "react-native-safe-area-context": "^4.7.3"
   }
 }

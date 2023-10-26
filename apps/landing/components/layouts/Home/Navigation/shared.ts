@@ -23,6 +23,10 @@ export const navigationItems: NavigationConfig[] = [
 		href: '/blogs',
 	},
 	{
+		title: 'About us',
+		href: '/aboutUs',
+	},
+	{
 		title: 'Resources',
 		href: '/resources',
 	},

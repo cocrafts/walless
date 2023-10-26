@@ -18,6 +18,7 @@ module.exports = withPlugins(
 				'@walless/gui',
 				'@walless/icons',
 				'@walless/markdown',
+				'react-native-qrcode-svg',
 			],
 		},
 	],

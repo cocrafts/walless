@@ -1,11 +1,5 @@
-import RequirePasscodeModal from '@walless/app/modals/RequirePasscodeModal';
-import {
-	BindDirections,
-	Hoverable,
-	modalActions,
-	Text,
-	View,
-} from '@walless/gui';
+import { showRequirePasscodeModal } from '@walless/app/utils';
+import { Hoverable, modalActions, Text, View } from '@walless/gui';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 import type { FC } from 'react';
@@ -24,30 +18,24 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 	const [disabled, setDisabled] = useState(false);
 
 	const handleDirectTransfer = async () => {
-		modalActions.show({
-			component: () => (
-				<RequirePasscodeModal
-					title={`Turn ${directTransfer ? 'off' : 'on'} direct transfer`}
-					description={`Toggle this flag will submit an on-chain transaction and will require a ${fee} APT gas fee.`}
-					onPasscodeComplete={async (passcode) => {
-						const res = await encryptedMessenger.request('kernel', {
-							type: RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS,
-							transaction: JSON.stringify({
-								pubkey,
-								directTransfer: !directTransfer,
-							}),
-							passcode,
-						});
-						return res;
-					}}
-					onActionComplete={() => {
-						modalActions.hide('passcode');
-						setDisabled(true);
-					}}
-				/>
-			),
-			id: 'passcode',
-			bindingDirection: BindDirections.InnerBottom,
+		showRequirePasscodeModal({
+			title: `Turn ${directTransfer ? 'off' : 'on'} direct transfer`,
+			desc: `Toggle this flag will submit an on-chain transaction and will require a ${fee} APT gas fee.`,
+			onPasscodeComplete: async (passcode) => {
+				const res = await encryptedMessenger.request('kernel', {
+					type: RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS,
+					transaction: JSON.stringify({
+						pubkey,
+						directTransfer: !directTransfer,
+					}),
+					passcode,
+				});
+				return res;
+			},
+			onActionComplete: () => {
+				modalActions.hide('passcode');
+				setDisabled(true);
+			},
 		});
 	};
 

@@ -1,8 +1,8 @@
-import RequirePasscodeModal from '@walless/app/modals/RequirePasscodeModal';
+import { showRequirePasscodeModal } from '@walless/app/utils';
 import { shortenAddress } from '@walless/core';
 import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';
-import { BindDirections, Button, Text, View, modalActions } from '@walless/gui';
+import { Button, Text, View, modalActions } from '@walless/gui';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 import type { FC } from 'react';
@@ -20,32 +20,26 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 		new Date(timestamp).toLocaleString();
 
 	const handleClaimToken = async (token: AptosPendingToken) => {
-		modalActions.show({
-			component: () => (
-				<RequirePasscodeModal
-					title={`Claim ${token.name}`}
-					description={`Claim this token will submit an on-chain transaction and will require a ${fee} APT gas fee.`}
-					onPasscodeComplete={async (passcode) => {
-						const res = await encryptedMessenger.request('kernel', {
-							type: RequestType.CLAIM_TOKEN_ON_APTOS,
-							transaction: JSON.stringify({
-								pubkey: token.toAddress,
-								sender: token.fromAddress,
-								creator: token.creatorAddress,
-								collectionName: token.collectionName,
-								name: token.name,
-							}),
-							passcode,
-						});
-						return res;
-					}}
-					onActionComplete={() => {
-						modalActions.hide('passcode');
-					}}
-				/>
-			),
-			id: 'passcode',
-			bindingDirection: BindDirections.InnerBottom,
+		showRequirePasscodeModal({
+			title: `Claim ${token.name}`,
+			desc: `Claim this token will submit an on-chain transaction and will require a ${fee} APT gas fee.`,
+			onPasscodeComplete: async (passcode) => {
+				const res = await encryptedMessenger.request('kernel', {
+					type: RequestType.CLAIM_TOKEN_ON_APTOS,
+					transaction: JSON.stringify({
+						pubkey: token.toAddress,
+						sender: token.fromAddress,
+						creator: token.creatorAddress,
+						collectionName: token.collectionName,
+						name: token.name,
+					}),
+					passcode,
+				});
+				return res;
+			},
+			onActionComplete: () => {
+				modalActions.hide('passcode');
+			},
 		});
 	};
 

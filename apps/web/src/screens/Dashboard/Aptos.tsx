@@ -12,7 +12,6 @@ import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { appActions } from 'state/app';
-import { showReceiveModal } from 'state/app/modal';
 import { onrampWithGateFi } from 'utils/gatefi';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
@@ -21,6 +20,7 @@ import AptosTokensTab from './components/AptosTokensTab';
 import { TokenTab } from './components';
 import { layoutTabs } from './shared';
 import { modules } from '@walless/ioc';
+import { copy, showReceiveModal, showSendModal } from '@walless/app/utils';
 
 const AptosDashboard = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -45,25 +45,25 @@ const AptosDashboard = () => {
 		},
 	];
 
-	const handleCopyAddress = async (value: string) => {
-		await appActions.copy(value, () => <Copy size={18} color="#FFFFFF" />);
-	};
-
-	const handleChangePrivateSetting = (next: boolean) => {
-		setPrivacy(next);
-	};
-
 	const handleTabPress = (item: TabAble) => {
 		const idx = layoutTabs.indexOf(item);
 		setActiveTabIndex(idx);
 	};
 
+	const handleCopyAddress = async (value: string) => {
+		await copy(value, () => <Copy size={18} color="#FFFFFF" />);
+	};
+
 	const handleSend = () => {
-		appActions.showSendModal({ layoutNetwork: Networks.aptos });
+		showSendModal({ layoutNetwork: Networks.solana });
 	};
 
 	const handleBuy = () => {
 		onrampWithGateFi({ wallet: publicKeys[0]._id });
+	};
+
+	const handleChangePrivateSetting = (next: boolean) => {
+		setPrivacy(next);
 	};
 
 	return (

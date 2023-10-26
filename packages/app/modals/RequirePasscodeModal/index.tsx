@@ -2,11 +2,11 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { PasscodeFeature } from '@walless/app';
-import { Text, View } from '@walless/gui';
+import { ModalConfigs, Text, View } from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
-interface Props {
+interface ModalContext {
 	title?: string;
 	description?: string;
 	onPasscodeComplete: (passcode: string) => Promise<{
@@ -16,12 +16,19 @@ interface Props {
 	onActionComplete?: () => void;
 }
 
-export const RequirePasscodeModal: FC<Props> = ({
-	title = 'Action requires passcode',
-	description = "Secure your passcode! It's essential for accessing your account and authorizing transfers.",
-	onPasscodeComplete,
-	onActionComplete,
-}) => {
+interface Props {
+	config: ModalConfigs;
+}
+
+export const RequirePasscodeModal: FC<Props> = ({ config }) => {
+	const { context } = config;
+	const {
+		title = 'Action requires passcode',
+		description = "Secure your passcode! It's essential for accessing your account and authorizing transfers.",
+		onPasscodeComplete,
+		onActionComplete,
+	} = context as ModalContext;
+
 	const [error, setError] = useState('');
 	const [passcode, setPasscode] = useState('');
 

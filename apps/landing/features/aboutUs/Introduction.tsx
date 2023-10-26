@@ -3,57 +3,62 @@ import { Text, View } from '@walless/gui';
 
 const Introduction = () => {
 	return (
-		<View style={styles.introductionContainer}>
-			<View style={styles.introductionLeftPart}>
-				<View style={styles.introductionTextContainer}>
+		<View style={styles.container}>
+			<View style={styles.introductionContainer}>
+				<View style={styles.introductionLeftPart}>
 					<Text style={styles.introductionText}>
 						Walless is a humble startup, we’re looking for curious, enthusiastic
 						developer who believe on the future of web3, and want to shape it
 						your way.
 					</Text>
 				</View>
+				<View style={styles.introductionRightPart}>
+					<View style={styles.valueBlock}>
+						<Text style={styles.valueTitle}>Our value</Text>
+						<Text style={styles.valueContent}>
+							Walless operate in the Tribe model, we care more about your
+							personality than skills, we’ll become super-star together instead
+							of take it for granted. Flat structure - everyone is peers, no
+							layers, no boss, no decision making monopoly power. We want a
+							builder with dare to explore mindset!
+						</Text>
+					</View>
+					<View style={styles.valueBlock}>
+						<Text style={styles.valueTitle}>Our value</Text>
+						<Text style={styles.valueContent}>
+							Walless operate in the Tribe model, we care more about your
+							personality than skills, we’ll become super-star together instead
+							of take it for granted. Flat structure - everyone is peers, no
+							layers, no boss, no decision making monopoly power. We want a
+							builder with dare to explore mindset!
+						</Text>
+					</View>
+					<View style={styles.valueBlock}>
+						<Text style={styles.valueTitle}>Our value</Text>
+						<Text style={styles.valueContent}>
+							Walless operate in the Tribe model, we care more about your
+							personality than skills, we’ll become super-star together instead
+							of take it for granted. Flat structure - everyone is peers, no
+							layers, no boss, no decision making monopoly power. We want a
+							builder with dare to explore mindset!
+						</Text>
+					</View>
+				</View>
+			</View>
 
-				<Text>Our team</Text>
-			</View>
-			<View style={styles.introductionRightPart}>
-				<View style={styles.valueContainer}>
-					<View style={styles.valueBlock}>
-						<Text style={styles.valueTitle}>Our value</Text>
-						<Text style={styles.valueContent}>
-							Walless operate in the Tribe model, we care more about your
-							personality than skills, we’ll become super-star together instead
-							of take it for granted. Flat structure - everyone is peers, no
-							layers, no boss, no decision making monopoly power. We want a
-							builder with dare to explore mindset!
-						</Text>
+			<View>
+				<View style={styles.separateLine} />
+
+				<View style={styles.introductionContainer}>
+					<View style={styles.subpart}>
+						<Text>Our team</Text>
 					</View>
-					<View style={styles.valueBlock}>
-						<Text style={styles.valueTitle}>Our value</Text>
-						<Text style={styles.valueContent}>
-							Walless operate in the Tribe model, we care more about your
-							personality than skills, we’ll become super-star together instead
-							of take it for granted. Flat structure - everyone is peers, no
-							layers, no boss, no decision making monopoly power. We want a
-							builder with dare to explore mindset!
-						</Text>
-					</View>
-					<View style={styles.valueBlock}>
-						<Text style={styles.valueTitle}>Our value</Text>
-						<Text style={styles.valueContent}>
-							Walless operate in the Tribe model, we care more about your
-							personality than skills, we’ll become super-star together instead
-							of take it for granted. Flat structure - everyone is peers, no
-							layers, no boss, no decision making monopoly power. We want a
-							builder with dare to explore mindset!
-						</Text>
+					<View style={styles.subpart}>
+						<Text>9 members</Text>
+						<Text>2023</Text>
 					</View>
 				</View>
-				<View style={styles.subpart}>
-					<Text>9 members</Text>
-					<Text>2023</Text>
-				</View>
 			</View>
-			<View style={styles.separateLine} />
 		</View>
 	);
 };
@@ -61,10 +66,9 @@ const Introduction = () => {
 export default Introduction;
 
 const styles = StyleSheet.create({
-	introductionTextContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
+	container: {
+		gap: 28,
+		paddingTop: 28,
 	},
 	introductionText: {
 		color: '#ffffff',
@@ -79,17 +83,17 @@ const styles = StyleSheet.create({
 	introductionLeftPart: {
 		flex: 1,
 		height: '100%',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	introductionRightPart: {
 		flex: 1,
 		height: '100%',
-	},
-	valueContainer: {
 		gap: 20,
-		minHeight: 500,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+
 	valueBlock: {
 		gap: 6,
 	},
@@ -104,14 +108,14 @@ const styles = StyleSheet.create({
 		lineHeight: 24,
 	},
 	subpart: {
+		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
 	separateLine: {
-		position: 'absolute',
+		marginBottom: 6,
 		width: '100%',
 		height: 1,
 		backgroundColor: '#ffffff',
-		top: 492,
 	},
 });

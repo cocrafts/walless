@@ -101,7 +101,6 @@ export const constructTransaction = async ({
 	receiver,
 	amount,
 }: SendTokenProps) => {
-	console.log('--> token', token);
 	const decimals = (token as Token).account?.decimals
 		? 10 ** ((token as Token).account.decimals || 0)
 		: 1;

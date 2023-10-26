@@ -18,7 +18,7 @@ export const CollectionItem: FC<Props> = ({
 		<Hoverable style={styles.container} onPress={onPress}>
 			<Image style={styles.image} source={{ uri: item.metadata?.imageUri }} />
 			<Text style={styles.text}>
-				{item.metadata?.name} ({collectibleCount})
+				{item.metadata?.name} {collectibleCount && `(${collectibleCount})`}
 			</Text>
 		</Hoverable>
 	);

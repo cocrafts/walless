@@ -104,6 +104,7 @@ export const constructTransaction = async ({
 	const decimals = (token as Token).account?.decimals
 		? 10 ** ((token as Token).account.decimals || 0)
 		: 1;
+	const isCollectible = 'collectionId' in token;
 
 	if (network == Networks.solana) {
 		const connection = modules.engine.getConnection(network) as Connection;
@@ -132,13 +133,25 @@ export const constructTransaction = async ({
 			return constructSendTezTransaction(receiver, amount);
 		}
 	} else if (network == Networks.aptos) {
-		return {
-			from: sender,
-			to: receiver,
-			token: (token as Token).account.address,
-			amount: amount,
-			decimals: (token as Token).account?.decimals,
-		};
+		if (isCollectible) {
+			return {
+				from: sender,
+				to: receiver,
+				creator: (token as Collectible).metadata.aptosToken?.creatorAddress,
+				collectionName: (token as Collectible).metadata.aptosToken
+					?.collectionName,
+				tokenName: (token as Collectible).metadata.name,
+				amount: amount,
+			};
+		} else {
+			return {
+				from: sender,
+				to: receiver,
+				token: (token as Token).account.address,
+				amount: amount,
+				decimals: (token as Token).account?.decimals,
+			};
+		}
 	}
 
 	throw Error('Network or Token is not supported');

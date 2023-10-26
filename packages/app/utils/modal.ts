@@ -6,7 +6,9 @@ import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 
 import ReceiveModal from '../modals/ReceiveModal';
 import SendModal from '../modals/SendModal';
-import RequirePasscodeModal from '../modals/RequirePasscodeModal';
+import RequirePasscodeModal, {
+	RequirePasscodeModalConfig,
+} from '../modals/RequirePasscodeModal';
 import { ResponseCode } from '@walless/messaging';
 
 export const showReceiveModal = (layoutNetWork: Networks) => {
@@ -38,16 +40,6 @@ export const showSendModal = (configs?: SendModalConfig) => {
 		},
 	});
 };
-
-interface RequirePasscodeModalConfig {
-	title: string;
-	desc: string;
-	onPasscodeComplete?: (passcode: string) => Promise<{
-		responseCode?: ResponseCode | undefined;
-		message?: string | undefined;
-	}>;
-	onActionComplete?: () => void;
-}
 
 export const showRequirePasscodeModal = (
 	config: RequirePasscodeModalConfig,

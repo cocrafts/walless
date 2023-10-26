@@ -39,6 +39,9 @@ export const SenderInfo: FC<Props> = () => {
 	} else if (publicKey?.network == Networks.tezos) {
 		iconUri.uri = '/img/network/tezos-icon-sm.png';
 		walletTitle = 'Tezos';
+	} else if (publicKey?.network == Networks.aptos) {
+		iconUri.uri = '/img/explore/logo-aptos.svg';
+		walletTitle = 'Aptos';
 	}
 
 	return (

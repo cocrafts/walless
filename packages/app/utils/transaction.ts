@@ -20,7 +20,9 @@ import type {
 	TransactionPayload,
 } from '@walless/core';
 import { Networks } from '@walless/core';
+import { getAptosConnection } from '@walless/engine/crawlers/aptos';
 import { modules } from '@walless/ioc';
+import { TxnBuilderTypes } from 'aptos';
 
 export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {
@@ -31,6 +33,9 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 			return { valid: true, message: '' };
 		} else if (network == Networks.tezos) {
 			return { valid: true, message: '' };
+		} else if (network == Networks.aptos) {
+			const { AccountAddress } = TxnBuilderTypes;
+			return { valid: AccountAddress.isValid(keyStr), message: '' };
 		}
 		return { valid: false, message: 'Unsupported network ' + network };
 	} catch (error) {
@@ -75,6 +80,10 @@ export const getTransactionFee = async (payload: TransactionPayload) => {
 		return (txFee + rentFee || 0) / LAMPORTS_PER_SOL;
 	} else if (payload.network == Networks.sui) {
 		return 0;
+	} else if (payload.network == Networks.aptos) {
+		const connection = await getAptosConnection();
+		const fee = await connection.estimateGasPrice();
+		return fee.gas_estimate / 10 ** 8;
 	} else return 0;
 };
 
@@ -123,6 +132,14 @@ export const constructTransaction = async ({
 		if (token.metadata?.symbol == 'TEZ') {
 			return constructSendTezTransaction(receiver, amount);
 		}
+	} else if (network == Networks.aptos) {
+		return {
+			from: sender,
+			to: receiver,
+			token: (token as Token).account.address,
+			amount: amount,
+			decimals: (token as Token).account?.decimals,
+		};
 	}
 
 	throw Error('Network or Token is not supported');

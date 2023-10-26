@@ -7,6 +7,7 @@ import { Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import { modules } from '@walless/ioc';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
+import { AptosAccount } from 'aptos';
 import { generateMnemonic, mnemonicToSeed } from 'bip39';
 import { decode } from 'bs58';
 import { derivePath } from 'ed25519-hd-key';
@@ -30,6 +31,10 @@ export const defaultPrefixDerivationPaths: DerivationOptions[] = [
 	{
 		path: "44'/1729'",
 		network: Networks.tezos,
+	},
+	{
+		path: "44'/637'",
+		network: Networks.aptos,
 	},
 ];
 
@@ -87,6 +92,16 @@ const generateAndStoreKeypairs = async (
 		keyType = 'ed25519';
 		address = await keypair.publicKeyHash();
 		privateKey = decode(await keypair.secretKey()) as never;
+	} else if (network === Networks.aptos) {
+		const mnemonics = storedSeed.seedPhrase;
+		const keypair = AptosAccount.fromDerivePath(
+			`m/${path}/0'/0'/0'`,
+			mnemonics,
+		);
+
+		keyType = 'ed25519';
+		address = keypair.address().toString();
+		privateKey = keypair.signingKey.secretKey as never;
 	}
 
 	if (privateKey && address && keyType) {

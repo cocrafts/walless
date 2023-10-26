@@ -10,6 +10,7 @@ export const selectors = {
 	solanaKeys: { selector: { type: 'PublicKey', network: Networks.solana } },
 	suiKeys: { selector: { type: 'PublicKey', network: Networks.sui } },
 	tezosKeys: { selector: { type: 'PublicKey', network: Networks.tezos } },
+	aptosKeys: { selector: { type: 'PublicKey', network: Networks.aptos } },
 	allTokens: { selector: { type: 'Token' } },
 	trustedDomains: { selector: { type: 'TrustedDomain' } },
 };

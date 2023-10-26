@@ -1,5 +1,6 @@
 import { showRequirePasscodeModal } from '@walless/app/utils';
 import { Hoverable, Text, View } from '@walless/gui';
+import { aptosHandlers } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 import type { FC } from 'react';
@@ -27,7 +28,7 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 					transaction: JSON.stringify({
 						pubkey,
 						directTransfer: !directTransfer,
-					}),
+					} as aptosHandlers.AptosDirectTransferPayload),
 					passcode,
 				});
 				return res;

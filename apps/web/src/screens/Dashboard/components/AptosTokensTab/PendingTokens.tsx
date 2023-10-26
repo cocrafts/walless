@@ -2,7 +2,8 @@ import { showRequirePasscodeModal } from '@walless/app/utils';
 import { shortenAddress } from '@walless/core';
 import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';
-import { Button, Text, View, modalActions } from '@walless/gui';
+import { Button, Text, View } from '@walless/gui';
+import { aptosHandlers } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 import type { FC } from 'react';
@@ -32,7 +33,7 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 						creator: token.creatorAddress,
 						collectionName: token.collectionName,
 						name: token.name,
-					}),
+					} as aptosHandlers.AptosClaimTokenPayload),
 					passcode,
 				});
 				return res;

@@ -1,3 +1,4 @@
+import { aptosHandlers } from '@walless/kernel';
 import { TransactionBlock } from '@mysten/sui.js';
 import {
 	ACCOUNT_SIZE,
@@ -150,7 +151,7 @@ export const constructTransaction = async ({
 				token: (token as Token).account.address,
 				amount: amount,
 				decimals: (token as Token).account?.decimals,
-			};
+			} as aptosHandlers.AptosCoinPayload;
 		}
 	}
 

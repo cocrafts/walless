@@ -8,7 +8,7 @@ import { tokenActions } from '../../state/token';
 import type { EngineRunner } from '../../utils/type';
 
 import { getCoins } from './coins';
-import { getOwnedTokens, getPendingTokens } from './tokens';
+import { constructAptosTokens, getPendingTokens } from './tokens';
 
 export * from './shared';
 
@@ -61,11 +61,7 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 				}
 
 				try {
-					const ownedTokens = await getOwnedTokens(connection, pubkey);
-					// NOTE: it is better to have a deep comparison here
-					if (ownedTokens.length !== aptosState.ownedTokens.size) {
-						aptosActions.setOwnedTokens(ownedTokens);
-					}
+					await constructAptosTokens(connection, pubkey);
 				} catch (error) {
 					console.log('--> aptos crawler error', error);
 				}

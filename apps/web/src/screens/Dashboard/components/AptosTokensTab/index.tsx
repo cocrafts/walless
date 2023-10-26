@@ -5,12 +5,14 @@ import { getAptosConnection } from '@walless/engine/crawlers/aptos';
 import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSnapshot } from 'valtio';
 
+import { Networks } from '@walless/core';
+import { useNfts } from 'utils/hooks';
+import CollectiblesTab from '../CollectiblesTab';
 import DirectTransfer from './DirectTransfer';
-import OwnedTokens from './OwnedTokens';
 import PendingTokens from './PendingTokens';
 
 interface Props {
@@ -32,14 +34,20 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 		getFee();
 	}, [aptosSnap]);
 
-	const ownedTokens = Array.from(aptosSnap.ownedTokens.values());
 	const pendingTokens = Array.from(aptosSnap.pendingTokens.values());
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+	const { collections } = useNfts(Networks.aptos);
+
+	const countCollectibles = useMemo(
+		() => collections.reduce((acc, ele) => acc + ele.count, 0),
+		[collections],
+	);
 
 	const layoutTabs: TabAble[] = [
 		{
 			id: 'owned',
-			title: `Owned Tokens (${ownedTokens.length})`,
+			title: `Owned Tokens (${countCollectibles})`,
 		},
 		{
 			id: 'pending',
@@ -50,7 +58,7 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 	const bottomSliderItems: SlideOption[] = [
 		{
 			id: 'owned',
-			component: () => <OwnedTokens />,
+			component: () => <CollectiblesTab collections={collections} />,
 		},
 		{
 			id: 'pending',

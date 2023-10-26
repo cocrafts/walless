@@ -44,9 +44,8 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 };
 
 export const getTransactionFee = async (payload: TransactionPayload) => {
-	const transaction = await constructTransaction(payload);
-
 	if (payload.network == Networks.solana) {
+		const transaction = await constructTransaction(payload);
 		const connection = modules.engine.getConnection(
 			Networks.solana,
 		) as Connection;
@@ -102,6 +101,7 @@ export const constructTransaction = async ({
 	receiver,
 	amount,
 }: SendTokenProps) => {
+	console.log('--> token', token);
 	const decimals = (token as Token).account?.decimals
 		? 10 ** ((token as Token).account.decimals || 0)
 		: 1;

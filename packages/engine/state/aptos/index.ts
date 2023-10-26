@@ -1,4 +1,4 @@
-import type { AptosPendingToken, AptosToken } from './internal';
+import type { AptosPendingToken } from './internal';
 import { aptosState } from './internal';
 export * from './internal';
 
@@ -11,13 +11,6 @@ export const aptosActions = {
 		pendingTokens.clear();
 		for (const token of tokens) {
 			pendingTokens.set(token.tokenDataId, token);
-		}
-	},
-	setOwnedTokens: (tokens: AptosToken[]) => {
-		const { ownedTokens } = aptosState;
-		ownedTokens.clear();
-		for (const token of tokens) {
-			ownedTokens.set(token.tokenDataId, token);
 		}
 	},
 };

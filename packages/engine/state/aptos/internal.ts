@@ -25,11 +25,9 @@ export type AptosPendingToken = AptosToken & {
 export interface AptosState {
 	directTransfer: boolean;
 	pendingTokens: Map<string, AptosPendingToken>;
-	ownedTokens: Map<string, AptosToken>;
 }
 
 export const aptosState = proxy<AptosState>({
 	directTransfer: false,
 	pendingTokens: proxyMap(),
-	ownedTokens: proxyMap(),
 });

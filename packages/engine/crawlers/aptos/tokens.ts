@@ -106,6 +106,20 @@ export const constructAptosTokens = async (
 				imageUri: token.current_token_data?.token_uri ?? '',
 				symbol: token.current_token_data?.token_name ?? '',
 				attributes,
+				aptosToken: {
+					creatorAddress:
+						token.current_token_data?.current_collection?.creator_address ?? '',
+					ownerAddress: token.owner_address,
+					collectionId: token.current_token_data?.collection_id ?? '',
+					collectionName:
+						token.current_token_data?.current_collection?.collection_name ?? '',
+					collectionUri:
+						token.current_token_data?.current_collection?.uri ?? '',
+					tokenId: token.token_data_id,
+					tokenName: token.current_token_data?.token_name ?? '',
+					tokenImageUri: token.current_token_data?.token_uri ?? '',
+					tokenDescription: token.current_token_data?.description ?? '',
+				},
 			},
 			account: {
 				owner: token.owner_address,

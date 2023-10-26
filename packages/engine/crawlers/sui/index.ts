@@ -2,11 +2,17 @@ import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
+import { collectibleActions } from '../../state/collectible';
 import { tokenActions } from '../../state/token';
 import { getTokenQuotes, makeHashId } from '../../utils/api';
 
+import { getSuiCollectibles } from './collectibles';
 import type { SuiRunner } from './shared';
-import { suiTokenSubscribe, suiTokenUnsubscribe } from './subscription';
+import {
+	suiCollectibleSubscribe,
+	suiTokenSubscribe,
+	suiTokenUnsubscribe,
+} from './subscription';
 import { getTokenDocument } from './token';
 
 export const suiEngineRunner: SuiRunner = {
@@ -37,7 +43,11 @@ export const suiEngineRunner: SuiRunner = {
 
 			tokenActions.setItems(tokenDocs);
 
+			const collectibleDocs = await getSuiCollectibles(connection, owner);
+			collectibleActions.setCollectibles(collectibleDocs);
+
 			suiTokenSubscribe(connection, owner);
+			suiCollectibleSubscribe(connection, owner);
 		}
 	},
 	stop: async () => {

@@ -67,6 +67,8 @@ export const constructAptosTokens = async (
 		const collectionId = `${pubkey.toShortString()}/${
 			token.current_token_data?.collection_id ?? ''
 		}`;
+		const collectibleId = `${pubkey.toShortString()}/${token.token_data_id}`;
+
 		const collection = collectionState.map.get(collectionId);
 		if (!collection) {
 			collectionState.map.set(collectionId, {
@@ -82,10 +84,10 @@ export const constructAptosTokens = async (
 				},
 				count: 1,
 			});
-		} else {
-			collection.count += 1;
+		} else if (!collectibleState.map.has(collectibleId)) {
+			collection.count++;
 		}
-		const collectibleId = `${pubkey.toShortString()}/${token.token_data_id}`;
+
 		let attributes = token.current_token_data?.token_properties;
 		if (typeof attributes === 'object') {
 			attributes = Object.entries(attributes).map(([key, value]) => ({

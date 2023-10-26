@@ -5,7 +5,6 @@ import { members, recruitments } from './internal';
 import Introduction from './Introduction';
 import MemberCard from './MemberCard';
 import RecruitmentCard from './RecruitmentCard';
-import { Fragment } from 'react';
 
 const AboutUsFeature = () => {
 	return (

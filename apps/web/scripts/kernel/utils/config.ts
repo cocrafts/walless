@@ -16,5 +16,6 @@ export const makeConfig = () => {
 		PIXEVERSE_ORIGIN,
 		PIXEVERSE_URL,
 		SOLANA_CLUSTER_URL,
+		GASILON_ENDPOINT,
 	};
 };

@@ -1,5 +1,5 @@
 import { Hoverable, Text } from '@walless/gui';
-import { CollectibleDocument, CollectionDocument } from '@walless/store';
+import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 

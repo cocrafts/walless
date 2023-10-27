@@ -17,7 +17,7 @@ import { getMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
 import { throttle } from './shared';
 
-const acountChangeIds: number[] = [];
+const accountChangeIds: number[] = [];
 const logIds: number[] = [];
 
 export const registerAccountChanges = async (
@@ -65,7 +65,7 @@ export const registerAccountChanges = async (
 		}
 	});
 
-	acountChangeIds.push(id);
+	accountChangeIds.push(id);
 };
 
 const newAccountSignature = 'Initialize the associated token account';

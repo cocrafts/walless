@@ -3,6 +3,18 @@ import type { SuiObjectData } from '@mysten/sui.js';
 
 import type { Endpoint, Networks } from './commonTypes';
 
+export interface AptosTokenMetadata {
+	creatorAddress: string;
+	ownerAddress: string;
+	collectionId: string;
+	collectionName: string;
+	collectionUri: string;
+	tokenId: string;
+	tokenName: string;
+	tokenImageUri: string;
+	tokenDescription: string;
+}
+
 export interface Setting {
 	version: string;
 	profile: UserProfile;
@@ -33,6 +45,7 @@ export interface AssetMetadata {
 	imageUri?: string;
 	mpl?: MplMetadata;
 	sod?: SuiObjectData;
+	aptosToken?: AptosTokenMetadata;
 	description?: string;
 	attributes?: {
 		key: string;

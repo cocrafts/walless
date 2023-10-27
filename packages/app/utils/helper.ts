@@ -27,6 +27,11 @@ export const networkMap: Record<Networks, NetworkInfo> = {
 		icon: '/img/send-token/icon-ethereum.png',
 		network: Networks.ethereum,
 	},
+	[Networks.aptos]: {
+		name: 'Aptos',
+		icon: '/img/send-token/icon-aptos.svg',
+		network: Networks.aptos,
+	},
 };
 
 export const getNetworkInfo = (network?: Networks): NetworkInfo | undefined => {

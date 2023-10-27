@@ -43,17 +43,13 @@ export const members: MemberProps[] = [
 	{
 		name: "Long 'Leo' Pham",
 		positions: ['Strategic Advisor'],
-		avatar: '/img/members/zang.jpeg',
+		avatar: '/img/members/long.jpeg',
 		description:
 			'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the',
 		socials: [
 			{
-				image: '/img/social/linkedin.svg',
-				url: 'https://github.com/fluctlight-kayaba',
-			},
-			{
 				image: '/img/social/twitter.svg',
-				url: 'https://github.com/fluctlight-kayaba',
+				url: 'https://twitter.com/DarthCastelian',
 			},
 		],
 	},

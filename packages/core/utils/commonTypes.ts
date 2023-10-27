@@ -1,3 +1,4 @@
+import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import type { Collectible, Token } from './entityTypes';
 
 export interface EncryptedWithPasscode {
@@ -53,6 +54,7 @@ export enum Networks {
 	ethereum = 'ethereum',
 	solana = 'solana',
 	sui = 'sui',
+	aptos = 'aptos',
 }
 
 export enum Endpoints {
@@ -68,8 +70,8 @@ export interface TransactionPayload {
 	receiver: string;
 	amount: number;
 	network: Networks;
-	token: Token | Collectible;
 	tokenForFee: Token;
+	token: TokenDocument | CollectibleDocument;
 	passcode?: string;
 }
 

@@ -8,6 +8,7 @@ import * as commonHandler from './common';
 import * as solanaHandler from './solanaHandler';
 import * as suiHandler from './suiHandler';
 import * as tezosHandler from './tezosHandler';
+import * as aptosHandler from './aptosHandler';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	const { type, requestId } = payload;
@@ -59,6 +60,14 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			suiHandler.handleSignAndExecuteTransaction(payload, channel);
 		} else if (payload.type === RequestType.TRANSFER_TEZOS_TOKEN) {
 			tezosHandler.handleTransferToken(payload, channel);
+		} else if (type === RequestType.TRANSFER_COIN_ON_APTOS) {
+			handleMethod = aptosHandler.handleTransferCoin;
+		} else if (type === RequestType.TRANSFER_TOKEN_ON_APTOS) {
+			handleMethod = aptosHandler.handleTransferToken;
+		} else if (type === RequestType.CLAIM_TOKEN_ON_APTOS) {
+			handleMethod = aptosHandler.handleClaimToken;
+		} else if (type === RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS) {
+			handleMethod = aptosHandler.handleUpdateDirectTransfer;
 		} else {
 			return channel.postMessage({
 				from: 'walless@kernel',

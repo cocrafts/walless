@@ -1,6 +1,9 @@
 import type { JsonRpcProvider } from '@mysten/sui.js';
 
+import { collectibleActions } from '../../state/collectible';
 import { tokenActions } from '../../state/token';
+
+import { getSuiCollectibles } from './collectibles';
 
 const suiSubscriptionPool: NodeJS.Timer[] = [];
 
@@ -19,6 +22,19 @@ export const suiTokenSubscribe = (
 				);
 			});
 		}, 5000),
+	);
+};
+
+export const suiCollectibleSubscribe = async (
+	connection: JsonRpcProvider,
+	owner: string,
+) => {
+	suiSubscriptionPool.push(
+		setInterval(async () => {
+			const collectibleDocs = await getSuiCollectibles(connection, owner);
+
+			collectibleActions.setCollectibles(collectibleDocs);
+		}, 30000),
 	);
 };
 

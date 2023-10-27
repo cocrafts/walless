@@ -47,6 +47,21 @@ export const createAndSend = async (
 			transaction: JSON.stringify(transaction),
 			passcode,
 		});
+	} else if (payload.network == Networks.aptos) {
+		const isCoinTransaction = !('creator' in transaction);
+		if (isCoinTransaction) {
+			res = await requestHandleTransaction({
+				type: RequestType.TRANSFER_COIN_ON_APTOS,
+				transaction: JSON.stringify(transaction),
+				passcode,
+			});
+		} else {
+			res = await requestHandleTransaction({
+				type: RequestType.TRANSFER_TOKEN_ON_APTOS,
+				transaction: JSON.stringify(transaction),
+				passcode,
+			});
+		}
 	}
 
 	return res as ResponsePayload;

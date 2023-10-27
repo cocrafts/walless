@@ -6,6 +6,10 @@ import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 
 import ReceiveModal from '../modals/ReceiveModal';
 import SendModal from '../modals/SendModal';
+import RequirePasscodeModal, {
+	RequirePasscodeModalConfig,
+} from '../modals/RequirePasscodeModal';
+import { ResponseCode } from '@walless/messaging';
 
 export const showReceiveModal = (layoutNetWork: Networks) => {
 	modalActions.show({
@@ -33,6 +37,22 @@ export const showSendModal = (configs?: SendModalConfig) => {
 		context: {
 			layoutNetwork: configs?.layoutNetwork,
 			collectible: configs?.collectible,
+		},
+	});
+};
+
+export const showRequirePasscodeModal = (
+	config: RequirePasscodeModalConfig,
+) => {
+	modalActions.show({
+		id: 'require-passcode',
+		bindingDirection: BindDirections.InnerBottom,
+		component: RequirePasscodeModal,
+		context: {
+			title: config.title,
+			desc: config.desc,
+			onPasscodeComplete: config.onPasscodeComplete,
+			onActionComplete: config.onActionComplete,
 		},
 	});
 };

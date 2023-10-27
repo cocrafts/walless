@@ -48,6 +48,10 @@ export const RecipientInfo: FC<Props> = () => {
 		iconUri.uri = '/img/network/tezos-icon-sm.png';
 		networkStr = 'Tezos';
 		feeStr = `${transactionFee} TEZ`;
+	} else if (publicKey?.network == Networks.aptos) {
+		iconUri.uri = '/img/explore/logo-aptos.svg';
+		networkStr = 'Aptos';
+		feeStr = `${transactionFee} APT`;
 	}
 
 	return (

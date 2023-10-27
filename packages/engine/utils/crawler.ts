@@ -53,4 +53,5 @@ export const defaultEndpoints: EndpointMap = {
 	sui: defaultEndpoint,
 	ethereum: defaultEndpoint,
 	tezos: defaultEndpoint,
+	aptos: defaultEndpoint,
 };

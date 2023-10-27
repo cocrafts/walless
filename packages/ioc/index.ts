@@ -41,6 +41,11 @@ export interface UniversalAsset {
 			cardMark?: ImageSourcePropType;
 			cardBackground: ImageSourcePropType;
 		};
+		aptos: {
+			cardIcon: ImageSourcePropType;
+			cardMark?: ImageSourcePropType;
+			cardBackground: ImageSourcePropType;
+		}
 	};
 }
 

@@ -22,8 +22,12 @@ import type {
 	TransactionPayload,
 } from '@walless/core';
 import { Networks } from '@walless/core';
+import { getAptosConnection } from '@walless/engine/crawlers/aptos';
 import { modules } from '@walless/ioc';
 import base58 from 'bs58';
+import { aptosHandlers } from '@walless/kernel';
+import type { CollectibleDocument, TokenDocument } from '@walless/store';
+import { TxnBuilderTypes } from 'aptos';
 
 export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {
@@ -34,6 +38,9 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 			return { valid: true, message: '' };
 		} else if (network == Networks.tezos) {
 			return { valid: true, message: '' };
+		} else if (network == Networks.aptos) {
+			const { AccountAddress } = TxnBuilderTypes;
+			return { valid: AccountAddress.isValid(keyStr), message: '' };
 		}
 		return { valid: false, message: 'Unsupported network ' + network };
 	} catch (error) {
@@ -42,9 +49,8 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 };
 
 export const getTransactionFee = async (payload: TransactionPayload) => {
-	const transaction = await constructTransaction(payload);
-
 	if (payload.network == Networks.solana) {
+		const transaction = await constructTransaction(payload);
 		const connection = modules.engine.getConnection(
 			Networks.solana,
 		) as Connection;
@@ -78,12 +84,16 @@ export const getTransactionFee = async (payload: TransactionPayload) => {
 		return (txFee + rentFee || 0) / LAMPORTS_PER_SOL;
 	} else if (payload.network == Networks.sui) {
 		return 0;
+	} else if (payload.network == Networks.aptos) {
+		const connection = await getAptosConnection();
+		const fee = await connection.estimateGasPrice();
+		return fee.gas_estimate / 10 ** 8;
 	} else return 0;
 };
 
 type SendTokenProps = {
 	sender: string;
-	token: Token | Collectible;
+	token: TokenDocument | CollectibleDocument;
 	network: Networks;
 	receiver: string;
 	amount: number;
@@ -97,9 +107,10 @@ export const constructTransaction = async ({
 	receiver,
 	amount,
 }: SendTokenProps) => {
-	const decimals = (token as Token).account?.decimals
-		? 10 ** ((token as Token).account.decimals || 0)
+	const decimals = (token as TokenDocument).account?.decimals
+		? 10 ** ((token as TokenDocument).account.decimals || 0)
 		: 1;
+	const isCollectible = token.type === 'NFT';
 
 	if (network == Networks.solana) {
 		const connection = modules.engine.getConnection(network) as Connection;
@@ -126,6 +137,30 @@ export const constructTransaction = async ({
 	} else if (network == Networks.tezos) {
 		if (token.metadata?.symbol == 'TEZ') {
 			return constructSendTezTransaction(receiver, amount);
+		}
+	} else if (network == Networks.aptos) {
+		if (isCollectible) {
+			const nft = token as CollectibleDocument;
+
+			return {
+				from: sender,
+				to: receiver,
+				creator: nft.metadata.aptosToken?.creatorAddress || '',
+				collectionName: nft.metadata.aptosToken?.collectionName || '',
+				tokenName: nft.metadata.name || '',
+				wallessCollectionId: nft.collectionId || '',
+				wallessCollectibleId: nft._id || '',
+				amount: amount,
+			} satisfies aptosHandlers.AptosTokenPayload;
+		} else {
+			const coin = token as TokenDocument;
+			return {
+				from: sender,
+				to: receiver,
+				token: coin.account.address || '',
+				amount: amount,
+				decimals: coin.account?.decimals,
+			} satisfies aptosHandlers.AptosCoinPayload;
 		}
 	}
 

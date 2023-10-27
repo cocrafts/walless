@@ -1,4 +1,5 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { Fragment, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import Image from 'next/image';
@@ -24,15 +25,14 @@ const MemberCard: FC<MemberProps> = ({
 	size = 212,
 }) => {
 	const [isHovered, setIsHovered] = useState(false);
-	const BIGGEST_NUMBER_OF_CARD = 5;
+	const MAX_CARDS = 5;
 	const containerStyle = {
 		width: size,
 		height: (size * 312) / 362,
 	};
 
 	const containerMarginStyle = {
-		margin:
-			(1200 - size * BIGGEST_NUMBER_OF_CARD) / (BIGGEST_NUMBER_OF_CARD * 3),
+		margin: (1200 - 36 - size * MAX_CARDS) / (MAX_CARDS * 2),
 		borderRadius: size > 300 ? 20 : 12,
 	};
 
@@ -57,11 +57,12 @@ const MemberCard: FC<MemberProps> = ({
 						<Image
 							src="/img/team/walless-logo-mask.svg"
 							alt=""
-							width={(size  )}
-							height={(size  ) * 163 /314}
+							width={size}
+							height={(size * 163) / 314}
 						/>
 					</View>
-					<View>
+
+					<Fragment>
 						<Text style={styles.nameText}>{name}</Text>
 						<Text style={styles.smallText}>
 							{positions.map((item) => {
@@ -72,9 +73,11 @@ const MemberCard: FC<MemberProps> = ({
 								}
 							})}
 						</Text>
-					</View>
+					</Fragment>
 					<View style={styles.separatedLine} />
-					<Text ellipsizeMode='tail' numberOfLines={3} style={styles.smallText}>{description}</Text>
+					<Text ellipsizeMode="tail" numberOfLines={3} style={styles.smallText}>
+						{description}
+					</Text>
 					<View style={styles.socialContainer}>
 						{socials.map((item, idx) => (
 							<SocialCard key={idx} image={item.image} url={item.url} />

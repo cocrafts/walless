@@ -5,6 +5,7 @@ import type { EndpointsDocument } from '@walless/store';
 import { solanaEngineRunner, solanaPool } from './crawlers/solana';
 import { suiEngineRunner, suiPool } from './crawlers/sui';
 import { tezosEngineRunner, tezosPool } from './crawlers/tezos';
+import { aptosPool, aptosEngineRunner } from './crawlers/aptos'
 import { createCrawler, defaultEndpoints } from './utils/crawler';
 import type { EngineCrawler } from './utils/type';
 
@@ -43,6 +44,12 @@ export const createEngine = async (): Promise<Engine> => {
 			start: tezosEngineRunner.start,
 			stop: tezosEngineRunner.stop,
 		}),
+		aptos: createCrawler({
+			endpoint: endpoints.aptos,
+			pool: aptosPool,
+			start: aptosEngineRunner.start,
+			stop: aptosEngineRunner.stop,
+		})
 	};
 
 	return {
@@ -55,12 +62,14 @@ export const createEngine = async (): Promise<Engine> => {
 			crawlers.sui?.start();
 			crawlers.solana?.start();
 			crawlers.tezos?.start();
+			crawlers.aptos?.start();
 		},
 		getConnection: (network) => crawlers[network]?.connection as never,
 	};
 };
 
 export * from './state/app';
+export * from './state/aptos'
 export * from './state/collectible';
 export * from './state/history';
 export * from './state/key';

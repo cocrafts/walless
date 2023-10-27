@@ -21,6 +21,11 @@ export const webAsset: UniversalAsset = {
 			cardMark: { uri: '' },
 			cardBackground: { uri: '' },
 		},
+		aptos: {
+			cardIcon: { uri: '/img/explore/logo-aptos.svg' },
+			cardMark: { uri: '/img/explore/logo-aptos-large.svg' },
+			cardBackground: { uri: '/img/widget/sky-card-bg.png' },
+		},
 	},
 };
 

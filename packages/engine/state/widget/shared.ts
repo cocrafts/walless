@@ -102,6 +102,31 @@ export const mockWidgets: WidgetDocument[] = [
 		},
 	},
 	{
+		_id: 'aptos',
+		name: 'Aptos',
+		version: '0.0.1',
+		type: 'Widget',
+		widgetType: 'Layout',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/explore/logo-aptos.svg',
+			iconSize: 26,
+			iconColor: 'black',
+			coverUri: '/img/explore/thumbnail-aptos.svg',
+			description:
+				'Committed to developing products and applications on the Aptos blockchain that redefine the web3 user experience.',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/explore/aptos-icon.svg',
+			iconUri: '/img/explore/aptos-icon.svg',
+			iconColor: 'transparent',
+			iconSize: 40,
+		},
+	},
+	{
 		_id: '000004',
 		name: 'T-Rex Runner',
 		version: '0.1.8',

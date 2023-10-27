@@ -40,6 +40,9 @@ export const getWalletCardSkin = (id: Networks): CardSkin => {
 		iconColor = '#FFFFFF';
 		iconSize = 12;
 		asset = modules.asset.widget.sui;
+	} else if (id === Networks.aptos) {
+		iconColor = '#000000';
+		asset = modules.asset.widget.aptos;
 	} else {
 		throw Error('Unsupported network');
 	}

@@ -44,7 +44,21 @@ export interface UniversalAsset {
 			cardIcon: ImageSourcePropType;
 			cardMark?: ImageSourcePropType;
 			cardBackground: ImageSourcePropType;
-		}
+		};
+	};
+	setting: {
+		solana: {
+			icon: ImageSourcePropType;
+		};
+		sui: {
+			icon: ImageSourcePropType;
+		};
+		tezos: {
+			icon: ImageSourcePropType;
+		};
+		aptos: {
+			icon: ImageSourcePropType;
+		};
 	};
 }
 

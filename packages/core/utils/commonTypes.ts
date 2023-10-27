@@ -51,7 +51,6 @@ export type RequestHashmap = Record<string, RequestContext>;
 
 export enum Networks {
 	tezos = 'tezos',
-	ethereum = 'ethereum',
 	solana = 'solana',
 	sui = 'sui',
 	aptos = 'aptos',

@@ -17,6 +17,17 @@ export const nativeAsset: UniversalAsset = {
 			cardBackground: require('assets/img/widget/tezos-card-bg.png'),
 		},
 	},
+	setting: {
+		solana: {
+			icon: require('assets/img/setting/icon-solana.png'),
+		},
+		sui: {
+			icon: require('assets/img/setting/icon-sui.png'),
+		},
+		tezos: {
+			icon: require('assets/img/setting/icon-tezos.png'),
+		},
+	},
 };
 
 export const resources = {

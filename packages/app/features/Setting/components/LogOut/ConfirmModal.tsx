@@ -1,16 +1,11 @@
 import { StyleSheet } from 'react-native';
 import { Button, modalActions, Text, View } from '@walless/gui';
-import { signOut } from 'firebase/auth';
-import { auth } from 'utils/firebase';
-import modules from 'utils/ioc';
-import { router } from 'utils/routing';
+import { utils } from '@walless/ioc';
 
 const ConfirmModal = () => {
 	const handleLogOut = async () => {
-		modalActions.destroy('log-out-modal');
-		await signOut(auth);
-		await modules.storage.clearAllDocs();
-		await router.navigate('/login');
+		if (typeof utils.logOut === 'function') utils.logOut();
+		modalActions.hide('log-out-modal');
 	};
 
 	const handleCancelLogOut = () => {
@@ -26,12 +21,16 @@ const ConfirmModal = () => {
 				</Text>
 			</View>
 			<View style={styles.buttonContainer}>
-				<Button style={styles.cancelButton} onPress={handleCancelLogOut}>
-					Cancel
-				</Button>
-				<Button style={styles.logOutButton} onPress={handleLogOut}>
-					Log out
-				</Button>
+				<Button
+					title="Cancel"
+					style={styles.cancelButton}
+					onPress={handleCancelLogOut}
+				/>
+				<Button
+					title="Log out"
+					style={styles.logOutButton}
+					onPress={handleLogOut}
+				/>
 			</View>
 		</View>
 	);
@@ -41,10 +40,10 @@ export default ConfirmModal;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		marginHorizontal: 20,
-		marginVertical: 230,
+		width: 300,
+		alignSelf: 'center',
 		borderRadius: 16,
+		backgroundColor: 'green',
 	},
 	titleContainer: {
 		flexGrow: 1,

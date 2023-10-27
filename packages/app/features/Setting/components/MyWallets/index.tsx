@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
-import { usePublicKeys } from 'utils/hooks';
+
+import { usePublicKeys } from '../../../../utils/hooks';
 
 import Wallet from './Wallet';
 
@@ -16,9 +17,9 @@ export const MyWallets = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.walletText}>My Wallets</Text>
+			<Text style={styles.title}>My Wallets</Text>
 
-			<View style={styles.walletContainer}>
+			<View style={styles.walletBlock}>
 				{solanaKeys.map((item, index) => (
 					<Wallet key={item._id} index={index} item={item} />
 				))}
@@ -36,17 +37,16 @@ export const MyWallets = () => {
 	);
 };
 
+export default MyWallets;
+
 const styles = StyleSheet.create({
 	container: {
 		gap: 12,
 	},
-	walletText: {
-		fontSize: 14,
+	title: {
 		color: '#566674',
 	},
-	walletContainer: {
+	walletBlock: {
 		gap: 8,
 	},
 });
-
-export default MyWallets;

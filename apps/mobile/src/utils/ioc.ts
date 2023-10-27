@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
 import WebSQLite from 'react-native-quick-websql';
+import { firebase } from '@react-native-firebase/auth';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
@@ -9,11 +10,13 @@ import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
 import { nativeAsset } from './config';
 import { initializeAuth } from './firebase';
 import { qlClient } from './graphql';
+import { navigate } from './navigation';
 import { createAndSend } from './transaction';
 import { key } from './w3a';
 
 export const injectModules = async () => {
 	utils.createAndSend = createAndSend;
+	utils.logOut = logOut;
 	// TODO: implement and inject buy token here
 
 	const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
@@ -33,3 +36,9 @@ export const injectModules = async () => {
 };
 
 export default modules;
+
+const logOut = async () => {
+	await firebase.auth().signOut();
+	await modules.storage.clearAllDocs();
+	navigate('Authentication', { screen: 'Login' });
+};

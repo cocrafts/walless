@@ -1,11 +1,10 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { getNetworkInfo } from '@walless/app/utils';
+import { copy, getNetworkInfo } from '@walless/app/utils';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import type { PublicKeyDocument } from '@walless/store';
-import { appActions } from 'state/app';
 
 interface Props {
 	item: PublicKeyDocument;
@@ -15,7 +14,7 @@ interface Props {
 export const Wallet: FC<Props> = ({ item, index }) => {
 	const network = getNetworkInfo(item.network);
 	const onCopy = async () => {
-		await appActions.copy(item._id, () => <Copy size={18} color="#FFFFFF" />);
+		await copy(item._id, () => <Copy size={18} color="#FFFFFF" />);
 	};
 
 	return (

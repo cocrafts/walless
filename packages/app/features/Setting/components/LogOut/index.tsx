@@ -9,7 +9,6 @@ export const LogOut = () => {
 		modalActions.show({
 			id: 'log-out-modal',
 			component: ConfirmModal,
-			withoutMask: false,
 		});
 	};
 

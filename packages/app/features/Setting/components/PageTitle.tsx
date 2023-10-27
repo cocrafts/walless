@@ -1,15 +1,11 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { ChevronRight } from '@walless/icons';
-import { router } from 'utils/routing';
 
 const Title = () => {
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity
-				style={styles.button}
-				onPress={() => router.navigate('/profile')}
-			>
+			<TouchableOpacity style={styles.button}>
 				<ChevronRight size={18} />
 			</TouchableOpacity>
 

@@ -6,10 +6,12 @@ export type CreateAndSendFunction = (
 ) => Promise<ResponsePayload>;
 
 export type BuyTokenFunction = (network: Networks) => void;
+export type LogOutFunction = () => Promise<void>;
 
 export type Utils = {
 	createAndSend: CreateAndSendFunction;
 	buyToken: BuyTokenFunction;
+	logOut: LogOutFunction;
 };
 
 export const utils = {} as Utils;

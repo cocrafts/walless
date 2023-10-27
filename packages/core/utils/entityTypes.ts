@@ -4,8 +4,6 @@ import type { SuiObjectData } from '@mysten/sui.js';
 import type { Endpoint, Networks } from './commonTypes';
 
 export interface AptosTokenMetadata {
-	wallessCollectionId?: string;
-	collectibleId?: string;
 	creatorAddress: string;
 	ownerAddress: string;
 	collectionId: string;

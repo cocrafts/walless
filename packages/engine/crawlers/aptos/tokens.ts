@@ -107,8 +107,6 @@ export const constructAptosTokens = async (
 				symbol: token.current_token_data?.token_name ?? '',
 				attributes,
 				aptosToken: {
-					wallessCollectionId: collectionId,
-					collectibleId,
 					creatorAddress:
 						token.current_token_data?.current_collection?.creator_address ?? '',
 					ownerAddress: token.owner_address,

@@ -6,7 +6,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import type {
+import {
 	Collectible,
 	Networks,
 	Token,
@@ -14,7 +14,7 @@ import type {
 } from '@walless/core';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
-import type { TokenDocument } from '@walless/store';
+import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -59,11 +59,19 @@ export const NetworkFee: FC<Props> = () => {
 
 	let tokenForFeeName = 'Unknown';
 
-	if (tokenForFee && tokenForFee.metadata?.symbol) {
-		tokenForFeeName = tokenForFee.metadata.symbol;
-		if (tokenForFeeName.includes('-Dev')) {
-			tokenForFeeName = tokenForFeeName.replace('-Dev', '');
+	if (token?.network == Networks.solana) {
+		if (tokenForFee && tokenForFee.metadata?.symbol) {
+			tokenForFeeName = tokenForFee.metadata.symbol;
+			if (tokenForFeeName.includes('-Dev')) {
+				tokenForFeeName = tokenForFeeName.replace('-Dev', '');
+			}
+		} else {
+			tokenForFeeName = 'SOL';
 		}
+	} else if (token?.network == Networks.sui) {
+		tokenForFeeName = 'SUI';
+	} else if (token?.network == Networks.aptos) {
+		tokenForFeeName = 'APT';
 	}
 
 	useEffect(() => {
@@ -78,7 +86,9 @@ export const NetworkFee: FC<Props> = () => {
 				tokenForFee: tokenForFee as Token,
 				amount: type === 'Token' ? parseFloat(amount ?? '0') : 1,
 				token:
-					type === 'Token' ? (token as Token) : (nftCollectible as Collectible),
+					type === 'Token'
+						? (token as TokenDocument)
+						: (nftCollectible as CollectibleDocument),
 				network: token?.network as Networks,
 			};
 

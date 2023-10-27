@@ -43,7 +43,7 @@ export const solanaEngineRunner: SolanaRunner = {
 				const tokenType = getTokenType(account);
 
 				if (tokenType === TokenType.Fungible) {
-					fungiblePromises.push(getSPLTokenDocument(context, pubkey, account));
+					fungiblePromises.push(getSPLTokenDocument(context, pubkey, account, currentPubkey));
 				}
 
 				accountKeys.push(pubkey);
@@ -59,7 +59,7 @@ export const solanaEngineRunner: SolanaRunner = {
 			tokenActions.setItems(fungibleTokens);
 
 			for (const key of accountKeys) {
-				registerAccountChanges(context, liveConnection, key);
+				registerAccountChanges(context, liveConnection, key, currentPubkey);
 			}
 		}
 	},

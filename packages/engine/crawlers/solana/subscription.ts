@@ -10,7 +10,7 @@ import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
 import { collectibleActions } from '../../state/collectible';
-import { tokenActions, tokenState } from '../../state/token';
+import { tokenActions } from '../../state/token'
 
 import { addCollectibleToState } from './collectibles';
 import { getMetadata, solMint } from './metadata';
@@ -24,8 +24,10 @@ export const registerAccountChanges = async (
 	{ connection, endpoint }: SolanaContext,
 	liveConnection: Connection,
 	key: PublicKey,
+    ownerPubkey: PublicKey,
 ) => {
 	const address = key.toString();
+    const owner = ownerPubkey.toString();
 	const id = liveConnection.onAccountChange(key, async (info) => {
 		let mint: string;
 		let balance: string;
@@ -40,7 +42,7 @@ export const registerAccountChanges = async (
 			balance = data.amount.toString();
 		}
 
-		const id = `${address}/${mint}`;
+		const id = `${owner}/${mint}`;
 
 		if (!tokenActions.updateBalance(id, balance)) {
 			const amount = parseInt(balance);
@@ -136,7 +138,7 @@ export const watchLogs = async (
 						metadata,
 					};
 
-					tokenState.map.set(tokenDocument._id, tokenDocument);
+					tokenActions.setTokens([tokenDocument]);
 				}
 			}
 		}

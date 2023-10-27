@@ -34,14 +34,16 @@ export const getSPLTokenDocument = async (
 	context: SolanaContext,
 	key: PublicKey,
 	account: AccountInfo<ParsedAccountData>,
+    ownerPubkey: PublicKey,
 ): Promise<TokenDocument> => {
+    const owner = ownerPubkey.toString();
 	const address = key.toString();
-	const { data, owner } = account;
+	const { data } = account;
 	const info = data.parsed?.info || {};
 	const metadata = await getMetadata(context, info.mint);
 
 	return {
-		_id: `${address}/${info.mint}`,
+		_id: `${owner}/${info.mint}`,
 		network: Networks.solana,
 		endpoint: context.endpoint,
 		type: 'Token',

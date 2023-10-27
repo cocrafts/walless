@@ -8,9 +8,8 @@ import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
-import axios from 'axios';
 import { requestHandleTransaction } from 'bridge/listeners';
-import base58, { encode } from 'bs58';
+import { encode } from 'bs58';
 
 export const createAndSend = async (
 	payload: TransactionPayload,

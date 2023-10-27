@@ -1,5 +1,3 @@
-import { response } from './../../../apps/web/scripts/kernel/utils/requestPool';
-import base58 from 'bs58';
 import { TransactionBlock } from '@mysten/sui.js';
 import {
 	ACCOUNT_SIZE,
@@ -25,6 +23,7 @@ import type {
 } from '@walless/core';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
+import base58 from 'bs58';
 
 export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {

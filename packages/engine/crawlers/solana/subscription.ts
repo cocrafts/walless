@@ -12,7 +12,7 @@ import type { TokenDocument } from '@walless/store';
 import { collectibleActions } from '../../state/collectible';
 import { tokenActions } from '../../state/token';
 
-import { addCollectibleToState } from './collectibles';
+import { addCollectibleToStorage } from './collectibles';
 import { getMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
 import { throttle } from './shared';
@@ -53,7 +53,7 @@ export const registerAccountChanges = async (
 					const mintAddress = new PublicKey(mint);
 					const nft = await mpl.nfts().findByMint({ mintAddress });
 
-					addCollectibleToState(connection, endpoint, address, nft);
+					addCollectibleToStorage(connection, endpoint, address, nft);
 				} catch {
 					console.log('Not found any token or nft to update', {
 						address,
@@ -98,7 +98,7 @@ export const watchLogs = async (
 					const nft = await mpl
 						.nfts()
 						.findByMint({ mintAddress: new PublicKey(balance.mint) });
-					addCollectibleToState(connection, endpoint, address, nft);
+					addCollectibleToStorage(connection, endpoint, address, nft);
 				} else {
 					let token: TokenInfo = {} as never;
 					let metadata: AssetMetadata | undefined;

@@ -1,3 +1,4 @@
+import { modules } from '@walless/ioc';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 
 import { collectibleState, collectionState } from './internal';
@@ -13,20 +14,23 @@ export const collectibleActions = {
 			collectionState.map.set(item._id, item);
 		}
 	},
-	updateCollectibleAmount: (id: string, amount: number) => {
-		const collectible = collectibleState.map.get(id);
+	setStorageCollectible: async (id: string, item: CollectibleDocument) => {
+		await modules.storage.upsert<CollectibleDocument>(id, async () => item);
+	},
+	setStorageCollection: async (id: string, item: CollectionDocument) => {
+		await modules.storage.upsert<CollectionDocument>(id, async () => item);
+	},
+	updateCollectibleAmount: async (id: string, amount: number) => {
+		const result = await modules.storage.upsert<CollectibleDocument>(
+			id,
+			async (prevDoc) => {
+				prevDoc.account.amount = amount;
 
-		if (collectible) {
-			const collection = collectionState.map.get(collectible.collectionId);
-			if (collection) {
-				collection.count += amount - collectible.account.amount;
-			}
-			collectible.account.amount = amount;
+				return prevDoc;
+			},
+		);
 
-			return true;
-		}
-
-		return false;
+		return result.ok;
 	},
 };
 

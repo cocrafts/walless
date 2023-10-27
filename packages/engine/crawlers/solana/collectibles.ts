@@ -12,23 +12,23 @@ import { PublicKey } from '@solana/web3.js';
 import type { Endpoint } from '@walless/core';
 import { Networks } from '@walless/core';
 
-import { collectibleState, collectionState } from '../../state/collectible';
+import { collectibleActions, collectionState } from '../../state/collectible';
+import type { RunnerContext } from '../../utils/type';
 
 import { throttle } from './shared';
 
 type NftType = Nft | Sft | SftWithToken | NftWithToken;
 
 interface CollectiblesByAddressOptions {
-	endpoint: Endpoint;
-	connection: Connection;
+	context: RunnerContext<Connection>;
 	address: string;
 }
 
 export const solanaCollectiblesByAddress = async ({
-	endpoint,
-	connection,
+	context,
 	address,
 }: CollectiblesByAddressOptions) => {
+	const { connection, endpoint } = context;
 	const mpl = new Metaplex(connection);
 	const rawNfts = await throttle(() => {
 		return mpl.nfts().findAllByOwner({ owner: new PublicKey(address) });
@@ -45,13 +45,13 @@ export const solanaCollectiblesByAddress = async ({
 	const promises = nfts
 		.filter((ele) => ele.json)
 		.map(async (nft) => {
-			return addCollectibleToState(connection, endpoint, address, nft);
+			return addCollectibleToStorage(connection, endpoint, address, nft);
 		});
 
 	await Promise.all(promises);
 };
 
-export const addCollectibleToState = async (
+export const addCollectibleToStorage = async (
 	connection: Connection,
 	endpoint: Endpoint,
 	address: string,
@@ -74,7 +74,7 @@ export const addCollectibleToState = async (
 
 	const collection = collectionState.map.get(collectionId);
 	if (!collection) {
-		collectionState.map.set(collectionId, {
+		collectibleActions.setStorageCollection(collectionId, {
 			_id: collectionId,
 			type: 'Collection',
 			network: Networks.solana,
@@ -95,7 +95,7 @@ export const addCollectibleToState = async (
 	}
 
 	const collectibleId = `${address}/${nft.mint.address.toString()}`;
-	collectibleState.map.set(collectibleId, {
+	collectibleActions.setStorageCollectible(collectibleId, {
 		_id: collectibleId,
 		type: 'NFT',
 		collectionId,

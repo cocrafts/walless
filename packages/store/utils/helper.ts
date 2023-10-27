@@ -12,5 +12,7 @@ export const selectors = {
 	tezosKeys: { selector: { type: 'PublicKey', network: Networks.tezos } },
 	aptosKeys: { selector: { type: 'PublicKey', network: Networks.aptos } },
 	allTokens: { selector: { type: 'Token' } },
+	allCollectibles: { selector: { type: 'NFT' } },
+	allCollections: { selector: { type: 'Collection' } },
 	trustedDomains: { selector: { type: 'TrustedDomain' } },
 };

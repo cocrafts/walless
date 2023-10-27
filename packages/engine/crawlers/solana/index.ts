@@ -6,6 +6,7 @@ import { selectors } from '@walless/store';
 import { tokenActions } from '../../state/token';
 import { getTokenQuotes, makeHashId } from '../../utils/api';
 
+import { solanaCollectiblesByAddress } from './collectibles';
 import type { SolanaRunner } from './shared';
 import {
 	getTokenType,
@@ -59,6 +60,10 @@ export const solanaEngineRunner: SolanaRunner = {
 			}
 
 			tokenActions.setTokens(fungibleTokens);
+			solanaCollectiblesByAddress({
+				context,
+				address: currentPubkey.toString(),
+			});
 
 			for (const key of accountKeys) {
 				registerAccountChanges(context, liveConnection, key, currentPubkey);

@@ -1,24 +1,21 @@
+import type { Collectible, Collection } from '@walless/core';
+import { Hoverable, Text } from '@walless/gui';
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import type { Collection } from '@walless/core';
-import { Hoverable, Text } from '@walless/gui';
 
 interface Props {
-	item: Collection;
-	collectibleCount: number;
+	item: Collection | Collectible;
 	onPress: () => void;
 }
 
-export const CollectionItem: FC<Props> = ({
-	item,
-	collectibleCount,
-	onPress,
-}) => {
+export const CollectionItem: FC<Props> = ({ item, onPress }) => {
+	const isCollection = 'count' in item;
 	return (
 		<Hoverable style={styles.container} onPress={onPress}>
 			<Image style={styles.image} source={{ uri: item.metadata?.imageUri }} />
 			<Text style={styles.text}>
-				{item.metadata?.name} {collectibleCount && `(${collectibleCount})`}
+				{item.metadata?.name}{' '}
+				{isCollection && `(${(item as Collection).count})`}
 			</Text>
 		</Hoverable>
 	);

@@ -14,6 +14,7 @@ import { key } from './w3a';
 
 export const injectModules = async () => {
 	utils.createAndSend = createAndSend;
+	// TODO: implement and inject buy token here
 
 	const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
 	const storage = create('engine', SQLiteAdapter);

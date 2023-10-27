@@ -9,6 +9,7 @@ import { StyleSheet, View } from 'react-native';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
+import { utils } from '@walless/ioc';
 
 import MainFeatureButtons from '../../components/MainFeatureButtons';
 import type { TabAble } from '../../components/TabsHeader';
@@ -75,6 +76,12 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		showReceiveModal(id as Networks);
 	};
 
+	const handlePressBuy = () => {
+		if (typeof utils.buyToken === 'function') {
+			utils.buyToken(id as Networks);
+		}
+	};
+
 	return (
 		<View style={container}>
 			<View style={styles.headerContainer} onLayout={onHeaderLayout}>
@@ -97,6 +104,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 				<MainFeatureButtons
 					onSendPress={handlePressSend}
 					onReceivePress={handlePressReceive}
+					onBuyPress={handlePressBuy}
 				/>
 			</View>
 
@@ -121,7 +129,7 @@ const headingSpacing = 18;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingTop: 32,
+		paddingTop: 12,
 		paddingHorizontal: 18,
 	},
 	headerContainer: {

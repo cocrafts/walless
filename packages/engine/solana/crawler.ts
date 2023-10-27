@@ -40,9 +40,13 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 			);
 		}
 
-		if (keys[0]) {
-			const signatures = await getSignatureList(connection, keys[0]._id);
-			await getTransactions(connection, signatures, keys[0]._id);
+		try {
+			if (keys[0]) {
+				const signatures = await getSignatureList(connection, keys[0]._id);
+				await getTransactions(connection, signatures, keys[0]._id);
+			}
+		} catch (error) {
+			console.log(error);
 		}
 
 		promises.push(
@@ -58,10 +62,13 @@ export const solanaEngineRunner: EngineRunner<Connection> = {
 						addresses: tokenDocuments.map(makeId),
 					});
 
-					const quoteMap = tokensByAddress.reduce((a, i) => {
-						a[i.address as string] = i;
-						return a;
-					}, {} as Record<string, TokenInfo>);
+					const quoteMap = tokensByAddress.reduce(
+						(a, i) => {
+							a[i.address as string] = i;
+							return a;
+						},
+						{} as Record<string, TokenInfo>,
+					);
 
 					for (const i of tokenDocuments) {
 						i.account.quotes = quoteMap[makeId(i)].quotes;

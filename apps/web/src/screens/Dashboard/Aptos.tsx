@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { StyleSheet } from 'react-native';
 import type { CardSkin, TabAble } from '@walless/app';
 import {
 	MainFeatureButtons,
@@ -11,16 +9,17 @@ import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
-import { appActions } from 'state/app';
+import { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { onrampWithGateFi } from 'utils/gatefi';
 import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
+import { copy, showReceiveModal, showSendModal } from '@walless/app/utils';
+import { modules } from '@walless/ioc';
+import { TokenTab } from './components';
 import ActivityTab from './components/ActivityTab';
 import AptosTokensTab from './components/AptosTokensTab';
-import { TokenTab } from './components';
 import { layoutTabs } from './shared';
-import { modules } from '@walless/ioc';
-import { copy, showReceiveModal, showSendModal } from '@walless/app/utils';
 
 const AptosDashboard = () => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -55,7 +54,7 @@ const AptosDashboard = () => {
 	};
 
 	const handleSend = () => {
-		showSendModal({ layoutNetwork: Networks.solana });
+		showSendModal({ layoutNetwork: Networks.aptos });
 	};
 
 	const handleBuy = () => {

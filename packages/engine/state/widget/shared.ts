@@ -112,7 +112,7 @@ export const mockWidgets: WidgetDocument[] = [
 			iconUri: '/img/explore/logo-aptos.svg',
 			iconSize: 26,
 			iconColor: 'black',
-			coverUri: '/img/explore/aptos-thumbnail.svg',
+			coverUri: '/img/explore/thumbnail-aptos.svg',
 			description:
 				'Committed to developing products and applications on the Aptos blockchain that redefine the web3 user experience.',
 			loveCount: 46,

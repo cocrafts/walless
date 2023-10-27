@@ -1,3 +1,4 @@
+import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import type { Collectible, Token } from './entityTypes';
 
 export interface EncryptedWithPasscode {
@@ -69,7 +70,7 @@ export interface TransactionPayload {
 	receiver: string;
 	amount: number;
 	network: Networks;
-	token: Token | Collectible;
+	token: TokenDocument | CollectibleDocument;
 	passcode?: string;
 }
 

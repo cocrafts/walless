@@ -26,6 +26,10 @@ export const handleTransferCoin = constructHandleMethod(
 	aptosHandlers.handleTransferCoin,
 );
 
+export const handleTransferToken = constructHandleMethod(
+	aptosHandlers.handleTransferToken,
+);
+
 export const handleClaimToken = constructHandleMethod(
 	aptosHandlers.handleClaimToken,
 );

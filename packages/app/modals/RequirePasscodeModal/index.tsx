@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { PasscodeFeature } from '@walless/app';
-import { ModalConfigs, Text, View } from '@walless/gui';
+import { ModalConfigs, Text, View, modalActions } from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
@@ -48,6 +48,7 @@ export const RequirePasscodeModal: FC<Props> = ({ config }) => {
 				setPasscode('');
 			} else {
 				onActionComplete?.();
+				modalActions.hide('require-passcode');
 			}
 		}
 	};

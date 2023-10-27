@@ -9,7 +9,8 @@ interface Props {
 }
 
 export const CollectionItem: FC<Props> = ({ item, onPress }) => {
-	const isCollection = 'count' in item;
+	const isCollection = item.type === 'Collection';
+
 	return (
 		<Hoverable style={styles.container} onPress={onPress}>
 			<Image style={styles.image} source={{ uri: item.metadata?.imageUri }} />

@@ -1,5 +1,5 @@
 import type { TokenDocument } from '@walless/store';
-import {modules} from '@walless/ioc'
+import {modules} from '@walless/ioc';
 
 import { tokenState } from './internal';
 

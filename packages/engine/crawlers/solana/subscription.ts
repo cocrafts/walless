@@ -10,7 +10,7 @@ import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
 import { collectibleActions } from '../../state/collectible';
-import { tokenActions } from '../../state/token'
+import { tokenActions } from '../../state/token';
 
 import { addCollectibleToState } from './collectibles';
 import { getMetadata, solMint } from './metadata';

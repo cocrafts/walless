@@ -17,7 +17,7 @@ export const TabBar: FC<Props> = ({ curTab, setCurTab }) => {
 	};
 
 	const activeButtonTitleStyle: TextStyle = {
-		...styles.button,
+		...styles.buttonTitle,
 		fontWeight: '600',
 		color: '#FFFFFF',
 	};
@@ -49,7 +49,6 @@ export const TabBar: FC<Props> = ({ curTab, setCurTab }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
 		flexDirection: 'row',
 		backgroundColor: '#1E2830',
 		padding: 6,
@@ -62,13 +61,9 @@ const styles = StyleSheet.create({
 		backgroundColor: '#56667466',
 	},
 	button: {
-		display: 'flex',
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
 		height: 32,
 		borderRadius: 8,
-		paddingVertical: 'auto',
 		backgroundColor: 'transparent',
 	},
 	buttonTitle: {

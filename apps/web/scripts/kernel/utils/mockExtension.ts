@@ -87,7 +87,7 @@ export const mockLayoutCards: ExtensionDocument[] = [
 			iconUri: '/img/network/tezos-icon-sm.png',
 			iconSize: 26,
 			iconColor: '#2D7DF8',
-			coverUri: 'https://tezos.com/brand/CleanTezos1.png',
+			coverUri: '/img/explore/thumbnail-tezos.png',
 			description:
 				'A blockchain designed to evolve. Security focused. Upgradeable. Built to last',
 			loveCount: 100,

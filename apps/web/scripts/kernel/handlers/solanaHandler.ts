@@ -68,7 +68,7 @@ export const signAndSendTransaction: HandleMethod = async ({
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
 
 	transaction.message.recentBlockhash = (
-		await connection.getLatestBlockhash()
+		await connection.getLatestBlockhash({ commitment: 'finalized' })
 	).blockhash;
 
 	transaction.sign([keypair]);

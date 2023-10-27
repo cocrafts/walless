@@ -1,9 +1,9 @@
-import type { ExtensionDocument } from '@walless/store';
+import type { WidgetDocument } from '@walless/store';
 
 export interface LayoutCardProps {
-	item: ExtensionDocument;
+	item: WidgetDocument;
 	isAdded: boolean;
-	onAddPress?: (item: ExtensionDocument) => void;
-	onRemovePress?: (item: ExtensionDocument) => void;
-	onLovePress?: (item: ExtensionDocument) => void;
+	onAddPress?: (item: WidgetDocument) => void;
+	onRemovePress?: (item: WidgetDocument) => void;
+	onLovePress?: (item: WidgetDocument) => void;
 }

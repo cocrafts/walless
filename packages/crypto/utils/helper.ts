@@ -3,7 +3,7 @@ export const getRandomBytes = (length: number) => {
 };
 
 export const getMaterialKey = async (secret: string): Promise<CryptoKey> => {
-	const secretBuffer = new TextEncoder().encode(secret);
+	const secretBuffer = Buffer.from(secret, 'utf-8');
 	return await crypto.subtle.importKey('raw', secretBuffer, 'PBKDF2', false, [
 		'deriveBits',
 	]);

@@ -5,6 +5,7 @@ import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, {
 	Extrapolate,
 	interpolate,
+	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
 	withSpring,
@@ -21,24 +22,6 @@ interface Props {
 	item: ModalConfigs;
 }
 
-const styles = StyleSheet.create({
-	container: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-	},
-	mask: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		backgroundColor: 'black',
-	},
-});
-
 export const ModalContainer: FC<Props> = ({ item }) => {
 	const {
 		id,
@@ -52,6 +35,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	const layout = useRef<LayoutRectangle>();
 	const top = useSharedValue(0);
 	const left = useSharedValue(0);
+	const width = useSharedValue(0);
 	const opacity = useSharedValue(0);
 	const pointerEvents = item.hide || withoutMask ? 'none' : 'auto';
 
@@ -70,9 +54,9 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	const wrapperStyle = useAnimatedStyle(() => {
 		return rectangleAnimatedStyle(opacity, item.animateDirection, {
 			position: 'absolute',
-			overflow: 'hidden',
 			top: top.value,
 			left: left.value,
+			width: width.value,
 			opacity: opacity.value,
 		});
 	}, [top, left, opacity]);
@@ -80,7 +64,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	useEffect(() => {
 		opacity.value = withSpring(item.hide ? 0 : 1, {}, () => {
 			if (item.hide) {
-				modalActions.destroy(id);
+				runOnJS(modalActions.destroy)(id);
 			}
 		});
 	}, [item.hide]);
@@ -92,8 +76,8 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 
 	const onInnerLayout = async ({ nativeEvent }: LayoutChangeEvent) => {
 		const calculatedRectangle = await rectangleBind(
-			bindingRectangle as never,
-			nativeEvent.layout,
+			bindingRectangle as never, // parent or root
+			nativeEvent.layout, // current component
 			item.bindingDirection,
 			positionOffset,
 		);
@@ -101,6 +85,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		layout.current = nativeEvent.layout;
 		top.value = calculatedRectangle.y;
 		left.value = calculatedRectangle.x;
+		width.value = calculatedRectangle.width;
 	};
 
 	const closeModal = () => {
@@ -122,3 +107,21 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 };
 
 export default ModalContainer;
+
+const styles = StyleSheet.create({
+	container: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+	},
+	mask: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: 'black',
+	},
+});

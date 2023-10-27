@@ -41,17 +41,15 @@ export const ItemContainer: FC<Props> = ({
 		height,
 	};
 
-	const animatedStyle = useAnimatedStyle(
-		() =>
-			animator({
-				offset: animatedOffset,
-				progress,
-				index,
-				activatedIndex,
-				layout: containerLayout,
-			}),
-		[animatedOffset, progress, activatedIndex, containerLayout],
-	);
+	const animatedStyle = useAnimatedStyle(() => {
+		return animator({
+			offset: animatedOffset,
+			progress,
+			index,
+			activatedIndex,
+			layout: containerLayout,
+		});
+	}, [animatedOffset, progress, activatedIndex, containerLayout]);
 
 	useEffect(() => {
 		progress.value = withTiming(index === activatedIndex ? 1 : 0, {

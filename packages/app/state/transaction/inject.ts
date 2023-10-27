@@ -18,7 +18,7 @@ export interface InjectedElements {
 	nftCollections: CollectionDocument[];
 	nftCollectibles: CollectibleDocument[];
 	publicKeys: PublicKeyDocument[];
-	getTransactionFee: (network: Networks) => Promise<number>;
+	getTransactionFee: (payload: TransactionPayload) => Promise<number>;
 	getTransactionAbstractFee: (payload: TransactionPayload) => Promise<number>;
 	handleClose: () => void;
 	checkValidAddress: (
@@ -29,10 +29,6 @@ export interface InjectedElements {
 		payload: TransactionPayload,
 		passcode?: string,
 	) => Promise<ResponsePayload>;
-	getTransactionResult: (
-		signature: string,
-		network: Networks,
-	) => Promise<{ time?: Date }>;
 	handleSendNftSuccess?: (collectible: CollectibleDocument) => void;
 }
 
@@ -49,9 +45,6 @@ export const injectedElements = proxy<InjectedElements>({
 		return { valid: true, message: '' };
 	},
 	createAndSendTransaction: async () => {
-		return {};
-	},
-	getTransactionResult: async () => {
 		return {};
 	},
 });

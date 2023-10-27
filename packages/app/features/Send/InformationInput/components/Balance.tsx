@@ -4,7 +4,7 @@ import { useSnapshot } from 'valtio';
 
 import { transactionContext } from '../../../../state/transaction';
 
-const Balance = () => {
+export const Balance = () => {
 	const { token } = useSnapshot(transactionContext);
 	const balanceString = `${
 		parseFloat(token?.account.balance ?? '0') /

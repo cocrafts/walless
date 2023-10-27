@@ -30,28 +30,24 @@ export const SendFeature: FC<Props> = ({
 	getTransactionFee,
 	checkValidAddress,
 	createAndSendTransaction,
-	getTransactionResult,
 	onSendNftSuccess,
 }) => {
-	useEffect(() => {
-		transactionActions.injectRequiredElements({
-			tokens: tokens,
-			tokenForFee: tokens[0],
-			nftCollections: nftCollections,
-			nftCollectibles: nftCollectibles,
-			publicKeys: publicKeys,
-			getTransactionFee,
-			getTransactionAbstractFee,
-			handleClose: () => {
-				onClose();
-				transactionActions.resetTransactionContext();
-			},
-			checkValidAddress,
-			createAndSendTransaction,
-			getTransactionResult,
-			handleSendNftSuccess: onSendNftSuccess,
-		});
-	}, []);
+	transactionActions.injectRequiredElements({
+		tokens: tokens,
+		tokenForFee: tokens[0],
+		nftCollections: nftCollections,
+		nftCollectibles: nftCollectibles,
+		publicKeys: publicKeys,
+		getTransactionFee,
+		getTransactionAbstractFee,
+		handleClose: () => {
+			onClose();
+			transactionActions.resetTransactionContext();
+		},
+		checkValidAddress,
+		createAndSendTransaction,
+		handleSendNftSuccess: onSendNftSuccess,
+	});
 
 	if (type) transactionActions.setType(type);
 	if (initCollectible) {
@@ -74,13 +70,12 @@ export default SendFeature;
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: 'row',
-		height: 576,
+		height: 590,
 	},
 	slideContainer: {
-		flex: 1,
-		paddingHorizontal: 28,
-		paddingBottom: 28,
+		height: 590,
 		paddingTop: 16,
+		paddingBottom: 28,
+		paddingHorizontal: 28,
 	},
 });

@@ -8,7 +8,9 @@ import type {
 } from 'react-native';
 import type { StyleProp } from 'react-native';
 import { StyleSheet, TextInput, View } from 'react-native';
+import { useSnapshot } from 'valtio';
 
+import { themeState } from '../../states/theme';
 import { injectedFontStyle } from '../../utils/font';
 
 type Props = {
@@ -32,6 +34,7 @@ export const Input: FC<Props> = ({
 	onBlur,
 	...otherProps
 }) => {
+	const { colors, defaultFontFamily } = useSnapshot(themeState);
 	const [focused, setFocused] = useState(otherProps.autoFocus);
 
 	const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -51,13 +54,19 @@ export const Input: FC<Props> = ({
 		importantStyle,
 	];
 
-	const textInputStyle = [injectedFontStyle(styles.textInput), inputStyle];
+	const dynamicStyle = injectedFontStyle(inputStyle, {
+		flex: 1,
+		paddingVertical: 15,
+		paddingHorizontal: 16,
+		fontFamily: defaultFontFamily,
+		color: colors.text,
+	});
 
 	return (
 		<View style={containerStyle}>
 			{prefix}
 			<TextInput
-				style={textInputStyle}
+				style={dynamicStyle}
 				placeholderTextColor={
 					placeholderTextColor ? placeholderTextColor : '#566674'
 				}
@@ -78,11 +87,6 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		borderWidth: 1,
 		borderColor: 'transparent',
-	},
-	textInput: {
-		flex: 1,
-		paddingVertical: 15,
-		paddingHorizontal: 16,
 	},
 	focusStyle: {
 		borderColor: 'rgba(255, 255, 255, 0.1)',

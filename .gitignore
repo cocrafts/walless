@@ -53,7 +53,7 @@ yarn-error.log*
 .env.production
 
 # configs
-GoogleService-Info.plist
+GoogleService-info*.plist
 google-services.json
 apps/**/ios/tmp.xcconfig
 

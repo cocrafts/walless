@@ -19,9 +19,7 @@ export const Header: FC<Props> = ({ onBack }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		width: 336,
+		marginRight: 'auto',
 	},
 	closeButton: {
 		backgroundColor: 'none',

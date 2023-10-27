@@ -25,6 +25,9 @@ export interface UniversalRuntime {
 	isServer: boolean;
 	isBrowser: boolean;
 	isExtension: boolean;
+	isIOS: boolean;
+	isAndroid: boolean;
+	isMobile: boolean;
 	onConnect: chrome.runtime.ExtensionConnectEvent;
 	onMessage: chrome.runtime.ExtensionMessageEvent;
 	connect: (connectInfo?: chrome.runtime.ConnectInfo) => chrome.runtime.Port;
@@ -70,25 +73,23 @@ export interface TransactionPayload {
 	passcode?: string;
 }
 
-export interface LegacySolanaMetadata {
-	address: string;
-	name?: string;
-	symbol?: string;
-	decimals?: number;
-	logoURI?: string;
-	extensions?: Record<string, string>;
-	tags: string[];
-}
-
-export interface LegacyMetadataSource {
-	name: string;
-	logoURI: string;
-	keywords: string[];
-	timestamp: string;
-	tokens: LegacySolanaMetadata[];
-}
-
 export enum Timeout {
 	thirtySeconds = 30000,
 	sixtySeconds = 60000,
+}
+
+export interface Transaction {
+	id: string;
+	signature: string;
+	network: Networks;
+	type: 'sent' | 'received';
+	status: 'success' | 'pending' | 'failed';
+	sender: string;
+	receiver: string;
+	token: Omit<Token, 'account'> | Omit<Collectible, 'account' | 'collectionId'>;
+	fee: number;
+	preBalance?: number;
+	postBalance?: number;
+	amount: number;
+	date: Date;
 }

@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { Image, Linking, TouchableOpacity } from 'react-native';
 import { useLoaderData } from 'react-router-dom';
 import { PasscodeFeature } from '@walless/app';
-import { Text, View } from '@walless/gui';
-import { appActions } from 'state/app';
+import { signInWithPasscode } from '@walless/auth';
 import {
 	setupRemotePasscode,
 	validateAndRecoverWithPasscode,
-} from 'utils/authentication/passcode';
+} from '@walless/auth';
+import { Text, View } from '@walless/gui';
+import { auth } from 'utils/firebase';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';
 
@@ -38,14 +39,14 @@ export const PasscodeScreen = () => {
 			setConfirmation(!!isConfirmation);
 			if (isCompleted) {
 				await setupRemotePasscode(value);
-				await appActions.initLocalDeviceByPasscodeAndSync(value);
+				await signInWithPasscode(value, auth.currentUser);
 				router.navigate('/');
 			}
 		} else {
 			if (isCompleted) {
 				try {
 					if (await validateAndRecoverWithPasscode(value)) {
-						await appActions.initLocalDeviceByPasscodeAndSync(value);
+						await signInWithPasscode(value, auth.currentUser);
 						router.navigate('/');
 					} else {
 						setPasscodeError('wrong passcode, please try again!');

@@ -45,7 +45,6 @@ export const Select = <T extends object>({
 			bindingRef: inputRef,
 			bindingDirection: BindDirections.InnerTop,
 			animateDirection: AnimateDirections.Inner,
-			positionOffset: { x: 0, y: -8 },
 			maskActiveOpacity: 0,
 			context: {
 				selected,

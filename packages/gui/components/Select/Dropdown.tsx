@@ -47,7 +47,7 @@ const Dropdown: FC<Props> = ({ config }) => {
 	};
 
 	return (
-		<View style={{ width: 336 }}>
+		<View>
 			<Hoverable
 				style={[mutualStyles.button, mutualStyles.focus]}
 				onPress={handleMainButtonPress}

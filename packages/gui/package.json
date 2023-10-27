@@ -12,8 +12,8 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-native": "^0.71.6",
-    "react-native-reanimated": "3.3.0",
+    "react-native": "0.71.14",
+    "react-native-reanimated": "*",
     "valtio": "1.10.5"
   },
   "devDependencies": {

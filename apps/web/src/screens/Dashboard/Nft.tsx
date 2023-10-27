@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { showSendModal } from '@walless/app/utils';
 import { Networks } from '@walless/core';
 import { Button, Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
-import { appActions } from 'state/app';
 import { useNfts, useParams } from 'utils/hooks';
 import { router } from 'utils/routing';
 
@@ -26,7 +26,7 @@ export const Nft: FC = () => {
 	}, [curCollectible, collections]);
 
 	const handlePressSend = () => {
-		appActions.showSendModal({
+		showSendModal({
 			layoutNetwork: Networks.solana,
 			collectible: curCollectible,
 		});

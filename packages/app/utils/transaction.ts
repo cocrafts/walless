@@ -1,4 +1,3 @@
-import { aptosHandlers } from '@walless/kernel';
 import { TransactionBlock } from '@mysten/sui.js';
 import {
 	ACCOUNT_SIZE,
@@ -23,6 +22,8 @@ import type {
 import { Networks } from '@walless/core';
 import { getAptosConnection } from '@walless/engine/crawlers/aptos';
 import { modules } from '@walless/ioc';
+import { aptosHandlers } from '@walless/kernel';
+import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { TxnBuilderTypes } from 'aptos';
 
 export const checkValidAddress = (keyStr: string, network: Networks) => {
@@ -89,7 +90,7 @@ export const getTransactionFee = async (payload: TransactionPayload) => {
 
 type SendTokenProps = {
 	sender: string;
-	token: Token | Collectible;
+	token: TokenDocument | CollectibleDocument;
 	network: Networks;
 	receiver: string;
 	amount: number;
@@ -102,10 +103,10 @@ export const constructTransaction = async ({
 	receiver,
 	amount,
 }: SendTokenProps) => {
-	const decimals = (token as Token).account?.decimals
-		? 10 ** ((token as Token).account.decimals || 0)
+	const decimals = (token as TokenDocument).account?.decimals
+		? 10 ** ((token as TokenDocument).account.decimals || 0)
 		: 1;
-	const isCollectible = 'collectionId' in token;
+	const isCollectible = token.type === 'NFT';
 
 	if (network == Networks.solana) {
 		const connection = modules.engine.getConnection(network) as Connection;
@@ -135,27 +136,26 @@ export const constructTransaction = async ({
 		}
 	} else if (network == Networks.aptos) {
 		if (isCollectible) {
+			const nft = token as CollectibleDocument;
+
 			return {
 				from: sender,
 				to: receiver,
-				creator:
-					(token as Collectible).metadata.aptosToken?.creatorAddress || '',
-				collectionName:
-					(token as Collectible).metadata.aptosToken?.collectionName || '',
-				tokenName: (token as Collectible).metadata.name || '',
-				wallessCollectionId:
-					(token as Collectible).metadata.aptosToken?.wallessCollectionId || '',
-				wallessCollectibleId:
-					(token as Collectible).metadata.aptosToken?.collectibleId || '',
+				creator: nft.metadata.aptosToken?.creatorAddress || '',
+				collectionName: nft.metadata.aptosToken?.collectionName || '',
+				tokenName: nft.metadata.name || '',
+				wallessCollectionId: nft.collectionId || '',
+				wallessCollectibleId: nft._id || '',
 				amount: amount,
 			} satisfies aptosHandlers.AptosTokenPayload;
 		} else {
+			const coin = token as TokenDocument;
 			return {
 				from: sender,
 				to: receiver,
-				token: (token as Token).account.address || '',
+				token: coin.account.address || '',
 				amount: amount,
-				decimals: (token as Token).account?.decimals,
+				decimals: coin.account?.decimals,
 			} satisfies aptosHandlers.AptosCoinPayload;
 		}
 	}

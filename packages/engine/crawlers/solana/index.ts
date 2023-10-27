@@ -56,7 +56,7 @@ export const solanaEngineRunner: SolanaRunner = {
 				item.account.quotes = quotes[makeHashId(item)].quotes;
 			}
 
-			tokenActions.setItems(fungibleTokens);
+			tokenActions.setTokens(fungibleTokens);
 
 			for (const key of accountKeys) {
 				registerAccountChanges(context, liveConnection, key, currentPubkey);

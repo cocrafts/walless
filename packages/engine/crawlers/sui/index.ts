@@ -41,7 +41,7 @@ export const suiEngineRunner: SuiRunner = {
 				item.account.quotes = quotes[makeHashId(item)].quotes;
 			}
 
-			tokenActions.setItems(tokenDocs);
+			tokenActions.setTokens(tokenDocs);
 
 			const collectibleDocs = await getSuiCollectibles(connection, owner);
 			collectibleActions.setCollectibles(collectibleDocs);

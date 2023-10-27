@@ -28,7 +28,7 @@ export const tezosEngineRunner: TezosRunner = {
 			item.account.quotes = quotes[makeHashId(item)].quotes;
 		}
 
-		tokenActions.setItems(tokenDocs);
+		tokenActions.setTokens(tokenDocs);
 	},
 	stop: async () => {
 		console.log('stop!');

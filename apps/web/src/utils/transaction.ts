@@ -310,9 +310,8 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 export const getTransactionAbstractFee = async (
 	sendTokenProps: SendTokenProps,
 ) => {
-	const transaction = await constructTransactionAbstractFeeTemplate(
-		sendTokenProps,
-	);
+	const transaction =
+		await constructTransactionAbstractFeeTemplate(sendTokenProps);
 
 	const transactionString = base58.encode(transaction.serialize());
 

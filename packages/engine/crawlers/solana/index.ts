@@ -43,7 +43,9 @@ export const solanaEngineRunner: SolanaRunner = {
 				const tokenType = getTokenType(account);
 
 				if (tokenType === TokenType.Fungible) {
-					fungiblePromises.push(getSPLTokenDocument(context, pubkey, account, currentPubkey));
+					fungiblePromises.push(
+						getSPLTokenDocument(context, pubkey, account, currentPubkey),
+					);
 				}
 
 				accountKeys.push(pubkey);

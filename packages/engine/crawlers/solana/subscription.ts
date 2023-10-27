@@ -24,10 +24,10 @@ export const registerAccountChanges = async (
 	{ connection, endpoint }: SolanaContext,
 	liveConnection: Connection,
 	key: PublicKey,
-    ownerPubkey: PublicKey,
+	ownerPubkey: PublicKey,
 ) => {
 	const address = key.toString();
-    const owner = ownerPubkey.toString();
+	const owner = ownerPubkey.toString();
 	const id = liveConnection.onAccountChange(key, async (info) => {
 		let mint: string;
 		let balance: string;

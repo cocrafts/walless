@@ -34,9 +34,9 @@ export const getSPLTokenDocument = async (
 	context: SolanaContext,
 	key: PublicKey,
 	account: AccountInfo<ParsedAccountData>,
-    ownerPubkey: PublicKey,
+	ownerPubkey: PublicKey,
 ): Promise<TokenDocument> => {
-    const owner = ownerPubkey.toString();
+	const owner = ownerPubkey.toString();
 	const address = key.toString();
 	const { data } = account;
 	const info = data.parsed?.info || {};

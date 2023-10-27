@@ -1,5 +1,5 @@
+import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
-import {modules} from '@walless/ioc';
 
 import { tokenState } from './internal';
 
@@ -9,24 +9,22 @@ export const tokenActions = {
 			tokenState.map.set(item._id, item);
 		}
 	},
-    setTokens: async (tokens: TokenDocument[]) => {
-        for (const token of tokens) {
-            await modules.storage.upsert<TokenDocument>(
-                token._id, 
-                async () => token,
-                );
-        }
-    },
+	setTokens: async (tokens: TokenDocument[]) => {
+		for (const token of tokens) {
+			await modules.storage.upsert<TokenDocument>(token._id, async () => token);
+		}
+	},
 	updateBalance: async (id: string, balance: string) => {
-        const result = await modules.storage.upsert<TokenDocument>(
-            id, 
-            async (prevDoc )=> {
-                prevDoc.account.balance = balance
-                
-                return prevDoc;
-            });
+		const result = await modules.storage.upsert<TokenDocument>(
+			id,
+			async (prevDoc) => {
+				prevDoc.account.balance = balance;
 
-        return result.ok;
+				return prevDoc;
+			},
+		);
+
+		return result.ok;
 	},
 };
 

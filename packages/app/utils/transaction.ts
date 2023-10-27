@@ -1,3 +1,5 @@
+import { response } from './../../../apps/web/scripts/kernel/utils/requestPool';
+import base58 from 'bs58';
 import { TransactionBlock } from '@mysten/sui.js';
 import {
 	ACCOUNT_SIZE,
@@ -10,7 +12,9 @@ import {
 	LAMPORTS_PER_SOL,
 	PublicKey,
 	SystemProgram,
+	Transaction,
 	TransactionMessage,
+	VersionedMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
 import type {
@@ -84,6 +88,7 @@ type SendTokenProps = {
 	network: Networks;
 	receiver: string;
 	amount: number;
+	tokenForFee: Token;
 };
 
 export const constructTransaction = async ({
@@ -221,4 +226,146 @@ const constructSendTezTransaction = (
 		receiver,
 		amount,
 	};
+};
+
+const constructTransactionAbstractFeeTemplate = async (
+	{ network, sender, token, tokenForFee, receiver, amount }: SendTokenProps,
+	fee?: number,
+) => {
+	const connection = modules.engine.getConnection(network) as Connection;
+	const bh = await connection.getLatestBlockhash('finalized');
+
+	const blockhash = bh.blockhash;
+
+	const lastValidBlockHeight = bh.lastValidBlockHeight;
+	const transaction = new Transaction({
+		blockhash,
+		lastValidBlockHeight,
+	});
+
+	const mintAddress = new PublicKey(token.account.mint as string);
+	const tokenForFeeMintAddress = new PublicKey(
+		tokenForFee.account.mint as string,
+	);
+	const decimals = (token as Token).account?.decimals ?? 0;
+
+	const senderPublicKey = new PublicKey(sender);
+	const senderAta = getAssociatedTokenAddressSync(mintAddress, senderPublicKey);
+
+	const senderTokenForFeeAta = getAssociatedTokenAddressSync(
+		tokenForFeeMintAddress,
+		senderPublicKey,
+	);
+
+	const receiverPublicKey = new PublicKey(receiver);
+	const receiverAta = getAssociatedTokenAddressSync(
+		mintAddress,
+		receiverPublicKey,
+	);
+
+	const octaneConfig = await fetch(`${GASILON_ENDPOINT}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	}).then((res) => res.json());
+
+	console.log(octaneConfig, 'octaneConfig');
+
+	const feePayerPublicKey = new PublicKey(octaneConfig.feePayer);
+	const feePayerAta = getAssociatedTokenAddressSync(
+		tokenForFeeMintAddress,
+		feePayerPublicKey,
+	);
+
+	const instructions = [];
+
+	fee = fee ? parseFloat(fee?.toPrecision(7)) : 1;
+
+	const feePaymentInstruction = createTransferInstruction(
+		senderTokenForFeeAta,
+		feePayerAta,
+		senderPublicKey,
+		fee * 10 ** tokenForFee.account.decimals,
+	);
+
+	const receiverAtaInfo = await connection.getAccountInfo(receiverAta);
+
+	const receiverTokenAtaCreationInstruction =
+		createAssociatedTokenAccountInstruction(
+			feePayerPublicKey,
+			receiverAta,
+			receiverPublicKey,
+			mintAddress,
+		);
+
+	const transferInstruction = createTransferInstruction(
+		senderAta,
+		receiverAta,
+		senderPublicKey,
+		amount * 10 ** decimals,
+	);
+
+	instructions.push(feePaymentInstruction);
+
+	if (!receiverAtaInfo) {
+		instructions.push(receiverTokenAtaCreationInstruction);
+	}
+	instructions.push(transferInstruction);
+
+	transaction.feePayer = feePayerPublicKey;
+	transaction.add(...instructions);
+
+	const finalTransaction = new VersionedTransaction(
+		VersionedMessage.deserialize(transaction.serializeMessage()),
+	);
+
+	return finalTransaction;
+};
+
+export const constructTransactionAbstractFee = async (
+	sendTokenProps: SendTokenProps,
+) => {
+	const fee = await getTransactionAbstractFee(sendTokenProps);
+
+	const transaction = await constructTransactionAbstractFeeTemplate(
+		sendTokenProps,
+		fee,
+	);
+
+	return transaction;
+};
+
+export const getTransactionAbstractFee = async (
+	sendTokenProps: SendTokenProps,
+) => {
+	const transaction =
+		await constructTransactionAbstractFeeTemplate(sendTokenProps);
+
+	const transactionString = base58.encode(transaction.serialize());
+
+	const data = await (
+		await fetch(`${GASILON_ENDPOINT}/solana/getFee`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				transaction: transactionString,
+			}),
+		})
+	)
+		.json()
+		.then((data) => {
+			return data;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+
+	const { tokenForFee } = sendTokenProps;
+
+	return parseFloat(
+		data.totalByFeeToken.toFixed(tokenForFee.account.decimals ?? 7),
+	);
 };

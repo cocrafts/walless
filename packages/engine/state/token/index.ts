@@ -15,6 +15,10 @@ export const tokenActions = {
 		}
 	},
 	updateBalance: async (id: string, balance: string) => {
+		const token = tokenState.map.get(id);
+
+		if (!token) return false;
+
 		const result = await modules.storage.upsert<TokenDocument>(
 			id,
 			async (prevDoc) => {

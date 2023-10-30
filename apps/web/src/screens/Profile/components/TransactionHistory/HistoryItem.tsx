@@ -43,8 +43,6 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 		});
 	};
 
-	console.log('token', token);
-
 	return (
 		<Hoverable style={styles.container} onPress={handleShowDetailsModal}>
 			<View style={styles.contentContainer}>

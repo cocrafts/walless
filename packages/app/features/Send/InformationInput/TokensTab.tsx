@@ -1,4 +1,5 @@
-import { Networks, type Token } from '@walless/core';
+import { Networks } from '@walless/core';
+import type { Token } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import type { FC } from 'react';

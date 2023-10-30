@@ -70,7 +70,8 @@ export const addCollectibleToStorage = async (
 		collectionMetadata?.address.toString() ||
 		nft.collection?.address.toString() ||
 		nft.address.toString();
-	const collectionId = `${address}/${collectionAddress}`;
+	const collectionId = `${address}/collection/${collectionAddress}`;
+	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
 
 	const collection = collectionState.map.get(collectionId);
 	if (!collection) {

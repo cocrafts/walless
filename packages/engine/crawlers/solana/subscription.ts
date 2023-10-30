@@ -42,7 +42,7 @@ export const registerAccountChanges = async (
 			balance = data.amount.toString();
 		}
 
-		const id = `${owner}/${mint}`;
+		const tokenId = `${owner}/token/${mint}`;
 
 		if (!tokenActions.updateBalance(id, balance)) {
 			const amount = parseInt(balance);
@@ -123,7 +123,7 @@ export const watchLogs = async (
 					}
 
 					const tokenDocument: TokenDocument = {
-						_id: `${address}/${balance.mint}`,
+						_id: `${address}/token/${balance.mint}`,
 						network: Networks.solana,
 						endpoint,
 						type: 'Token',

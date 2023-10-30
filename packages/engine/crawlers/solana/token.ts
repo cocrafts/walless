@@ -15,7 +15,7 @@ export const getNativeTokenDocument = async (
 	const balance = await throttle(() => connection.getBalance(key))();
 
 	return {
-		_id: `${address}/${solMint}`,
+		_id: `${address}/token/${solMint}`,
 		network: Networks.solana,
 		endpoint,
 		type: 'Token',
@@ -43,7 +43,7 @@ export const getSPLTokenDocument = async (
 	const metadata = await getMetadata(context, info.mint);
 
 	return {
-		_id: `${owner}/${info.mint}`,
+		_id: `${owner}/token/${info.mint}`,
 		network: Networks.solana,
 		endpoint: context.endpoint,
 		type: 'Token',

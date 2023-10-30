@@ -21,7 +21,7 @@ export const getTokenDocument = async (
 
 	return {
 		...token,
-		_id: `${address}/${tokenId}`,
+		_id: `${address}/token/${tokenId}`,
 		type: 'Token',
 		account: {
 			...token.account,

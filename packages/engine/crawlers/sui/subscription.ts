@@ -17,7 +17,7 @@ export const suiTokenSubscribe = (
 
 			coinsBalance.forEach((coin) => {
 				tokenActions.updateBalance(
-					`${owner}/${coin.coinType}`,
+					`${owner}/token/${coin.coinType}`,
 					coin.totalBalance,
 				);
 			});

@@ -13,7 +13,14 @@ import { historyActions } from './../../state/history/index';
 import { getMetadata } from './metadata';
 import type { SolanaContext } from './shared';
 
-const FEE_PAYER = '87S1RnHRrhRNMGtZWrdAqbPBj9on7Z2FdFx5LaYdcSCg';
+const gasilonConfigs = await fetch(`${GASILON_ENDPOINT}`, {
+	method: 'GET',
+	headers: {
+		'Content-Type': 'application/json',
+	},
+});
+
+const FEE_PAYER = (await gasilonConfigs.json()).feePayer;
 const SOL_MINT_ADDRESS = '11111111111111111111111111111111';
 
 export interface Transaction {

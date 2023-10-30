@@ -10,7 +10,7 @@ import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
 import { collectibleActions } from '../../state/collectible';
-import { tokenActions } from '../../state/token';
+import { tokenActions, tokenState } from '../../state/token';
 
 import { addCollectibleToStorage } from './collectibles';
 import { getMetadata, solMint } from './metadata';
@@ -43,17 +43,28 @@ export const registerAccountChanges = async (
 		}
 
 		const tokenId = `${owner}/token/${mint}`;
+		const isToken = tokenState.map.get(tokenId);
 
-		if (!tokenActions.updateBalance(id, balance)) {
+		if (isToken) {
+			tokenActions.updateBalance(tokenId, balance);
+		} else {
 			const amount = parseInt(balance);
+			const collectibleId = `${owner}/collectible/${mint}`;
 
-			if (!collectibleActions.updateCollectibleAmount(id, amount)) {
+			if (amount === 0) {
+				collectibleActions.removeCollectibleDoc(collectibleId);
+			} else if (
+				!(await collectibleActions.updateCollectibleAmount(
+					collectibleId,
+					amount,
+				))
+			) {
 				const mpl = new Metaplex(connection);
 				try {
 					const mintAddress = new PublicKey(mint);
 					const nft = await mpl.nfts().findByMint({ mintAddress });
 
-					addCollectibleToStorage(connection, endpoint, address, nft);
+					addCollectibleToStorage(connection, endpoint, owner, nft);
 				} catch {
 					console.log('Not found any token or nft to update', {
 						address,
@@ -89,16 +100,18 @@ export const watchLogs = async (
 				});
 			})();
 			const tokenBalances = transaction?.meta?.postTokenBalances?.filter(
-				(balance) => balance.owner === pubkey.toJSON(),
+				(balance) => balance.owner === pubkey.toString(),
 			);
 
 			for (const balance of tokenBalances || []) {
 				if (balance.uiTokenAmount.decimals === 0) {
-					const mpl = new Metaplex(connection);
-					const nft = await mpl
-						.nfts()
-						.findByMint({ mintAddress: new PublicKey(balance.mint) });
-					addCollectibleToStorage(connection, endpoint, address, nft);
+					if (balance.uiTokenAmount.amount === '1') {
+						const mpl = new Metaplex(connection);
+						const nft = await mpl
+							.nfts()
+							.findByMint({ mintAddress: new PublicKey(balance.mint) });
+						addCollectibleToStorage(connection, endpoint, address, nft);
+					}
 				} else {
 					let token: TokenInfo = {} as never;
 					let metadata: AssetMetadata | undefined;

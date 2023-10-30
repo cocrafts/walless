@@ -12,7 +12,11 @@ import { PublicKey } from '@solana/web3.js';
 import type { Endpoint } from '@walless/core';
 import { Networks } from '@walless/core';
 
-import { collectibleActions, collectionState } from '../../state/collectible';
+import {
+	collectibleActions,
+	collectibleState,
+	collectionState,
+} from '../../state/collectible';
 import type { RunnerContext } from '../../utils/type';
 
 import { throttle } from './shared';
@@ -74,6 +78,7 @@ export const addCollectibleToStorage = async (
 	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
 
 	const collection = collectionState.map.get(collectionId);
+	const collectible = collectibleState.map.get(collectibleId);
 	if (!collection) {
 		collectibleActions.setStorageCollection(collectionId, {
 			_id: collectionId,
@@ -91,11 +96,13 @@ export const addCollectibleToStorage = async (
 			},
 			count: 1,
 		});
-	} else {
-		collection.count += 1;
+	} else if (!collectible) {
+		collectibleActions.updateCollectionAmount(
+			collectionId,
+			(collection.count += 1),
+		);
 	}
 
-	const collectibleId = `${address}/${nft.mint.address.toString()}`;
 	collectibleActions.setStorageCollectible(collectibleId, {
 		_id: collectibleId,
 		type: 'NFT',

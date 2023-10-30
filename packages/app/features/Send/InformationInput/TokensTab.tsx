@@ -1,8 +1,8 @@
-import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
-import type { Token } from '@walless/core';
+import { Networks, type Token } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
+import type { FC } from 'react';
+import { StyleSheet } from 'react-native';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -15,9 +15,9 @@ import { NavButton } from '../components';
 import {
 	AmountInput,
 	Balance,
-	NetworkFee,
 	RecipientInput,
 	TotalCost,
+	TransactionFee,
 } from './components';
 
 interface Props {
@@ -26,7 +26,7 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
-	const { tokens } = useSnapshot(injectedElements);
+	const { tokens, network } = useSnapshot(injectedElements);
 	const { token } = useSnapshot(transactionContext);
 
 	const getRequiredFieldsForSelectToken = (item: Token) => {
@@ -53,7 +53,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 			<Balance />
 
-			<NetworkFee />
+			<TransactionFee network={network ?? Networks.solana} />
 
 			<View style={styles.totalLine} />
 

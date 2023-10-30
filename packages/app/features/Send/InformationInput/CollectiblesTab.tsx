@@ -1,7 +1,7 @@
-import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
 import { Select, View } from '@walless/gui';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
+import type { FC } from 'react';
+import { StyleSheet } from 'react-native';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -11,8 +11,8 @@ import {
 } from '../../../state/transaction';
 import { NavButton } from '../components';
 
-import { NetworkFee, RecipientInput, TransactionFee } from './components';
 import { Networks } from '@walless/core';
+import { RecipientInput, TransactionFee } from './components';
 
 interface Props {
 	onContinue: () => void;

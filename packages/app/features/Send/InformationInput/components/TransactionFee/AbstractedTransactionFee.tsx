@@ -62,9 +62,6 @@ export const AbstractedTransactionFee: FC<Props> = () => {
 	if (network == Networks.solana) {
 		if (tokenForFee && tokenForFee.metadata?.symbol) {
 			tokenForFeeName = tokenForFee.metadata.symbol;
-			if (tokenForFeeName.includes('-Dev')) {
-				tokenForFeeName = tokenForFeeName.replace('-Dev', '');
-			}
 		} else {
 			tokenForFeeName = 'SOL';
 		}

@@ -27,14 +27,7 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 		uri: imageUri ?? '/img/send-token/unknown-token.jpeg',
 	};
 
-	let itemName = 'Unknown';
-
-	if (item && item.metadata?.symbol) {
-		itemName = item.metadata.symbol;
-		if (itemName.includes('-Dev')) {
-			itemName = itemName.replace('-Dev', '');
-		}
-	}
+	let itemName = item.metadata?.symbol ?? 'Unknown';
 
 	return (
 		<Hoverable style={[styles.container, style]}>

@@ -30,6 +30,7 @@ export interface InjectedElements {
 		passcode?: string,
 	) => Promise<ResponsePayload>;
 	handleSendNftSuccess?: (collectible: CollectibleDocument) => void;
+	network?: Networks;
 }
 
 export const injectedElements = proxy<InjectedElements>({

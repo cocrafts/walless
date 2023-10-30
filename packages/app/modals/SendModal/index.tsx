@@ -42,6 +42,7 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				onClose={handleClose}
 				checkValidAddress={checkValidAddress}
 				createAndSendTransaction={utils.createAndSend}
+				network={layoutNetwork}
 			/>
 		</View>
 	);

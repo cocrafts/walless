@@ -10,9 +10,11 @@ import type {
 import { transactionActions } from '../../state/transaction';
 
 import { sendScreens } from './shared';
+import { Networks } from '@walless/core';
 
 type Props = Omit<InjectedElements, 'handleClose' | 'handleSendNftSuccess'> & {
 	onClose: () => void;
+	network?: Networks;
 	type?: TransactionType;
 	initCollectible?: CollectibleDocument;
 	onSendNftSuccess?: (collectible: CollectibleDocument) => void;
@@ -25,6 +27,7 @@ export const SendFeature: FC<Props> = ({
 	nftCollections,
 	nftCollectibles,
 	publicKeys,
+	network,
 	onClose,
 	getTransactionAbstractFee,
 	getTransactionFee,
@@ -47,6 +50,7 @@ export const SendFeature: FC<Props> = ({
 		checkValidAddress,
 		createAndSendTransaction,
 		handleSendNftSuccess: onSendNftSuccess,
+		network,
 	});
 
 	if (type) transactionActions.setType(type);

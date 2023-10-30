@@ -94,25 +94,25 @@ export const signTransactionAbstractionFee: HandleMethod = async ({
 
 	const txStr = base58.encode(transaction.serialize());
 
-	fetch(`${GASILON_ENDPOINT}/solana/transfer`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			transaction: txStr,
-		}),
-	})
-		.then((res) => {
-			res.json().then((data) => {
-				responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
-					signatureString: data.signature,
-				});
-			});
-		})
-		.catch(() => {
-			responseMethod(payload.requestId as string, ResponseCode.ERROR, {
-				message: 'Error in signing transaction',
-			});
+	try {
+		const res = await fetch(`${GASILON_ENDPOINT}/solana/transfer`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				transaction: txStr,
+			}),
 		});
+
+		const data = await res.json();
+
+		responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
+			signatureString: data.signature,
+		});
+	} catch (error) {
+		responseMethod(payload.requestId as string, ResponseCode.ERROR, {
+			message: 'Error in signing transaction',
+		});
+	}
 };

@@ -15,6 +15,7 @@ import {
 } from './shared';
 import { registerAccountChanges, watchLogs } from './subscription';
 import { getNativeTokenDocument, getSPLTokenDocument } from './token';
+import { getSignatureList, getTransactions } from './transactionHistory';
 
 export const solanaEngineRunner: SolanaRunner = {
 	start: async (context) => {
@@ -60,6 +61,16 @@ export const solanaEngineRunner: SolanaRunner = {
 
 			for (const key of accountKeys) {
 				registerAccountChanges(context, liveConnection, key);
+			}
+
+			try {
+				if (key.docs[0]) {
+					const { _id } = key.docs[0];
+					const signatures = await getSignatureList(context, _id);
+					await getTransactions(context, signatures, _id);
+				}
+			} catch (error) {
+				console.log(error);
 			}
 		}
 	},

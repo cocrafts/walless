@@ -4,11 +4,11 @@ import { RequestType } from '@walless/messaging';
 import { handle } from '../utils/coordinator';
 import { getNetwork } from '../utils/handler';
 
+import * as aptosHandler from './aptosHandler';
 import * as commonHandler from './common';
 import * as solanaHandler from './solanaHandler';
 import * as suiHandler from './suiHandler';
 import * as tezosHandler from './tezosHandler';
-import * as aptosHandler from './aptosHandler';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	const { type, requestId } = payload;
@@ -48,6 +48,10 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			handleMethod = solanaHandler.signTransaction;
 		} else if (type === RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA) {
 			handleMethod = solanaHandler.signAndSendTransaction;
+		} else if (
+			type === RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA
+		) {
+			handleMethod = solanaHandler.signTransactionAbstractionFee;
 		} else if (type === RequestType.SIGN_MESSAGE_ON_SUI) {
 			suiHandler.handleSignMessage(payload, channel);
 		} else if (type === RequestType.SIGN_TRANSACTION_ON_SUI) {

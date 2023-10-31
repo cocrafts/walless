@@ -1,20 +1,12 @@
 import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { WidgetExplorerFeat } from '@walless/app';
+import { useSnapshot } from '@walless/app/utils/hooks';
+import { appState } from '@walless/engine';
 
 export const ExplorerScreen: FC = () => {
-	return (
-		<View style={styles.container}>
-			<Text>Explorer</Text>
-		</View>
-	);
+	const { profile, config } = useSnapshot(appState);
+
+	return <WidgetExplorerFeat profile={profile} appConfig={config} />;
 };
 
 export default ExplorerScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});

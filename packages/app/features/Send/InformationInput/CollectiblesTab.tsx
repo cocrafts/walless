@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
+import { Networks } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
@@ -11,14 +12,15 @@ import {
 } from '../../../state/transaction';
 import { NavButton } from '../components';
 
-import { NetworkFee, RecipientInput } from './components';
+import { RecipientInput, TransactionFee } from './components';
 
 interface Props {
 	onContinue: () => void;
 }
 
 export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
-	const { nftCollections, nftCollectibles } = useSnapshot(injectedElements);
+	const { nftCollections, nftCollectibles, network } =
+		useSnapshot(injectedElements);
 	const { nftCollection, nftCollectible } = useSnapshot(transactionContext);
 
 	const getRequiredFieldsForSelectToken = (
@@ -61,7 +63,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 
 			<RecipientInput />
 
-			<NetworkFee />
+			<TransactionFee network={network ?? Networks.solana} />
 
 			<NavButton title="Continue" onPress={onContinue} />
 		</View>

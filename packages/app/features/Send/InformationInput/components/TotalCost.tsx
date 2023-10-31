@@ -20,7 +20,6 @@ export const TotalCost: FC = () => {
 
 			<View style={styles.valueContainer}>
 				<Text style={styles.costText}>{costStr}</Text>
-				<Text style={styles.equalText}>~ 0 secs</Text>
 			</View>
 		</View>
 	);

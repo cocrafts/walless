@@ -1,7 +1,11 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SendFeature } from '@walless/app';
-import { checkValidAddress, getTransactionFee } from '@walless/app/utils';
+import {
+	checkValidAddress,
+	getTransactionAbstractFee,
+	getTransactionFee,
+} from '@walless/app/utils';
 import { useNfts, usePublicKeys, useTokens } from '@walless/app/utils/hooks';
 import type { Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
@@ -32,10 +36,13 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				nftCollections={collections}
 				nftCollectibles={collectibles}
 				publicKeys={addressList}
+				// TODO: resolve this with gasilon
 				getTransactionFee={getTransactionFee}
+				getTransactionAbstractFee={getTransactionAbstractFee}
 				onClose={handleClose}
 				checkValidAddress={checkValidAddress}
 				createAndSendTransaction={utils.createAndSend}
+				network={layoutNetwork}
 			/>
 		</View>
 	);
@@ -45,7 +52,7 @@ export default SendModal;
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#141B21',
+		backgroundColor: '#131C24',
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 	},

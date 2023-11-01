@@ -21,13 +21,15 @@ export type HomeParamList = {
 };
 
 export type DashboardParamList = {
-	Home: NavigatorScreenParams<HomeParamList>;
 	Explore: undefined;
 	Profile: undefined;
-	Contact: undefined;
-	Setting: undefined;
+};
+
+export type SidebarParmList = {
+	Explore: undefined;
+	Profile: undefined;
 	Extension: {
-		id?: string;
+		id: string;
 	};
 };
 
@@ -35,6 +37,7 @@ export type RootParamList = {
 	Splash: undefined;
 	Authentication: NavigatorScreenParams<AuthenticationParamList>;
 	Dashboard: NavigatorScreenParams<DashboardParamList>;
+	Sidebar: NavigatorScreenParams<SidebarParmList>;
 };
 
 export const linking: LinkingOptions<RootParamList> = {
@@ -55,15 +58,15 @@ export const linking: LinkingOptions<RootParamList> = {
 			Dashboard: {
 				path: '/',
 				screens: {
-					Home: {
-						path: '/',
-						screens: {
-							Widget: '/widget/:id',
-						},
-					},
 					Explore: '/explore',
 					Profile: '/profile',
-					Setting: '/setting',
+				},
+			},
+			Sidebar: {
+				path: '/sidebar',
+				screens: {
+					Explore: '/explore',
+					Profile: '/profile',
 					Extension: '/:id',
 				},
 			},

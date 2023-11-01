@@ -2,21 +2,18 @@ import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import type { StackScreenProps } from '@react-navigation/stack';
 import TabBar, { tabBarHeight } from 'components/TabNavivation/TabBar';
 import ContactScreen from 'screens/Dashboard/Contact';
 import ExploreScreen from 'screens/Dashboard/Explore';
 import ProfileScreen from 'screens/Dashboard/Profile';
 import SettingScreen from 'screens/Dashboard/Setting';
-import type { DashboardParamList, RootParamList } from 'utils/navigation';
+import type { DashboardParamList } from 'utils/navigation';
 
 import HomeStack from './Home';
 
 const Tab = createBottomTabNavigator<DashboardParamList>();
 
-type Props = StackScreenProps<RootParamList, 'Dashboard'>;
-
-export const DashboardStack: FC<Props> = () => {
+export const DashboardStack: FC = () => {
 	const screenOptions: BottomTabNavigationOptions = {
 		headerShown: false,
 	};

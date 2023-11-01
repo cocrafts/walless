@@ -55,5 +55,6 @@ const styles = StyleSheet.create({
 		right: 0,
 		flexDirection: 'row',
 		height: tabBarHeight,
+		backgroundColor: '#081016',
 	},
 });

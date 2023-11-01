@@ -40,6 +40,7 @@ export const AppStack = () => {
 								width: sidebarWidth,
 							},
 						}}
+						initialRouteName="Explore"
 					>
 						<Drawer.Screen name="Dashboard" component={DashboardStack} />
 					</Drawer.Navigator>

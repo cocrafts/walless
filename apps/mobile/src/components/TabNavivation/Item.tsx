@@ -1,17 +1,20 @@
 import type { FC } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import type { ImageSourcePropType } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import type { Route } from '@react-navigation/native';
 import { Text } from '@walless/gui';
 
 interface Props {
 	route: Route<string, never>;
 	focused: boolean;
+	tabIcon?: ImageSourcePropType;
 	onNavigate: (route: Route<string, never>, focused: boolean) => void;
 }
 
 export const TabNavigationItem: FC<Props> = ({
 	route,
 	focused,
+	tabIcon,
 	onNavigate,
 }) => {
 	return (
@@ -19,7 +22,15 @@ export const TabNavigationItem: FC<Props> = ({
 			style={styles.container}
 			onPress={() => onNavigate?.(route, focused)}
 		>
-			<Text style={styles.tabTitle}>{route.name}</Text>
+			{tabIcon ? (
+				<Image
+					source={tabIcon}
+					resizeMode="contain"
+					style={[styles.icon, focused && styles.iconActive]}
+				/>
+			) : (
+				<Text style={styles.tabTitle}>{route.name}</Text>
+			)}
 		</TouchableOpacity>
 	);
 };
@@ -34,5 +45,14 @@ const styles = StyleSheet.create({
 	},
 	tabTitle: {
 		textAlign: 'right',
+	},
+	icon: {
+		borderRadius: 1000,
+		height: 40,
+		aspectRatio: 1,
+		opacity: 0.5,
+	},
+	iconActive: {
+		opacity: 1,
 	},
 });

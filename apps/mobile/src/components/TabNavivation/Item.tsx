@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		borderRadius: 1000,
-		height: 40,
+		height: 32,
 		aspectRatio: 1,
 		opacity: 0.5,
 	},

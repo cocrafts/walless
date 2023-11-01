@@ -69,7 +69,7 @@ export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
 
 export default BottomNavigationTabBar;
 
-export const tabBarHeight = 100;
+export const tabBarHeight = 96;
 const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',

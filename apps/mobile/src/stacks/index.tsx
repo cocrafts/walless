@@ -39,6 +39,7 @@ export const AppStack = () => {
 							drawerStyle: {
 								width: sidebarWidth,
 							},
+							overlayColor: 'transparent',
 						}}
 						initialRouteName="Explore"
 					>

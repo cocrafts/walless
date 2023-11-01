@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 	container: {
 		paddingVertical: 12,
 		backgroundColor: '#131C24',
-		height: '100%',
+		flex: 1,
 	},
 	orbContainer: {
 		flex: 1,

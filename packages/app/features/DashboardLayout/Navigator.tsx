@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
 import { Compass } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
@@ -42,7 +42,7 @@ export const DashboardNavigator: FC<Props> = ({
 	const isExplorerActive = getIsExtensionActive?.(exploreItem as never);
 
 	return (
-		<SafeAreaView style={[styles.container, containerStyle]}>
+		<View style={[styles.container, containerStyle]}>
 			<View style={styles.orbContainer}>
 				{widgets.map((item) => {
 					const isActive = getIsExtensionActive?.(item);
@@ -78,7 +78,7 @@ export const DashboardNavigator: FC<Props> = ({
 					isActive={getIsExtensionActive?.(profileItem as never)}
 				/>
 			</View>
-		</SafeAreaView>
+		</View>
 	);
 };
 

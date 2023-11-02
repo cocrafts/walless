@@ -4,7 +4,7 @@ import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { MessengerCallback, ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
-import base58, { decode, encode } from 'bs58';
+import { decode, encode } from 'bs58';
 import { sign } from 'tweetnacl';
 
 import type { HandleMethod } from '../utils/types';
@@ -92,7 +92,7 @@ export const signTransactionAbstractionFee: HandleMethod = async ({
 
 	transaction.sign([keypair]);
 
-	const txStr = base58.encode(transaction.serialize());
+	const txStr = encode(transaction.serialize());
 
 	try {
 		const res = await fetch(`${GASILON_ENDPOINT}/solana/transfer`, {

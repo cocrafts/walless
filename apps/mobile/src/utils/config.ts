@@ -16,6 +16,10 @@ export const nativeAsset: UniversalAsset = {
 			cardIcon: require('assets/img/widget/tezos-icon.png'),
 			cardBackground: require('assets/img/widget/tezos-card-bg.png'),
 		},
+		aptos: {
+			cardIcon: require('assets/img/widget/aptos-icon.png'),
+			cardBackground: require('assets/img/widget/sky-card-bg.png'),
+		},
 	},
 };
 

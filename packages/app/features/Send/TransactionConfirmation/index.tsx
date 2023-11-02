@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import type { Collectible, Networks, Token } from '@walless/core';
 import type { TransactionPayload } from '@walless/core';
 import type { SliderHandle } from '@walless/gui';
@@ -26,12 +27,15 @@ interface Props {
 }
 
 const TransactionConfirmation: FC<Props> = ({ navigator }) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const { createAndSendTransaction, handleSendNftSuccess } =
 		useSnapshot(injectedElements);
-	const { type, sender, receiver, amount, token, nftCollectible } =
+	const { type, sender, receiver, amount, token, nftCollectible, tokenForFee } =
 		useSnapshot(transactionContext);
 
 	const handleContinue = async () => {
+		setIsLoading(true);
+
 		if (
 			(type === 'Token' && !token) ||
 			(type === 'Collectible' && !nftCollectible)
@@ -41,38 +45,48 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 		const payload: TransactionPayload = {
 			sender: sender,
 			receiver: receiver,
-		} as TransactionPayload;
+			tokenForFee: tokenForFee as Token,
+		} as unknown as TransactionPayload;
 
 		switch (type) {
 			case 'Token': {
 				payload.amount = parseFloat(amount as string);
 				payload.token = token as Token;
 				payload.network = token?.network as Networks;
+				payload.tokenForFee = tokenForFee as Token;
 				break;
 			}
 			case 'Collectible': {
 				payload.amount = 1;
 				payload.token = nftCollectible as Collectible;
 				payload.network = nftCollectible?.network as Networks;
+				payload.tokenForFee = tokenForFee as Token;
 				break;
 			}
 		}
 
 		const res = await createAndSendTransaction(payload);
 
-		if (res.responseCode == ResponseCode.REQUIRE_PASSCODE) {
-			navigator.slideNext();
-		} else if (res.responseCode == ResponseCode.SUCCESS) {
-			if (nftCollectible && handleSendNftSuccess)
-				handleSendNftSuccess(nftCollectible as CollectibleDocument);
+		try {
+			if (res.responseCode == ResponseCode.REQUIRE_PASSCODE) {
+				navigator.slideNext();
+			} else if (res.responseCode == ResponseCode.SUCCESS) {
+				if (nftCollectible && handleSendNftSuccess)
+					handleSendNftSuccess(nftCollectible as CollectibleDocument);
 
-			transactionActions.setSignatureString(
-				res.signatureString || res.signedTransaction?.digest || res.hash,
-			);
-			navigator.slideTo(3);
-		} else {
-			showError('Something was wrong');
+				transactionActions.setSignatureString(
+					res.signatureString || res.signedTransaction?.digest || res.hash,
+				);
+				navigator.slideTo(3);
+			} else {
+				showError('Something was wrong');
+			}
+		} catch (error) {
+			console.log('...', error);
+			throw error;
 		}
+
+		setIsLoading(false);
 	};
 
 	return (
@@ -85,7 +99,11 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 
 			<RecipientInfo />
 
-			<NavButton title="Continue" onPress={handleContinue} />
+			{isLoading ? (
+				<ActivityIndicator size={'large'} />
+			) : (
+				<NavButton title="Confirm" onPress={handleContinue} />
+			)}
 		</View>
 	);
 };

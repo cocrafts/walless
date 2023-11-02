@@ -7,14 +7,18 @@ import { transactionContext } from '../../../../state/transaction';
 export const BigToken = () => {
 	const { token, amount } = useSnapshot(transactionContext);
 
-	const iconUri = { uri: token?.metadata?.imageUri };
+	const iconUri = {
+		uri: token?.metadata?.imageUri || '/img/send-token/unknown-token.jpeg',
+	};
 
 	return (
 		<View style={styles.container}>
 			<Image style={styles.tokenIcon} source={iconUri} />
 			<View style={styles.amountContainer}>
 				<Text style={styles.amountText}>{amount}</Text>
-				<Text style={styles.symbolText}>{token?.metadata?.symbol}</Text>
+				<Text style={styles.symbolText}>
+					{token?.metadata?.symbol || 'Unknown'}
+				</Text>
 			</View>
 		</View>
 	);
@@ -42,6 +46,6 @@ const styles = StyleSheet.create({
 	symbolText: {
 		fontSize: 20,
 		fontWeight: '500',
-		color: '#566674',
+		color: '#ffffff',
 	},
 });

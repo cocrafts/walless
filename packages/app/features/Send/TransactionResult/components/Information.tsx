@@ -25,6 +25,7 @@ export const Information: FC<Props> = () => {
 		receiver,
 		sender,
 		status,
+		tokenForFee,
 	} = useSnapshot(transactionContext);
 
 	const publicKey = publicKeys.find(
@@ -33,13 +34,15 @@ export const Information: FC<Props> = () => {
 			(type === 'Token' ? token?.network : nftCollectible?.network),
 	);
 
+	const tokenForFeeName = tokenForFee?.metadata?.symbol || 'Unknown';
+
 	const iconUri = { uri: '' };
 	let networkStr = '';
 	let feeStr = '';
 	if (publicKey?.network == Networks.solana) {
 		iconUri.uri = '/img/network/solana-icon-sm.png';
 		networkStr = 'Solana';
-		feeStr = `${transactionFee} SOL`;
+		feeStr = `${transactionFee} ${tokenForFeeName}`;
 	} else if (publicKey?.network == Networks.sui) {
 		iconUri.uri = '/img/network/sui-icon-sm.png';
 		networkStr = 'SUI';

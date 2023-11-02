@@ -1,6 +1,9 @@
 import { TransactionBlock } from '@mysten/sui.js';
 import { VersionedTransaction } from '@solana/web3.js';
-import { constructTransaction } from '@walless/app/utils';
+import {
+	constructTransaction,
+	constructTransactionAbstractFee,
+} from '@walless/app/utils';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
@@ -12,15 +15,26 @@ export const createAndSend = async (
 	payload: TransactionPayload,
 	passcode?: string,
 ) => {
-	const transaction = await constructTransaction(payload);
+	const transaction =
+		payload.tokenForFee.metadata?.symbol === 'SOL'
+			? await constructTransaction(payload)
+			: await constructTransactionAbstractFee(payload);
 
 	let res;
+
 	if (transaction instanceof VersionedTransaction) {
-		res = await requestHandleTransaction({
-			type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
-			transaction: encode(transaction.serialize()),
-			passcode,
-		});
+		res =
+			payload.tokenForFee.metadata?.symbol === 'SOL'
+				? await requestHandleTransaction({
+						type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
+						transaction: encode(transaction.serialize()),
+						passcode,
+				  })
+				: await requestHandleTransaction({
+						type: RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
+						transaction: encode(transaction.serialize()),
+						passcode,
+				  });
 	} else if (transaction instanceof TransactionBlock) {
 		res = await requestHandleTransaction({
 			type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,

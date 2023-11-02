@@ -45,6 +45,7 @@ export const signTransaction: HandleMethod = async ({
 	const keypair = Keypair.fromSecretKey(privateKey);
 	const serializedTransaction = decode(payload.transaction as string);
 	const transaction = VersionedTransaction.deserialize(serializedTransaction);
+
 	transaction.sign([keypair]);
 
 	responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
@@ -77,4 +78,41 @@ export const signAndSendTransaction: HandleMethod = async ({
 	responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
 		signatureString,
 	});
+};
+
+export const signTransactionAbstractionFee: HandleMethod = async ({
+	privateKey,
+	payload,
+	responseMethod,
+}) => {
+	const keypair = Keypair.fromSecretKey(privateKey);
+
+	const serializedTransaction = decode(payload.transaction as string);
+	const transaction = VersionedTransaction.deserialize(serializedTransaction);
+
+	transaction.sign([keypair]);
+
+	const txStr = encode(transaction.serialize());
+
+	try {
+		const res = await fetch(`${GASILON_ENDPOINT}/solana/transfer`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				transaction: txStr,
+			}),
+		});
+
+		const data = await res.json();
+
+		responseMethod(payload.requestId as string, ResponseCode.SUCCESS, {
+			signatureString: data.signature,
+		});
+	} catch (error) {
+		responseMethod(payload.requestId as string, ResponseCode.ERROR, {
+			message: 'Error in signing transaction',
+		});
+	}
 };

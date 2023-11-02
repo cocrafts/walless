@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import type { Token } from '@walless/core';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
@@ -11,13 +10,13 @@ import {
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../../state/transaction';
+} from '../../../../../state/transaction';
 
 interface Props {
 	feeText?: string;
 }
 
-export const NetworkFee: FC<Props> = () => {
+export const NormalTrasactionFee: FC<Props> = () => {
 	const {
 		type,
 		token,
@@ -27,7 +26,7 @@ export const NetworkFee: FC<Props> = () => {
 		receiver,
 		amount,
 	} = useSnapshot(transactionContext);
-	const { getTransactionFee } = useSnapshot(injectedElements);
+	const { getTransactionFee, network } = useSnapshot(injectedElements);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -39,7 +38,7 @@ export const NetworkFee: FC<Props> = () => {
 					receiver,
 					amount: parseFloat(amount),
 					network: token.network,
-					token: token as Token,
+					token: token,
 				});
 				transactionActions.setTransactionFee(fee);
 			} else if (type === 'Collectible' && nftCollection?.network) {
@@ -48,7 +47,7 @@ export const NetworkFee: FC<Props> = () => {
 					receiver,
 					amount: 1,
 					network: nftCollection.network,
-					token: token as Token,
+					token: token,
 				});
 				transactionActions.setTransactionFee(fee);
 			} else transactionActions.setTransactionFee(0);
@@ -57,11 +56,11 @@ export const NetworkFee: FC<Props> = () => {
 	}, [type, token, nftCollection, amount, sender, receiver]);
 
 	let networkToken = '';
-	if (token?.network == Networks.solana) {
-		networkToken = 'SOL';
-	} else if (token?.network == Networks.sui) {
+	if (network == Networks.tezos) {
+		networkToken = 'XTZ';
+	} else if (network == Networks.sui) {
 		networkToken = 'SUI';
-	} else if (token?.network == Networks.aptos) {
+	} else if (network == Networks.aptos) {
 		networkToken = 'APT';
 	}
 
@@ -80,8 +79,6 @@ export const NetworkFee: FC<Props> = () => {
 				) : (
 					<Text style={styles.feeText}>{feeString}</Text>
 				)}
-
-				<Text style={styles.equalText}>~ 0 secs</Text>
 			</View>
 		</View>
 	);

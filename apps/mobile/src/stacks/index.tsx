@@ -40,7 +40,7 @@ export const AppStack = () => {
 							headerShown: false,
 							drawerStyle: {
 								width: sidebarWidth,
-								backgroundColor: '#131C24',
+								backgroundColor: 'transparent',
 								marginBottom: tabBarHeight,
 							},
 							overlayColor: 'transparent',

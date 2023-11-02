@@ -1,4 +1,4 @@
-import type { ExtensionDocument, WidgetDocument } from '@walless/store';
+import type { WidgetDocument } from '@walless/store';
 
 export const mockWidgets: WidgetDocument[] = [
 	{

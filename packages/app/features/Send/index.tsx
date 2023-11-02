@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
+import type { Networks } from '@walless/core';
 import { Slider } from '@walless/gui';
 import type { CollectibleDocument } from '@walless/store';
 
@@ -13,6 +14,7 @@ import { sendScreens } from './shared';
 
 type Props = Omit<InjectedElements, 'handleClose' | 'handleSendNftSuccess'> & {
 	onClose: () => void;
+	network?: Networks;
 	type?: TransactionType;
 	initCollectible?: CollectibleDocument;
 	onSendNftSuccess?: (collectible: CollectibleDocument) => void;
@@ -25,7 +27,9 @@ export const SendFeature: FC<Props> = ({
 	nftCollections,
 	nftCollectibles,
 	publicKeys,
+	network,
 	onClose,
+	getTransactionAbstractFee,
 	getTransactionFee,
 	checkValidAddress,
 	createAndSendTransaction,
@@ -33,10 +37,12 @@ export const SendFeature: FC<Props> = ({
 }) => {
 	transactionActions.injectRequiredElements({
 		tokens: tokens,
+		tokenForFee: tokens[0],
 		nftCollections: nftCollections,
 		nftCollectibles: nftCollectibles,
 		publicKeys: publicKeys,
 		getTransactionFee,
+		getTransactionAbstractFee,
 		handleClose: () => {
 			onClose();
 			transactionActions.resetTransactionContext();
@@ -44,6 +50,7 @@ export const SendFeature: FC<Props> = ({
 		checkValidAddress,
 		createAndSendTransaction,
 		handleSendNftSuccess: onSendNftSuccess,
+		network,
 	});
 
 	if (type) transactionActions.setType(type);

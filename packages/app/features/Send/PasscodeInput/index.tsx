@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet } from 'react-native';
 import type {
 	Collectible,
 	Networks,
@@ -25,7 +25,8 @@ import { Header } from './components';
 
 type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
-	const { type, token, nftCollectible, sender, receiver, amount } =
+	const [isLoading, setIsLoading] = useState(false);
+	const { type, token, tokenForFee, nftCollectible, sender, receiver, amount } =
 		useSnapshot(transactionContext);
 	const [error, setError] = useState<string>('');
 	const [passcode, setPasscode] = useState<string>('');
@@ -41,6 +42,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 	};
 
 	const handlePasscodeChange = async (passcode: string) => {
+		setIsLoading(true);
 		setPasscode(passcode);
 		if (passcode.length == 6) {
 			if (
@@ -52,19 +54,22 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 			const payload: TransactionPayload = {
 				sender: sender,
 				receiver: receiver,
-			} as TransactionPayload;
+				tokenForFee: token as Token,
+			} as unknown as TransactionPayload;
 
 			switch (type) {
 				case 'Token': {
 					payload.amount = parseFloat(amount as string);
 					payload.token = token as Token;
 					payload.network = token?.network as Networks;
+					payload.tokenForFee = tokenForFee as Token;
 					break;
 				}
 				case 'Collectible': {
 					payload.amount = 1;
 					payload.token = nftCollectible as Collectible;
 					payload.network = nftCollectible?.network as Networks;
+					payload.tokenForFee = tokenForFee as Token;
 					break;
 				}
 			}
@@ -101,6 +106,8 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
+
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -129,6 +136,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 					onPasscodeChange={handlePasscodeChange}
 				/>
 			)}
+			{isLoading && <ActivityIndicator size={'large'} />}
 		</View>
 	);
 };

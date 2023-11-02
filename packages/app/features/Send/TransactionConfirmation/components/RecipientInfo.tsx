@@ -15,7 +15,7 @@ interface Props {
 
 export const RecipientInfo: FC<Props> = () => {
 	const { publicKeys } = useSnapshot(injectedElements);
-	const { type, token, nftCollectible, transactionFee, receiver } =
+	const { type, token, nftCollectible, transactionFee, receiver, tokenForFee } =
 		useSnapshot(transactionContext);
 
 	const publicKey = publicKeys.find(
@@ -24,13 +24,15 @@ export const RecipientInfo: FC<Props> = () => {
 			(type === 'Token' ? token?.network : nftCollectible?.network),
 	);
 
+	const tokenForFeeName = tokenForFee?.metadata?.symbol || 'Unknown';
+
 	const iconUri = { uri: '' };
 	let networkStr = '';
 	let feeStr = '';
 	if (publicKey?.network == Networks.solana) {
 		iconUri.uri = '/img/network/solana-icon-sm.png';
 		networkStr = 'Solana';
-		feeStr = `${transactionFee} SOL`;
+		feeStr = `${transactionFee} ${tokenForFeeName}`;
 	} else if (publicKey?.network == Networks.sui) {
 		iconUri.uri = '/img/network/sui-icon-sm.png';
 		networkStr = 'SUI';

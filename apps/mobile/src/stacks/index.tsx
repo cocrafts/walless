@@ -3,10 +3,11 @@ import { StyleSheet, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { appState } from '@walless/engine';
+import { appState, mockWidgets } from '@walless/engine';
 import { modalActions, ModalManager, themeState } from '@walless/gui';
 import Sidebar, { sidebarWidth } from 'components/DrawerNavigation/Sidebar';
 import { tabBarHeight } from 'components/TabNavivation/TabBar';
+import WidgetScreen from 'screens/Dashboard/Home/Widget';
 import SplashScreen from 'screens/Splash';
 import { useSnapshot } from 'utils/hooks';
 import type { RootParamList } from 'utils/navigation';
@@ -48,6 +49,13 @@ export const AppStack = () => {
 						backBehavior="order"
 					>
 						<Drawer.Screen name="Dashboard" component={DashboardStack} />
+						{mockWidgets.map((widget) => (
+							<Drawer.Screen
+								key={widget._id}
+								name={widget._id}
+								component={WidgetScreen}
+							/>
+						))}
 					</Drawer.Navigator>
 				) : (
 					<Stack.Navigator screenOptions={screenOptions.navigator}>

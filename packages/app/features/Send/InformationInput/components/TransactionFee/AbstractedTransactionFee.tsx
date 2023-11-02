@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import {
 	ActivityIndicator,
@@ -7,7 +6,7 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import type { Token, TransactionPayload } from '@walless/core';
-import { Networks } from '@walless/core';
+import type { Networks } from '@walless/core';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
@@ -19,21 +18,19 @@ import {
 	transactionContext,
 } from '../../../../../state/transaction';
 
+import {
+	handleCheckIfBalanceIsEnough,
+	handleGetTokenName,
+	handleSetTransactionFee,
+} from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
 
-interface Props {
-	tokenForFee?: Token;
-	payload?: TransactionPayload;
-	feeText?: string;
-}
-
-export const AbstractedTransactionFee: FC<Props> = () => {
+export const AbstractedTransactionFee = () => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
-	const [error, setError] = useState<string>('');
+	const [error, setError] = useState('');
 
-	const { tokens, getTransactionFee, getTransactionAbstractFee, network } =
-		useSnapshot(injectedElements);
+	const { tokens, network } = useSnapshot(injectedElements);
 
 	const {
 		type,
@@ -53,26 +50,17 @@ export const AbstractedTransactionFee: FC<Props> = () => {
 
 	const dropdownRef = useRef(null);
 
-	let tokenForFeeName = 'Unknown';
-
-	if (network == Networks.solana) {
-		if (tokenForFee && tokenForFee.metadata?.symbol) {
-			tokenForFeeName = tokenForFee.metadata.symbol;
-		} else {
-			tokenForFeeName = 'SOL';
-		}
-	} else if (network == Networks.sui) {
-		tokenForFeeName = 'SUI';
-	} else if (network == Networks.aptos) {
-		tokenForFeeName = 'APT';
-	}
+	const tokenForFeeName = handleGetTokenName(
+		tokenForFee as TokenDocument,
+		network,
+	);
 
 	useEffect(() => {
 		if (!tokenForFee) {
 			transactionActions.setTokenForFee(tokens[0] as TokenDocument);
 		}
 
-		(async () => {
+		const handleReselectTokenForFee = async () => {
 			const payload: TransactionPayload = {
 				sender: sender,
 				receiver: receiver,
@@ -85,23 +73,12 @@ export const AbstractedTransactionFee: FC<Props> = () => {
 				network: token?.network as Networks,
 			};
 
-			if (payload.receiver === '' || payload.amount === 0) {
-				transactionActions.setTransactionFee(0);
-				return;
-			}
-
 			setIsFeeLoading(true);
-			let fee = await getTransactionFee(payload);
-
-			if (tokenForFee?.metadata?.symbol !== 'SOL') {
-				fee = await getTransactionAbstractFee(payload);
-			}
-			transactionActions.setTransactionFee(
-				parseFloat(fee.toPrecision(tokenForFee?.account?.decimals ?? 7)),
-			);
-
+			await handleSetTransactionFee(payload);
 			setIsFeeLoading(false);
-		})();
+		};
+
+		handleReselectTokenForFee();
 	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
 
 	useEffect(() => {
@@ -123,19 +100,11 @@ export const AbstractedTransactionFee: FC<Props> = () => {
 	}, [isDropped]);
 
 	useEffect(() => {
-		if (
-			parseFloat(tokenForFee?.account.balance as string) /
-				10 ** (tokenForFee?.account.decimals ?? 0) <
-			(transactionFee ?? 0)
-		) {
-			setError(
-				`Not enough ${
-					tokenForFee?.metadata?.symbol ?? 'Unknown'
-				}, select other token`,
-			);
-		} else {
-			setError('');
-		}
+		handleCheckIfBalanceIsEnough(
+			tokenForFee as TokenDocument,
+			transactionFee as number,
+			setError,
+		);
 	}, [transactionFee]);
 
 	return (
@@ -150,9 +119,7 @@ export const AbstractedTransactionFee: FC<Props> = () => {
 					{isFeeLoading ? (
 						<ActivityIndicator size="small" color="#FFFFFF" />
 					) : (
-						<Text
-							style={[styles.feeText, error !== '' && { color: '#FC9B0A' }]}
-						>
+						<Text style={[styles.feeText, !!error && { color: '#FC9B0A' }]}>
 							{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
 						</Text>
 					)}
@@ -162,7 +129,7 @@ export const AbstractedTransactionFee: FC<Props> = () => {
 								style={styles.tokenIcon}
 								source={{
 									uri:
-										tokenForFee?.metadata?.imageUri ??
+										tokenForFee?.metadata?.imageUri ||
 										'/img/send-token/unknown-token.jpeg',
 								}}
 							/>

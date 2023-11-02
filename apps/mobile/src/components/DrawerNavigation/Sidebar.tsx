@@ -9,7 +9,6 @@ import {
 } from '@walless/app/utils/hooks';
 import { appState } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
-import { tabBarHeight } from 'components/TabNavivation/TabBar';
 
 export const sidebarWidth = 64;
 
@@ -26,7 +25,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	const { top } = useSafeAreaInsets();
 
 	return (
-		<View style={{ paddingTop: top, paddingBottom: tabBarHeight }}>
+		<View style={{ marginTop: top }}>
 			<DashboardNavigator
 				onExtensionPress={handleExtensionPress}
 				onRemoveLayout={() => {}}

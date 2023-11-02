@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { appState } from '@walless/engine';
 import { modalActions, ModalManager, themeState } from '@walless/gui';
 import Sidebar, { sidebarWidth } from 'components/DrawerNavigation/Sidebar';
+import { tabBarHeight } from 'components/TabNavivation/TabBar';
 import SplashScreen from 'screens/Splash';
 import { useSnapshot } from 'utils/hooks';
 import type { RootParamList } from 'utils/navigation';
@@ -39,8 +40,10 @@ export const AppStack = () => {
 							drawerStyle: {
 								width: sidebarWidth,
 								backgroundColor: '#131C24',
+								marginBottom: tabBarHeight,
 							},
 							overlayColor: 'transparent',
+							drawerType: 'front',
 						}}
 						backBehavior="order"
 					>

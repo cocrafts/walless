@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';

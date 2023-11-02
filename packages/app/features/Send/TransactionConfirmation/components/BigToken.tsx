@@ -8,7 +8,7 @@ export const BigToken = () => {
 	const { token, amount } = useSnapshot(transactionContext);
 
 	const iconUri = {
-		uri: token?.metadata?.imageUri ?? '/img/send-token/unknown-token.jpeg',
+		uri: token?.metadata?.imageUri || '/img/send-token/unknown-token.jpeg',
 	};
 
 	return (
@@ -17,7 +17,7 @@ export const BigToken = () => {
 			<View style={styles.amountContainer}>
 				<Text style={styles.amountText}>{amount}</Text>
 				<Text style={styles.symbolText}>
-					{token?.metadata?.symbol ?? 'Unknown'}
+					{token?.metadata?.symbol || 'Unknown'}
 				</Text>
 			</View>
 		</View>

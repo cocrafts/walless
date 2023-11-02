@@ -1,12 +1,8 @@
 import { type FC } from 'react';
-import {
-	Image,
-	type StyleProp,
-	StyleSheet,
-	type ViewStyle,
-} from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
-import { type TokenDocument } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 
 import { formatQuote, parseTokenAccount } from '../../utils/format';
 
@@ -23,10 +19,10 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 	const unitQuote = account.quotes?.usd;
 	const totalQuote = unitQuote && unitQuote * amount;
 	const iconSource = {
-		uri: imageUri ?? '/img/send-token/unknown-token.jpeg',
+		uri: imageUri || '/img/send-token/unknown-token.jpeg',
 	};
 
-	const itemName = symbol ?? 'Unknown';
+	const itemName = symbol || 'Unknown';
 
 	return (
 		<Hoverable style={[styles.container, style]}>

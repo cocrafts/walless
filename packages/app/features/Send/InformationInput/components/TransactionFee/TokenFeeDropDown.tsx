@@ -16,20 +16,16 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 		modalActions.destroy('NetworkFee');
 	};
 
-	const selectedStyle = {
-		backgroundColor: '#56667466',
-	};
-
 	return (
 		<View style={styles.dropdown}>
 			{tokens.map((token, idx) => {
-				const name = token.metadata?.symbol ?? 'Unknown';
+				const name = token.metadata?.symbol || 'Unknown';
 
 				return (
 					<Hoverable
 						style={[
 							styles.tokenOption,
-							token === selectedToken && selectedStyle,
+							token === selectedToken && styles.selectedStyle,
 						]}
 						key={idx}
 						onPress={() => handleSelectToken(token)}
@@ -37,7 +33,7 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 						<Image
 							source={{
 								uri:
-									token.metadata?.imageUri ??
+									token.metadata?.imageUri ||
 									'/img/send-token/unknown-token.jpeg',
 							}}
 							style={styles.tokenIcon}
@@ -59,6 +55,9 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		paddingVertical: 6,
 		paddingHorizontal: 4,
+	},
+	selectedStyle: {
+		backgroundColor: '#56667466',
 	},
 	tokenOption: {
 		flexDirection: 'row',

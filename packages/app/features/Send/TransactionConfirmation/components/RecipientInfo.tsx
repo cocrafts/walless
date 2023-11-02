@@ -24,7 +24,7 @@ export const RecipientInfo: FC<Props> = () => {
 			(type === 'Token' ? token?.network : nftCollectible?.network),
 	);
 
-	const tokenForFeeName = tokenForFee?.metadata?.symbol ?? 'Unknown';
+	const tokenForFeeName = tokenForFee?.metadata?.symbol || 'Unknown';
 
 	const iconUri = { uri: '' };
 	let networkStr = '';

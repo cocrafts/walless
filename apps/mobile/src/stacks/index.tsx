@@ -38,10 +38,11 @@ export const AppStack = () => {
 							headerShown: false,
 							drawerStyle: {
 								width: sidebarWidth,
+								backgroundColor: '#131C24',
 							},
 							overlayColor: 'transparent',
 						}}
-						initialRouteName="Explore"
+						backBehavior="order"
 					>
 						<Drawer.Screen name="Dashboard" component={DashboardStack} />
 					</Drawer.Navigator>

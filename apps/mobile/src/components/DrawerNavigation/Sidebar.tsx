@@ -1,9 +1,15 @@
 import type { FC } from 'react';
+import { View } from 'react-native';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import DashboardNavigator from '@walless/app/features/DashboardLayout/Navigator';
-import { useSnapshot, useWidgets } from '@walless/app/utils/hooks';
+import {
+	useSafeAreaInsets,
+	useSnapshot,
+	useWidgets,
+} from '@walless/app/utils/hooks';
 import { appState } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
+import { tabBarHeight } from 'components/TabNavivation/TabBar';
 
 export const sidebarWidth = 64;
 
@@ -17,14 +23,18 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 		navigation.navigate(item._id === '' ? 'Explore' : capitalize(item._id));
 	};
 
+	const { top } = useSafeAreaInsets();
+
 	return (
-		<DashboardNavigator
-			onExtensionPress={handleExtensionPress}
-			onRemoveLayout={() => {}}
-			profile={profile}
-			widgets={widgets}
-			size={sidebarWidth}
-		/>
+		<View style={{ paddingTop: top, paddingBottom: tabBarHeight }}>
+			<DashboardNavigator
+				onExtensionPress={handleExtensionPress}
+				onRemoveLayout={() => {}}
+				profile={profile}
+				widgets={widgets}
+				size={sidebarWidth}
+			/>
+		</View>
 	);
 };
 

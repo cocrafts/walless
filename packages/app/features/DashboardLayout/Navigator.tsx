@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
+import { runtime } from '@walless/core';
 import { Compass } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 
@@ -40,10 +41,26 @@ export const DashboardNavigator: FC<Props> = ({
 		} as never,
 	};
 	const isExplorerActive = getIsExtensionActive?.(exploreItem as never);
+	const { isMobile } = runtime;
 
 	return (
 		<View style={[styles.container, containerStyle]}>
 			<View style={styles.orbContainer}>
+				<NavigatorOrb
+					item={exploreItem as never}
+					isActive={isExplorerActive}
+					onPress={onExtensionPress}
+				>
+					<Compass
+						size={22}
+						colors={
+							isExplorerActive ? ['#FFFFFF', '#0694D3'] : ['#0694D3', '#243f56']
+						}
+					/>
+				</NavigatorOrb>
+
+				{widgets.length > 0 && <View style={styles.orbDivider} />}
+
 				{widgets.map((item) => {
 					const isActive = getIsExtensionActive?.(item);
 
@@ -58,26 +75,19 @@ export const DashboardNavigator: FC<Props> = ({
 						/>
 					);
 				})}
-				<NavigatorOrb
-					item={exploreItem as never}
-					isActive={isExplorerActive}
-					onPress={onExtensionPress}
-				>
-					<Compass
-						size={22}
-						colors={
-							isExplorerActive ? ['#FFFFFF', '#0694D3'] : ['#0694D3', '#243f56']
-						}
+			</View>
+
+			{isMobile ? (
+				<View />
+			) : (
+				<View style={styles.commandContainer}>
+					<NavigatorOrb
+						item={profileItem as never}
+						onPress={onExtensionPress}
+						isActive={getIsExtensionActive?.(profileItem as never)}
 					/>
-				</NavigatorOrb>
-			</View>
-			<View style={styles.commandContainer}>
-				<NavigatorOrb
-					item={profileItem as never}
-					onPress={onExtensionPress}
-					isActive={getIsExtensionActive?.(profileItem as never)}
-				/>
-			</View>
+				</View>
+			)}
 		</View>
 	);
 };
@@ -93,6 +103,12 @@ const styles = StyleSheet.create({
 	orbContainer: {
 		flex: 1,
 		gap: 10,
+	},
+	orbDivider: {
+		height: 1,
+		width: 48,
+		alignSelf: 'center',
+		backgroundColor: '#24303A',
 	},
 	commandContainer: {},
 });

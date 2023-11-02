@@ -6,6 +6,7 @@ import { useDrawerStatus } from '@react-navigation/drawer';
 import type { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
 import type { Route } from '@react-navigation/native';
 import { appState } from '@walless/engine';
+import { appActions } from 'state/app';
 
 import NavigationItem from './Item';
 
@@ -44,6 +45,7 @@ export const BottomNavigationTabBar: FC<TabBarProps> = ({
 		});
 
 		if (!focused && !event.defaultPrevented) {
+			appActions.setActiveWidgetRoute(route.name);
 			navigation.navigate({ name: route.name, merge: true } as never);
 		}
 	};

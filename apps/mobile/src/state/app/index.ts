@@ -10,6 +10,9 @@ export const appActions = {
 	setLoading: (flag: boolean): void => {
 		appState.loading = flag;
 	},
+	setActiveWidgetRoute: (id: string): void => {
+		appState.activeWidgetId = id;
+	},
 };
 
 export { type AppState, appState } from '@walless/engine';

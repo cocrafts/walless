@@ -21,6 +21,7 @@ export interface AppState {
 	config: Config;
 	remoteConfig: RemoteConfig;
 	endpoints: EndpointMap;
+	activeWidgetId?: string;
 }
 
 export const defaultConfig: Config = {

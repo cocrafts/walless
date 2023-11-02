@@ -8,18 +8,32 @@ import {
 	useWidgets,
 } from '@walless/app/utils/hooks';
 import { appState } from '@walless/engine';
+import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
+import { appActions } from 'state/app';
 
 export const sidebarWidth = 64;
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
-	const { profile } = useSnapshot(appState);
+	const { profile, activeWidgetId } = useSnapshot(appState);
 	const widgets = useWidgets();
 
 	const handleExtensionPress = (item: WidgetDocument) => {
-		navigation.navigate(item._id === '' ? 'Explore' : capitalize(item._id));
+		const id = item._id === '' ? 'Explore' : capitalize(item._id);
+		appActions.setActiveWidgetRoute(id);
+		navigation.navigate(id);
+	};
+
+	const handleRemoveLayout = async (layout: WidgetDocument) => {
+		await modules.storage.put(layout);
+		await navigation.navigate('Explore');
+	};
+
+	const getRouteActive = (item: WidgetDocument) => {
+		const id = item._id === '' ? 'Explore' : capitalize(item._id);
+		return activeWidgetId === id;
 	};
 
 	const { top } = useSafeAreaInsets();
@@ -27,11 +41,12 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	return (
 		<View style={{ marginTop: top }}>
 			<DashboardNavigator
-				onExtensionPress={handleExtensionPress}
-				onRemoveLayout={() => {}}
 				profile={profile}
 				widgets={widgets}
 				size={sidebarWidth}
+				getIsExtensionActive={getRouteActive}
+				onExtensionPress={handleExtensionPress}
+				onRemoveLayout={handleRemoveLayout}
 			/>
 		</View>
 	);

@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { useDrawerStatus } from '@react-navigation/drawer';
+import type { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
 import type { Route } from '@react-navigation/native';
 import { appState } from '@walless/engine';
 
@@ -20,10 +22,15 @@ const getIconImage = (routeName: string): ImageSourcePropType | undefined => {
 	}
 };
 
-export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
+type TabBarProps = BottomTabBarProps & {
+	drawerNavigation: DrawerNavigationHelpers;
+};
+
+export const BottomNavigationTabBar: FC<TabBarProps> = ({
 	insets,
 	state,
 	navigation,
+	drawerNavigation,
 }) => {
 	const containerStyle: ViewStyle = {
 		paddingBottom: insets.bottom,
@@ -41,17 +48,23 @@ export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
 		}
 	};
 
+	const drawerStatus = useDrawerStatus();
+
 	return (
 		<View style={[styles.container, containerStyle]}>
 			<NavigationItem
-				focused={false} // need to change this later
-				onNavigate={() => {}}
-				route={state.routes[0] as never}
+				route={{
+					key: 'OurProject',
+					name: 'OurProject',
+					params: {} as never,
+				}}
+				focused={drawerStatus === 'open'}
 				tabIcon={getIconImage('OurProject')}
+				onNavigate={drawerNavigation.toggleDrawer}
 			/>
 
 			{state.routes.map((route, index) => {
-				const isFocused = state.index === index;
+				const isFocused = drawerStatus === 'closed' && state.index === index;
 
 				return (
 					<NavigationItem

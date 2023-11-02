@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import TabBar, { tabBarHeight } from 'components/TabNavivation/TabBar';
 import ExploreScreen from 'screens/Dashboard/Explore';
 import ProfileScreen from 'screens/Dashboard/Profile';
@@ -9,7 +10,9 @@ import type { DashboardParamList } from 'utils/navigation';
 
 const Tab = createBottomTabNavigator<DashboardParamList>();
 
-export const DashboardStack: FC = () => {
+export const DashboardStack: FC<DrawerContentComponentProps> = ({
+	navigation: drawerNavigation,
+}) => {
 	const screenOptions: BottomTabNavigationOptions = {
 		headerShown: false,
 	};
@@ -20,7 +23,9 @@ export const DashboardStack: FC = () => {
 	return (
 		<Tab.Navigator
 			screenOptions={screenOptions}
-			tabBar={TabBar}
+			tabBar={(props) => (
+				<TabBar {...props} drawerNavigation={drawerNavigation} />
+			)}
 			sceneContainerStyle={sceneContainerStyle}
 			initialRouteName="Explore"
 		>

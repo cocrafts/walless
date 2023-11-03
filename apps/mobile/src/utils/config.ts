@@ -21,6 +21,10 @@ export const nativeAsset: UniversalAsset = {
 			cardBackground: require('assets/img/widget/sky-card-bg.png'),
 		},
 	},
+	tabBar: {
+		explore: require('assets/img/explore.png'),
+		walless: require('assets/img/icon-white.png'),
+	},
 };
 
 export const resources = {

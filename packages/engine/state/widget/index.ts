@@ -16,10 +16,7 @@ export const widgetActions = {
 		await modules.storage.put<WidgetDocument>(widget);
 	},
 	removeWidget: async (widget: WidgetDocument) => {
-		await modules.storage.remove({
-			_id: widget._id,
-			_rev: widget._rev || 'unknown',
-		});
+		await modules.storage.put<WidgetDocument>(widget);
 	},
 };
 

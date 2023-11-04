@@ -31,7 +31,6 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	};
 
 	const getRouteActive = (item: WidgetDocument) => {
-		console.log(activeWidgetId, item._id || 'Explore');
 		return activeWidgetId === (item._id || 'Explore');
 	};
 

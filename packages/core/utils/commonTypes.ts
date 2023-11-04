@@ -90,6 +90,7 @@ export interface Transaction {
 	sender: string;
 	receiver: string;
 	token: Omit<Token, 'account'> | Omit<Collectible, 'account' | 'collectionId'>;
+	tokenForFee: Token;
 	fee: number;
 	preBalance?: number;
 	postBalance?: number;

@@ -1,6 +1,7 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import type {
 	ConfirmedSignatureInfo,
+	Connection,
 	ParsedInstruction,
 	ParsedTransactionWithMeta,
 	PartiallyDecodedInstruction,
@@ -10,7 +11,7 @@ import type { Collectible, Token, TokenAccount } from '@walless/core';
 import { Networks } from '@walless/core';
 
 import { historyActions } from './../../state/history/index';
-import { getMetadata } from './metadata';
+import { getMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
 
 const gasilonConfigs = await fetch(`${GASILON_ENDPOINT}`, {
@@ -21,8 +22,6 @@ const gasilonConfigs = await fetch(`${GASILON_ENDPOINT}`, {
 });
 
 const FEE_PAYER = (await gasilonConfigs.json()).feePayer;
-const SOL_MINT_ADDRESS = '11111111111111111111111111111111';
-
 export interface Transaction {
 	id: string;
 	signature: string;
@@ -98,13 +97,13 @@ const getTransactionTokenForFee = async (
 	return {
 		network: Networks.solana,
 		account: {
-			mint: SOL_MINT_ADDRESS,
+			mint: solMint,
 			owner: 'system',
-			address: SOL_MINT_ADDRESS,
+			address: solMint,
 			balance: '',
 			decimals: 9,
 		},
-		metadata: await getMetadata(solanaContext, SOL_MINT_ADDRESS),
+		metadata: await getMetadata(solanaContext, solMint),
 	};
 };
 
@@ -157,12 +156,12 @@ const getTransactionToken = async (
 		meta?.postTokenBalances.length === 0 ||
 		meta?.preTokenBalances.length === 0
 	) {
-		const solMetadata = await getMetadata(solanaContext, SOL_MINT_ADDRESS);
+		const solMetadata = await getMetadata(solanaContext, solMint);
 
 		token = {
 			network: Networks.solana,
 			account: {
-				mint: SOL_MINT_ADDRESS,
+				mint: solMint,
 				owner: '',
 				address: '',
 				balance: '',
@@ -232,6 +231,7 @@ const getTransactionBalances = (
 				postBalance,
 			};
 		}
+
 		return {
 			preBalance: meta.preBalances[1] / 10 ** 9,
 			postBalance: meta.postBalances[1] / 10 ** 9,
@@ -239,10 +239,10 @@ const getTransactionBalances = (
 	} else {
 		let preBalance = 0;
 		let postBalance = 0;
+
 		const preBalances = meta.preTokenBalances.filter(
 			(item) => item.owner === ownerPublicKey,
 		);
-
 		const postBalances = meta.postTokenBalances.filter(
 			(item) => item.owner === ownerPublicKey,
 		);
@@ -252,7 +252,6 @@ const getTransactionBalances = (
 		} else {
 			preBalance = preBalances[0].uiTokenAmount.uiAmount;
 		}
-
 		if (!postBalances[0]?.uiTokenAmount.uiAmount) {
 			postBalance = 0;
 		} else {
@@ -266,14 +265,40 @@ const getTransactionBalances = (
 	}
 };
 
-const getTransactionAmount = ({
-	preBalance,
-	postBalance,
-}: {
-	preBalance: number;
-	postBalance: number;
-}) => {
-	const amount = parseFloat(Math.abs(postBalance - preBalance).toPrecision(3));
+const getTransactionAmount = (
+	token: Token,
+	tokeForFee: Token,
+	instruction: ParsedInstruction | PartiallyDecodedInstruction,
+) => {
+	const parsedInstructionInfo = (instruction as ParsedInstruction).parsed?.info;
+
+	let amount = 0;
+
+	if (parsedInstructionInfo?.lamports) {
+		amount = parsedInstructionInfo?.lamports / 10 ** 9;
+	}
+
+	if (parsedInstructionInfo?.amount) {
+		amount = parsedInstructionInfo?.amount / 10 ** token.account.decimals;
+	}
+
+	if (parsedInstructionInfo?.tokenAmount?.amount) {
+		amount =
+			parseFloat(parsedInstructionInfo?.tokenAmount.amount) /
+			10 ** token.account.decimals;
+	}
+
+	if (token.account.mint === tokeForFee.account.mint) {
+		amount = parsedInstructionInfo?.amount / 10 ** token.account.decimals;
+	}
+
+	if (token.account.mint === solMint) {
+		amount = parsedInstructionInfo?.lamports / 10 ** 9;
+	}
+
+	if (token.metadata?.mpl) {
+		amount = 1;
+	}
 
 	return amount;
 };
@@ -354,8 +379,6 @@ export const getTransactionDetails = async (
 	parsedTransaction: ParsedTransactionWithMeta,
 	ownerPublicKey: string,
 ) => {
-	if (!parsedTransaction.meta) return;
-
 	const instructions = parsedTransaction.transaction.message.instructions;
 	const paymentInstruction = instructions[0];
 	const mainInstruction = instructions[instructions.length - 1];
@@ -402,10 +425,7 @@ export const getTransactionDetails = async (
 		ownerPublicKey,
 	);
 
-	const amount = getTransactionAmount({
-		preBalance,
-		postBalance,
-	});
+	const amount = getTransactionAmount(token, tokenForFee, mainInstruction);
 
 	const finalTransaction: Transaction = {
 		id: parsedTransaction.transaction.signatures[0],
@@ -430,85 +450,80 @@ export const getTransactionDetails = async (
 };
 
 export const getSignatureList = async (
-	solanaContext: SolanaContext,
+	connection: Connection,
 	ownerPublicKey: string,
 ) => {
-	const accounts = await solanaContext.connection.getParsedProgramAccounts(
-		TOKEN_PROGRAM_ID,
-		{
-			filters: [
-				{
-					dataSize: 165,
+	const accounts = await connection.getParsedProgramAccounts(TOKEN_PROGRAM_ID, {
+		filters: [
+			{
+				dataSize: 165,
+			},
+			{
+				memcmp: {
+					offset: 32,
+					bytes: ownerPublicKey,
 				},
-				{
-					memcmp: {
-						offset: 32,
-						bytes: ownerPublicKey,
-					},
-				},
-			],
-		},
-	);
+			},
+		],
+	});
 
 	const tokenAccounts = [ownerPublicKey];
-	accounts.map((account) => {
+	accounts.forEach((account) => {
 		tokenAccounts.push(account.pubkey.toString());
 	});
 
 	let confirmedSignatureInfos: ConfirmedSignatureInfo[] = [];
-	for (let i = 0; i < tokenAccounts.length; i++) {
-		const signatureInfos =
-			await solanaContext.connection.getSignaturesForAddress(
-				new PublicKey(tokenAccounts[i]),
-				{ limit: 30 },
-			);
-		confirmedSignatureInfos = Array.from(
-			new Set(confirmedSignatureInfos.concat(signatureInfos)),
+
+	for (const tokenAccount of tokenAccounts) {
+		const signatureInfos = await connection.getSignaturesForAddress(
+			new PublicKey(tokenAccount),
+			{ limit: 20 },
 		);
+
+		confirmedSignatureInfos = confirmedSignatureInfos.concat(signatureInfos);
 	}
 
-	const signatures = Array.from(
-		new Set(confirmedSignatureInfos.map((info) => info.signature)),
-	);
+	const signatures = confirmedSignatureInfos.map((info) => info.signature);
 
 	return signatures;
 };
 
 export const getTransactions = async (
+	connection: Connection,
 	solanaContext: SolanaContext,
 	signatures: string[],
 	ownerPublicKey: string,
 ) => {
-	const parsedTransactions =
-		await solanaContext.connection.getParsedTransactions(signatures, {
+	const parsedTransactions = await connection.getParsedTransactions(
+		signatures,
+		{
 			maxSupportedTransactionVersion: 0,
-		});
+		},
+	);
 
-	console.log(parsedTransactions);
-	const promisesArray = parsedTransactions
-		.sort((a, b) => {
-			if (!a?.blockTime || !b?.blockTime) return 0;
-			return b.blockTime - a.blockTime;
-		})
-		.slice(0, 20)
-		.map(async (transaction) => {
-			if (!transaction || !transaction.blockTime) return null;
+	const promisesArray: Promise<Transaction | undefined>[] = [];
 
-			const transactionDetails = await getTransactionDetails(
-				solanaContext,
-				transaction,
-				ownerPublicKey,
-			);
-			if (!transactionDetails) return null;
+	let count = 0;
 
-			return transactionDetails;
-		});
+	for (const parsedTransaction of parsedTransactions) {
+		count = count + 1;
+		if (!parsedTransaction || !parsedTransaction.blockTime) continue;
+
+		const transactionDetails = getTransactionDetails(
+			solanaContext,
+			parsedTransaction,
+			ownerPublicKey,
+		);
+
+		promisesArray.push(transactionDetails);
+	}
 
 	let transactions = await Promise.all(promisesArray);
 
 	transactions = transactions.filter((transaction) => {
-		return transaction !== null;
+		return transaction !== undefined;
 	});
+
 	historyActions.setItems(transactions);
 
 	return transactions;

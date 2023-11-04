@@ -9,13 +9,12 @@ import {
 	signInWithPopup,
 } from 'firebase/auth';
 import { auth, googleProvider } from 'utils/firebase';
-import { qlClient } from 'utils/graphql';
+import { qlAuthorize, qlClient } from 'utils/graphql';
 import { router } from 'utils/routing';
 import { showError } from 'utils/showError';
 import { customAuth, customAuthArgs, getGoogleAuthURL, key } from 'utils/w3a';
 
 export const signInWithGoogle = async (invitationCode?: string) => {
-	console.log('here');
 	try {
 		appState.authenticationLoading = true;
 		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
@@ -66,6 +65,8 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 			verifierParams,
 			verifierToken,
 		);
+
+		qlAuthorize(verifierToken);
 
 		await signInWithTorusKey({
 			verifier,

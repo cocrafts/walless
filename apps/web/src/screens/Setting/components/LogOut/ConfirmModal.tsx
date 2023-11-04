@@ -26,12 +26,16 @@ const ConfirmModal = () => {
 				</Text>
 			</View>
 			<View style={styles.buttonContainer}>
-				<Button style={styles.cancelButton} onPress={handleCancelLogOut}>
-					Cancel
-				</Button>
-				<Button style={styles.logOutButton} onPress={handleLogOut}>
-					Log out
-				</Button>
+				<Button
+					style={styles.cancelButton}
+					onPress={handleCancelLogOut}
+					title="Cancel"
+				/>
+				<Button
+					style={styles.logOutButton}
+					onPress={handleLogOut}
+					title="Log Out"
+				/>
 			</View>
 		</View>
 	);

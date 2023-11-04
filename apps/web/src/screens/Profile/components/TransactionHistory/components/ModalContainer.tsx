@@ -9,14 +9,15 @@ interface Props {
 }
 
 const ModalContainer: FC<Props> = ({ title, children }) => {
+	const handleHideModal = () => {
+		modalActions.hide(title);
+	};
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<View />
 				<Text style={styles.title}>{title}</Text>
-				<TouchableOpacity
-					onPress={() => modalActions.hide('transactionDetails')}
-				>
+				<TouchableOpacity onPress={handleHideModal}>
 					<Times size={16} />
 				</TouchableOpacity>
 			</View>
@@ -29,7 +30,6 @@ export default ModalContainer;
 
 const styles = StyleSheet.create({
 	container: {
-		maxWidth: 400,
 		backgroundColor: '#19232C',
 		borderTopLeftRadius: 16,
 		borderTopRightRadius: 16,

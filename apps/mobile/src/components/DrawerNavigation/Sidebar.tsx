@@ -14,6 +14,7 @@ const IS_HARDCODED = true;
 export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	const { profile, activeWidgetId } = useSnapshot(appState);
 	const widgets = useWidgets();
+	const { top } = useSafeAreaInsets();
 
 	const handleExtensionPress = (item: WidgetDocument) => {
 		const id = item._id || 'Explore';
@@ -29,8 +30,6 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	const getActiveRoute = (item: WidgetDocument) => {
 		return activeWidgetId === (item._id || 'Explore');
 	};
-
-	const { top } = useSafeAreaInsets();
 
 	return (
 		<View style={{ marginTop: top }}>

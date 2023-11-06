@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 		textAlign: 'right',
 	},
 	icon: {
-		borderRadius: 1000,
+		borderRadius: 16,
 		height: 32,
 		aspectRatio: 1,
 		opacity: 0.5,

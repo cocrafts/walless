@@ -29,6 +29,7 @@
     "eslint": "8.38.0"
   },
   "dependencies": {
+    "react-native-gesture-handler": "^2.13.4",
     "react-native-safe-area-context": "^4.7.3"
   }
 }

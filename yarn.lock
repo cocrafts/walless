@@ -12489,6 +12489,7 @@ __metadata:
   resolution: "@walless/app@workspace:packages/app"
   dependencies:
     eslint: 8.38.0
+    react-native-gesture-handler: ^2.13.4
     react-native-safe-area-context: ^4.7.3
   peerDependencies:
     "@metaplex-foundation/js": 0.18.3
@@ -25907,9 +25908,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:^2.9.0":
-  version: 2.9.0
-  resolution: "react-native-gesture-handler@npm:2.9.0"
+"react-native-gesture-handler@npm:^2.13.4, react-native-gesture-handler@npm:^2.9.0":
+  version: 2.13.4
+  resolution: "react-native-gesture-handler@npm:2.13.4"
   dependencies:
     "@egjs/hammerjs": ^2.0.17
     hoist-non-react-statics: ^3.3.0

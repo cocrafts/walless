@@ -1,4 +1,4 @@
-import { Connection, PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
@@ -21,7 +21,6 @@ export const solanaEngineRunner: SolanaRunner = {
 	start: async (context) => {
 		const { storage } = modules;
 		const { connection } = context;
-		const liveConnection = new Connection(connection.rpcEndpoint, 'confirmed');
 		const key = await storage.find<PublicKeyDocument>(selectors.solanaKeys);
 
 		for (const item of key.docs) {
@@ -31,7 +30,7 @@ export const solanaEngineRunner: SolanaRunner = {
 				getNativeTokenDocument(context, currentPubkey),
 			];
 
-			watchLogs(context, liveConnection, currentPubkey);
+			watchLogs(context, currentPubkey);
 
 			const parsedTokenAccounts = await throttle(() => {
 				return connection.getParsedTokenAccountsByOwner(
@@ -66,7 +65,7 @@ export const solanaEngineRunner: SolanaRunner = {
 			});
 
 			for (const key of accountKeys) {
-				registerAccountChanges(context, liveConnection, key, currentPubkey);
+				registerAccountChanges(context, key, currentPubkey);
 			}
 		}
 	},

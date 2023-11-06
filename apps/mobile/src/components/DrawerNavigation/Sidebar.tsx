@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { View } from 'react-native';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { useSafeAreaInsets, useSnapshot, useWidgets } from '@walless/app';
-import DashboardNavigator from '@walless/app/features/DashboardLayout/Navigator';
+import { DashboardNavigator } from '@walless/app/features/DashboardLayout/Navigator';
 import { appState, mockWidgets, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
 import { appActions } from 'state/app';

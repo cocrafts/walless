@@ -5,8 +5,8 @@ import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useDrawerStatus } from '@react-navigation/drawer';
 import type { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
 import type { Route } from '@react-navigation/native';
+import { modules } from '@walless/ioc';
 import { appActions, appState } from 'state/app';
-import { nativeAsset } from 'utils/config';
 
 import NavigationItem from './Item';
 
@@ -15,9 +15,9 @@ const getIconImage = (routeName: string): ImageSourcePropType | undefined => {
 		case 'Profile':
 			return { uri: appState.profile.profileImage };
 		case 'Explore':
-			return nativeAsset.tabBar.explore;
+			return modules.asset.tabBar.explore;
 		case 'OurProject':
-			return nativeAsset.tabBar.walless;
+			return modules.asset.tabBar.walless;
 		default:
 			break;
 	}

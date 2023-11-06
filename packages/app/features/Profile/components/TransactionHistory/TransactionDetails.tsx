@@ -10,7 +10,7 @@ import { useSnapshot } from 'valtio';
 
 import ModalContainer from './components/ModalContainer';
 
-const TransactionDetails: FC<Transaction> = ({
+export const TransactionDetails: FC<Transaction> = ({
 	id,
 	date,
 	amount,
@@ -83,7 +83,7 @@ const TransactionDetails: FC<Transaction> = ({
 					<View style={styles.transferContainer}>
 						<View style={styles.addressContainer}>
 							<Image
-								source={{ uri: senderImage }}
+								source={{ uri: senderImage as string }}
 								style={styles.profileImage}
 							/>
 							<Text>{shortenAddress(sender)}</Text>
@@ -93,7 +93,7 @@ const TransactionDetails: FC<Transaction> = ({
 						</View>
 						<View style={styles.addressContainer}>
 							<Image
-								source={{ uri: receiverImage }}
+								source={{ uri: receiverImage as string }}
 								style={styles.profileImage}
 							/>
 							<Text>{shortenAddress(receiver)}</Text>
@@ -127,7 +127,7 @@ const TransactionDetails: FC<Transaction> = ({
 							<Text style={styles.infoTitle}>Network</Text>
 							<View style={styles.networkContainer}>
 								<Image
-									source={{ uri: networkInfo?.icon }}
+									source={{ uri: networkInfo?.icon as string }}
 									style={styles.networkIcon}
 								/>
 								<Text style={styles.infoText}>{networkInfo?.name}</Text>

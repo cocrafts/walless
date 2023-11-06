@@ -2,10 +2,11 @@ import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { showSendModal } from '@walless/app/utils';
+import { useNfts } from '@walless/app/utils/hooks';
 import { Networks } from '@walless/core';
 import { Button, Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
-import { useNfts, useParams } from 'utils/hooks';
+import { useParams } from 'utils/hooks';
 import { router } from 'utils/routing';
 
 export const Nft: FC = () => {

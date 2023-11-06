@@ -14,7 +14,7 @@ import type { IconProps } from '@walless/icons/components/types';
 
 import TransactionDetails from './TransactionDetails';
 
-const HistoryItem: FC<Transaction> = (transaction) => {
+export const HistoryItem: FC<Transaction> = (transaction) => {
 	const { type, amount, network, sender, receiver, status, token } =
 		transaction;
 	const networkInfo = getNetworkInfo(network);
@@ -70,10 +70,11 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 						</Text>
 						<View style={styles.addressContainer}>
 							<Image
-								source={{
-									uri:
-										networkInfo?.icon ?? '/img/network-solana/solana-icon.svg',
-								}}
+								source={
+									networkInfo?.icon || {
+										uri: '/img/network-solana/solana-icon.svg',
+									}
+								}
 								style={{ width: 16, height: 16, borderRadius: 4 }}
 							/>
 							<Text

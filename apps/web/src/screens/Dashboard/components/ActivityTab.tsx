@@ -1,9 +1,9 @@
 import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
+import { HistoryItem } from '@walless/app/features/Profile';
+import { useHistory } from '@walless/app/utils/hooks';
 import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
-import HistoryItem from 'screens/Profile/components/TransactionHistory/HistoryItem';
-import { useHistory } from 'utils/hooks';
 
 interface Props {
 	network: Networks;

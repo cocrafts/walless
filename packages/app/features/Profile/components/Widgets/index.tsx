@@ -1,21 +1,28 @@
+import { StyleSheet } from 'react-native';
+import { View } from '@walless/gui';
 import { Setting } from '@walless/icons';
-import { Stack } from '@walless/ui';
-import { router } from 'utils/routing';
 
 import WidgetButton from './WidgetButton';
 
 const Widgets = () => {
 	const handleClickSetting = () => {
-		router.navigate('/setting');
+		console.log('Navigate to setting');
 	};
 
 	return (
-		<Stack flexDirection="row" gap={10}>
+		<View style={styles.container}>
 			<WidgetButton onClick={handleClickSetting}>
 				<Setting size={14} color="white" />
 			</WidgetButton>
-		</Stack>
+		</View>
 	);
 };
 
 export default Widgets;
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		gap: 10,
+	},
+});

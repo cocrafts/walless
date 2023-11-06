@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
+import { appActions } from '@walless/app/state';
 import type { Networks } from '@walless/core';
 import {
+	appState,
 	collectibleState,
 	collectionState,
 	historyState,
@@ -108,4 +110,15 @@ export const useHistory = (network?: Networks, address?: string) => {
 
 		return filteredHistory;
 	}, [map, network, address]);
+};
+
+export const useSettings = () => {
+	const { config } = useSnapshot(appState);
+	const { setPrivacy, setPathname } = appActions;
+
+	return {
+		setting: config,
+		setPrivacy,
+		setPathname,
+	};
 };

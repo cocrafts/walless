@@ -1,11 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { useHistory } from '@walless/app/utils/hooks';
 import { Button, Text, View } from '@walless/gui';
-import { useHistory } from 'utils/hooks';
-import { router } from 'utils/routing';
 
 import HistoryItem from './HistoryItem';
 
-const TransactionHistory = () => {
+export const TransactionHistory = () => {
 	const history = useHistory();
 
 	return (
@@ -14,7 +13,7 @@ const TransactionHistory = () => {
 				<Text style={styles.title}>History</Text>
 				<Button
 					style={styles.button}
-					onPress={() => router.navigate('/history')}
+					onPress={() => console.log('Navigate to history')}
 				>
 					<Text>See All</Text>
 				</Button>
@@ -33,6 +32,8 @@ const TransactionHistory = () => {
 };
 
 export default TransactionHistory;
+export * from './FullHistory';
+export * from './HistoryItem';
 
 const styles = StyleSheet.create({
 	container: {

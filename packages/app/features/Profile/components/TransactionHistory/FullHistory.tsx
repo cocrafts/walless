@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
+import { useHistory } from '@walless/app/utils/hooks';
 import { Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
-import { useHistory } from 'utils/hooks';
-import { router } from 'utils/routing';
 
 import HistoryItem from './HistoryItem';
 
-const FullHistoryScreen = () => {
+export const FullHistory = () => {
 	const history = useHistory();
 	const [loading, setLoading] = useState(true);
 
@@ -27,7 +26,7 @@ const FullHistoryScreen = () => {
 	return (
 		<View>
 			<View style={styles.header}>
-				<TouchableOpacity onPress={() => router.navigate(-1)}>
+				<TouchableOpacity onPress={() => console.log('Go back')}>
 					<ChevronLeft />
 				</TouchableOpacity>
 				<Text style={styles.title}>Transaction History</Text>
@@ -64,7 +63,7 @@ const FullHistoryScreen = () => {
 	);
 };
 
-export default FullHistoryScreen;
+export default FullHistory;
 
 const styles = StyleSheet.create({
 	container: {},

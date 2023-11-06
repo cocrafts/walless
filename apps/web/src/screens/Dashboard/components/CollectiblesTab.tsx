@@ -1,8 +1,8 @@
 import { type FC, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
+import { useNfts } from '@walless/app/utils/hooks';
 import { View } from '@walless/gui';
 import type { CollectionDocument } from '@walless/store';
-import { useNfts } from 'utils/hooks';
 import { router } from 'utils/routing';
 
 import CollectibleItem from './CollectibleItem';

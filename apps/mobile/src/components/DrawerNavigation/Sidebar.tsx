@@ -26,7 +26,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 		await navigation.navigate('Explore');
 	};
 
-	const getRouteActive = (item: WidgetDocument) => {
+	const getActiveRoute = (item: WidgetDocument) => {
 		return activeWidgetId === (item._id || 'Explore');
 	};
 
@@ -38,7 +38,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 				profile={profile}
 				widgets={IS_HARDCODED ? mockWidgets : widgets}
 				size={sidebarWidth}
-				getIsExtensionActive={getRouteActive}
+				getIsExtensionActive={getActiveRoute}
 				onExtensionPress={handleExtensionPress}
 				onRemoveLayout={handleRemoveWidget}
 			/>

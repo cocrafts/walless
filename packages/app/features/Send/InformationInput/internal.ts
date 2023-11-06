@@ -1,4 +1,4 @@
-import type { Networks } from '@walless/core';
+import { Networks } from '@walless/core';
 
 import { transactionContext } from '../../../state/transaction';
 import { injectedElements } from '../../../state/transaction';
@@ -75,3 +75,5 @@ export const totalCheckFieldsToContinue = () => {
 		message: '',
 	};
 };
+
+export const gasilonSupportedNetworks: Networks[] = [Networks.solana];

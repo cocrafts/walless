@@ -70,6 +70,7 @@ export interface TransactionPayload {
 	receiver: string;
 	amount: number;
 	network: Networks;
+	tokenForFee: Token;
 	token: TokenDocument | CollectibleDocument;
 	passcode?: string;
 }

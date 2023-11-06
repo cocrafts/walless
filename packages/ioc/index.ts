@@ -21,6 +21,7 @@ export interface NativeConfig {
 	PIXEVERSE_ORIGIN: string;
 	PIXEVERSE_URL: string;
 	SOLANA_CLUSTER_URL: string;
+	GASILON_ENDPOINT: string;
 }
 
 export interface UniversalAsset {

@@ -38,11 +38,7 @@ export const AppStack = () => {
 						drawerContent={Sidebar}
 						screenOptions={{
 							headerShown: false,
-							drawerStyle: {
-								width: sidebarWidth,
-								backgroundColor: 'transparent',
-								marginBottom: tabBarHeight,
-							},
+							drawerStyle: styles.drawer,
 							overlayColor: 'transparent',
 							drawerType: 'front',
 						}}
@@ -82,5 +78,10 @@ export default AppStack;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+	},
+	drawer: {
+		width: sidebarWidth,
+		backgroundColor: 'transparent',
+		marginBottom: tabBarHeight,
 	},
 });

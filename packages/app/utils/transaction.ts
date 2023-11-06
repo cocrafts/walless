@@ -297,7 +297,7 @@ const constructTransactionAbstractFeeTemplate = async (
 		receiverPublicKey,
 	);
 
-	const octaneConfig = await fetch(`${GASILON_ENDPOINT}`, {
+	const octaneConfig = await fetch(`${modules.config.GASILON_ENDPOINT}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -377,7 +377,7 @@ export const getTransactionAbstractFee = async (
 	const transactionString = base58.encode(transaction.serialize());
 
 	const data = await (
-		await fetch(`${GASILON_ENDPOINT}/solana/getFee`, {
+		await fetch(`${modules.config.GASILON_ENDPOINT}/solana/getFee`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

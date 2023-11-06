@@ -1,9 +1,15 @@
-import type { FC } from 'react';
+import { type FC, useRef } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import type { Config, UserProfile } from '@walless/core';
+import { runtime } from '@walless/core';
+
 import Carousel from '../../components/Carrousel';
+import Pagination from '../../components/Pagination';
 
 import Header from './components/Header';
+import MissionBox from './components/MissionBox';
+import type { MissionBoxType } from './internal';
+import { missionBoxWidth, mockMission } from './shared';
 
 interface Props {
 	profile: UserProfile;
@@ -15,6 +21,9 @@ export const WidgetExplorerFeat: FC<Props> = ({ profile, appConfig }) => {
 	const { name } = profile;
 	const { isMobile } = runtime;
 	const carouselRef = useRef<{ toIndex: (index: number) => void }>();
+	const onPaginationPress = (index: number) => {
+		carouselRef.current?.toIndex(index);
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -33,6 +42,14 @@ export const WidgetExplorerFeat: FC<Props> = ({ profile, appConfig }) => {
 					);
 				}}
 			/>
+			{!isMobile && (
+				<Pagination
+					data={mockMission}
+					carouselItemWidth={missionBoxWidth + 10}
+					onPress={onPaginationPress}
+					style={styles.paginationContainer}
+				/>
+			)}
 		</SafeAreaView>
 	);
 };
@@ -54,4 +71,9 @@ const styles = StyleSheet.create({
 		marginLeft: 15,
 		marginTop: 15,
 	},
+	paginationContainer: {
+		marginHorizontal: 'auto',
+	},
+});
+
 export default WidgetExplorerFeat;

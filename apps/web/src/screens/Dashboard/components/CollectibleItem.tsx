@@ -1,7 +1,7 @@
-import { Hoverable, Text } from '@walless/gui';
-import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { Hoverable, Text } from '@walless/gui';
+import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 
 interface Props {
 	item: CollectionDocument | CollectibleDocument;

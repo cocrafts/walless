@@ -35,6 +35,7 @@ const injectEntries = (config) => {
 	return config;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const injectWorkers = (config) => {
 	config.plugins.push(
 		new InjectManifest({

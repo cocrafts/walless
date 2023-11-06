@@ -1,9 +1,9 @@
+import { Networks } from '@walless/core';
 import type { HexString, Provider } from 'aptos';
 
 import type { AptosPendingToken } from '../../state/aptos';
-
-import { Networks } from '@walless/core';
 import { collectibleState, collectionState } from '../../state/collectible';
+
 import type { QueryPendingNftsResponse } from './indexer';
 import { getAptosIndexerQl, queryPendingNfts } from './indexer';
 

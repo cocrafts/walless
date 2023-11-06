@@ -1,9 +1,9 @@
 import { type FC } from 'react';
 import {
-	type StyleProp,
-	type ViewStyle,
 	Image,
+	type StyleProp,
 	StyleSheet,
+	type ViewStyle,
 } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';

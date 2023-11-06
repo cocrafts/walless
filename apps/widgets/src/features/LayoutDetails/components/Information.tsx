@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type TextStyle, type ViewStyle, StyleSheet } from 'react-native';
+import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
 import { type LayoutProps } from 'features/internal';

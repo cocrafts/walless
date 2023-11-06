@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type ViewStyle, StyleSheet } from 'react-native';
+import { StyleSheet, type ViewStyle } from 'react-native';
 import { View } from '@walless/gui';
 import { type LayoutProps } from 'features/internal';
 import Image from 'next/image';

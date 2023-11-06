@@ -22,7 +22,7 @@ import type {
 import { Networks } from '@walless/core';
 import { getAptosConnection } from '@walless/engine/crawlers/aptos';
 import { modules } from '@walless/ioc';
-import { aptosHandlers } from '@walless/kernel';
+import type { aptosHandlers } from '@walless/kernel';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { TxnBuilderTypes } from 'aptos';
 

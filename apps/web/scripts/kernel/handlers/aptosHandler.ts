@@ -1,6 +1,7 @@
 import { aptosHandlers } from '@walless/kernel';
-import { HandleMethod } from '../utils/types';
 import { ResponseCode } from '@walless/messaging';
+
+import type { HandleMethod } from '../utils/types';
 
 type KernelMethod = (
 	privateKey: Uint8Array,

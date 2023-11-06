@@ -5,11 +5,9 @@ import type { ModalConfigs } from '@walless/gui';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 
 import ReceiveModal from '../modals/ReceiveModal';
+import type { RequirePasscodeModalConfig } from '../modals/RequirePasscodeModal';
+import RequirePasscodeModal from '../modals/RequirePasscodeModal';
 import SendModal from '../modals/SendModal';
-import RequirePasscodeModal, {
-	RequirePasscodeModalConfig,
-} from '../modals/RequirePasscodeModal';
-import { ResponseCode } from '@walless/messaging';
 
 export const showReceiveModal = (layoutNetWork: Networks) => {
 	modalActions.show({

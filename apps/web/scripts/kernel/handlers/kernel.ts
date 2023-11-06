@@ -4,11 +4,11 @@ import { RequestType } from '@walless/messaging';
 import { handle } from '../utils/coordinator';
 import { getNetwork } from '../utils/handler';
 
+import * as aptosHandler from './aptosHandler';
 import * as commonHandler from './common';
 import * as solanaHandler from './solanaHandler';
 import * as suiHandler from './suiHandler';
 import * as tezosHandler from './tezosHandler';
-import * as aptosHandler from './aptosHandler';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	const { type, requestId } = payload;

@@ -5,9 +5,9 @@ import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import { useParams } from 'utils/hooks';
 
+import AptosDashboard from './Aptos';
 import { KoalaGacha } from './KoalaGacha';
 import { TRexRunner } from './TRexRunner';
-import AptosDashboard from './Aptos';
 
 export const Embed: FC = () => {
 	const { id } = useParams<'id'>();

@@ -18,7 +18,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 
 	const handleExtensionPress = (item: WidgetDocument) => {
 		const id = item._id || 'Explore';
-		appActions.setActiveWidgetRoute(id);
+		appActions.setActiveWidget(id);
 		navigation.navigate(id);
 	};
 

@@ -10,7 +10,7 @@ export const appActions = {
 	setLoading: (flag: boolean): void => {
 		appState.loading = flag;
 	},
-	setActiveWidgetRoute: (id: string): void => {
+	setActiveWidget: (id: string): void => {
 		appState.activeWidgetId = id;
 	},
 };

@@ -45,7 +45,7 @@ export const BottomNavigationTabBar: FC<TabBarProps> = ({
 		});
 
 		if (!focused && !event.defaultPrevented) {
-			appActions.setActiveWidgetRoute(route.name);
+			appActions.setActiveWidget(route.name);
 			navigation.navigate({ name: route.name, merge: true } as never);
 		}
 	};

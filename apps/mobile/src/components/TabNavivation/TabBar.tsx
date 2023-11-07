@@ -1,4 +1,5 @@
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';

@@ -22,6 +22,7 @@ export interface AppState {
 	remoteConfig: RemoteConfig;
 	endpoints: EndpointMap;
 	activeWidgetId: string;
+	isDrawerOpen: boolean;
 }
 
 export const defaultConfig: Config = {
@@ -44,4 +45,5 @@ export const appState = proxy<AppState>({
 	remoteConfig: defaultRemoteConfig,
 	endpoints: defaultEndpoints,
 	activeWidgetId: '',
+	isDrawerOpen: false,
 });

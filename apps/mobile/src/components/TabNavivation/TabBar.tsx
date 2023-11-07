@@ -28,16 +28,19 @@ export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
 	state,
 	navigation,
 }) => {
-	const { activeWidgetId } = useSnapshot(appState);
+	const { activeWidgetId, isDrawerOpen } = useSnapshot(appState);
 	const [showBottomTab, setShowBottomTab] = useState(true);
 
 	useEffect(() => {
-		if (mockWidgets.some((widget) => widget._id === activeWidgetId)) {
+		if (
+			!isDrawerOpen &&
+			mockWidgets.some((widget) => widget._id === activeWidgetId)
+		) {
 			setShowBottomTab(false);
 		} else {
 			setShowBottomTab(true);
 		}
-	}, [activeWidgetId]);
+	}, [isDrawerOpen]);
 
 	const containerStyle: ViewStyle = {
 		paddingBottom: insets.bottom,

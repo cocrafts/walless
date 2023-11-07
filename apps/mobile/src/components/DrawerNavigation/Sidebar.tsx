@@ -1,6 +1,7 @@
 import { type FC, useEffect } from 'react';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
-import { useSnapshot, useWidgets } from '@walless/app';
+import { useDrawerStatus } from '@react-navigation/drawer';
+import { useSnapshot } from '@walless/app';
 import { DashboardNavigator } from '@walless/app/features/DashboardLayout/Navigator';
 import { appState, mockWidgets, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
@@ -8,28 +9,22 @@ import { appActions } from 'state/app';
 
 export const sidebarWidth = 64;
 
-const IS_HARDCODED = true;
-
 export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	const { profile, activeWidgetId } = useSnapshot(appState);
-	const widgets = useWidgets();
+
+	const isDrawerOpen = useDrawerStatus() === 'open';
 
 	useEffect(() => {
-		navigation.openDrawer();
-	}, []);
+		appActions.setIsDrawerOpen(isDrawerOpen);
+	}, [isDrawerOpen]);
 
 	const handleExtensionPress = (item: WidgetDocument) => {
-		if (item._id) {
-			appActions.setActiveWidget(item._id);
-			navigation.navigate('Widget');
-		} else {
-			navigation.navigate('Explore');
-		}
+		appActions.setActiveWidget(item._id);
 	};
 
 	const handleRemoveWidget = async (widget: WidgetDocument) => {
 		await widgetActions.removeWidget(widget);
-		await navigation.navigate('Explore');
+		await navigation.navigate('');
 	};
 
 	const getActiveRoute = (item: WidgetDocument) => {
@@ -39,7 +34,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	return (
 		<DashboardNavigator
 			profile={profile}
-			widgets={IS_HARDCODED ? mockWidgets : widgets}
+			widgets={mockWidgets}
 			size={sidebarWidth}
 			getIsExtensionActive={getActiveRoute}
 			onExtensionPress={handleExtensionPress}

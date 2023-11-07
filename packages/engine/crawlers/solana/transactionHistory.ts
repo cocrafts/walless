@@ -9,19 +9,24 @@ import type {
 import { PublicKey } from '@solana/web3.js';
 import type { Collectible, Token, TokenAccount } from '@walless/core';
 import { Networks } from '@walless/core';
+import { modules } from '@walless/ioc';
 
 import { historyActions } from './../../state/history/index';
 import { getMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
 
-const gasilonConfigs = await fetch(`${GASILON_ENDPOINT}`, {
-	method: 'GET',
-	headers: {
-		'Content-Type': 'application/json',
-	},
-});
+const getFeePayer = async () => {
+	const gasilonConfigs = await fetch(`${modules.config.GASILON_ENDPOINT}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
 
-const FEE_PAYER = (await gasilonConfigs.json()).feePayer;
+	const feePayer = (await gasilonConfigs.json()).feePayer;
+	return feePayer;
+};
+
 export interface Transaction {
 	id: string;
 	signature: string;
@@ -49,11 +54,14 @@ const getConfirmation = async (
 	return result.value?.confirmationStatus;
 };
 
-const isAbstractionFee = (meta: ParsedTransactionWithMeta['meta']) => {
+const isAbstractionFee = (
+	meta: ParsedTransactionWithMeta['meta'],
+	feePayer: string,
+) => {
 	const tokenBalances = meta?.postTokenBalances;
 
 	for (const tokenBalance of tokenBalances ?? []) {
-		if (tokenBalance.owner === FEE_PAYER) {
+		if (tokenBalance.owner === feePayer) {
 			return true;
 		}
 	}
@@ -65,14 +73,15 @@ const getTransactionTokenForFee = async (
 	instruction: ParsedInstruction | PartiallyDecodedInstruction,
 	meta: ParsedTransactionWithMeta['meta'],
 	solanaContext: SolanaContext,
+	feePayer: string,
 ) => {
-	if (isAbstractionFee(meta)) {
+	if (isAbstractionFee(meta, feePayer)) {
 		const tokenBalances = meta?.postTokenBalances;
 
 		for (const tokenBalance of tokenBalances ?? []) {
 			if (!tokenBalance.owner) continue;
 
-			if (tokenBalance.owner === FEE_PAYER) {
+			if (tokenBalance.owner === feePayer) {
 				const network = Networks.solana;
 				const account: TokenAccount = {
 					mint: tokenBalance.mint,
@@ -110,10 +119,11 @@ const getTransactionTokenForFee = async (
 const getTransactionFee = (
 	transaction: ParsedTransactionWithMeta,
 	tokenForFee: Token,
+	feePayer: string,
 ) => {
 	let fee = (transaction.meta?.fee ?? 5000) / 10 ** 9;
 
-	if (isAbstractionFee(transaction.meta)) {
+	if (isAbstractionFee(transaction.meta, feePayer)) {
 		const instruction = transaction.transaction.message.instructions[0];
 		const feeLamports = (instruction as ParsedInstruction).parsed?.info.amount;
 		const decimals = tokenForFee.account.decimals;
@@ -133,6 +143,7 @@ const getTransactionToken = async (
 	sender: string,
 	receiver: string,
 	solanaContext: SolanaContext,
+	feePayer: string,
 ) => {
 	let token: Token = {
 		network: Networks.solana,
@@ -179,7 +190,7 @@ const getTransactionToken = async (
 		if (!tokenBalance.owner) continue;
 
 		if (
-			tokenBalance.owner !== FEE_PAYER &&
+			tokenBalance.owner !== feePayer &&
 			tokenBalance.owner !== (type === 'sent' ? sender : receiver)
 		) {
 			const network = Networks.solana;
@@ -335,6 +346,7 @@ const getTransactionPartners = (
 	transaction: ParsedTransactionWithMeta,
 	ownerPublicKey: string,
 	type: 'sent' | 'received',
+	feePayer: string,
 ) => {
 	let sender = '';
 	let receiver = '';
@@ -357,7 +369,7 @@ const getTransactionPartners = (
 	}
 
 	const partner = transaction.meta?.postTokenBalances.filter(
-		(item) => item.owner !== ownerPublicKey,
+		(item) => item.owner !== feePayer && item.owner !== ownerPublicKey,
 	);
 
 	if (type === 'sent') {
@@ -379,6 +391,7 @@ export const getTransactionDetails = async (
 	parsedTransaction: ParsedTransactionWithMeta,
 	ownerPublicKey: string,
 ) => {
+	const feePayer = await getFeePayer();
 	const instructions = parsedTransaction.transaction.message.instructions;
 	const paymentInstruction = instructions[0];
 	const mainInstruction = instructions[instructions.length - 1];
@@ -401,6 +414,7 @@ export const getTransactionDetails = async (
 		parsedTransaction,
 		ownerPublicKey,
 		type,
+		feePayer,
 	);
 
 	const token = await getTransactionToken(
@@ -410,15 +424,17 @@ export const getTransactionDetails = async (
 		sender,
 		receiver,
 		solanaContext,
+		feePayer,
 	);
 
 	const tokenForFee = await getTransactionTokenForFee(
 		paymentInstruction,
 		parsedTransaction.meta,
 		solanaContext,
+		feePayer,
 	);
 
-	const fee = getTransactionFee(parsedTransaction, tokenForFee);
+	const fee = getTransactionFee(parsedTransaction, tokenForFee, feePayer);
 
 	const { preBalance, postBalance } = getTransactionBalances(
 		parsedTransaction.meta,
@@ -503,10 +519,13 @@ export const getTransactions = async (
 
 	const promisesArray: Promise<Transaction | undefined>[] = [];
 
-	let count = 0;
+	const filteredTransactions = parsedTransactions.sort(
+		(transaction1, transaction2) => {
+			return transaction2!.blockTime! - transaction1!.blockTime!;
+		},
+	);
 
-	for (const parsedTransaction of parsedTransactions) {
-		count = count + 1;
+	for (const parsedTransaction of filteredTransactions) {
 		if (!parsedTransaction || !parsedTransaction.blockTime) continue;
 
 		const transactionDetails = getTransactionDetails(

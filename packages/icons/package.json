@@ -1,10 +1,11 @@
 {
   "name": "@walless/icons",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.ts",
   "types": "./index.ts",
   "license": "MIT",
   "scripts": {
+    "publish": "npm publish --access public",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
   },
   "peerDependencies": {

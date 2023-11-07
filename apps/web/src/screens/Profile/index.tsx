@@ -1,18 +1,23 @@
 import { MainFeatureButtons } from '@walless/app';
+import TransactionHistory from '@walless/app/features/Widget/components/TransactionHistory';
 import { showSendModal } from '@walless/app/utils';
 import { showReceiveModal } from '@walless/app/utils';
 import { Networks } from '@walless/core';
 import { Stack } from '@walless/ui';
 import { onrampWithGateFi } from 'utils/gatefi';
+import { router } from 'utils/routing';
 
 import Collectibles from './components/Collectibles';
 import TokenValue from './components/TokenValue';
-import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';
 
 const ProfileScreen = () => {
 	const handleSend = () => {
 		showSendModal();
+	};
+
+	const handleNavigateToHistory = () => {
+		router.navigate('/history');
 	};
 
 	return (
@@ -37,7 +42,7 @@ const ProfileScreen = () => {
 
 			<Collectibles />
 
-			<TransactionHistory />
+			<TransactionHistory onNavigateToHistory={handleNavigateToHistory} />
 		</Stack>
 	);
 };

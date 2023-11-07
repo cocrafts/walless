@@ -8,6 +8,7 @@ import {
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
+import ActivityTab from '@walless/app/features/Widget/components/ActivityTab';
 import { copy, showSendModal } from '@walless/app/utils';
 import { showReceiveModal } from '@walless/app/utils';
 import { Networks } from '@walless/core';
@@ -20,7 +21,6 @@ import { layoutTabs } from 'screens/Dashboard/shared';
 import { onrampWithGateFi } from 'utils/gatefi';
 import { useNfts, usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
-import ActivityTab from './components/ActivityTab';
 import { CollectiblesTab, TokenTab } from './components';
 
 interface Props {

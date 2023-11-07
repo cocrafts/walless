@@ -1,72 +1,31 @@
 import { PublicKey } from '@solana/web3.js';
 import { modules } from '@walless/ioc';
-import type { PublicKeyDocument, TokenDocument } from '@walless/store';
+import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
-import { tokenActions } from '../../state/token';
-import { getTokenQuotes, makeHashId } from '../../utils/api';
+import { setTokens } from '../../utils/token';
 
 import { solanaCollectiblesByAddress } from './collectibles';
 import type { SolanaRunner } from './shared';
-import {
-	getTokenType,
-	throttle,
-	tokenProgramFilter,
-	TokenType,
-} from './shared';
-import { registerAccountChanges, watchLogs } from './subscription';
-import { getNativeTokenDocument, getSPLTokenDocument } from './token';
+import { solanaFungiblesByAddress } from './token';
 
 export const solanaEngineRunner: SolanaRunner = {
 	start: async (context) => {
 		const { storage } = modules;
-		const { connection } = context;
 		const key = await storage.find<PublicKeyDocument>(selectors.solanaKeys);
 
 		for (const item of key.docs) {
 			const currentPubkey = new PublicKey(item._id);
-			const accountKeys = [currentPubkey];
-			const fungiblePromises: Promise<TokenDocument>[] = [
-				getNativeTokenDocument(context, currentPubkey),
-			];
+			const fungibleTokens = await solanaFungiblesByAddress(
+				context,
+				currentPubkey,
+			);
 
-			watchLogs(context, currentPubkey);
-
-			const parsedTokenAccounts = await throttle(() => {
-				return connection.getParsedTokenAccountsByOwner(
-					currentPubkey,
-					tokenProgramFilter,
-				);
-			})();
-
-			for (const { pubkey, account } of parsedTokenAccounts.value) {
-				const tokenType = getTokenType(account);
-
-				if (tokenType === TokenType.Fungible) {
-					fungiblePromises.push(
-						getSPLTokenDocument(context, pubkey, account, currentPubkey),
-					);
-				}
-
-				accountKeys.push(pubkey);
-			}
-
-			const fungibleTokens = await Promise.all(fungiblePromises);
-			const quotes = await getTokenQuotes(fungibleTokens);
-
-			for (const item of fungibleTokens) {
-				item.account.quotes = quotes[makeHashId(item)].quotes;
-			}
-
-			tokenActions.setTokens(fungibleTokens);
+			setTokens(fungibleTokens);
 			solanaCollectiblesByAddress({
 				context,
 				address: currentPubkey.toString(),
 			});
-
-			for (const key of accountKeys) {
-				registerAccountChanges(context, key, currentPubkey);
-			}
 		}
 	},
 	stop: async () => {

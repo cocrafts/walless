@@ -8,26 +8,33 @@ import { queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
-import { tokenActions, tokenState } from '../../state/token';
+// import { tokenActions, tokenState } from '../../state/token';
 import {
 	removeCollectibleDoc,
 	updateCollectibleAmount,
 } from '../../utils/collectibles';
+import {
+	getTokenById,
+	removeTokenDoc,
+	setTokens,
+	updateTokenBalance,
+} from '../../utils/token';
 
 import { addCollectibleToStorage } from './collectibles';
 import { getMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
 import { throttle } from './shared';
+import { solanaFungiblesByAddress } from './token';
 
 const accountChangeIds: number[] = [];
 const logIds: number[] = [];
 
 export const registerAccountChanges = async (
-	{ connection, endpoint }: SolanaContext,
+	context: SolanaContext,
 	key: PublicKey,
 	ownerPubkey: PublicKey,
 ) => {
-	const address = key.toString();
+	const { connection, endpoint } = context;
 	const owner = ownerPubkey.toString();
 	const id = connection.onAccountChange(
 		key,
@@ -46,10 +53,12 @@ export const registerAccountChanges = async (
 			}
 
 			const tokenId = `${owner}/token/${mint}`;
-			const isToken = tokenState.map.get(tokenId);
+			const isToken = await getTokenById(tokenId);
 
 			if (isToken) {
-				tokenActions.updateBalance(tokenId, balance);
+				balance !== '0'
+					? updateTokenBalance(tokenId, balance)
+					: removeTokenDoc(tokenId);
 			} else {
 				const amount = parseInt(balance);
 				const collectibleId = `${owner}/collectible/${mint}`;
@@ -64,11 +73,11 @@ export const registerAccountChanges = async (
 
 						addCollectibleToStorage(connection, endpoint, owner, nft);
 					} catch {
-						console.log('Not found any token or nft to update', {
-							address,
-							mint,
-							balance,
-						});
+						const fungibleTokens = await solanaFungiblesByAddress(
+							context,
+							ownerPubkey,
+						);
+						setTokens(fungibleTokens);
 					}
 				}
 			}
@@ -103,7 +112,7 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 
 				for (const balance of tokenBalances || []) {
 					if (balance.uiTokenAmount.decimals === 0) {
-						if (balance.uiTokenAmount.amount === '1') {
+						if (balance.uiTokenAmount.amount !== '0') {
 							const mpl = new Metaplex(connection);
 							const nft = await mpl
 								.nfts()
@@ -149,7 +158,7 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 							metadata,
 						};
 
-						tokenActions.setTokens([tokenDocument]);
+						setTokens([tokenDocument]);
 					}
 				}
 			}

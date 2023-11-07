@@ -8,8 +8,11 @@ import { queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
-import { collectibleActions } from '../../state/collectible';
 import { tokenActions, tokenState } from '../../state/token';
+import {
+	removeCollectibleDoc,
+	updateCollectibleAmount,
+} from '../../utils/collectibles';
 
 import { addCollectibleToStorage } from './collectibles';
 import { getMetadata, solMint } from './metadata';
@@ -52,13 +55,8 @@ export const registerAccountChanges = async (
 				const collectibleId = `${owner}/collectible/${mint}`;
 
 				if (amount === 0) {
-					collectibleActions.removeCollectibleDoc(collectibleId);
-				} else if (
-					!(await collectibleActions.updateCollectibleAmount(
-						collectibleId,
-						amount,
-					))
-				) {
+					removeCollectibleDoc(collectibleId);
+				} else if (!(await updateCollectibleAmount(collectibleId, amount))) {
 					const mpl = new Metaplex(connection);
 					try {
 						const mintAddress = new PublicKey(mint);

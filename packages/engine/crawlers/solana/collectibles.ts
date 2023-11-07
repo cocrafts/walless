@@ -13,10 +13,12 @@ import type { Endpoint } from '@walless/core';
 import { Networks } from '@walless/core';
 
 import {
-	collectibleActions,
-	collectibleState,
-	collectionState,
-} from '../../state/collectible';
+	getCollectibleById,
+	getCollectionById,
+	setCollectible,
+	setCollection,
+	updateCollectionAmount,
+} from '../../utils/collectibles';
 import type { RunnerContext } from '../../utils/type';
 
 import { throttle } from './shared';
@@ -77,10 +79,10 @@ export const addCollectibleToStorage = async (
 	const collectionId = `${address}/collection/${collectionAddress}`;
 	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
 
-	const collection = collectionState.map.get(collectionId);
-	const collectible = collectibleState.map.get(collectibleId);
+	const collection = await getCollectionById(collectionId);
+	const collectible = await getCollectibleById(collectibleId);
 	if (!collection) {
-		collectibleActions.setStorageCollection(collectionId, {
+		setCollection(collectionId, {
 			_id: collectionId,
 			type: 'Collection',
 			network: Networks.solana,
@@ -97,13 +99,10 @@ export const addCollectibleToStorage = async (
 			count: 1,
 		});
 	} else if (!collectible) {
-		collectibleActions.updateCollectionAmount(
-			collectionId,
-			(collection.count += 1),
-		);
+		updateCollectionAmount(collectionId, (collection.count += 1));
 	}
 
-	collectibleActions.setStorageCollectible(collectibleId, {
+	setCollectible(collectibleId, {
 		_id: collectibleId,
 		type: 'NFT',
 		collectionId,

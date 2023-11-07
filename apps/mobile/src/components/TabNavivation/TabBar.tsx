@@ -3,10 +3,11 @@ import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useDrawerStatus } from '@react-navigation/drawer';
-import type { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
+import type { DrawerNavigationProp } from '@react-navigation/drawer/lib/typescript/src/types';
 import type { Route } from '@react-navigation/native';
 import { modules } from '@walless/ioc';
 import { appActions, appState } from 'state/app';
+import type { DashboardParamList } from 'utils/navigation';
 
 import NavigationItem from './Item';
 
@@ -24,7 +25,7 @@ const getIconImage = (routeName: string): ImageSourcePropType | undefined => {
 };
 
 type TabBarProps = BottomTabBarProps & {
-	drawerNavigation: DrawerNavigationHelpers;
+	drawerNavigation: DrawerNavigationProp<DashboardParamList>;
 };
 
 export const BottomNavigationTabBar: FC<TabBarProps> = ({

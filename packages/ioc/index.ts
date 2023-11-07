@@ -47,6 +47,10 @@ export interface UniversalAsset {
 			cardBackground: ImageSourcePropType;
 		};
 	};
+	tabBar: {
+		explore: ImageSourcePropType;
+		walless: ImageSourcePropType;
+	};
 }
 
 export interface DynamicModules {

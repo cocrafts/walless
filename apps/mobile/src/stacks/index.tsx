@@ -1,4 +1,5 @@
-import { type FC, useEffect, useRef } from 'react';
+import type { FC } from 'react';
+import { useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';

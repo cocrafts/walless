@@ -6,7 +6,7 @@ export const mockWidgets: WidgetDocument[] = [
 		name: 'Pixeverse',
 		version: '0.1.8',
 		type: 'Widget',
-		widgetType: 'Layout',
+		widgetType: 'Hybird',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-pixeverse.png',
@@ -131,7 +131,7 @@ export const mockWidgets: WidgetDocument[] = [
 		name: 'T-Rex Runner',
 		version: '0.1.8',
 		type: 'Widget',
-		widgetType: 'Layout',
+		widgetType: 'Hybird',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/t-rex-runner/runner-icon.png',
@@ -155,7 +155,7 @@ export const mockWidgets: WidgetDocument[] = [
 		name: 'Under Realm',
 		version: '0.1.8',
 		type: 'Widget',
-		widgetType: 'Layout',
+		widgetType: 'Hybird',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-under-realm.png',

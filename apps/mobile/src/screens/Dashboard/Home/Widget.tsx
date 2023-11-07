@@ -1,12 +1,16 @@
-import type { FC } from 'react';
-import type { StackScreenProps } from '@react-navigation/stack';
-import { WidgetFeature } from '@walless/app';
-import type { HomeParamList } from 'utils/navigation';
+import { useSnapshot, WidgetFeature } from '@walless/app';
+import { appState } from '@walless/engine';
 
-type Props = StackScreenProps<HomeParamList, 'Widget'>;
+import ExplorerScreen from '../Explore';
 
-export const WidgetScreen: FC<Props> = ({ route }) => {
-	return <WidgetFeature id={route.params?.id as string} />;
+export const WidgetScreen = () => {
+	const { activeWidgetId } = useSnapshot(appState);
+
+	if (!activeWidgetId) {
+		return <ExplorerScreen />;
+	}
+
+	return <WidgetFeature id={activeWidgetId} />;
 };
 
 export default WidgetScreen;

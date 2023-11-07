@@ -1,7 +1,8 @@
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { HexString, Provider } from 'aptos';
+import type { Provider } from 'aptos';
+import { HexString } from 'aptos';
 
 import { aptosActions, aptosState } from '../../state/aptos';
 import { tokenActions } from '../../state/token';
@@ -34,7 +35,7 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 					const tokenDocuments = await getCoins(connection, pubkey);
 					tokenActions.setItems(tokenDocuments);
 				} catch (error) {
-					console.log('--> aptos crawler coins error', error);
+					// Error means that the account is not created yet
 				}
 
 				try {

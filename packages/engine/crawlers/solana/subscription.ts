@@ -8,7 +8,6 @@ import { queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
-// import { tokenActions, tokenState } from '../../state/token';
 import {
 	removeCollectibleDoc,
 	updateCollectibleAmount,

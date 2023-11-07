@@ -11,7 +11,7 @@ import { appState } from 'state/app';
 
 import NavigationItem from './Item';
 
-const getIconImage = (routeName: string): ImageSourcePropType | undefined => {
+const getIconImage = (routeName: string): ImageSourcePropType => {
 	switch (routeName) {
 		case 'Profile':
 			return { uri: appState.profile.profileImage };
@@ -20,7 +20,7 @@ const getIconImage = (routeName: string): ImageSourcePropType | undefined => {
 		case 'Home':
 			return modules.asset.tabBar.walless;
 		default:
-			break;
+			return modules.asset.tabBar.walless;
 	}
 };
 

@@ -7,7 +7,7 @@ import { setTokens } from '../../utils/token';
 
 import type { TezosRunner } from './shared';
 import { KNOWN_TEZOS_MAINNET_TOKENS } from './shared';
-import { getTokenDocument } from './token';
+import { getNativeTokenDocument, getTokenDocument } from './token';
 
 export const tezosEngineRunner: TezosRunner = {
 	start: async (context) => {
@@ -16,6 +16,7 @@ export const tezosEngineRunner: TezosRunner = {
 		const docPromises: Promise<TokenDocument>[] = [];
 
 		for (const item of key.docs) {
+			docPromises.push(getNativeTokenDocument(context, item._id));
 			for (const token of KNOWN_TEZOS_MAINNET_TOKENS) {
 				docPromises.push(getTokenDocument(context, token, item._id));
 			}

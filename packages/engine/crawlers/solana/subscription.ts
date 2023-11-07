@@ -111,14 +111,15 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 				);
 
 				for (const balance of tokenBalances || []) {
-					if (balance.uiTokenAmount.decimals === 0) {
-						if (balance.uiTokenAmount.amount !== '0') {
-							const mpl = new Metaplex(connection);
-							const nft = await mpl
-								.nfts()
-								.findByMint({ mintAddress: new PublicKey(balance.mint) });
-							addCollectibleToStorage(connection, endpoint, address, nft);
-						}
+					if (
+						balance.uiTokenAmount.decimals === 0 &&
+						balance.uiTokenAmount.amount !== '0'
+					) {
+						const mpl = new Metaplex(connection);
+						const nft = await mpl
+							.nfts()
+							.findByMint({ mintAddress: new PublicKey(balance.mint) });
+						addCollectibleToStorage(connection, endpoint, address, nft);
 					} else {
 						let token: TokenInfo = {} as never;
 						let metadata: AssetMetadata | undefined;

@@ -2,8 +2,8 @@ import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
-import { tokenActions } from '../../state/token';
 import { getTokenQuotes, makeHashId } from '../../utils/api';
+import { setTokens } from '../../utils/token';
 
 import type { TezosRunner } from './shared';
 import { KNOWN_TEZOS_MAINNET_TOKENS } from './shared';
@@ -28,7 +28,7 @@ export const tezosEngineRunner: TezosRunner = {
 			item.account.quotes = quotes[makeHashId(item)].quotes;
 		}
 
-		tokenActions.setTokens(tokenDocs);
+		setTokens(tokenDocs);
 	},
 	stop: async () => {
 		console.log('stop!');

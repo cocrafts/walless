@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { useSnapshot } from '@walless/app';
-import { DashboardNavigator } from '@walless/app/features/DashboardLayout/Navigator';
+import { DashboardNavigator } from '@walless/app';
 import { appState, mockWidgets, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
 import { appActions } from 'state/app';
@@ -29,7 +29,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 
 	const handleRemoveWidget = async (widget: WidgetDocument) => {
 		await widgetActions.removeWidget(widget);
-		await navigation.navigate('');
+		navigation.navigate('');
 	};
 
 	const getActiveRoute = (item: WidgetDocument) => {
@@ -39,7 +39,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	return (
 		<DashboardNavigator
 			profile={profile}
-			widgets={mockWidgets}
+			widgets={mockWidgets.filter((i) => i.widgetType === 'Layout')}
 			size={sidebarWidth}
 			getIsExtensionActive={getActiveRoute}
 			onExtensionPress={handleExtensionPress}

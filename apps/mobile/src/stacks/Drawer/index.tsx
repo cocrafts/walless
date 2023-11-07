@@ -2,12 +2,13 @@ import { StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from '@walless/app';
 import WidgetScreen from 'screens/Dashboard/Home/Widget';
+import type { HomeParamList } from 'utils/navigation';
 
 import Sidebar, { sidebarWidth } from './Sidebar';
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<HomeParamList>();
 
-export const DrawerNavigation = () => {
+export const DrawerStack = () => {
 	const { top } = useSafeAreaInsets();
 
 	const screenOptions = {
@@ -31,7 +32,6 @@ export const DrawerNavigation = () => {
 			drawerContent={Sidebar}
 			screenOptions={screenOptions}
 			backBehavior="order"
-			initialRouteName="Explore"
 		>
 			<Drawer.Screen name="Widget" component={WidgetScreen} options={options} />
 		</Drawer.Navigator>
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default DrawerNavigation;
+export default DrawerStack;

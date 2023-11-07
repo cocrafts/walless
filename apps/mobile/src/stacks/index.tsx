@@ -1,6 +1,8 @@
+import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import { modalActions, ModalManager, themeState } from '@walless/gui';
 import SplashScreen from 'screens/Splash';
@@ -8,13 +10,12 @@ import { useSnapshot } from 'utils/hooks';
 import type { RootParamList } from 'utils/navigation';
 import { linking, navigationRef, screenOptions } from 'utils/navigation';
 
-import { BottomTabNavigation } from '../components/TabNavivation';
-
 import AuthenticationStack from './Authentication';
+import DashboardStack from './Dashboard';
 
 const Stack = createStackNavigator<RootParamList>();
 
-export const AppStack = () => {
+export const AppStack: FC<StackScreenProps<RootParamList>> = () => {
 	const modalContainerRef = useRef<View>(null);
 	const theme = useSnapshot(themeState);
 
@@ -38,7 +39,7 @@ export const AppStack = () => {
 					/>
 					<Stack.Screen
 						name="Dashboard"
-						component={BottomTabNavigation}
+						component={DashboardStack}
 						options={screenOptions.bottomFade}
 					/>
 				</Stack.Navigator>

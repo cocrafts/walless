@@ -9,7 +9,7 @@ import { mockWidgets } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import { appState } from 'state/app';
 
-import NavigationItem from './Item';
+import NavigationItem from './TabBarItem';
 
 const getIconImage = (routeName: string): ImageSourcePropType => {
 	switch (routeName) {

@@ -21,7 +21,7 @@ export type HomeParamList = {
 };
 
 export type DashboardParamList = {
-	Home: undefined;
+	Home: NavigatorScreenParams<HomeParamList>;
 	Explore: undefined;
 	Profile: undefined;
 };
@@ -48,11 +48,15 @@ export const linking: LinkingOptions<RootParamList> = {
 				},
 			},
 			Dashboard: {
-				path: '/',
 				screens: {
-					Home: '/widget/:id',
 					Explore: '/explore',
 					Profile: '/profile',
+					Home: {
+						path: '/',
+						screens: {
+							Widget: '/widget/:id',
+						},
+					},
 				},
 			},
 		},

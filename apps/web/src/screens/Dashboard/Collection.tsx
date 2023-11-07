@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
+import { useNfts } from '@walless/app/utils/hooks';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
-import { useNfts, useParams } from 'utils/hooks';
+import { useParams } from 'utils/hooks';
 import { router } from 'utils/routing';
 
 import { CollectionItem } from './components/CollectibleItem';

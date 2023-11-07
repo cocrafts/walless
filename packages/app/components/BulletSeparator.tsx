@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type ViewProps, type ViewStyle, StyleSheet } from 'react-native';
+import { StyleSheet, type ViewProps, type ViewStyle } from 'react-native';
 import { View } from '@walless/gui';
 
 type Props = ViewProps & {

@@ -1,7 +1,8 @@
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { HexString, Provider } from 'aptos';
+import type { Provider } from 'aptos';
+import { HexString } from 'aptos';
 
 import { aptosActions, aptosState } from '../../state/aptos';
 import { tokenActions } from '../../state/token';

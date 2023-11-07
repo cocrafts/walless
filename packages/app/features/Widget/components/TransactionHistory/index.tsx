@@ -36,6 +36,9 @@ const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
 
 export default TransactionHistory;
 
+export * from './FullHistory';
+export * from './HistoryItem';
+
 const styles = StyleSheet.create({
 	container: {
 		width: '100%',
@@ -60,6 +63,3 @@ const styles = StyleSheet.create({
 		borderColor: '#566674',
 	},
 });
-
-export * from './FullHistory';
-export * from './HistoryItem';

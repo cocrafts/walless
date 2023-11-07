@@ -2,16 +2,11 @@ import type { FC } from 'react';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { DashboardLayout } from '@walless/app';
+import { useSettings } from '@walless/app/utils/hooks';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import { appState } from 'state/app';
-import {
-	useLocation,
-	useParams,
-	useSettings,
-	useSnapshot,
-	useWidgets,
-} from 'utils/hooks';
+import { useLocation, useParams, useSnapshot, useWidgets } from 'utils/hooks';
 import { router } from 'utils/routing';
 
 export const DashboardScreen: FC = () => {

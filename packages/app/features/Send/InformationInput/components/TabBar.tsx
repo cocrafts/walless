@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
 		height: 32,
 		borderRadius: 8,
 		backgroundColor: 'transparent',
+		paddingVertical: 0,
 	},
 	buttonTitle: {
 		fontSize: 14,

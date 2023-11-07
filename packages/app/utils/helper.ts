@@ -1,35 +1,32 @@
+import type { ImageSourcePropType } from 'react-native';
 import { Networks } from '@walless/core';
+import { modules } from '@walless/ioc';
 
 export interface NetworkInfo {
 	name: string;
-	icon: string;
+	icon: ImageSourcePropType;
 	network: Networks;
 }
 
 export const networkMap: Record<Networks, NetworkInfo> = {
 	[Networks.solana]: {
 		name: 'Solana',
-		icon: '/img/send-token/icon-solana.png',
+		icon: modules.asset?.setting.solana.icon,
 		network: Networks.solana,
 	},
 	[Networks.sui]: {
 		name: 'Sui',
-		icon: '/img/send-token/icon-sui.png',
+		icon: modules.asset?.setting.sui.icon,
 		network: Networks.sui,
 	},
 	[Networks.tezos]: {
 		name: 'Tezos',
-		icon: '/img/send-token/icon-tezos.png',
+		icon: modules.asset?.setting.tezos.icon,
 		network: Networks.tezos,
-	},
-	[Networks.ethereum]: {
-		name: 'Ethereum',
-		icon: '/img/send-token/icon-ethereum.png',
-		network: Networks.ethereum,
 	},
 	[Networks.aptos]: {
 		name: 'Aptos',
-		icon: '/img/send-token/icon-aptos.svg',
+		icon: modules.asset?.setting.aptos.icon,
 		network: Networks.aptos,
 	},
 };

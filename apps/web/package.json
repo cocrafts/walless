@@ -11,6 +11,7 @@
     "build:web": "rimraf metacraft build && yarn batch && metacraft bundle",
     "build:ext": "BUILD_TARGET=extension && yarn build:web && node scripts/bundler",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
+    "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx",
     "postinstall": "yarn batch"
   },
   "dependencies": {

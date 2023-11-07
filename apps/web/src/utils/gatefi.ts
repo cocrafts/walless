@@ -1,4 +1,6 @@
 import { Linking } from 'react-native';
+import { Networks } from '@walless/core';
+import { keyState } from '@walless/engine';
 
 export interface GateFiConfig {
 	wallet?: string;
@@ -18,4 +20,13 @@ export const onrampWithGateFi = (config?: GateFiConfig) => {
 
 	const url = `https://${GATEFI_ENDPOINT}/?${queryString}`;
 	Linking.openURL(url);
+};
+
+export const buyToken = (network: Networks) => {
+	if (network === Networks.solana) {
+		const publicKey = Array.from(keyState.map.values()).find(
+			(ele) => (ele.network = network),
+		);
+		if (publicKey) onrampWithGateFi({ wallet: publicKey._id });
+	}
 };

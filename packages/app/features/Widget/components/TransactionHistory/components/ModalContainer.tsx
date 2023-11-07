@@ -12,6 +12,7 @@ const ModalContainer: FC<Props> = ({ title, children }) => {
 	const handleHideModal = () => {
 		modalActions.hide(title);
 	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>

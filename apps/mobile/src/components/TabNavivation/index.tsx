@@ -19,7 +19,7 @@ export const BottomTabNavigation = () => {
 			screenOptions={screenOptions}
 			tabBar={(props) => <TabBar {...props} />}
 		>
-			<Tab.Screen name="OurProject" component={DrawerNavigation} />
+			<Tab.Screen name="Home" component={DrawerNavigation} />
 			<Tab.Screen name="Explore" component={ExploreScreen} />
 			<Tab.Screen name="Profile" component={ProfileScreen} />
 		</Tab.Navigator>

@@ -21,6 +21,7 @@ export type HomeParamList = {
 };
 
 export type DashboardParamList = {
+	OurProject: undefined;
 	Explore: undefined;
 	Profile: undefined;
 };

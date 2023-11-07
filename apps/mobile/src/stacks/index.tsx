@@ -8,8 +8,9 @@ import { useSnapshot } from 'utils/hooks';
 import type { RootParamList } from 'utils/navigation';
 import { linking, navigationRef, screenOptions } from 'utils/navigation';
 
+import { BottomTabNavigation } from '../components/TabNavivation';
+
 import AuthenticationStack from './Authentication';
-import DashboardStack from './Dashboard';
 
 const Stack = createStackNavigator<RootParamList>();
 
@@ -37,7 +38,7 @@ export const AppStack = () => {
 					/>
 					<Stack.Screen
 						name="Dashboard"
-						component={DashboardStack}
+						component={BottomTabNavigation}
 						options={screenOptions.bottomFade}
 					/>
 				</Stack.Navigator>

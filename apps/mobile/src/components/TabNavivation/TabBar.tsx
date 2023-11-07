@@ -1,13 +1,12 @@
-import type { FC } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { useDrawerStatus } from '@react-navigation/drawer';
-import type { DrawerNavigationProp } from '@react-navigation/drawer/lib/typescript/src/types';
 import type { Route } from '@react-navigation/native';
+import { useSnapshot } from '@walless/app';
+import { mockWidgets } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import { appActions, appState } from 'state/app';
-import type { DashboardParamList } from 'utils/navigation';
 
 import NavigationItem from './Item';
 
@@ -24,18 +23,24 @@ const getIconImage = (routeName: string): ImageSourcePropType | undefined => {
 	}
 };
 
-type TabBarProps = BottomTabBarProps & {
-	drawerNavigation: DrawerNavigationProp<DashboardParamList>;
-};
-
-export const BottomNavigationTabBar: FC<TabBarProps> = ({
+export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
 	insets,
 	state,
 	navigation,
-	drawerNavigation,
 }) => {
+	const { activeWidgetId } = useSnapshot(appState);
+	const [showBottomTab, setShowBottomTab] = useState(true);
+	useEffect(() => {
+		if (mockWidgets.some((widget) => widget._id === activeWidgetId)) {
+			setShowBottomTab(false);
+		} else {
+			setShowBottomTab(true);
+		}
+	}, [activeWidgetId]);
+
 	const containerStyle: ViewStyle = {
 		paddingBottom: insets.bottom,
+		display: showBottomTab ? 'flex' : 'none',
 	};
 
 	const handleNavigate = (route: Route<string, never>, focused: boolean) => {
@@ -51,23 +56,10 @@ export const BottomNavigationTabBar: FC<TabBarProps> = ({
 		}
 	};
 
-	const drawerStatus = useDrawerStatus();
-
 	return (
 		<View style={[styles.container, containerStyle]}>
-			<NavigationItem
-				route={{
-					key: 'OurProject',
-					name: 'OurProject',
-					params: {} as never,
-				}}
-				focused={drawerStatus === 'open'}
-				tabIcon={getIconImage('OurProject')}
-				onNavigate={drawerNavigation.toggleDrawer}
-			/>
-
 			{state.routes.map((route, index) => {
-				const isFocused = drawerStatus === 'closed' && state.index === index;
+				const isFocused = state.index === index;
 
 				return (
 					<NavigationItem

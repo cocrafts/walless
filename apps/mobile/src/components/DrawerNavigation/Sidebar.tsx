@@ -1,7 +1,6 @@
-import type { FC } from 'react';
-import { View } from 'react-native';
+import { type FC, useEffect } from 'react';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
-import { useSafeAreaInsets, useSnapshot, useWidgets } from '@walless/app';
+import { useSnapshot, useWidgets } from '@walless/app';
 import { DashboardNavigator } from '@walless/app/features/DashboardLayout/Navigator';
 import { appState, mockWidgets, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
@@ -11,10 +10,17 @@ export const sidebarWidth = 64;
 
 const IS_HARDCODED = true;
 
-export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
+export const Sidebar: FC<DrawerContentComponentProps> = ({
+	navigation,
+	state,
+}) => {
 	const { profile, activeWidgetId } = useSnapshot(appState);
 	const widgets = useWidgets();
-	const { top } = useSafeAreaInsets();
+
+	useEffect(() => {
+		appActions.setActiveWidget(state.routeNames[state.index]);
+		navigation.openDrawer();
+	}, [activeWidgetId]);
 
 	const handleExtensionPress = (item: WidgetDocument) => {
 		const id = item._id || 'Explore';
@@ -32,16 +38,14 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	};
 
 	return (
-		<View style={{ marginTop: top }}>
-			<DashboardNavigator
-				profile={profile}
-				widgets={IS_HARDCODED ? mockWidgets : widgets}
-				size={sidebarWidth}
-				getIsExtensionActive={getActiveRoute}
-				onExtensionPress={handleExtensionPress}
-				onRemoveLayout={handleRemoveWidget}
-			/>
-		</View>
+		<DashboardNavigator
+			profile={profile}
+			widgets={IS_HARDCODED ? mockWidgets : widgets}
+			size={sidebarWidth}
+			getIsExtensionActive={getActiveRoute}
+			onExtensionPress={handleExtensionPress}
+			onRemoveLayout={handleRemoveWidget}
+		/>
 	);
 };
 

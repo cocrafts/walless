@@ -16,7 +16,7 @@ const getIconImage = (routeName: string): ImageSourcePropType | undefined => {
 			return { uri: appState.profile.profileImage };
 		case 'Explore':
 			return modules.asset.tabBar.explore;
-		case 'OurProject':
+		case 'Home':
 			return modules.asset.tabBar.walless;
 		default:
 			break;

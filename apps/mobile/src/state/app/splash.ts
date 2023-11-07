@@ -15,7 +15,7 @@ export const launchApp = async ({
 	profile,
 }: BootstrapResult): Promise<void> => {
 	if (profile?.email) {
-		resetRoute('Widget', { id: 'solana' });
+		resetRoute('Dashboard');
 	} else {
 		resetRoute('Invitation');
 	}

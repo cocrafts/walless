@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from '@walless/app';
-import { mockWidgets } from '@walless/engine';
 import ExploreScreen from 'screens/Dashboard/Explore';
 import WidgetScreen from 'screens/Dashboard/Home/Widget';
 
@@ -30,13 +29,7 @@ export const DrawerNavigation = () => {
 			initialRouteName="Explore"
 		>
 			<Drawer.Screen name="Explore" component={ExploreScreen} />
-			{mockWidgets.map((widget) => (
-				<Drawer.Screen
-					key={widget._id}
-					name={widget._id}
-					component={WidgetScreen}
-				/>
-			))}
+			<Drawer.Screen name="Widget" component={WidgetScreen} />
 		</Drawer.Navigator>
 	);
 };

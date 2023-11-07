@@ -10,22 +10,21 @@ export const sidebarWidth = 64;
 
 const IS_HARDCODED = true;
 
-export const Sidebar: FC<DrawerContentComponentProps> = ({
-	navigation,
-	state,
-}) => {
+export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	const { profile, activeWidgetId } = useSnapshot(appState);
 	const widgets = useWidgets();
 
 	useEffect(() => {
-		appActions.setActiveWidget(state.routeNames[state.index]);
 		navigation.openDrawer();
-	}, [activeWidgetId]);
+	}, []);
 
 	const handleExtensionPress = (item: WidgetDocument) => {
-		const id = item._id || 'Explore';
-		appActions.setActiveWidget(id);
-		navigation.navigate(id);
+		if (item._id) {
+			appActions.setActiveWidget(item._id);
+			navigation.navigate('Widget');
+		} else {
+			navigation.navigate('Explore');
+		}
 	};
 
 	const handleRemoveWidget = async (widget: WidgetDocument) => {
@@ -34,7 +33,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({
 	};
 
 	const getActiveRoute = (item: WidgetDocument) => {
-		return activeWidgetId === (item._id || 'Explore');
+		return activeWidgetId === item._id;
 	};
 
 	return (

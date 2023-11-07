@@ -1,12 +1,9 @@
-import type { FC } from 'react';
-import type { DrawerScreenProps } from '@react-navigation/drawer';
-import { WidgetFeature } from '@walless/app';
-import type { HomeParamList } from 'utils/navigation';
+import { useSnapshot, WidgetFeature } from '@walless/app';
+import { appState } from '@walless/engine';
 
-type Props = DrawerScreenProps<HomeParamList, 'Widget'>;
-
-export const WidgetScreen: FC<Props> = ({ route }) => {
-	return <WidgetFeature id={route.name} />;
+export const WidgetScreen = () => {
+	const { activeWidgetId } = useSnapshot(appState);
+	return <WidgetFeature id={activeWidgetId} />;
 };
 
 export default WidgetScreen;

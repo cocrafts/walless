@@ -21,7 +21,7 @@ export interface AppState {
 	config: Config;
 	remoteConfig: RemoteConfig;
 	endpoints: EndpointMap;
-	activeWidgetId?: string;
+	activeWidgetId: string;
 }
 
 export const defaultConfig: Config = {
@@ -43,5 +43,5 @@ export const appState = proxy<AppState>({
 	config: defaultConfig,
 	remoteConfig: defaultRemoteConfig,
 	endpoints: defaultEndpoints,
-	activeWidgetId: 'Explore',
+	activeWidgetId: '',
 });

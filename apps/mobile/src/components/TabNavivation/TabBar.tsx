@@ -6,7 +6,7 @@ import type { Route } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
 import { mockWidgets } from '@walless/engine';
 import { modules } from '@walless/ioc';
-import { appActions, appState } from 'state/app';
+import { appState } from 'state/app';
 
 import NavigationItem from './Item';
 
@@ -30,6 +30,7 @@ export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
 }) => {
 	const { activeWidgetId } = useSnapshot(appState);
 	const [showBottomTab, setShowBottomTab] = useState(true);
+
 	useEffect(() => {
 		if (mockWidgets.some((widget) => widget._id === activeWidgetId)) {
 			setShowBottomTab(false);
@@ -51,7 +52,6 @@ export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
 		});
 
 		if (!focused && !event.defaultPrevented) {
-			appActions.setActiveWidget(route.name);
 			navigation.navigate({ name: route.name, merge: true } as never);
 		}
 	};

@@ -15,6 +15,10 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	const isDrawerOpen = useDrawerStatus() === 'open';
 
 	useEffect(() => {
+		navigation.openDrawer();
+	}, []);
+
+	useEffect(() => {
 		appActions.setIsDrawerOpen(isDrawerOpen);
 	}, [isDrawerOpen]);
 

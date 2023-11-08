@@ -1,6 +1,17 @@
 import { Networks } from '@walless/core';
 
-export const selectors = {
+import type { DocumentType } from './type';
+
+export type Selector = {
+	selector: Partial<{
+		type: DocumentType;
+		network: Networks;
+	}>;
+};
+
+export type SelectorFunc = (...args: never[]) => Selector;
+
+export const selectors: Record<string, Selector | SelectorFunc> = {
 	allExtensions: { selector: { type: 'Extension' } },
 	allWidgets: { selector: { type: 'Widget' } },
 	allKeys: { selector: { type: 'PublicKey' } },

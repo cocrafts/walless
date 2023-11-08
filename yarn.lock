@@ -12783,7 +12783,7 @@ __metadata:
     react-native: 0.71.14
     react-native-config: ^1.5.0
     react-native-encrypted-storage: ^4.0.3
-    react-native-gesture-handler: ^2.9.0
+    react-native-gesture-handler: ^2.13.4
     react-native-get-random-values: ^1.9.0
     react-native-quick-base64: 2.0.7
     react-native-quick-crypto: 0.6.1
@@ -25908,7 +25908,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:^2.13.4, react-native-gesture-handler@npm:^2.9.0":
+"react-native-gesture-handler@npm:^2.13.4":
   version: 2.13.4
   resolution: "react-native-gesture-handler@npm:2.13.4"
   dependencies:
@@ -25920,7 +25920,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 6bfdd9d23486193424dcfb0073dd821a216c2783dde746d73a3441e920602343f09efa10261c6f09fcbcb645d029a95305c86f61997053c01ad89751c8c6d236
+  checksum: 32d704d16270eefedc596b198063943bd9d539e66605ae135550f70c551c6a0a060dfa9b973b651c47e845632d55a78f321245d979107d4f6669e788d4a6582d
   languageName: node
   linkType: hard
 

@@ -8,6 +8,7 @@ import type { CardSkin } from '../../components/WalletCard';
 import BuiltInNetwork from './BuiltInNetwork';
 import { EmptyTab } from './components';
 import NotFound from './NotFound';
+import TRexRunner from './TRexRunner';
 
 export interface WidgetProps {
 	id: string;
@@ -20,6 +21,7 @@ export const widgetMap: Record<string, WidgetComponent> = {
 	tezos: BuiltInNetwork,
 	solana: BuiltInNetwork,
 	aptos: BuiltInNetwork,
+	tRexRunner: TRexRunner,
 };
 
 export const extractWidgetComponent = (id: string): WidgetComponent => {

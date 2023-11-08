@@ -39,7 +39,7 @@ export const handleConnect: HandleMethod = async ({
 		);
 	}
 
-	const publicKeys = await modules.storage.find(selectors.allKeys);
+	const publicKeys = await modules.storage.find(selectors.allKeys as never);
 	const solKey = (publicKeys.docs as PublicKeyDocument[]).find(
 		(key) => key.network == Networks.solana,
 	);

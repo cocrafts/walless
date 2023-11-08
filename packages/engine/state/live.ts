@@ -23,14 +23,14 @@ import { widgetActions, widgetState } from './widget';
 
 const initialize = async () => {
 	const { storage } = modules;
-	const widget = await storage.find<WidgetDocument>(f.allWidgets);
-	const allKey = await storage.find<PublicKeyDocument>(f.allKeys);
-	const allToken = await storage.find<TokenDocument>(f.allTokens);
+	const widget = await storage.find<WidgetDocument>(f.allWidgets as never);
+	const allKey = await storage.find<PublicKeyDocument>(f.allKeys as never);
+	const allToken = await storage.find<TokenDocument>(f.allTokens as never);
 	const allCollectibles = await storage.find<CollectibleDocument>(
-		f.allCollectibles,
+		f.allCollectibles as never,
 	);
 	const allCollections = await storage.find<CollectionDocument>(
-		f.allCollections,
+		f.allCollections as never,
 	);
 	const setting = await storage.safeGet<SettingDocument>('settings');
 	const endpoint = await storage.safeGet<EndpointsDocument>('endpoints');

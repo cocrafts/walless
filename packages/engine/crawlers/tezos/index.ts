@@ -12,7 +12,9 @@ import { getNativeTokenDocument, getTokenDocument } from './token';
 export const tezosEngineRunner: TezosRunner = {
 	start: async (context) => {
 		const { storage } = modules;
-		const key = await storage.find<PublicKeyDocument>(selectors.tezosKeys);
+		const key = await storage.find<PublicKeyDocument>(
+			selectors.tezosKeys as never,
+		);
 		const docPromises: Promise<TokenDocument>[] = [];
 
 		for (const item of key.docs) {

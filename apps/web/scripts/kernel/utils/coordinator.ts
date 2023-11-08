@@ -36,7 +36,7 @@ export const handle: CoordinatingHandle = async ({
 
 			if (onlyIfTrusted) {
 				const domainResponse = await modules.storage.find(
-					selectors.trustedDomains,
+					selectors.trustedDomains as never,
 				);
 				const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 				const savedDomain = trustedDomains.find(({ _id }) => _id == domain);

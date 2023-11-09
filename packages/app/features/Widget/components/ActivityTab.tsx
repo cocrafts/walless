@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { View } from '@walless/gui';
 
-import { FullHistoryFeature } from './TransactionHistory';
+import { FullHistoryFeature } from '../../Profile';
 
 interface Props {
 	network: Networks;

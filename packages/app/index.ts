@@ -3,7 +3,6 @@ export * from './components/ErrorAnnouncement';
 export * from './components/FeatureButton';
 export * from './components/LayoutButton';
 export * from './components/MainFeatureButtons';
-export * from './components/NavigationItem';
 export * from './components/SlideHandler';
 export * from './components/TabsHeader';
 export * from './components/TokenList';

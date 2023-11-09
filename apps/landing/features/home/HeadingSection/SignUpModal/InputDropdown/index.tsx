@@ -28,7 +28,6 @@ const InputDropdown: FC<Props> = ({
 	error,
 }) => {
 	const [isDropped, setIsDropped] = useState(false);
-	const [width, setWidth] = useState(0);
 	const handlePress = () => setIsDropped(!isDropped);
 
 	const modalRef = useRef<TouchableOpacity>(null);
@@ -39,7 +38,6 @@ const InputDropdown: FC<Props> = ({
 				id: 'dropdown',
 				component: () => (
 					<Dropdown
-						containerWidth={width}
 						optionList={optionList}
 						selectedOption={currentOption}
 						setSelectedOption={setCurrentOption}
@@ -70,11 +68,6 @@ const InputDropdown: FC<Props> = ({
 			<TouchableOpacity
 				ref={modalRef}
 				style={[styles.selectedOptionContainer, error ? errorStyle : {}]}
-				onLayout={() => {
-					modalRef.current?.measure((_x, _y, _width) => {
-						setWidth(_width);
-					});
-				}}
 				onPress={handlePress}
 			>
 				<Text>

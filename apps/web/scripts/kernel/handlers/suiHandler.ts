@@ -61,26 +61,22 @@ export const handleSignAndExecuteTransaction: MessengerCallback = async (
 	return channel.postMessage(responsePayload);
 };
 
-export const handleSignMessage: MessengerCallback = async (
-	payload,
-	channel,
-) => {
-	const privateKey = new Uint8Array(32);
-	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
-	const signer = new RawSigner(
-		keypair,
-		modules.engine.getConnection(Networks.sui),
-	);
-
-	// const message = decode(payload.message as string);
-
-	// const signedMessage = await signer.signMessage({ message: message });
-
-	// channel.postMessage({
-	// 	from: 'walless@kernel',
-	// 	requestId: payload.requestId,
-	// 	signedMessage,
-	// });
-
-	// return signedMessage;
-};
+export const handleSignMessage: MessengerCallback = async () =>
+	// payload,
+	// channel,
+	{
+		// const privateKey = new Uint8Array(32);
+		// const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(32));
+		// const signer = new RawSigner(
+		// 	keypair,
+		// 	modules.engine.getConnection(Networks.sui),
+		// );
+		// const message = decode(payload.message as string);
+		// const signedMessage = await signer.signMessage({ message: message });
+		// channel.postMessage({
+		// 	from: 'walless@kernel',
+		// 	requestId: payload.requestId,
+		// 	signedMessage,
+		// });
+		// return signedMessage;
+	};

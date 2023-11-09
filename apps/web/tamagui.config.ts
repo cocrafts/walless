@@ -1,10 +1,6 @@
 import { createAnimations } from '@tamagui/animations-css';
-import {
-	type TamaguiInternalConfig,
-	createTamagui,
-	createTheme,
-	createTokens,
-} from '@tamagui/core';
+import type { TamaguiInternalConfig } from '@tamagui/core';
+import { createTamagui, createTheme, createTokens } from '@tamagui/core';
 import { tokens as defaultTokens } from '@tamagui/themes';
 
 import { fonts, media } from '../../tool/tamagui';

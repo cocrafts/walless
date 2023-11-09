@@ -1,8 +1,10 @@
+import type {
+	EventEmitter,
+	SupportedTransactionVersions,
+	WalletError,
+	WalletName,
+} from '@solana/wallet-adapter-base';
 import {
-	type EventEmitter,
-	type SupportedTransactionVersions,
-	type WalletError,
-	type WalletName,
 	BaseMessageSignerWalletAdapter,
 	scopePollingDetectionStrategy,
 	WalletAccountError,
@@ -16,11 +18,8 @@ import {
 	WalletSignMessageError,
 	WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import {
-	type Transaction,
-	type VersionedTransaction,
-	PublicKey,
-} from '@solana/web3.js';
+import type { Transaction, VersionedTransaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface WallessWalletEvents {
 	connect(...args: unknown[]): unknown;

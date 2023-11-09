@@ -5,8 +5,9 @@
   "types": "./index.ts",
   "license": "MIT",
   "scripts": {
-    "publish": "npm publish --access public",
-    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
+    "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx",
+    "publish": "npm publish --access public"
   },
   "peerDependencies": {
     "react": "^18.2.0"

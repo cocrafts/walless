@@ -51,7 +51,6 @@ const defaultEndpoint: Endpoint = __DEV__ ? 'devnet' : 'mainnet';
 export const defaultEndpoints: EndpointMap = {
 	solana: defaultEndpoint,
 	sui: defaultEndpoint,
-	ethereum: defaultEndpoint,
 	tezos: defaultEndpoint,
 	aptos: defaultEndpoint,
 };

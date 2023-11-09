@@ -8,13 +8,17 @@ import {
 	WalletCard,
 } from '@walless/app';
 import { copy, showReceiveModal, showSendModal } from '@walless/app/utils';
+import {
+	usePublicKeys,
+	useSettings,
+	useTokens,
+} from '@walless/app/utils/hooks';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import { onrampWithGateFi } from 'utils/gatefi';
-import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
 
 import ActivityTab from './components/ActivityTab';
 import AptosTokensTab from './components/AptosTokensTab';

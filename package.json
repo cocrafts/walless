@@ -16,6 +16,7 @@
     "codegen": "graphql-codegen --config tool/codegen.ts",
     "invalidate": "node tool/invalidate",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "postinstall": "yarn batch",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock"
   },

@@ -21,6 +21,20 @@ export const nativeAsset: UniversalAsset = {
 			cardBackground: require('assets/img/widget/sky-card-bg.png'),
 		},
 	},
+	setting: {
+		solana: {
+			icon: require('assets/img/setting/icon-solana.png'),
+		},
+		sui: {
+			icon: require('assets/img/setting/icon-sui.png'),
+		},
+		tezos: {
+			icon: require('assets/img/setting/icon-tezos.png'),
+		},
+		aptos: {
+			icon: require('assets/img/setting/icon-aptos.png'),
+		},
+	},
 	tabBar: {
 		explore: require('assets/img/explore.png'),
 		walless: require('assets/img/icon-white.png'),

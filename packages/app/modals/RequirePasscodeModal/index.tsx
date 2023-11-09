@@ -2,7 +2,8 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { PasscodeFeature } from '@walless/app';
-import { ModalConfigs, Text, View, modalActions } from '@walless/gui';
+import type { ModalConfigs } from '@walless/gui';
+import { modalActions, Text, View } from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 

@@ -1,6 +1,7 @@
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { Network, Provider } from 'aptos';
+
 import { createConnectionPool } from '../../utils/pool';
 
 let aptosConnection: Provider | undefined;

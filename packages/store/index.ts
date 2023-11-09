@@ -40,3 +40,4 @@ export const configure = async (db: PouchDB.Database): Promise<void> => {
 
 export * from './utils/helper';
 export * from './utils/type';
+export * from './utils/widgets';

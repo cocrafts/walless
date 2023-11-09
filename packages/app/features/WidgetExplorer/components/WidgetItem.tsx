@@ -5,6 +5,7 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
+import { addWidgetToStorage } from '@walless/store';
 
 interface Props {
 	widget: WidgetDocument;
@@ -18,6 +19,10 @@ export const WidgetItem: FC<Props> = ({ widget }) => {
 	const logoImgResource = runtime.isMobile
 		? modules.asset.widget[widget._id]?.storeMeta.iconUri
 		: { uri: widget.storeMeta.iconUri };
+
+	const onAddBtnPress = () => {
+		addWidgetToStorage(widget._id, widget);
+	};
 
 	return (
 		<View horizontal style={styles.container}>
@@ -43,7 +48,7 @@ export const WidgetItem: FC<Props> = ({ widget }) => {
 					</View>
 				</View>
 
-				<Hoverable style={styles.addBtn}>
+				<Hoverable style={styles.addBtn} onPress={onAddBtnPress}>
 					<Text>Add</Text>
 				</Hoverable>
 			</View>

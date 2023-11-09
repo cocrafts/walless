@@ -1,12 +1,17 @@
+import type { FC } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@walless/gui';
-import { ChevronRight } from '@walless/icons';
+import { ChevronLeft } from '@walless/icons';
 
-const Title = () => {
+interface Props {
+	onBack?: () => void;
+}
+
+const Title: FC<Props> = ({ onBack }) => {
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity style={styles.button}>
-				<ChevronRight size={18} />
+			<TouchableOpacity style={styles.button} onPress={onBack}>
+				<ChevronLeft size={18} />
 			</TouchableOpacity>
 
 			<Text style={styles.text}>Settings</Text>

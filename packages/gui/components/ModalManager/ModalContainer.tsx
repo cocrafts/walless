@@ -17,9 +17,12 @@ import Animated, {
 
 import type { ModalConfigs } from '../../states/modal';
 import {
+	measureRelative,
 	modalActions,
+	modalState,
 	rectangleAnimatedStyle,
 	rectangleBind,
+	referenceMap,
 } from '../../states/modal';
 
 interface Props {
@@ -36,6 +39,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		maskActiveOpacity = 0.5,
 		withoutMask,
 		fullWidth = true,
+		bindingRef,
 	} = item;
 	const layout = useRef<LayoutRectangle>();
 	const top = useSharedValue(0);
@@ -80,6 +84,23 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		if (!layout.current) return;
 		onInnerLayout({ nativeEvent: { layout: layout.current } } as never);
 	}, [bindingRectangle]);
+
+	useEffect(() => {
+		const actualBindingRef = bindingRef || referenceMap.root;
+		if (!actualBindingRef.current) return;
+
+		const bindingObserver = new ResizeObserver(async () => {
+			const updatedBindingRectangle = await measureRelative(item.bindingRef);
+			const safeId = id || 'default-modal';
+			modalState.map.set(safeId, {
+				...item,
+				bindingRectangle: updatedBindingRectangle,
+			});
+		});
+		bindingObserver.observe(actualBindingRef.current as never);
+
+		return () => bindingObserver.disconnect();
+	}, []);
 
 	const onInnerLayout = async ({ nativeEvent }: LayoutChangeEvent) => {
 		const calculatedRectangle = await rectangleBind(

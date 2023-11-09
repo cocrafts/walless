@@ -44,6 +44,7 @@ export interface PositionOffset {
 
 export interface ModalConfigs {
 	id?: string;
+	bindingRef?: RefObject<View>;
 	bindingRectangle?: LayoutRectangle;
 	bindingDirection?: BindDirections;
 	animateDirection?: AnimateDirections;
@@ -61,12 +62,7 @@ export interface ModalConfigs {
 	fullWidth?: boolean;
 }
 
-export type ShowModalConfigs = Omit<
-	ModalConfigs,
-	'bindingRectangle' | 'hide'
-> & {
-	bindingRef?: RefObject<View>;
-};
+export type ShowModalConfigs = Omit<ModalConfigs, 'bindingRectangle' | 'hide'>;
 
 export interface ModalState {
 	count: number;

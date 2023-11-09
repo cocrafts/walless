@@ -7,7 +7,6 @@ import { utils } from '@walless/ioc';
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
 import { showReceiveModal, showSendModal } from '../../utils/modal';
 
-import Collectibles from './components/Collectibles';
 import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';
@@ -34,8 +33,6 @@ export const ProfileFeature: FC<Props> = ({ onSettingPress }) => {
 				onReceivePress={() => showReceiveModal(Networks.solana)}
 				onBuyPress={() => utils.buyToken(Networks.solana)}
 			/>
-
-			<Collectibles />
 
 			<TransactionHistory />
 		</View>

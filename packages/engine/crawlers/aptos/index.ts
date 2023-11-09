@@ -35,7 +35,7 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 					const tokenDocuments = await getCoins(connection, pubkey);
 					tokenActions.setItems(tokenDocuments);
 				} catch (error) {
-					console.log('--> aptos crawler coins error', error);
+					// Error means that the account is not created yet
 				}
 
 				try {

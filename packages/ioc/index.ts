@@ -61,6 +61,10 @@ export interface UniversalAsset {
 			icon: ImageSourcePropType;
 		};
 	};
+	tabBar: {
+		explore: ImageSourcePropType;
+		walless: ImageSourcePropType;
+	};
 }
 
 export interface DynamicModules {

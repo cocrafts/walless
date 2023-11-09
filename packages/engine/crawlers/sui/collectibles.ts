@@ -16,8 +16,7 @@ export const getSuiCollectibles = async (
 	let cursor: PaginatedObjectsResponse['nextCursor'] | undefined;
 	while (cursor !== null) {
 		const allOwnedObjects = await connection.getOwnedObjects({
-			owner:
-				'0x2cb9a508ecf7b9aacd4f50fca38e647050a13a660d92c9662ef1f2d5260595d8',
+			owner,
 			cursor,
 			options: {
 				showType: true,

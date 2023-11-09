@@ -19,7 +19,7 @@ export const getSuiTokensByAddress = async (
 		const object = data[i];
 
 		result[i] = {
-			_id: `${address}/${object.coinObjectId}`,
+			_id: `${address}/token/${object.coinObjectId}`,
 			type: 'Token',
 			network: Networks.sui,
 			account: {

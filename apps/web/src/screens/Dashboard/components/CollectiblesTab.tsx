@@ -1,4 +1,4 @@
-import { type FC, useMemo } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNfts } from '@walless/app/utils/hooks';
 import { View } from '@walless/gui';
@@ -13,21 +13,8 @@ interface Props {
 
 export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 	const handlePressItem = (ele: CollectionDocument) => {
-		router.navigate(`/collections/${(ele._id as string).split('/')[1]}`);
+		router.navigate(`/collections/${(ele._id as string).split('/')[2]}`);
 	};
-
-	const { collectibles } = useNfts();
-
-	const countCollectibles = useMemo(
-		() =>
-			collections.map(
-				(ele) =>
-					collectibles.filter(
-						(collectible) => collectible.collectionId === ele._id,
-					).length,
-			),
-		[collectibles, collections],
-	);
 
 	return (
 		<View style={styles.container}>
@@ -35,7 +22,6 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 				<CollectibleItem
 					key={index}
 					item={ele}
-					collectibleCount={countCollectibles[index]}
 					onPress={() => handlePressItem(ele)}
 				/>
 			))}

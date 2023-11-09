@@ -1,56 +1,37 @@
-import { type FC, useRef } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import type { Config, UserProfile } from '@walless/core';
-import { runtime } from '@walless/core';
+import type { FC } from 'react';
+import type { ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
+import { mockWidgets } from '@walless/engine';
+import { Text, View } from '@walless/gui';
+import type { WidgetDocument } from '@walless/store';
 
-import Carousel from '../../components/Carrousel';
-import Pagination from '../../components/Pagination';
+import { useSafeAreaInsets } from '../../utils/hooks';
 
-import Header from './components/Header';
-import MissionBox from './components/MissionBox';
-import type { MissionBoxType } from './internal';
-import { missionBoxWidth, mockMission } from './shared';
+import WidgetItem from './components/WidgetItem';
 
 interface Props {
-	profile: UserProfile;
-	appConfig: Config;
+	widgets?: WidgetDocument[];
 }
 
-export const WidgetExplorerFeat: FC<Props> = ({ profile, appConfig }) => {
-	const { hideBalance } = appConfig;
-	const { name } = profile;
-	const { isMobile } = runtime;
-	const carouselRef = useRef<{ toIndex: (index: number) => void }>();
-	const onPaginationPress = (index: number) => {
-		carouselRef.current?.toIndex(index);
-	};
+export const WidgetExplorerFeat: FC<Props> = ({ widgets = mockWidgets }) => {
+	const insets = useSafeAreaInsets();
+	const container: ViewStyle = { ...styles.container, marginTop: insets.top };
 
 	return (
-		<SafeAreaView style={styles.container}>
-			<Header userName={name} hideBalance={hideBalance} />
-			<Carousel
-				ref={carouselRef}
-				style={styles.carouselContainer}
-				data={mockMission}
-				itemWidth={missionBoxWidth + 10}
-				gestureEnabled={isMobile}
-				loop={!isMobile}
-				renderItem={(item, index) => {
-					const { title, colors } = item as MissionBoxType;
-					return (
-						<MissionBox key={index} title={title} colors={colors} idx={index} />
-					);
-				}}
-			/>
-			{!isMobile && (
-				<Pagination
-					data={mockMission}
-					carouselItemWidth={missionBoxWidth + 10}
-					onPress={onPaginationPress}
-					style={styles.paginationContainer}
-				/>
-			)}
-		</SafeAreaView>
+		<View style={container}>
+			<View style={styles.topContainer}>
+				<Text style={styles.title}>
+					Explore the world&apos;s custom desing layout
+				</Text>
+			</View>
+			<ScrollView>
+				<View style={{ marginHorizontal: 15 }}>
+					{widgets.map((widget) => (
+						<WidgetItem key={widget._id} widget={widget} />
+					))}
+				</View>
+			</ScrollView>
+		</View>
 	);
 };
 
@@ -61,18 +42,13 @@ const styles = StyleSheet.create({
 	},
 	topContainer: {
 		alignItems: 'center',
-		justifyContent: 'space-between',
+		marginBottom: 5,
 	},
-	separatedLine: {
-		borderBottomColor: '#24303a',
-		borderBottomWidth: 1,
-	},
-	carouselContainer: {
-		marginLeft: 15,
-		marginTop: 15,
-	},
-	paginationContainer: {
-		marginHorizontal: 'auto',
+	title: {
+		fontSize: 18,
+		fontWeight: '500',
+		textAlign: 'center',
+		maxWidth: 200,
 	},
 });
 

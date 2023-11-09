@@ -11,14 +11,14 @@ import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { Endpoint } from '@walless/core';
 import { Networks } from '@walless/core';
-
 import {
-	getCollectibleById,
-	getCollectionById,
-	setCollectible,
-	setCollection,
-	updateCollectionAmount,
-} from '../../utils/collectibles';
+	addCollectibleToStorage,
+	addCollectionToStorage,
+	getCollectibleByIdFromStorage,
+	getCollectionByIdFromStorage,
+	updateCollectionAmountToStorage,
+} from '@walless/store';
+
 import type { RunnerContext } from '../../utils/type';
 
 import { throttle } from './shared';
@@ -51,13 +51,13 @@ export const solanaCollectiblesByAddress = async ({
 	const promises = nfts
 		.filter((ele) => ele.json)
 		.map(async (nft) => {
-			return addCollectibleToStorage(connection, endpoint, address, nft);
+			return addCollectible(connection, endpoint, address, nft);
 		});
 
 	await Promise.all(promises);
 };
 
-export const addCollectibleToStorage = async (
+export const addCollectible = async (
 	connection: Connection,
 	endpoint: Endpoint,
 	address: string,
@@ -79,10 +79,10 @@ export const addCollectibleToStorage = async (
 	const collectionId = `${address}/collection/${collectionAddress}`;
 	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
 
-	const collection = await getCollectionById(collectionId);
-	const collectible = await getCollectibleById(collectibleId);
+	const collection = await getCollectionByIdFromStorage(collectionId);
+	const collectible = await getCollectibleByIdFromStorage(collectibleId);
 	if (!collection) {
-		setCollection(collectionId, {
+		addCollectionToStorage(collectionId, {
 			_id: collectionId,
 			type: 'Collection',
 			network: Networks.solana,
@@ -99,10 +99,10 @@ export const addCollectibleToStorage = async (
 			count: 1,
 		});
 	} else if (!collectible) {
-		updateCollectionAmount(collectionId, (collection.count += 1));
+		updateCollectionAmountToStorage(collectionId, (collection.count += 1));
 	}
 
-	setCollectible(collectibleId, {
+	addCollectibleToStorage(collectibleId, {
 		_id: collectibleId,
 		type: 'NFT',
 		collectionId,

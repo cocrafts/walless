@@ -6,20 +6,17 @@ import { Networks } from '@walless/core';
 import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
-import type { TokenDocument } from '@walless/store';
-
 import {
-	removeCollectibleDoc,
-	updateCollectibleAmount,
-} from '../../utils/collectibles';
-import {
-	getTokenById,
-	removeTokenDoc,
-	setTokens,
-	updateTokenBalance,
-} from '../../utils/token';
+	addTokensToStorage,
+	getTokenByIdFromStorage,
+	removeCollectibleFromStorage,
+	removeTokenFromStorage,
+	type TokenDocument,
+	updateCollectibleAmountToStorage,
+	updateTokenBalanceToStorage,
+} from '@walless/store';
 
-import { addCollectibleToStorage } from './collectibles';
+import { addCollectible } from './collectibles';
 import { getMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
 import { throttle } from './shared';
@@ -52,31 +49,33 @@ export const registerAccountChanges = async (
 			}
 
 			const tokenId = `${owner}/token/${mint}`;
-			const isToken = await getTokenById(tokenId);
+			const isToken = await getTokenByIdFromStorage(tokenId);
 
 			if (isToken) {
 				balance !== '0'
-					? updateTokenBalance(tokenId, balance)
-					: removeTokenDoc(tokenId);
+					? updateTokenBalanceToStorage(tokenId, balance)
+					: removeTokenFromStorage(tokenId);
 			} else {
 				const amount = parseInt(balance);
 				const collectibleId = `${owner}/collectible/${mint}`;
 
 				if (amount === 0) {
-					removeCollectibleDoc(collectibleId);
-				} else if (!(await updateCollectibleAmount(collectibleId, amount))) {
+					removeCollectibleFromStorage(collectibleId);
+				} else if (
+					!(await updateCollectibleAmountToStorage(collectibleId, amount))
+				) {
 					const mpl = new Metaplex(connection);
 					try {
 						const mintAddress = new PublicKey(mint);
 						const nft = await mpl.nfts().findByMint({ mintAddress });
 
-						addCollectibleToStorage(connection, endpoint, owner, nft);
+						addCollectible(connection, endpoint, owner, nft);
 					} catch {
 						const fungibleTokens = await solanaFungiblesByAddress(
 							context,
 							ownerPubkey,
 						);
-						setTokens(fungibleTokens);
+						addTokensToStorage(fungibleTokens);
 					}
 				}
 			}
@@ -118,7 +117,7 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 						const nft = await mpl
 							.nfts()
 							.findByMint({ mintAddress: new PublicKey(balance.mint) });
-						addCollectibleToStorage(connection, endpoint, address, nft);
+						addCollectible(connection, endpoint, address, nft);
 					} else {
 						let token: TokenInfo = {} as never;
 						let metadata: AssetMetadata | undefined;
@@ -158,7 +157,7 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 							metadata,
 						};
 
-						setTokens([tokenDocument]);
+						addTokensToStorage([tokenDocument]);
 					}
 				}
 			}

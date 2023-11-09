@@ -1,9 +1,7 @@
 import { PublicKey } from '@solana/web3.js';
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument } from '@walless/store';
-import { selectors } from '@walless/store';
-
-import { setTokens } from '../../utils/token';
+import { addTokensToStorage, selectors } from '@walless/store';
 
 import { solanaCollectiblesByAddress } from './collectibles';
 import type { SolanaRunner } from './shared';
@@ -23,7 +21,7 @@ export const solanaEngineRunner: SolanaRunner = {
 				currentPubkey,
 			);
 
-			setTokens(fungibleTokens);
+			addTokensToStorage(fungibleTokens);
 			solanaCollectiblesByAddress({
 				context,
 				address: currentPubkey.toString(),

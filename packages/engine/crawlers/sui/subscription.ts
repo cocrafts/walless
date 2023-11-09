@@ -1,7 +1,8 @@
 import type { JsonRpcProvider } from '@mysten/sui.js';
-
-import { setCollectible } from '../../utils/collectibles';
-import { updateTokenBalance } from '../../utils/token';
+import {
+	addCollectibleToStorage,
+	updateTokenBalanceToStorage,
+} from '@walless/store';
 
 import { getSuiCollectibles } from './collectibles';
 
@@ -16,7 +17,7 @@ export const suiTokenSubscribe = (
 			const coinsBalance = await connection.getAllBalances({ owner });
 
 			coinsBalance.forEach((coin) => {
-				updateTokenBalance(
+				updateTokenBalanceToStorage(
 					`${owner}/token/${coin.coinType}`,
 					coin.totalBalance,
 				);
@@ -34,7 +35,7 @@ export const suiCollectibleSubscribe = async (
 			const collectibleDocs = await getSuiCollectibles(connection, owner);
 
 			collectibleDocs.forEach((collectible) =>
-				setCollectible(collectible._id, collectible),
+				addCollectibleToStorage(collectible._id, collectible),
 			);
 		}, 30000),
 	);

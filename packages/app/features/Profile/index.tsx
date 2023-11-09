@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
@@ -11,7 +12,11 @@ import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';
 
-export const ProfileFeature = () => {
+interface Props {
+	onNavigateToHistory: () => void;
+}
+
+export const ProfileFeature: FC<Props> = ({ onNavigateToHistory }) => {
 	const handleSend = () => {
 		showSendModal();
 	};
@@ -32,13 +37,12 @@ export const ProfileFeature = () => {
 
 			<Collectibles />
 
-			<TransactionHistory />
+			<TransactionHistory onNavigateToHistory={onNavigateToHistory} />
 		</View>
 	);
 };
 
 export default ProfileFeature;
-export * from './components/TransactionHistory';
 
 const styles = StyleSheet.create({
 	container: {
@@ -53,3 +57,5 @@ const styles = StyleSheet.create({
 		marginBottom: -12,
 	},
 });
+
+export * from './components/TransactionHistory';

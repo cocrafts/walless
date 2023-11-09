@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { FullHistoryFeature } from '@walless/app/features/Widget/components';
+import { FullHistoryFeature } from '@walless/app/features/Profile';
 import { Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import { router } from 'utils/routing';
@@ -10,7 +10,7 @@ const HistoryScreen = () => {
 	};
 
 	return (
-		<View>
+		<View style={styles.container}>
 			<View style={styles.header}>
 				<TouchableOpacity onPress={handleNavigateBack}>
 					<ChevronLeft />
@@ -26,6 +26,9 @@ const HistoryScreen = () => {
 export default HistoryScreen;
 
 const styles = StyleSheet.create({
+	container: {
+		paddingHorizontal: 16,
+	},
 	header: {
 		flexDirection: 'row',
 		alignItems: 'center',

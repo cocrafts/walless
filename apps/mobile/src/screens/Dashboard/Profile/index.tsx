@@ -1,16 +1,7 @@
-import { View } from 'react-native';
-import { useSafeAreaInsets } from '@walless/app';
-import { ProfileFeature } from '@walless/app/features/Profile';
+import { ProfileFeature } from '@walless/app';
 import { navigate } from 'utils/navigation';
 
 export const ProfileScreen = () => {
-	const { top } = useSafeAreaInsets();
-
-	const containerStyle = {
-		paddingTop: top,
-		flex: 1,
-	};
-
 	const handleSettingPress = () => {
 		navigate('Dashboard', {
 			screen: 'Profile',
@@ -20,11 +11,7 @@ export const ProfileScreen = () => {
 		});
 	};
 
-	return (
-		<View style={containerStyle}>
-			<ProfileFeature onSettingPress={handleSettingPress} />
-		</View>
-	);
+	return <ProfileFeature onSettingPress={handleSettingPress} />;
 };
 
 export default ProfileScreen;

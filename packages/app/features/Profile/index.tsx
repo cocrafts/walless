@@ -5,6 +5,7 @@ import { View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
+import { useSafeAreaInsets } from '../../utils/hooks';
 import { showReceiveModal, showSendModal } from '../../utils/modal';
 
 import TokenValue from './components/TokenValue';
@@ -16,12 +17,18 @@ interface Props {
 }
 
 export const ProfileFeature: FC<Props> = ({ onSettingPress }) => {
+	const { top } = useSafeAreaInsets();
+
+	const containerStyle = {
+		paddingTop: top,
+	};
+
 	const handleSend = () => {
 		showSendModal();
 	};
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, containerStyle]}>
 			<View style={styles.widgetContainer}>
 				<Widgets onSettingPress={onSettingPress} />
 			</View>

@@ -14,6 +14,7 @@ export const SettingScreen: FC<Props> = () => {
 			},
 		});
 	};
+
 	return <SettingFeature onBack={handleGoBack} />;
 };
 

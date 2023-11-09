@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
 export const Delimiter = () => {
-	return <View style={styles.delimiter}></View>;
+	return <View style={styles.delimiter} />;
 };
 
 export default Delimiter;

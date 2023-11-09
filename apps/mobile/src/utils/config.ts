@@ -18,7 +18,6 @@ export const nativeAsset: UniversalAsset = {
 		},
 		aptos: {
 			cardIcon: require('assets/img/widget/aptos-icon.png'),
-			// TODO: recheck aptos assets
 			cardBackground: require('assets/img/widget/sky-card-bg.png'),
 		},
 	},
@@ -35,6 +34,10 @@ export const nativeAsset: UniversalAsset = {
 		aptos: {
 			icon: require('assets/img/setting/icon-aptos.png'),
 		},
+	},
+	tabBar: {
+		explore: require('assets/img/explore.png'),
+		walless: require('assets/img/icon-white.png'),
 	},
 };
 

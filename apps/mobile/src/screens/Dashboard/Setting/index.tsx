@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import SettingFeature from '@walless/app/features/Setting';
-import { type DashboardParamList } from 'utils/navigation';
+import type { DashboardParamList } from 'utils/navigation';
 
 type Props = StackScreenProps<DashboardParamList, 'Setting'>;
 

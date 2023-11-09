@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { DashboardLayout } from '@walless/app';
 import { useSettings } from '@walless/app/utils/hooks';
-import { modules } from '@walless/ioc';
+import { widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
 import { appState } from 'state/app';
 import { useLocation, useParams, useSnapshot, useWidgets } from 'utils/hooks';
@@ -25,7 +25,7 @@ export const DashboardScreen: FC = () => {
 	};
 
 	const removeLayout = async (layout: WidgetDocument) => {
-		await modules.storage.put(layout);
+		widgetActions.removeWidget(layout);
 		await router.navigate('/');
 	};
 

@@ -64,3 +64,9 @@ apps/**/ios/tmp.xcconfig
 .vscode
 .prettierrc
 .history
+
+cli/tokens/**/assets
+cli/tokens/**/cache.json
+cli/tokens/**/config.json
+cli/tokens/**/sugar.log
+

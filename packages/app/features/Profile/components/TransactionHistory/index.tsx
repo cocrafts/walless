@@ -1,5 +1,5 @@
-import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { type FC, useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 
 import { useHistory } from '../../../../utils/hooks';
@@ -10,8 +10,15 @@ interface Props {
 	onNavigateToHistory: () => void;
 }
 
-const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
+export const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
+	const [isLoading, setIsLoading] = useState(true);
 	const history = useHistory();
+
+	useEffect(() => {
+		if (history.length > 0) {
+			setIsLoading(false);
+		}
+	}, [history]);
 
 	return (
 		<View style={styles.container}>
@@ -21,8 +28,8 @@ const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
 					<Text>See All</Text>
 				</Button>
 			</View>
-			{history.length === 0 ? (
-				<Text>You haven&apos;t had any transaction yet</Text>
+			{isLoading ? (
+				<ActivityIndicator />
 			) : (
 				<View style={styles.transactionsContainer}>
 					{history.slice(0, 3).map((transaction) => (
@@ -36,8 +43,7 @@ const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
 
 export default TransactionHistory;
 
-export * from './FullHistory';
-export * from './HistoryItem';
+export { FullHistoryFeature } from './FullHistory';
 
 const styles = StyleSheet.create({
 	container: {

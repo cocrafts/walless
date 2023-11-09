@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { ImageSourcePropType } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Text, View } from '@walless/gui';
@@ -6,26 +7,17 @@ import { Text, View } from '@walless/gui';
 interface Props {
 	type: 'sent' | 'received';
 	address: string;
-	imageUri?: string;
+	imageUri: ImageSourcePropType;
 }
 
-const ItemAddress: FC<Props> = ({
-	type,
-	address,
-	imageUri = '/img/network-solana/solana-icon.png',
-}) => {
+const ItemAddress: FC<Props> = ({ type, address, imageUri }) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>
 				{type.charAt(0).toUpperCase() + type.slice(1)}
 			</Text>
 			<View style={styles.addressContainer}>
-				<Image
-					source={{
-						uri: imageUri,
-					}}
-					style={styles.networkIcon}
-				/>
+				<Image source={imageUri} style={styles.networkIcon} />
 				<Text numberOfLines={1} ellipsizeMode="middle" style={styles.address}>
 					{shortenAddress(address)}
 				</Text>

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
-import { handleConvertDateToReadable } from '../internal';
+import { convertDateToReadable } from '../internal';
 
 import InfoContainer from './InfoContainer';
 import NetworkDetails from './NetworkDetails';
@@ -33,9 +33,7 @@ const InformationDetails: FC<Props> = ({
 				<InfoContainer
 					title="Date"
 					content={
-						<Text style={styles.infoText}>
-							{handleConvertDateToReadable(date)}
-						</Text>
+						<Text style={styles.infoText}>{convertDateToReadable(date)}</Text>
 					}
 				/>
 				<View style={styles.separatedLine} />

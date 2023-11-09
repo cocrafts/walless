@@ -5,7 +5,7 @@ import { appState } from '@walless/engine';
 import { Anchor, Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
-import { handleRemoveRedundantCharacters } from '../internal';
+import { removeRedundantCharacters } from '../internal';
 
 interface Props {
 	id: string;
@@ -56,7 +56,7 @@ const TokenDetails: FC<Props> = ({
 					style={[styles.tokenImage, tokenImageStyle]}
 				/>
 				<Text style={styles.tokenName}>
-					{amount} {handleRemoveRedundantCharacters(tokenName)}
+					{amount} {removeRedundantCharacters(tokenName)}
 				</Text>
 			</View>
 			<Anchor

@@ -28,6 +28,8 @@ interface Props<T = unknown> {
 	renderItem: (props: T, index: number) => ReactElement;
 }
 
+const velocityLimit = 1;
+
 export const Carousel: FC<Props> = forwardRef(function Carousel(
 	{
 		style,
@@ -83,25 +85,35 @@ export const Carousel: FC<Props> = forwardRef(function Carousel(
 		currentPosition.value = withTiming(newPosition, withTimingConfig);
 	};
 
+	const leftLimit = itemWidth / 2;
+	const rightLimit =
+		-layoutRef.current.carouselLength + containerWidth.value - itemWidth / 2;
+
 	const drag = Gesture.Pan()
 		.onStart(() => {
 			context.value.x = currentPosition.value;
 		})
 		.onUpdate((event) => {
 			const newPosition = event.translationX + context.value.x;
-			const isOutLimit =
-				newPosition > itemWidth / 2 ||
-				newPosition < -layoutRef.current.carouselLength - itemWidth;
+			const isOutLimit = newPosition > leftLimit || newPosition < rightLimit;
 
 			if (!isOutLimit) {
 				currentPosition.value = newPosition;
 			}
 		})
 		.onEnd((event) => {
+			const velocity =
+				event.velocityX < -velocityLimit
+					? -velocityLimit
+					: event.velocityX > velocityLimit
+					? velocityLimit
+					: event.velocityX;
+
 			currentPosition.value = withDecay({
-				velocity: event.velocityX,
+				velocity,
 				clamp: [-layoutRef.current.carouselLength + containerWidth.value, 0],
 				rubberBandEffect: true,
+				reduceMotion: ReduceMotion.System,
 			});
 		})
 		.enabled(gestureEnabled);

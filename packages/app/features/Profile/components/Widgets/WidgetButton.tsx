@@ -4,7 +4,7 @@ import { Hoverable } from '@walless/gui';
 
 interface Props {
 	children: ReactNode;
-	onClick: () => void;
+	onClick?: () => void;
 }
 
 const WidgetButton: FC<Props> = ({ children, onClick }) => {

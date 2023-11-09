@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
@@ -11,7 +12,11 @@ import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';
 
-export const ProfileFeature = () => {
+interface Props {
+	onSettingPress?: () => void;
+}
+
+export const ProfileFeature: FC<Props> = ({ onSettingPress }) => {
 	const handleSend = () => {
 		showSendModal();
 	};
@@ -19,7 +24,7 @@ export const ProfileFeature = () => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.widgetContainer}>
-				<Widgets />
+				<Widgets onSettingPress={onSettingPress} />
 			</View>
 
 			<TokenValue />

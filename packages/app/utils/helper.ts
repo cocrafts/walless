@@ -11,22 +11,22 @@ export interface NetworkInfo {
 export const networkMap: Record<Networks, NetworkInfo> = {
 	[Networks.solana]: {
 		name: 'Solana',
-		icon: modules.asset?.setting.solana.icon,
+		icon: modules.asset.setting.solana.icon,
 		network: Networks.solana,
 	},
 	[Networks.sui]: {
 		name: 'Sui',
-		icon: modules.asset?.setting.sui.icon,
+		icon: modules.asset.setting.sui.icon,
 		network: Networks.sui,
 	},
 	[Networks.tezos]: {
 		name: 'Tezos',
-		icon: modules.asset?.setting.tezos.icon,
+		icon: modules.asset.setting.tezos.icon,
 		network: Networks.tezos,
 	},
 	[Networks.aptos]: {
 		name: 'Aptos',
-		icon: modules.asset?.setting.aptos.icon,
+		icon: modules.asset.setting.aptos.icon,
 		network: Networks.aptos,
 	},
 };

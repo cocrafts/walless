@@ -2,6 +2,7 @@ import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import type {
 	ConfirmedSignatureInfo,
 	Connection,
+	ParsedAccountData,
 	ParsedInstruction,
 	ParsedTransactionWithMeta,
 	PartiallyDecodedInstruction,
@@ -15,7 +16,7 @@ import { historyActions } from './../../state/history/index';
 import { getMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
 
-const getFeePayer = async () => {
+const getGasilonFeePayer = async () => {
 	const gasilonConfigs = await fetch(`${modules.config.GASILON_ENDPOINT}`, {
 		method: 'GET',
 		headers: {
@@ -139,9 +140,7 @@ const getTransactionFee = (
 const getTransactionToken = async (
 	instruction: ParsedInstruction | PartiallyDecodedInstruction,
 	meta: ParsedTransactionWithMeta['meta'],
-	type: 'sent' | 'received',
-	sender: string,
-	receiver: string,
+	ownerPublicKey: string,
 	solanaContext: SolanaContext,
 	feePayer: string,
 ) => {
@@ -191,7 +190,7 @@ const getTransactionToken = async (
 
 		if (
 			tokenBalance.owner !== feePayer &&
-			tokenBalance.owner !== (type === 'sent' ? sender : receiver)
+			tokenBalance.owner !== ownerPublicKey
 		) {
 			const network = Networks.solana;
 			const account: TokenAccount = {
@@ -285,10 +284,6 @@ const getTransactionAmount = (
 
 	let amount = 0;
 
-	if (parsedInstructionInfo?.lamports) {
-		amount = parsedInstructionInfo?.lamports / 10 ** 9;
-	}
-
 	if (parsedInstructionInfo?.amount) {
 		amount = parsedInstructionInfo?.amount / 10 ** token.account.decimals;
 	}
@@ -342,42 +337,37 @@ const getTransactionType = (
 	return type;
 };
 
-const getTransactionPartners = (
+const getTransactionPartners = async (
 	transaction: ParsedTransactionWithMeta,
-	ownerPublicKey: string,
-	type: 'sent' | 'received',
-	feePayer: string,
+	instruction: ParsedInstruction | PartiallyDecodedInstruction,
+	liveConnection: Connection,
+	token: Token,
 ) => {
 	let sender = '';
 	let receiver = '';
 
-	if (
-		!transaction.meta?.preTokenBalances ||
-		!transaction.meta?.postTokenBalances ||
-		transaction.meta.postTokenBalances.length === 0 ||
-		transaction.meta.preTokenBalances.length === 0
-	) {
-		const sender =
-			transaction.transaction.message.accountKeys[0].pubkey.toString();
-		const receiver =
-			transaction.transaction.message.accountKeys[1].pubkey.toString();
+	const partnerInfo = (instruction as ParsedInstruction).parsed?.info;
 
-		return {
-			sender,
-			receiver,
-		};
-	}
-
-	const partner = transaction.meta?.postTokenBalances.filter(
-		(item) => item.owner !== feePayer && item.owner !== ownerPublicKey,
+	const senderAccount = await liveConnection.getParsedAccountInfo(
+		new PublicKey(partnerInfo?.source),
 	);
 
-	if (type === 'sent') {
-		sender = ownerPublicKey;
-		receiver = partner[0].owner ?? '';
-	} else {
-		sender = partner[0].owner ?? '';
-		receiver = ownerPublicKey;
+	const receiverAccount = await liveConnection.getParsedAccountInfo(
+		new PublicKey(partnerInfo?.destination),
+	);
+
+	const senderData = senderAccount?.value?.data as ParsedAccountData;
+	const receiverData = receiverAccount?.value?.data as ParsedAccountData;
+
+	sender =
+		partnerInfo?.authority?.toString() ||
+		senderData?.parsed?.info?.owner?.toString();
+
+	receiver = receiverData.parsed?.info?.owner?.toString() || '';
+
+	if (token.account.mint === solMint) {
+		sender = transaction.transaction.message.accountKeys[0].pubkey.toString();
+		receiver = transaction.transaction.message.accountKeys[1].pubkey.toString();
 	}
 
 	return {
@@ -387,11 +377,12 @@ const getTransactionPartners = (
 };
 
 export const getTransactionDetails = async (
+	liveConnection: Connection,
 	solanaContext: SolanaContext,
 	parsedTransaction: ParsedTransactionWithMeta,
 	ownerPublicKey: string,
 ) => {
-	const feePayer = await getFeePayer();
+	const feePayer = await getGasilonFeePayer();
 	const instructions = parsedTransaction.transaction.message.instructions;
 	const paymentInstruction = instructions[0];
 	const mainInstruction = instructions[instructions.length - 1];
@@ -410,21 +401,19 @@ export const getTransactionDetails = async (
 
 	const type = getTransactionType(parsedTransaction, ownerPublicKey);
 
-	const { sender, receiver } = getTransactionPartners(
-		parsedTransaction,
-		ownerPublicKey,
-		type,
-		feePayer,
-	);
-
 	const token = await getTransactionToken(
 		mainInstruction,
 		parsedTransaction.meta,
-		type,
-		sender,
-		receiver,
+		ownerPublicKey,
 		solanaContext,
 		feePayer,
+	);
+
+	const { sender, receiver } = await getTransactionPartners(
+		parsedTransaction,
+		mainInstruction,
+		liveConnection,
+		token,
 	);
 
 	const tokenForFee = await getTransactionTokenForFee(
@@ -519,16 +508,17 @@ export const getTransactions = async (
 
 	const promisesArray: Promise<Transaction | undefined>[] = [];
 
-	const filteredTransactions = parsedTransactions.sort(
-		(transaction1, transaction2) => {
+	const filteredTransactions = parsedTransactions
+		.sort((transaction1, transaction2) => {
 			return transaction2!.blockTime! - transaction1!.blockTime!;
-		},
-	);
+		})
+		.slice(0, 40);
 
 	for (const parsedTransaction of filteredTransactions) {
 		if (!parsedTransaction || !parsedTransaction.blockTime) continue;
 
 		const transactionDetails = getTransactionDetails(
+			connection,
 			solanaContext,
 			parsedTransaction,
 			ownerPublicKey,

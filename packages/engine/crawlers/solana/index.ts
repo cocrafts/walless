@@ -64,11 +64,9 @@ export const solanaEngineRunner: SolanaRunner = {
 			}
 
 			try {
-				if (key.docs[0]) {
-					const { _id } = key.docs[0];
-					const signatures = await getSignatureList(liveConnection, _id);
-					await getTransactions(liveConnection, context, signatures, _id);
-				}
+				const { _id } = item;
+				const signatures = await getSignatureList(liveConnection, _id);
+				await getTransactions(liveConnection, context, signatures, _id);
 			} catch (error) {
 				console.log(error);
 			}

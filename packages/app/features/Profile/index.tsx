@@ -1,25 +1,36 @@
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
+import { useSafeAreaInsets } from '../../utils/hooks';
 import { showReceiveModal, showSendModal } from '../../utils/modal';
 
-import Collectibles from './components/Collectibles';
 import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';
 
-export const ProfileFeature = () => {
+interface Props {
+	onSettingPress?: () => void;
+}
+
+export const ProfileFeature: FC<Props> = ({ onSettingPress }) => {
+	const { top } = useSafeAreaInsets();
+
+	const containerStyle = {
+		paddingTop: top,
+	};
+
 	const handleSend = () => {
 		showSendModal();
 	};
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, containerStyle]}>
 			<View style={styles.widgetContainer}>
-				<Widgets />
+				<Widgets onSettingPress={onSettingPress} />
 			</View>
 
 			<TokenValue />
@@ -29,8 +40,6 @@ export const ProfileFeature = () => {
 				onReceivePress={() => showReceiveModal(Networks.solana)}
 				onBuyPress={() => utils.buyToken(Networks.solana)}
 			/>
-
-			<Collectibles />
 
 			<TransactionHistory />
 		</View>

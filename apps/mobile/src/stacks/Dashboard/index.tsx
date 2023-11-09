@@ -1,7 +1,7 @@
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ExploreScreen from 'screens/Dashboard/Explore';
-import ProfileScreen from 'screens/Dashboard/Profile';
+import ProfileStack from 'stacks/Profile';
 import type { DashboardParamList } from 'utils/navigation';
 
 import DrawerStack from '../Drawer';
@@ -22,7 +22,7 @@ export const DashboardStack = () => {
 		>
 			<Tab.Screen name="Home" component={DrawerStack} />
 			<Tab.Screen name="Explore" component={ExploreScreen} />
-			<Tab.Screen name="Profile" component={ProfileScreen} />
+			<Tab.Screen name="Profile" component={ProfileStack} />
 		</Tab.Navigator>
 	);
 };

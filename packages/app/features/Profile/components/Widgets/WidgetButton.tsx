@@ -4,7 +4,7 @@ import { Hoverable } from '@walless/gui';
 
 interface Props {
 	children: ReactNode;
-	onClick: () => void;
+	onClick?: () => void;
 }
 
 const WidgetButton: FC<Props> = ({ children, onClick }) => {
@@ -25,5 +25,6 @@ const styles = StyleSheet.create({
 		padding: 0,
 		width: 30,
 		height: 30,
+		borderRadius: 15,
 	},
 });

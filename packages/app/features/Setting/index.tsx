@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { appState } from '@walless/engine';
@@ -12,13 +13,17 @@ import LogOut from './components/LogOut';
 import MyWallets from './components/MyWallets';
 import PageTitle from './components/PageTitle';
 
-const SettingFeature = () => {
+interface Props {
+	onBack?: () => void;
+}
+
+const SettingFeature: FC<Props> = ({ onBack }) => {
 	const { profile } = useSnapshot(appState);
 	const insets = useSafeAreaInsets();
 
 	return (
 		<ScrollView style={[styles.container, { marginTop: insets.top }]}>
-			<PageTitle />
+			<PageTitle onBack={onBack} />
 			<View style={styles.contentContainer}>
 				<AccountInfo profile={profile} />
 				<Delimiter />

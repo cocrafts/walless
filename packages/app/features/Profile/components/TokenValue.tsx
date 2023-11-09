@@ -48,13 +48,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 12,
-		minHeight: 48,
+		minHeight: 84,
 	},
 	balanceText: {
 		color: '#FFFFFF',
 		fontSize: 40,
 		fontWeight: '500',
-		lineHeight: 26,
 	},
 	protectedBalance: {
 		paddingTop: 16,

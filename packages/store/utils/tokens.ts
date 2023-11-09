@@ -1,11 +1,13 @@
 import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
-const getTokenById = async (id: string): Promise<TokenDocument | undefined> => {
+const getTokenByIdFromStorage = async (
+	id: string,
+): Promise<TokenDocument | undefined> => {
 	return await modules.storage.safeGet(id);
 };
 
-const setTokens = (tokens: TokenDocument[]) => {
+const addTokensToStorage = (tokens: TokenDocument[]) => {
 	const tokenPromises: Promise<unknown>[] = [];
 
 	for (const token of tokens) {
@@ -15,11 +17,11 @@ const setTokens = (tokens: TokenDocument[]) => {
 	Promise.all(tokenPromises);
 };
 
-const updateTokenBalance = async (
+const updateTokenBalanceToStorage = async (
 	id: string,
 	balance: string,
 ): Promise<boolean> => {
-	const token = await getTokenById(id);
+	const token = await getTokenByIdFromStorage(id);
 
 	if (!token) return false;
 
@@ -35,8 +37,13 @@ const updateTokenBalance = async (
 	return result.ok;
 };
 
-const removeTokenDoc = async (id: string) => {
+const removeTokenFromStorage = async (id: string) => {
 	await modules.storage.removeDoc(id);
 };
 
-export { getTokenById, removeTokenDoc, setTokens, updateTokenBalance };
+export {
+	addTokensToStorage,
+	getTokenByIdFromStorage,
+	removeTokenFromStorage,
+	updateTokenBalanceToStorage,
+};

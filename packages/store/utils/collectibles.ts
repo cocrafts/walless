@@ -1,31 +1,34 @@
 import { modules } from '@walless/ioc';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 
-const getCollectibleById = async (
+const getCollectibleByIdFromStorage = async (
 	id: string,
 ): Promise<CollectibleDocument | undefined> => {
 	return await modules.storage.safeGet(id);
 };
 
-const getCollectionById = async (
+const getCollectionByIdFromStorage = async (
 	id: string,
 ): Promise<CollectionDocument | undefined> => {
 	return await modules.storage.safeGet(id);
 };
 
-const setCollectible = async (id: string, item: CollectibleDocument) => {
+const addCollectibleToStorage = async (
+	id: string,
+	item: CollectibleDocument,
+) => {
 	return await modules.storage.upsert(id, async () => item);
 };
 
-const setCollection = async (id: string, item: CollectionDocument) => {
+const addCollectionToStorage = async (id: string, item: CollectionDocument) => {
 	return await modules.storage.upsert(id, async () => item);
 };
 
-const updateCollectibleAmount = async (
+const updateCollectibleAmountToStorage = async (
 	id: string,
 	amount: number,
 ): Promise<boolean> => {
-	const collectible = await getCollectibleById(id);
+	const collectible = await getCollectibleByIdFromStorage(id);
 
 	if (!collectible) return false;
 
@@ -41,7 +44,7 @@ const updateCollectibleAmount = async (
 	return result.ok;
 };
 
-const updateCollectionAmount = async (
+const updateCollectionAmountToStorage = async (
 	id: string,
 	count: number,
 ): Promise<boolean> => {
@@ -57,12 +60,14 @@ const updateCollectionAmount = async (
 	return result.ok;
 };
 
-const removeCollectibleDoc = async (id: string): Promise<void> => {
-	const collectible = await getCollectibleById(id);
+const removeCollectibleFromStorage = async (id: string): Promise<void> => {
+	const collectible = await getCollectibleByIdFromStorage(id);
 
 	if (!collectible) return;
 
-	const collection = await getCollectionById(collectible!.collectionId);
+	const collection = await getCollectionByIdFromStorage(
+		collectible!.collectionId,
+	);
 	const collectionCount = collection!.count - 1;
 	if (collectionCount === 0) {
 		await modules.storage.removeDoc(collection!._id);
@@ -81,11 +86,11 @@ const removeCollectibleDoc = async (id: string): Promise<void> => {
 };
 
 export {
-	getCollectibleById,
-	getCollectionById,
-	removeCollectibleDoc,
-	setCollectible,
-	setCollection,
-	updateCollectibleAmount,
-	updateCollectionAmount,
+	addCollectibleToStorage,
+	addCollectionToStorage,
+	getCollectibleByIdFromStorage,
+	getCollectionByIdFromStorage,
+	removeCollectibleFromStorage,
+	updateCollectibleAmountToStorage,
+	updateCollectionAmountToStorage,
 };

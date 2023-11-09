@@ -21,9 +21,7 @@ export const suiEngineRunner: SuiRunner = {
 	start: async (context) => {
 		const { storage } = modules;
 		const { connection } = context;
-		const key = await storage.find<PublicKeyDocument>(
-			selectors.suiKeys as never,
-		);
+		const key = await storage.find<PublicKeyDocument>(selectors.suiKeys);
 
 		for (const item of key.docs) {
 			const owner = item._id;

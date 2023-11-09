@@ -2,9 +2,9 @@ import type { FC } from 'react';
 import { useEffect } from 'react';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { useDrawerStatus } from '@react-navigation/drawer';
-import { useSnapshot } from '@walless/app';
+import { useSnapshot, useWidgets } from '@walless/app';
 import { DashboardNavigator } from '@walless/app';
-import { appState, mockWidgets, widgetActions } from '@walless/engine';
+import { appState, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
 import { appActions } from 'state/app';
 
@@ -13,10 +13,13 @@ export const sidebarWidth = 64;
 export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	const { profile, activeWidgetId } = useSnapshot(appState);
 
+	const widgets = useWidgets();
+
 	const isDrawerOpen = useDrawerStatus() === 'open';
 
 	useEffect(() => {
 		navigation.openDrawer();
+		// widgetActions.addWidget(mockWidgets[3]);
 	}, []);
 
 	useEffect(() => {
@@ -29,7 +32,6 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 
 	const handleRemoveWidget = async (widget: WidgetDocument) => {
 		await widgetActions.removeWidget(widget);
-		navigation.navigate('');
 	};
 
 	const getActiveRoute = (item: WidgetDocument) => {
@@ -39,7 +41,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 	return (
 		<DashboardNavigator
 			profile={profile}
-			widgets={mockWidgets.filter((i) => i.widgetType === 'Layout')}
+			widgets={widgets}
 			size={sidebarWidth}
 			getIsExtensionActive={getActiveRoute}
 			onExtensionPress={handleExtensionPress}

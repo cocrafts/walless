@@ -1,6 +1,10 @@
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
-import type { LayoutChangeEvent, LayoutRectangle } from 'react-native';
+import type {
+	LayoutChangeEvent,
+	LayoutRectangle,
+	ViewStyle,
+} from 'react-native';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, {
 	Extrapolate,
@@ -31,6 +35,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		maskStyle,
 		maskActiveOpacity = 0.5,
 		withoutMask,
+		fullWidth = true,
 	} = item;
 	const layout = useRef<LayoutRectangle>();
 	const top = useSharedValue(0);
@@ -52,13 +57,15 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	);
 
 	const wrapperStyle = useAnimatedStyle(() => {
-		return rectangleAnimatedStyle(opacity, item.animateDirection, {
+		const baseStyle: ViewStyle = {
 			position: 'absolute',
 			top: top.value,
 			left: left.value,
-			width: width.value,
 			opacity: opacity.value,
-		});
+		};
+		if (fullWidth) baseStyle.width = width.value;
+
+		return rectangleAnimatedStyle(opacity, item.animateDirection, baseStyle);
 	}, [top, left, opacity]);
 
 	useEffect(() => {

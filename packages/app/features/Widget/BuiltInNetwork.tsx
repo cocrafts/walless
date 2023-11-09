@@ -77,9 +77,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressBuy = () => {
-		if (typeof utils.buyToken === 'function') {
-			utils.buyToken(id as Networks);
-		}
+		if (utils.buyToken) utils.buyToken(id as Networks);
 	};
 
 	return (

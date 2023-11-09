@@ -25,7 +25,7 @@ export const onrampWithGateFi = (config?: GateFiConfig) => {
 export const buyToken = (network: Networks) => {
 	if (network === Networks.solana) {
 		const publicKey = Array.from(keyState.map.values()).find(
-			(ele) => (ele.network = network),
+			(ele) => ele.network == network,
 		);
 		if (publicKey) onrampWithGateFi({ wallet: publicKey._id });
 	}

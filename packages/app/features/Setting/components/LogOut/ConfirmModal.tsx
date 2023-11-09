@@ -4,7 +4,7 @@ import { utils } from '@walless/ioc';
 
 const ConfirmModal = () => {
 	const handleLogOut = async () => {
-		if (typeof utils.logOut === 'function') utils.logOut();
+		if (utils.logOut) utils.logOut();
 		modalActions.hide('log-out-modal');
 	};
 

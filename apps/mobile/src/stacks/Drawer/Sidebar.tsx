@@ -19,7 +19,6 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
 
 	useEffect(() => {
 		navigation.openDrawer();
-		// widgetActions.addWidget(mockWidgets[3]);
 	}, []);
 
 	useEffect(() => {

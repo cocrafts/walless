@@ -9,7 +9,7 @@ interface Props {
 	tokenSymbol?: string;
 }
 
-const ItemAmount: FC<Props> = ({
+export const ItemAmount: FC<Props> = ({
 	amount,
 	type,
 	tokenSymbol = 'Unknown',

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
+import type { NetworkInfo } from '@walless/app/utils';
 import { getNetworkInfo } from '@walless/app/utils';
 import type { Networks, Transaction } from '@walless/core';
 import { appState } from '@walless/engine';
@@ -43,14 +44,14 @@ export const TransactionDetails: FC<Transaction> = ({
 					sender={sender}
 					receiver={receiver}
 					type={type}
-					profileImage={profile.profileImage}
+					profileImage={{ uri: profile.profileImage }}
 					networkImage={networkInfo?.icon}
 				/>
 
 				<InformationDetails
 					date={date}
 					status={status}
-					networkInfo={networkInfo}
+					networkInfo={networkInfo as NetworkInfo}
 					fee={fee}
 					tokenForFeeSymbol={tokenForFee.metadata?.symbol}
 				/>

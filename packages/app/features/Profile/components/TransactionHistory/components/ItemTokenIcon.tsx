@@ -12,7 +12,7 @@ interface Props {
 	isCollectible?: boolean;
 }
 
-const ItemTokenIcon: FC<Props> = ({
+export const ItemTokenIcon: FC<Props> = ({
 	type,
 	imageUri = '/img/send-token/unknown-token.jpeg',
 	isCollectible = false,

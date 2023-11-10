@@ -10,7 +10,7 @@ interface Props {
 	imageUri: ImageSourcePropType;
 }
 
-const ItemAddress: FC<Props> = ({ type, address, imageUri }) => {
+export const ItemAddress: FC<Props> = ({ type, address, imageUri }) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>

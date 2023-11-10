@@ -7,7 +7,7 @@ interface Props {
 	content: ReactNode;
 }
 
-const InfoContainer: FC<Props> = ({ title, content }) => {
+export const InfoContainer: FC<Props> = ({ title, content }) => {
 	return (
 		<View style={styles.detailContainer}>
 			<Text style={styles.infoTitle}>{title}</Text>

@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { ImageSourcePropType } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Text, View } from '@walless/gui';
@@ -7,16 +8,16 @@ import { ArrowDown } from '@walless/icons';
 interface Props {
 	sender: string;
 	receiver: string;
-	profileImage?: string;
-	networkImage?: string;
+	profileImage?: ImageSourcePropType;
+	networkImage?: ImageSourcePropType;
 	type: 'sent' | 'received';
 }
 
 const AddressDetails: FC<Props> = ({
 	receiver,
 	sender,
-	profileImage = '',
-	networkImage = '',
+	profileImage = { uri: '' },
+	networkImage = { uri: '' },
 	type,
 }) => {
 	let senderImage;
@@ -37,14 +38,14 @@ const AddressDetails: FC<Props> = ({
 			</View>
 			<View style={styles.transferContainer}>
 				<View style={styles.addressContainer}>
-					<Image source={{ uri: senderImage }} style={styles.profileImage} />
+					<Image source={senderImage} style={styles.profileImage} />
 					<Text>{shortenAddress(sender)}</Text>
 				</View>
 				<View style={styles.arrowContainer}>
 					<ArrowDown size={16} color="#0694D3" />
 				</View>
 				<View style={styles.addressContainer}>
-					<Image source={{ uri: receiverImage }} style={styles.profileImage} />
+					<Image source={receiverImage} style={styles.profileImage} />
 					<Text>{shortenAddress(receiver)}</Text>
 				</View>
 			</View>

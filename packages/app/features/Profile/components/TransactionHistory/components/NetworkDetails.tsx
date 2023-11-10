@@ -1,18 +1,16 @@
 import type { FC } from 'react';
 import { Image, StyleSheet, Text } from 'react-native';
+import type { NetworkInfo } from '@walless/app/utils';
 import { View } from '@walless/gui';
 
 interface Props {
-	networkInfo: {
-		name: string;
-		icon: string;
-	};
+	networkInfo: NetworkInfo;
 }
 
 const NetworkDetails: FC<Props> = ({ networkInfo }) => {
 	return (
 		<View style={styles.container}>
-			<Image source={{ uri: networkInfo?.icon }} style={styles.networkIcon} />
+			<Image source={networkInfo?.icon} style={styles.networkIcon} />
 			<Text style={styles.infoText}>{networkInfo?.name}</Text>
 		</View>
 	);

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
+import type { NetworkInfo } from '@walless/app/utils';
 import { Text, View } from '@walless/gui';
 
 import { convertDateToReadable } from '../internal';
@@ -11,15 +12,12 @@ import TransactionStatus from './TransactionStatus';
 interface Props {
 	date: Date;
 	status: 'success' | 'pending' | 'failed';
-	networkInfo?: {
-		name: string;
-		icon: string;
-	};
+	networkInfo: NetworkInfo;
 	fee: number;
 	tokenForFeeSymbol?: string;
 }
 
-const InformationDetails: FC<Props> = ({
+export const InformationDetails: FC<Props> = ({
 	date,
 	fee,
 	networkInfo,
@@ -77,14 +75,6 @@ const styles = StyleSheet.create({
 	},
 	infoText: {
 		color: '#566674',
-	},
-	infoTitle: {
-		color: '#ffffff',
-	},
-	detailContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingVertical: 18,
 	},
 	separatedLine: {
 		height: 1,

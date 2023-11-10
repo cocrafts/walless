@@ -1,9 +1,9 @@
+import { Networks } from '@walless/core';
 import type { HexString, Provider } from 'aptos';
 
 import type { AptosPendingToken } from '../../state/aptos';
-
-import { Networks } from '@walless/core';
 import { collectibleState, collectionState } from '../../state/collectible';
+
 import type { QueryPendingNftsResponse } from './indexer';
 import { getAptosIndexerQl, queryPendingNfts } from './indexer';
 
@@ -64,10 +64,12 @@ export const constructAptosTokens = async (
 	}
 
 	ownedTokensRes.current_token_ownerships_v2.forEach((token) => {
-		const collectionId = `${pubkey.toShortString()}/${
+		const collectionId = `${pubkey.toShortString()}/collection/${
 			token.current_token_data?.collection_id ?? ''
 		}`;
-		const collectibleId = `${pubkey.toShortString()}/${token.token_data_id}`;
+		const collectibleId = `${pubkey.toShortString()}/collectible/${
+			token.token_data_id
+		}`;
 
 		const collection = collectionState.map.get(collectionId);
 		if (!collection) {

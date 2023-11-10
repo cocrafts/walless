@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
+import { usePublicKeys } from '@walless/app/utils/hooks';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
 import { auth } from 'utils/firebase';
-import { usePublicKeys } from 'utils/hooks';
 
 export const KoalaGacha = () => {
 	const iframeRef = useRef<HTMLIFrameElement>(null);

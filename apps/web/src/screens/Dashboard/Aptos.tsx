@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import type { CardSkin, TabAble } from '@walless/app';
 import {
 	MainFeatureButtons,
@@ -5,20 +7,22 @@ import {
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
+import { copy, showReceiveModal, showSendModal } from '@walless/app/utils';
+import {
+	usePublicKeys,
+	useSettings,
+	useTokens,
+} from '@walless/app/utils/hooks';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
-import { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { onrampWithGateFi } from 'utils/gatefi';
-import { usePublicKeys, useSettings, useTokens } from 'utils/hooks';
-
-import { copy, showReceiveModal, showSendModal } from '@walless/app/utils';
 import { modules } from '@walless/ioc';
-import { TokenTab } from './components';
+import { onrampWithGateFi } from 'utils/gatefi';
+
 import ActivityTab from './components/ActivityTab';
 import AptosTokensTab from './components/AptosTokensTab';
+import { TokenTab } from './components';
 import { layoutTabs } from './shared';
 
 const AptosDashboard = () => {

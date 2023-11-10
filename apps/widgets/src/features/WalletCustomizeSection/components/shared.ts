@@ -1,7 +1,8 @@
-import { type FC } from 'react';
-import { type ViewStyle } from 'react-native';
+import type { FC } from 'react';
+import type { ViewStyle } from 'react-native';
 
-import { type ParticleProps, Particle01, Particle02 } from './Background';
+import type { ParticleProps } from './Background';
+import { Particle01, Particle02 } from './Background';
 
 export interface BackgroundParticle {
 	Component: FC<ParticleProps>;

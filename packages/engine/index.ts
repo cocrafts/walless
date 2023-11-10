@@ -2,10 +2,10 @@ import type { Endpoint, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { EndpointsDocument } from '@walless/store';
 
+import { aptosEngineRunner, aptosPool } from './crawlers/aptos';
 import { solanaEngineRunner, solanaPool } from './crawlers/solana';
 import { suiEngineRunner, suiPool } from './crawlers/sui';
 import { tezosEngineRunner, tezosPool } from './crawlers/tezos';
-import { aptosPool, aptosEngineRunner } from './crawlers/aptos'
 import { createCrawler, defaultEndpoints } from './utils/crawler';
 import type { EngineCrawler } from './utils/type';
 
@@ -49,7 +49,7 @@ export const createEngine = async (): Promise<Engine> => {
 			pool: aptosPool,
 			start: aptosEngineRunner.start,
 			stop: aptosEngineRunner.stop,
-		})
+		}),
 	};
 
 	return {
@@ -69,7 +69,7 @@ export const createEngine = async (): Promise<Engine> => {
 };
 
 export * from './state/app';
-export * from './state/aptos'
+export * from './state/aptos';
 export * from './state/collectible';
 export * from './state/history';
 export * from './state/key';

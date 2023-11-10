@@ -1,9 +1,11 @@
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
-import { selectors } from '@walless/store';
+import {
+	addCollectibleToStorage,
+	addTokensToStorage,
+	selectors,
+} from '@walless/store';
 
-import { collectibleActions } from '../../state/collectible';
-import { tokenActions } from '../../state/token';
 import { getTokenQuotes, makeHashId } from '../../utils/api';
 
 import { getSuiCollectibles } from './collectibles';
@@ -41,10 +43,12 @@ export const suiEngineRunner: SuiRunner = {
 				item.account.quotes = quotes[makeHashId(item)].quotes;
 			}
 
-			tokenActions.setItems(tokenDocs);
+			addTokensToStorage(tokenDocs);
 
 			const collectibleDocs = await getSuiCollectibles(connection, owner);
-			collectibleActions.setCollectibles(collectibleDocs);
+			collectibleDocs.forEach((collectible) =>
+				addCollectibleToStorage(collectible._id, collectible),
+			);
 
 			suiTokenSubscribe(connection, owner);
 			suiCollectibleSubscribe(connection, owner);

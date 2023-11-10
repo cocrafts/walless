@@ -13,21 +13,6 @@ export const collectibleActions = {
 			collectionState.map.set(item._id, item);
 		}
 	},
-	updateCollectibleAmount: (id: string, amount: number) => {
-		const collectible = collectibleState.map.get(id);
-
-		if (collectible) {
-			const collection = collectionState.map.get(collectible.collectionId);
-			if (collection) {
-				collection.count += amount - collectible.account.amount;
-			}
-			collectible.account.amount = amount;
-
-			return true;
-		}
-
-		return false;
-	},
 };
 
 export * from './internal';

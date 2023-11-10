@@ -1,6 +1,10 @@
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
-import type { LayoutChangeEvent, LayoutRectangle } from 'react-native';
+import type {
+	LayoutChangeEvent,
+	LayoutRectangle,
+	ViewStyle,
+} from 'react-native';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, {
 	Extrapolate,
@@ -13,9 +17,12 @@ import Animated, {
 
 import type { ModalConfigs } from '../../states/modal';
 import {
+	measureRelative,
 	modalActions,
+	modalState,
 	rectangleAnimatedStyle,
 	rectangleBind,
+	referenceMap,
 } from '../../states/modal';
 
 interface Props {
@@ -31,6 +38,8 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		maskStyle,
 		maskActiveOpacity = 0.5,
 		withoutMask,
+		fullWidth = true,
+		bindingRef,
 	} = item;
 	const layout = useRef<LayoutRectangle>();
 	const top = useSharedValue(0);
@@ -52,13 +61,15 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	);
 
 	const wrapperStyle = useAnimatedStyle(() => {
-		return rectangleAnimatedStyle(opacity, item.animateDirection, {
+		const baseStyle: ViewStyle = {
 			position: 'absolute',
 			top: top.value,
 			left: left.value,
-			width: width.value,
 			opacity: opacity.value,
-		});
+		};
+		if (fullWidth) baseStyle.width = width.value;
+
+		return rectangleAnimatedStyle(opacity, item.animateDirection, baseStyle);
 	}, [top, left, opacity]);
 
 	useEffect(() => {
@@ -73,6 +84,23 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		if (!layout.current) return;
 		onInnerLayout({ nativeEvent: { layout: layout.current } } as never);
 	}, [bindingRectangle]);
+
+	useEffect(() => {
+		const actualBindingRef = bindingRef || referenceMap.root;
+		if (!actualBindingRef.current) return;
+
+		const bindingObserver = new ResizeObserver(async () => {
+			const updatedBindingRectangle = await measureRelative(item.bindingRef);
+			const safeId = id || 'default-modal';
+			modalState.map.set(safeId, {
+				...item,
+				bindingRectangle: updatedBindingRectangle,
+			});
+		});
+		bindingObserver.observe(actualBindingRef.current as never);
+
+		return () => bindingObserver.disconnect();
+	}, []);
 
 	const onInnerLayout = async ({ nativeEvent }: LayoutChangeEvent) => {
 		const calculatedRectangle = await rectangleBind(

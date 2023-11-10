@@ -38,5 +38,7 @@ export const configure = async (db: PouchDB.Database): Promise<void> => {
 	}
 };
 
+export * from './utils/collectibles';
 export * from './utils/helper';
+export * from './utils/tokens';
 export * from './utils/type';

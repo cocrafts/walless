@@ -1,6 +1,6 @@
 import { TezosToolkit } from '@taquito/taquito';
-import { Endpoints, Networks } from '@walless/core';
-import type { TokenDocument } from '@walless/store';
+import type { Token } from '@walless/core';
+import { Endpoints } from '@walless/core';
 
 import { createConnectionPool } from '../../utils/pool';
 import type { EngineRunner, RunnerContext } from '../../utils/type';
@@ -30,23 +30,7 @@ export const getTezosEndpointFromUnifiedEndpoint = (endpoint: Endpoints) => {
 	else return '';
 };
 
-export const nativeToken: TokenDocument = {
-	_id: 'tezos-native-token',
-	network: Networks.tezos,
-	type: 'Token',
-	metadata: {
-		name: 'Tezos',
-		symbol: 'TEZ',
-		imageUri: '/img/network/tezos-icon-sm.png',
-	},
-	account: {
-		address: 'tezos-native-token',
-		balance: '0',
-		decimals: 6,
-	},
-};
-
-export const KNOWN_TEZOS_MAINNET_TOKENS: Partial<TokenDocument>[] = [
+export const KNOWN_TEZOS_MAINNET_TOKENS: Omit<Token, 'network'>[] = [
 	{
 		metadata: {
 			name: 'Tether USD',

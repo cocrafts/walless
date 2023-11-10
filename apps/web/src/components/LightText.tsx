@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import type { TextStyle } from 'react-native';
-import { Text } from '@walless/ui';
+import { StyleSheet } from 'react-native';
+import { Text } from '@walless/gui';
 
 interface Props extends TextStyle {
 	children: ReactNode;
@@ -8,10 +9,17 @@ interface Props extends TextStyle {
 
 export const LightText: FC<Props> = ({ children, ...props }) => {
 	return (
-		<Text {...props} fontWeight={'300'} color="#566674">
+		<Text style={styles.text} {...props}>
 			{children}
 		</Text>
 	);
 };
 
 export default LightText;
+
+const styles = StyleSheet.create({
+	text: {
+		fontWeight: '500',
+		color: '#566674',
+	},
+});

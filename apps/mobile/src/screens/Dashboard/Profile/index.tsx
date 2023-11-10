@@ -1,22 +1,17 @@
-import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import type { StackScreenProps } from '@react-navigation/stack';
-import type { DashboardParamList } from 'utils/navigation';
+import { ProfileFeature } from '@walless/app';
+import { navigate } from 'utils/navigation';
 
-type Props = StackScreenProps<DashboardParamList, 'Profile'>;
+export const ProfileScreen = () => {
+	const handleSettingPress = () => {
+		navigate('Dashboard', {
+			screen: 'Profile',
+			params: {
+				screen: 'Setting',
+			},
+		});
+	};
 
-export const ProfileScreen: FC<Props> = () => {
-	return (
-		<View style={styles.container}>
-			<Text>ProfileScreen</Text>
-		</View>
-	);
+	return <ProfileFeature onSettingPress={handleSettingPress} />;
 };
 
 export default ProfileScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-});

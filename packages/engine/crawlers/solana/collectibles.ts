@@ -11,24 +11,30 @@ import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { Endpoint } from '@walless/core';
 import { Networks } from '@walless/core';
+import {
+	addCollectibleToStorage,
+	addCollectionToStorage,
+	getCollectibleByIdFromStorage,
+	getCollectionByIdFromStorage,
+	updateCollectionAmountToStorage,
+} from '@walless/store';
 
-import { collectibleState, collectionState } from '../../state/collectible';
+import type { RunnerContext } from '../../utils/type';
 
 import { throttle } from './shared';
 
 type NftType = Nft | Sft | SftWithToken | NftWithToken;
 
 interface CollectiblesByAddressOptions {
-	endpoint: Endpoint;
-	connection: Connection;
+	context: RunnerContext<Connection>;
 	address: string;
 }
 
 export const solanaCollectiblesByAddress = async ({
-	endpoint,
-	connection,
+	context,
 	address,
 }: CollectiblesByAddressOptions) => {
+	const { connection, endpoint } = context;
 	const mpl = new Metaplex(connection);
 	const rawNfts = await throttle(() => {
 		return mpl.nfts().findAllByOwner({ owner: new PublicKey(address) });
@@ -45,13 +51,13 @@ export const solanaCollectiblesByAddress = async ({
 	const promises = nfts
 		.filter((ele) => ele.json)
 		.map(async (nft) => {
-			return addCollectibleToState(connection, endpoint, address, nft);
+			return addCollectible(connection, endpoint, address, nft);
 		});
 
 	await Promise.all(promises);
 };
 
-export const addCollectibleToState = async (
+export const addCollectible = async (
 	connection: Connection,
 	endpoint: Endpoint,
 	address: string,
@@ -70,11 +76,13 @@ export const addCollectibleToState = async (
 		collectionMetadata?.address.toString() ||
 		nft.collection?.address.toString() ||
 		nft.address.toString();
-	const collectionId = `${address}/${collectionAddress}`;
+	const collectionId = `${address}/collection/${collectionAddress}`;
+	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
 
-	const collection = collectionState.map.get(collectionId);
+	const collection = await getCollectionByIdFromStorage(collectionId);
+	const collectible = await getCollectibleByIdFromStorage(collectibleId);
 	if (!collection) {
-		collectionState.map.set(collectionId, {
+		addCollectionToStorage(collectionId, {
 			_id: collectionId,
 			type: 'Collection',
 			network: Networks.solana,
@@ -90,12 +98,11 @@ export const addCollectibleToState = async (
 			},
 			count: 1,
 		});
-	} else {
-		collection.count += 1;
+	} else if (!collectible) {
+		updateCollectionAmountToStorage(collectionId, (collection.count += 1));
 	}
 
-	const collectibleId = `${address}/${nft.mint.address.toString()}`;
-	collectibleState.map.set(collectibleId, {
+	addCollectibleToStorage(collectibleId, {
 		_id: collectibleId,
 		type: 'NFT',
 		collectionId,

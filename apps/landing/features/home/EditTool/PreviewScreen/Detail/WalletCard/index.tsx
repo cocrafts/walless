@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import type { CardSkin } from '@walless/app';
 import type { MetadataDocument } from '@walless/store';
 import { Image, ImageBackground, Stack } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
@@ -9,6 +8,7 @@ import { useSnapshot } from 'valtio';
 
 import WalletAddress from './Address';
 import WalletBalance from './Balance';
+import type { CardSkin } from './shared';
 
 interface Props {
 	index?: number;

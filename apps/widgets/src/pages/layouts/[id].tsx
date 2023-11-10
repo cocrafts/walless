@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from '@walless/gui';
 import { HomeLayout } from 'components/layouts';
-import { type LayoutProps, defiList, gamesList } from 'features/internal';
+import type { LayoutProps } from 'features/internal';
+import { defiList, gamesList } from 'features/internal';
 import LayoutDetails from 'features/LayoutDetails';
 import { useRouter } from 'next/router';
 

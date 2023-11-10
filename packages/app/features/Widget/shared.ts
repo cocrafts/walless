@@ -19,6 +19,7 @@ export const widgetMap: Record<string, WidgetComponent> = {
 	sui: BuiltInNetwork,
 	tezos: BuiltInNetwork,
 	solana: BuiltInNetwork,
+	aptos: BuiltInNetwork,
 };
 
 export const extractWidgetComponent = (id: string): WidgetComponent => {

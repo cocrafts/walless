@@ -15,6 +15,7 @@ import InputDropdown from './InputDropdown';
 export const handleShowSignUpModal = () => {
 	modalActions.show({
 		id: 'signUp',
+		fullWidth: false,
 		component: () => <SignUpModal />,
 	});
 };
@@ -173,7 +174,7 @@ export default SignUpModal;
 
 const styles = StyleSheet.create({
 	container: {
-		maxWidth: 420,
+		width: 420,
 		paddingTop: 44,
 		paddingBottom: 32,
 		paddingHorizontal: 34,

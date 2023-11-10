@@ -15,6 +15,12 @@ export const widgetActions = {
 	addWidget: async (widget: WidgetDocument) => {
 		await modules.storage.put<WidgetDocument>(widget);
 	},
+	removeWidget: async (widget: WidgetDocument) => {
+		await modules.storage.put<WidgetDocument>({
+			...widget,
+			_deleted: true,
+		});
+	},
 };
 
 export * from './internal';

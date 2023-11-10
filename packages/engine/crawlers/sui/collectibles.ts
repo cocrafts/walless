@@ -3,8 +3,8 @@ import type {
 	PaginatedObjectsResponse,
 	SuiObjectData,
 } from '@mysten/sui.js';
-import { Networks } from '@walless/core';
 import type { AssetMetadata } from '@walless/core';
+import { Networks } from '@walless/core';
 import type { CollectibleDocument } from '@walless/store';
 
 export const getSuiCollectibles = async (
@@ -16,7 +16,7 @@ export const getSuiCollectibles = async (
 	let cursor: PaginatedObjectsResponse['nextCursor'] | undefined;
 	while (cursor !== null) {
 		const allOwnedObjects = await connection.getOwnedObjects({
-			owner: '0x2cb9a508ecf7b9aacd4f50fca38e647050a13a660d92c9662ef1f2d5260595d8',
+			owner,
 			cursor,
 			options: {
 				showType: true,
@@ -26,7 +26,7 @@ export const getSuiCollectibles = async (
 			},
 		});
 
-        objectResponses = [...objectResponses, ...allOwnedObjects.data];
+		objectResponses = [...objectResponses, ...allOwnedObjects.data];
 
 		if (allOwnedObjects.hasNextPage && cursor !== allOwnedObjects.nextCursor) {
 			cursor = allOwnedObjects.nextCursor;
@@ -38,9 +38,9 @@ export const getSuiCollectibles = async (
 	objectResponses
 		.filter((objResponse) => isCollectible(objResponse.data))
 		.forEach((objResponse) => {
-				collectibleDocuments.push(
-					getCollectibleDocument(objResponse.data!, owner),
-				);		
+			collectibleDocuments.push(
+				getCollectibleDocument(objResponse.data!, owner),
+			);
 		});
 
 	return collectibleDocuments;
@@ -51,23 +51,23 @@ const getCollectibleDocument = (
 	owner: string,
 ): CollectibleDocument => {
 	const collectibleId = `${owner}/${objResponse.objectId}`;
-    const metadata: AssetMetadata = {
-        sod: objResponse,
-    };
+	const metadata: AssetMetadata = {
+		sod: objResponse,
+	};
 
-    if (
-        objResponse.display?.data &&
-        typeof objResponse.display.data === 'object'
-    ) {
-        const objectDisplay = objResponse.display.data;
-        metadata.name = objectDisplay.name || 'Unknown'
-        metadata.imageUri = objectDisplay.image_url || 'Unknown'
-        metadata.description = objectDisplay.description || 'Unknown'
-    }
+	if (
+		objResponse.display?.data &&
+		typeof objResponse.display.data === 'object'
+	) {
+		const objectDisplay = objResponse.display.data;
+		metadata.name = objectDisplay.name || 'Unknown';
+		metadata.imageUri = objectDisplay.image_url || 'Unknown';
+		metadata.description = objectDisplay.description || 'Unknown';
+	}
 
 	return {
 		_id: collectibleId,
-        // TODO: research Sui nft collection
+		// TODO: research Sui nft collection
 		collectionId: 'Unknown',
 		account: {
 			mint: objResponse.objectId,
@@ -83,7 +83,7 @@ const getCollectibleDocument = (
 const isCollectible = (suiObject: SuiObjectData | undefined): boolean => {
 	if (!suiObject) return false;
 
-    if (isCollection(suiObject)) {
+	if (isCollection(suiObject)) {
 		return true;
 	}
 
@@ -91,7 +91,9 @@ const isCollectible = (suiObject: SuiObjectData | undefined): boolean => {
 	if (
 		suiObject.display?.data &&
 		typeof suiObject.display.data === 'object' &&
-        (suiObject.display.data.image_url || suiObject.display.data.img_url || suiObject.display.data.url)
+		(suiObject.display.data.image_url ||
+			suiObject.display.data.img_url ||
+			suiObject.display.data.url)
 	) {
 		url =
 			suiObject.display.data.image_url ??

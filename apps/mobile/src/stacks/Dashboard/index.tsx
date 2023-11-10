@@ -1,40 +1,28 @@
-import type { FC } from 'react';
-import type { StyleProp, ViewStyle } from 'react-native';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import type { StackScreenProps } from '@react-navigation/stack';
-import TabBar, { tabBarHeight } from 'components/TabNavivation/TabBar';
-import ContactScreen from 'screens/Dashboard/Contact';
 import ExploreScreen from 'screens/Dashboard/Explore';
-import ProfileScreen from 'screens/Dashboard/Profile';
-import SettingScreen from 'screens/Dashboard/Setting';
-import type { DashboardParamList, RootParamList } from 'utils/navigation';
+import ProfileStack from 'stacks/Profile';
+import type { DashboardParamList } from 'utils/navigation';
 
-import HomeStack from './Home';
+import DrawerStack from '../Drawer';
+
+import TabBar from './TabBar';
 
 const Tab = createBottomTabNavigator<DashboardParamList>();
 
-type Props = StackScreenProps<RootParamList, 'Dashboard'>;
-
-export const DashboardStack: FC<Props> = () => {
+export const DashboardStack = () => {
 	const screenOptions: BottomTabNavigationOptions = {
 		headerShown: false,
-	};
-	const sceneContainerStyle: StyleProp<ViewStyle> = {
-		marginBottom: tabBarHeight,
 	};
 
 	return (
 		<Tab.Navigator
 			screenOptions={screenOptions}
-			tabBar={TabBar}
-			sceneContainerStyle={sceneContainerStyle}
+			tabBar={(props) => <TabBar {...props} />}
 		>
-			<Tab.Screen name="Home" component={HomeStack} />
+			<Tab.Screen name="Home" component={DrawerStack} />
 			<Tab.Screen name="Explore" component={ExploreScreen} />
-			<Tab.Screen name="Contact" component={ContactScreen} />
-			<Tab.Screen name="Profile" component={ProfileScreen} />
-			<Tab.Screen name="Setting" component={SettingScreen} />
+			<Tab.Screen name="Profile" component={ProfileStack} />
 		</Tab.Navigator>
 	);
 };

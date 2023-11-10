@@ -28,7 +28,6 @@ const InputDropdown: FC<Props> = ({
 	error,
 }) => {
 	const [isDropped, setIsDropped] = useState(false);
-	const [width, setWidth] = useState(0);
 	const handlePress = () => setIsDropped(!isDropped);
 
 	const modalRef = useRef<TouchableOpacity>(null);
@@ -39,7 +38,6 @@ const InputDropdown: FC<Props> = ({
 				id: 'dropdown',
 				component: () => (
 					<Dropdown
-						containerWidth={width}
 						optionList={optionList}
 						selectedOption={currentOption}
 						setSelectedOption={setCurrentOption}
@@ -51,7 +49,6 @@ const InputDropdown: FC<Props> = ({
 				bindingDirection: BindDirections.InnerTop,
 				positionOffset: {
 					x: 0,
-					y: -10,
 				},
 				animateDirection: AnimateDirections.Inner,
 			});
@@ -68,23 +65,16 @@ const InputDropdown: FC<Props> = ({
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{title}</Text>
-			<View style={[styles.contentContainer, error ? errorStyle : {}]}>
-				<TouchableOpacity
-					ref={modalRef}
-					style={styles.selectedOptionContainer}
-					onLayout={() => {
-						modalRef.current?.measure((_x, _y, _width) => {
-							setWidth(_width);
-						});
-					}}
-					onPress={handlePress}
-				>
-					<Text>
-						{currentOption === 'Select one' ? 'Select one...' : currentOption}
-					</Text>
-					<ChevronDown color="#43525F" size={20} />
-				</TouchableOpacity>
-			</View>
+			<TouchableOpacity
+				ref={modalRef}
+				style={[styles.selectedOptionContainer, error ? errorStyle : {}]}
+				onPress={handlePress}
+			>
+				<Text>
+					{currentOption === 'Select one' ? 'Select one...' : currentOption}
+				</Text>
+				<ChevronDown color="#43525F" size={20} />
+			</TouchableOpacity>
 			<Text style={styles.error}>{error}</Text>
 		</View>
 	);
@@ -99,13 +89,9 @@ const styles = StyleSheet.create({
 	title: {
 		color: '#566674',
 	},
-	contentContainer: {
-		gap: 4,
-		zIndex: 999,
+	selectedOptionContainer: {
 		borderWidth: 1,
 		borderColor: 'transparent',
-	},
-	selectedOptionContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',

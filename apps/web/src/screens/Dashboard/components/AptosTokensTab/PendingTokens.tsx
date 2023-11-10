@@ -1,13 +1,13 @@
+import type { FC } from 'react';
+import { Image, StyleSheet } from 'react-native';
 import { showRequirePasscodeModal } from '@walless/app/utils';
 import { shortenAddress } from '@walless/core';
 import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';
 import { Button, Text, View } from '@walless/gui';
-import { aptosHandlers } from '@walless/kernel';
+import type { aptosHandlers } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
-import type { FC } from 'react';
-import { Image, StyleSheet } from 'react-native';
 import { useSnapshot } from 'valtio';
 
 interface Props {

@@ -47,6 +47,24 @@ export interface UniversalAsset {
 			cardBackground: ImageSourcePropType;
 		};
 	};
+	setting: {
+		solana: {
+			icon: ImageSourcePropType;
+		};
+		sui: {
+			icon: ImageSourcePropType;
+		};
+		tezos: {
+			icon: ImageSourcePropType;
+		};
+		aptos: {
+			icon: ImageSourcePropType;
+		};
+	};
+	tabBar: {
+		explore: ImageSourcePropType;
+		walless: ImageSourcePropType;
+	};
 }
 
 export interface DynamicModules {

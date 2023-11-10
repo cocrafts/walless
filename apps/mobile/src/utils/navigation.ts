@@ -20,15 +20,16 @@ export type HomeParamList = {
 	};
 };
 
+export type ProfileParamList = {
+	ProfileDashboard: undefined;
+	Setting: undefined;
+	History: undefined;
+};
+
 export type DashboardParamList = {
 	Home: NavigatorScreenParams<HomeParamList>;
 	Explore: undefined;
-	Profile: undefined;
-	Contact: undefined;
-	Setting: undefined;
-	Extension: {
-		id?: string;
-	};
+	Profile: NavigatorScreenParams<ProfileParamList>;
 };
 
 export type RootParamList = {
@@ -53,18 +54,22 @@ export const linking: LinkingOptions<RootParamList> = {
 				},
 			},
 			Dashboard: {
-				path: '/',
 				screens: {
+					Explore: '/explore',
+					Profile: {
+						path: '/profile',
+						screens: {
+							ProfileDashboard: '/',
+							Setting: '/setting',
+							History: '/history',
+						},
+					},
 					Home: {
 						path: '/',
 						screens: {
 							Widget: '/widget/:id',
 						},
 					},
-					Explore: '/explore',
-					Profile: '/profile',
-					Setting: '/setting',
-					Extension: '/:id',
 				},
 			},
 		},
@@ -110,23 +115,19 @@ export const navigate = (
 };
 
 export const resetRoute = (anchor: ResetAnchors, params?: object) => {
-	if (anchor === 'Widget') {
-		navigationRef.reset({ index: 0, routes: [widgetRoute(params)] });
+	if (anchor === 'Dashboard') {
+		navigationRef.reset({ index: 0, routes: [dashboardRoute()] });
 	} else if (anchor === 'Invitation') {
 		navigationRef.reset({ index: 0, routes: [authenticationRoute(params)] });
 	}
 };
 
-type ResetAnchors = 'Widget' | 'Invitation';
+type ResetAnchors = 'Dashboard' | 'Invitation';
 
-const widgetRoute = (params?: object) => ({
+const dashboardRoute = () => ({
 	name: 'Dashboard',
 	params: {
-		screen: 'Home',
-		params: {
-			screen: 'Widget',
-			params,
-		},
+		screen: 'Explore',
 	},
 });
 

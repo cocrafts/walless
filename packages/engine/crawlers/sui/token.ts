@@ -12,7 +12,7 @@ export const getTokenDocument = async (
 	const { endpoint } = context;
 
 	return {
-		_id: `${owner}/${coin.coinType}`,
+		_id: `${owner}/token/${coin.coinType}`,
 		type: 'Token',
 		network: Networks.sui,
 		endpoint,

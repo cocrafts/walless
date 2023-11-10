@@ -16,16 +16,17 @@ export const webAsset: UniversalAsset = {
 			cardIcon: { uri: '/img/widget/tezos-icon.png' },
 			cardBackground: { uri: '/img/widget/tezos-card-bg.png' },
 		},
-		ethereum: {
-			cardIcon: { uri: '' },
-			cardMark: { uri: '' },
-			cardBackground: { uri: '' },
-		},
 		aptos: {
 			cardIcon: { uri: '/img/explore/logo-aptos.svg' },
 			cardMark: { uri: '/img/explore/logo-aptos-large.svg' },
 			cardBackground: { uri: '/img/widget/sky-card-bg.png' },
 		},
+	},
+	setting: {
+		solana: { icon: { uri: '/img/send-token/icon-solana.png' } },
+		sui: { icon: { uri: '/img/send-token/icon-sui.png' } },
+		tezos: { icon: { uri: '/img/send-token/icon-tezos.png' } },
+		aptos: { icon: { uri: '/img/send-token/icon-aptos.png' } },
 	},
 };
 

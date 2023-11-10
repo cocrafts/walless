@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import type { CardSkin } from '@walless/app';
 import { shortenAddress } from '@walless/core';
 import { Copy } from '@walless/icons';
 import { Image, Stack, Text } from '@walless/ui';
@@ -7,6 +6,8 @@ import { DetailTool } from 'features/home/EditTool/internal';
 import TargetWrapper from 'features/home/EditTool/TargetWrapper';
 import { appState } from 'state/app';
 import { useSnapshot } from 'valtio';
+
+import type { CardSkin } from './shared';
 
 interface Props {
 	skin: CardSkin;

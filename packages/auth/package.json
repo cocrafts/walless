@@ -7,7 +7,8 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
+    "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
     "@tkey/chrome-storage": "9.0.0",
@@ -21,5 +22,8 @@
     "@walless/graphql": "*",
     "@walless/ioc": "*",
     "react-native-encrypted-storage": "^4.0.3"
+  },
+  "devDependencies": {
+    "eslint": "8.38.0"
   }
 }

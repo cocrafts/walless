@@ -45,13 +45,11 @@ export interface Transaction {
 	date: Date;
 }
 
-const getConfirmation = async (
-	solanaContext: SolanaContext,
-	signature: string,
-) => {
-	const result = await solanaContext.connection.getSignatureStatus(signature, {
+const getConfirmation = async (connection: Connection, signature: string) => {
+	const result = await connection.getSignatureStatus(signature, {
 		searchTransactionHistory: true,
 	});
+
 	return result.value?.confirmationStatus;
 };
 
@@ -76,6 +74,18 @@ const getTransactionTokenForFee = async (
 	solanaContext: SolanaContext,
 	feePayer: string,
 ) => {
+	const nativeTokenFee = {
+		network: Networks.solana,
+		account: {
+			mint: solMint,
+			owner: 'system',
+			address: solMint,
+			balance: '',
+			decimals: 9,
+		},
+		metadata: await getMetadata(solanaContext, solMint),
+	};
+
 	if (isAbstractionFee(meta, feePayer)) {
 		const tokenBalances = meta?.postTokenBalances;
 
@@ -104,17 +114,7 @@ const getTransactionTokenForFee = async (
 		}
 	}
 
-	return {
-		network: Networks.solana,
-		account: {
-			mint: solMint,
-			owner: 'system',
-			address: solMint,
-			balance: '',
-			decimals: 9,
-		},
-		metadata: await getMetadata(solanaContext, solMint),
-	};
+	return nativeTokenFee;
 };
 
 const getTransactionFee = (
@@ -144,7 +144,7 @@ const getTransactionToken = async (
 	solanaContext: SolanaContext,
 	feePayer: string,
 ) => {
-	let token: Token = {
+	const token: Token = {
 		network: Networks.solana,
 		account: {
 			mint: '',
@@ -168,17 +168,9 @@ const getTransactionToken = async (
 	) {
 		const solMetadata = await getMetadata(solanaContext, solMint);
 
-		token = {
-			network: Networks.solana,
-			account: {
-				mint: solMint,
-				owner: '',
-				address: '',
-				balance: '',
-				decimals: 9,
-			},
-			metadata: solMetadata,
-		};
+		token.account.mint = solMint;
+		token.account.decimals = 9;
+		token.metadata = solMetadata;
 
 		return token;
 	}
@@ -192,7 +184,6 @@ const getTransactionToken = async (
 			tokenBalance.owner !== feePayer &&
 			tokenBalance.owner !== ownerPublicKey
 		) {
-			const network = Networks.solana;
 			const account: TokenAccount = {
 				mint: tokenBalance.mint,
 				owner: tokenBalance.owner,
@@ -202,11 +193,8 @@ const getTransactionToken = async (
 			};
 			const metadata = await getMetadata(solanaContext, tokenBalance.mint);
 
-			token = {
-				network,
-				account,
-				metadata,
-			};
+			token.account = account;
+			token.metadata = metadata;
 
 			return token;
 		}
@@ -284,22 +272,16 @@ const getTransactionAmount = (
 
 	let amount = 0;
 
-	if (parsedInstructionInfo?.amount) {
+	if (token.account.mint === solMint) {
+		amount = parsedInstructionInfo?.lamports / 10 ** 9;
+	} else if (parsedInstructionInfo?.amount) {
 		amount = parsedInstructionInfo?.amount / 10 ** token.account.decimals;
-	}
-
-	if (parsedInstructionInfo?.tokenAmount?.amount) {
+	} else if (parsedInstructionInfo?.tokenAmount?.amount) {
 		amount =
 			parseFloat(parsedInstructionInfo?.tokenAmount.amount) /
 			10 ** token.account.decimals;
-	}
-
-	if (token.account.mint === tokeForFee.account.mint) {
+	} else if (token.account.mint === tokeForFee.account.mint) {
 		amount = parsedInstructionInfo?.amount / 10 ** token.account.decimals;
-	}
-
-	if (token.account.mint === solMint) {
-		amount = parsedInstructionInfo?.lamports / 10 ** 9;
 	}
 
 	if (token.metadata?.mpl) {
@@ -340,7 +322,7 @@ const getTransactionType = (
 const getTransactionPartners = async (
 	transaction: ParsedTransactionWithMeta,
 	instruction: ParsedInstruction | PartiallyDecodedInstruction,
-	liveConnection: Connection,
+	connection: Connection,
 	token: Token,
 ) => {
 	let sender = '';
@@ -348,11 +330,11 @@ const getTransactionPartners = async (
 
 	const partnerInfo = (instruction as ParsedInstruction).parsed?.info;
 
-	const senderAccount = await liveConnection.getParsedAccountInfo(
+	const senderAccount = await connection.getParsedAccountInfo(
 		new PublicKey(partnerInfo?.source),
 	);
 
-	const receiverAccount = await liveConnection.getParsedAccountInfo(
+	const receiverAccount = await connection.getParsedAccountInfo(
 		new PublicKey(partnerInfo?.destination),
 	);
 
@@ -377,7 +359,6 @@ const getTransactionPartners = async (
 };
 
 export const getTransactionDetails = async (
-	liveConnection: Connection,
 	solanaContext: SolanaContext,
 	parsedTransaction: ParsedTransactionWithMeta,
 	ownerPublicKey: string,
@@ -388,7 +369,7 @@ export const getTransactionDetails = async (
 	const mainInstruction = instructions[instructions.length - 1];
 
 	const confirmation = await getConfirmation(
-		solanaContext,
+		solanaContext.connection,
 		parsedTransaction.transaction.signatures[0],
 	);
 
@@ -412,7 +393,7 @@ export const getTransactionDetails = async (
 	const { sender, receiver } = await getTransactionPartners(
 		parsedTransaction,
 		mainInstruction,
-		liveConnection,
+		solanaContext.connection,
 		token,
 	);
 
@@ -459,6 +440,7 @@ export const getSignatureList = async (
 	ownerPublicKey: string,
 ) => {
 	const accounts = await connection.getParsedProgramAccounts(TOKEN_PROGRAM_ID, {
+		commitment: 'confirmed',
 		filters: [
 			{
 				dataSize: 165,
@@ -494,17 +476,15 @@ export const getSignatureList = async (
 };
 
 export const getTransactions = async (
-	connection: Connection,
 	solanaContext: SolanaContext,
 	signatures: string[],
 	ownerPublicKey: string,
 ) => {
-	const parsedTransactions = await connection.getParsedTransactions(
-		signatures,
-		{
+	const parsedTransactions =
+		await solanaContext.connection.getParsedTransactions(signatures, {
 			maxSupportedTransactionVersion: 0,
-		},
-	);
+			commitment: 'confirmed',
+		});
 
 	const promisesArray: Promise<Transaction | undefined>[] = [];
 
@@ -518,7 +498,6 @@ export const getTransactions = async (
 		if (!parsedTransaction || !parsedTransaction.blockTime) continue;
 
 		const transactionDetails = getTransactionDetails(
-			connection,
 			solanaContext,
 			parsedTransaction,
 			ownerPublicKey,

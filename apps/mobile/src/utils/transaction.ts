@@ -7,7 +7,7 @@ import {
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { CreateAndSendFunction } from '@walless/ioc';
-import { solanaHandler, utils } from '@walless/kernel';
+import { aptosHandler, solanaHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
@@ -60,6 +60,34 @@ export const createAndSend: CreateAndSendFunction = async (
 	} else if (payload.network == Networks.tezos) {
 		// TODO: implement transfer tezos
 		console.log('hello tezos');
+	} else if (payload.network === Networks.aptos) {
+		let privateKey;
+		try {
+			privateKey = await utils.getPrivateKey(Networks.aptos, passcode);
+		} catch {
+			res.responseCode = ResponseCode.WRONG_PASSCODE;
+			return res;
+		}
+
+		const isCoinTransaction = !('creator' in transaction);
+
+		try {
+			if (isCoinTransaction) {
+				res.signatureString = await aptosHandler.handleTransferCoin(
+					privateKey,
+					JSON.stringify(transaction),
+				);
+			} else {
+				res.signatureString = await aptosHandler.handleTransferToken(
+					privateKey,
+					JSON.stringify(transaction),
+				);
+			}
+			res.responseCode = ResponseCode.SUCCESS;
+		} catch (error) {
+			res.responseCode = ResponseCode.ERROR;
+			return res;
+		}
 	}
 
 	return res;

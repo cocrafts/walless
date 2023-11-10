@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text } from 'react-native';
 import { View } from '@walless/gui';
 
 interface Props {
-	networkInfo?: {
+	networkInfo: {
 		name: string;
 		icon: string;
 	};

@@ -3,9 +3,17 @@ import type { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 
+import { getTokenQuotes, makeHashId } from '../../utils/api';
+
 import { getMetadata, solMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
-import { throttle } from './shared';
+import {
+	getTokenType,
+	throttle,
+	tokenProgramFilter,
+	TokenType,
+} from './shared';
+import { registerAccountChanges, watchLogs } from './subscription';
 
 export const getNativeTokenDocument = async (
 	{ connection, endpoint }: SolanaContext,
@@ -15,7 +23,7 @@ export const getNativeTokenDocument = async (
 	const balance = await throttle(() => connection.getBalance(key))();
 
 	return {
-		_id: `${address}/${solMint}`,
+		_id: `${address}/token/${solMint}`,
 		network: Networks.solana,
 		endpoint,
 		type: 'Token',
@@ -34,14 +42,16 @@ export const getSPLTokenDocument = async (
 	context: SolanaContext,
 	key: PublicKey,
 	account: AccountInfo<ParsedAccountData>,
+	ownerPubkey: PublicKey,
 ): Promise<TokenDocument> => {
+	const owner = ownerPubkey.toString();
 	const address = key.toString();
-	const { data, owner } = account;
+	const { data } = account;
 	const info = data.parsed?.info || {};
 	const metadata = await getMetadata(context, info.mint);
 
 	return {
-		_id: `${address}/${info.mint}`,
+		_id: `${owner}/token/${info.mint}`,
 		network: Networks.solana,
 		endpoint: context.endpoint,
 		type: 'Token',
@@ -54,4 +64,52 @@ export const getSPLTokenDocument = async (
 		},
 		metadata: metadata,
 	};
+};
+
+export const solanaFungiblesByAddress = async (
+	context: SolanaContext,
+	ownerPubkey: PublicKey,
+) => {
+	const { connection } = context;
+	const accountKeys = [ownerPubkey];
+	const fungiblePromises: Promise<TokenDocument>[] = [
+		getNativeTokenDocument(context, ownerPubkey),
+	];
+
+	watchLogs(context, ownerPubkey);
+
+	const parsedTokenAccounts = await throttle(() => {
+		return connection.getParsedTokenAccountsByOwner(
+			ownerPubkey,
+			tokenProgramFilter,
+			'confirmed',
+		);
+	})();
+
+	for (const { pubkey, account } of parsedTokenAccounts.value) {
+		const tokenType = getTokenType(account);
+
+		if (tokenType === TokenType.Fungible) {
+			fungiblePromises.push(
+				getSPLTokenDocument(context, pubkey, account, ownerPubkey),
+			);
+		}
+
+		accountKeys.push(pubkey);
+	}
+
+	const fungibleTokens = (await Promise.all(fungiblePromises)).filter(
+		(token) => token.account.mint === solMint || token.account.balance !== '0',
+	);
+	const quotes = await getTokenQuotes(fungibleTokens);
+
+	for (const item of fungibleTokens) {
+		item.account.quotes = quotes[makeHashId(item)].quotes;
+	}
+
+	for (const key of accountKeys) {
+		registerAccountChanges(context, key, ownerPubkey);
+	}
+
+	return fungibleTokens;
 };

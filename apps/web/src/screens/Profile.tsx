@@ -5,7 +5,17 @@ export const ProfileScreen = () => {
 	const handleNavigateToHistory = () => {
 		router.navigate('/history');
 	};
-	return <ProfileFeature onNavigateToHistory={handleNavigateToHistory} />;
+
+	const handleSettingPress = () => {
+		router.navigate('/setting');
+	};
+
+	return (
+		<ProfileFeature
+			onNavigateToHistory={handleNavigateToHistory}
+			onSettingPress={handleSettingPress}
+		/>
+	);
 };
 
 export default ProfileScreen;

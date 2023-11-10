@@ -37,7 +37,7 @@ export const Collection: FC = () => {
 					<CollectionItem
 						key={ele._id}
 						item={ele}
-						onPress={() => router.navigate(`/nfts/${ele._id.split('/')[1]}`)}
+						onPress={() => router.navigate(`/nfts/${ele._id.split('/')[2]}`)}
 					/>
 				))}
 			</View>

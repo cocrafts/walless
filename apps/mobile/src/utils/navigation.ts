@@ -20,10 +20,16 @@ export type HomeParamList = {
 	};
 };
 
+export type ProfileParamList = {
+	ProfileDashboard: undefined;
+	Setting: undefined;
+	History: undefined;
+};
+
 export type DashboardParamList = {
 	Home: NavigatorScreenParams<HomeParamList>;
 	Explore: undefined;
-	Profile: undefined;
+	Profile: NavigatorScreenParams<ProfileParamList>;
 };
 
 export type RootParamList = {
@@ -50,7 +56,14 @@ export const linking: LinkingOptions<RootParamList> = {
 			Dashboard: {
 				screens: {
 					Explore: '/explore',
-					Profile: '/profile',
+					Profile: {
+						path: '/profile',
+						screens: {
+							ProfileDashboard: '/',
+							Setting: '/setting',
+							History: '/history',
+						},
+					},
 					Home: {
 						path: '/',
 						screens: {

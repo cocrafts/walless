@@ -9,9 +9,7 @@ import {
 	modalActions,
 } from '@walless/gui';
 
-import ItemAddress from './components/ItemAddress';
-import ItemAmount from './components/ItemAmount';
-import ItemTokenIcon from './components/ItemTokenIcon';
+import { ItemAddress, ItemAmount, ItemTokenIcon } from './components';
 import TransactionDetails from './TransactionDetails';
 
 const HistoryItem: FC<Transaction> = (transaction) => {

@@ -28,12 +28,7 @@ const TransactionStatus: FC<Props> = ({ status = 'success' }) => {
 			: '#CC3838';
 
 	const iconContainerStyle = {
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: 14,
-		height: 14,
 		backgroundColor: color,
-		borderRadius: 14,
 	};
 
 	const textStyle = {
@@ -42,7 +37,7 @@ const TransactionStatus: FC<Props> = ({ status = 'success' }) => {
 
 	return (
 		<View style={styles.container}>
-			<View style={iconContainerStyle}>{icon}</View>
+			<View style={[styles.iconContainer, iconContainerStyle]}>{icon}</View>
 			<Text style={textStyle}>{capitalize(status)}</Text>
 		</View>
 	);
@@ -55,5 +50,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 6,
+	},
+	iconContainer: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: 14,
+		height: 14,
+		borderRadius: 14,
 	},
 });

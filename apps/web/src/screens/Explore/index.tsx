@@ -1,8 +1,8 @@
 import type { FC } from 'react';
-import { WidgetExplorerFeat } from '@walless/app';
+import { WidgetExplorerFeature } from '@walless/app';
 
 export const ExplorerScreen: FC = () => {
-	return <WidgetExplorerFeat />;
+	return <WidgetExplorerFeature />;
 };
 
 export default ExplorerScreen;

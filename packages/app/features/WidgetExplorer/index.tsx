@@ -13,7 +13,7 @@ interface Props {
 	widgets?: WidgetDocument[];
 }
 
-export const WidgetExplorerFeat: FC<Props> = ({ widgets = mockWidgets }) => {
+export const WidgetExplorerFeature: FC<Props> = ({ widgets = mockWidgets }) => {
 	const insets = useSafeAreaInsets();
 	const container: ViewStyle = { ...styles.container, marginTop: insets.top };
 
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default WidgetExplorerFeat;
+export default WidgetExplorerFeature;

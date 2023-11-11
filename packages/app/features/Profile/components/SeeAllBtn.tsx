@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Hoverable } from '@walless/gui';
-import { Text } from '@walless/ui';
+import { Hoverable, Text } from '@walless/gui';
 
 interface Props {
 	onPress: () => void;

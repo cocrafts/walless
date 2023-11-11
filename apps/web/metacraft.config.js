@@ -1,6 +1,5 @@
 const { InjectManifest } = require('workbox-webpack-plugin');
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
-const { tamaguiBuild } = require('../../tool/webpack/tamagui');
 const { copyAssets } = require('../../tool/webpack/asset');
 const { useCache } = require('../../tool/webpack/optimization');
 const { setEnvironments } = require('../../tool/webpack/env');
@@ -94,7 +93,6 @@ module.exports = {
 		copyAssets,
 		injectEntries,
 		// injectWorkers,
-		tamaguiBuild,
 		web3Polyfills,
 		setEnvironments({
 			process: {

@@ -18,7 +18,8 @@ import WalletCard from '../../components/WalletCard';
 import { copy } from '../../utils';
 import { useNfts, useSafeAreaInsets } from '../../utils/hooks';
 import { usePublicKeys, useTokens } from '../../utils/hooks';
-import { showReceiveModal, showSendModal } from '../../utils/modal';
+import { showReceiveModal } from '../Receive';
+import { showSendModal } from '../Send';
 
 import ActivityTab from './components/ActivityTab';
 import { CollectiblesTab, TokenTab } from './components';

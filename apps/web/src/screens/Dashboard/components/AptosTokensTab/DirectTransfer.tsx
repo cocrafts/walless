@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { showRequirePasscodeModal } from '@walless/app/utils';
+import { showRequirePasscodeModal } from '@walless/app';
 import { Hoverable, Text, View } from '@walless/gui';
 import type { aptosHandlers } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';

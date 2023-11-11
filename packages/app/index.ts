@@ -16,6 +16,7 @@ export * from './features/Login';
 export * from './features/Passcode';
 export * from './features/Password';
 export * from './features/Profile';
+export * from './features/Receive';
 export * from './features/Recovery';
 export * from './features/Send';
 export * from './features/Splash';

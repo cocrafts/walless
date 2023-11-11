@@ -25,7 +25,7 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 			const networkInfo = getNetworkInfo(key.network);
 			walletList.push({
 				network: key.network.charAt(0).toUpperCase() + key.network.slice(1),
-				networkIcon: networkInfo?.icon ?? '/img/...',
+				networkIcon: networkInfo?.icon ?? { uri: '/img/...' },
 				address: key._id,
 			});
 		});

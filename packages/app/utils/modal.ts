@@ -1,59 +1,7 @@
 import type { FC } from 'react';
 import { NotificationModal } from '@walless/app';
-import type { Collectible, Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
-import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
-
-import ReceiveModal from '../modals/ReceiveModal';
-import type { RequirePasscodeModalConfig } from '../modals/RequirePasscodeModal';
-import RequirePasscodeModal from '../modals/RequirePasscodeModal';
-import SendModal from '../modals/SendModal';
-
-export const showReceiveModal = (layoutNetWork: Networks) => {
-	modalActions.show({
-		id: 'receive-token',
-		bindingDirection: BindDirections.InnerBottom,
-		animateDirection: AnimateDirections.Top,
-		component: ReceiveModal,
-		context: {
-			network: layoutNetWork,
-		},
-	});
-};
-
-export interface SendModalConfig {
-	layoutNetwork?: Networks;
-	collectible?: Collectible;
-}
-
-export const showSendModal = (configs?: SendModalConfig) => {
-	modalActions.show({
-		id: 'send-token',
-		bindingDirection: BindDirections.InnerBottom,
-		animateDirection: AnimateDirections.Top,
-		component: SendModal,
-		context: {
-			layoutNetwork: configs?.layoutNetwork,
-			collectible: configs?.collectible,
-		},
-	});
-};
-
-export const showRequirePasscodeModal = (
-	config: RequirePasscodeModalConfig,
-) => {
-	modalActions.show({
-		id: 'require-passcode',
-		bindingDirection: BindDirections.InnerBottom,
-		component: RequirePasscodeModal,
-		context: {
-			title: config.title,
-			desc: config.desc,
-			onPasscodeComplete: config.onPasscodeComplete,
-			onActionComplete: config.onActionComplete,
-		},
-	});
-};
+import { BindDirections, modalActions } from '@walless/gui';
 
 export const notify = (
 	id: string,

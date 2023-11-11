@@ -1,20 +1,8 @@
 import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { WidgetExplorerFeature } from '@walless/app';
 
 export const ExplorerScreen: FC = () => {
-	return (
-		<View style={styles.container}>
-			<Text>Explorer</Text>
-		</View>
-	);
+	return <WidgetExplorerFeature />;
 };
 
 export default ExplorerScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});

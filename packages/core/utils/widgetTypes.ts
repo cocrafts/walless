@@ -17,7 +17,7 @@ export interface WidgetNetworkOptions {
 	iconColor: string;
 }
 
-export type WidgetType = 'Layout' | 'Hybird' | 'Native';
+export type WidgetType = 'Layout' | 'Hybrid' | 'Native';
 
 export interface Widget {
 	name: string;

@@ -21,5 +21,6 @@ export * from './features/Recovery';
 export * from './features/Send';
 export * from './features/Splash';
 export * from './features/Widget';
+export * from './features/WidgetExplorer';
 export * from './modals/NotificationModal';
 export * from './utils/hooks';

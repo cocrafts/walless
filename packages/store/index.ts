@@ -42,3 +42,4 @@ export * from './utils/collectibles';
 export * from './utils/helper';
 export * from './utils/tokens';
 export * from './utils/type';
+export * from './utils/widgets';

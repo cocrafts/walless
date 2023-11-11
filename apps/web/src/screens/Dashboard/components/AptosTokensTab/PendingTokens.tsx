@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { showRequirePasscodeModal } from '@walless/app/utils';
+import { showRequirePasscodeModal } from '@walless/app';
 import { shortenAddress } from '@walless/core';
 import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';

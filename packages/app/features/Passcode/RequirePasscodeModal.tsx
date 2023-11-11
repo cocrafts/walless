@@ -1,11 +1,12 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { PasscodeFeature } from '@walless/app';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions, Text, View } from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
+
+import { PasscodeFeature } from './PasscodeFeature';
 
 export interface RequirePasscodeModalConfig {
 	title?: string;

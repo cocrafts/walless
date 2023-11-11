@@ -3,22 +3,58 @@ import type { UniversalAsset } from '@walless/ioc';
 export const nativeAsset: UniversalAsset = {
 	widget: {
 		solana: {
-			cardIcon: require('assets/img/widget/solana-icon.png'),
-			cardMark: require('assets/img/widget/solana-mark.png'),
-			cardBackground: require('assets/img/widget/sky-card-bg.png'),
+			storeMeta: {
+				iconUri: require('assets/img/explore/logo-solana.png'),
+				coverUri: require('assets/img/explore/thumbnail-solana.png'),
+			},
+			widgetMeta: {
+				cardIcon: require('assets/img/widget/solana-icon.png'),
+				cardMark: require('assets/img/widget/solana-mark.png'),
+				cardBackground: require('assets/img/widget/sky-card-bg.png'),
+			},
 		},
 		sui: {
-			cardIcon: require('assets/img/widget/sui-icon.png'),
-			cardMark: require('assets/img/widget/sui-mark.png'),
-			cardBackground: require('assets/img/widget/sky-card-bg.png'),
+			storeMeta: {
+				iconUri: require('assets/img/explore/logo-sui.png'),
+				coverUri: require('assets/img/explore/thumbnail-sui.png'),
+			},
+			widgetMeta: {
+				cardIcon: require('assets/img/widget/sui-icon.png'),
+				cardMark: require('assets/img/widget/sui-mark.png'),
+				cardBackground: require('assets/img/widget/sky-card-bg.png'),
+			},
 		},
 		tezos: {
-			cardIcon: require('assets/img/widget/tezos-icon.png'),
-			cardBackground: require('assets/img/widget/tezos-card-bg.png'),
+			storeMeta: {
+				iconUri: require('assets/img/explore/logo-tezos.png'),
+				coverUri: require('assets/img/explore/thumbnail-tezos.png'),
+			},
+			widgetMeta: {
+				cardIcon: require('assets/img/widget/tezos-icon.png'),
+				cardBackground: require('assets/img/widget/tezos-card-bg.png'),
+			},
 		},
 		aptos: {
-			cardIcon: require('assets/img/widget/aptos-icon.png'),
-			cardBackground: require('assets/img/widget/sky-card-bg.png'),
+			storeMeta: {
+				iconUri: require('assets/img/explore/logo-solana.png'),
+				coverUri: require('assets/img/explore/thumbnail-solana.png'),
+			},
+			widgetMeta: {
+				cardIcon: require('assets/img/widget/aptos-icon.png'),
+				cardBackground: require('assets/img/widget/sky-card-bg.png'),
+			},
+		},
+		pixeverse: {
+			storeMeta: {
+				iconUri: require('assets/img/explore/logo-pixeverse.png'),
+				coverUri: require('assets/img/explore/thumbnail-pixeverse.png'),
+			},
+		},
+		tRexRunner: {
+			storeMeta: {
+				iconUri: require('assets/img/explore/logo-runner.png'),
+				coverUri: require('assets/img/explore/thumbnail-runner.png'),
+			},
 		},
 	},
 	setting: {

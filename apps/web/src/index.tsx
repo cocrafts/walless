@@ -4,6 +4,8 @@ import type { TamaguiInternalConfig } from '@tamagui/core';
 import { GuiProvider } from '@walless/ui';
 import App from 'components/App';
 
+import '@walless/app/utils/modal';
+
 interface Props {
 	tamaguiConfig: TamaguiInternalConfig;
 }

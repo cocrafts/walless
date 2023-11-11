@@ -18,7 +18,7 @@ import {
 	transactionActions,
 	transactionContext,
 } from '../../../state/transaction';
-import PasscodeFeature from '../../Passcode';
+import { PasscodeFeature } from '../../Passcode';
 import { showError } from '../utils';
 
 import { Header } from './components';

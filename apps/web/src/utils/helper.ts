@@ -3,5 +3,5 @@
  * It's help to detect window close event under kernel
  */
 export const initializeKernelConnect = (portName: string) => {
-	chrome.runtime.connect({ name: portName });
+	global.chrome?.runtime.connect({ name: portName });
 };

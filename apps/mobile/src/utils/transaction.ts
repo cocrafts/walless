@@ -43,7 +43,7 @@ export const createAndSend: CreateAndSendFunction = async (
 				);
 			} else {
 				res.signatureString =
-					await solanaHandlers.signTransactionAbstractionFee(
+					await solanaHandlers.signAndSendTransactionAbstractionFee(
 						transaction,
 						privateKey,
 					);

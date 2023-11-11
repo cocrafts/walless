@@ -61,7 +61,7 @@ export const signAndSendTransaction = async (
 	return signatureStr;
 };
 
-export const signTransactionAbstractionFee = async (
+export const signAndSendTransactionAbstractionFee = async (
 	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,
 ) => {

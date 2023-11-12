@@ -34,8 +34,7 @@ const injectEntries = (config) => {
 	return config;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const injectWorkers = (config) => {
+const progressiveWebApp = (config) => {
 	config.plugins.push(
 		new InjectManifest({
 			swSrc: 'scripts/worker/kernel',
@@ -84,6 +83,7 @@ const w3aDevRoute = (config) => {
 
 module.exports = {
 	useReact: true,
+	compiler: 'swc',
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
@@ -92,15 +92,9 @@ module.exports = {
 		useCache,
 		copyAssets,
 		injectEntries,
-		// injectWorkers,
+		progressiveWebApp,
 		web3Polyfills,
-		setEnvironments({
-			process: {
-				env: {
-					TAMAGUI_TARGET: JSON.stringify('web'),
-				},
-			},
-		}),
+		setEnvironments(),
 	],
 	devMiddlewares: [w3aDevRoute],
 	htmlPluginOptions: {

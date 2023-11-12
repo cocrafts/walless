@@ -12503,7 +12503,6 @@ __metadata:
     "@walless/ui": "*"
     react: ^18.2.0
     react-native-reanimated: "*"
-    tamagui: 1.15.16
     valtio: 1.10.5
   languageName: unknown
   linkType: soft
@@ -12891,7 +12890,6 @@ __metadata:
     "@mysten/sui.js": 0.34.0
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.78.4
-    "@tamagui/animations-css": 1.15.16
     "@taquito/signer": ^16.2.0
     "@walless/core": "*"
     "@walless/crypto": "*"
@@ -12905,7 +12903,6 @@ __metadata:
     "@walless/network": "*"
     "@walless/sdk": "*"
     "@walless/store": "*"
-    "@walless/ui": "*"
     "@walless/wallet-standard": "*"
     "@web3auth/ethereum-provider": 5.2.0
     "@web3auth/solana-provider": 5.2.0
@@ -12930,8 +12927,6 @@ __metadata:
     react-router-dom: ^6.10.0
     rimraf: ^5.0.1
     setimmediate: ^1.0.5
-    tamagui: 1.15.16
-    tamagui-loader: 1.15.16
     valtio: 1.10.5
     workbox-webpack-plugin: ^6.5.4
   peerDependencies:
@@ -15430,9 +15425,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001406, caniuse-lite@npm:^1.0.30001449":
-  version: 1.0.30001481
-  resolution: "caniuse-lite@npm:1.0.30001481"
-  checksum: 8200a043c191b4fd4fe0beda37a58fd61869c895ab93f87bdd0420e5927453f48434d716ce9da8552ff6c3ecc4dcd1366354cda3a134f3cc844af741574a7cab
+  version: 1.0.30001561
+  resolution: "caniuse-lite@npm:1.0.30001561"
+  checksum: 949829fe037e23346595614e01d362130245920503a12677f2506ce68e1240360113d6383febed41e8aa38cd0f5fd9c69c21b0af65a71c0246d560db489f1373
   languageName: node
   linkType: hard
 

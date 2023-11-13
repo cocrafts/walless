@@ -1,0 +1,16 @@
+{
+  "name": "Walless Wallet",
+  "short_name": "Walless",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#131c24",
+  "theme_color": "#131c24",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    }
+  ]
+}

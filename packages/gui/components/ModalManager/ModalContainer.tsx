@@ -5,7 +5,12 @@ import type {
 	LayoutRectangle,
 	ViewStyle,
 } from 'react-native';
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+	Platform,
+	StyleSheet,
+	TouchableWithoutFeedback,
+	View,
+} from 'react-native';
 import Animated, {
 	Extrapolate,
 	interpolate,
@@ -86,20 +91,22 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	}, [bindingRectangle]);
 
 	useEffect(() => {
-		const actualBindingRef = bindingRef || referenceMap.root;
-		if (!actualBindingRef.current) return;
+		if (Platform.OS === 'web') {
+			const actualBindingRef = bindingRef || referenceMap.root;
+			if (!actualBindingRef.current) return;
 
-		const bindingObserver = new ResizeObserver(async () => {
-			const updatedBindingRectangle = await measureRelative(item.bindingRef);
-			const safeId = id || 'default-modal';
-			modalState.map.set(safeId, {
-				...item,
-				bindingRectangle: updatedBindingRectangle,
+			const bindingObserver = new ResizeObserver(async () => {
+				const updatedBindingRectangle = await measureRelative(item.bindingRef);
+				const safeId = id || 'default-modal';
+				modalState.map.set(safeId, {
+					...item,
+					bindingRectangle: updatedBindingRectangle,
+				});
 			});
-		});
-		bindingObserver.observe(actualBindingRef.current as never);
+			bindingObserver.observe(actualBindingRef.current as never);
 
-		return () => bindingObserver.disconnect();
+			return () => bindingObserver.disconnect();
+		}
 	}, []);
 
 	const onInnerLayout = async ({ nativeEvent }: LayoutChangeEvent) => {

@@ -5,7 +5,12 @@ import type {
 	LayoutRectangle,
 	ViewStyle,
 } from 'react-native';
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+	Platform,
+	StyleSheet,
+	TouchableWithoutFeedback,
+	View,
+} from 'react-native';
 import Animated, {
 	Extrapolate,
 	interpolate,
@@ -86,6 +91,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	}, [bindingRectangle]);
 
 	useEffect(() => {
+		if (Platform.OS !== 'web') return;
 		const actualBindingRef = bindingRef || referenceMap.root;
 		if (!actualBindingRef.current) return;
 

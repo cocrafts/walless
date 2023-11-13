@@ -51,7 +51,7 @@ export const NavigatorOrb: FC<Props> = ({
 	const iconSize = item.storeMeta?.iconSize || 20;
 	const iconUri = item.storeMeta?.iconUri;
 	const iconSource = runtime.isMobile
-		? modules.asset.widget[item._id]?.cardIcon
+		? modules.asset.widget[item._id]?.widgetMeta.cardIcon
 		: { uri: iconUri };
 	const offset = useSharedValue(0);
 	const radius = useSharedValue(isActive ? 1000 : 15);

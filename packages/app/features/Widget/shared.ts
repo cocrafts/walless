@@ -51,9 +51,9 @@ export const getWalletCardSkin = (id: Networks): CardSkin => {
 	}
 
 	return {
-		backgroundSrc: asset.cardBackground,
-		iconSrc: asset.cardIcon,
-		largeIconSrc: asset.cardMark,
+		backgroundSrc: asset.widgetMeta.cardBackground,
+		iconSrc: asset.widgetMeta.cardIcon,
+		largeIconSrc: asset.widgetMeta.cardMark,
 		iconColor,
 		iconSize,
 	};

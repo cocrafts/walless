@@ -4,7 +4,7 @@ import type { TezosTransaction } from '@walless/core';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 
-export const handleTransferToken = async (
+export const transferToken = async (
 	transactionStr: string,
 	privateKey: Uint8Array,
 ) => {

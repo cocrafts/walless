@@ -6,4 +6,4 @@ export interface PayloadOptions {
 	passcode?: string;
 }
 
-export type PopupPayload = MessagePayload & PayloadOptions;
+export type PopupPayload = Omit<MessagePayload, 'requestId'> & PayloadOptions;

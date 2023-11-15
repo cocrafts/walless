@@ -1,6 +1,11 @@
 import { Timeout } from '@walless/core';
 import type { MessagePayload } from '@walless/messaging';
-import { Channels, PopupType, RequestType } from '@walless/messaging';
+import {
+	Channels,
+	PopupType,
+	RequestType,
+	ResponseCode,
+} from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 import * as bs58 from 'bs58';
 import type { PayloadOptions, PopupPayload } from 'utils/types';
@@ -31,7 +36,10 @@ export const handleRequestConnect = async (
 	};
 
 	try {
-		encryptedMessenger.request(Channels.kernel, payload);
+		const res = await encryptedMessenger.request(Channels.kernel, payload);
+		if (res.responseCode === ResponseCode.SUCCESS) {
+			window.close();
+		}
 	} catch (error) {
 		throw Error('Unable to handle connect request');
 	}

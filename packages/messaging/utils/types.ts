@@ -58,7 +58,7 @@ export type MessengerSend = (
 
 export type MessengerRequest = (
 	channelId: string,
-	payload: MessagePayload,
+	payload: Omit<MessagePayload, 'requestId'> | MessagePayload,
 	timeout?: number,
 ) => Promise<UnknownObject>;
 
@@ -84,7 +84,6 @@ export enum ResponseCode {
 	REQUIRE_PASSCODE,
 	WRONG_PASSCODE,
 	ERROR,
-	REJECTED,
 }
 
 export enum RequestType {

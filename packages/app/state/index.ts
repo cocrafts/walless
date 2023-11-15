@@ -9,5 +9,3 @@ export const appActions = {
 	setPrivacy,
 	setPathname,
 };
-
-export { type AppState, appState } from '@walless/engine';

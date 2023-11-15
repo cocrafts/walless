@@ -4,11 +4,15 @@ import { ResponseCode } from '@walless/messaging';
 import type { HandleMethod } from '../utils/types';
 
 type Payload = {
-	privateKey: Uint8Array;
-	transaction: string;
+	privateKey?: Uint8Array;
+	transaction?: string;
 };
 
 export const transferCoin: HandleMethod<Payload> = ({ payload, respond }) => {
+	if (!payload.privateKey || !payload.transaction) {
+		throw Error('Missing privateKey or transaction');
+	}
+
 	const signatureString = aptosHandler.handleTransferCoin(
 		payload.privateKey,
 		payload.transaction,
@@ -18,6 +22,10 @@ export const transferCoin: HandleMethod<Payload> = ({ payload, respond }) => {
 };
 
 export const transferToken: HandleMethod<Payload> = ({ payload, respond }) => {
+	if (!payload.privateKey || !payload.transaction) {
+		throw Error('Missing privateKey or transaction');
+	}
+
 	const signatureString = aptosHandler.handleTransferToken(
 		payload.privateKey,
 		payload.transaction,
@@ -27,6 +35,10 @@ export const transferToken: HandleMethod<Payload> = ({ payload, respond }) => {
 };
 
 export const claimToken: HandleMethod<Payload> = ({ payload, respond }) => {
+	if (!payload.privateKey || !payload.transaction) {
+		throw Error('Missing privateKey or transaction');
+	}
+
 	const signatureString = aptosHandler.handleClaimToken(
 		payload.privateKey,
 		payload.transaction,
@@ -39,6 +51,10 @@ export const updateDirectTransfer: HandleMethod<Payload> = ({
 	payload,
 	respond,
 }) => {
+	if (!payload.privateKey || !payload.transaction) {
+		throw Error('Missing privateKey or transaction');
+	}
+
 	const signatureString = aptosHandler.handleUpdateDirectTransfer(
 		payload.privateKey,
 		payload.transaction,

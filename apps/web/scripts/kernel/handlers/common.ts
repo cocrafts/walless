@@ -11,9 +11,9 @@ import {
 } from '../utils/helper';
 import { openPopup } from '../utils/popup';
 import { getRequestRecord } from '../utils/requestPool';
-import type { HandleMethod, InstallLayoutPayload } from '../utils/types';
+import type { HandleMethod } from '../utils/types';
 
-export const connect: HandleMethod<{ options: ConnectOptions }> = async ({
+export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 	payload,
 	respond,
 }) => {
@@ -49,9 +49,9 @@ export const connect: HandleMethod<{ options: ConnectOptions }> = async ({
 };
 
 export const disconnect: HandleMethod<{
-	options: ConnectOptions;
+	options?: ConnectOptions;
 }> = async ({ payload, respond }) => {
-	if (!payload.options) throw new Error('No connection options provided');
+	if (!payload.options) throw Error('No disconnection options provided');
 
 	const connectOptions = payload.options;
 	if (connectOptions.domain) {
@@ -68,8 +68,12 @@ export const disconnect: HandleMethod<{
 };
 
 export const requestPayload: HandleMethod<{
-	sourceRequestId: string;
+	sourceRequestId?: string;
 }> = ({ payload, respond }) => {
+	if (!payload.sourceRequestId) {
+		throw Error('Not sourceRequestId provided');
+	}
+
 	const { sourceRequestId, requestId } = payload;
 	const { payload: sourcePayload, channel: sourceChannel } =
 		getRequestRecord(sourceRequestId);
@@ -80,34 +84,43 @@ export const requestPayload: HandleMethod<{
 	});
 };
 
-export const installLayout: HandleMethod<InstallLayoutPayload> = async ({
+export type LayoutPayload = {
+	id?: string;
+};
+
+export const installLayout: HandleMethod<LayoutPayload> = async ({
 	payload,
 	respond,
 }) => {
 	const { requestId, id } = payload;
+	if (!id) throw Error('No layout id provided');
+
 	await addExtensionsById(id);
 	respond(requestId, ResponseCode.SUCCESS);
 };
 
-export const checkInstalledLayout: HandleMethod<InstallLayoutPayload> = async ({
+export const checkInstalledLayout: HandleMethod<LayoutPayload> = async ({
 	payload,
 	respond,
 }) => {
 	const { requestId, id } = payload;
+	if (!id) throw Error('No layout id provided');
 
 	const isInstalled = await checkInstalledExtensionById(id);
-	if (!isInstalled) throw new Error('Layout not installed');
+	if (!isInstalled) throw Error('Layout not installed');
 
 	respond(requestId, ResponseCode.SUCCESS);
 };
 
-export const openLayoutPopup: HandleMethod<{ id: string }> = async ({
+export const openLayoutPopup: HandleMethod<LayoutPayload> = async ({
 	payload,
 	respond,
 }) => {
 	const { requestId, id: layoutId } = payload;
+	if (!layoutId) throw Error('No layout id provided');
+
 	const popup = await openPopup(layoutId, requestId);
-	if (!popup) throw new Error('Cannot open popup');
+	if (!popup) throw Error('Cannot open popup');
 
 	respond(requestId, ResponseCode.SUCCESS);
 };

@@ -3,10 +3,14 @@ import { ResponseCode } from '@walless/messaging';
 
 import type { HandleMethod } from '../utils/types';
 
-export const signMessageHandle: HandleMethod<{
-	privateKey: Uint8Array;
-	message: string;
+export const signMessage: HandleMethod<{
+	privateKey?: Uint8Array;
+	message?: string;
 }> = async ({ payload, respond }) => {
+	if (!payload.privateKey || !payload.message) {
+		throw Error('Missing privateKey or message');
+	}
+
 	const signature = solanaHandler.signMessage(
 		payload.message,
 		payload.privateKey,
@@ -15,10 +19,14 @@ export const signMessageHandle: HandleMethod<{
 	respond(payload.requestId, ResponseCode.SUCCESS, { signature });
 };
 
-export const signTransactionHandle: HandleMethod<{
-	privateKey: Uint8Array;
-	transaction: string;
+export const signTransaction: HandleMethod<{
+	privateKey?: Uint8Array;
+	transaction?: string;
 }> = async ({ payload, respond }) => {
+	if (!payload.privateKey || !payload.transaction) {
+		throw Error('Missing privateKey or transaction');
+	}
+
 	const signedTransaction = await solanaHandler.signTransaction(
 		payload.transaction,
 		payload.privateKey,
@@ -27,10 +35,14 @@ export const signTransactionHandle: HandleMethod<{
 	respond(payload.requestId, ResponseCode.SUCCESS, { signedTransaction });
 };
 
-export const signAndSendTransactionHandle: HandleMethod<{
-	privateKey: Uint8Array;
-	transaction: string;
+export const signAndSendTransaction: HandleMethod<{
+	privateKey?: Uint8Array;
+	transaction?: string;
 }> = async ({ payload, respond }) => {
+	if (!payload.privateKey || !payload.transaction) {
+		throw Error('Missing privateKey or transaction');
+	}
+
 	const signatureString = await solanaHandler.signAndSendTransaction(
 		payload.transaction,
 		payload.privateKey,
@@ -39,10 +51,14 @@ export const signAndSendTransactionHandle: HandleMethod<{
 	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
 };
 
-export const signTransactionAbstractionFeeHandle: HandleMethod<{
-	privateKey: Uint8Array;
-	transaction: string;
+export const signTransactionAbstractionFee: HandleMethod<{
+	privateKey?: Uint8Array;
+	transaction?: string;
 }> = async ({ payload, respond }) => {
+	if (!payload.privateKey || !payload.transaction) {
+		throw Error('Missing privateKey or transaction');
+	}
+
 	const signatureString =
 		await solanaHandler.signAndSendAbstractionFeeTransaction(
 			payload.transaction,

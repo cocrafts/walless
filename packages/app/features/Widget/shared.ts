@@ -8,6 +8,7 @@ import type { CardSkin } from '../../components/WalletCard';
 import BuiltInNetwork from './BuiltInNetwork';
 import { EmptyTab } from './components';
 import NotFound from './NotFound';
+import Pixeverse from './Pixeverse';
 import TRexRunner from './TRexRunner';
 
 export interface WidgetProps {
@@ -22,6 +23,7 @@ export const widgetMap: Record<string, WidgetComponent> = {
 	solana: BuiltInNetwork,
 	aptos: BuiltInNetwork,
 	tRexRunner: TRexRunner,
+	pixeverse: Pixeverse,
 };
 
 export const extractWidgetComponent = (id: string): WidgetComponent => {

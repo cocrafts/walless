@@ -1,13 +1,13 @@
 import type { MiniBroadcast, Networks, UnknownObject } from '@walless/core';
 import type { MessagePayload, ResponseCode } from '@walless/messaging';
 
-export type HandleMethodProps = {
-	privateKey: Uint8Array;
-	payload: UnknownObject;
-	responseMethod: ResponseMethod;
-};
+export type DefaultPayload = UnknownObject & MessagePayload;
 
-export type HandleMethod = (props: HandleMethodProps) => void;
+export type HandleMethod<T> = (props: {
+	payload: T & DefaultPayload;
+	respond: ResponseMethod;
+	next?: (payload: DefaultPayload) => Promise<void>;
+}) => Promise<void> | void;
 
 export type ResponseMethod = (
 	to: string,
@@ -17,8 +17,8 @@ export type ResponseMethod = (
 
 export type CoordinatingHandleProps = {
 	channel: MiniBroadcast;
-	payload: UnknownObject | MessagePayload;
-	handleMethod: HandleMethod;
+	payload: DefaultPayload;
+	handleMethod: HandleMethod<DefaultPayload>;
 	requirePrivateKey: boolean;
 	requireUserAction: boolean;
 	network?: Networks;

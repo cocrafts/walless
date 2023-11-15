@@ -23,9 +23,9 @@ interface IdentifiedPayload {
 
 export type MessagePayload = UnknownObject &
 	IdentifiedPayload & {
-		from?: string;
+		from: string;
 		type: RequestType;
-		requestId?: string;
+		requestId: string;
 	};
 
 export type ResponsePayload = UnknownObject &

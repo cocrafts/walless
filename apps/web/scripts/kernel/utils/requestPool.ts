@@ -33,6 +33,27 @@ export const response: ResponseMethod = (
 	removeRequestRecord(to);
 };
 
+export const respond: ResponseMethod = (
+	to,
+	responseCode,
+	responsePayload = {},
+) => {
+	const { channel, payload } = requestPool[to];
+
+	channel.postMessage({
+		...responsePayload,
+		from: 'walless@kernel',
+		requestId: to,
+		responseCode,
+	});
+
+	if (payload.popupId) {
+		closePopup(payload.popupId);
+	}
+
+	removeRequestRecord(to);
+};
+
 export const removeRequestRecord = (requestId: string) => {
 	delete requestPool[requestId];
 };

@@ -1,11 +1,10 @@
-import type { ConnectOptions, Networks } from '@walless/core';
+import type { ConnectOptions } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { PopupType, ResponseCode, ResponseMessage } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
 import type { TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
-import { getPrivateKey } from './handler';
 import { closePopup, openPopup } from './popup';
 import {
 	addRequestRecord,
@@ -19,13 +18,10 @@ import type { CoordinatingHandle } from './types';
 export const handle: CoordinatingHandle = async ({
 	channel,
 	payload,
-	handleMethod,
 	requirePrivateKey,
 	requireUserAction,
-	network,
 }) => {
-	const { from, type, requestId, sourceRequestId, passcode, isApproved } =
-		payload;
+	const { from, type, requestId, sourceRequestId, isApproved } = payload;
 	addRequestRecord(requestId, channel, payload);
 
 	if (from == 'walless@sdk' && requireUserAction) {
@@ -130,22 +126,4 @@ export const handle: CoordinatingHandle = async ({
 		// Remove request record from popup that will not be response
 		removeRequestRecord(requestId);
 	}
-
-	// Normal flow
-	let privateKey;
-	if (requirePrivateKey) {
-		if (!passcode) return response(requestId, ResponseCode.REQUIRE_PASSCODE);
-
-		try {
-			privateKey = await getPrivateKey(network as Networks, passcode);
-		} catch (error) {
-			return response(requestId, ResponseCode.WRONG_PASSCODE);
-		}
-	}
-
-	handleMethod({
-		privateKey: privateKey || new Uint8Array(),
-		payload,
-		responseMethod: response,
-	});
 };

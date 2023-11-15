@@ -1,5 +1,5 @@
 import type { RemoteConfig } from '@walless/core';
-import { defaultRemoteConfig } from '@walless/engine';
+import { appState, defaultRemoteConfig } from '@walless/engine';
 import type { FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
@@ -53,6 +53,8 @@ auth.onIdTokenChanged(async (user) => {
 	} else {
 		fireCache.idToken = undefined;
 	}
+
+	appState.jwtAuth = await auth.currentUser?.getIdToken(true);
 });
 
 export const initializeAuth = async () => {

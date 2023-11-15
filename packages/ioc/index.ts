@@ -97,7 +97,7 @@ export interface UniversalAsset {
 			icon: ImageSourcePropType;
 		};
 	};
-	tabBar: {
+	tabBar?: {
 		explore: ImageSourcePropType;
 		walless: ImageSourcePropType;
 	};

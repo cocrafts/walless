@@ -1,4 +1,3 @@
-const { InjectManifest } = require('workbox-webpack-plugin');
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 const { copyAssets } = require('../../tool/webpack/asset');
 const { useCache } = require('../../tool/webpack/optimization');
@@ -30,17 +29,6 @@ const injectEntries = (config) => {
 		import: 'scripts/worker/w3a-response.ts',
 		filename: 'w3a-response.js',
 	};
-
-	return config;
-};
-
-const progressiveWebApp = (config) => {
-	config.plugins.push(
-		new InjectManifest({
-			swSrc: 'scripts/worker/kernel',
-			swDest: 'kernel.js',
-		}),
-	);
 
 	return config;
 };
@@ -92,7 +80,6 @@ module.exports = {
 		useCache,
 		copyAssets,
 		injectEntries,
-		progressiveWebApp,
 		web3Polyfills,
 		setEnvironments(),
 	],

@@ -12,7 +12,9 @@ export const handle = (payload: MessagePayload) => {
 		const [currentHandle, ...restHandles] = handles;
 
 		const next =
-			restHandles.length > 0 ? () => execute(restHandles) : undefined;
+			restHandles.length > 0
+				? (payload: MessagePayload) => handle(payload).execute(restHandles)
+				: undefined;
 		try {
 			await currentHandle({ payload, next });
 		} catch (error) {

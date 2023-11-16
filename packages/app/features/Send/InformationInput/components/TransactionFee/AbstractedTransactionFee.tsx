@@ -7,9 +7,11 @@ import {
 } from 'react-native';
 import type { Token, TransactionPayload } from '@walless/core';
 import type { Networks } from '@walless/core';
+import { solMint } from '@walless/engine/crawlers/solana/metadata';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
+import { set } from 'lodash';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -82,7 +84,7 @@ export const AbstractedTransactionFee = () => {
 	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
 
 	useEffect(() => {
-		if (isDropped) {
+		if (isDropped && token?.account.mint !== solMint) {
 			modalActions.show({
 				id: 'NetworkFee',
 				component: () => (
@@ -96,8 +98,10 @@ export const AbstractedTransactionFee = () => {
 				bindingDirection: BindDirections.Bottom,
 				maskActiveOpacity: 0,
 			});
+		} else {
+			setIsDropped(false);
 		}
-	}, [isDropped]);
+	}, [isDropped, token]);
 
 	useEffect(() => {
 		handleCheckIfBalanceIsEnough(

@@ -1,4 +1,4 @@
-import type { MessagePayload } from '@walless/messaging';
+import type { PureMessagePayload } from '@walless/messaging';
 
 export interface PayloadOptions {
 	sourceRequestId: string;
@@ -6,4 +6,4 @@ export interface PayloadOptions {
 	passcode?: string;
 }
 
-export type PopupPayload = Omit<MessagePayload, 'requestId'> & PayloadOptions;
+export type PopupPayload = PureMessagePayload & PayloadOptions;

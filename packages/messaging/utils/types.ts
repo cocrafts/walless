@@ -28,6 +28,8 @@ export type MessagePayload = UnknownObject &
 		requestId: string;
 	};
 
+export type PureMessagePayload = Omit<MessagePayload, 'requestId'>;
+
 export type ResponsePayload = UnknownObject &
 	IdentifiedPayload & {
 		from?: string;
@@ -58,7 +60,7 @@ export type MessengerSend = (
 
 export type MessengerRequest = (
 	channelId: string,
-	payload: Omit<MessagePayload, 'requestId'> | MessagePayload,
+	payload: PureMessagePayload | MessagePayload,
 	timeout?: number,
 ) => Promise<UnknownObject>;
 

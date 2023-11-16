@@ -1,5 +1,5 @@
 import { Timeout } from '@walless/core';
-import type { MessagePayload } from '@walless/messaging';
+import type { PureMessagePayload } from '@walless/messaging';
 import {
 	Channels,
 	PopupType,
@@ -14,7 +14,7 @@ export const registerMessageHandlers = async () => {
 	// Empty for now
 };
 
-export const requestHandleTransaction = async (payload: MessagePayload) => {
+export const requestHandleTransaction = async (payload: PureMessagePayload) => {
 	try {
 		return await encryptedMessenger.request('kernel', payload);
 	} catch (error) {

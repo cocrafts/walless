@@ -3,7 +3,6 @@ import type { MessagePayload, ResponseCode } from '@walless/messaging';
 
 export type HandleMethod<T> = (props: {
 	payload: T & MessagePayload;
-	respond: ResponseMethod;
 	next?: (payload: MessagePayload) => Promise<void>;
 }) => Promise<void> | void;
 

@@ -17,7 +17,7 @@ import type { HandleMethod } from './types';
 export const getPrivateKey = (
 	network: Networks,
 ): HandleMethod<{ passcode?: string }> => {
-	return async ({ payload, respond, next }) => {
+	return async ({ payload, next }) => {
 		const passcode = payload.passcode;
 		if (!passcode) {
 			return respond(payload.requestId, ResponseCode.REQUIRE_PASSCODE);

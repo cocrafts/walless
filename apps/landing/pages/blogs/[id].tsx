@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Text } from '@walless/gui';
+import { ActivityIndicator } from 'react-native';
 import HomeLayout from 'components/layouts/Home';
 import { ContainerStack } from 'components/styled';
 import BlogDetails from 'features/blogs/BlogDetails';
@@ -23,7 +23,7 @@ const BlogScreen = () => {
 		<HomeLayout>
 			<ContainerStack alignItems="center" justifyContent="center">
 				{!blog ? (
-					<Text>loading</Text>
+					<ActivityIndicator />
 				) : (
 					<BlogDetails
 						id={blog.id}

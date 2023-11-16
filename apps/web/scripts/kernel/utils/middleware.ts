@@ -80,3 +80,28 @@ export const checkApproval: HandleMethod<{
 
 	respond(requestId, ResponseCode.SUCCESS);
 };
+
+export const filterSDKSignatureRequest: HandleMethod<{
+	isApproved?: boolean;
+}> = async ({ payload, next }) => {
+	const { from, requestId, isApproved, sourceRequestId } = payload;
+	console.log('filter and forward sdk signature request', payload);
+
+	if (from === 'walless@sdk') {
+		await openPopup(PopupType.SIGNATURE_POPUP, requestId);
+	} else if (from === PopupType.SIGNATURE_POPUP) {
+		if (!sourceRequestId) throw Error('No source request id provided');
+		if (!isApproved) {
+			console.log('rejected');
+			respond(sourceRequestId, ResponseCode.ERROR, {
+				error: 'User rejected the request',
+			});
+			respond(requestId, ResponseCode.SUCCESS);
+		} else {
+			await next?.(payload);
+		}
+	} else {
+		next?.(payload);
+	}
+};
+

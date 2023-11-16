@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { UnknownObject } from '@walless/core';
+import { runtime } from '@walless/core';
 import type { MessagePayload } from '@walless/messaging';
 import { getDataFromSourceRequest } from 'bridge/listeners';
 
@@ -29,7 +30,9 @@ export const useRequestData = (requestId: string, from: string) => {
 			}
 		};
 
-		configureSender();
+		if (runtime.isExtension) {
+			configureSender();
+		}
 	}, [requestId]);
 
 	return {

@@ -1,12 +1,13 @@
 import { solanaHandler } from '@walless/kernel';
 import { ResponseCode } from '@walless/messaging';
 
+import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 
 export const signMessage: HandleMethod<{
 	privateKey?: Uint8Array;
 	message?: string;
-}> = async ({ payload, respond }) => {
+}> = async ({ payload }) => {
 	if (!payload.privateKey || !payload.message) {
 		throw Error('Missing privateKey or message');
 	}
@@ -22,7 +23,7 @@ export const signMessage: HandleMethod<{
 export const signTransaction: HandleMethod<{
 	privateKey?: Uint8Array;
 	transaction?: string;
-}> = async ({ payload, respond }) => {
+}> = async ({ payload }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}
@@ -38,7 +39,8 @@ export const signTransaction: HandleMethod<{
 export const signAndSendTransaction: HandleMethod<{
 	privateKey?: Uint8Array;
 	transaction?: string;
-}> = async ({ payload, respond }) => {
+}> = async ({ payload }) => {
+	console.log('signAndSendTransaction', payload);
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}
@@ -54,7 +56,7 @@ export const signAndSendTransaction: HandleMethod<{
 export const signTransactionAbstractionFee: HandleMethod<{
 	privateKey?: Uint8Array;
 	transaction?: string;
-}> = async ({ payload, respond }) => {
+}> = async ({ payload }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}

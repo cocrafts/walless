@@ -31,68 +31,80 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		});
 	}
 
-	if (type === RequestType.REQUEST_CONNECT) {
-		if (payload.from === 'walless@sdk') {
-			handle(payload, checkConnection, common.connect);
-		} else if (payload.from === PopupType.REQUEST_CONNECT_POPUP) {
-			handle(payload, checkApproval, common.connect);
-		}
+	if (type === RequestType.REQUEST_CONNECT && payload.from === 'walless@sdk') {
+		handle(payload).execute([checkConnection, common.connect]);
+	} else if (
+		type === RequestType.REQUEST_CONNECT &&
+		payload.form === PopupType.REQUEST_CONNECT_POPUP
+	) {
+		handle(payload).execute([checkApproval, common.connect]);
 	} else if (type === RequestType.REQUEST_DISCONNECT) {
-		handle(payload, common.disconnect);
+		handle(payload).execute([common.disconnect]);
 	} else if (type === RequestType.REQUEST_PAYLOAD) {
-		handle(payload, common.requestPayload);
+		handle(payload).execute([common.requestPayload]);
 	} else if (type === RequestType.INSTALL_LAYOUT) {
-		handle(payload, common.installLayout);
+		handle(payload).execute([common.installLayout]);
 	} else if (type === RequestType.CHECK_INSTALLED_LAYOUT) {
-		handle(payload, common.checkInstalledLayout);
+		handle(payload).execute([common.checkInstalledLayout]);
 	} else if (type === RequestType.OPEN_LAYOUT_POPUP) {
-		handle(payload, common.openLayoutPopup);
+		handle(payload).execute([common.openLayoutPopup]);
 	} else if (type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
-		handle(
-			payload,
+		handle(payload).execute([
 			filterSDKSignatureRequest,
 			getPrivateKey(Networks.solana),
 			forwardToSourceRequest,
 			solana.signMessage,
-		);
+		]);
 	} else if (type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {
-		handle(
-			payload,
+		handle(payload).execute([
 			filterSDKSignatureRequest,
 			getPrivateKey(Networks.solana),
 			forwardToSourceRequest,
 			solana.signTransaction,
-		);
+		]);
 	} else if (type === RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA) {
-		handle(
-			payload,
+		handle(payload).execute([
 			filterSDKSignatureRequest,
 			getPrivateKey(Networks.solana),
 			forwardToSourceRequest,
 			solana.signAndSendTransaction,
-		);
+		]);
 	} else if (type === RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA) {
-		handle(
-			payload,
+		handle(payload).execute([
 			getPrivateKey(Networks.solana),
 			solana.signTransactionAbstractionFee,
-		);
+		]);
 	} else if (type === RequestType.SIGN_MESSAGE_ON_SUI) {
-		handle(payload, getPrivateKey(Networks.sui), sui.signMessage);
+		handle(payload).execute([getPrivateKey(Networks.sui), sui.signMessage]);
 	} else if (type === RequestType.SIGN_TRANSACTION_ON_SUI) {
-		handle(payload, getPrivateKey(Networks.sui), sui.signTransaction);
+		handle(payload).execute([getPrivateKey(Networks.sui), sui.signTransaction]);
 	} else if (type === RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI) {
-		handle(payload, getPrivateKey(Networks.sui), sui.signAndExecuteTransaction);
+		handle(payload).execute([
+			getPrivateKey(Networks.sui),
+			sui.signAndExecuteTransaction,
+		]);
 	} else if (payload.type === RequestType.TRANSFER_TEZOS_TOKEN) {
-		handle(payload, getPrivateKey(Networks.tezos), tezos.transferToken);
+		handle(payload).execute([
+			getPrivateKey(Networks.tezos),
+			tezos.transferToken,
+		]);
 	} else if (type === RequestType.TRANSFER_COIN_ON_APTOS) {
-		handle(payload, getPrivateKey(Networks.aptos), aptos.transferCoin);
+		handle(payload).execute([
+			getPrivateKey(Networks.aptos),
+			aptos.transferCoin,
+		]);
 	} else if (type === RequestType.TRANSFER_TOKEN_ON_APTOS) {
-		handle(payload, getPrivateKey(Networks.aptos), aptos.transferToken);
+		handle(payload).execute([
+			getPrivateKey(Networks.aptos),
+			aptos.transferToken,
+		]);
 	} else if (type === RequestType.CLAIM_TOKEN_ON_APTOS) {
-		handle(payload, getPrivateKey(Networks.aptos), aptos.claimToken);
+		handle(payload).execute([getPrivateKey(Networks.aptos), aptos.claimToken]);
 	} else if (type === RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS) {
-		handle(payload, getPrivateKey(Networks.aptos), aptos.updateDirectTransfer);
+		handle(payload).execute([
+			getPrivateKey(Networks.aptos),
+			aptos.updateDirectTransfer,
+		]);
 	} else {
 		return channel.postMessage({
 			from: 'walless@kernel',

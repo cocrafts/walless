@@ -5,22 +5,20 @@ import { ResponseCode } from '@walless/messaging';
 import { respond } from './requestPool';
 import type { HandleMethod } from './types';
 
-export const handle = async (
-	payload: MessagePayload,
-	...args: HandleMethod<UnknownObject>[]
-) => {
-	if (args.length === 0) throw Error('No handler provided');
+export const handle = (payload: MessagePayload) => {
+	const execute = async (handles: HandleMethod<UnknownObject>[]) => {
+		if (handles.length === 0) throw Error('No handler provided');
 
-	const [currentHandle, ...restHandles] = args;
+		const [currentHandle, ...restHandles] = handles;
 
-	const next =
-		restHandles.length > 0
-			? (payload: MessagePayload) => handle(payload, ...restHandles)
-			: undefined;
+		const next =
+			restHandles.length > 0 ? () => execute(restHandles) : undefined;
+		try {
+			await currentHandle({ payload, next });
+		} catch (error) {
+			respond(payload.requestId, ResponseCode.ERROR, { error });
+		}
+	};
 
-	try {
-		await currentHandle({ payload, respond, next });
-	} catch (error) {
-		respond(payload.requestId, ResponseCode.ERROR, { error });
-	}
+	return { execute };
 };

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@walless/gui';
 
 import PasscodeInput from './PasscodeInput';
@@ -11,6 +11,7 @@ interface Props {
 	passcode?: string;
 	isCreate?: boolean;
 	error?: string;
+	loading?: boolean;
 	onPasscodeChange?: (
 		value: string,
 		isCompleted?: boolean,
@@ -23,11 +24,13 @@ export const PasscodeFeature: FC<Props> = ({
 	passcode = '',
 	isCreate = false,
 	error = '',
+	loading = false,
 	onPasscodeChange,
 }) => {
 	const createPasscodeRef = useRef({ value: '', isConfirmation: false });
 	const [innerPasscode, setInnerPasscode] = useState(passcode);
 	const [innerError, setInnerError] = useState(error);
+	const [innerLoading, setInnerLoading] = useState(loading);
 
 	const handlePasscodeChange = (value: string, isCompleted?: boolean) => {
 		let nextValue = value;
@@ -73,10 +76,20 @@ export const PasscodeFeature: FC<Props> = ({
 		}
 	}, [passcode]);
 	useEffect(() => setInnerError(error), [error]);
+	useEffect(() => {
+		setInnerLoading(loading);
+	}, [loading]);
 
 	return (
 		<View style={[styles.container, containerStyle]}>
-			<PasscodeInput passcode={innerPasscode} onChange={handlePasscodeChange} />
+			{innerLoading ? (
+				<ActivityIndicator color="white" style={{ height: 48 }} />
+			) : (
+				<PasscodeInput
+					passcode={innerPasscode}
+					onChange={handlePasscodeChange}
+				/>
+			)}
 			<Text style={styles.errorMessage}>{innerError || ' '}</Text>
 			{isCreate && createPasscodeRef.current.isConfirmation ? (
 				<TouchableOpacity

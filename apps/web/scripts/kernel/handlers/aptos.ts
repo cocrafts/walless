@@ -1,6 +1,7 @@
 import { aptosHandler } from '@walless/kernel';
 import { ResponseCode } from '@walless/messaging';
 
+import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 
 type Payload = {
@@ -8,7 +9,7 @@ type Payload = {
 	transaction?: string;
 };
 
-export const transferCoin: HandleMethod<Payload> = ({ payload, respond }) => {
+export const transferCoin: HandleMethod<Payload> = ({ payload }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}
@@ -21,7 +22,7 @@ export const transferCoin: HandleMethod<Payload> = ({ payload, respond }) => {
 	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
 };
 
-export const transferToken: HandleMethod<Payload> = ({ payload, respond }) => {
+export const transferToken: HandleMethod<Payload> = ({ payload }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}
@@ -34,7 +35,7 @@ export const transferToken: HandleMethod<Payload> = ({ payload, respond }) => {
 	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
 };
 
-export const claimToken: HandleMethod<Payload> = ({ payload, respond }) => {
+export const claimToken: HandleMethod<Payload> = ({ payload }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}
@@ -47,10 +48,7 @@ export const claimToken: HandleMethod<Payload> = ({ payload, respond }) => {
 	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
 };
 
-export const updateDirectTransfer: HandleMethod<Payload> = ({
-	payload,
-	respond,
-}) => {
+export const updateDirectTransfer: HandleMethod<Payload> = ({ payload }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}

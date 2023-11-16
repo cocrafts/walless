@@ -1,6 +1,7 @@
 import { suiHandler } from '@walless/kernel';
 import { ResponseCode } from '@walless/messaging';
 
+import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 
 type MessagePayload = {
@@ -15,7 +16,6 @@ type TransactionPayload = {
 
 export const signMessage: HandleMethod<MessagePayload> = async ({
 	payload,
-	respond,
 }) => {
 	if (!payload.privateKey || !payload.message) {
 		throw Error('Missing privateKey or message');
@@ -28,7 +28,6 @@ export const signMessage: HandleMethod<MessagePayload> = async ({
 
 export const signTransaction: HandleMethod<TransactionPayload> = async ({
 	payload,
-	respond,
 }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
@@ -44,7 +43,7 @@ export const signTransaction: HandleMethod<TransactionPayload> = async ({
 
 export const signAndExecuteTransaction: HandleMethod<
 	TransactionPayload
-> = async ({ payload, respond }) => {
+> = async ({ payload }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}

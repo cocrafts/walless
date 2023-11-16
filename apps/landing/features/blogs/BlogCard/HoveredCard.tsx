@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 import type { Category } from '../internal';
 
-import type { ResponsiveState } from '.';
+import type { ResponsiveState } from './internal';
 
 interface Props {
 	style?: ViewStyle;
@@ -28,6 +28,7 @@ const HoveredCard: FC<Props> = ({
 	description,
 	responsiveState,
 }) => {
+	console.log('-->', height);
 	const {
 		categorySize,
 		containerStyle,
@@ -38,9 +39,7 @@ const HoveredCard: FC<Props> = ({
 
 	return (
 		<View
-			style={[
-				[styles.hoverContainer, containerStyle, { height: height }, style],
-			]}
+			style={[[styles.container, containerStyle, { height: height }, style]]}
 		>
 			<View
 				style={{
@@ -52,8 +51,8 @@ const HoveredCard: FC<Props> = ({
 				<Image
 					src="/img/blogs/hover-image.svg"
 					alt="hover"
-					width={(height * 471) / 258}
-					height={height}
+					width={(((height * 2) / 3) * 471) / 258}
+					height={(height * 2) / 3}
 					objectFit="contain"
 				/>
 			</View>
@@ -101,9 +100,11 @@ const HoveredCard: FC<Props> = ({
 export default HoveredCard;
 
 const styles = StyleSheet.create({
-	hoverContainer: {
+	container: {
+		position: 'absolute',
 		backgroundColor: '#0694D3',
 		height: 'fit-content',
+		overflow: 'hidden',
 		borderRadius: 20,
 	},
 	contentContainer: {

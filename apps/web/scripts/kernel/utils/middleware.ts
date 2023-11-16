@@ -105,3 +105,16 @@ export const filterSDKSignatureRequest: HandleMethod<{
 	}
 };
 
+export const forwardToSourceRequest: HandleMethod<{
+	sourceRequestId?: string;
+}> = async ({ payload, next }) => {
+	const { sourceRequestId } = payload;
+	if (sourceRequestId) {
+		const sourcePayload = getRequestRecord(sourceRequestId as string).payload;
+		if (!sourcePayload) throw Error('No source payload found');
+		await next?.({ ...payload, ...sourcePayload });
+		respond(payload.requestId, ResponseCode.SUCCESS);
+	} else {
+		next?.(payload);
+	}
+};

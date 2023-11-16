@@ -11,7 +11,7 @@ export const signMessage: HandleMethod<{
 		throw Error('Missing privateKey or message');
 	}
 
-	const signature = solanaHandler.signMessage(
+	const signature = await solanaHandler.signMessage(
 		payload.message,
 		payload.privateKey,
 	);

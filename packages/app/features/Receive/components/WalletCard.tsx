@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { ImageSourcePropType } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
@@ -13,7 +14,7 @@ interface Props {
 
 export interface WalletProps {
 	network: string;
-	networkIcon: string;
+	networkIcon: ImageSourcePropType;
 	address: string;
 }
 

@@ -7,8 +7,8 @@ import {
 	TabsHeader,
 	WalletCard,
 } from '@walless/app';
-import ActivityTab from '@walless/app/features/Widget/components/ActivityTab';
-import { copy, showReceiveModal, showSendModal } from '@walless/app/utils';
+import { showReceiveModal, showSendModal } from '@walless/app';
+import { copy } from '@walless/app/utils';
 import {
 	usePublicKeys,
 	useSettings,

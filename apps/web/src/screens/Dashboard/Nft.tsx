@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { showSendModal } from '@walless/app/utils';
+import { showSendModal } from '@walless/app';
 import { useNfts } from '@walless/app/utils/hooks';
 import { Networks } from '@walless/core';
 import { Button, Hoverable, Text, View } from '@walless/gui';

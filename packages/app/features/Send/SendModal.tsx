@@ -1,19 +1,21 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { SendFeature } from '@walless/app';
-import {
-	checkValidAddress,
-	getTransactionAbstractFee,
-	getTransactionFee,
-} from '@walless/app/utils';
-import { useNfts, usePublicKeys, useTokens } from '@walless/app/utils/hooks';
 import type { Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import type { CollectibleDocument } from '@walless/store';
 
-interface ModalContext {
+import {
+	checkValidAddress,
+	getTransactionAbstractFee,
+	getTransactionFee,
+} from '../../utils';
+import { useNfts, usePublicKeys, useTokens } from '../../utils/hooks';
+
+import { SendFeature } from './SendFeature';
+
+export interface ModalContext {
 	layoutNetwork?: Networks;
 	collectible?: CollectibleDocument;
 }
@@ -33,6 +35,7 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 			<SendFeature
 				initCollectible={collectible}
 				tokens={tokens}
+				tokenForFee={tokens[0]}
 				nftCollections={collections}
 				nftCollectibles={collectibles}
 				publicKeys={addressList}

@@ -6,7 +6,8 @@ import { utils } from '@walless/ioc';
 
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
 import { useSafeAreaInsets } from '../../utils/hooks';
-import { showReceiveModal, showSendModal } from '../../utils/modal';
+import { showReceiveModal } from '../Receive';
+import { showSendModal } from '../Send';
 
 import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';

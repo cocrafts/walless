@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { ImageSourcePropType } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
@@ -7,7 +8,7 @@ import { copy } from '../../../utils';
 
 interface Props {
 	network: string;
-	networkIcon: string;
+	networkIcon: ImageSourcePropType;
 	address: string;
 }
 
@@ -18,7 +19,7 @@ const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
 
 	return (
 		<Button style={styles.container} onPress={handleCopied}>
-			<Image style={styles.networkIcon} source={{ uri: networkIcon }} />
+			<Image style={styles.networkIcon} source={networkIcon} />
 			<View style={styles.textBlock}>
 				<Text style={styles.network}>{network}</Text>
 				<Text style={styles.address}>{address.substring(0, 16) + '...'}</Text>

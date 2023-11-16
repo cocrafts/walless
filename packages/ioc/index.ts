@@ -27,24 +27,60 @@ export interface NativeConfig {
 export interface UniversalAsset {
 	widget: {
 		solana: {
-			cardIcon: ImageSourcePropType;
-			cardMark?: ImageSourcePropType;
-			cardBackground: ImageSourcePropType;
+			storeMeta: {
+				iconUri: ImageSourcePropType;
+				coverUri: ImageSourcePropType;
+			};
+			widgetMeta: {
+				cardIcon: ImageSourcePropType;
+				cardMark?: ImageSourcePropType;
+				cardBackground: ImageSourcePropType;
+			};
 		};
 		sui: {
-			cardIcon: ImageSourcePropType;
-			cardMark?: ImageSourcePropType;
-			cardBackground: ImageSourcePropType;
+			storeMeta: {
+				iconUri: ImageSourcePropType;
+				coverUri: ImageSourcePropType;
+			};
+			widgetMeta: {
+				cardIcon: ImageSourcePropType;
+				cardMark?: ImageSourcePropType;
+				cardBackground: ImageSourcePropType;
+			};
 		};
 		tezos: {
-			cardIcon: ImageSourcePropType;
-			cardMark?: ImageSourcePropType;
-			cardBackground: ImageSourcePropType;
+			storeMeta: {
+				iconUri: ImageSourcePropType;
+				coverUri: ImageSourcePropType;
+			};
+			widgetMeta: {
+				cardIcon: ImageSourcePropType;
+				cardMark?: ImageSourcePropType;
+				cardBackground: ImageSourcePropType;
+			};
 		};
 		aptos: {
-			cardIcon: ImageSourcePropType;
-			cardMark?: ImageSourcePropType;
-			cardBackground: ImageSourcePropType;
+			storeMeta: {
+				iconUri: ImageSourcePropType;
+				coverUri: ImageSourcePropType;
+			};
+			widgetMeta: {
+				cardIcon: ImageSourcePropType;
+				cardMark?: ImageSourcePropType;
+				cardBackground: ImageSourcePropType;
+			};
+		};
+		pixeverse: {
+			storeMeta: {
+				iconUri: ImageSourcePropType;
+				coverUri: ImageSourcePropType;
+			};
+		};
+		tRexRunner: {
+			storeMeta: {
+				iconUri: ImageSourcePropType;
+				coverUri: ImageSourcePropType;
+			};
 		};
 	};
 	setting: {

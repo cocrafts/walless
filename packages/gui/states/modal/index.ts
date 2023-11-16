@@ -1,6 +1,6 @@
 import type { RefObject } from 'react';
 import type { View } from 'react-native';
-import { proxy } from 'valtio';
+import { proxy, ref } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 
 import { measureRelative, referenceMap } from './helper';
@@ -22,6 +22,7 @@ export const modalActions = {
 			modalState.map.set(safeId, {
 				id: safeId,
 				bindingRectangle: layout,
+				bindingRef: bindingRef && (ref(bindingRef) as never as RefObject<View>),
 				...restConfigs,
 			});
 		});

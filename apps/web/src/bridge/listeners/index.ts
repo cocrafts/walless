@@ -80,9 +80,12 @@ export const handleRequestSignature = async (
 	}
 };
 
-export const getDataFromSourceRequest = async (requestId: string) => {
+export const getDataFromSourceRequest = async (
+	requestId: string,
+	from: string,
+) => {
 	const payload: PopupPayload = {
-		from: PopupType.SIGNATURE_POPUP,
+		from,
 		type: RequestType.REQUEST_PAYLOAD,
 		sourceRequestId: requestId,
 	};

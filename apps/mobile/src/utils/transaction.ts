@@ -75,12 +75,12 @@ export const createAndSend: CreateAndSendFunction = async (
 			if (isCoinTransaction) {
 				res.signatureString = await aptosHandler.handleTransferCoin(
 					privateKey,
-					JSON.stringify(transaction),
+					transaction as aptosHandler.AptosCoinPayload,
 				);
 			} else {
 				res.signatureString = await aptosHandler.handleTransferToken(
 					privateKey,
-					JSON.stringify(transaction),
+					transaction as aptosHandler.AptosTokenPayload,
 				);
 			}
 			res.responseCode = ResponseCode.SUCCESS;

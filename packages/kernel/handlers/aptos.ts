@@ -19,9 +19,14 @@ export interface AptosCoinPayload {
 
 export const handleTransferCoin = async (
 	privateKey: Uint8Array,
-	transaction: string,
+	transaction: string | AptosCoinPayload,
 ) => {
-	const txData = JSON.parse(transaction) as AptosCoinPayload;
+	let txData: AptosCoinPayload;
+	if (typeof transaction === 'string') {
+		txData = JSON.parse(transaction) as AptosCoinPayload;
+	} else {
+		txData = transaction;
+	}
 
 	const fromPubkey = new HexString(txData.from);
 	const toPubkey = new HexString(txData.to);
@@ -70,9 +75,14 @@ export interface AptosTokenPayload {
 
 export const handleTransferToken = async (
 	privateKey: Uint8Array,
-	transaction: string,
+	transaction: string | AptosTokenPayload,
 ) => {
-	const txData = JSON.parse(transaction) as AptosTokenPayload;
+	let txData: AptosTokenPayload;
+	if (typeof transaction === 'string') {
+		txData = JSON.parse(transaction) as AptosTokenPayload;
+	} else {
+		txData = transaction;
+	}
 
 	const fromPubkey = new HexString(txData.from);
 	const toPubkey = new HexString(txData.to);
@@ -136,9 +146,15 @@ export interface AptosDirectTransferPayload {
 
 export const handleUpdateDirectTransfer = async (
 	privateKey: Uint8Array,
-	transaction: string,
+	transaction: string | AptosDirectTransferPayload,
 ) => {
-	const txData = JSON.parse(transaction) as AptosDirectTransferPayload;
+	let txData: AptosDirectTransferPayload;
+	if (typeof transaction === 'string') {
+		txData = JSON.parse(transaction) as AptosDirectTransferPayload;
+	} else {
+		txData = transaction;
+	}
+
 	const directTransfer = txData.directTransfer;
 	const pubkey = new HexString(txData.pubkey);
 	const account = new AptosAccount(privateKey, pubkey);
@@ -162,9 +178,15 @@ export interface AptosClaimTokenPayload {
 
 export const handleClaimToken = async (
 	privateKey: Uint8Array,
-	transaction: string,
+	transaction: string | AptosClaimTokenPayload,
 ) => {
-	const txData = JSON.parse(transaction) as AptosClaimTokenPayload;
+	let txData: AptosClaimTokenPayload;
+	if (typeof transaction === 'string') {
+		txData = JSON.parse(transaction) as AptosClaimTokenPayload;
+	} else {
+		txData = transaction;
+	}
+
 	const pubkey = new HexString(txData.pubkey);
 	const account = new AptosAccount(privateKey, pubkey);
 	const sender = new HexString(txData.sender);

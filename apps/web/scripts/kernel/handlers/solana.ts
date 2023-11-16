@@ -40,7 +40,6 @@ export const signAndSendTransaction: HandleMethod<{
 	privateKey?: Uint8Array;
 	transaction?: string;
 }> = async ({ payload }) => {
-	console.log('signAndSendTransaction', payload);
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}

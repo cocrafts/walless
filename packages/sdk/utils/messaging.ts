@@ -58,7 +58,7 @@ export const initializeMessaging = () => {
 
 			if (associatedRequest) {
 				if (data.responseCode === ResponseCode.ERROR) {
-					associatedRequest.reject(data.error);
+					associatedRequest.reject(Error(data.error));
 				} else {
 					associatedRequest.resolve(data);
 				}

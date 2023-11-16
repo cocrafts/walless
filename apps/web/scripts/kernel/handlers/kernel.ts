@@ -6,6 +6,8 @@ import { handle } from '../utils/handle';
 import {
 	checkApproval,
 	checkConnection,
+	filterSDKSignatureRequest,
+	forwardToSourceRequest,
 	getPrivateKey,
 } from '../utils/middleware';
 import { addRequestRecord } from '../utils/requestPool';
@@ -46,13 +48,27 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 	} else if (type === RequestType.OPEN_LAYOUT_POPUP) {
 		handle(payload, common.openLayoutPopup);
 	} else if (type === RequestType.SIGN_MESSAGE_ON_SOLANA) {
-		handle(payload, getPrivateKey(Networks.solana), solana.signMessage);
+		handle(
+			payload,
+			filterSDKSignatureRequest,
+			getPrivateKey(Networks.solana),
+			forwardToSourceRequest,
+			solana.signMessage,
+		);
 	} else if (type === RequestType.SIGN_TRANSACTION_ON_SOLANA) {
-		handle(payload, getPrivateKey(Networks.solana), solana.signTransaction);
+		handle(
+			payload,
+			filterSDKSignatureRequest,
+			getPrivateKey(Networks.solana),
+			forwardToSourceRequest,
+			solana.signTransaction,
+		);
 	} else if (type === RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA) {
 		handle(
 			payload,
+			filterSDKSignatureRequest,
 			getPrivateKey(Networks.solana),
+			forwardToSourceRequest,
 			solana.signAndSendTransaction,
 		);
 	} else if (type === RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA) {

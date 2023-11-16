@@ -67,7 +67,6 @@ export const checkApproval: HandleMethod<{
 	isApproved?: boolean;
 }> = async ({ payload, next }) => {
 	const { requestId, sourceRequestId, isApproved } = payload;
-	console.log(payload, '<-- payload');
 
 	if (!isApproved) {
 		respond(sourceRequestId, ResponseCode.ERROR, {

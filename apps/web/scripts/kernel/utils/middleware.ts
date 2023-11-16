@@ -38,7 +38,10 @@ export const checkConnection: HandleMethod<{
 	if (!payload.options) throw Error('No connection options provided');
 	const { onlyIfTrusted, domain } = payload.options;
 
-	if (!onlyIfTrusted) next?.(payload);
+	if (!onlyIfTrusted) {
+		next?.(payload);
+		return;
+	}
 
 	const domainResponse = await modules.storage.find(selectors.trustedDomains);
 	const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
@@ -84,14 +87,12 @@ export const filterSDKSignatureRequest: HandleMethod<{
 	isApproved?: boolean;
 }> = async ({ payload, next }) => {
 	const { from, requestId, isApproved, sourceRequestId } = payload;
-	console.log('filter and forward sdk signature request', payload);
 
 	if (from === 'walless@sdk') {
 		await openPopup(PopupType.SIGNATURE_POPUP, requestId);
 	} else if (from === PopupType.SIGNATURE_POPUP) {
 		if (!sourceRequestId) throw Error('No source request id provided');
 		if (!isApproved) {
-			console.log('rejected');
 			respond(sourceRequestId, ResponseCode.ERROR, {
 				error: 'User rejected the request',
 			});
@@ -100,7 +101,7 @@ export const filterSDKSignatureRequest: HandleMethod<{
 			await next?.(payload);
 		}
 	} else {
-		next?.(payload);
+		await next?.(payload);
 	}
 };
 

@@ -35,7 +35,7 @@ export const Recovery: FC<Props> = ({ onPressContinue }) => {
 					titleStyle={styles.continueButtonTitle}
 					title="Continue"
 					onPress={() => {
-						onPressContinue && onPressContinue(recoveryKey.current);
+						onPressContinue(recoveryKey.current?.trim());
 					}}
 				/>
 			</View>

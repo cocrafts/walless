@@ -1,10 +1,15 @@
 import type { FC } from 'react';
-import { ActivityIndicator } from 'react-native';
+import {
+	ActivityIndicator,
+	Image,
+	ScrollView,
+	StyleSheet,
+	View,
+} from 'react-native';
 import type { UnknownObject } from '@walless/core';
+import { Button, Text } from '@walless/gui';
 import { AlertCircle } from '@walless/icons';
-import { Button, Image, ScrollView, Stack, Text } from '@walless/ui';
 import { HeaderRequest } from 'components/HeaderRequest';
-import LightText from 'components/LightText';
 
 import { logoSize, logoUri } from '../shared';
 
@@ -22,71 +27,114 @@ export const RequestSignatureApproval: FC<Props> = ({
 	onApprove,
 }) => {
 	return (
-		<Stack flex={1} backgroundColor="#19232C">
+		<View style={styles.container}>
 			<HeaderRequest />
 
-			<Stack flex={1} padding={20} alignItems="stretch">
-				<Stack alignItems="center">
-					<Text fontSize={20} fontWeight="400">
+			<View style={styles.innerContainer}>
+				<View style={styles.headingContainer}>
+					<Text style={styles.headingText}>
 						Your signature has been requested
 					</Text>
 					<Image
-						src={sender.tab?.favIconUrl || logoUri}
-						width={logoSize}
-						height={logoSize}
-						borderColor="#566674"
-						borderWidth={2}
-						borderRadius={15}
-						marginVertical={10}
+						style={styles.headingImg}
+						source={sender.tab?.favIconUrl || logoUri}
 					/>
-					<Text fontSize={18} fontWeight="400">
+					<Text style={styles.senderText}>
 						{sender.tab?.title || 'Unknown'}
 					</Text>
-					<LightText fontSize={14}>{sender.tab?.url}</LightText>
-				</Stack>
+					<Text>{sender.tab?.url}</Text>
+				</View>
 
-				<ScrollView
-					maxHeight={220}
-					backgroundColor="#202D38"
-					borderRadius={15}
-					marginVertical={15}
-					borderColor="rgba(86, 102, 116, .2)"
-					borderWidth={1}
-				>
-					<Stack
-						horizontal
-						justifyContent="space-between"
-						alignItems="center"
-						paddingHorizontal={15}
-						paddingTop={15}
-						paddingBottom={5}
-					>
-						<Text fontSize={14}>Message:</Text>
+				<ScrollView contentContainerStyle={styles.scrollContainer}>
+					<View style={styles.messageContainer}>
+						<Text>Message:</Text>
 						<AlertCircle size={18} color="#566674" />
-					</Stack>
-					<LightText paddingHorizontal={15} paddingBottom={15} fontSize={14}>
+					</View>
+					<Text style={styles.contentText}>
 						{content ? content : <ActivityIndicator />}
-					</LightText>
+					</Text>
 				</ScrollView>
 
-				<Stack flex={1} justifyContent="flex-end" paddingHorizontal={10}>
-					<LightText fontSize={14} textAlign="center">
+				<View style={styles.footerContainer}>
+					<Text style={styles.trustText}>
 						Only connect to websites you trust!
-					</LightText>
-					<Button marginVertical={10} onPress={onApprove}>
+					</Text>
+					<Button style={styles.connectButton} onPress={onApprove}>
 						<Text>Connect</Text>
 					</Button>
-					<Button
-						backgroundColor="transparent"
-						paddingVertical={0}
-						onPress={onDeny}
-					>
+					<Button style={styles.outlineButton} onPress={onDeny}>
 						<Text>Deny</Text>
 					</Button>
-				</Stack>
-			</Stack>
-		</Stack>
+				</View>
+			</View>
+		</View>
 	);
 };
 
 export default RequestSignatureApproval;
+
+export const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#19232C',
+	},
+	innerContainer: {
+		flex: 1,
+		padding: 20,
+		alignItems: 'stretch',
+	},
+	headingContainer: {
+		alignItems: 'center',
+	},
+	headingText: {
+		fontSize: 20,
+		textAlign: 'center',
+	},
+	headingImg: {
+		width: logoSize,
+		height: logoSize,
+		borderColor: '#566674',
+		borderWidth: 2,
+		borderRadius: 15,
+		marginVertical: 10,
+	},
+	senderText: {
+		fontSize: 18,
+	},
+	scrollContainer: {
+		maxHeight: 220,
+		backgroundColor: '#202D38',
+		borderRadius: 15,
+		marginVertical: 15,
+		borderColor: 'rgba(86, 102, 116, .2)',
+		borderWidth: 1,
+	},
+	messageContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		paddingHorizontal: 15,
+		paddingTop: 15,
+		paddingBottom: 5,
+	},
+	contentText: {
+		paddingHorizontal: 15,
+		paddingBottom: 16,
+		fontSize: 14,
+	},
+	footerContainer: {
+		flex: 1,
+		justifyContent: 'flex-end',
+		paddingHorizontal: 10,
+	},
+	trustText: {
+		textAlign: 'center',
+	},
+	connectButton: {
+		marginVertical: 10,
+	},
+	outlineButton: {
+		backgroundColor: 'transparent',
+		paddingVertical: 0,
+	},
+});

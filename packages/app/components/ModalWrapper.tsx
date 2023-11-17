@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 		gap: 60,
 		borderTopRightRadius: 20,
 		borderTopLeftRadius: 20,
-		paddingTop: 20,
+		paddingTop: 10,
 		paddingBottom: 40,
 		paddingHorizontal: 28,
 	},

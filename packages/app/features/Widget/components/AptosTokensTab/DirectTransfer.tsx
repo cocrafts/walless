@@ -5,6 +5,7 @@ import { showRequirePasscodeModal } from '@walless/app';
 import { Hoverable, Text, View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import { aptosHandler } from '@walless/kernel';
+import { RequestType } from '@walless/messaging';
 
 interface Props {
 	pubkey: string;
@@ -23,15 +24,16 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 			directTransfer: !directTransfer,
 		};
 
-		const res = await utils.handleAptosFunction(
+		const res = await utils.handleAptosFunction({
 			passcode,
+			type: RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS,
 			payload,
-			(privateKey, payload) =>
+			callback: (privateKey, payload) =>
 				aptosHandler.handleUpdateDirectTransfer(
 					privateKey,
 					payload as aptosHandler.AptosDirectTransferPayload,
 				),
-		);
+		});
 		return res;
 	};
 

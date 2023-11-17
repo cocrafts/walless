@@ -6,6 +6,7 @@ import {
 } from '@walless/app/utils';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
+import type { HandleAptosFunction } from '@walless/ioc';
 import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
@@ -66,4 +67,18 @@ export const createAndSend = async (
 	}
 
 	return res as ResponsePayload;
+};
+
+export const handleAptosFunction: HandleAptosFunction = async ({
+	passcode,
+	payload,
+	type,
+}) => {
+	const res = await requestHandleTransaction({
+		type,
+		transaction: JSON.stringify(payload),
+		passcode,
+	});
+
+	return res;
 };

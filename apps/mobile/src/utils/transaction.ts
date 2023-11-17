@@ -93,11 +93,11 @@ export const createAndSend: CreateAndSendFunction = async (
 	return res;
 };
 
-export const handleAptosFunction: HandleAptosFunction = async (
+export const handleAptosFunction: HandleAptosFunction = async ({
 	passcode,
 	payload,
 	callback,
-) => {
+}) => {
 	const res = {} as ResponsePayload;
 
 	let privateKey;

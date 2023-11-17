@@ -37,8 +37,7 @@ export default WalletCard;
 
 const styles = StyleSheet.create({
 	container: {
-		height: 400,
-		justifyContent: 'space-between',
+		gap: 40,
 		backgroundColor: '#242F38',
 		borderRadius: 16,
 		paddingTop: 50,

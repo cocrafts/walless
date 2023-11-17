@@ -83,7 +83,7 @@ export default ReceiveModal;
 
 const styles = StyleSheet.create({
 	sliderContainer: {
-		gap: 20,
+		gap: 22,
 		overflow: 'hidden',
 	},
 });

@@ -19,6 +19,7 @@ import * as sui from './sui';
 import * as tezos from './tezos';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
+	console.log('kernel on message', payload, channel);
 	addRequestRecord(payload.requestId, channel, payload);
 	const { type, requestId } = payload;
 
@@ -35,7 +36,7 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		handle(payload).execute([checkConnection, common.connect]);
 	} else if (
 		type === RequestType.REQUEST_CONNECT &&
-		payload.form === PopupType.REQUEST_CONNECT_POPUP
+		payload.from === PopupType.REQUEST_CONNECT_POPUP
 	) {
 		handle(payload).execute([checkApproval, common.connect]);
 	} else if (type === RequestType.REQUEST_DISCONNECT) {

@@ -20,13 +20,15 @@ export const solanaEngineRunner: SolanaRunner = {
 				currentPubkey,
 			);
 
-			try {
-				const { _id } = item;
-				const signatures = await getSignatureList(context.connection, _id);
-				await getTransactions(context, signatures, _id);
-			} catch (error) {
-				console.log(error);
-			}
+			const { _id } = item;
+			getSignatureList(context.connection, _id)
+				.then(async (list) => {
+					await getTransactions(context, list, _id);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+
 			addTokensToStorage(fungibleTokens);
 			solanaCollectiblesByAddress({
 				context,

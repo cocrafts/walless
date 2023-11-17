@@ -61,30 +61,35 @@ export const signAndSendTransaction = async (
 	return signatureStr;
 };
 
-export const signAndSendAbstractionFeeTransaction = async (
+export const signAndSendTransactionAbstractionFee = async (
 	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,
-): Promise<string> => {
+) => {
+	const keypair = Keypair.fromSecretKey(privateKey);
+
 	if (typeof transaction === 'string') {
 		const serializedTransaction = decode(transaction);
 		transaction = VersionedTransaction.deserialize(serializedTransaction);
 	}
 
-	const keypair = Keypair.fromSecretKey(privateKey);
 	transaction.sign([keypair]);
 
 	const txStr = encode(transaction.serialize());
 
-	const res = await fetch(`${GASILON_ENDPOINT}/solana/transfer`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
+	const res = await fetch(
+		`${modules.config.GASILON_ENDPOINT}/solana/transfer`,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				transaction: txStr,
+			}),
 		},
-		body: JSON.stringify({
-			transaction: txStr,
-		}),
-	});
+	);
 
 	const data = await res.json();
-	return data.signature as string;
+
+	return data.signature;
 };

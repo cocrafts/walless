@@ -4,13 +4,14 @@ import { modalActions, Text, View } from '@walless/gui';
 import { Times } from '@walless/icons';
 
 interface Props {
+	id: string;
 	title: string;
 	children: ReactNode;
 }
 
-const ModalContainer: FC<Props> = ({ title, children }) => {
+const ModalContainer: FC<Props> = ({ id, title, children }) => {
 	const handleHideModal = () => {
-		modalActions.hide(title);
+		modalActions.hide(id);
 	};
 
 	return (

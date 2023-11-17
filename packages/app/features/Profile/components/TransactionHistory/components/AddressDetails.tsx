@@ -10,7 +10,7 @@ interface Props {
 	receiver: string;
 	profileImage?: ImageSourcePropType;
 	networkImage?: ImageSourcePropType;
-	type: 'sent' | 'received';
+	type: 'Sent' | 'Received';
 }
 
 const AddressDetails: FC<Props> = ({
@@ -22,7 +22,7 @@ const AddressDetails: FC<Props> = ({
 }) => {
 	let senderImage;
 	let receiverImage;
-	if (type === 'sent') {
+	if (type === 'Sent') {
 		senderImage = profileImage;
 		receiverImage = networkImage;
 	} else {
@@ -36,6 +36,7 @@ const AddressDetails: FC<Props> = ({
 				<Text>From</Text>
 				<Text>To</Text>
 			</View>
+
 			<View style={styles.transferContainer}>
 				<View style={styles.addressContainer}>
 					<Image source={senderImage} style={styles.profileImage} />

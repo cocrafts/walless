@@ -11,7 +11,7 @@ import TransactionStatus from './TransactionStatus';
 
 interface Props {
 	date: Date;
-	status: 'success' | 'pending' | 'failed';
+	status: 'Success' | 'Pending' | 'Failed';
 	networkInfo: NetworkInfo;
 	fee: number;
 	tokenForFeeSymbol?: string;

@@ -29,7 +29,7 @@ export const TransactionDetails: FC<Transaction> = ({
 	const networkInfo = getNetworkInfo(network);
 
 	return (
-		<ModalContainer title="Transaction Details">
+		<ModalContainer id="transaction-details" title="Transaction Details">
 			<View style={styles.container}>
 				<TokenDetails
 					id={id}

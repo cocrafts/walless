@@ -6,8 +6,8 @@ import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
 import type { IconProps } from '@walless/icons/components/types';
 
 interface Props {
-	type: 'sent' | 'received';
-	status: 'success' | 'pending' | 'failed';
+	type: 'Sent' | 'Received';
+	status: 'Success' | 'Pending' | 'Failed';
 	imageUri?: string;
 	isCollectible?: boolean;
 }
@@ -21,8 +21,8 @@ export const ItemTokenIcon: FC<Props> = ({
 	let color = '#ffffff';
 	let Icon: FC<IconProps> = ArrowTopRight;
 
-	if (type === 'sent') {
-		if (status === 'failed') {
+	if (type === 'Sent') {
+		if (status === 'Failed') {
 			color = '#DE4747';
 		}
 	} else {

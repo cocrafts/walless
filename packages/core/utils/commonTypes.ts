@@ -84,8 +84,8 @@ export interface Transaction {
 	id: string;
 	signature: string;
 	network: Networks;
-	type: 'sent' | 'received';
-	status: 'success' | 'pending' | 'failed';
+	type: 'Sent' | 'Received';
+	status: 'Success' | 'Pending' | 'Failed';
 	sender: string;
 	receiver: string;
 	token: Omit<Token, 'account'> | Omit<Collectible, 'account' | 'collectionId'>;

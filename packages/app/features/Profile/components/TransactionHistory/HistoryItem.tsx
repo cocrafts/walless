@@ -17,11 +17,11 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 	const { type, amount, network, sender, receiver, status, token } =
 		transaction;
 	const networkInfo = getNetworkInfo(network);
-	const address = type === 'sent' ? receiver : sender;
+	const address = type === 'Sent' ? receiver : sender;
 
 	const handleShowDetailsModal = () => {
 		modalActions.show({
-			id: 'Transaction Details',
+			id: 'trransaction-details',
 			component: () => <TransactionDetails {...transaction} />,
 			bindingDirection: BindDirections.InnerBottom,
 			animateDirection: AnimateDirections.Top,

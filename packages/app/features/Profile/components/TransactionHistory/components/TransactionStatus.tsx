@@ -4,7 +4,7 @@ import { Text, View } from '@walless/gui';
 import { Check, Clock, Times } from '@walless/icons';
 
 interface Props {
-	status?: 'success' | 'pending' | 'failed';
+	status?: 'Success' | 'Pending' | 'Failed';
 }
 
 const TransactionStatus: FC<Props> = ({ status = 'success' }) => {

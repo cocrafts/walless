@@ -4,8 +4,8 @@ import { Text } from '@walless/gui';
 
 interface Props {
 	amount: number;
-	type: 'sent' | 'received';
-	status?: 'success' | 'pending' | 'failed';
+	type: 'Sent' | 'Received';
+	status?: 'Success' | 'Pending' | 'Failed';
 	tokenSymbol?: string;
 }
 
@@ -13,13 +13,13 @@ export const ItemAmount: FC<Props> = ({
 	amount,
 	type,
 	tokenSymbol = 'Unknown',
-	status = 'success',
+	status = 'Success',
 }) => {
 	let color = '#ffffff';
 	let changeBalance = `- ${amount}`;
 
-	if (type === 'sent') {
-		if (status === 'failed') {
+	if (type === 'Sent') {
+		if (status === 'Failed') {
 			color = '#DE4747';
 		}
 	} else {

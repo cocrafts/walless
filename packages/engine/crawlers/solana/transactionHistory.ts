@@ -43,8 +43,8 @@ export interface Transaction {
 	id: string;
 	signature: string;
 	network: Networks;
-	type: 'sent' | 'received';
-	status: 'success' | 'pending' | 'failed';
+	type: 'Sent' | 'Received';
+	status: 'Success' | 'Pending' | 'Failed';
 	sender: string;
 	receiver: string;
 	token: Token | Omit<Collectible, 'account' | 'collectionId'>;
@@ -212,7 +212,7 @@ const getTransactionToken = async (
 const getTransactionBalances = (
 	meta: ParsedTransactionWithMeta['meta'],
 	ownerPublicKey: string,
-	type?: 'sent' | 'received',
+	type?: 'Sent' | 'Received',
 ) => {
 	if (!meta) {
 		return {
@@ -221,7 +221,7 @@ const getTransactionBalances = (
 		};
 	}
 	if (!checkIfMetaIsValid(meta)) {
-		if (type === 'sent') {
+		if (type === 'Sent') {
 			const preBalance = meta.preBalances[0] / 10 ** 9;
 			const postBalance = meta.postBalances[0] / 10 ** 9;
 
@@ -299,7 +299,7 @@ const getTransactionType = (
 		const sender =
 			transaction.transaction.message.accountKeys[0].pubkey.toString();
 
-		const type = ownerPublicKey === sender ? 'sent' : 'received';
+		const type = ownerPublicKey === sender ? 'Sent' : 'Received';
 
 		return type;
 	}
@@ -309,7 +309,7 @@ const getTransactionType = (
 		ownerPublicKey,
 	);
 
-	const type = postBalance - preBalance < 0 ? 'sent' : 'received';
+	const type = postBalance - preBalance < 0 ? 'Sent' : 'Received';
 
 	return type;
 };
@@ -370,10 +370,10 @@ export const getTransactionDetails = async (
 
 	const status =
 		confirmation === 'finalized' || confirmation === 'confirmed'
-			? 'success'
+			? 'Success'
 			: confirmation === 'processed'
-			? 'pending'
-			: 'failed';
+			? 'Pending'
+			: 'Failed';
 
 	const type = getTransactionType(parsedTransaction, ownerPublicKey);
 

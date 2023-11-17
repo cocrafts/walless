@@ -1,4 +1,5 @@
 import type { RequestHashmap, UnknownObject } from '@walless/core';
+import { ResponseCode } from '@walless/messaging';
 
 let initialized = false;
 let queueInterval: NodeJS.Timer | number | undefined;
@@ -56,7 +57,11 @@ export const initializeMessaging = () => {
 			const associatedRequest = requestHashmap[requestId];
 
 			if (associatedRequest) {
-				associatedRequest.resolve(data);
+				if (data.responseCode === ResponseCode.ERROR) {
+					associatedRequest.reject(Error(data.error));
+				} else {
+					associatedRequest.resolve(data);
+				}
 			}
 		}
 	});

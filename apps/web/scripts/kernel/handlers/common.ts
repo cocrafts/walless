@@ -10,15 +10,15 @@ import {
 	checkInstalledExtensionById,
 } from '../utils/helper';
 import { openPopup } from '../utils/popup';
-import { getRequestRecord } from '../utils/requestPool';
-import type { HandleMethod, InstallLayoutPayload } from '../utils/types';
+import { getRequestRecord, respond } from '../utils/requestPool';
+import type { HandleMethod } from '../utils/types';
 
-export const handleConnect: HandleMethod = async ({
+export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 	payload,
-	responseMethod,
 }) => {
-	const connectOptions = payload.options as ConnectOptions;
+	if (!payload.options) throw new Error('No connection options provided');
 
+	const connectOptions = payload.options;
 	if (connectOptions.domain) {
 		const doc = {
 			_id: connectOptions.domain,
@@ -44,17 +44,15 @@ export const handleConnect: HandleMethod = async ({
 		(key) => key.network == Networks.solana,
 	);
 
-	responseMethod(payload.requestId, ResponseCode.SUCCESS, {
-		publicKeys: [solKey],
-	});
+	respond(payload.requestId, ResponseCode.SUCCESS, { publicKeys: [solKey] });
 };
 
-export const handleDisconnect: HandleMethod = async ({
-	payload,
-	responseMethod,
-}) => {
-	const connectOptions = payload.options as ConnectOptions;
+export const disconnect: HandleMethod<{
+	options?: ConnectOptions;
+}> = async ({ payload }) => {
+	if (!payload.options) throw Error('No disconnection options provided');
 
+	const connectOptions = payload.options;
 	if (connectOptions.domain) {
 		await modules.storage.upsert<TrustedDomainDocument>(
 			connectOptions.domain,
@@ -65,61 +63,60 @@ export const handleDisconnect: HandleMethod = async ({
 		);
 	}
 
-	responseMethod(payload.requestId, ResponseCode.SUCCESS);
+	respond(payload.requestId, ResponseCode.SUCCESS);
 };
 
-export const handleRequestPayload: HandleMethod = ({
-	payload,
-	responseMethod,
-}) => {
+export const requestPayload: HandleMethod<{
+	sourceRequestId?: string;
+}> = ({ payload }) => {
+	if (!payload.sourceRequestId) {
+		throw Error('Not sourceRequestId provided');
+	}
+
 	const { sourceRequestId, requestId } = payload;
 	const { payload: sourcePayload, channel: sourceChannel } =
 		getRequestRecord(sourceRequestId);
 
-	responseMethod(requestId, ResponseCode.SUCCESS, {
+	respond(requestId, ResponseCode.SUCCESS, {
 		...sourceChannel,
 		...sourcePayload,
 	});
 };
 
-export const handleInstallLayout: HandleMethod = async ({
-	payload,
-	responseMethod,
-}) => {
-	const { requestId, id } = payload as InstallLayoutPayload;
-	try {
-		await addExtensionsById(id);
-		responseMethod(requestId, ResponseCode.SUCCESS);
-	} catch (error) {
-		responseMethod(requestId, ResponseCode.ERROR);
-		throw Error(error as string);
-	}
+export type LayoutPayload = {
+	id?: string;
 };
 
-export const handleCheckInstalledLayout: HandleMethod = async ({
+export const installLayout: HandleMethod<LayoutPayload> = async ({
 	payload,
-	responseMethod,
 }) => {
-	const { requestId, id } = payload as InstallLayoutPayload;
+	const { requestId, id } = payload;
+	if (!id) throw Error('No layout id provided');
+
+	await addExtensionsById(id);
+	respond(requestId, ResponseCode.SUCCESS);
+};
+
+export const checkInstalledLayout: HandleMethod<LayoutPayload> = async ({
+	payload,
+}) => {
+	const { requestId, id } = payload;
+	if (!id) throw Error('No layout id provided');
+
 	const isInstalled = await checkInstalledExtensionById(id);
+	if (!isInstalled) throw Error('Layout not installed');
 
-	if (isInstalled) {
-		responseMethod(requestId, ResponseCode.SUCCESS);
-	} else {
-		responseMethod(requestId, ResponseCode.ERROR);
-	}
+	respond(requestId, ResponseCode.SUCCESS);
 };
 
-export const handleOpenLayoutPopup: HandleMethod = async ({
+export const openLayoutPopup: HandleMethod<LayoutPayload> = async ({
 	payload,
-	responseMethod,
 }) => {
 	const { requestId, id: layoutId } = payload;
-	const popup = await openPopup(layoutId, requestId);
+	if (!layoutId) throw Error('No layout id provided');
 
-	if (popup) {
-		responseMethod(requestId, ResponseCode.SUCCESS);
-	} else {
-		responseMethod(requestId, ResponseCode.ERROR);
-	}
+	const popup = await openPopup(layoutId, requestId);
+	if (!popup) throw Error('Cannot open popup');
+
+	respond(requestId, ResponseCode.SUCCESS);
 };

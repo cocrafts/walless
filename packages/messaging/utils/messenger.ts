@@ -137,7 +137,7 @@ export const createMessenger = (
 				reject,
 			};
 
-			smartSend(channel, payload);
+			smartSend(channel, payload as MessagePayload);
 		});
 	};
 

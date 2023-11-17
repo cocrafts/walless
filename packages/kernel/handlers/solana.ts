@@ -8,7 +8,7 @@ import { sign } from 'tweetnacl';
 export const signMessage = async (
 	message: string | Uint8Array,
 	privateKey: Uint8Array,
-) => {
+): Promise<string> => {
 	if (typeof message === 'string') {
 		message = decode(message);
 	}
@@ -22,7 +22,7 @@ export const signMessage = async (
 export const signTransaction = async (
 	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,
-) => {
+): Promise<string> => {
 	const keypair = Keypair.fromSecretKey(privateKey);
 
 	if (typeof transaction === 'string') {
@@ -37,7 +37,7 @@ export const signTransaction = async (
 export const signAndSendTransaction = async (
 	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,
-) => {
+): Promise<string> => {
 	const connection = modules.engine.getConnection(
 		Networks.solana,
 	) as Connection;

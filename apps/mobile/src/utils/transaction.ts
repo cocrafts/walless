@@ -7,7 +7,7 @@ import {
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { CreateAndSendFunction } from '@walless/ioc';
-import { solanaHandlers, utils } from '@walless/kernel';
+import { solanaHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
@@ -37,13 +37,13 @@ export const createAndSend: CreateAndSendFunction = async (
 
 		try {
 			if (payload.tokenForFee.metadata?.symbol === 'SOL') {
-				res.signatureString = await solanaHandlers.signAndSendTransaction(
+				res.signatureString = await solanaHandler.signAndSendTransaction(
 					transaction,
 					privateKey,
 				);
 			} else {
 				res.signatureString =
-					await solanaHandlers.signAndSendTransactionAbstractionFee(
+					await solanaHandler.signAndSendTransactionAbstractionFee(
 						transaction,
 						privateKey,
 					);

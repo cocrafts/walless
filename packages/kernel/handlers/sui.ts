@@ -3,7 +3,7 @@ import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import { decode } from 'bs58';
 
-export const handleSignMessage = async (
+export const signMessage = async (
 	messageStr: string,
 	privateKey: Uint8Array,
 ) => {
@@ -20,7 +20,7 @@ export const handleSignMessage = async (
 	return signedMessage;
 };
 
-export const handleSignTransaction = async (
+export const signTransaction = async (
 	transactionStr: string,
 	privateKey: Uint8Array,
 ) => {
@@ -39,7 +39,7 @@ export const handleSignTransaction = async (
 	return signedTransaction;
 };
 
-export const handleSignAndExecuteTransaction = async (
+export const signAndExecuteTransaction = async (
 	transactionStr: string,
 	privateKey: Uint8Array,
 ) => {

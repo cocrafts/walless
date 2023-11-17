@@ -69,7 +69,7 @@ export const createAndSend = async (
 	return res as ResponsePayload;
 };
 
-export const handleAptosFunction: HandleAptosFunction = async ({
+export const handleAptosOnChainAction: HandleAptosFunction = async ({
 	passcode,
 	payload,
 	type,

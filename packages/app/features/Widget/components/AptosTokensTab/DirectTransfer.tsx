@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { showRequirePasscodeModal } from '@walless/app';
 import { Hoverable, Text, View } from '@walless/gui';
 import { utils } from '@walless/ioc';
-import { aptosHandler } from '@walless/kernel';
+import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 
 interface Props {
@@ -28,11 +28,6 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 			passcode,
 			type: RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS,
 			payload,
-			callback: (privateKey, payload) =>
-				aptosHandler.handleUpdateDirectTransfer(
-					privateKey,
-					payload as aptosHandler.AptosDirectTransferPayload,
-				),
 		});
 		return res;
 	};

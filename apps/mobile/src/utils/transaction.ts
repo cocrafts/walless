@@ -9,7 +9,7 @@ import { Networks } from '@walless/core';
 import type { CreateAndSendFunction, HandleAptosFunction } from '@walless/ioc';
 import { aptosHandler, solanaHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
-import { ResponseCode } from '@walless/messaging';
+import { RequestType, ResponseCode } from '@walless/messaging';
 
 export const createAndSend: CreateAndSendFunction = async (
 	payload: TransactionPayload,
@@ -84,7 +84,7 @@ export const createAndSend: CreateAndSendFunction = async (
 				);
 			}
 			res.responseCode = ResponseCode.SUCCESS;
-		} catch (error) {
+		} catch {
 			res.responseCode = ResponseCode.ERROR;
 			return res;
 		}
@@ -93,10 +93,10 @@ export const createAndSend: CreateAndSendFunction = async (
 	return res;
 };
 
-export const handleAptosFunction: HandleAptosFunction = async ({
+export const handleAptosOnChainAction: HandleAptosFunction = async ({
 	passcode,
+	type,
 	payload,
-	callback,
 }) => {
 	const res = {} as ResponsePayload;
 
@@ -109,9 +109,27 @@ export const handleAptosFunction: HandleAptosFunction = async ({
 	}
 
 	try {
-		res.signatureString = await callback(privateKey, payload);
+		switch (type) {
+			case RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS:
+				res.signatureString = await aptosHandler.handleUpdateDirectTransfer(
+					privateKey,
+					payload as aptosHandler.AptosDirectTransferPayload,
+				);
+				break;
+
+			case RequestType.CLAIM_TOKEN_ON_APTOS:
+				res.signatureString = await aptosHandler.handleClaimToken(
+					privateKey,
+					payload as aptosHandler.AptosClaimTokenPayload,
+				);
+				break;
+
+			default:
+				break;
+		}
+
 		res.responseCode = ResponseCode.SUCCESS;
-	} catch (error) {
+	} catch {
 		res.responseCode = ResponseCode.ERROR;
 	}
 

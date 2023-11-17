@@ -14,7 +14,7 @@ type AptosHandle = (
 	transaction: string,
 ) => Promise<string>;
 
-export const constructAptosHandle =
+export const getAptosHandle =
 	(handle: AptosHandle): HandleMethod<Payload> =>
 	async ({ payload }) => {
 		if (!payload.privateKey || !payload.transaction) {
@@ -29,16 +29,12 @@ export const constructAptosHandle =
 		respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
 	};
 
-export const transferCoin = constructAptosHandle(
-	aptosHandler.handleTransferCoin,
-);
+export const transferCoin = getAptosHandle(aptosHandler.handleTransferCoin);
 
-export const transferToken = constructAptosHandle(
-	aptosHandler.handleTransferToken,
-);
+export const transferToken = getAptosHandle(aptosHandler.handleTransferToken);
 
-export const claimToken = constructAptosHandle(aptosHandler.handleClaimToken);
+export const claimToken = getAptosHandle(aptosHandler.handleClaimToken);
 
-export const updateDirectTransfer = constructAptosHandle(
+export const updateDirectTransfer = getAptosHandle(
 	aptosHandler.handleUpdateDirectTransfer,
 );

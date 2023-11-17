@@ -13,7 +13,6 @@ export type HandleAptosFunction = (params: {
 	passcode: string;
 	type: RequestType;
 	payload: unknown;
-	callback: (privateKey: Uint8Array, payload: unknown) => Promise<string>;
 }) => Promise<ResponsePayload>;
 
 export type Utils = {

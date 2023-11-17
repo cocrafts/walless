@@ -6,7 +6,7 @@ import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';
 import { Button, Text, View } from '@walless/gui';
 import { utils } from '@walless/ioc';
-import { aptosHandler } from '@walless/kernel';
+import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
@@ -36,11 +36,6 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 			passcode,
 			type: RequestType.CLAIM_TOKEN_ON_APTOS,
 			payload,
-			callback: (privateKey, payload) =>
-				aptosHandler.handleClaimToken(
-					privateKey,
-					payload as aptosHandler.AptosClaimTokenPayload,
-				),
 		});
 		return res;
 	};

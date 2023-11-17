@@ -63,6 +63,8 @@ export const checkConnection: HandleMethod<{
 		return respond(payload.requestId, ResponseCode.ERROR, {
 			error: ResponseMessage.REJECT_REQUEST_CONNECT,
 		});
+	} else {
+		next?.(payload);
 	}
 };
 

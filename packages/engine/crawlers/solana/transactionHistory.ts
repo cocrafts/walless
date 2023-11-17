@@ -28,6 +28,17 @@ const getGasilonFeePayer = async () => {
 	return feePayer;
 };
 
+const checkIfMetaIsValid = (
+	meta: ParsedTransactionWithMeta['meta'],
+): boolean => {
+	return !(
+		!meta?.preTokenBalances ||
+		!meta?.postTokenBalances ||
+		meta?.postTokenBalances.length === 0 ||
+		meta?.preTokenBalances.length === 0
+	);
+};
+
 export interface Transaction {
 	id: string;
 	signature: string;
@@ -160,12 +171,7 @@ const getTransactionToken = async (
 		},
 	};
 
-	if (
-		!meta?.preTokenBalances ||
-		!meta?.postTokenBalances ||
-		meta?.postTokenBalances.length === 0 ||
-		meta?.preTokenBalances.length === 0
-	) {
+	if (!checkIfMetaIsValid(meta)) {
 		const solMetadata = await getMetadata(solanaContext, solMint);
 
 		token.account.mint = solMint;
@@ -175,7 +181,7 @@ const getTransactionToken = async (
 		return token;
 	}
 
-	const tokenBalances = meta.postTokenBalances;
+	const tokenBalances = meta?.postTokenBalances || [];
 
 	for (const tokenBalance of tokenBalances) {
 		if (!tokenBalance.owner) continue;
@@ -214,12 +220,7 @@ const getTransactionBalances = (
 			postBalance: 0,
 		};
 	}
-	if (
-		!meta.preTokenBalances ||
-		!meta.postTokenBalances ||
-		meta.postTokenBalances.length === 0 ||
-		meta.preTokenBalances.length === 0
-	) {
+	if (!checkIfMetaIsValid(meta)) {
 		if (type === 'sent') {
 			const preBalance = meta.preBalances[0] / 10 ** 9;
 			const postBalance = meta.postBalances[0] / 10 ** 9;
@@ -238,10 +239,10 @@ const getTransactionBalances = (
 		let preBalance = 0;
 		let postBalance = 0;
 
-		const preBalances = meta.preTokenBalances.filter(
+		const preBalances = (meta?.preTokenBalances || []).filter(
 			(item) => item.owner === ownerPublicKey,
 		);
-		const postBalances = meta.postTokenBalances.filter(
+		const postBalances = (meta?.postTokenBalances || []).filter(
 			(item) => item.owner === ownerPublicKey,
 		);
 
@@ -283,7 +284,6 @@ const getTransactionAmount = (
 	} else if (token.account.mint === tokeForFee.account.mint) {
 		amount = parsedInstructionInfo?.amount / 10 ** token.account.decimals;
 	}
-
 	if (token.metadata?.mpl) {
 		amount = 1;
 	}
@@ -295,12 +295,7 @@ const getTransactionType = (
 	transaction: ParsedTransactionWithMeta,
 	ownerPublicKey: string,
 ) => {
-	if (
-		!transaction.meta?.preTokenBalances ||
-		!transaction.meta?.postTokenBalances ||
-		transaction.meta.postTokenBalances.length === 0 ||
-		transaction.meta.preTokenBalances.length === 0
-	) {
+	if (!checkIfMetaIsValid(transaction.meta)) {
 		const sender =
 			transaction.transaction.message.accountKeys[0].pubkey.toString();
 
@@ -483,7 +478,6 @@ export const getTransactions = async (
 	const parsedTransactions =
 		await solanaContext.connection.getParsedTransactions(signatures, {
 			maxSupportedTransactionVersion: 0,
-			commitment: 'confirmed',
 		});
 
 	const promisesArray: Promise<Transaction | undefined>[] = [];
@@ -507,7 +501,6 @@ export const getTransactions = async (
 	}
 
 	let transactions = await Promise.all(promisesArray);
-
 	transactions = transactions.filter((transaction) => {
 		return transaction !== undefined;
 	});

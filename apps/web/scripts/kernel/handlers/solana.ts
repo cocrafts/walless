@@ -61,7 +61,7 @@ export const signTransactionAbstractionFee: HandleMethod<{
 	}
 
 	const signatureString =
-		await solanaHandler.signAndSendAbstractionFeeTransaction(
+		await solanaHandler.signAndSendTransactionAbstractionFee(
 			payload.transaction,
 			payload.privateKey,
 		);

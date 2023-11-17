@@ -1,15 +1,13 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Networks, shortenAddress } from '@walless/core';
+import { showRequirePasscodeModal } from '@walless/app';
+import { shortenAddress } from '@walless/core';
 import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';
 import { Button, Text, View } from '@walless/gui';
-import { aptosHandler, utils } from '@walless/kernel';
-import type { ResponsePayload } from '@walless/messaging';
-import { ResponseCode } from '@walless/messaging';
+import { utils } from '@walless/ioc';
+import { aptosHandler } from '@walless/kernel';
 import { useSnapshot } from 'valtio';
-
-import { showRequirePasscodeModal } from '../../../Passcode';
 
 interface Props {
 	fee: number;
@@ -25,34 +23,23 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 		token: AptosPendingToken,
 		passcode: string,
 	) => {
-		const res = {} as ResponsePayload;
-
-		let privateKey;
-		try {
-			privateKey = await utils.getPrivateKey(Networks.aptos, passcode);
-		} catch {
-			res.responseCode = ResponseCode.WRONG_PASSCODE;
-			return res;
-		}
-
-		const transaction = {
+		const payload: aptosHandler.AptosClaimTokenPayload = {
 			pubkey: token.toAddress,
 			sender: token.fromAddress,
 			creator: token.creatorAddress,
 			collectionName: token.collectionName,
 			name: token.name,
-		} satisfies aptosHandler.AptosClaimTokenPayload;
+		};
 
-		try {
-			res.signatureString = aptosHandler.handleClaimToken(
-				privateKey,
-				transaction,
-			);
-			res.responseCode = ResponseCode.SUCCESS;
-		} catch (error) {
-			res.responseCode = ResponseCode.ERROR;
-		}
-
+		const res = await utils.handleAptosFunction(
+			passcode,
+			payload,
+			(privateKey, payload) =>
+				aptosHandler.handleClaimToken(
+					privateKey,
+					payload as aptosHandler.AptosClaimTokenPayload,
+				),
+		);
 		return res;
 	};
 

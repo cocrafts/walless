@@ -1,13 +1,10 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Networks } from '@walless/core';
+import { showRequirePasscodeModal } from '@walless/app';
 import { Hoverable, Text, View } from '@walless/gui';
-import { aptosHandler, utils } from '@walless/kernel';
-import type { ResponsePayload } from '@walless/messaging';
-import { ResponseCode } from '@walless/messaging';
-
-import { showRequirePasscodeModal } from '../../../Passcode';
+import { utils } from '@walless/ioc';
+import { aptosHandler } from '@walless/kernel';
 
 interface Props {
 	pubkey: string;
@@ -21,31 +18,20 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 	const [disabled, setDisabled] = useState(false);
 
 	const handleOnPasscodeComplete = async (passcode: string) => {
-		const res = {} as ResponsePayload;
-
-		let privateKey;
-		try {
-			privateKey = await utils.getPrivateKey(Networks.aptos, passcode);
-		} catch {
-			res.responseCode = ResponseCode.WRONG_PASSCODE;
-			return res;
-		}
-
-		const transaction = {
+		const payload: aptosHandler.AptosDirectTransferPayload = {
 			pubkey,
 			directTransfer: !directTransfer,
-		} satisfies aptosHandler.AptosDirectTransferPayload;
+		};
 
-		try {
-			res.signatureString = aptosHandler.handleUpdateDirectTransfer(
-				privateKey,
-				transaction,
-			);
-			res.responseCode = ResponseCode.SUCCESS;
-		} catch (error) {
-			res.responseCode = ResponseCode.ERROR;
-		}
-
+		const res = await utils.handleAptosFunction(
+			passcode,
+			payload,
+			(privateKey, payload) =>
+				aptosHandler.handleUpdateDirectTransfer(
+					privateKey,
+					payload as aptosHandler.AptosDirectTransferPayload,
+				),
+		);
 		return res;
 	};
 

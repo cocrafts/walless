@@ -11,11 +11,12 @@ import { nativeAsset } from './config';
 import { initializeAuth } from './firebase';
 import { qlClient } from './graphql';
 import { navigate } from './navigation';
-import { createAndSend } from './transaction';
+import { createAndSend, handleAptosFunction } from './transaction';
 import { key } from './w3a';
 
 export const injectModules = async () => {
 	utils.createAndSend = createAndSend;
+	utils.handleAptosFunction = handleAptosFunction;
 	utils.logOut = logOut;
 	// TODO: implement and inject buy token here
 

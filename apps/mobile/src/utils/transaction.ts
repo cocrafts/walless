@@ -6,7 +6,7 @@ import {
 } from '@walless/app/utils';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { CreateAndSendFunction } from '@walless/ioc';
+import type { CreateAndSendFunction, HandleAptosFunction } from '@walless/ioc';
 import { aptosHandler, solanaHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
@@ -88,6 +88,31 @@ export const createAndSend: CreateAndSendFunction = async (
 			res.responseCode = ResponseCode.ERROR;
 			return res;
 		}
+	}
+
+	return res;
+};
+
+export const handleAptosFunction: HandleAptosFunction = async (
+	passcode,
+	payload,
+	callback,
+) => {
+	const res = {} as ResponsePayload;
+
+	let privateKey;
+	try {
+		privateKey = await utils.getPrivateKey(Networks.aptos, passcode);
+	} catch {
+		res.responseCode = ResponseCode.WRONG_PASSCODE;
+		return res;
+	}
+
+	try {
+		res.signatureString = await callback(privateKey, payload);
+		res.responseCode = ResponseCode.SUCCESS;
+	} catch (error) {
+		res.responseCode = ResponseCode.ERROR;
 	}
 
 	return res;

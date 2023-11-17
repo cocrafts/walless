@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { showRequirePasscodeModal } from '@walless/app/utils';
 import { Networks } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
-import { aptosHandlers, utils } from '@walless/kernel';
+import { aptosHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
+
+import { showRequirePasscodeModal } from '../../../Passcode';
 
 interface Props {
 	pubkey: string;
@@ -30,13 +31,13 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 			return res;
 		}
 
-		const transaction = JSON.stringify({
+		const transaction = {
 			pubkey,
 			directTransfer: !directTransfer,
-		} satisfies aptosHandlers.AptosDirectTransferPayload);
+		} satisfies aptosHandler.AptosDirectTransferPayload;
 
 		try {
-			res.signatureString = aptosHandlers.handleUpdateDirectTransfer(
+			res.signatureString = aptosHandler.handleUpdateDirectTransfer(
 				privateKey,
 				transaction,
 			);

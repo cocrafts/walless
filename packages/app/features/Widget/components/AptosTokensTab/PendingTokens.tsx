@@ -1,14 +1,15 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { showRequirePasscodeModal } from '@walless/app/utils';
 import { Networks, shortenAddress } from '@walless/core';
 import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';
 import { Button, Text, View } from '@walless/gui';
-import { aptosHandlers, utils } from '@walless/kernel';
+import { aptosHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
+
+import { showRequirePasscodeModal } from '../../../Passcode';
 
 interface Props {
 	fee: number;
@@ -34,16 +35,16 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 			return res;
 		}
 
-		const transaction = JSON.stringify({
+		const transaction = {
 			pubkey: token.toAddress,
 			sender: token.fromAddress,
 			creator: token.creatorAddress,
 			collectionName: token.collectionName,
 			name: token.name,
-		} satisfies aptosHandlers.AptosClaimTokenPayload);
+		} satisfies aptosHandler.AptosClaimTokenPayload;
 
 		try {
-			res.signatureString = aptosHandlers.handleUpdateDirectTransfer(
+			res.signatureString = aptosHandler.handleClaimToken(
 				privateKey,
 				transaction,
 			);

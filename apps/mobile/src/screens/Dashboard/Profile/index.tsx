@@ -11,7 +11,21 @@ export const ProfileScreen = () => {
 		});
 	};
 
-	return <ProfileFeature onSettingPress={handleSettingPress} />;
+	const handleNavigateToHistory = () => {
+		navigate('Dashboard', {
+			screen: 'Profile',
+			params: {
+				screen: 'History',
+			},
+		});
+	};
+
+	return (
+		<ProfileFeature
+			onSettingPress={handleSettingPress}
+			onNavigateToHistory={handleNavigateToHistory}
+		/>
+	);
 };
 
 export default ProfileScreen;

@@ -9,6 +9,7 @@ import { proxy } from 'valtio';
 import { defaultEndpoints } from '../utils/crawler';
 
 export interface AppState {
+	version: string;
 	loading: boolean;
 	passcodeLoading: boolean;
 	authenticationLoading: boolean;
@@ -35,6 +36,7 @@ export const defaultRemoteConfig: RemoteConfig = {
 };
 
 export const appState = proxy<AppState>({
+	version: '1.0.0',
 	loading: true,
 	profileReady: false,
 	profileLoading: true,

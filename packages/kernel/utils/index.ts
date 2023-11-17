@@ -3,10 +3,6 @@ import { decryptWithPasscode } from '@walless/crypto';
 import { modules } from '@walless/ioc';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
 
-export const settings = {
-	requirePasscode: true,
-};
-
 export const getPrivateKey = async (network: Networks, passcode: string) => {
 	const result = await modules.storage.find({
 		selector: {

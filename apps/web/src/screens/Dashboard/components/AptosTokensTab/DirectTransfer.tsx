@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { showRequirePasscodeModal } from '@walless/app';
 import { Hoverable, Text, View } from '@walless/gui';
-import type { aptosHandlers } from '@walless/kernel';
+import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 
@@ -28,7 +28,7 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 					transaction: JSON.stringify({
 						pubkey,
 						directTransfer: !directTransfer,
-					} satisfies aptosHandlers.AptosDirectTransferPayload),
+					} satisfies aptosHandler.AptosDirectTransferPayload),
 					passcode,
 				});
 				return res;

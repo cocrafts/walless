@@ -5,7 +5,7 @@ import { shortenAddress } from '@walless/core';
 import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';
 import { Button, Text, View } from '@walless/gui';
-import type { aptosHandlers } from '@walless/kernel';
+import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 import { useSnapshot } from 'valtio';
@@ -33,7 +33,7 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 						creator: token.creatorAddress,
 						collectionName: token.collectionName,
 						name: token.name,
-					} satisfies aptosHandlers.AptosClaimTokenPayload),
+					} satisfies aptosHandler.AptosClaimTokenPayload),
 					passcode,
 				});
 				return res;

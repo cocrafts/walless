@@ -23,10 +23,12 @@ interface IdentifiedPayload {
 
 export type MessagePayload = UnknownObject &
 	IdentifiedPayload & {
-		from?: string;
+		from: string;
 		type: RequestType;
-		requestId?: string;
+		requestId: string;
 	};
+
+export type PureMessagePayload = Omit<MessagePayload, 'requestId'>;
 
 export type ResponsePayload = UnknownObject &
 	IdentifiedPayload & {
@@ -58,7 +60,7 @@ export type MessengerSend = (
 
 export type MessengerRequest = (
 	channelId: string,
-	payload: MessagePayload,
+	payload: PureMessagePayload | MessagePayload,
 	timeout?: number,
 ) => Promise<UnknownObject>;
 
@@ -84,7 +86,6 @@ export enum ResponseCode {
 	REQUIRE_PASSCODE,
 	WRONG_PASSCODE,
 	ERROR,
-	REJECTED,
 }
 
 export enum RequestType {

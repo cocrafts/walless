@@ -1,10 +1,13 @@
 import { TransactionBlock } from '@mysten/sui.js';
 import { VersionedTransaction } from '@solana/web3.js';
-import { constructTransaction } from '@walless/app/utils';
+import {
+	constructTransaction,
+	constructTransactionAbstractFee,
+} from '@walless/app/utils';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { CreateAndSendFunction } from '@walless/ioc';
-import { solanaHandlers, utils } from '@walless/kernel';
+import { solanaHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
@@ -18,7 +21,10 @@ export const createAndSend: CreateAndSendFunction = async (
 		return res;
 	}
 
-	const transaction = await constructTransaction(payload);
+	const transaction =
+		payload.tokenForFee.metadata?.symbol === 'SOL'
+			? await constructTransaction(payload)
+			: await constructTransactionAbstractFee(payload);
 
 	if (transaction instanceof VersionedTransaction) {
 		let privateKey;
@@ -30,10 +36,19 @@ export const createAndSend: CreateAndSendFunction = async (
 		}
 
 		try {
-			res.signatureString = await solanaHandlers.signAndSendTransaction(
-				transaction,
-				privateKey,
-			);
+			if (payload.tokenForFee.metadata?.symbol === 'SOL') {
+				res.signatureString = await solanaHandler.signAndSendTransaction(
+					transaction,
+					privateKey,
+				);
+			} else {
+				res.signatureString =
+					await solanaHandler.signAndSendTransactionAbstractionFee(
+						transaction,
+						privateKey,
+					);
+			}
+
 			res.responseCode = ResponseCode.SUCCESS;
 		} catch {
 			res.responseCode = ResponseCode.ERROR;

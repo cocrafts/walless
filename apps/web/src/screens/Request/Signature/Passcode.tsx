@@ -37,6 +37,8 @@ export const RequestSignaturePasscode: FC<Props> = ({
 			} else if (res?.responseCode === ResponseCode.ERROR) {
 				setError(res.message || '');
 				setPasscode('');
+			} else if (res.responseCode === ResponseCode.SUCCESS) {
+				window.close();
 			}
 		}
 	};

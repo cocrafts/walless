@@ -36,6 +36,8 @@ export const loadRemoteConfig = (): RemoteConfig => {
 
 	return {
 		experimentalEnabled: allConfig.experimentalEnabled?.asBoolean(),
+		deepAnalyticsEnabled: allConfig.deepAnalyticsEnabled?.asBoolean(),
+		minimalVersion: allConfig.minimalVersion?.asString() || '1.0.0',
 	};
 };
 

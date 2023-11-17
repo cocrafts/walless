@@ -30,6 +30,8 @@ export interface Config {
 
 export interface RemoteConfig {
 	experimentalEnabled: boolean;
+	deepAnalyticsEnabled: boolean;
+	minimalVersion: string;
 }
 
 export interface UserProfile {

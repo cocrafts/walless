@@ -33,6 +33,8 @@ export const defaultConfig: Config = {
 
 export const defaultRemoteConfig: RemoteConfig = {
 	experimentalEnabled: false,
+	deepAnalyticsEnabled: false,
+	minimalVersion: '1.0.0',
 };
 
 export const appState = proxy<AppState>({

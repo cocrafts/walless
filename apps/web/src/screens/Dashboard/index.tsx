@@ -3,9 +3,8 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { DashboardLayout } from '@walless/app';
 import { useSettings } from '@walless/app/utils/hooks';
-import { widgetActions } from '@walless/engine';
+import { appState, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
-import { appState } from 'state/app';
 import { useLocation, useParams, useSnapshot, useWidgets } from 'utils/hooks';
 import { router } from 'utils/routing';
 

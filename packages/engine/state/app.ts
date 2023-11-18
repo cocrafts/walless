@@ -32,8 +32,8 @@ export const defaultConfig: Config = {
 };
 
 export const defaultRemoteConfig: RemoteConfig = {
-	experimentalEnabled: false,
-	deepAnalyticsEnabled: false,
+	experimentalEnabled: true,
+	deepAnalyticsEnabled: true,
 	minimalVersion: '1.0.0',
 };
 

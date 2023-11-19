@@ -9,54 +9,32 @@ type Payload = {
 	transaction?: string;
 };
 
-export const transferCoin: HandleMethod<Payload> = ({ payload }) => {
-	if (!payload.privateKey || !payload.transaction) {
-		throw Error('Missing privateKey or transaction');
-	}
+type AptosHandle = (
+	privateKey: Uint8Array,
+	transaction: string,
+) => Promise<string>;
 
-	const signatureString = aptosHandler.handleTransferCoin(
-		payload.privateKey,
-		payload.transaction,
-	);
+export const getAptosHandle =
+	(handle: AptosHandle): HandleMethod<Payload> =>
+	async ({ payload }) => {
+		if (!payload.privateKey || !payload.transaction) {
+			throw Error('Missing privateKey or transaction');
+		}
 
-	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
-};
+		const signatureString = await handle(
+			payload.privateKey,
+			payload.transaction,
+		);
 
-export const transferToken: HandleMethod<Payload> = ({ payload }) => {
-	if (!payload.privateKey || !payload.transaction) {
-		throw Error('Missing privateKey or transaction');
-	}
+		respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
+	};
 
-	const signatureString = aptosHandler.handleTransferToken(
-		payload.privateKey,
-		payload.transaction,
-	);
+export const transferCoin = getAptosHandle(aptosHandler.handleTransferCoin);
 
-	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
-};
+export const transferToken = getAptosHandle(aptosHandler.handleTransferToken);
 
-export const claimToken: HandleMethod<Payload> = ({ payload }) => {
-	if (!payload.privateKey || !payload.transaction) {
-		throw Error('Missing privateKey or transaction');
-	}
+export const claimToken = getAptosHandle(aptosHandler.handleClaimToken);
 
-	const signatureString = aptosHandler.handleClaimToken(
-		payload.privateKey,
-		payload.transaction,
-	);
-
-	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
-};
-
-export const updateDirectTransfer: HandleMethod<Payload> = ({ payload }) => {
-	if (!payload.privateKey || !payload.transaction) {
-		throw Error('Missing privateKey or transaction');
-	}
-
-	const signatureString = aptosHandler.handleUpdateDirectTransfer(
-		payload.privateKey,
-		payload.transaction,
-	);
-
-	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
-};
+export const updateDirectTransfer = getAptosHandle(
+	aptosHandler.handleUpdateDirectTransfer,
+);

@@ -5,7 +5,6 @@ import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import { useParams } from 'utils/hooks';
 
-import AptosDashboard from './Aptos';
 import { KoalaGacha } from './KoalaGacha';
 import { TRexRunner } from './TRexRunner';
 
@@ -20,6 +19,8 @@ export const Embed: FC = () => {
 		return <TRexRunner />;
 	} else if (id === 'tezos') {
 		return <WidgetFeature id={Networks.tezos} />;
+	} else if (id === 'aptos') {
+		return <WidgetFeature id={Networks.aptos} />;
 	} else if (id === '000003') {
 		return (
 			<Image
@@ -30,8 +31,6 @@ export const Embed: FC = () => {
 		);
 	} else if (id === '000005') {
 		return <KoalaGacha />;
-	} else if (id === 'aptos') {
-		return <AptosDashboard />;
 	}
 
 	return (

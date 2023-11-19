@@ -5,10 +5,10 @@ import { Text, View } from '@walless/gui';
 import { BlogCategory } from '@walless/icons';
 import Carousel from 'features/blogs/BlogDetails/Carousel/Carousel';
 import CarouselControl from 'features/blogs/BlogDetails/Carousel/CarouselControl';
-import { type Category, blogs } from 'features/blogs/internal';
+import { blogs, type Category } from 'features/blogs/internal';
 import Image from 'next/image';
 
-import BlogCard from '../BlogCard';
+import RelatedBlogs from './RelatedBlogs';
 
 interface Props {
 	id: string;
@@ -29,8 +29,6 @@ const BlogDetails: FC<Props> = ({
 	activityImages,
 }) => {
 	const [contentWidth, setContentWidth] = useState<number>(0);
-	const [blogCardContainerWidth, setBlogCardContainerWidth] =
-		useState<number>(0);
 
 	const carouselRef = useRef<{
 		handleSlideLeftPress: () => void;
@@ -49,7 +47,7 @@ const BlogDetails: FC<Props> = ({
 
 	return (
 		<View>
-			<View style={styles.bodyContainer}>
+			<View style={styles.container}>
 				<View style={styles.leftContainer}>
 					<View>
 						<View style={styles.categoryContainer}>
@@ -111,29 +109,7 @@ const BlogDetails: FC<Props> = ({
 					</View>
 				</View>
 			</View>
-			<View>
-				<Text style={styles.activities}>Related blogs</Text>
-				<View
-					style={styles.relatedBlogsContainer}
-					onLayout={(event) => {
-						setBlogCardContainerWidth(event.nativeEvent.layout.width);
-						console.log(event.nativeEvent.layout.width);
-					}}
-				>
-					{relatedBlogs.map((blog) => (
-						<BlogCard
-							key={blog.id}
-							style={{ width: (blogCardContainerWidth - 30) / 2 }}
-							id={blog.id}
-							title={blog.title}
-							category={blog.category}
-							coverImage={blog.coverImage}
-							date={blog.date}
-							description={blog.description}
-						/>
-					))}
-				</View>
-			</View>
+			<RelatedBlogs relatedBlogs={relatedBlogs} />
 		</View>
 	);
 };
@@ -141,7 +117,7 @@ const BlogDetails: FC<Props> = ({
 export default BlogDetails;
 
 const styles = StyleSheet.create({
-	bodyContainer: {
+	container: {
 		flexDirection: 'row',
 		gap: 60,
 	},
@@ -172,23 +148,24 @@ const styles = StyleSheet.create({
 	title: {
 		color: '#ffffff',
 		fontWeight: '500',
-		fontSize: 40,
+		fontSize: 32,
 	},
 	date: {
 		color: '#ffffff',
 		fontSize: 18,
 	},
-	content: {
-		color: '#566674',
-		fontSize: 20,
-	},
-	contentContainer: {
-		gap: 20,
-	},
 	activities: {
 		color: '#ffffff',
 		fontSize: 20,
 		fontWeight: '500',
+	},
+	content: {
+		color: '#566674',
+		fontSize: 16,
+		lineHeight: 24,
+	},
+	contentContainer: {
+		gap: 20,
 	},
 	carouselContainer: {
 		gap: 20,
@@ -201,11 +178,5 @@ const styles = StyleSheet.create({
 		maxWidth: '100%',
 		flex: 1,
 		borderRadius: 10,
-	},
-	relatedBlogsContainer: {
-		flexDirection: 'row',
-		// justifyContent: 'space-between',
-		gap: 30,
-		flexWrap: 'wrap',
 	},
 });

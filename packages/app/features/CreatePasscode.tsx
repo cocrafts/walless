@@ -27,7 +27,7 @@ export const CreatePasscode: FC<Props> = ({ onComplete }) => {
 		if (isCompleted) {
 			setLoading(true);
 			setTimeout(() => {
-				onComplete?.(passcode);
+				onComplete?.(value);
 			}, 0);
 		}
 	};

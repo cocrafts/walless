@@ -12,11 +12,12 @@ import { webAsset } from './config';
 import { buyToken } from './gatefi';
 import { qlClient } from './graphql';
 import { router } from './routing';
-import { createAndSend } from './transaction';
+import { createAndSend, handleAptosOnChainAction } from './transaction';
 import { key } from './w3a';
 
 export const injectModules = async () => {
 	utils.createAndSend = createAndSend;
+	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.buyToken = buyToken;
 	utils.logOut = logOut;
 

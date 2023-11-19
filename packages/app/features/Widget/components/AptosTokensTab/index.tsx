@@ -101,19 +101,16 @@ export default AptosTokensTab;
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		justifyContent: 'space-between',
-		rowGap: 10,
-		paddingTop: 16,
-		paddingBottom: 60,
+		flex: 1,
+		marginVertical: 16,
+		gap: 16,
 	},
 	tabContainer: {
-		width: '100%',
+		flex: 1,
 	},
 	sliderContainer: {
 		flex: 1,
 		marginTop: 16,
-		height: '100%',
+		padding: 16,
 	},
 });

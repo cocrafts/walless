@@ -19,7 +19,8 @@ export const notify = (
 	modalActions.show({
 		id: _id,
 		component: NotificationModal,
-		maskActiveOpacity: 0,
+		fullWidth: false,
+		withoutMask: true,
 		bindingDirection: BindDirections.InnerTop,
 		positionOffset: { y: 20 },
 		...modalConfig,

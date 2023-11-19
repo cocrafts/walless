@@ -22,6 +22,7 @@ import { showReceiveModal } from '../Receive';
 import { showSendModal } from '../Send';
 
 import ActivityTab from './components/ActivityTab';
+import AptosTokensTab from './components/AptosTokensTab';
 import { CollectiblesTab, TokenTab } from './components';
 import { getWalletCardSkin, layoutTabs } from './shared';
 
@@ -50,7 +51,12 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		},
 		{
 			id: 'collectibles',
-			component: () => <CollectiblesTab collections={collections} />,
+			component: () =>
+				id === Networks.aptos ? (
+					<AptosTokensTab pubkey={keys[0]._id} />
+				) : (
+					<CollectiblesTab collections={collections} />
+				),
 		},
 		{
 			id: 'activities',

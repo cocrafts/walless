@@ -1,5 +1,6 @@
 declare module 'react-native-syntax-highlighter';
 declare module 'react-syntax-highlighter/styles/hljs';
+declare module 'react-native-url-polyfill/auto';
 
 declare const FIREBASE_API_KEY: string;
 declare const BUILD_TARGET: string;

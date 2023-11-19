@@ -8267,11 +8267,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/app@npm:18.5.0":
-  version: 18.5.0
-  resolution: "@react-native-firebase/app@npm:18.5.0"
+"@react-native-firebase/analytics@npm:^18.6.1":
+  version: 18.6.1
+  resolution: "@react-native-firebase/analytics@npm:18.6.1"
+  peerDependencies:
+    "@react-native-firebase/app": 18.6.1
+  checksum: 8538788a4b78782e3660fed97d2a0966b50c7c61f255a61a003ce610c4007cf5a10fa56a55eb67a7cb116e491ee783c6e1dc7d31709922d36516914eae1c0837
+  languageName: node
+  linkType: hard
+
+"@react-native-firebase/app@npm:18.6.1":
+  version: 18.6.1
+  resolution: "@react-native-firebase/app@npm:18.6.1"
   dependencies:
-    opencollective-postinstall: ^2.0.1
+    opencollective-postinstall: ^2.0.3
     superstruct: ^0.6.2
   peerDependencies:
     expo: ">=47.0.0"
@@ -8280,32 +8289,49 @@ __metadata:
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 784f0d8382145a2e2a92ad71bea2ba3570bb7f454e40d8e3cfbfb5dd206d55ec464dabe32311f21639df0d969f40ec26d1edef76ab6b9ab7d442b86f69f82def
+  checksum: 3655f29917b72deca20b4b6f835ea0895af4ea662748b9011b9b223c28e44675139d8068290d3ea200237907663ff9cf3577f1fc3d48cff04231d937d018060b
   languageName: node
   linkType: hard
 
-"@react-native-firebase/auth@npm:18.5.0":
-  version: 18.5.0
-  resolution: "@react-native-firebase/auth@npm:18.5.0"
+"@react-native-firebase/app@patch:@react-native-firebase/app@npm%3A18.6.1#./.yarn/patches/@react-native-firebase-app-npm-18.6.1-ef99d77745.patch::locator=walless%40workspace%3A.":
+  version: 18.6.1
+  resolution: "@react-native-firebase/app@patch:@react-native-firebase/app@npm%3A18.6.1#./.yarn/patches/@react-native-firebase-app-npm-18.6.1-ef99d77745.patch::version=18.6.1&hash=494d9c&locator=walless%40workspace%3A."
+  dependencies:
+    opencollective-postinstall: ^2.0.3
+    superstruct: ^0.6.2
+  peerDependencies:
+    expo: ">=47.0.0"
+    react: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 4298ddc015c38f903b035d4c8e12cf13cd655594dccbae2c2bc0690a97f8a8688a587b62915d7a6da16b4accbfdf3aae96dede2f9cc148ba8e117869b273cf76
+  languageName: node
+  linkType: hard
+
+"@react-native-firebase/auth@npm:18.6.1":
+  version: 18.6.1
+  resolution: "@react-native-firebase/auth@npm:18.6.1"
   dependencies:
     plist: ^3.1.0
   peerDependencies:
-    "@react-native-firebase/app": 18.5.0
+    "@react-native-firebase/app": 18.6.1
     expo: ">=47.0.0"
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 32df9f93b3b0d0b081a9767521b7019bb9edb896fda6934683a3319bf18cfd8c951b117613fb8ce25f7cf54e5b0ad81a2a75d83469986743e81268fbd51cb806
+  checksum: 61141275b8cff34986a73628c40b28384c0caecf845c42c8c830b41a42d8d712d522cfcec6f7422f25fcf0cbbda16adc7de3c729ca8f339ffb7ff56177d3c48f
   languageName: node
   linkType: hard
 
-"@react-native-firebase/remote-config@npm:18.5.0":
-  version: 18.5.0
-  resolution: "@react-native-firebase/remote-config@npm:18.5.0"
+"@react-native-firebase/remote-config@npm:18.6.1":
+  version: 18.6.1
+  resolution: "@react-native-firebase/remote-config@npm:18.6.1"
   peerDependencies:
-    "@react-native-firebase/analytics": 18.5.0
-    "@react-native-firebase/app": 18.5.0
-  checksum: 1a6cd6ab7c6513d018e02c927d6e0e7dbf6ff775d64a80bf753a22b3553d5880b0da485e153e0696913fe505e3782e90d33199c72904d6a001dfb74de75017e3
+    "@react-native-firebase/analytics": 18.6.1
+    "@react-native-firebase/app": 18.6.1
+  checksum: fcc659a36d0c91befe7fbb041e836c759d1a3a22fb56572c665d25132f3eeb63dfafb52bf4c0deb3f113c6a1b3f6b6fa2f3caeec0e3ec822e646ef93fb6ddf56
   languageName: node
   linkType: hard
 
@@ -8345,10 +8371,10 @@ __metadata:
   linkType: hard
 
 "@react-navigation/bottom-tabs@npm:^6.5.8":
-  version: 6.5.8
-  resolution: "@react-navigation/bottom-tabs@npm:6.5.8"
+  version: 6.5.11
+  resolution: "@react-navigation/bottom-tabs@npm:6.5.11"
   dependencies:
-    "@react-navigation/elements": ^1.3.18
+    "@react-navigation/elements": ^1.3.21
     color: ^4.2.3
     warn-once: ^0.1.0
   peerDependencies:
@@ -8357,7 +8383,7 @@ __metadata:
     react-native: "*"
     react-native-safe-area-context: ">= 3.0.0"
     react-native-screens: ">= 3.0.0"
-  checksum: 5a42995a6602ff4458dfbc815b0d6a57aca3f93554d784d9db92e902f700e569f6db6f3d863285d830c80f76c72804a9041676d078794a56b55eb7e487532770
+  checksum: 40719f03d926ddf046f395e1e3007b8e3b64b82ecdf33a397b7b2eb9b0387fdd00ece2089db670e6d339838bd0658ee279b9409873bbeb28df89ad86f8f09140
   languageName: node
   linkType: hard
 
@@ -8405,18 +8431,6 @@ __metadata:
     react-native: "*"
     react-native-safe-area-context: ">= 3.0.0"
   checksum: 19d329efcc144f48b88ad235f4195803712e2c72a5ec5f86340463978c58e6d6e931e3bd447509d0f2511810ee2b91e97378ecc5af974674fd8ddb5096be643e
-  languageName: node
-  linkType: hard
-
-"@react-navigation/elements@npm:^1.3.18":
-  version: 1.3.18
-  resolution: "@react-navigation/elements@npm:1.3.18"
-  peerDependencies:
-    "@react-navigation/native": ^6.0.0
-    react: "*"
-    react-native: "*"
-    react-native-safe-area-context: ">= 3.0.0"
-  checksum: 02293f0932e5f53bb9c4df46f97063bfa27f05a1f606ea556de42189e6bf3e928f70a531ae64e0f56072d6525178cee9bd41eafbcbbce4653476f4aa2346524a
   languageName: node
   linkType: hard
 
@@ -12641,9 +12655,10 @@ __metadata:
     "@craftzdog/pouchdb-collate-react-native": ^7.3.0
     "@craftzdog/react-native-buffer": ^6.0.5
     "@dreson4/react-native-quick-bip39": 0.0.5
-    "@react-native-firebase/app": 18.5.0
-    "@react-native-firebase/auth": 18.5.0
-    "@react-native-firebase/remote-config": 18.5.0
+    "@react-native-firebase/analytics": ^18.6.1
+    "@react-native-firebase/app": 18.6.1
+    "@react-native-firebase/auth": 18.6.1
+    "@react-native-firebase/remote-config": 18.6.1
     "@react-native-google-signin/google-signin": ^9.0.2
     "@react-navigation/bottom-tabs": ^6.5.8
     "@react-navigation/drawer": ^6.6.6
@@ -24172,7 +24187,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"opencollective-postinstall@npm:^2.0.1":
+"opencollective-postinstall@npm:^2.0.3":
   version: 2.0.3
   resolution: "opencollective-postinstall@npm:2.0.3"
   bin:

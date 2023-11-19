@@ -1,0 +1,43 @@
+diff --git a/lib/common/struct.js b/lib/common/struct.js
+index 337a86744588564bc03e45ad191c1657593d322d..5c0b964fcb3a5428d687ee35d084008778ebb557 100644
+--- a/lib/common/struct.js
++++ b/lib/common/struct.js
+@@ -14,30 +14,17 @@
+  *  limitations under the License.
+  */
+ 
+-import { superstruct } from 'superstruct/lib/index';
++import { object, optional } from 'superstruct';
+ import { isUndefined } from './validate';
+ 
+-export default superstruct({
+-  types: {
+-    shortDate: value => typeof value === 'string' && !!value.match(/^\d{4}-\d{2}-\d{2}$/),
+-  },
+-});
++const struct = () => ({});
++struct.interface = object;
++struct.optional = optional;
++struct.shortDate = value => typeof value === 'string' && !!value.match(/^\d{4}-\d{2}-\d{2}$/);
++export default struct;
+ 
+-export const validateStruct = (value = {}, struct, prefix = '') => {
+-  try {
+-    return struct(value);
+-  } catch (e) {
+-    const { path, reason } = e;
+-    const key = path[0];
+-
+-    if (reason === undefined) {
+-      throw new Error(`${prefix} unknown property '${key}'.`);
+-    }
+-
+-    e.message = `${prefix} ${e.message}`;
+-
+-    throw e;
+-  }
++export const validateStruct = (value = {}, type, prefix = '') => {
++  return value
+ };
+ 
+ export const validateCompound = (source = {}, a, b, prefix = '') => {

@@ -41,3 +41,16 @@ index 337a86744588564bc03e45ad191c1657593d322d..5c0b964fcb3a5428d687ee35d0840087
  };
  
  export const validateCompound = (source = {}, a, b, prefix = '') => {
+diff --git a/package.json b/package.json
+index cedf7289468b355d2a76cc60387d5ab3dd1c15ac..54ad7cfc4ff50375f1b2e9a683ade9587e949477 100644
+--- a/package.json
++++ b/package.json
+@@ -58,7 +58,7 @@
+   },
+   "dependencies": {
+     "opencollective-postinstall": "^2.0.3",
+-    "superstruct": "^0.6.2"
++    "superstruct": "^1.0.3"
+   },
+   "devDependencies": {
+     "expo": "^49.0.16"

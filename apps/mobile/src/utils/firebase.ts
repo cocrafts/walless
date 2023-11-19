@@ -1,7 +1,10 @@
+import getAnalytics from '@react-native-firebase/analytics';
 import auth from '@react-native-firebase/auth';
 import remoteConfig from '@react-native-firebase/remote-config';
 import type { RemoteConfig } from '@walless/core';
 import { defaultRemoteConfig } from '@walless/engine';
+
+export const analytics = getAnalytics();
 
 const minimumFetchIntervalMillis = __DEV__
 	? 10000 // 10 seconds for development

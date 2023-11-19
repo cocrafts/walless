@@ -2,6 +2,7 @@ import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
 import type { SettingDocument } from '@walless/store';
+import { getAnalytics } from 'firebase/analytics';
 import type { FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
@@ -25,6 +26,7 @@ const firebaseOptions: FirebaseOptions = {
 export const app = initializeApp(firebaseOptions);
 export const remoteConfig = getRemoteConfig(app);
 export const auth = getAuth();
+export const analytics = getAnalytics();
 export const googleProvider = new GoogleAuthProvider();
 
 /* update interval: 10 seconds for dev, and 1 hour for prod */
@@ -70,3 +72,5 @@ export const initializeAuth = async (settings?: SettingDocument) => {
 		});
 	}
 };
+
+export { logEvent } from 'firebase/analytics';

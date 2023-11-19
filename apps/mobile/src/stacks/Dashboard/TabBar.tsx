@@ -6,8 +6,8 @@ import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Route } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
 import { mockWidgets } from '@walless/engine';
+import { appState } from '@walless/engine';
 import { modules } from '@walless/ioc';
-import { appState } from 'state/app';
 
 import NavigationItem from './TabBarItem';
 

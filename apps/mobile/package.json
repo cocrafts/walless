@@ -8,6 +8,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "react-native start",
+    "postinstall": "rm -rf node_modules/superstruct",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

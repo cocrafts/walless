@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { showRequirePasscodeModal } from '@walless/app';
 import { Hoverable, Text, View } from '@walless/gui';
+import { utils } from '@walless/ioc';
 import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
-import { encryptedMessenger } from 'bridge/utils/messaging';
 
 interface Props {
 	pubkey: string;
@@ -18,21 +18,25 @@ const indicatorSize = 16;
 const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 	const [disabled, setDisabled] = useState(false);
 
+	const handleOnPasscodeComplete = async (passcode: string) => {
+		const payload: aptosHandler.AptosDirectTransferPayload = {
+			pubkey,
+			directTransfer: !directTransfer,
+		};
+
+		const res = await utils.handleAptosFunction({
+			passcode,
+			type: RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS,
+			payload,
+		});
+		return res;
+	};
+
 	const handleDirectTransfer = async () => {
 		showRequirePasscodeModal({
 			title: `Turn ${directTransfer ? 'off' : 'on'} direct transfer`,
 			desc: `Toggle this flag will submit an on-chain transaction and will require a ${fee} APT gas fee.`,
-			onPasscodeComplete: async (passcode) => {
-				const res = await encryptedMessenger.request('kernel', {
-					type: RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS,
-					transaction: JSON.stringify({
-						pubkey,
-						directTransfer: !directTransfer,
-					} satisfies aptosHandler.AptosDirectTransferPayload),
-					passcode,
-				});
-				return res;
-			},
+			onPasscodeComplete: handleOnPasscodeComplete,
 			onActionComplete: () => {
 				setDisabled(true);
 			},

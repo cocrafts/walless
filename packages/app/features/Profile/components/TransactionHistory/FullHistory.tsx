@@ -1,16 +1,23 @@
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { useHistory } from '@walless/app/utils/hooks';
+import { ActivityIndicator, StyleSheet } from 'react-native';
+import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
-import { ChevronLeft } from '@walless/icons';
+
+import { useHistory } from '../../../../utils/hooks';
 
 import HistoryItem from './HistoryItem';
 
-export const FullHistory = () => {
-	const history = useHistory();
+interface Props {
+	network?: Networks;
+}
+
+export const FullHistoryFeature: FC<Props> = ({ network }) => {
+	const history = useHistory(network);
 	const [loading, setLoading] = useState(true);
 
 	let date = '';
+
 	const option: Intl.DateTimeFormatOptions = {
 		year: 'numeric',
 		month: 'long',
@@ -25,14 +32,8 @@ export const FullHistory = () => {
 
 	return (
 		<View>
-			<View style={styles.header}>
-				<TouchableOpacity onPress={() => console.log('Go back')}>
-					<ChevronLeft />
-				</TouchableOpacity>
-				<Text style={styles.title}>Transaction History</Text>
-			</View>
 			{loading ? (
-				<Text>loading...</Text>
+				<ActivityIndicator />
 			) : (
 				<View style={styles.transactionsContainer}>
 					{history.map((transaction) => {
@@ -52,7 +53,7 @@ export const FullHistory = () => {
 								key={transaction.signature}
 								style={styles.dateAndTransactionContainer}
 							>
-								<Text>{transactionDate}</Text>
+								<Text style={styles.date}>{transactionDate}</Text>
 								<HistoryItem {...transaction} />
 							</View>
 						);
@@ -63,25 +64,17 @@ export const FullHistory = () => {
 	);
 };
 
-export default FullHistory;
+export default FullHistoryFeature;
 
 const styles = StyleSheet.create({
-	container: {},
-	header: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		paddingVertical: 14,
-		gap: 14,
-	},
-	title: {
-		fontSize: 20,
-		color: '#ffffff',
-	},
 	transactionsContainer: {
-		paddingHorizontal: 14,
 		gap: 8,
 	},
 	dateAndTransactionContainer: {
 		gap: 10,
+	},
+	date: {
+		color: '#ffffff',
+		marginTop: 8,
 	},
 });

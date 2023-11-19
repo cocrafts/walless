@@ -7,7 +7,7 @@ import EmbeddedApp from 'screens/Dashboard/Embed';
 import Nft from 'screens/Dashboard/Nft';
 import DeprecatedPasscodeScreen from 'screens/DeprecatedPasscode';
 import ExploreScreen from 'screens/Explore';
-import FullHistoryScreen from 'screens/FullHistory';
+import HistoryScreen from 'screens/HistoryScreen';
 import InvitationScreen from 'screens/Invitation';
 import LoginScreen from 'screens/Login';
 import PasscodeScreen from 'screens/Passcode';
@@ -36,7 +36,7 @@ export const router = createRouter([
 			},
 			{
 				path: '/history',
-				element: <FullHistoryScreen />,
+				element: <HistoryScreen />,
 			},
 			{
 				path: '/setting',

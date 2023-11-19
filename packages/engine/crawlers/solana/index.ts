@@ -6,6 +6,7 @@ import { addTokensToStorage, selectors } from '@walless/store';
 import { solanaCollectiblesByAddress } from './collectibles';
 import type { SolanaRunner } from './shared';
 import { solanaFungiblesByAddress } from './token';
+import { getSignatureList, getTransactions } from './transactionHistory';
 
 export const solanaEngineRunner: SolanaRunner = {
 	start: async (context) => {
@@ -18,6 +19,15 @@ export const solanaEngineRunner: SolanaRunner = {
 				context,
 				currentPubkey,
 			);
+
+			const { _id } = item;
+			getSignatureList(context.connection, _id)
+				.then(async (list) => {
+					await getTransactions(context, list, _id);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 
 			addTokensToStorage(fungibleTokens);
 			solanaCollectiblesByAddress({

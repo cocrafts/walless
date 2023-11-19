@@ -14,10 +14,14 @@ import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';
 
 interface Props {
+	onNavigateToHistory: () => void;
 	onSettingPress?: () => void;
 }
 
-export const ProfileFeature: FC<Props> = ({ onSettingPress }) => {
+export const ProfileFeature: FC<Props> = ({
+	onNavigateToHistory,
+	onSettingPress,
+}) => {
 	const { top } = useSafeAreaInsets();
 
 	const containerStyle = {
@@ -42,13 +46,12 @@ export const ProfileFeature: FC<Props> = ({ onSettingPress }) => {
 				onBuyPress={() => utils.buyToken(Networks.solana)}
 			/>
 
-			<TransactionHistory />
+			<TransactionHistory onNavigateToHistory={onNavigateToHistory} />
 		</View>
 	);
 };
 
 export default ProfileFeature;
-export * from './components/TransactionHistory';
 
 const styles = StyleSheet.create({
 	container: {
@@ -63,3 +66,5 @@ const styles = StyleSheet.create({
 		marginBottom: -12,
 	},
 });
+
+export * from './components/TransactionHistory';

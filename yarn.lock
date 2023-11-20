@@ -11440,7 +11440,7 @@ __metadata:
     react-native-reanimated: "*"
     react-native-svg: 13.10.0
     react-native-web: ^0.18.12
-    valtio: ^1.10.5
+    valtio: 1.10.5
   languageName: unknown
   linkType: soft
 
@@ -15586,15 +15586,6 @@ __metadata:
     invariant: ^2.2.4
     prop-types: ^15.8.1
   checksum: cc6b836cafd4b915393787866a6be07b5b4d59a1d13ea67eeecb99015ea9ff830cc4888a3c87be45847705689ecf9de92f55b0134411746e541244cf8a9b4116
-  languageName: node
-  linkType: hard
-
-"derive-valtio@npm:0.1.0":
-  version: 0.1.0
-  resolution: "derive-valtio@npm:0.1.0"
-  peerDependencies:
-    valtio: "*"
-  checksum: 5266a53bbf4795c72f76922a19e8737e9ecfcbe738e7814108abc13fe048c8b82c48c40f5727c134681caec6f20a8a9d0713c9e1d33b84f755138e032c2d0bce
   languageName: node
   linkType: hard
 
@@ -27907,25 +27898,6 @@ __metadata:
     react:
       optional: true
   checksum: a01d7cca44b3ff60213aa40470c42083f7522d8e2c2f2d9f696b0aa3eec4c3dba7393831d5ff47db1ad025904860d2788ce4d9654963ff3555481deb25376851
-  languageName: node
-  linkType: hard
-
-"valtio@npm:^1.10.5":
-  version: 1.12.0
-  resolution: "valtio@npm:1.12.0"
-  dependencies:
-    derive-valtio: 0.1.0
-    proxy-compare: 2.5.1
-    use-sync-external-store: 1.2.0
-  peerDependencies:
-    "@types/react": ">=16.8"
-    react: ">=16.8"
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    react:
-      optional: true
-  checksum: a6a49b0aa887e2f03a30fb3fcf8a220af130226caec8e10667153e2bbc12437c1d16e0f43bd6916192d76f328c1af4870cbd2b17e903d314d493d2416669d65b
   languageName: node
   linkType: hard
 

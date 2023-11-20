@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { useNfts } from '@walless/app/utils/hooks';
 import { View } from '@walless/gui';
 import type { CollectionDocument } from '@walless/store';
 import { router } from 'utils/routing';

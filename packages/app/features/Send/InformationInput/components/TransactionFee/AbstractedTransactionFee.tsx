@@ -11,7 +11,6 @@ import { solMint } from '@walless/engine/crawlers/solana/metadata';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
-import { set } from 'lodash';
 import { useSnapshot } from 'valtio';
 
 import {

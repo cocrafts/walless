@@ -36,12 +36,12 @@ export const webAsset: UniversalAsset = {
 		},
 		aptos: {
 			storeMeta: {
-				iconUri: { uri: '/img/explore/logo-aptos.svg' },
-				coverUri: { uri: '/img/explore/thumbnail-aptos.svg' },
+				iconUri: { uri: '/img/explore/logo-aptos.png' },
+				coverUri: { uri: '/img/explore/thumbnail-aptos.png' },
 			},
 			widgetMeta: {
-				cardIcon: { uri: '/img/explore/logo-aptos.svg' },
-				cardMark: { uri: '/img/explore/logo-aptos-large.svg' },
+				cardIcon: { uri: '/img/widget/aptos-icon.png' },
+				cardMark: { uri: '/img/widget/aptos-mark.png' },
 				cardBackground: { uri: '/img/widget/sky-card-bg.png' },
 			},
 		},

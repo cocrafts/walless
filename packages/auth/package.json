@@ -5,8 +5,6 @@
   "types": "./index.ts",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
     "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx"
   },

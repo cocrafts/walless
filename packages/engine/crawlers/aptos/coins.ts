@@ -22,7 +22,7 @@ export const getCoins = async (provider: Provider, pubkey: HexString) => {
 			metadata: {
 				name: coin.metadata?.name ?? 'Unknown',
 				symbol: coin.metadata?.symbol ?? 'Unknown',
-				imageUri: coin.metadata?.icon_uri ?? '/img/explore/logo-aptos.svg',
+				imageUri: coin.metadata?.icon_uri ?? '',
 			},
 		});
 	});

@@ -1,51 +1,75 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import type { ImageSourcePropType, ViewStyle } from 'react-native';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import type { WithTimingConfig } from 'react-native-reanimated';
+import {
+	useAnimatedStyle,
+	useSharedValue,
+	withTiming,
+} from 'react-native-reanimated';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Route } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
-import { mockWidgets } from '@walless/engine';
-import { appState } from '@walless/engine';
+import { appState, mockWidgets } from '@walless/engine';
+import { AnimatedView } from '@walless/gui';
 import { modules } from '@walless/ioc';
 
 import NavigationItem from './TabBarItem';
 
 const getIconImage = (routeName: string): ImageSourcePropType => {
+	const backupUri: ImageSourcePropType = {
+		uri: '/assets/img/icon.png',
+	};
+
 	switch (routeName) {
 		case 'Profile':
 			return { uri: appState.profile.profileImage };
 		case 'Explore':
-			return modules.asset.tabBar.explore;
+			return modules.asset.tabBar?.explore || backupUri;
 		case 'Home':
-			return modules.asset.tabBar.walless;
+			return modules.asset.tabBar?.walless || backupUri;
 		default:
-			return modules.asset.tabBar.walless;
+			return modules.asset.tabBar?.walless || backupUri;
 	}
 };
 
-export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
-	insets,
-	state,
-	navigation,
+const timingConfig: WithTimingConfig = {
+	duration: 50,
+};
+
+interface Props {
+	tabProps: BottomTabBarProps;
+	setSceneMarginBottom: (marginBottom: number) => void;
+}
+
+export const BottomNavigationTabBar: FC<Props> = ({
+	tabProps,
+	setSceneMarginBottom,
 }) => {
 	const { activeWidgetId, isDrawerOpen } = useSnapshot(appState);
-	const [showBottomTab, setShowBottomTab] = useState(true);
+	const offset = useSharedValue(0);
+	const animatedStyles = useAnimatedStyle(() => ({
+		transform: [{ translateY: withTiming(offset.value) }],
+	}));
 
 	useEffect(() => {
 		if (
 			!isDrawerOpen &&
 			mockWidgets.some((widget) => widget._id === activeWidgetId)
 		) {
-			setShowBottomTab(false);
+			offset.value = withTiming(tabBarHeight, timingConfig);
+			setSceneMarginBottom(0);
 		} else {
-			setShowBottomTab(true);
+			offset.value = withTiming(0, timingConfig);
+			setSceneMarginBottom(tabBarHeight);
 		}
 	}, [isDrawerOpen]);
 
+	const { insets, state, navigation } = tabProps;
+
 	const containerStyle: ViewStyle = {
 		paddingBottom: insets.bottom,
-		display: showBottomTab ? 'flex' : 'none',
 	};
 
 	const handleNavigate = (route: Route<string, never>, focused: boolean) => {
@@ -61,7 +85,7 @@ export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
 	};
 
 	return (
-		<View style={[styles.container, containerStyle]}>
+		<AnimatedView style={[styles.container, containerStyle, animatedStyles]}>
 			{state.routes.map((route, index) => {
 				const isFocused = state.index === index;
 
@@ -75,7 +99,7 @@ export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
 					/>
 				);
 			})}
-		</View>
+		</AnimatedView>
 	);
 };
 

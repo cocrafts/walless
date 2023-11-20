@@ -36,12 +36,13 @@ export const nativeAsset: UniversalAsset = {
 		},
 		aptos: {
 			storeMeta: {
-				iconUri: require('assets/img/explore/logo-solana.png'),
-				coverUri: require('assets/img/explore/thumbnail-solana.png'),
+				iconUri: require('assets/img/explore/logo-aptos.png'),
+				coverUri: require('assets/img/explore/thumbnail-aptos.png'),
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/aptos-icon.png'),
 				cardBackground: require('assets/img/widget/sky-card-bg.png'),
+				cardMark: require('assets/img/widget/aptos-mark.png'),
 			},
 		},
 		pixeverse: {
@@ -74,6 +75,9 @@ export const nativeAsset: UniversalAsset = {
 	tabBar: {
 		explore: require('assets/img/explore.png'),
 		walless: require('assets/img/icon-white.png'),
+	},
+	misc: {
+		unknownToken: require('assets/img/send-token/unknown-token.jpeg'),
 	},
 };
 

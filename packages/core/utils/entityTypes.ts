@@ -30,12 +30,15 @@ export interface Config {
 
 export interface RemoteConfig {
 	experimentalEnabled: boolean;
+	deepAnalyticsEnabled: boolean;
+	minimalVersion: string;
 }
 
 export interface UserProfile {
 	id?: string;
 	email?: string;
 	name?: string;
+	walletCount?: number;
 	profileImage?: string;
 }
 

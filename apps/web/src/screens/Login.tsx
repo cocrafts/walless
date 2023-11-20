@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { LoginFeature } from '@walless/app';
-import { appActions, appState } from 'state/app';
+import { appState } from '@walless/engine';
 import { resources } from 'utils/config';
 import { useSnapshot } from 'utils/hooks';
 import { router } from 'utils/routing';
+import { appActions } from 'utils/state';
 
 export const LoginScreen: FC = () => {
 	const { authenticationLoading, invitationCode, isAbleToSignIn, signInError } =

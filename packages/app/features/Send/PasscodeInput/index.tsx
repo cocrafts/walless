@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import type {
 	Collectible,
 	Networks,
@@ -41,10 +41,13 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		setError('');
 	};
 
-	const handlePasscodeChange = async (passcode: string) => {
+	const handlePasscodeChange = async (
+		passcode: string,
+		isCompleted = false,
+	) => {
 		setIsLoading(true);
 		setPasscode(passcode);
-		if (passcode.length == 6) {
+		if (isCompleted) {
 			if (
 				(type === 'Token' && !token) ||
 				(type === 'Collectible' && !nftCollectible)
@@ -133,10 +136,10 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 				<PasscodeFeature
 					passcode={passcode}
 					error={error}
+					loading={isLoading}
 					onPasscodeChange={handlePasscodeChange}
 				/>
 			)}
-			{isLoading && <ActivityIndicator size={'large'} />}
 		</View>
 	);
 };

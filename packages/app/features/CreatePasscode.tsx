@@ -12,6 +12,7 @@ export const CreatePasscode: FC<Props> = ({ onComplete }) => {
 	const [passcode, setPasscode] = useState('');
 	const [confirmation, setConfirmation] = useState(false);
 	const [passcodeError, setPasscodeError] = useState<string>();
+	const [loading, setLoading] = useState(false);
 	const title = confirmation ? 'Confirm your passcode' : 'Create passcode';
 
 	const onPasscodeChange = async (
@@ -20,11 +21,14 @@ export const CreatePasscode: FC<Props> = ({ onComplete }) => {
 		isConfirmation?: boolean,
 	) => {
 		setPasscode(value);
-		if (passcodeError && value.length > 0) setPasscodeError(undefined);
+		if (passcodeError && value.length > 0) setPasscodeError('');
 
 		setConfirmation(!!isConfirmation);
-		if (isCompleted && onComplete) {
-			onComplete(value);
+		if (isCompleted) {
+			setLoading(true);
+			setTimeout(() => {
+				onComplete?.(value);
+			}, 0);
 		}
 	};
 
@@ -35,6 +39,7 @@ export const CreatePasscode: FC<Props> = ({ onComplete }) => {
 	useEffect(() => {
 		if (passcodeError) {
 			setPasscode('');
+			setLoading(false);
 		}
 	}, [passcodeError]);
 
@@ -54,6 +59,7 @@ export const CreatePasscode: FC<Props> = ({ onComplete }) => {
 				passcode={passcode}
 				isCreate={true}
 				error={passcodeError}
+				loading={loading}
 				onPasscodeChange={onPasscodeChange}
 			/>
 

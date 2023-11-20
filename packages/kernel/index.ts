@@ -1,5 +1,5 @@
-export * as aptosHandlers from './handlers/aptosHandler';
-export * as solanaHandlers from './handlers/solanaHandler';
-export * as suiHandlers from './handlers/suiHandler';
-export * as tezosHandlers from './handlers/tezosHandler';
+export * as aptosHandler from './handlers/aptos';
+export * as solanaHandler from './handlers/solana';
+export * as suiHandler from './handlers/sui';
+export * as tezosHandler from './handlers/tezos';
 export * as utils from './utils';

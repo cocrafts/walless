@@ -14,7 +14,10 @@ import { logoSize, logoUri } from './shared';
 
 export const RequestLayout = () => {
 	const { requestId } = useParams();
-	const { sender } = useRequestData(requestId as string);
+	const { sender } = useRequestData(
+		requestId as string,
+		PopupType.REQUEST_INSTALL_LAYOUT_POPUP,
+	);
 	const senderTitle = sender.tab?.title || 'Unknown';
 
 	const onApprovePress = () => {

@@ -24,7 +24,7 @@ import type {
 import { Networks } from '@walless/core';
 import { getAptosConnection } from '@walless/engine/crawlers/aptos';
 import { modules } from '@walless/ioc';
-import type { aptosHandlers } from '@walless/kernel';
+import type { aptosHandler } from '@walless/kernel';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { TxnBuilderTypes } from 'aptos';
 import base58 from 'bs58';
@@ -151,7 +151,7 @@ export const constructTransaction = async ({
 				wallessCollectionId: nft.collectionId || '',
 				wallessCollectibleId: nft._id || '',
 				amount: amount,
-			} satisfies aptosHandlers.AptosTokenPayload;
+			} satisfies aptosHandler.AptosTokenPayload;
 		} else {
 			const coin = token as TokenDocument;
 			return {
@@ -160,7 +160,7 @@ export const constructTransaction = async ({
 				token: coin.account.address || '',
 				amount: amount,
 				decimals: coin.account?.decimals,
-			} satisfies aptosHandlers.AptosCoinPayload;
+			} satisfies aptosHandler.AptosCoinPayload;
 		}
 	}
 
@@ -297,7 +297,7 @@ const constructTransactionAbstractFeeTemplate = async (
 		receiverPublicKey,
 	);
 
-	const octaneConfig = await fetch(`${GASILON_ENDPOINT}`, {
+	const octaneConfig = await fetch(`${modules.config.GASILON_ENDPOINT}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -377,7 +377,7 @@ export const getTransactionAbstractFee = async (
 	const transactionString = base58.encode(transaction.serialize());
 
 	const data = await (
-		await fetch(`${GASILON_ENDPOINT}/solana/getFee`, {
+		await fetch(`${modules.config.GASILON_ENDPOINT}/solana/getFee`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

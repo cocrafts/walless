@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { SplashFeature } from '@walless/app';
-import { appActions } from 'state/app';
+import { appActions } from 'utils/state';
 
 export const SplashWrapper: FC = () => {
 	const logoSrc = { uri: '/img/icon-lg.png' };

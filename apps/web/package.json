@@ -59,8 +59,7 @@
   "devDependencies": {
     "@metacraft/cli-web3-polyfills": "^0.0.7",
     "eslint": "8.38.0",
-    "rimraf": "^5.0.1",
-    "workbox-webpack-plugin": "^6.5.4"
+    "rimraf": "^5.0.1"
   },
   "peerDependencies": {
     "@tkey/chrome-storage": "9.0.0",

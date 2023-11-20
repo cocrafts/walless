@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { InvitationFeature } from '@walless/app';
 import { validateInvitationCode } from '@walless/auth';
-import { appState } from 'state/app';
+import { appState } from '@walless/engine';
 import { navigate } from 'utils/navigation';
 
 export const InvitationScreen: FC = () => {

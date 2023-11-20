@@ -1,4 +1,3 @@
-const { InjectManifest } = require('workbox-webpack-plugin');
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 const { copyAssets } = require('../../tool/webpack/asset');
 const { useCache } = require('../../tool/webpack/optimization');
@@ -30,18 +29,6 @@ const injectEntries = (config) => {
 		import: 'scripts/worker/w3a-response.ts',
 		filename: 'w3a-response.js',
 	};
-
-	return config;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const injectWorkers = (config) => {
-	config.plugins.push(
-		new InjectManifest({
-			swSrc: 'scripts/worker/kernel',
-			swDest: 'kernel.js',
-		}),
-	);
 
 	return config;
 };
@@ -84,6 +71,7 @@ const w3aDevRoute = (config) => {
 
 module.exports = {
 	useReact: true,
+	compiler: 'swc',
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
@@ -92,15 +80,8 @@ module.exports = {
 		useCache,
 		copyAssets,
 		injectEntries,
-		// injectWorkers,
 		web3Polyfills,
-		setEnvironments({
-			process: {
-				env: {
-					TAMAGUI_TARGET: JSON.stringify('web'),
-				},
-			},
-		}),
+		setEnvironments(),
 	],
 	devMiddlewares: [w3aDevRoute],
 	htmlPluginOptions: {

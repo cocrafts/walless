@@ -6,6 +6,7 @@ import {
 } from '@walless/app/utils';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
+import type { HandleAptosFunction } from '@walless/ioc';
 import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
 import { requestHandleTransaction } from 'bridge/listeners';
@@ -16,9 +17,10 @@ export const createAndSend = async (
 	passcode?: string,
 ) => {
 	const transaction =
-		payload.tokenForFee.metadata?.symbol === 'SOL'
-			? await constructTransaction(payload)
-			: await constructTransactionAbstractFee(payload);
+		payload.network === Networks.solana &&
+		payload.tokenForFee.metadata?.symbol !== 'SOL'
+			? await constructTransactionAbstractFee(payload)
+			: await constructTransaction(payload);
 
 	let res;
 
@@ -65,4 +67,18 @@ export const createAndSend = async (
 	}
 
 	return res as ResponsePayload;
+};
+
+export const handleAptosOnChainAction: HandleAptosFunction = async ({
+	passcode,
+	payload,
+	type,
+}) => {
+	const res = await requestHandleTransaction({
+		type,
+		transaction: JSON.stringify(payload),
+		passcode,
+	});
+
+	return res;
 };

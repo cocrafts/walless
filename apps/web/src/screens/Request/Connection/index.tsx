@@ -14,7 +14,10 @@ import { logoSize, logoUri } from '../shared';
 
 const RequestConnection = () => {
 	const { requestId } = useParams();
-	const { sender } = useRequestData(requestId as string);
+	const { sender } = useRequestData(
+		requestId as string,
+		PopupType.REQUEST_CONNECT_POPUP,
+	);
 
 	const onApprovePress = () => {
 		handleRequestConnect(requestId as string, true);

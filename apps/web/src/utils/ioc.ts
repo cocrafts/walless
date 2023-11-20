@@ -1,6 +1,7 @@
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
+import type { SettingDocument } from '@walless/store';
 import { configure, create } from '@walless/store';
 import { signOut } from 'firebase/auth';
 import IDBPouch from 'pouchdb-adapter-idb';
@@ -12,15 +13,17 @@ import { webAsset } from './config';
 import { buyToken } from './gatefi';
 import { qlClient } from './graphql';
 import { router } from './routing';
-import { createAndSend } from './transaction';
+import { createAndSend, handleAptosOnChainAction } from './transaction';
 import { key } from './w3a';
 
 export const injectModules = async () => {
 	utils.createAndSend = createAndSend;
+	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.buyToken = buyToken;
 	utils.logOut = logOut;
 
 	const storage = create('engine', IDBPouch);
+	const settings = await storage.safeGet<SettingDocument>('settings');
 
 	modules.config = makeConfig() as never;
 	modules.asset = webAsset;
@@ -28,7 +31,7 @@ export const injectModules = async () => {
 	modules.qlClient = qlClient;
 	modules.thresholdKey = key as never;
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
-	await Promise.all([initializeAuth(), configure(modules.storage)]);
+	await Promise.all([initializeAuth(settings), configure(modules.storage)]);
 	modules.engine = await createEngine();
 	modules.engine.start();
 

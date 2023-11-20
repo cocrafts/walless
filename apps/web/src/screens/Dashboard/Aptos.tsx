@@ -21,7 +21,6 @@ import { Copy } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import { onrampWithGateFi } from 'utils/gatefi';
 
-import ActivityTab from './components/ActivityTab';
 import AptosTokensTab from './components/AptosTokensTab';
 import { TokenTab } from './components';
 import { layoutTabs } from './shared';

@@ -19,7 +19,6 @@ import * as sui from './sui';
 import * as tezos from './tezos';
 
 export const onKernelMessage: MessengerCallback = async (payload, channel) => {
-	console.log('kernel on message', payload, channel);
 	addRequestRecord(payload.requestId, channel, payload);
 	const { type, requestId } = payload;
 

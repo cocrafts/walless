@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ExploreScreen from 'screens/Dashboard/Explore';
@@ -11,6 +12,8 @@ import TabBar from './TabBar';
 const Tab = createBottomTabNavigator<DashboardParamList>();
 
 export const DashboardStack = () => {
+	const [sceneMarginBottom, setSceneMarginBottom] = useState(0);
+
 	const screenOptions: BottomTabNavigationOptions = {
 		headerShown: false,
 	};
@@ -18,7 +21,10 @@ export const DashboardStack = () => {
 	return (
 		<Tab.Navigator
 			screenOptions={screenOptions}
-			tabBar={(props) => <TabBar {...props} />}
+			tabBar={(props) => (
+				<TabBar tabProps={props} setSceneMarginBottom={setSceneMarginBottom} />
+			)}
+			sceneContainerStyle={{ marginBottom: sceneMarginBottom }}
 		>
 			<Tab.Screen name="Home" component={DrawerStack} />
 			<Tab.Screen name="Explore" component={ExploreScreen} />

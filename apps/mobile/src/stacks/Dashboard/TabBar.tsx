@@ -31,10 +31,18 @@ const getIconImage = (routeName: string): ImageSourcePropType => {
 	}
 };
 
-export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
-	insets,
-	state,
-	navigation,
+const timingConfig: WithTimingConfig = {
+	duration: 50,
+};
+
+interface Props {
+	tabProps: BottomTabBarProps;
+	setSceneMarginBottom: (marginBottom: number) => void;
+}
+
+export const BottomNavigationTabBar: FC<Props> = ({
+	tabProps,
+	setSceneMarginBottom,
 }) => {
 	const { activeWidgetId, isDrawerOpen } = useSnapshot(appState);
 	const offset = useSharedValue(0);
@@ -42,20 +50,20 @@ export const BottomNavigationTabBar: FC<BottomTabBarProps> = ({
 		transform: [{ translateY: withTiming(offset.value) }],
 	}));
 
-	const timingConfig: WithTimingConfig = {
-		duration: 50,
-	};
-
 	useEffect(() => {
 		if (
 			!isDrawerOpen &&
 			mockWidgets.some((widget) => widget._id === activeWidgetId)
 		) {
 			offset.value = withTiming(tabBarHeight, timingConfig);
+			setSceneMarginBottom(0);
 		} else {
 			offset.value = withTiming(0, timingConfig);
+			setSceneMarginBottom(tabBarHeight);
 		}
 	}, [isDrawerOpen]);
+
+	const { insets, state, navigation } = tabProps;
 
 	const containerStyle: ViewStyle = {
 		paddingBottom: insets.bottom,

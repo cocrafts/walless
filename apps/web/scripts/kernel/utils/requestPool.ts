@@ -1,6 +1,6 @@
-import type { MiniBroadcast, UnknownObject } from '@walless/core';
+import type { MiniBroadcast } from '@walless/core';
+import type { MessagePayload } from '@walless/messaging';
 
-import { closePopup } from './popup';
 import type { ResponseMethod } from './types';
 
 // need to handle clean up timeout request in this pool
@@ -8,16 +8,18 @@ export const requestPool: Record<
 	string,
 	{
 		channel: MiniBroadcast;
-		payload: UnknownObject;
+		payload: MessagePayload;
 	}
 > = {};
 
-export const response: ResponseMethod = (
+export const respond: ResponseMethod = (
 	to,
 	responseCode,
 	responsePayload = {},
 ) => {
-	const { channel, payload } = requestPool[to];
+	if (!requestPool[to]) throw Error('Request not found');
+	const request = requestPool[to];
+	const { channel } = request;
 
 	channel.postMessage({
 		...responsePayload,
@@ -25,10 +27,6 @@ export const response: ResponseMethod = (
 		requestId: to,
 		responseCode,
 	});
-
-	if (payload.popupId) {
-		closePopup(payload.popupId);
-	}
 
 	removeRequestRecord(to);
 };
@@ -40,7 +38,7 @@ export const removeRequestRecord = (requestId: string) => {
 export const addRequestRecord = (
 	requestId: string,
 	channel: MiniBroadcast,
-	payload: UnknownObject,
+	payload: MessagePayload,
 ) => {
 	payload['timestamp'] = Date.now();
 	requestPool[requestId] = { channel, payload };

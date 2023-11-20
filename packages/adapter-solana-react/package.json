@@ -21,6 +21,7 @@
     "release": "yarn bundle && npm publish --access public",
     "test": "jest --passWithNoTests",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
+    "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx",
     "package": "shx mkdir -p lib/cjs && shx echo '{\"type\": \"commonjs\"}' > lib/cjs/package.json"
   },
   "license": "MIT",
@@ -32,7 +33,7 @@
     "@walless/adapter-solana-base": "*"
   },
   "devDependencies": {
-    "@solana/web3.js": "1.78.3",
+    "@solana/web3.js": "1.78.4",
     "@walless/sdk": "*",
     "eslint": "8.38.0",
     "typescript": "^5.1.3"

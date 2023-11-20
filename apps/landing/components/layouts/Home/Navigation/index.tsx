@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { useMedia } from '@tamagui/core';
-import { NavigationItem } from '@walless/app';
 import { View } from '@walless/gui';
 import { Button } from '@walless/ui';
 import { ContainerStack } from 'components/styled';
@@ -9,6 +8,7 @@ import { handleShowSignUpModal } from 'features/home/HeadingSection/SignUpModal'
 import { useRouter } from 'next/router';
 
 import HomeButton from './HomeButton';
+import { NavigationItem } from './NavigationItem';
 import { navigationHeight, navigationItems } from './shared';
 
 export const HomeNavigation: FC = () => {

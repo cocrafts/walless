@@ -1,6 +1,6 @@
 {
   "name": "@walless/gui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.ts",
   "types": "./index.ts",
   "license": "MIT",
@@ -8,12 +8,13 @@
     "publish": "npm publish --access public",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
+    "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx"
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-native": "^0.71.6",
-    "react-native-reanimated": "3.3.0",
+    "react-native": "0.71.14",
+    "react-native-reanimated": "*",
     "valtio": "1.10.5"
   },
   "devDependencies": {

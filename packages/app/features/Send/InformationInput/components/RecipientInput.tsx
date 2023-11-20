@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import type { Networks, UnknownObject } from '@walless/core';
+import type { Networks } from '@walless/core';
 import { Input, Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
@@ -16,14 +16,10 @@ export const RecipientInput: FC = () => {
 	const { token, receiver } = useSnapshot(transactionContext);
 	const [errorText, setErrorText] = useState<string>();
 
-	const handlerBlur = (e: UnknownObject) => {
+	const handlerBlur = () => {
 		if (token) {
 			if (receiver.length > 0) {
-				const result = checkValidAddress(
-					e.target.value,
-					token?.network as Networks,
-				);
-
+				const result = checkValidAddress(receiver, token?.network as Networks);
 				if (!result.valid) setErrorText(result.message);
 				else setErrorText('');
 			} else setErrorText('');

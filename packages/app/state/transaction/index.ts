@@ -23,6 +23,9 @@ export const transactionActions = {
 	setToken: (token: TokenDocument) => {
 		transactionContext.token = token;
 	},
+	setTokenForFee: (tokenForFee: TokenDocument) => {
+		transactionContext.tokenForFee = tokenForFee;
+	},
 	setNftCollection: (collection: CollectionDocument) => {
 		transactionContext.nftCollection = collection;
 	},
@@ -53,6 +56,7 @@ export const transactionActions = {
 	resetTransactionContext: () => {
 		transactionContext.type = 'Token';
 		transactionContext.token = undefined;
+		transactionContext.tokenForFee = undefined;
 		transactionContext.nftCollection = undefined;
 		transactionContext.nftCollectible = undefined;
 		transactionContext.sender = '';
@@ -65,16 +69,19 @@ export const transactionActions = {
 	},
 	injectRequiredElements: (elements: InjectedElements) => {
 		injectedElements.tokens = elements.tokens;
+		injectedElements.tokenForFee = elements.tokenForFee;
 		injectedElements.nftCollections = elements.nftCollections;
 		injectedElements.nftCollectibles = elements.nftCollectibles;
 		injectedElements.publicKeys = elements.publicKeys;
 		injectedElements.getTransactionFee = elements.getTransactionFee;
+		injectedElements.getTransactionAbstractFee =
+			elements.getTransactionAbstractFee;
 		injectedElements.handleClose = elements.handleClose;
 		injectedElements.checkValidAddress = elements.checkValidAddress;
 		injectedElements.createAndSendTransaction =
 			elements.createAndSendTransaction;
-		injectedElements.getTransactionResult = elements.getTransactionResult;
 		injectedElements.handleSendNftSuccess = elements.handleSendNftSuccess;
+		injectedElements.network = elements.network;
 	},
 };
 

@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import type { Category } from '../internal';
 
 import HoveredCard from './HoveredCard';
+import { getResponsiveState } from './internal';
 
 export interface BlogCardProps {
 	style?: ViewStyle;
@@ -20,55 +21,12 @@ export interface BlogCardProps {
 	category: Category;
 }
 
-export interface ResponsiveState {
-	coverImageSize: number;
-	categorySize: number;
-	titleSize: number;
-	descriptionSize: number;
-	containerStyle: object;
-	numberOfLines: number;
-}
-
-const getResponsiveState = (size: number): ResponsiveState => {
-	const LARGE_SIZE = 1200;
-	const MEDIUM_SIZE = 800;
-
-	if (size && size >= LARGE_SIZE) {
-		return {
-			coverImageSize: 540,
-			categorySize: 20,
-			titleSize: 40,
-			descriptionSize: 20,
-			containerStyle: styles.largeContainer,
-			numberOfLines: 5,
-		};
-	} else if (size && size >= MEDIUM_SIZE) {
-		return {
-			coverImageSize: 420,
-			categorySize: 16,
-			titleSize: 20,
-			descriptionSize: 16,
-			containerStyle: styles.mediumContainer,
-			numberOfLines: 4,
-		};
-	} else {
-		return {
-			coverImageSize: 270,
-			categorySize: 14,
-			titleSize: 16,
-			descriptionSize: 14,
-			containerStyle: styles.smallContainer,
-			numberOfLines: 3,
-		};
-	}
-};
-
 const BlogCard: FC<BlogCardProps> = ({
 	style,
 	id,
 	title,
 	coverImage,
-	description: description,
+	description,
 	date,
 	category,
 }) => {
@@ -98,61 +56,60 @@ const BlogCard: FC<BlogCardProps> = ({
 			onHoverIn={() => setIsHovered(true)}
 			onHoverOut={() => setIsHovered(false)}
 		>
-			{!isHovered ? (
-				<View
-					style={[styles.container, containerStyle, style]}
-					onLayout={(event) => {
-						setHoverContainerHeight(event.nativeEvent.layout.height);
-					}}
-				>
-					<View style={styles.contentContainer}>
-						<View style={styles.informationContainer}>
-							<View style={styles.categoryContainer}>
-								<BlogCategory color="#19A3E1" />
-								<Text style={[styles.category, { fontSize: categorySize }]}>
-									{category}
-								</Text>
-							</View>
-
-							<Text
-								ellipsizeMode="tail"
-								numberOfLines={2}
-								style={[styles.title, { fontSize: titleSize }]}
-							>
-								{title}
-							</Text>
-							<Text
-								ellipsizeMode="tail"
-								numberOfLines={numberOfLines}
-								style={[styles.description, { fontSize: descriptionSize }]}
-							>
-								{description}
+			<View
+				style={[styles.container, containerStyle, style]}
+				onLayout={(event) => {
+					setHoverContainerHeight(event.nativeEvent.layout.height);
+				}}
+			>
+				<View style={styles.contentContainer}>
+					<View style={styles.informationContainer}>
+						<View style={styles.categoryContainer}>
+							<BlogCategory color="#19A3E1" />
+							<Text style={[styles.category, { fontSize: categorySize }]}>
+								{category}
 							</Text>
 						</View>
 
-						<View>
-							<Text>
-								{date.toLocaleDateString('en-US', {
-									year: 'numeric',
-									month: 'long',
-									day: 'numeric',
-								})}
-							</Text>
-							<ArrowRight size={30} />
-						</View>
+						<Text
+							ellipsizeMode="tail"
+							numberOfLines={2}
+							style={[styles.title, { fontSize: titleSize }]}
+						>
+							{title}
+						</Text>
+						<Text
+							ellipsizeMode="tail"
+							numberOfLines={numberOfLines}
+							style={[styles.description, { fontSize: descriptionSize }]}
+						>
+							{description}
+						</Text>
 					</View>
 
 					<View>
-						<Image
-							style={styles.coverImage}
-							src={coverImage}
-							alt={coverImage}
-							width={coverImageSize}
-							height={(coverImageSize * 2) / 3}
-						/>
+						<Text>
+							{date.toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							})}
+						</Text>
+						<ArrowRight size={30} />
 					</View>
 				</View>
-			) : (
+
+				<View>
+					<Image
+						style={styles.coverImage}
+						src={coverImage}
+						alt={coverImage}
+						width={coverImageSize}
+						height={(coverImageSize * 2) / 3}
+					/>
+				</View>
+			</View>
+			{isHovered && (
 				<HoveredCard
 					style={style}
 					height={hoverContainerHeight}
@@ -181,18 +138,6 @@ const styles = StyleSheet.create({
 		padding: 30,
 		borderRadius: 20,
 		gap: 30,
-	},
-	largeContainer: {
-		padding: 50,
-		gap: 50,
-	},
-	mediumContainer: {
-		padding: 40,
-		gap: 40,
-	},
-	smallContainer: {
-		padding: 20,
-		gap: 20,
 	},
 	contentContainer: {
 		flex: 1,

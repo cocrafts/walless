@@ -72,7 +72,6 @@ const SlidingSection: FC<Props> = ({ listOfBlogs }) => {
 				setSlidingLayout({
 					width: event.nativeEvent.layout.width,
 				});
-				console.log(event.nativeEvent.layout.height);
 			}}
 		>
 			<Slider

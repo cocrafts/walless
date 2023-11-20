@@ -16,6 +16,7 @@ export const RequestSignature = () => {
 	const { requestId } = useParams();
 	const { sender, message, transaction, type } = useRequestData(
 		requestId as string,
+		PopupType.SIGNATURE_POPUP,
 	);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const options = useRef<PayloadOptions>({
@@ -25,7 +26,8 @@ export const RequestSignature = () => {
 	});
 
 	const handleDenyRequest = useCallback(async () => {
-		handleRequestSignature(options.current, type as RequestType);
+		await handleRequestSignature(options.current, type as RequestType);
+		window.close();
 	}, [type]);
 
 	const handleApproveRequest = () => {
@@ -36,7 +38,6 @@ export const RequestSignature = () => {
 	const handleResolveRequest = useCallback(
 		async (passcode: string): Promise<ResponsePayload> => {
 			options.current.passcode = passcode;
-
 			return await handleRequestSignature(options.current, type as RequestType);
 		},
 		[type],

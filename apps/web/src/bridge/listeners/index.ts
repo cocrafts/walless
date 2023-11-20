@@ -1,6 +1,11 @@
 import { Timeout } from '@walless/core';
-import type { MessagePayload } from '@walless/messaging';
-import { Channels, PopupType, RequestType } from '@walless/messaging';
+import type { PureMessagePayload } from '@walless/messaging';
+import {
+	Channels,
+	PopupType,
+	RequestType,
+	ResponseCode,
+} from '@walless/messaging';
 import { encryptedMessenger } from 'bridge/utils/messaging';
 import * as bs58 from 'bs58';
 import type { PayloadOptions, PopupPayload } from 'utils/types';
@@ -9,7 +14,7 @@ export const registerMessageHandlers = async () => {
 	// Empty for now
 };
 
-export const requestHandleTransaction = async (payload: MessagePayload) => {
+export const requestHandleTransaction = async (payload: PureMessagePayload) => {
 	try {
 		return await encryptedMessenger.request('kernel', payload);
 	} catch (error) {
@@ -31,7 +36,10 @@ export const handleRequestConnect = async (
 	};
 
 	try {
-		encryptedMessenger.request(Channels.kernel, payload);
+		const res = await encryptedMessenger.request(Channels.kernel, payload);
+		if (res.responseCode === ResponseCode.SUCCESS) {
+			window.close();
+		}
 	} catch (error) {
 		throw Error('Unable to handle connect request');
 	}
@@ -72,9 +80,12 @@ export const handleRequestSignature = async (
 	}
 };
 
-export const getDataFromSourceRequest = async (requestId: string) => {
+export const getDataFromSourceRequest = async (
+	requestId: string,
+	from: string,
+) => {
 	const payload: PopupPayload = {
-		from: PopupType.SIGNATURE_POPUP,
+		from,
 		type: RequestType.REQUEST_PAYLOAD,
 		sourceRequestId: requestId,
 	};

@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
+import { useNfts } from '@walless/app/utils/hooks';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
-import { useNfts, useParams } from 'utils/hooks';
+import { useParams } from 'utils/hooks';
 import { router } from 'utils/routing';
 
 import { CollectionItem } from './components/CollectibleItem';
@@ -36,7 +37,7 @@ export const Collection: FC = () => {
 					<CollectionItem
 						key={ele._id}
 						item={ele}
-						onPress={() => router.navigate(`/nfts/${ele._id.split('/')[1]}`)}
+						onPress={() => router.navigate(`/nfts/${ele._id.split('/')[2]}`)}
 					/>
 				))}
 			</View>

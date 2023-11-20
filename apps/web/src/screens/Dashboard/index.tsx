@@ -2,35 +2,29 @@ import type { FC } from 'react';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { DashboardLayout } from '@walless/app';
-import { modules } from '@walless/ioc';
-import type { ExtensionDocument } from '@walless/store';
-import { appState } from 'state/app';
-import {
-	useExtensions,
-	useLocation,
-	useParams,
-	useSettings,
-	useSnapshot,
-} from 'utils/hooks';
+import { useSettings } from '@walless/app/utils/hooks';
+import { appState, widgetActions } from '@walless/engine';
+import type { WidgetDocument } from '@walless/store';
+import { useLocation, useParams, useSnapshot, useWidgets } from 'utils/hooks';
 import { router } from 'utils/routing';
 
 export const DashboardScreen: FC = () => {
 	const { id: extensionId } = useParams<'id'>();
 	const { pathname } = useLocation();
 	const { profile } = useSnapshot(appState);
-	const extensions = useExtensions();
+	const widgets = useWidgets();
 	const { setting, setPathname } = useSettings();
 
-	const getRouteActive = (item: ExtensionDocument) => {
+	const getRouteActive = (item: WidgetDocument) => {
 		return `/${item._id}` === pathname || extensionId === item._id;
 	};
 
-	const handleExtensionPress = async (item: ExtensionDocument) => {
+	const handleExtensionPress = async (item: WidgetDocument) => {
 		await router.navigate(`/${item._id}`);
 	};
 
-	const removeLayout = async (layout: ExtensionDocument) => {
-		await modules.storage.put(layout);
+	const removeLayout = async (layout: WidgetDocument) => {
+		widgetActions.removeWidget(layout);
 		await router.navigate('/');
 	};
 
@@ -43,7 +37,7 @@ export const DashboardScreen: FC = () => {
 	return (
 		<DashboardLayout
 			profile={profile}
-			extensions={extensions}
+			widgets={widgets}
 			getIsExtensionActive={getRouteActive}
 			onExtensionPress={handleExtensionPress}
 			onRemoveLayout={removeLayout}

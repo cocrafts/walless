@@ -1,81 +1,19 @@
-import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
-import { Slider } from '@walless/gui';
-import type { CollectibleDocument } from '@walless/store';
+import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 
-import type {
-	InjectedElements,
-	TransactionType,
-} from '../../state/transaction';
-import { transactionActions } from '../../state/transaction';
+import type { ModalContext } from './SendModal';
+import SendModal from './SendModal';
 
-import { sendScreens } from './shared';
-
-type Props = Omit<InjectedElements, 'handleClose' | 'handleSendNftSuccess'> & {
-	onClose: () => void;
-	type?: TransactionType;
-	initCollectible?: CollectibleDocument;
-	onSendNftSuccess?: (collectible: CollectibleDocument) => void;
-};
-
-export const SendFeature: FC<Props> = ({
-	type,
-	initCollectible,
-	tokens,
-	nftCollections,
-	nftCollectibles,
-	publicKeys,
-	onClose,
-	getTransactionFee,
-	checkValidAddress,
-	createAndSendTransaction,
-	getTransactionResult,
-	onSendNftSuccess,
-}) => {
-	transactionActions.injectRequiredElements({
-		tokens: tokens,
-		nftCollections: nftCollections,
-		nftCollectibles: nftCollectibles,
-		publicKeys: publicKeys,
-		getTransactionFee,
-		handleClose: () => {
-			onClose();
-			transactionActions.resetTransactionContext();
+export const showSendModal = (configs?: ModalContext) => {
+	modalActions.show({
+		id: 'send-token',
+		bindingDirection: BindDirections.InnerBottom,
+		animateDirection: AnimateDirections.Top,
+		component: SendModal,
+		context: {
+			layoutNetwork: configs?.layoutNetwork,
+			collectible: configs?.collectible,
 		},
-		checkValidAddress,
-		createAndSendTransaction,
-		getTransactionResult,
-		handleSendNftSuccess: onSendNftSuccess,
 	});
-
-	if (type) transactionActions.setType(type);
-	if (initCollectible) {
-		transactionActions.setType('Collectible');
-		transactionActions.setNftCollectible(initCollectible);
-	}
-
-	return (
-		<Slider
-			style={styles.container}
-			slideContainerStyle={styles.slideContainer}
-			activeItem={sendScreens[0]}
-			items={sendScreens}
-			// animator={slideAnimators.bounce}
-		></Slider>
-	);
 };
 
-export default SendFeature;
-
-const styles = StyleSheet.create({
-	container: {
-		flexDirection: 'row',
-		height: 576,
-	},
-	slideContainer: {
-		flex: 1,
-		paddingHorizontal: 28,
-		paddingBottom: 28,
-		paddingTop: 16,
-	},
-});
+export * from './SendFeature';

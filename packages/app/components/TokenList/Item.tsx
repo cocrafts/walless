@@ -1,13 +1,8 @@
-import { type FC } from 'react';
-import {
-	type StyleProp,
-	type ViewStyle,
-	Image,
-	StyleSheet,
-} from 'react-native';
-import { shortenAddress } from '@walless/core';
+import type { FC } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
-import { type TokenDocument } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 
 import { formatQuote, parseTokenAccount } from '../../utils/format';
 
@@ -19,21 +14,21 @@ interface Props {
 
 export const TokenItem: FC<Props> = ({ style, item }) => {
 	const { metadata = {}, account } = item;
-	const { name, symbol, imageUri } = metadata;
+	const { symbol, imageUri } = metadata;
 	const amount = parseTokenAccount(account);
 	const unitQuote = account.quotes?.usd;
 	const totalQuote = unitQuote && unitQuote * amount;
 	const iconSource = {
-		uri: imageUri || '/img/question.png',
+		uri: imageUri || '/img/send-token/unknown-token.jpeg',
 	};
+
+	const itemName = symbol || 'Unknown';
 
 	return (
 		<Hoverable style={[styles.container, style]}>
 			<Image style={styles.iconImg} source={iconSource} resizeMode="cover" />
 			<View style={styles.infoContainer}>
-				<Text style={styles.primaryText}>
-					{symbol || name || shortenAddress(account.mint)}
-				</Text>
+				<Text style={styles.primaryText}>{itemName}</Text>
 				<Text style={styles.secondaryText}>{formatQuote(unitQuote)}</Text>
 			</View>
 			<View style={styles.balanceContainer}>

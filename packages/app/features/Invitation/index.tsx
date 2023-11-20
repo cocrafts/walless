@@ -6,6 +6,7 @@ import type {
 	TextInputKeyPressEventData,
 	ViewStyle,
 } from 'react-native';
+import { Platform } from 'react-native';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { ErrorAnnouncement } from '@walless/app';
 import {
@@ -74,8 +75,8 @@ export const InvitationFeature: FC<Props> = ({
 			<InvitationHeader logoSrc={logoSrc} logoSize={logoSize} />
 			<View style={styles.commandContainer}>
 				<Input
-					autoFocus
-					style={styles.inputContainer}
+					autoFocus={autoFocus}
+					inputStyle={styles.codeInput}
 					maxLength={24}
 					value={input}
 					onChangeText={setInput}
@@ -88,7 +89,7 @@ export const InvitationFeature: FC<Props> = ({
 				) : (
 					<Button
 						disabled={isLengthInvalid}
-						style={[styles.enterButton]}
+						style={styles.enterButton}
 						onPress={() => !isLengthInvalid && onEnter?.(input)}
 					>
 						<Text style={buttonTitleStyle}>Count me in</Text>
@@ -102,6 +103,11 @@ export const InvitationFeature: FC<Props> = ({
 
 export default InvitationFeature;
 
+const autoFocus = Platform.select({
+	web: true,
+	default: false,
+});
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -111,7 +117,10 @@ const styles = StyleSheet.create({
 	commandContainer: {
 		gap: 18,
 	},
-	inputContainer: {
+	codeInput: {
+		height: 52,
+		paddingVertical: 0,
+		color: '#FFFFFF',
 		textAlign: 'center',
 	},
 	placeholder: {

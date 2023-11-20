@@ -10,8 +10,10 @@ import {
 } from '../../../state/transaction';
 import { showError } from '../utils';
 
-import { CollectiblesTab, Header, TabBar, TokensTab } from './components';
+import { CollectiblesTab } from './CollectiblesTab';
+import { Header, TabBar } from './components';
 import { totalCheckFieldsToContinue } from './internal';
+import { TokensTab } from './TokensTab';
 
 interface Props {
 	navigator: SliderHandle;
@@ -47,5 +49,7 @@ const InformationInput: FC<Props> = ({ navigator }) => {
 export default InformationInput;
 
 const styles = StyleSheet.create({
-	container: { flex: 1 },
+	container: {
+		flex: 1,
+	},
 });

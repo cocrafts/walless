@@ -41,7 +41,7 @@ export const measureRelative = async (
 export const guardRectangleInside = async (
 	rectangle: LayoutRectangle,
 	targetRef: RefObject<View>,
-	padding = 5,
+	padding = 0, // horizontal padding
 ): Promise<LayoutRectangle> => {
 	const guarded = { ...rectangle };
 	const target = await measure(targetRef);
@@ -66,13 +66,13 @@ export const rectangleBind = async (
 	current: LayoutRectangle,
 	direction?: BindDirections,
 	offset?: PositionOffset,
-	padding = 8,
+	padding = 0, // vertical padding
 ): Promise<LayoutRectangle> => {
 	const result: LayoutRectangle = {
 		x: target.x + (target.width / 2 - current.width / 2) /* <- middle */,
 		y: target.y + (target.height / 2 - current.height / 2) /* <- center */,
-		width: current.width,
-		height: current.height,
+		width: target.width,
+		height: target.height,
 	};
 
 	if (direction === BindDirections.Top) {
@@ -140,7 +140,9 @@ export const rectangleBind = async (
 		result.y += offset.y || 0;
 	}
 
-	return guardRectangleInside(result, referenceMap.root);
+	// return guardRectangleInside(result, referenceMap.root);
+	// not use guard to make modal full-screen
+	return result;
 };
 
 export const rectangleAnimatedStyle = (

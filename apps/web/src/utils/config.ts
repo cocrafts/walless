@@ -3,23 +3,59 @@ import type { UniversalAsset } from '@walless/ioc';
 export const webAsset: UniversalAsset = {
 	widget: {
 		solana: {
-			cardIcon: { uri: '/img/widget/solana-icon.png' },
-			cardMark: { uri: '/img/widget/solana-mark.png' },
-			cardBackground: { uri: '/img/widget/sky-card-bg.png' },
+			storeMeta: {
+				iconUri: { uri: '/img/explore/logo-solana.png' },
+				coverUri: { uri: '/img/explore/thumbnail-solana.png' },
+			},
+			widgetMeta: {
+				cardIcon: { uri: '/img/widget/solana-icon.png' },
+				cardMark: { uri: '/img/widget/solana-mark.png' },
+				cardBackground: { uri: '/img/widget/sky-card-bg.png' },
+			},
 		},
 		sui: {
-			cardIcon: { uri: '/img/widget/sui-icon.png' },
-			cardMark: { uri: '/img/widget/sui-mark.png' },
-			cardBackground: { uri: '/img/widget/sky-card-bg.png' },
+			storeMeta: {
+				iconUri: { uri: '/img/explore/logo-sui.png' },
+				coverUri: { uri: '/img/explore/thumbnail-sui.png' },
+			},
+			widgetMeta: {
+				cardIcon: { uri: '/img/widget/sui-icon.png' },
+				cardMark: { uri: '/img/widget/sui-mark.png' },
+				cardBackground: { uri: '/img/widget/sky-card-bg.png' },
+			},
 		},
 		tezos: {
-			cardIcon: { uri: '/img/widget/tezos-icon.png' },
-			cardBackground: { uri: '/img/widget/tezos-card-bg.png' },
+			storeMeta: {
+				iconUri: { uri: '/img/explore/logo-tezos.png' },
+				coverUri: { uri: '/img/explore/thumbnail-tezos.png' },
+			},
+			widgetMeta: {
+				cardIcon: { uri: '/img/widget/tezos-icon.png' },
+				cardBackground: { uri: '/img/widget/tezos-card-bg.png' },
+			},
 		},
 		aptos: {
-			cardIcon: { uri: '/img/explore/logo-aptos.svg' },
-			cardMark: { uri: '/img/explore/logo-aptos-large.svg' },
-			cardBackground: { uri: '/img/widget/sky-card-bg.png' },
+			storeMeta: {
+				iconUri: { uri: '/img/explore/logo-aptos.svg' },
+				coverUri: { uri: '/img/explore/thumbnail-aptos.svg' },
+			},
+			widgetMeta: {
+				cardIcon: { uri: '/img/explore/logo-aptos.svg' },
+				cardMark: { uri: '/img/explore/logo-aptos-large.svg' },
+				cardBackground: { uri: '/img/widget/sky-card-bg.png' },
+			},
+		},
+		pixeverse: {
+			storeMeta: {
+				iconUri: { uri: '/img/explore/logo-pixeverse.png' },
+				coverUri: { uri: '/img/explore/thumbnail-pixeverse.png' },
+			},
+		},
+		tRexRunner: {
+			storeMeta: {
+				iconUri: { uri: '/img/explore/logo-runner.png' },
+				coverUri: { uri: '/img/explore/thumbnail-runner.png' },
+			},
 		},
 	},
 	setting: {

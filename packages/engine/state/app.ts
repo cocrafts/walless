@@ -24,6 +24,7 @@ export interface AppState {
 	endpoints: EndpointMap;
 	activeWidgetId: string;
 	isDrawerOpen: boolean;
+	jwtAuth?: string;
 }
 
 export const defaultConfig: Config = {

@@ -20,7 +20,6 @@ export const DrawerStack = () => {
 				backgroundColor: '#131C24',
 			},
 		],
-		overlayColor: 'transparent',
 	};
 
 	const options = {

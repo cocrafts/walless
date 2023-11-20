@@ -64,6 +64,9 @@ export const webAsset: UniversalAsset = {
 		tezos: { icon: { uri: '/img/send-token/icon-tezos.png' } },
 		aptos: { icon: { uri: '/img/send-token/icon-aptos.png' } },
 	},
+	misc: {
+		unknownToken: { uri: '/img/send-token/unknown-token.jpeg' },
+	},
 };
 
 export const resources = {

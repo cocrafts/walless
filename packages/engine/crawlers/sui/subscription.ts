@@ -14,14 +14,18 @@ export const suiTokenSubscribe = (
 ) => {
 	suiSubscriptionPool.push(
 		setInterval(async () => {
-			const coinsBalance = await connection.getAllBalances({ owner });
+			try {
+				const coinsBalance = await connection.getAllBalances({ owner });
 
-			coinsBalance.forEach((coin) => {
-				updateTokenBalanceToStorage(
-					`${owner}/token/${coin.coinType}`,
-					coin.totalBalance,
-				);
-			});
+				coinsBalance.forEach((coin) => {
+					updateTokenBalanceToStorage(
+						`${owner}/token/${coin.coinType}`,
+						coin.totalBalance,
+					);
+				});
+			} catch (e) {
+				console.log('Sui token live watch error', e);
+			}
 		}, 5000),
 	);
 };
@@ -32,11 +36,15 @@ export const suiCollectibleSubscribe = async (
 ) => {
 	suiSubscriptionPool.push(
 		setInterval(async () => {
-			const collectibleDocs = await getSuiCollectibles(connection, owner);
+			try {
+				const collectibleDocs = await getSuiCollectibles(connection, owner);
 
-			collectibleDocs.forEach((collectible) =>
-				addCollectibleToStorage(collectible._id, collectible),
-			);
+				collectibleDocs.forEach((collectible) =>
+					addCollectibleToStorage(collectible._id, collectible),
+				);
+			} catch (e) {
+				console.log('Sui collectible live watch error', e);
+			}
 		}, 30000),
 	);
 };

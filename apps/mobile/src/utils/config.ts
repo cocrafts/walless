@@ -75,6 +75,9 @@ export const nativeAsset: UniversalAsset = {
 		explore: require('assets/img/explore.png'),
 		walless: require('assets/img/icon-white.png'),
 	},
+	misc: {
+		unknownToken: require('assets/img/send-token/unknown-token.jpeg'),
+	},
 };
 
 export const resources = {

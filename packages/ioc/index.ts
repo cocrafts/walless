@@ -101,6 +101,9 @@ export interface UniversalAsset {
 		explore: ImageSourcePropType;
 		walless: ImageSourcePropType;
 	};
+	misc: {
+		unknownToken: ImageSourcePropType;
+	};
 }
 
 export interface DynamicModules {

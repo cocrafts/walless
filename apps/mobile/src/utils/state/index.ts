@@ -17,5 +17,3 @@ export const appActions = {
 		appState.isDrawerOpen = flag;
 	},
 };
-
-export { type AppState, appState } from '@walless/engine';

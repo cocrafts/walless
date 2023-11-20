@@ -15,7 +15,6 @@ import { showError } from 'utils/showError';
 import { customAuth, customAuthArgs, getGoogleAuthURL, key } from 'utils/w3a';
 
 export const signInWithGoogle = async (invitationCode?: string) => {
-	console.log('here');
 	try {
 		appState.authenticationLoading = true;
 		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });

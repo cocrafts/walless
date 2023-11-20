@@ -1,5 +1,8 @@
+import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
-import { defaultRemoteConfig } from '@walless/engine';
+import { appState, defaultRemoteConfig } from '@walless/engine';
+import type { SettingDocument } from '@walless/store';
+import { getAnalytics } from 'firebase/analytics';
 import type { FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
@@ -23,6 +26,7 @@ const firebaseOptions: FirebaseOptions = {
 export const app = initializeApp(firebaseOptions);
 export const remoteConfig = getRemoteConfig(app);
 export const auth = getAuth();
+export const analytics = getAnalytics();
 export const googleProvider = new GoogleAuthProvider();
 
 /* update interval: 10 seconds for dev, and 1 hour for prod */
@@ -36,6 +40,8 @@ export const loadRemoteConfig = (): RemoteConfig => {
 
 	return {
 		experimentalEnabled: allConfig.experimentalEnabled?.asBoolean(),
+		deepAnalyticsEnabled: allConfig.deepAnalyticsEnabled?.asBoolean(),
+		minimalVersion: allConfig.minimalVersion?.asString() || '1.0.0',
 	};
 };
 
@@ -47,16 +53,24 @@ export const fireCache: FireCache = {
 	idToken: undefined,
 };
 
-auth.onIdTokenChanged(async (user) => {
-	if (user) {
-		fireCache.idToken = await user.getIdToken();
-	} else {
-		fireCache.idToken = undefined;
-	}
-});
-
-export const initializeAuth = async () => {
+export const initializeAuth = async (settings?: SettingDocument) => {
 	if (auth.currentUser) {
 		fireCache.idToken = await auth.currentUser.getIdToken();
 	}
+
+	if (settings?.profile.email) {
+		auth.onIdTokenChanged(async (user) => {
+			if (user) {
+				fireCache.idToken = await user.getIdToken();
+
+				if (appState.remoteConfig.deepAnalyticsEnabled) {
+					await universalActions.syncRemoteProfile();
+				}
+			} else {
+				fireCache.idToken = undefined;
+			}
+		});
+	}
 };
+
+export { logEvent } from 'firebase/analytics';

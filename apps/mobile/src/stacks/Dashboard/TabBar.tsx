@@ -11,23 +11,26 @@ import {
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Route } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
-import { mockWidgets } from '@walless/engine';
+import { appState, mockWidgets } from '@walless/engine';
 import { AnimatedView } from '@walless/gui';
 import { modules } from '@walless/ioc';
-import { appState } from 'state/app';
 
 import NavigationItem from './TabBarItem';
 
 const getIconImage = (routeName: string): ImageSourcePropType => {
+	const backupUri: ImageSourcePropType = {
+		uri: '/assets/img/icon.png',
+	};
+
 	switch (routeName) {
 		case 'Profile':
 			return { uri: appState.profile.profileImage };
 		case 'Explore':
-			return modules.asset.tabBar.explore;
+			return modules.asset.tabBar?.explore || backupUri;
 		case 'Home':
-			return modules.asset.tabBar.walless;
+			return modules.asset.tabBar?.walless || backupUri;
 		default:
-			return modules.asset.tabBar.walless;
+			return modules.asset.tabBar?.walless || backupUri;
 	}
 };
 

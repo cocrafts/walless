@@ -9,6 +9,7 @@ import { proxy } from 'valtio';
 import { defaultEndpoints } from '../utils/crawler';
 
 export interface AppState {
+	version: string;
 	loading: boolean;
 	passcodeLoading: boolean;
 	authenticationLoading: boolean;
@@ -23,6 +24,7 @@ export interface AppState {
 	endpoints: EndpointMap;
 	activeWidgetId: string;
 	isDrawerOpen: boolean;
+	jwtAuth?: string;
 }
 
 export const defaultConfig: Config = {
@@ -31,10 +33,13 @@ export const defaultConfig: Config = {
 };
 
 export const defaultRemoteConfig: RemoteConfig = {
-	experimentalEnabled: false,
+	experimentalEnabled: true,
+	deepAnalyticsEnabled: true,
+	minimalVersion: '1.0.0',
 };
 
 export const appState = proxy<AppState>({
+	version: '1.0.0',
 	loading: true,
 	profileReady: false,
 	profileLoading: true,

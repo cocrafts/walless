@@ -17,6 +17,7 @@ import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
 import RequestSignature from 'screens/Request/Signature';
 import SettingScreen from 'screens/Setting';
+import { analytics, logEvent } from 'utils/firebase';
 
 const createRouter =
 	BUILD_TARGET === 'extension' ? createHashRouter : createBrowserRouter;
@@ -96,3 +97,18 @@ export const router = createRouter([
 		element: <RequestLayout />,
 	},
 ]);
+
+let previousPathName: string;
+
+router.subscribe((route) => {
+	const currentPathName = route.location.pathname;
+
+	if (currentPathName !== previousPathName) {
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: currentPathName,
+			firebase_screen_class: currentPathName,
+		});
+
+		previousPathName = currentPathName;
+	}
+});

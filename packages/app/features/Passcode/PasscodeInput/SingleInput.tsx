@@ -25,8 +25,8 @@ const SingleInput = forwardRef<TextInput, Props>(
 		const borderColor = isFocused
 			? 'rgba(255, 255, 255, 0.2)'
 			: isFilled
-			? 'rgba(255, 255, 255, 0.1)'
-			: 'transparent';
+			  ? 'rgba(255, 255, 255, 0.1)'
+			  : 'transparent';
 		const conditionalStyle = {
 			width,
 			height,

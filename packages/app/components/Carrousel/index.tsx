@@ -79,7 +79,7 @@ export const Carousel: FC<Props> = forwardRef(function Carousel(
 		);
 	};
 
-	const handlSlideToIndex = (index: number) => {
+	const handleSlideToIndex = (index: number) => {
 		const newPosition = -index * itemWidth;
 		layoutRef.current.currentIndex = index;
 		currentPosition.value = withTiming(newPosition, withTimingConfig);
@@ -106,8 +106,8 @@ export const Carousel: FC<Props> = forwardRef(function Carousel(
 				event.velocityX < -velocityLimit
 					? -velocityLimit
 					: event.velocityX > velocityLimit
-					? velocityLimit
-					: event.velocityX;
+					  ? velocityLimit
+					  : event.velocityX;
 
 			currentPosition.value = withDecay({
 				velocity,
@@ -126,7 +126,7 @@ export const Carousel: FC<Props> = forwardRef(function Carousel(
 			handleSlideToRight();
 		},
 		toIndex: (index: number) => {
-			handlSlideToIndex(index);
+			handleSlideToIndex(index);
 		},
 	}));
 

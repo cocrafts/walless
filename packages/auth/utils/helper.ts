@@ -26,9 +26,9 @@ export const makeProfile = (user: IFirebaseUser): UserProfile => {
 export const setProfile = async (profile: UserProfile) => {
 	await modules.storage.upsert<SettingDocument>('settings', async (doc) => {
 		doc.type = 'Setting';
-		doc.version = '0.0.1';
 		doc.profile = profile;
-		doc.config = {
+		doc.version = doc.version || '0.0.1';
+		doc.config = doc.config || {
 			hideBalance: true,
 			latestLocation: '/',
 		};

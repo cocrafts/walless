@@ -26,6 +26,9 @@ jobs:
       - name: Install @metacraft/cli
         run: npm i --location=global @metacraft/cli
 
+      - name: Install yarn cli
+        run:  corepack enable && corepack prepare yarn@3.6.4 --activate
+
       - name: Install dependencies
         run: yarn
 

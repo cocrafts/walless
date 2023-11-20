@@ -1,6 +1,6 @@
 import type { RefObject } from 'react';
 import type { View } from 'react-native';
-import { proxy, ref } from 'valtio';
+import { proxy } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 
 import { measureRelative, referenceMap } from './helper';
@@ -11,23 +11,28 @@ export const modalState = proxy<ModalState>({
 	map: proxyMap(),
 });
 
+export const getSafeId = (id?: string): string => id || 'default-modal';
+
 export const modalActions = {
 	setContainerRef: (ref: RefObject<View>): void => {
 		referenceMap.root = ref;
 	},
 	show: ({ id, bindingRef, ...restConfigs }: ShowModalConfigs): void => {
-		const safeId = id || 'default-modal';
+		const safeId = getSafeId(id);
 
 		measureRelative(bindingRef).then((layout) => {
+			if (bindingRef) referenceMap[safeId] = bindingRef;
+
 			modalState.map.set(safeId, {
 				id: safeId,
 				bindingRectangle: layout,
-				bindingRef: bindingRef && (ref(bindingRef) as never as RefObject<View>),
+				// bindingRef: bindingRef && (ref(bindingRef) as never as RefObject<View>),
 				...restConfigs,
 			});
 		});
 	},
 	hide: (id: string): void => {
+		console.log('calling hide', id);
 		const instance = modalState.map.get(id);
 
 		if (instance) {
@@ -35,8 +40,9 @@ export const modalActions = {
 		}
 	},
 	destroy: (id?: string): void => {
-		const safeId = id || 'default-modal';
+		const safeId = getSafeId(id);
 		modalState.map.delete(safeId);
+		delete referenceMap[safeId];
 	},
 };
 

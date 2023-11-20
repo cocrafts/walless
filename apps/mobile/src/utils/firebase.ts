@@ -2,7 +2,7 @@ import getAnalytics from '@react-native-firebase/analytics';
 import auth from '@react-native-firebase/auth';
 import remoteConfig from '@react-native-firebase/remote-config';
 import type { RemoteConfig } from '@walless/core';
-import { defaultRemoteConfig } from '@walless/engine';
+import { appState, defaultRemoteConfig } from '@walless/engine';
 
 export const analytics = getAnalytics();
 
@@ -38,6 +38,8 @@ auth().onIdTokenChanged(async (user) => {
 	} else {
 		fireCache.idToken = undefined;
 	}
+
+	appState.jwtAuth = await auth().currentUser?.getIdToken(true);
 });
 
 export const initializeAuth = async () => {

@@ -8,6 +8,8 @@ import type { CardSkin } from '../../components/WalletCard';
 import BuiltInNetwork from './BuiltInNetwork';
 import { EmptyTab } from './components';
 import NotFound from './NotFound';
+import Pixeverse from './Pixeverse';
+import TRexRunner from './TRexRunner';
 
 export interface WidgetProps {
 	id: string;
@@ -20,6 +22,8 @@ export const widgetMap: Record<string, WidgetComponent> = {
 	tezos: BuiltInNetwork,
 	solana: BuiltInNetwork,
 	aptos: BuiltInNetwork,
+	tRexRunner: TRexRunner,
+	pixeverse: Pixeverse,
 };
 
 export const extractWidgetComponent = (id: string): WidgetComponent => {
@@ -49,9 +53,9 @@ export const getWalletCardSkin = (id: Networks): CardSkin => {
 	}
 
 	return {
-		backgroundSrc: asset.cardBackground,
-		iconSrc: asset.cardIcon,
-		largeIconSrc: asset.cardMark,
+		backgroundSrc: asset.widgetMeta.cardBackground,
+		iconSrc: asset.widgetMeta.cardIcon,
+		largeIconSrc: asset.widgetMeta.cardMark,
 		iconColor,
 		iconSize,
 	};

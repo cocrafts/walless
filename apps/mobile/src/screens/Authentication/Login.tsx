@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { LoginFeature } from '@walless/app';
-import { appActions, appState } from 'state/app';
+import { appState } from '@walless/engine';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
+import { appActions } from 'utils/state';
 
 export const LoginScreen: FC = () => {
 	const insets = useSafeAreaInsets();

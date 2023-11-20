@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { appActions } from '@walless/app/state';
 import type { Networks } from '@walless/core';
 import {
 	appState,
@@ -11,6 +10,8 @@ import {
 } from '@walless/engine';
 import type { PublicKeyDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
+
+import { universalActions } from '../../state';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
 	const { map } = useSnapshot(keyState);
@@ -114,11 +115,10 @@ export const useHistory = (network?: Networks, address?: string) => {
 
 export const useSettings = () => {
 	const { config } = useSnapshot(appState);
-	const { setPrivacy, setPathname } = appActions;
 
 	return {
 		setting: config,
-		setPrivacy,
-		setPathname,
+		setPrivacy: universalActions.setPrivacy,
+		setPathname: universalActions.setPathname,
 	};
 };

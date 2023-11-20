@@ -3,8 +3,8 @@ import { useEffect, useRef } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { RouterProvider } from 'react-router-dom';
+import { appState } from '@walless/engine';
 import { modalActions, ModalManager } from '@walless/gui';
-import { appState } from 'state/app';
 import { router } from 'utils/routing';
 import { useSnapshot } from 'valtio';
 

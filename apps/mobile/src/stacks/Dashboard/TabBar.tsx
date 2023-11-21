@@ -12,9 +12,10 @@ import {
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Route } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
-import { appState, mockWidgets } from '@walless/engine';
+import { appState } from '@walless/engine';
 import { AnimatedView } from '@walless/gui';
 import { modules } from '@walless/ioc';
+import { localState } from 'utils/state';
 
 import NavigationItem from './TabBarItem';
 
@@ -45,21 +46,15 @@ interface Props {
 }
 
 export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
-	const { activeWidgetId, isDrawerOpen } = useSnapshot(appState);
+	const { isDrawerOpen } = useSnapshot(localState);
 	const offset = useSharedValue(0);
 	const animatedStyles = useAnimatedStyle(() => ({
-		marginBottom: offset.value,
+		transform: [{ translateY: offset.value }],
 	}));
 
 	useEffect(() => {
-		if (
-			!isDrawerOpen &&
-			mockWidgets.some((widget) => widget._id === activeWidgetId)
-		) {
-			offset.value = withTiming(-tabBarHeight, timingConfig);
-		} else {
-			offset.value = withTiming(0, timingConfig);
-		}
+		const nextOffset = isDrawerOpen ? 0 : tabBarHeight;
+		offset.value = withTiming(nextOffset, timingConfig);
 	}, [isDrawerOpen]);
 
 	const { insets, state, navigation } = tabProps;
@@ -104,6 +99,10 @@ export default BottomNavigationTabBar;
 export const tabBarHeight = 96;
 const styles = StyleSheet.create({
 	container: {
+		position: 'absolute',
+		left: 0,
+		right: 0,
+		bottom: 0,
 		flexDirection: 'row',
 		height: tabBarHeight,
 		backgroundColor: '#081016',

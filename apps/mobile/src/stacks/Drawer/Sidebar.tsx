@@ -6,24 +6,18 @@ import { useSnapshot, useWidgets } from '@walless/app';
 import { DashboardNavigator } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
-import { appActions } from 'utils/state';
+import { appActions, localActions } from 'utils/state';
 
 export const sidebarWidth = 64;
 
-export const Sidebar: FC<DrawerContentComponentProps> = ({ navigation }) => {
+export const Sidebar: FC<DrawerContentComponentProps> = () => {
+	const drawerStatus = useDrawerStatus();
 	const { profile, activeWidgetId } = useSnapshot(appState);
-
 	const widgets = useWidgets();
 
-	const isDrawerOpen = useDrawerStatus() === 'open';
-
 	useEffect(() => {
-		navigation.openDrawer();
-	}, []);
-
-	useEffect(() => {
-		appActions.setIsDrawerOpen(isDrawerOpen);
-	}, [isDrawerOpen]);
+		localActions.setIsDrawOpen(drawerStatus === 'open');
+	}, [drawerStatus]);
 
 	const handleExtensionPress = (item: WidgetDocument) => {
 		appActions.setActiveWidget(item._id);

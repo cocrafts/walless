@@ -24,7 +24,7 @@ export const suiTokenSubscribe = (
 					);
 				});
 			} catch (e) {
-				console.log('Sui token live watch error', e);
+				console.log('sui token live watch error', e);
 			}
 		}, 5000),
 	);
@@ -43,7 +43,7 @@ export const suiCollectibleSubscribe = async (
 					addCollectibleToStorage(collectible._id, collectible),
 				);
 			} catch (e) {
-				console.log('Sui collectible live watch error', e);
+				console.log('sui collectible live watch error', e);
 			}
 		}, 30000),
 	);

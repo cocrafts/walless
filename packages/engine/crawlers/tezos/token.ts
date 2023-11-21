@@ -11,7 +11,7 @@ export const getNativeTokenDocument = async (
 	try {
 		balance = (await connection.tz.getBalance(address)).toNumber().toString();
 	} catch (e) {
-		console.log("Couldn't get balance for native token", e);
+		console.log('tezos get balance for native token error', e);
 	}
 
 	return {

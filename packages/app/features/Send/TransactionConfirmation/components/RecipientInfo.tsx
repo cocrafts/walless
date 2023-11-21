@@ -42,7 +42,7 @@ export const RecipientInfo: FC<Props> = () => {
 		networkStr = 'Tezos';
 		feeStr = `${transactionFee} TEZ`;
 	} else if (publicKey?.network == Networks.aptos) {
-		iconUri.uri = '/img/explore/logo-aptos.svg';
+		iconUri.uri = '/img/explore/logo-aptos.png';
 		networkStr = 'Aptos';
 		feeStr = `${transactionFee} APT`;
 	}

@@ -4,6 +4,7 @@ import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import type { WithTimingConfig } from 'react-native-reanimated';
 import {
+	Easing,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
@@ -35,22 +36,19 @@ const getIconImage = (routeName: string): ImageSourcePropType => {
 };
 
 const timingConfig: WithTimingConfig = {
-	duration: 50,
+	duration: 150,
+	easing: Easing.linear,
 };
 
 interface Props {
 	tabProps: BottomTabBarProps;
-	setSceneMarginBottom: (marginBottom: number) => void;
 }
 
-export const BottomNavigationTabBar: FC<Props> = ({
-	tabProps,
-	setSceneMarginBottom,
-}) => {
+export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const { activeWidgetId, isDrawerOpen } = useSnapshot(appState);
 	const offset = useSharedValue(0);
 	const animatedStyles = useAnimatedStyle(() => ({
-		transform: [{ translateY: withTiming(offset.value) }],
+		marginBottom: offset.value,
 	}));
 
 	useEffect(() => {
@@ -58,11 +56,9 @@ export const BottomNavigationTabBar: FC<Props> = ({
 			!isDrawerOpen &&
 			mockWidgets.some((widget) => widget._id === activeWidgetId)
 		) {
-			offset.value = withTiming(tabBarHeight, timingConfig);
-			setSceneMarginBottom(0);
+			offset.value = withTiming(-tabBarHeight, timingConfig);
 		} else {
 			offset.value = withTiming(0, timingConfig);
-			setSceneMarginBottom(tabBarHeight);
 		}
 	}, [isDrawerOpen]);
 
@@ -108,10 +104,6 @@ export default BottomNavigationTabBar;
 export const tabBarHeight = 96;
 const styles = StyleSheet.create({
 	container: {
-		position: 'absolute',
-		bottom: 0,
-		left: 0,
-		right: 0,
 		flexDirection: 'row',
 		height: tabBarHeight,
 		backgroundColor: '#081016',

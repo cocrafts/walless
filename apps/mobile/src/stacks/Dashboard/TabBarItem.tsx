@@ -32,6 +32,7 @@ export const TabNavigationItem: FC<Props> = ({
 
 export default TabNavigationItem;
 
+const iconSize = 28;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -42,8 +43,9 @@ const styles = StyleSheet.create({
 		textAlign: 'right',
 	},
 	icon: {
-		borderRadius: 16,
-		height: 32,
+		width: iconSize,
+		height: iconSize,
+		borderRadius: iconSize / 2,
 		aspectRatio: 1,
 		opacity: 0.5,
 	},

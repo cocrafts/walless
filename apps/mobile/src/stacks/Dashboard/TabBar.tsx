@@ -46,20 +46,21 @@ interface Props {
 }
 
 export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
+	const { insets, state, navigation } = tabProps;
 	const { isDrawerOpen } = useSnapshot(localState);
 	const offset = useSharedValue(0);
+	const realBarHeight = tabBarHeight + insets.bottom;
 	const animatedStyles = useAnimatedStyle(() => ({
 		transform: [{ translateY: offset.value }],
 	}));
 
 	useEffect(() => {
-		const nextOffset = isDrawerOpen ? 0 : tabBarHeight;
+		const nextOffset = isDrawerOpen ? 0 : realBarHeight;
 		offset.value = withTiming(nextOffset, timingConfig);
 	}, [isDrawerOpen]);
 
-	const { insets, state, navigation } = tabProps;
-
 	const containerStyle: ViewStyle = {
+		height: realBarHeight,
 		paddingBottom: insets.bottom,
 	};
 
@@ -96,7 +97,7 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 
 export default BottomNavigationTabBar;
 
-export const tabBarHeight = 96;
+export const tabBarHeight = 48;
 const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',

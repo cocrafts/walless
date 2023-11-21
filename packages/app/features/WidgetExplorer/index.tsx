@@ -1,30 +1,31 @@
 import type { FC } from 'react';
-import type { ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { ScrollView, StyleSheet } from 'react-native';
 import { mockWidgets } from '@walless/engine';
 import { Text, View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
-import { useSafeAreaInsets } from '../../utils/hooks';
-
 import WidgetItem from './components/WidgetItem';
 
 interface Props {
+	style?: StyleProp<ViewStyle>;
+	scrollContentContainerStyle?: StyleProp<ViewStyle>;
 	widgets?: WidgetDocument[];
 }
 
-export const WidgetExplorerFeature: FC<Props> = ({ widgets = mockWidgets }) => {
-	const insets = useSafeAreaInsets();
-	const container: ViewStyle = { ...styles.container, marginTop: insets.top };
-
+export const WidgetExplorerFeature: FC<Props> = ({
+	style,
+	scrollContentContainerStyle,
+	widgets = mockWidgets,
+}) => {
 	return (
-		<View style={container}>
+		<View style={[styles.container, style]}>
 			<View style={styles.topContainer}>
 				<Text style={styles.title}>
 					Explore the world&apos;s custom desing layout
 				</Text>
 			</View>
-			<ScrollView>
+			<ScrollView contentContainerStyle={scrollContentContainerStyle}>
 				<View style={{ marginHorizontal: 15 }}>
 					{widgets.map((widget) => (
 						<WidgetItem key={widget._id} widget={widget} />

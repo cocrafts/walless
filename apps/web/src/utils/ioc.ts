@@ -21,6 +21,7 @@ export const injectModules = async () => {
 	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.buyToken = buyToken;
 	utils.logOut = logOut;
+	utils.navigateToWidget = navigateToWidget;
 
 	const storage = create('engine', IDBPouch);
 	const settings = await storage.safeGet<SettingDocument>('settings');
@@ -44,4 +45,8 @@ const logOut = async () => {
 	await signOut(auth);
 	await modules.storage.clearAllDocs();
 	await router.navigate('/login');
+};
+
+const navigateToWidget = (id: string) => {
+	router.navigate(id);
 };

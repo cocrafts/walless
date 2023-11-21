@@ -11,6 +11,7 @@ import { nativeAsset } from './config';
 import { initializeAuth } from './firebase';
 import { qlClient } from './graphql';
 import { navigate } from './navigation';
+import { appActions } from './state';
 import { createAndSend, handleAptosOnChainAction } from './transaction';
 import { key } from './w3a';
 
@@ -18,6 +19,7 @@ export const injectModules = async () => {
 	utils.createAndSend = createAndSend;
 	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.logOut = logOut;
+	utils.navigateToWidget = navigateToWidget;
 	// TODO: implement and inject buy token here
 
 	const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
@@ -42,4 +44,12 @@ const logOut = async () => {
 	await firebase.auth().signOut();
 	await modules.storage.clearAllDocs();
 	navigate('Authentication', { screen: 'Login' });
+};
+
+const navigateToWidget = (id: string) => {
+	appActions.setActiveWidget(id);
+	navigate('Dashboard', {
+		screen: 'Home',
+		params: { screen: 'Widget', params: { id } },
+	});
 };

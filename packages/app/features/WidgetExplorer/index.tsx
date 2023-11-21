@@ -1,10 +1,17 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { ScrollView, StyleSheet } from 'react-native';
+import Animated, {
+	useAnimatedScrollHandler,
+	useAnimatedStyle,
+	useSharedValue,
+} from 'react-native-reanimated';
 import { mockWidgets } from '@walless/engine';
-import { Text, View } from '@walless/gui';
+import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
+import SearchHeader from './components/SearchHeader';
 import WidgetItem from './components/WidgetItem';
 
 interface Props {
@@ -13,44 +20,88 @@ interface Props {
 	widgets?: WidgetDocument[];
 }
 
-export const WidgetExplorerFeature: FC<Props> = ({
+const searchTitleHeight = 54;
+const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
+const AnimatedView = Animated.createAnimatedComponent(View);
+
+export const WidgetExplorerFeat: FC<Props> = ({
 	style,
 	scrollContentContainerStyle,
 	widgets = mockWidgets,
 }) => {
+	const offset = useSharedValue(0);
+
+	const scrollHandler = useAnimatedScrollHandler({
+		onScroll: (e) => {
+			offset.value = e.contentOffset.y;
+		},
+	});
+
+	const scrollAnimatedStyle = useAnimatedStyle(() => {
+		return {
+			position: 'absolute',
+			left: 0,
+			right: 0,
+			top: 0,
+			transform: [
+				{
+					translateY:
+						offset.value > searchTitleHeight
+							? -searchTitleHeight
+							: -offset.value,
+				},
+			],
+		};
+	}, [offset]);
+
+	const [searchString, setSearchString] = useState('');
+	const [contentOffset, setContentOffset] = useState(0);
+	const contentContainer = {
+		marginHorizontal: 15,
+		paddingTop: contentOffset,
+	} as ViewStyle;
+
+	const onChangeSearch = (query: string) => {
+		setSearchString(query.toLowerCase());
+	};
+
+	const filterWidgetsByName = (name: string) => {
+		if (!searchString.length) return true;
+		return name.toLowerCase().includes(searchString);
+	};
+
 	return (
 		<View style={[styles.container, style]}>
-			<View style={styles.topContainer}>
-				<Text style={styles.title}>
-					Explore the world&apos;s custom desing layout
-				</Text>
-			</View>
-			<ScrollView contentContainerStyle={scrollContentContainerStyle}>
-				<View style={{ marginHorizontal: 15 }}>
-					{widgets.map((widget) => (
+			<AnimatedScrollView
+				onScroll={scrollHandler}
+				scrollEventThrottle={20}
+				contentContainerStyle={[contentContainer, scrollContentContainerStyle]}
+				showsVerticalScrollIndicator={false}
+			>
+				{widgets
+					.filter((widget) => filterWidgetsByName(widget.name))
+					.map((widget) => (
 						<WidgetItem key={widget._id} widget={widget} />
 					))}
-				</View>
-			</ScrollView>
+			</AnimatedScrollView>
+			<AnimatedView style={scrollAnimatedStyle}>
+				<SearchHeader
+					onLayout={({ nativeEvent }) => {
+						setContentOffset(nativeEvent.layout.height);
+					}}
+					onChangeSearch={onChangeSearch}
+				/>
+			</AnimatedView>
 		</View>
 	);
 };
 
+export default WidgetExplorerFeat;
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingTop: 10,
-	},
-	topContainer: {
-		alignItems: 'center',
-		marginBottom: 5,
-	},
-	title: {
-		fontSize: 18,
-		fontWeight: '500',
-		textAlign: 'center',
-		maxWidth: 200,
+		marginTop: 10,
+		overflow: 'hidden',
 	},
 });
-
-export default WidgetExplorerFeature;

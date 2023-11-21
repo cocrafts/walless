@@ -18,14 +18,15 @@ import {
 	transactionActions,
 	transactionContext,
 } from '../../../state/transaction';
-import PasscodeFeature from '../../Passcode';
+import { PasscodeFeature } from '../../Passcode';
 import { showError } from '../utils';
 
 import { Header } from './components';
 
 type Props = SlideComponentProps;
-const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
-	const { type, token, nftCollectible, sender, receiver, amount } =
+const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
+	const [isLoading, setIsLoading] = useState(false);
+	const { type, token, tokenForFee, nftCollectible, sender, receiver, amount } =
 		useSnapshot(transactionContext);
 	const [error, setError] = useState<string>('');
 	const [passcode, setPasscode] = useState<string>('');
@@ -40,9 +41,13 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 		setError('');
 	};
 
-	const handlePasscodeChange = async (passcode: string) => {
+	const handlePasscodeChange = async (
+		passcode: string,
+		isCompleted = false,
+	) => {
+		setIsLoading(true);
 		setPasscode(passcode);
-		if (passcode.length == 6) {
+		if (isCompleted) {
 			if (
 				(type === 'Token' && !token) ||
 				(type === 'Collectible' && !nftCollectible)
@@ -52,19 +57,22 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 			const payload: TransactionPayload = {
 				sender: sender,
 				receiver: receiver,
-			} as TransactionPayload;
+				tokenForFee: token as Token,
+			} as unknown as TransactionPayload;
 
 			switch (type) {
 				case 'Token': {
 					payload.amount = parseFloat(amount as string);
 					payload.token = token as Token;
 					payload.network = token?.network as Networks;
+					payload.tokenForFee = tokenForFee as Token;
 					break;
 				}
 				case 'Collectible': {
 					payload.amount = 1;
 					payload.token = nftCollectible as Collectible;
 					payload.network = nftCollectible?.network as Networks;
+					payload.tokenForFee = tokenForFee as Token;
 					break;
 				}
 			}
@@ -101,13 +109,15 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
+
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
-		if (item.id == activedId) {
+		if (item.id == activatedId) {
 			setTimeout(() => setRenderPasscode(true), 200);
 		} else setRenderPasscode(false);
-	}, [activedId]);
+	}, [activatedId]);
 
 	return (
 		<View style={styles.container}>
@@ -126,6 +136,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activedId }) => {
 				<PasscodeFeature
 					passcode={passcode}
 					error={error}
+					loading={isLoading}
 					onPasscodeChange={handlePasscodeChange}
 				/>
 			)}
@@ -137,7 +148,6 @@ export default PasscodeInput;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		alignItems: 'center',
 		gap: 40,
 	},
@@ -153,7 +163,6 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 	},
 	description: {
-		fontSize: 14,
 		lineHeight: 18,
 		color: '#566674',
 		textAlign: 'center',

@@ -90,7 +90,7 @@ export const Slider = forwardRef<SliderHandle, Props>(
 								<InnerComponent
 									item={item}
 									navigator={navigator}
-									activedId={innerActive.id}
+									activatedId={innerActive.id}
 								/>
 							</ItemContainer>
 						);

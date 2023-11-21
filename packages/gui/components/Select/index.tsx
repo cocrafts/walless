@@ -32,8 +32,8 @@ export const Select = <T extends object>({
 	if (selected) {
 		const metadata = getRequiredFields(selected);
 		selectedMetadata = {
-			name: metadata.name,
-			iconSrc: { uri: metadata.icon },
+			name: metadata.name ?? 'Unknown',
+			iconSrc: { uri: metadata.icon ?? 'img/send-token/unknown-token.jpeg' },
 		};
 	}
 
@@ -45,7 +45,6 @@ export const Select = <T extends object>({
 			bindingRef: inputRef,
 			bindingDirection: BindDirections.InnerTop,
 			animateDirection: AnimateDirections.Inner,
-			positionOffset: { x: 0, y: -8 },
 			maskActiveOpacity: 0,
 			context: {
 				selected,

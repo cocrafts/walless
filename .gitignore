@@ -26,7 +26,8 @@ wasm/pkg
 node_modules
 .pnp
 .pnp.js
-.yarn
+.yarn/cache
+.yarn/install-state.gz
 
 # testing
 coverage
@@ -53,7 +54,7 @@ yarn-error.log*
 .env.production
 
 # configs
-GoogleService-Info.plist
+GoogleService-info*.plist
 google-services.json
 apps/**/ios/tmp.xcconfig
 
@@ -64,3 +65,9 @@ apps/**/ios/tmp.xcconfig
 .vscode
 .prettierrc
 .history
+
+cli/tokens/**/assets
+cli/tokens/**/cache.json
+cli/tokens/**/config.json
+cli/tokens/**/sugar.log
+

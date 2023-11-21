@@ -2,6 +2,7 @@ import { runtime } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type {
 	EncryptedMessage,
+	MessagePayload,
 	MessengerCallback,
 	MessengerMessageListener,
 	MessengerSend,
@@ -16,7 +17,7 @@ import {
 } from '@walless/messaging';
 
 import { onKernelMessage } from './handlers/kernel';
-import { response } from './utils/requestPool';
+import { respond } from './utils/requestPool';
 
 const channels = [
 	Channels.ui,
@@ -37,16 +38,20 @@ export const initializeMessaging = async (): Promise<void> => {
 	if (runtime.isExtension) {
 		const callbackRegistry: Record<string, MessengerCallback> = {};
 
-		runtime.onConnect.addListener((port) => {
-			const handleInComingMessage = async (message: EncryptedMessage) => {
+		runtime.onConnect.addListener((port: chrome.runtime.Port) => {
+			const handleInComingMessage = async (
+				message: EncryptedMessage | MessagePayload,
+			) => {
 				const registeredCallback = callbackRegistry[port.name];
 				const isEncrypted = !!message?.iv;
 
 				if (registeredCallback) {
 					if (isEncrypted) {
 						const key = await modules.encryptionKeyVault.get(port.name);
-						const decrypted = await decryptMessage(message, key);
-
+						const decrypted = await decryptMessage(
+							message as EncryptedMessage,
+							key,
+						);
 						registeredCallback?.(decrypted, port);
 					} else {
 						registeredCallback?.(message as never, port);
@@ -54,28 +59,28 @@ export const initializeMessaging = async (): Promise<void> => {
 				}
 			};
 
-			const handleDisconnect = () => {
+			const handleDisconnect = (port: chrome.runtime.Port) => {
 				if (port.name.includes('/')) {
 					const [id, requestId] = port.name.split('/');
 					if (id === PopupType.REQUEST_CONNECT_POPUP) {
 						try {
-							response(requestId, ResponseCode.REJECTED, {
-								message: ResponseMessage.REJECT_REQUEST_CONNECT,
+							respond(requestId, ResponseCode.ERROR, {
+								error: ResponseMessage.REJECT_REQUEST_CONNECT,
 							});
 						} catch (error) {
 							return;
 						}
 					} else if (id === PopupType.SIGNATURE_POPUP) {
 						try {
-							response(requestId, ResponseCode.REJECTED, {
-								message: ResponseMessage.REJECT_COMMON_REQUEST,
+							respond(requestId, ResponseCode.ERROR, {
+								error: ResponseMessage.REJECT_COMMON_REQUEST,
 							});
 						} catch (error) {
 							return;
 						}
 					} else if (id === PopupType.REQUEST_INSTALL_LAYOUT_POPUP) {
 						try {
-							response(requestId, ResponseCode.REJECTED);
+							respond(requestId, ResponseCode.ERROR);
 						} catch (error) {
 							return;
 						}

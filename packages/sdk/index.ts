@@ -98,6 +98,8 @@ export class Walless extends EventEmitter {
 
 	disconnect = async (): Promise<void> => {
 		this.#isConnected = false;
+		const hostName = window.location.hostname;
+		await commonProvider.requestDisconnect({ domain: hostName });
 		console.log('walless disconnected!');
 	};
 
@@ -223,9 +225,8 @@ export class Walless extends EventEmitter {
 	};
 
 	checkInstalledLayout = async (id: string): Promise<boolean> => {
-		const { responseCode } = await commonProvider.requestCheckInstalledLayout(
-			id,
-		);
+		const { responseCode } =
+			await commonProvider.requestCheckInstalledLayout(id);
 
 		return responseCode === ResponseCode.SUCCESS;
 	};

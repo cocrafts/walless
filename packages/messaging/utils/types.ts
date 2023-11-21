@@ -23,10 +23,12 @@ interface IdentifiedPayload {
 
 export type MessagePayload = UnknownObject &
 	IdentifiedPayload & {
-		from?: string;
+		from: string;
 		type: RequestType;
-		requestId?: string;
+		requestId: string;
 	};
+
+export type PureMessagePayload = Omit<MessagePayload, 'requestId'>;
 
 export type ResponsePayload = UnknownObject &
 	IdentifiedPayload & {
@@ -58,7 +60,7 @@ export type MessengerSend = (
 
 export type MessengerRequest = (
 	channelId: string,
-	payload: MessagePayload,
+	payload: PureMessagePayload | MessagePayload,
 	timeout?: number,
 ) => Promise<UnknownObject>;
 
@@ -84,13 +86,14 @@ export enum ResponseCode {
 	REQUIRE_PASSCODE,
 	WRONG_PASSCODE,
 	ERROR,
-	REJECTED,
 }
 
 export enum RequestType {
 	REQUEST_CONNECT,
+	REQUEST_DISCONNECT,
 	GET_ENDPOINT_ON_SOLANA,
 	SIGN_SEND_TRANSACTION_ON_SOLANA,
+	SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
 	SIGN_TRANSACTION_ON_SOLANA,
 	SIGN_MESSAGE_ON_SOLANA,
 	SIGH_EXECUTE_TRANSACTION_ON_SUI,
@@ -103,6 +106,10 @@ export enum RequestType {
 	INSTALL_LAYOUT,
 	CHECK_INSTALLED_LAYOUT,
 	OPEN_LAYOUT_POPUP,
+	UPDATE_DIRECT_TRANSFER_ON_APTOS,
+	CLAIM_TOKEN_ON_APTOS,
+	TRANSFER_COIN_ON_APTOS,
+	TRANSFER_TOKEN_ON_APTOS,
 }
 
 export enum PopupType {

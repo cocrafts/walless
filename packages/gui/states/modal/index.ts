@@ -11,14 +11,18 @@ export const modalState = proxy<ModalState>({
 	map: proxyMap(),
 });
 
+export const getSafeId = (id?: string): string => id || 'default-modal';
+
 export const modalActions = {
 	setContainerRef: (ref: RefObject<View>): void => {
 		referenceMap.root = ref;
 	},
 	show: ({ id, bindingRef, ...restConfigs }: ShowModalConfigs): void => {
-		const safeId = id || 'default-modal';
+		const safeId = getSafeId(id);
 
 		measureRelative(bindingRef).then((layout) => {
+			if (bindingRef) referenceMap[safeId] = bindingRef;
+
 			modalState.map.set(safeId, {
 				id: safeId,
 				bindingRectangle: layout,
@@ -34,8 +38,9 @@ export const modalActions = {
 		}
 	},
 	destroy: (id?: string): void => {
-		const safeId = id || 'default-modal';
+		const safeId = getSafeId(id);
 		modalState.map.delete(safeId);
+		delete referenceMap[safeId];
 	},
 };
 

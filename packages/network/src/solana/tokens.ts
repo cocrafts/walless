@@ -79,7 +79,7 @@ export const getSolanaTokensByAddress = async (
 		const info = data.parsed?.info || {};
 
 		return {
-			_id: `${address}/${info.mint}`,
+			_id: `${address}/token/${info.mint}`,
 			network: Networks.solana,
 			type: 'Token',
 			account: {
@@ -98,7 +98,7 @@ export const getSolanaTokensByAddress = async (
 			const balance = await connection.getBalance(key);
 
 			return {
-				_id: `${address}/${solMint}`,
+				_id: `${address}/token/${solMint}`,
 				network: Networks.solana,
 				type: 'Token',
 				account: {

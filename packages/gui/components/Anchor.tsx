@@ -69,4 +69,5 @@ export default Anchor;
 
 const linkStyle = {
 	display: 'contents',
+	fontFamily: 'Rubik',
 };

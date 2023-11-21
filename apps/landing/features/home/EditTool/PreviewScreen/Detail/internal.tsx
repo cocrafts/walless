@@ -1,7 +1,7 @@
-import type { TabAble } from '@walless/app';
 import type { MetadataDocument } from '@walless/store';
 
 import EmptyTab from './EmptyTab';
+import type { TabAble } from './shared';
 
 export const layoutTabs: TabAble[] = [
 	{

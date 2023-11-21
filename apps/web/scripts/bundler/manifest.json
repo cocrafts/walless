@@ -8,9 +8,9 @@
     "extension_pages": "script-src 'self'; object-src 'self'; frame-ancestors 'none';"
   },
   "icons": {
-    "16": "favicon.png",
-    "48": "favicon.png",
-    "128": "favicon.png"
+    "16": "app-icons/16.png",
+    "48": "app-icons/48.png",
+    "128": "app-icons/128.png"
   },
   "action": {
     "default_popup": "popup.html",
@@ -27,7 +27,8 @@
     "clipboardWrite",
     "identity",
     "storage",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "alarms"
   ],
   "background": {
     "service_worker": "background.js"

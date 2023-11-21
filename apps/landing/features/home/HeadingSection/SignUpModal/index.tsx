@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet } from 'react-native';
 import type { UnknownObject } from '@walless/core';
 import type { JoinWaitlistResult } from '@walless/graphql';
 import { mutations } from '@walless/graphql';
@@ -16,6 +15,7 @@ import InputDropdown from './InputDropdown';
 export const handleShowSignUpModal = () => {
 	modalActions.show({
 		id: 'signUp',
+		fullWidth: false,
 		component: () => <SignUpModal />,
 	});
 };
@@ -64,16 +64,23 @@ const SignUpModal = () => {
 
 		if (allValid) {
 			setIsCalling(true);
+
+			const twitterHandle = `@${twitter}`;
+
 			const { data, errors } = await qlClient.rawRequest(
 				mutations.joinWaitlist,
 				{
-					email,
-					twitter,
+					email: email,
+					twitter: twitterHandle,
 					description: selectedOption,
 				},
 			);
+
+			console.log(data);
+
 			if (errors && errors.length > 0) {
 				const message = errors[0].message;
+
 				if (message.includes('duplicate')) {
 					if (message.includes('email')) {
 						setEmailErr('You are already on the waitlist');
@@ -128,20 +135,17 @@ const SignUpModal = () => {
 					text={email}
 					placeholder="zangimmortal@gmail.com"
 					onChangeText={handleChangeEmail}
+					onFocus={() => setEmailErr('')}
 					error={emailErr}
 				/>
 				<FormInput
 					title="Twitter"
 					text={twitter}
-					placeholder="@zangimmortal"
+					placeholder="zangimmortal"
 					onChangeText={handleChangeTwitter}
+					onFocus={() => setTwitterErr('')}
 					error={twitterErr}
-					onFocus={() => {
-						if (twitter.length === 0) setTwitter('@');
-					}}
-					onBlur={() => {
-						if (twitter === '@') setTwitter('');
-					}}
+					prefix={<Text style={styles.text}>@</Text>}
 				/>
 				<InputDropdown
 					title="Describe yourself"
@@ -170,7 +174,7 @@ export default SignUpModal;
 
 const styles = StyleSheet.create({
 	container: {
-		maxWidth: 420,
+		width: 420,
 		paddingTop: 44,
 		paddingBottom: 32,
 		paddingHorizontal: 34,

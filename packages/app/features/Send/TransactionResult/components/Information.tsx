@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
+import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
@@ -25,6 +26,7 @@ export const Information: FC<Props> = () => {
 		receiver,
 		sender,
 		status,
+		tokenForFee,
 	} = useSnapshot(transactionContext);
 
 	const publicKey = publicKeys.find(
@@ -33,21 +35,27 @@ export const Information: FC<Props> = () => {
 			(type === 'Token' ? token?.network : nftCollectible?.network),
 	);
 
-	const iconUri = { uri: '' };
+	const tokenForFeeName = tokenForFee?.metadata?.symbol || 'Unknown';
+
+	let iconUri;
 	let networkStr = '';
 	let feeStr = '';
 	if (publicKey?.network == Networks.solana) {
-		iconUri.uri = '/img/network/solana-icon-sm.png';
+		iconUri = modules.asset.widget.solana.storeMeta.iconUri;
 		networkStr = 'Solana';
-		feeStr = `${transactionFee} SOL`;
+		feeStr = `${transactionFee} ${tokenForFeeName}`;
 	} else if (publicKey?.network == Networks.sui) {
-		iconUri.uri = '/img/network/sui-icon-sm.png';
+		iconUri = modules.asset.widget.sui.storeMeta.iconUri;
 		networkStr = 'SUI';
 		feeStr = `${transactionFee} SUI`;
 	} else if (publicKey?.network == Networks.tezos) {
-		iconUri.uri = '/img/network/tezos-icon-sm.png';
+		iconUri = modules.asset.widget.tezos.storeMeta.iconUri;
 		networkStr = 'Tezos';
 		feeStr = `${transactionFee} TEZ`;
+	} else if (publicKey?.network === Networks.aptos) {
+		iconUri = modules.asset.widget.aptos.storeMeta.iconUri;
+		networkStr = 'Aptos';
+		feeStr = `${transactionFee} APT`;
 	}
 
 	return (
@@ -78,7 +86,7 @@ export const Information: FC<Props> = () => {
 			<View style={styles.inforLine}>
 				<Text>Network</Text>
 				<View style={styles.networkBlock}>
-					<Image style={styles.icon} source={iconUri} />
+					{iconUri && <Image style={styles.icon} source={iconUri} />}
 					<Text style={styles.inforText}>{networkStr}</Text>
 				</View>
 			</View>

@@ -19,6 +19,9 @@ type Account {
 
   """"""
   updatedAt: MongoDateTime
+
+  """"""
+  walletCount: Int
 }
 
 """
@@ -49,49 +52,43 @@ type JoinWaitlistResult {
 """MongoDB DateTime"""
 scalar MongoDateTime
 
+""""""
+type Nonce {
+  """"""
+  identifier: String!
+
+  """"""
+  timestamp: MongoDateTime!
+
+  """"""
+  type: NonceType!
+
+  """"""
+  value: Uint32!
+}
+
+""""""
+enum NonceType {
+  """"""
+  Login
+}
+
 """MongoDB ObjectID"""
 scalar ObjectID
 
 """"""
-type Project {
-  """"""
-  banner: String
-
-  """"""
-  description: String
-
-  """"""
-  detailIcon: String
-
-  """"""
-  id: ObjectID
-
-  """"""
-  logo: String
-
-  """"""
-  name: String
-
-  """"""
-  networks: [String]
-
-  """"""
-  nfts: [String]
-
-  """"""
-  tokens: [String]
-}
-
-""""""
 type RootMutation {
   """"""
-  addProject(banner: String = "", description: String!, detailIcon: String = "", logo: String = "", name: String!, networks: [String] = ["[]"], nfts: [String] = ["[]"], tokens: [String] = ["[]"], userId: String!): Project
-
-  """"""
-  addUser(address: String!, name: String!): User
+  addWidget(banner: String, description: String!, largeLogo: String, logo: String, name: String!, networks: [String] = ["[]"], nfts: [WidgetTokenInput], ownerId: String!, tokens: [WidgetTokenInput]): Widget
 
   """"""
   claimWalletInvitation(code: String!, email: String!): Boolean
+
+  """"""
+  deleteWidget(id: String!): Boolean
+
+  """"""
+  deleteWidgetAccount(id: String!): Boolean
 
   """"""
   joinWaitlist(description: String!, email: String!, twitter: String!): JoinWaitlistResult
@@ -100,7 +97,25 @@ type RootMutation {
   registerAccount(key: String!): Account
 
   """"""
+  registerWidgetAccount(email: String, pubkey: String!): Account
+
+  """"""
   sendEmergencyKit(key: String!): SendEmergencyKitResult
+
+  """"""
+  trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
+
+  """"""
+  updateWidgetAccountRole(id: String!, role: WidgetAccountRole!): WidgetAccount
+
+  """"""
+  updateWidgetOwner(id: String!, ownerId: String!): Widget
+
+  """"""
+  updateWidgetStatus(id: String!, status: WidgetStatus!, updaterPubkey: String!): Widget
+
+  """"""
+  verifyWidgetAccount(pubkey: String!, signature: String!): WidgetAccount
 }
 
 """"""
@@ -112,10 +127,10 @@ type RootQuery {
   greeting: String
 
   """"""
-  project(id: String!): Project
+  loginMessage(pubkey: String!): String
 
   """"""
-  projects: [Project]
+  nonce(identifier: String!): Nonce
 
   """"""
   systemInfo: SystemInfo
@@ -133,13 +148,25 @@ type RootQuery {
   tokensByAddress(addresses: [String]!): [TokenInfo]
 
   """"""
-  user(id: String!): User
-
-  """"""
-  users: [User]
+  userAccount: Account
 
   """"""
   walletInvitation(code: String, email: String): WalletInvitation
+
+  """"""
+  widget(id: String!): Widget
+
+  """"""
+  widgetAccounts: [WidgetAccount]
+
+  """"""
+  widgets: [Widget]
+
+  """"""
+  widgetsByPubkey(pubkey: String!): [Widget]
+
+  """"""
+  widgetsByStatus(status: WidgetStatus!): [Widget]
 }
 
 """"""
@@ -155,6 +182,15 @@ type SystemInfo {
 
   """"""
   version: String
+}
+
+""""""
+type Token {
+  """"""
+  address: String!
+
+  """"""
+  id: String
 }
 
 """"""
@@ -182,19 +218,16 @@ type TokenInfo {
 }
 
 """"""
-type User {
+input TrackAccountWalletInput {
   """"""
-  address: String
+  address: String!
 
   """"""
-  id: ObjectID
-
-  """"""
-  name: String
-
-  """Get all user projects of user"""
-  projects: [Project]
+  network: String
 }
+
+"""The `Uint32` scalar type represents a 32-bit unsigned integer."""
+scalar Uint32
 
 """"""
 type WalletInvitation {
@@ -209,4 +242,91 @@ type WalletInvitation {
 
   """"""
   timestamp: MongoDateTime
+}
+
+""""""
+type Widget {
+  """"""
+  banner: String
+
+  """"""
+  description: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  largeLogo: String
+
+  """"""
+  logo: String
+
+  """"""
+  name: String
+
+  """"""
+  networks: [String]
+
+  """"""
+  nfts: [Token]
+
+  """"""
+  ownerId: ObjectID
+
+  """"""
+  status: WidgetStatus
+
+  """"""
+  tokens: [Token]
+}
+
+""""""
+type WidgetAccount {
+  """"""
+  createdAt: MongoDateTime
+
+  """"""
+  email: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  identifier: String!
+
+  """"""
+  role: WidgetAccountRole
+
+  """"""
+  updatedAt: MongoDateTime
+}
+
+""""""
+enum WidgetAccountRole {
+  """"""
+  ADMIN
+
+  """"""
+  USER
+}
+
+""""""
+enum WidgetStatus {
+  """"""
+  ACCEPTED
+
+  """"""
+  IN_REVIEW
+
+  """"""
+  REJECTED
+}
+
+""""""
+input WidgetTokenInput {
+  """"""
+  address: String!
+
+  """"""
+  id: String
 }

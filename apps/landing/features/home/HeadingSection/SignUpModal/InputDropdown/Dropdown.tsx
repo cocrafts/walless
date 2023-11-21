@@ -4,7 +4,6 @@ import { Text, View } from '@walless/gui';
 import { ChevronUp } from '@walless/icons';
 
 interface Props {
-	containerWidth: number;
 	optionList: string[];
 	setSelectedOption: (option: string) => void;
 	selectedOption: string;
@@ -12,7 +11,6 @@ interface Props {
 }
 
 const Dropdown: FC<Props> = ({
-	containerWidth,
 	optionList,
 	selectedOption,
 	setSelectedOption,
@@ -28,7 +26,7 @@ const Dropdown: FC<Props> = ({
 	};
 
 	return (
-		<View style={{ width: containerWidth }}>
+		<View>
 			<TouchableOpacity
 				style={styles.selectedOptionContainer}
 				onPress={handleCloseModal}
@@ -77,7 +75,6 @@ const styles = StyleSheet.create({
 		borderColor: '#43525F',
 	},
 	dropdownContainer: {
-		width: '100%',
 		maxHeight: 200,
 		borderWidth: 1,
 		borderColor: '#43525F',

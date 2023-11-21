@@ -1,42 +1,63 @@
 import type { FC } from 'react';
+import { StyleSheet } from 'react-native';
 import { useMedia } from '@tamagui/core';
-import { Button, Stack } from '@walless/ui';
+import { View } from '@walless/gui';
+import { Button } from '@walless/ui';
 import { ContainerStack } from 'components/styled';
 import { handleShowSignUpModal } from 'features/home/HeadingSection/SignUpModal';
+import { useRouter } from 'next/router';
 
 import HomeButton from './HomeButton';
-import NavItem from './NavItem';
+import { NavigationItem } from './NavigationItem';
 import { navigationHeight, navigationItems } from './shared';
 
 export const HomeNavigation: FC = () => {
+	const router = useRouter();
 	const media = useMedia();
 
-	const temporarilyDisabled = true;
+	const temporarilyDisabled = false;
 
 	return (
-		<Stack
-			backgroundColor="$navigationBg"
-			position="absolute"
-			top={0}
-			right={0}
-			left={0}
-		>
+		<View style={styles.container}>
 			<ContainerStack horizontal alignItems="center" height={navigationHeight}>
 				<HomeButton />
-				<Stack horizontal flex={1} paddingLeft={12}>
+				<View style={styles.navigationBar}>
 					{!temporarilyDisabled &&
 						media.gtSm &&
-						navigationItems.map((item, index) => {
-							return <NavItem key={index} item={item} />;
+						navigationItems.map((item) => {
+							return (
+								<NavigationItem
+									key={item.href}
+									item={item}
+									isActive={router.pathname === item.href}
+								/>
+							);
 						})}
-				</Stack>
+				</View>
 
 				<Button title="Join Waitlist" onPress={handleShowSignUpModal} />
 			</ContainerStack>
-		</Stack>
+		</View>
 	);
 };
 
 export default HomeNavigation;
 
 export * from './shared';
+
+const styles = StyleSheet.create({
+	container: {
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		left: 0,
+		backgroundColor: '$navigationBg',
+	},
+	navigationBar: {
+		flex: 1,
+		flexDirection: 'row',
+		height: navigationHeight,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});

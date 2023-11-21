@@ -50,12 +50,12 @@ export type SelectionRequiredFields = {
 };
 
 export interface SelectionContext<T extends object> {
-	selected?: T;
 	title: string;
 	notFoundText?: string;
 	items: T[];
-	getRequiredFields: (item: T) => SelectionRequiredFields;
+	selected?: T;
 	onSelect: (item: T) => void;
+	getRequiredFields: (item: T) => SelectionRequiredFields;
 	itemStyle?: StyleProp<ViewStyle>;
 	itemIconStyle?: StyleProp<ImageStyle>;
 	selectedItemStyle?: StyleProp<ViewStyle>;

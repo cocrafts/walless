@@ -47,7 +47,7 @@ const Dropdown: FC<Props> = ({ config }) => {
 	};
 
 	return (
-		<View style={{ width: 336 }}>
+		<View>
 			<Hoverable
 				style={[mutualStyles.button, mutualStyles.focus]}
 				onPress={handleMainButtonPress}
@@ -87,7 +87,7 @@ const Dropdown: FC<Props> = ({ config }) => {
 							return (
 								<DropdownItem
 									key={index}
-									name={name}
+									name={name ?? 'Unknown'}
 									icon={icon}
 									selected={!!selected && getRequiredFields(selected).id === id}
 									onPress={() => handleItemPress(item)}

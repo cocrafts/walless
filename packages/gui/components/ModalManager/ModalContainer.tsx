@@ -1,10 +1,20 @@
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
-import type { LayoutChangeEvent, LayoutRectangle } from 'react-native';
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import type {
+	LayoutChangeEvent,
+	LayoutRectangle,
+	ViewStyle,
+} from 'react-native';
+import {
+	Platform,
+	StyleSheet,
+	TouchableWithoutFeedback,
+	View,
+} from 'react-native';
 import Animated, {
 	Extrapolate,
 	interpolate,
+	runOnJS,
 	useAnimatedStyle,
 	useSharedValue,
 	withSpring,
@@ -12,32 +22,18 @@ import Animated, {
 
 import type { ModalConfigs } from '../../states/modal';
 import {
+	getSafeId,
+	measureRelative,
 	modalActions,
+	modalState,
 	rectangleAnimatedStyle,
 	rectangleBind,
+	referenceMap,
 } from '../../states/modal';
 
 interface Props {
 	item: ModalConfigs;
 }
-
-const styles = StyleSheet.create({
-	container: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-	},
-	mask: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		backgroundColor: 'black',
-	},
-});
 
 export const ModalContainer: FC<Props> = ({ item }) => {
 	const {
@@ -48,10 +44,12 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		maskStyle,
 		maskActiveOpacity = 0.5,
 		withoutMask,
+		fullWidth = true,
 	} = item;
 	const layout = useRef<LayoutRectangle>();
 	const top = useSharedValue(0);
 	const left = useSharedValue(0);
+	const width = useSharedValue(0);
 	const opacity = useSharedValue(0);
 	const pointerEvents = item.hide || withoutMask ? 'none' : 'auto';
 
@@ -68,19 +66,21 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	);
 
 	const wrapperStyle = useAnimatedStyle(() => {
-		return rectangleAnimatedStyle(opacity, item.animateDirection, {
+		const baseStyle: ViewStyle = {
 			position: 'absolute',
-			overflow: 'hidden',
 			top: top.value,
 			left: left.value,
 			opacity: opacity.value,
-		});
+		};
+		if (fullWidth) baseStyle.width = width.value;
+
+		return rectangleAnimatedStyle(opacity, item.animateDirection, baseStyle);
 	}, [top, left, opacity]);
 
 	useEffect(() => {
 		opacity.value = withSpring(item.hide ? 0 : 1, {}, () => {
 			if (item.hide) {
-				modalActions.destroy(id);
+				runOnJS(modalActions.destroy)(id);
 			}
 		});
 	}, [item.hide]);
@@ -90,10 +90,30 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		onInnerLayout({ nativeEvent: { layout: layout.current } } as never);
 	}, [bindingRectangle]);
 
+	useEffect(() => {
+		if (Platform.OS !== 'web') return;
+		const actualBindingRef = referenceMap[getSafeId(id)] || referenceMap.root;
+		if (!actualBindingRef.current) return;
+
+		const bindingObserver = new ResizeObserver(async () => {
+			const safeId = getSafeId(item.id);
+			const updatedBindingRectangle = await measureRelative(
+				referenceMap[safeId],
+			);
+			modalState.map.set(safeId, {
+				...item,
+				bindingRectangle: updatedBindingRectangle,
+			});
+		});
+		bindingObserver.observe(actualBindingRef.current as never);
+
+		return () => bindingObserver.disconnect();
+	}, []);
+
 	const onInnerLayout = async ({ nativeEvent }: LayoutChangeEvent) => {
 		const calculatedRectangle = await rectangleBind(
-			bindingRectangle as never,
-			nativeEvent.layout,
+			bindingRectangle as never, // parent or root
+			nativeEvent.layout, // current component
 			item.bindingDirection,
 			positionOffset,
 		);
@@ -101,6 +121,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		layout.current = nativeEvent.layout;
 		top.value = calculatedRectangle.y;
 		left.value = calculatedRectangle.x;
+		width.value = calculatedRectangle.width;
 	};
 
 	const closeModal = () => {
@@ -122,3 +143,21 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 };
 
 export default ModalContainer;
+
+const styles = StyleSheet.create({
+	container: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+	},
+	mask: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: 'black',
+	},
+});

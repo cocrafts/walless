@@ -1,3 +1,5 @@
+import type { CollectibleDocument, TokenDocument } from '@walless/store';
+
 import type { Collectible, Token } from './entityTypes';
 
 export interface EncryptedWithPasscode {
@@ -25,6 +27,9 @@ export interface UniversalRuntime {
 	isServer: boolean;
 	isBrowser: boolean;
 	isExtension: boolean;
+	isIOS: boolean;
+	isAndroid: boolean;
+	isMobile: boolean;
 	onConnect: chrome.runtime.ExtensionConnectEvent;
 	onMessage: chrome.runtime.ExtensionMessageEvent;
 	connect: (connectInfo?: chrome.runtime.ConnectInfo) => chrome.runtime.Port;
@@ -47,9 +52,9 @@ export type RequestHashmap = Record<string, RequestContext>;
 
 export enum Networks {
 	tezos = 'tezos',
-	ethereum = 'ethereum',
 	solana = 'solana',
 	sui = 'sui',
+	aptos = 'aptos',
 }
 
 export enum Endpoints {
@@ -65,29 +70,29 @@ export interface TransactionPayload {
 	receiver: string;
 	amount: number;
 	network: Networks;
-	token: Token | Collectible;
+	tokenForFee: Token;
+	token: TokenDocument | CollectibleDocument;
 	passcode?: string;
-}
-
-export interface LegacySolanaMetadata {
-	address: string;
-	name?: string;
-	symbol?: string;
-	decimals?: number;
-	logoURI?: string;
-	extensions?: Record<string, string>;
-	tags: string[];
-}
-
-export interface LegacyMetadataSource {
-	name: string;
-	logoURI: string;
-	keywords: string[];
-	timestamp: string;
-	tokens: LegacySolanaMetadata[];
 }
 
 export enum Timeout {
 	thirtySeconds = 30000,
 	sixtySeconds = 60000,
+}
+
+export interface Transaction {
+	id: string;
+	signature: string;
+	network: Networks;
+	type: 'Sent' | 'Received';
+	status: 'Success' | 'Pending' | 'Failed';
+	sender: string;
+	receiver: string;
+	token: Omit<Token, 'account'> | Omit<Collectible, 'account' | 'collectionId'>;
+	tokenForFee: Token;
+	fee: number;
+	preBalance?: number;
+	postBalance?: number;
+	amount: number;
+	date: Date;
 }

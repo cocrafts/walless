@@ -11,7 +11,7 @@ export const navigationHeight = 64;
 export const navigationItems: NavigationConfig[] = [
 	{
 		title: 'Getting started',
-		href: 'https://stormgate.notion.site/User-Guide-09f5910b810741f9aaaa0d42b7cdc399',
+		href: '/',
 		target: '_blank',
 	},
 	{
@@ -19,8 +19,12 @@ export const navigationItems: NavigationConfig[] = [
 		href: '/docs',
 	},
 	{
-		title: 'News',
-		href: '/news',
+		title: 'Blogs',
+		href: '/blogs',
+	},
+	{
+		title: 'About us',
+		href: '/aboutUs',
 	},
 	{
 		title: 'Resources',

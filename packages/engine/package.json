@@ -7,12 +7,14 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx"
+    "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
+    "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
+    "@metaplex-foundation/js": "^0.19.4",
     "@mysten/sui.js": "0.34.0",
     "@solana/spl-token": "0.3.7",
-    "@solana/web3.js": "1.78.3",
+    "@solana/web3.js": "1.78.4",
     "@taquito/taquito": "^16.2.0",
     "@taquito/tzip12": "^16.2.0",
     "@taquito/tzip16": "^16.2.0",
@@ -20,6 +22,9 @@
     "@walless/graphql": "*",
     "@walless/network": "*",
     "@walless/store": "*",
+    "aptos": "^1.20.0",
+    "p-limit": "^4.0.0",
+    "p-throttle": "^5.1.0",
     "valtio": "1.10.5"
   },
   "devDependencies": {

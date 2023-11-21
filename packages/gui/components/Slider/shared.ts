@@ -12,7 +12,7 @@ export interface SliderHandle {
 export interface SlideComponentProps {
 	item: SlideOption;
 	navigator: SliderHandle;
-	activedId: string;
+	activatedId: string;
 }
 
 export interface SlideOption {
@@ -32,6 +32,7 @@ export type SlideAnimators = 'fade' | 'bounce' | 'fancy';
 
 export const slideAnimators: Record<SlideAnimators, SlideAnimator> = {
 	fade: ({ progress, index, activatedIndex, layout }) => {
+		'worklet';
 		const origin = layout.width * index;
 		const offset = layout.width * activatedIndex;
 		const translateY = interpolate(progress.value, [0, 1], [10, 0]);
@@ -42,6 +43,7 @@ export const slideAnimators: Record<SlideAnimators, SlideAnimator> = {
 		};
 	},
 	bounce: ({ offset, index, layout }) => {
+		'worklet';
 		const origin = layout.width * index;
 
 		return {
@@ -49,6 +51,7 @@ export const slideAnimators: Record<SlideAnimators, SlideAnimator> = {
 		};
 	},
 	fancy: ({ offset, progress, index, layout }) => {
+		'worklet';
 		const origin = layout.width * index;
 
 		return {

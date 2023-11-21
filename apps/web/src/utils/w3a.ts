@@ -16,7 +16,7 @@ import type { TorusServiceProvider } from '@tkey/service-provider-torus';
 import type { WebStorageModule } from '@tkey/web-storage';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
 import CustomAuth from '@toruslabs/customauth';
-import { ThresholdResult } from '@walless/app';
+import { ThresholdResult } from '@walless/auth';
 import { runtime } from '@walless/core';
 import { w3aBaseUrl } from 'utils/config';
 
@@ -31,7 +31,7 @@ import { w3aBaseUrl } from 'utils/config';
 
 export const customAuthArgs: CustomAuthArgs = {
 	web3AuthClientId: WEB3AUTH_ID,
-	network: __DEV__ ? 'testnet' : 'mainnet',
+	network: 'mainnet',
 	baseUrl: w3aBaseUrl,
 	redirectToOpener: true,
 	redirectPathName: 'w3a',
@@ -169,4 +169,16 @@ export const recoverDeviceShareFromPasscode = async (
 	}
 
 	return false;
+};
+
+export const getGoogleAuthURL = () => {
+	const redirectURL = chrome.identity.getRedirectURL();
+	const scopes = ['openid', 'email', 'profile'];
+	let authURL = 'https://accounts.google.com/o/oauth2/auth';
+	authURL += `?client_id=${BROWSER_CLIENT_ID}`;
+	authURL += `&response_type=token`;
+	authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
+	authURL += `&scope=${encodeURIComponent(scopes.join(' '))}`;
+
+	return authURL;
 };

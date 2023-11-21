@@ -5,6 +5,8 @@ import { Image, Stack } from '@walless/ui';
 import { DetailTool } from 'features/home/EditTool/internal';
 import { appState, editToolActions } from 'state/app';
 import { resources } from 'utils/config';
+import { connection } from 'utils/connection';
+import { getLazySolanaMetatadata } from 'utils/solana';
 import { useSnapshot } from 'valtio';
 
 import InputAddress from '../components/InputAddress';
@@ -25,7 +27,14 @@ const EditDetailToken: FC = () => {
 				editToolActions.setDetailToken(tezosTokenMetadata);
 			}
 		} else if (networks[0] === Networks.solana) {
-			// Handle this
+			const solanaTokenMetadata = await getLazySolanaMetatadata(
+				connection,
+				address,
+			);
+
+			if (solanaTokenMetadata) {
+				editToolActions.setDetailToken(solanaTokenMetadata);
+			}
 		}
 	};
 

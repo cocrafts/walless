@@ -1,17 +1,11 @@
-import type { FC } from 'react';
-import type { TamaguiInternalConfig } from '@tamagui/core';
-import { GuiProvider } from '@walless/ui';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import App from 'components/App';
 
-interface Props {
-	tamaguiConfig: TamaguiInternalConfig;
-}
-
-export const AppContainer: FC<Props> = ({ tamaguiConfig }) => {
+export const AppContainer = () => {
 	return (
-		<GuiProvider config={tamaguiConfig} theme="dark">
+		<SafeAreaProvider>
 			<App />
-		</GuiProvider>
+		</SafeAreaProvider>
 	);
 };
 

@@ -1,5 +1,14 @@
+import { Buffer } from 'react-native-buffer';
 import { shim } from 'react-native-quick-base64';
 
+import 'react-native-get-random-values';
+import 'react-native-url-polyfill/auto';
+
+import { TextDecoder, TextEncoder } from './encoder';
+
+global.Buffer = Buffer as never;
+global.TextEncoder = TextEncoder as never;
+global.TextDecoder = TextDecoder as never;
 shim();
 
 /* Avoid using node dependent modules */

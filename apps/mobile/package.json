@@ -61,11 +61,11 @@
   },
   "devDependencies": {
     "@types/jest": "^29.2.1",
-    "@types/react": "18.0.33",
+    "@types/react": "^18.2.25",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
-    "eslint": "8.38.0",
+    "eslint": "^8.38.0",
     "react-test-renderer": "18.2.0"
   },
   "peerDependencies": {

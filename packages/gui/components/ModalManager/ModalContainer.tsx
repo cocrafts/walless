@@ -22,6 +22,7 @@ import Animated, {
 
 import type { ModalConfigs } from '../../states/modal';
 import {
+	getSafeId,
 	measureRelative,
 	modalActions,
 	modalState,
@@ -44,7 +45,6 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		maskActiveOpacity = 0.5,
 		withoutMask,
 		fullWidth = true,
-		bindingRef,
 	} = item;
 	const layout = useRef<LayoutRectangle>();
 	const top = useSharedValue(0);
@@ -92,12 +92,14 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 
 	useEffect(() => {
 		if (Platform.OS !== 'web') return;
-		const actualBindingRef = bindingRef || referenceMap.root;
+		const actualBindingRef = referenceMap[getSafeId(id)] || referenceMap.root;
 		if (!actualBindingRef.current) return;
 
 		const bindingObserver = new ResizeObserver(async () => {
-			const updatedBindingRectangle = await measureRelative(item.bindingRef);
-			const safeId = id || 'default-modal';
+			const safeId = getSafeId(item.id);
+			const updatedBindingRectangle = await measureRelative(
+				referenceMap[safeId],
+			);
 			modalState.map.set(safeId, {
 				...item,
 				bindingRectangle: updatedBindingRectangle,

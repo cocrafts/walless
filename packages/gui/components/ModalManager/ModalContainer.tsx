@@ -125,7 +125,6 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	};
 
 	const closeModal = () => {
-		console.log('close', item.id);
 		modalActions.hide(item.id as string);
 	};
 

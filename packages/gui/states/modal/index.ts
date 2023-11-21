@@ -26,13 +26,11 @@ export const modalActions = {
 			modalState.map.set(safeId, {
 				id: safeId,
 				bindingRectangle: layout,
-				// bindingRef: bindingRef && (ref(bindingRef) as never as RefObject<View>),
 				...restConfigs,
 			});
 		});
 	},
 	hide: (id: string): void => {
-		console.log('calling hide', id);
 		const instance = modalState.map.get(id);
 
 		if (instance) {

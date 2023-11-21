@@ -1,8 +1,8 @@
 import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
-import type { SettingDocument } from '@walless/store';
-import { getAnalytics } from 'firebase/analytics';
+import type { UniversalAnalytics } from '@walless/ioc';
+import { getAnalytics, logEvent, setUserProperties } from 'firebase/analytics';
 import type { FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
@@ -53,24 +53,30 @@ export const fireCache: FireCache = {
 	idToken: undefined,
 };
 
-export const initializeAuth = async (settings?: SettingDocument) => {
-	if (auth.currentUser) {
-		fireCache.idToken = await auth.currentUser.getIdToken();
+auth.onIdTokenChanged(async (user) => {
+	if (user?.uid) {
+		fireCache.idToken = await user.getIdToken();
+	} else {
+		fireCache.idToken = undefined;
 	}
+});
 
-	if (settings?.profile.email) {
-		auth.onIdTokenChanged(async (user) => {
-			if (user) {
-				fireCache.idToken = await user.getIdToken();
+export const initializeAuth = async () => {
+	await auth.authStateReady(); // wait until authentication ready
+	const user = auth.currentUser;
 
-				if (appState.remoteConfig.deepAnalyticsEnabled) {
-					await universalActions.syncRemoteProfile();
-				}
-			} else {
-				fireCache.idToken = undefined;
-			}
-		});
+	if (user?.uid) {
+		fireCache.idToken = await user.getIdToken();
+		setUserProperties(analytics, { email: user.email });
+
+		if (appState.remoteConfig.deepAnalyticsEnabled) {
+			universalActions.syncRemoteProfile();
+		}
 	}
 };
 
-export { logEvent } from 'firebase/analytics';
+export const universalAnalytics: UniversalAnalytics = {
+	logEvent: (name, params, options) => {
+		return logEvent(analytics, name, params, options);
+	},
+};

@@ -1,8 +1,13 @@
-import getAnalytics from '@react-native-firebase/analytics';
+import getAnalytics, {
+	logEvent,
+	setUserProperties,
+} from '@react-native-firebase/analytics';
 import auth from '@react-native-firebase/auth';
 import remoteConfig from '@react-native-firebase/remote-config';
+import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
+import type { UniversalAnalytics } from '@walless/ioc';
 
 export const analytics = getAnalytics();
 
@@ -43,7 +48,20 @@ auth().onIdTokenChanged(async (user) => {
 });
 
 export const initializeAuth = async () => {
-	if (auth().currentUser) {
-		fireCache.idToken = await auth().currentUser?.getIdToken();
+	const user = auth().currentUser;
+
+	if (user) {
+		fireCache.idToken = await user.getIdToken();
+		setUserProperties(analytics, { email: user.email });
+
+		if (appState.remoteConfig.deepAnalyticsEnabled) {
+			universalActions.syncRemoteProfile();
+		}
 	}
+};
+
+export const universalAnalytics: UniversalAnalytics = {
+	logEvent: (name, params, options) => {
+		return logEvent(analytics, name, params, options);
+	},
 };

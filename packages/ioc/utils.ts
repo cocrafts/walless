@@ -19,6 +19,7 @@ export type Utils = {
 	createAndSend: CreateAndSendFunction;
 	buyToken: BuyTokenFunction;
 	logOut: LogOutFunction;
+	navigateToWidget: (id: string) => void;
 	handleAptosFunction: HandleAptosFunction;
 };
 

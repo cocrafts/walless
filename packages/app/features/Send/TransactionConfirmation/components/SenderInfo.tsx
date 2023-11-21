@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
+import { modules } from '@walless/ioc';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -28,19 +29,19 @@ export const SenderInfo: FC<Props> = () => {
 		transactionActions.setSender(publicKey._id);
 	}
 
-	const iconUri = { uri: '' };
+	let iconUri;
 	let walletTitle = '';
 	if (publicKey?.network == Networks.solana) {
-		iconUri.uri = '/img/network/solana-icon-sm.png';
+		iconUri = modules.asset.widget.solana.storeMeta.iconUri;
 		walletTitle = 'Solana';
 	} else if (publicKey?.network == Networks.sui) {
-		iconUri.uri = '/img/network/sui-icon-sm.png';
-		walletTitle = 'SUI';
+		iconUri = modules.asset.widget.sui.storeMeta.iconUri;
+		walletTitle = 'Sui';
 	} else if (publicKey?.network == Networks.tezos) {
-		iconUri.uri = '/img/network/tezos-icon-sm.png';
+		iconUri = modules.asset.widget.tezos.storeMeta.iconUri;
 		walletTitle = 'Tezos';
-	} else if (publicKey?.network == Networks.aptos) {
-		iconUri.uri = '/img/explore/logo-aptos.png';
+	} else if (publicKey?.network === Networks.aptos) {
+		iconUri = modules.asset.widget.aptos.storeMeta.iconUri;
 		walletTitle = 'Aptos';
 	}
 
@@ -48,7 +49,7 @@ export const SenderInfo: FC<Props> = () => {
 		<View style={styles.container}>
 			<Text style={styles.title}>From account</Text>
 			<View style={styles.inforBlock}>
-				<Image style={styles.icon} source={iconUri} />
+				{iconUri && <Image style={styles.icon} source={iconUri} />}
 				<View style={styles.wallet}>
 					<Text style={styles.walletTitle}>Wallet 1 {`(${walletTitle})`}</Text>
 					<Text style={styles.walletAddress}>

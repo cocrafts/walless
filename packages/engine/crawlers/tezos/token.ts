@@ -7,9 +7,12 @@ export const getNativeTokenDocument = async (
 	{ connection }: TezosContext,
 	address: string,
 ): Promise<TokenDocument> => {
-	const balance = (await connection.tz.getBalance(address))
-		.toNumber()
-		.toString();
+	let balance = '0';
+	try {
+		balance = (await connection.tz.getBalance(address)).toNumber().toString();
+	} catch (e) {
+		console.log('tezos get balance for native token error', e);
+	}
 
 	return {
 		_id: `${address}/token/tezos-native-token`,

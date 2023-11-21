@@ -58,13 +58,13 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 						aptosActions.setPendingTokens(pendingNfts);
 					}
 				} catch (error) {
-					console.log('--> aptos crawler error', error);
+					console.log('aptos crawler error', error);
 				}
 
 				try {
 					await constructAptosTokens(connection, pubkey);
 				} catch (error) {
-					console.log('--> aptos crawler error', error);
+					console.log('aptos crawler error', error);
 				}
 			};
 

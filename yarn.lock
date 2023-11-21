@@ -11417,9 +11417,6 @@ __metadata:
   resolution: "@walless/dappstore@workspace:apps/widgets"
   dependencies:
     "@solana/wallet-adapter-base": ^0.9.23
-    "@types/react": ^18.0.28
-    "@types/react-dom": ^18.0.7
-    "@types/react-native": ^0.71.2
     "@walless/gui": "*"
     "@walless/walless-adapter-solana-base": ^0.0.2
     bs58: ^5.0.0
@@ -11437,9 +11434,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/docs@workspace:apps/docs"
   dependencies:
-    "@types/react": ^18.0.28
-    "@types/react-dom": ^18.0.7
-    "@types/react-native": ^0.71.2
     "@walless/gui": "*"
     "@walless/icons": "*"
     next: 13.4.9

@@ -1,9 +1,14 @@
+import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSettings } from '@walless/app/utils/hooks';
 import { Hoverable, Text } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
 
-const TokenValue = () => {
+interface Props {
+	value: number;
+}
+
+const TokenValue: FC<Props> = ({ value }) => {
 	const { setting, setPrivacy } = useSettings();
 	const balanceTextStyle = [
 		styles.balanceText,
@@ -19,7 +24,7 @@ const TokenValue = () => {
 			<Text style={styles.headingText}>Token value</Text>
 			<View style={styles.balanceContainer}>
 				<Text style={balanceTextStyle}>
-					{setting.hideBalance ? '****' : '$0,00'}
+					{setting.hideBalance ? '****' : '$' + value.toFixed(2)}
 				</Text>
 				<Hoverable onPress={handleToggleTokenValue}>
 					{setting.hideBalance ? (

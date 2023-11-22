@@ -7,6 +7,7 @@ import { Setting } from '@walless/icons';
 import { utils } from '@walless/ioc';
 
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
+import { useTokens } from '../../utils/hooks';
 import { showReceiveModal } from '../Receive';
 import { showSendModal } from '../Send';
 
@@ -24,6 +25,8 @@ export const ProfileFeature: FC<Props> = ({
 	onNavigateToHistory,
 	onSettingPress,
 }) => {
+	const { valuation } = useTokens();
+
 	const handleSend = () => {
 		showSendModal();
 	};
@@ -34,7 +37,7 @@ export const ProfileFeature: FC<Props> = ({
 				<Setting size={14} color="white" />
 			</Hoverable>
 
-			<TokenValue />
+			<TokenValue value={valuation} />
 
 			<MainFeatureButtons
 				onSendPress={handleSend}

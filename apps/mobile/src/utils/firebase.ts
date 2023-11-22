@@ -3,6 +3,8 @@ import getAnalytics, {
 	setUserProperties,
 } from '@react-native-firebase/analytics';
 import auth from '@react-native-firebase/auth';
+import getCrashlytics from '@react-native-firebase/crashlytics';
+import getMessaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
@@ -10,6 +12,8 @@ import { appState, defaultRemoteConfig } from '@walless/engine';
 import type { UniversalAnalytics } from '@walless/ioc';
 
 export const analytics = getAnalytics();
+export const crashlytics = getCrashlytics();
+export const messaging = getMessaging();
 
 const minimumFetchIntervalMillis = __DEV__
 	? 10000 // 10 seconds for development
@@ -51,8 +55,15 @@ export const initializeAuth = async () => {
 	const user = auth().currentUser;
 
 	if (user) {
+		const attributes = {
+			email: user.email as string,
+			username: user.displayName as string,
+		};
+
 		fireCache.idToken = await user.getIdToken();
 		setUserProperties(analytics, { email: user.email });
+		crashlytics.setUserId(user.uid);
+		crashlytics.setAttributes(attributes);
 
 		if (appState.remoteConfig.deepAnalyticsEnabled) {
 			universalActions.syncRemoteProfile();

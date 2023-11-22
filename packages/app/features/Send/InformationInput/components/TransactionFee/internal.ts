@@ -45,7 +45,7 @@ export const handleCheckIfBalanceIsEnough = async (
 	}
 };
 
-export const handleGetTokenName = (
+export const getTokenName = (
 	tokenForFee: TokenDocument,
 	network?: Networks,
 ) => {

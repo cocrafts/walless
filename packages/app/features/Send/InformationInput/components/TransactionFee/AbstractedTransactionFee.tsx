@@ -22,8 +22,8 @@ import {
 import { filterGasilonTokens } from '../../../utils/gasilon';
 
 import {
+	getTokenName,
 	handleCheckIfBalanceIsEnough,
-	handleGetTokenName as getTokenName,
 	requestTransactionFee,
 } from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
@@ -65,7 +65,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 
 	const tokenForFeeName = getTokenName(
 		tokenForFee as TokenDocument,
-		token?.network,
+		chosenToken?.network,
 	);
 
 	useEffect(() => {

@@ -26,7 +26,9 @@ import { solanaFungiblesByAddress } from './token';
 /**
  * All cases we need to subscribe
  * - Send, receive native token
+ * - Send SPL token, NFT to wallet which has ATA for this token
  * - Send SPL token, NFT to wallet which does not have ATA for this token
+ * - Receive SPL token, NFT which we have ATA for
  * - Receive SPL token, NFT which we don't have ATA for
  * */
 
@@ -67,18 +69,20 @@ export const registerAccountChanges = async (
 			}
 
 			const tokenId = `${owner}/token/${mint}`;
-			const isTokenExisted = !!(await getTokenByIdFromStorage(tokenId));
 
-			if (isToken && isTokenExisted) {
-				balance !== '0'
-					? updateTokenBalanceToStorage(tokenId, balance)
-					: removeTokenFromStorage(tokenId);
-			} else if (isToken && !isTokenExisted) {
-				const fungibleTokens = await solanaFungiblesByAddress(
-					context,
-					ownerPubkey,
-				);
-				addTokensToStorage(fungibleTokens);
+			if (isToken) {
+				const isTokenExisted = !!(await getTokenByIdFromStorage(tokenId));
+				if (isTokenExisted) {
+					balance !== '0'
+						? updateTokenBalanceToStorage(tokenId, balance)
+						: removeTokenFromStorage(tokenId);
+				} else {
+					const fungibleTokens = await solanaFungiblesByAddress(
+						context,
+						ownerPubkey,
+					);
+					addTokensToStorage(fungibleTokens);
+				}
 			} else if (!isToken) {
 				const amount = parseInt(balance);
 				const collectibleId = `${owner}/collectible/${mint}`;

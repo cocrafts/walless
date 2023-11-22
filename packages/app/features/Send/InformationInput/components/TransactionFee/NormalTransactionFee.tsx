@@ -39,6 +39,7 @@ export const NormalTrasactionFee: FC<Props> = () => {
 					amount: parseFloat(amount),
 					network: token.network,
 					token: token,
+					tokenForFee: token,
 				});
 				transactionActions.setTransactionFee(fee);
 			} else if (type === 'Collectible' && nftCollection?.network) {
@@ -48,6 +49,7 @@ export const NormalTrasactionFee: FC<Props> = () => {
 					amount: 1,
 					network: nftCollection.network,
 					token: token,
+					tokenForFee: token,
 				});
 				transactionActions.setTransactionFee(fee);
 			} else transactionActions.setTransactionFee(0);
@@ -56,11 +58,11 @@ export const NormalTrasactionFee: FC<Props> = () => {
 	}, [type, token, nftCollection, amount, sender, receiver]);
 
 	let networkToken = '';
-	if (network == Networks.tezos) {
+	if (network == Networks.tezos || token?.network == Networks.tezos) {
 		networkToken = 'XTZ';
-	} else if (network == Networks.sui) {
+	} else if (network == Networks.sui || token?.network == Networks.sui) {
 		networkToken = 'SUI';
-	} else if (network == Networks.aptos) {
+	} else if (network == Networks.aptos || token?.network == Networks.aptos) {
 		networkToken = 'APT';
 	}
 
@@ -70,7 +72,7 @@ export const NormalTrasactionFee: FC<Props> = () => {
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Exclamation color="#566674" size={10} />
-				<Text style={styles.titleText}>Network fee</Text>
+				<Text style={styles.titleText}>Transaction fee</Text>
 			</View>
 
 			<View style={styles.valueContainer}>

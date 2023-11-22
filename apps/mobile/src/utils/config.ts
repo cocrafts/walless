@@ -50,11 +50,17 @@ export const nativeAsset: UniversalAsset = {
 				iconUri: require('assets/img/explore/logo-pixeverse.png'),
 				coverUri: require('assets/img/explore/thumbnail-pixeverse.png'),
 			},
+			widgetMeta: {
+				cardIcon: require('assets/img/widget/pixeverse-icon.png'),
+			},
 		},
 		tRexRunner: {
 			storeMeta: {
 				iconUri: require('assets/img/explore/logo-runner.png'),
 				coverUri: require('assets/img/explore/thumbnail-runner.png'),
+			},
+			widgetMeta: {
+				cardIcon: require('assets/img/widget/runner-icon.png'),
 			},
 		},
 	},

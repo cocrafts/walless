@@ -51,11 +51,17 @@ export interface UniversalAsset {
 				iconUri: ImageSourcePropType;
 				coverUri: ImageSourcePropType;
 			};
+			widgetMeta: {
+				cardIcon: ImageSourcePropType;
+			};
 		};
 		tRexRunner: {
 			storeMeta: {
 				iconUri: ImageSourcePropType;
 				coverUri: ImageSourcePropType;
+			};
+			widgetMeta: {
+				cardIcon: ImageSourcePropType;
 			};
 		};
 	};

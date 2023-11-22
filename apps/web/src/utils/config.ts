@@ -50,11 +50,17 @@ export const webAsset: UniversalAsset = {
 				iconUri: { uri: '/img/explore/logo-pixeverse.png' },
 				coverUri: { uri: '/img/explore/thumbnail-pixeverse.png' },
 			},
+			widgetMeta: {
+				cardIcon: { uri: '/img/widget/pixeverse-icon.png' },
+			},
 		},
 		tRexRunner: {
 			storeMeta: {
 				iconUri: { uri: '/img/explore/logo-runner.png' },
 				coverUri: { uri: '/img/explore/thumbnail-runner.png' },
+			},
+			widgetMeta: {
+				cardIcon: { uri: '/img/widget/runner-icon.png' },
 			},
 		},
 	},

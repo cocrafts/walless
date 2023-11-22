@@ -7,13 +7,15 @@ import {
 	View,
 } from 'react-native';
 import type { UnknownObject } from '@walless/core';
-import { Button, Text } from '@walless/gui';
+import { Button, Hoverable, Text } from '@walless/gui';
 import { AlertCircle } from '@walless/icons';
 import { HeaderRequest } from 'components/HeaderRequest';
+import LightText from 'components/LightText';
 
 import { logoSize, logoUri } from '../shared';
 
 interface Props {
+	wallet: string;
 	sender: UnknownObject;
 	content?: string;
 	onDeny: () => void;
@@ -23,12 +25,13 @@ interface Props {
 export const RequestSignatureApproval: FC<Props> = ({
 	sender,
 	content,
+	wallet,
 	onDeny,
 	onApprove,
 }) => {
 	return (
 		<View style={styles.container}>
-			<HeaderRequest />
+			<HeaderRequest title={wallet} />
 
 			<View style={styles.innerContainer}>
 				<View style={styles.headingContainer}>
@@ -42,29 +45,33 @@ export const RequestSignatureApproval: FC<Props> = ({
 					<Text style={styles.senderText}>
 						{sender.tab?.title || 'Unknown'}
 					</Text>
-					<Text>{sender.tab?.url}</Text>
+					<LightText>{sender.tab?.url || 'unknown'}</LightText>
 				</View>
 
-				<ScrollView contentContainerStyle={styles.scrollContainer}>
+				<View style={styles.contentContainer}>
 					<View style={styles.messageContainer}>
 						<Text>Message:</Text>
 						<AlertCircle size={18} color="#566674" />
 					</View>
-					<Text style={styles.contentText}>
-						{content ? content : <ActivityIndicator />}
-					</Text>
-				</ScrollView>
+					{content ? (
+						<ScrollView showsVerticalScrollIndicator={false}>
+							<LightText lineHeight={20}>{content}</LightText>
+						</ScrollView>
+					) : (
+						<View style={styles.loadingContainer}>
+							<ActivityIndicator />
+						</View>
+					)}
+				</View>
 
-				<View style={styles.footerContainer}>
-					<Text style={styles.trustText}>
-						Only connect to websites you trust!
-					</Text>
-					<Button style={styles.connectButton} onPress={onApprove}>
-						<Text>Connect</Text>
-					</Button>
-					<Button style={styles.outlineButton} onPress={onDeny}>
+				<View style={styles.bottomContainer}>
+					<LightText textAlign="center">
+						Only confirm if you trust this website
+					</LightText>
+					<Button title="Confirm" onPress={onApprove}></Button>
+					<Hoverable style={styles.deniedButton} onPress={onDeny}>
 						<Text>Deny</Text>
-					</Button>
+					</Hoverable>
 				</View>
 			</View>
 		</View>
@@ -101,40 +108,34 @@ export const styles = StyleSheet.create({
 	senderText: {
 		fontSize: 18,
 	},
-	scrollContainer: {
-		maxHeight: 220,
-		backgroundColor: '#202D38',
+	contentContainer: {
+		padding: 15,
 		borderRadius: 15,
 		marginVertical: 15,
-		borderColor: 'rgba(86, 102, 116, .2)',
 		borderWidth: 1,
+		borderColor: 'rgba(86, 102, 116, .2)',
+		backgroundColor: '#202D38',
+		gap: 10,
+		minHeight: 150,
+		maxHeight: 200,
+		marginBottom: 'auto',
 	},
 	messageContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		paddingHorizontal: 15,
-		paddingTop: 15,
-		paddingBottom: 5,
 	},
-	contentText: {
-		paddingHorizontal: 15,
-		paddingBottom: 16,
-		fontSize: 14,
-	},
-	footerContainer: {
+	loadingContainer: {
 		flex: 1,
+		padding: 20,
+	},
+	bottomContainer: {
+		marginTop: 26,
 		justifyContent: 'flex-end',
-		paddingHorizontal: 10,
+		gap: 10,
 	},
-	trustText: {
-		textAlign: 'center',
-	},
-	connectButton: {
-		marginVertical: 10,
-	},
-	outlineButton: {
-		backgroundColor: 'transparent',
-		paddingVertical: 0,
+	deniedButton: {
+		padding: 4,
+		alignSelf: 'center',
 	},
 });

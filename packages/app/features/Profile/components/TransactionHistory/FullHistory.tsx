@@ -1,6 +1,7 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { Fragment, useEffect, useState } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 
@@ -9,10 +10,11 @@ import { useHistory } from '../../../../utils/hooks';
 import HistoryItem from './HistoryItem';
 
 interface Props {
+	style?: StyleProp<ViewStyle>;
 	network?: Networks;
 }
 
-export const FullHistoryFeature: FC<Props> = ({ network }) => {
+export const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 	const history = useHistory(network);
 	const [loading, setLoading] = useState(true);
 
@@ -31,11 +33,15 @@ export const FullHistoryFeature: FC<Props> = ({ network }) => {
 	}, [history]);
 
 	return (
-		<View>
+		<ScrollView
+			style={[styles.container, style]}
+			contentContainerStyle={styles.contentContainer}
+			showsVerticalScrollIndicator={false}
+		>
 			{loading ? (
 				<ActivityIndicator />
 			) : (
-				<View style={styles.transactionsContainer}>
+				<Fragment>
 					{history.map((transaction) => {
 						let isOnTheSameDate = true;
 						const transactionDate = transaction.date.toLocaleDateString(
@@ -58,16 +64,19 @@ export const FullHistoryFeature: FC<Props> = ({ network }) => {
 							</View>
 						);
 					})}
-				</View>
+				</Fragment>
 			)}
-		</View>
+		</ScrollView>
 	);
 };
 
 export default FullHistoryFeature;
 
 const styles = StyleSheet.create({
-	transactionsContainer: {
+	container: {
+		flex: 1,
+	},
+	contentContainer: {
 		gap: 8,
 	},
 	dateAndTransactionContainer: {

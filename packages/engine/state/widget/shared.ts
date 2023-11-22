@@ -109,10 +109,10 @@ export const mockWidgets: WidgetDocument[] = [
 		widgetType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
-			iconUri: '/img/explore/logo-aptos.svg',
+			iconUri: '/img/explore/logo-aptos.png',
 			iconSize: 26,
 			iconColor: 'black',
-			coverUri: '/img/explore/thumbnail-aptos.svg',
+			coverUri: '/img/explore/thumbnail-aptos.png',
 			description:
 				'Committed to developing products and applications on the Aptos blockchain that redefine the web3 user experience.',
 			loveCount: 46,

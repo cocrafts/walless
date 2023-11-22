@@ -4,8 +4,13 @@ import { auth } from 'utils/firebase';
 import { router } from 'utils/routing';
 
 export const CreatePasscodeScreen = () => {
+	const handleInitFail = () => {
+		console.log('Something went wrong. Please try again.');
+		router.navigate('/login');
+	};
+
 	const handleOnComplete = async (passcode: string) => {
-		await signInWithPasscode(passcode, auth.currentUser);
+		await signInWithPasscode(passcode, auth.currentUser, handleInitFail);
 		router.navigate('/');
 	};
 

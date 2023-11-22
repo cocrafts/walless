@@ -6,6 +6,7 @@ import { Text, View } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 import { useSnapshot } from 'valtio';
 
+import type { TransactionContext } from '../../../../../state/transaction';
 import {
 	injectedElements,
 	transactionActions,
@@ -16,51 +17,48 @@ interface Props {
 	feeText?: string;
 }
 
-export const NormalTrasactionFee: FC<Props> = () => {
+export const NormalTransactionFee: FC<Props> = () => {
 	const {
 		type,
 		token,
-		nftCollection,
+		nftCollectible,
 		transactionFee,
+		tokenForFee,
 		sender,
 		receiver,
 		amount,
-	} = useSnapshot(transactionContext);
+	} = useSnapshot(transactionContext) as TransactionContext;
 	const { getTransactionFee, network } = useSnapshot(injectedElements);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		(async () => {
 			setLoading(true);
-			if (type === 'Token' && token?.network && amount && sender && receiver) {
-				const fee = await getTransactionFee({
-					sender,
-					receiver,
-					amount: parseFloat(amount),
-					network: token.network,
-					token: token,
-				});
-				transactionActions.setTransactionFee(fee);
-			} else if (type === 'Collectible' && nftCollection?.network) {
-				const fee = await getTransactionFee({
-					sender,
-					receiver,
-					amount: 1,
-					network: nftCollection.network,
-					token: token,
-				});
-				transactionActions.setTransactionFee(fee);
-			} else transactionActions.setTransactionFee(0);
+			const chosenToken = type === 'Token' ? token : nftCollectible;
+			if (!chosenToken) {
+				setLoading(false);
+				transactionActions.setTransactionFee(0);
+				return;
+			}
+			const fee = await getTransactionFee({
+				sender,
+				receiver,
+				amount: type === 'Token' ? parseFloat(amount || '0') : 1,
+				network: chosenToken.network,
+				token: chosenToken,
+				tokenForFee: tokenForFee as never,
+			});
+			transactionActions.setTransactionFee(fee);
 			setLoading(false);
 		})();
-	}, [type, token, nftCollection, amount, sender, receiver]);
+	}, [token, nftCollectible, receiver]);
 
 	let networkToken = '';
-	if (network == Networks.tezos) {
+	if (network == Networks.tezos || token?.network == Networks.tezos) {
 		networkToken = 'XTZ';
-	} else if (network == Networks.sui) {
+	} else if (network == Networks.sui || token?.network == Networks.sui) {
 		networkToken = 'SUI';
-	} else if (network == Networks.aptos) {
+	} else if (network == Networks.aptos || token?.network == Networks.aptos) {
 		networkToken = 'APT';
 	}
 
@@ -70,7 +68,7 @@ export const NormalTrasactionFee: FC<Props> = () => {
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Exclamation color="#566674" size={10} />
-				<Text style={styles.titleText}>Network fee</Text>
+				<Text style={styles.titleText}>Transaction fee</Text>
 			</View>
 
 			<View style={styles.valueContainer}>

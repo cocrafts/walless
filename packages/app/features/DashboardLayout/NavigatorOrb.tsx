@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import { useEffect, useRef } from 'react';
-import type { ViewStyle } from 'react-native';
+import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import {
 	Easing,
@@ -9,7 +9,7 @@ import {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import { runtime, type WidgetStoreOptions } from '@walless/core';
+import type { WidgetStoreOptions } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -19,13 +19,13 @@ import {
 	modalActions,
 	View,
 } from '@walless/gui';
-import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 
 import ActiveBar from './ActiveBar';
 
 interface Props {
 	item: WidgetDocument;
+	iconSource: ImageSourcePropType;
 	isActive?: boolean;
 	hasUpdate?: boolean;
 	children?: ReactNode;
@@ -41,6 +41,7 @@ export const NavigatorOrb: FC<Props> = ({
 	item,
 	isActive,
 	hasUpdate,
+	iconSource,
 	children,
 	ContextComponent,
 	onPress,
@@ -49,11 +50,6 @@ export const NavigatorOrb: FC<Props> = ({
 	const containerRef = useRef(null);
 	const iconColor = getIconColor(isActive, item.storeMeta);
 	const iconSize = item.storeMeta?.iconSize || 20;
-	const iconUri = item.storeMeta?.iconUri;
-	const iconSource = runtime.isMobile
-		? modules.asset.widget[item._id]?.widgetMeta?.cardIcon ||
-		  modules.asset.widget[item._id]?.storeMeta.iconUri
-		: { uri: iconUri };
 	const offset = useSharedValue(0);
 	const radius = useSharedValue(isActive ? 1000 : 15);
 	const hoverBarStyle = useAnimatedStyle(() => {

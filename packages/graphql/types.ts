@@ -9,7 +9,7 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string | number; output: string; }
+  ID: { input: string; output: string; }
   String: { input: string; output: string; }
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
@@ -29,6 +29,39 @@ export type Account = {
   identifier: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['MongoDateTime']['output']>;
   walletCount?: Maybe<Scalars['Int']['output']>;
+};
+
+export type Device = {
+  __typename?: 'Device';
+  appVersion?: Maybe<Scalars['String']['output']>;
+  brand?: Maybe<Scalars['String']['output']>;
+  carrier?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  deviceId?: Maybe<Scalars['String']['output']>;
+  deviceName?: Maybe<Scalars['String']['output']>;
+  deviceType?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ObjectID']['output']>;
+  lastUpdateTime?: Maybe<Scalars['String']['output']>;
+  manufacturer?: Maybe<Scalars['String']['output']>;
+  notificationToken?: Maybe<Scalars['String']['output']>;
+  platform?: Maybe<Scalars['String']['output']>;
+  systemVersion?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  userIdentifier?: Maybe<Scalars['String']['output']>;
+};
+
+export type DeviceInfoInput = {
+  appVersion?: InputMaybe<Scalars['String']['input']>;
+  brand?: InputMaybe<Scalars['String']['input']>;
+  carrier?: InputMaybe<Scalars['String']['input']>;
+  deviceId: Scalars['String']['input'];
+  deviceName?: InputMaybe<Scalars['String']['input']>;
+  deviceType?: InputMaybe<Scalars['String']['input']>;
+  lastUpdateTime?: InputMaybe<Scalars['String']['input']>;
+  manufacturer?: InputMaybe<Scalars['String']['input']>;
+  notificationToken?: InputMaybe<Scalars['String']['input']>;
+  platform?: InputMaybe<Scalars['String']['input']>;
+  systemVersion?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type JoinWaitlistResult = {
@@ -59,6 +92,7 @@ export type RootMutation = {
   deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
   joinWaitlist?: Maybe<JoinWaitlistResult>;
   registerAccount?: Maybe<Account>;
+  registerDevice?: Maybe<Device>;
   registerWidgetAccount?: Maybe<Account>;
   sendEmergencyKit?: Maybe<SendEmergencyKitResult>;
   trackAccountWallets?: Maybe<Scalars['Int']['output']>;
@@ -107,6 +141,11 @@ export type RootMutationJoinWaitlistArgs = {
 
 export type RootMutationRegisterAccountArgs = {
   key: Scalars['String']['input'];
+};
+
+
+export type RootMutationRegisterDeviceArgs = {
+  device: DeviceInfoInput;
 };
 
 
@@ -377,6 +416,8 @@ export type ResolversTypes = {
   Account: ResolverTypeWrapper<Account>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Device: ResolverTypeWrapper<Device>;
+  DeviceInfoInput: DeviceInfoInput;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   JoinWaitlistResult: ResolverTypeWrapper<JoinWaitlistResult>;
@@ -406,6 +447,8 @@ export type ResolversParentTypes = {
   Account: Account;
   Boolean: Scalars['Boolean']['output'];
   DateTime: Scalars['DateTime']['output'];
+  Device: Device;
+  DeviceInfoInput: DeviceInfoInput;
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
   JoinWaitlistResult: JoinWaitlistResult;
@@ -440,6 +483,25 @@ export type AccountResolvers<ContextType = any, ParentType extends ResolversPare
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
+
+export type DeviceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Device'] = ResolversParentTypes['Device']> = {
+  appVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  brand?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  carrier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deviceId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deviceName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deviceType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
+  lastUpdateTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  manufacturer?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  notificationToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  platform?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  systemVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  userIdentifier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
@@ -476,6 +538,7 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   deleteWidgetAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetAccountArgs, 'id'>>;
   joinWaitlist?: Resolver<Maybe<ResolversTypes['JoinWaitlistResult']>, ParentType, ContextType, RequireFields<RootMutationJoinWaitlistArgs, 'description' | 'email' | 'twitter'>>;
   registerAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterAccountArgs, 'key'>>;
+  registerDevice?: Resolver<Maybe<ResolversTypes['Device']>, ParentType, ContextType, RequireFields<RootMutationRegisterDeviceArgs, 'device'>>;
   registerWidgetAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterWidgetAccountArgs, 'pubkey'>>;
   sendEmergencyKit?: Resolver<Maybe<ResolversTypes['SendEmergencyKitResult']>, ParentType, ContextType, RequireFields<RootMutationSendEmergencyKitArgs, 'key'>>;
   trackAccountWallets?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<RootMutationTrackAccountWalletsArgs, 'wallets'>>;
@@ -572,6 +635,7 @@ export type WidgetAccountResolvers<ContextType = any, ParentType extends Resolve
 export type Resolvers<ContextType = any> = {
   Account?: AccountResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  Device?: DeviceResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   JoinWaitlistResult?: JoinWaitlistResultResolvers<ContextType>;
   MongoDateTime?: GraphQLScalarType;

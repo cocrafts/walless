@@ -1,44 +1,43 @@
 import type { FC } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
-import { View } from '@walless/gui';
+import { Hoverable, View } from '@walless/gui';
+import { Setting } from '@walless/icons';
 import { utils } from '@walless/ioc';
 
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
-import { useSafeAreaInsets } from '../../utils/hooks';
+import { useTokens } from '../../utils/hooks';
 import { showReceiveModal } from '../Receive';
 import { showSendModal } from '../Send';
 
 import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';
-import Widgets from './components/Widgets';
 
 interface Props {
+	style: StyleProp<ViewStyle>;
 	onNavigateToHistory: () => void;
 	onSettingPress?: () => void;
 }
 
 export const ProfileFeature: FC<Props> = ({
+	style,
 	onNavigateToHistory,
 	onSettingPress,
 }) => {
-	const { top } = useSafeAreaInsets();
-
-	const containerStyle = {
-		paddingTop: top,
-	};
+	const { valuation } = useTokens();
 
 	const handleSend = () => {
 		showSendModal();
 	};
 
 	return (
-		<View style={[styles.container, containerStyle]}>
-			<View style={styles.widgetContainer}>
-				<Widgets onSettingPress={onSettingPress} />
-			</View>
+		<View style={[styles.container, style]}>
+			<Hoverable style={styles.settingButton} onPress={onSettingPress}>
+				<Setting size={14} color="white" />
+			</Hoverable>
 
-			<TokenValue />
+			<TokenValue value={valuation} />
 
 			<MainFeatureButtons
 				onSendPress={handleSend}
@@ -64,6 +63,16 @@ const styles = StyleSheet.create({
 	widgetContainer: {
 		alignSelf: 'flex-end',
 		marginBottom: -12,
+	},
+	settingButton: {
+		alignSelf: 'flex-end',
+		backgroundColor: '#25313D',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: 0,
+		width: 30,
+		height: 30,
+		borderRadius: 15,
 	},
 });
 

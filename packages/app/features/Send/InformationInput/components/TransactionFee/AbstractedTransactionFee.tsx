@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import {
 	ActivityIndicator,
@@ -10,97 +11,120 @@ import type { Networks } from '@walless/core';
 import { solMint } from '@walless/engine/crawlers/solana/metadata';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
-import type { CollectibleDocument, TokenDocument } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
+import type { TransactionContext } from '../../../../../state/transaction';
 import {
-	injectedElements,
 	transactionActions,
 	transactionContext,
 } from '../../../../../state/transaction';
+import { filterGasilonTokens } from '../../../utils/gasilon';
 
 import {
+	getTokenName,
 	handleCheckIfBalanceIsEnough,
-	handleGetTokenName,
-	handleSetTransactionFee,
+	requestTransactionFee,
 } from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
 
-export const AbstractedTransactionFee = () => {
-	const [isDropped, setIsDropped] = useState(false);
+interface Props {
+	tokenList: TokenDocument[];
+}
+
+export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
-
-	const { tokens, network } = useSnapshot(injectedElements);
+	const [tokenForFeeList, setTokenForFeeList] = useState<TokenDocument[]>([
+		tokenList[0],
+	]);
 
 	const {
 		type,
 		token,
-		nftCollection,
 		transactionFee,
 		receiver,
 		sender,
 		amount,
 		nftCollectible,
 		tokenForFee,
-	} = useSnapshot(transactionContext);
+	} = useSnapshot(transactionContext) as TransactionContext;
+	const chosenToken = type === 'Token' ? token : nftCollectible;
+	const enableSelectFee =
+		chosenToken?.account?.mint !== solMint && tokenForFeeList.length > 1;
 
-	const handleSetTokenFee = (tokenForFee: Token) => {
-		transactionActions.setTokenForFee(tokenForFee as TokenDocument);
+	const setTokenFee = (tokenForFee: TokenDocument) => {
+		transactionActions.setTokenForFee(tokenForFee);
 	};
 
 	const dropdownRef = useRef(null);
 
-	const tokenForFeeName = handleGetTokenName(
+	if (!tokenForFee) {
+		transactionActions.setTokenForFee(tokenList[0]);
+	}
+
+	const tokenForFeeName = getTokenName(
 		tokenForFee as TokenDocument,
-		network,
+		chosenToken?.network,
 	);
 
 	useEffect(() => {
-		if (!tokenForFee) {
-			transactionActions.setTokenForFee(tokens[0] as TokenDocument);
-		}
+		(async () => {
+			const tokens = await filterGasilonTokens(tokenList);
+			setTokenForFeeList([tokenList[0], ...tokens]);
+		})();
+	}, []);
 
-		const handleReselectTokenForFee = async () => {
+	useEffect(() => {
+		const updateTransactionFee = async () => {
+			if (!chosenToken) {
+				transactionActions.setTransactionFee(0);
+				return;
+			}
+
 			const payload: TransactionPayload = {
 				sender: sender,
 				receiver: receiver,
 				tokenForFee: tokenForFee as Token,
-				amount: type === 'Token' ? parseFloat(amount ?? '0') : 1,
-				token:
-					type === 'Token'
-						? (token as TokenDocument)
-						: (nftCollectible as CollectibleDocument),
-				network: token?.network as Networks,
+				amount: type === 'Token' ? parseFloat(amount || '0') : 1,
+				token: chosenToken,
+				network: chosenToken?.network as Networks,
 			};
 
 			setIsFeeLoading(true);
-			await handleSetTransactionFee(payload);
+			const fee = await requestTransactionFee(payload);
+			const decimals = payload.tokenForFee?.account?.decimals;
+			transactionActions.setTransactionFee(
+				parseFloat(fee.toPrecision(decimals)),
+			);
 			setIsFeeLoading(false);
 		};
-
-		handleReselectTokenForFee();
-	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
+		updateTransactionFee();
+	}, [tokenForFee, token, nftCollectible, receiver]);
 
 	useEffect(() => {
-		if (isDropped && token?.account.mint !== solMint) {
-			modalActions.show({
-				id: 'NetworkFee',
-				component: () => (
-					<TokenFeeDropDown
-						tokens={tokens as TokenDocument[]}
-						onSelect={handleSetTokenFee}
-						selectedToken={tokenForFee as Token}
-					/>
-				),
-				bindingRef: dropdownRef,
-				bindingDirection: BindDirections.Bottom,
-				maskActiveOpacity: 0,
-			});
-		} else {
-			setIsDropped(false);
+		if (token?.account.mint === solMint) {
+			transactionActions.setTokenForFee(token as TokenDocument);
 		}
-	}, [isDropped, token]);
+	}, [token]);
+
+	const handlePressSelect = () => {
+		if (!enableSelectFee) return;
+		modalActions.show({
+			id: 'NetworkFee',
+			component: () => (
+				<TokenFeeDropDown
+					tokens={tokenForFeeList}
+					onSelect={setTokenFee}
+					selectedToken={tokenForFee as TokenDocument}
+				/>
+			),
+			bindingRef: dropdownRef,
+			bindingDirection: BindDirections.Bottom,
+			maskActiveOpacity: 0,
+			positionOffset: { y: 4 },
+		});
+	};
 
 	useEffect(() => {
 		handleCheckIfBalanceIsEnough(
@@ -126,25 +150,29 @@ export const AbstractedTransactionFee = () => {
 							{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
 						</Text>
 					)}
-					<View ref={dropdownRef} style={styles.feeDisplay}>
-						<View style={styles.selectContainer}>
-							<Image
-								style={styles.tokenIcon}
-								source={{
-									uri:
-										tokenForFee?.metadata?.imageUri ||
-										'/img/send-token/unknown-token.jpeg',
-								}}
-							/>
-							<Text numberOfLines={1} style={styles.selectedToken}>
-								{tokenForFeeName}
-							</Text>
-						</View>
+					{chosenToken && (
+						<TouchableOpacity
+							ref={dropdownRef}
+							style={styles.feeDisplay}
+							onPress={handlePressSelect}
+						>
+							<View style={styles.selectContainer}>
+								<Image
+									style={styles.tokenIcon}
+									source={{
+										uri:
+											tokenForFee?.metadata?.imageUri ||
+											'/img/send-token/unknown-token.jpeg',
+									}}
+								/>
+								<Text numberOfLines={1} style={styles.selectedToken}>
+									{tokenForFeeName}
+								</Text>
+							</View>
 
-						<TouchableOpacity onPress={() => setIsDropped(!isDropped)}>
-							<ChevronDown size={20} color="#566674" />
+							{enableSelectFee && <ChevronDown size={20} color="#566674" />}
 						</TouchableOpacity>
-					</View>
+					)}
 				</View>
 			</View>
 			<Text style={styles.error}>{error}</Text>
@@ -187,7 +215,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1E2830',
 		borderRadius: 8,
 		paddingHorizontal: 8,
-		paddingVertical: 4,
+		paddingVertical: 6,
 		width: 100,
 	},
 	selectContainer: {
@@ -204,6 +232,7 @@ const styles = StyleSheet.create({
 	},
 	selectedToken: {
 		color: '#ffffff',
+		lineHeight: 20,
 	},
 	error: {
 		color: '#FC9B0A',

@@ -1,17 +1,21 @@
 import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
+import { runtime } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
-import type { SettingDocument } from '@walless/store';
-import { getAnalytics } from 'firebase/analytics';
+import type { UniversalAnalytics } from '@walless/ioc';
+import { getAnalytics, logEvent, setUserProperties } from 'firebase/analytics';
 import type { FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getMessaging, getToken } from 'firebase/messaging';
 import {
 	activate,
 	fetchConfig,
 	getAll,
 	getRemoteConfig,
 } from 'firebase/remote-config';
+
+import { getDeviceInfo } from './device';
 
 const firebaseOptions: FirebaseOptions = {
 	apiKey: FIREBASE_API_KEY,
@@ -24,9 +28,9 @@ const firebaseOptions: FirebaseOptions = {
 };
 
 export const app = initializeApp(firebaseOptions);
-export const remoteConfig = getRemoteConfig(app);
 export const auth = getAuth();
-export const analytics = getAnalytics();
+export const messaging = getMessaging(app);
+export const remoteConfig = getRemoteConfig(app);
 export const googleProvider = new GoogleAuthProvider();
 
 /* update interval: 10 seconds for dev, and 1 hour for prod */
@@ -47,30 +51,57 @@ export const loadRemoteConfig = (): RemoteConfig => {
 
 export interface FireCache {
 	idToken?: string;
+	notiToken?: string;
 }
 
 export const fireCache: FireCache = {
 	idToken: undefined,
 };
 
-export const initializeAuth = async (settings?: SettingDocument) => {
-	if (auth.currentUser) {
-		fireCache.idToken = await auth.currentUser.getIdToken();
+auth.onIdTokenChanged(async (user) => {
+	if (user?.uid) {
+		fireCache.idToken = await user.getIdToken();
+		appState.jwtAuth = fireCache.idToken;
+	} else {
+		fireCache.idToken = undefined;
 	}
+});
 
-	if (settings?.profile.email) {
-		auth.onIdTokenChanged(async (user) => {
-			if (user) {
-				fireCache.idToken = await user.getIdToken();
+export const initializeAuth = async () => {
+	await auth.authStateReady(); // wait until authentication ready
+	const user = auth.currentUser;
 
-				if (appState.remoteConfig.deepAnalyticsEnabled) {
-					await universalActions.syncRemoteProfile();
-				}
-			} else {
-				fireCache.idToken = undefined;
-			}
-		});
+	if (user?.uid) {
+		fireCache.idToken = await user.getIdToken();
+
+		if (!runtime.isExtension) {
+			setUserProperties(getAnalytics(app), { email: user.email });
+		}
+
+		if (appState.remoteConfig.deepAnalyticsEnabled) {
+			universalActions.syncRemoteProfile();
+		}
+
+		const deviceInfo = await getDeviceInfo();
+		const nextToken = runtime.isExtension
+			? await chrome.instanceID.getToken(nativeTokenArgs)
+			: await getToken(messaging, webTokenArgs);
+
+		universalActions.syncNotificationToken(nextToken, deviceInfo);
 	}
 };
 
-export { logEvent } from 'firebase/analytics';
+export const universalAnalytics: UniversalAnalytics = {
+	logEvent: (name, params, options) => {
+		if (runtime.isExtension) return; // firebase/analytics not available in Extension runtime yet!
+		return logEvent(getAnalytics(app), name, params, options);
+	},
+};
+
+const webTokenArgs = {
+	vapidKey: FIREBASE_VAPID_KEY,
+};
+const nativeTokenArgs = {
+	authorizedEntity: FIREBASE_MESSAGING_SENDER_ID,
+	scope: 'FCM',
+};

@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { usePublicKeys } from '@walless/app';
+import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import type { RequestType, ResponsePayload } from '@walless/messaging';
@@ -24,6 +26,7 @@ export const RequestSignature = () => {
 		isApproved: false,
 		passcode: '',
 	});
+	const publicKeys = usePublicKeys(Networks.solana)[0];
 
 	const handleDenyRequest = useCallback(async () => {
 		await handleRequestSignature(options.current, type as RequestType);
@@ -48,6 +51,7 @@ export const RequestSignature = () => {
 			id: 'approval',
 			component: () => (
 				<RequestSignatureApproval
+					wallet={publicKeys._id}
 					sender={sender}
 					content={message || transaction}
 					onDeny={handleDenyRequest}

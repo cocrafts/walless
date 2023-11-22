@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Slider } from '@walless/gui';
@@ -45,7 +46,9 @@ export const SendFeature: FC<Props> = ({
 		getTransactionAbstractFee,
 		handleClose: () => {
 			onClose();
-			transactionActions.resetTransactionContext();
+			setTimeout(() => {
+				transactionActions.resetTransactionContext();
+			}, 200);
 		},
 		checkValidAddress,
 		createAndSendTransaction,
@@ -53,11 +56,13 @@ export const SendFeature: FC<Props> = ({
 		network,
 	});
 
-	if (type) transactionActions.setType(type);
-	if (initCollectible) {
-		transactionActions.setType('Collectible');
-		transactionActions.setNftCollectible(initCollectible);
-	}
+	useEffect(() => {
+		if (type) transactionActions.setType(type);
+		if (initCollectible) {
+			transactionActions.setType('Collectible');
+			transactionActions.setNftCollectible(initCollectible);
+		}
+	}, []);
 
 	return (
 		<Slider

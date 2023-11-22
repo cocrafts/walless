@@ -1,7 +1,15 @@
-import { ProfileFeature } from '@walless/app';
+import type { ViewStyle } from 'react-native';
+import { ProfileFeature, useSafeAreaInsets } from '@walless/app';
+import { tabBarHeight } from 'stacks/Dashboard/TabBar';
 import { navigate } from 'utils/navigation';
 
 export const ProfileScreen = () => {
+	const insets = useSafeAreaInsets();
+	const containerStyle: ViewStyle = {
+		paddingTop: insets.top,
+		paddingBottom: tabBarHeight + insets.bottom,
+	};
+
 	const handleSettingPress = () => {
 		navigate('Dashboard', {
 			screen: 'Profile',
@@ -22,6 +30,7 @@ export const ProfileScreen = () => {
 
 	return (
 		<ProfileFeature
+			style={containerStyle}
 			onSettingPress={handleSettingPress}
 			onNavigateToHistory={handleNavigateToHistory}
 		/>

@@ -30,6 +30,10 @@ export const getCoins = async (provider: Provider, pubkey: HexString) => {
 	const aptosCoinIdx = tokenDocuments.findIndex(
 		(token) => token._id === APTOS_COIN,
 	);
+	tokenDocuments[aptosCoinIdx].metadata = {
+		...tokenDocuments[aptosCoinIdx].metadata,
+		imageUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/21794.png',
+	};
 	tokenDocuments.unshift(tokenDocuments.splice(aptosCoinIdx, 1)[0]);
 
 	return tokenDocuments;

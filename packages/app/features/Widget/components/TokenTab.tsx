@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { TokenList } from '@walless/app';
 import type { TokenDocument } from '@walless/store';
+
+import TokenList from '../../../components/TokenList';
 
 interface Props {
 	tokens: TokenDocument[];

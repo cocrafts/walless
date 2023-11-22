@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import type { NetworkInfo } from '@walless/app/utils';
 import { copy, getNetworkInfo } from '@walless/app/utils';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
@@ -12,7 +13,8 @@ interface Props {
 }
 
 export const Wallet: FC<Props> = ({ item, index }) => {
-	const network = getNetworkInfo(item.network);
+	const network = getNetworkInfo(item.network) as NetworkInfo;
+
 	const onCopy = async () => {
 		await copy(item._id, () => <Copy size={18} color="#FFFFFF" />);
 	};
@@ -20,7 +22,7 @@ export const Wallet: FC<Props> = ({ item, index }) => {
 	return (
 		<Hoverable horizontal style={styles.container} onPress={onCopy}>
 			<View horizontal style={{ gap: 10 }}>
-				<Image source={network?.icon as never} style={styles.icon} />
+				<Image source={network.icon} style={styles.icon} />
 
 				<View>
 					<Text>

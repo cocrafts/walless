@@ -26,7 +26,6 @@ export const signInWithTorusKey = async ({
 	handleRecovery,
 	handleDeprecatedPasscode,
 	handleReady,
-	handleError,
 }: TorusSignInOptions) => {
 	const keyInstance = key();
 
@@ -39,13 +38,7 @@ export const signInWithTorusKey = async ({
 	const status = await getSharesStatus();
 
 	if (status === ThresholdResult.Initializing) {
-		const registeredAccount = await initAndRegisterWallet();
-
-		if (registeredAccount?.identifier) {
-			await handlePasscode();
-		} else {
-			await handleError();
-		}
+		await handlePasscode();
 	} else if (status === ThresholdResult.Missing) {
 		let isLegacyAccount = false;
 
@@ -73,13 +66,23 @@ export const signInWithTorusKey = async ({
 export const signInWithPasscode = async (
 	passcode: string,
 	user: IFirebaseUser | null,
+	handleInitFail?: () => void,
 ): Promise<void> => {
 	if (!user?.uid) {
 		throw new Error('signInWithPasscode requires user profile from firebase');
 	}
 
-	await setProfile(makeProfile(user));
+	const status = await getSharesStatus();
+	if (status === ThresholdResult.Initializing) {
+		const registeredAccount = await initAndRegisterWallet();
+		if (!registeredAccount?.identifier) {
+			handleInitFail?.();
+			return;
+		}
+	}
+
 	await key().reconstructKey();
+	await setProfile(makeProfile(user));
 	await initBySeedPhraseModule(passcode);
 	await key().syncLocalMetadataTransitions();
 

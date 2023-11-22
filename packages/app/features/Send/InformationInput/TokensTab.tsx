@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Token } from '@walless/core';
-import { Networks } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
@@ -54,7 +53,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 			<Balance />
 
-			<TransactionFee network={network ?? Networks.solana} />
+			<TransactionFee network={network || (token?.network as never)} />
 
 			<View style={styles.totalLine} />
 

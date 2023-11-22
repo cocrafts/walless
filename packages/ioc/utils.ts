@@ -15,11 +15,21 @@ export type HandleAptosFunction = (params: {
 	payload: unknown;
 }) => Promise<ResponsePayload>;
 
+export type NavigateToCollection = (id: string) => void;
+
+export type NavigateToCollectible = (id: string) => void;
+
+export type NavigateBack = () => void;
+
 export type Utils = {
 	createAndSend: CreateAndSendFunction;
 	buyToken: BuyTokenFunction;
 	logOut: LogOutFunction;
+	navigateToWidget: (id: string) => void;
 	handleAptosFunction: HandleAptosFunction;
+	navigateToCollection: NavigateToCollection;
+	navigateToCollectible: NavigateToCollectible;
+	navigateBack: NavigateBack;
 };
 
 export const utils = {} as Utils;

@@ -12,6 +12,7 @@ declare const FIREBASE_STORAGE_BUCKET: string;
 declare const FIREBASE_MESSAGING_SENDER_ID: string;
 declare const FIREBASE_APP_ID: string;
 declare const FIREBASE_MEASUREMENT_ID: string;
+declare const FIREBASE_VAPID_KEY: string;
 declare const WEB3AUTH_ID: string;
 declare const GATEFI_ENDPOINT: string;
 declare const GATEFI_MERCHANT_ID: string;
@@ -35,6 +36,7 @@ declare module 'react-native-config' {
 		FIREBASE_MESSAGING_SENDER_ID: string;
 		FIREBASE_APP_ID: string;
 		FIREBASE_MEASUREMENT_ID: string;
+		FIREBASE_VAPID_KEY: string;
 		WEB3AUTH_ID: string;
 		GRAPHQL_ENDPOINT: string;
 		PIXEVERSE_ENDPOINT: string;

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { ScrollView, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { appState } from '@walless/engine';
 import { Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
@@ -14,15 +14,24 @@ import MyWallets from './components/MyWallets';
 import PageTitle from './components/PageTitle';
 
 interface Props {
+	style?: StyleProp<ViewStyle>;
+	scrollContentContainerStyle?: StyleProp<ViewStyle>;
 	onBack?: () => void;
 }
 
-const SettingFeature: FC<Props> = ({ onBack }) => {
+const SettingFeature: FC<Props> = ({
+	style,
+	scrollContentContainerStyle,
+	onBack,
+}) => {
 	const { profile } = useSnapshot(appState);
-	const insets = useSafeAreaInsets();
 
 	return (
-		<ScrollView style={[styles.container, { marginTop: insets.top }]}>
+		<ScrollView
+			style={[styles.container, style]}
+			contentContainerStyle={scrollContentContainerStyle}
+			showsVerticalScrollIndicator={false}
+		>
 			<PageTitle onBack={onBack} />
 			<View style={styles.contentContainer}>
 				<AccountInfo profile={profile} />

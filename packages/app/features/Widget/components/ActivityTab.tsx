@@ -1,7 +1,6 @@
 import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { Networks } from '@walless/core';
-import { View } from '@walless/gui';
 
 import { FullHistoryFeature } from '../../Profile';
 
@@ -21,6 +20,7 @@ export default ActivityTab;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		paddingVertical: 8,
 	},
 });

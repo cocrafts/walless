@@ -106,7 +106,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 				sender: sender,
 				receiver: receiver,
 				tokenForFee: tokenForFee as Token,
-				amount: type === 'Token' ? parseFloat(amount ?? '0') : 1,
+				amount: type === 'Token' ? parseFloat(amount || '0') : 1,
 				token:
 					type === 'Token'
 						? (token as TokenDocument)

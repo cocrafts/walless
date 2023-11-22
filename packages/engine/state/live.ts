@@ -42,7 +42,6 @@ const initialize = async () => {
 	collectibleActions.setCollections(allCollections.docs);
 
 	if (setting) {
-		appState.version = setting.version;
 		appState.config = setting.config;
 		appState.profile = setting.profile;
 	}
@@ -87,7 +86,6 @@ export const watchAndSync = async () => {
 				collectionState.map.set(id, item as CollectionDocument);
 			} else if (item?.type === 'Setting') {
 				const settings = item as SettingDocument;
-				appState.version = settings.version;
 				appState.profile = settings.profile;
 				appState.config = settings.config;
 			} else if (item?.type === 'EndpointMap') {

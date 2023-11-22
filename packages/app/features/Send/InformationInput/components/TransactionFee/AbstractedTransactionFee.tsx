@@ -122,28 +122,22 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		handleReselectTokenForFee();
 	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
 
-	useEffect(() => {
-		if (isDropped) {
-			if (token?.account.mint === solMint) {
-				modalActions.hide('NetworkFee');
-				transactionActions.setTokenForFee(tokenList[0]);
-			} else {
-				modalActions.show({
-					id: 'NetworkFee',
-					component: () => (
-						<TokenFeeDropDown
-							tokens={filteredTokenForFeeList as TokenDocument[]}
-							onSelect={handleSetTokenFee}
-							selectedToken={tokenForFee as Token}
-						/>
-					),
-					bindingRef: dropdownRef,
-					bindingDirection: BindDirections.Bottom,
-					maskActiveOpacity: 0,
-				});
-			}
-		}
-	}, [isDropped, token]);
+	const handlePressSelect = () => {
+		modalActions.show({
+			id: 'NetworkFee',
+			component: () => (
+				<TokenFeeDropDown
+					tokens={filteredTokenForFeeList as TokenDocument[]}
+					onSelect={handleSetTokenFee}
+					selectedToken={tokenForFee as Token}
+				/>
+			),
+			bindingRef: dropdownRef,
+			bindingDirection: BindDirections.Bottom,
+			maskActiveOpacity: 0,
+			positionOffset: { y: 4 },
+		});
+	};
 
 	useEffect(() => {
 		handleCheckIfBalanceIsEnough(
@@ -173,7 +167,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 						<TouchableOpacity
 							ref={dropdownRef}
 							style={styles.feeDisplay}
-							onPress={() => setIsDropped(!isDropped)}
+							onPress={handlePressSelect}
 						>
 							<View style={styles.selectContainer}>
 								<Image

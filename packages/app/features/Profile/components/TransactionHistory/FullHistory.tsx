@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
@@ -33,11 +33,15 @@ export const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 	}, [history]);
 
 	return (
-		<ScrollView style={style}>
+		<ScrollView
+			style={[styles.container, style]}
+			contentContainerStyle={styles.contentContainer}
+			showsVerticalScrollIndicator={false}
+		>
 			{loading ? (
 				<ActivityIndicator />
 			) : (
-				<View style={styles.transactionsContainer}>
+				<Fragment>
 					{history.map((transaction) => {
 						let isOnTheSameDate = true;
 						const transactionDate = transaction.date.toLocaleDateString(
@@ -60,7 +64,7 @@ export const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 							</View>
 						);
 					})}
-				</View>
+				</Fragment>
 			)}
 		</ScrollView>
 	);
@@ -69,7 +73,10 @@ export const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 export default FullHistoryFeature;
 
 const styles = StyleSheet.create({
-	transactionsContainer: {
+	container: {
+		flex: 1,
+	},
+	contentContainer: {
 		gap: 8,
 	},
 	dateAndTransactionContainer: {

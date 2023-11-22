@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import type { ViewStyle } from 'react-native';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import type { UserProfile } from '@walless/core';
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
@@ -38,13 +38,7 @@ export const DashboardLayout: FC<Props> = ({
 				onExtensionPress={onExtensionPress}
 				onRemoveLayout={onRemoveLayout}
 			/>
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				style={styles.scrollContainer}
-				contentContainerStyle={styles.contentContainer}
-			>
-				{children}
-			</ScrollView>
+			<View style={styles.contentContainer}>{children}</View>
 		</View>
 	);
 };
@@ -56,10 +50,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 	},
-	scrollContainer: {
-		flex: 1,
-	},
 	contentContainer: {
-		flexGrow: 1,
+		flex: 1,
 	},
 });

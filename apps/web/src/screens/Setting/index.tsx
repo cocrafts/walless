@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import SettingFeature from '@walless/app/features/Setting';
-import { View } from '@walless/gui';
 import { router } from 'utils/routing';
 
 const SettingScreen = () => {
@@ -8,11 +7,7 @@ const SettingScreen = () => {
 		router.navigate('/profile');
 	};
 
-	return (
-		<View style={styles.container}>
-			<SettingFeature onBack={handleGoBack} />
-		</View>
-	);
+	return <SettingFeature onBack={handleGoBack} style={styles.container} />;
 };
 
 export default SettingScreen;

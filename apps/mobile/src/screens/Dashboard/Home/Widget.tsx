@@ -2,7 +2,7 @@ import type { ViewStyle } from 'react-native';
 import {
 	useSafeAreaInsets,
 	useSnapshot,
-	WidgetExplorerFeature,
+	WidgetExplorerFeat,
 	WidgetFeature,
 } from '@walless/app';
 import { appState } from '@walless/engine';
@@ -12,7 +12,7 @@ export const WidgetScreen = () => {
 	const insets = useSafeAreaInsets();
 	const { activeWidgetId } = useSnapshot(appState);
 	const explorerContainerStyle: ViewStyle = {
-		paddingTop: insets.top,
+		marginTop: insets.top,
 	};
 	const explorerScrollStyle: ViewStyle = {
 		paddingBottom: tabBarHeight + insets.bottom,
@@ -20,7 +20,7 @@ export const WidgetScreen = () => {
 
 	if (!activeWidgetId) {
 		return (
-			<WidgetExplorerFeature
+			<WidgetExplorerFeat
 				style={explorerContainerStyle}
 				scrollContentContainerStyle={explorerScrollStyle}
 			/>

@@ -4,6 +4,8 @@ import {
 	requestNotifications,
 	RESULTS,
 } from 'react-native-permissions';
+import { universalActions } from '@walless/app';
+import { getDeviceInfo } from 'utils/device';
 import { messaging } from 'utils/firebase';
 
 export const useNotifications = () => {
@@ -22,17 +24,33 @@ export const useNotifications = () => {
 			console.log(message);
 		});
 
+		const unsubscribeTokenRefresh = messaging.onTokenRefresh(
+			async (nextToken) => {
+				const deviceInfo = await getDeviceInfo();
+				universalActions.syncNotificationToken(nextToken, deviceInfo);
+			},
+		);
+
 		return () => {
 			unsubscribeMessages();
+			unsubscribeTokenRefresh();
 		};
 	}, []);
 };
 
 export const useNotificationPermissionRequest = () => {
 	useEffect(() => {
-		checkNotifications().then(({ status }) => {
+		checkNotifications().then(async ({ status }) => {
 			if (status !== RESULTS.GRANTED) {
-				requestNotifications(['alert', 'badge', 'sound']);
+				await requestNotifications(['alert', 'badge', 'sound']);
+			}
+
+			try {
+				const deviceInfo = await getDeviceInfo();
+				const nextToken = await messaging.getToken();
+				universalActions.syncNotificationToken(nextToken, deviceInfo);
+			} catch (e) {
+				console.log('Failed to get/sync Notification token from device');
 			}
 		});
 	}, []);

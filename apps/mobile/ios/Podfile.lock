@@ -543,6 +543,8 @@ PODS:
   - RNCustomAuthSdk (4.0.1):
     - CustomAuth (~> 5.0.0)
     - React
+  - RNDeviceInfo (10.11.0):
+    - React-Core
   - RNFBAnalytics (18.6.1):
     - Firebase/Analytics (= 10.17.0)
     - React-Core
@@ -669,6 +671,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../../../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
   - "RNCustomAuthSdk (from `../../../node_modules/@toruslabs/customauth-react-native-sdk`)"
+  - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
   - "RNFBAnalytics (from `../../../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../../../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../../../node_modules/@react-native-firebase/auth`)"
@@ -809,6 +812,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon"
   RNCustomAuthSdk:
     :path: "../../../node_modules/@toruslabs/customauth-react-native-sdk"
+  RNDeviceInfo:
+    :path: "../../../node_modules/react-native-device-info"
   RNFBAnalytics:
     :path: "../../../node_modules/@react-native-firebase/analytics"
   RNFBApp:
@@ -912,6 +917,7 @@ SPEC CHECKSUMS:
   ReactCommon: 6f0ee30fda78283c31310e585f7236748e13330d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNCustomAuthSdk: e1db0c850b41deaf38fdc8fe5433b3287db29c55
+  RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
   RNFBAnalytics: 9138cdb065c6ac9fc7dc076d83f9c2e64bc21d46
   RNFBApp: b43d4829366a5065e17f9af3b03a0c4890eaeb85
   RNFBAuth: 944424c5ba04e250d35eccd3ee2033d6fd7150d7
@@ -930,6 +936,6 @@ SPEC CHECKSUMS:
   web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
   Yoga: e71803b4c1fff832ccf9b92541e00f9b873119b9
 
-PODFILE CHECKSUM: fabd26c6fda794c8e88a87b3dc33e34346831a5d
+PODFILE CHECKSUM: 877abdf091993fa0cd980670b68c31cf31b2d28e
 
 COCOAPODS: 1.14.3

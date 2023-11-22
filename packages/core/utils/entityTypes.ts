@@ -16,7 +16,7 @@ export interface AptosTokenMetadata {
 }
 
 export interface Setting {
-	version: string;
+	deviceId?: string;
 	profile: UserProfile;
 	config: Config;
 }
@@ -24,8 +24,10 @@ export interface Setting {
 export type EndpointMap = Record<Networks, Endpoint>;
 
 export interface Config {
+	version?: string;
 	hideBalance: boolean;
 	latestLocation: string;
+	notificationToken?: string;
 }
 
 export interface RemoteConfig {

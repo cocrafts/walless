@@ -11669,6 +11669,7 @@ __metadata:
     react-dom: ^18.2.0
     react-native: 0.71.14
     react-native-config: ^1.5.0
+    react-native-device-info: ^10.11.0
     react-native-encrypted-storage: ^4.0.3
     react-native-gesture-handler: ^2.13.4
     react-native-get-random-values: ^1.9.0
@@ -24251,6 +24252,15 @@ __metadata:
     react-native-windows:
       optional: true
   checksum: ae17b750e445310573ce33798db67c9b8c50e55cb2ba136e9a9ef8372dd3f7669ce236bb18bf1fa8a426fd1aa9e6b516fb2f593767bd24688242f6847cd37712
+  languageName: node
+  linkType: hard
+
+"react-native-device-info@npm:^10.11.0":
+  version: 10.11.0
+  resolution: "react-native-device-info@npm:10.11.0"
+  peerDependencies:
+    react-native: "*"
+  checksum: 3f2de34df4e95e87291673fe69b09d3b96f9088177a8dadd92eccec86549cea63ca08ab82f120d4150eb0302ac721ad8a5e4b3a8136c9f54f0212e4c055762b0
   languageName: node
   linkType: hard
 

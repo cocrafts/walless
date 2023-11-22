@@ -10,9 +10,9 @@ import LightText from 'components/LightText';
 import { initializeKernelConnect } from 'utils/helper';
 import { useRequestData } from 'utils/hooks';
 
-import { logoSize, logoUri } from '../shared';
+import { logoSize, logoUri } from './shared';
 
-const RequestConnection = () => {
+const RequestConnect = () => {
 	const { requestId } = useParams();
 	const { sender } = useRequestData(
 		requestId as string,
@@ -31,6 +31,8 @@ const RequestConnection = () => {
 		initializeKernelConnect(PopupType.REQUEST_CONNECT_POPUP + '/' + requestId);
 	}, []);
 
+	const title = sender.tab?.title || 'Unknown';
+
 	return (
 		<View style={styles.container}>
 			<HeaderRequest />
@@ -41,24 +43,24 @@ const RequestConnection = () => {
 					style={styles.titleImage}
 					source={{ uri: sender.tab?.favIconUrl || logoUri }}
 				/>
-				<Text style={styles.senderName}>{sender.tab?.title || 'unknown'}</Text>
+				<Text style={styles.senderName}>{title}</Text>
 				<LightText fontSize={14}>{sender.tab?.url || 'unknown'}</LightText>
 			</View>
 
 			<View style={styles.contentContainer}>
-				<View>
-					<LightText fontSize={14} paddingHorizontal={25} textAlign="center">
-						Under Realm would like to connect with your Walless account to:
+				<View style={styles.mainContentContainer}>
+					<LightText fontSize={14} lineHeight={20} textAlign="center">
+						{title} would like to connect with your Walless account to:
 					</LightText>
 
-					<View horizontal>
+					<View style={styles.activityContainer} horizontal>
 						<CheckCircle size={18} color="#1FC17D" />
 						<Text style={styles.activityText}>
 							View your wallet balance & activity
 						</Text>
 					</View>
 
-					<View horizontal>
+					<View style={styles.activityContainer} horizontal>
 						<CheckCircle size={18} color="#1FC17D" />
 						<Text style={styles.activityText}>
 							Send you request approval for transaction
@@ -66,9 +68,9 @@ const RequestConnection = () => {
 					</View>
 				</View>
 
-				<View horizontal>
-					<AlertCircle size={18} color="#566674" />
-					<LightText fontSize={12} marginLeft={15}>
+				<View style={styles.noteContainer} horizontal>
+					<AlertCircle size={30} color="#566674" />
+					<LightText fontSize={12} marginLeft={15} lineHeight={18}>
 						This action does not make any fund transfer. This site cannot
 						transfer fund without your permission.
 					</LightText>
@@ -76,11 +78,11 @@ const RequestConnection = () => {
 			</View>
 
 			<View style={styles.bottomContainer}>
-				<LightText fontSize={14} textAlign="center">
+				<LightText textAlign="center" marginBottom={12}>
 					Only connect to websites you trust!
 				</LightText>
 				<Button title="Connect" onPress={onApprovePress}></Button>
-				<Hoverable onPress={onRejectPress}>
+				<Hoverable style={styles.deniedButton} onPress={onRejectPress}>
 					<Text>Deny</Text>
 				</Hoverable>
 			</View>
@@ -88,7 +90,7 @@ const RequestConnection = () => {
 	);
 };
 
-export default RequestConnection;
+export default RequestConnect;
 
 const styles = StyleSheet.create({
 	container: {
@@ -96,6 +98,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#19232C',
 	},
 	titleContainer: {
+		marginTop: 20,
 		alignItems: 'center',
 	},
 	title: {
@@ -118,13 +121,34 @@ const styles = StyleSheet.create({
 		marginVertical: 15,
 		borderColor: 'rgba(86, 102, 116, .2)',
 		borderWidth: 1,
+		marginHorizontal: 20,
+	},
+	mainContentContainer: {
+		gap: 8,
+		padding: 16,
+		borderBottomWidth: 1,
+		borderBottomColor: 'rgba(86, 102, 116, .2)',
+	},
+	activityContainer: {
+		gap: 10,
+		alignItems: 'center',
 	},
 	activityText: {
 		fontWeight: '300',
 	},
+	noteContainer: {
+		paddingHorizontal: 16,
+		paddingVertical: 12,
+		alignItems: 'center',
+	},
 	bottomContainer: {
 		flex: 1,
 		justifyContent: 'flex-end',
-		paddingHorizontal: 10,
+		paddingHorizontal: 18,
+		marginBottom: 8,
+	},
+	deniedButton: {
+		padding: 14,
+		alignSelf: 'center',
 	},
 });

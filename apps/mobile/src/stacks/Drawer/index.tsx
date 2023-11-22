@@ -1,6 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from '@walless/app';
+import CollectibleScreen from 'screens/Dashboard/Home/Collectible';
+import { CollectionScreen } from 'screens/Dashboard/Home/Collection';
 import WidgetScreen from 'screens/Dashboard/Home/Widget';
 import type { HomeParamList } from 'utils/navigation';
 
@@ -33,6 +35,16 @@ export const DrawerStack = () => {
 			backBehavior="order"
 		>
 			<Drawer.Screen name="Widget" component={WidgetScreen} options={options} />
+			<Drawer.Screen
+				name="Collection"
+				component={CollectionScreen}
+				options={options}
+			/>
+			<Drawer.Screen
+				name="Collectible"
+				component={CollectibleScreen}
+				options={options}
+			/>
 		</Drawer.Navigator>
 	);
 };

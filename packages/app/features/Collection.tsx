@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
@@ -11,9 +12,10 @@ import CollectibleItem from './Widget/components/CollectibleItem';
 
 interface Props {
 	id: string;
+	style?: StyleProp<ViewStyle>;
 }
 
-export const CollectionFeat: FC<Props> = ({ id }) => {
+export const CollectionFeat: FC<Props> = ({ id, style }) => {
 	const { collections, collectibles } = useNfts();
 
 	const curCollection = useMemo(() => {
@@ -35,7 +37,7 @@ export const CollectionFeat: FC<Props> = ({ id }) => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			<Hoverable style={styles.backButton} onPress={handleGoBack}>
 				<ChevronLeft size={16} />
 				<Text style={styles.title}>

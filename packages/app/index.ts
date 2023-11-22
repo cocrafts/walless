@@ -7,6 +7,7 @@ export * from './components/SlideHandler';
 export * from './components/TabsHeader';
 export * from './components/TokenList';
 export * from './components/WalletCard';
+export * from './features/Collectible';
 export * from './features/Collection';
 export * from './features/CreatePasscode';
 export * from './features/DashboardLayout';

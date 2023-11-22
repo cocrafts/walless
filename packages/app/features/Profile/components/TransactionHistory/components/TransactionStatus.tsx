@@ -12,18 +12,18 @@ const TransactionStatus: FC<Props> = ({ status = 'success' }) => {
 		text.charAt(0).toUpperCase() + text.slice(1);
 
 	const icon =
-		status === 'success' ? (
+		status === 'Success' ? (
 			<Check size={12} />
-		) : status === 'pending' ? (
+		) : status === 'Pending' ? (
 			<Clock size={12} />
 		) : (
 			<Times size={12} />
 		);
 
 	const color =
-		status === 'success'
+		status === 'Success'
 			? '#2FC879'
-			: status === 'pending'
+			: status === 'Pending'
 			  ? '#E0BD3F'
 			  : '#CC3838';
 

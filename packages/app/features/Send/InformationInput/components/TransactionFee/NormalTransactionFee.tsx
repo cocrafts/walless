@@ -35,7 +35,11 @@ export const NormalTransactionFee: FC<Props> = () => {
 		(async () => {
 			setLoading(true);
 			const chosenToken = type === 'Token' ? token : nftCollectible;
-			if (!chosenToken) return;
+			if (!chosenToken) {
+				setLoading(false);
+				transactionActions.setTransactionFee(0);
+				return;
+			}
 			const fee = await getTransactionFee({
 				sender,
 				receiver,

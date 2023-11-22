@@ -26,6 +26,7 @@
     "activeTab",
     "clipboardWrite",
     "identity",
+    "gcm",
     "storage",
     "unlimitedStorage",
     "alarms"

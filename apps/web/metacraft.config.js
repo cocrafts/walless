@@ -30,6 +30,11 @@ const injectEntries = (config) => {
 		filename: 'w3a-response.js',
 	};
 
+	config.entry.fcm = {
+		import: 'scripts/worker/fcm.ts',
+		filename: 'firebase-messaging-sw.js',
+	};
+
 	return config;
 };
 

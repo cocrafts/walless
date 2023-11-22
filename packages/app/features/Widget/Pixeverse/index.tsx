@@ -45,7 +45,7 @@ export const Pixeverse = () => {
 
 	return (
 		<WebView
-			ref={webviewRef}
+			ref={webviewRef as never}
 			source={{ uri: PIXEVERSE_URL }}
 			style={{ flex: 1 }}
 			onMessage={onMessage}

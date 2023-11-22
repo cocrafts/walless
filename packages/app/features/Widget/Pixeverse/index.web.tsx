@@ -34,12 +34,15 @@ export const Pixeverse = () => {
 		};
 
 		window.addEventListener('message', onPixeverseReady);
-		iframeRef.current?.focus();
 
 		return () => {
 			window.removeEventListener('message', onPixeverseReady);
 		};
 	}, [pubkey, jwtAuth]);
+
+	const handleOnLoad = () => {
+		iframeRef.current?.contentWindow?.focus();
+	};
 
 	return (
 		<View style={{ width: 352, height: 600, justifyContent: 'center' }}>
@@ -50,6 +53,7 @@ export const Pixeverse = () => {
 				width={352}
 				height={600}
 				style={{ borderColor: 'transparent' }}
+				onLoad={handleOnLoad}
 				autoFocus
 			/>
 		</View>

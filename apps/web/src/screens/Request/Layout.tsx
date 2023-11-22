@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { useParams } from 'react-router-dom';
+import { appState } from '@walless/engine';
 import { Anchor, Button, Text } from '@walless/gui';
 import { AlertCircle } from '@walless/icons';
 import { PopupType } from '@walless/messaging';
@@ -8,7 +9,7 @@ import { handleRequestInstallLayout } from 'bridge/listeners';
 import { HeaderRequest } from 'components/HeaderRequest';
 import LightText from 'components/LightText';
 import { initializeKernelConnect } from 'utils/helper';
-import { useRequestData } from 'utils/hooks';
+import { useRequestData, useSnapshot } from 'utils/hooks';
 
 import { logoSize, logoUri } from './shared';
 
@@ -19,6 +20,7 @@ export const RequestLayout = () => {
 		PopupType.REQUEST_INSTALL_LAYOUT_POPUP,
 	);
 	const senderTitle = sender.tab?.title || 'Unknown';
+	const profile = useSnapshot(appState.profile);
 
 	const onApprovePress = () => {
 		handleRequestInstallLayout(requestId as string, true);
@@ -40,7 +42,7 @@ export const RequestLayout = () => {
 
 	return (
 		<View style={styles.container}>
-			<HeaderRequest />
+			<HeaderRequest title={profile.email as string} />
 			<View style={styles.innerContainer}>
 				<View style={styles.headingContainer}>
 					<Text style={styles.headingText}>Layout request</Text>

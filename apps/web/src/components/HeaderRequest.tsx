@@ -1,16 +1,23 @@
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Image } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';
 
-export const HeaderRequest = () => {
+type Props = {
+	title: string;
+};
+
+export const HeaderRequest: FC<Props> = ({ title }) => {
 	const iconSrc = { uri: '/img/bare-icon.png' };
 
 	return (
 		<View style={styles.container}>
 			<Image style={styles.icon} source={iconSrc} />
 			<View style={styles.infoContainer}>
-				<Text style={styles.title}>Zbz thic...</Text>
+				<Text style={styles.title}>
+					{title.length > 10 ? title.substring(0, 10) + '...' : title}
+				</Text>
 				<Hoverable style={styles.button}>
 					<ChevronDown size={20} />
 				</Hoverable>

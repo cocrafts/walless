@@ -8,18 +8,13 @@ interface Props extends TextStyle {
 }
 
 export const LightText: FC<Props> = ({ children, ...props }) => {
-	return (
-		<Text style={styles.text} {...props}>
-			{children}
-		</Text>
-	);
+	return <Text style={[styles.text, props]}>{children}</Text>;
 };
 
 export default LightText;
 
 const styles = StyleSheet.create({
 	text: {
-		fontWeight: '500',
 		color: '#566674',
 	},
 });

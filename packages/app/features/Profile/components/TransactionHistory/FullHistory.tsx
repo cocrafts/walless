@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 
@@ -31,7 +31,7 @@ export const FullHistoryFeature: FC<Props> = ({ network }) => {
 	}, [history]);
 
 	return (
-		<View>
+		<ScrollView>
 			{loading ? (
 				<ActivityIndicator />
 			) : (
@@ -60,7 +60,7 @@ export const FullHistoryFeature: FC<Props> = ({ network }) => {
 					})}
 				</View>
 			)}
-		</View>
+		</ScrollView>
 	);
 };
 

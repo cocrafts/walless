@@ -39,13 +39,6 @@ export const signInWithTorusKey = async ({
 
 	if (status === ThresholdResult.Initializing) {
 		await handlePasscode();
-		// const registeredAccount = await initAndRegisterWallet();
-
-		// if (registeredAccount?.identifier) {
-		// 	await handlePasscode();
-		// } else {
-		// 	await handleError();
-		// }
 	} else if (status === ThresholdResult.Missing) {
 		let isLegacyAccount = false;
 

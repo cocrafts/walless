@@ -54,7 +54,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 			<Balance />
 
-			<TransactionFee network={network ?? Networks.solana} />
+			<TransactionFee network={network} />
 
 			<View style={styles.totalLine} />
 

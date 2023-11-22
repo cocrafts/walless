@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import {
 	ActivityIndicator,
@@ -14,7 +15,6 @@ import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
-	injectedElements,
 	transactionActions,
 	transactionContext,
 } from '../../../../../state/transaction';
@@ -26,12 +26,14 @@ import {
 } from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
 
-export const AbstractedTransactionFee = () => {
+interface Props {
+	tokenList: TokenDocument[];
+}
+
+export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
-
-	const { tokens, network } = useSnapshot(injectedElements);
 
 	const {
 		type,
@@ -51,16 +53,16 @@ export const AbstractedTransactionFee = () => {
 
 	const dropdownRef = useRef(null);
 
+	if (!tokenForFee) {
+		transactionActions.setTokenForFee(tokenList[0]);
+	}
+
 	const tokenForFeeName = handleGetTokenName(
-		tokenForFee as TokenDocument,
-		network,
+		tokenForFee as Token,
+		token?.network,
 	);
 
 	useEffect(() => {
-		if (!tokenForFee && token) {
-			transactionActions.setTokenForFee(token);
-		}
-
 		const handleReselectTokenForFee = async () => {
 			const payload: TransactionPayload = {
 				sender: sender,
@@ -83,25 +85,25 @@ export const AbstractedTransactionFee = () => {
 	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
 
 	useEffect(() => {
-		if (token?.account.mint !== solMint) {
-			modalActions.hide('NetworkFee');
-			setIsDropped(false);
-		}
-
 		if (isDropped) {
-			modalActions.show({
-				id: 'NetworkFee',
-				component: () => (
-					<TokenFeeDropDown
-						tokens={tokens as TokenDocument[]}
-						onSelect={handleSetTokenFee}
-						selectedToken={tokenForFee as Token}
-					/>
-				),
-				bindingRef: dropdownRef,
-				bindingDirection: BindDirections.Bottom,
-				maskActiveOpacity: 0,
-			});
+			if (token?.account.mint === solMint) {
+				modalActions.hide('NetworkFee');
+				transactionActions.setTokenForFee(tokenList[0]);
+			} else {
+				modalActions.show({
+					id: 'NetworkFee',
+					component: () => (
+						<TokenFeeDropDown
+							tokens={tokenList as TokenDocument[]}
+							onSelect={handleSetTokenFee}
+							selectedToken={tokenForFee as Token}
+						/>
+					),
+					bindingRef: dropdownRef,
+					bindingDirection: BindDirections.Bottom,
+					maskActiveOpacity: 0,
+				});
+			}
 		}
 	}, [isDropped, token]);
 

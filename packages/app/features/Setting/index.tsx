@@ -30,6 +30,7 @@ const SettingFeature: FC<Props> = ({
 		<ScrollView
 			style={[styles.container, style]}
 			contentContainerStyle={scrollContentContainerStyle}
+			showsVerticalScrollIndicator={false}
 		>
 			<PageTitle onBack={onBack} />
 			<View style={styles.contentContainer}>

@@ -1,5 +1,6 @@
 import { Metaplex } from '@metaplex-foundation/js';
 import { AccountLayout } from '@solana/spl-token';
+import type { ParsedAccountData } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { AssetMetadata } from '@walless/core';
 import { Networks } from '@walless/core';
@@ -22,6 +23,15 @@ import type { SolanaContext } from './shared';
 import { throttle } from './shared';
 import { solanaFungiblesByAddress } from './token';
 
+/**
+ * All cases we need to subscribe
+ * - Send, receive native token
+ * - Send SPL token, NFT to wallet which has ATA for this token
+ * - Send SPL token, NFT to wallet which does not have ATA for this token
+ * - Receive SPL token, NFT which we have ATA for
+ * - Receive SPL token, NFT which we don't have ATA for
+ * */
+
 const accountChangeIds: number[] = [];
 const logIds: number[] = [];
 
@@ -37,25 +47,43 @@ export const registerAccountChanges = async (
 		async (info) => {
 			let mint: string;
 			let balance: string;
+			let isToken: boolean;
 			const isNativeToken = info.data.byteLength === 0;
+			const mpl = new Metaplex(connection);
 
 			if (isNativeToken) {
 				mint = solMint;
 				balance = info.lamports.toString();
+				isToken = true;
 			} else {
 				const data = AccountLayout.decode(info.data);
 				mint = data.mint.toString();
 				balance = data.amount.toString();
+				const tokenAccount = await connection.getParsedAccountInfo(
+					new PublicKey(mint),
+				);
+				const tokenInfo = (tokenAccount.value?.data as ParsedAccountData).parsed
+					.info;
+
+				isToken = tokenInfo.decimals !== 0;
 			}
 
 			const tokenId = `${owner}/token/${mint}`;
-			const isToken = await getTokenByIdFromStorage(tokenId);
 
 			if (isToken) {
-				balance !== '0'
-					? updateTokenBalanceToStorage(tokenId, balance)
-					: removeTokenFromStorage(tokenId);
-			} else {
+				const isTokenExisted = !!(await getTokenByIdFromStorage(tokenId));
+				if (isTokenExisted) {
+					balance !== '0'
+						? updateTokenBalanceToStorage(tokenId, balance)
+						: removeTokenFromStorage(tokenId);
+				} else {
+					const fungibleTokens = await solanaFungiblesByAddress(
+						context,
+						ownerPubkey,
+					);
+					addTokensToStorage(fungibleTokens);
+				}
+			} else if (!isToken) {
 				const amount = parseInt(balance);
 				const collectibleId = `${owner}/collectible/${mint}`;
 
@@ -64,20 +92,18 @@ export const registerAccountChanges = async (
 				} else if (
 					!(await updateCollectibleAmountToStorage(collectibleId, amount))
 				) {
-					const mpl = new Metaplex(connection);
 					try {
 						const mintAddress = new PublicKey(mint);
 						const nft = await mpl.nfts().findByMint({ mintAddress });
 
 						addCollectible(connection, endpoint, owner, nft);
-					} catch {
-						const fungibleTokens = await solanaFungiblesByAddress(
-							context,
-							ownerPubkey,
-						);
-						addTokensToStorage(fungibleTokens);
+					} catch (e) {
+						console.log('add collectible error', e);
 					}
 				}
+			} else {
+				// TODO: need to handle if got this message
+				console.log('account change unknown');
 			}
 		},
 		'confirmed',
@@ -101,7 +127,7 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 				const transaction = await throttle(() => {
 					return connection.getTransaction(signature, {
 						commitment: 'confirmed',
-						maxSupportedTransactionVersion: 2,
+						maxSupportedTransactionVersion: 0,
 					});
 				})();
 				const tokenBalances = transaction?.meta?.postTokenBalances?.filter(
@@ -117,8 +143,9 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 						const nft = await mpl
 							.nfts()
 							.findByMint({ mintAddress: new PublicKey(balance.mint) });
+
 						addCollectible(connection, endpoint, address, nft);
-					} else {
+					} else if (balance.uiTokenAmount.decimals !== 0) {
 						let token: TokenInfo = {} as never;
 						let metadata: AssetMetadata | undefined;
 

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
+import { utils } from '@walless/ioc';
 import type { CollectionDocument } from '@walless/store';
 
 import CollectibleItem from './CollectibleItem';
@@ -12,7 +13,8 @@ interface Props {
 export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 	const handlePressItem = (ele: CollectionDocument) => {
 		// TODO: navigate to nft
-		console.log(JSON.stringify(ele, null, 2));
+		const collectionId = ele._id.split('/')[2];
+		utils.navigateToCollection(collectionId);
 	};
 
 	return (

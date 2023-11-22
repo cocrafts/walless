@@ -109,7 +109,6 @@ export const styles = StyleSheet.create({
 		fontSize: 18,
 	},
 	contentContainer: {
-		// flex: 1,
 		padding: 15,
 		borderRadius: 15,
 		marginVertical: 15,

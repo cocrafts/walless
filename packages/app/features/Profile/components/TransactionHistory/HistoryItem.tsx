@@ -21,7 +21,7 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 
 	const handleShowDetailsModal = () => {
 		modalActions.show({
-			id: 'trransaction-details',
+			id: 'transaction-details',
 			component: () => <TransactionDetails {...transaction} />,
 			bindingDirection: BindDirections.InnerBottom,
 			animateDirection: AnimateDirections.Top,

@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import {
 	ActivityIndicator,
@@ -14,7 +15,6 @@ import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
-	injectedElements,
 	transactionActions,
 	transactionContext,
 } from '../../../../../state/transaction';
@@ -26,12 +26,16 @@ import {
 } from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
 
-export const AbstractedTransactionFee = () => {
+interface Props {
+	tokenList: TokenDocument[];
+}
+
+export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
-
-	const { tokens, network } = useSnapshot(injectedElements);
+	const [filteredTokenForFeeList, setFilteredTokenForFee] =
+		useState<TokenDocument>([tokenList[0]]);
 
 	const {
 		type,
@@ -51,16 +55,48 @@ export const AbstractedTransactionFee = () => {
 
 	const dropdownRef = useRef(null);
 
+	if (!tokenForFee) {
+		transactionActions.setTokenForFee(tokenList[0]);
+	}
+
 	const tokenForFeeName = handleGetTokenName(
-		tokenForFee as TokenDocument,
-		network,
+		tokenForFee as Token,
+		token?.network,
 	);
 
 	useEffect(() => {
-		if (!tokenForFee) {
-			transactionActions.setTokenForFee(tokens[0] as TokenDocument);
-		}
+		const getIntersectionList = (originList, filterList) => {
+			const intersectionList = originList.filter((originItem) =>
+				filterList.some(
+					(filterItem) => filterItem.mint === originItem.account.mint,
+				),
+			);
+			return intersectionList;
+		};
 
+		const getGasilonTokensList = async () => {
+			const gasilon = await fetch(GASILON_ENDPOINT, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}).then((res) => res.json());
+			const gasilonSupportedTokenList = gasilon.transfer.tokens;
+
+			const intersectionList = getIntersectionList(
+				tokenList,
+				gasilonSupportedTokenList,
+			);
+
+			setFilteredTokenForFee(filteredTokenForFeeList.concat(intersectionList));
+		};
+
+		getGasilonTokensList().catch((err) => {
+			console.log(err);
+		});
+	}, []);
+
+	useEffect(() => {
 		const handleReselectTokenForFee = async () => {
 			const payload: TransactionPayload = {
 				sender: sender,
@@ -83,22 +119,25 @@ export const AbstractedTransactionFee = () => {
 	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
 
 	useEffect(() => {
-		if (isDropped && token?.account.mint !== solMint) {
-			modalActions.show({
-				id: 'NetworkFee',
-				component: () => (
-					<TokenFeeDropDown
-						tokens={tokens as TokenDocument[]}
-						onSelect={handleSetTokenFee}
-						selectedToken={tokenForFee as Token}
-					/>
-				),
-				bindingRef: dropdownRef,
-				bindingDirection: BindDirections.Bottom,
-				maskActiveOpacity: 0,
-			});
-		} else {
-			setIsDropped(false);
+		if (isDropped) {
+			if (token?.account.mint === solMint) {
+				modalActions.hide('NetworkFee');
+				transactionActions.setTokenForFee(tokenList[0]);
+			} else {
+				modalActions.show({
+					id: 'NetworkFee',
+					component: () => (
+						<TokenFeeDropDown
+							tokens={filteredTokenForFeeList as TokenDocument[]}
+							onSelect={handleSetTokenFee}
+							selectedToken={tokenForFee as Token}
+						/>
+					),
+					bindingRef: dropdownRef,
+					bindingDirection: BindDirections.Bottom,
+					maskActiveOpacity: 0,
+				});
+			}
 		}
 	}, [isDropped, token]);
 
@@ -126,25 +165,31 @@ export const AbstractedTransactionFee = () => {
 							{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
 						</Text>
 					)}
-					<View ref={dropdownRef} style={styles.feeDisplay}>
-						<View style={styles.selectContainer}>
-							<Image
-								style={styles.tokenIcon}
-								source={{
-									uri:
-										tokenForFee?.metadata?.imageUri ||
-										'/img/send-token/unknown-token.jpeg',
-								}}
-							/>
-							<Text numberOfLines={1} style={styles.selectedToken}>
-								{tokenForFeeName}
-							</Text>
-						</View>
+					{token && (
+						<TouchableOpacity
+							ref={dropdownRef}
+							style={styles.feeDisplay}
+							onPress={() => setIsDropped(!isDropped)}
+						>
+							<View style={styles.selectContainer}>
+								<Image
+									style={styles.tokenIcon}
+									source={{
+										uri:
+											tokenForFee?.metadata?.imageUri ||
+											'/img/send-token/unknown-token.jpeg',
+									}}
+								/>
+								<Text numberOfLines={1} style={styles.selectedToken}>
+									{tokenForFeeName}
+								</Text>
+							</View>
 
-						<TouchableOpacity onPress={() => setIsDropped(!isDropped)}>
-							<ChevronDown size={20} color="#566674" />
+							{token?.account?.mint !== solMint && (
+								<ChevronDown size={20} color="#566674" />
+							)}
 						</TouchableOpacity>
-					</View>
+					)}
 				</View>
 			</View>
 			<Text style={styles.error}>{error}</Text>

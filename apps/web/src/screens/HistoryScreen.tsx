@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { FullHistoryFeature } from '@walless/app/features/Profile';
 import { Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
@@ -10,7 +10,7 @@ const HistoryScreen = () => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container}>
 			<View style={styles.header}>
 				<TouchableOpacity onPress={handleNavigateBack}>
 					<ChevronLeft />
@@ -19,7 +19,7 @@ const HistoryScreen = () => {
 			</View>
 
 			<FullHistoryFeature />
-		</View>
+		</ScrollView>
 	);
 };
 

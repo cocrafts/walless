@@ -116,7 +116,7 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 				const transaction = await throttle(() => {
 					return connection.getTransaction(signature, {
 						commitment: 'confirmed',
-						maxSupportedTransactionVersion: 2,
+						maxSupportedTransactionVersion: 0,
 					});
 				})();
 				const tokenBalances = transaction?.meta?.postTokenBalances?.filter(
@@ -132,8 +132,9 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 						const nft = await mpl
 							.nfts()
 							.findByMint({ mintAddress: new PublicKey(balance.mint) });
+
 						addCollectible(connection, endpoint, address, nft);
-					} else {
+					} else if (balance.uiTokenAmount.decimals !== 0) {
 						let token: TokenInfo = {} as never;
 						let metadata: AssetMetadata | undefined;
 

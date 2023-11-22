@@ -10,7 +10,7 @@ import { Metaplex } from '@metaplex-foundation/js';
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { Endpoint } from '@walless/core';
-import { Networks } from '@walless/core';
+import { Networks, runtime } from '@walless/core';
 import {
 	addCollectibleToStorage,
 	addCollectionToStorage,
@@ -41,7 +41,22 @@ export const solanaCollectiblesByAddress = async ({
 	})();
 
 	const nfts = await Promise.all(
-		rawNfts.map((metadata) => {
+		rawNfts.map(async (metadata) => {
+			if (runtime.isMobile) {
+				if ('mintAddress' in metadata) {
+					const nftByMint = await mpl.nfts().findByMint({
+						mintAddress: metadata.mintAddress,
+						loadJsonMetadata: metadata.jsonLoaded,
+					});
+					const jsonRes = await fetch(metadata.uri, { method: 'GET' });
+					return {
+						...nftByMint,
+						json: await jsonRes.json(),
+						jsonLoaded: true,
+					};
+				}
+			}
+
 			return mpl
 				.nfts()
 				.load({ metadata: metadata as Metadata<JsonMetadata<string>> });

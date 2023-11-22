@@ -18,6 +18,12 @@ export type HomeParamList = {
 	Widget: {
 		id?: string;
 	};
+	Collection: {
+		id: string;
+	};
+	Collectible: {
+		id: string;
+	};
 };
 
 export type ProfileParamList = {
@@ -68,6 +74,8 @@ export const linking: LinkingOptions<RootParamList> = {
 						path: '/',
 						screens: {
 							Widget: '/widget/:id',
+							Collection: '/collection/:id',
+							Collectible: '/collectible/:id',
 						},
 					},
 				},

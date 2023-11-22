@@ -73,10 +73,7 @@ export const useNfts = (network?: Networks, address?: string) => {
 			if (!network) return collections;
 			else
 				return collections.filter(
-					(ele) =>
-						ele.network === network &&
-						ele._id.includes(address || '') &&
-						ele.count > 0,
+					(ele) => ele.network === network && ele._id.includes(address || ''),
 				);
 		}, [collectionMap, network, address]),
 

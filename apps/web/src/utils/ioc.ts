@@ -24,7 +24,9 @@ export const injectModules = async () => {
 	utils.buyToken = buyToken;
 	utils.logOut = logOut;
 	utils.navigateToWidget = navigateToWidget;
-
+	utils.navigateToCollection = navigateToCollection;
+	utils.navigateToCollectible = navigateToCollectible;
+	utils.navigateBack = navigateBack;
 	modules.analytics = universalAnalytics;
 	modules.asset = webAsset;
 	modules.config = makeConfig() as never;
@@ -56,4 +58,16 @@ const logOut = async () => {
 
 const navigateToWidget = (id: string) => {
 	router.navigate(id);
+};
+
+const navigateToCollection = (id: string) => {
+	router.navigate(`/collections/${id}`);
+};
+
+const navigateToCollectible = (id: string) => {
+	router.navigate(`/nfts/${id}`);
+};
+
+const navigateBack = () => {
+	router.navigate(-1);
 };

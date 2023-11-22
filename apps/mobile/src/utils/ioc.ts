@@ -10,7 +10,7 @@ import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
 import { nativeAsset } from './config';
 import { initializeAuth, universalAnalytics } from './firebase';
 import { qlClient } from './graphql';
-import { navigate } from './navigation';
+import { navigate, navigationRef } from './navigation';
 import { appActions } from './state';
 import { createAndSend, handleAptosOnChainAction } from './transaction';
 import { key } from './w3a';
@@ -24,6 +24,9 @@ export const injectModules = async () => {
 	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.logOut = logOut;
 	utils.navigateToWidget = navigateToWidget;
+	utils.navigateToCollection = navigateToCollection;
+	utils.navigateToCollectible = navigateToCollectible;
+	utils.navigateBack = navigateBack;
 	// TODO: implement and inject buy token here
 
 	modules.analytics = universalAnalytics;
@@ -61,4 +64,22 @@ const navigateToWidget = (id: string) => {
 		screen: 'Home',
 		params: { screen: 'Widget', params: { id } },
 	});
+};
+
+const navigateToCollection = (id: string) => {
+	navigate('Dashboard', {
+		screen: 'Home',
+		params: { screen: 'Collection', params: { id } },
+	});
+};
+
+const navigateToCollectible = (id: string) => {
+	navigate('Dashboard', {
+		screen: 'Home',
+		params: { screen: 'Collectible', params: { id } },
+	});
+};
+
+const navigateBack = () => {
+	navigationRef.goBack();
 };

@@ -45,7 +45,9 @@ export const SendFeature: FC<Props> = ({
 		getTransactionAbstractFee,
 		handleClose: () => {
 			onClose();
-			transactionActions.resetTransactionContext();
+			setTimeout(() => {
+				transactionActions.resetTransactionContext();
+			}, 200);
 		},
 		checkValidAddress,
 		createAndSendTransaction,

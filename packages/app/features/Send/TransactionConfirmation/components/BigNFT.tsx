@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
 	tokenIcon: {
 		width: 120,
 		height: 120,
+		borderRadius: 8,
 	},
 	titleContainer: {
 		alignItems: 'center',

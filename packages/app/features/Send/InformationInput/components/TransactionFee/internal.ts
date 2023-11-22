@@ -8,20 +8,21 @@ import {
 	getTransactionFee,
 } from '../../../../../utils';
 
-export const handleSetTransactionFee = async (payload: TransactionPayload) => {
-	if (payload.receiver === '' || payload.amount === 0) {
+export const requestTransactionFee = async (payload: TransactionPayload) => {
+	if (payload.receiver === '') {
 		transactionActions.setTransactionFee(0);
-		return;
+		return 0;
 	}
 
-	const fee =
-		payload.tokenForFee?.metadata?.symbol !== 'SOL'
-			? await getTransactionAbstractFee(payload)
-			: await getTransactionFee(payload);
-
-	transactionActions.setTransactionFee(
-		parseFloat(fee.toPrecision(payload.tokenForFee?.account?.decimals ?? 7)),
-	);
+	try {
+		const fee =
+			payload.tokenForFee?.metadata?.symbol !== 'SOL'
+				? await getTransactionAbstractFee(payload)
+				: await getTransactionFee(payload);
+		return fee;
+	} catch {
+		return 0;
+	}
 };
 
 export const handleCheckIfBalanceIsEnough = async (

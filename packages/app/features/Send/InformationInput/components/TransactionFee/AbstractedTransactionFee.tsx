@@ -11,18 +11,20 @@ import type { Networks } from '@walless/core';
 import { solMint } from '@walless/engine/crawlers/solana/metadata';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
-import type { CollectibleDocument, TokenDocument } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
+import type { TransactionContext } from '../../../../../state/transaction';
 import {
 	transactionActions,
 	transactionContext,
 } from '../../../../../state/transaction';
+import { filterGasilonTokens } from '../../../utils/gasilon';
 
 import {
 	handleCheckIfBalanceIsEnough,
-	handleGetTokenName,
-	handleSetTransactionFee,
+	handleGetTokenName as getTokenName,
+	requestTransactionFee,
 } from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
 
@@ -31,26 +33,28 @@ interface Props {
 }
 
 export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
-	const [isDropped, setIsDropped] = useState(false);
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
-	const [filteredTokenForFeeList, setFilteredTokenForFee] =
-		useState<TokenDocument>([tokenList[0]]);
+	const [tokenForFeeList, setTokenForFeeList] = useState<TokenDocument[]>([
+		tokenList[0],
+	]);
 
 	const {
 		type,
 		token,
-		nftCollection,
 		transactionFee,
 		receiver,
 		sender,
 		amount,
 		nftCollectible,
 		tokenForFee,
-	} = useSnapshot(transactionContext);
+	} = useSnapshot(transactionContext) as TransactionContext;
+	const chosenToken = type === 'Token' ? token : nftCollectible;
+	const enableSelectFee =
+		chosenToken?.account?.mint !== solMint && tokenForFeeList.length > 1;
 
-	const handleSetTokenFee = (tokenForFee: Token) => {
-		transactionActions.setTokenForFee(tokenForFee as TokenDocument);
+	const setTokenFee = (tokenForFee: TokenDocument) => {
+		transactionActions.setTokenForFee(tokenForFee);
 	};
 
 	const dropdownRef = useRef(null);
@@ -59,87 +63,68 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		transactionActions.setTokenForFee(tokenList[0]);
 	}
 
-	const tokenForFeeName = handleGetTokenName(
-		tokenForFee as Token,
+	const tokenForFeeName = getTokenName(
+		tokenForFee as TokenDocument,
 		token?.network,
 	);
 
 	useEffect(() => {
-		const getIntersectionList = (originList, filterList) => {
-			const intersectionList = originList.filter((originItem) =>
-				filterList.some(
-					(filterItem) => filterItem.mint === originItem.account.mint,
-				),
-			);
-			return intersectionList;
-		};
-
-		const getGasilonTokensList = async () => {
-			const gasilon = await fetch(GASILON_ENDPOINT, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			}).then((res) => res.json());
-			const gasilonSupportedTokenList = gasilon.transfer.tokens;
-
-			const intersectionList = getIntersectionList(
-				tokenList,
-				gasilonSupportedTokenList,
-			);
-
-			setFilteredTokenForFee(filteredTokenForFeeList.concat(intersectionList));
-		};
-
-		getGasilonTokensList().catch((err) => {
-			console.log(err);
-		});
+		(async () => {
+			const tokens = await filterGasilonTokens(tokenList);
+			setTokenForFeeList([tokenList[0], ...tokens]);
+		})();
 	}, []);
 
 	useEffect(() => {
-		const handleReselectTokenForFee = async () => {
+		const updateTransactionFee = async () => {
+			if (!chosenToken) {
+				transactionActions.setTransactionFee(0);
+				return;
+			}
+
 			const payload: TransactionPayload = {
 				sender: sender,
 				receiver: receiver,
 				tokenForFee: tokenForFee as Token,
-				amount: type === 'Token' ? parseFloat(amount ?? '0') : 1,
-				token:
-					type === 'Token'
-						? (token as TokenDocument)
-						: (nftCollectible as CollectibleDocument),
-				network: token?.network as Networks,
+				amount: type === 'Token' ? parseFloat(amount || '0') : 1,
+				token: chosenToken,
+				network: chosenToken?.network as Networks,
 			};
 
 			setIsFeeLoading(true);
-			await handleSetTransactionFee(payload);
+			const fee = await requestTransactionFee(payload);
+			const decimals = payload.tokenForFee?.account?.decimals;
+			transactionActions.setTransactionFee(
+				parseFloat(fee.toPrecision(decimals)),
+			);
 			setIsFeeLoading(false);
 		};
-
-		handleReselectTokenForFee();
-	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
+		updateTransactionFee();
+	}, [tokenForFee, token, nftCollectible, receiver]);
 
 	useEffect(() => {
-		if (isDropped) {
-			if (token?.account.mint === solMint) {
-				modalActions.hide('NetworkFee');
-				transactionActions.setTokenForFee(tokenList[0]);
-			} else {
-				modalActions.show({
-					id: 'NetworkFee',
-					component: () => (
-						<TokenFeeDropDown
-							tokens={filteredTokenForFeeList as TokenDocument[]}
-							onSelect={handleSetTokenFee}
-							selectedToken={tokenForFee as Token}
-						/>
-					),
-					bindingRef: dropdownRef,
-					bindingDirection: BindDirections.Bottom,
-					maskActiveOpacity: 0,
-				});
-			}
+		if (token?.account.mint === solMint) {
+			transactionActions.setTokenForFee(token as TokenDocument);
 		}
-	}, [isDropped, token]);
+	}, [token]);
+
+	const handlePressSelect = () => {
+		if (!enableSelectFee) return;
+		modalActions.show({
+			id: 'NetworkFee',
+			component: () => (
+				<TokenFeeDropDown
+					tokens={tokenForFeeList}
+					onSelect={setTokenFee}
+					selectedToken={tokenForFee as TokenDocument}
+				/>
+			),
+			bindingRef: dropdownRef,
+			bindingDirection: BindDirections.Bottom,
+			maskActiveOpacity: 0,
+			positionOffset: { y: 4 },
+		});
+	};
 
 	useEffect(() => {
 		handleCheckIfBalanceIsEnough(
@@ -165,11 +150,11 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 							{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
 						</Text>
 					)}
-					{token && (
+					{chosenToken && (
 						<TouchableOpacity
 							ref={dropdownRef}
 							style={styles.feeDisplay}
-							onPress={() => setIsDropped(!isDropped)}
+							onPress={handlePressSelect}
 						>
 							<View style={styles.selectContainer}>
 								<Image
@@ -185,9 +170,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 								</Text>
 							</View>
 
-							{token?.account?.mint !== solMint && (
-								<ChevronDown size={20} color="#566674" />
-							)}
+							{enableSelectFee && <ChevronDown size={20} color="#566674" />}
 						</TouchableOpacity>
 					)}
 				</View>
@@ -232,7 +215,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1E2830',
 		borderRadius: 8,
 		paddingHorizontal: 8,
-		paddingVertical: 4,
+		paddingVertical: 6,
 		width: 100,
 	},
 	selectContainer: {
@@ -249,6 +232,7 @@ const styles = StyleSheet.create({
 	},
 	selectedToken: {
 		color: '#ffffff',
+		lineHeight: 20,
 	},
 	error: {
 		color: '#FC9B0A',

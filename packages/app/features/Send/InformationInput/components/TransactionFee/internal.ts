@@ -9,7 +9,7 @@ import {
 } from '../../../../../utils';
 
 export const requestTransactionFee = async (payload: TransactionPayload) => {
-	if (payload.receiver === '' || payload.amount === 0) {
+	if (payload.receiver === '') {
 		transactionActions.setTransactionFee(0);
 		return 0;
 	}

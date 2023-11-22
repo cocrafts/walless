@@ -1,6 +1,5 @@
 import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { Networks } from '@walless/core';
 
 import { FullHistoryFeature } from '../../Profile';
@@ -11,9 +10,9 @@ interface Props {
 
 const ActivityTab: FC<Props> = ({ network }) => {
 	return (
-		<ScrollView style={styles.container}>
+		<View style={styles.container}>
 			<FullHistoryFeature network={network} />
-		</ScrollView>
+		</View>
 	);
 };
 
@@ -21,6 +20,7 @@ export default ActivityTab;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		paddingVertical: 8,
 	},
 });

@@ -6,7 +6,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import type { Token, TransactionPayload } from '@walless/core';
+import type { Token, TransactionPayload, UnknownObject } from '@walless/core';
 import type { Networks } from '@walless/core';
 import { solMint } from '@walless/engine/crawlers/solana/metadata';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
@@ -34,8 +34,9 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
-	const [filteredTokenForFeeList, setFilteredTokenForFee] =
-		useState<TokenDocument>([tokenList[0]]);
+	const [filteredTokenForFeeList, setFilteredTokenForFee] = useState<
+		TokenDocument[]
+	>([tokenList[0]]);
 
 	const {
 		type,
@@ -60,12 +61,15 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	}
 
 	const tokenForFeeName = handleGetTokenName(
-		tokenForFee as Token,
+		tokenForFee as TokenDocument,
 		token?.network,
 	);
 
 	useEffect(() => {
-		const getIntersectionList = (originList, filterList) => {
+		const getIntersectionList = (
+			originList: TokenDocument[],
+			filterList: UnknownObject[],
+		) => {
 			const intersectionList = originList.filter((originItem) =>
 				filterList.some(
 					(filterItem) => filterItem.mint === originItem.account.mint,

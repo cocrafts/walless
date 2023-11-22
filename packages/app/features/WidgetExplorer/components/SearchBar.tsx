@@ -45,7 +45,6 @@ export const SearchBar: FC<Props> = ({
 			<Input
 				prefix={prefix}
 				style={styles.inputContainer}
-				inputStyle={styles.input}
 				placeholder={placeholder}
 				placeholderTextColor={placeholderTextColor}
 				onChangeText={(text) => {
@@ -73,8 +72,5 @@ const styles = StyleSheet.create({
 	},
 	prefix: {
 		padding: 12,
-	},
-	input: {
-		// paddingHorizontal: 12,
 	},
 });

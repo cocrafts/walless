@@ -41,7 +41,7 @@ export const CollectionFeat: FC<Props> = ({ id, style }) => {
 			<Hoverable style={styles.backButton} onPress={handleGoBack}>
 				<ChevronLeft size={16} />
 				<Text style={styles.title}>
-					{`${curCollection?.metadata?.name} (${curCollectibles.length})` ||
+					{`${curCollection?.metadata?.name} (${curCollection?.count})` ||
 						'Unknown collection'}
 				</Text>
 			</Hoverable>

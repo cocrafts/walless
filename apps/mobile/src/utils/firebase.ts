@@ -44,11 +44,10 @@ export const fireCache: FireCache = {
 auth().onIdTokenChanged(async (user) => {
 	if (user) {
 		fireCache.idToken = await user.getIdToken();
+		appState.jwtAuth = fireCache.idToken;
 	} else {
 		fireCache.idToken = undefined;
 	}
-
-	appState.jwtAuth = await auth().currentUser?.getIdToken(true);
 });
 
 export const initializeAuth = async () => {

@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
 import { runtime } from '@walless/core';
 import { Compass } from '@walless/icons';
+import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 
 import NavigatorOrb from './NavigatorOrb';
@@ -48,6 +49,7 @@ export const DashboardNavigator: FC<Props> = ({
 			<View style={styles.orbContainer}>
 				<NavigatorOrb
 					item={exploreItem as never}
+					iconSource={{ uri: '' }}
 					isActive={isExplorerActive}
 					onPress={onExtensionPress}
 				>
@@ -63,12 +65,15 @@ export const DashboardNavigator: FC<Props> = ({
 
 				{widgets.map((item) => {
 					const isActive = getIsExtensionActive?.(item);
+					const iconSource =
+						modules.asset.widget[item._id]?.widgetMeta?.cardIcon;
 
 					return (
 						<NavigatorOrb
 							key={item._id}
 							item={item}
 							isActive={isActive}
+							iconSource={iconSource}
 							onPress={onExtensionPress}
 							ContextComponent={RemoveLayout}
 							onRemoveLayout={onRemoveLayout}
@@ -83,6 +88,7 @@ export const DashboardNavigator: FC<Props> = ({
 				<View style={styles.commandContainer}>
 					<NavigatorOrb
 						item={profileItem as never}
+						iconSource={{ uri: profile.profileImage }}
 						onPress={onExtensionPress}
 						isActive={getIsExtensionActive?.(profileItem as never)}
 					/>

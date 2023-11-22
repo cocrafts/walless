@@ -66,14 +66,14 @@ export default CollectionFeat;
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 10,
-		gap: 17,
+		padding: 18,
+		gap: 18,
 	},
 	backButton: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 6,
-		marginTop: 6,
+		marginTop: 2,
 	},
 	title: {
 		fontSize: 18,
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
 	},
 	collectiblesContainer: {
 		flexDirection: 'row',
-		flexWrap: 'wrap',
 		justifyContent: 'space-between',
-		rowGap: 10,
+		flexWrap: 'wrap',
+		gap: 18,
 	},
 });

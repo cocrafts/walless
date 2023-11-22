@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
-		rowGap: 10,
-		paddingTop: 10,
+		gap: 14,
+		paddingTop: 16,
 		paddingBottom: 60,
 	},
 	emptyContainer: {

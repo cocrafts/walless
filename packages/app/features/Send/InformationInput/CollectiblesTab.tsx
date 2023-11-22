@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Networks } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
@@ -63,7 +62,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 
 			<RecipientInput />
 
-			<TransactionFee network={network ?? Networks.solana} />
+			<TransactionFee network={network || (nftCollectible?.network as never)} />
 
 			<NavButton title="Continue" onPress={onContinue} />
 		</View>

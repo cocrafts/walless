@@ -49,6 +49,9 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		nftCollectible,
 		tokenForFee,
 	} = useSnapshot(transactionContext) as TransactionContext;
+	const chosenToken = type === 'Token' ? token : nftCollectible;
+	const enableSelectFee =
+		chosenToken?.account?.mint !== solMint && tokenForFeeList.length > 1;
 
 	const setTokenFee = (tokenForFee: TokenDocument) => {
 		transactionActions.setTokenForFee(tokenForFee);
@@ -74,7 +77,6 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 
 	useEffect(() => {
 		const updateTransactionFee = async () => {
-			const chosenToken = type === 'Token' ? token : nftCollectible;
 			if (!chosenToken) return;
 
 			const payload: TransactionPayload = {
@@ -104,6 +106,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	}, [token]);
 
 	const handlePressSelect = () => {
+		if (!enableSelectFee) return;
 		modalActions.show({
 			id: 'NetworkFee',
 			component: () => (
@@ -144,7 +147,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 							{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
 						</Text>
 					)}
-					{token && (
+					{chosenToken && (
 						<TouchableOpacity
 							ref={dropdownRef}
 							style={styles.feeDisplay}
@@ -164,10 +167,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 								</Text>
 							</View>
 
-							{token?.account?.mint !== solMint &&
-								tokenForFeeList.length > 1 && (
-									<ChevronDown size={20} color="#566674" />
-								)}
+							{enableSelectFee && <ChevronDown size={20} color="#566674" />}
 						</TouchableOpacity>
 					)}
 				</View>
@@ -229,6 +229,7 @@ const styles = StyleSheet.create({
 	},
 	selectedToken: {
 		color: '#ffffff',
+		lineHeight: 20,
 	},
 	error: {
 		color: '#FC9B0A',

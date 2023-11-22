@@ -53,7 +53,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 			<Balance />
 
-			<TransactionFee network={network} />
+			<TransactionFee network={network || (token?.network as never)} />
 
 			<View style={styles.totalLine} />
 

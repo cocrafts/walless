@@ -34,6 +34,8 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const [isDropped, setIsDropped] = useState(false);
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
+	const [filteredTokenForFeeList, setFilteredTokenForFee] =
+		useState<TokenDocument>([tokenList[0]]);
 
 	const {
 		type,
@@ -61,6 +63,38 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		tokenForFee as Token,
 		token?.network,
 	);
+
+	useEffect(() => {
+		const getIntersectionList = (originList, filterList) => {
+			const intersectionList = originList.filter((originItem) =>
+				filterList.some(
+					(filterItem) => filterItem.mint === originItem.account.mint,
+				),
+			);
+			return intersectionList;
+		};
+
+		const getGasilonTokensList = async () => {
+			const gasilon = await fetch(GASILON_ENDPOINT, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}).then((res) => res.json());
+			const gasilonSupportedTokenList = gasilon.transfer.tokens;
+
+			const intersectionList = getIntersectionList(
+				tokenList,
+				gasilonSupportedTokenList,
+			);
+
+			setFilteredTokenForFee(filteredTokenForFeeList.concat(intersectionList));
+		};
+
+		getGasilonTokensList().catch((err) => {
+			console.log(err);
+		});
+	}, []);
 
 	useEffect(() => {
 		const handleReselectTokenForFee = async () => {
@@ -94,7 +128,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 					id: 'NetworkFee',
 					component: () => (
 						<TokenFeeDropDown
-							tokens={tokenList as TokenDocument[]}
+							tokens={filteredTokenForFeeList as TokenDocument[]}
 							onSelect={handleSetTokenFee}
 							selectedToken={tokenForFee as Token}
 						/>

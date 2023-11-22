@@ -1,4 +1,5 @@
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import type { Networks } from '@walless/core';
 
 import { transactionContext } from '../../../../../state/transaction';
@@ -19,8 +20,11 @@ export const TransactionFee: FC<Props> = ({ network }) => {
 
 	useEffect(() => {
 		if (network || token?.network) {
-			if (gasilonSupportedNetworks.includes(network ?? token?.network))
+			if (gasilonSupportedNetworks.includes(network ?? token?.network)) {
 				setIsAbstractFee(true);
+			} else {
+				setIsAbstractFee(false);
+			}
 		}
 	}, [token]);
 

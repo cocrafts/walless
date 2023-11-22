@@ -2,7 +2,8 @@ import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
-import { View } from '@walless/gui';
+import { Hoverable, View } from '@walless/gui';
+import { Setting } from '@walless/icons';
 import { utils } from '@walless/ioc';
 
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
@@ -11,7 +12,6 @@ import { showSendModal } from '../Send';
 
 import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';
-import Widgets from './components/Widgets';
 
 interface Props {
 	style: StyleProp<ViewStyle>;
@@ -30,9 +30,9 @@ export const ProfileFeature: FC<Props> = ({
 
 	return (
 		<View style={[styles.container, style]}>
-			<View style={styles.widgetContainer}>
-				<Widgets onSettingPress={onSettingPress} />
-			</View>
+			<Hoverable style={styles.settingButton} onPress={onSettingPress}>
+				<Setting size={14} color="white" />
+			</Hoverable>
 
 			<TokenValue />
 
@@ -60,6 +60,16 @@ const styles = StyleSheet.create({
 	widgetContainer: {
 		alignSelf: 'flex-end',
 		marginBottom: -12,
+	},
+	settingButton: {
+		alignSelf: 'flex-end',
+		backgroundColor: '#25313D',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: 0,
+		width: 30,
+		height: 30,
+		borderRadius: 15,
 	},
 });
 

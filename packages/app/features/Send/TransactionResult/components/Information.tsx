@@ -94,7 +94,7 @@ export const Information: FC<Props> = () => {
 			<View style={styles.separatedLine}></View>
 
 			<View style={styles.inforLine}>
-				<Text>Network fee</Text>
+				<Text>Transaction fee</Text>
 				<Text style={styles.inforText}>{feeStr}</Text>
 			</View>
 		</View>

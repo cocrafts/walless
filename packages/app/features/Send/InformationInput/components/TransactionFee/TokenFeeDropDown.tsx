@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import type { Token } from '@walless/core';
 import { Hoverable, modalActions, Text, View } from '@walless/gui';
+import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
 interface Props {
 	tokens: TokenDocument[];
-	onSelect: (token: Token) => void;
-	selectedToken?: Token;
+	onSelect: (token: TokenDocument) => void;
+	selectedToken?: TokenDocument;
 }
 
 const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
@@ -20,6 +20,9 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 		<View style={styles.dropdown}>
 			{tokens.map((token, idx) => {
 				const name = token.metadata?.symbol || 'Unknown';
+				const tokenIcon = token.metadata?.imageUri
+					? { uri: token.metadata.imageUri }
+					: modules.asset.misc.unknownToken;
 
 				return (
 					<Hoverable
@@ -30,14 +33,7 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 						key={idx}
 						onPress={() => handleSelectToken(token)}
 					>
-						<Image
-							source={{
-								uri:
-									token.metadata?.imageUri ||
-									'/img/send-token/unknown-token.jpeg',
-							}}
-							style={styles.tokenIcon}
-						/>
+						<Image source={tokenIcon} style={styles.tokenIcon} />
 						<Text numberOfLines={1}>{name}</Text>
 					</Hoverable>
 				);

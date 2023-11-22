@@ -11,9 +11,10 @@ import type { Networks } from '@walless/core';
 import { solMint } from '@walless/engine/crawlers/solana/metadata';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
-import type { CollectibleDocument, TokenDocument } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
+import type { TransactionContext } from '../../../../../state/transaction';
 import {
 	transactionActions,
 	transactionContext,
@@ -22,8 +23,8 @@ import { filterGasilonTokens } from '../../../utils/gasilon';
 
 import {
 	handleCheckIfBalanceIsEnough,
-	handleGetTokenName,
-	handleSetTransactionFee,
+	handleGetTokenName as getTokenName,
+	requestTransactionFee,
 } from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
 
@@ -41,17 +42,16 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const {
 		type,
 		token,
-		nftCollection,
 		transactionFee,
 		receiver,
 		sender,
 		amount,
 		nftCollectible,
 		tokenForFee,
-	} = useSnapshot(transactionContext);
+	} = useSnapshot(transactionContext) as TransactionContext;
 
-	const handleSetTokenFee = (tokenForFee: Token) => {
-		transactionActions.setTokenForFee(tokenForFee as TokenDocument);
+	const setTokenFee = (tokenForFee: TokenDocument) => {
+		transactionActions.setTokenForFee(tokenForFee);
 	};
 
 	const dropdownRef = useRef(null);
@@ -60,7 +60,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		transactionActions.setTokenForFee(tokenList[0]);
 	}
 
-	const tokenForFeeName = handleGetTokenName(
+	const tokenForFeeName = getTokenName(
 		tokenForFee as TokenDocument,
 		token?.network,
 	);
@@ -73,26 +73,29 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	}, []);
 
 	useEffect(() => {
-		const handleReselectTokenForFee = async () => {
+		const updateTransactionFee = async () => {
+			const chosenToken = type === 'Token' ? token : nftCollectible;
+			if (!chosenToken) return;
+
 			const payload: TransactionPayload = {
 				sender: sender,
 				receiver: receiver,
 				tokenForFee: tokenForFee as Token,
 				amount: type === 'Token' ? parseFloat(amount || '0') : 1,
-				token:
-					type === 'Token'
-						? (token as TokenDocument)
-						: (nftCollectible as CollectibleDocument),
-				network: token?.network as Networks,
+				token: chosenToken,
+				network: chosenToken?.network as Networks,
 			};
 
 			setIsFeeLoading(true);
-			await handleSetTransactionFee(payload);
+			const fee = await requestTransactionFee(payload);
+			const decimals = payload.tokenForFee?.account?.decimals;
+			transactionActions.setTransactionFee(
+				parseFloat(fee.toPrecision(decimals)),
+			);
 			setIsFeeLoading(false);
 		};
-
-		handleReselectTokenForFee();
-	}, [type, token, tokenForFee, nftCollection, receiver, amount]);
+		updateTransactionFee();
+	}, [tokenForFee, token, nftCollectible, receiver]);
 
 	useEffect(() => {
 		if (token?.account.mint === solMint) {
@@ -106,8 +109,8 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 			component: () => (
 				<TokenFeeDropDown
 					tokens={tokenForFeeList}
-					onSelect={handleSetTokenFee}
-					selectedToken={tokenForFee as Token}
+					onSelect={setTokenFee}
+					selectedToken={tokenForFee as TokenDocument}
 				/>
 			),
 			bindingRef: dropdownRef,

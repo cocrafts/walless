@@ -1,5 +1,6 @@
 import { Metaplex } from '@metaplex-foundation/js';
 import { AccountLayout } from '@solana/spl-token';
+import type { ParsedAccountData } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { AssetMetadata } from '@walless/core';
 import { Networks } from '@walless/core';
@@ -37,25 +38,41 @@ export const registerAccountChanges = async (
 		async (info) => {
 			let mint: string;
 			let balance: string;
+			let isToken: boolean;
 			const isNativeToken = info.data.byteLength === 0;
+			const mpl = new Metaplex(connection);
 
 			if (isNativeToken) {
 				mint = solMint;
 				balance = info.lamports.toString();
+				isToken = true;
 			} else {
 				const data = AccountLayout.decode(info.data);
 				mint = data.mint.toString();
 				balance = data.amount.toString();
+				const tokenAccount = await connection.getParsedAccountInfo(
+					new PublicKey(mint),
+				);
+				const tokenInfo = (tokenAccount.value?.data as ParsedAccountData).parsed
+					.info;
+
+				isToken = tokenInfo.decimals !== 0;
 			}
 
 			const tokenId = `${owner}/token/${mint}`;
-			const isToken = await getTokenByIdFromStorage(tokenId);
+			const isTokenExisted = !!(await getTokenByIdFromStorage(tokenId));
 
-			if (isToken) {
+			if (isToken && isTokenExisted) {
 				balance !== '0'
 					? updateTokenBalanceToStorage(tokenId, balance)
 					: removeTokenFromStorage(tokenId);
-			} else {
+			} else if (isToken && !isTokenExisted) {
+				const fungibleTokens = await solanaFungiblesByAddress(
+					context,
+					ownerPubkey,
+				);
+				addTokensToStorage(fungibleTokens);
+			} else if (!isToken) {
 				const amount = parseInt(balance);
 				const collectibleId = `${owner}/collectible/${mint}`;
 
@@ -64,20 +81,18 @@ export const registerAccountChanges = async (
 				} else if (
 					!(await updateCollectibleAmountToStorage(collectibleId, amount))
 				) {
-					const mpl = new Metaplex(connection);
 					try {
 						const mintAddress = new PublicKey(mint);
 						const nft = await mpl.nfts().findByMint({ mintAddress });
 
 						addCollectible(connection, endpoint, owner, nft);
-					} catch {
-						const fungibleTokens = await solanaFungiblesByAddress(
-							context,
-							ownerPubkey,
-						);
-						addTokensToStorage(fungibleTokens);
+					} catch (e) {
+						console.log('add collectible error', e);
 					}
 				}
+			} else {
+				// TODO: need to handle if got this message
+				console.log('account change unknown');
 			}
 		},
 		'confirmed',

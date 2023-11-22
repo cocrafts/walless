@@ -6,7 +6,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import type { Token, TransactionPayload, UnknownObject } from '@walless/core';
+import type { Token, TransactionPayload } from '@walless/core';
 import type { Networks } from '@walless/core';
 import { solMint } from '@walless/engine/crawlers/solana/metadata';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
@@ -18,6 +18,7 @@ import {
 	transactionActions,
 	transactionContext,
 } from '../../../../../state/transaction';
+import { filterGasilonTokens } from '../../../utils/gasilon';
 
 import {
 	handleCheckIfBalanceIsEnough,
@@ -31,12 +32,11 @@ interface Props {
 }
 
 export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
-	const [isDropped, setIsDropped] = useState(false);
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
-	const [filteredTokenForFeeList, setFilteredTokenForFee] = useState<
-		TokenDocument[]
-	>([tokenList[0]]);
+	const [tokenForFeeList, setTokenForFeeList] = useState<TokenDocument[]>([
+		tokenList[0],
+	]);
 
 	const {
 		type,
@@ -66,38 +66,10 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	);
 
 	useEffect(() => {
-		const getIntersectionList = (
-			originList: TokenDocument[],
-			filterList: UnknownObject[],
-		) => {
-			const intersectionList = originList.filter((originItem) =>
-				filterList.some(
-					(filterItem) => filterItem.mint === originItem.account.mint,
-				),
-			);
-			return intersectionList;
-		};
-
-		const getGasilonTokensList = async () => {
-			const gasilon = await fetch(GASILON_ENDPOINT, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			}).then((res) => res.json());
-			const gasilonSupportedTokenList = gasilon.transfer.tokens;
-
-			const intersectionList = getIntersectionList(
-				tokenList,
-				gasilonSupportedTokenList,
-			);
-
-			setFilteredTokenForFee(filteredTokenForFeeList.concat(intersectionList));
-		};
-
-		getGasilonTokensList().catch((err) => {
-			console.log(err);
-		});
+		(async () => {
+			const tokens = await filterGasilonTokens(tokenList);
+			setTokenForFeeList([tokenList[0], ...tokens]);
+		})();
 	}, []);
 
 	useEffect(() => {
@@ -120,14 +92,20 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		};
 
 		handleReselectTokenForFee();
-	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
+	}, [type, token, tokenForFee, nftCollection, receiver, amount]);
+
+	useEffect(() => {
+		if (token?.account.mint === solMint) {
+			transactionActions.setTokenForFee(token as TokenDocument);
+		}
+	}, [token]);
 
 	const handlePressSelect = () => {
 		modalActions.show({
 			id: 'NetworkFee',
 			component: () => (
 				<TokenFeeDropDown
-					tokens={filteredTokenForFeeList as TokenDocument[]}
+					tokens={tokenForFeeList}
 					onSelect={handleSetTokenFee}
 					selectedToken={tokenForFee as Token}
 				/>
@@ -183,9 +161,10 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 								</Text>
 							</View>
 
-							{token?.account?.mint !== solMint && (
-								<ChevronDown size={20} color="#566674" />
-							)}
+							{token?.account?.mint !== solMint &&
+								tokenForFeeList.length > 1 && (
+									<ChevronDown size={20} color="#566674" />
+								)}
 						</TouchableOpacity>
 					)}
 				</View>
@@ -230,7 +209,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1E2830',
 		borderRadius: 8,
 		paddingHorizontal: 8,
-		paddingVertical: 4,
+		paddingVertical: 6,
 		width: 100,
 	},
 	selectContainer: {

@@ -36,7 +36,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	const keys = usePublicKeys(id as Networks);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
 	const { tokens, valuation } = useTokens(id as Networks);
-	const { collections } = useNfts(Networks.solana);
+	const { collections } = useNfts(id as Networks);
 	const cardSkin = useMemo(() => getWalletCardSkin(id as never), [id]);
 
 	const container: ViewStyle = {

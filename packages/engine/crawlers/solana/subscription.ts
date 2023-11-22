@@ -23,6 +23,13 @@ import type { SolanaContext } from './shared';
 import { throttle } from './shared';
 import { solanaFungiblesByAddress } from './token';
 
+/**
+ * All cases we need to subscribe
+ * - Send, receive native token
+ * - Send SPL token, NFT to wallet which does not have ATA for this token
+ * - Receive SPL token, NFT which we don't have ATA for
+ * */
+
 const accountChangeIds: number[] = [];
 const logIds: number[] = [];
 

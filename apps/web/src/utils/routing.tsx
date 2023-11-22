@@ -1,4 +1,5 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
+import { modules } from '@walless/ioc';
 import { PopupType } from '@walless/messaging';
 import CreatePasscodeScreen from 'screens/CreatePasscode';
 import DashboardScreen from 'screens/Dashboard';
@@ -17,7 +18,6 @@ import RequestConnection from 'screens/Request/Connection';
 import RequestLayout from 'screens/Request/Layout';
 import RequestSignature from 'screens/Request/Signature';
 import SettingScreen from 'screens/Setting';
-import { analytics, logEvent } from 'utils/firebase';
 
 const createRouter =
 	BUILD_TARGET === 'extension' ? createHashRouter : createBrowserRouter;
@@ -104,7 +104,7 @@ router.subscribe((route) => {
 	const currentPathName = route.location.pathname;
 
 	if (currentPathName !== previousPathName) {
-		logEvent(analytics, 'screen_view', {
+		modules.analytics?.logEvent('screen_view', {
 			firebase_screen: currentPathName,
 			firebase_screen_class: currentPathName,
 		});

@@ -13,7 +13,6 @@ export const appActions = {
 	setActiveWidget: (id: string): void => {
 		appState.activeWidgetId = id;
 	},
-	setIsDrawerOpen: (flag: boolean): void => {
-		appState.isDrawerOpen = flag;
-	},
 };
+
+export * from './local';

@@ -3,7 +3,7 @@ import { Image, StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
-import { modules } from '@walless/ioc';
+import { modules, utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import { addWidgetToStorage } from '@walless/store';
 
@@ -22,6 +22,7 @@ export const WidgetItem: FC<Props> = ({ widget }) => {
 
 	const onAddBtnPress = () => {
 		addWidgetToStorage(widget._id, widget);
+		utils.navigateToWidget(widget._id);
 	};
 
 	return (

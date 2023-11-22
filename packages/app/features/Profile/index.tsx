@@ -1,11 +1,11 @@
 import type { FC } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
-import { useSafeAreaInsets } from '../../utils/hooks';
 import { showReceiveModal } from '../Receive';
 import { showSendModal } from '../Send';
 
@@ -14,26 +14,22 @@ import TransactionHistory from './components/TransactionHistory';
 import Widgets from './components/Widgets';
 
 interface Props {
+	style: StyleProp<ViewStyle>;
 	onNavigateToHistory: () => void;
 	onSettingPress?: () => void;
 }
 
 export const ProfileFeature: FC<Props> = ({
+	style,
 	onNavigateToHistory,
 	onSettingPress,
 }) => {
-	const { top } = useSafeAreaInsets();
-
-	const containerStyle = {
-		paddingTop: top,
-	};
-
 	const handleSend = () => {
 		showSendModal();
 	};
 
 	return (
-		<View style={[styles.container, containerStyle]}>
+		<View style={[styles.container, style]}>
 			<View style={styles.widgetContainer}>
 				<Widgets onSettingPress={onSettingPress} />
 			</View>

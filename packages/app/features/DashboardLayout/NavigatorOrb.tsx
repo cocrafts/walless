@@ -9,7 +9,7 @@ import {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import { runtime, type WidgetStoreOptions } from '@walless/core';
+import type { WidgetStoreOptions } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -49,11 +49,7 @@ export const NavigatorOrb: FC<Props> = ({
 	const containerRef = useRef(null);
 	const iconColor = getIconColor(isActive, item.storeMeta);
 	const iconSize = item.storeMeta?.iconSize || 20;
-	const iconUri = item.storeMeta?.iconUri;
-	const iconSource = runtime.isMobile
-		? modules.asset.widget[item._id]?.widgetMeta?.cardIcon ||
-		  modules.asset.widget[item._id]?.storeMeta.iconUri
-		: { uri: iconUri };
+	const iconSource = modules.asset.widget[item._id]?.widgetMeta?.cardIcon;
 	const offset = useSharedValue(0);
 	const radius = useSharedValue(isActive ? 1000 : 15);
 	const hoverBarStyle = useAnimatedStyle(() => {

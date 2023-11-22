@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { modalActions, ModalManager, themeState } from '@walless/gui';
 import SplashScreen from 'screens/Splash';
 import { analytics } from 'utils/firebase';
-import { useSnapshot } from 'utils/hooks';
+import { useNotifications, useSnapshot } from 'utils/hooks';
 import type { RootParamList } from 'utils/navigation';
 import { linking, navigationRef, screenOptions } from 'utils/navigation';
 
@@ -18,6 +18,9 @@ export const AppStack = () => {
 	const modalContainerRef = useRef<View>(null);
 	const routeNameRef = useRef<string>();
 	const theme = useSnapshot(themeState);
+
+	useNotifications();
+	useEffect(() => modalActions.setContainerRef(modalContainerRef), []);
 
 	const onNavigationReady = () => {
 		routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
@@ -36,10 +39,6 @@ export const AppStack = () => {
 			routeNameRef.current = currentRouteName;
 		}
 	};
-
-	useEffect(() => {
-		modalActions.setContainerRef(modalContainerRef);
-	}, []);
 
 	return (
 		<View style={styles.container} ref={modalContainerRef}>

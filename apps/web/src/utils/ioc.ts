@@ -1,11 +1,10 @@
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
-import type { SettingDocument } from '@walless/store';
 import { configure, create } from '@walless/store';
 import { signOut } from 'firebase/auth';
 import IDBPouch from 'pouchdb-adapter-idb';
-import { auth, initializeAuth } from 'utils/firebase';
+import { auth, initializeAuth, universalAnalytics } from 'utils/firebase';
 
 import { makeConfig } from '../../scripts/kernel/utils/config';
 
@@ -17,23 +16,31 @@ import { createAndSend, handleAptosOnChainAction } from './transaction';
 import { key } from './w3a';
 
 export const injectModules = async () => {
+	const startTime = new Date();
+	const storage = create('engine', IDBPouch);
+
 	utils.createAndSend = createAndSend;
 	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.buyToken = buyToken;
 	utils.logOut = logOut;
+	utils.navigateToWidget = navigateToWidget;
 
-	const storage = create('engine', IDBPouch);
-	const settings = await storage.safeGet<SettingDocument>('settings');
-
-	modules.config = makeConfig() as never;
+	modules.analytics = universalAnalytics;
 	modules.asset = webAsset;
+	modules.config = makeConfig() as never;
 	modules.storage = storage;
 	modules.qlClient = qlClient;
 	modules.thresholdKey = key as never;
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
-	await Promise.all([initializeAuth(settings), configure(modules.storage)]);
-	modules.engine = await createEngine();
+
+	await configure(storage); // pouchdb setup, should be lighting fast
+	await initializeAuth(); // some of its dependency triggered without await causing fast complete/resolve
+	modules.engine = await createEngine(); // start crawling engine
 	modules.engine.start();
+
+	const endTime = new Date();
+	const milliseconds = endTime.getMilliseconds() - startTime.getMilliseconds();
+	console.log(`Took ${milliseconds} milliseconds to configure IoC module`);
 
 	return modules;
 };
@@ -43,5 +50,10 @@ export default modules;
 const logOut = async () => {
 	await signOut(auth);
 	await modules.storage.clearAllDocs();
-	await router.navigate('/login');
+
+	router.navigate('/login');
+};
+
+const navigateToWidget = (id: string) => {
+	router.navigate(id);
 };

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
@@ -9,10 +10,11 @@ import { useHistory } from '../../../../utils/hooks';
 import HistoryItem from './HistoryItem';
 
 interface Props {
+	style?: StyleProp<ViewStyle>;
 	network?: Networks;
 }
 
-export const FullHistoryFeature: FC<Props> = ({ network }) => {
+export const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 	const history = useHistory(network);
 	const [loading, setLoading] = useState(true);
 
@@ -31,7 +33,7 @@ export const FullHistoryFeature: FC<Props> = ({ network }) => {
 	}, [history]);
 
 	return (
-		<ScrollView>
+		<ScrollView style={style}>
 			{loading ? (
 				<ActivityIndicator />
 			) : (

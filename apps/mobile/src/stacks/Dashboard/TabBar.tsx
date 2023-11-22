@@ -4,6 +4,7 @@ import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import type { WithTimingConfig } from 'react-native-reanimated';
 import {
+	Easing,
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
@@ -11,9 +12,10 @@ import {
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Route } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
-import { appState, mockWidgets } from '@walless/engine';
+import { appState } from '@walless/engine';
 import { AnimatedView } from '@walless/gui';
 import { modules } from '@walless/ioc';
+import { localState } from 'utils/state';
 
 import NavigationItem from './TabBarItem';
 
@@ -35,40 +37,30 @@ const getIconImage = (routeName: string): ImageSourcePropType => {
 };
 
 const timingConfig: WithTimingConfig = {
-	duration: 50,
+	duration: 150,
+	easing: Easing.linear,
 };
 
 interface Props {
 	tabProps: BottomTabBarProps;
-	setSceneMarginBottom: (marginBottom: number) => void;
 }
 
-export const BottomNavigationTabBar: FC<Props> = ({
-	tabProps,
-	setSceneMarginBottom,
-}) => {
-	const { activeWidgetId, isDrawerOpen } = useSnapshot(appState);
+export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
+	const { insets, state, navigation } = tabProps;
+	const { isDrawerOpen } = useSnapshot(localState);
 	const offset = useSharedValue(0);
+	const realBarHeight = tabBarHeight + insets.bottom;
 	const animatedStyles = useAnimatedStyle(() => ({
-		transform: [{ translateY: withTiming(offset.value) }],
+		transform: [{ translateY: offset.value }],
 	}));
 
 	useEffect(() => {
-		if (
-			!isDrawerOpen &&
-			mockWidgets.some((widget) => widget._id === activeWidgetId)
-		) {
-			offset.value = withTiming(tabBarHeight, timingConfig);
-			setSceneMarginBottom(0);
-		} else {
-			offset.value = withTiming(0, timingConfig);
-			setSceneMarginBottom(tabBarHeight);
-		}
+		const nextOffset = isDrawerOpen ? 0 : realBarHeight;
+		offset.value = withTiming(nextOffset, timingConfig);
 	}, [isDrawerOpen]);
 
-	const { insets, state, navigation } = tabProps;
-
 	const containerStyle: ViewStyle = {
+		height: realBarHeight,
 		paddingBottom: insets.bottom,
 	};
 
@@ -105,13 +97,13 @@ export const BottomNavigationTabBar: FC<Props> = ({
 
 export default BottomNavigationTabBar;
 
-export const tabBarHeight = 96;
+export const tabBarHeight = 48;
 const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
-		bottom: 0,
 		left: 0,
 		right: 0,
+		bottom: 0,
 		flexDirection: 'row',
 		height: tabBarHeight,
 		backgroundColor: '#081016',

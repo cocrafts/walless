@@ -30,6 +30,12 @@ PODS:
     - FirebaseAnalytics (~> 10.17.0)
   - Firebase/CoreOnly (10.17.0):
     - FirebaseCore (= 10.17.0)
+  - Firebase/Crashlytics (10.17.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 10.17.0)
+  - Firebase/Messaging (10.17.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 10.17.0)
   - Firebase/RemoteConfig (10.17.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.17.0)
@@ -65,13 +71,32 @@ PODS:
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/Logger (~> 7.8)
+  - FirebaseCoreExtension (10.17.0):
+    - FirebaseCore (~> 10.0)
   - FirebaseCoreInternal (10.18.0):
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
+  - FirebaseCrashlytics (10.17.0):
+    - FirebaseCore (~> 10.5)
+    - FirebaseInstallations (~> 10.0)
+    - FirebaseSessions (~> 10.5)
+    - GoogleDataTransport (~> 9.2)
+    - GoogleUtilities/Environment (~> 7.8)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesObjC (~> 2.1)
   - FirebaseInstallations (10.18.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
     - PromisesObjC (~> 2.1)
+  - FirebaseMessaging (10.17.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleDataTransport (~> 9.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Reachability (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
   - FirebaseRemoteConfig (10.17.0):
     - FirebaseABTesting (~> 10.0)
     - FirebaseCore (~> 10.0)
@@ -79,6 +104,14 @@ PODS:
     - FirebaseSharedSwift (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
+  - FirebaseSessions (10.18.0):
+    - FirebaseCore (~> 10.5)
+    - FirebaseCoreExtension (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleDataTransport (~> 9.2)
+    - GoogleUtilities/Environment (~> 7.10)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesSwift (~> 2.1)
   - FirebaseSharedSwift (10.18.0)
   - fmt (6.2.1)
   - GenericJSON (2.0.2)
@@ -103,6 +136,10 @@ PODS:
     - GoogleUtilities/Network (~> 7.11)
     - "GoogleUtilities/NSData+zlib (~> 7.11)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleDataTransport (9.2.5):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
   - GoogleSignIn (6.2.4):
     - AppAuth (~> 1.5)
     - GTMAppAuth (~> 1.3)
@@ -142,6 +179,8 @@ PODS:
   - nanopb/encode (2.30909.1)
   - OpenSSL-Universal (3.1.4000)
   - PromisesObjC (2.3.1)
+  - PromisesSwift (2.3.1):
+    - PromisesObjC (= 2.3.1)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -515,6 +554,16 @@ PODS:
     - Firebase/Auth (= 10.17.0)
     - React-Core
     - RNFBApp
+  - RNFBCrashlytics (18.6.1):
+    - Firebase/Crashlytics (= 10.17.0)
+    - FirebaseCoreExtension (= 10.17.0)
+    - React-Core
+    - RNFBApp
+  - RNFBMessaging (18.6.1):
+    - Firebase/Messaging (= 10.17.0)
+    - FirebaseCoreExtension (= 10.17.0)
+    - React-Core
+    - RNFBApp
   - RNFBRemoteConfig (18.6.1):
     - Firebase/RemoteConfig (= 10.17.0)
     - React-Core
@@ -524,6 +573,8 @@ PODS:
     - React-Core
   - RNGoogleSignin (9.1.0):
     - GoogleSignIn (~> 6.2)
+    - React-Core
+  - RNPermissions (3.10.1):
     - React-Core
   - RNReanimated (3.5.4):
     - DoubleConversion
@@ -621,9 +672,12 @@ DEPENDENCIES:
   - "RNFBAnalytics (from `../../../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../../../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../../../node_modules/@react-native-firebase/auth`)"
+  - "RNFBCrashlytics (from `../../../node_modules/@react-native-firebase/crashlytics`)"
+  - "RNFBMessaging (from `../../../node_modules/@react-native-firebase/messaging`)"
   - "RNFBRemoteConfig (from `../../../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
+  - RNPermissions (from `../../../node_modules/react-native-permissions`)
   - RNReanimated (from `../../../node_modules/react-native-reanimated`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
@@ -642,13 +696,18 @@ SPEC REPOS:
     - FirebaseAppCheckInterop
     - FirebaseAuth
     - FirebaseCore
+    - FirebaseCoreExtension
     - FirebaseCoreInternal
+    - FirebaseCrashlytics
     - FirebaseInstallations
+    - FirebaseMessaging
     - FirebaseRemoteConfig
+    - FirebaseSessions
     - FirebaseSharedSwift
     - fmt
     - GenericJSON
     - GoogleAppMeasurement
+    - GoogleDataTransport
     - GoogleSignIn
     - GoogleUtilities
     - GTMAppAuth
@@ -658,6 +717,7 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
+    - PromisesSwift
     - RecaptchaInterop
     - secp256k1.swift
     - Torus-fetchNodeDetails
@@ -755,12 +815,18 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../../../node_modules/@react-native-firebase/auth"
+  RNFBCrashlytics:
+    :path: "../../../node_modules/@react-native-firebase/crashlytics"
+  RNFBMessaging:
+    :path: "../../../node_modules/@react-native-firebase/messaging"
   RNFBRemoteConfig:
     :path: "../../../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
     :path: "../../../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../../../node_modules/@react-native-google-signin/google-signin"
+  RNPermissions:
+    :path: "../../../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../../../node_modules/react-native-reanimated"
   RNScreens:
@@ -785,14 +851,19 @@ SPEC CHECKSUMS:
   FirebaseAppCheckInterop: 3cd914842ba46f4304050874cd284de82f154ffd
   FirebaseAuth: 8d285d9f6e39cc8e23be53a4edd83a923ea629d8
   FirebaseCore: 534544dd98cabcf4bf8598d88ec683b02319a528
+  FirebaseCoreExtension: 47720bb330d7041047c0935a34a3a4b92f818074
   FirebaseCoreInternal: 8eb002e564b533bdcf1ba011f33f2b5c10e2ed4a
+  FirebaseCrashlytics: d78651ad7db206ef98269e103ac38d69d569200a
   FirebaseInstallations: e842042ec6ac1fd2e37d7706363ebe7f662afea4
+  FirebaseMessaging: 1367b28c0c83a63072af4a711328fcc2e6899902
   FirebaseRemoteConfig: 94ab72cd7aa865b6226ee527b1fa5c4f961a4e7b
+  FirebaseSessions: f90fe9212ee2818641eda051c0835c9c4e30d9ae
   FirebaseSharedSwift: 62e248642c0582324d0390706cadd314687c116b
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   GoogleAppMeasurement: 4dcddfc7f102825c1c4e6422cb35567b101881a7
+  GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
@@ -803,6 +874,7 @@ SPEC CHECKSUMS:
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   OpenSSL-Universal: 0adf92f748c570f9911fdb3c11fd5f1cf304e8d1
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
+  PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: e9df143e880d0e879e7a498dc06923d728809c79
   RCTTypeSafety: c2d89c8308829c12c038ec1f431191eaa0d8c15c
@@ -843,9 +915,12 @@ SPEC CHECKSUMS:
   RNFBAnalytics: 9138cdb065c6ac9fc7dc076d83f9c2e64bc21d46
   RNFBApp: b43d4829366a5065e17f9af3b03a0c4890eaeb85
   RNFBAuth: 944424c5ba04e250d35eccd3ee2033d6fd7150d7
+  RNFBCrashlytics: 7456cc01ce08e6043dcfade9dbf5e28671887409
+  RNFBMessaging: 1b55308131dc7e4cca6b22deb5067f1fdb55f768
   RNFBRemoteConfig: 26b2e249a3bfa84de59dfbe149174427ada8bd32
   RNGestureHandler: 6e46dde1f87e5f018a54fe5d40cd0e0b942b49ee
   RNGoogleSignin: c15bdaa7e8a9e190b6169d9c96a4e8380a740f22
+  RNPermissions: b199f4189fd6fbe5c9e7e5f542cd3d53fe0cf254
   RNReanimated: b9215243fd801b2b874bd0218767eed434de994c
   RNScreens: 3c2d122f5e08c192e254c510b212306da97d2581
   RNSVG: 80584470ff1ffc7994923ea135a3e5ad825546b9
@@ -855,6 +930,6 @@ SPEC CHECKSUMS:
   web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
   Yoga: e71803b4c1fff832ccf9b92541e00f9b873119b9
 
-PODFILE CHECKSUM: 44258428257e9204104e2bc3b756a473812bb828
+PODFILE CHECKSUM: fabd26c6fda794c8e88a87b3dc33e34346831a5d
 
 COCOAPODS: 1.14.3

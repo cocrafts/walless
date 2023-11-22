@@ -57,8 +57,8 @@ export const AbstractedTransactionFee = () => {
 	);
 
 	useEffect(() => {
-		if (!tokenForFee) {
-			transactionActions.setTokenForFee(tokens[0] as TokenDocument);
+		if (!tokenForFee && token) {
+			transactionActions.setTokenForFee(token);
 		}
 
 		const handleReselectTokenForFee = async () => {
@@ -83,7 +83,12 @@ export const AbstractedTransactionFee = () => {
 	}, [type, token, nftCollection, tokenForFee, receiver, amount]);
 
 	useEffect(() => {
-		if (isDropped && token?.account.mint !== solMint) {
+		if (token?.account.mint !== solMint) {
+			modalActions.hide('NetworkFee');
+			setIsDropped(false);
+		}
+
+		if (isDropped) {
 			modalActions.show({
 				id: 'NetworkFee',
 				component: () => (
@@ -97,8 +102,6 @@ export const AbstractedTransactionFee = () => {
 				bindingDirection: BindDirections.Bottom,
 				maskActiveOpacity: 0,
 			});
-		} else {
-			setIsDropped(false);
 		}
 	}, [isDropped, token]);
 
@@ -126,25 +129,31 @@ export const AbstractedTransactionFee = () => {
 							{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
 						</Text>
 					)}
-					<View ref={dropdownRef} style={styles.feeDisplay}>
-						<View style={styles.selectContainer}>
-							<Image
-								style={styles.tokenIcon}
-								source={{
-									uri:
-										tokenForFee?.metadata?.imageUri ||
-										'/img/send-token/unknown-token.jpeg',
-								}}
-							/>
-							<Text numberOfLines={1} style={styles.selectedToken}>
-								{tokenForFeeName}
-							</Text>
-						</View>
+					{token && (
+						<TouchableOpacity
+							ref={dropdownRef}
+							style={styles.feeDisplay}
+							onPress={() => setIsDropped(!isDropped)}
+						>
+							<View style={styles.selectContainer}>
+								<Image
+									style={styles.tokenIcon}
+									source={{
+										uri:
+											tokenForFee?.metadata?.imageUri ||
+											'/img/send-token/unknown-token.jpeg',
+									}}
+								/>
+								<Text numberOfLines={1} style={styles.selectedToken}>
+									{tokenForFeeName}
+								</Text>
+							</View>
 
-						<TouchableOpacity onPress={() => setIsDropped(!isDropped)}>
-							<ChevronDown size={20} color="#566674" />
+							{token?.account?.mint !== solMint && (
+								<ChevronDown size={20} color="#566674" />
+							)}
 						</TouchableOpacity>
-					</View>
+					)}
 				</View>
 			</View>
 			<Text style={styles.error}>{error}</Text>

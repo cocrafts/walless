@@ -56,6 +56,8 @@ export const Input: FC<Props> = ({
 
 	const dynamicStyle = injectedFontStyle(inputStyle, {
 		flex: 1,
+		paddingVertical: 15,
+		paddingHorizontal: 16,
 		fontFamily: defaultFontFamily,
 		color: colors.text,
 	});

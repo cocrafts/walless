@@ -45,6 +45,7 @@ export const SearchBar: FC<Props> = ({
 			<Input
 				prefix={prefix}
 				style={styles.inputContainer}
+				inputStyle={styles.input}
 				placeholder={placeholder}
 				placeholderTextColor={placeholderTextColor}
 				onChangeText={(text) => {
@@ -63,14 +64,17 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	inputContainer: {
-		fontSize: 15,
-		color: '#000000',
 		flex: 1,
 		backgroundColor: 'transparent',
-		borderColor: 'transparent',
 		paddingRight: 12,
+		borderRadius: 10,
 	},
 	prefix: {
 		padding: 12,
+	},
+	input: {
+		fontSize: 15,
+		paddingVertical: 0,
+		paddingHorizontal: 0,
 	},
 });

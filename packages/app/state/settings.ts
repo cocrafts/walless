@@ -44,8 +44,6 @@ export const syncNotificationToken = async (
 			});
 		} catch (e) {
 			console.log(e);
-		} finally {
-			console.log('completed?');
 		}
 	} else {
 		console.log('Token already registered, skip syncing..');

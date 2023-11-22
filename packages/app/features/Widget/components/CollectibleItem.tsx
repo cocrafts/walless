@@ -26,7 +26,6 @@ export const CollectionItem: FC<Props> = ({
 				<View style={styles.titleContainer}>
 					<Text numberOfLines={1} style={styles.titleText}>
 						{item.metadata?.name}
-						{isCollection && `(${collectibleCount})`}
 					</Text>
 				</View>
 				{isCollection && (

@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 apply plugin: "com.google.gms.google-services"
+apply plugin: "com.google.firebase.crashlytics"
 
 project.ext.envConfigFiles = [
 	debug: "./../../web/.env.development",
@@ -149,6 +150,11 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+
+            firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+            }
         }
     }
 

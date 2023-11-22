@@ -81,7 +81,6 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 				transactionActions.setTransactionFee(0);
 				return;
 			}
-			console.log('here');
 
 			const payload: TransactionPayload = {
 				sender: sender,

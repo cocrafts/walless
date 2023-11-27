@@ -3,11 +3,9 @@ import type { RemoteConfig } from '@walless/core';
 import { runtime } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
 import type { UniversalAnalytics } from '@walless/ioc';
-import { getAnalytics, logEvent, setUserProperties } from 'firebase/analytics';
 import type { FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { getMessaging, getToken } from 'firebase/messaging';
 import {
 	activate,
 	fetchConfig,
@@ -29,7 +27,6 @@ const firebaseOptions: FirebaseOptions = {
 
 export const app = initializeApp(firebaseOptions);
 export const auth = getAuth();
-export const messaging = getMessaging(app);
 export const remoteConfig = getRemoteConfig(app);
 export const googleProvider = new GoogleAuthProvider();
 
@@ -74,26 +71,34 @@ export const initializeAuth = async () => {
 	if (user?.uid) {
 		fireCache.idToken = await user.getIdToken();
 
-		if (!runtime.isExtension) {
-			setUserProperties(getAnalytics(app), { email: user.email });
-		}
-
 		if (appState.remoteConfig.deepAnalyticsEnabled) {
 			universalActions.syncRemoteProfile();
 		}
 
+		let nextToken;
 		const deviceInfo = await getDeviceInfo();
-		const nextToken = runtime.isExtension
-			? await chrome.instanceID.getToken(nativeTokenArgs)
-			: await getToken(messaging, webTokenArgs);
+
+		if (runtime.isExtension) {
+			nextToken = await chrome.instanceID.getToken(nativeTokenArgs);
+		} else {
+			const { setUserProperties, getAnalytics } = await import(
+				'firebase/analytics'
+			);
+			const { getMessaging, getToken } = await import('firebase/messaging');
+			const messaging = getMessaging(app);
+
+			setUserProperties(getAnalytics(app), { email: user.email });
+			nextToken = await getToken(messaging, webTokenArgs);
+		}
 
 		universalActions.syncNotificationToken(nextToken, deviceInfo);
 	}
 };
 
 export const universalAnalytics: UniversalAnalytics = {
-	logEvent: (name, params, options) => {
+	logEvent: async (name, params, options) => {
 		if (runtime.isExtension) return; // firebase/analytics not available in Extension runtime yet!
+		const { getAnalytics, logEvent } = await import('firebase/analytics');
 		return logEvent(getAnalytics(app), name, params, options);
 	},
 };

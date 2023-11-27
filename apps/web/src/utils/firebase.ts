@@ -79,7 +79,11 @@ export const initializeAuth = async () => {
 		const deviceInfo = await getDeviceInfo();
 
 		if (runtime.isExtension) {
-			nextToken = await chrome.instanceID.getToken(nativeTokenArgs);
+			if (chrome.instandID) {
+				nextToken = await chrome.instanceID.getToken(nativeTokenArgs);
+			} else {
+				console.log('Notification not available for this platform yet!');
+			}
 		} else {
 			const { setUserProperties, getAnalytics } = await import(
 				'firebase/analytics'

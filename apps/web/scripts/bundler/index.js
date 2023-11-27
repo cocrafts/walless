@@ -30,6 +30,10 @@ const cloneExtensionBuild = async (platform, override = {}) => {
 	const indexTemplate = readFileSync('./metacraft/index.html', 'utf8');
 	const popupTemplate = indexTemplate.replace('<body>', '<body class="popup">');
 
+	if (platform === 'chrome') {
+		mergedManifest.permissions = [...mergedManifest.permissions, 'gcm'];
+	}
+
 	if (platform !== 'firefox') {
 		mergedManifest.key = process.env.EXTENSION_PUBLIC_KEY;
 		mergedManifest.oauth2 = {

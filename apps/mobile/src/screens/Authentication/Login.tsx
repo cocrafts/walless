@@ -4,11 +4,10 @@ import { appState } from '@walless/engine';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 import { appActions } from 'utils/state';
 
-import { version } from '../../../app.json';
-
 export const LoginScreen: FC = () => {
 	const insets = useSafeAreaInsets();
-	const { authenticationLoading, invitationCode } = useSnapshot(appState);
+	const { authenticationLoading, invitationCode, config } =
+		useSnapshot(appState);
 	const logoSrc = require('assets/img/icon.png');
 	const containerStyle = {
 		paddingTop: insets.top,
@@ -21,7 +20,7 @@ export const LoginScreen: FC = () => {
 			loading={authenticationLoading}
 			logoSrc={logoSrc}
 			onGoogleSignIn={() => appActions.signInWithGoogle(invitationCode)}
-			version={version}
+			version={config.version}
 		/>
 	);
 };

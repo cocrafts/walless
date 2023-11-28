@@ -3,7 +3,7 @@ import { runtime } from '@walless/core';
 import { appState } from '@walless/engine';
 import type { DeviceInfoInput } from '@walless/graphql';
 import { modules } from '@walless/ioc';
-import type { SettingDocument } from '@walless/store';
+import type { SystemDocument } from '@walless/store';
 
 import { app, auth } from './firebase';
 
@@ -23,13 +23,12 @@ export const getDeviceInfo = async (): Promise<DeviceInfoInput> => {
 };
 
 const getDeviceId = async (): Promise<string> => {
-	const settings = await modules.storage.safeGet<SettingDocument>('settings');
-	if (settings?.deviceId) return settings?.deviceId;
+	const system = await modules.storage.safeGet<SystemDocument>('system');
+	if (system?.deviceId) return system?.deviceId;
 
 	const uniqueId = crypto.randomUUID();
-	await modules.storage.upsert<SettingDocument>('settings', async (doc) => {
+	await modules.storage.upsert<SystemDocument>('system', async (doc) => {
 		doc.deviceId = uniqueId;
-		doc.config = Object.assign({}, doc.config);
 		return doc;
 	});
 

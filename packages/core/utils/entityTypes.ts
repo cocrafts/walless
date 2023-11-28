@@ -15,8 +15,11 @@ export interface AptosTokenMetadata {
 	tokenDescription: string;
 }
 
-export interface Setting {
+export interface System {
 	deviceId?: string;
+}
+
+export interface Setting {
 	profile: UserProfile;
 	config: Config;
 }

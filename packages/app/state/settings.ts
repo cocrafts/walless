@@ -21,16 +21,13 @@ export const setPathname = async (latestScreen: string) => {
 
 export const syncDeviceInfo = async (device: DeviceInfoInput) => {
 	try {
-		console.log('??');
 		await modules.storage.upsert<SettingDocument>(id, async (doc) => {
-			console.log(doc);
 			doc.config = Object.assign({}, doc.config);
 			doc.config.version = device.appVersion as string;
 			doc.config.notificationToken = device.notificationToken as string;
 			return doc;
 		});
 
-		console.log('susing...');
 		await modules.qlClient.request<
 			{ registerDevice: Device },
 			{ device: DeviceInfoInput }

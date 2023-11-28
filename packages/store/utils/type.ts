@@ -9,6 +9,7 @@ import type {
 	HydratedKey,
 	Networks,
 	Setting,
+	System,
 	Token,
 	TrustedDomain,
 	Widget,
@@ -38,6 +39,8 @@ export interface IndexedDocument {
 export type PouchDocument<T> = PouchDB.Core.Document<
 	T & IndexedDocument & { _rev?: string }
 >;
+
+export type SystemDocument = PouchDocument<System>;
 
 export type SettingDocument = PouchDocument<Setting>;
 

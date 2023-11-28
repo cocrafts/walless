@@ -5,6 +5,8 @@ import type { DeviceInfoInput } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { SystemDocument } from '@walless/store';
 
+import project from '../../package.json';
+
 import { app, auth } from './firebase';
 
 export const getDeviceInfo = async (): Promise<DeviceInfoInput> => {
@@ -12,7 +14,7 @@ export const getDeviceInfo = async (): Promise<DeviceInfoInput> => {
 
 	return {
 		deviceId,
-		appVersion: '1.0.3',
+		appVersion: project.version,
 		brand: navigator.vendor,
 		deviceName: navigator.appName,
 		systemVersion: navigator.appVersion,

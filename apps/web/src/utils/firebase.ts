@@ -5,12 +5,6 @@ import type { UniversalAnalytics } from '@walless/ioc';
 import type { FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import {
-	activate,
-	fetchConfig,
-	getAll,
-	getRemoteConfig,
-} from 'firebase/remote-config';
 
 const firebaseOptions: FirebaseOptions = {
 	apiKey: FIREBASE_API_KEY,
@@ -24,23 +18,39 @@ const firebaseOptions: FirebaseOptions = {
 
 export const app = initializeApp(firebaseOptions);
 export const auth = getAuth();
-export const remoteConfig = getRemoteConfig(app);
 export const googleProvider = new GoogleAuthProvider();
 
-/* update interval: 10 seconds for dev, and 1 hour for prod */
-remoteConfig.settings.minimumFetchIntervalMillis = __DEV__ ? 10000 : 3600000;
-remoteConfig.defaultConfig = defaultRemoteConfig as never;
+if (!runtime.isExtension) {
+	import('firebase/remote-config').then(({ getRemoteConfig }) => {
+		const remoteConfig = getRemoteConfig(app);
+		/* update interval: 10 seconds for dev, and 1 hour for prod */
+		remoteConfig.settings.minimumFetchIntervalMillis = __DEV__
+			? 10000
+			: 3600000;
+		remoteConfig.defaultConfig = defaultRemoteConfig as never;
+	});
+}
 
-export const loadRemoteConfig = (): RemoteConfig => {
-	activate(remoteConfig);
-	fetchConfig(remoteConfig); // fetch for next launch
-	const allConfig = getAll(remoteConfig);
+export const loadRemoteConfig = async (): Promise<RemoteConfig> => {
+	if (runtime.isExtension) {
+		return {
+			experimentalEnabled: true,
+			deepAnalyticsEnabled: true,
+			minimalVersion: '99.99.99',
+		};
+	} else {
+		const remote = await import('firebase/remote-config');
+		const remoteConfig = remote.getRemoteConfig(app);
+		remote.activate(remoteConfig);
+		remote.fetchConfig(remoteConfig);
+		const allConfig = remote.getAll(remoteConfig);
 
-	return {
-		experimentalEnabled: allConfig.experimentalEnabled?.asBoolean(),
-		deepAnalyticsEnabled: allConfig.deepAnalyticsEnabled?.asBoolean(),
-		minimalVersion: allConfig.minimalVersion?.asString() || '1.0.0',
-	};
+		return {
+			experimentalEnabled: allConfig.experimentalEnabled?.asBoolean(),
+			deepAnalyticsEnabled: allConfig.deepAnalyticsEnabled?.asBoolean(),
+			minimalVersion: allConfig.minimalVersion?.asString() || '1.0.0',
+		};
+	}
 };
 
 export interface FireCache {

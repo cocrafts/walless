@@ -4,6 +4,8 @@ import { appState } from '@walless/engine';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 import { appActions } from 'utils/state';
 
+import { version } from '../../../app.json';
+
 export const LoginScreen: FC = () => {
 	const insets = useSafeAreaInsets();
 	const { authenticationLoading, invitationCode } = useSnapshot(appState);
@@ -19,6 +21,7 @@ export const LoginScreen: FC = () => {
 			loading={authenticationLoading}
 			logoSrc={logoSrc}
 			onGoogleSignIn={() => appActions.signInWithGoogle(invitationCode)}
+			version={version}
 		/>
 	);
 };

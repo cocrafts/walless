@@ -16,6 +16,7 @@ interface Props {
 	loading?: boolean;
 	isAbleToSignIn?: boolean;
 	onGetInvitationCode?: () => void;
+	version?: string;
 	error?: string;
 }
 
@@ -27,6 +28,7 @@ export const LoginFeature: FC<Props> = ({
 	loading,
 	isAbleToSignIn = true,
 	onGetInvitationCode,
+	version = '1.0.2',
 	error,
 }) => {
 	useEffect(() => {
@@ -54,7 +56,9 @@ export const LoginFeature: FC<Props> = ({
 					<Text>Having issues with log in? Visit </Text>
 					<Anchor href="https://walless.io/faq/login" title="Help page" />
 				</Text>
-				<Text style={styles.poweredText}>Powered by walless.io</Text>
+				<Text style={styles.poweredText}>
+					Powered by walless.io, version@{version}
+				</Text>
 			</View>
 		</View>
 	);

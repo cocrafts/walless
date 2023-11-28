@@ -55,7 +55,7 @@ yarn-error.log*
 
 # configs
 GoogleService-info*.plist
-google-services.json
+google-services*.json
 apps/**/ios/tmp.xcconfig
 
 # turbo

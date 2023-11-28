@@ -1,4 +1,3 @@
-import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
 import { runtime } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
@@ -12,8 +11,6 @@ import {
 	getAll,
 	getRemoteConfig,
 } from 'firebase/remote-config';
-
-import { getDeviceInfo } from './device';
 
 const firebaseOptions: FirebaseOptions = {
 	apiKey: FIREBASE_API_KEY,
@@ -70,32 +67,6 @@ export const initializeAuth = async () => {
 
 	if (user?.uid) {
 		fireCache.idToken = await user.getIdToken();
-
-		if (appState.remoteConfig.deepAnalyticsEnabled) {
-			universalActions.syncRemoteProfile();
-		}
-
-		let nextToken;
-		const deviceInfo = await getDeviceInfo();
-
-		if (runtime.isExtension) {
-			if (chrome.instandID) {
-				nextToken = await chrome.instanceID.getToken(nativeTokenArgs);
-			} else {
-				console.log('Notification not available for this platform yet!');
-			}
-		} else {
-			const { setUserProperties, getAnalytics } = await import(
-				'firebase/analytics'
-			);
-			const { getMessaging, getToken } = await import('firebase/messaging');
-			const messaging = getMessaging(app);
-
-			setUserProperties(getAnalytics(app), { email: user.email });
-			nextToken = await getToken(messaging, webTokenArgs);
-		}
-
-		universalActions.syncNotificationToken(nextToken, deviceInfo);
 	}
 };
 
@@ -105,12 +76,4 @@ export const universalAnalytics: UniversalAnalytics = {
 		const { getAnalytics, logEvent } = await import('firebase/analytics');
 		return logEvent(getAnalytics(app), name, params, options);
 	},
-};
-
-const webTokenArgs = {
-	vapidKey: FIREBASE_VAPID_KEY,
-};
-const nativeTokenArgs = {
-	authorizedEntity: FIREBASE_MESSAGING_SENDER_ID,
-	scope: 'FCM',
 };

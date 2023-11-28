@@ -8,6 +8,12 @@ import { universalActions } from '@walless/app';
 import { getDeviceInfo } from 'utils/device';
 import { messaging } from 'utils/firebase';
 
+const syncDeviceAndNotification = async (nextToken?: string) => {
+	const deviceInfo = await getDeviceInfo();
+	deviceInfo.notificationToken = nextToken;
+	universalActions.syncDeviceInfo(deviceInfo);
+};
+
 export const useNotifications = () => {
 	useEffect(() => {
 		messaging.onNotificationOpenedApp((message) => {
@@ -24,12 +30,17 @@ export const useNotifications = () => {
 			console.log(message);
 		});
 
-		const unsubscribeTokenRefresh = messaging.onTokenRefresh(
-			async (nextToken) => {
-				const deviceInfo = await getDeviceInfo();
-				universalActions.syncNotificationToken(nextToken, deviceInfo);
-			},
-		);
+		const unsubscribeTokenRefresh = messaging.onTokenRefresh((nextToken) => {
+			syncDeviceAndNotification(nextToken);
+		});
+
+		checkNotifications().then(async ({ status }) => {
+			if (status === RESULTS.GRANTED) {
+				syncDeviceAndNotification(await messaging.getToken());
+			} else {
+				syncDeviceAndNotification();
+			}
+		});
 
 		return () => {
 			unsubscribeMessages();
@@ -46,9 +57,7 @@ export const useNotificationPermissionRequest = () => {
 			}
 
 			try {
-				const deviceInfo = await getDeviceInfo();
-				const nextToken = await messaging.getToken();
-				universalActions.syncNotificationToken(nextToken, deviceInfo);
+				syncDeviceAndNotification(await messaging.getToken());
 			} catch (e) {
 				console.log('Failed to get/sync Notification token from device');
 			}

@@ -11,7 +11,7 @@ export const getDeviceInfo = async (): Promise<DeviceInfoInput> => {
 
 	return {
 		deviceId,
-		appVersion: device.getVersion(),
+		appVersion: `${device.getVersion()} Build ${device.getBuildNumber()}`,
 		brand: device.getBrand(),
 		deviceName,
 		systemVersion: device.getSystemVersion(),

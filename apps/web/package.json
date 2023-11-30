@@ -17,6 +17,7 @@
     "postinstall": "yarn batch"
   },
   "dependencies": {
+    "@airgap/beacon-sdk": "^4.0.12",
     "@metaplex-foundation/js": "0.18.3",
     "@mysten/sui.js": "0.34.0",
     "@solana/spl-token": "0.3.7",

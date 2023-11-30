@@ -1,3 +1,5 @@
+import './tezos';
+
 import { initializeMessaging } from './messaging';
 import { injectScript } from './utils';
 

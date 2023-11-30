@@ -64,14 +64,12 @@ export const CreatePasscode: FC<Props> = ({ onComplete }) => {
 			/>
 
 			<View style={styles.footerContainer}>
-				<Text>
-					Having issue with passcode?{' '}
-					<TouchableOpacity onPress={onLinkPress}>
-						<View cursorPointer noSelect>
-							<Text style={styles.link}>Contact us</Text>
-						</View>
-					</TouchableOpacity>
-				</Text>
+				<Text>Having issue with passcode? </Text>
+				<TouchableOpacity onPress={onLinkPress}>
+					<View cursorPointer noSelect>
+						<Text style={styles.link}>Contact us</Text>
+					</View>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
@@ -104,7 +102,9 @@ export const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	footerContainer: {
-		marginHorizontal: 'auto',
+		flexDirection: 'row',
+		marginTop: 'auto',
+		justifyContent: 'center',
 	},
 	link: {
 		color: '#19A3E1',

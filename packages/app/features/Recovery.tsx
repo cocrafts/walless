@@ -41,14 +41,12 @@ export const Recovery: FC<Props> = ({ onPressContinue }) => {
 			</View>
 
 			<View style={styles.footerContainer}>
-				<Text>
-					Having issue with passcode?{' '}
-					<TouchableOpacity onPress={onLinkPress}>
-						<View cursorPointer noSelect>
-							<Text style={styles.link}>Contact us</Text>
-						</View>
-					</TouchableOpacity>
-				</Text>
+				<Text>Having issue with passcode? </Text>
+				<TouchableOpacity onPress={onLinkPress}>
+					<View cursorPointer noSelect>
+						<Text style={styles.link}>Contact us</Text>
+					</View>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
@@ -87,8 +85,9 @@ const styles = StyleSheet.create({
 		fontWeight: '600',
 	},
 	footerContainer: {
+		flexDirection: 'row',
 		marginTop: 'auto',
-		marginHorizontal: 'auto',
+		justifyContent: 'center',
 	},
 	link: {
 		color: '#19A3E1',

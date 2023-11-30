@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import type { InputProps } from '@walless/gui';
-import { Input } from '@walless/gui';
-import { Search } from '@walless/icons';
+import { Input, View } from '@walless/gui';
+import { Search, Times } from '@walless/icons';
 
 type Props = InputProps & {
 	iconSize?: number;
@@ -29,6 +29,11 @@ export const SearchBar: FC<Props> = ({
 		onPressSearch?.(textSearch);
 	}, [textSearch]);
 
+	const handleClearSearchPress = () => {
+		setTextSearch('');
+		onChangeSearch?.('');
+	};
+
 	const prefix = (
 		<TouchableOpacity
 			style={styles.prefix}
@@ -39,15 +44,25 @@ export const SearchBar: FC<Props> = ({
 		</TouchableOpacity>
 	);
 
+	const suffix = !textSearch ? (
+		<View />
+	) : (
+		<TouchableOpacity onPress={handleClearSearchPress}>
+			<Times size={iconSize} color={iconColor} />
+		</TouchableOpacity>
+	);
+
 	return (
 		<View style={style}>
 			<Input
 				prefix={prefix}
+				suffix={suffix}
 				style={[styles.inputContainer, inputStyle]}
 				focusStyle={focusStyle}
 				inputStyle={styles.input}
 				placeholder={placeholder}
 				placeholderTextColor={placeholderTextColor}
+				value={textSearch}
 				onChangeText={(text) => {
 					setTextSearch(text);
 					onChangeSearch?.(text);

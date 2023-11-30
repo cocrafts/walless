@@ -14,7 +14,7 @@ export const SearchHeader: FC<Props> = ({ onChangeSearch, ...otherProps }) => {
 		<View style={styles.container} {...otherProps}>
 			<View horizontal style={styles.titleContainer}>
 				<Text style={styles.title}>
-					Explore the world&apos;s custom design layout
+					Explore the world&apos;s {'\n'} custom design layout
 				</Text>
 			</View>
 			<SearchBar
@@ -31,17 +31,18 @@ export default SearchHeader;
 
 const styles = StyleSheet.create({
 	container: {
+		paddingTop: 20,
 		marginHorizontal: 15,
 		backgroundColor: '#19232C',
 	},
 	titleContainer: {
 		justifyContent: 'center',
+		marginBottom: 10,
 	},
 	title: {
-		fontSize: 18,
+		fontSize: 20,
 		fontWeight: '500',
 		textAlign: 'center',
-		maxWidth: 200,
 	},
 	searchBar: {
 		marginVertical: 10,

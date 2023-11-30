@@ -27,6 +27,8 @@ export const WidgetItem: FC<Props> = ({ style, widget }) => {
 		utils.navigateToWidget(widget._id);
 	};
 
+	const btnWidth = runtime.isMobile ? { width: 80 } : { width: '50%' };
+
 	return (
 		<View horizontal style={[styles.container, style]}>
 			<View style={styles.coverContainer}>
@@ -42,17 +44,17 @@ export const WidgetItem: FC<Props> = ({ style, widget }) => {
 					<View horizontal style={{ gap: 10 }}>
 						<View horizontal style={styles.subContainer}>
 							<Heart colors={['red', 'red']} size={10} />
-							<Text style={styles.normalText}>20k love</Text>
+							<Text style={[styles.normalText, styles.subText]}>20k love</Text>
 						</View>
 						<View horizontal style={styles.subContainer}>
 							<View style={styles.activeIndicator} />
-							<Text style={styles.normalText}>20k love</Text>
+							<Text style={[styles.normalText, styles.subText]}>20k love</Text>
 						</View>
 					</View>
 				</View>
 
-				<Hoverable style={styles.addBtn} onPress={onAddBtnPress}>
-					<Text>Add</Text>
+				<Hoverable style={[styles.addBtn, btnWidth]} onPress={onAddBtnPress}>
+					<Text style={styles.addText}>Add</Text>
 				</Hoverable>
 			</View>
 		</View>
@@ -99,6 +101,9 @@ const styles = StyleSheet.create({
 	normalText: {
 		color: '#798997',
 	},
+	subText: {
+		opacity: 0.5,
+	},
 	activeIndicator: {
 		height: 8,
 		aspectRatio: 1,
@@ -106,11 +111,13 @@ const styles = StyleSheet.create({
 		backgroundColor: '#37B681',
 	},
 	addBtn: {
-		width: '50%',
 		borderRadius: 5,
 		paddingVertical: 5,
 		marginTop: 10,
 		backgroundColor: '#0694D3',
 		alignItems: 'center',
+	},
+	addText: {
+		color: '#ffffff',
 	},
 });

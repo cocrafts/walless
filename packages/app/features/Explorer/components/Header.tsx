@@ -39,6 +39,7 @@ export default Header;
 
 const styles = StyleSheet.create({
 	container: {
+		paddingVertical: 40,
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},

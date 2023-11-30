@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { keyState } from '@walless/engine';
-import type { ModalConfigs } from '@walless/gui';
+import { modalActions, type ModalConfigs } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import ModalHeader from '../../components/ModalHeader';
@@ -67,9 +67,13 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 		context: { cardList: walletList },
 	};
 
+	const handlePressClose = () => {
+		modalActions.destroy(config?.id);
+	};
+
 	return (
 		<ModalWrapper>
-			<ModalHeader content="Receive" config={config} />
+			<ModalHeader content="Receive" onPressClose={handlePressClose} />
 			<Slider
 				style={styles.sliderContainer}
 				items={items}

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
-import { shortenAddress } from '@walless/core';
+import { runtime, shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import type { PublicKeyDocument } from '@walless/store';
@@ -35,6 +35,9 @@ export const WalletAddress: FC<Props> = ({
 		height: iconSize,
 		borderRadius: iconSize / 2,
 	};
+	const addressTextStyle = runtime.isMobile
+		? { fontSize: 15 }
+		: { fontSize: 13 };
 
 	const handleCopy = () => {
 		item._id && onCopyAddress?.(item._id);
@@ -45,7 +48,7 @@ export const WalletAddress: FC<Props> = ({
 			<View style={iconContainerStyle}>
 				<Image style={iconStyle} source={iconSrc} />
 			</View>
-			<Text style={styles.addressText}>
+			<Text style={[styles.addressText, addressTextStyle]}>
 				{`Wallet #${index + 1}: ${shortenAddress(item._id as string)}`}
 			</Text>
 			<Hoverable onPress={handleCopy}>
@@ -60,7 +63,7 @@ export const WalletAddress: FC<Props> = ({
 
 export default WalletAddress;
 
-const iconWrapperSize = 20;
+const iconWrapperSize = runtime.isMobile ? 30 : 20;
 
 const styles = StyleSheet.create({
 	container: {
@@ -73,7 +76,6 @@ const styles = StyleSheet.create({
 	},
 	addressText: {
 		marginHorizontal: 5,
-		fontSize: 13,
 		color: 'white',
 	},
 	iconWrapper: {

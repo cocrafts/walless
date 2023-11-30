@@ -8,6 +8,7 @@ interface Props {
 	item: TabAble;
 	backgroundColor: string;
 	color: string;
+	fontWeight: '500' | '400';
 	onPress?: (item: TabAble) => void;
 }
 
@@ -15,6 +16,7 @@ export const TabItem: FC<Props> = ({
 	item,
 	backgroundColor = 'transparent',
 	color = 'white',
+	fontWeight,
 	onPress,
 }) => {
 	return (
@@ -22,7 +24,7 @@ export const TabItem: FC<Props> = ({
 			style={[styles.container, { backgroundColor }]}
 			onPress={() => onPress?.(item)}
 		>
-			<Text style={[styles.title, { color }]}>{item.title}</Text>
+			<Text style={[styles.title, { color, fontWeight }]}>{item.title}</Text>
 		</Hoverable>
 	);
 };
@@ -38,6 +40,5 @@ const styles = StyleSheet.create({
 	title: {
 		textAlign: 'center',
 		fontSize: 14,
-		fontWeight: '600',
 	},
 });

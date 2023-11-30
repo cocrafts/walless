@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react';
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type { Insets, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet, Text } from 'react-native';
 
 import Hoverable from './Hoverable';
@@ -13,6 +13,7 @@ interface Props {
 	outline?: boolean;
 	transparent?: boolean;
 	disabled?: boolean;
+	hitSlop: Insets;
 }
 
 export const Button: FC<Props> = ({
@@ -24,6 +25,7 @@ export const Button: FC<Props> = ({
 	outline,
 	transparent,
 	disabled,
+	hitSlop,
 }) => {
 	const containerStyle = [
 		styles.container,
@@ -39,6 +41,7 @@ export const Button: FC<Props> = ({
 			disabled={disabled}
 			style={containerStyle}
 			onPress={onPress}
+			hitSlop={hitSlop}
 		>
 			{children || <Text style={[styles.title, titleStyle]}>{title}</Text>}
 		</Hoverable>

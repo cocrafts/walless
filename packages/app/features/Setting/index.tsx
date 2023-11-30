@@ -19,7 +19,7 @@ interface Props {
 	onBack?: () => void;
 }
 
-const SettingFeature: FC<Props> = ({
+export const SettingFeature: FC<Props> = ({
 	style,
 	scrollContentContainerStyle,
 	onBack,

@@ -1,6 +1,6 @@
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 
-import { ErrorModal } from './ErrorModal';
+import ErrorModal from '../../modals/Error';
 
 export const showError = (errorText: string) => {
 	modalActions.show({

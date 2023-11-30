@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
-import { PasscodeFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
+
+import PasscodeFeature from '../features/Passcode';
 
 interface Props {
 	onComplete?: (passcode: string) => void;

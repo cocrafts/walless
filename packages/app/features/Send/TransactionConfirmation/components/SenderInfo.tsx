@@ -9,7 +9,7 @@ import {
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../../state/transaction';
+} from '../../../../state';
 
 interface Props {
 	onBack?: () => void;

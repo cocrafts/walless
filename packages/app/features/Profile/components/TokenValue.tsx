@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useSettings } from '@walless/app/utils/hooks';
 import { Hoverable, Text } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
+
+import { useSettings } from '../../../utils/hooks';
 
 interface Props {
 	value: number;

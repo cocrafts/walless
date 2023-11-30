@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { useSafeAreaInsets } from '@walless/app';
-import SettingFeature from '@walless/app/features/Setting';
+import { SettingFeature } from '@walless/app';
 import { tabBarHeight } from 'stacks/Dashboard/TabBar';
 import { navigate, type ProfileParamList } from 'utils/navigation';
 

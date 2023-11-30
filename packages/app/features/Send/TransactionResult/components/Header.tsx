@@ -7,7 +7,7 @@ import {
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../../state/transaction';
+} from '../../../../state';
 
 export const Header = () => {
 	const { handleClose } = useSnapshot(injectedElements);

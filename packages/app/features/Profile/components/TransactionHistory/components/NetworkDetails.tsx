@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { Image, StyleSheet, Text } from 'react-native';
-import type { NetworkInfo } from '@walless/app/utils';
 import { View } from '@walless/gui';
+
+import type { NetworkInfo } from '../../../../../utils';
 
 interface Props {
 	networkInfo: NetworkInfo;

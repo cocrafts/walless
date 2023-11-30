@@ -6,14 +6,13 @@ import { modalActions } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import type { CollectibleDocument } from '@walless/store';
 
+import SendFeature from '../features/Send';
 import {
 	checkValidAddress,
 	getTransactionAbstractFee,
 	getTransactionFee,
-} from '../../utils';
-import { useNfts, usePublicKeys, useTokens } from '../../utils/hooks';
-
-import { SendFeature } from './SendFeature';
+} from '../utils';
+import { useNfts, usePublicKeys, useTokens } from '../utils/hooks';
 
 export interface ModalContext {
 	layoutNetwork?: Networks;

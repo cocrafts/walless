@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import type { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { modalActions, ModalManager, themeState } from '@walless/gui';
@@ -40,33 +41,43 @@ export const AppStack = () => {
 	};
 
 	return (
-		<NavigationContainer
-			ref={navigationRef}
-			theme={theme}
-			linking={linking}
-			onReady={onNavigationReady}
-			onStateChange={onNavigationStateChange}
-		>
-			<Stack.Navigator screenOptions={screenOptions.navigator}>
-				<Stack.Screen
-					name="Splash"
-					component={SplashScreen}
-					options={screenOptions.fade}
-				/>
-				<Stack.Screen
-					name="Authentication"
-					component={AuthenticationStack}
-					options={screenOptions.fade}
-				/>
-				<Stack.Screen
-					name="Dashboard"
-					component={DashboardStack}
-					options={screenOptions.bottomFade}
-				/>
-			</Stack.Navigator>
-			<ModalManager />
-		</NavigationContainer>
+		<SafeAreaProvider>
+			<View style={styles.container} ref={modalContainerRef}>
+				<NavigationContainer
+					ref={navigationRef}
+					theme={theme}
+					linking={linking}
+					onReady={onNavigationReady}
+					onStateChange={onNavigationStateChange}
+				>
+					<Stack.Navigator screenOptions={screenOptions.navigator}>
+						<Stack.Screen
+							name="Splash"
+							component={SplashScreen}
+							options={screenOptions.fade}
+						/>
+						<Stack.Screen
+							name="Authentication"
+							component={AuthenticationStack}
+							options={screenOptions.fade}
+						/>
+						<Stack.Screen
+							name="Dashboard"
+							component={DashboardStack}
+							options={screenOptions.bottomFade}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+				<ModalManager />
+			</View>
+		</SafeAreaProvider>
 	);
 };
 
 export default AppStack;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+});

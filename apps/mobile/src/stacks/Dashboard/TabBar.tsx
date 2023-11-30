@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useEffect } from 'react';
 import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
+import HapticFeedback from 'react-native-haptic-feedback';
 import type { WithTimingConfig } from 'react-native-reanimated';
 import {
 	Easing,
@@ -72,6 +73,11 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 		});
 
 		if (!focused && !event.defaultPrevented) {
+			HapticFeedback.trigger('impactHeavy', {
+				enableVibrateFallback: true,
+				ignoreAndroidSystemSettings: false,
+			});
+
 			navigation.navigate({ name: route.name, merge: true } as never);
 		}
 	};

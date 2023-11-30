@@ -29,9 +29,9 @@ export const MainFeatureButtons: FC<Props> = ({
 			<FeatureButton title="Receive" onPress={onReceivePress}>
 				<ArrowBottomRight size={iconSize} />
 			</FeatureButton>
-			<FeatureButton title="Buy" onPress={onBuyPress}>
+			{/* <FeatureButton title="Buy" onPress={onBuyPress}>
 				<Cart size={iconSize} />
-			</FeatureButton>
+			</FeatureButton> */}
 		</View>
 	);
 };

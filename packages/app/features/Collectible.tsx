@@ -127,11 +127,11 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 		backgroundColor: '#0B1218',
 		marginHorizontal: 'auto',
+		alignItems: 'center',
 	},
 	nftImage: {
 		height: 240,
 		width: 240,
-		marginHorizontal: 'auto',
 		borderRadius: 11,
 	},
 	nameText: {

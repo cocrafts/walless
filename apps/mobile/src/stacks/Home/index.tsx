@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import HistoryScreen from 'screens/Dashboard/History';
-import ProfileScreen from 'screens/Dashboard/Profile';
+import ProfileScreen from 'screens/Dashboard/Home';
 import type { DashboardParamList, HomeParamList } from 'utils/navigation';
 
 type Props = StackScreenProps<DashboardParamList, 'Home'>;

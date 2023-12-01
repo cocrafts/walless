@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import CollectibleScreen from 'screens/Dashboard/Home/Collectible';
-import { CollectionScreen } from 'screens/Dashboard/Home/Collection';
-import WidgetScreen from 'screens/Dashboard/Home/Widget';
+import WidgetScreen from 'screens/Dashboard/Widget';
+import CollectibleScreen from 'screens/Dashboard/Widget/Collectible';
+import { CollectionScreen } from 'screens/Dashboard/Widget/Collection';
 import type { ExploreParamList } from 'utils/navigation';
 
 import Sidebar, { sidebarWidth } from './Sidebar';

@@ -13,6 +13,7 @@ type Props = StackScreenProps<ProfileParamList, 'History'>;
 export const HistoryScreen: FC<Props> = () => {
 	const insets = useSafeAreaInsets();
 	const containerStyle: ViewStyle = {
+		minHeight: '100%',
 		paddingTop: insets.top,
 		paddingBottom: tabBarHeight + insets.bottom,
 		paddingHorizontal: 8,

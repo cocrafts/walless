@@ -15,6 +15,7 @@ import { modules } from '@walless/ioc';
 import { historyActions } from './../../state/history/index';
 import { getMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
+import { throttle } from './shared';
 
 const getGasilonFeePayer = async () => {
 	const gasilonConfigs = await fetch(`${modules.config.GASILON_ENDPOINT}`, {
@@ -506,6 +507,44 @@ export const getTransactions = async (
 	});
 
 	historyActions.setItems(transactions);
+
+	return transactions;
+};
+
+export const historyByAddress = async (
+	context: SolanaContext,
+	pubkey: PublicKey,
+): Promise<Array<Transaction>> => {
+	const address = pubkey.toString();
+	const confirmedSignatures = await throttle(() => {
+		return context.connection.getConfirmedSignaturesForAddress2(pubkey, {
+			limit: 20,
+		});
+	})();
+
+	const signatureIds = confirmedSignatures?.map((i) => i.signature) || [];
+	const transactions: Transaction[] = [];
+
+	for (const id of signatureIds) {
+		await throttle(async () => {
+			try {
+				const parsed = await context.connection.getParsedTransaction(id, {
+					maxSupportedTransactionVersion: 0,
+				});
+
+				if (parsed) {
+					const detail = await getTransactionDetails(context, parsed, address);
+
+					if (detail) {
+						transactions.push(detail);
+						historyActions.setItems(transactions);
+					}
+				}
+			} catch (error) {
+				console.log('Error when fetching Solana history:', error);
+			}
+		})();
+	}
 
 	return transactions;
 };

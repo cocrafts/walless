@@ -4,9 +4,9 @@ import type { PublicKeyDocument } from '@walless/store';
 import { addTokensToStorage, selectors } from '@walless/store';
 
 import { solanaCollectiblesByAddress } from './collectibles';
+import { historyByAddress } from './history';
 import type { SolanaRunner } from './shared';
 import { solanaFungiblesByAddress } from './token';
-import { getSignatureList, getTransactions } from './transactionHistory';
 
 export const solanaEngineRunner: SolanaRunner = {
 	start: async (context) => {
@@ -14,26 +14,13 @@ export const solanaEngineRunner: SolanaRunner = {
 		const key = await storage.find<PublicKeyDocument>(selectors.solanaKeys);
 
 		for (const item of key.docs) {
-			const currentPubkey = new PublicKey(item._id);
-			const fungibleTokens = await solanaFungiblesByAddress(
-				context,
-				currentPubkey,
-			);
+			const address = item._id;
+			const pubkey = new PublicKey(address);
+			const nfts = await solanaFungiblesByAddress(context, pubkey);
 
-			const { _id } = item;
-			getSignatureList(context.connection, _id)
-				.then(async (list) => {
-					await getTransactions(context, list, _id);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-
-			addTokensToStorage(fungibleTokens);
-			solanaCollectiblesByAddress({
-				context,
-				address: currentPubkey.toString(),
-			});
+			historyByAddress(context, pubkey);
+			solanaCollectiblesByAddress({ context, address });
+			addTokensToStorage(nfts);
 		}
 	},
 	stop: async () => {

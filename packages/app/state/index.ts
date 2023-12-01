@@ -1,7 +1,7 @@
 import { appState } from '@walless/engine';
 
 import { syncRemoteProfile } from './profile';
-import { setPathname, setPrivacy, syncNotificationToken } from './settings';
+import { setPathname, setPrivacy, syncDeviceInfo } from './settings';
 
 export const universalActions = {
 	setLoading: (flag: boolean): void => {
@@ -10,5 +10,5 @@ export const universalActions = {
 	setPrivacy,
 	setPathname,
 	syncRemoteProfile,
-	syncNotificationToken,
+	syncDeviceInfo,
 };

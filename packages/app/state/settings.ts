@@ -19,33 +19,20 @@ export const setPathname = async (latestScreen: string) => {
 	});
 };
 
-export const syncNotificationToken = async (
-	nextToken: string,
-	device: DeviceInfoInput,
-) => {
-	const settings = await modules.storage.safeGet<SettingDocument>(id);
-	const isProfileReady = settings?.profile?.email;
-	const lastNotificationToken = settings?.config?.notificationToken;
+export const syncDeviceInfo = async (device: DeviceInfoInput) => {
+	try {
+		await modules.storage.upsert<SettingDocument>(id, async (doc) => {
+			doc.config = Object.assign({}, doc.config);
+			doc.config.version = device.appVersion as string;
+			doc.config.notificationToken = device.notificationToken as string;
+			return doc;
+		});
 
-	if (!isProfileReady) return;
-	if (nextToken !== lastNotificationToken) {
-		device.notificationToken = nextToken;
-		console.log('Registering notification token from device..');
-
-		try {
-			await modules.qlClient.request<
-				{ registerDevice: Device },
-				{ device: DeviceInfoInput }
-			>(mutations.registerDevice, { device });
-
-			await modules.storage.upsert<SettingDocument>(id, async (doc) => {
-				doc.config.notificationToken = nextToken;
-				return doc;
-			});
-		} catch (e) {
-			console.log(e);
-		}
-	} else {
-		console.log('Token already registered, skip syncing..');
+		await modules.qlClient.request<
+			{ registerDevice: Device },
+			{ device: DeviceInfoInput }
+		>(mutations.registerDevice, { device });
+	} catch (e) {
+		console.log(e);
 	}
 };

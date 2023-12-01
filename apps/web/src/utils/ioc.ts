@@ -9,6 +9,7 @@ import { auth, initializeAuth, universalAnalytics } from 'utils/firebase';
 import { makeConfig } from '../../scripts/kernel/utils/config';
 
 import { webAsset } from './config';
+import { configureDeviceAndNotification } from './device';
 import { buyToken } from './gatefi';
 import { qlClient } from './graphql';
 import { router } from './routing';
@@ -39,6 +40,8 @@ export const injectModules = async () => {
 	await initializeAuth(); // some of its dependency triggered without await causing fast complete/resolve
 	modules.engine = await createEngine(); // start crawling engine
 	modules.engine.start();
+
+	configureDeviceAndNotification(); // asynchornous, should cost nothing evaluate/run
 
 	const endTime = new Date();
 	const milliseconds = endTime.getMilliseconds() - startTime.getMilliseconds();

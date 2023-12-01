@@ -4,7 +4,7 @@ import { loadRemoteConfig } from 'utils/firebase';
 import { router } from 'utils/routing';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
-	appState.remoteConfig = loadRemoteConfig();
+	appState.remoteConfig = await loadRemoteConfig();
 	await liveActions.initialize();
 	await liveActions.watchAndSync();
 

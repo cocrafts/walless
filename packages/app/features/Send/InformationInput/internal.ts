@@ -1,7 +1,6 @@
 import { Networks } from '@walless/core';
 
-import { transactionContext } from '../../../state/transaction';
-import { injectedElements } from '../../../state/transaction';
+import { injectedElements, transactionContext } from '../../../state';
 
 export const totalCheckFieldsToContinue = () => {
 	const { type, token, nftCollection, nftCollectible, receiver, amount } =

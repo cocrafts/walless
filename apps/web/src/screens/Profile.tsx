@@ -1,4 +1,4 @@
-import { ProfileFeature } from '@walless/app/features/Profile';
+import { ProfileFeature } from '@walless/app';
 import { router } from 'utils/routing';
 
 export const ProfileScreen = () => {

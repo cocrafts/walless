@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { showRequirePasscodeModal } from '@walless/app';
 import { shortenAddress } from '@walless/core';
 import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';
@@ -9,6 +8,8 @@ import { utils } from '@walless/ioc';
 import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
+
+import { floatActions } from '../../../../state';
 
 interface Props {
 	fee: number;
@@ -41,7 +42,7 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 	};
 
 	const handleClaimToken = async (token: AptosPendingToken) => {
-		showRequirePasscodeModal({
+		floatActions.showRequirePasscodeModal({
 			title: `Claim ${token.name}`,
 			desc: `Claim this token will submit an on-chain transaction and will require a ${fee} APT gas fee.`,
 			onPasscodeComplete: async (passcode) =>

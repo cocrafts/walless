@@ -6,15 +6,15 @@ import { View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
+import { floatActions } from '../../state';
 import { useTokens } from '../../utils/hooks';
 import { showReceiveModal } from '../Receive';
-import { showSendModal } from '../Send';
 
 import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';
 
 interface Props {
-	style: StyleProp<ViewStyle>;
+	style?: StyleProp<ViewStyle>;
 	onNavigateToHistory: () => void;
 }
 
@@ -22,7 +22,7 @@ export const ProfileFeature: FC<Props> = ({ style, onNavigateToHistory }) => {
 	const { valuation } = useTokens();
 
 	const handleSend = () => {
-		showSendModal();
+		floatActions.showSendTokenModal();
 	};
 
 	return (

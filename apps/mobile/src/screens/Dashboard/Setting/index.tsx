@@ -1,6 +1,6 @@
 import type { ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from '@walless/app';
-import SettingFeature from '@walless/app/features/Setting';
+import { SettingFeature } from '@walless/app';
 import { tabBarHeight } from 'stacks/Dashboard/TabBar';
 
 export const SettingScreen = () => {

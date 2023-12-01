@@ -15,6 +15,7 @@ import { useSnapshot } from '@walless/app';
 import { appState } from '@walless/engine';
 import { AnimatedView } from '@walless/gui';
 import { Home, Walless } from '@walless/icons';
+import { HapticFeedbackTypes, modules } from '@walless/ioc';
 import type { DashboardParamList } from 'utils/navigation';
 import { localState } from 'utils/state';
 
@@ -63,6 +64,7 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 		});
 
 		if (!isFocusing && !event.defaultPrevented) {
+			modules.native.triggerHaptic(HapticFeedbackTypes.impactHeavy);
 			navigation.navigate({
 				name: route.name,
 				merge: true,

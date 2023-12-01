@@ -6,7 +6,7 @@ import { modalActions, Text, View } from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
-import { PasscodeFeature } from './PasscodeFeature';
+import PasscodeFeature from '../features/Passcode';
 
 export interface RequirePasscodeModalConfig {
 	title?: string;

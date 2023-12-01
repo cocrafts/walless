@@ -13,9 +13,7 @@ interface Props {
 export const ItemAddress: FC<Props> = ({ type, address, imageUri }) => {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>
-				{type.charAt(0).toUpperCase() + type.slice(1)}
-			</Text>
+			<Text style={styles.text}>{type}</Text>
 			<View style={styles.addressContainer}>
 				<Image source={imageUri} style={styles.networkIcon} />
 				<Text numberOfLines={1} ellipsizeMode="middle" style={styles.address}>
@@ -30,6 +28,7 @@ export default ItemAddress;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		gap: 8,
 	},
 	addressContainer: {

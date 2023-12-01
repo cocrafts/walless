@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Clipboard } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { runtime } from '@walless/core';
 
 import { notify } from './modal';

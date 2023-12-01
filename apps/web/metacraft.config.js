@@ -6,6 +6,19 @@ const { setEnvironments } = require('../../tool/webpack/env');
 const isProd = process.env.ENV === 'production';
 const isExtension = process.env.BUILD_TARGET === 'extension';
 
+const registerExtensionEntry = (config) => {
+	if (isExtension) {
+		config.resolve.extensions = [
+			'.ext.ts',
+			'.ext.tsx',
+			...config.resolve.extensions,
+		];
+	}
+
+	console.log(config.resolve);
+	return config;
+};
+
 const injectEntries = (config) => {
 	config.entry.content = {
 		import: 'scripts/content/index.ts',
@@ -80,7 +93,6 @@ const w3aDevRoute = (config) => {
 
 module.exports = {
 	useReact: true,
-	compiler: 'swc',
 	publicPath: () => process.env.PUBLIC_URL || '/',
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
@@ -88,6 +100,7 @@ module.exports = {
 	webpackMiddlewares: [
 		useCache,
 		copyAssets,
+		registerExtensionEntry,
 		injectEntries,
 		web3Polyfills,
 		setEnvironments(),

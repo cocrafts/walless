@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import type { ImageURISource } from 'react-native';
 import { StyleSheet, View } from 'react-native';
-import { getNetworkInfo } from '@walless/app/utils';
 import type { Transaction } from '@walless/core';
 import {
 	AnimateDirections,
@@ -9,6 +8,8 @@ import {
 	Hoverable,
 	modalActions,
 } from '@walless/gui';
+
+import { getNetworkInfo } from '../../../../utils';
 
 import { ItemAddress, ItemAmount, ItemTokenIcon } from './components';
 import TransactionDetails from './TransactionDetails';

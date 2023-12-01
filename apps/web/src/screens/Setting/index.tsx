@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import SettingFeature from '@walless/app/features/Setting';
+import { SettingFeature } from '@walless/app';
 import { router } from 'utils/routing';
 
 const SettingScreen = () => {

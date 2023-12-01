@@ -1,4 +1,3 @@
-import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
 import { runtime } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
@@ -6,14 +5,6 @@ import type { UniversalAnalytics } from '@walless/ioc';
 import type { FirebaseOptions } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import {
-	activate,
-	fetchConfig,
-	getAll,
-	getRemoteConfig,
-} from 'firebase/remote-config';
-
-import { getDeviceInfo } from './device';
 
 const firebaseOptions: FirebaseOptions = {
 	apiKey: FIREBASE_API_KEY,
@@ -27,23 +18,39 @@ const firebaseOptions: FirebaseOptions = {
 
 export const app = initializeApp(firebaseOptions);
 export const auth = getAuth();
-export const remoteConfig = getRemoteConfig(app);
 export const googleProvider = new GoogleAuthProvider();
 
-/* update interval: 10 seconds for dev, and 1 hour for prod */
-remoteConfig.settings.minimumFetchIntervalMillis = __DEV__ ? 10000 : 3600000;
-remoteConfig.defaultConfig = defaultRemoteConfig as never;
+if (!runtime.isExtension) {
+	import('firebase/remote-config').then(({ getRemoteConfig }) => {
+		const remoteConfig = getRemoteConfig(app);
+		/* update interval: 10 seconds for dev, and 1 hour for prod */
+		remoteConfig.settings.minimumFetchIntervalMillis = __DEV__
+			? 10000
+			: 3600000;
+		remoteConfig.defaultConfig = defaultRemoteConfig as never;
+	});
+}
 
-export const loadRemoteConfig = (): RemoteConfig => {
-	activate(remoteConfig);
-	fetchConfig(remoteConfig); // fetch for next launch
-	const allConfig = getAll(remoteConfig);
+export const loadRemoteConfig = async (): Promise<RemoteConfig> => {
+	if (runtime.isExtension) {
+		return {
+			experimentalEnabled: true,
+			deepAnalyticsEnabled: true,
+			minimalVersion: '99.99.99',
+		};
+	} else {
+		const remote = await import('firebase/remote-config');
+		const remoteConfig = remote.getRemoteConfig(app);
+		remote.activate(remoteConfig);
+		remote.fetchConfig(remoteConfig);
+		const allConfig = remote.getAll(remoteConfig);
 
-	return {
-		experimentalEnabled: allConfig.experimentalEnabled?.asBoolean(),
-		deepAnalyticsEnabled: allConfig.deepAnalyticsEnabled?.asBoolean(),
-		minimalVersion: allConfig.minimalVersion?.asString() || '1.0.0',
-	};
+		return {
+			experimentalEnabled: allConfig.experimentalEnabled?.asBoolean(),
+			deepAnalyticsEnabled: allConfig.deepAnalyticsEnabled?.asBoolean(),
+			minimalVersion: allConfig.minimalVersion?.asString() || '1.0.0',
+		};
+	}
 };
 
 export interface FireCache {
@@ -70,32 +77,6 @@ export const initializeAuth = async () => {
 
 	if (user?.uid) {
 		fireCache.idToken = await user.getIdToken();
-
-		if (appState.remoteConfig.deepAnalyticsEnabled) {
-			universalActions.syncRemoteProfile();
-		}
-
-		let nextToken;
-		const deviceInfo = await getDeviceInfo();
-
-		if (runtime.isExtension) {
-			if (chrome.instandID) {
-				nextToken = await chrome.instanceID.getToken(nativeTokenArgs);
-			} else {
-				console.log('Notification not available for this platform yet!');
-			}
-		} else {
-			const { setUserProperties, getAnalytics } = await import(
-				'firebase/analytics'
-			);
-			const { getMessaging, getToken } = await import('firebase/messaging');
-			const messaging = getMessaging(app);
-
-			setUserProperties(getAnalytics(app), { email: user.email });
-			nextToken = await getToken(messaging, webTokenArgs);
-		}
-
-		universalActions.syncNotificationToken(nextToken, deviceInfo);
 	}
 };
 
@@ -105,12 +86,4 @@ export const universalAnalytics: UniversalAnalytics = {
 		const { getAnalytics, logEvent } = await import('firebase/analytics');
 		return logEvent(getAnalytics(app), name, params, options);
 	},
-};
-
-const webTokenArgs = {
-	vapidKey: FIREBASE_VAPID_KEY,
-};
-const nativeTokenArgs = {
-	authorizedEntity: FIREBASE_MESSAGING_SENDER_ID,
-	scope: 'FCM',
 };

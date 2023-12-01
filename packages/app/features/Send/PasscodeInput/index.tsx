@@ -14,12 +14,12 @@ import type { CollectibleDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
+	floatActions,
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../state/transaction';
+} from '../../../state';
 import { PasscodeFeature } from '../../Passcode';
-import { showError } from '../utils';
 
 import { Header } from './components';
 
@@ -52,7 +52,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 				(type === 'Token' && !token) ||
 				(type === 'Collectible' && !nftCollectible)
 			)
-				return showError('Invalid token to transfer');
+				return floatActions.showError('Invalid token to transfer');
 
 			const payload: TransactionPayload = {
 				sender: sender,
@@ -84,7 +84,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 				transactionActions.setStatus(res.responseCode as ResponseCode);
 
 				if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
-					showError('Passcode is NOT matched');
+					floatActions.showError('Passcode is NOT matched');
 					setError('Wrong passcode');
 				} else if (res.responseCode == ResponseCode.SUCCESS) {
 					if (nftCollectible && handleSendNftSuccess)
@@ -96,13 +96,13 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 				} else if (res.responseCode == ResponseCode.ERROR) {
 					navigator.slideNext();
 					if (res.message) {
-						showError(res.message);
+						floatActions.showError(res.message);
 					}
 				} else {
-					showError('Something was wrong');
+					floatActions.showError('Something was wrong');
 				}
 			} catch (error) {
-				showError((error as Error).message);
+				floatActions.showError((error as Error).message);
 			}
 
 			setPasscode('');

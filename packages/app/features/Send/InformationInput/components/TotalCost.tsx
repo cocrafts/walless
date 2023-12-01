@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
-import { transactionContext } from '../../../../state/transaction';
+import { transactionContext } from '../../../../state';
 
 export const TotalCost: FC = () => {
 	const { token, amount } = useSnapshot(transactionContext);

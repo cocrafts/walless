@@ -9,7 +9,7 @@ import {
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../../state/transaction';
+} from '../../../../state';
 
 export const RecipientInput: FC = () => {
 	const { checkValidAddress } = useSnapshot(injectedElements);

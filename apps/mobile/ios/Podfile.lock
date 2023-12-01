@@ -540,6 +540,8 @@ PODS:
     - React-logger (= 0.71.14)
     - React-perflogger (= 0.71.14)
   - RecaptchaInterop (100.0.0)
+  - RNCClipboard (1.12.1):
+    - React-Core
   - RNCustomAuthSdk (4.0.1):
     - CustomAuth (~> 5.0.0)
     - React
@@ -577,6 +579,8 @@ PODS:
     - GoogleSignIn (~> 6.2)
     - React-Core
   - RNPermissions (3.10.1):
+    - React-Core
+  - RNReactNativeHapticFeedback (2.2.0):
     - React-Core
   - RNReanimated (3.5.4):
     - DoubleConversion
@@ -670,6 +674,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../../../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../../../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
+  - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCustomAuthSdk (from `../../../node_modules/@toruslabs/customauth-react-native-sdk`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
   - "RNFBAnalytics (from `../../../node_modules/@react-native-firebase/analytics`)"
@@ -681,6 +686,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
   - RNPermissions (from `../../../node_modules/react-native-permissions`)
+  - RNReactNativeHapticFeedback (from `../../../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../../../node_modules/react-native-reanimated`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
@@ -810,6 +816,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../../../node_modules/react-native/ReactCommon"
+  RNCClipboard:
+    :path: "../../../node_modules/@react-native-clipboard/clipboard"
   RNCustomAuthSdk:
     :path: "../../../node_modules/@toruslabs/customauth-react-native-sdk"
   RNDeviceInfo:
@@ -832,6 +840,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/@react-native-google-signin/google-signin"
   RNPermissions:
     :path: "../../../node_modules/react-native-permissions"
+  RNReactNativeHapticFeedback:
+    :path: "../../../node_modules/react-native-haptic-feedback"
   RNReanimated:
     :path: "../../../node_modules/react-native-reanimated"
   RNScreens:
@@ -916,6 +926,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: ffe826b7b1cfbc32a35ed5b64d5886c0ff75f501
   ReactCommon: 6f0ee30fda78283c31310e585f7236748e13330d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
+  RNCClipboard: d77213bfa269013bf4b857b7a9ca37ee062d8ef1
   RNCustomAuthSdk: e1db0c850b41deaf38fdc8fe5433b3287db29c55
   RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
   RNFBAnalytics: 9138cdb065c6ac9fc7dc076d83f9c2e64bc21d46
@@ -927,6 +938,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 6e46dde1f87e5f018a54fe5d40cd0e0b942b49ee
   RNGoogleSignin: c15bdaa7e8a9e190b6169d9c96a4e8380a740f22
   RNPermissions: b199f4189fd6fbe5c9e7e5f542cd3d53fe0cf254
+  RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
   RNReanimated: b9215243fd801b2b874bd0218767eed434de994c
   RNScreens: 3c2d122f5e08c192e254c510b212306da97d2581
   RNSVG: 80584470ff1ffc7994923ea135a3e5ad825546b9

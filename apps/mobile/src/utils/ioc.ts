@@ -44,7 +44,7 @@ export const injectModules = async () => {
 
 	const endTime = new Date();
 	const milliseconds = endTime.getMilliseconds() - startTime.getMilliseconds();
-	console.log(`Took ${milliseconds} milliseconds to configure IoC module`);
+	console.log(`Took ${milliseconds} milliseconds to configure IoC module.`);
 
 	return modules;
 };

@@ -14,7 +14,7 @@ export const SearchHeader: FC<Props> = ({ onChangeSearch, ...otherProps }) => {
 		<View style={styles.container} {...otherProps}>
 			<View horizontal style={styles.titleContainer}>
 				<Text style={styles.title}>
-					Explore the world&apos;s custom desing layout
+					Explore the world&apos;s custom design layout
 				</Text>
 			</View>
 			<SearchBar

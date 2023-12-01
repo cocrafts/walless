@@ -3,7 +3,7 @@ import { Anchor, Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
-import { transactionContext } from '../../../../state/transaction';
+import { transactionContext } from '../../../../state';
 
 export const Nft = () => {
 	const { nftCollectible, time, status, signatureString } =

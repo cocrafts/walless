@@ -8,7 +8,7 @@ import {
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../state/transaction';
+} from '../../../state';
 import { NavButton } from '../components';
 
 import { Header, Information, Nft, Token } from './components';

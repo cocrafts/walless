@@ -5,10 +5,10 @@ import { View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import {
+	floatActions,
 	transactionActions,
 	transactionContext,
-} from '../../../state/transaction';
-import { showError } from '../utils';
+} from '../../../state';
 
 import { CollectiblesTab } from './CollectiblesTab';
 import { Header, TabBar } from './components';
@@ -25,7 +25,7 @@ const InformationInput: FC<Props> = ({ navigator }) => {
 	const handlePressContinue = () => {
 		const checkedResult = totalCheckFieldsToContinue();
 		if (!checkedResult.valid) {
-			showError(checkedResult.message);
+			floatActions.showError(checkedResult.message);
 		} else {
 			navigator.slideNext();
 		}

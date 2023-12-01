@@ -6,10 +6,7 @@ import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
-import {
-	injectedElements,
-	transactionContext,
-} from '../../../../state/transaction';
+import { injectedElements, transactionContext } from '../../../../state';
 import { GreenTag, RedTag } from '../../components/tags';
 
 interface Props {

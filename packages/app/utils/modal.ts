@@ -1,7 +1,8 @@
 import type { FC } from 'react';
-import { NotificationModal } from '@walless/app';
 import type { ModalConfigs } from '@walless/gui';
 import { BindDirections, modalActions } from '@walless/gui';
+
+import NotificationModal from '../modals/Notification';
 
 export const notify = (
 	id: string,
@@ -22,7 +23,7 @@ export const notify = (
 		fullWidth: false,
 		withoutMask: true,
 		bindingDirection: BindDirections.InnerTop,
-		positionOffset: { y: 20 },
+		positionOffset: { y: 16 },
 		...modalConfig,
 		context: {
 			prefix,

@@ -19,7 +19,7 @@ const Header: FC<HeaderProps> = ({
 	goBack,
 }) => {
 	const offsetStyle: ViewStyle = {
-		paddingTop: topInset,
+		paddingTop: Math.max(topInset, 18),
 	};
 
 	const handlePressIcon = toggleDrawer ? toggleDrawer : goBack;
@@ -42,10 +42,9 @@ const Header: FC<HeaderProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#081016',
+		paddingBottom: 18,
 	},
 	textContainer: {
-		marginTop: 16,
-		marginBottom: 24,
 		marginLeft: 28,
 		flexDirection: 'row',
 		alignItems: 'center',

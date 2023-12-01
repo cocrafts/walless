@@ -2,6 +2,7 @@ import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from 'stacks/Home';
 import SettingStack from 'stacks/Setting';
+import { noHeaderNavigation } from 'utils/helper';
 import {
 	useNotificationPermissionRequest,
 	useSafeAreaInsets,
@@ -25,17 +26,21 @@ export const DashboardStack = () => {
 		},
 	};
 
-	const noHeader = {
-		headerShown: false,
-	};
-
 	return (
 		<Tab.Navigator
 			screenOptions={screenOptions}
 			tabBar={(props) => <TabBar tabProps={props} />}
 		>
-			<Tab.Screen name="Explore" component={DrawerStack} options={noHeader} />
-			<Tab.Screen name="Home" component={HomeStack} options={noHeader} />
+			<Tab.Screen
+				name="Explore"
+				component={DrawerStack}
+				options={noHeaderNavigation}
+			/>
+			<Tab.Screen
+				name="Home"
+				component={HomeStack}
+				options={noHeaderNavigation}
+			/>
 			<Tab.Screen name="Setting" component={SettingStack} />
 		</Tab.Navigator>
 	);

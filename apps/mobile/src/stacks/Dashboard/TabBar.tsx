@@ -1,7 +1,7 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useEffect } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import type { WithTimingConfig } from 'react-native-reanimated';
 import {
 	Easing,
@@ -10,11 +10,16 @@ import {
 	withTiming,
 } from 'react-native-reanimated';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import type { RouteProp } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
-import { appState } from '@walless/engine';
 import { AnimatedView } from '@walless/gui';
-import { Home, Setting, Walless } from '@walless/icons';
+import { Home, Walless } from '@walless/icons';
+import type { DashboardParamList } from 'utils/navigation';
 import { localState } from 'utils/state';
+
+import { ProfileIcon } from './ProfileIcon';
+import type { Props as ItemProps } from './TabBarItem';
+import TabBarItem from './TabBarItem';
 
 const timingConfig: WithTimingConfig = {
 	duration: 150,
@@ -24,14 +29,6 @@ const timingConfig: WithTimingConfig = {
 interface Props {
 	tabProps: BottomTabBarProps;
 }
-
-const iconSize = 32;
-
-const ChildrenList: ReactNode[] = [
-	<Walless key="Explore" size={iconSize} />,
-	<Home key="Home" size={iconSize} />,
-	<Setting key="Setting" size={iconSize} />,
-];
 
 export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const { insets, state, navigation } = tabProps;
@@ -47,39 +44,24 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 		offset.value = withTiming(nextOffset, timingConfig);
 	}, [isDrawerOpen]);
 
-	useEffect(() => {
-		if (appState.profile.profileImage) {
-			ChildrenList[2] = (
-				<Image
-					key="Setting"
-					style={{
-						width: iconSize,
-						height: iconSize,
-						borderRadius: iconSize / 2,
-					}}
-					source={{ uri: appState.profile.profileImage }}
-				/>
-			);
-		}
-	}, []);
-
 	const containerStyle: ViewStyle = {
 		height: realBarHeight,
 		paddingBottom: insets.bottom,
 	};
 
-	const handleNavigate = (index: number) => {
-		const focused = state.index === index;
+	const handleNavigate = (route: RouteProp<DashboardParamList>) => {
+		const currentRoute = state.routes[state.index];
+		const isFocusing = currentRoute.key === route.key;
 
 		const event = navigation.emit({
 			type: 'tabPress',
-			target: state.routes[index].key,
+			target: route.key,
 			canPreventDefault: true,
 		});
 
-		if (!focused && !event.defaultPrevented) {
+		if (!isFocusing && !event.defaultPrevented) {
 			navigation.navigate({
-				name: state.routes[index].name,
+				name: route.name,
 				merge: true,
 			} as never);
 		}
@@ -88,19 +70,17 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	return (
 		<AnimatedView style={[styles.container, containerStyle, animatedStyles]}>
 			{state.routes.map((route, index) => {
-				const focused = state.index === index;
-				const icon = ChildrenList[index];
-				const itemContainerStyle: ViewStyle = {
-					opacity: focused ? 1 : 0.5,
-				};
+				const isActive = state.index === index;
+				const itemProps = iconPropsFromRouteMap[route.name];
+
 				return (
-					<TouchableOpacity
+					<TabBarItem
 						key={route.key}
-						style={[styles.itemContainer, itemContainerStyle]}
-						onPress={() => handleNavigate(index)}
-					>
-						{icon}
-					</TouchableOpacity>
+						isActive={isActive}
+						onPress={handleNavigate}
+						route={route as never}
+						{...itemProps}
+					/>
 				);
 			})}
 		</AnimatedView>
@@ -108,6 +88,18 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 };
 
 export default BottomNavigationTabBar;
+
+const iconPropsFromRouteMap: Record<string, Omit<ItemProps, 'route'>> = {
+	Home: {
+		icon: Home,
+	},
+	Explore: {
+		icon: Walless,
+	},
+	Setting: {
+		icon: ProfileIcon,
+	},
+};
 
 export const tabBarHeight = 60;
 const styles = StyleSheet.create({

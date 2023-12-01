@@ -44,11 +44,11 @@ export const WidgetItem: FC<Props> = ({ style, widget }) => {
 					<View horizontal style={{ gap: 10 }}>
 						<View horizontal style={styles.subContainer}>
 							<Heart colors={['red', 'red']} size={10} />
-							<Text style={[styles.normalText, styles.subText]}>20k love</Text>
+							<Text style={styles.normalText}>0 love</Text>
 						</View>
 						<View horizontal style={styles.subContainer}>
 							<View style={styles.activeIndicator} />
-							<Text style={[styles.normalText, styles.subText]}>20k love</Text>
+							<Text style={styles.normalText}>0 active</Text>
 						</View>
 					</View>
 				</View>

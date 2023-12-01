@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { FullHistoryFeature } from '@walless/app/features/Profile';
+import { FullHistoryFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import { router } from 'utils/routing';

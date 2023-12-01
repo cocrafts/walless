@@ -6,12 +6,12 @@ import { Text, View } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 import { useSnapshot } from 'valtio';
 
-import type { TransactionContext } from '../../../../../state/transaction';
+import type { TransactionContext } from '../../../../../state';
 import {
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../../../state/transaction';
+} from '../../../../../state';
 
 interface Props {
 	feeText?: string;

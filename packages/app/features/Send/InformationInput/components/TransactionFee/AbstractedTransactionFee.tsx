@@ -14,12 +14,9 @@ import { ChevronDown, Exclamation } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
-import type { TransactionContext } from '../../../../../state/transaction';
-import {
-	transactionActions,
-	transactionContext,
-} from '../../../../../state/transaction';
-import { filterGasilonTokens } from '../../../utils/gasilon';
+import type { TransactionContext } from '../../../../../state';
+import { transactionActions, transactionContext } from '../../../../../state';
+import { filterGasilonTokens } from '../../../../../utils/gasilon';
 
 import {
 	getTokenName,
@@ -147,7 +144,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 						<ActivityIndicator size="small" color="#FFFFFF" />
 					) : (
 						<Text style={[styles.feeText, !!error && { color: '#FC9B0A' }]}>
-							{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
+							{parseFloat((transactionFee || 0)?.toPrecision(7) as string)}
 						</Text>
 					)}
 					{chosenToken && (

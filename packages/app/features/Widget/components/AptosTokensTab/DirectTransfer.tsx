@@ -1,11 +1,12 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { showRequirePasscodeModal } from '@walless/app';
 import { Hoverable, Text, View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
+
+import { floatActions } from '../../../../state';
 
 interface Props {
 	pubkey: string;
@@ -33,7 +34,7 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 	};
 
 	const handleDirectTransfer = async () => {
-		showRequirePasscodeModal({
+		floatActions.showRequirePasscodeModal({
 			title: `Turn ${directTransfer ? 'off' : 'on'} direct transfer`,
 			desc: `Toggle this flag will submit an on-chain transaction and will require a ${fee} APT gas fee.`,
 			onPasscodeComplete: handleOnPasscodeComplete,

@@ -2,8 +2,9 @@ import type { FC } from 'react';
 import { useEffect } from 'react';
 import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { ErrorAnnouncement } from '@walless/app';
 import { Anchor, BindDirections, modalActions, Text, View } from '@walless/gui';
+
+import ErrorAnnouncement from '../../components/ErrorAnnouncement';
 
 import SignInHeader from './SignInHeader';
 import SignInInner from './SignInInner';

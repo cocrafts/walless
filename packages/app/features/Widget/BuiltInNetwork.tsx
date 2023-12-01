@@ -15,11 +15,11 @@ import MainFeatureButtons from '../../components/MainFeatureButtons';
 import type { TabAble } from '../../components/TabsHeader';
 import TabsHeader from '../../components/TabsHeader';
 import WalletCard from '../../components/WalletCard';
+import { floatActions } from '../../state';
 import { copy } from '../../utils';
 import { useNfts, useSafeAreaInsets } from '../../utils/hooks';
 import { usePublicKeys, useTokens } from '../../utils/hooks';
 import { showReceiveModal } from '../Receive';
-import { showSendModal } from '../Send';
 
 import ActivityTab from './components/ActivityTab';
 import AptosTokensTab from './components/AptosTokensTab';
@@ -74,7 +74,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressSend = () => {
-		showSendModal({
+		floatActions.showSendTokenModal({
 			layoutNetwork: id as Networks,
 		});
 	};

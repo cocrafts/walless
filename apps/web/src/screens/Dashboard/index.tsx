@@ -1,8 +1,7 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { DashboardLayout } from '@walless/app';
-import { useSettings } from '@walless/app/utils/hooks';
+import { DashboardLayout, useSettings } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
 import { useLocation, useParams, useSnapshot, useWidgets } from 'utils/hooks';

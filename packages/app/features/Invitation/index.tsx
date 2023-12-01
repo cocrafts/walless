@@ -8,7 +8,6 @@ import type {
 } from 'react-native';
 import { Platform } from 'react-native';
 import { ActivityIndicator, StyleSheet } from 'react-native';
-import { ErrorAnnouncement } from '@walless/app';
 import {
 	BindDirections,
 	Button,
@@ -17,6 +16,8 @@ import {
 	Text,
 	View,
 } from '@walless/gui';
+
+import ErrorAnnouncement from '../../components/ErrorAnnouncement';
 
 import GetCode from './components/GetCode';
 import InvitationHeader from './components/InvitationHeader';

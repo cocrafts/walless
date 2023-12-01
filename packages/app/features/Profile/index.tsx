@@ -7,15 +7,15 @@ import { Setting } from '@walless/icons';
 import { utils } from '@walless/ioc';
 
 import { MainFeatureButtons } from '../../components/MainFeatureButtons';
+import { floatActions } from '../../state';
 import { useTokens } from '../../utils/hooks';
 import { showReceiveModal } from '../Receive';
-import { showSendModal } from '../Send';
 
 import TokenValue from './components/TokenValue';
 import TransactionHistory from './components/TransactionHistory';
 
 interface Props {
-	style: StyleProp<ViewStyle>;
+	style?: StyleProp<ViewStyle>;
 	onNavigateToHistory: () => void;
 	onSettingPress?: () => void;
 }
@@ -28,7 +28,7 @@ export const ProfileFeature: FC<Props> = ({
 	const { valuation } = useTokens();
 
 	const handleSend = () => {
-		showSendModal();
+		floatActions.showSendTokenModal();
 	};
 
 	return (

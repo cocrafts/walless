@@ -4,10 +4,7 @@ import { StyleSheet } from 'react-native';
 import { Button, Input, Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
-import {
-	transactionActions,
-	transactionContext,
-} from '../../../../state/transaction';
+import { transactionActions, transactionContext } from '../../../../state';
 
 export const AmountInput: FC = () => {
 	const { token, amount } = useSnapshot(transactionContext);

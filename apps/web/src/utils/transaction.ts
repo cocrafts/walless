@@ -3,7 +3,7 @@ import { VersionedTransaction } from '@solana/web3.js';
 import {
 	constructTransaction,
 	constructTransactionAbstractFee,
-} from '@walless/app/utils';
+} from '@walless/app';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { HandleAptosFunction } from '@walless/ioc';

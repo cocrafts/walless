@@ -1,11 +1,12 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import type { NetworkInfo } from '@walless/app/utils';
-import { copy, getNetworkInfo } from '@walless/app/utils';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import type { PublicKeyDocument } from '@walless/store';
+
+import type { NetworkInfo } from '../../../../utils';
+import { copy, getNetworkInfo } from '../../../../utils';
 
 interface Props {
 	item: PublicKeyDocument;

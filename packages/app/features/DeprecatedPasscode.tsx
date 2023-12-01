@@ -7,8 +7,9 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import { PasscodeFeature } from '@walless/app';
 import { Text, View } from '@walless/gui';
+
+import { PasscodeFeature } from '../features/Passcode';
 
 interface Props {
 	validatePasscode: (passcode: string) => Promise<boolean>;

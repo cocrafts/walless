@@ -53,10 +53,10 @@ export const LoginFeature: FC<Props> = ({
 				onGetInvitationCode={onGetInvitationCode}
 			/>
 			<View style={styles.footerContainer}>
-				<Text style={styles.footerText}>
+				<View style={styles.helpContainer}>
 					<Text>Having issues with log in? Visit </Text>
 					<Anchor href="https://walless.io/faq/login" title="Help page" />
-				</Text>
+				</View>
 				<Text style={styles.poweredText}>
 					Powered by walless.io, version@{version}
 				</Text>
@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingBottom: 24,
 	},
-	footerText: {
-		fontSize: 12,
+	helpContainer: {
+		flexDirection: 'row',
 	},
 	poweredText: {
 		fontSize: 12,

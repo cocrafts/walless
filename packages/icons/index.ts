@@ -24,6 +24,7 @@ export { Eye } from './components/Eye';
 export { EyeOff } from './components/EyeOff';
 export { Github } from './components/Github';
 export { Google } from './components/Google';
+export { Hamburger } from './components/Hamburger';
 export { Heart } from './components/Heart';
 export { Home } from './components/Home';
 export { IdCard } from './components/IdCard';

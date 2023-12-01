@@ -64,6 +64,7 @@
     "prettier": "^3.0.3",
     "react-native": "^0.71.14",
     "react-native-buffer": "^6.0.3",
+    "react-native-gesture-handler": "^2.13.4",
     "react-native-reanimated": "3.5.4",
     "rimraf": "^5.0.0",
     "shx": "^0.3.4",

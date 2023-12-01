@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 	textContainer: {
 		marginTop: 16,
 		marginBottom: 24,
-		marginLeft: 28,
+		marginLeft: 18,
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 20,

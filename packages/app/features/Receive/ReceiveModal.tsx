@@ -13,7 +13,8 @@ import {
 } from 'react-native-reanimated';
 import type { Networks } from '@walless/core';
 import { keyState } from '@walless/engine';
-import { AnimatedView, modalActions, type ModalConfigs } from '@walless/gui';
+import type { ModalConfigs } from '@walless/gui';
+import { AnimatedView, modalActions } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import ModalHeader from '../../components/ModalHeader';
@@ -79,7 +80,7 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	};
 
 	const handleClose = () => {
-		modalActions.destroy(config?.id);
+		modalActions.hide(config?.id as string);
 	};
 
 	const offset = useSharedValue(0);

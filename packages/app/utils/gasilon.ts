@@ -1,3 +1,4 @@
+import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
 type GasilonToken = {
@@ -17,7 +18,7 @@ let gasilonConfig: GasilonConfig;
 export const getGasilonTokens = async () => {
 	if (!gasilonConfig) {
 		try {
-			const res = await fetch(GASILON_ENDPOINT, {
+			const res = await fetch(modules.config.GASILON_ENDPOINT, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',

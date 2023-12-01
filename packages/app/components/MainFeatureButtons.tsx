@@ -3,7 +3,7 @@ import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import { View } from '@walless/gui';
-import { ArrowBottomRight, ArrowTopRight, Cart } from '@walless/icons';
+import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
 
 import FeatureButton from '../components/FeatureButton';
 
@@ -20,7 +20,6 @@ export const MainFeatureButtons: FC<Props> = ({
 	iconSize = 18,
 	onSendPress,
 	onReceivePress,
-	onBuyPress,
 }) => {
 	const buttonSize = runtime.isMobile ? 50 : 38;
 	const innerIconSize = runtime.isMobile ? 20 : iconSize;

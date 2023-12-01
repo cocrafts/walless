@@ -62,7 +62,11 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		const { getMessaging, getToken } = await import('firebase/messaging');
 		const messaging = getMessaging(app);
 
-		deviceInfo.notificationToken = await getToken(messaging, webTokenArgs);
+		try {
+			deviceInfo.notificationToken = await getToken(messaging, webTokenArgs);
+		} catch (e) {
+			console.log('Could not register/get Notification Token from device.');
+		}
 
 		if (user?.uid) {
 			setUserProperties(getAnalytics(app), { email: user.email });

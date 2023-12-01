@@ -38,8 +38,8 @@ export const TabBarItem: FC<Props> = ({
 	const containerStyle = [styles.container, animatedStyle, style];
 
 	useEffect(() => {
-		const nextScale = isActive ? 1 : 0.9;
-		const velocity = isActive ? 5 : 0;
+		const nextScale = isActive ? 1 : 0.95;
+		const velocity = isActive ? 3 : 0;
 		const nextOpacity = isActive ? 1 : 0.5;
 		scale.value = withRepeat(withSpring(nextScale, { velocity }), 2, true);
 		opacity.value = withSpring(nextOpacity);

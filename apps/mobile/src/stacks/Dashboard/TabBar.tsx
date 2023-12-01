@@ -12,6 +12,7 @@ import {
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { RouteProp } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
+import { appState } from '@walless/engine';
 import { AnimatedView } from '@walless/gui';
 import { Home, Walless } from '@walless/icons';
 import type { DashboardParamList } from 'utils/navigation';
@@ -33,6 +34,7 @@ interface Props {
 export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const { insets, state, navigation } = tabProps;
 	const { isDrawerOpen } = useSnapshot(localState);
+	const { activeWidgetId } = useSnapshot(appState);
 	const offset = useSharedValue(0);
 	const realBarHeight = tabBarHeight + insets.bottom;
 	const animatedStyles = useAnimatedStyle(() => ({
@@ -40,9 +42,10 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	}));
 
 	useEffect(() => {
-		const nextOffset = isDrawerOpen ? 0 : realBarHeight;
+		const nextOffset =
+			isDrawerOpen || activeWidgetId === '' ? 0 : realBarHeight;
 		offset.value = withTiming(nextOffset, timingConfig);
-	}, [isDrawerOpen]);
+	}, [isDrawerOpen, activeWidgetId]);
 
 	const containerStyle: ViewStyle = {
 		height: realBarHeight,
@@ -90,18 +93,21 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 export default BottomNavigationTabBar;
 
 const iconPropsFromRouteMap: Record<string, Omit<ItemProps, 'route'>> = {
-	Home: {
-		icon: Home,
-	},
 	Explore: {
 		icon: Walless,
+		size: 20,
+	},
+	Home: {
+		icon: Home,
+		size: 20,
 	},
 	Setting: {
 		icon: ProfileIcon,
+		size: 20,
 	},
 };
 
-export const tabBarHeight = 60;
+export const tabBarHeight = 52;
 const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
@@ -112,7 +118,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		alignItems: 'center',
 		height: tabBarHeight,
-		paddingVertical: 12,
+		paddingVertical: 4,
 		backgroundColor: '#081016',
 	},
 	itemContainer: {

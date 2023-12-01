@@ -61,7 +61,7 @@ const logOut = async () => {
 const navigateToWidget = (id: string) => {
 	appActions.setActiveWidget(id);
 	navigate('Dashboard', {
-		screen: 'Home',
+		screen: 'Explore',
 		params: { screen: 'Widget', params: { id } },
 	});
 };

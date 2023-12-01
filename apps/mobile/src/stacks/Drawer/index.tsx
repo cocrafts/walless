@@ -36,7 +36,7 @@ export const DrawerStack = () => {
 			styles.drawer,
 			{
 				backgroundColor: '#131C24',
-				paddingTop: Math.max(insets.top - 20, 16),
+				paddingTop: Math.max(insets.top - 6, 18),
 			},
 		],
 		swipeEdgeWidth: 5000,

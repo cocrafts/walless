@@ -30,7 +30,7 @@ const Header: FC<HeaderProps> = ({
 			<View style={styles.textContainer}>
 				{showIcon && (
 					<TouchableOpacity onPress={handlePressIcon}>
-						<Icon size={20} />
+						<Icon size={14} />
 					</TouchableOpacity>
 				)}
 				<Text style={styles.text}>{title}</Text>
@@ -42,17 +42,19 @@ const Header: FC<HeaderProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#081016',
-		paddingBottom: 18,
+		paddingBottom: 12,
 	},
 	textContainer: {
+		marginTop: 6,
 		marginLeft: 18,
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 20,
+		opacity: 0.8,
 	},
 	text: {
 		color: '#fff',
-		fontSize: 20,
+		fontSize: 16,
 		fontWeight: 'bold',
 	},
 });

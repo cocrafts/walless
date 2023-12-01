@@ -39,7 +39,10 @@ export const DrawerStack = () => {
 				paddingTop: insets.top,
 			},
 		],
+		swipeEdgeWidth: 5000,
+		swipeMinDistance: sidebarWidth / 3,
 		overlayColor: 'transparent',
+		drawerType: 'back',
 	};
 
 	const options = {

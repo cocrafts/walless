@@ -1,31 +1,36 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Hamburger } from '@walless/icons';
+import { ChevronLeft, Hamburger } from '@walless/icons';
 
 interface HeaderProps {
 	topInset: number;
 	title: string;
-	showMenu?: boolean;
+	showIcon?: boolean;
 	toggleDrawer?: () => void;
+	goBack?: () => void;
 }
 
 const Header: FC<HeaderProps> = ({
 	topInset,
 	title,
-	showMenu,
+	showIcon,
 	toggleDrawer,
+	goBack,
 }) => {
 	const offsetStyle: ViewStyle = {
 		paddingTop: topInset,
 	};
 
+	const handlePressIcon = toggleDrawer ? toggleDrawer : goBack;
+	const Icon = toggleDrawer ? Hamburger : ChevronLeft;
+
 	return (
 		<View style={[offsetStyle, styles.container]}>
 			<View style={styles.textContainer}>
-				{showMenu && (
-					<TouchableOpacity onPress={toggleDrawer}>
-						<Hamburger size={20} />
+				{showIcon && (
+					<TouchableOpacity onPress={handlePressIcon}>
+						<Icon size={20} />
 					</TouchableOpacity>
 				)}
 				<Text style={styles.text}>{title}</Text>

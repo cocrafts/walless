@@ -35,7 +35,7 @@ export const DashboardStack = () => {
 			tabBar={(props) => <TabBar tabProps={props} />}
 		>
 			<Tab.Screen name="Explore" component={DrawerStack} options={noHeader} />
-			<Tab.Screen name="Home" component={HomeStack} />
+			<Tab.Screen name="Home" component={HomeStack} options={noHeader} />
 			<Tab.Screen name="Setting" component={SettingStack} />
 		</Tab.Navigator>
 	);

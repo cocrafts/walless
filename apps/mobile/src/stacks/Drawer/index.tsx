@@ -27,7 +27,7 @@ export const DrawerStack = () => {
 				<Header
 					title={widgetName ?? 'Explore'}
 					topInset={insets.top}
-					showMenu={true}
+					showIcon
 					toggleDrawer={navigation.toggleDrawer}
 				/>
 			);

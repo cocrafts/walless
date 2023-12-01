@@ -12,6 +12,7 @@ import {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
+import type { GestureUpdater } from '@walless/gui';
 import { AnimatedView, View } from '@walless/gui';
 
 import type { IndicatorOption, SlideOption } from './shared';
@@ -29,13 +30,7 @@ export const Slider: FC<Props> = ({ style, items, indicator }) => {
 	const context = useSharedValue(0);
 	const [childWidth, setChildWidth] = useState(0);
 
-	const animatedStyle = useAnimatedStyle(
-		() => ({
-			flexDirection: 'row',
-			transform: [{ translateX: offset.value }],
-		}),
-		[offset],
-	);
+	const itemStyle = { width: childWidth };
 
 	const handleItemSelect = (index: number) => {
 		offset.value = withTiming(-childWidth * index, {});
@@ -47,22 +42,36 @@ export const Slider: FC<Props> = ({ style, items, indicator }) => {
 	const leftLimit = 0;
 	const rightLimit = -childWidth * (items.length - 1);
 
+	const onGestureStart = () => {
+		context.value = offset.value;
+	};
+
+	const onGestureUpdate: GestureUpdater = (event) => {
+		const newPosition = event.translationX + context.value;
+		const limitReach = newPosition > leftLimit || newPosition < rightLimit;
+		if (!limitReach) {
+			offset.value = newPosition;
+		}
+	};
+
+	const onGestureEnd = () => {
+		const index = Math.round(-(offset.value / childWidth));
+		offset.value = withTiming(-childWidth * index);
+		runOnJS(setActiveIndex)(index);
+	};
+
 	const pan = Gesture.Pan()
-		.onStart(() => {
-			context.value = offset.value;
-		})
-		.onUpdate((event) => {
-			const newPosition = event.translationX + context.value;
-			const limitReach = newPosition > leftLimit || newPosition < rightLimit;
-			if (!limitReach) {
-				offset.value = newPosition;
-			}
-		})
-		.onEnd(() => {
-			const index = Math.round(-(offset.value / childWidth));
-			offset.value = withTiming(-childWidth * index);
-			runOnJS(setActiveIndex)(index);
-		});
+		.onStart(onGestureStart)
+		.onUpdate(onGestureUpdate)
+		.onEnd(onGestureEnd);
+
+	const animatedStyle = useAnimatedStyle(
+		() => ({
+			flexDirection: 'row',
+			transform: [{ translateX: offset.value }],
+		}),
+		[offset],
+	);
 
 	return (
 		<View
@@ -80,7 +89,7 @@ export const Slider: FC<Props> = ({ style, items, indicator }) => {
 									const { id, component: InnerComponent } = item;
 
 									return (
-										<View style={{ width: childWidth }} key={id}>
+										<View style={itemStyle} key={id}>
 											<InnerComponent config={item} />
 										</View>
 									);

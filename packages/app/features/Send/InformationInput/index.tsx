@@ -37,7 +37,7 @@ const InformationInput: FC<Props> = ({ navigator }) => {
 
 	return (
 		<View style={styles.container}>
-			<ModalHeader content={'Send'} onPressClose={handleClose} />
+			<ModalHeader content="Send" onPressClose={handleClose} />
 
 			<TabBar curTab={type} setCurTab={transactionActions.setType} />
 

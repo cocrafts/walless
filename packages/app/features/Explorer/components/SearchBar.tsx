@@ -44,9 +44,7 @@ export const SearchBar: FC<Props> = ({
 		</TouchableOpacity>
 	);
 
-	const suffix = !textSearch ? (
-		<View />
-	) : (
+	const suffix = textSearch && (
 		<TouchableOpacity onPress={handleClearSearchPress}>
 			<Times size={iconSize} color={iconColor} />
 		</TouchableOpacity>

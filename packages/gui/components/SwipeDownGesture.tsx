@@ -1,9 +1,5 @@
 import type { FC, ReactNode } from 'react';
 import type { LayoutChangeEvent, ViewStyle } from 'react-native';
-import type {
-	GestureUpdateEvent,
-	PanGestureHandlerEventPayload,
-} from 'react-native-gesture-handler';
 import {
 	Gesture,
 	GestureDetector,
@@ -15,6 +11,8 @@ import {
 	withTiming,
 } from 'react-native-reanimated';
 
+import type { GestureUpdater } from '../states/modal';
+
 import { AnimatedView } from './aliased';
 
 interface Props {
@@ -23,10 +21,6 @@ interface Props {
 	gestureEnable?: boolean;
 	callbackOnClose?: () => void;
 }
-
-type GestureFunc = (
-	event: GestureUpdateEvent<PanGestureHandlerEventPayload>,
-) => void;
 
 export const SwipeDownGesture: FC<Props> = ({
 	children,
@@ -48,14 +42,14 @@ export const SwipeDownGesture: FC<Props> = ({
 		context.value = offset.value;
 	};
 
-	const onGestureUpdate: GestureFunc = (event) => {
+	const onGestureUpdate: GestureUpdater = (event) => {
 		const newPosition = event.translationY + context.value;
 		if (newPosition > 0) {
 			offset.value = newPosition;
 		}
 	};
 
-	const onGestureEnd: GestureFunc = (event) => {
+	const onGestureEnd: GestureUpdater = (event) => {
 		const newPosition = event.translationY + context.value;
 		if (newPosition > 100) {
 			offset.value = withTiming(modalHeight.value);

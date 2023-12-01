@@ -41,7 +41,7 @@ export const WidgetItem: FC<Props> = ({ style, widget }) => {
 					<Text style={styles.normalText} numberOfLines={1}>
 						{widget.storeMeta.description}
 					</Text>
-					<View horizontal style={{ gap: 10 }}>
+					{/* <View horizontal style={{ gap: 10 }}>
 						<View horizontal style={styles.subContainer}>
 							<Heart colors={['red', 'red']} size={10} />
 							<Text style={styles.normalText}>0 love</Text>
@@ -50,7 +50,7 @@ export const WidgetItem: FC<Props> = ({ style, widget }) => {
 							<View style={styles.activeIndicator} />
 							<Text style={styles.normalText}>0 active</Text>
 						</View>
-					</View>
+					</View> */}
 				</View>
 
 				<Hoverable style={[styles.addBtn, btnWidth]} onPress={onAddBtnPress}>
@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
 		aspectRatio: 1,
 	},
 	detailContainer: {
+		justifyContent: 'space-between',
 		flex: 1,
 		marginLeft: 20,
 	},

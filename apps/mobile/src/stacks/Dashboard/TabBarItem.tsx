@@ -2,10 +2,11 @@ import { type FC, useEffect } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import {
+	Easing,
 	useAnimatedStyle,
 	useSharedValue,
-	withRepeat,
 	withSpring,
+	withTiming,
 } from 'react-native-reanimated';
 import type { RouteProp } from '@react-navigation/native';
 import { AnimatedPressable } from '@walless/gui';
@@ -38,18 +39,29 @@ export const TabBarItem: FC<Props> = ({
 	const containerStyle = [styles.container, animatedStyle, style];
 
 	useEffect(() => {
-		const nextScale = isActive ? 1 : 0.95;
-		const velocity = isActive ? 3 : 0;
 		const nextOpacity = isActive ? 1 : 0.5;
-		scale.value = withRepeat(withSpring(nextScale, { velocity }), 2, true);
 		opacity.value = withSpring(nextOpacity);
 	}, [isActive]);
+
+	const handlePress = () => {
+		onPress?.(route);
+		scale.value = withTiming(
+			1.1,
+			{
+				duration: 50,
+				easing: Easing.elastic(1.5),
+			},
+			() => {
+				scale.value = withSpring(1);
+			},
+		);
+	};
 
 	return (
 		<AnimatedPressable
 			hitSlop={12}
 			style={containerStyle}
-			onPress={() => onPress?.(route)}
+			onPress={handlePress}
 		>
 			<IconComponent size={size} />
 		</AnimatedPressable>

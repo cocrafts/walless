@@ -1,8 +1,19 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
+import {
+	Gesture,
+	GestureDetector,
+	GestureHandlerRootView,
+} from 'react-native-gesture-handler';
+import {
+	runOnJS,
+	useAnimatedStyle,
+	useSharedValue,
+	withTiming,
+} from 'react-native-reanimated';
 import type { Networks } from '@walless/core';
 import { keyState } from '@walless/engine';
-import { modalActions, type ModalConfigs } from '@walless/gui';
+import { AnimatedView, modalActions, type ModalConfigs } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import ModalHeader from '../../components/ModalHeader';
@@ -67,19 +78,57 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 		context: { cardList: walletList },
 	};
 
-	const handlePressClose = () => {
+	const handleClose = () => {
 		modalActions.destroy(config?.id);
 	};
 
+	const offset = useSharedValue(0);
+	const context = useSharedValue(0);
+	const modalHeight = useSharedValue(0);
+
+	const pan = Gesture.Pan()
+		.onStart(() => {
+			context.value = offset.value;
+		})
+		.onUpdate((event) => {
+			offset.value = event.translationY + context.value;
+		})
+		.onEnd((event) => {
+			const newPosition = event.translationY + context.value;
+			if (newPosition > 100) {
+				offset.value = withTiming(modalHeight.value);
+				runOnJS(handleClose)();
+			} else {
+				offset.value = withTiming(0);
+			}
+		});
+
+	const animatedStyle = useAnimatedStyle(() => {
+		return {
+			transform: [{ translateY: offset.value }],
+		};
+	});
+
 	return (
-		<ModalWrapper>
-			<ModalHeader content="Receive" onPressClose={handlePressClose} />
-			<Slider
-				style={styles.sliderContainer}
-				items={items}
-				indicator={indicator}
-			/>
-		</ModalWrapper>
+		<GestureHandlerRootView>
+			<GestureDetector gesture={pan}>
+				<AnimatedView
+					style={animatedStyle}
+					onLayout={({ nativeEvent }) => {
+						modalHeight.value = nativeEvent.layout.height;
+					}}
+				>
+					<ModalWrapper>
+						<ModalHeader content="Receive" onPressClose={handleClose} />
+						<Slider
+							style={styles.sliderContainer}
+							items={items}
+							indicator={indicator}
+						/>
+					</ModalWrapper>
+				</AnimatedView>
+			</GestureDetector>
+		</GestureHandlerRootView>
 	);
 };
 

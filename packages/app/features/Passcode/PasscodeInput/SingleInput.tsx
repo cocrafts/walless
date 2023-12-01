@@ -58,6 +58,7 @@ const SingleInput = forwardRef<TextInput, Props>(
 					onKeyPress={onKeyPress}
 					onFocus={() => setIsFocused(true)}
 					onBlur={() => setIsFocused(false)}
+					textContentType="creditCardNumber"
 				/>
 				{isFilled && (
 					<View fullscreen style={styles.center}>

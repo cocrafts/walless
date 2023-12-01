@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { useEffect } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
-import HapticFeedback from 'react-native-haptic-feedback';
 import type { WithTimingConfig } from 'react-native-reanimated';
 import {
 	Easing,
@@ -15,6 +14,7 @@ import type { RouteProp } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
 import { AnimatedView } from '@walless/gui';
 import { Home, Walless } from '@walless/icons';
+import { HapticFeedbackTypes, modules } from '@walless/ioc';
 import type { DashboardParamList } from 'utils/navigation';
 import { localState } from 'utils/state';
 
@@ -61,11 +61,7 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 		});
 
 		if (!isFocusing && !event.defaultPrevented) {
-			HapticFeedback.trigger('impactHeavy', {
-				enableVibrateFallback: true,
-				ignoreAndroidSystemSettings: false,
-			});
-
+			modules.native.triggerHaptic(HapticFeedbackTypes.impactHeavy);
 			navigation.navigate({
 				name: route.name,
 				merge: true,

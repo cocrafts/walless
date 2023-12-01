@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { TextStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text } from '@walless/gui';
 
@@ -8,7 +9,7 @@ interface Props {
 	item: TabAble;
 	backgroundColor: string;
 	color: string;
-	fontWeight: '500' | '400';
+	fontWeight: TextStyle['fontWeight'];
 	onPress?: (item: TabAble) => void;
 }
 

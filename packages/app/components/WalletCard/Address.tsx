@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, StyleSheet } from 'react-native';
-import { runtime, shortenAddress } from '@walless/core';
+import { Image, Platform, StyleSheet } from 'react-native';
+import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import type { PublicKeyDocument } from '@walless/store';
@@ -35,9 +35,10 @@ export const WalletAddress: FC<Props> = ({
 		height: iconSize,
 		borderRadius: iconSize / 2,
 	};
-	const addressTextStyle = runtime.isMobile
-		? { fontSize: 15 }
-		: { fontSize: 13 };
+	const addressTextStyle = Platform.select({
+		default: { fontSize: 15 },
+		web: { fontSize: 13 },
+	});
 
 	const handleCopy = () => {
 		item._id && onCopyAddress?.(item._id);
@@ -63,7 +64,10 @@ export const WalletAddress: FC<Props> = ({
 
 export default WalletAddress;
 
-const iconWrapperSize = runtime.isMobile ? 30 : 20;
+const iconWrapperSize = Platform.select({
+	default: 30,
+	web: 20,
+});
 
 const styles = StyleSheet.create({
 	container: {

@@ -29,7 +29,7 @@ const Header: FC<HeaderProps> = ({
 		<View style={[offsetStyle, styles.container]}>
 			<View style={styles.textContainer}>
 				{showIcon && (
-					<TouchableOpacity onPress={handlePressIcon}>
+					<TouchableOpacity hitSlop={16} onPress={handlePressIcon}>
 						<Icon size={14} />
 					</TouchableOpacity>
 				)}
@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#081016',
 		paddingBottom: 12,
+		paddingLeft: 18,
 	},
 	textContainer: {
 		marginTop: 6,
-		marginLeft: 18,
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 20,
+		gap: 12,
 		opacity: 0.8,
 	},
 	text: {

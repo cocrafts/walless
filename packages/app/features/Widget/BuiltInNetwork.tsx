@@ -16,7 +16,7 @@ import type { TabAble } from '../../components/TabsHeader';
 import TabsHeader from '../../components/TabsHeader';
 import WalletCard from '../../components/WalletCard';
 import { copy } from '../../utils';
-import { useNfts, useSafeAreaInsets } from '../../utils/hooks';
+import { useNfts } from '../../utils/hooks';
 import { usePublicKeys, useTokens } from '../../utils/hooks';
 import { showReceiveModal } from '../Receive';
 import { showSendModal } from '../Send';
@@ -32,7 +32,6 @@ interface Props {
 
 export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
-	const insets = useSafeAreaInsets();
 	const keys = usePublicKeys(id as Networks);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
 	const { tokens, valuation } = useTokens(id as Networks);
@@ -40,7 +39,6 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	const cardSkin = useMemo(() => getWalletCardSkin(id as never), [id]);
 
 	const container: ViewStyle = {
-		marginTop: insets.top,
 		...styles.container,
 	};
 

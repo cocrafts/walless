@@ -2,20 +2,27 @@ import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from 'stacks/Home';
 import SettingStack from 'stacks/Setting';
-import { useNotificationPermissionRequest } from 'utils/hooks';
+import {
+	useNotificationPermissionRequest,
+	useSafeAreaInsets,
+} from 'utils/hooks';
 import type { DashboardParamList } from 'utils/navigation';
 
 import DrawerStack from '../Drawer';
 
+import Header from './Header';
 import TabBar from './TabBar';
 
 const Tab = createBottomTabNavigator<DashboardParamList>();
 
 export const DashboardStack = () => {
 	useNotificationPermissionRequest();
+	const insets = useSafeAreaInsets();
 
 	const screenOptions: BottomTabNavigationOptions = {
-		headerShown: false,
+		header(props) {
+			return <Header {...props} topInset={insets.top} />;
+		},
 	};
 
 	return (

@@ -6,7 +6,6 @@ import { tabBarHeight } from 'stacks/Dashboard/TabBar';
 export const SettingScreen = () => {
 	const insets = useSafeAreaInsets();
 	const scrollContainerStyle: ViewStyle = {
-		paddingTop: insets.top,
 		paddingBottom: tabBarHeight + insets.bottom,
 	};
 

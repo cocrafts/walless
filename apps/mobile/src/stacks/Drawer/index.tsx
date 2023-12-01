@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { useSafeAreaInsets } from '@walless/app';
 import CollectibleScreen from 'screens/Dashboard/Home/Collectible';
 import { CollectionScreen } from 'screens/Dashboard/Home/Collection';
 import WidgetScreen from 'screens/Dashboard/Home/Widget';
@@ -11,14 +10,11 @@ import Sidebar, { sidebarWidth } from './Sidebar';
 const Drawer = createDrawerNavigator<ExploreParamList>();
 
 export const DrawerStack = () => {
-	const { top } = useSafeAreaInsets();
-
 	const screenOptions = {
 		headerShown: false,
 		drawerStyle: [
 			styles.drawer,
 			{
-				paddingTop: top,
 				backgroundColor: '#131C24',
 			},
 		],

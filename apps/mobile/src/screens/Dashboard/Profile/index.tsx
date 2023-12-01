@@ -6,7 +6,6 @@ import { navigate } from 'utils/navigation';
 export const ProfileScreen = () => {
 	const insets = useSafeAreaInsets();
 	const containerStyle: ViewStyle = {
-		paddingTop: insets.top,
 		paddingBottom: tabBarHeight + insets.bottom,
 	};
 

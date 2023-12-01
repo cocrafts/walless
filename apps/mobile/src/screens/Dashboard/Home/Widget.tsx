@@ -11,19 +11,13 @@ import { tabBarHeight } from 'stacks/Dashboard/TabBar';
 export const WidgetScreen = () => {
 	const insets = useSafeAreaInsets();
 	const { activeWidgetId } = useSnapshot(appState);
-	const explorerContainerStyle: ViewStyle = {
-		marginTop: insets.top,
-	};
 	const explorerScrollStyle: ViewStyle = {
 		paddingBottom: tabBarHeight + insets.bottom,
 	};
 
 	if (!activeWidgetId) {
 		return (
-			<WidgetExplorerFeat
-				style={explorerContainerStyle}
-				scrollContentContainerStyle={explorerScrollStyle}
-			/>
+			<WidgetExplorerFeat scrollContentContainerStyle={explorerScrollStyle} />
 		);
 	}
 

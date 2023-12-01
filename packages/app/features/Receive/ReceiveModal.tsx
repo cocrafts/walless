@@ -91,7 +91,10 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 			context.value = offset.value;
 		})
 		.onUpdate((event) => {
-			offset.value = event.translationY + context.value;
+			const newPosition = event.translationY + context.value;
+			if (newPosition > 0) {
+				offset.value = newPosition;
+			}
 		})
 		.onEnd((event) => {
 			const newPosition = event.translationY + context.value;

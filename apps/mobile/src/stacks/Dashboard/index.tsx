@@ -8,9 +8,9 @@ import {
 } from 'utils/hooks';
 import type { DashboardParamList } from 'utils/navigation';
 
+import Header from '../components/Header';
 import DrawerStack from '../Drawer';
 
-import Header from './Header';
 import TabBar from './TabBar';
 
 const Tab = createBottomTabNavigator<DashboardParamList>();
@@ -20,9 +20,13 @@ export const DashboardStack = () => {
 	const insets = useSafeAreaInsets();
 
 	const screenOptions: BottomTabNavigationOptions = {
-		header(props) {
-			return <Header {...props} topInset={insets.top} />;
+		header({ route }) {
+			return <Header topInset={insets.top} title={route.name} />;
 		},
+	};
+
+	const noHeader = {
+		headerShown: false,
 	};
 
 	return (
@@ -30,7 +34,7 @@ export const DashboardStack = () => {
 			screenOptions={screenOptions}
 			tabBar={(props) => <TabBar tabProps={props} />}
 		>
-			<Tab.Screen name="Explore" component={DrawerStack} />
+			<Tab.Screen name="Explore" component={DrawerStack} options={noHeader} />
 			<Tab.Screen name="Home" component={HomeStack} />
 			<Tab.Screen name="Setting" component={SettingStack} />
 		</Tab.Navigator>

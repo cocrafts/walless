@@ -1,15 +1,21 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import type { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
 import { Hamburger } from '@walless/icons';
 
-type HeaderProps = BottomTabHeaderProps & {
-	title?: string;
+interface HeaderProps {
 	topInset: number;
-};
+	title: string;
+	showMenu?: boolean;
+	toggleDrawer?: () => void;
+}
 
-const Header: FC<HeaderProps> = ({ topInset, route }) => {
+const Header: FC<HeaderProps> = ({
+	topInset,
+	title,
+	showMenu,
+	toggleDrawer,
+}) => {
 	const offsetStyle: ViewStyle = {
 		paddingTop: topInset,
 	};
@@ -17,12 +23,12 @@ const Header: FC<HeaderProps> = ({ topInset, route }) => {
 	return (
 		<View style={[offsetStyle, styles.container]}>
 			<View style={styles.textContainer}>
-				{route.name === 'Explore' && (
-					<TouchableOpacity>
+				{showMenu && (
+					<TouchableOpacity onPress={toggleDrawer}>
 						<Hamburger size={20} />
 					</TouchableOpacity>
 				)}
-				<Text style={styles.text}>{route.name}</Text>
+				<Text style={styles.text}>{title}</Text>
 			</View>
 		</View>
 	);
@@ -33,7 +39,8 @@ const styles = StyleSheet.create({
 		backgroundColor: '#081016',
 	},
 	textContainer: {
-		marginVertical: 16,
+		marginTop: 16,
+		marginBottom: 24,
 		marginLeft: 28,
 		flexDirection: 'row',
 		alignItems: 'center',

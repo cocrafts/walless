@@ -36,6 +36,8 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		tokenList[0],
 	]);
 
+	const { setTokenForFee } = transactionActions;
+
 	const {
 		type,
 		token,
@@ -50,14 +52,10 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const enableSelectFee =
 		chosenToken?.account?.mint !== solMint && tokenForFeeList.length > 1;
 
-	const setTokenFee = (tokenForFee: TokenDocument) => {
-		transactionActions.setTokenForFee(tokenForFee);
-	};
-
 	const dropdownRef = useRef(null);
 
 	if (!tokenForFee) {
-		transactionActions.setTokenForFee(tokenList[0]);
+		setTokenForFee(tokenList[0]);
 	}
 
 	const tokenForFeeName = getTokenName(
@@ -101,7 +99,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 
 	useEffect(() => {
 		if (token?.account.mint === solMint) {
-			transactionActions.setTokenForFee(token as TokenDocument);
+			setTokenForFee(token as TokenDocument);
 		}
 	}, [token]);
 
@@ -112,7 +110,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 			component: () => (
 				<TokenFeeDropDown
 					tokens={tokenForFeeList}
-					onSelect={setTokenFee}
+					onSelect={setTokenForFee}
 					selectedToken={tokenForFee as TokenDocument}
 				/>
 			),

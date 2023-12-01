@@ -14,13 +14,13 @@ import type { RouteProp } from '@react-navigation/native';
 import { useSnapshot } from '@walless/app';
 import { appState } from '@walless/engine';
 import { AnimatedView } from '@walless/gui';
+import type { IconProps } from '@walless/icons';
 import { Home, Walless } from '@walless/icons';
 import { HapticFeedbackTypes, modules } from '@walless/ioc';
 import type { DashboardParamList } from 'utils/navigation';
 import { localState } from 'utils/state';
 
 import { ProfileIcon } from './ProfileIcon';
-import type { Props as ItemProps } from './TabBarItem';
 import TabBarItem from './TabBarItem';
 
 const timingConfig: WithTimingConfig = {
@@ -94,7 +94,12 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 
 export default BottomNavigationTabBar;
 
-const iconPropsFromRouteMap: Record<string, Omit<ItemProps, 'route'>> = {
+interface IconMapProps {
+	icon: FC<IconProps>;
+	size: number;
+}
+
+const iconPropsFromRouteMap: Record<string, IconMapProps> = {
 	Explore: {
 		icon: Walless,
 		size: 20,

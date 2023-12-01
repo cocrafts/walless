@@ -4,6 +4,8 @@ const { useCache } = require('../../tool/webpack/optimization');
 const { setEnvironments } = require('../../tool/webpack/env');
 
 const isProd = process.env.ENV === 'production';
+const isExtension = process.env.BUILD_TARGET === 'extension';
+
 const injectEntries = (config) => {
 	config.entry.content = {
 		import: 'scripts/content/index.ts',
@@ -30,10 +32,12 @@ const injectEntries = (config) => {
 		filename: 'w3a-response.js',
 	};
 
-	config.entry.fcm = {
-		import: 'scripts/worker/fcm.ts',
-		filename: 'firebase-messaging-sw.js',
-	};
+	if (!isExtension) {
+		config.entry.fcm = {
+			import: 'scripts/worker/fcm.ts',
+			filename: 'firebase-messaging-sw.js',
+		};
+	}
 
 	return config;
 };

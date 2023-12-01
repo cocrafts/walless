@@ -6,9 +6,9 @@ import { FullHistoryFeature, useSafeAreaInsets } from '@walless/app';
 import { Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import { tabBarHeight } from 'stacks/Dashboard/TabBar';
-import { navigate, type ProfileParamList } from 'utils/navigation';
+import { type HomeParamList, navigate } from 'utils/navigation';
 
-type Props = StackScreenProps<ProfileParamList, 'History'>;
+type Props = StackScreenProps<HomeParamList, 'History'>;
 
 export const HistoryScreen: FC<Props> = () => {
 	const insets = useSafeAreaInsets();
@@ -20,9 +20,9 @@ export const HistoryScreen: FC<Props> = () => {
 
 	const handleGoBack = () => {
 		navigate('Dashboard', {
-			screen: 'Profile',
+			screen: 'Home',
 			params: {
-				screen: 'ProfileDashboard',
+				screen: 'Default',
 			},
 		});
 	};

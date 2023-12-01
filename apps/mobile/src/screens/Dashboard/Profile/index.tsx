@@ -10,18 +10,9 @@ export const ProfileScreen = () => {
 		paddingBottom: tabBarHeight + insets.bottom,
 	};
 
-	const handleSettingPress = () => {
-		navigate('Dashboard', {
-			screen: 'Profile',
-			params: {
-				screen: 'Setting',
-			},
-		});
-	};
-
 	const handleNavigateToHistory = () => {
 		navigate('Dashboard', {
-			screen: 'Profile',
+			screen: 'Home',
 			params: {
 				screen: 'History',
 			},
@@ -31,7 +22,6 @@ export const ProfileScreen = () => {
 	return (
 		<ProfileFeature
 			style={containerStyle}
-			onSettingPress={handleSettingPress}
 			onNavigateToHistory={handleNavigateToHistory}
 		/>
 	);

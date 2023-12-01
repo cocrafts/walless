@@ -3,25 +3,23 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import HistoryScreen from 'screens/Dashboard/History';
 import ProfileScreen from 'screens/Dashboard/Profile';
-import SettingScreen from 'screens/Dashboard/Setting';
-import type { DashboardParamList, ProfileParamList } from 'utils/navigation';
+import type { DashboardParamList, HomeParamList } from 'utils/navigation';
 
-type Props = StackScreenProps<DashboardParamList, 'Profile'>;
+type Props = StackScreenProps<DashboardParamList, 'Home'>;
 
-const Stack = createStackNavigator<ProfileParamList>();
+const Stack = createStackNavigator<HomeParamList>();
 
-export const ProfileStack: FC<Props> = () => {
+export const HomeStack: FC<Props> = () => {
 	const screenOptions = {
 		headerShown: false,
 	};
 
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
-			<Stack.Screen name="ProfileDashboard" component={ProfileScreen} />
-			<Stack.Screen name="Setting" component={SettingScreen} />
+			<Stack.Screen name="Default" component={ProfileScreen} />
 			<Stack.Screen name="History" component={HistoryScreen} />
 		</Stack.Navigator>
 	);
 };
 
-export default ProfileStack;
+export default HomeStack;

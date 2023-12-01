@@ -1,7 +1,7 @@
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ExploreScreen from 'screens/Dashboard/Explore';
-import ProfileStack from 'stacks/Profile';
+import HomeStack from 'stacks/Home';
+import SettingStack from 'stacks/Setting';
 import { useNotificationPermissionRequest } from 'utils/hooks';
 import type { DashboardParamList } from 'utils/navigation';
 
@@ -23,9 +23,9 @@ export const DashboardStack = () => {
 			screenOptions={screenOptions}
 			tabBar={(props) => <TabBar tabProps={props} />}
 		>
-			<Tab.Screen name="Home" component={DrawerStack} />
-			<Tab.Screen name="Explore" component={ExploreScreen} />
-			<Tab.Screen name="Profile" component={ProfileStack} />
+			<Tab.Screen name="Explore" component={DrawerStack} />
+			<Tab.Screen name="Home" component={HomeStack} />
+			<Tab.Screen name="Setting" component={SettingStack} />
 		</Tab.Navigator>
 	);
 };

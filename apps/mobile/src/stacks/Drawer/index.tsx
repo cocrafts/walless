@@ -4,11 +4,11 @@ import { useSafeAreaInsets } from '@walless/app';
 import CollectibleScreen from 'screens/Dashboard/Home/Collectible';
 import { CollectionScreen } from 'screens/Dashboard/Home/Collection';
 import WidgetScreen from 'screens/Dashboard/Home/Widget';
-import type { HomeParamList } from 'utils/navigation';
+import type { ExploreParamList } from 'utils/navigation';
 
 import Sidebar, { sidebarWidth } from './Sidebar';
 
-const Drawer = createDrawerNavigator<HomeParamList>();
+const Drawer = createDrawerNavigator<ExploreParamList>();
 
 export const DrawerStack = () => {
 	const { top } = useSafeAreaInsets();

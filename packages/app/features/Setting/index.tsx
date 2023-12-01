@@ -32,7 +32,7 @@ const SettingFeature: FC<Props> = ({
 			contentContainerStyle={scrollContentContainerStyle}
 			showsVerticalScrollIndicator={false}
 		>
-			<PageTitle onBack={onBack} />
+			{onBack && <PageTitle onBack={onBack} />}
 			<View style={styles.contentContainer}>
 				<AccountInfo profile={profile} />
 				<Delimiter />

@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { ScrollView, StyleSheet } from 'react-native';
@@ -16,6 +16,7 @@ import WidgetItem from './components/WidgetItem';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
+	navigationComponent?: ReactNode;
 	scrollContentContainerStyle?: StyleProp<ViewStyle>;
 	widgets?: WidgetDocument[];
 }
@@ -24,8 +25,9 @@ const searchTitleHeight = 54;
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export const WidgetExplorerFeat: FC<Props> = ({
+export const ExplorerFeature: FC<Props> = ({
 	style,
+	navigationComponent,
 	scrollContentContainerStyle,
 	widgets = mockWidgets,
 }) => {
@@ -96,7 +98,7 @@ export const WidgetExplorerFeat: FC<Props> = ({
 	);
 };
 
-export default WidgetExplorerFeat;
+export default ExplorerFeature;
 
 const styles = StyleSheet.create({
 	container: {

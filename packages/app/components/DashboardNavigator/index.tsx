@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
 import { runtime } from '@walless/core';
@@ -6,10 +7,12 @@ import { Compass } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 
+import RemoveLayout from '../../modals/RemoveLayout';
+
 import NavigatorOrb from './NavigatorOrb';
-import RemoveLayout from './RemoveLayout';
 
 interface Props {
+	style?: StyleProp<ViewStyle>;
 	size?: number;
 	profile: UserProfile;
 	widgets: WidgetDocument[];
@@ -19,6 +22,7 @@ interface Props {
 }
 
 export const DashboardNavigator: FC<Props> = ({
+	style,
 	size = 58,
 	profile,
 	widgets,
@@ -45,7 +49,7 @@ export const DashboardNavigator: FC<Props> = ({
 	const { isMobile } = runtime;
 
 	return (
-		<View style={[styles.container, containerStyle]}>
+		<View style={[styles.container, containerStyle, style]}>
 			<View style={styles.orbContainer}>
 				<NavigatorOrb
 					item={exploreItem as never}
@@ -75,7 +79,7 @@ export const DashboardNavigator: FC<Props> = ({
 							isActive={isActive}
 							iconSource={iconSource}
 							onPress={onExtensionPress}
-							ContextComponent={RemoveLayout}
+							ContextComponent={RemoveLayout as never}
 							onRemoveLayout={onRemoveLayout}
 						/>
 					);

@@ -1,4 +1,5 @@
 import type { ViewStyle } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from '@walless/app';
 import { SettingFeature } from '@walless/app';
 import { tabBarHeight } from 'stacks/Dashboard/TabBar';
@@ -9,7 +10,15 @@ export const SettingScreen = () => {
 		paddingBottom: tabBarHeight + insets.bottom,
 	};
 
-	return <SettingFeature scrollContentContainerStyle={scrollContainerStyle} />;
+	return (
+		<ScrollView
+			showsVerticalScrollIndicator={false}
+			contentContainerStyle={scrollContainerStyle}
+			scrollEventThrottle={20}
+		>
+			<SettingFeature />
+		</ScrollView>
+	);
 };
 
 export default SettingScreen;

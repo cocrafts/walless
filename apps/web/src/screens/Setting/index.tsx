@@ -9,7 +9,7 @@ const SettingScreen = () => {
 
 	return (
 		<ScrollView showsVerticalScrollIndicator={false}>
-			<SettingFeature onBack={handleGoBack} style={styles.container} />;
+			<SettingFeature onBack={handleGoBack} style={styles.container} />
 		</ScrollView>
 	);
 };

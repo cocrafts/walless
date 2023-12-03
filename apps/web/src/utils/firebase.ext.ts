@@ -1,10 +1,9 @@
+import type { FirebaseOptions } from '@firebase/app';
+import { initializeApp } from '@firebase/app';
+import { getAuth, GoogleAuthProvider } from '@firebase/auth';
 import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
 import type { UniversalAnalytics } from '@walless/ioc';
-import { getAnalytics, logEvent } from 'firebase/analytics';
-import type { FirebaseOptions } from 'firebase/app';
-import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseOptions: FirebaseOptions = {
 	apiKey: FIREBASE_API_KEY,
@@ -52,7 +51,5 @@ export const initializeAuth = async () => {
 };
 
 export const universalAnalytics: UniversalAnalytics = {
-	logEvent: async (name, params, options) => {
-		return logEvent(getAnalytics(app), name, params, options);
-	},
+	logEvent: async () => {},
 };

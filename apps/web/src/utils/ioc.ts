@@ -1,8 +1,8 @@
+import { signOut } from '@firebase/auth';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
-import { signOut } from 'firebase/auth';
 import IDBPouch from 'pouchdb-adapter-idb';
 import { auth, initializeAuth, universalAnalytics } from 'utils/firebase';
 

@@ -1,13 +1,13 @@
-import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
-import { runtime } from '@walless/core';
-import { appState } from '@walless/engine';
-import { mutations, queries, type WalletInvitation } from '@walless/graphql';
-import type { User } from 'firebase/auth';
+import type { User } from '@firebase/auth';
 import {
 	GoogleAuthProvider,
 	signInWithCredential,
 	signInWithPopup,
-} from 'firebase/auth';
+} from '@firebase/auth';
+import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
+import { runtime } from '@walless/core';
+import { appState } from '@walless/engine';
+import { mutations, queries, type WalletInvitation } from '@walless/graphql';
 import { auth, googleProvider } from 'utils/firebase';
 import { qlClient } from 'utils/graphql';
 import { router } from 'utils/routing';

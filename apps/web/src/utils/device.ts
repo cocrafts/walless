@@ -1,7 +1,7 @@
+import { getAnalytics, setUserProperties } from '@firebase/analytics';
+import { getMessaging, getToken } from '@firebase/messaging';
 import { universalActions } from '@walless/app';
 import { appState } from '@walless/engine';
-import { getAnalytics, setUserProperties } from 'firebase/analytics';
-import { getMessaging, getToken } from 'firebase/messaging';
 
 import { getDeviceInfo } from './device.ext';
 import { app, auth } from './firebase';

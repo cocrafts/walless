@@ -1,12 +1,13 @@
-import type { RemoteConfig } from '@walless/core';
-import { defaultRemoteConfig } from '@walless/engine';
-import type { UniversalAnalytics } from '@walless/ioc';
+import { getAnalytics, logEvent } from '@firebase/analytics';
 import {
 	activate,
 	fetchConfig,
 	getAll,
 	getRemoteConfig,
-} from 'firebase/remote-config';
+} from '@firebase/remote-config';
+import type { RemoteConfig } from '@walless/core';
+import { defaultRemoteConfig } from '@walless/engine';
+import type { UniversalAnalytics } from '@walless/ioc';
 
 import { app } from './firebase.ext';
 
@@ -29,7 +30,9 @@ export const loadRemoteConfig = async (): Promise<RemoteConfig> => {
 };
 
 export const universalAnalytics: UniversalAnalytics = {
-	logEvent: async () => {},
+	logEvent: async (name, params, options) => {
+		return logEvent(getAnalytics(app), name, params, options);
+	},
 };
 
 export type { FireCache } from './firebase.ext';

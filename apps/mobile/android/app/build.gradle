@@ -153,13 +153,23 @@ android {
 
             firebaseCrashlytics {
                 nativeSymbolUploadEnabled true
-                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+                unstrippedNativeLibsDir "build/intermediates/merged_native_libs/release/out/lib"
             }
         }
     }
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
+        def googleServiceMaker = "prepare${variant.name.capitalize()}GoogleServices"
+        task(googleServiceMaker, type: Copy) {
+          def fileName = variant.name.toLowerCase().contains("release") ? "google-services-prod.json" : "google-services-dev.json"
+          from "./"
+          include fileName
+          rename(fileName, "google-services.json")
+          into "./"
+        }
+        variant.assemble.dependsOn googleServiceMaker
+
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html

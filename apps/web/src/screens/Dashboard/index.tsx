@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Outlet } from 'react-router-dom';
-import { DashboardLayout, useSettings } from '@walless/app';
+import { DashboardNavigator, useSettings } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
 import { useLocation, useParams, useSnapshot, useWidgets } from 'utils/hooks';
@@ -34,16 +35,33 @@ export const DashboardScreen: FC = () => {
 	}, [pathname]);
 
 	return (
-		<DashboardLayout
-			profile={profile}
-			widgets={widgets}
-			getIsExtensionActive={getRouteActive}
-			onExtensionPress={handleExtensionPress}
-			onRemoveLayout={removeLayout}
-		>
-			<Outlet />
-		</DashboardLayout>
+		<View style={styles.container}>
+			<DashboardNavigator
+				style={styles.navigatorContainer}
+				profile={profile}
+				widgets={widgets}
+				getIsExtensionActive={getRouteActive}
+				onExtensionPress={handleExtensionPress}
+				onRemoveLayout={removeLayout}
+			/>
+			<View style={styles.contentContainer}>
+				<Outlet />
+			</View>
+		</View>
 	);
 };
 
 export default DashboardScreen;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		flexDirection: 'row',
+	},
+	navigatorContainer: {
+		width: 54,
+	},
+	contentContainer: {
+		flex: 1,
+	},
+});

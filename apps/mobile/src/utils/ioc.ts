@@ -10,6 +10,7 @@ import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
 import { nativeAsset } from './config';
 import { initializeAuth, universalAnalytics } from './firebase';
 import { qlClient } from './graphql';
+import { nativeModules } from './native';
 import { navigate, navigationRef } from './navigation';
 import { appActions } from './state';
 import { createAndSend, handleAptosOnChainAction } from './transaction';
@@ -29,6 +30,7 @@ export const injectModules = async () => {
 	utils.navigateBack = navigateBack;
 	// TODO: implement and inject buy token here
 
+	modules.native = nativeModules;
 	modules.analytics = universalAnalytics;
 	modules.asset = nativeAsset;
 	modules.config = Config;
@@ -61,7 +63,7 @@ const logOut = async () => {
 const navigateToWidget = (id: string) => {
 	appActions.setActiveWidget(id);
 	navigate('Dashboard', {
-		screen: 'Home',
+		screen: 'Explore',
 		params: { screen: 'Widget', params: { id } },
 	});
 };

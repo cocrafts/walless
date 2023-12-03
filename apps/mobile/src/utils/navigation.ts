@@ -14,7 +14,7 @@ export type AuthenticationParamList = {
 	Recovery: undefined;
 };
 
-export type HomeParamList = {
+export type ExploreParamList = {
 	Widget: {
 		id?: string;
 	};
@@ -26,16 +26,19 @@ export type HomeParamList = {
 	};
 };
 
-export type ProfileParamList = {
-	ProfileDashboard: undefined;
-	Setting: undefined;
+export type HomeParamList = {
+	Default: undefined;
 	History: undefined;
 };
 
+export type SettingParamList = {
+	Default: undefined;
+};
+
 export type DashboardParamList = {
+	Explore: NavigatorScreenParams<ExploreParamList>;
 	Home: NavigatorScreenParams<HomeParamList>;
-	Explore: undefined;
-	Profile: NavigatorScreenParams<ProfileParamList>;
+	Setting: NavigatorScreenParams<SettingParamList>;
 };
 
 export type RootParamList = {
@@ -61,16 +64,7 @@ export const linking: LinkingOptions<RootParamList> = {
 			},
 			Dashboard: {
 				screens: {
-					Explore: '/explore',
-					Profile: {
-						path: '/profile',
-						screens: {
-							ProfileDashboard: '/',
-							Setting: '/setting',
-							History: '/history',
-						},
-					},
-					Home: {
+					Explore: {
 						path: '/',
 						screens: {
 							Widget: '/widget/:id',
@@ -78,6 +72,14 @@ export const linking: LinkingOptions<RootParamList> = {
 							Collectible: '/collectible/:id',
 						},
 					},
+					Home: {
+						path: '/home',
+						screens: {
+							Default: '/',
+							History: '/history',
+						},
+					},
+					Setting: '/setting',
 				},
 			},
 		},

@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
@@ -8,10 +9,11 @@ import type { WidgetDocument } from '@walless/store';
 import { addWidgetToStorage } from '@walless/store';
 
 interface Props {
+	style?: StyleProp<ViewStyle>;
 	widget: WidgetDocument;
 }
 
-export const WidgetItem: FC<Props> = ({ widget }) => {
+export const WidgetItem: FC<Props> = ({ style, widget }) => {
 	const coverImgResource = runtime.isMobile
 		? modules.asset.widget[widget._id]?.storeMeta.coverUri
 		: { uri: widget.storeMeta.coverUri };
@@ -26,7 +28,7 @@ export const WidgetItem: FC<Props> = ({ widget }) => {
 	};
 
 	return (
-		<View horizontal style={styles.container}>
+		<View horizontal style={[styles.container, style]}>
 			<View style={styles.coverContainer}>
 				<Image source={coverImgResource} style={styles.coverImg} />
 				<Image source={logoImgResource} style={styles.logoImg} />

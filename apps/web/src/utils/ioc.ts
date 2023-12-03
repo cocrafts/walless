@@ -12,6 +12,7 @@ import { webAsset } from './config';
 import { configureDeviceAndNotification } from './device';
 import { buyToken } from './gatefi';
 import { qlClient } from './graphql';
+import { nativeModules } from './native';
 import { router } from './routing';
 import { createAndSend, handleAptosOnChainAction } from './transaction';
 import { key } from './w3a';
@@ -28,6 +29,8 @@ export const injectModules = async () => {
 	utils.navigateToCollection = navigateToCollection;
 	utils.navigateToCollectible = navigateToCollectible;
 	utils.navigateBack = navigateBack;
+
+	modules.native = nativeModules;
 	modules.analytics = universalAnalytics;
 	modules.asset = webAsset;
 	modules.config = makeConfig() as never;

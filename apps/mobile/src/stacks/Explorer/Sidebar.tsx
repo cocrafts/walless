@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { useSnapshot, useWidgets } from '@walless/app';
@@ -44,3 +45,6 @@ export const Sidebar: FC<DrawerContentComponentProps> = () => {
 };
 
 export default Sidebar;
+
+const styles = StyleSheet.create({});
+

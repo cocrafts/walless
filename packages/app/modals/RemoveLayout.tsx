@@ -3,9 +3,8 @@ import type { ViewStyle } from 'react-native';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions, Text, View } from '@walless/gui';
+import { BackspaceRemove } from '@walless/icons';
 import type { ExtensionDocument } from '@walless/store';
-
-import RemoveSymbol from './RemoveSymbol';
 
 type Layout = ExtensionDocument & {
 	_deleted?: boolean;
@@ -15,7 +14,7 @@ export interface RemoveContextProps {
 	item: Layout;
 }
 
-const RemoveLayout: FC<{
+export const RemoveLayout: FC<{
 	config: ModalConfigs;
 	onRemoveLayout?: (item: Layout) => void;
 }> = ({ config, onRemoveLayout }) => {
@@ -51,7 +50,7 @@ const RemoveLayout: FC<{
 			<View style={styles.separatingLine} />
 			<View style={styles.removeCTAContainer}>
 				<Text style={styles.removeButton}>Remove this layout</Text>
-				<RemoveSymbol />
+				<BackspaceRemove />
 			</View>
 		</TouchableOpacity>
 	);

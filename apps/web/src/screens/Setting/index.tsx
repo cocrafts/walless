@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { SettingFeature } from '@walless/app';
 import { router } from 'utils/routing';
 
@@ -7,7 +7,11 @@ const SettingScreen = () => {
 		router.navigate('/profile');
 	};
 
-	return <SettingFeature onBack={handleGoBack} style={styles.container} />;
+	return (
+		<ScrollView showsVerticalScrollIndicator={false}>
+			<SettingFeature onBack={handleGoBack} style={styles.container} />
+		</ScrollView>
+	);
 };
 
 export default SettingScreen;

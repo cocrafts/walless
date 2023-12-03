@@ -1,6 +1,6 @@
 import { Path, Svg } from 'react-native-svg';
 
-const RemoveSymbol = () => {
+export const BackspaceRemove = () => {
 	return (
 		<Svg width="17" height="10" viewBox="0 0 17 10" fill="none">
 			<Path
@@ -23,4 +23,4 @@ const RemoveSymbol = () => {
 	);
 };
 
-export default RemoveSymbol;
+export default BackspaceRemove;

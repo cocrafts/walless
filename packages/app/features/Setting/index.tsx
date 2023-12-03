@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { appState } from '@walless/engine';
 import { Text, View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
@@ -15,24 +15,15 @@ import PageTitle from './components/PageTitle';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
-	scrollContentContainerStyle?: StyleProp<ViewStyle>;
 	onBack?: () => void;
 }
 
-export const SettingFeature: FC<Props> = ({
-	style,
-	scrollContentContainerStyle,
-	onBack,
-}) => {
+export const SettingFeature: FC<Props> = ({ style, onBack }) => {
 	const { profile } = useSnapshot(appState);
 
 	return (
-		<ScrollView
-			style={[styles.container, style]}
-			contentContainerStyle={scrollContentContainerStyle}
-			showsVerticalScrollIndicator={false}
-		>
-			<PageTitle onBack={onBack} />
+		<View style={[styles.container, style]}>
+			{onBack && <PageTitle onBack={onBack} />}
 			<View style={styles.contentContainer}>
 				<AccountInfo profile={profile} />
 				<Delimiter />
@@ -48,7 +39,7 @@ export const SettingFeature: FC<Props> = ({
 					<FollowUs />
 				</View>
 			</View>
-		</ScrollView>
+		</View>
 	);
 };
 

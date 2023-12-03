@@ -107,8 +107,8 @@ android {
         applicationId "metacraft.walless"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.0"
+        versionCode 10
+        versionName "1.0.2"
         manifestPlaceholders = [
             'torusRedirectScheme': 'metacraft',
             'torusRedirectHost': 'walless',

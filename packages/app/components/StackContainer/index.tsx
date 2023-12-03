@@ -7,6 +7,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { tabBarHeight } from '../../utils';
+
 import StackHeader from './Header';
 
 interface Props {

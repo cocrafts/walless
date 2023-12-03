@@ -4,7 +4,7 @@ import { injectModules } from './utils/ioc';
 import { initializeMessaging } from './messaging';
 import { configurePWA } from './pwa';
 
-console.log('Init kernel', new Date().toISOString());
+console.log(new Date().toISOString(), 'initializing kernel..');
 
 injectModules().then(async () => {
 	await Promise.all([initializeMessaging()]);

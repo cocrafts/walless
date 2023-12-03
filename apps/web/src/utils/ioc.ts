@@ -46,9 +46,9 @@ export const injectModules = async () => {
 
 	configureDeviceAndNotification(); // asynchornous, should cost nothing evaluate/run
 
-	const endTime = new Date();
-	const milliseconds = endTime.getMilliseconds() - startTime.getMilliseconds();
-	console.log(`Took ${milliseconds} milliseconds to configure IoC module`);
+	const milliseconds =
+		new Date().getMilliseconds() - startTime.getMilliseconds();
+	console.log(`Configured IoC module in ${milliseconds}ms`);
 
 	return modules;
 };

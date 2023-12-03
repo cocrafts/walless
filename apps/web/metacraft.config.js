@@ -4,6 +4,8 @@ const { useCache } = require('../../tool/webpack/optimization');
 const { setEnvironments } = require('../../tool/webpack/env');
 
 const isProd = process.env.ENV === 'production';
+const isExtension = process.env.BUILD_TARGET === 'extension';
+
 const injectEntries = (config) => {
 	config.entry.content = {
 		import: 'scripts/content/index.ts',
@@ -34,6 +36,18 @@ const injectEntries = (config) => {
 		import: 'scripts/worker/fcm.ts',
 		filename: 'firebase-messaging-sw.js',
 	};
+
+	return config;
+};
+
+const registerExtFile = (config) => {
+	if (isExtension) {
+		config.resolve.extensions = [
+			'.ext.ts',
+			'.ext.tsx',
+			...config.resolve.extensions,
+		];
+	}
 
 	return config;
 };
@@ -84,6 +98,7 @@ module.exports = {
 	webpackMiddlewares: [
 		useCache,
 		copyAssets,
+		registerExtFile,
 		injectEntries,
 		web3Polyfills,
 		setEnvironments(),

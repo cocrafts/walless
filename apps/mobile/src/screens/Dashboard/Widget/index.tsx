@@ -1,27 +1,35 @@
-import type { ViewStyle } from 'react-native';
+import type { FC } from 'react';
+import type { DrawerScreenProps } from '@react-navigation/drawer';
 import {
-	useSafeAreaInsets,
+	ExplorerFeature,
+	StackHeader,
 	useSnapshot,
-	WidgetExplorerFeat,
 	WidgetFeature,
 } from '@walless/app';
 import { appState } from '@walless/engine';
-import { tabBarHeight } from 'stacks/Dashboard/TabBar';
+import type { DashboardParamList } from 'utils/navigation';
 
-export const WidgetScreen = () => {
-	const insets = useSafeAreaInsets();
+type Props = DrawerScreenProps<DashboardParamList, 'Explore'>;
+
+export const WidgetScreen: FC<Props> = ({ navigation }) => {
 	const { activeWidgetId } = useSnapshot(appState);
-	const explorerScrollStyle: ViewStyle = {
-		paddingBottom: tabBarHeight + insets.bottom,
-	};
 
 	if (!activeWidgetId) {
 		return (
-			<WidgetExplorerFeat scrollContentContainerStyle={explorerScrollStyle} />
+			<ExplorerFeature
+				headerComponent={StackHeader}
+				toggleDrawer={navigation.toggleDrawer}
+			/>
 		);
 	}
 
-	return <WidgetFeature id={activeWidgetId} />;
+	return (
+		<WidgetFeature
+			id={activeWidgetId}
+			headerComponent={StackHeader}
+			toggleDrawer={navigation.toggleDrawer}
+		/>
+	);
 };
 
 export default WidgetScreen;

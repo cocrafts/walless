@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { useSafeAreaInsets, WidgetExplorerFeat } from '@walless/app';
-import { tabBarHeight } from 'stacks/Dashboard/TabBar';
+import { ExplorerFeature, tabBarHeight, useSafeAreaInsets } from '@walless/app';
 
 export const ExplorerScreen: FC = () => {
 	const insets = useSafeAreaInsets();
@@ -10,7 +9,7 @@ export const ExplorerScreen: FC = () => {
 		marginBottom: tabBarHeight + insets.bottom,
 	};
 
-	return <WidgetExplorerFeat style={containerStyle} />;
+	return <ExplorerFeature style={containerStyle} />;
 };
 
 export default ExplorerScreen;

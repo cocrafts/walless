@@ -1,37 +1,22 @@
 import { StyleSheet } from 'react-native';
 import type { DrawerNavigationOptions } from '@react-navigation/drawer';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { appState, mockWidgets } from '@walless/engine';
+import { withStackContainer } from '@walless/app';
 import WidgetScreen from 'screens/Dashboard/Widget';
 import CollectibleScreen from 'screens/Dashboard/Widget/Collectible';
 import { CollectionScreen } from 'screens/Dashboard/Widget/Collection';
 import { useSafeAreaInsets } from 'utils/hooks';
 import type { ExploreParamList } from 'utils/navigation';
 
-import Header from '../components/Header';
-
 import Sidebar, { sidebarWidth } from './Sidebar';
 
 const Drawer = createDrawerNavigator<ExploreParamList>();
 
-export const DrawerStack = () => {
+export const ExplorerStack = () => {
 	const insets = useSafeAreaInsets();
 
 	const screenOptions: DrawerNavigationOptions = {
-		header({ navigation }) {
-			const widgetName = mockWidgets.find(
-				(widget) => widget._id === appState.activeWidgetId,
-			)?.name;
-
-			return (
-				<Header
-					title={widgetName ?? 'Explore'}
-					topInset={insets.top}
-					showIcon
-					toggleDrawer={navigation.toggleDrawer}
-				/>
-			);
-		},
+		headerShown: false,
 		drawerStyle: [
 			styles.drawer,
 			{
@@ -49,6 +34,14 @@ export const DrawerStack = () => {
 		unmountOnBlur: false,
 	};
 
+	const ManagedCollectionScreen = withStackContainer(CollectionScreen, {
+		title: 'Collection',
+	});
+
+	const ManagedCollectibleScreen = withStackContainer(CollectibleScreen, {
+		title: 'Collectible',
+	});
+
 	return (
 		<Drawer.Navigator
 			drawerContent={Sidebar}
@@ -58,12 +51,12 @@ export const DrawerStack = () => {
 			<Drawer.Screen name="Widget" component={WidgetScreen} options={options} />
 			<Drawer.Screen
 				name="Collection"
-				component={CollectionScreen}
+				component={ManagedCollectionScreen}
 				options={options}
 			/>
 			<Drawer.Screen
 				name="Collectible"
-				component={CollectibleScreen}
+				component={ManagedCollectibleScreen}
 				options={options}
 			/>
 		</Drawer.Navigator>
@@ -76,4 +69,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default DrawerStack;
+export default ExplorerStack;

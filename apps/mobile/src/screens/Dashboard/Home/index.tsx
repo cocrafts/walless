@@ -1,6 +1,5 @@
 import type { ViewStyle } from 'react-native';
-import { ProfileFeature, useSafeAreaInsets } from '@walless/app';
-import { tabBarHeight } from 'stacks/Dashboard/TabBar';
+import { ProfileFeature, tabBarHeight, useSafeAreaInsets } from '@walless/app';
 import { navigate } from 'utils/navigation';
 
 export const ProfileScreen = () => {

@@ -1,24 +1,12 @@
-import type { ViewStyle } from 'react-native';
-import { ScrollView } from 'react-native';
-import { useSafeAreaInsets } from '@walless/app';
+import type { FC } from 'react';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { SettingFeature } from '@walless/app';
-import { tabBarHeight } from 'stacks/Dashboard/TabBar';
+import type { DashboardParamList } from 'utils/navigation';
 
-export const SettingScreen = () => {
-	const insets = useSafeAreaInsets();
-	const scrollContainerStyle: ViewStyle = {
-		paddingBottom: tabBarHeight + insets.bottom,
-	};
+type Props = StackScreenProps<DashboardParamList, 'Setting'>;
 
-	return (
-		<ScrollView
-			showsVerticalScrollIndicator={false}
-			contentContainerStyle={scrollContainerStyle}
-			scrollEventThrottle={20}
-		>
-			<SettingFeature />
-		</ScrollView>
-	);
+export const SettingScreen: FC<Props> = () => {
+	return <SettingFeature />;
 };
 
 export default SettingScreen;

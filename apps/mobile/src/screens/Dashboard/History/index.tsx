@@ -1,9 +1,12 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import { FullHistoryFeature, useSafeAreaInsets } from '@walless/app';
+import {
+	FullHistoryFeature,
+	tabBarHeight,
+	useSafeAreaInsets,
+} from '@walless/app';
 import { View } from '@walless/gui';
-import { tabBarHeight } from 'stacks/Dashboard/TabBar';
 import { type HomeParamList } from 'utils/navigation';
 
 type Props = StackScreenProps<HomeParamList, 'History'>;

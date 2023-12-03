@@ -1,6 +1,6 @@
 {
   "name": "@walless/web",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "private": true,
   "main": "index.web.js",
   "scripts": {
@@ -8,10 +8,12 @@
     "dev:ext": "BUILD_TARGET=extension && metacraft",
     "batch": "node ../../tool/batch",
     "build": "yarn build:ext && yarn build:web",
-    "build:web": "rimraf metacraft build && yarn batch && metacraft bundle",
+    "build:web": "rimraf metacraft builds && yarn batch && metacraft bundle",
     "build:ext": "BUILD_TARGET=extension && yarn build:web && node scripts/bundler",
+    "build:store": "BUILD_TARGET=extension && yarn build:web && yarn badlinks && node scripts/bundler",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
     "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx",
+    "badlinks": "npx badlinks metacraft -r",
     "postinstall": "yarn batch"
   },
   "dependencies": {
@@ -38,7 +40,7 @@
     "bip39": "^3.1.0",
     "bn.js": "^5.2.1",
     "ed25519-hd-key": "^1.3.0",
-    "firebase": "10.5.0",
+    "firebase": "10.7.0",
     "graphql-request": "^6.1.0",
     "numeral": "^2.0.6",
     "pouchdb-adapter-http": "^8.0.1",

@@ -1,7 +1,7 @@
 require('dotenv').config({ path: '.env.production' });
 
 const fs = require('fs-extra');
-const { readFileSync } = require('fs');
+const { readFileSync, readdirSync, writeFileSync } = require('fs');
 const archiver = require('archiver');
 const manifest = require('./manifest.json');
 const project = require('../../package.json');
@@ -30,6 +30,8 @@ const cloneExtensionBuild = async (platform, override = {}) => {
 	const indexTemplate = readFileSync('./metacraft/index.html', 'utf8');
 	const popupTemplate = indexTemplate.replace('<body>', '<body class="popup">');
 
+	makeBackgroundJs(['kernel.js']);
+
 	if (platform === 'chrome') {
 		mergedManifest.permissions = [...mergedManifest.permissions, 'gcm'];
 	}
@@ -50,6 +52,33 @@ const cloneExtensionBuild = async (platform, override = {}) => {
 	fs.writeJsonSync(manifestUri, mergedManifest, { spaces: 2 });
 
 	await zipDir(platform);
+};
+
+const isChunkFile = (name) => {
+	const [id, extension] = name.split('.');
+	return !isNaN(id) && extension === 'js';
+};
+
+const makeBackgroundJs = (entries) => {
+	const buildFiles = readdirSync('./metacraft');
+	const existed = buildFiles.find((i) => i === 'background.js');
+
+	if (!existed) {
+		let fileContent = '';
+		const chunkFiles = buildFiles.filter(isChunkFile);
+
+		for (const chunk of chunkFiles) {
+			fileContent += `importScripts('${chunk}');\n`;
+		}
+
+		for (const entry of entries) {
+			fileContent += `importScripts('${entry}');\n`;
+		}
+
+		writeFileSync('./metacraft/background.js', fileContent, {
+			encoding: 'utf-8',
+		});
+	}
 };
 
 cloneExtensionBuild('chrome');

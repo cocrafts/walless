@@ -1,41 +1,37 @@
 const { web3Polyfills } = require('@metacraft/cli-web3-polyfills');
 const { copyAssets } = require('../../tool/webpack/asset');
-const { useCache } = require('../../tool/webpack/optimization');
 const { setEnvironments } = require('../../tool/webpack/env');
 
 const isProd = process.env.ENV === 'production';
 const isExtension = process.env.BUILD_TARGET === 'extension';
 
 const injectEntries = (config) => {
-	config.entry.content = {
-		import: 'scripts/content/index.ts',
-		filename: 'content.js',
-	};
+	if (isExtension) {
+		config.entry.content = {
+			import: 'scripts/content/index.ts',
+			filename: 'content.js',
+		};
 
-	config.entry.injection = {
-		import: 'scripts/content/injection.ts',
-		filename: 'injection.js',
-	};
+		config.entry.injection = {
+			import: 'scripts/content/injection.ts',
+			filename: 'injection.js',
+		};
 
-	config.entry.background = {
-		import: 'scripts/background/index.ts',
-		filename: 'background.js',
-	};
+		config.entry.kernel = {
+			import: 'scripts/kernel/index.ts',
+			filename: 'kernel.js',
+		};
+	} else {
+		config.entry.w3ar = {
+			import: 'scripts/worker/w3a-response.ts',
+			filename: 'w3a-response.js',
+		};
 
-	config.entry.kernel = {
-		import: 'scripts/kernel/index.ts',
-		filename: 'kernel.js',
-	};
-
-	config.entry.w3ar = {
-		import: 'scripts/worker/w3a-response.ts',
-		filename: 'w3a-response.js',
-	};
-
-	config.entry.fcm = {
-		import: 'scripts/worker/fcm.ts',
-		filename: 'firebase-messaging-sw.js',
-	};
+		config.entry.fcm = {
+			import: 'scripts/worker/fcm.ts',
+			filename: 'firebase-messaging-sw.js',
+		};
+	}
 
 	return config;
 };
@@ -48,6 +44,22 @@ const registerExtFile = (config) => {
 			...config.resolve.extensions,
 		];
 	}
+
+	return config;
+};
+
+const buildOptimization = (config) => {
+	config.cache = {
+		type: 'filesystem',
+	};
+
+	config.optimization = {
+		splitChunks: {
+			chunks: (chunk) => {
+				return ['content', 'injection'].indexOf(chunk.name) < 0;
+			},
+		},
+	};
 
 	return config;
 };
@@ -96,7 +108,7 @@ module.exports = {
 	buildId: () => 'app',
 	swcOptions,
 	webpackMiddlewares: [
-		useCache,
+		buildOptimization,
 		copyAssets,
 		registerExtFile,
 		injectEntries,

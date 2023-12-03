@@ -1,67 +1,42 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Animated, {
-	useAnimatedScrollHandler,
-	useAnimatedStyle,
-	useSharedValue,
+	useAnimatedRef,
+	useScrollViewOffset,
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { mockWidgets } from '@walless/engine';
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
-import SearchHeader from './components/SearchHeader';
+import type { HeaderProps } from '../../components/StackContainer';
+import { tabBarHeight } from '../../utils';
+
+import SearchBar from './components/SearchBar';
 import WidgetItem from './components/WidgetItem';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
-	navigationComponent?: ReactNode;
-	scrollContentContainerStyle?: StyleProp<ViewStyle>;
+	headerComponent?: FC<HeaderProps>;
 	widgets?: WidgetDocument[];
+	toggleDrawer?: () => void;
 }
-
-const searchTitleHeight = 54;
-const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
-const AnimatedView = Animated.createAnimatedComponent(View);
 
 export const ExplorerFeature: FC<Props> = ({
 	style,
-	navigationComponent,
-	scrollContentContainerStyle,
 	widgets = mockWidgets,
+	headerComponent: HeaderComponent,
+	toggleDrawer,
 }) => {
-	const offset = useSharedValue(0);
-
-	const scrollHandler = useAnimatedScrollHandler({
-		onScroll: (e) => {
-			offset.value = e.contentOffset.y;
-		},
-	});
-
-	const scrollAnimatedStyle = useAnimatedStyle(() => {
-		return {
-			position: 'absolute',
-			left: 0,
-			right: 0,
-			top: 0,
-			transform: [
-				{
-					translateY:
-						offset.value > searchTitleHeight
-							? -searchTitleHeight
-							: -offset.value,
-				},
-			],
-		};
-	}, [offset]);
-
+	const insets = useSafeAreaInsets();
+	const scrollRef = useAnimatedRef<Animated.ScrollView>();
+	const scrollOffset = useScrollViewOffset(scrollRef);
 	const [searchString, setSearchString] = useState('');
-	const [contentOffset, setContentOffset] = useState(0);
-	const contentContainer = {
-		marginHorizontal: 15,
-		paddingTop: contentOffset,
-	} as ViewStyle;
+	const contentContainerStyle: ViewStyle = {
+		paddingBottom: insets.bottom + tabBarHeight,
+	};
 
 	const onChangeSearch = (query: string) => {
 		setSearchString(query.toLowerCase());
@@ -72,28 +47,43 @@ export const ExplorerFeature: FC<Props> = ({
 		return name.toLowerCase().includes(searchString);
 	};
 
+	const headerElement = HeaderComponent && (
+		<HeaderComponent
+			showIcon
+			toggleDrawer={toggleDrawer}
+			title="Explorer"
+			insets={insets}
+			scrollOffset={scrollOffset}
+		/>
+	);
+
 	return (
 		<View style={[styles.container, style]}>
-			<AnimatedScrollView
-				onScroll={scrollHandler}
-				scrollEventThrottle={20}
-				contentContainerStyle={[contentContainer, scrollContentContainerStyle]}
+			{headerElement}
+			<Animated.ScrollView
+				ref={scrollRef}
+				scrollEventThrottle={12}
+				contentContainerStyle={contentContainerStyle}
 				showsVerticalScrollIndicator={false}
+				stickyHeaderIndices={[0]}
 			>
+				<View>
+					<SearchBar
+						style={styles.searchBar}
+						inputStyle={styles.searchInput}
+						onChangeSearch={onChangeSearch}
+					/>
+				</View>
 				{widgets
 					.filter((widget) => filterWidgetsByName(widget.name))
 					.map((widget) => (
-						<WidgetItem key={widget._id} widget={widget} />
+						<WidgetItem
+							key={widget._id}
+							style={styles.widgetItem}
+							widget={widget}
+						/>
 					))}
-			</AnimatedScrollView>
-			<AnimatedView style={scrollAnimatedStyle}>
-				<SearchHeader
-					onLayout={({ nativeEvent }) => {
-						setContentOffset(nativeEvent.layout.height);
-					}}
-					onChangeSearch={onChangeSearch}
-				/>
-			</AnimatedView>
+			</Animated.ScrollView>
 		</View>
 	);
 };
@@ -103,7 +93,18 @@ export default ExplorerFeature;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 10,
 		overflow: 'hidden',
+	},
+	searchBar: {
+		backgroundColor: '#19232c',
+		marginBottom: 8,
+	},
+	searchInput: {
+		bottom: -8,
+		marginTop: 4,
+		marginHorizontal: 16,
+	},
+	widgetItem: {
+		marginHorizontal: 16,
 	},
 });

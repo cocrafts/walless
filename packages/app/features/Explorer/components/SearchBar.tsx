@@ -1,22 +1,21 @@
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
-import type { ViewStyle } from 'react-native';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Input, View } from '@walless/gui';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import type { InputProps } from '@walless/gui';
+import { Input } from '@walless/gui';
 import { Search } from '@walless/icons';
 
-interface Props {
-	style?: ViewStyle;
-	placeholder?: string;
-	placeholderTextColor?: string;
+type Props = InputProps & {
 	iconSize?: number;
 	iconColor?: string;
 	onChangeSearch?: (query: string) => void;
 	onPressSearch?: (query: string) => void;
-}
+};
 
 export const SearchBar: FC<Props> = ({
 	style,
+	focusStyle,
+	inputStyle,
 	placeholder = '',
 	placeholderTextColor = '#000000',
 	iconSize = 17,
@@ -41,10 +40,11 @@ export const SearchBar: FC<Props> = ({
 	);
 
 	return (
-		<View horizontal style={[styles.container, style]}>
+		<View style={style}>
 			<Input
 				prefix={prefix}
-				style={styles.inputContainer}
+				style={[styles.inputContainer, inputStyle]}
+				focusStyle={focusStyle}
 				inputStyle={styles.input}
 				placeholder={placeholder}
 				placeholderTextColor={placeholderTextColor}
@@ -57,16 +57,11 @@ export const SearchBar: FC<Props> = ({
 	);
 };
 
+export default SearchBar;
+
 const styles = StyleSheet.create({
-	container: {
-		alignItems: 'center',
-		backgroundColor: '#ffffff',
-		borderRadius: 10,
-	},
 	inputContainer: {
 		flex: 1,
-		backgroundColor: 'transparent',
-		paddingRight: 12,
 		borderRadius: 10,
 	},
 	prefix: {
@@ -74,7 +69,7 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		fontSize: 15,
-		paddingVertical: 0,
-		paddingHorizontal: 0,
+		paddingVertical: 10,
+		paddingLeft: 0,
 	},
 });

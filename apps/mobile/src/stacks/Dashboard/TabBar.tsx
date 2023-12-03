@@ -11,7 +11,7 @@ import {
 } from 'react-native-reanimated';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { RouteProp } from '@react-navigation/native';
-import { useSnapshot } from '@walless/app';
+import { tabBarHeight, useSnapshot } from '@walless/app';
 import { appState } from '@walless/engine';
 import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
@@ -114,7 +114,6 @@ const iconPropsFromRouteMap: Record<string, IconMapProps> = {
 	},
 };
 
-export const tabBarHeight = 52;
 const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',

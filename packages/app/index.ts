@@ -26,5 +26,6 @@ export * from './features/Splash';
 export * from './features/Widget';
 export * from './modals/Notification';
 export * from './state';
+export * from './utils/helper';
 export * from './utils/hooks';
 export * from './utils/transaction';

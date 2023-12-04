@@ -22,6 +22,9 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.71.14)
   - Firebase/Analytics (10.17.0):
     - Firebase/Core
+  - Firebase/AppDistribution (10.17.0):
+    - Firebase/CoreOnly
+    - FirebaseAppDistribution (~> 10.17.0-beta)
   - Firebase/Auth (10.17.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 10.17.0)
@@ -36,6 +39,9 @@ PODS:
   - Firebase/Messaging (10.17.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 10.17.0)
+  - Firebase/Performance (10.17.0):
+    - Firebase/CoreOnly
+    - FirebasePerformance (~> 10.17.0)
   - Firebase/RemoteConfig (10.17.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.17.0)
@@ -60,6 +66,11 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 7.11)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - FirebaseAppCheckInterop (10.18.0)
+  - FirebaseAppDistribution (10.17.0-beta):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
   - FirebaseAuth (10.17.0):
     - FirebaseAppCheckInterop (~> 10.17)
     - FirebaseCore (~> 10.0)
@@ -96,6 +107,16 @@ PODS:
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/Reachability (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebasePerformance (10.17.0):
+    - FirebaseCore (~> 10.5)
+    - FirebaseInstallations (~> 10.0)
+    - FirebaseRemoteConfig (~> 10.0)
+    - FirebaseSessions (~> 10.5)
+    - GoogleDataTransport (~> 9.2)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/ISASwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - FirebaseRemoteConfig (10.17.0):
     - FirebaseABTesting (~> 10.0)
@@ -150,6 +171,7 @@ PODS:
     - GoogleUtilities/Network
   - GoogleUtilities/Environment (7.12.0):
     - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/ISASwizzler (7.12.0)
   - GoogleUtilities/Logger (7.12.0):
     - GoogleUtilities/Environment
   - GoogleUtilities/MethodSwizzler (7.12.0):
@@ -554,6 +576,10 @@ PODS:
   - RNFBApp (18.6.1):
     - Firebase/CoreOnly (= 10.17.0)
     - React-Core
+  - RNFBAppDistribution (18.6.1):
+    - Firebase/AppDistribution (= 10.17.0)
+    - React-Core
+    - RNFBApp
   - RNFBAuth (18.6.1):
     - Firebase/Auth (= 10.17.0)
     - React-Core
@@ -566,6 +592,10 @@ PODS:
   - RNFBMessaging (18.6.1):
     - Firebase/Messaging (= 10.17.0)
     - FirebaseCoreExtension (= 10.17.0)
+    - React-Core
+    - RNFBApp
+  - RNFBPerf (18.6.1):
+    - Firebase/Performance (= 10.17.0)
     - React-Core
     - RNFBApp
   - RNFBRemoteConfig (18.6.1):
@@ -679,9 +709,11 @@ DEPENDENCIES:
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
   - "RNFBAnalytics (from `../../../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../../../node_modules/@react-native-firebase/app`)"
+  - "RNFBAppDistribution (from `../../../node_modules/@react-native-firebase/app-distribution`)"
   - "RNFBAuth (from `../../../node_modules/@react-native-firebase/auth`)"
   - "RNFBCrashlytics (from `../../../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBMessaging (from `../../../node_modules/@react-native-firebase/messaging`)"
+  - "RNFBPerf (from `../../../node_modules/@react-native-firebase/perf`)"
   - "RNFBRemoteConfig (from `../../../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
@@ -703,6 +735,7 @@ SPEC REPOS:
     - FirebaseABTesting
     - FirebaseAnalytics
     - FirebaseAppCheckInterop
+    - FirebaseAppDistribution
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreExtension
@@ -710,6 +743,7 @@ SPEC REPOS:
     - FirebaseCrashlytics
     - FirebaseInstallations
     - FirebaseMessaging
+    - FirebasePerformance
     - FirebaseRemoteConfig
     - FirebaseSessions
     - FirebaseSharedSwift
@@ -826,12 +860,16 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../../../node_modules/@react-native-firebase/app"
+  RNFBAppDistribution:
+    :path: "../../../node_modules/@react-native-firebase/app-distribution"
   RNFBAuth:
     :path: "../../../node_modules/@react-native-firebase/auth"
   RNFBCrashlytics:
     :path: "../../../node_modules/@react-native-firebase/crashlytics"
   RNFBMessaging:
     :path: "../../../node_modules/@react-native-firebase/messaging"
+  RNFBPerf:
+    :path: "../../../node_modules/@react-native-firebase/perf"
   RNFBRemoteConfig:
     :path: "../../../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
@@ -864,6 +902,7 @@ SPEC CHECKSUMS:
   FirebaseABTesting: d8b10ff4c6d1a9d6b11f02a08463ad5fd9fc6b1b
   FirebaseAnalytics: b9284f9fff10157a843e0422e908711f7bf3b9f2
   FirebaseAppCheckInterop: 3cd914842ba46f4304050874cd284de82f154ffd
+  FirebaseAppDistribution: 2ec66708c31dc51768dd07fb4f89ac586546948b
   FirebaseAuth: 8d285d9f6e39cc8e23be53a4edd83a923ea629d8
   FirebaseCore: 534544dd98cabcf4bf8598d88ec683b02319a528
   FirebaseCoreExtension: 47720bb330d7041047c0935a34a3a4b92f818074
@@ -871,6 +910,7 @@ SPEC CHECKSUMS:
   FirebaseCrashlytics: d78651ad7db206ef98269e103ac38d69d569200a
   FirebaseInstallations: e842042ec6ac1fd2e37d7706363ebe7f662afea4
   FirebaseMessaging: 1367b28c0c83a63072af4a711328fcc2e6899902
+  FirebasePerformance: ba663950bc790a4118c6aae13c6060e87888da75
   FirebaseRemoteConfig: 94ab72cd7aa865b6226ee527b1fa5c4f961a4e7b
   FirebaseSessions: f90fe9212ee2818641eda051c0835c9c4e30d9ae
   FirebaseSharedSwift: 62e248642c0582324d0390706cadd314687c116b
@@ -931,9 +971,11 @@ SPEC CHECKSUMS:
   RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
   RNFBAnalytics: 9138cdb065c6ac9fc7dc076d83f9c2e64bc21d46
   RNFBApp: b43d4829366a5065e17f9af3b03a0c4890eaeb85
+  RNFBAppDistribution: 7cb149435e049ab8cdd041642eb439bb9859d48c
   RNFBAuth: 944424c5ba04e250d35eccd3ee2033d6fd7150d7
   RNFBCrashlytics: 7456cc01ce08e6043dcfade9dbf5e28671887409
   RNFBMessaging: 1b55308131dc7e4cca6b22deb5067f1fdb55f768
+  RNFBPerf: a009d7e5863a13b9855ecbeaaa775643ef5f0381
   RNFBRemoteConfig: 26b2e249a3bfa84de59dfbe149174427ada8bd32
   RNGestureHandler: 6e46dde1f87e5f018a54fe5d40cd0e0b942b49ee
   RNGoogleSignin: c15bdaa7e8a9e190b6169d9c96a4e8380a740f22

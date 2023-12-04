@@ -68,14 +68,14 @@ const navigateToWidget = (id: string) => {
 
 const navigateToCollection = (id: string) => {
 	navigate('Dashboard', {
-		screen: 'Home',
+		screen: 'Explore',
 		params: { screen: 'Collection', params: { id } },
 	});
 };
 
 const navigateToCollectible = (id: string) => {
 	navigate('Dashboard', {
-		screen: 'Home',
+		screen: 'Explore',
 		params: { screen: 'Collectible', params: { id } },
 	});
 };

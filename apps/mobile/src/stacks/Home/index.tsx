@@ -11,18 +11,19 @@ type Props = StackScreenProps<DashboardParamList, 'Home'>;
 
 const Stack = createStackNavigator<HomeParamList>();
 
-export const HomeStack: FC<Props> = () => {
+export const HomeStack: FC<Props> = ({ navigation }) => {
 	const ManagedHomeScreen = withStackContainer(ProfileScreen, {
 		title: 'Home',
 	});
 	const ManagedHistoryScreen = withStackContainer(HistoryScreen, {
 		title: 'Transaction History',
+		goBack: navigation.popToTop,
 	});
 
 	return (
 		<Stack.Navigator screenOptions={noHeaderNavigation}>
 			<Stack.Screen name="Default" component={ManagedHomeScreen as never} />
-			<Stack.Screen name="History" component={ManagedHistoryScreen as never} />
+			<Stack.Screen name="History" component={ManagedHistoryScreen} />
 		</Stack.Navigator>
 	);
 };

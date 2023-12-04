@@ -12,7 +12,6 @@ import { initializeAuth, universalAnalytics } from './firebase';
 import { qlClient } from './graphql';
 import { nativeModules } from './native';
 import { navigate, navigationRef } from './navigation';
-import { appActions } from './state';
 import { createAndSend, handleAptosOnChainAction } from './transaction';
 import { key } from './w3a';
 
@@ -61,7 +60,6 @@ const logOut = async () => {
 };
 
 const navigateToWidget = (id: string) => {
-	appActions.setActiveWidget(id);
 	navigate('Dashboard', {
 		screen: 'Explore',
 		params: { screen: 'Widget', params: { id } },

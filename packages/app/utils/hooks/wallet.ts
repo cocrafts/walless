@@ -7,6 +7,7 @@ import {
 	historyState,
 	keyState,
 	tokenState,
+	widgetState,
 } from '@walless/engine';
 import type { PublicKeyDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
@@ -15,9 +16,10 @@ import { universalActions } from '../../state';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
 	const { map } = useSnapshot(keyState);
-	const keys = Array.from(map.values());
 
 	return useMemo(() => {
+		const keys = Array.from(map.values());
+
 		if (network) {
 			return keys.filter((i) => {
 				return i.network === network;
@@ -26,6 +28,23 @@ export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
 
 		return keys;
 	}, [map, network]);
+};
+
+export const useRelevantKeys = () => {
+	const { map: keyMap } = useSnapshot(keyState);
+	const { map: widgetMap } = useSnapshot(widgetState);
+
+	return useMemo(() => {
+		const keys = Array.from(keyMap.values());
+		const widgets = Array.from(widgetMap.values());
+
+		return keys.filter((key) => {
+			return widgets.find((widget) => {
+				console.log([...widget.networks], key.network);
+				return widget.networks?.indexOf(key.network) >= 0;
+			});
+		});
+	}, [keyMap, widgetMap]);
 };
 
 export const useTokens = (

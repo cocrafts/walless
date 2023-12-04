@@ -1,3 +1,5 @@
+import type { Networks } from './commonTypes';
+
 export interface WidgetStoreOptions {
 	iconUri: string;
 	iconSize: number;
@@ -21,6 +23,7 @@ export type WidgetType = 'Layout' | 'Hybrid' | 'Native';
 
 export interface Widget {
 	name: string;
+	networks: Networks[];
 	version: string;
 	timestamp?: string;
 	widgetType: WidgetType;

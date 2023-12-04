@@ -1,20 +1,14 @@
 import type { FC } from 'react';
 import type { DrawerScreenProps } from '@react-navigation/drawer';
-import {
-	ExplorerFeature,
-	StackHeader,
-	useSnapshot,
-	WidgetFeature,
-} from '@walless/app';
-import { appState } from '@walless/engine';
+import { ExplorerFeature, StackHeader, WidgetFeature } from '@walless/app';
 import type { DashboardParamList } from 'utils/navigation';
 
 type Props = DrawerScreenProps<DashboardParamList, 'Explore'>;
 
-export const WidgetScreen: FC<Props> = ({ navigation }) => {
-	const { activeWidgetId } = useSnapshot(appState);
+export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
+	const id = route.params?.id;
 
-	if (!activeWidgetId) {
+	if (!id) {
 		return (
 			<ExplorerFeature
 				headerComponent={StackHeader}
@@ -25,7 +19,7 @@ export const WidgetScreen: FC<Props> = ({ navigation }) => {
 
 	return (
 		<WidgetFeature
-			id={activeWidgetId}
+			id={id}
 			headerComponent={StackHeader}
 			onToggleDrawer={navigation.toggleDrawer}
 		/>

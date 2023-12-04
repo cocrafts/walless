@@ -12,7 +12,6 @@ import {
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { RouteProp } from '@react-navigation/native';
 import { tabBarHeight, useSnapshot } from '@walless/app';
-import { appState } from '@walless/engine';
 import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
 import { Home, Walless } from '@walless/icons';
@@ -35,7 +34,6 @@ interface Props {
 export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const { insets, state, navigation } = tabProps;
 	const { isDrawerOpen } = useSnapshot(localState);
-	const { activeWidgetId } = useSnapshot(appState);
 	const offset = useSharedValue(0);
 	const realBarHeight = tabBarHeight + insets.bottom;
 	const animatedStyles = useAnimatedStyle(() => ({
@@ -43,10 +41,16 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	}));
 
 	useEffect(() => {
-		const nextOffset =
-			isDrawerOpen || activeWidgetId === '' ? 0 : realBarHeight;
+		const { routes, index } = state;
+		const currentRoute = routes[index];
+		const isExploreTab =
+			currentRoute.name === 'Explore' &&
+			(currentRoute.params === undefined ||
+				currentRoute.params?.params?.id === '');
+
+		const nextOffset = isDrawerOpen || isExploreTab ? 0 : realBarHeight;
 		offset.value = withTiming(nextOffset, timingConfig);
-	}, [isDrawerOpen, activeWidgetId]);
+	}, [isDrawerOpen]);
 
 	const containerStyle: ViewStyle = {
 		height: realBarHeight,

@@ -10,9 +10,6 @@ export const appActions = {
 	setLoading: (flag: boolean): void => {
 		appState.loading = flag;
 	},
-	setActiveWidget: (id: string): void => {
-		appState.activeWidgetId = id;
-	},
 };
 
 export * from './local';

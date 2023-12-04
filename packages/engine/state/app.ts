@@ -22,7 +22,6 @@ export interface AppState {
 	config: Config;
 	remoteConfig: RemoteConfig;
 	endpoints: EndpointMap;
-	activeWidgetId: string;
 	jwtAuth?: string;
 }
 
@@ -48,5 +47,4 @@ export const appState = proxy<AppState>({
 	config: defaultConfig,
 	remoteConfig: defaultRemoteConfig,
 	endpoints: defaultEndpoints,
-	activeWidgetId: '',
 });

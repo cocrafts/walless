@@ -1,19 +1,19 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
 import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { useSnapshot, useWidgets } from '@walless/app';
 import { DashboardNavigator } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
+import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
-import { appActions, localActions } from 'utils/state';
+import { localActions } from 'utils/state';
 
 export const sidebarWidth = 64;
 
-export const Sidebar: FC<DrawerContentComponentProps> = () => {
+export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 	const drawerStatus = useDrawerStatus();
-	const { profile, activeWidgetId } = useSnapshot(appState);
+	const { profile } = useSnapshot(appState);
 	const widgets = useWidgets();
 
 	useEffect(() => {
@@ -21,7 +21,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = () => {
 	}, [drawerStatus]);
 
 	const handleExtensionPress = (item: WidgetDocument) => {
-		appActions.setActiveWidget(item._id);
+		utils.navigateToWidget(item._id);
 	};
 
 	const handleRemoveWidget = async (widget: WidgetDocument) => {
@@ -29,7 +29,9 @@ export const Sidebar: FC<DrawerContentComponentProps> = () => {
 	};
 
 	const getActiveRoute = (item: WidgetDocument) => {
-		return activeWidgetId === item._id;
+		const { routes, index } = state;
+		const activeId = routes[index].params?.id ?? '';
+		return activeId === item._id;
 	};
 
 	return (
@@ -45,6 +47,3 @@ export const Sidebar: FC<DrawerContentComponentProps> = () => {
 };
 
 export default Sidebar;
-
-const styles = StyleSheet.create({});
-

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,48 +7,32 @@ import { modalActions, ModalManager, themeState } from '@walless/gui';
 import SplashScreen from 'screens/Splash';
 import AuthenticationStack from 'stacks/Authentication';
 import DashboardStack from 'stacks/Dashboard';
-import { analytics } from 'utils/firebase';
-import { useNotifications, useSnapshot } from 'utils/hooks';
+import {
+	useNavigationHydrate,
+	useNotifications,
+	useSnapshot,
+} from 'utils/hooks';
 import type { RootParamList } from 'utils/navigation';
 import { linking, navigationRef, screenOptions } from 'utils/navigation';
 
 const Stack = createStackNavigator<RootParamList>();
 
 export const AppStack = () => {
-	const modalContainerRef = useRef<View>(null);
-	const routeNameRef = useRef<string>();
 	const theme = useSnapshot(themeState);
+	const hydrate = useNavigationHydrate();
 
 	useNotifications();
-	useEffect(() => modalActions.setContainerRef(modalContainerRef), []);
-
-	const onNavigationReady = () => {
-		routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
-	};
-
-	const onNavigationStateChange = async () => {
-		const previousRouteName = routeNameRef.current;
-		const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
-
-		if (previousRouteName !== currentRouteName) {
-			analytics.logScreenView({
-				screen_name: currentRouteName,
-				screen_class: currentRouteName,
-			});
-
-			routeNameRef.current = currentRouteName;
-		}
-	};
+	useEffect(() => modalActions.setContainerRef(hydrate.modalContainerRef), []);
 
 	return (
 		<SafeAreaProvider>
-			<View style={styles.container} ref={modalContainerRef}>
+			<View style={styles.container} ref={hydrate.modalContainerRef}>
 				<NavigationContainer
 					ref={navigationRef}
 					theme={theme}
 					linking={linking}
-					onReady={onNavigationReady}
-					onStateChange={onNavigationStateChange}
+					onReady={hydrate.onNavigationReady}
+					onStateChange={hydrate.onNavigationStateChange}
 				>
 					<Stack.Navigator screenOptions={screenOptions.navigator}>
 						<Stack.Screen

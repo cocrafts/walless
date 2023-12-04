@@ -29,8 +29,7 @@ export type EndpointMap = Record<Networks, Endpoint>;
 export interface Config {
 	version?: string;
 	hideBalance: boolean;
-	latestLocation: string;
-	mobileLastestLocation?: MobileNavigation;
+	latestLocation: string | MobileNavigation;
 	notificationToken?: string;
 }
 

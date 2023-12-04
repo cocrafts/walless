@@ -16,6 +16,8 @@ interface Props {
 	style?: StyleProp<ViewStyle>;
 	noHeader?: boolean;
 	noBottomTabs?: boolean;
+	toggleDrawer?: () => void;
+	goBack?: () => void;
 	children: ReactNode;
 }
 
@@ -23,6 +25,8 @@ export const StackContainer: FC<Props> = ({
 	title,
 	style,
 	noBottomTabs,
+	toggleDrawer,
+	goBack,
 	children,
 }) => {
 	const insets = useSafeAreaInsets();
@@ -34,7 +38,13 @@ export const StackContainer: FC<Props> = ({
 
 	return (
 		<View style={[styles.container, style]}>
-			<StackHeader title={title} insets={insets} scrollOffset={scrollOffset} />
+			<StackHeader
+				title={title}
+				insets={insets}
+				scrollOffset={scrollOffset}
+				onToggleDrawer={toggleDrawer}
+				onGoBack={goBack}
+			/>
 			<Animated.ScrollView
 				ref={scrollRef}
 				scrollEventThrottle={12}

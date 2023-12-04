@@ -11,24 +11,22 @@ import { extractWidgetComponent } from './shared';
 interface Props {
 	id: string;
 	headerComponent?: FC<HeaderProps>;
-	toggleDrawer?: () => void;
+	onToggleDrawer?: () => void;
 }
 
 export const WidgetFeature: FC<Props> = ({
 	id,
 	headerComponent: HeaderComponent,
-	toggleDrawer,
+	onToggleDrawer,
 }) => {
 	const insets = useSafeAreaInsets();
 	const scrollOffset = useSharedValue(80);
 	const WidgetComponent = extractWidgetComponent(id);
 	const widgetName = mockWidgets.find((i) => i._id === id)?.name || 'Unkown';
 
-	console.log(id);
 	const headerElement = HeaderComponent && (
 		<HeaderComponent
-			showIcon
-			toggleDrawer={toggleDrawer}
+			onToggleDrawer={onToggleDrawer}
 			title={widgetName}
 			insets={insets}
 			scrollOffset={scrollOffset}

@@ -21,14 +21,14 @@ interface Props {
 	style?: StyleProp<ViewStyle>;
 	headerComponent?: FC<HeaderProps>;
 	widgets?: WidgetDocument[];
-	toggleDrawer?: () => void;
+	onToggleDrawer?: () => void;
 }
 
 export const ExplorerFeature: FC<Props> = ({
 	style,
 	widgets = mockWidgets,
 	headerComponent: HeaderComponent,
-	toggleDrawer,
+	onToggleDrawer,
 }) => {
 	const insets = useSafeAreaInsets();
 	const scrollRef = useAnimatedRef<Animated.ScrollView>();
@@ -49,8 +49,7 @@ export const ExplorerFeature: FC<Props> = ({
 
 	const headerElement = HeaderComponent && (
 		<HeaderComponent
-			showIcon
-			toggleDrawer={toggleDrawer}
+			onToggleDrawer={onToggleDrawer}
 			title="Explorer"
 			insets={insets}
 			scrollOffset={scrollOffset}

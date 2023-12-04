@@ -18,7 +18,7 @@ export const WidgetScreen: FC<Props> = ({ navigation }) => {
 		return (
 			<ExplorerFeature
 				headerComponent={StackHeader}
-				toggleDrawer={navigation.toggleDrawer}
+				onToggleDrawer={navigation.toggleDrawer}
 			/>
 		);
 	}
@@ -27,7 +27,7 @@ export const WidgetScreen: FC<Props> = ({ navigation }) => {
 		<WidgetFeature
 			id={activeWidgetId}
 			headerComponent={StackHeader}
-			toggleDrawer={navigation.toggleDrawer}
+			onToggleDrawer={navigation.toggleDrawer}
 		/>
 	);
 };

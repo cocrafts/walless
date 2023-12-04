@@ -13,19 +13,17 @@ import { ChevronLeft, Hamburger } from '@walless/icons';
 export interface HeaderProps {
 	insets: Insets;
 	title: string;
-	showIcon?: boolean;
 	scrollOffset: SharedValue<number>;
-	toggleDrawer?: () => void;
-	goBack?: () => void;
+	onToggleDrawer?: () => void;
+	onGoBack?: () => void;
 }
 
 export const StackHeader: FC<HeaderProps> = ({
 	insets,
 	title,
-	showIcon,
 	scrollOffset,
-	toggleDrawer,
-	goBack,
+	onToggleDrawer,
+	onGoBack,
 }) => {
 	const backgroundColor = useSharedValue('transparent');
 	const animatedStyle = useAnimatedStyle(() => {
@@ -38,15 +36,16 @@ export const StackHeader: FC<HeaderProps> = ({
 		};
 	});
 
-	const handlePressIcon = toggleDrawer ? toggleDrawer : goBack;
-	const Icon = toggleDrawer ? Hamburger : ChevronLeft;
+	const showIcon = !!onToggleDrawer || !!onGoBack;
+	const handlePressIcon = onToggleDrawer ? onToggleDrawer : onGoBack;
+	const Icon = onToggleDrawer ? Hamburger : ChevronLeft;
 
 	return (
 		<Animated.View style={[styles.container, animatedStyle]}>
 			<View style={styles.textContainer}>
 				{showIcon && (
 					<TouchableOpacity hitSlop={16} onPress={handlePressIcon}>
-						<Icon size={14} />
+						<Icon size={14} color="white" />
 					</TouchableOpacity>
 				)}
 				<Text style={styles.text}>{title}</Text>
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 18,
 	},
 	textContainer: {
-		marginTop: 6,
+		marginTop: 16,
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 12,

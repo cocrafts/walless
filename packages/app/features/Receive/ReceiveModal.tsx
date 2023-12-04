@@ -1,8 +1,10 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
+import { runtime } from '@walless/core';
 import { keyState } from '@walless/engine';
 import type { ModalConfigs } from '@walless/gui';
+import { modalActions, SwipeDownGesture } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 import ModalHeader from '../../components/ModalHeader';
@@ -67,15 +69,24 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 		context: { cardList: walletList },
 	};
 
+	const handleClose = () => {
+		modalActions.hide(config?.id as string);
+	};
+
 	return (
-		<ModalWrapper>
-			<ModalHeader content="Receive" config={config} />
-			<Slider
-				style={styles.sliderContainer}
-				items={items}
-				indicator={indicator}
-			/>
-		</ModalWrapper>
+		<SwipeDownGesture
+			callbackOnClose={handleClose}
+			gestureEnable={runtime.isMobile}
+		>
+			<ModalWrapper>
+				<ModalHeader content="Receive" onPressClose={handleClose} />
+				<Slider
+					style={styles.sliderContainer}
+					items={items}
+					indicator={indicator}
+				/>
+			</ModalWrapper>
+		</SwipeDownGesture>
 	);
 };
 

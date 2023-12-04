@@ -23,7 +23,7 @@ export const launchApp = async ({
 		if (isSdkPopup) {
 			await router.navigate(path);
 		} else {
-			await router.navigate(config?.latestLocation ?? '/');
+			await router.navigate((config?.latestLocation as string) ?? '/');
 		}
 	} else {
 		await router.navigate('/invitation');

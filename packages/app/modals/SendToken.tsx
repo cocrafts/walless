@@ -1,8 +1,9 @@
 import type { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
+import { runtime } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
-import { modalActions } from '@walless/gui';
+import { modalActions, SwipeDownGesture } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import type { CollectibleDocument } from '@walless/store';
 
@@ -30,7 +31,11 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<SwipeDownGesture
+			style={styles.container}
+			callbackOnClose={handleClose}
+			gestureEnable={runtime.isMobile}
+		>
 			<SendFeature
 				initCollectible={collectible}
 				tokens={tokens}
@@ -46,7 +51,7 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				createAndSendTransaction={utils.createAndSend}
 				network={layoutNetwork}
 			/>
-		</View>
+		</SwipeDownGesture>
 	);
 };
 

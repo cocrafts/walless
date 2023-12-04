@@ -11389,7 +11389,6 @@ __metadata:
   resolution: "@walless/app@workspace:packages/app"
   dependencies:
     eslint: 8.38.0
-    react-native-gesture-handler: ^2.13.4
     react-native-safe-area-context: 4.7.4
     react-native-webview: ^13.6.2
   peerDependencies:
@@ -11403,6 +11402,7 @@ __metadata:
     "@walless/store": "*"
     "@walless/ui": "*"
     react: ^18.2.0
+    react-native-gesture-handler: "*"
     react-native-reanimated: "*"
     valtio: 1.10.5
   languageName: unknown
@@ -11543,6 +11543,7 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
     react-native: 0.71.14
+    react-native-gesture-handler: "*"
     react-native-reanimated: "*"
     valtio: 1.10.5
   languageName: unknown
@@ -28084,6 +28085,7 @@ __metadata:
     prettier: ^3.0.3
     react-native: ^0.71.14
     react-native-buffer: ^6.0.3
+    react-native-gesture-handler: ^2.13.4
     react-native-reanimated: 3.5.4
     rimraf: ^5.0.0
     shx: ^0.3.4

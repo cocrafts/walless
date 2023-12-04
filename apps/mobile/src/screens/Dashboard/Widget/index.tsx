@@ -6,7 +6,7 @@ import type { DashboardParamList } from 'utils/navigation';
 type Props = DrawerScreenProps<DashboardParamList, 'Explore'>;
 
 export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
-	const id = route.params?.id;
+	const { id } = route.params as never;
 
 	if (!id) {
 		return (

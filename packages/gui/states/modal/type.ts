@@ -1,5 +1,9 @@
 import type { FC, RefObject } from 'react';
 import type { LayoutRectangle, View, ViewStyle } from 'react-native';
+import type {
+	GestureUpdateEvent,
+	PanGestureHandlerEventPayload,
+} from 'react-native-gesture-handler';
 
 export enum BindDirections {
 	Top,
@@ -72,3 +76,7 @@ export interface ModalState {
 	count: number;
 	map: Map<string, ModalConfigs>;
 }
+
+export type GestureUpdater = (
+	event: GestureUpdateEvent<PanGestureHandlerEventPayload>,
+) => void;

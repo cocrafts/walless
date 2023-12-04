@@ -25,6 +25,7 @@ export const TabsHeader: FC<Props> = ({
 				const isActive = item.id === activeItem.id;
 				const backgroundColor = isActive ? '#0694D3' : 'transparent';
 				const color = isActive ? 'white' : '#566674';
+				const fontWeight = isActive ? '500' : '400';
 
 				return (
 					<TabItem
@@ -32,6 +33,7 @@ export const TabsHeader: FC<Props> = ({
 						item={item}
 						backgroundColor={backgroundColor}
 						color={color}
+						fontWeight={fontWeight}
 						onPress={onTabPress}
 					/>
 				);

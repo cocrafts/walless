@@ -8,6 +8,7 @@ export * from './components/Input';
 export * from './components/ModalManager';
 export * from './components/Select';
 export * from './components/Slider';
+export * from './components/SwipeDownGesture';
 export * from './components/Text';
 export * from './components/View';
 export * from './states/app';

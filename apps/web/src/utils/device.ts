@@ -1,41 +1,10 @@
+import { getAnalytics, setUserProperties } from '@firebase/analytics';
+import { getMessaging, getToken } from '@firebase/messaging';
 import { universalActions } from '@walless/app';
-import { runtime } from '@walless/core';
 import { appState } from '@walless/engine';
-import type { DeviceInfoInput } from '@walless/graphql';
-import { modules } from '@walless/ioc';
-import type { SystemDocument } from '@walless/store';
 
-import project from '../../package.json';
-
+import { getDeviceInfo } from './device.ext';
 import { app, auth } from './firebase';
-
-export const getDeviceInfo = async (): Promise<DeviceInfoInput> => {
-	const deviceId = await getDeviceId();
-
-	return {
-		deviceId,
-		appVersion: project.version,
-		brand: navigator.vendor,
-		deviceName: navigator.appName,
-		systemVersion: navigator.appVersion,
-		deviceType: runtime.isExtension ? 'Extension' : 'Web',
-		manufacturer: navigator.userAgent,
-		platform: navigator.platform,
-	};
-};
-
-const getDeviceId = async (): Promise<string> => {
-	const system = await modules.storage.safeGet<SystemDocument>('system');
-	if (system?.deviceId) return system?.deviceId;
-
-	const uniqueId = crypto.randomUUID();
-	await modules.storage.upsert<SystemDocument>('system', async (doc) => {
-		doc.deviceId = uniqueId;
-		return doc;
-	});
-
-	return uniqueId;
-};
 
 export const configureDeviceAndNotification = async (): Promise<void> => {
 	await auth.authStateReady();
@@ -48,38 +17,20 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		}
 	}
 
-	if (runtime.isExtension) {
-		if (chrome.instanceID) {
-			const nativeToken = await chrome.instanceID.getToken(nativeTokenArgs);
-			deviceInfo.notificationToken = nativeToken;
-		} else {
-			console.log('Notification not available for this platform yet!');
-		}
-	} else {
-		const { setUserProperties, getAnalytics } = await import(
-			'firebase/analytics'
-		);
-		const { getMessaging, getToken } = await import('firebase/messaging');
+	try {
 		const messaging = getMessaging(app);
+		deviceInfo.notificationToken = await getToken(messaging, {
+			vapidKey: FIREBASE_VAPID_KEY,
+		});
+	} catch (e) {
+		console.log('Could not register/get Notification Token from device.');
+	}
 
-		try {
-			deviceInfo.notificationToken = await getToken(messaging, webTokenArgs);
-		} catch (e) {
-			console.log('Could not register/get Notification Token from device.');
-		}
-
-		if (user?.uid) {
-			setUserProperties(getAnalytics(app), { email: user.email });
-		}
+	if (user?.uid) {
+		setUserProperties(getAnalytics(app), { email: user.email });
 	}
 
 	universalActions.syncDeviceInfo(deviceInfo);
 };
 
-const webTokenArgs = {
-	vapidKey: FIREBASE_VAPID_KEY,
-};
-const nativeTokenArgs = {
-	authorizedEntity: FIREBASE_MESSAGING_SENDER_ID,
-	scope: 'FCM',
-};
+export { getDeviceInfo } from './device.ext';

@@ -1,8 +1,8 @@
+import { signOut } from '@firebase/auth';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
-import { signOut } from 'firebase/auth';
 import IDBPouch from 'pouchdb-adapter-idb';
 import { auth, initializeAuth, universalAnalytics } from 'utils/firebase';
 
@@ -46,9 +46,9 @@ export const injectModules = async () => {
 
 	configureDeviceAndNotification(); // asynchornous, should cost nothing evaluate/run
 
-	const endTime = new Date();
-	const milliseconds = endTime.getMilliseconds() - startTime.getMilliseconds();
-	console.log(`Took ${milliseconds} milliseconds to configure IoC module`);
+	const milliseconds =
+		new Date().getMilliseconds() - startTime.getMilliseconds();
+	console.log(`Configured IoC module in ${milliseconds}ms`);
 
 	return modules;
 };

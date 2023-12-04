@@ -45,7 +45,11 @@ export const SearchBar: FC<Props> = ({
 	);
 
 	const suffix = textSearch && (
-		<TouchableOpacity onPress={handleClearSearchPress}>
+		<TouchableOpacity
+			style={styles.suffix}
+			hitSlop={15}
+			onPress={handleClearSearchPress}
+		>
 			<Times size={iconSize} color={iconColor} />
 		</TouchableOpacity>
 	);
@@ -78,6 +82,9 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	prefix: {
+		padding: 12,
+	},
+	suffix: {
 		padding: 12,
 	},
 	input: {

@@ -30,7 +30,13 @@ export interface Config {
 	version?: string;
 	hideBalance: boolean;
 	latestLocation: string;
+	mobileLastestLocation?: MobileNavigation;
 	notificationToken?: string;
+}
+
+export interface MobileNavigation {
+	name: string;
+	params?: Readonly<object | undefined>;
 }
 
 export interface RemoteConfig {

@@ -5,6 +5,7 @@ import type {
 import { createNavigationContainerRef } from '@react-navigation/native';
 import type { StackNavigationOptions } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
+import type { MobileNavigation } from '@walless/core';
 
 export type AuthenticationParamList = {
 	Login: undefined;
@@ -124,8 +125,14 @@ export const navigate = (
 	}
 };
 
-export const resetRoute = (anchor: ResetAnchors, params?: object) => {
-	if (anchor === 'Dashboard') {
+export const resetRoute = (
+	anchor?: ResetAnchors,
+	params?: object,
+	route?: MobileNavigation,
+) => {
+	if (!anchor && route) {
+		navigationRef.reset({ index: 0, routes: [route] });
+	} else if (anchor === 'Dashboard') {
 		navigationRef.reset({ index: 0, routes: [dashboardRoute()] });
 	} else if (anchor === 'Invitation') {
 		navigationRef.reset({ index: 0, routes: [authenticationRoute(params)] });

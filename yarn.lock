@@ -11456,6 +11456,7 @@ __metadata:
     "@mysten/sui.js": 0.34.0
     "@solana/web3.js": 1.78.4
     eslint: 8.38.0
+    react-native-logs: 5.0.1
   languageName: unknown
   linkType: soft
 
@@ -11704,6 +11705,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-native: 0.71.14
+    react-native-biometrics: ^3.0.1
     react-native-config: ^1.5.0
     react-native-device-info: ^10.11.0
     react-native-encrypted-storage: ^4.0.3
@@ -24254,6 +24256,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-biometrics@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "react-native-biometrics@npm:3.0.1"
+  peerDependencies:
+    react-native: ">=0.60.0"
+  checksum: 3864fea4bbf3dee1d360daf048e4f9980083c4e919e95082a5e4646e3b22475bb2b592cae18cccd7fb55b50498dca29e5346cf98d958646cbfc26fed5654bc53
+  languageName: node
+  linkType: hard
+
 "react-native-buffer@npm:^6.0.3":
   version: 6.0.3
   resolution: "react-native-buffer@npm:6.0.3"
@@ -24361,6 +24372,13 @@ __metadata:
   peerDependencies:
     react-native: ">=0.60.0"
   checksum: e7ce6b303a799dc7fd1c5851379b555b65052c3ef7fefe836c7881f125e4057134462554a996762e67ecc7f01e82e45dc3bcad17cc232b53511006160d5f98ed
+  languageName: node
+  linkType: hard
+
+"react-native-logs@npm:5.0.1":
+  version: 5.0.1
+  resolution: "react-native-logs@npm:5.0.1"
+  checksum: 71af385c85a7d45d2046ee9fa05ec49e989a446660742d732e2ba210528fb5145f81308af3f65be607bbf207a875480344cca3ec5e7943a7c10ba2d882f28266
   languageName: node
   linkType: hard
 

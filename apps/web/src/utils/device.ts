@@ -1,6 +1,7 @@
 import { getAnalytics, setUserProperties } from '@firebase/analytics';
 import { getMessaging, getToken } from '@firebase/messaging';
 import { universalActions } from '@walless/app';
+import { logger } from '@walless/core';
 import { appState } from '@walless/engine';
 
 import { getDeviceInfo } from './device.ext';
@@ -23,7 +24,7 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 			vapidKey: FIREBASE_VAPID_KEY,
 		});
 	} catch (e) {
-		console.log('Could not register/get Notification Token from device.');
+		logger.error('Could not register/get Notification Token from device.');
 	}
 
 	if (user?.uid) {

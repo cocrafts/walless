@@ -17,7 +17,7 @@ import type { WebStorageModule } from '@tkey/web-storage';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
 import CustomAuth from '@toruslabs/customauth';
 import { ThresholdResult } from '@walless/auth';
-import { runtime } from '@walless/core';
+import { logger, runtime } from '@walless/core';
 import { w3aBaseUrl } from 'utils/config';
 
 /* 1. First time login: save 1 device fragment, 1 passcode fragment
@@ -144,7 +144,7 @@ export const importAvailableShares = async (): Promise<ThresholdResult> => {
 				: ThresholdResult.Ready;
 		}
 	} catch (e) {
-		console.log('Failed to import existing share.');
+		logger.error('Failed to import existing share.');
 	}
 
 	return ThresholdResult.Missing;
@@ -165,7 +165,7 @@ export const recoverDeviceShareFromPasscode = async (
 			return true;
 		}
 	} catch {
-		console.log('Failed to recover/unlock, invalid passcode.');
+		logger.error('Failed to recover/unlock, invalid passcode.');
 	}
 
 	return false;

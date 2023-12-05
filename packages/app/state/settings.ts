@@ -1,3 +1,4 @@
+import { logger } from '@walless/core';
 import type { Device, DeviceInfoInput } from '@walless/graphql';
 import { mutations } from '@walless/graphql';
 import { modules } from '@walless/ioc';
@@ -33,6 +34,6 @@ export const syncDeviceInfo = async (device: DeviceInfoInput) => {
 			{ device: DeviceInfoInput }
 		>(mutations.registerDevice, { device });
 	} catch (e) {
-		console.log(e);
+		logger.error('Error when setDeviceInfo', e);
 	}
 };

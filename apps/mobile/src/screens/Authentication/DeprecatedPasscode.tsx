@@ -5,6 +5,7 @@ import {
 	signInWithPasscode,
 	validateAndRecoverWithPasscode,
 } from '@walless/auth';
+import { logger } from '@walless/core';
 import { navigate } from 'utils/navigation';
 
 export const DeprecatedPasscodeScreen = () => {
@@ -14,7 +15,9 @@ export const DeprecatedPasscodeScreen = () => {
 			await signInWithPasscode(passcode, auth().currentUser);
 			navigate('Dashboard');
 		} else {
-			console.log('Error during migrate account, please contact developer!');
+			logger.info('Error during migrate account!', {
+				user: auth().currentUser,
+			});
 		}
 	};
 

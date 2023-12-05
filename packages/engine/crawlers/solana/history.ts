@@ -9,7 +9,7 @@ import type {
 } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { Collectible, Token, TokenAccount } from '@walless/core';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 
 import { historyActions } from './../../state/history/index';
@@ -541,7 +541,7 @@ export const historyByAddress = async (
 					}
 				}
 			} catch (error) {
-				console.log('Error when fetching Solana history:', error);
+				logger.error('Error when fetching Solana history:', error);
 			}
 		})();
 	}

@@ -55,7 +55,6 @@ export const suiEngineRunner: SuiRunner = {
 		}
 	},
 	stop: async () => {
-		console.log('stop!');
 		suiTokenUnsubscribe();
 	},
 };

@@ -1,8 +1,13 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
-import type { Collectible, Networks, Token } from '@walless/core';
 import type { TransactionPayload } from '@walless/core';
+import {
+	type Collectible,
+	logger,
+	type Networks,
+	type Token,
+} from '@walless/core';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
@@ -82,7 +87,7 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 				floatActions.showError('Something was wrong');
 			}
 		} catch (error) {
-			console.log('...', error);
+			logger.error('Failure during NFT send:', error);
 			throw error;
 		}
 

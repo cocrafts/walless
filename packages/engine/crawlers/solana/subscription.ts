@@ -3,7 +3,7 @@ import { AccountLayout } from '@solana/spl-token';
 import type { ParsedAccountData } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { AssetMetadata } from '@walless/core';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
@@ -98,12 +98,12 @@ export const registerAccountChanges = async (
 
 						addCollectible(connection, endpoint, owner, nft);
 					} catch (e) {
-						console.log('add collectible error', e);
+						logger.error('Add collectible error', e);
 					}
 				}
 			} else {
 				// TODO: need to handle if got this message
-				console.log('account change unknown');
+				logger.info('Unknown account change');
 			}
 		},
 		'confirmed',
@@ -159,13 +159,13 @@ export const watchLogs = async (context: SolanaContext, pubkey: PublicKey) => {
 
 							token = tokenByAddress;
 						} catch (error) {
-							console.log('Error during fetching token quotes');
+							logger.error('Error during fetching token quotes');
 						}
 
 						try {
 							metadata = await getMetadata(context, balance.mint);
 						} catch (error) {
-							console.log('Error during get Solana metadata', error);
+							logger.error('Error during get Solana metadata', error);
 						}
 
 						const tokenDocument: TokenDocument = {

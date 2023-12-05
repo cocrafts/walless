@@ -1,3 +1,4 @@
+import { logger } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
@@ -56,13 +57,13 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 						aptosActions.setPendingTokens(pendingNfts);
 					}
 				} catch (error) {
-					console.log('aptos crawler error', error);
+					logger.error('Aptos crawler error', error);
 				}
 
 				try {
 					await constructAptosTokens(connection, pubkey);
 				} catch (error) {
-					console.log('aptos crawler error', error);
+					logger.error('aptos crawler error', error);
 				}
 			};
 

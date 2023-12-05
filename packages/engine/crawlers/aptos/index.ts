@@ -11,8 +11,6 @@ import type { EngineRunner } from '../../utils/type';
 import { getCoins } from './coins';
 import { constructAptosTokens, getPendingTokens } from './tokens';
 
-export * from './shared';
-
 interface TokenResource {
 	direct_transfer: boolean;
 }
@@ -79,3 +77,5 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 		interval = [];
 	},
 };
+
+export * from './shared';

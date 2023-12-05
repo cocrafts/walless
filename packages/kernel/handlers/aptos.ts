@@ -1,5 +1,7 @@
+import { Networks } from '@walless/core';
 import { collectibleState, collectionState } from '@walless/engine';
-import { getAptosConnection } from '@walless/engine/crawlers/aptos';
+import { modules } from '@walless/ioc';
+import type { Provider } from 'aptos';
 import {
 	APTOS_COIN,
 	AptosAccount,
@@ -32,7 +34,7 @@ export const handleTransferCoin = async (
 	const toPubkey = new HexString(txData.to);
 	const fromAccount = new AptosAccount(privateKey, fromPubkey);
 	const isNativeAPT = txData.token === APTOS_COIN;
-	const connection = await getAptosConnection();
+	const connection = modules.engine.getConnection<Provider>(Networks.aptos);
 
 	let txHash: string;
 
@@ -89,7 +91,7 @@ export const handleTransferToken = async (
 	const creatorPubkey = new HexString(txData.creator);
 	const fromAccount = new AptosAccount(privateKey, fromPubkey);
 
-	const connection = await getAptosConnection();
+	const connection = modules.engine.getConnection<Provider>(Networks.aptos);
 	const tokenClient = new TokenClient(connection.aptosClient);
 
 	const resource = await connection.getAccountResource(
@@ -159,7 +161,7 @@ export const handleUpdateDirectTransfer = async (
 	const pubkey = new HexString(txData.pubkey);
 	const account = new AptosAccount(privateKey, pubkey);
 
-	const connection = await getAptosConnection();
+	const connection = modules.engine.getConnection<Provider>(Networks.aptos);
 	const tokenClient = new TokenClient(connection.aptosClient);
 
 	const txHash = await tokenClient.optInTokenTransfer(account, directTransfer);
@@ -194,7 +196,7 @@ export const handleClaimToken = async (
 	const collectionName = txData.collectionName;
 	const name = txData.name;
 
-	const connection = await getAptosConnection();
+	const connection = modules.engine.getConnection<Provider>(Networks.aptos);
 	const tokenClient = new TokenClient(connection.aptosClient);
 
 	const txHash = await tokenClient.claimToken(

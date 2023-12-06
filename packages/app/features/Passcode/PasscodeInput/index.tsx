@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import type { TextInput } from 'react-native';
+import type { TextInput, ViewStyle } from 'react-native';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { View } from '@walless/gui';
 
@@ -9,12 +9,14 @@ import SingleInput from './SingleInput';
 interface Props {
 	passcode?: string;
 	passcodeLength?: number;
+	style?: ViewStyle;
 	onChange?: (value: string, isCompleted: boolean) => void;
 }
 
 const PasscodeInput: FC<Props> = ({
 	passcode = '',
 	passcodeLength = 6,
+	style,
 	onChange,
 }) => {
 	const inputRef = useRef<TextInput[]>([]);
@@ -58,7 +60,7 @@ const PasscodeInput: FC<Props> = ({
 
 	return (
 		<TouchableWithoutFeedback onPress={handleWrapperPress}>
-			<View horizontal cursorPointer style={style.container}>
+			<View horizontal cursorPointer style={[styles.container, style]}>
 				{inputElements}
 			</View>
 		</TouchableWithoutFeedback>
@@ -67,7 +69,7 @@ const PasscodeInput: FC<Props> = ({
 
 export default PasscodeInput;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		gap: 12,
 	},

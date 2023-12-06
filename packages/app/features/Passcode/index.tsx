@@ -85,12 +85,11 @@ export const PasscodeFeature: FC<Props> = ({
 			{innerLoading ? (
 				<ActivityIndicator color="white" style={styles.passcodeContainer} />
 			) : (
-				<View style={styles.passcodeContainer}>
-					<PasscodeInput
-						passcode={innerPasscode}
-						onChange={handlePasscodeChange}
-					/>
-				</View>
+				<PasscodeInput
+					passcode={innerPasscode}
+					onChange={handlePasscodeChange}
+					style={styles.passcodeContainer}
+				/>
 			)}
 			<Text style={styles.errorMessage}>{innerError || ' '}</Text>
 			{isCreate && createPasscodeRef.current.isConfirmation ? (

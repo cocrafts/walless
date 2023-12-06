@@ -7,7 +7,7 @@ import { Text, View } from '@walless/gui';
 import PasscodeInput from './PasscodeInput';
 
 interface Props {
-	containerStyle?: ViewStyle;
+	style?: ViewStyle;
 	passcode?: string;
 	isCreate?: boolean;
 	error?: string;
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const PasscodeFeature: FC<Props> = ({
-	containerStyle: style,
+	style,
 	passcode = '',
 	isCreate = false,
 	error = '',

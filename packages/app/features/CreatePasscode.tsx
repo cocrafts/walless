@@ -74,6 +74,7 @@ export const CreatePasscode: FC<Props> = ({
 				</View>
 
 				<PasscodeFeature
+					style={styles.passcodeContainer}
 					passcode={passcode}
 					isCreate={true}
 					error={passcodeError}
@@ -125,6 +126,9 @@ export const styles = StyleSheet.create({
 	subText: {
 		color: '#566674',
 		textAlign: 'center',
+	},
+	passcodeContainer: {
+		marginBottom: 24,
 	},
 	footerContainer: {
 		flexDirection: 'row',

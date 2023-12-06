@@ -1,4 +1,5 @@
-import { logger, type Networks, type TransactionPayload } from '@walless/core';
+import type { Networks, TransactionPayload } from '@walless/core';
+import { logger } from '@walless/core';
 import { tokenState } from '@walless/engine';
 import type { ResponsePayload } from '@walless/messaging';
 import type {

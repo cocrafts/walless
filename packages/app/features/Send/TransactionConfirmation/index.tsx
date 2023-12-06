@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
-import type { TransactionPayload } from '@walless/core';
-import {
-	type Collectible,
-	logger,
-	type Networks,
-	type Token,
+import type {
+	Collectible,
+	Networks,
+	Token,
+	TransactionPayload,
 } from '@walless/core';
+import { logger } from '@walless/core';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import type { UnknownObject } from '@walless/core';
+import type { ConnectOptions, UnknownObject } from '@walless/core';
 import { runtime } from '@walless/core';
 import type { MessagePayload } from '@walless/messaging';
 import { getDataFromSourceRequest } from 'bridge/listeners';
 
 export const useRequestData = (requestId: string, from: string) => {
 	const [sender, setSender] = useState<UnknownObject>({});
+	const [options, setOptions] = useState<ConnectOptions>({});
 	const [message, setMessage] = useState('');
 	const [transaction, setTransaction] = useState('');
 	const [payload, setPayload] = useState<MessagePayload>();
@@ -13,7 +14,7 @@ export const useRequestData = (requestId: string, from: string) => {
 	useEffect(() => {
 		const configureSender = async () => {
 			const result = await getDataFromSourceRequest(requestId, from);
-			const { sender, message, transaction } = result ?? {};
+			const { sender, message, transaction, options } = result ?? {};
 
 			setPayload(result as MessagePayload);
 
@@ -28,6 +29,10 @@ export const useRequestData = (requestId: string, from: string) => {
 			if (transaction) {
 				setTransaction(transaction);
 			}
+
+			if (options) {
+				setOptions(options);
+			}
 		};
 
 		if (runtime.isExtension) {
@@ -40,5 +45,6 @@ export const useRequestData = (requestId: string, from: string) => {
 		sender,
 		message,
 		transaction,
+		options,
 	};
 };

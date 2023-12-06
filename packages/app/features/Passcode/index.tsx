@@ -83,12 +83,14 @@ export const PasscodeFeature: FC<Props> = ({
 	return (
 		<View style={[styles.container, containerStyle]}>
 			{innerLoading ? (
-				<ActivityIndicator color="white" style={{ height: 48 }} />
+				<ActivityIndicator color="white" style={styles.passcodeContainer} />
 			) : (
-				<PasscodeInput
-					passcode={innerPasscode}
-					onChange={handlePasscodeChange}
-				/>
+				<View style={styles.passcodeContainer}>
+					<PasscodeInput
+						passcode={innerPasscode}
+						onChange={handlePasscodeChange}
+					/>
+				</View>
 			)}
 			<Text style={styles.errorMessage}>{innerError || ' '}</Text>
 			{isCreate && createPasscodeRef.current.isConfirmation ? (
@@ -113,6 +115,9 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: 'center',
+	},
+	passcodeContainer: {
+		height: 48,
 	},
 	errorMessage: {
 		paddingTop: 10,

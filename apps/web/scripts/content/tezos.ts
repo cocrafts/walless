@@ -41,10 +41,9 @@ const keypair = generateKeyPair();
 let recipientPublicKey: string;
 
 window.addEventListener('message', async (e) => {
-	if (
-		e.data?.target !== ExtensionMessageTarget.EXTENSION ||
-		(e.data?.targetId && e.data?.targetId !== WALLESS_TEZOS.id)
-	) {
+	const isNotTezosRequest = e.data?.target !== ExtensionMessageTarget.EXTENSION;
+	const wrongTarget = e.data?.targetId && e.data?.targetId !== WALLESS_TEZOS.id;
+	if (isNotTezosRequest || wrongTarget) {
 		return;
 	}
 

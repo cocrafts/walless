@@ -45,6 +45,7 @@ window.addEventListener('message', async (e) => {
 		return handlePingPong();
 	} else {
 		let payload = e.data?.payload;
+		const origin = e.data?.origin || '';
 		const encryptedPayload = e.data?.encryptedPayload;
 		if (payload) {
 			if (typeof payload === 'string') {
@@ -52,12 +53,12 @@ window.addEventListener('message', async (e) => {
 			}
 
 			if (payload.type === TEZOS_PAIRING_REQUEST) {
-				return handlePairingRequest(payload as PostMessagePairingRequest);
+				return handlePairingRequest(payload, origin);
 			} else {
 				return handleKernelActionRequest(payload, e.data.origin);
 			}
 		} else if (encryptedPayload) {
-			handleKernelActionRequest(encryptedPayload, e.data.origin, true);
+			handleKernelActionRequest(encryptedPayload, origin, true);
 		}
 	}
 });
@@ -70,7 +71,10 @@ const handlePingPong = () => {
 	});
 };
 
-const handlePairingRequest = async (payload: PostMessagePairingRequest) => {
+const handlePairingRequest = async (
+	payload: PostMessagePairingRequest,
+	origin: string,
+) => {
 	const resPayload: PostMessagePairingResponse = {
 		type: TEZOS_PAIRING_RESPONSE,
 		publicKey: Buffer.from(keypair.publicKey).toString('hex'),
@@ -82,16 +86,12 @@ const handlePairingRequest = async (payload: PostMessagePairingRequest) => {
 		Buffer.from(recipientPublicKey, 'hex'),
 	);
 
-	window.postMessage({
-		message: {
-			target: ExtensionMessageTarget.PAGE,
-			payload: await sealCryptobox(
-				JSON.stringify(resPayload),
-				recipientPublicKeyBytes,
-			),
-		},
-		sender: { id: WALLESS_TEZOS.id },
-	});
+	const encryptedPayload = await sealCryptobox(
+		JSON.stringify(resPayload),
+		recipientPublicKeyBytes,
+	);
+
+	respond({ payload: encryptedPayload }, origin);
 };
 
 const handleKernelActionRequest = async (
@@ -101,7 +101,6 @@ const handleKernelActionRequest = async (
 ) => {
 	if (encrypted) {
 		payload = (await decryptPayload(payload as string)) as UnknownObject;
-		console.log('decrypted payload', payload);
 		sendAckMessage(payload, origin);
 	}
 
@@ -120,18 +119,12 @@ const sendAckMessage = async (payload: UnknownObject, origin: string) => {
 		id: payload.id || '',
 	};
 
-	const response = {
-		message: {
-			target: ExtensionMessageTarget.PAGE,
-			encryptedPayload: await encryptCryptoboxPayload(
-				serialize(resPayload),
-				sharedKey.send,
-			),
-		},
-		sender: { id: WALLESS_TEZOS.id },
-	};
+	const encryptedPayload = await encryptCryptoboxPayload(
+		serialize(resPayload),
+		sharedKey.send,
+	);
 
-	window.postMessage(response, origin);
+	respond({ encryptedPayload }, origin);
 };
 
 const decryptPayload = async (encryptedPayload: string) => {
@@ -146,4 +139,17 @@ const decryptPayload = async (encryptedPayload: string) => {
 	} catch (e) {
 		console.log('error decrypting payload', e);
 	}
+};
+
+const respond = (payload: UnknownObject, origin: string) => {
+	window.postMessage(
+		{
+			message: {
+				target: ExtensionMessageTarget.PAGE,
+				...payload,
+			},
+			sender: { id: WALLESS_TEZOS.id },
+		},
+		origin,
+	);
 };

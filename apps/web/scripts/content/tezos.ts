@@ -1,20 +1,27 @@
 import type {
+	Network,
 	PostMessagePairingRequest,
 	PostMessagePairingResponse,
 } from '@airgap/beacon-sdk';
-import { BeaconMessageType } from '@airgap/beacon-sdk';
+import {
+	BeaconMessageType,
+	NetworkType,
+	PermissionScope,
+} from '@airgap/beacon-sdk';
 import { ExtensionMessageTarget } from '@airgap/beacon-sdk';
 import {
 	decryptCryptoboxPayload,
 	encryptCryptoboxPayload,
 	sealCryptobox,
 } from '@airgap/beacon-utils';
-import type { UnknownObject } from '@walless/core';
+import type { ConnectOptions } from '@walless/core';
+import { Networks, type UnknownObject } from '@walless/core';
 import {
 	createCryptoBoxClient,
 	createCryptoBoxServer,
 	generateKeyPair,
 } from '@walless/crypto/utils/p2p';
+import { RequestType } from '@walless/messaging';
 
 import { messenger } from './messaging';
 import { deserialize, serialize } from './utils';
@@ -45,7 +52,7 @@ window.addEventListener('message', async (e) => {
 		return handlePingPong();
 	} else {
 		let payload = e.data?.payload;
-		const origin = e.data?.origin || '';
+		const origin = e.origin;
 		const encryptedPayload = e.data?.encryptedPayload;
 		if (payload) {
 			if (typeof payload === 'string') {
@@ -55,7 +62,7 @@ window.addEventListener('message', async (e) => {
 			if (payload.type === TEZOS_PAIRING_REQUEST) {
 				return handlePairingRequest(payload, origin);
 			} else {
-				return handleKernelActionRequest(payload, e.data.origin);
+				return handleKernelActionRequest(payload, origin);
 			}
 		} else if (encryptedPayload) {
 			handleKernelActionRequest(encryptedPayload, origin, true);
@@ -99,24 +106,49 @@ const handleKernelActionRequest = async (
 	origin: string,
 	encrypted: boolean = false,
 ) => {
-	if (encrypted) {
+	if (encrypted || typeof payload === 'string') {
 		payload = (await decryptPayload(payload as string)) as UnknownObject;
-		sendAckMessage(payload, origin);
 	}
+	sendAckMessage(payload, origin);
 
-	const res = await messenger.request('kernel', {
-		from: 'walless@sdk',
-		payload,
-	});
+	if (payload?.type === RequestType.REQUEST_PERMISSION_ON_TEZOS) {
+		const res = await messenger.request<{ options: ConnectOptions }>('kernel', {
+			from: 'walless@sdk',
+			type: RequestType.REQUEST_PERMISSION_ON_TEZOS,
+			options: {
+				network: Networks.tezos,
+				domain: payload.origin,
+				onlyIfTrusted: true,
+			},
+		});
 
-	window.postMessage(res);
+		const sharedKey = await createCryptoBoxClient(recipientPublicKey, keypair);
+		respond(
+			{
+				encryptedPayload: await encryptCryptoboxPayload(
+					serialize({
+						id: payload.id,
+						scopes: [PermissionScope.OPERATION_REQUEST, PermissionScope.SIGN],
+						origin: { type: 'extension', id: chrome.runtime.id },
+						type: BeaconMessageType.PermissionResponse,
+						network: { type: NetworkType.MAINNET }, // TODO: handle custom networks
+						publicKey: res.publicKeys[0]?.meta?.publicKey,
+					}),
+					sharedKey.send,
+				),
+			},
+			origin,
+		);
+	} else {
+		console.log('Unhandled request type');
+	}
 };
 
 const sendAckMessage = async (payload: UnknownObject, origin: string) => {
 	const sharedKey = await createCryptoBoxClient(recipientPublicKey, keypair);
 	const resPayload = {
 		type: BeaconMessageType.Acknowledge,
-		id: payload.id || '',
+		id: payload?.id || '',
 	};
 
 	const encryptedPayload = await encryptCryptoboxPayload(

@@ -1,23 +1,28 @@
 import { useEffect, useState } from 'react';
-import type { BiometryType } from 'react-native-biometrics';
-import { biometrics } from 'utils/native';
+import { BIOMETRY_TYPE } from 'react-native-keychain';
+import { getSupportedBiometryType } from 'react-native-keychain';
 
 export interface BiometricStatus {
 	isAvailable: boolean;
-	type?: BiometryType;
+	isFingerPrint: boolean;
+	type: BIOMETRY_TYPE | null;
 }
 
+const fingerPrintTypes: BIOMETRY_TYPE[] = [
+	BIOMETRY_TYPE.TOUCH_ID,
+	BIOMETRY_TYPE.FINGERPRINT,
+];
+
 export const useBiometricStatus = () => {
-	const [sensor, setSensor] = useState<BiometricStatus>({ isAvailable: false });
+	const [type, setType] = useState<BIOMETRY_TYPE | null>(null);
 
 	useEffect(() => {
-		biometrics.isSensorAvailable().then(({ available, biometryType }) => {
-			setSensor({ isAvailable: available, type: biometryType });
-		});
+		getSupportedBiometryType().then(setType);
 	}, []);
 
 	return {
-		isAvailable: sensor.isAvailable,
-		type: sensor.type,
+		isAvailable: !!type,
+		isFingerPrint: fingerPrintTypes.indexOf(type as never) >= 0,
+		type,
 	};
 };

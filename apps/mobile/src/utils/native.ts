@@ -2,7 +2,6 @@ import Biometrics from 'react-native-biometrics';
 import {
 	ACCESS_CONTROL,
 	ACCESSIBLE,
-	getAllGenericPasswordServices,
 	getGenericPassword,
 	setGenericPassword,
 } from 'react-native-keychain';

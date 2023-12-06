@@ -1,4 +1,3 @@
-import { ScrollView } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { CreatePasscode } from '@walless/app';
 import { floatActions } from '@walless/app';

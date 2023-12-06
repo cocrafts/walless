@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const BiometricIcon: FC<Props> = ({ status, onPress }) => {
-	const IconComponent = status.type === 'TouchID' ? FingerPrint : ScanFace;
+	const IconComponent = status.isFingerPrint ? FingerPrint : ScanFace;
 
 	return (
 		<TouchableOpacity

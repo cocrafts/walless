@@ -30,4 +30,6 @@ export interface HapticOptions {
 
 export interface NativeModules {
 	triggerHaptic: (type?: string, options?: HapticOptions) => void;
+	hydrateEncryptionKey: (key: string) => void;
+	retrieveEncryptionKey: (title?: string) => Promise<string | null>;
 }

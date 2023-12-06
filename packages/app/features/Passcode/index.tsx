@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const PasscodeFeature: FC<Props> = ({
-	containerStyle,
+	containerStyle: style,
 	passcode = '',
 	isCreate = false,
 	error = '',
@@ -81,29 +81,29 @@ export const PasscodeFeature: FC<Props> = ({
 	}, [loading]);
 
 	return (
-		<View style={[styles.container, containerStyle]}>
+		<View style={[styles.container, style]}>
 			{innerLoading ? (
 				<ActivityIndicator color="white" style={styles.passcodeContainer} />
 			) : (
 				<PasscodeInput
+					style={styles.passcodeContainer}
 					passcode={innerPasscode}
 					onChange={handlePasscodeChange}
-					style={styles.passcodeContainer}
 				/>
 			)}
-			<Text style={styles.errorMessage}>{innerError || ' '}</Text>
-			{isCreate && createPasscodeRef.current.isConfirmation ? (
-				<TouchableOpacity
-					style={{ marginTop: 20 }}
-					onPress={handleResetPasscode}
-				>
-					<Text style={styles.newPasscodeText}>Try new passcode?</Text>
-				</TouchableOpacity>
-			) : (
-				<View style={{ marginTop: 20 }}>
-					<Text> </Text>
-				</View>
-			)}
+			<View style={styles.errorContainer}>
+				<Text numberOfLines={2} style={styles.errorMessage}>
+					{innerError || ' '}
+				</Text>
+			</View>
+
+			<View style={styles.commandContainer}>
+				{isCreate && createPasscodeRef.current.isConfirmation && (
+					<TouchableOpacity onPress={handleResetPasscode}>
+						<Text style={styles.newPasscodeText}>Try new passcode?</Text>
+					</TouchableOpacity>
+				)}
+			</View>
 		</View>
 	);
 };
@@ -118,13 +118,20 @@ const styles = StyleSheet.create({
 	passcodeContainer: {
 		height: 48,
 	},
+	errorContainer: {
+		height: 40,
+		justifyContent: 'center',
+	},
 	errorMessage: {
-		paddingTop: 10,
 		color: '#AE3939',
 		textAlign: 'center',
 	},
 	newPasscodeText: {
 		textDecorationLine: 'underline',
 		color: '#566674',
+	},
+	commandContainer: {
+		minHeight: 30,
+		justifyContent: 'center',
 	},
 });

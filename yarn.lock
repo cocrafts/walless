@@ -11712,6 +11712,7 @@ __metadata:
     react-native-gesture-handler: ^2.13.4
     react-native-get-random-values: ^1.9.0
     react-native-haptic-feedback: ^2.2.0
+    react-native-keychain: ^8.1.2
     react-native-permissions: ^3.10.1
     react-native-quick-base64: 2.0.7
     react-native-quick-crypto: 0.6.1
@@ -24372,6 +24373,13 @@ __metadata:
   peerDependencies:
     react-native: ">=0.60.0"
   checksum: e7ce6b303a799dc7fd1c5851379b555b65052c3ef7fefe836c7881f125e4057134462554a996762e67ecc7f01e82e45dc3bcad17cc232b53511006160d5f98ed
+  languageName: node
+  linkType: hard
+
+"react-native-keychain@npm:^8.1.2":
+  version: 8.1.2
+  resolution: "react-native-keychain@npm:8.1.2"
+  checksum: 0602f0c8c664ee73aedfe7704c5199e90ecf91d933c218d1d74f8a4ea2bfe39814abe2a65492ba19478f416f8ba2cccb82e56878ebf4618712aac0f5a9e6a855
   languageName: node
   linkType: hard
 

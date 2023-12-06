@@ -610,6 +610,8 @@ PODS:
   - RNGoogleSignin (9.1.0):
     - GoogleSignIn (~> 6.2)
     - React-Core
+  - RNKeychain (8.1.2):
+    - React-Core
   - RNPermissions (3.10.1):
     - React-Core
   - RNReactNativeHapticFeedback (2.2.0):
@@ -720,6 +722,7 @@ DEPENDENCIES:
   - "RNFBRemoteConfig (from `../../../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../../../node_modules/@react-native-google-signin/google-signin`)"
+  - RNKeychain (from `../../../node_modules/react-native-keychain`)
   - RNPermissions (from `../../../node_modules/react-native-permissions`)
   - RNReactNativeHapticFeedback (from `../../../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../../../node_modules/react-native-reanimated`)
@@ -881,6 +884,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../../../node_modules/@react-native-google-signin/google-signin"
+  RNKeychain:
+    :path: "../../../node_modules/react-native-keychain"
   RNPermissions:
     :path: "../../../node_modules/react-native-permissions"
   RNReactNativeHapticFeedback:
@@ -985,6 +990,7 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: 26b2e249a3bfa84de59dfbe149174427ada8bd32
   RNGestureHandler: 6e46dde1f87e5f018a54fe5d40cd0e0b942b49ee
   RNGoogleSignin: c15bdaa7e8a9e190b6169d9c96a4e8380a740f22
+  RNKeychain: a65256b6ca6ba6976132cc4124b238a5b13b3d9c
   RNPermissions: b199f4189fd6fbe5c9e7e5f542cd3d53fe0cf254
   RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
   RNReanimated: b9215243fd801b2b874bd0218767eed434de994c

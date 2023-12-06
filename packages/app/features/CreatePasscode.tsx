@@ -1,15 +1,22 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { useEffect, useState } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@walless/gui';
 
 import PasscodeFeature from '../features/Passcode';
 
 interface Props {
+	style?: StyleProp<ViewStyle>;
+	biometricIcon?: ReactNode;
 	onComplete?: (passcode: string) => void;
 }
 
-export const CreatePasscode: FC<Props> = ({ onComplete }) => {
+export const CreatePasscode: FC<Props> = ({
+	style,
+	biometricIcon,
+	onComplete,
+}) => {
 	const [passcode, setPasscode] = useState('');
 	const [confirmation, setConfirmation] = useState(false);
 	const [passcodeError, setPasscodeError] = useState<string>();
@@ -45,7 +52,7 @@ export const CreatePasscode: FC<Props> = ({ onComplete }) => {
 	}, [passcodeError]);
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			<Image source={{ uri: '/img/bare-icon.png' }} style={styles.logo} />
 
 			<View style={styles.titleContainer}>
@@ -63,6 +70,8 @@ export const CreatePasscode: FC<Props> = ({ onComplete }) => {
 				loading={loading}
 				onPasscodeChange={onPasscodeChange}
 			/>
+
+			{biometricIcon}
 
 			<View style={styles.footerContainer}>
 				<Text>Having issue with passcode? </Text>

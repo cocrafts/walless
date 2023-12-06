@@ -3,7 +3,6 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
-import { Heart } from '@walless/icons';
 import { modules, utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import { addWidgetToStorage } from '@walless/store';

@@ -1,15 +1,23 @@
 import type { FC } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { FingerPrint, ScanFace } from '@walless/icons';
 import type { BiometricStatus } from 'utils/hooks';
 
 interface Props {
 	status: BiometricStatus;
+	onPress?: () => void;
 }
 
-export const BiometricIcon: FC<Props> = () => {
+export const BiometricIcon: FC<Props> = ({ status, onPress }) => {
+	const IconComponent = status.type === 'TouchID' ? FingerPrint : ScanFace;
+
 	return (
-		<TouchableOpacity style={styles.container}>
-			<Text style={{ color: 'white' }}>BiometricIcon</Text>
+		<TouchableOpacity
+			disabled={!onPress}
+			style={styles.container}
+			onPress={onPress}
+		>
+			<IconComponent size={38} />
 		</TouchableOpacity>
 	);
 };

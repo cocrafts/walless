@@ -36,12 +36,11 @@ export const CreatePasscodeScreen = () => {
 	);
 
 	return (
-		<ScrollView contentContainerStyle={style}>
-			<CreatePasscode
-				onComplete={handleOnComplete}
-				biometricIcon={biometricIcon}
-			/>
-		</ScrollView>
+		<CreatePasscode
+			style={style}
+			onComplete={handleOnComplete}
+			biometricIcon={biometricIcon}
+		/>
 	);
 };
 

@@ -85,11 +85,7 @@ const RequestConnect = () => {
 					<LightText textAlign="center">
 						Only connect to websites you trust!
 					</LightText>
-					<Button
-						hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-						title="Connect"
-						onPress={onApprovePress}
-					></Button>
+					<Button title="Connect" onPress={onApprovePress} />
 					<Hoverable style={styles.deniedButton} onPress={onRejectPress}>
 						<Text>Deny</Text>
 					</Hoverable>

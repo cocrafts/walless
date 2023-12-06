@@ -1,3 +1,6 @@
+import type { UnknownObject } from '@walless/core';
+import { decode, encode } from 'bs58check';
+
 export const injectScript = (scriptUri: string) => {
 	try {
 		const container = document.head || document.documentElement;
@@ -9,4 +12,12 @@ export const injectScript = (scriptUri: string) => {
 	} catch (error) {
 		console.error('script injection failed.', error);
 	}
+};
+
+export const serialize = (data: UnknownObject): string => {
+	return encode(Buffer.from(JSON.stringify(data)));
+};
+
+export const deserialize = (encoded: string): UnknownObject => {
+	return JSON.parse(decode(encoded).toString());
 };

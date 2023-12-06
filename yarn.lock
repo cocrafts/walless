@@ -142,7 +142,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@airgap/beacon-utils@npm:4.0.12":
+"@airgap/beacon-utils@npm:4.0.12, @airgap/beacon-utils@npm:^4.0.12":
   version: 4.0.12
   resolution: "@airgap/beacon-utils@npm:4.0.12"
   dependencies:
@@ -11618,6 +11618,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/crypto@workspace:packages/crypto"
   dependencies:
+    "@stablelib/ed25519": ^1.0.3
+    "@stablelib/nacl": ^1.0.4
+    "@stablelib/x25519-session": ^1.0.4
     "@walless/core": "*"
     eslint: 8.38.0
   languageName: unknown
@@ -11967,6 +11970,7 @@ __metadata:
   resolution: "@walless/web@workspace:apps/web"
   dependencies:
     "@airgap/beacon-sdk": ^4.0.12
+    "@airgap/beacon-utils": ^4.0.12
     "@metacraft/cli-web3-polyfills": ^0.0.7
     "@metaplex-foundation/js": 0.18.3
     "@mysten/sui.js": 0.34.0

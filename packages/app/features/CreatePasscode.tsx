@@ -1,7 +1,13 @@
 import type { FC, ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	Image,
+	Linking,
+	ScrollView,
+	StyleSheet,
+	TouchableOpacity,
+} from 'react-native';
 import { Text, View } from '@walless/gui';
 
 import PasscodeFeature from '../features/Passcode';
@@ -53,25 +59,29 @@ export const CreatePasscode: FC<Props> = ({
 
 	return (
 		<View style={[styles.container, style]}>
-			<Image source={{ uri: '/img/bare-icon.png' }} style={styles.logo} />
+			<ScrollView
+				style={styles.contentContainer}
+				contentContainerStyle={styles.scrollContentContainer}
+			>
+				<Image source={{ uri: '/img/bare-icon.png' }} style={styles.logo} />
 
-			<View style={styles.titleContainer}>
-				<Text style={styles.title}>{title}</Text>
-				<Text style={styles.subText}>
-					Secure your passcode! It&apos;s essential for accessing your account
-					and authorizing transfers.
-				</Text>
-			</View>
+				<View style={styles.titleContainer}>
+					<Text style={styles.title}>{title}</Text>
+					<Text style={styles.subText}>
+						Secure your passcode! It&apos;s essential for accessing your account
+						and authorizing transfers.
+					</Text>
+				</View>
 
-			<PasscodeFeature
-				passcode={passcode}
-				isCreate={true}
-				error={passcodeError}
-				loading={loading}
-				onPasscodeChange={onPasscodeChange}
-			/>
-
-			{biometricIcon}
+				<PasscodeFeature
+					passcode={passcode}
+					isCreate={true}
+					error={passcodeError}
+					loading={loading}
+					onPasscodeChange={onPasscodeChange}
+				/>
+				{biometricIcon}
+			</ScrollView>
 
 			<View style={styles.footerContainer}>
 				<Text>Having issue with passcode? </Text>
@@ -90,9 +100,14 @@ export default CreatePasscode;
 export const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 40,
-		paddingTop: 50,
 		paddingBottom: 20,
+	},
+	contentContainer: {
+		flex: 1,
+	},
+	scrollContentContainer: {
+		paddingTop: 50,
+		paddingHorizontal: 40,
 	},
 	logo: {
 		width: 83,

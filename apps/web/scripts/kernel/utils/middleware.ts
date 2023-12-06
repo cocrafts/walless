@@ -46,13 +46,15 @@ export const checkConnection: HandleMethod<{
 	const domainResponse = await modules.storage.find(selectors.trustedDomains);
 	const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 	const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
+
 	if (!savedDomain || !savedDomain.connect) {
 		Object.values(requestPool).forEach((ele) => {
-			if (
+			const isDuplicatedRequest =
 				ele.payload.requestId !== payload.requestId &&
 				ele.payload.type === RequestType.REQUEST_CONNECT &&
-				ele.payload.options.domain === domain
-			) {
+				ele.payload.options.domain === domain;
+
+			if (isDuplicatedRequest) {
 				respond(ele.payload.requestId, ResponseCode.ERROR);
 				closePopup(ele.payload.popupId);
 			}

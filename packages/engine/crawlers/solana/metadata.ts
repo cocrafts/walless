@@ -1,4 +1,3 @@
-import type { JsonMetadata } from '@metaplex-foundation/js';
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';

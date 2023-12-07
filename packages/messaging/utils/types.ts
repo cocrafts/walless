@@ -113,7 +113,6 @@ export enum RequestType {
 	CLAIM_TOKEN_ON_APTOS,
 	TRANSFER_COIN_ON_APTOS,
 	TRANSFER_TOKEN_ON_APTOS,
-	REQUEST_PERMISSION_ON_TEZOS = 'permission_request',
 	REQUEST_OPERATION_ON_TEZOS = 'operation_request',
 	SIGN_PAYLOAD_ON_TEZOS = 'sign_payload_request',
 }

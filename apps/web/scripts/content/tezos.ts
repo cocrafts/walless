@@ -23,7 +23,6 @@ import {
 } from '@walless/crypto/utils/p2p';
 import { RequestType } from '@walless/messaging';
 
-import { handle } from './../kernel/utils/handle';
 import { messenger } from './messaging';
 import { deserialize, serialize } from './utils';
 
@@ -40,6 +39,7 @@ const WALLESS_TEZOS = {
 
 const keypair = generateKeyPair();
 let recipientPublicKey: string;
+let origin: string;
 
 window.addEventListener('message', async (e) => {
 	const isNotTezosRequest = e.data?.target !== ExtensionMessageTarget.EXTENSION;
@@ -51,16 +51,16 @@ window.addEventListener('message', async (e) => {
 	if (e.data?.payload === 'ping') {
 		return handlePingPong();
 	} else {
+		origin = e.origin;
 		let payload = e.data?.payload;
-		const origin = e.origin;
 		const encryptedPayload = e.data?.encryptedPayload;
 		if (payload) {
 			if (typeof payload === 'string') payload = deserialize(payload);
 			if (payload.type === TEZOS_PAIRING_REQUEST) {
-				return handlePairingRequest(payload, origin);
+				return handlePairingRequest(payload);
 			}
 		} else if (encryptedPayload) {
-			handleEncryptedRequest(encryptedPayload, origin);
+			handleEncryptedRequest(encryptedPayload);
 		}
 	}
 });
@@ -73,10 +73,7 @@ const handlePingPong = () => {
 	});
 };
 
-const handlePairingRequest = async (
-	payload: PostMessagePairingRequest,
-	origin: string,
-) => {
+const handlePairingRequest = async (payload: PostMessagePairingRequest) => {
 	const resPayload: PostMessagePairingResponse = {
 		type: TEZOS_PAIRING_RESPONSE,
 		publicKey: Buffer.from(keypair.publicKey).toString('hex'),
@@ -93,32 +90,33 @@ const handlePairingRequest = async (
 		recipientPublicKeyBytes,
 	);
 
-	respond({ payload: encryptedPayload }, origin);
+	respond({ payload: encryptedPayload });
 };
 
-const handleEncryptedRequest = async (
-	encryptedPayload: string,
-	origin: string,
-) => {
+const handleEncryptedRequest = async (encryptedPayload: string) => {
 	if (typeof encryptedPayload === 'string') return;
 	const payload = await decryptPayload(encryptedPayload);
-	if (!payload) return;
-	sendAckMessage(payload, origin);
+	console.log(payload, '<-- payload after decrypt');
+	if (!payload || payload?.type) return;
+	sendAckMessage(payload);
 
-	if (payload?.type === RequestType.REQUEST_PERMISSION_ON_TEZOS) {
-		handlePermissionRequest(payload as never, origin);
+	if (payload.type === BeaconMessageType.PermissionRequest) {
+		handlePermissionRequest(payload as never);
+	} else if (payload.type === BeaconMessageType.Disconnect) {
+		console.log('handle disconnect');
+	} else if (payload.type === BeaconMessageType.SignPayloadRequest) {
+		console.log('handle sign payload');
+	} else if (payload.type === BeaconMessageType.OperationRequest) {
+		console.log('handle operation request');
 	} else {
-		console.log('Unhandled request type');
+		console.log('not support this type of request');
 	}
 };
 
-const handlePermissionRequest = async (
-	payload: PermissionRequest,
-	origin: string,
-) => {
+const handlePermissionRequest = async (payload: PermissionRequest) => {
 	const res = await messenger.request<{ options: ConnectOptions }>('kernel', {
 		from: 'walless@sdk',
-		type: RequestType.REQUEST_PERMISSION_ON_TEZOS,
+		type: RequestType.REQUEST_CONNECT,
 		options: {
 			network: Networks.tezos,
 			domain: origin,
@@ -126,36 +124,24 @@ const handlePermissionRequest = async (
 		},
 	});
 
-	const sharedKey = await createCryptoBoxClient(recipientPublicKey, keypair);
 	const resPayload = {
-		encryptedPayload: await encryptCryptoboxPayload(
-			serialize({
-				id: payload.id,
-				type: BeaconMessageType.PermissionResponse,
-				network: { type: NetworkType.MAINNET }, // TODO: handle custom networks
-				publicKey: res.publicKeys[0]?.meta?.publicKey,
-				scopes: [PermissionScope.OPERATION_REQUEST, PermissionScope.SIGN],
-			}),
-			sharedKey.send,
-		),
+		id: payload.id,
+		type: BeaconMessageType.PermissionResponse,
+		network: { type: NetworkType.MAINNET }, // TODO: handle custom networks
+		publicKey: res.publicKeys[0]?.meta?.publicKey,
+		scopes: [PermissionScope.OPERATION_REQUEST, PermissionScope.SIGN],
 	};
 
-	respond(resPayload, origin);
+	respond(resPayload);
 };
 
-const sendAckMessage = async (payload: UnknownObject, origin: string) => {
-	const sharedKey = await createCryptoBoxClient(recipientPublicKey, keypair);
+const sendAckMessage = async (payload: UnknownObject) => {
 	const resPayload = {
 		type: BeaconMessageType.Acknowledge,
 		id: payload?.id || '',
 	};
 
-	const encryptedPayload = await encryptCryptoboxPayload(
-		serialize(resPayload),
-		sharedKey.send,
-	);
-
-	respond({ encryptedPayload }, origin);
+	respond(resPayload);
 };
 
 const decryptPayload = async (encryptedPayload: string) => {
@@ -172,12 +158,17 @@ const decryptPayload = async (encryptedPayload: string) => {
 	}
 };
 
-const respond = (message: UnknownObject, origin: string) => {
+const respond = async (payload: UnknownObject) => {
+	const sharedKey = await createCryptoBoxClient(recipientPublicKey, keypair);
+	const encryptedPayload = await encryptCryptoboxPayload(
+		serialize(payload),
+		sharedKey.send,
+	);
 	window.postMessage(
 		{
 			message: {
 				target: ExtensionMessageTarget.PAGE,
-				...message,
+				encryptedPayload,
 			},
 			sender: { id: WALLESS_TEZOS.id },
 		},

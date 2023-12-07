@@ -63,9 +63,15 @@ const getRemoteMeta: GetMetadataFunc = async ({ connection }, mintAddress) => {
 	result.mpl = metadata;
 
 	try {
-		const offChainMetadata = (await fetch(metadata.data.uri, {
-			method: 'GET',
-		}).then((res) => res.json())) as JsonMetadata;
+		const metadataResponse = await fetch(
+			metadata.data.uri.replaceAll('\u0000', ''),
+			{
+				method: 'GET',
+				redirect: 'manual',
+			},
+		);
+
+		const offChainMetadata = await metadataResponse.json();
 
 		result.imageUri = offChainMetadata.image;
 	} catch {

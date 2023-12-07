@@ -1,5 +1,4 @@
 import type {
-	Network,
 	PostMessagePairingRequest,
 	PostMessagePairingResponse,
 } from '@airgap/beacon-sdk';

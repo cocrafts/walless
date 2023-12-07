@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useParams } from 'react-router-dom';
 import { usePublicKeys } from '@walless/app';
 import { Networks } from '@walless/core';
@@ -37,7 +37,7 @@ const RequestConnect = () => {
 	const title = sender.tab?.title || 'Unknown';
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 			<HeaderRequest title={publicKey._id} />
 
 			<View style={styles.innerContainer}>
@@ -85,13 +85,13 @@ const RequestConnect = () => {
 					<LightText textAlign="center">
 						Only connect to websites you trust!
 					</LightText>
-					<Button title="Connect" onPress={onApprovePress}></Button>
+					<Button title="Connect" onPress={onApprovePress} />
 					<Hoverable style={styles.deniedButton} onPress={onRejectPress}>
 						<Text>Deny</Text>
 					</Hoverable>
 				</View>
 			</View>
-		</View>
+		</ScrollView>
 	);
 };
 
@@ -122,6 +122,9 @@ const styles = StyleSheet.create({
 	},
 	senderName: {
 		fontSize: 18,
+		fontWeight: '500',
+		textAlign: 'center',
+		marginBottom: 4,
 	},
 	contentContainer: {
 		backgroundColor: '#202D38',

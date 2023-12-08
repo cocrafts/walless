@@ -144,7 +144,7 @@ export const importAvailableShares = async (): Promise<ThresholdResult> => {
 				: ThresholdResult.Ready;
 		}
 	} catch (e) {
-		logger.error('Failed to import existing share.');
+		logger.info('Existing share not available, skip..');
 	}
 
 	return ThresholdResult.Missing;

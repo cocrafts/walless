@@ -21,17 +21,6 @@ export const useNavigationHydrate = () => {
 		const previousRouteName = routeNameRef.current;
 		const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
 
-		if (currentRoute?.key) {
-			modules.storage.upsert<SettingDocument>('settings', async (doc) => {
-				doc.config.latestLocation = {
-					name: currentRoute?.name,
-					params: currentRoute?.params,
-				};
-
-				return doc;
-			});
-		}
-
 		if (previousRouteName !== currentRouteName) {
 			analytics.logScreenView({
 				screen_name: currentRouteName,
@@ -39,6 +28,17 @@ export const useNavigationHydrate = () => {
 			});
 
 			routeNameRef.current = currentRouteName;
+
+			if (currentRoute?.key) {
+				modules.storage.upsert<SettingDocument>('settings', async (doc) => {
+					doc.config.latestLocation = {
+						name: currentRoute?.name,
+						params: currentRoute?.params,
+					};
+
+					return doc;
+				});
+			}
 		}
 	};
 

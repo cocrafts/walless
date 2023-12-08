@@ -34,6 +34,8 @@ import {
 const TEZOS_PAIRING_REQUEST = 'postmessage-pairing-request';
 const TEZOS_PAIRING_RESPONSE = 'postmessage-pairing-response';
 
+const ONE_MINUTE_TO_MS = 60000;
+
 const WALLESS_TEZOS = {
 	id: chrome.runtime.id,
 	name: 'Walless',
@@ -109,7 +111,6 @@ const handlePairingRequest = async (payload: PostMessagePairingRequest) => {
 const handleEncryptedRequest = async (encryptedPayload: string) => {
 	if (typeof encryptedPayload !== 'string') return;
 	const payload = await decryptPayload(encryptedPayload);
-	console.log(payload, '<-- payload after decrypt');
 	if (!payload || !payload.type) return;
 	sendAckMessage(payload.id);
 
@@ -131,15 +132,19 @@ const handleEncryptedRequest = async (encryptedPayload: string) => {
 
 const handlePermissionRequest = async (payload: PermissionRequest) => {
 	// TODO: check network is valid or not, throw error if not
-	const res = await messenger.request<{ options: ConnectOptions }>('kernel', {
-		from: 'walless@sdk',
-		type: RequestType.REQUEST_CONNECT,
-		options: {
-			network: Networks.tezos,
-			domain: origin,
-			onlyIfTrusted: true,
+	const res = await messenger.request<{ options: ConnectOptions }>(
+		'kernel',
+		{
+			from: 'walless@sdk',
+			type: RequestType.REQUEST_CONNECT,
+			options: {
+				network: Networks.tezos,
+				domain: origin,
+				onlyIfTrusted: true,
+			},
 		},
-	});
+		ONE_MINUTE_TO_MS,
+	);
 
 	const resPayload = {
 		id: payload.id,
@@ -153,12 +158,16 @@ const handlePermissionRequest = async (payload: PermissionRequest) => {
 };
 
 const handleSignPayloadRequest = async (payload: SignPayloadRequest) => {
-	const res = await messenger.request('kernel', {
-		from: 'walless@sdk',
-		type: RequestType.SIGN_PAYLOAD_ON_TEZOS,
-		payload: payload.payload,
-		signingType: payload.signingType,
-	});
+	const res = await messenger.request(
+		'kernel',
+		{
+			from: 'walless@sdk',
+			type: RequestType.SIGN_PAYLOAD_ON_TEZOS,
+			payload: payload.payload,
+			signingType: payload.signingType,
+		},
+		ONE_MINUTE_TO_MS,
+	);
 
 	const resPayload: SignPayloadResponse = {
 		id: payload.id,

@@ -1,6 +1,7 @@
-import { signMessage as tzSignMessage } from '@airgap/beacon-utils';
+import { InMemorySigner } from '@taquito/signer';
 import { tezosHandler } from '@walless/kernel';
 import { ResponseCode } from '@walless/messaging';
+import { encode } from 'bs58';
 
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
@@ -13,11 +14,11 @@ export const signPayload: HandleMethod<{
 		throw Error('Missing privateKey or message');
 	}
 
-	const signature = await tzSignMessage(payload.payload as string, {
-		secretKey: Buffer.from(payload.privateKey),
-	});
+	const privateKey = encode(payload.privateKey);
+	const signer = await InMemorySigner.fromSecretKey(privateKey);
+	const { prefixSig } = await signer.sign(payload.payload as string);
 
-	respond(payload.requestId, ResponseCode.SUCCESS, { signature });
+	respond(payload.requestId, ResponseCode.SUCCESS, { signature: prefixSig });
 };
 
 export const transferToken: HandleMethod<{

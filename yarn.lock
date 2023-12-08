@@ -11136,13 +11136,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/libsodium-wrappers@npm:^0.7.13":
-  version: 0.7.13
-  resolution: "@types/libsodium-wrappers@npm:0.7.13"
-  checksum: 94d608bed8ccd364754c3a7bf5d4c770b229efa33f0c475061b1b82bb8d5da8d57a72df0b8876b887077edbb6ff9594b7a1183029de4d1ad679821d1013f3db9
-  languageName: node
-  linkType: hard
-
 "@types/lodash@npm:^4.14.191":
   version: 4.14.201
   resolution: "@types/lodash@npm:4.14.201"
@@ -11357,13 +11350,6 @@ __metadata:
   version: 2.0.3
   resolution: "@types/stack-utils@npm:2.0.3"
   checksum: 72576cc1522090fe497337c2b99d9838e320659ac57fa5560fcbdcbafcf5d0216c6b3a0a8a4ee4fdb3b1f5e3420aa4f6223ab57b82fef3578bec3206425c6cf5
-  languageName: node
-  linkType: hard
-
-"@types/webextension-polyfill@npm:^0.10.7":
-  version: 0.10.7
-  resolution: "@types/webextension-polyfill@npm:0.10.7"
-  checksum: 372064d5e007ab7889ea4f7b634d311f85bb78b13bf174a28781699ca21e8daa61ccd371dafe6b3f4fa3c9fe1fee11a5dbe52ed66f3cf84c1738cd18a535cbb7
   languageName: node
   linkType: hard
 
@@ -11632,8 +11618,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/crypto@workspace:packages/crypto"
   dependencies:
+    "@stablelib/blake2b": ^1.0.1
     "@stablelib/ed25519": ^1.0.3
     "@stablelib/nacl": ^1.0.4
+    "@stablelib/utf8": ^1.0.1
     "@stablelib/x25519-session": ^1.0.4
     "@walless/core": "*"
     base58check: ^2.0.0
@@ -11993,8 +11981,6 @@ __metadata:
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.78.4
     "@taquito/signer": ^16.2.0
-    "@types/libsodium-wrappers": ^0.7.13
-    "@types/webextension-polyfill": ^0.10.7
     "@walless/core": "*"
     "@walless/crypto": "*"
     "@walless/engine": "*"
@@ -12016,9 +12002,7 @@ __metadata:
     eslint: 8.38.0
     firebase: 10.7.0
     graphql-request: ^6.1.0
-    libsodium-wrappers: ^0.7.13
     numeral: ^2.0.6
-    p-memoize: ^7.1.1
     pouchdb-adapter-http: ^8.0.1
     pouchdb-adapter-idb: ^8.0.1
     pouchdb-core: ^8.0.1
@@ -12034,7 +12018,6 @@ __metadata:
     rimraf: ^5.0.1
     setimmediate: ^1.0.5
     valtio: 1.10.5
-    webextension-polyfill: ^0.10.0
   peerDependencies:
     "@tkey/chrome-storage": 9.0.0
     "@tkey/default": 9.0.0
@@ -21024,22 +21007,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"libsodium-wrappers@npm:^0.7.13":
-  version: 0.7.13
-  resolution: "libsodium-wrappers@npm:0.7.13"
-  dependencies:
-    libsodium: ^0.7.13
-  checksum: d184395f7c33023414b191ef9ea2171eb1a5cb061503e886ea877590cb7adc3a4feaf794b9b08731a20515518fa23dbf1c1bfcd376e5ab01728e95cf1cb7525a
-  languageName: node
-  linkType: hard
-
-"libsodium@npm:^0.7.13":
-  version: 0.7.13
-  resolution: "libsodium@npm:0.7.13"
-  checksum: 75a5f70e84c197d54d9b67dcbd852abbd41cca8facd510767c7c8400a52a23da293e83eebf1693831b2c0c0498f266bd9350a8c27ec66f46a055890dff758d38
-  languageName: node
-  linkType: hard
-
 "lines-and-columns@npm:^1.1.6":
   version: 1.2.4
   resolution: "lines-and-columns@npm:1.2.4"
@@ -23342,16 +23309,6 @@ __metadata:
   dependencies:
     aggregate-error: ^3.0.0
   checksum: cb0ab21ec0f32ddffd31dfc250e3afa61e103ef43d957cc45497afe37513634589316de4eb88abdfd969fe6410c22c0b93ab24328833b8eb1ccc087fc0442a1c
-  languageName: node
-  linkType: hard
-
-"p-memoize@npm:^7.1.1":
-  version: 7.1.1
-  resolution: "p-memoize@npm:7.1.1"
-  dependencies:
-    mimic-fn: ^4.0.0
-    type-fest: ^3.0.0
-  checksum: 2fc5b12fc530aed9c1e455f706d8da2a2e6bed4573f611a4e92b2a75f253e8c0acc63ad014b55f155b5d5de110c586b490a4d6612d64bc743106cad626d995fd
   languageName: node
   linkType: hard
 

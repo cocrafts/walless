@@ -100,8 +100,14 @@ export const deserializePayloadToMessageOnTezos: HandleMethod<{
 			if (payload.signingType === 'raw') {
 				message = Buffer.from(payload.payload, 'hex').toString();
 				payload.message = message;
+			} else if (
+				payload.signingType === 'operation' ||
+				payload.signingType === 'micheline'
+			) {
+				message = Buffer.from(payload.payload, 'hex').toString();
+				payload.message = message;
 			} else {
-				throw Error('not handle this signing');
+				throw Error(`can not handle this signing type ${payload.signingType}`);
 			}
 		} catch (e) {
 			console.log('deserialize failed', e);

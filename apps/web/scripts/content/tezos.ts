@@ -45,7 +45,6 @@ const WALLESS_TEZOS = {
 };
 
 window.addEventListener('message', async (e) => {
-	console.log('ON MESSAGE', e.data, e.origin);
 	const isNotTezosRequest = e.data?.target !== ExtensionMessageTarget.EXTENSION;
 	const wrongTarget = e.data?.targetId && e.data?.targetId !== WALLESS_TEZOS.id;
 	if (isNotTezosRequest || wrongTarget) {
@@ -78,7 +77,6 @@ const handlePingPong = () => {
 };
 
 const handlePairingRequest = async (payload: PostMessagePairingRequest) => {
-	console.log('HANDSHAKE REQUEST', payload);
 	const keypair = await getOrCreateKeypair(origin, true);
 	const recipientPublicKey = await storeDAppPublicKey(
 		origin,

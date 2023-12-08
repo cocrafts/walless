@@ -2,6 +2,8 @@ import type {
 	PermissionRequest,
 	PostMessagePairingRequest,
 	PostMessagePairingResponse,
+	SignPayloadRequest,
+	SignPayloadResponse,
 } from '@airgap/beacon-sdk';
 import {
 	BeaconMessageType,
@@ -38,10 +40,11 @@ const WALLESS_TEZOS = {
 };
 
 const keypair = generateKeyPair();
-let recipientPublicKey: string;
+let recipientPublicKey: string; // TODO: need to store the public key of dApp
 let origin: string;
 
 window.addEventListener('message', async (e) => {
+	console.log('On message', e.data, e.origin);
 	const isNotTezosRequest = e.data?.target !== ExtensionMessageTarget.EXTENSION;
 	const wrongTarget = e.data?.targetId && e.data?.targetId !== WALLESS_TEZOS.id;
 	if (isNotTezosRequest || wrongTarget) {
@@ -107,11 +110,14 @@ const handleEncryptedRequest = async (encryptedPayload: string) => {
 	sendAckMessage(payload.id);
 
 	if (payload.type === BeaconMessageType.PermissionRequest) {
+		console.log('handle permission request');
 		handlePermissionRequest(payload as never);
 	} else if (payload.type === BeaconMessageType.Disconnect) {
 		console.log('handle disconnect');
+		handleDisconnect();
 	} else if (payload.type === BeaconMessageType.SignPayloadRequest) {
 		console.log('handle sign payload');
+		handleSignPayloadRequest(payload as never);
 	} else if (payload.type === BeaconMessageType.OperationRequest) {
 		console.log('handle operation request');
 	} else {
@@ -142,6 +148,26 @@ const handlePermissionRequest = async (payload: PermissionRequest) => {
 	respondWithSharedKeyEncrypt(resPayload);
 };
 
+const handleSignPayloadRequest = async (payload: SignPayloadRequest) => {
+	const res = await messenger.request('kernel', {
+		from: 'walless@sdk',
+		type: RequestType.SIGN_PAYLOAD_ON_TEZOS,
+		payload: payload.payload,
+		signingType: payload.signingType,
+	});
+
+	const resPayload: SignPayloadResponse = {
+		id: payload.id,
+		signature: res.signature,
+		signingType: payload.signingType,
+		type: BeaconMessageType.SignPayloadResponse,
+		senderId: payload.senderId,
+		version: '2',
+	};
+
+	respondWithSharedKeyEncrypt(resPayload);
+};
+
 const sendAckMessage = async (requestId: string) => {
 	const resPayload = {
 		type: BeaconMessageType.Acknowledge,
@@ -161,7 +187,9 @@ const decryptPayload = async (encryptedPayload: string) => {
 
 		return deserialize(payload);
 	} catch (e) {
+		// TODO: need to respond error to client side
 		console.log('error decrypting payload', e);
+		handleDisconnect();
 	}
 };
 
@@ -172,10 +200,20 @@ const respondWithSharedKeyEncrypt = async (payload: UnknownObject) => {
 		sharedKey.send,
 	);
 	window.postMessage({
-			message: {
-				target: ExtensionMessageTarget.PAGE,
-				encryptedPayload,
-			},
-			sender: { id: WALLESS_TEZOS.id },
+		message: {
+			target: ExtensionMessageTarget.PAGE,
+			encryptedPayload,
+		},
+		sender: { id: WALLESS_TEZOS.id },
+	});
+};
+
+const handleDisconnect = () => {
+	messenger.request<{ options: ConnectOptions }>('kernel', {
+		from: 'walless@sdk',
+		type: RequestType.REQUEST_DISCONNECT,
+		options: {
+			domain: origin,
+		},
 	});
 };

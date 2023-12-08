@@ -87,6 +87,30 @@ export const checkApproval: HandleMethod<{
 	respond(requestId, ResponseCode.SUCCESS);
 };
 
+export const deserializePayloadToMessageOnTezos: HandleMethod<{
+	payload?: string;
+	signingType?: string;
+}> = ({ payload, next }) => {
+	if (payload.from === 'walless@sdk') {
+		if (!payload.payload || !payload.signingType)
+			throw Error('Missing payload or signingType');
+
+		let message: string;
+		try {
+			if (payload.signingType === 'raw') {
+				message = Buffer.from(payload.payload, 'hex').toString();
+				payload.message = message;
+			} else {
+				throw Error('not handle this signing');
+			}
+		} catch (e) {
+			console.log('deserialize failed', e);
+		}
+	}
+
+	next?.(payload);
+};
+
 export const filterSDKSignatureRequest: HandleMethod<{
 	isApproved?: boolean;
 }> = async ({ payload, next }) => {

@@ -7,26 +7,29 @@ import type {
 } from '@airgap/beacon-sdk';
 import {
 	BeaconMessageType,
-	NetworkType,
-	PermissionScope,
-} from '@airgap/beacon-sdk';
-import { ExtensionMessageTarget } from '@airgap/beacon-sdk';
-import {
 	decryptCryptoboxPayload,
 	encryptCryptoboxPayload,
+	ExtensionMessageTarget,
+	NetworkType,
+	PermissionScope,
 	sealCryptobox,
-} from '@airgap/beacon-utils';
-import type { ConnectOptions } from '@walless/core';
-import { Networks, type UnknownObject } from '@walless/core';
+} from '@airgap/beacon-sdk';
+import type { ConnectOptions, UnknownObject } from '@walless/core';
+import { Networks } from '@walless/core';
 import {
 	createCryptoBoxClient,
 	createCryptoBoxServer,
-	generateKeyPair,
 } from '@walless/crypto/utils/p2p';
 import { RequestType } from '@walless/messaging';
 
 import { messenger } from './messaging';
-import { deserialize, serialize } from './utils';
+import {
+	deserialize,
+	getDAppPublicKey,
+	getOrCreateKeypair,
+	serialize,
+	storeDAppPublicKey,
+} from './utils';
 
 const TEZOS_PAIRING_REQUEST = 'postmessage-pairing-request';
 const TEZOS_PAIRING_RESPONSE = 'postmessage-pairing-response';
@@ -39,12 +42,10 @@ const WALLESS_TEZOS = {
 	version: '3',
 };
 
-const keypair = generateKeyPair();
-let recipientPublicKey: string; // TODO: need to store the public key of dApp
 let origin: string;
 
 window.addEventListener('message', async (e) => {
-	console.log('On message', e.data, e.origin);
+	console.log('ON MESSAGE', e.data, e.origin);
 	const isNotTezosRequest = e.data?.target !== ExtensionMessageTarget.EXTENSION;
 	const wrongTarget = e.data?.targetId && e.data?.targetId !== WALLESS_TEZOS.id;
 	if (isNotTezosRequest || wrongTarget) {
@@ -77,13 +78,16 @@ const handlePingPong = () => {
 };
 
 const handlePairingRequest = async (payload: PostMessagePairingRequest) => {
+	console.log('HANDSHAKE REQUEST', payload);
+	const keypair = await getOrCreateKeypair(true);
+	const recipientPublicKey = await storeDAppPublicKey(payload.publicKey);
+
 	const resPayload: PostMessagePairingResponse = {
 		type: TEZOS_PAIRING_RESPONSE,
 		publicKey: Buffer.from(keypair.publicKey).toString('hex'),
 		...WALLESS_TEZOS,
 	};
 
-	recipientPublicKey = payload.publicKey;
 	const recipientPublicKeyBytes = Uint8Array.from(
 		Buffer.from(recipientPublicKey, 'hex'),
 	);
@@ -126,7 +130,7 @@ const handleEncryptedRequest = async (encryptedPayload: string) => {
 };
 
 const handlePermissionRequest = async (payload: PermissionRequest) => {
-	// TODO: check network is valid or net, throw error if not
+	// TODO: check network is valid or not, throw error if not
 	const res = await messenger.request<{ options: ConnectOptions }>('kernel', {
 		from: 'walless@sdk',
 		type: RequestType.REQUEST_CONNECT,
@@ -178,6 +182,8 @@ const sendAckMessage = async (requestId: string) => {
 };
 
 const decryptPayload = async (encryptedPayload: string) => {
+	const keypair = await getOrCreateKeypair();
+	const recipientPublicKey = await getDAppPublicKey();
 	const sharedKey = await createCryptoBoxServer(recipientPublicKey, keypair);
 	try {
 		const payload = await decryptCryptoboxPayload(
@@ -194,11 +200,14 @@ const decryptPayload = async (encryptedPayload: string) => {
 };
 
 const respondWithSharedKeyEncrypt = async (payload: UnknownObject) => {
+	const keypair = await getOrCreateKeypair();
+	const recipientPublicKey = await getDAppPublicKey();
 	const sharedKey = await createCryptoBoxClient(recipientPublicKey, keypair);
 	const encryptedPayload = await encryptCryptoboxPayload(
 		serialize(payload),
 		sharedKey.send,
 	);
+
 	window.postMessage({
 		message: {
 			target: ExtensionMessageTarget.PAGE,

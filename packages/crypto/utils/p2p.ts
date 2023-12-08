@@ -65,8 +65,8 @@ export const decryptMessage = async (
 	payload: Uint8Array,
 	recipientPublicKey: string,
 	keypair: KeyPair,
-) => {
-	const sharedKey = await createCryptoBoxClient(recipientPublicKey, keypair);
+): Promise<string> => {
+	const sharedKey = await createCryptoBoxServer(recipientPublicKey, keypair);
 	const nonce = payload.slice(0, secretbox_NONCEBYTES);
 	const ciphertext = payload.slice(secretbox_NONCEBYTES);
 
@@ -87,4 +87,8 @@ export const deserialize = (encoded: string): UnknownObject => {
 	return JSON.parse(decode(encoded).toString());
 };
 
-export { generateKeyPair } from '@stablelib/ed25519';
+export {
+	extractPublicKeyFromSecretKey,
+	generateKeyPair,
+	type KeyPair,
+} from '@stablelib/ed25519';

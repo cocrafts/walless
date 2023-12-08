@@ -1,4 +1,5 @@
 import type {
+	OperationRequest,
 	PermissionRequest,
 	PostMessagePairingRequest,
 	PostMessagePairingResponse,
@@ -114,16 +115,13 @@ const handleEncryptedRequest = async (encryptedPayload: string) => {
 	sendAckMessage(payload.id);
 
 	if (payload.type === BeaconMessageType.PermissionRequest) {
-		console.log('handle permission request');
 		handlePermissionRequest(payload as never);
 	} else if (payload.type === BeaconMessageType.Disconnect) {
-		console.log('handle disconnect');
 		handleDisconnect();
 	} else if (payload.type === BeaconMessageType.SignPayloadRequest) {
-		console.log('handle sign payload');
 		handleSignPayloadRequest(payload as never);
 	} else if (payload.type === BeaconMessageType.OperationRequest) {
-		console.log('handle operation request');
+		handleOperationRequest(payload as never);
 	} else {
 		console.log('not support this type of request');
 	}
@@ -178,6 +176,11 @@ const handleSignPayloadRequest = async (payload: SignPayloadRequest) => {
 	};
 
 	respondWithSharedKeyEncrypt(resPayload);
+};
+
+const handleOperationRequest = async (payload: OperationRequest) => {
+	// TODO: need to implement
+	console.log(payload);
 };
 
 const sendAckMessage = async (requestId: string) => {

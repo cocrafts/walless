@@ -5,7 +5,7 @@ import { injectScript } from './utils';
 
 (async () => {
 	await initializeMessaging();
-	console.log('[walless/prod] messaging module intialzied..');
+	console.log('[walless/prod] messaging module initialized..');
 
 	setTimeout(() => {
 		injectScript('injection.js');

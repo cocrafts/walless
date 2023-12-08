@@ -14,9 +14,11 @@
     "@stablelib/ed25519": "^1.0.3",
     "@stablelib/nacl": "^1.0.4",
     "@stablelib/x25519-session": "^1.0.4",
-    "@walless/core": "*"
+    "@walless/core": "*",
+    "base58check": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "8.38.0"
+    "eslint": "8.38.0",
+    "jest": "^29.4.3"
   }
 }

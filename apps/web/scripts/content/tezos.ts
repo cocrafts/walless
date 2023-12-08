@@ -90,15 +90,21 @@ const handlePairingRequest = async (payload: PostMessagePairingRequest) => {
 		recipientPublicKeyBytes,
 	);
 
-	respond({ payload: encryptedPayload });
+	window.postMessage({
+		message: {
+			target: ExtensionMessageTarget.PAGE,
+			payload: encryptedPayload,
+		},
+		sender: { id: WALLESS_TEZOS.id },
+	});
 };
 
 const handleEncryptedRequest = async (encryptedPayload: string) => {
-	if (typeof encryptedPayload === 'string') return;
+	if (typeof encryptedPayload !== 'string') return;
 	const payload = await decryptPayload(encryptedPayload);
 	console.log(payload, '<-- payload after decrypt');
-	if (!payload || payload?.type) return;
-	sendAckMessage(payload);
+	if (!payload || !payload.type) return;
+	sendAckMessage(payload.id);
 
 	if (payload.type === BeaconMessageType.PermissionRequest) {
 		handlePermissionRequest(payload as never);
@@ -114,6 +120,7 @@ const handleEncryptedRequest = async (encryptedPayload: string) => {
 };
 
 const handlePermissionRequest = async (payload: PermissionRequest) => {
+	// TODO: check network is valid or net, throw error if not
 	const res = await messenger.request<{ options: ConnectOptions }>('kernel', {
 		from: 'walless@sdk',
 		type: RequestType.REQUEST_CONNECT,
@@ -132,16 +139,16 @@ const handlePermissionRequest = async (payload: PermissionRequest) => {
 		scopes: [PermissionScope.OPERATION_REQUEST, PermissionScope.SIGN],
 	};
 
-	respond(resPayload);
+	respondWithSharedKeyEncrypt(resPayload);
 };
 
-const sendAckMessage = async (payload: UnknownObject) => {
+const sendAckMessage = async (requestId: string) => {
 	const resPayload = {
 		type: BeaconMessageType.Acknowledge,
-		id: payload?.id || '',
+		id: requestId,
 	};
 
-	respond(resPayload);
+	respondWithSharedKeyEncrypt(resPayload);
 };
 
 const decryptPayload = async (encryptedPayload: string) => {
@@ -158,20 +165,17 @@ const decryptPayload = async (encryptedPayload: string) => {
 	}
 };
 
-const respond = async (payload: UnknownObject) => {
+const respondWithSharedKeyEncrypt = async (payload: UnknownObject) => {
 	const sharedKey = await createCryptoBoxClient(recipientPublicKey, keypair);
 	const encryptedPayload = await encryptCryptoboxPayload(
 		serialize(payload),
 		sharedKey.send,
 	);
-	window.postMessage(
-		{
+	window.postMessage({
 			message: {
 				target: ExtensionMessageTarget.PAGE,
 				encryptedPayload,
 			},
 			sender: { id: WALLESS_TEZOS.id },
-		},
-		origin,
-	);
+	});
 };

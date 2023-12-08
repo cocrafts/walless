@@ -44,8 +44,6 @@ const WALLESS_TEZOS = {
 	version: '3',
 };
 
-let origin: string;
-
 window.addEventListener('message', async (e) => {
 	console.log('ON MESSAGE', e.data, e.origin);
 	const isNotTezosRequest = e.data?.target !== ExtensionMessageTarget.EXTENSION;
@@ -81,8 +79,11 @@ const handlePingPong = () => {
 
 const handlePairingRequest = async (payload: PostMessagePairingRequest) => {
 	console.log('HANDSHAKE REQUEST', payload);
-	const keypair = await getOrCreateKeypair(true);
-	const recipientPublicKey = await storeDAppPublicKey(payload.publicKey);
+	const keypair = await getOrCreateKeypair(origin, true);
+	const recipientPublicKey = await storeDAppPublicKey(
+		origin,
+		payload.publicKey,
+	);
 
 	const resPayload: PostMessagePairingResponse = {
 		type: TEZOS_PAIRING_RESPONSE,
@@ -191,8 +192,8 @@ const sendAckMessage = async (requestId: string) => {
 };
 
 const decryptPayload = async (encryptedPayload: string) => {
-	const keypair = await getOrCreateKeypair();
-	const recipientPublicKey = await getDAppPublicKey();
+	const keypair = await getOrCreateKeypair(origin);
+	const recipientPublicKey = await getDAppPublicKey(origin);
 	const sharedKey = await createCryptoBoxServer(recipientPublicKey, keypair);
 	try {
 		const payload = await decryptCryptoboxPayload(
@@ -209,8 +210,8 @@ const decryptPayload = async (encryptedPayload: string) => {
 };
 
 const respondWithSharedKeyEncrypt = async (payload: UnknownObject) => {
-	const keypair = await getOrCreateKeypair();
-	const recipientPublicKey = await getDAppPublicKey();
+	const keypair = await getOrCreateKeypair(origin);
+	const recipientPublicKey = await getDAppPublicKey(origin);
 	const sharedKey = await createCryptoBoxClient(recipientPublicKey, keypair);
 	const encryptedPayload = await encryptCryptoboxPayload(
 		serialize(payload),

@@ -26,16 +26,21 @@ export const deserialize = (encoded: string): UnknownObject => {
 	return JSON.parse(decode(encoded).toString());
 };
 
-export const getOrCreateKeypair = async (create = false) => {
+export const getOrCreateKeypair = async (origin: string, create = false) => {
+	if (!origin) throw Error('require origin');
+
+	const key = 'transport_secret_key:' + origin;
 	if (create) {
 		const keypair = generateKeyPair();
 		chrome.storage.local.set({
-			transport_secret_key: Buffer.from(keypair.secretKey).toString('hex'),
+			[key]: Buffer.from(keypair.secretKey).toString('hex'),
 		});
+
 		return keypair;
 	} else {
-		const result = await chrome.storage.local.get(['transport_secret_key']);
-		const secretKeyString = result['transport_secret_key'] as string;
+		const result = await chrome.storage.local.get([key]);
+		const secretKeyString = result[key] as string;
+
 		if (secretKeyString) {
 			const secretKey = new Uint8Array(Buffer.from(secretKeyString, 'hex'));
 			const keypair = {
@@ -55,15 +60,22 @@ export const getOrCreateKeypair = async (create = false) => {
 	}
 };
 
-export const storeDAppPublicKey = async (publicKey: string) => {
-	await chrome.storage.local.set({ dapp_public_key: publicKey });
+export const storeDAppPublicKey = async (origin: string, publicKey: string) => {
+	if (!origin) throw Error('require origin');
+	const key = 'dapp_public_key:' + origin;
+	await chrome.storage.local.set({ [key]: publicKey });
+
 	return publicKey;
 };
 
-export const getDAppPublicKey = async () => {
-	const result = await chrome.storage.local.get(['dapp_public_key']);
-	const publicKey = result['dapp_public_key'] as string;
+export const getDAppPublicKey = async (origin: string) => {
+	if (!origin) throw Error('require origin');
+
+	const key = 'dapp_public_key:' + origin;
+	const result = await chrome.storage.local.get([key]);
+	const publicKey = result[key];
+
 	if (!publicKey) throw Error('Not found dapp public key');
-	console.log(publicKey, '<-- dapp public key');
+
 	return publicKey;
 };

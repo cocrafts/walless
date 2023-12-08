@@ -1,5 +1,5 @@
 import type { Token } from '@walless/core';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 
 import type { TezosContext } from './shared';
@@ -11,7 +11,7 @@ export const getNativeTokenDocument = async (
 	try {
 		balance = (await connection.tz.getBalance(address)).toNumber().toString();
 	} catch (e) {
-		console.log('tezos get balance for native token error', e);
+		logger.error('Tezos get balance for native token error', e);
 	}
 
 	return {

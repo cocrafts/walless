@@ -42,4 +42,5 @@ export {
 	fireCache,
 	googleProvider,
 	initializeAuth,
+	performance,
 } from './firebase.ext';

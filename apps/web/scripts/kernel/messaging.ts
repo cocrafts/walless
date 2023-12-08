@@ -1,4 +1,4 @@
-import { runtime } from '@walless/core';
+import { logger, runtime } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type {
 	EncryptedMessage,
@@ -96,7 +96,7 @@ export const initializeMessaging = async (): Promise<void> => {
 
 		sendMessage = async (channelId, payload) => {
 			const message = `send message to channel: ${channelId} not available for Extension runtime, yet!`;
-			console.log(payload, message);
+			logger.debug(message, payload);
 		};
 
 		registerIncomingMessage = (channelId, handler) => {

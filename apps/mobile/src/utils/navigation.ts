@@ -136,10 +136,12 @@ export const resetRoute = (
 		navigationRef.reset({ index: 0, routes: [dashboardRoute()] });
 	} else if (anchor === 'Invitation') {
 		navigationRef.reset({ index: 0, routes: [authenticationRoute(params)] });
+	} else if (anchor === 'CreatePasscode') {
+		navigationRef.reset({ index: 0, routes: [createPasscodeRoute()] });
 	}
 };
 
-type ResetAnchors = 'Dashboard' | 'Invitation';
+type ResetAnchors = 'Dashboard' | 'Invitation' | 'CreatePasscode';
 
 const dashboardRoute = () => ({
 	name: 'Dashboard',
@@ -152,6 +154,14 @@ const authenticationRoute = (params?: object) => ({
 	name: 'Authentication',
 	params: {
 		screen: 'Invitation',
+		params,
+	},
+});
+
+const createPasscodeRoute = (params?: object) => ({
+	name: 'Authentication',
+	params: {
+		screen: 'CreatePasscode',
 		params,
 	},
 });

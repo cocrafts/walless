@@ -1,6 +1,9 @@
+import type { FC } from 'react';
 import { Path, Svg } from 'react-native-svg';
 
-export const BackspaceRemove = () => {
+import type { IconProps } from './types';
+
+export const BackspaceRemove: FC<IconProps> = () => {
 	return (
 		<Svg width="17" height="10" viewBox="0 0 17 10" fill="none">
 			<Path

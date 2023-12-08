@@ -1,4 +1,5 @@
 import type { JsonRpcProvider } from '@mysten/sui.js';
+import { logger } from '@walless/core';
 import {
 	addCollectibleToStorage,
 	updateTokenBalanceToStorage,
@@ -24,7 +25,7 @@ export const suiTokenSubscribe = (
 					);
 				});
 			} catch (e) {
-				console.log('sui token live watch error', e);
+				logger.error('Sui token live watch error', e);
 			}
 		}, 5000),
 	);
@@ -43,7 +44,7 @@ export const suiCollectibleSubscribe = async (
 					addCollectibleToStorage(collectible._id, collectible),
 				);
 			} catch (e) {
-				console.log('sui collectible live watch error', e);
+				logger.error('Sui collectible live watch error', e);
 			}
 		}, 30000),
 	);

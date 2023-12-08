@@ -9,6 +9,7 @@ import type {
 } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Text, View } from '@walless/gui';
+import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
 import type { CollectibleDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
@@ -117,6 +118,14 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		if (item.id == activatedId) {
 			setTimeout(() => setRenderPasscode(true), 200);
 		} else setRenderPasscode(false);
+
+		if (activatedId === 'PasscodeInput') {
+			modules.native.retrieveEncryptionKey().then((key: string | null) => {
+				if (key) {
+					handlePasscodeChange(key as string, true);
+				}
+			});
+		}
 	}, [activatedId]);
 
 	return (

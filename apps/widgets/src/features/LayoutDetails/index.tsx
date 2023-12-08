@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { logger } from '@walless/core';
 import { View } from '@walless/gui';
 import type { LayoutProps } from 'features/internal';
 import Image from 'next/image';
@@ -40,11 +41,11 @@ const LayoutDetails: FC<Props> = ({ layout, style }) => {
 					<View style={styles.buttonContainer}>
 						<RectangleButton
 							title="Get early access"
-							onPress={() => console.log('get early access')}
+							onPress={() => logger.info('Get early access')}
 						/>
 						<RectangleButton
 							title="Share layout"
-							onPress={() => console.log('Share layout')}
+							onPress={() => logger.info('Share layout')}
 							backgroundColor="#243F56"
 						/>
 					</View>

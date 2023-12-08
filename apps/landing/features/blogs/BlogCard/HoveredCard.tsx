@@ -28,7 +28,6 @@ const HoveredCard: FC<Props> = ({
 	description,
 	responsiveState,
 }) => {
-	console.log('-->', height);
 	const {
 		categorySize,
 		containerStyle,

@@ -1,5 +1,5 @@
 import { universalActions } from '@walless/app';
-import { runtime } from '@walless/core';
+import { logger, runtime } from '@walless/core';
 import { appState } from '@walless/engine';
 import type { DeviceInfoInput } from '@walless/graphql';
 import { modules } from '@walless/ioc';
@@ -55,7 +55,7 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		});
 		deviceInfo.notificationToken = nativeToken;
 	} else {
-		console.log('Notification not available for this platform yet!');
+		logger.info('Notification not available for this platform yet!');
 	}
 
 	universalActions.syncDeviceInfo(deviceInfo);

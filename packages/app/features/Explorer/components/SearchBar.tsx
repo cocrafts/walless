@@ -44,7 +44,7 @@ export const SearchBar: FC<Props> = ({
 		</TouchableOpacity>
 	);
 
-	const suffix = textSearch && (
+	const suffix = textSearch?.length > 0 && (
 		<TouchableOpacity
 			style={styles.suffix}
 			hitSlop={15}

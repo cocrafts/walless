@@ -1,5 +1,6 @@
 import type { Connection, MessageV0, SendOptions } from '@solana/web3.js';
 import { Keypair, Transaction, VersionedTransaction } from '@solana/web3.js';
+import { logger } from '@walless/core';
 import { decode } from 'bs58';
 import { sign } from 'tweetnacl';
 
@@ -38,7 +39,6 @@ export const signAndSendTransaction = async (
 			return signatureString;
 		}
 	} catch (error) {
-		console.log('error', error);
 		throw Error(error as never);
 	}
 };
@@ -50,5 +50,5 @@ export const simulateTransaction = async (
 	const tx = VersionedTransaction.deserialize(decode(transaction));
 
 	const simulatedTx = await connection.simulateTransaction(tx);
-	console.log(simulatedTx, '<-----');
+	logger.debug('Simulated transaction:', simulatedTx);
 };

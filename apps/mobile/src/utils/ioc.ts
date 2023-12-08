@@ -1,6 +1,7 @@
 import Config from 'react-native-config';
 import WebSQLite from 'react-native-quick-websql';
 import { firebase } from '@react-native-firebase/auth';
+import { logger } from '@walless/core';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
@@ -45,7 +46,7 @@ export const injectModules = async () => {
 
 	const milliseconds =
 		new Date().getMilliseconds() - startTime.getMilliseconds();
-	console.log(`Configured IoC module in ${milliseconds}ms`);
+	logger.debug(`Configured IoC module in ${milliseconds}ms`);
 
 	return modules;
 };

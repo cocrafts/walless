@@ -7265,12 +7265,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/analytics@npm:^18.6.1":
+"@react-native-firebase/analytics@npm:18.6.1":
   version: 18.6.1
   resolution: "@react-native-firebase/analytics@npm:18.6.1"
   peerDependencies:
     "@react-native-firebase/app": 18.6.1
   checksum: 8538788a4b78782e3660fed97d2a0966b50c7c61f255a61a003ce610c4007cf5a10fa56a55eb67a7cb116e491ee783c6e1dc7d31709922d36516914eae1c0837
+  languageName: node
+  linkType: hard
+
+"@react-native-firebase/app-distribution@npm:18.6.1":
+  version: 18.6.1
+  resolution: "@react-native-firebase/app-distribution@npm:18.6.1"
+  peerDependencies:
+    "@react-native-firebase/app": 18.6.1
+  checksum: 7687ae61fec0aa271ecb5bb6659402c12dee59fc995f6f8a63db0ce12644477e640a89ae1f32fbbe296d0fcf34e5c5d9d5cc91409732851bb1fb4e14aa06fc4b
   languageName: node
   linkType: hard
 
@@ -7323,7 +7332,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/crashlytics@npm:^18.6.1":
+"@react-native-firebase/crashlytics@npm:18.6.1":
   version: 18.6.1
   resolution: "@react-native-firebase/crashlytics@npm:18.6.1"
   dependencies:
@@ -7338,12 +7347,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/messaging@npm:^18.6.1":
+"@react-native-firebase/messaging@npm:18.6.1":
   version: 18.6.1
   resolution: "@react-native-firebase/messaging@npm:18.6.1"
   peerDependencies:
     "@react-native-firebase/app": 18.6.1
   checksum: 872a9190e4cc022735115c16337d24205f35148b5fffec30df5aac930c4d94190a913fab3073a7c57442bf2d3d60d9aca6455bf7e3de85b0fff1923e30685c61
+  languageName: node
+  linkType: hard
+
+"@react-native-firebase/perf@npm:18.6.1":
+  version: 18.6.1
+  resolution: "@react-native-firebase/perf@npm:18.6.1"
+  peerDependencies:
+    "@react-native-firebase/app": 18.6.1
+    expo: ">=47.0.0"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 48351c979d9910a5e8bb608d764f1eaa98aa2d707590d2fbc04ea1ff8683a94bac950f2272599ac3636054383cf2076946574d84f01d4b3b48af7db5627dbc30
   languageName: node
   linkType: hard
 
@@ -11434,6 +11456,7 @@ __metadata:
     "@mysten/sui.js": 0.34.0
     "@solana/web3.js": 1.78.4
     eslint: 8.38.0
+    react-native-logs: 5.0.1
   languageName: unknown
   linkType: soft
 
@@ -11644,11 +11667,13 @@ __metadata:
     "@craftzdog/react-native-buffer": ^6.0.5
     "@dreson4/react-native-quick-bip39": 0.0.5
     "@react-native-clipboard/clipboard": ^1.12.1
-    "@react-native-firebase/analytics": ^18.6.1
+    "@react-native-firebase/analytics": 18.6.1
     "@react-native-firebase/app": 18.6.1
+    "@react-native-firebase/app-distribution": 18.6.1
     "@react-native-firebase/auth": 18.6.1
-    "@react-native-firebase/crashlytics": ^18.6.1
-    "@react-native-firebase/messaging": ^18.6.1
+    "@react-native-firebase/crashlytics": 18.6.1
+    "@react-native-firebase/messaging": 18.6.1
+    "@react-native-firebase/perf": 18.6.1
     "@react-native-firebase/remote-config": 18.6.1
     "@react-native-google-signin/google-signin": ^9.0.2
     "@react-navigation/bottom-tabs": ^6.5.8
@@ -11680,12 +11705,14 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-native: 0.71.14
+    react-native-biometrics: ^3.0.1
     react-native-config: ^1.5.0
     react-native-device-info: ^10.11.0
     react-native-encrypted-storage: ^4.0.3
     react-native-gesture-handler: ^2.13.4
     react-native-get-random-values: ^1.9.0
     react-native-haptic-feedback: ^2.2.0
+    react-native-keychain: ^8.1.2
     react-native-permissions: ^3.10.1
     react-native-quick-base64: 2.0.7
     react-native-quick-crypto: 0.6.1
@@ -24230,6 +24257,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-biometrics@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "react-native-biometrics@npm:3.0.1"
+  peerDependencies:
+    react-native: ">=0.60.0"
+  checksum: 3864fea4bbf3dee1d360daf048e4f9980083c4e919e95082a5e4646e3b22475bb2b592cae18cccd7fb55b50498dca29e5346cf98d958646cbfc26fed5654bc53
+  languageName: node
+  linkType: hard
+
 "react-native-buffer@npm:^6.0.3":
   version: 6.0.3
   resolution: "react-native-buffer@npm:6.0.3"
@@ -24337,6 +24373,20 @@ __metadata:
   peerDependencies:
     react-native: ">=0.60.0"
   checksum: e7ce6b303a799dc7fd1c5851379b555b65052c3ef7fefe836c7881f125e4057134462554a996762e67ecc7f01e82e45dc3bcad17cc232b53511006160d5f98ed
+  languageName: node
+  linkType: hard
+
+"react-native-keychain@npm:^8.1.2":
+  version: 8.1.2
+  resolution: "react-native-keychain@npm:8.1.2"
+  checksum: 0602f0c8c664ee73aedfe7704c5199e90ecf91d933c218d1d74f8a4ea2bfe39814abe2a65492ba19478f416f8ba2cccb82e56878ebf4618712aac0f5a9e6a855
+  languageName: node
+  linkType: hard
+
+"react-native-logs@npm:5.0.1":
+  version: 5.0.1
+  resolution: "react-native-logs@npm:5.0.1"
+  checksum: 71af385c85a7d45d2046ee9fa05ec49e989a446660742d732e2ba210528fb5145f81308af3f65be607bbf207a875480344cca3ec5e7943a7c10ba2d882f28266
   languageName: node
   linkType: hard
 

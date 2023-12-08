@@ -5,6 +5,7 @@ import {
 	RESULTS,
 } from 'react-native-permissions';
 import { universalActions } from '@walless/app';
+import { logger } from '@walless/core';
 import { getDeviceInfo } from 'utils/device';
 import { messaging } from 'utils/firebase';
 
@@ -17,17 +18,17 @@ const syncDeviceAndNotification = async (nextToken?: string) => {
 export const useNotifications = () => {
 	useEffect(() => {
 		messaging.onNotificationOpenedApp((message) => {
-			console.log('App to opened from BG:', message.notification);
+			logger.debug('App to opened from BG:', message.notification);
 		});
 
 		messaging.getInitialNotification().then((message) => {
 			if (message) {
-				console.log('App resumed from quit', message.notification);
+				logger.debug('App resumed from quit', message.notification);
 			}
 		});
 
 		const unsubscribeMessages = messaging.onMessage(async (message) => {
-			console.log(message);
+			logger.debug(message);
 		});
 
 		const unsubscribeTokenRefresh = messaging.onTokenRefresh((nextToken) => {
@@ -59,7 +60,7 @@ export const useNotificationPermissionRequest = () => {
 			try {
 				syncDeviceAndNotification(await messaging.getToken());
 			} catch (e) {
-				console.log('Failed to get/sync Notification token from device');
+				logger.error('Failed to get/sync Notification token from device');
 			}
 		});
 	}, []);

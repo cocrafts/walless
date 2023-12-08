@@ -19,7 +19,7 @@ import type {
 	SignFunc,
 	SignMessageFunc,
 } from '@walless/core';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import { ResponseCode } from '@walless/messaging';
 import type { PublicKeyDocument } from '@walless/store';
 import { decode, encode } from 'bs58';
@@ -100,7 +100,7 @@ export class Walless extends EventEmitter {
 		this.#isConnected = false;
 		const hostName = window.location.hostname;
 		await commonProvider.requestDisconnect({ domain: hostName });
-		console.log('walless disconnected!');
+		logger.debug('walless disconnected!');
 	};
 
 	signAndSendTransactionOnSolana: SignAndSendFunc = async (
@@ -140,8 +140,7 @@ export class Walless extends EventEmitter {
 	};
 
 	signAllTransactionsOnSolana: SignAllFunc = (transactions) => {
-		console.log(transactions);
-
+		logger.debug(transactions);
 		return [] as never;
 	};
 
@@ -178,7 +177,7 @@ export class Walless extends EventEmitter {
 			throw new Error('wallet not connected');
 		}
 
-		console.log('Chain', chain);
+		logger.info('Chain', chain);
 
 		const res = await suiProvider.requestSignTransactionBlock(
 			transaction.serialize(),

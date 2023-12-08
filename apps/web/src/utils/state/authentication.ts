@@ -5,7 +5,7 @@ import {
 	signInWithPopup,
 } from '@firebase/auth';
 import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
-import { runtime } from '@walless/core';
+import { logger, runtime } from '@walless/core';
 import { appState } from '@walless/engine';
 import { mutations, queries, type WalletInvitation } from '@walless/graphql';
 import { auth, googleProvider } from 'utils/firebase';
@@ -82,7 +82,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 			handleError: async () => showError('Something went wrong') as never,
 		});
 	} catch (error) {
-		console.log('error during sign-in', error);
+		logger.error('Error during sign-in', error);
 	} finally {
 		appState.authenticationLoading = false;
 	}

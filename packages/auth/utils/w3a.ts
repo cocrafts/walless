@@ -12,7 +12,7 @@ import type SecurityQuestionsModule from '@tkey/security-questions';
 import type { SeedPhraseModule } from '@tkey/seed-phrase';
 import type { TorusServiceProvider } from '@tkey/service-provider-torus';
 import type { WebStorageModule } from '@tkey/web-storage';
-import { runtime } from '@walless/core';
+import { logger, runtime } from '@walless/core';
 import { modules } from '@walless/ioc';
 
 export enum ThresholdResult {
@@ -94,7 +94,7 @@ export const getSharesStatus = async (): Promise<ThresholdResult> => {
 			await key().modules.webStorage?.inputShareFromWebStorage();
 		}
 	} catch (e) {
-		console.log('Failed to import existing share.');
+		logger.error('Failed to import existing share.', e);
 	}
 
 	const { requiredShares, totalShares } = key().getKeyDetails();
@@ -124,7 +124,7 @@ export const recoverDeviceShareFromPasscode = async (
 			return true;
 		}
 	} catch {
-		console.log('Failed to recover/unlock, invalid passcode.');
+		logger.info('Failed to recover/unlock, invalid passcode.');
 	}
 
 	return false;

@@ -1,14 +1,14 @@
 import type { FC } from 'react';
 import type { DrawerScreenProps } from '@react-navigation/drawer';
 import { ExplorerFeature, StackHeader, WidgetFeature } from '@walless/app';
-import type { DashboardParamList } from 'utils/navigation';
+import type { ExploreParamList } from 'utils/navigation';
 
-type Props = DrawerScreenProps<DashboardParamList, 'Explore'>;
+type Props = DrawerScreenProps<ExploreParamList, 'Widget'>;
 
 export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
-	const { id } = route.params as never;
+	const widgetId = route.params?.id;
 
-	if (!id) {
+	if (!widgetId) {
 		return (
 			<ExplorerFeature
 				headerComponent={StackHeader}
@@ -19,7 +19,7 @@ export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
 
 	return (
 		<WidgetFeature
-			id={id}
+			id={widgetId}
 			headerComponent={StackHeader}
 			onToggleDrawer={navigation.toggleDrawer}
 		/>

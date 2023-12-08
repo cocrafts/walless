@@ -1,4 +1,5 @@
 import type { Networks, TransactionPayload } from '@walless/core';
+import { logger } from '@walless/core';
 import { tokenState } from '@walless/engine';
 import type { ResponsePayload } from '@walless/messaging';
 import type {
@@ -41,7 +42,7 @@ export const injectedElements = proxy<InjectedElements>({
 	publicKeys: [],
 	getTransactionFee: async () => 0,
 	getTransactionAbstractFee: async () => 0,
-	handleClose: () => console.log('close'),
+	handleClose: () => logger.info('close'),
 	checkValidAddress: () => {
 		return { valid: true, message: '' };
 	},

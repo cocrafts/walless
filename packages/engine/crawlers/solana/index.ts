@@ -1,4 +1,5 @@
 import { PublicKey } from '@solana/web3.js';
+import { logger } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument } from '@walless/store';
 import { addTokensToStorage, selectors } from '@walless/store';
@@ -24,7 +25,7 @@ export const solanaEngineRunner: SolanaRunner = {
 		}
 	},
 	stop: async () => {
-		console.log('stop!');
+		logger.info('stop!');
 	},
 };
 

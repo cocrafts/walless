@@ -1,3 +1,4 @@
+import { logger } from '@walless/core';
 import { modules } from '@walless/ioc';
 
 import type { IFirebaseUser } from './helper';
@@ -46,7 +47,7 @@ export const signInWithTorusKey = async ({
 			const q = keyInstance.modules.securityQuestions.getSecurityQuestions();
 			isLegacyAccount = q === 'universal-passcode';
 		} catch (error) {
-			console.log('Failed to get security question', error);
+			logger.error('Failed to get security question', error);
 		}
 
 		const { totalShares } = keyInstance.getKeyDetails();

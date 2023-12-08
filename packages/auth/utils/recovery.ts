@@ -1,3 +1,4 @@
+import { logger } from '@walless/core';
 import type { Account } from '@walless/graphql';
 import { mutations } from '@walless/graphql';
 import { modules } from '@walless/ioc';
@@ -21,7 +22,7 @@ export const initAndRegisterWallet = async (): Promise<Account | undefined> => {
 
 		return account;
 	} catch (e) {
-		console.log(e);
+		logger.error('Failed to init or register wallet:', e);
 	}
 };
 
@@ -34,7 +35,7 @@ export const recoverByEmergencyKey = async (readableKey: string) => {
 
 		return true;
 	} catch (e) {
-		console.log(e);
+		logger.error('Failed to recover by emergency key', e);
 		return false;
 	}
 };

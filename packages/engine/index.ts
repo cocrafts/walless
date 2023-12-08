@@ -1,6 +1,8 @@
-import type { Endpoint, Networks } from '@walless/core';
+import type { Endpoint } from '@walless/core';
+import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import type { EndpointsDocument } from '@walless/store';
+import type { EndpointsDocument, PublicKeyDocument } from '@walless/store';
+import { selectors } from '@walless/store';
 
 import { aptosEngineRunner, aptosPool } from './crawlers/aptos';
 import { solanaEngineRunner, solanaPool } from './crawlers/solana';
@@ -25,32 +27,44 @@ export const createEngine = async (): Promise<Engine> => {
 		storage.upsert('endpoints', async () => endpoints);
 	}
 
-	const crawlers: Record<string, EngineCrawler<unknown>> = {
-		solana: createCrawler({
-			endpoint: endpoints.solana,
-			pool: solanaPool,
-			start: solanaEngineRunner.start,
-			stop: solanaEngineRunner.stop,
-		}),
-		sui: createCrawler({
-			endpoint: endpoints.sui,
-			pool: suiPool,
-			start: suiEngineRunner.start,
-			stop: suiEngineRunner.stop,
-		}),
-		tezos: createCrawler({
-			endpoint: endpoints.tezos,
-			pool: tezosPool,
-			start: tezosEngineRunner.start,
-			stop: tezosEngineRunner.stop,
-		}),
-		aptos: createCrawler({
-			endpoint: endpoints.aptos,
-			pool: aptosPool,
-			start: aptosEngineRunner.start,
-			stop: aptosEngineRunner.stop,
-		}),
-	};
+	const allKey = await storage.find<PublicKeyDocument>(selectors.allKeys);
+	const crawlers: Record<string, EngineCrawler<unknown>> = {};
+
+	for (const network of Object.keys(Networks)) {
+		const isNetworkAvailable = allKey.docs.find((i) => i.network === network);
+
+		if (isNetworkAvailable) {
+			if (network === Networks.solana) {
+				crawlers[Networks.solana] = createCrawler({
+					endpoint: endpoints.solana,
+					pool: solanaPool,
+					start: solanaEngineRunner.start,
+					stop: solanaEngineRunner.stop,
+				});
+			} else if (network === Networks.sui) {
+				crawlers[Networks.sui] = createCrawler({
+					endpoint: endpoints.sui,
+					pool: suiPool,
+					start: suiEngineRunner.start,
+					stop: suiEngineRunner.stop,
+				});
+			} else if (network === Networks.tezos) {
+				crawlers[Networks.tezos] = createCrawler({
+					endpoint: endpoints.tezos,
+					pool: tezosPool,
+					start: tezosEngineRunner.start,
+					stop: tezosEngineRunner.stop,
+				});
+			} else if (network === Networks.aptos) {
+				crawlers[Networks.aptos] = createCrawler({
+					endpoint: endpoints.aptos,
+					pool: aptosPool,
+					start: aptosEngineRunner.start,
+					stop: aptosEngineRunner.stop,
+				});
+			}
+		}
+	}
 
 	return {
 		getEndpoint: (network) => endpoints[network],

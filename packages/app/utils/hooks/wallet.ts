@@ -40,7 +40,6 @@ export const useRelevantKeys = () => {
 
 		return keys.filter((key) => {
 			return widgets.find((widget) => {
-				console.log([...widget.networks], key.network);
 				return widget.networks?.indexOf(key.network) >= 0;
 			});
 		});

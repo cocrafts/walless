@@ -21,11 +21,11 @@ import type {
 	Token,
 	TransactionPayload,
 } from '@walless/core';
-import { Networks } from '@walless/core';
-import { getAptosConnection } from '@walless/engine/crawlers/aptos';
+import { logger, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { aptosHandler } from '@walless/kernel';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
+import type { Provider } from 'aptos';
 import { TxnBuilderTypes } from 'aptos';
 import base58 from 'bs58';
 
@@ -85,7 +85,7 @@ export const getTransactionFee = async (payload: TransactionPayload) => {
 	} else if (payload.network == Networks.sui) {
 		return 0;
 	} else if (payload.network == Networks.aptos) {
-		const connection = await getAptosConnection();
+		const connection = modules.engine.getConnection<Provider>(Networks.aptos);
 		const fee = await connection.estimateGasPrice();
 		return fee.gas_estimate / 10 ** 8;
 	} else return 0;
@@ -392,7 +392,7 @@ export const getTransactionAbstractFee = async (
 			return data;
 		})
 		.catch((err) => {
-			console.log(err);
+			logger.error('Failed to get Gasilon fee:', err);
 		});
 
 	const { tokenForFee } = sendTokenProps;

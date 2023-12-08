@@ -1,12 +1,14 @@
+import { logger } from '@walless/core';
+
 export const configurePWA = () => {
 	self.addEventListener('install', onInstall);
 	self.addEventListener('activate', onActivate);
 };
 
 const onInstall = () => {
-	console.log('service worker installed');
+	logger.info('Service worker installed');
 };
 
 const onActivate = () => {
-	console.log('service worker activated');
+	logger.info('Service worker activated');
 };

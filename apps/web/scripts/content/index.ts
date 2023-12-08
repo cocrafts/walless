@@ -1,3 +1,5 @@
+import { logger } from '@walless/core';
+
 import './tezos';
 
 import { initializeMessaging } from './messaging';
@@ -5,7 +7,7 @@ import { injectScript } from './utils';
 
 (async () => {
 	await initializeMessaging();
-	console.log('[walless/prod] messaging module initialized..');
+	logger.info('Messaging module initialized..');
 
 	setTimeout(() => {
 		injectScript('injection.js');

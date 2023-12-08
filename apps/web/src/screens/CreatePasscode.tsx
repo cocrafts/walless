@@ -1,11 +1,12 @@
 import { CreatePasscode } from '@walless/app';
 import { signInWithPasscode } from '@walless/auth';
+import { logger } from '@walless/core';
 import { auth } from 'utils/firebase';
 import { router } from 'utils/routing';
 
 export const CreatePasscodeScreen = () => {
 	const handleInitFail = () => {
-		console.log('Something went wrong. Please try again.');
+		logger.info('Something went wrong create passcode');
 		router.navigate('/login');
 	};
 

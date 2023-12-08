@@ -1,3 +1,4 @@
+import { logger } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { addTokensToStorage, selectors } from '@walless/store';
@@ -31,7 +32,7 @@ export const tezosEngineRunner: TezosRunner = {
 		addTokensToStorage(tokenDocs);
 	},
 	stop: async () => {
-		console.log('stop!');
+		logger.info('stop!');
 	},
 };
 

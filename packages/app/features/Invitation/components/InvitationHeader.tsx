@@ -16,8 +16,9 @@ const InvitationHeader: FC<Props> = ({ logoSrc, logoSize }) => {
 	return (
 		<View style={styles.container}>
 			<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
+			<Text style={styles.greetingText}>Welcome to Walless</Text>
 			<Text style={styles.reminderText}>
-				Invitation code is require to access{'\n'}Walless Beta
+				You’ll need to enter invitation code to access{'\n'}Private Beta.
 			</Text>
 		</View>
 	);
@@ -29,8 +30,16 @@ const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
 	},
+	greetingText: {
+		fontSize: 20,
+		fontWeight: '600',
+		color: '#fff',
+		marginBottom: 8,
+	},
 	reminderText: {
-		fontSize: 17,
+		fontSize: 14,
+		fontWeight: '400',
 		textAlign: 'center',
+		color: '#566674',
 	},
 });

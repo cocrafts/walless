@@ -37,7 +37,7 @@ export const WidgetItem: FC<Props> = ({ style, widget }) => {
 			<View style={styles.detailContainer}>
 				<View style={{ gap: 5 }}>
 					<Text style={styles.title}>{widget.name}</Text>
-					<Text style={styles.normalText} numberOfLines={1}>
+					<Text style={styles.normalText} numberOfLines={2}>
 						{widget.storeMeta.description}
 					</Text>
 					{/* <View horizontal style={{ gap: 10 }}>

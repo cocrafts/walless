@@ -10,9 +10,10 @@ import { addWidgetToStorage } from '@walless/store';
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	widget: WidgetDocument;
+	isAdded: boolean;
 }
 
-export const WidgetItem: FC<Props> = ({ style, widget }) => {
+export const WidgetItem: FC<Props> = ({ style, widget, isAdded }) => {
 	const coverImgResource = runtime.isMobile
 		? modules.asset.widget[widget._id]?.storeMeta.coverUri
 		: { uri: widget.storeMeta.coverUri };
@@ -37,7 +38,7 @@ export const WidgetItem: FC<Props> = ({ style, widget }) => {
 			<View style={styles.detailContainer}>
 				<View style={{ gap: 5 }}>
 					<Text style={styles.title}>{widget.name}</Text>
-					<Text style={styles.normalText} numberOfLines={1}>
+					<Text style={styles.normalText} numberOfLines={2}>
 						{widget.storeMeta.description}
 					</Text>
 					{/* <View horizontal style={{ gap: 10 }}>
@@ -53,7 +54,7 @@ export const WidgetItem: FC<Props> = ({ style, widget }) => {
 				</View>
 
 				<Hoverable style={[styles.addBtn, btnWidth]} onPress={onAddBtnPress}>
-					<Text style={styles.addText}>Add</Text>
+					<Text style={styles.addText}>{isAdded ? 'Open' : 'Add'}</Text>
 				</Hoverable>
 			</View>
 		</View>

@@ -33,28 +33,18 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 		});
 	});
 
-	const moveSelectedItemToTop = (
-		items: WalletProps[],
-		selectedItem: string,
-	) => {
-		const filteredItems = items.filter(
-			(item) => item.network.toLowerCase() !== selectedItem,
-		);
-		const selectedItems = items.filter(
-			(item) => item.network.toLowerCase() === selectedItem,
-		);
-		return [...selectedItems, ...filteredItems];
-	};
-
 	let items: SlideOption[];
-	if (config.context) {
-		const { network } = config.context as { network: Networks };
 
-		items = moveSelectedItemToTop(walletList, network).map((wallet, index) => ({
-			id: `${index}`,
-			component: WalletCard,
-			context: wallet,
-		}));
+	const { network } = config.context as { network: Networks };
+
+	if (network) {
+		items = walletList
+			.filter((wallet) => wallet.network.toLowerCase() === network)
+			.map((wallet, index) => ({
+				id: `${index}`,
+				component: WalletCard,
+				context: wallet,
+			}));
 	} else {
 		items = walletList.map((wallet, index) => ({
 			id: `${index}`,
@@ -66,7 +56,7 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const indicator: IndicatorOption = {
 		id: 'indicator',
 		component: WalletCardIndicator,
-		context: { cardList: walletList },
+		context: { count: items.length },
 	};
 
 	const handleClose = () => {

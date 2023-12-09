@@ -3,7 +3,7 @@ import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 
 import ReceiveModal from './ReceiveModal';
 
-export const showReceiveModal = (layoutNetWork: Networks) => {
+export const showReceiveModal = (layoutNetWork?: Networks) => {
 	modalActions.show({
 		id: 'receive-token',
 		bindingDirection: BindDirections.InnerBottom,

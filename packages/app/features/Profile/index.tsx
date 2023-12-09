@@ -31,7 +31,7 @@ export const ProfileFeature: FC<Props> = ({ style, onNavigateToHistory }) => {
 
 			<MainFeatureButtons
 				onSendPress={handleSend}
-				onReceivePress={() => showReceiveModal(Networks.solana)}
+				onReceivePress={() => showReceiveModal()}
 				onBuyPress={() => utils.buyToken(Networks.solana)}
 			/>
 

@@ -3,22 +3,21 @@ import { StyleSheet } from 'react-native';
 import { Hoverable, View } from '@walless/gui';
 
 import type { IndicatorOption } from './Slider';
-import type { WalletProps } from './WalletCard';
 
 interface Props {
 	config: IndicatorOption;
 }
 
 interface IndicatorProps {
-	cardList: WalletProps[];
+	count: number;
 }
 
 const WalletCardIndicator: FC<Props> = ({ config }) => {
-	const { cardList } = config.context as IndicatorProps;
+	const { count } = config.context as IndicatorProps;
 
 	return (
 		<View style={styles.container}>
-			{cardList.map((card: WalletProps, index) => (
+			{[...Array(count)].map((_, index) => (
 				<Hoverable
 					key={index}
 					style={{

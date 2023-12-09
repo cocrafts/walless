@@ -1,5 +1,9 @@
 import { getAnalytics, setUserProperties } from '@firebase/analytics';
-import { getMessaging, getToken } from '@firebase/messaging';
+import {
+	getMessaging,
+	getToken,
+	isSupported as isMessagingSupported,
+} from '@firebase/messaging';
 import { universalActions } from '@walless/app';
 import { logger } from '@walless/core';
 import { appState } from '@walless/engine';
@@ -18,13 +22,15 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		}
 	}
 
-	try {
-		const messaging = getMessaging(app);
-		deviceInfo.notificationToken = await getToken(messaging, {
-			vapidKey: FIREBASE_VAPID_KEY,
-		});
-	} catch (e) {
-		logger.error('Could not register/get Notification Token from device.');
+	if (await isMessagingSupported()) {
+		try {
+			const messaging = getMessaging(app);
+			deviceInfo.notificationToken = await getToken(messaging, {
+				vapidKey: FIREBASE_VAPID_KEY,
+			});
+		} catch (e) {
+			logger.error('Could not register/get Notification Token from device.');
+		}
 	}
 
 	if (user?.uid) {

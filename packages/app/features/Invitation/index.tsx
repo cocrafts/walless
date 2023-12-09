@@ -9,6 +9,7 @@ import type {
 import { Platform } from 'react-native';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import {
+	Anchor,
 	BindDirections,
 	Button,
 	Input,
@@ -19,7 +20,7 @@ import {
 
 import ErrorAnnouncement from '../../components/ErrorAnnouncement';
 
-import GetCode from './components/GetCode';
+import HadWalletAccount from './components/GetCode';
 import InvitationHeader from './components/InvitationHeader';
 
 interface Props {
@@ -82,7 +83,7 @@ export const InvitationFeature: FC<Props> = ({
 					value={input}
 					onChangeText={setInput}
 					onKeyPress={handleKeyPress}
-					placeholder="Enter Code"
+					placeholder="Enter Invitation code"
 					placeholderTextColor={styles.placeholder.color}
 				/>
 				{loading ? (
@@ -97,7 +98,14 @@ export const InvitationFeature: FC<Props> = ({
 					</Button>
 				)}
 			</View>
-			<GetCode onLoginPress={onLoginPress} />
+
+			<HadWalletAccount onLoginPress={onLoginPress} />
+
+			<Anchor
+				titleStyle={styles.getInvitationText}
+				title="Get invitation code"
+				href="https://docs.google.com/forms/d/e/1FAIpQLSeMOQGfeYhq4i-V595JRc28VlY1YDpFeU0rPJkTymFH6nV21g/viewform"
+			/>
 		</View>
 	);
 };
@@ -139,5 +147,11 @@ const styles = StyleSheet.create({
 	},
 	disabledTitle: {
 		color: '#566674',
+	},
+	getInvitationText: {
+		color: '#566674',
+		fontSize: 13,
+		fontWeight: '400',
+		textAlign: 'center',
 	},
 });

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight, Plus } from '@walless/icons';
 
@@ -19,15 +19,6 @@ export const MainFeatureButtons: FC<Props> = ({
 	onReceivePress,
 	onBuyPress,
 }) => {
-	const buttonSize = Platform.select({
-		default: 50,
-		web: 38,
-	});
-	const iconSize = Platform.select({
-		default: 20,
-		web: 18,
-	});
-
 	return (
 		<View style={[styles.container, style]}>
 			{onSendPress && (
@@ -54,6 +45,8 @@ export const MainFeatureButtons: FC<Props> = ({
 
 export default MainFeatureButtons;
 
+const buttonSize = 38;
+const iconSize = 18;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',

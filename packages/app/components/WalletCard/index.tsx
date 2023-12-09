@@ -59,7 +59,7 @@ export const WalletCard: FC<Props> = ({
 				onHide={handleHide}
 			/>
 			{skin.largeIconSrc && (
-				<View style={styles.markContainer}>
+				<View pointerEvents="none" style={styles.markContainer}>
 					<Image style={styles.markImage} source={skin.largeIconSrc} />
 				</View>
 			)}

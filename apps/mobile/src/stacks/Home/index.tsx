@@ -5,19 +5,29 @@ import { withStackContainer } from '@walless/app';
 import HistoryScreen from 'screens/Dashboard/History';
 import ProfileScreen from 'screens/Dashboard/Home';
 import { noHeaderNavigation } from 'utils/helper';
-import type { DashboardParamList, HomeParamList } from 'utils/navigation';
+import {
+	type DashboardParamList,
+	type HomeParamList,
+	navigate,
+} from 'utils/navigation';
 
 type Props = StackScreenProps<DashboardParamList, 'Home'>;
 
 const Stack = createStackNavigator<HomeParamList>();
 
-export const HomeStack: FC<Props> = ({ navigation }) => {
+export const HomeStack: FC<Props> = () => {
 	const ManagedHomeScreen = withStackContainer(ProfileScreen, {
 		title: 'Home',
 	});
 	const ManagedHistoryScreen = withStackContainer(HistoryScreen, {
 		title: 'Transaction History',
-		goBack: navigation.popToTop,
+		goBack: () =>
+			navigate('Dashboard', {
+				screen: 'Home',
+				params: {
+					screen: 'Default',
+				},
+			}),
 	});
 
 	return (

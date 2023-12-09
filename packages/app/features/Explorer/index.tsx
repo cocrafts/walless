@@ -13,6 +13,7 @@ import type { WidgetDocument } from '@walless/store';
 
 import type { HeaderProps } from '../../components/StackContainer';
 import { tabBarHeight } from '../../utils';
+import { useWidgets } from '../../utils/hooks';
 
 import SearchBar from './components/SearchBar';
 import WidgetItem from './components/WidgetItem';
@@ -37,6 +38,8 @@ export const ExplorerFeature: FC<Props> = ({
 	const contentContainerStyle: ViewStyle = {
 		paddingBottom: insets.bottom + tabBarHeight,
 	};
+
+	const activeWidgets = useWidgets().map((widget) => widget._id);
 
 	const onChangeSearch = (query: string) => {
 		setSearchString(query.toLowerCase());
@@ -80,6 +83,7 @@ export const ExplorerFeature: FC<Props> = ({
 							key={widget._id}
 							style={styles.widgetItem}
 							widget={widget}
+							isAdded={activeWidgets.includes(widget._id)}
 						/>
 					))}
 			</Animated.ScrollView>

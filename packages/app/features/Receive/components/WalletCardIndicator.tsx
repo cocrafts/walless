@@ -15,6 +15,10 @@ interface IndicatorProps {
 const WalletCardIndicator: FC<Props> = ({ config }) => {
 	const { count } = config.context as IndicatorProps;
 
+	if (count === 1) {
+		return null;
+	}
+
 	return (
 		<View style={styles.container}>
 			{[...Array(count)].map((_, index) => (

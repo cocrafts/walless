@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { Platform, StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
-import { ArrowBottomRight, ArrowTopRight, Cart } from '@walless/icons';
+import { ArrowBottomRight, ArrowTopRight, Plus } from '@walless/icons';
 
 import FeatureButton from '../components/FeatureButton';
 
@@ -46,7 +46,7 @@ export const MainFeatureButtons: FC<Props> = ({
 			)}
 			{onBuyPress && (
 				<FeatureButton title="Buy" size={buttonSize} onPress={onBuyPress}>
-					<Cart size={iconSize} />
+					<Plus size={iconSize} />
 				</FeatureButton>
 			)}
 		</View>

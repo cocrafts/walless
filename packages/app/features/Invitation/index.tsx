@@ -74,8 +74,14 @@ export const InvitationFeature: FC<Props> = ({
 
 	return (
 		<View style={[styles.container, style]}>
-			<InvitationHeader logoSrc={logoSrc} logoSize={logoSize} />
-			<View style={styles.commandContainer}>
+			<View />
+
+			<View style={styles.upperContainer}>
+				<InvitationHeader
+					logoSrc={logoSrc}
+					logoSize={logoSize}
+					style={styles.logoContainer}
+				/>
 				<Input
 					autoFocus={autoFocus}
 					inputStyle={styles.codeInput}
@@ -97,9 +103,9 @@ export const InvitationFeature: FC<Props> = ({
 						<Text style={buttonTitleStyle}>Count me in</Text>
 					</Button>
 				)}
+				<View style={styles.separateLine} />
+				<HadWalletAccount onLoginPress={onLoginPress} />
 			</View>
-
-			<HadWalletAccount onLoginPress={onLoginPress} />
 
 			<Anchor
 				titleStyle={styles.getInvitationText}
@@ -120,11 +126,15 @@ const autoFocus = Platform.select({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
 		gap: 32,
+		justifyContent: 'space-between',
+		paddingBottom: 24,
 	},
-	commandContainer: {
+	upperContainer: {
 		gap: 18,
+	},
+	logoContainer: {
+		marginBottom: 24,
 	},
 	codeInput: {
 		height: 52,
@@ -147,6 +157,10 @@ const styles = StyleSheet.create({
 	},
 	disabledTitle: {
 		color: '#566674',
+	},
+	separateLine: {
+		height: 1,
+		backgroundColor: '#2A333C',
 	},
 	getInvitationText: {
 		color: '#566674',

@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import { InvitationFeature } from '@walless/app';
 import { validateInvitationCode } from '@walless/auth';
 import { appState } from '@walless/engine';
-import { View } from '@walless/gui';
 import { router } from 'utils/routing';
 
 const InvitationScreen = () => {
@@ -30,14 +29,13 @@ const InvitationScreen = () => {
 	};
 
 	return (
-		<View style={styles.container}>
-			<InvitationFeature
-				onEnter={onInvitationCodeChange}
-				logoSrc={{ uri: '/img/icon.png' }}
-				error={invitationError}
-				onLoginPress={handleLoginPress}
-			/>
-		</View>
+		<InvitationFeature
+			onEnter={onInvitationCodeChange}
+			logoSrc={{ uri: '/img/icon.png' }}
+			error={invitationError}
+			onLoginPress={handleLoginPress}
+			style={styles.container}
+		/>
 	);
 };
 
@@ -45,8 +43,6 @@ export default InvitationScreen;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		justifyContent: 'center',
-		paddingHorizontal: 38,
+		marginHorizontal: 38,
 	},
 });

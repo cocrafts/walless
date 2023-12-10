@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, StyleSheet } from 'react-native';
+import { Image, Linking, StyleSheet } from 'react-native';
 import { Button, Input, Text, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
 
@@ -10,11 +10,17 @@ interface Props {
 	onPressContinue: (key?: string) => void;
 }
 
+const WALLESS_EMAIL = 'hello@walless.io';
+
 export const Recovery: FC<Props> = ({ style, onPressContinue }) => {
 	const [recoveryKey, setRecoveryKey] = useState('');
 
 	const handlePressContinue = () => {
 		onPressContinue(recoveryKey.trim());
+	};
+
+	const handlePressEmail = () => {
+		Linking.openURL(`mailto:${WALLESS_EMAIL}`);
 	};
 
 	return (
@@ -45,7 +51,9 @@ export const Recovery: FC<Props> = ({ style, onPressContinue }) => {
 				<Text style={styles.reminderText}>
 					Upon sign-up, your Secret Key is sent in the Walless Emergency Kit to
 					your registered email. If forgotten, contact us at{' '}
-					<Text style={styles.email}>hello@walless.io</Text>
+					<Text style={styles.email} onPress={handlePressEmail}>
+						{WALLESS_EMAIL}
+					</Text>
 				</Text>
 			</View>
 		</View>

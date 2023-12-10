@@ -83,6 +83,7 @@ export const nativeAsset: UniversalAsset = {
 		walless: require('assets/img/icon-white.png'),
 	},
 	misc: {
+		walless: require('assets/img/icon.png'),
 		unknownToken: require('assets/img/send-token/unknown-token.jpeg'),
 	},
 };

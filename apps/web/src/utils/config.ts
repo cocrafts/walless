@@ -71,6 +71,7 @@ export const webAsset: UniversalAsset = {
 		aptos: { icon: { uri: '/img/send-token/icon-aptos.png' } },
 	},
 	misc: {
+		walless: { uri: '/img/icon.png' },
 		unknownToken: { uri: '/img/send-token/unknown-token.jpeg' },
 	},
 };

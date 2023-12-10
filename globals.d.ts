@@ -38,6 +38,8 @@ declare module 'react-native-config' {
 		FIREBASE_MEASUREMENT_ID: string;
 		FIREBASE_VAPID_KEY: string;
 		WEB3AUTH_ID: string;
+		GATEFI_ENDPOINT: string;
+		GATEFI_MERCHANT_ID: string;
 		GRAPHQL_ENDPOINT: string;
 		PIXEVERSE_ENDPOINT: string;
 		PIXEVERSE_ORIGIN: string;

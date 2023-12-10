@@ -66,7 +66,6 @@ const getRemoteMeta: GetMetadataFunc = async ({ connection }, mintAddress) => {
 			metadata.data.uri.replaceAll('\u0000', ''),
 			{
 				method: 'GET',
-				redirect: 'manual',
 			},
 		);
 

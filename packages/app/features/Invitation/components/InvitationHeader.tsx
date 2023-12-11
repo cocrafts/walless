@@ -1,20 +1,21 @@
 import type { FC } from 'react';
-import type { ImageSourcePropType } from 'react-native';
+import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
 interface Props {
 	logoSrc: ImageSourcePropType;
 	logoSize: number;
+	style?: ViewStyle;
 }
 
-const InvitationHeader: FC<Props> = ({ logoSrc, logoSize }) => {
+const InvitationHeader: FC<Props> = ({ logoSrc, logoSize, style }) => {
 	const logoStyle = {
 		width: logoSize,
 		height: logoSize,
 	};
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
 			<Text style={styles.greetingText}>Welcome to Walless</Text>
 			<Text style={styles.reminderText}>

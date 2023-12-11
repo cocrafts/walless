@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { InvitationFeature } from '@walless/app';
+import type { ViewStyle } from 'react-native';
+import { InvitationFeature, useSafeAreaInsets } from '@walless/app';
 import { validateInvitationCode } from '@walless/auth';
 import { appState } from '@walless/engine';
 import { navigate } from 'utils/navigation';
@@ -9,6 +9,13 @@ import { navigate } from 'utils/navigation';
 export const InvitationScreen: FC = () => {
 	const [invitationError, setInvitationError] = useState<string>();
 	const logoSrc = require('assets/img/icon.png');
+
+	const insets = useSafeAreaInsets();
+	const containerStyle: ViewStyle = {
+		marginHorizontal: 38,
+		marginTop: insets.top,
+		marginBottom: insets.bottom,
+	};
 
 	const onInvitationCodeChange = async (value: string) => {
 		if (invitationError && value.length > 0) {
@@ -30,23 +37,14 @@ export const InvitationScreen: FC = () => {
 	};
 
 	return (
-		<View style={styles.container}>
-			<InvitationFeature
-				onEnter={onInvitationCodeChange}
-				logoSrc={logoSrc}
-				error={invitationError}
-				onLoginPress={handleLoginPress}
-			/>
-		</View>
+		<InvitationFeature
+			onEnter={onInvitationCodeChange}
+			logoSrc={logoSrc}
+			error={invitationError}
+			onLoginPress={handleLoginPress}
+			style={containerStyle}
+		/>
 	);
 };
 
 export default InvitationScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		paddingHorizontal: 38,
-	},
-});

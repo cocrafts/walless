@@ -19,8 +19,8 @@ export const Recovery: FC<Props> = ({ style, onPressContinue }) => {
 		onPressContinue(recoveryKey.trim());
 	};
 
-	const handlePressEmail = () => {
-		Linking.openURL(`mailto:${WALLESS_EMAIL}`);
+	const handlePressEmail = async () => {
+		await Linking.openURL(`mailto:${WALLESS_EMAIL}`);
 	};
 
 	return (

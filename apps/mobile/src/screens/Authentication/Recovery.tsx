@@ -1,15 +1,15 @@
 import type { ViewStyle } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { Recovery, useSafeAreaInsets } from '@walless/app';
+import { Recovery, useUniversalInsets } from '@walless/app';
 import { recoverByEmergencyKey } from '@walless/auth';
 import { logger } from '@walless/core';
 import { navigate } from 'utils/navigation';
 
 export const RecoveryScreen = () => {
-	const insets = useSafeAreaInsets();
+	const insets = useUniversalInsets();
 	const containerStyle: ViewStyle = {
 		marginTop: insets.top,
-		marginBottom: insets.bottom,
+		marginBottom: Math.max(insets.bottom, 24),
 	};
 
 	const handlePressContinue = async (key?: string) => {

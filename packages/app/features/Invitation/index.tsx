@@ -89,7 +89,7 @@ export const InvitationFeature: FC<Props> = ({
 					value={input}
 					onChangeText={setInput}
 					onKeyPress={handleKeyPress}
-					placeholder="Enter Invitation code"
+					placeholder="enter Invitation code"
 					placeholderTextColor={styles.placeholder.color}
 				/>
 				{loading ? (
@@ -126,8 +126,9 @@ const autoFocus = Platform.select({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		gap: 32,
+		paddingHorizontal: 38,
 		justifyContent: 'space-between',
+		gap: 32,
 	},
 	upperContainer: {
 		gap: 18,

@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		gap: 32,
 		justifyContent: 'space-between',
-		paddingBottom: 24,
 	},
 	upperContainer: {
 		gap: 18,

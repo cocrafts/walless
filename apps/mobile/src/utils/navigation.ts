@@ -138,10 +138,12 @@ export const resetRoute = (
 		navigationRef.reset({ index: 0, routes: [authenticationRoute(params)] });
 	} else if (anchor === 'CreatePasscode') {
 		navigationRef.reset({ index: 0, routes: [createPasscodeRoute()] });
+	} else if (anchor === 'Recovery') {
+		navigationRef.reset({ index: 0, routes: [recoveryRoute()] });
 	}
 };
 
-type ResetAnchors = 'Dashboard' | 'Invitation' | 'CreatePasscode';
+type ResetAnchors = 'Dashboard' | 'Invitation' | 'CreatePasscode' | 'Recovery';
 
 const dashboardRoute = () => ({
 	name: 'Dashboard',
@@ -162,6 +164,14 @@ const createPasscodeRoute = (params?: object) => ({
 	name: 'Authentication',
 	params: {
 		screen: 'CreatePasscode',
+		params,
+	},
+});
+
+const recoveryRoute = (params?: object) => ({
+	name: 'Authentication',
+	params: {
+		screen: 'Recovery',
 		params,
 	},
 });

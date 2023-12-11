@@ -21,12 +21,14 @@ export const launchApp = async ({
 
 	if (profile?.email) {
 		if (isSdkPopup) {
-			await router.navigate(path);
+			await router.navigate(path, { replace: true });
 		} else {
-			await router.navigate((config?.latestLocation as string) ?? '/');
+			await router.navigate((config?.latestLocation as string) ?? '/', {
+				replace: true,
+			});
 		}
 	} else {
-		await router.navigate('/invitation');
+		await router.navigate('/invitation', { replace: true });
 	}
 
 	appState.loading = false;

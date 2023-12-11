@@ -7,12 +7,12 @@ import { router } from 'utils/routing';
 export const CreatePasscodeScreen = () => {
 	const handleInitFail = () => {
 		logger.info('Something went wrong create passcode');
-		router.navigate('/login');
+		router.navigate('/login', { replace: true });
 	};
 
 	const handleOnComplete = async (passcode: string) => {
 		await signInWithPasscode(passcode, auth.currentUser, handleInitFail);
-		router.navigate('/');
+		router.navigate('/', { replace: true });
 	};
 
 	return <CreatePasscode onComplete={handleOnComplete} />;

@@ -49,7 +49,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 				appState.isAbleToSignIn = false;
 				appState.authenticationLoading = false;
 				showError('The account does not exist. Enter your Invitation code');
-				router.navigate('/invitation');
+				router.navigate('/invitation', { replace: true });
 				return;
 			}
 		}
@@ -70,14 +70,16 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 			verifier,
 			verifierId,
 			privateKey: loginDetails.privateKey,
-			handlePasscode: async () => router.navigate('/create-passcode'),
-			handleRecovery: async () => router.navigate('/recovery'),
+			handlePasscode: async () =>
+				router.navigate('/create-passcode', { replace: true }),
+			handleRecovery: async () =>
+				router.navigate('/recovery', { replace: true }),
 			handleDeprecatedPasscode: async () => {
 				router.navigate('/deprecated-passcode');
 			},
 			handleReady: async () => {
 				await setProfile(makeProfile(user));
-				await router.navigate('/');
+				await router.navigate('/', { replace: true });
 			},
 			handleError: async () => showError('Something went wrong') as never,
 		});

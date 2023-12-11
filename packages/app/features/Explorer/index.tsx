@@ -15,8 +15,8 @@ import type { HeaderProps } from '../../components/StackContainer';
 import { tabBarHeight } from '../../utils';
 import { useWidgets } from '../../utils/hooks';
 
-import SearchBar from './components/SearchBar';
-import WidgetItem from './components/WidgetItem';
+import ExplorerSearchBar from './components/SearchBar';
+import ExplorerWidgetItem from './components/WidgetItem';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
@@ -70,7 +70,7 @@ export const ExplorerFeature: FC<Props> = ({
 				stickyHeaderIndices={[0]}
 			>
 				<View>
-					<SearchBar
+					<ExplorerSearchBar
 						style={styles.searchBar}
 						inputStyle={styles.searchInput}
 						onChangeSearch={onChangeSearch}
@@ -79,7 +79,7 @@ export const ExplorerFeature: FC<Props> = ({
 				{widgets
 					.filter((widget) => filterWidgetsByName(widget.name))
 					.map((widget) => (
-						<WidgetItem
+						<ExplorerWidgetItem
 							key={widget._id}
 							style={styles.widgetItem}
 							widget={widget}
@@ -111,3 +111,6 @@ const styles = StyleSheet.create({
 		marginHorizontal: 16,
 	},
 });
+
+export * from './components/SearchBar';
+export * from './components/WidgetItem';

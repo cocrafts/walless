@@ -84,6 +84,7 @@ export interface UniversalAsset {
 		walless: ImageSourcePropType;
 	};
 	misc: {
+		walless: ImageSourcePropType;
 		unknownToken: ImageSourcePropType;
 	};
 }

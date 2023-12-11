@@ -1,10 +1,20 @@
 import { StyleSheet } from 'react-native';
-import { ProfileFeature } from '@walless/app';
+import { useSharedValue } from 'react-native-reanimated';
+import {
+	ProfileFeature,
+	StackHeader,
+	universalActions,
+	useResponsive,
+	useUniversalInsets,
+} from '@walless/app';
 import { Hoverable, View } from '@walless/gui';
 import { Setting } from '@walless/icons';
 import { router } from 'utils/routing';
 
 export const ProfileScreen = () => {
+	const scrollOffset = useSharedValue(50);
+	const { isMobileResponsive } = useResponsive();
+	const insets = useUniversalInsets();
 	const handleNavigateToHistory = () => {
 		router.navigate('/history');
 	};
@@ -14,7 +24,15 @@ export const ProfileScreen = () => {
 	};
 
 	return (
-		<View>
+		<View style={styles.container}>
+			{isMobileResponsive && (
+				<StackHeader
+					title="Profile"
+					insets={insets}
+					onToggleDrawer={() => universalActions.toggleDrawer()}
+					scrollOffset={scrollOffset}
+				/>
+			)}
 			<Hoverable style={styles.settingContainer} onPress={handleSettingPress}>
 				<Setting size={16} />
 			</Hoverable>
@@ -24,6 +42,9 @@ export const ProfileScreen = () => {
 };
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
 	settingContainer: {
 		marginLeft: 'auto',
 		marginRight: 14,

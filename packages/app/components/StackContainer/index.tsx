@@ -47,6 +47,7 @@ export const StackContainer: FC<Props> = ({
 			/>
 			<Animated.ScrollView
 				ref={scrollRef}
+				showsVerticalScrollIndicator={false}
 				scrollEventThrottle={12}
 				contentContainerStyle={scrollContentContainerStyle}
 			>

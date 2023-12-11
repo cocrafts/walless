@@ -31,7 +31,7 @@ export const StackHeader: FC<HeaderProps> = ({
 		backgroundColor.value = `rgba(8, 16, 22, ${bgOpacity})`;
 
 		return {
-			paddingTop: Math.max(insets.top || 0, 16),
+			paddingTop: Math.max(insets.top || 0, 12),
 			backgroundColor: backgroundColor.value,
 		};
 	}, [scrollOffset, insets]);

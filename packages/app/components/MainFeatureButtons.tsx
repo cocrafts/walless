@@ -44,11 +44,10 @@ export const MainFeatureButtons: FC<Props> = ({
 					<ArrowBottomRight size={iconSize} />
 				</FeatureButton>
 			)}
-			{onBuyPress && (
-				<FeatureButton title="Buy" size={buttonSize} onPress={onBuyPress}>
-					<Plus size={iconSize} />
-				</FeatureButton>
-			)}
+
+			<FeatureButton title="Buy" size={buttonSize} onPress={onBuyPress}>
+				<Plus size={iconSize} />
+			</FeatureButton>
 		</View>
 	);
 };

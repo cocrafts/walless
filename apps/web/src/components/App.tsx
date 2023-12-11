@@ -3,9 +3,9 @@ import { useEffect, useRef } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { RouterProvider } from 'react-router-dom';
+import { useResponsive } from '@walless/app';
 import { appState } from '@walless/engine';
 import { modalActions, ModalManager } from '@walless/gui';
-import { dimensionState } from '@walless/gui';
 import { router } from 'utils/routing';
 import { useSnapshot } from 'valtio';
 
@@ -18,10 +18,9 @@ interface Props {
 
 const App: FC<Props> = ({ width = 410, height = 600 }) => {
 	const app = useSnapshot(appState);
-	const { responsiveLevel } = useSnapshot(dimensionState);
+	const { isMobileResponsive } = useResponsive();
 	const containerRef = useRef<View>(null);
-	const isMobileScreen = responsiveLevel >= 2;
-	const containerStyle: ViewStyle = isMobileScreen
+	const containerStyle: ViewStyle = isMobileResponsive
 		? styles.container
 		: styles.wrappedContainer;
 	const wrappedAppStyle: ViewStyle = {
@@ -39,7 +38,7 @@ const App: FC<Props> = ({ width = 410, height = 600 }) => {
 		<View style={containerStyle}>
 			<View
 				ref={containerRef}
-				style={[styles.appContainer, !isMobileScreen && wrappedAppStyle]}
+				style={[styles.appContainer, !isMobileResponsive && wrappedAppStyle]}
 			>
 				{app.loading ? <SplashWrapper /> : <RouterProvider router={router} />}
 				<ModalManager />

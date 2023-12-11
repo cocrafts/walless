@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Platform } from 'react-native';
 import type { EdgeInsets } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -5,8 +6,11 @@ import { dimensionState } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
 export const useResponsive = () => {
-	const { responsiveLevel } = useSnapshot(dimensionState);
-	const isMobileResponsive = responsiveLevel >= 2;
+	const { isMobile: isMobileDevice, windowSize } = useSnapshot(dimensionState);
+
+	const isMobileResponsive = useMemo(() => {
+		return windowSize.width < 600;
+	}, [isMobileDevice, windowSize.width]);
 
 	return {
 		isMobileResponsive,

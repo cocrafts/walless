@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import type { ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { InvitationFeature, useSafeAreaInsets } from '@walless/app';
 import { validateInvitationCode } from '@walless/auth';
 import { appState } from '@walless/engine';
@@ -37,13 +38,15 @@ export const InvitationScreen: FC = () => {
 	};
 
 	return (
-		<InvitationFeature
-			onEnter={onInvitationCodeChange}
-			logoSrc={logoSrc}
-			error={invitationError}
-			onLoginPress={handleLoginPress}
-			style={containerStyle}
-		/>
+		<ScrollView contentContainerStyle={styles.container}>
+			<InvitationFeature
+				style={containerStyle}
+				onEnter={onInvitationCodeChange}
+				logoSrc={logoSrc}
+				error={invitationError}
+				onLoginPress={handleLoginPress}
+			/>
+		</ScrollView>
 	);
 };
 

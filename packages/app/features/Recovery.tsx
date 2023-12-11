@@ -35,6 +35,7 @@ export const Recovery: FC<Props> = ({ style, onPressContinue }) => {
 		<TouchableWithoutFeedback onPress={hideNativeKeyboard}>
 			<View style={[styles.container, style]}>
 				<View />
+
 				<View style={styles.headerContainer}>
 					<Image
 						source={modules.asset.misc.walless}
@@ -47,11 +48,7 @@ export const Recovery: FC<Props> = ({ style, onPressContinue }) => {
 					</Text>
 				</View>
 
-				<KeyboardAvoidingView
-					style={styles.formContainer}
-					behavior="padding"
-					keyboardVerticalOffset={32}
-				>
+				<KeyboardAvoidingView style={styles.formContainer} behavior="padding">
 					<Input
 						style={styles.inputText}
 						placeholder="enter secret key"
@@ -66,6 +63,8 @@ export const Recovery: FC<Props> = ({ style, onPressContinue }) => {
 						disabled={!recoveryKey.trim()}
 					/>
 				</KeyboardAvoidingView>
+
+				<View />
 				<Text style={styles.reminderText}>
 					Upon sign-up, your Secret Key is sent in the Walless Emergency Kit to
 					your registered email. If forgotten, contact us at{' '}
@@ -109,6 +108,7 @@ const styles = StyleSheet.create({
 	},
 	formContainer: {
 		gap: 24,
+		marginBottom: 32,
 	},
 	inputText: {
 		height: 52,

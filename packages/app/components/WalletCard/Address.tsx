@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, Platform, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
@@ -37,7 +37,6 @@ export const WalletAddress: FC<Props> = ({
 	};
 
 	const handleCopy = () => {
-		console.log('handle copy?');
 		item._id && onCopyAddress?.(item._id);
 	};
 

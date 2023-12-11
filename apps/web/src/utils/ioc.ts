@@ -1,4 +1,5 @@
 import { signOut } from '@firebase/auth';
+import { buyToken } from '@walless/app';
 import { logger } from '@walless/core';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
@@ -11,7 +12,6 @@ import { makeConfig } from '../../scripts/kernel/utils/config';
 
 import { webAsset } from './config';
 import { configureDeviceAndNotification } from './device';
-import { buyToken } from './gatefi';
 import { qlClient } from './graphql';
 import { nativeModules } from './native';
 import { router } from './routing';

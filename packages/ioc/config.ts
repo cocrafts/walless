@@ -10,6 +10,8 @@ export interface NativeConfig {
 	FIREBASE_APP_ID: string;
 	FIREBASE_MEASUREMENT_ID: string;
 	WEB3AUTH_ID: string;
+	GATEFI_ENDPOINT: string;
+	GATEFI_MERCHANT_ID: string;
 	GRAPHQL_ENDPOINT: string;
 	PIXEVERSE_ENDPOINT: string;
 	PIXEVERSE_ORIGIN: string;

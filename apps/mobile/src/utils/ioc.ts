@@ -1,6 +1,7 @@
 import Config from 'react-native-config';
 import WebSQLite from 'react-native-quick-websql';
 import { firebase } from '@react-native-firebase/auth';
+import { buyToken } from '@walless/app';
 import { logger } from '@walless/core';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
@@ -21,6 +22,7 @@ export const injectModules = async () => {
 	const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
 	const storage = create('engine', SQLiteAdapter);
 
+	utils.buyToken = buyToken;
 	utils.createAndSend = createAndSend;
 	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.logOut = logOut;
@@ -28,7 +30,6 @@ export const injectModules = async () => {
 	utils.navigateToCollection = navigateToCollection;
 	utils.navigateToCollectible = navigateToCollectible;
 	utils.navigateBack = navigateBack;
-	// TODO: implement and inject buy token here
 
 	modules.native = nativeModules;
 	modules.analytics = universalAnalytics;

@@ -9,6 +9,7 @@ export * from './components/StackContainer';
 export * from './components/TabsHeader';
 export * from './components/TokenList';
 export * from './components/WalletCard';
+export * from './features/Buy';
 export * from './features/Collectible';
 export * from './features/Collection';
 export * from './features/CreatePasscode';

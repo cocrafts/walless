@@ -107,7 +107,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 				<MainFeatureButtons
 					onSendPress={handlePressSend}
 					onReceivePress={handlePressReceive}
-					onBuyPress={handlePressBuy}
+					onBuyPress={id === Networks.solana ? handlePressBuy : undefined}
 				/>
 			</View>
 

@@ -34,7 +34,7 @@ export const StackHeader: FC<HeaderProps> = ({
 			paddingTop: Math.max(insets.top || 0, 16),
 			backgroundColor: backgroundColor.value,
 		};
-	});
+	}, [scrollOffset, insets]);
 
 	const showIcon = !!onToggleDrawer || !!onGoBack;
 	const handlePressIcon = onToggleDrawer ? onToggleDrawer : onGoBack;

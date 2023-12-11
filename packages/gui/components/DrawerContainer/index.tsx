@@ -5,7 +5,13 @@ import type {
 	StyleProp,
 	ViewStyle,
 } from 'react-native';
-import type { DrawerPosition } from 'react-native-gesture-handler';
+import {
+	StyleSheet,
+	TouchableOpacity,
+	TouchableWithoutFeedback,
+	View,
+} from 'react-native';
+import { type DrawerPosition } from 'react-native-gesture-handler';
 import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
@@ -28,9 +34,13 @@ interface Props {
 	children?: ReactNode;
 	DrawerComponent: FC<DrawerComponentProps>;
 	drawerType?: DrawerType;
+	isOpen?: boolean;
+	onRequestToggle?: (flag: boolean) => void;
 	drawerPosition?: DrawerPosition;
 	drawerAnimator?: DrawerAnimator;
 }
+
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 export const DrawerContainer: FC<Props> = ({
 	style,
@@ -40,6 +50,8 @@ export const DrawerContainer: FC<Props> = ({
 	DrawerComponent,
 	drawerPosition = 'left',
 	drawerType = 'front',
+	isOpen,
+	onRequestToggle,
 	drawerAnimator,
 }) => {
 	const drawerLayout = useSharedValue<LayoutRectangle>(idleLayout);
@@ -49,16 +61,20 @@ export const DrawerContainer: FC<Props> = ({
 		drawerPosition,
 		drawerLayout,
 		contentLayout,
+		isOpen,
 	};
 	const animatedContainerStyle = useAnimatedStyle(() => {
 		return animator.container(animatorContext);
-	}, [drawerType, drawerLayout, contentLayout]);
+	}, [isOpen, drawerType, drawerLayout, contentLayout]);
 	const animatedDrawerStyle = useAnimatedStyle(() => {
 		return animator.drawer(animatorContext);
-	}, [drawerType, drawerLayout, contentLayout]);
+	}, [isOpen, drawerType, drawerLayout, contentLayout]);
 	const animatedContentContainerStyle = useAnimatedStyle(() => {
 		return animator.content(animatorContext);
-	}, [drawerType, drawerLayout, contentLayout]);
+	}, [isOpen, drawerType, drawerLayout, contentLayout]);
+	const animatedMaskStyle = useAnimatedStyle(() => {
+		return animator.mask(animatorContext);
+	}, [isOpen, drawerType, drawerLayout, contentLayout]);
 
 	const onDrawerLayout = ({ nativeEvent }: LayoutChangeEvent) => {
 		drawerLayout.value = nativeEvent.layout;
@@ -81,11 +97,30 @@ export const DrawerContainer: FC<Props> = ({
 				style={[contentContainerStyle, animatedContentContainerStyle]}
 			>
 				{children}
+
+				{isOpen && (
+					<TouchableWithoutFeedback onPress={() => onRequestToggle?.(false)}>
+						<Animated.View style={[styles.mask, animatedMaskStyle]} />
+					</TouchableWithoutFeedback>
+				)}
 			</Animated.View>
 		</Animated.View>
 	);
 };
 
 export default DrawerContainer;
+
+const styles = StyleSheet.create({
+	mask: {
+		zIndex: 99,
+		position: 'absolute',
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
+		backgroundColor: '#000000',
+		opacity: 0,
+	},
+});
 
 export * from './shared';

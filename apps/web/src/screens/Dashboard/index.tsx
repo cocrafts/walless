@@ -56,11 +56,5 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		flex: 1,
 		backgroundColor: '#19232c',
-		// backgroundColor: 'red',
-		// marginBottom: 'env(safe-area-inset-bottom)',
-	},
-	outletContainer: {
-		flex: 1,
-		backgroundColor: 'red',
 	},
 });

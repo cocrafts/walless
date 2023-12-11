@@ -1,6 +1,6 @@
 import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
-import { DashboardNavigator } from '@walless/app';
+import type { ViewStyle } from 'react-native';
+import { DashboardNavigator, useResponsive } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
 import type { WidgetDocument } from '@walless/store';
 import { useLocation, useParams, useSnapshot, useWidgets } from 'utils/hooks';
@@ -8,9 +8,13 @@ import { router } from 'utils/routing';
 
 export const Navigator: FC = () => {
 	const { id: extensionId } = useParams<'id'>();
+	const { isMobileResponsive } = useResponsive();
 	const { pathname } = useLocation();
 	const { profile } = useSnapshot(appState);
 	const widgets = useWidgets();
+	const style: ViewStyle = {
+		width: isMobileResponsive ? 64 : 54,
+	};
 
 	const getRouteActive = (item: WidgetDocument) => {
 		return `/${item._id}` === pathname || extensionId === item._id;
@@ -27,7 +31,7 @@ export const Navigator: FC = () => {
 
 	return (
 		<DashboardNavigator
-			style={styles.navigatorContainer}
+			style={style}
 			profile={profile}
 			widgets={widgets}
 			getIsExtensionActive={getRouteActive}
@@ -38,16 +42,3 @@ export const Navigator: FC = () => {
 };
 
 export default Navigator;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		flexDirection: 'row',
-	},
-	navigatorContainer: {
-		width: 54,
-	},
-	contentContainer: {
-		flex: 1,
-	},
-});

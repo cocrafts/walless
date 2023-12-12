@@ -80,13 +80,8 @@ export const backAnimator: DrawerAnimator = {
 			],
 		};
 	},
-	mask: ({ isOpen }) => {
-		return {
-			opacity: withTiming(isOpen ? 0.5 : 0, {
-				duration: 100,
-				easing: Easing.cubic,
-			}),
-		};
+	mask: () => {
+		return {};
 	},
 };
 

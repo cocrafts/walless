@@ -20,7 +20,7 @@ export const ExplorerScreen: FC = () => {
 	const [search, setSearch] = useState('');
 	const { isMobileResponsive } = useResponsive();
 	const insets = useUniversalInsets();
-	const scrollOffset = useSharedValue(0);
+	const scrollOffset = useSharedValue(60);
 	const installedWidgets = useWidgets();
 	const filteredWidgets = useMemo(() => {
 		return mockWidgets.filter((widget) => {
@@ -36,12 +36,6 @@ export const ExplorerScreen: FC = () => {
 	const onSearch = (query: string) => {
 		setSearch(query.toLowerCase());
 	};
-
-	const scrollHandler = useAnimatedScrollHandler({
-		onScroll: ({ contentOffset }) => {
-			scrollOffset.value = contentOffset.y;
-		},
-	});
 
 	return (
 		<View style={styles.container}>
@@ -59,8 +53,6 @@ export const ExplorerScreen: FC = () => {
 				onChangeSearch={onSearch}
 			/>
 			<Animated.ScrollView
-				onScroll={scrollHandler}
-				scrollEventThrottle={12}
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={scrollContentContainerStyle}
 			>

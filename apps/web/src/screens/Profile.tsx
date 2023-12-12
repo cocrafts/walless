@@ -12,7 +12,7 @@ import { Setting } from '@walless/icons';
 import { router } from 'utils/routing';
 
 export const ProfileScreen = () => {
-	const scrollOffset = useSharedValue(50);
+	const scrollOffset = useSharedValue(60);
 	const { isMobileResponsive } = useResponsive();
 	const insets = useUniversalInsets();
 	const handleNavigateToHistory = () => {

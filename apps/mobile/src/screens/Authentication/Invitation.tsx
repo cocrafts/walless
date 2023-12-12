@@ -12,7 +12,7 @@ export const InvitationScreen: FC = () => {
 	const insets = useSafeAreaInsets();
 	const containerStyle: ViewStyle = {
 		paddingTop: insets.top,
-		paddingBottom: Math.max(insets.bottom, 24),
+		paddingBottom: Math.max(insets.bottom, 32),
 		paddingHorizontal: 38,
 	};
 

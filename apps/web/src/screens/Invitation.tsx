@@ -10,7 +10,7 @@ const InvitationScreen = () => {
 	const [invitationError, setInvitationError] = useState<string>();
 	const containerStyle: ViewStyle = {
 		paddingTop: insets.top,
-		paddingBottom: Math.max(insets.bottom, 24),
+		paddingBottom: Math.max(insets.bottom, 32),
 	};
 
 	useEffect(() => {

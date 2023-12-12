@@ -14,7 +14,7 @@ export const InvitationScreen: FC = () => {
 	const containerStyle: ViewStyle = {
 		marginHorizontal: 38,
 		marginTop: insets.top,
-		marginBottom: Math.max(insets.bottom, 24),
+		marginBottom: Math.max(insets.bottom, 32),
 	};
 
 	const onInvitationCodeChange = async (value: string) => {

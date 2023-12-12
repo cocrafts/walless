@@ -44,5 +44,6 @@ export default InvitationScreen;
 const styles = StyleSheet.create({
 	container: {
 		marginHorizontal: 38,
+		marginBottom: 24,
 	},
 });

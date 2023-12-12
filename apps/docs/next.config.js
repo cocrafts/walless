@@ -13,6 +13,7 @@ module.exports = {
 		'@walless/markdown',
 		'react',
 		'react-native',
+		'react-native-gesture-handler',
 		'react-native-reanimated',
 		'react-native-svg',
 		'react-native-syntax-highlighter',

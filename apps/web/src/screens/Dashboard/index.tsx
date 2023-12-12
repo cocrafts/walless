@@ -1,32 +1,26 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Outlet } from 'react-router-dom';
-import { DashboardNavigator, useSettings } from '@walless/app';
-import { appState, widgetActions } from '@walless/engine';
-import type { WidgetDocument } from '@walless/store';
-import { useLocation, useParams, useSnapshot, useWidgets } from 'utils/hooks';
-import { router } from 'utils/routing';
+import {
+	universalActions,
+	universalSate,
+	useResponsive,
+	useSettings,
+	useSnapshot,
+} from '@walless/app';
+import type { DrawerType } from '@walless/gui';
+import { DrawerContainer } from '@walless/gui';
+import { useLocation } from 'utils/hooks';
+
+import Sidebar from './components/Sidebar';
 
 export const DashboardScreen: FC = () => {
-	const { id: extensionId } = useParams<'id'>();
+	const { isDrawerOpen } = useSnapshot(universalSate);
+	const { isMobileResponsive } = useResponsive();
+	const drawerType: DrawerType = isMobileResponsive ? 'back' : 'permanent';
 	const { pathname } = useLocation();
-	const { profile } = useSnapshot(appState);
-	const widgets = useWidgets();
 	const { setting, setPathname } = useSettings();
-
-	const getRouteActive = (item: WidgetDocument) => {
-		return `/${item._id}` === pathname || extensionId === item._id;
-	};
-
-	const handleExtensionPress = async (item: WidgetDocument) => {
-		await router.navigate(`/${item._id}`);
-	};
-
-	const removeLayout = async (layout: WidgetDocument) => {
-		widgetActions.removeWidget(layout);
-		await router.navigate('/');
-	};
 
 	useEffect(() => {
 		if (pathname !== setting?.latestLocation) {
@@ -34,20 +28,21 @@ export const DashboardScreen: FC = () => {
 		}
 	}, [pathname]);
 
+	const handleToggleRequest = (flag: boolean) => {
+		universalActions.toggleDrawer(flag);
+	};
+
 	return (
-		<View style={styles.container}>
-			<DashboardNavigator
-				style={styles.navigatorContainer}
-				profile={profile}
-				widgets={widgets}
-				getIsExtensionActive={getRouteActive}
-				onExtensionPress={handleExtensionPress}
-				onRemoveLayout={removeLayout}
-			/>
-			<View style={styles.contentContainer}>
-				<Outlet />
-			</View>
-		</View>
+		<DrawerContainer
+			style={styles.container}
+			DrawerComponent={Sidebar}
+			drawerType={drawerType}
+			isOpen={isDrawerOpen}
+			onRequestToggle={handleToggleRequest}
+			contentContainerStyle={styles.contentContainer}
+		>
+			<Outlet />
+		</DrawerContainer>
 	);
 };
 
@@ -58,10 +53,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 	},
-	navigatorContainer: {
-		width: 54,
-	},
 	contentContainer: {
 		flex: 1,
+		backgroundColor: '#19232c',
 	},
 });

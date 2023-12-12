@@ -20,7 +20,10 @@ export const injectModules = async () => {
 	modules.config = makeConfig() as never;
 	modules.encryptionKeyVault = createEncryptionKeyVault(modules.storage);
 	await Promise.all([configure(modules.storage)]);
-	modules.engine = await createEngine();
+
+	if (!modules.engine) {
+		modules.engine = await createEngine();
+	}
 
 	return modules;
 };

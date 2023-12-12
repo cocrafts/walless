@@ -24,7 +24,10 @@ const SignInInner: FC<Props> = ({
 				) : (
 					<Button
 						disabled={!isAbleToSignIn}
-						style={isAbleToSignIn ? styles.signInButton : styles.disabledButton}
+						style={[
+							styles.signInButton,
+							!isAbleToSignIn && styles.disabledButton,
+						]}
 						onPress={onGoogleSignIn}
 					>
 						<Google />
@@ -67,34 +70,19 @@ export default SignInInner;
 
 const styles = StyleSheet.create({
 	container: {
-		alignItems: 'center',
-		justifyContent: 'center',
 		gap: 28,
-		paddingBottom: 48,
+		paddingHorizontal: 36,
 	},
 	commandContainer: {
-		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	signInButton: {
 		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
 		backgroundColor: '#0694D3',
 		gap: 8,
-		width: 342,
-		height: 48,
-		borderRadius: 16,
 	},
 	disabledButton: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		gap: 8,
 		backgroundColor: '#223240',
-		width: 342,
-		height: 48,
-		borderRadius: 16,
 	},
 	buttonText: {
 		fontSize: 16,
@@ -102,33 +90,25 @@ const styles = StyleSheet.create({
 		color: 'white',
 	},
 	advancedModeContainer: {
-		alignContent: 'center',
-		justifyContent: 'center',
 		gap: 24,
 	},
 	separateContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'center',
 		gap: 16,
 	},
 	line: {
-		width: 96,
-		height: 2,
+		flex: 1,
+		height: 1,
 		backgroundColor: '#2A333C',
 	},
 	seedPhraseButton: {
 		backgroundColor: '#243F56',
-		width: 342,
-		height: 48,
-		borderRadius: 16,
-		justifyContent: 'center',
 	},
 	getInvitationCodeContainer: {
-		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		gap: 4,
+		gap: 8,
 	},
 	clickableText: {
 		fontSize: 14,

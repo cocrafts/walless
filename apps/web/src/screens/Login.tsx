@@ -16,7 +16,7 @@ export const LoginScreen: FC = () => {
 	} = useSnapshot(appState);
 
 	const handleNavigateToGetInvitationCode = () => {
-		router.navigate('/invitation');
+		router.navigate('/invitation', { replace: true });
 		appState.isAbleToSignIn = true;
 	};
 

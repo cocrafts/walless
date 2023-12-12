@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { RouterProvider } from 'react-router-dom';
+import { useResponsive } from '@walless/app';
 import { appState } from '@walless/engine';
 import { modalActions, ModalManager } from '@walless/gui';
 import { router } from 'utils/routing';
@@ -17,12 +18,14 @@ interface Props {
 
 const App: FC<Props> = ({ width = 410, height = 600 }) => {
 	const app = useSnapshot(appState);
+	const { isMobileResponsive } = useResponsive();
 	const containerRef = useRef<View>(null);
-	const appContainerStyle: ViewStyle = {
-		flex: 1,
+	const containerStyle: ViewStyle = isMobileResponsive
+		? styles.container
+		: styles.wrappedContainer;
+	const wrappedAppStyle: ViewStyle = {
 		width,
 		maxHeight: height,
-		backgroundColor: '#19232c',
 		borderRadius: 8,
 		overflow: 'hidden',
 	};
@@ -32,8 +35,11 @@ const App: FC<Props> = ({ width = 410, height = 600 }) => {
 	}, []);
 
 	return (
-		<View style={styles.container}>
-			<View ref={containerRef} style={appContainerStyle}>
+		<View style={containerStyle}>
+			<View
+				ref={containerRef}
+				style={[styles.appContainer, !isMobileResponsive && wrappedAppStyle]}
+			>
 				{app.loading ? <SplashWrapper /> : <RouterProvider router={router} />}
 				<ModalManager />
 			</View>
@@ -46,7 +52,14 @@ export default App;
 export const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+	},
+	wrappedContainer: {
+		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	appContainer: {
+		flex: 1,
+		backgroundColor: '#19232c',
 	},
 });

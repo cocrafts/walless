@@ -1,9 +1,17 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, Linking, StyleSheet } from 'react-native';
+import {
+	Image,
+	KeyboardAvoidingView,
+	Linking,
+	StyleSheet,
+	TouchableWithoutFeedback,
+} from 'react-native';
 import { Button, Input, Text, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
+
+import { hideNativeKeyboard } from '../utils';
 
 interface Props {
 	style?: ViewStyle;
@@ -24,30 +32,39 @@ export const Recovery: FC<Props> = ({ style, onPressContinue }) => {
 	};
 
 	return (
-		<View style={[styles.container, style]}>
-			<Image source={modules.asset.misc.walless} style={styles.logo} />
+		<TouchableWithoutFeedback onPress={hideNativeKeyboard}>
+			<View style={[styles.container, style]}>
+				<View />
 
-			<View style={styles.titleContainer}>
-				<Text style={styles.title}>Recovery your account</Text>
-				<Text style={styles.subText}>
-					Enter your Secret key to get going again
-				</Text>
-			</View>
+				<View style={styles.headerContainer}>
+					<Image
+						source={modules.asset.misc.walless}
+						style={styles.logo}
+						resizeMode="cover"
+					/>
+					<Text style={styles.title}>Recovery your account</Text>
+					<Text style={styles.subText}>
+						Enter your Secret key to get going again
+					</Text>
+				</View>
 
-			<View style={styles.lowerContainer}>
-				<Input
-					style={styles.inputText}
-					placeholder="Enter Secret key"
-					textAlign="center"
-					onChangeText={setRecoveryKey}
-				/>
-				<Button
-					style={[styles.continueButton]}
-					titleStyle={styles.continueButtonTitle}
-					title="Continue"
-					onPress={handlePressContinue}
-					disabled={!recoveryKey.trim()}
-				/>
+				<KeyboardAvoidingView style={styles.formContainer} behavior="padding">
+					<Input
+						style={styles.inputText}
+						placeholder="enter secret key"
+						textAlign="center"
+						onChangeText={setRecoveryKey}
+					/>
+					<Button
+						style={[styles.continueButton]}
+						titleStyle={styles.continueButtonTitle}
+						title="Continue"
+						onPress={handlePressContinue}
+						disabled={!recoveryKey.trim()}
+					/>
+				</KeyboardAvoidingView>
+
+				<View />
 				<Text style={styles.reminderText}>
 					Upon sign-up, your Secret Key is sent in the Walless Emergency Kit to
 					your registered email. If forgotten, contact us at{' '}
@@ -56,26 +73,28 @@ export const Recovery: FC<Props> = ({ style, onPressContinue }) => {
 					</Text>
 				</Text>
 			</View>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 
 export default Recovery;
 
+const logoSize = 120;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
+		justifyContent: 'space-around',
 		paddingHorizontal: 36,
-		paddingTop: 50,
 		gap: 40,
 	},
 	logo: {
-		width: 83,
-		height: 43,
+		marginTop: 48,
+		width: logoSize,
+		height: logoSize,
 	},
-	titleContainer: {
+	headerContainer: {
 		gap: 8,
+		alignItems: 'center',
 	},
 	title: {
 		fontSize: 20,
@@ -87,21 +106,23 @@ const styles = StyleSheet.create({
 		color: '#566674',
 		textAlign: 'center',
 	},
-	lowerContainer: {
-		width: '100%',
+	formContainer: {
+		gap: 24,
+		marginBottom: 32,
 	},
 	inputText: {
+		height: 52,
 		textAlign: 'center',
 	},
 	continueButtonTitle: {
 		fontWeight: '600',
 	},
 	continueButton: {
-		marginTop: 18,
-		marginBottom: 14,
+		height: 52,
 	},
 	reminderText: {
-		fontSize: 10,
+		fontSize: 12,
+		lineHeight: 18,
 		color: '#566674',
 		textAlign: 'center',
 	},

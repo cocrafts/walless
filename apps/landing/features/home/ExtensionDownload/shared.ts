@@ -7,17 +7,23 @@ export interface ExtensionConfig {
 	iconSrc: ImageURISource;
 }
 
-const makeExtensionConfig = (name: string, disabled = false) => ({
+const chromeUrl =
+	'https://chromewebstore.google.com/detail/walless/jfmajkmgjpjognffefopllhaijknhnmm';
+const makeExtensionConfig = (
+	name: string,
+	manualDownload = false,
+	disabled = false,
+) => ({
 	disabled,
 	title: name,
-	download: `/builds/${name.toLowerCase()}.zip`,
+	download: manualDownload ? `/builds/${name.toLowerCase()}.zip` : chromeUrl,
 	iconSrc: { uri: `/img/${name.toLowerCase()}.png` },
 });
 
 export const extensions: ExtensionConfig[] = [
 	makeExtensionConfig('Chrome'),
 	makeExtensionConfig('Brave'),
-	makeExtensionConfig('Firefox'),
+	makeExtensionConfig('Firefox', true),
 	makeExtensionConfig('Edge'),
 	makeExtensionConfig('Opera'),
 ];

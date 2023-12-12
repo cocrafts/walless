@@ -45,6 +45,7 @@ export const LoginFeature: FC<Props> = ({
 
 	return (
 		<View style={[styles.container, style]}>
+			<View />
 			<SignInHeader logoSrc={logoSrc} logoSize={logoSize} />
 			<SignInInner
 				isAbleToSignIn={isAbleToSignIn}

@@ -1,10 +1,9 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { useMedia } from '@tamagui/core';
-import { View } from '@walless/gui';
+import { Anchor, View } from '@walless/gui';
 import { Button } from '@walless/ui';
 import { ContainerStack } from 'components/styled';
-import { handleShowSignUpModal } from 'features/home/HeadingSection/SignUpModal';
 import { useRouter } from 'next/router';
 
 import HomeButton from './HomeButton';
@@ -35,7 +34,9 @@ export const HomeNavigation: FC = () => {
 						})}
 				</View>
 
-				<Button title="Join Waitlist" onPress={handleShowSignUpModal} />
+				<Anchor href="https://app.walless.io" target="_blank">
+					<Button title="Launch Walless" marginHorizontal={8} />
+				</Anchor>
 			</ContainerStack>
 		</View>
 	);

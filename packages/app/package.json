@@ -23,13 +23,11 @@
     "react": "^18.2.0",
     "react-native-gesture-handler": "*",
     "react-native-reanimated": "*",
+    "react-native-safe-area-context": "4.7.4",
+    "react-native-webview": "^13.6.2",
     "valtio": "1.10.5"
   },
   "devDependencies": {
     "eslint": "8.38.0"
-  },
-  "dependencies": {
-    "react-native-safe-area-context": "4.7.4",
-    "react-native-webview": "^13.6.2"
   }
 }

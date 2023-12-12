@@ -11540,8 +11540,6 @@ __metadata:
   resolution: "@walless/app@workspace:packages/app"
   dependencies:
     eslint: 8.38.0
-    react-native-safe-area-context: 4.7.4
-    react-native-webview: ^13.6.2
   peerDependencies:
     "@metaplex-foundation/js": 0.18.3
     "@mysten/sui.js": 0.34.0
@@ -11555,6 +11553,8 @@ __metadata:
     react: ^18.2.0
     react-native-gesture-handler: "*"
     react-native-reanimated: "*"
+    react-native-safe-area-context: 4.7.4
+    react-native-webview: ^13.6.2
     valtio: 1.10.5
   languageName: unknown
   linkType: soft

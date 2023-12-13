@@ -11555,6 +11555,7 @@ __metadata:
     react-native-reanimated: "*"
     react-native-safe-area-context: 4.7.4
     react-native-webview: ^13.6.2
+    use-debounce: ^10.0.0
     valtio: 1.10.5
   languageName: unknown
   linkType: soft
@@ -11854,6 +11855,7 @@ __metadata:
     react-native-url-polyfill: ^2.0.0
     react-native-webview: ^13.6.2
     react-test-renderer: 18.2.0
+    use-debounce: ^10.0.0
   peerDependencies:
     "@tkey/react-native-storage": ^11.0.0
     "@tkey/seed-phrase": ^11.0.2
@@ -11988,6 +11990,7 @@ __metadata:
     react-router-dom: ^6.10.0
     rimraf: ^5.0.1
     setimmediate: ^1.0.5
+    use-debounce: ^10.0.0
     valtio: 1.10.5
   peerDependencies:
     "@tkey/chrome-storage": 9.0.0
@@ -28042,6 +28045,15 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 7913df383a5a6fcb399212eedefaac2e0c6f843555202d4e3010bac3848afe38ecaa3d0d6500ad1d936fbeffd637e6c517e68edb024af5e6beca7f27f3ce7b21
+  languageName: node
+  linkType: hard
+
+"use-debounce@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "use-debounce@npm:10.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: b296fedba916ca721eeb7117f29a13c252966d03411abccc5e5894ed4de0f32b9cb6f6b150555b8b4cb9b0acf53b84022ad4cd43b89253389e9cd13779eebca7
   languageName: node
   linkType: hard
 

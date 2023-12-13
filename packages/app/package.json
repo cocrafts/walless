@@ -25,6 +25,7 @@
     "react-native-reanimated": "*",
     "react-native-safe-area-context": "4.7.4",
     "react-native-webview": "^13.6.2",
+    "use-debounce": "^10.0.0",
     "valtio": "1.10.5"
   },
   "devDependencies": {

@@ -65,7 +65,6 @@ export default TransactionDetails;
 
 const styles = StyleSheet.create({
 	container: {
-		minWidth: 340,
 		gap: 16,
 		paddingVertical: 4,
 	},

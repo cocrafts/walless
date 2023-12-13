@@ -1,8 +1,8 @@
 import type { ViewStyle } from 'react-native';
-import auth from '@react-native-firebase/auth';
 import { Recovery, useUniversalInsets } from '@walless/app';
 import { recoverByEmergencyKey } from '@walless/auth';
 import { logger } from '@walless/core';
+import { auth } from 'utils/firebase';
 import { navigate } from 'utils/navigation';
 
 export const RecoveryScreen = () => {

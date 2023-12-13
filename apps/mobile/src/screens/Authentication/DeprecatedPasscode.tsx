@@ -1,4 +1,3 @@
-import auth from '@react-native-firebase/auth';
 import { DeprecatedPasscode } from '@walless/app';
 import {
 	initAndRegisterWallet,
@@ -6,6 +5,7 @@ import {
 	validateAndRecoverWithPasscode,
 } from '@walless/auth';
 import { logger } from '@walless/core';
+import { auth } from 'utils/firebase';
 import { navigate } from 'utils/navigation';
 
 export const DeprecatedPasscodeScreen = () => {

@@ -1,6 +1,7 @@
+import Config from 'react-native-config';
 import type { UniversalAsset } from '@walless/ioc';
 
-export const nativeAsset: UniversalAsset = {
+export const asset: UniversalAsset = {
 	widget: {
 		solana: {
 			storeMeta: {
@@ -88,8 +89,4 @@ export const nativeAsset: UniversalAsset = {
 	},
 };
 
-export const resources = {
-	walless: {
-		icon: require('../../assets/img/icon.png'),
-	},
-};
+export const environment = Config;

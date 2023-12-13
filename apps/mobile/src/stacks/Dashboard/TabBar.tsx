@@ -36,9 +36,12 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const { isDrawerOpen } = useSnapshot(localState);
 	const offset = useSharedValue(0);
 	const realBarHeight = tabBarHeight + insets.bottom;
-	const animatedStyles = useAnimatedStyle(() => ({
-		transform: [{ translateY: offset.value }],
-	}));
+	const animatedStyles = useAnimatedStyle(
+		() => ({
+			transform: [{ translateY: offset.value }],
+		}),
+		[offset],
+	);
 
 	useEffect(() => {
 		const { routes, index } = state;

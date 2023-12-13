@@ -1,8 +1,9 @@
 import getAnalytics, {
 	logEvent,
+	logScreenView,
 	setUserProperties,
 } from '@react-native-firebase/analytics';
-import auth from '@react-native-firebase/auth';
+import authModule from '@react-native-firebase/auth';
 import getCrashlytics from '@react-native-firebase/crashlytics';
 import getMessaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
@@ -11,6 +12,7 @@ import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
 import type { UniversalAnalytics } from '@walless/ioc';
 
+export const auth = authModule;
 export const analytics = getAnalytics();
 export const crashlytics = getCrashlytics();
 export const messaging = getMessaging();
@@ -73,5 +75,8 @@ export const initializeAuth = async () => {
 export const universalAnalytics: UniversalAnalytics = {
 	logEvent: (name, params, options) => {
 		return logEvent(analytics, name, params, options);
+	},
+	logScreenView: (screen_name, screen_class, others = {}) => {
+		return logScreenView(analytics, { screen_name, screen_class, ...others });
 	},
 };

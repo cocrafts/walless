@@ -18,10 +18,8 @@ const copyAssets = (config) => {
 					from: resolve(process.cwd(), 'assets/'),
 					to: './',
 					filter: (uri) => {
-						const isFont = uri.indexOf('/fonts/') >= 0;
 						const isTemplate = uri.endsWith('.ejs') || uri.endsWith('.sass');
-
-						return !isFont && !isTemplate;
+						return !isTemplate;
 					},
 				},
 			],

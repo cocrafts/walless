@@ -3,7 +3,7 @@ import type { View } from 'react-native';
 import type { NavigationState } from '@react-navigation/native';
 import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
-import { analytics } from 'utils/firebase';
+import { universalAnalytics } from 'utils/firebase';
 import { navigationRef } from 'utils/navigation';
 
 export const useNavigationHydrate = () => {
@@ -21,12 +21,8 @@ export const useNavigationHydrate = () => {
 		const previousRouteName = routeNameRef.current;
 		const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
 
-		if (previousRouteName !== currentRouteName) {
-			analytics.logScreenView({
-				screen_name: currentRouteName,
-				screen_class: currentRouteName,
-			});
-
+		if (!!currentRouteName && previousRouteName !== currentRouteName) {
+			universalAnalytics.logScreenView(currentRouteName, currentRouteName);
 			routeNameRef.current = currentRouteName;
 
 			if (currentRoute?.key) {

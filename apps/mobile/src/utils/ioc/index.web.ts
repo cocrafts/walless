@@ -1,30 +1,32 @@
-import Config from 'react-native-config';
-import WebSQLite from 'react-native-quick-websql';
-import { firebase } from '@react-native-firebase/auth';
+import { signOut } from '@firebase/auth';
 import { buyToken } from '@walless/app';
 import { logger } from '@walless/core';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
-import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
+import IDBPouch from 'pouchdb-adapter-idb';
 
-import { nativeAsset } from './config';
-import { initializeAuth, universalAnalytics } from './firebase';
-import { qlClient } from './graphql';
-import { nativeModules } from './native';
-import { navigate, navigationRef } from './navigation';
-import { createAndSend, handleAptosOnChainAction } from './transaction';
-import { key } from './w3a';
+import { asset, environment } from '../config';
+import { configureDeviceAndNotification } from '../device/device.web';
+import {
+	auth,
+	initializeAuth,
+	universalAnalytics,
+} from '../firebase/index.web';
+import { qlClient } from '../graphql';
+import { nativeModules } from '../native';
+import { navigate, navigationRef } from '../navigation';
+import { createAndSend, handleAptosOnChainAction } from '../transaction';
+import { key } from '../w3a';
 
 export const injectModules = async () => {
 	const startTime = new Date();
-	const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
-	const storage = create('engine', SQLiteAdapter);
+	const storage = create('engine', IDBPouch);
 
-	utils.buyToken = buyToken;
 	utils.createAndSend = createAndSend;
 	utils.handleAptosFunction = handleAptosOnChainAction;
+	utils.buyToken = buyToken;
 	utils.logOut = logOut;
 	utils.navigateToWidget = navigateToWidget;
 	utils.navigateToCollection = navigateToCollection;
@@ -33,8 +35,8 @@ export const injectModules = async () => {
 
 	modules.native = nativeModules;
 	modules.analytics = universalAnalytics;
-	modules.asset = nativeAsset;
-	modules.config = Config;
+	modules.asset = asset;
+	modules.config = environment;
 	modules.storage = storage;
 	modules.qlClient = qlClient;
 	modules.thresholdKey = key as never;
@@ -42,12 +44,14 @@ export const injectModules = async () => {
 
 	await configure(storage); // pouchdb setup, should be lighting fast
 	await initializeAuth(); // some of its dependency triggered without await causing fast complete/resolve
-	modules.engine = await createEngine();
+	modules.engine = await createEngine(); // start crawling engine
 	modules.engine.start();
+
+	configureDeviceAndNotification(); // asynchornous, should cost nothing evaluate/run
 
 	const milliseconds =
 		new Date().getMilliseconds() - startTime.getMilliseconds();
-	logger.debug(`Configured IoC module in ${milliseconds}ms`);
+	logger.info(`Configured IoC module in ${milliseconds}ms`);
 
 	return modules;
 };
@@ -55,10 +59,11 @@ export const injectModules = async () => {
 export default modules;
 
 const logOut = async () => {
-	await firebase.auth().signOut();
+	await signOut(auth());
 	await modules.storage.clearAllDocs();
 
 	navigate('Authentication', { screen: 'Login' });
+	// router.navigate('/login', { replace: true });
 };
 
 const navigateToWidget = (id: string) => {

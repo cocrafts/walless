@@ -32,10 +32,13 @@ export const TabBarItem: FC<Props> = ({
 }) => {
 	const scale = useSharedValue(1);
 	const opacity = useSharedValue(1);
-	const animatedStyle = useAnimatedStyle(() => ({
-		opacity: opacity.value,
-		transform: [{ scale: scale.value }],
-	}));
+	const animatedStyle = useAnimatedStyle(
+		() => ({
+			opacity: opacity.value,
+			transform: [{ scale: scale.value }],
+		}),
+		[opacity, scale],
+	);
 	const containerStyle = [styles.container, animatedStyle, style];
 
 	useEffect(() => {

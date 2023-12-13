@@ -1,5 +1,4 @@
 import { getAnalytics, logEvent } from '@firebase/analytics';
-import { getMessaging } from '@firebase/messaging';
 import {
 	activate,
 	fetchConfig,
@@ -14,7 +13,6 @@ import { app } from './index.ext';
 
 export const analytics = getAnalytics(app);
 export const remoteConfig = getRemoteConfig(app);
-export const messaging = getMessaging(app);
 
 /* update interval: 10 seconds for dev, and 1 hour for prod */
 remoteConfig.settings.minimumFetchIntervalMillis = __DEV__ ? 10000 : 3600000;

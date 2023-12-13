@@ -5,7 +5,6 @@ import getAnalytics, {
 } from '@react-native-firebase/analytics';
 import authModule from '@react-native-firebase/auth';
 import getCrashlytics from '@react-native-firebase/crashlytics';
-import getMessaging from '@react-native-firebase/messaging';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
@@ -15,7 +14,6 @@ import type { UniversalAnalytics } from '@walless/ioc';
 export const auth = authModule;
 export const analytics = getAnalytics();
 export const crashlytics = getCrashlytics();
-export const messaging = getMessaging();
 
 const minimumFetchIntervalMillis = __DEV__
 	? 10000 // 10 seconds for development

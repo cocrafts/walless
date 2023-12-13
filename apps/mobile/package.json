@@ -4,12 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "metacraft",
+    "dev:ext": "BUILD_TARGET=extension && metacraft",
     "android": "react-native run-android",
+    "build": "yarn build:ext && yarn build:web",
+    "build:web": "rimraf metacraft builds && yarn batch && metacraft bundle",
+    "build:ext": "BUILD_TARGET=extension && yarn build:web && node scripts/bundler",
+    "build:store": "BUILD_TARGET=extension && yarn build:web && yarn badlinks && node scripts/bundler",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "react-native start",
     "postinstall": "rm -rf node_modules/superstruct",
+    "badlinks": "npx badlinks metacraft -r",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

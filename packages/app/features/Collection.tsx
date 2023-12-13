@@ -51,7 +51,7 @@ export const CollectionFeat: FC<Props> = ({ id, style }) => {
 			</Hoverable>
 			<View
 				style={styles.collectiblesContainer}
-				onLayout={onGridContainerLayout}
+				onLayout={(e) => onGridContainerLayout(e.nativeEvent.layout)}
 			>
 				{curCollectibles.map((ele) => {
 					const collectibleId = ele._id.split('/')[2];

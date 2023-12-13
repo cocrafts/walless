@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import type { LayoutChangeEvent } from 'react-native';
+import type { LayoutRectangle } from 'react-native';
 import { Platform } from 'react-native';
 import type { EdgeInsets } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -53,8 +53,8 @@ export const useLazyGridLayout = ({
 }: GridLayoutOptions) => {
 	const [width, setWidth] = useState<number>(0);
 	const onGridContainerLayout = useDebouncedCallback(
-		({ nativeEvent }: LayoutChangeEvent) => {
-			const extendedContainerWidth = nativeEvent.layout.width + gap;
+		(layout: LayoutRectangle) => {
+			const extendedContainerWidth = layout.width + gap;
 			const extendedItemWidth = referenceWidth + gap;
 			const itemCount = Math.floor(extendedContainerWidth / extendedItemWidth);
 			const extraWidth = extendedContainerWidth % extendedItemWidth;

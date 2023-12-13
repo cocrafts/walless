@@ -1,4 +1,5 @@
-import { type FC, useMemo, useState } from 'react';
+import type { FC } from 'react';
+import { useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import Animated, { useSharedValue } from 'react-native-reanimated';

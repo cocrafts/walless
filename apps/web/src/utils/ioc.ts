@@ -60,7 +60,7 @@ const logOut = async () => {
 	await signOut(auth);
 	await modules.storage.clearAllDocs();
 
-	router.navigate('/login');
+	router.navigate('/login', { replace: true });
 };
 
 const navigateToWidget = (id: string) => {

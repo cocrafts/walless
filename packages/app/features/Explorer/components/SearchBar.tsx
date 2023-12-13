@@ -12,7 +12,7 @@ type Props = InputProps & {
 	onPressSearch?: (query: string) => void;
 };
 
-export const SearchBar: FC<Props> = ({
+export const ExplorerSearchBar: FC<Props> = ({
 	style,
 	focusStyle,
 	inputStyle,
@@ -74,7 +74,7 @@ export const SearchBar: FC<Props> = ({
 	);
 };
 
-export default SearchBar;
+export default ExplorerSearchBar;
 
 const styles = StyleSheet.create({
 	inputContainer: {
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
 	input: {
 		fontSize: 15,
 		paddingVertical: 10,
-		paddingLeft: 0,
+		paddingHorizontal: 0,
+		paddingRight: 12,
 	},
 });

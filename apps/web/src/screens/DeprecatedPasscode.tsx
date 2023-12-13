@@ -11,7 +11,7 @@ export const DeprecatedPasscodeScreen = () => {
 		const registeredAccount = await initAndRegisterWallet();
 		if (registeredAccount?.identifier) {
 			await signInWithPasscode(passcode, auth.currentUser);
-			router.navigate('/');
+			router.navigate('/', { replace: true });
 		} else {
 			showError('Error during migrate account, please contact developer!');
 		}

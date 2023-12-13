@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, Platform, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
@@ -35,40 +35,32 @@ export const WalletAddress: FC<Props> = ({
 		height: iconSize,
 		borderRadius: iconSize / 2,
 	};
-	const addressTextStyle = Platform.select({
-		default: { fontSize: 15 },
-		web: { fontSize: 13 },
-	});
 
 	const handleCopy = () => {
 		item._id && onCopyAddress?.(item._id);
 	};
 
 	return (
-		<View style={styles.container}>
-			<View style={iconContainerStyle}>
-				<Image style={iconStyle} source={iconSrc} />
-			</View>
-			<Text style={[styles.addressText, addressTextStyle]}>
-				{`Wallet #${index + 1}: ${shortenAddress(item._id as string)}`}
-			</Text>
-			<Hoverable onPress={handleCopy}>
+		<Hoverable onPress={handleCopy}>
+			<View style={styles.container}>
+				<View style={iconContainerStyle}>
+					<Image style={iconStyle} source={iconSrc} />
+				</View>
+				<Text style={styles.addressText}>
+					{`Wallet #${index + 1}: ${shortenAddress(item._id as string)}`}
+				</Text>
 				<View style={styles.iconWrapper}>
 					<View fullscreen style={styles.iconInner} />
 					<Copy size={iconWrapperSize - 8} />
 				</View>
-			</Hoverable>
-		</View>
+			</View>
+		</Hoverable>
 	);
 };
 
 export default WalletAddress;
 
-const iconWrapperSize = Platform.select({
-	default: 30,
-	web: 20,
-});
-
+const iconWrapperSize = 22;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',

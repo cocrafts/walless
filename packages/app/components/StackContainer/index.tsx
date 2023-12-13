@@ -5,9 +5,9 @@ import Animated, {
 	useAnimatedRef,
 	useScrollViewOffset,
 } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { tabBarHeight } from '../../utils';
+import { useUniversalInsets } from '../../utils/hooks';
 
 import StackHeader from './Header';
 
@@ -29,7 +29,7 @@ export const StackContainer: FC<Props> = ({
 	goBack,
 	children,
 }) => {
-	const insets = useSafeAreaInsets();
+	const insets = useUniversalInsets();
 	const scrollRef = useAnimatedRef<Animated.ScrollView>();
 	const scrollOffset = useScrollViewOffset(scrollRef);
 	const scrollContentContainerStyle: ViewStyle = {
@@ -47,6 +47,7 @@ export const StackContainer: FC<Props> = ({
 			/>
 			<Animated.ScrollView
 				ref={scrollRef}
+				showsVerticalScrollIndicator={false}
 				scrollEventThrottle={12}
 				contentContainerStyle={scrollContentContainerStyle}
 			>

@@ -15,7 +15,7 @@ export const ExtensionIcon: FC<Props> = ({ size = 48, item }) => {
 	const href = item.disabled ? '#' : item.download;
 
 	return (
-		<Anchor opacity={opacity} href={href}>
+		<Anchor opacity={opacity} href={href} target="_blank">
 			<Stack
 				animation="fast"
 				hoverStyle={{ opacity: 0.6 }}

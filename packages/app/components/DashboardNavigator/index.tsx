@@ -8,6 +8,7 @@ import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 
 import RemoveLayout from '../../modals/RemoveLayout';
+import { useUniversalInsets } from '../../utils/hooks';
 
 import NavigatorOrb from './NavigatorOrb';
 
@@ -30,7 +31,11 @@ export const DashboardNavigator: FC<Props> = ({
 	onExtensionPress,
 	onRemoveLayout,
 }) => {
-	const containerStyle = { width: size };
+	const insets = useUniversalInsets();
+	const containerStyle = {
+		width: size,
+		paddingTop: Math.max(insets.top + 6, 12),
+	};
 	const exploreItem: Partial<WidgetDocument> = {
 		_id: '',
 		storeMeta: {

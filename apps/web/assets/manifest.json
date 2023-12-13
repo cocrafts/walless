@@ -1,10 +1,10 @@
 {
-  "name": "Walless Wallet",
+  "name": "Walless",
   "short_name": "Walless",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#131c24",
-  "theme_color": "#131c24",
+  "background_color": "#19232c",
+  "theme_color": "#19232c",
   "orientation": "portrait-primary",
   "icons": [
     {

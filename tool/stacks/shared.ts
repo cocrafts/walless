@@ -6,14 +6,14 @@ const landingAlias = {
 
 const appAlias = {
 	production: 'app.',
-	staging: 'stg-app.',
-	development: 'dev-app.',
+	staging: 'app-stg.',
+	development: 'app-dev.',
 };
 
 const documentAlias = {
 	production: 'docs.',
-	staging: 'stg-docs.',
-	development: 'dev-docs.',
+	staging: 'docs-stg.',
+	development: 'docs-stg.',
 };
 
 export const sslArn =
@@ -25,11 +25,11 @@ export const landingDomainFromStage = (stage: string) => {
 };
 
 export const appDomainFromStage = (stage: string) => {
-	const prefix = appAlias[stage] || `${stage}-app.`;
+	const prefix = appAlias[stage] || `app-${stage}.`;
 	return `${prefix}walless.io`;
 };
 
 export const documentDomainFromStage = (stage: string) => {
-	const prefix = documentAlias[stage] || `${stage}-docs.`;
+	const prefix = documentAlias[stage] || `docs-${stage}.`;
 	return `${prefix}walless.io`;
 };

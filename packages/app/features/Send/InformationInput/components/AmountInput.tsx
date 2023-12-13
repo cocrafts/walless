@@ -47,6 +47,7 @@ export const AmountInput: FC = () => {
 				value={amount != undefined ? String(amount) : ''}
 				importantStyle={!!errorText && styles.errorInputStyle}
 				placeholder="Token amount"
+				keyboardType="numeric"
 				onChangeText={transactionActions.setAmount}
 				onBlur={handlerBlur}
 				suffix={

@@ -13,7 +13,7 @@ interface Props {
 	isAdded: boolean;
 }
 
-export const WidgetItem: FC<Props> = ({ style, widget, isAdded }) => {
+export const ExplorerWidgetItem: FC<Props> = ({ style, widget, isAdded }) => {
 	const coverImgResource = runtime.isMobile
 		? modules.asset.widget[widget._id]?.storeMeta.coverUri
 		: { uri: widget.storeMeta.coverUri };
@@ -61,7 +61,7 @@ export const WidgetItem: FC<Props> = ({ style, widget, isAdded }) => {
 	);
 };
 
-export default WidgetItem;
+export default ExplorerWidgetItem;
 
 const styles = StyleSheet.create({
 	container: {

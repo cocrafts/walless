@@ -5,7 +5,6 @@ import { withStackContainer } from '@walless/app';
 import WidgetScreen from 'screens/Dashboard/Widget';
 import CollectibleScreen from 'screens/Dashboard/Widget/Collectible';
 import { CollectionScreen } from 'screens/Dashboard/Widget/Collection';
-import { useSafeAreaInsets } from 'utils/hooks';
 import type { ExploreParamList } from 'utils/navigation';
 
 import Sidebar, { sidebarWidth } from './Sidebar';
@@ -13,17 +12,9 @@ import Sidebar, { sidebarWidth } from './Sidebar';
 const Drawer = createDrawerNavigator<ExploreParamList>();
 
 export const ExplorerStack = () => {
-	const insets = useSafeAreaInsets();
-
 	const screenOptions: DrawerNavigationOptions = {
 		headerShown: false,
-		drawerStyle: [
-			styles.drawer,
-			{
-				backgroundColor: '#131C24',
-				paddingTop: Math.max(insets.top - 6, 18),
-			},
-		],
+		drawerStyle: styles.drawer,
 		swipeEdgeWidth: 5000,
 		swipeMinDistance: sidebarWidth / 3,
 		overlayColor: 'transparent',

@@ -20,7 +20,7 @@ export const WidgetFeature: FC<Props> = ({
 	onToggleDrawer,
 }) => {
 	const insets = useSafeAreaInsets();
-	const scrollOffset = useSharedValue(80);
+	const scrollOffset = useSharedValue(60);
 	const WidgetComponent = extractWidgetComponent(id);
 	const widgetName = mockWidgets.find((i) => i._id === id)?.name || 'Unkown';
 

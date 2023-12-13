@@ -11,6 +11,7 @@
     "build": "node tool/batch && turbo run build",
     "deploy": "sst deploy",
     "dev": "turbo run dev",
+    "dev:sst": "sst dev --stage development",
     "test": "turbo run test",
     "gen": "node tool/gen",
     "codegen": "graphql-codegen --config tool/codegen.ts",

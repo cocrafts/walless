@@ -26,7 +26,7 @@ export const ExtensionDownload: FC = () => {
 					fontWeight="300"
 					fontStyle="italic"
 				>
-					(Internal test, for developer only)
+					Beta testing, official release comming soon!
 				</Text>
 			</Stack>
 		</ContainerStack>

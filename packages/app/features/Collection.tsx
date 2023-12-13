@@ -6,7 +6,7 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import { utils } from '@walless/ioc';
 
-import { useNfts } from '../utils/hooks';
+import { useLazyGridLayout, useNfts } from '../utils/hooks';
 
 import CollectibleItem from './Widget/components/CollectibleItem';
 
@@ -17,6 +17,10 @@ interface Props {
 
 export const CollectionFeat: FC<Props> = ({ id, style }) => {
 	const { collections, collectibles } = useNfts();
+	const { onGridContainerLayout, width } = useLazyGridLayout({
+		referenceWidth: 160,
+		gap: gridGap,
+	});
 
 	const curCollection = useMemo(() => {
 		return collections.find((ele) => ele._id.includes(id as string));
@@ -45,7 +49,10 @@ export const CollectionFeat: FC<Props> = ({ id, style }) => {
 						'Unknown collection'}
 				</Text>
 			</Hoverable>
-			<View style={styles.collectiblesContainer}>
+			<View
+				style={styles.collectiblesContainer}
+				onLayout={onGridContainerLayout}
+			>
 				{curCollectibles.map((ele) => {
 					const collectibleId = ele._id.split('/')[2];
 
@@ -53,6 +60,7 @@ export const CollectionFeat: FC<Props> = ({ id, style }) => {
 						<CollectibleItem
 							key={ele._id}
 							item={ele}
+							size={width}
 							onPress={() => handleNavigateToCollectible(collectibleId)}
 						/>
 					);
@@ -64,6 +72,7 @@ export const CollectionFeat: FC<Props> = ({ id, style }) => {
 
 export default CollectionFeat;
 
+const gridGap = 18;
 const styles = StyleSheet.create({
 	container: {
 		padding: 18,
@@ -81,8 +90,7 @@ const styles = StyleSheet.create({
 	},
 	collectiblesContainer: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
 		flexWrap: 'wrap',
-		gap: 18,
+		gap: gridGap,
 	},
 });

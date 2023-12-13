@@ -1,10 +1,10 @@
-import { type FC, useState } from 'react';
-import type { LayoutChangeEvent } from 'react-native';
+import { type FC } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import type { CollectionDocument } from '@walless/store';
-import { useDebouncedCallback } from 'use-debounce';
+
+import { useLazyGridLayout } from '../../../utils/hooks';
 
 import CollectibleItem from './CollectibleItem';
 
@@ -12,35 +12,21 @@ interface Props {
 	collections?: CollectionDocument[];
 }
 
-const GAP = 9;
-const MEDIUM_SIZE = 400;
-
 export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
-	const [itemWidth, setItemWidth] = useState<number>(148);
+	const { onGridContainerLayout, width } = useLazyGridLayout({
+		referenceWidth: 160,
+		gap: gridGap,
+	});
 	const handlePressItem = (ele: CollectionDocument) => {
 		// TODO: navigate to nft
 		const collectionId = ele._id.split('/')[2];
 		utils.navigateToCollection(collectionId);
 	};
 
-	const onContainerLayout = useDebouncedCallback(
-		({ nativeEvent }: LayoutChangeEvent) => {
-			let nextItemWidth = nativeEvent.layout.width / 2 - GAP;
-			if (nativeEvent.layout.width > MEDIUM_SIZE) {
-				nextItemWidth = nativeEvent.layout.width / 3 - GAP;
-			}
-
-			if (nextItemWidth !== itemWidth || itemWidth === undefined) {
-				setItemWidth(nextItemWidth);
-			}
-		},
-		200,
-	);
-
 	return (
 		<ScrollView
 			showsVerticalScrollIndicator={false}
-			onLayout={onContainerLayout}
+			onLayout={onGridContainerLayout}
 		>
 			{collections.length === 0 && (
 				<View horizontal style={styles.emptyContainer}>
@@ -48,14 +34,14 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 				</View>
 			)}
 			<View style={styles.container}>
-				{itemWidth &&
+				{width > 0 &&
 					collections.map((ele, index) => (
 						<CollectibleItem
 							key={index}
 							item={ele}
 							collectibleCount={ele.count}
 							onPress={() => handlePressItem(ele)}
-							size={itemWidth}
+							size={width}
 						/>
 					))}
 			</View>
@@ -65,12 +51,12 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 
 export default CollectiblesTab;
 
+const gridGap = 18;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		justifyContent: 'space-between',
-		rowGap: 20,
+		gap: gridGap,
 		paddingTop: 16,
 		paddingBottom: 60,
 	},

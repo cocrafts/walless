@@ -5,12 +5,7 @@ import type {
 	StyleProp,
 	ViewStyle,
 } from 'react-native';
-import {
-	StyleSheet,
-	TouchableOpacity,
-	TouchableWithoutFeedback,
-	View,
-} from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { type DrawerPosition } from 'react-native-gesture-handler';
 import Animated, {
 	useAnimatedStyle,
@@ -39,8 +34,6 @@ interface Props {
 	drawerPosition?: DrawerPosition;
 	drawerAnimator?: DrawerAnimator;
 }
-
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 export const DrawerContainer: FC<Props> = ({
 	style,

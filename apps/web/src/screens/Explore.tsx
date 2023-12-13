@@ -1,10 +1,7 @@
 import { type FC, useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
-import Animated, {
-	useAnimatedScrollHandler,
-	useSharedValue,
-} from 'react-native-reanimated';
+import Animated, { useSharedValue } from 'react-native-reanimated';
 import {
 	ExplorerSearchBar,
 	ExplorerWidgetItem,

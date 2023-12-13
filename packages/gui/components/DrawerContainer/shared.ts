@@ -1,10 +1,5 @@
 import { Easing, type LayoutRectangle, type ViewStyle } from 'react-native';
-import {
-	type SharedValue,
-	withSpring,
-	withTiming,
-} from 'react-native-reanimated';
-import { isObject } from 'lodash';
+import { type SharedValue, withTiming } from 'react-native-reanimated';
 
 export type DrawerPosition = 'left' | 'right';
 export type DrawerType = 'front' | 'back' | 'slide' | 'permanent';

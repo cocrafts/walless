@@ -14,7 +14,7 @@ interface Props {
 
 export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 	const { onGridContainerLayout, width } = useLazyGridLayout({
-		referenceWidth: 160,
+		referenceWidth: 156,
 		gap: gridGap,
 	});
 	const handlePressItem = (ele: CollectionDocument) => {

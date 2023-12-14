@@ -7,7 +7,7 @@ main.tf
 cdk.context.json
 
 # builds
-apps/web/metacraft
+apps/**/metacraft
 apps/**/builds
 packages/**/lib
 .swc

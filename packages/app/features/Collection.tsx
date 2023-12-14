@@ -18,7 +18,7 @@ interface Props {
 export const CollectionFeat: FC<Props> = ({ id, style }) => {
 	const { collections, collectibles } = useNfts();
 	const { onGridContainerLayout, width } = useLazyGridLayout({
-		referenceWidth: 160,
+		referenceWidth: 156,
 		gap: gridGap,
 	});
 

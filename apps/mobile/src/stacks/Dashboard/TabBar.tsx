@@ -11,7 +11,6 @@ import {
 } from 'react-native-reanimated';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { type RouteProp } from '@react-navigation/native';
-import { DrawerActions } from '@react-navigation/native';
 import { tabBarHeight, useSnapshot } from '@walless/app';
 import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
@@ -75,8 +74,6 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 				name: route.name,
 				merge: true,
 			} as never);
-		} else if (isFocusing && currentRoute.name === 'Explore') {
-			navigation.dispatch(DrawerActions.toggleDrawer());
 		}
 	};
 

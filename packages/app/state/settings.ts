@@ -15,11 +15,8 @@ export const setPrivacy = async (hideBalance: boolean) => {
 
 export const setPathname = async (latestScreen: string) => {
 	await modules.storage.upsert<SettingDocument>(id, async (doc) => {
-		if (doc.config) {
-			// TODO: config is lost after logging out
-			doc.config.latestLocation = latestScreen;
-		}
-
+		doc.config = doc.config || {};
+		doc.config.latestLocation = latestScreen;
 		return doc;
 	});
 };

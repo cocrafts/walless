@@ -27,12 +27,11 @@ export const useNavigationHydrate = () => {
 
 			if (currentRoute?.key) {
 				modules.storage.upsert<SettingDocument>('settings', async (doc) => {
-					if (doc.config) {
-						doc.config.latestLocation = {
-							name: currentRoute?.name,
-							params: currentRoute?.params,
-						};
-					}
+					doc.config = doc.config || {};
+					doc.config.latestLocation = {
+						name: currentRoute?.name,
+						params: currentRoute?.params,
+					};
 
 					return doc;
 				});

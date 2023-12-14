@@ -1,7 +1,8 @@
 import { createRoot } from 'react-dom/client';
+import { runBridge } from 'bridge';
 import { injectModules } from 'utils/ioc';
+import { navigationRef } from 'utils/navigation';
 
-// import { injectRuntime } from 'bridge/entry';
 import 'raf/polyfill';
 import 'setimmediate';
 
@@ -11,6 +12,8 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(<App />);
-injectModules().then(async () => {
-	// await Promise.all([injectRuntime()]);
+
+injectModules().then(() => {
+	navigationRef.navigate('Splash');
+	runBridge();
 });

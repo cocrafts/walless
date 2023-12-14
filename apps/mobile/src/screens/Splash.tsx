@@ -7,7 +7,7 @@ import { appActions } from 'utils/state';
 
 type Props = StackScreenProps<RootParamList, 'Splash'>;
 
-export const SplashWrapper: FC<Props> = () => {
+export const SplashScreen: FC<Props> = () => {
 	return (
 		<SplashFeature
 			logoSrc={asset.misc.walless}
@@ -17,4 +17,4 @@ export const SplashWrapper: FC<Props> = () => {
 	);
 };
 
-export default SplashWrapper;
+export default SplashScreen;

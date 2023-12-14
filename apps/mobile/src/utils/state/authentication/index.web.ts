@@ -4,6 +4,7 @@ import {
 	signInWithCredential,
 	signInWithPopup,
 } from '@firebase/auth';
+import { floatActions } from '@walless/app';
 import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
 import { logger, runtime } from '@walless/core';
 import { appState } from '@walless/engine';
@@ -50,6 +51,8 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 					email: auth().currentUser?.email,
 				});
 			} else if (!walletInvitation && !invitationCode) {
+				floatActions.showError('The account does not exist. Enter your Invitation code');
+
 				appState.isAbleToSignIn = false;
 				appState.authenticationLoading = false;
 				logger.error('The account does not exist. Enter your Invitation code');
@@ -92,7 +95,9 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 				navigate('Dashboard');
 				// await router.navigate('/', { replace: true });
 			},
-			handleError: async () => logger.error('Something went wrong') as never,
+			handleError: async () => {
+				floatActions.showError('Something went wrong') as never;
+			}
 		});
 	} catch (error) {
 		logger.error('Error during sign-in', error);

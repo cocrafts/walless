@@ -3,6 +3,7 @@ import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import CustomAuth from '@toruslabs/customauth-react-native-sdk';
 import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
+import { floatActions } from '@walless/app';
 import { logger } from '@walless/core';
 import { appState } from '@walless/engine';
 import type { WalletInvitation } from '@walless/graphql';
@@ -39,6 +40,8 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 					email: auth().currentUser?.email,
 				});
 			} else if (!walletInvitation && !invitationCode) {
+				floatActions.showError('The account does not exist. Enter your Invitation code');
+
 				appState.isAbleToSignIn = false;
 				appState.authenticationLoading = false;
 				navigate('Authentication', { screen: 'Invitation' });
@@ -75,7 +78,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 				navigate('Dashboard');
 			},
 			handleError: async () => {
-				logger.debug('Something went wrong during register wallet');
+				floatActions.showError('Something went wrong') as never;
 			},
 		});
 	} catch (error) {

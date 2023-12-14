@@ -1,10 +1,9 @@
-import { DeprecatedPasscode } from '@walless/app';
+import { DeprecatedPasscode, floatActions } from '@walless/app';
 import {
 	initAndRegisterWallet,
 	signInWithPasscode,
 	validateAndRecoverWithPasscode,
 } from '@walless/auth';
-import { logger } from '@walless/core';
 import { auth } from 'utils/firebase';
 import { navigate } from 'utils/navigation';
 
@@ -15,9 +14,7 @@ export const DeprecatedPasscodeScreen = () => {
 			await signInWithPasscode(passcode, auth().currentUser);
 			navigate('Dashboard');
 		} else {
-			logger.info('Error during migrate account!', {
-				user: auth().currentUser,
-			});
+			floatActions.showError('Error during migrate account, please contact developer!');
 		}
 	};
 

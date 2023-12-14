@@ -43,7 +43,6 @@ export type DashboardParamList = {
 };
 
 export type RootParamList = {
-	Splash: undefined;
 	Authentication: NavigatorScreenParams<AuthenticationParamList>;
 	Dashboard: NavigatorScreenParams<DashboardParamList>;
 };
@@ -52,7 +51,6 @@ export const linking: LinkingOptions<RootParamList> = {
 	prefixes: ['walless://'],
 	config: {
 		screens: {
-			Splash: '/splash/:id',
 			Authentication: {
 				path: '/auth',
 				screens: {

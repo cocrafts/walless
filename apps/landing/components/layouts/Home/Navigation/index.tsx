@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		left: 0,
 		backgroundColor: '$navigationBg',
+		userSelect: 'none',
 	},
 	navigationBar: {
 		flex: 1,

@@ -1,9 +1,17 @@
 import type { FC } from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { useRef } from 'react';
+import { StyleSheet } from 'react-native';
+import {
+	interpolateColor,
+	useAnimatedStyle,
+	useSharedValue,
+	withTiming,
+} from 'react-native-reanimated';
 import {
 	AnimateDirections,
+	AnimatedView,
 	BindDirections,
+	Hoverable,
 	modalActions,
 	Text,
 	View,
@@ -27,35 +35,46 @@ const InputDropdown: FC<Props> = ({
 	setCurrentOption,
 	error,
 }) => {
-	const [isDropped, setIsDropped] = useState(false);
-	const handlePress = () => setIsDropped(!isDropped);
+	const rotation = useSharedValue(0);
+	const chevronAnimatedStyle = useAnimatedStyle(() => {
+		return {
+			transform: [{ rotate: `${rotation.value}deg` }],
+		};
+	}, [rotation]);
+	const borderAnimatedStyle = useAnimatedStyle(() => {
+		const borderColor = interpolateColor(
+			rotation.value,
+			[-180, 0],
+			['#43525f', 'transparent'],
+			'RGB',
+		);
+		return {
+			borderColor,
+		};
+	}, [rotation]);
 
-	const modalRef = useRef<TouchableOpacity>(null);
+	const handlePress = () => {
+		rotation.value = withTiming(-180);
+		modalActions.show({
+			id: 'dropdown',
+			component: Dropdown,
+			maskActiveOpacity: 0,
+			bindingRef: modalRef as never,
+			bindingDirection: BindDirections.Bottom,
+			positionOffset: {
+				x: 0,
+			},
+			animateDirection: AnimateDirections.Bottom,
+			context: {
+				optionList,
+				selectedOption: currentOption,
+				setSelectedOption: setCurrentOption,
+			},
+			updater: () => (rotation.value = withTiming(0)),
+		});
+	};
 
-	useEffect(() => {
-		if (isDropped) {
-			modalActions.show({
-				id: 'dropdown',
-				component: () => (
-					<Dropdown
-						optionList={optionList}
-						selectedOption={currentOption}
-						setSelectedOption={setCurrentOption}
-						setIsDropped={setIsDropped}
-					/>
-				),
-				maskActiveOpacity: 0,
-				bindingRef: modalRef as never,
-				bindingDirection: BindDirections.InnerTop,
-				positionOffset: {
-					x: 0,
-				},
-				animateDirection: AnimateDirections.Inner,
-			});
-		} else {
-			modalActions.hide('dropdown');
-		}
-	}, [isDropped]);
+	const modalRef = useRef(null);
 
 	const errorStyle = {
 		borderRadius: 15,
@@ -65,16 +84,22 @@ const InputDropdown: FC<Props> = ({
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{title}</Text>
-			<TouchableOpacity
+			<Hoverable
 				ref={modalRef}
-				style={[styles.selectedOptionContainer, error ? errorStyle : {}]}
+				style={[
+					styles.selectedOptionContainer,
+					borderAnimatedStyle,
+					error ? errorStyle : {},
+				]}
 				onPress={handlePress}
 			>
 				<Text>
 					{currentOption === 'Select one' ? 'Select one...' : currentOption}
 				</Text>
-				<ChevronDown color="#43525F" size={20} />
-			</TouchableOpacity>
+				<AnimatedView style={chevronAnimatedStyle}>
+					<ChevronDown color="#43525F" size={20} />
+				</AnimatedView>
+			</Hoverable>
 			<Text style={styles.error}>{error}</Text>
 		</View>
 	);
@@ -91,7 +116,6 @@ const styles = StyleSheet.create({
 	},
 	selectedOptionContainer: {
 		borderWidth: 1,
-		borderColor: 'transparent',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',

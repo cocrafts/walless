@@ -58,6 +58,7 @@ export interface ModalConfigs {
 	withoutMask?: boolean;
 	hide?: boolean;
 	context?: unknown;
+	updater?: () => void;
 	/**
 	 * use to determine size of modal wrapper (default: true),
 	 * auto center modal if false

@@ -5,7 +5,7 @@ const configureWalletStandard = async (): Promise<void> => {
 	const walless = new Walless();
 
 	try {
-		console.log('[walless/prod] registering wallet-standard');
+		console.log('Registering wallet-standard');
 		Object.defineProperty(window, 'walless', { value: walless });
 	} catch {
 		console.warn('Could not define Walless, namespace already taken.');

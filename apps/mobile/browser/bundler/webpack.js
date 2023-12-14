@@ -94,6 +94,7 @@ const w3aDevRoute = (config) => {
 
 	return config;
 };
+
 const injectEnvironments = (config, internal) => {
 	const { webpack } = internal.modules;
 	const { DefinePlugin } = webpack;
@@ -148,7 +149,7 @@ const swcOptions = () => ({
 					format: {
 						comments: false,
 					},
-			  }
+				}
 			: {},
 	},
 	env: {

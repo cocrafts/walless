@@ -1,7 +1,6 @@
 import { logger } from '@walless/core';
 
-import { initializeMessaging } from './messaging';
-import { injectScript } from './utils';
+import { initializeMessaging, injectScript } from './utils';
 
 (async () => {
 	await initializeMessaging();

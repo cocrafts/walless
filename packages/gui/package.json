@@ -14,7 +14,7 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-native": "0.71.14",
-    "react-native-gesture-handler": "*",
+    "react-native-gesture-handler": "2.14.0",
     "react-native-reanimated": "*",
     "valtio": "1.10.5"
   },

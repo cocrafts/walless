@@ -21,10 +21,10 @@
     "@walless/store": "*",
     "@walless/ui": "*",
     "react": "^18.2.0",
-    "react-native-gesture-handler": "*",
+    "react-native-gesture-handler": "2.14.0",
     "react-native-reanimated": "*",
-    "react-native-safe-area-context": "*",
-    "react-native-webview": "*",
+    "react-native-safe-area-context": "4.8.1",
+    "react-native-webview": "13.6.3",
     "use-debounce": "^10.0.0",
     "valtio": "1.10.5"
   },

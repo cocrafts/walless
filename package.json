@@ -32,6 +32,7 @@
     "@graphql-codegen/typescript-resolvers": "^4.0.0",
     "@jest/globals": "^29.4.3",
     "@next/eslint-plugin-next": "^13.5.4",
+    "@solana/spl-account-compression": "^0.2.0",
     "@types/chrome": "^0.0.231",
     "@types/lodash": "^4.14.191",
     "@types/node": "^17.0.12",

@@ -45,8 +45,7 @@ export const injectModules = async () => {
 	modules.engine = await createEngine();
 	modules.engine.start();
 
-	const milliseconds =
-		new Date().getMilliseconds() - startTime.getMilliseconds();
+	const milliseconds = new Date().getTime() - startTime.getTime();
 	logger.debug(`Configured IoC module in ${milliseconds}ms`);
 
 	return modules;

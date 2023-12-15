@@ -1,3 +1,6 @@
+import { lchown } from 'fs';
+
+import { Linking } from 'react-native';
 import type {
 	LinkingOptions,
 	NavigatorScreenParams,
@@ -5,7 +8,7 @@ import type {
 import { createNavigationContainerRef } from '@react-navigation/native';
 import type { StackNavigationOptions } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import type { MobileNavigation } from '@walless/core';
+import { logger, type MobileNavigation } from '@walless/core';
 
 export type AuthenticationParamList = {
 	Login: undefined;
@@ -48,7 +51,24 @@ export type RootParamList = {
 };
 
 export const linking: LinkingOptions<RootParamList> = {
-	prefixes: ['walless://'],
+	prefixes: ['walless://', 'https://walless.io', 'https://app.walless.io'],
+	getInitialURL: async () => {
+		const initialURL = await Linking.getInitialURL();
+
+		if (initialURL) {
+			const { href } = new URL(initialURL);
+			logger.debug(href, '<-- TODO: handle initial url');
+		}
+
+		return initialURL;
+	},
+	subscribe: () => {
+		const subscription = Linking.addEventListener('url', ({ url }) => {
+			logger.debug(url, '<-- TODO: handle incoming url');
+		});
+
+		return () => subscription.remove();
+	},
 	config: {
 		screens: {
 			Authentication: {

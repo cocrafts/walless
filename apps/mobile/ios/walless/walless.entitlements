@@ -8,5 +8,14 @@
 	<array>
 		<string>Default</string>
 	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:walless.io</string>
+		<string>applinks:app.walless.io</string>
+		<string>webcredentials:walless.io</string>
+		<string>webcredentials:app.walless.io</string>
+		<string>appclips:walless.io</string>
+		<string>appclips:app.walless.io</string>
+	</array>
 </dict>
 </plist>

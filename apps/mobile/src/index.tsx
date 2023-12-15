@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { modalActions, ModalManager, themeState } from '@walless/gui';
 import ApplicationStack from 'stacks/Application';
 import {
-	useDeepLinking,
 	useNavigationHydrate,
 	useNotifications,
 	useSnapshot,
@@ -17,7 +16,6 @@ export const AppStack = () => {
 	const theme = useSnapshot(themeState);
 	const hydrate = useNavigationHydrate();
 
-	useDeepLinking();
 	useNotifications();
 	useEffect(() => modalActions.setContainerRef(modalContainerRef), []);
 

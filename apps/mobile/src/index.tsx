@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import {
 import { linking, navigationRef } from 'utils/navigation';
 
 export const AppStack = () => {
+	const modalContainerRef = useRef<View>(null);
 	const theme = useSnapshot(themeState);
 	const hydrate = useNavigationHydrate();
 
@@ -20,7 +21,7 @@ export const AppStack = () => {
 
 	return (
 		<SafeAreaProvider>
-			<View style={styles.container} ref={hydrate.modalContainerRef}>
+			<View style={styles.container} ref={modalContainerRef}>
 				<NavigationContainer
 					ref={navigationRef}
 					theme={theme}

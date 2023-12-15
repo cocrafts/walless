@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import type { View } from 'react-native';
 import type { NavigationState } from '@react-navigation/native';
 import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
@@ -7,7 +6,6 @@ import { universalAnalytics } from 'utils/firebase';
 import { navigationRef } from 'utils/navigation';
 
 export const useNavigationHydrate = () => {
-	const modalContainerRef = useRef<View>(null);
 	const routeNameRef = useRef<string>();
 
 	const onNavigationReady = () => {
@@ -40,7 +38,6 @@ export const useNavigationHydrate = () => {
 	};
 
 	return {
-		modalContainerRef,
 		onNavigationReady,
 		onNavigationStateChange,
 	};

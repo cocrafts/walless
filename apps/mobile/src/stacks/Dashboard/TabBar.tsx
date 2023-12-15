@@ -16,8 +16,8 @@ import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
 import { Home, Walless } from '@walless/icons';
 import { HapticFeedbackTypes, modules } from '@walless/ioc';
+import { localState } from 'state/local';
 import type { DashboardParamList } from 'utils/navigation';
-import { localState } from 'utils/state';
 
 import { ProfileIcon } from './ProfileIcon';
 import TabBarItem from './TabBarItem';

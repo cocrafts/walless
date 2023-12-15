@@ -19,7 +19,7 @@ export const AppStack = () => {
 
 	useDeepLinking();
 	useNotifications();
-	useEffect(() => modalActions.setContainerRef(hydrate.modalContainerRef), []);
+	useEffect(() => modalActions.setContainerRef(modalContainerRef), []);
 
 	return (
 		<SafeAreaProvider>

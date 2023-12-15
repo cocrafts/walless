@@ -7,7 +7,7 @@ import { DashboardNavigator } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
 import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
-import { localActions } from 'utils/state';
+import { localActions } from 'state/local';
 
 export const sidebarWidth = 64;
 

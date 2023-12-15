@@ -28,9 +28,10 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 		await widgetActions.removeWidget(widget);
 	};
 
-	const getActiveRoute = (item: WidgetDocument) => {
+	const getIsExtensionActive = (item: WidgetDocument) => {
 		const { routes, index } = state;
-		const activeId = routes[index].params?.id ?? '';
+		const params: { id?: string } = routes[index]?.params || {};
+		const activeId = params?.id ?? '';
 		return activeId === item._id;
 	};
 
@@ -39,7 +40,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 			profile={profile}
 			widgets={widgets}
 			size={sidebarWidth}
-			getIsExtensionActive={getActiveRoute}
+			getIsExtensionActive={getIsExtensionActive}
 			onExtensionPress={handleExtensionPress}
 			onRemoveLayout={handleRemoveWidget}
 		/>

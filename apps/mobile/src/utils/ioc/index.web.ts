@@ -1,7 +1,7 @@
 import { signOut } from '@firebase/auth';
 import { buyToken } from '@walless/app';
 import { logger } from '@walless/core';
-import { appState, createEngine } from '@walless/engine';
+import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
@@ -60,7 +60,6 @@ export default modules;
 const logOut = async () => {
 	await signOut(auth());
 	await modules.storage.clearAllDocs();
-	appState.profileReady = false; // this will force unmount Dashboard, and render login-in screen
 };
 
 const navigateToWidget = (id: string) => {

@@ -56,8 +56,6 @@ export default modules;
 const logOut = async () => {
 	await firebase.auth().signOut();
 	await modules.storage.clearAllDocs();
-
-	appState.profileReady = false; // this will force unmount Dashboard, and render login-in screen
 };
 
 const navigateToWidget = (id: string) => {

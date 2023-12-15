@@ -37,7 +37,7 @@ export const DashboardNavigator: FC<Props> = ({
 		paddingTop: Math.max(insets.top + 6, 12),
 	};
 	const exploreItem: Partial<WidgetDocument> = {
-		_id: '',
+		_id: 'explorer',
 		storeMeta: {
 			iconColor: '#243f56',
 			iconActiveColor: '#1394d3',

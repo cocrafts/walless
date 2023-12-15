@@ -6,7 +6,30 @@ import type {
 import { createNavigationContainerRef } from '@react-navigation/native';
 import type { StackNavigationOptions } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import { logger, type MobileNavigation } from '@walless/core';
+import type { MobileNavigation } from '@walless/core';
+import { runtime } from '@walless/core';
+
+export const handleUniversalLinkingRequest = (
+	url: string,
+	isInitialURL?: boolean,
+) => {
+	const { href } = new URL(url);
+	console.log(href, isInitialURL, 'TODO: handle incoming url universally');
+};
+
+export const checkBrowserInitialURL = () => {
+	if (runtime.isBrowser) {
+		const { pathname, hash } = new URL(window.location.href);
+
+		if (pathname !== '/' || hash !== '') {
+			handleUniversalLinkingRequest(window.location.href);
+		}
+
+		setTimeout(() => {
+			window.history.pushState('home', 'Walless', '/splash');
+		}, 0);
+	}
+};
 
 export type AuthenticationParamList = {
 	Login: undefined;
@@ -44,6 +67,7 @@ export type DashboardParamList = {
 };
 
 export type RootParamList = {
+	Splash: undefined;
 	Authentication: NavigatorScreenParams<AuthenticationParamList>;
 	Dashboard: NavigatorScreenParams<DashboardParamList>;
 };
@@ -52,23 +76,20 @@ export const linking: LinkingOptions<RootParamList> = {
 	prefixes: ['walless://', 'https://walless.io', 'https://*.walless.io'],
 	getInitialURL: async () => {
 		const initialURL = await Linking.getInitialURL();
-
-		if (initialURL) {
-			const { href } = new URL(initialURL);
-			logger.debug(href, '<-- TODO: handle initial url');
-		}
+		if (initialURL) handleUniversalLinkingRequest(initialURL, true);
 
 		return initialURL;
 	},
 	subscribe: () => {
 		const subscription = Linking.addEventListener('url', ({ url }) => {
-			logger.debug(url, '<-- TODO: handle incoming url');
+			handleUniversalLinkingRequest(url);
 		});
 
 		return () => subscription.remove();
 	},
 	config: {
 		screens: {
+			Splash: '/splash',
 			Authentication: {
 				path: '/auth',
 				screens: {

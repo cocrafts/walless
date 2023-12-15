@@ -8,7 +8,7 @@ type Props = DrawerScreenProps<ExploreParamList, 'Widget'>;
 export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
 	const widgetId = route.params?.id;
 
-	if (!widgetId) {
+	if (widgetId === 'explorer') {
 		return (
 			<ExplorerFeature
 				headerComponent={StackHeader}
@@ -19,7 +19,7 @@ export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
 
 	return (
 		<WidgetFeature
-			id={widgetId}
+			id={widgetId as string}
 			headerComponent={StackHeader}
 			onToggleDrawer={navigation.toggleDrawer}
 		/>

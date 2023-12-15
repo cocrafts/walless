@@ -1,6 +1,7 @@
 import { CreatePasscode } from '@walless/app';
 import { floatActions } from '@walless/app';
 import { signInWithPasscode } from '@walless/auth';
+import { appState } from '@walless/engine';
 import { auth } from 'utils/firebase';
 import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';
@@ -27,7 +28,16 @@ export const CreatePasscodeScreen = () => {
 		}
 
 		await signInWithPasscode(passcode, auth().currentUser, handleInitFail);
-		navigate('Dashboard');
+
+		appState.profileReady = true; // need this to force render Dashboard route
+		setTimeout(() => {
+			navigate('Dashboard', {
+				screen: 'Explore',
+				params: {
+					screen: 'Widget',
+				} as never,
+			});
+		}, 20); // delay abit, wait for Dashboard rendering
 	};
 
 	const biometricIcon = biometricStatus.isAvailable && (

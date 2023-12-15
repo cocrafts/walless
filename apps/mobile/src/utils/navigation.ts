@@ -117,9 +117,14 @@ export const navigationRef = createNavigationContainerRef<RootParamList>();
 export const navigate = (
 	name: keyof RootParamList,
 	params?: RootParamList[keyof RootParamList],
+	reset = false,
 ) => {
 	if (navigationRef.isReady()) {
-		navigationRef.navigate(name, params as never);
+		if (reset) {
+			navigationRef.reset({ routes: [{ name }] });
+		} else {
+			navigationRef.navigate(name, params as never);
+		}
 	}
 };
 

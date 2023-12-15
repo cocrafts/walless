@@ -3,7 +3,7 @@ import WebSQLite from 'react-native-quick-websql';
 import { firebase } from '@react-native-firebase/auth';
 import { buyToken } from '@walless/app';
 import { logger } from '@walless/core';
-import { createEngine } from '@walless/engine';
+import { appState, createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
@@ -57,7 +57,7 @@ const logOut = async () => {
 	await firebase.auth().signOut();
 	await modules.storage.clearAllDocs();
 
-	navigate('Authentication', { screen: 'Login' });
+	appState.profileReady = false; // this will force unmount Dashboard, and render login-in screen
 };
 
 const navigateToWidget = (id: string) => {

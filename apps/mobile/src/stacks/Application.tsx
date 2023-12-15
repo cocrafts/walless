@@ -20,19 +20,20 @@ export const ApplicationStack: FC = () => {
 
 	return (
 		<Stack.Navigator screenOptions={screenOptions.navigator}>
-			{profileReady ? (
+			{profileReady && (
 				<Stack.Screen
 					name="Dashboard"
 					component={DashboardStack}
 					options={screenOptions.bottomFade}
 				/>
-			) : (
-				<Stack.Screen
-					name="Authentication"
-					component={AuthenticationStack}
-					options={screenOptions.fade}
-				/>
 			)}
+
+			<Stack.Screen
+				name="Authentication"
+				navigationKey={profileReady ? 'authed' : 'anoymous'}
+				component={AuthenticationStack}
+				options={screenOptions.fade}
+			/>
 		</Stack.Navigator>
 	);
 };

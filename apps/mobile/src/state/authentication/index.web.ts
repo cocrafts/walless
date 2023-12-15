@@ -51,13 +51,13 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 					email: auth().currentUser?.email,
 				});
 			} else if (!walletInvitation && !invitationCode) {
-				floatActions.showError('The account does not exist. Enter your Invitation code');
+				floatActions.showError(
+					'The account does not exist. Enter your Invitation code',
+				);
 
 				appState.isAbleToSignIn = false;
 				appState.authenticationLoading = false;
-				logger.error('The account does not exist. Enter your Invitation code');
 				navigate('Authentication', { screen: 'Invitation' });
-				// router.navigate('/invitation', { replace: true });
 				return;
 			}
 		}
@@ -97,7 +97,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 			},
 			handleError: async () => {
 				floatActions.showError('Something went wrong') as never;
-			}
+			},
 		});
 	} catch (error) {
 		logger.error('Error during sign-in', error);

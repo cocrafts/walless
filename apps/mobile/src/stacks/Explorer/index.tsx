@@ -39,7 +39,12 @@ export const ExplorerStack = () => {
 			screenOptions={screenOptions}
 			backBehavior="order"
 		>
-			<Drawer.Screen name="Widget" component={WidgetScreen} options={options} />
+			<Drawer.Screen
+				name="Widget"
+				component={WidgetScreen}
+				options={options}
+				initialParams={{ id: 'explorer' }}
+			/>
 			<Drawer.Screen
 				name="Collection"
 				component={ManagedCollectionScreen}

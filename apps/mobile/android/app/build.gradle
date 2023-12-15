@@ -6,8 +6,8 @@ apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.firebase.appdistribution'
 
 project.ext.envConfigFiles = [
-	debug: "./../../web/.env.development",
-	release: "./../../web/.env.production",
+	debug: "../.env.development",
+	release: "../.env.production",
 ]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
@@ -109,8 +109,8 @@ android {
         applicationId "metacraft.walless"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10
-        versionName "1.0.2"
+        versionCode 12
+        versionName "1.0.3"
         manifestPlaceholders = [
             'torusRedirectScheme': 'metacraft',
             'torusRedirectHost': 'walless',

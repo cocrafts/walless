@@ -1,0 +1,16 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [ "4R7EAZY462.metacraft.walless" ],
+        "paths": [ "*" ]
+      }	
+    ]
+  },
+  "webcredentials": {
+    "apps": [ "4R7EAZY462.metacraft.walless" ]
+  },
+  "appclips": {
+    "apps": ["4R7EAZY462.metacraft.walless.MyApp.Clip"]
+  }
+}

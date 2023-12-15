@@ -11,5 +11,3 @@ export const appActions = {
 		appState.loading = flag;
 	},
 };
-
-export * from './local';

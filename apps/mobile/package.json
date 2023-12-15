@@ -6,7 +6,7 @@
     "dev": "metacraft",
     "dev:ext": "BUILD_TARGET=extension && metacraft",
     "android": "react-native run-android",
-    "build": "yarn build:ext && yarn build:web",
+    "build:all": "yarn build:ext && yarn build:web",
     "build:web": "rimraf metacraft builds && metacraft bundle",
     "build:ext": "BUILD_TARGET=extension && yarn build:web && node scripts/bundler",
     "build:store": "BUILD_TARGET=extension && yarn build:web && yarn badlinks && node scripts/bundler",

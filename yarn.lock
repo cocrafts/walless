@@ -7677,7 +7677,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-clipboard/clipboard@npm:^1.12.1":
+"@react-native-clipboard/clipboard@npm:^1.12.1, @react-native-clipboard/clipboard@npm:^1.13.0":
   version: 1.13.0
   resolution: "@react-native-clipboard/clipboard@npm:1.13.0"
   peerDependencies:
@@ -25552,7 +25552,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:*":
+"react-native-reanimated@npm:*, react-native-reanimated@npm:^3.6.1":
   version: 3.6.1
   resolution: "react-native-reanimated@npm:3.6.1"
   dependencies:
@@ -25570,27 +25570,6 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 245e542de7496081c4c64fe219a6d33a4d7195502fd6e9c12374c04acb1318bdeb0c50889def5e213e3fe3cd0f6316b113a6b1c382715f1b6cf8a6a29f0cf4ab
-  languageName: node
-  linkType: hard
-
-"react-native-reanimated@npm:3.5.4":
-  version: 3.5.4
-  resolution: "react-native-reanimated@npm:3.5.4"
-  dependencies:
-    "@babel/plugin-transform-object-assign": ^7.16.7
-    "@babel/preset-typescript": ^7.16.7
-    convert-source-map: ^2.0.0
-    invariant: ^2.2.4
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-    "@babel/plugin-proposal-nullish-coalescing-operator": ^7.0.0-0
-    "@babel/plugin-proposal-optional-chaining": ^7.0.0-0
-    "@babel/plugin-transform-arrow-functions": ^7.0.0-0
-    "@babel/plugin-transform-shorthand-properties": ^7.0.0-0
-    "@babel/plugin-transform-template-literals": ^7.0.0-0
-    react: "*"
-    react-native: "*"
-  checksum: 885449b11324f0399128d665c90e7179a095dfa603dd251e8b1d14df2efe73411acd724562837e114366769e69b8aac2b0a2ffc1f63d2b7dbf1a35024f074604
   languageName: node
   linkType: hard
 
@@ -29242,6 +29221,8 @@ __metadata:
     "@graphql-codegen/typescript-resolvers": ^4.0.0
     "@jest/globals": ^29.4.3
     "@next/eslint-plugin-next": ^13.5.4
+    "@react-native-clipboard/clipboard": ^1.13.0
+    "@react-navigation/drawer": ^6.6.6
     "@solana/spl-account-compression": ^0.2.0
     "@types/chrome": ^0.0.231
     "@types/lodash": ^4.14.191
@@ -29277,7 +29258,7 @@ __metadata:
     react-native: ^0.71.14
     react-native-buffer: ^6.0.3
     react-native-gesture-handler: ^2.13.4
-    react-native-reanimated: 3.5.4
+    react-native-reanimated: ^3.6.1
     rimraf: ^5.0.0
     shx: ^0.3.4
     sst: 2.24.17

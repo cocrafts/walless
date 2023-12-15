@@ -1,5 +1,3 @@
-import { lchown } from 'fs';
-
 import { Linking } from 'react-native';
 import type {
 	LinkingOptions,
@@ -51,7 +49,7 @@ export type RootParamList = {
 };
 
 export const linking: LinkingOptions<RootParamList> = {
-	prefixes: ['walless://', 'https://walless.io', 'https://app.walless.io'],
+	prefixes: ['walless://', 'https://walless.io', 'https://*.walless.io'],
 	getInitialURL: async () => {
 		const initialURL = await Linking.getInitialURL();
 
@@ -98,7 +96,12 @@ export const linking: LinkingOptions<RootParamList> = {
 							History: '/history',
 						},
 					},
-					Setting: '/setting',
+					Setting: {
+						path: '/setting',
+						screens: {
+							Default: '/',
+						},
+					},
 				},
 			},
 		},

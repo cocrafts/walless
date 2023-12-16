@@ -11,12 +11,13 @@
   --sab: env(safe-area-inset-bottom)
   --sal: env(safe-area-inset-left)
 
-body
+body, html
+  min-height: 100vh
   background-color: #011726
   overflow: hidden
 
   @media (max-width:450px)
-   background-color: #19232c
+    background-color: #19232c
 
   &.popup
     width: 420px
@@ -32,7 +33,7 @@ body
   bottom: 0
 
   @media all and (display-mode: standalone)  
-    height: 99.9vh
+    height: 100vh
 
 *
   box-sizing: border-box

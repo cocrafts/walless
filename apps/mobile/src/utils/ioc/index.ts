@@ -3,7 +3,7 @@ import WebSQLite from 'react-native-quick-websql';
 import { firebase } from '@react-native-firebase/auth';
 import { buyToken } from '@walless/app';
 import { logger } from '@walless/core';
-import { appState, createEngine } from '@walless/engine';
+import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';

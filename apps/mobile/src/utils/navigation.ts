@@ -6,8 +6,6 @@ import type {
 import { createNavigationContainerRef } from '@react-navigation/native';
 import type { StackNavigationOptions } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import type { MobileNavigation } from '@walless/core';
-import { runtime } from '@walless/core';
 
 export const handleUniversalLinkingRequest = (
 	url: string,
@@ -15,20 +13,6 @@ export const handleUniversalLinkingRequest = (
 ) => {
 	const { href } = new URL(url);
 	console.log(href, isInitialURL, 'TODO: handle incoming url universally');
-};
-
-export const checkBrowserInitialURL = () => {
-	if (runtime.isBrowser) {
-		const { pathname, hash } = new URL(window.location.href);
-
-		if (pathname !== '/' || hash !== '') {
-			handleUniversalLinkingRequest(window.location.href);
-		}
-
-		setTimeout(() => {
-			window.history.pushState('home', 'Walless', '/splash');
-		}, 0);
-	}
 };
 
 export type AuthenticationParamList = {

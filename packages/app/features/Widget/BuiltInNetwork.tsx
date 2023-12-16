@@ -6,6 +6,7 @@ import type {
 	ViewStyle,
 } from 'react-native';
 import { StyleSheet, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
@@ -17,7 +18,7 @@ import TabsHeader from '../../components/TabsHeader';
 import WalletCard from '../../components/WalletCard';
 import { floatActions } from '../../state';
 import { copy } from '../../utils';
-import { useNfts } from '../../utils/hooks';
+import { useNfts, useOpacityAnimated } from '../../utils/hooks';
 import { usePublicKeys, useTokens } from '../../utils/hooks';
 import { showReceiveModal } from '../Receive';
 
@@ -37,6 +38,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	const { tokens, valuation } = useTokens(id as Networks);
 	const { collections } = useNfts(id as Networks);
 	const cardSkin = useMemo(() => getWalletCardSkin(id as never), [id]);
+	const opacityAnimated = useOpacityAnimated({ from: 0, to: 1 });
 
 	const container: ViewStyle = {
 		...styles.container,
@@ -86,7 +88,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	return (
-		<View style={container}>
+		<Animated.View style={[container, opacityAnimated.style]}>
 			<View style={styles.headerContainer} onLayout={onHeaderLayout}>
 				{headerLayout?.width &&
 					keys.map((item, index) => {
@@ -122,7 +124,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 				items={bottomSliderItems}
 				activeItem={bottomSliderItems[activeTabIndex]}
 			/>
-		</View>
+		</Animated.View>
 	);
 };
 

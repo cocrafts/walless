@@ -80,20 +80,16 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 			privateKey: loginDetails.privateKey,
 			handlePasscode: async () => {
 				navigate('Authentication', { screen: 'CreatePasscode' });
-				// router.navigate('/create-passcode', { replace: true });
 			},
 			handleRecovery: async () => {
 				navigate('Authentication', { screen: 'Recovery' });
-				// router.navigate('/recovery', { replace: true });
 			},
 			handleDeprecatedPasscode: async () => {
 				navigate('Authentication', { screen: 'DeprecatedPasscode' });
-				// router.navigate('/deprecated-passcode');
 			},
 			handleReady: async () => {
 				await setProfile(makeProfile(user));
 				navigate('Dashboard');
-				// await router.navigate('/', { replace: true });
 			},
 			handleError: async () => {
 				floatActions.showError('Something went wrong') as never;

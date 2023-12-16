@@ -15,7 +15,7 @@ export const ApplicationStack: FC = () => {
 			<Stack.Screen
 				name="Splash"
 				component={SplashScreen}
-				options={screenOptions.bottomFade}
+				options={screenOptions.fade}
 			/>
 			<Stack.Screen
 				name="Dashboard"

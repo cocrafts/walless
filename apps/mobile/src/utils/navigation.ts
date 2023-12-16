@@ -172,15 +172,11 @@ export const navigate = (
 	}
 };
 
-export const resetRoute = (
-	anchor?: ResetAnchors,
-	params?: object,
-	route?: MobileNavigation,
-) => {
-	if (!anchor && route) {
-		navigationRef.reset({ index: 0, routes: [route] });
-	} else if (anchor === 'Dashboard') {
-		navigationRef.reset({ index: 0, routes: [dashboardRoute()] });
+type ResetAnchors = 'Widget' | 'Invitation' | 'CreatePasscode' | 'Recovery';
+
+export const resetRoute = (anchor?: ResetAnchors, params?: object) => {
+	if (anchor === 'Widget') {
+		navigationRef.reset({ index: 0, routes: [widgetRoute(params)] });
 	} else if (anchor === 'Invitation') {
 		navigationRef.reset({ index: 0, routes: [authenticationRoute(params)] });
 	} else if (anchor === 'CreatePasscode') {
@@ -190,12 +186,14 @@ export const resetRoute = (
 	}
 };
 
-type ResetAnchors = 'Dashboard' | 'Invitation' | 'CreatePasscode' | 'Recovery';
-
-const dashboardRoute = () => ({
+const widgetRoute = (params?: object) => ({
 	name: 'Dashboard',
 	params: {
 		screen: 'Explore',
+		params: {
+			screen: 'Widget',
+			params,
+		},
 	},
 });
 

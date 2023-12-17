@@ -23,8 +23,10 @@ export const launchApp = async ({
 		if (isSdkPopup) {
 			await router.navigate(path, { replace: true });
 		} else {
-			const destination = config?.latestLocation as string;
-			await router.navigate(destination ?? '/', { replace: true });
+			let destination = config?.latestLocation as string;
+			if (destination === '/') destination = '/explorer';
+
+			await router.navigate(destination ?? '/explorer', { replace: true });
 		}
 	} else {
 		await router.navigate('/invitation', { replace: true });

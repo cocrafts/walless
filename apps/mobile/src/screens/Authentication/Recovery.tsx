@@ -1,5 +1,5 @@
 import type { ViewStyle } from 'react-native';
-import { Recovery, floatActions, useUniversalInsets } from '@walless/app';
+import { floatActions, Recovery, useUniversalInsets } from '@walless/app';
 import { recoverByEmergencyKey } from '@walless/auth';
 import { navigate } from 'utils/navigation';
 

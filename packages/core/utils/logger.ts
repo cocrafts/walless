@@ -1,5 +1,8 @@
 import { consoleTransport, logger as log } from 'react-native-logs';
 
+const configuredServerity = global.localStorage?.getItem('log-level');
+const defaultServerity = __DEV__ ? 'debug' : 'error';
+
 export const logger = log.createLogger({
 	levels: {
 		debug: 0,
@@ -7,7 +10,7 @@ export const logger = log.createLogger({
 		warn: 2,
 		error: 3,
 	},
-	severity: __DEV__ ? 'debug' : 'error',
+	severity: configuredServerity || defaultServerity,
 	transport: consoleTransport,
 	async: true,
 });

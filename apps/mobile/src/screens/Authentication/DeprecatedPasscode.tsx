@@ -14,7 +14,9 @@ export const DeprecatedPasscodeScreen = () => {
 			await signInWithPasscode(passcode, auth().currentUser);
 			navigate('Dashboard');
 		} else {
-			floatActions.showError('Error during migrate account, please contact developer!');
+			floatActions.showError(
+				'Error during migrate account, please contact developer!',
+			);
 		}
 	};
 

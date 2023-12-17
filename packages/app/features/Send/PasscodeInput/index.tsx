@@ -1,11 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import type {
-	Networks,
-	Token,
-	TransactionPayload,
-} from '@walless/core';
+import type { Networks, Token, TransactionPayload } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Text, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
@@ -52,8 +48,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 				(type === 'Token' && !token) ||
 				(type === 'Collectible' && !nftCollectible)
 			)
-
-			return floatActions.showError('Invalid token to transfer');
+				return floatActions.showError('Invalid token to transfer');
 
 			const payload: TransactionPayload = {
 				sender: sender,

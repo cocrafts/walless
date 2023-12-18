@@ -21,6 +21,11 @@ const injectEntries = (config) => {
 			import: 'scripts/content/injection.ts',
 			filename: 'injection.js',
 		};
+
+		config.entry.background = {
+			import: 'scripts/background/index.ts',
+			filename: 'background.js',
+		};
 	} else {
 		config.entry.w3ar = {
 			import: 'scripts/worker/w3a-response.ts',
@@ -51,14 +56,6 @@ const registerExtFile = (config) => {
 const buildOptimization = (config) => {
 	config.cache = {
 		type: 'filesystem',
-	};
-
-	config.optimization = {
-		splitChunks: {
-			chunks: (chunk) => {
-				return ['content', 'injection'].indexOf(chunk.name) < 0;
-			},
-		},
 	};
 
 	return config;

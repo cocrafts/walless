@@ -21,7 +21,7 @@
         "eslint": "8.38.0"
     },
     "peerDependencies": {
-        "@solana/web3.js": "1.78.4",
+        "@solana/web3.js": "1.87.6",
         "@taquito/signer": "^16.2.0",
         "@taquito/taquito": "^16.2.0",
         "bs58": "5.0.0"

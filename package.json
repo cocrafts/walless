@@ -34,7 +34,6 @@
     "@next/eslint-plugin-next": "^13.5.4",
     "@react-native-clipboard/clipboard": "^1.13.0",
     "@react-navigation/drawer": "^6.6.6",
-    "@solana/spl-account-compression": "^0.2.0",
     "@types/chrome": "^0.0.231",
     "@types/lodash": "^4.14.191",
     "@types/node": "^17.0.12",

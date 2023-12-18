@@ -12,6 +12,5 @@ injectModules().then(async () => {
 	const root = createRoot(container);
 
 	root.render(<App />);
-
 	await Promise.all([injectRuntime()]);
 });

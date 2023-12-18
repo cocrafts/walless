@@ -23,6 +23,7 @@ export const injectModules = async () => {
 
 	if (!modules.engine) {
 		modules.engine = await createEngine();
+		modules.engine.start();
 	}
 
 	return modules;

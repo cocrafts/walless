@@ -6,6 +6,11 @@ const isProd = process.env.ENV === 'production';
 const isExtension = process.env.BUILD_TARGET === 'extension';
 
 const injectEntries = (config) => {
+	config.entry.kernel = {
+		import: 'scripts/kernel/index.ts',
+		filename: 'kernel.js',
+	};
+
 	if (isExtension) {
 		config.entry.content = {
 			import: 'scripts/content/index.ts',
@@ -15,11 +20,6 @@ const injectEntries = (config) => {
 		config.entry.injection = {
 			import: 'scripts/content/injection.ts',
 			filename: 'injection.js',
-		};
-
-		config.entry.kernel = {
-			import: 'scripts/kernel/index.ts',
-			filename: 'kernel.js',
 		};
 	} else {
 		config.entry.w3ar = {
@@ -78,7 +78,7 @@ const swcOptions = () => ({
 					format: {
 						comments: false,
 					},
-			  }
+				}
 			: {},
 	},
 	env: {

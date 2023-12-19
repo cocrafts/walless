@@ -98,7 +98,13 @@ export const getDataFromSourceRequest = async (
 		);
 
 		if ('message' in res) {
-			const displayMessage = new TextDecoder().decode(bs58.decode(res.message));
+			let displayMessage;
+			try {
+				displayMessage = new TextDecoder().decode(bs58.decode(res.message));
+			} catch {
+				displayMessage = res.message;
+			}
+
 			return {
 				...res,
 				message: displayMessage,

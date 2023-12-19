@@ -12,6 +12,7 @@ import type {
 	System,
 	Token,
 	TrustedDomain,
+	UnknownObject,
 	Widget,
 } from '@walless/core';
 
@@ -57,6 +58,7 @@ export type PrivateKeyDocument = PouchDocument<
 export type PublicKeyDocument = PouchDocument<{
 	privateKeyId: string;
 	network: Networks;
+	meta?: UnknownObject;
 }>;
 
 export type ExtensionDocument = PouchDocument<ExtensionConfig>;

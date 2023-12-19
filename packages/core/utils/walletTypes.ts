@@ -6,9 +6,12 @@ import type {
 	VersionedTransaction,
 } from '@solana/web3.js';
 
+import type { Networks } from './commonTypes';
+
 export interface ConnectOptions {
 	onlyIfTrusted?: boolean;
 	domain?: string;
+	network?: Networks;
 }
 
 export interface ConnectResult {

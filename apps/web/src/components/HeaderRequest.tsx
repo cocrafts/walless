@@ -16,7 +16,11 @@ export const HeaderRequest: FC<Props> = ({ title }) => {
 			<Image style={styles.icon} source={iconSrc} />
 			<View style={styles.infoContainer}>
 				<Text style={styles.title}>
-					{title.length > 10 ? title.substring(0, 10) + '...' : title}
+					{title.length > 20
+						? title.substring(0, 10) +
+						  '...' +
+						  title.substring(title.length - 10)
+						: title}
 				</Text>
 				<Hoverable style={styles.button}>
 					<ChevronDown size={20} />

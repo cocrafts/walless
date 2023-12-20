@@ -67,7 +67,7 @@ export const Select = <T extends object>({
 				itemStyle,
 				itemIconStyle,
 			},
-			updater: () => (rotation.value = withTiming(0)),
+			onBeforeHide: () => (rotation.value = withTiming(0)),
 		});
 	};
 

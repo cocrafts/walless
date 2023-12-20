@@ -70,7 +70,7 @@ const InputDropdown: FC<Props> = ({
 				selectedOption: currentOption,
 				setSelectedOption: setCurrentOption,
 			},
-			updater: () => (rotation.value = withTiming(0)),
+			onBeforeHide: () => (rotation.value = withTiming(0)),
 		});
 	};
 

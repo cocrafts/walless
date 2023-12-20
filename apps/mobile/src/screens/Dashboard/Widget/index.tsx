@@ -1,6 +1,6 @@
 import type { FC } from 'react';
-import type { DrawerScreenProps } from '@react-navigation/drawer';
 import { ExplorerFeature, StackHeader, WidgetFeature } from '@walless/app';
+import type { DrawerScreenProps } from 'components/DrawerNavigation';
 import type { ExploreParamList } from 'utils/navigation';
 
 type Props = DrawerScreenProps<ExploreParamList, 'Widget'>;

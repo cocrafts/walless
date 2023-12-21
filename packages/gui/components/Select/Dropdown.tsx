@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, TextInput } from 'react-native';
-import { ChevronUp, Search as SearchIcon } from '@walless/icons';
+import { Search as SearchIcon } from '@walless/icons';
 import { throttle } from 'lodash';
 
 import type { ModalConfigs } from '../../';
-import { Hoverable, modalActions, Text, View } from '../../';
+import { modalActions, Text, View } from '../../';
 
 import DropdownItem from './DropdownItem';
 import type { SelectionContext } from './shared';
@@ -37,10 +37,6 @@ const Dropdown: FC<Props> = ({ config }) => {
 		});
 	}, [searchText]);
 
-	const handleMainButtonPress = () => {
-		modalActions.hide(`dropdown-${title}`);
-	};
-
 	const handleItemPress = (item: object) => {
 		onSelect(item);
 		modalActions.hide(`dropdown-${title}`);
@@ -48,16 +44,6 @@ const Dropdown: FC<Props> = ({ config }) => {
 
 	return (
 		<View>
-			<Hoverable
-				style={[mutualStyles.button, mutualStyles.focus]}
-				onPress={handleMainButtonPress}
-			>
-				<Text style={mutualStyles.text}>{title}</Text>
-				<View style={mutualStyles.rightIcon}>
-					<ChevronUp size={16} color="#566674" />
-				</View>
-			</Hoverable>
-
 			<View style={styles.dropdownContainer}>
 				<View style={[mutualStyles.button, mutualStyles.focus, styles.input]}>
 					<SearchIcon size={17} color="#566674" />
@@ -81,6 +67,7 @@ const Dropdown: FC<Props> = ({ config }) => {
 						style={{
 							height: 200,
 						}}
+						showsVerticalScrollIndicator={false}
 					>
 						{filteredItems.map((item, index) => {
 							const { id, name, icon } = getRequiredFields(item);

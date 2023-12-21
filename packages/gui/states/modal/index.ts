@@ -34,6 +34,7 @@ export const modalActions = {
 		const instance = modalState.map.get(id);
 
 		if (instance) {
+			instance.onBeforeHide?.();
 			modalState.map.set(id, { ...instance, hide: true });
 		}
 	},

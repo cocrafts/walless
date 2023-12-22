@@ -1,5 +1,4 @@
 import type { BootstrapResult } from '@walless/auth';
-import type { MobileNavigation } from '@walless/core';
 import { appState, liveActions } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';

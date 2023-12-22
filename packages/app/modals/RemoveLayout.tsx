@@ -4,24 +4,20 @@ import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions, Text, View } from '@walless/gui';
 import { BackspaceRemove } from '@walless/icons';
-import type { ExtensionDocument } from '@walless/store';
-
-type Layout = ExtensionDocument & {
-	_deleted?: boolean;
-};
+import { modules } from '@walless/ioc';
+import type { WidgetDocument } from '@walless/store';
 
 export interface RemoveContextProps {
-	item: Layout;
+	item: WidgetDocument;
 }
 
 export const RemoveLayout: FC<{
 	config: ModalConfigs;
-	onRemoveLayout?: (item: Layout) => void;
+	onRemoveLayout?: (item: WidgetDocument) => void;
 }> = ({ config, onRemoveLayout }) => {
 	const { item } = config.context as RemoveContextProps;
 
 	const handleRemoveLayout = () => {
-		item._deleted = true;
 		onRemoveLayout?.(item);
 		modalActions.destroy(`navigator-orb-${item._id}`);
 	};
@@ -40,7 +36,7 @@ export const RemoveLayout: FC<{
 			<View style={styles.layoutInfoContainer}>
 				<View style={imageBackground}>
 					<Image
-						source={{ uri: item.networkMeta?.iconUri }}
+						source={modules.asset.widget[item._id].widgetMeta.cardIcon}
 						alt="network logo"
 						style={styles.image}
 					/>
@@ -87,7 +83,6 @@ const styles = StyleSheet.create({
 	},
 	removeCTAContainer: {
 		flexDirection: 'row',
-		alignItems: 'baseline',
 		justifyContent: 'space-between',
 	},
 	image: {

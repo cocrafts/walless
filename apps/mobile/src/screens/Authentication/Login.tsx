@@ -20,7 +20,7 @@ export const LoginScreen: FC = () => {
 			loading={authenticationLoading}
 			logoSrc={logoSrc}
 			onGoogleSignIn={() => appActions.signInWithGoogle(invitationCode)}
-			version={config.version}
+			version={config?.version}
 		/>
 	);
 };

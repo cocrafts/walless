@@ -18,11 +18,16 @@ export const launchApp = async ({
 	profile,
 }: BootstrapResult): Promise<void> => {
 	const settingDoc = await modules.storage.safeGet<SettingDocument>('settings');
-	const latestLocation = settingDoc?.config?.latestLocation as MobileNavigation;
+	const latestLocation = settingDoc?.config?.latestLocation;
 
+	const isDeprecated = typeof latestLocation == 'string';
 	if (profile?.email) {
-		if (latestLocation) {
-			resetRoute(undefined, undefined, latestLocation);
+		if (latestLocation && !isDeprecated) {
+			if (latestLocation.name == 'Authentication') {
+				resetRoute('Invitation');
+			} else {
+				resetRoute(undefined, undefined, latestLocation);
+			}
 		} else {
 			resetRoute('Dashboard');
 		}

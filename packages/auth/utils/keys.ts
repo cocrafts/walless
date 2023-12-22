@@ -4,7 +4,7 @@ import { generateSecretKey, InMemorySigner } from '@taquito/signer';
 import type { ISeedPhraseStore } from '@tkey/common-types';
 import { generateID } from '@tkey/common-types';
 import type { UnknownObject } from '@walless/core';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
 import { modules } from '@walless/ioc';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
@@ -128,7 +128,11 @@ const generateAndStoreKeypairs = async (
 			meta,
 		});
 
-		await Promise.all([putPublicKeyPromise, putPrivateKeyPromise]);
+		try {
+			await Promise.all([putPublicKeyPromise, putPrivateKeyPromise]);
+		} catch (e) {
+			logger.error('insert keys error', e);
+		}
 	}
 };
 

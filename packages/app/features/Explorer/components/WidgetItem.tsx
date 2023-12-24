@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
 		width: 30,
 		height: 30,
 		aspectRatio: 1,
+		borderRadius: 6,
 	},
 	detailContainer: {
 		justifyContent: 'space-between',

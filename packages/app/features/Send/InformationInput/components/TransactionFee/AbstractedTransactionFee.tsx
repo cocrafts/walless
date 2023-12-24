@@ -11,6 +11,7 @@ import type { Networks } from '@walless/core';
 import { solMint } from '@walless/engine/crawlers/solana/metadata';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
+import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
@@ -129,6 +130,10 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		);
 	}, [transactionFee]);
 
+	const feeIcon = tokenForFee?.metadata?.imageUri
+		? { uri: tokenForFee.metadata.imageUri }
+		: modules.asset.misc.unknownToken;
+
 	return (
 		<View>
 			<View style={styles.container}>
@@ -152,14 +157,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 							onPress={handlePressSelect}
 						>
 							<View style={styles.selectContainer}>
-								<Image
-									style={styles.tokenIcon}
-									source={{
-										uri:
-											tokenForFee?.metadata?.imageUri ||
-											'/img/send-token/unknown-token.jpeg',
-									}}
-								/>
+								<Image style={styles.tokenIcon} source={feeIcon} />
 								<Text numberOfLines={1} style={styles.selectedToken}>
 									{tokenForFeeName}
 								</Text>

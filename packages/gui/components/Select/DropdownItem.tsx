@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import type { ImageStyle, ViewStyle } from 'react-native';
+import type { ImageSourcePropType, ImageStyle, ViewStyle } from 'react-native';
 import type { StyleProp } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
@@ -9,7 +9,7 @@ import { Check } from '@walless/icons';
 interface Props {
 	selected: boolean;
 	name: string;
-	icon: string;
+	icon: ImageSourcePropType;
 	style: StyleProp<ViewStyle>;
 	iconStyle?: StyleProp<ImageStyle>;
 	onPress: () => void;
@@ -24,7 +24,6 @@ const DropdownItem: FC<Props> = ({
 	iconStyle,
 }) => {
 	const [isHover, setIsHover] = useState(false);
-	const iconSrc = { uri: icon ?? 'img/send-token/unknown-token.jpeg' };
 
 	const containerStyle = [
 		styles.itemButton,
@@ -39,7 +38,7 @@ const DropdownItem: FC<Props> = ({
 			onHoverOut={() => setIsHover(false)}
 			style={containerStyle}
 		>
-			<Image source={iconSrc} style={[styles.icon, iconStyle]} />
+			<Image source={icon} style={[styles.icon, iconStyle]} />
 			<Text style={[styles.text, isHover && { color: '#FFFFFF' }]}>{name}</Text>
 			{selected && (
 				<View style={styles.checkIcon}>

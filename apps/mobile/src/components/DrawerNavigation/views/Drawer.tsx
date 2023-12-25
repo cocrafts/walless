@@ -421,6 +421,7 @@ export default function Drawer({
 								zIndex: drawerType === 'back' ? -1 : 0,
 							},
 							drawerAnimatedStyle,
+							/* eslint-disable-next-line */
 							drawerStyle as any,
 						]}
 					>

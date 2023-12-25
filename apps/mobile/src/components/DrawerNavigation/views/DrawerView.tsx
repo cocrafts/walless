@@ -1,4 +1,4 @@
-import { type ComponentType, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { I18nManager, Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import {
@@ -21,7 +21,6 @@ import type {
 	DrawerNavigationConfig,
 	DrawerNavigationHelpers,
 	DrawerNavigationProp,
-	DrawerProps,
 } from '../types';
 import { addCancelListener } from '../utils/addCancelListener';
 import DrawerPositionContext from '../utils/DrawerPositionContext';

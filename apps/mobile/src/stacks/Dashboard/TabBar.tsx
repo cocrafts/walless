@@ -10,7 +10,7 @@ import {
 	withTiming,
 } from 'react-native-reanimated';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { type RouteProp } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
 import { tabBarHeight, useSnapshot } from '@walless/app';
 import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';

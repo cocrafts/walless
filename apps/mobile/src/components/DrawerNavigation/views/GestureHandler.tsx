@@ -6,6 +6,7 @@ import type {
 	TapGestureHandlerProperties,
 } from 'react-native-gesture-handler';
 
+/* eslint-disable-next-line */
 const Dummy: any = ({ children }: { children: ReactNode }) => (
 	<Fragment>{children}</Fragment>
 );

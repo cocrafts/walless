@@ -109,6 +109,7 @@ const LinkPressable = ({
 				{...rest}
 				to={to}
 				style={[styles.button, style]}
+				/* eslint-disable-next-line */
 				onPress={(e: any) => {
 					if (
 						!(e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) && // ignore clicks with modifier keys

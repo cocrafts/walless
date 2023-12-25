@@ -11,6 +11,7 @@ type Props = {
 	style?: StyleProp<ViewStyle>;
 };
 
+/* eslint-disable-next-line */
 let Screens: typeof import('react-native-screens') | undefined;
 
 try {

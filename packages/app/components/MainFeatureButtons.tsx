@@ -2,13 +2,12 @@ import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
-import { ArrowBottomRight, ArrowTopRight, Cart } from '@walless/icons';
+import { ArrowBottomRight, ArrowTopRight, Plus } from '@walless/icons';
 
 import FeatureButton from '../components/FeatureButton';
 
 interface Props {
 	style?: ViewStyle;
-	iconSize?: number;
 	onSendPress?: () => void;
 	onReceivePress?: () => void;
 	onBuyPress?: () => void;
@@ -16,21 +15,29 @@ interface Props {
 
 export const MainFeatureButtons: FC<Props> = ({
 	style,
-	iconSize = 18,
 	onSendPress,
 	onReceivePress,
 	onBuyPress,
 }) => {
 	return (
 		<View style={[styles.container, style]}>
-			<FeatureButton title="Send" onPress={onSendPress}>
-				<ArrowTopRight size={iconSize} />
-			</FeatureButton>
-			<FeatureButton title="Receive" onPress={onReceivePress}>
-				<ArrowBottomRight size={iconSize} />
-			</FeatureButton>
-			<FeatureButton title="Buy" onPress={onBuyPress}>
-				<Cart size={iconSize} />
+			{onSendPress && (
+				<FeatureButton title="Send" size={buttonSize} onPress={onSendPress}>
+					<ArrowTopRight size={iconSize} />
+				</FeatureButton>
+			)}
+			{onReceivePress && (
+				<FeatureButton
+					title="Receive"
+					size={buttonSize}
+					onPress={onReceivePress}
+				>
+					<ArrowBottomRight size={iconSize} />
+				</FeatureButton>
+			)}
+
+			<FeatureButton title="Buy" size={buttonSize} onPress={onBuyPress}>
+				<Plus size={iconSize} />
 			</FeatureButton>
 		</View>
 	);
@@ -38,6 +45,8 @@ export const MainFeatureButtons: FC<Props> = ({
 
 export default MainFeatureButtons;
 
+const buttonSize = 38;
+const iconSize = 18;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',

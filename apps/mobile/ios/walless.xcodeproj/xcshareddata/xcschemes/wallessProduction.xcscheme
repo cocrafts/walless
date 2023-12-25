@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "cp &quot;${PROJECT_DIR}/GoogleService-info-production.plist&quot; &quot;${PROJECT_DIR}/GoogleService-info.plist&quot;&#10;cp &quot;${PROJECT_DIR}/../../web/.env.production&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;">
+               scriptText = "cp &quot;${PROJECT_DIR}/GoogleService-info-production.plist&quot; &quot;${PROJECT_DIR}/GoogleService-info.plist&quot;&#10;cp &quot;${PROJECT_DIR}/../.env.production&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -75,7 +75,7 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"

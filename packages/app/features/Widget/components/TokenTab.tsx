@@ -16,6 +16,8 @@ export default TokenTab;
 
 const styles = StyleSheet.create({
 	tokenListContainer: {
-		marginTop: 12,
+		marginTop: 16,
+		borderRadius: 12,
+		overflow: 'hidden',
 	},
 });

@@ -2,8 +2,9 @@ import type { FC } from 'react';
 import { useEffect } from 'react';
 import type { ImageSourcePropType, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { ErrorAnnouncement } from '@walless/app';
 import { Anchor, BindDirections, modalActions, Text, View } from '@walless/gui';
+
+import ErrorAnnouncement from '../../components/ErrorAnnouncement';
 
 import SignInHeader from './SignInHeader';
 import SignInInner from './SignInInner';
@@ -16,6 +17,7 @@ interface Props {
 	loading?: boolean;
 	isAbleToSignIn?: boolean;
 	onGetInvitationCode?: () => void;
+	version?: string;
 	error?: string;
 }
 
@@ -27,6 +29,7 @@ export const LoginFeature: FC<Props> = ({
 	loading,
 	isAbleToSignIn = true,
 	onGetInvitationCode,
+	version = '1.0.2',
 	error,
 }) => {
 	useEffect(() => {
@@ -42,6 +45,7 @@ export const LoginFeature: FC<Props> = ({
 
 	return (
 		<View style={[styles.container, style]}>
+			<View />
 			<SignInHeader logoSrc={logoSrc} logoSize={logoSize} />
 			<SignInInner
 				isAbleToSignIn={isAbleToSignIn}
@@ -50,11 +54,13 @@ export const LoginFeature: FC<Props> = ({
 				onGetInvitationCode={onGetInvitationCode}
 			/>
 			<View style={styles.footerContainer}>
-				<Text style={styles.footerText}>
+				<View style={styles.helpContainer}>
 					<Text>Having issues with log in? Visit </Text>
 					<Anchor href="https://walless.io/faq/login" title="Help page" />
+				</View>
+				<Text style={styles.poweredText}>
+					Powered by walless.io, version@{version}
 				</Text>
-				<Text style={styles.poweredText}>Powered by walless.io</Text>
 			</View>
 		</View>
 	);
@@ -71,8 +77,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingBottom: 24,
 	},
-	footerText: {
-		fontSize: 12,
+	helpContainer: {
+		flexDirection: 'row',
 	},
 	poweredText: {
 		fontSize: 12,

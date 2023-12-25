@@ -1,21 +1,46 @@
-import auth from '@react-native-firebase/auth';
 import { CreatePasscode } from '@walless/app';
-import { showError } from '@walless/app/features/Send/utils';
+import { floatActions } from '@walless/app';
 import { signInWithPasscode } from '@walless/auth';
-import { navigate } from 'utils/navigation';
+import { auth } from 'utils/firebase';
+import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
+import { hydrateEncryptionKey } from 'utils/native';
+import { navigate, resetRoute } from 'utils/navigation';
+
+import BiometricIcon from './BiometricIcon';
 
 export const CreatePasscodeScreen = () => {
+	const insets = useSafeAreaInsets();
+	const biometricStatus = useBiometricStatus();
+	const style = {
+		paddingTop: insets.top,
+		paddingBottom: insets.bottom,
+	};
+
 	const handleInitFail = () => {
-		showError('Something went wrong. Please try again.');
+		floatActions.showError('Something went wrong. Please try again.');
 		navigate('Authentication', { screen: 'Login' });
 	};
 
 	const handleOnComplete = async (passcode: string) => {
+		if (biometricStatus.isAvailable) {
+			await hydrateEncryptionKey(passcode);
+		}
+
 		await signInWithPasscode(passcode, auth().currentUser, handleInitFail);
-		navigate('Dashboard');
+		resetRoute('Widget', { id: 'explorer' });
 	};
 
-	return <CreatePasscode onComplete={handleOnComplete} />;
+	const biometricIcon = biometricStatus.isAvailable && (
+		<BiometricIcon status={biometricStatus} />
+	);
+
+	return (
+		<CreatePasscode
+			style={style}
+			onComplete={handleOnComplete}
+			biometricIcon={biometricIcon}
+		/>
+	);
 };
 
 export default CreatePasscodeScreen;

@@ -1,55 +1,82 @@
-import type { FC } from 'react';
-import type { ImageSourcePropType } from 'react-native';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import type { Route } from '@react-navigation/native';
+import { type FC, useEffect } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
+import {
+	Easing,
+	useAnimatedStyle,
+	useSharedValue,
+	withSpring,
+	withTiming,
+} from 'react-native-reanimated';
+import type { RouteProp } from '@react-navigation/native';
+import { AnimatedPressable } from '@walless/gui';
+import type { IconProps } from '@walless/icons';
+import type { DashboardParamList } from 'utils/navigation';
 
-interface Props {
-	route: Route<string, never>;
-	focused: boolean;
-	tabIcon: ImageSourcePropType;
-	onNavigate: (route: Route<string, never>, focused: boolean) => void;
+export interface Props {
+	style?: StyleProp<ViewStyle>;
+	icon: FC<IconProps>;
+	size?: number;
+	isActive?: boolean;
+	route: RouteProp<DashboardParamList>;
+	onPress?: (route: RouteProp<DashboardParamList>) => void;
 }
 
-export const TabNavigationItem: FC<Props> = ({
+export const TabBarItem: FC<Props> = ({
+	style,
+	icon: IconComponent,
+	size = 24,
+	isActive,
 	route,
-	focused,
-	tabIcon,
-	onNavigate,
+	onPress,
 }) => {
+	const scale = useSharedValue(1);
+	const opacity = useSharedValue(1);
+	const animatedStyle = useAnimatedStyle(
+		() => ({
+			opacity: opacity.value,
+			transform: [{ scale: scale.value }],
+		}),
+		[opacity, scale],
+	);
+	const containerStyle = [styles.container, animatedStyle, style];
+
+	useEffect(() => {
+		const nextOpacity = isActive ? 1 : 0.5;
+		opacity.value = withSpring(nextOpacity);
+	}, [isActive]);
+
+	const handlePress = () => {
+		onPress?.(route);
+		scale.value = withTiming(
+			1.1,
+			{
+				duration: 50,
+				easing: Easing.elastic(1.5),
+			},
+			() => {
+				scale.value = withSpring(1);
+			},
+		);
+	};
+
 	return (
-		<TouchableOpacity
-			style={styles.container}
-			onPress={() => onNavigate?.(route, focused)}
+		<AnimatedPressable
+			hitSlop={12}
+			style={containerStyle}
+			onPress={handlePress}
 		>
-			<Image
-				source={tabIcon}
-				resizeMode="contain"
-				style={[styles.icon, focused && styles.iconActive]}
-			/>
-		</TouchableOpacity>
+			<IconComponent size={size} />
+		</AnimatedPressable>
 	);
 };
 
-export default TabNavigationItem;
+export default TabBarItem;
 
-const iconSize = 28;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-	},
-	tabTitle: {
-		textAlign: 'right',
-	},
-	icon: {
-		width: iconSize,
-		height: iconSize,
-		borderRadius: iconSize / 2,
-		aspectRatio: 1,
-		opacity: 0.5,
-	},
-	iconActive: {
-		opacity: 1,
 	},
 });

@@ -28,6 +28,12 @@
       ],
       "screens/*": [
         "./src/screens/*"
+      ],
+      "bridge": [
+        "./browser/bridge"
+      ],
+      "bridge/*": [
+        "./browser/bridge/*"
       ]
 		}
 	}

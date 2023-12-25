@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { usePublicKeys } from '@walless/app/utils/hooks';
+import { usePublicKeys } from '@walless/app';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
 import { auth } from 'utils/firebase';

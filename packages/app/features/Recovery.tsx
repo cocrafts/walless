@@ -1,96 +1,132 @@
 import type { FC } from 'react';
-import { useRef } from 'react';
-import { Image, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
+import type { ViewStyle } from 'react-native';
+import {
+	Image,
+	KeyboardAvoidingView,
+	Linking,
+	StyleSheet,
+	TouchableWithoutFeedback,
+} from 'react-native';
 import { Button, Input, Text, View } from '@walless/gui';
+import { modules } from '@walless/ioc';
+
+import { hideNativeKeyboard } from '../utils';
 
 interface Props {
+	style?: ViewStyle;
 	onPressContinue: (key?: string) => void;
 }
 
-export const Recovery: FC<Props> = ({ onPressContinue }) => {
-	const recoveryKey = useRef<string>();
+const WALLESS_EMAIL = 'hello@walless.io';
 
-	const handleChangeText = (text: string) => {
-		recoveryKey.current = text;
+export const Recovery: FC<Props> = ({ style, onPressContinue }) => {
+	const [recoveryKey, setRecoveryKey] = useState('');
+
+	const handlePressContinue = () => {
+		onPressContinue(recoveryKey.trim());
 	};
 
-	const onLinkPress = async () => {
-		await Linking.openURL('https://discord.gg/3v7jwG45pe');
+	const handlePressEmail = async () => {
+		await Linking.openURL(`mailto:${WALLESS_EMAIL}`);
 	};
 
 	return (
-		<View style={styles.container}>
-			<Image source={{ uri: '/img/bare-icon.png' }} style={styles.logo} />
+		<TouchableWithoutFeedback onPress={hideNativeKeyboard}>
+			<View style={[styles.container, style]}>
+				<View />
 
-			<View style={styles.titleContainer}>
-				<Text style={styles.title}>Recovery account</Text>
-				<Text style={styles.subText}>
-					Please input your recovery key to sign-in
+				<View style={styles.headerContainer}>
+					<Image
+						source={modules.asset.misc.walless}
+						style={styles.logo}
+						resizeMode="cover"
+					/>
+					<Text style={styles.title}>Recovery your account</Text>
+					<Text style={styles.subText}>
+						Enter your Secret key to get going again
+					</Text>
+				</View>
+
+				<KeyboardAvoidingView style={styles.formContainer} behavior="padding">
+					<Input
+						style={styles.inputText}
+						placeholder="enter secret key"
+						textAlign="center"
+						onChangeText={setRecoveryKey}
+					/>
+					<Button
+						style={[styles.continueButton]}
+						titleStyle={styles.continueButtonTitle}
+						title="Continue"
+						onPress={handlePressContinue}
+						disabled={!recoveryKey.trim()}
+					/>
+				</KeyboardAvoidingView>
+
+				<View />
+				<Text style={styles.reminderText}>
+					Upon sign-up, your Secret Key is sent in the Walless Emergency Kit to
+					your registered email. If forgotten, contact us at{' '}
+					<Text style={styles.email} onPress={handlePressEmail}>
+						{WALLESS_EMAIL}
+					</Text>
 				</Text>
 			</View>
-
-			<View>
-				<Input style={styles.recoveryInput} onChangeText={handleChangeText} />
-				<Button
-					titleStyle={styles.continueButtonTitle}
-					title="Continue"
-					onPress={() => {
-						onPressContinue(recoveryKey.current?.trim());
-					}}
-				/>
-			</View>
-
-			<View style={styles.footerContainer}>
-				<Text>
-					Having issue with passcode?{' '}
-					<TouchableOpacity onPress={onLinkPress}>
-						<View cursorPointer noSelect>
-							<Text style={styles.link}>Contact us</Text>
-						</View>
-					</TouchableOpacity>
-				</Text>
-			</View>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 
 export default Recovery;
 
+const logoSize = 120;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 40,
-		paddingTop: 50,
-		paddingBottom: 20,
+		justifyContent: 'space-around',
+		paddingHorizontal: 36,
+		gap: 40,
 	},
 	logo: {
-		width: 83,
-		height: 43,
-		marginHorizontal: 'auto',
+		marginTop: 48,
+		width: logoSize,
+		height: logoSize,
 	},
-	titleContainer: {
-		paddingVertical: 40,
+	headerContainer: {
+		gap: 8,
+		alignItems: 'center',
 	},
 	title: {
-		paddingBottom: 10,
 		fontSize: 20,
+		fontWeight: '400',
+		color: '#fff',
 		textAlign: 'center',
 	},
 	subText: {
 		color: '#566674',
 		textAlign: 'center',
 	},
-	recoveryInput: {
-		marginBottom: 10,
+	formContainer: {
+		gap: 24,
+		marginBottom: 32,
+	},
+	inputText: {
+		height: 52,
+		textAlign: 'center',
 	},
 	continueButtonTitle: {
 		fontWeight: '600',
 	},
-	footerContainer: {
-		marginTop: 'auto',
-		marginHorizontal: 'auto',
+	continueButton: {
+		height: 52,
 	},
-	link: {
+	reminderText: {
+		fontSize: 12,
+		lineHeight: 18,
+		color: '#566674',
+		textAlign: 'center',
+	},
+	email: {
 		color: '#19A3E1',
 	},
 });

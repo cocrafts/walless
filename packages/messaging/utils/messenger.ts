@@ -4,7 +4,7 @@ import type {
 	RequestHashmap,
 	UniBroadcast,
 } from '@walless/core';
-import { runtime } from '@walless/core';
+import { logger, runtime } from '@walless/core';
 import { decryptFromString, encryptToString } from '@walless/crypto';
 
 import type {
@@ -44,7 +44,7 @@ export const createMessenger = (
 				const key = await encryptionKeyVault.get(channelId);
 				return await decryptMessage(data, key);
 			} catch (err) {
-				console.log('Error during decrypt message:', err);
+				logger.error('Error during decrypt message:', err);
 			}
 		}
 

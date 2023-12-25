@@ -3,6 +3,7 @@ export * from './utils/entityTypes';
 export * from './utils/extensionTypes';
 export * from './utils/format';
 export * from './utils/helper';
+export * from './utils/logger';
 export * from './utils/platform';
 export * from './utils/walletTypes';
 export * from './utils/wasm';

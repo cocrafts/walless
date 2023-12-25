@@ -1,16 +1,22 @@
+import type { ViewStyle } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { FullHistoryFeature } from '@walless/app/features/Profile';
+import { FullHistoryFeature, useUniversalInsets } from '@walless/app';
 import { Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import { router } from 'utils/routing';
 
 const HistoryScreen = () => {
+	const insets = useUniversalInsets();
+	const containerStyle: ViewStyle = {
+		paddingTop: Math.max(insets.top, 12),
+	};
+
 	const handleNavigateBack = () => {
-		router.navigate(-1);
+		router.navigate('/profile');
 	};
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, containerStyle]}>
 			<View style={styles.header}>
 				<TouchableOpacity onPress={handleNavigateBack}>
 					<ChevronLeft />

@@ -1,13 +1,13 @@
-import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
-import { runtime } from '@walless/core';
-import { appState } from '@walless/engine';
-import { mutations, queries, type WalletInvitation } from '@walless/graphql';
-import type { User } from 'firebase/auth';
+import type { User } from '@firebase/auth';
 import {
 	GoogleAuthProvider,
 	signInWithCredential,
 	signInWithPopup,
-} from 'firebase/auth';
+} from '@firebase/auth';
+import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
+import { logger, runtime } from '@walless/core';
+import { appState } from '@walless/engine';
+import { mutations, queries, type WalletInvitation } from '@walless/graphql';
 import { auth, googleProvider } from 'utils/firebase';
 import { qlClient } from 'utils/graphql';
 import { router } from 'utils/routing';
@@ -49,7 +49,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 				appState.isAbleToSignIn = false;
 				appState.authenticationLoading = false;
 				showError('The account does not exist. Enter your Invitation code');
-				router.navigate('/invitation');
+				router.navigate('/invitation', { replace: true });
 				return;
 			}
 		}
@@ -70,19 +70,21 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 			verifier,
 			verifierId,
 			privateKey: loginDetails.privateKey,
-			handlePasscode: async () => router.navigate('/create-passcode'),
-			handleRecovery: async () => router.navigate('/recovery'),
+			handlePasscode: async () =>
+				router.navigate('/create-passcode', { replace: true }),
+			handleRecovery: async () =>
+				router.navigate('/recovery', { replace: true }),
 			handleDeprecatedPasscode: async () => {
 				router.navigate('/deprecated-passcode');
 			},
 			handleReady: async () => {
 				await setProfile(makeProfile(user));
-				await router.navigate('/');
+				await router.navigate('/explorer', { replace: true });
 			},
 			handleError: async () => showError('Something went wrong') as never,
 		});
 	} catch (error) {
-		console.log('error during sign-in', error);
+		logger.error('Error during sign-in', error);
 	} finally {
 		appState.authenticationLoading = false;
 	}

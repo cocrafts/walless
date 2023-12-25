@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import type { GestureResponderEvent } from 'react-native';
 
 import Hoverable from '../Hoverable';
 
@@ -9,19 +8,13 @@ export const ContextMenuContainer: FC<ContextMenuContainerProps> = ({
 	style,
 	contentContainerStyle,
 	children,
-	onContextMenu,
 	onLongPress,
 	...otherProps
 }) => {
-	const handleLongPress = (e: GestureResponderEvent) => {
-		onLongPress?.(e);
-		onContextMenu?.();
-	};
-
 	return (
 		<Hoverable
 			style={[style, contentContainerStyle]}
-			onLongPress={handleLongPress}
+			onLongPress={onLongPress}
 			{...otherProps}
 		>
 			{children}

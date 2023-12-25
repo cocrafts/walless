@@ -15,8 +15,11 @@ export interface AptosTokenMetadata {
 	tokenDescription: string;
 }
 
-export interface Setting {
+export interface System {
 	deviceId?: string;
+}
+
+export interface Setting {
 	profile: UserProfile;
 	config: Config;
 }
@@ -26,8 +29,13 @@ export type EndpointMap = Record<Networks, Endpoint>;
 export interface Config {
 	version?: string;
 	hideBalance: boolean;
-	latestLocation: string;
+	latestLocation: string | MobileNavigation;
 	notificationToken?: string;
+}
+
+export interface MobileNavigation {
+	name: string;
+	params?: Readonly<object | undefined>;
 }
 
 export interface RemoteConfig {

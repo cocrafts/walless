@@ -3,9 +3,9 @@ import { VersionedTransaction } from '@solana/web3.js';
 import {
 	constructTransaction,
 	constructTransactionAbstractFee,
-} from '@walless/app/utils';
+} from '@walless/app';
 import type { TransactionPayload } from '@walless/core';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import type { CreateAndSendFunction, HandleAptosFunction } from '@walless/ioc';
 import { aptosHandler, solanaHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
@@ -56,10 +56,10 @@ export const createAndSend: CreateAndSendFunction = async (
 		}
 	} else if (transaction instanceof TransactionBlock) {
 		// TODO: implement transfer sui
-		console.log('hello sui');
+		logger.debug('hello sui');
 	} else if (payload.network == Networks.tezos) {
 		// TODO: implement transfer tezos
-		console.log('hello tezos');
+		logger.debug('hello tezos');
 	} else if (payload.network === Networks.aptos) {
 		let privateKey;
 		try {

@@ -30,11 +30,12 @@ export const WalletCard: FC<Props> = ({
 	onCopyAddress,
 	onChangePrivateSetting,
 }) => {
-	const height = (width * 145) / 318;
+	const preferedHeight = (width * 145) / 318;
+	const height = Math.min(preferedHeight, 200);
 	const containerStyle: ImageStyle = {
 		width,
 		height,
-		aspectRatio: 318 / 145,
+		aspectRatio: width / height,
 		borderRadius: 12,
 		paddingHorizontal: 18,
 		justifyContent: 'center',
@@ -59,7 +60,7 @@ export const WalletCard: FC<Props> = ({
 				onHide={handleHide}
 			/>
 			{skin.largeIconSrc && (
-				<View style={styles.markContainer}>
+				<View pointerEvents="none" style={styles.markContainer}>
 					<Image style={styles.markImage} source={skin.largeIconSrc} />
 				</View>
 			)}

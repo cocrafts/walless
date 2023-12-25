@@ -23,14 +23,14 @@ export const FeatureButton: FC<Props> = ({
 		height: size,
 		borderRadius: 12,
 		gap: 8,
-		backgroundColor: '#0694D3',
+		backgroundColor: onPress ? '#0694D3' : '#43525F',
 		alignItems: 'center',
 		justifyContent: 'center',
 	};
 
 	return (
 		<View noSelect style={styles.container}>
-			<Hoverable style={innerStyle} onPress={onPress}>
+			<Hoverable style={innerStyle} onPress={onPress} disabled={!onPress}>
 				{children}
 			</Hoverable>
 			{title && <Text style={[styles.title, titleStyle]}>{title}</Text>}

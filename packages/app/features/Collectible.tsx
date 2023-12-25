@@ -2,11 +2,11 @@ import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, ScrollView, StyleSheet } from 'react-native';
-import { showSendModal } from '@walless/app';
 import { Button, Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import { utils } from '@walless/ioc';
 
+import { floatActions } from '../state';
 import { useNfts } from '../utils/hooks';
 
 interface Props {
@@ -31,7 +31,7 @@ export const CollectibleFeat: FC<Props> = ({ id, style }) => {
 	}, [curCollectible, collections]);
 
 	const handlePressSend = () => {
-		showSendModal({
+		floatActions.showSendTokenModal({
 			layoutNetwork: curCollectible?.network,
 			collectible: curCollectible,
 		});
@@ -127,11 +127,11 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 		backgroundColor: '#0B1218',
 		marginHorizontal: 'auto',
+		alignItems: 'center',
 	},
 	nftImage: {
 		height: 240,
 		width: 240,
-		marginHorizontal: 'auto',
 		borderRadius: 11,
 	},
 	nameText: {

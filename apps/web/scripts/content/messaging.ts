@@ -1,6 +1,6 @@
 import { createMessenger } from '@walless/messaging';
 
-const messenger = createMessenger();
+export const messenger = createMessenger();
 
 export const initializeMessaging = async () => {
 	window.postMessage({ from: 'walless-content-script-loaded' });

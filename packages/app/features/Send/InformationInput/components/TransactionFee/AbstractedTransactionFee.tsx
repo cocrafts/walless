@@ -14,12 +14,9 @@ import { ChevronDown, Exclamation } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
-import type { TransactionContext } from '../../../../../state/transaction';
-import {
-	transactionActions,
-	transactionContext,
-} from '../../../../../state/transaction';
-import { filterGasilonTokens } from '../../../utils/gasilon';
+import type { TransactionContext } from '../../../../../state';
+import { transactionActions, transactionContext } from '../../../../../state';
+import { filterGasilonTokens } from '../../../../../utils/gasilon';
 
 import {
 	getTokenName,
@@ -39,6 +36,8 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		tokenList[0],
 	]);
 
+	const { setTokenForFee } = transactionActions;
+
 	const {
 		type,
 		token,
@@ -53,14 +52,10 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const enableSelectFee =
 		chosenToken?.account?.mint !== solMint && tokenForFeeList.length > 1;
 
-	const setTokenFee = (tokenForFee: TokenDocument) => {
-		transactionActions.setTokenForFee(tokenForFee);
-	};
-
 	const dropdownRef = useRef(null);
 
 	if (!tokenForFee) {
-		transactionActions.setTokenForFee(tokenList[0]);
+		setTokenForFee(tokenList[0]);
 	}
 
 	const tokenForFeeName = getTokenName(
@@ -104,7 +99,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 
 	useEffect(() => {
 		if (token?.account.mint === solMint) {
-			transactionActions.setTokenForFee(token as TokenDocument);
+			setTokenForFee(token as TokenDocument);
 		}
 	}, [token]);
 
@@ -115,7 +110,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 			component: () => (
 				<TokenFeeDropDown
 					tokens={tokenForFeeList}
-					onSelect={setTokenFee}
+					onSelect={setTokenForFee}
 					selectedToken={tokenForFee as TokenDocument}
 				/>
 			),
@@ -147,7 +142,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 						<ActivityIndicator size="small" color="#FFFFFF" />
 					) : (
 						<Text style={[styles.feeText, !!error && { color: '#FC9B0A' }]}>
-							{parseFloat(transactionFee?.toPrecision(7) as string) ?? 0}
+							{parseFloat((transactionFee || 0)?.toPrecision(7) as string)}
 						</Text>
 					)}
 					{chosenToken && (

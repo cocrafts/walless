@@ -4,14 +4,16 @@ import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
 
+import ModalHeader from '../../../components/ModalHeader';
 import {
+	floatActions,
+	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../state/transaction';
-import { showError } from '../utils';
+} from '../../../state';
 
 import { CollectiblesTab } from './CollectiblesTab';
-import { Header, TabBar } from './components';
+import { TabBar } from './components';
 import { totalCheckFieldsToContinue } from './internal';
 import { TokensTab } from './TokensTab';
 
@@ -25,15 +27,17 @@ const InformationInput: FC<Props> = ({ navigator }) => {
 	const handlePressContinue = () => {
 		const checkedResult = totalCheckFieldsToContinue();
 		if (!checkedResult.valid) {
-			showError(checkedResult.message);
+			floatActions.showError(checkedResult.message);
 		} else {
 			navigator.slideNext();
 		}
 	};
 
+	const { handleClose } = useSnapshot(injectedElements);
+
 	return (
 		<View style={styles.container}>
-			<Header />
+			<ModalHeader content="Send" onPressClose={handleClose} />
 
 			<TabBar curTab={type} setCurTab={transactionActions.setType} />
 

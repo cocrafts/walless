@@ -1,3 +1,4 @@
+import { logger } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 
@@ -17,11 +18,11 @@ const addCollectibleToStorage = async (
 	id: string,
 	item: CollectibleDocument,
 ) => {
-	return await modules.storage.upsert(id, async () => item);
+	return modules.storage.upsert(id, async () => item).catch(logger.warn);
 };
 
 const addCollectionToStorage = async (id: string, item: CollectionDocument) => {
-	return await modules.storage.upsert(id, async () => item);
+	return modules.storage.upsert(id, async () => item).catch(logger.warn);
 };
 
 const updateCollectibleAmountToStorage = async (

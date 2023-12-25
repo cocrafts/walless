@@ -1,3 +1,4 @@
+import { logger } from '@walless/core';
 import type { Device, DeviceInfoInput } from '@walless/graphql';
 import { mutations } from '@walless/graphql';
 import { modules } from '@walless/ioc';
@@ -14,38 +15,26 @@ export const setPrivacy = async (hideBalance: boolean) => {
 
 export const setPathname = async (latestScreen: string) => {
 	await modules.storage.upsert<SettingDocument>(id, async (doc) => {
+		doc.config = doc.config || {};
 		doc.config.latestLocation = latestScreen;
 		return doc;
 	});
 };
 
-export const syncNotificationToken = async (
-	nextToken: string,
-	device: DeviceInfoInput,
-) => {
-	const settings = await modules.storage.safeGet<SettingDocument>(id);
-	const isProfileReady = settings?.profile?.email;
-	const lastNotificationToken = settings?.config?.notificationToken;
+export const syncDeviceInfo = async (device: DeviceInfoInput) => {
+	try {
+		await modules.storage.upsert<SettingDocument>(id, async (doc) => {
+			doc.config = Object.assign({}, doc.config);
+			doc.config.version = device.appVersion as string;
+			doc.config.notificationToken = device.notificationToken as string;
+			return doc;
+		});
 
-	if (!isProfileReady) return;
-	if (nextToken !== lastNotificationToken) {
-		device.notificationToken = nextToken;
-		console.log('Registering notification token from device..');
-
-		try {
-			await modules.qlClient.request<
-				{ registerDevice: Device },
-				{ device: DeviceInfoInput }
-			>(mutations.registerDevice, { device });
-
-			await modules.storage.upsert<SettingDocument>(id, async (doc) => {
-				doc.config.notificationToken = nextToken;
-				return doc;
-			});
-		} catch (e) {
-			console.log(e);
-		}
-	} else {
-		console.log('Token already registered, skip syncing..');
+		await modules.qlClient.request<
+			{ registerDevice: Device },
+			{ device: DeviceInfoInput }
+		>(mutations.registerDevice, { device });
+	} catch (e) {
+		logger.error('Error when setDeviceInfo', e);
 	}
 };

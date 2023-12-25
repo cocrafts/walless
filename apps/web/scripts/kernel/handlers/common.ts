@@ -18,14 +18,15 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 }) => {
 	if (!payload.options) throw new Error('No connection options provided');
 
-	const connectOptions = payload.options;
-	if (connectOptions.domain) {
+	const { domain, network = Networks.solana } = payload.options;
+	if (domain) {
 		const doc = {
-			_id: connectOptions.domain,
+			_id: domain,
 			type: 'TrustedDomain',
 			trusted: true,
 			connectCount: 1,
 			connect: true,
+			network,
 		};
 		await modules.storage.upsert<TrustedDomainDocument>(
 			doc._id,
@@ -34,17 +35,21 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 					doc.connectCount = prevDoc.connectCount + 1;
 				}
 
+				if (!prevDoc.network) {
+					doc.network = network;
+				}
+
 				return doc as TrustedDomainDocument;
 			},
 		);
 	}
 
 	const publicKeys = await modules.storage.find(selectors.allKeys);
-	const solKey = (publicKeys.docs as PublicKeyDocument[]).find(
-		(key) => key.network == Networks.solana,
+	const publicKey = (publicKeys.docs as PublicKeyDocument[]).find(
+		(key) => key.network == network,
 	);
 
-	respond(payload.requestId, ResponseCode.SUCCESS, { publicKeys: [solKey] });
+	respond(payload.requestId, ResponseCode.SUCCESS, { publicKeys: [publicKey] });
 };
 
 export const disconnect: HandleMethod<{

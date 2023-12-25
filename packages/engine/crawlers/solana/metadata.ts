@@ -1,7 +1,6 @@
-import type { JsonMetadata } from '@metaplex-foundation/js';
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { PublicKey } from '@solana/web3.js';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import type { MetadataDocument } from '@walless/store';
 
@@ -63,13 +62,18 @@ const getRemoteMeta: GetMetadataFunc = async ({ connection }, mintAddress) => {
 	result.mpl = metadata;
 
 	try {
-		const offChainMetadata = (await fetch(metadata.data.uri, {
-			method: 'GET',
-		}).then((res) => res.json())) as JsonMetadata;
+		const metadataResponse = await fetch(
+			metadata.data.uri.replaceAll('\u0000', ''),
+			{
+				method: 'GET',
+			},
+		);
+
+		const offChainMetadata = await metadataResponse.json();
 
 		result.imageUri = offChainMetadata.image;
-	} catch {
-		console.log('failed to fetch Solana metadata from off-chain source');
+	} catch (error) {
+		logger.error('Failed to fetch Solana metadata off-chain', error);
 	}
 
 	return result;

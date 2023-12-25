@@ -9,7 +9,7 @@ import {
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../state/transaction';
+} from '../../../state';
 import { NavButton } from '../components';
 
 import {

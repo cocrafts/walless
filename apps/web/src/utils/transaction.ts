@@ -3,7 +3,7 @@ import { VersionedTransaction } from '@solana/web3.js';
 import {
 	constructTransaction,
 	constructTransactionAbstractFee,
-} from '@walless/app/utils';
+} from '@walless/app';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { HandleAptosFunction } from '@walless/ioc';
@@ -31,12 +31,12 @@ export const createAndSend = async (
 						type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
 						transaction: encode(transaction.serialize()),
 						passcode,
-				  })
+					})
 				: await requestHandleTransaction({
 						type: RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
 						transaction: encode(transaction.serialize()),
 						passcode,
-				  });
+					});
 	} else if (transaction instanceof TransactionBlock) {
 		res = await requestHandleTransaction({
 			type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,

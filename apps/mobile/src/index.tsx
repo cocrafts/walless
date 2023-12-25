@@ -1,9 +1,46 @@
-import type { FC } from 'react';
+import { useEffect, useRef } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { modalActions, ModalManager, themeState } from '@walless/gui';
+import ApplicationStack from 'stacks/Application';
+import {
+	useNavigationHydrate,
+	useNotifications,
+	useSnapshot,
+} from 'utils/hooks';
+import { linking, navigationRef } from 'utils/navigation';
 
-import AppStack from './stacks';
+export const AppStack = () => {
+	const modalContainerRef = useRef<View>(null);
+	const theme = useSnapshot(themeState);
+	const hydrate = useNavigationHydrate();
 
-export const AppContainer: FC = () => {
-	return <AppStack />;
+	useNotifications();
+	useEffect(() => modalActions.setContainerRef(modalContainerRef), []);
+
+	return (
+		<SafeAreaProvider>
+			<View style={styles.container} ref={modalContainerRef}>
+				<NavigationContainer
+					ref={navigationRef}
+					theme={theme}
+					linking={linking}
+					onReady={hydrate.onNavigationReady}
+					onStateChange={hydrate.onNavigationStateChange}
+				>
+					<ApplicationStack />
+				</NavigationContainer>
+				<ModalManager />
+			</View>
+		</SafeAreaProvider>
+	);
 };
 
-export default AppContainer;
+export default AppStack;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+});

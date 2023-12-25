@@ -106,8 +106,8 @@ export const Carousel: FC<Props> = forwardRef(function Carousel(
 				event.velocityX < -velocityLimit
 					? -velocityLimit
 					: event.velocityX > velocityLimit
-					  ? velocityLimit
-					  : event.velocityX;
+						? velocityLimit
+						: event.velocityX;
 
 			currentPosition.value = withDecay({
 				velocity,

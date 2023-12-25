@@ -5,21 +5,34 @@
     font-weight: $weight
     font-style: $style
 
+:root
+  --sat: env(safe-area-inset-top)
+  --sar: env(safe-area-inset-right)
+  --sab: env(safe-area-inset-bottom)
+  --sal: env(safe-area-inset-left)
+
 body
   background-color: #011726
   overflow: hidden
 
+  @media (max-width:450px)
+   background-color: #19232c
+
   &.popup
-    width: 410px
+    width: 420px
     height: 600px
 
 #root
   display: flex
   position: absolute
-  top: 0
+  overflow: hidden
+  top: 0 
   left: 0
   right: 0
   bottom: 0
+
+  @media all and (display-mode: standalone)  
+    height: 99.9vh
 
 *
   box-sizing: border-box

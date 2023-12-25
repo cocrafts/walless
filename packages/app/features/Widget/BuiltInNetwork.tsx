@@ -6,6 +6,7 @@ import type {
 	ViewStyle,
 } from 'react-native';
 import { StyleSheet, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
@@ -15,11 +16,11 @@ import MainFeatureButtons from '../../components/MainFeatureButtons';
 import type { TabAble } from '../../components/TabsHeader';
 import TabsHeader from '../../components/TabsHeader';
 import WalletCard from '../../components/WalletCard';
+import { floatActions } from '../../state';
 import { copy } from '../../utils';
-import { useNfts, useSafeAreaInsets } from '../../utils/hooks';
+import { useNfts, useOpacityAnimated } from '../../utils/hooks';
 import { usePublicKeys, useTokens } from '../../utils/hooks';
 import { showReceiveModal } from '../Receive';
-import { showSendModal } from '../Send';
 
 import ActivityTab from './components/ActivityTab';
 import AptosTokensTab from './components/AptosTokensTab';
@@ -32,15 +33,14 @@ interface Props {
 
 export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
-	const insets = useSafeAreaInsets();
 	const keys = usePublicKeys(id as Networks);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
 	const { tokens, valuation } = useTokens(id as Networks);
 	const { collections } = useNfts(id as Networks);
 	const cardSkin = useMemo(() => getWalletCardSkin(id as never), [id]);
+	const opacityAnimated = useOpacityAnimated({ from: 0, to: 1 });
 
 	const container: ViewStyle = {
-		marginTop: insets.top,
 		...styles.container,
 	};
 
@@ -74,7 +74,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressSend = () => {
-		showSendModal({
+		floatActions.showSendTokenModal({
 			layoutNetwork: id as Networks,
 		});
 	};
@@ -88,7 +88,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	return (
-		<View style={container}>
+		<Animated.View style={[container, opacityAnimated.style]}>
 			<View style={styles.headerContainer} onLayout={onHeaderLayout}>
 				{headerLayout?.width &&
 					keys.map((item, index) => {
@@ -109,7 +109,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 				<MainFeatureButtons
 					onSendPress={handlePressSend}
 					onReceivePress={handlePressReceive}
-					onBuyPress={handlePressBuy}
+					onBuyPress={id === Networks.solana ? handlePressBuy : undefined}
 				/>
 			</View>
 
@@ -124,7 +124,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 				items={bottomSliderItems}
 				activeItem={bottomSliderItems[activeTabIndex]}
 			/>
-		</View>
+		</Animated.View>
 	);
 };
 

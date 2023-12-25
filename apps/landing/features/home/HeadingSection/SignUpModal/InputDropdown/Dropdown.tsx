@@ -1,23 +1,24 @@
 import type { FC } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { Text, View } from '@walless/gui';
-import { ChevronUp } from '@walless/icons';
+import type { ModalConfigs } from '@walless/gui';
+import { modalActions, Text, View } from '@walless/gui';
 
-interface Props {
+interface DropdownContext {
 	optionList: string[];
-	setSelectedOption: (option: string) => void;
 	selectedOption: string;
-	setIsDropped: (isDropped: boolean) => void;
+	setSelectedOption: (option: string) => void;
 }
 
-const Dropdown: FC<Props> = ({
-	optionList,
-	selectedOption,
-	setSelectedOption,
-	setIsDropped,
-}) => {
+interface Props {
+	config: ModalConfigs;
+}
+
+const Dropdown: FC<Props> = ({ config }) => {
+	const { optionList, selectedOption, setSelectedOption } =
+		config.context as DropdownContext;
+
 	const handleCloseModal = () => {
-		setIsDropped(false);
+		modalActions.hide(config.id as string);
 	};
 
 	const handleSelectOption = (option: string) => {
@@ -27,15 +28,6 @@ const Dropdown: FC<Props> = ({
 
 	return (
 		<View>
-			<TouchableOpacity
-				style={styles.selectedOptionContainer}
-				onPress={handleCloseModal}
-			>
-				<Text>
-					{selectedOption === 'Select one' ? 'Select one...' : selectedOption}
-				</Text>
-				<ChevronUp color="#43525F" size={20} />
-			</TouchableOpacity>
 			<ScrollView
 				style={styles.dropdownContainer}
 				showsVerticalScrollIndicator={false}

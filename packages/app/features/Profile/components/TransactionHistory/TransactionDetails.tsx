@@ -1,11 +1,12 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import type { NetworkInfo } from '@walless/app/utils';
-import { getNetworkInfo } from '@walless/app/utils';
 import type { Networks, Transaction } from '@walless/core';
 import { appState } from '@walless/engine';
 import { View } from '@walless/gui';
 import { useSnapshot } from 'valtio';
+
+import type { NetworkInfo } from '../../../../utils';
+import { getNetworkInfo } from '../../../../utils';
 
 import AddressDetails from './components/AddressDetails';
 import InformationDetails from './components/InformationDetails';
@@ -64,7 +65,6 @@ export default TransactionDetails;
 
 const styles = StyleSheet.create({
 	container: {
-		minWidth: 340,
 		gap: 16,
 		paddingVertical: 4,
 	},

@@ -1,16 +1,19 @@
+import { signOut } from '@firebase/auth';
+import { buyToken } from '@walless/app';
+import { logger } from '@walless/core';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
 import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
-import { signOut } from 'firebase/auth';
 import IDBPouch from 'pouchdb-adapter-idb';
 import { auth, initializeAuth, universalAnalytics } from 'utils/firebase';
 
 import { makeConfig } from '../../scripts/kernel/utils/config';
 
 import { webAsset } from './config';
-import { buyToken } from './gatefi';
+import { configureDeviceAndNotification } from './device';
 import { qlClient } from './graphql';
+import { nativeModules } from './native';
 import { router } from './routing';
 import { createAndSend, handleAptosOnChainAction } from './transaction';
 import { key } from './w3a';
@@ -27,6 +30,8 @@ export const injectModules = async () => {
 	utils.navigateToCollection = navigateToCollection;
 	utils.navigateToCollectible = navigateToCollectible;
 	utils.navigateBack = navigateBack;
+
+	modules.native = nativeModules;
 	modules.analytics = universalAnalytics;
 	modules.asset = webAsset;
 	modules.config = makeConfig() as never;
@@ -40,9 +45,11 @@ export const injectModules = async () => {
 	modules.engine = await createEngine(); // start crawling engine
 	modules.engine.start();
 
-	const endTime = new Date();
-	const milliseconds = endTime.getMilliseconds() - startTime.getMilliseconds();
-	console.log(`Took ${milliseconds} milliseconds to configure IoC module`);
+	configureDeviceAndNotification(); // asynchornous, should cost nothing evaluate/run
+
+	const milliseconds =
+		new Date().getMilliseconds() - startTime.getMilliseconds();
+	logger.info(`Configured IoC module in ${milliseconds}ms`);
 
 	return modules;
 };
@@ -53,11 +60,11 @@ const logOut = async () => {
 	await signOut(auth);
 	await modules.storage.clearAllDocs();
 
-	router.navigate('/login');
+	router.navigate('/login', { replace: true });
 };
 
 const navigateToWidget = (id: string) => {
-	router.navigate(id);
+	router.navigate(`/${id}`);
 };
 
 const navigateToCollection = (id: string) => {

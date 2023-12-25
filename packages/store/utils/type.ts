@@ -9,8 +9,10 @@ import type {
 	HydratedKey,
 	Networks,
 	Setting,
+	System,
 	Token,
 	TrustedDomain,
+	UnknownObject,
 	Widget,
 } from '@walless/core';
 
@@ -39,6 +41,8 @@ export type PouchDocument<T> = PouchDB.Core.Document<
 	T & IndexedDocument & { _rev?: string }
 >;
 
+export type SystemDocument = PouchDocument<System>;
+
 export type SettingDocument = PouchDocument<Setting>;
 
 export type EndpointsDocument = PouchDocument<EndpointMap>;
@@ -54,6 +58,7 @@ export type PrivateKeyDocument = PouchDocument<
 export type PublicKeyDocument = PouchDocument<{
 	privateKeyId: string;
 	network: Networks;
+	meta?: UnknownObject;
 }>;
 
 export type ExtensionDocument = PouchDocument<ExtensionConfig>;

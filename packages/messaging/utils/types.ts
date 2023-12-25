@@ -21,14 +21,17 @@ interface IdentifiedPayload {
 	id?: string;
 }
 
-export type MessagePayload = UnknownObject &
+export type MessagePayload<T = unknown> = UnknownObject &
 	IdentifiedPayload & {
 		from: string;
 		type: RequestType;
 		requestId: string;
-	};
+	} & T;
 
-export type PureMessagePayload = Omit<MessagePayload, 'requestId'>;
+export type PureMessagePayload<T = unknown> = Omit<
+	MessagePayload<T>,
+	'requestId'
+>;
 
 export type ResponsePayload = UnknownObject &
 	IdentifiedPayload & {
@@ -58,9 +61,9 @@ export type MessengerSend = (
 	payload: MessagePayload,
 ) => Promise<void>;
 
-export type MessengerRequest = (
+export type MessengerRequest = <T>(
 	channelId: string,
-	payload: PureMessagePayload | MessagePayload,
+	payload: PureMessagePayload<T> | MessagePayload<T>,
 	timeout?: number,
 ) => Promise<UnknownObject>;
 
@@ -110,6 +113,8 @@ export enum RequestType {
 	CLAIM_TOKEN_ON_APTOS,
 	TRANSFER_COIN_ON_APTOS,
 	TRANSFER_TOKEN_ON_APTOS,
+	REQUEST_OPERATION_ON_TEZOS = 'operation_request',
+	SIGN_PAYLOAD_ON_TEZOS = 'sign_payload_request',
 }
 
 export enum PopupType {

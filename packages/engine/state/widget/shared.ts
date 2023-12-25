@@ -1,9 +1,11 @@
+import { Networks } from '@walless/core';
 import type { WidgetDocument } from '@walless/store';
 
 export const mockWidgets: WidgetDocument[] = [
 	{
 		_id: 'pixeverse',
 		name: 'Pixeverse',
+		networks: [Networks.solana],
 		version: '0.1.8',
 		type: 'Widget',
 		widgetType: 'Hybrid',
@@ -29,6 +31,7 @@ export const mockWidgets: WidgetDocument[] = [
 	{
 		_id: 'solana',
 		name: 'Solana',
+		networks: [Networks.solana],
 		version: '0.9.1',
 		type: 'Widget',
 		widgetType: 'Layout',
@@ -54,6 +57,7 @@ export const mockWidgets: WidgetDocument[] = [
 	{
 		_id: 'sui',
 		name: 'Sui',
+		networks: [Networks.sui],
 		version: '0.0.1',
 		type: 'Widget',
 		widgetType: 'Layout',
@@ -79,6 +83,7 @@ export const mockWidgets: WidgetDocument[] = [
 	{
 		_id: 'tezos',
 		name: 'Tezos',
+		networks: [Networks.sui],
 		version: '0.0.1',
 		type: 'Widget',
 		widgetType: 'Layout',
@@ -104,6 +109,7 @@ export const mockWidgets: WidgetDocument[] = [
 	{
 		_id: 'aptos',
 		name: 'Aptos',
+		networks: [Networks.aptos],
 		version: '0.0.1',
 		type: 'Widget',
 		widgetType: 'Layout',
@@ -129,6 +135,7 @@ export const mockWidgets: WidgetDocument[] = [
 	{
 		_id: 'tRexRunner',
 		name: 'T-Rex Runner',
+		networks: [],
 		version: '0.1.8',
 		type: 'Widget',
 		widgetType: 'Hybrid',

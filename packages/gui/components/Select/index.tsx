@@ -1,6 +1,12 @@
 import { useRef } from 'react';
 import { Image } from 'react-native';
 import {
+	interpolateColor,
+	useAnimatedStyle,
+	useSharedValue,
+	withTiming,
+} from 'react-native-reanimated';
+import {
 	AnimateDirections,
 	BindDirections,
 	Hoverable,
@@ -9,6 +15,8 @@ import {
 	View,
 } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';
+
+import { AnimatedView } from '../aliased';
 
 import Dropdown from './Dropdown';
 import type { SelectionContext } from './shared';
@@ -27,6 +35,7 @@ export const Select = <T extends object>({
 	selectedItemIconStyle,
 }: SelectionContext<T>) => {
 	const inputRef = useRef(null);
+	const rotation = useSharedValue(0);
 
 	let selectedMetadata;
 	if (selected) {
@@ -39,13 +48,15 @@ export const Select = <T extends object>({
 
 	const openModal = () => {
 		const modalId = `dropdown-${title}`;
+		rotation.value = withTiming(-180);
 		modalActions.show({
 			id: modalId,
 			component: Dropdown,
 			bindingRef: inputRef,
-			bindingDirection: BindDirections.InnerTop,
-			animateDirection: AnimateDirections.Inner,
+			bindingDirection: BindDirections.Bottom,
+			animateDirection: AnimateDirections.Bottom,
 			maskActiveOpacity: 0,
+			positionOffset: { y: -5 },
 			context: {
 				selected,
 				title,
@@ -56,12 +67,33 @@ export const Select = <T extends object>({
 				itemStyle,
 				itemIconStyle,
 			},
+			onBeforeHide: () => (rotation.value = withTiming(0)),
 		});
 	};
 
+	const chevronAnimatedStyle = useAnimatedStyle(() => {
+		return {
+			transform: [{ rotate: `${rotation.value}deg` }],
+		};
+	}, [rotation]);
+	const borderAnimatedStyle = useAnimatedStyle(() => {
+		const borderColor = interpolateColor(
+			rotation.value,
+			[-180, 0],
+			['#49596a', 'transparent'],
+			'RGB',
+		);
+		return {
+			borderColor,
+		};
+	}, [rotation]);
+
 	return (
 		<View ref={inputRef}>
-			<Hoverable style={[styles.button, selectedItemStyle]} onPress={openModal}>
+			<Hoverable
+				style={[styles.button, selectedItemStyle, borderAnimatedStyle]}
+				onPress={openModal}
+			>
 				<View style={styles.item}>
 					{!selectedMetadata ? (
 						<Text style={styles.text}>{title}</Text>
@@ -75,9 +107,9 @@ export const Select = <T extends object>({
 						</View>
 					)}
 				</View>
-				<View style={styles.rightIcon}>
+				<AnimatedView style={[styles.rightIcon, chevronAnimatedStyle]}>
 					<ChevronDown size={16} color="#566674" />
-				</View>
+				</AnimatedView>
 			</Hoverable>
 		</View>
 	);

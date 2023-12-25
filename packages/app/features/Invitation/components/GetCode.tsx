@@ -1,65 +1,38 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Anchor, Text, View } from '@walless/gui';
+import { Anchor, View } from '@walless/gui';
 
 interface Props {
 	onLoginPress?: () => void;
 }
 
-const GetCode: FC<Props> = ({ onLoginPress }) => {
+const HadWalletAccount: FC<Props> = ({ onLoginPress }) => {
 	return (
 		<View style={styles.container}>
-			<View style={styles.separate}>
-				<View style={styles.separateLine} />
-				<Text style={styles.separateText}>If don&apos;t have code</Text>
-				<View style={styles.separateLine} />
-			</View>
 			<Anchor
-				style={styles.invitationCodeContainer}
-				titleStyle={styles.invitationCodeText}
-				title="Get invitation code"
-				href="https://docs.google.com/forms/d/e/1FAIpQLSeMOQGfeYhq4i-V595JRc28VlY1YDpFeU0rPJkTymFH6nV21g/viewform"
-			/>
-			<Anchor
-				title="I already have Walless account"
+				style={styles.hadAccountContainer}
 				titleStyle={styles.hadAccountText}
+				title="I already have Walless account"
 				onPress={onLoginPress}
 			/>
 		</View>
 	);
 };
 
-export default GetCode;
+export default HadWalletAccount;
 
 const styles = StyleSheet.create({
 	container: {
 		gap: 18,
 	},
-	separate: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 8,
-	},
-	separateLine: {
-		flex: 1,
-		height: 1,
-		backgroundColor: '#2A333C',
-	},
-	separateText: {
-		color: '#566674',
-	},
-	invitationCodeContainer: {
+	hadAccountContainer: {
 		borderRadius: 16,
 		backgroundColor: '#000000',
 	},
-	invitationCodeText: {
+	hadAccountText: {
 		padding: 16,
 		fontWeight: '500',
 		textAlign: 'center',
 		color: '#ffffff',
-	},
-	hadAccountText: {
-		color: '#0694D3',
-		textAlign: 'center',
 	},
 });

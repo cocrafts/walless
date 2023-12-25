@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useParams } from 'react-router-dom';
 import { usePublicKeys } from '@walless/app';
 import { Networks } from '@walless/core';
@@ -16,11 +16,11 @@ import { logoSize, logoUri } from './shared';
 
 const RequestConnect = () => {
 	const { requestId } = useParams();
-	const { sender } = useRequestData(
+	const { sender, options } = useRequestData(
 		requestId as string,
 		PopupType.REQUEST_CONNECT_POPUP,
 	);
-	const publicKey = usePublicKeys(Networks.solana)[0];
+	const publicKey = usePublicKeys(options.network || Networks.solana)[0];
 
 	const onApprovePress = () => {
 		handleRequestConnect(requestId as string, true);
@@ -37,7 +37,7 @@ const RequestConnect = () => {
 	const title = sender.tab?.title || 'Unknown';
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 			<HeaderRequest title={publicKey._id} />
 
 			<View style={styles.innerContainer}>
@@ -48,7 +48,9 @@ const RequestConnect = () => {
 						source={{ uri: sender.tab?.favIconUrl || logoUri }}
 					/>
 					<Text style={styles.senderName}>{title}</Text>
-					<LightText fontSize={14}>{sender.tab?.url || 'unknown'}</LightText>
+					<LightText textAlign="center" fontSize={14}>
+						{sender.origin || 'unknown'}
+					</LightText>
 				</View>
 
 				<View style={styles.contentContainer}>
@@ -85,13 +87,13 @@ const RequestConnect = () => {
 					<LightText textAlign="center">
 						Only connect to websites you trust!
 					</LightText>
-					<Button title="Connect" onPress={onApprovePress}></Button>
+					<Button title="Connect" onPress={onApprovePress} />
 					<Hoverable style={styles.deniedButton} onPress={onRejectPress}>
 						<Text>Deny</Text>
 					</Hoverable>
 				</View>
 			</View>
-		</View>
+		</ScrollView>
 	);
 };
 
@@ -106,11 +108,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 20,
 	},
-	titleContainer: {
-		alignItems: 'center',
-	},
+	titleContainer: {},
 	title: {
 		fontSize: 20,
+		textAlign: 'center',
 	},
 	titleImage: {
 		width: logoSize,
@@ -119,9 +120,13 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderRadius: 15,
 		marginVertical: 10,
+		alignSelf: 'center',
 	},
 	senderName: {
 		fontSize: 18,
+		fontWeight: '500',
+		textAlign: 'center',
+		marginBottom: 4,
 	},
 	contentContainer: {
 		backgroundColor: '#202D38',
@@ -149,8 +154,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	bottomContainer: {
-		flex: 1,
-		justifyContent: 'flex-end',
+		marginTop: 'auto',
 		gap: 10,
 	},
 	deniedButton: {

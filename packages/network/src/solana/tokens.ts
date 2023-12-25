@@ -2,7 +2,7 @@ import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import type { MetadataDocument, TokenDocument } from '@walless/store';
 
 import type { GetSolanaMetadataFunction } from './metadata';
@@ -62,7 +62,7 @@ export const getSolanaTokenMetadata = async (
 		connection.getAccountInfo(metadataPDA),
 	]);
 
-	console.log(info, metadata);
+	logger.debug('Token metadata:', { info, metadata });
 };
 
 export const getSolanaTokensByAddress = async (

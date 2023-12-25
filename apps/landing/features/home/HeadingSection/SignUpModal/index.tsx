@@ -76,8 +76,6 @@ const SignUpModal = () => {
 				},
 			);
 
-			console.log(data);
-
 			if (errors && errors.length > 0) {
 				const message = errors[0].message;
 

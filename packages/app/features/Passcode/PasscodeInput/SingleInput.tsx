@@ -25,8 +25,8 @@ const SingleInput = forwardRef<TextInput, Props>(
 		const borderColor = isFocused
 			? 'rgba(255, 255, 255, 0.2)'
 			: isFilled
-			  ? 'rgba(255, 255, 255, 0.1)'
-			  : 'transparent';
+				? 'rgba(255, 255, 255, 0.1)'
+				: 'transparent';
 		const conditionalStyle = {
 			width,
 			height,
@@ -58,6 +58,7 @@ const SingleInput = forwardRef<TextInput, Props>(
 					onKeyPress={onKeyPress}
 					onFocus={() => setIsFocused(true)}
 					onBlur={() => setIsFocused(false)}
+					keyboardType="numeric"
 				/>
 				{isFilled && (
 					<View fullscreen style={styles.center}>

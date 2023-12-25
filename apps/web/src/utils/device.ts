@@ -1,33 +1,43 @@
-import { runtime } from '@walless/core';
-import type { DeviceInfoInput } from '@walless/graphql';
-import { modules } from '@walless/ioc';
-import type { SettingDocument } from '@walless/store';
+import { getAnalytics, setUserProperties } from '@firebase/analytics';
+import {
+	getMessaging,
+	getToken,
+	isSupported as isMessagingSupported,
+} from '@firebase/messaging';
+import { universalActions } from '@walless/app';
+import { logger } from '@walless/core';
+import { appState } from '@walless/engine';
 
-export const getDeviceInfo = async (): Promise<DeviceInfoInput> => {
-	const deviceId = await getDeviceId();
-	const settings = await modules.storage.safeGet<SettingDocument>('settings');
+import { getDeviceInfo } from './device.ext';
+import { app, auth } from './firebase';
 
-	return {
-		deviceId,
-		appVersion: settings?.config?.version || '1.0.0',
-		brand: navigator.vendor,
-		deviceName: navigator.appName,
-		systemVersion: navigator.appVersion,
-		deviceType: runtime.isExtension ? 'Extension' : 'Web',
-		manufacturer: navigator.userAgent,
-		platform: navigator.platform,
-	};
+export const configureDeviceAndNotification = async (): Promise<void> => {
+	await auth.authStateReady();
+	const user = auth.currentUser;
+	const deviceInfo = await getDeviceInfo();
+
+	if (user?.uid) {
+		if (appState.remoteConfig.deepAnalyticsEnabled) {
+			universalActions.syncRemoteProfile();
+		}
+	}
+
+	if (await isMessagingSupported()) {
+		try {
+			const messaging = getMessaging(app);
+			deviceInfo.notificationToken = await getToken(messaging, {
+				vapidKey: FIREBASE_VAPID_KEY,
+			});
+		} catch (e) {
+			logger.error('Could not register/get Notification Token from device.');
+		}
+	}
+
+	if (user?.uid) {
+		setUserProperties(getAnalytics(app), { email: user.email });
+	}
+
+	universalActions.syncDeviceInfo(deviceInfo);
 };
 
-const getDeviceId = async (): Promise<string> => {
-	const settings = await modules.storage.safeGet<SettingDocument>('settings');
-	if (settings?.deviceId) return settings?.deviceId;
-
-	const uniqueId = crypto.randomUUID();
-	await modules.storage.upsert<SettingDocument>('settings', async (doc) => {
-		doc.deviceId = uniqueId;
-		return doc;
-	});
-
-	return uniqueId;
-};
+export { getDeviceInfo } from './device.ext';

@@ -5,10 +5,7 @@ import { Text, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import { useSnapshot } from 'valtio';
 
-import {
-	injectedElements,
-	transactionContext,
-} from '../../../../state/transaction';
+import { injectedElements, transactionContext } from '../../../../state';
 
 interface Props {
 	onBack?: () => void;

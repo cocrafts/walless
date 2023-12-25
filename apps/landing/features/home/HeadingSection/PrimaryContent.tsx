@@ -89,23 +89,21 @@ export const PrimaryContent: FC = () => {
 				justifyContent="center"
 				$sm={{ flex: 1 }}
 			>
+				<Anchor href="https://app.walless.io" target="_blank">
+					<Button
+						title="Launch Walless"
+						width={buttonWidth}
+						marginHorizontal={8}
+					/>
+				</Anchor>
+
 				<Button
+					outline
 					title="Join Waitlist"
 					width={buttonWidth}
 					marginHorizontal={8}
 					onPress={handleShowSignUpModal}
 				/>
-				<Anchor
-					href="https://www.youtube.com/watch?v=_8NZZKDQ5hM&t=2s"
-					target="_blank"
-				>
-					<Button
-						outline
-						title="View Demo"
-						width={buttonWidth}
-						marginHorizontal={8}
-					/>
-				</Anchor>
 			</Stack>
 		</Stack>
 	);

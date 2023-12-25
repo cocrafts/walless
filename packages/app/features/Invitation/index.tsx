@@ -6,10 +6,14 @@ import type {
 	TextInputKeyPressEventData,
 	ViewStyle,
 } from 'react-native';
-import { Platform } from 'react-native';
-import { ActivityIndicator, StyleSheet } from 'react-native';
-import { ErrorAnnouncement } from '@walless/app';
 import {
+	KeyboardAvoidingView,
+	Platform,
+	TouchableWithoutFeedback,
+} from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
+import {
+	Anchor,
 	BindDirections,
 	Button,
 	Input,
@@ -18,7 +22,10 @@ import {
 	View,
 } from '@walless/gui';
 
-import GetCode from './components/GetCode';
+import ErrorAnnouncement from '../../components/ErrorAnnouncement';
+import { hideNativeKeyboard } from '../../utils';
+
+import HadWalletAccount from './components/GetCode';
 import InvitationHeader from './components/InvitationHeader';
 
 interface Props {
@@ -71,33 +78,48 @@ export const InvitationFeature: FC<Props> = ({
 	}, [error]);
 
 	return (
-		<View style={[styles.container, style]}>
-			<InvitationHeader logoSrc={logoSrc} logoSize={logoSize} />
-			<View style={styles.commandContainer}>
-				<Input
-					autoFocus={autoFocus}
-					inputStyle={styles.codeInput}
-					maxLength={24}
-					value={input}
-					onChangeText={setInput}
-					onKeyPress={handleKeyPress}
-					placeholder="Enter Code"
-					placeholderTextColor={styles.placeholder.color}
+		<TouchableWithoutFeedback onPress={hideNativeKeyboard}>
+			<View style={[styles.container, style]}>
+				<View />
+
+				<KeyboardAvoidingView style={styles.upperContainer} behavior="padding">
+					<InvitationHeader
+						logoSrc={logoSrc}
+						logoSize={logoSize}
+						style={styles.logoContainer}
+					/>
+					<Input
+						autoFocus={autoFocus}
+						inputStyle={styles.codeInput}
+						maxLength={24}
+						value={input}
+						onChangeText={setInput}
+						onKeyPress={handleKeyPress}
+						placeholder="enter Invitation code"
+						placeholderTextColor={styles.placeholder.color}
+					/>
+					{loading ? (
+						<ActivityIndicator color="white" />
+					) : (
+						<Button
+							disabled={isLengthInvalid}
+							style={styles.enterButton}
+							onPress={() => !isLengthInvalid && onEnter?.(input)}
+						>
+							<Text style={buttonTitleStyle}>Count me in</Text>
+						</Button>
+					)}
+					<View style={styles.separateLine} />
+					<HadWalletAccount onLoginPress={onLoginPress} />
+				</KeyboardAvoidingView>
+
+				<Anchor
+					titleStyle={styles.getInvitationText}
+					title="Get invitation code"
+					href="https://docs.google.com/forms/d/e/1FAIpQLSeMOQGfeYhq4i-V595JRc28VlY1YDpFeU0rPJkTymFH6nV21g/viewform"
 				/>
-				{loading ? (
-					<ActivityIndicator color="white" />
-				) : (
-					<Button
-						disabled={isLengthInvalid}
-						style={styles.enterButton}
-						onPress={() => !isLengthInvalid && onEnter?.(input)}
-					>
-						<Text style={buttonTitleStyle}>Count me in</Text>
-					</Button>
-				)}
 			</View>
-			<GetCode onLoginPress={onLoginPress} />
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 
@@ -111,11 +133,15 @@ const autoFocus = Platform.select({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
+		paddingHorizontal: 38,
+		justifyContent: 'space-between',
 		gap: 32,
 	},
-	commandContainer: {
+	upperContainer: {
 		gap: 18,
+	},
+	logoContainer: {
+		marginBottom: 24,
 	},
 	codeInput: {
 		height: 52,
@@ -138,5 +164,15 @@ const styles = StyleSheet.create({
 	},
 	disabledTitle: {
 		color: '#566674',
+	},
+	separateLine: {
+		height: 1,
+		backgroundColor: '#2A333C',
+	},
+	getInvitationText: {
+		color: '#566674',
+		fontSize: 13,
+		fontWeight: '400',
+		textAlign: 'center',
 	},
 });

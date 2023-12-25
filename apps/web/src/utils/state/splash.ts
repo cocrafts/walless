@@ -4,7 +4,7 @@ import { loadRemoteConfig } from 'utils/firebase';
 import { router } from 'utils/routing';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
-	appState.remoteConfig = loadRemoteConfig();
+	appState.remoteConfig = await loadRemoteConfig();
 	await liveActions.initialize();
 	await liveActions.watchAndSync();
 
@@ -21,12 +21,15 @@ export const launchApp = async ({
 
 	if (profile?.email) {
 		if (isSdkPopup) {
-			await router.navigate(path);
+			await router.navigate(path, { replace: true });
 		} else {
-			await router.navigate(config?.latestLocation ?? '/');
+			let destination = config?.latestLocation as string;
+			if (destination === '/') destination = '/explorer';
+
+			await router.navigate(destination ?? '/explorer', { replace: true });
 		}
 	} else {
-		await router.navigate('/invitation');
+		await router.navigate('/invitation', { replace: true });
 	}
 
 	appState.loading = false;

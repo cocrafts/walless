@@ -46,7 +46,7 @@ export const Hoverable = forwardRef<View, Props>(
 			horizontal,
 			noSelect = true,
 			disabled,
-			hitSlop,
+			hitSlop = 12,
 		},
 		ref,
 	) => {

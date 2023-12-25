@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	innerContainer: {
-		width: 410,
+		width: 420,
 		height: 600,
 		borderRadius: 12,
 		backgroundColor: '#19232c',

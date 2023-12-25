@@ -1,8 +1,13 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
-import type { Collectible, Networks, Token } from '@walless/core';
-import type { TransactionPayload } from '@walless/core';
+import type {
+	Collectible,
+	Networks,
+	Token,
+	TransactionPayload,
+} from '@walless/core';
+import { logger } from '@walless/core';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
@@ -10,12 +15,12 @@ import type { CollectibleDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
+	floatActions,
 	injectedElements,
 	transactionActions,
 	transactionContext,
-} from '../../../state/transaction';
+} from '../../../state';
 import { NavButton } from '../components';
-import { showError } from '../utils';
 
 import { BigNFT } from './components/BigNFT';
 import { RecipientInfo } from './components/RecipientInfo';
@@ -40,7 +45,7 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 			(type === 'Token' && !token) ||
 			(type === 'Collectible' && !nftCollectible)
 		)
-			return showError('Invalid token to transfer');
+			return floatActions.showError('Invalid token to transfer');
 
 		const payload: TransactionPayload = {
 			sender: sender,
@@ -79,10 +84,10 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 				);
 				navigator.slideTo(3);
 			} else {
-				showError('Something was wrong');
+				floatActions.showError('Something was wrong');
 			}
 		} catch (error) {
-			console.log('...', error);
+			logger.error('Failure during NFT send:', error);
 			throw error;
 		}
 

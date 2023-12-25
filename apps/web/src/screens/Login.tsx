@@ -7,11 +7,16 @@ import { router } from 'utils/routing';
 import { appActions } from 'utils/state';
 
 export const LoginScreen: FC = () => {
-	const { authenticationLoading, invitationCode, isAbleToSignIn, signInError } =
-		useSnapshot(appState);
+	const {
+		config,
+		authenticationLoading,
+		invitationCode,
+		isAbleToSignIn,
+		signInError,
+	} = useSnapshot(appState);
 
 	const handleNavigateToGetInvitationCode = () => {
-		router.navigate('/invitation');
+		router.navigate('/invitation', { replace: true });
 		appState.isAbleToSignIn = true;
 	};
 
@@ -23,6 +28,7 @@ export const LoginScreen: FC = () => {
 			isAbleToSignIn={isAbleToSignIn}
 			onGetInvitationCode={handleNavigateToGetInvitationCode}
 			error={signInError}
+			version={config.version}
 		/>
 	);
 };

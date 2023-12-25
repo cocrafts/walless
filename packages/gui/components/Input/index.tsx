@@ -13,7 +13,7 @@ import { useSnapshot } from 'valtio';
 import { themeState } from '../../states/theme';
 import { injectedFontStyle } from '../../utils/font';
 
-type Props = {
+export type InputProps = {
 	style?: StyleProp<TextStyle>;
 	focusStyle?: StyleProp<TextStyle>;
 	importantStyle?: StyleProp<TextStyle>;
@@ -22,7 +22,7 @@ type Props = {
 	suffix?: ReactNode;
 } & TextInputProps;
 
-export const Input: FC<Props> = ({
+export const Input: FC<InputProps> = ({
 	style,
 	focusStyle,
 	importantStyle,

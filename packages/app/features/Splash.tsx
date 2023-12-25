@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import type { ImageSourcePropType, ViewStyle } from 'react-native';
+import type { ImageSourcePropType, StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import {
 	runOnJS,
@@ -12,7 +12,7 @@ import {
 import { AnimatedImage } from '@walless/gui';
 
 interface Props {
-	style?: ViewStyle;
+	style?: StyleProp<ViewStyle>;
 	logoSrc: ImageSourcePropType;
 	logoSize?: number;
 	initialize?: () => Promise<unknown>;

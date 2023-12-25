@@ -1,17 +1,12 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import type {
-	Collectible,
-	Networks,
-	Token,
-	TransactionPayload,
-} from '@walless/core';
+import type { Networks, Token, TransactionPayload } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Text, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
-import type { CollectibleDocument } from '@walless/store';
+import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
 import {
@@ -64,14 +59,14 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 			switch (type) {
 				case 'Token': {
 					payload.amount = parseFloat(amount as string);
-					payload.token = token as Token;
+					payload.token = token as TokenDocument;
 					payload.network = token?.network as Networks;
 					payload.tokenForFee = tokenForFee as Token;
 					break;
 				}
 				case 'Collectible': {
 					payload.amount = 1;
-					payload.token = nftCollectible as Collectible;
+					payload.token = nftCollectible as CollectibleDocument;
 					payload.network = nftCollectible?.network as Networks;
 					payload.tokenForFee = tokenForFee as Token;
 					break;

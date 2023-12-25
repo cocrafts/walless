@@ -12,7 +12,7 @@ export const CreatePasscodeScreen = () => {
 
 	const handleOnComplete = async (passcode: string) => {
 		await signInWithPasscode(passcode, auth.currentUser, handleInitFail);
-		router.navigate('/', { replace: true });
+		router.navigate('/explorer', { replace: true });
 	};
 
 	return <CreatePasscode onComplete={handleOnComplete} />;

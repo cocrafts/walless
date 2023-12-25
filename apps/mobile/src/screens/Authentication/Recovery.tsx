@@ -1,8 +1,6 @@
 import type { ViewStyle } from 'react-native';
-import auth from '@react-native-firebase/auth';
-import { Recovery, useUniversalInsets } from '@walless/app';
+import { floatActions, Recovery, useUniversalInsets } from '@walless/app';
 import { recoverByEmergencyKey } from '@walless/auth';
-import { logger } from '@walless/core';
 import { navigate } from 'utils/navigation';
 
 export const RecoveryScreen = () => {
@@ -16,9 +14,7 @@ export const RecoveryScreen = () => {
 		if (key && (await recoverByEmergencyKey(key))) {
 			navigate('Authentication', { screen: 'CreatePasscode' });
 		} else {
-			logger.info('Wrong recovery key', {
-				user: auth().currentUser,
-			});
+			floatActions.showError('Wrong recovery key');
 		}
 	};
 

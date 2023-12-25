@@ -25,9 +25,21 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>fireauth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>${REVERSED_CLIENT_ID}</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>walless</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>walless</string>
 			</array>
 		</dict>
 	</array>

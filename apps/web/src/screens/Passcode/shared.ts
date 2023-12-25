@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
 		paddingHorizontal: 40,
 		paddingTop: 50,
 		paddingBottom: 20,
-		maxWidth: 410,
+		maxWidth: 420,
 		maxHeight: 600,
 	},
 	logo: {

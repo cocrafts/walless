@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import type { DrawerContentComponentProps } from '@react-navigation/drawer';
-import { useDrawerStatus } from '@react-navigation/drawer';
 import { useSnapshot, useWidgets } from '@walless/app';
 import { DashboardNavigator } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
 import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
-import { localActions } from 'utils/state';
+import type { DrawerContentComponentProps } from 'components/DrawerNavigation';
+import { useDrawerStatus } from 'components/DrawerNavigation';
+import { localActions } from 'state/local';
 
 export const sidebarWidth = 64;
 
@@ -28,9 +28,10 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 		await widgetActions.removeWidget(widget);
 	};
 
-	const getActiveRoute = (item: WidgetDocument) => {
+	const getIsExtensionActive = (item: WidgetDocument) => {
 		const { routes, index } = state;
-		const activeId = routes[index].params?.id ?? '';
+		const params: { id?: string } = routes[index]?.params || {};
+		const activeId = params?.id ?? '';
 		return activeId === item._id;
 	};
 
@@ -39,7 +40,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 			profile={profile}
 			widgets={widgets}
 			size={sidebarWidth}
-			getIsExtensionActive={getActiveRoute}
+			getIsExtensionActive={getIsExtensionActive}
 			onExtensionPress={handleExtensionPress}
 			onRemoveLayout={handleRemoveWidget}
 		/>

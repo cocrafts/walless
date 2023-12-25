@@ -11,7 +11,7 @@ export const useResponsive = () => {
 	const { isMobile: isMobileDevice, windowSize } = useSnapshot(dimensionState);
 
 	const isMobileResponsive = useMemo(() => {
-		return windowSize.width < 1600;
+		return windowSize.width < 600;
 	}, [isMobileDevice, windowSize.width]);
 
 	return {

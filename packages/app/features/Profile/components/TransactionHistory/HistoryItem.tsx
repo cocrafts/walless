@@ -43,11 +43,9 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 						type={type}
 						address={address}
 						imageUri={
-							(networkInfo?.icon as ImageURISource)
-								? networkInfo?.icon
-								: {
-										uri: '/img/network-solana/solana-icon.png',
-								  }
+							networkInfo?.icon
+								? (networkInfo?.icon as ImageURISource)
+								: { uri: '/img/network-solana/solana-icon.png' }
 						}
 					/>
 				</View>

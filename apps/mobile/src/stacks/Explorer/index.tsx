@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
-import type { DrawerNavigationOptions } from '@react-navigation/drawer';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { withStackContainer } from '@walless/app';
+import { runtime } from '@walless/core';
+import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
+import { createDrawerNavigator } from 'components/DrawerNavigation';
 import WidgetScreen from 'screens/Dashboard/Widget';
 import CollectibleScreen from 'screens/Dashboard/Widget/Collectible';
 import { CollectionScreen } from 'screens/Dashboard/Widget/Collection';
@@ -18,7 +19,7 @@ export const ExplorerStack = () => {
 		swipeEdgeWidth: 5000,
 		swipeMinDistance: sidebarWidth / 3,
 		overlayColor: 'transparent',
-		drawerType: 'back',
+		drawerType: runtime.isExtension ? 'permanent' : 'back',
 	};
 
 	const options = {

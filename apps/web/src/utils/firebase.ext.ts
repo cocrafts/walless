@@ -54,4 +54,5 @@ export const initializeAuth = async () => {
 
 export const universalAnalytics: UniversalAnalytics = {
 	logEvent: async () => {},
+	logScreenView: async () => {},
 };

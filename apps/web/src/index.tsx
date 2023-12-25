@@ -16,7 +16,7 @@ interface Props {
 	height?: number;
 }
 
-const App: FC<Props> = ({ width = 410, height = 600 }) => {
+const App: FC<Props> = ({ width = 420, height = 600 }) => {
 	const app = useSnapshot(appState);
 	const { isMobileResponsive } = useResponsive();
 	const containerRef = useRef<View>(null);

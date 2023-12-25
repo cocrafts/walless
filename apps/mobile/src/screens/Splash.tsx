@@ -1,20 +1,16 @@
 import type { FC } from 'react';
-import type { StackScreenProps } from '@react-navigation/stack';
 import { SplashFeature } from '@walless/app';
-import { resources } from 'utils/config';
-import type { RootParamList } from 'utils/navigation';
-import { appActions } from 'utils/state';
+import { appActions } from 'state/app';
+import { asset } from 'utils/config';
 
-type Props = StackScreenProps<RootParamList, 'Splash'>;
-
-export const SplashWrapper: FC<Props> = () => {
+export const SplashScreen: FC = () => {
 	return (
 		<SplashFeature
-			logoSrc={resources.walless.icon}
+			logoSrc={asset.misc.walless}
 			initialize={appActions.bootstrap}
 			onReady={appActions.launchApp as never}
 		/>
 	);
 };
 
-export default SplashWrapper;
+export default SplashScreen;

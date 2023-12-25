@@ -28,7 +28,7 @@ export const router = createRouter([
 		element: <DashboardScreen />,
 		children: [
 			{
-				path: '/',
+				path: '/explorer',
 				element: <ExploreScreen />,
 			},
 			{

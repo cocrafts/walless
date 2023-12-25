@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BIOMETRY_TYPE } from 'react-native-keychain';
-import { getSupportedBiometryType } from 'react-native-keychain';
+import { BIOMETRY_TYPE, getSupportedBiometryType } from 'react-native-keychain';
 
 export interface BiometricStatus {
 	isAvailable: boolean;

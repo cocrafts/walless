@@ -44,8 +44,12 @@ export const StackHeader: FC<HeaderProps> = ({
 		<Animated.View style={[styles.container, animatedStyle]}>
 			<View style={styles.textContainer}>
 				{showIcon && (
-					<TouchableOpacity hitSlop={16} onPress={handlePressIcon}>
-						<Icon size={14} color="white" />
+					<TouchableOpacity
+						hitSlop={24}
+						style={styles.burger}
+						onPress={handlePressIcon}
+					>
+						<Icon size={18} color="white" />
 					</TouchableOpacity>
 				)}
 				<Text style={styles.text}>{title}</Text>
@@ -66,6 +70,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 12,
 		opacity: 0.8,
+	},
+	burger: {
+		zIndex: 1,
+		padding: 4,
 	},
 	text: {
 		color: '#fff',

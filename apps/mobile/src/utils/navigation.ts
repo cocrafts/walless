@@ -1,3 +1,4 @@
+import { Linking } from 'react-native';
 import type {
 	LinkingOptions,
 	NavigatorScreenParams,
@@ -5,7 +6,14 @@ import type {
 import { createNavigationContainerRef } from '@react-navigation/native';
 import type { StackNavigationOptions } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import type { MobileNavigation } from '@walless/core';
+
+export const handleUniversalLinkingRequest = (
+	url: string,
+	isInitialURL?: boolean,
+) => {
+	const { href } = new URL(url);
+	console.log(href, isInitialURL, 'TODO: handle incoming url universally');
+};
 
 export type AuthenticationParamList = {
 	Login: undefined;
@@ -49,10 +57,23 @@ export type RootParamList = {
 };
 
 export const linking: LinkingOptions<RootParamList> = {
-	prefixes: ['walless://'],
+	prefixes: ['walless://', 'https://walless.io', 'https://*.walless.io'],
+	getInitialURL: async () => {
+		const initialURL = await Linking.getInitialURL();
+		if (initialURL) handleUniversalLinkingRequest(initialURL, true);
+
+		return initialURL;
+	},
+	subscribe: () => {
+		const subscription = Linking.addEventListener('url', ({ url }) => {
+			handleUniversalLinkingRequest(url);
+		});
+
+		return () => subscription.remove();
+	},
 	config: {
 		screens: {
-			Splash: '/splash/:id',
+			Splash: '/splash',
 			Authentication: {
 				path: '/auth',
 				screens: {
@@ -80,7 +101,12 @@ export const linking: LinkingOptions<RootParamList> = {
 							History: '/history',
 						},
 					},
-					Setting: '/setting',
+					Setting: {
+						path: '/setting',
+						screens: {
+							Default: '/',
+						},
+					},
 				},
 			},
 		},
@@ -119,21 +145,22 @@ export const navigationRef = createNavigationContainerRef<RootParamList>();
 export const navigate = (
 	name: keyof RootParamList,
 	params?: RootParamList[keyof RootParamList],
+	reset = false,
 ) => {
 	if (navigationRef.isReady()) {
-		navigationRef.navigate(name, params as never);
+		if (reset) {
+			navigationRef.reset({ routes: [{ name }] });
+		} else {
+			navigationRef.navigate(name, params as never);
+		}
 	}
 };
 
-export const resetRoute = (
-	anchor?: ResetAnchors,
-	params?: object,
-	route?: MobileNavigation,
-) => {
-	if (!anchor && route) {
-		navigationRef.reset({ index: 0, routes: [route] });
-	} else if (anchor === 'Dashboard') {
-		navigationRef.reset({ index: 0, routes: [dashboardRoute()] });
+type ResetAnchors = 'Widget' | 'Invitation' | 'CreatePasscode' | 'Recovery';
+
+export const resetRoute = (anchor?: ResetAnchors, params?: object) => {
+	if (anchor === 'Widget') {
+		navigationRef.reset({ index: 0, routes: [widgetRoute(params)] });
 	} else if (anchor === 'Invitation') {
 		navigationRef.reset({ index: 0, routes: [authenticationRoute(params)] });
 	} else if (anchor === 'CreatePasscode') {
@@ -143,12 +170,14 @@ export const resetRoute = (
 	}
 };
 
-type ResetAnchors = 'Dashboard' | 'Invitation' | 'CreatePasscode' | 'Recovery';
-
-const dashboardRoute = () => ({
+const widgetRoute = (params?: object) => ({
 	name: 'Dashboard',
 	params: {
 		screen: 'Explore',
+		params: {
+			screen: 'Widget',
+			params,
+		},
 	},
 });
 

@@ -373,8 +373,8 @@ export const getTransactionDetails = async (
 		confirmation === 'finalized' || confirmation === 'confirmed'
 			? 'Success'
 			: confirmation === 'processed'
-			  ? 'Pending'
-			  : 'Failed';
+				? 'Pending'
+				: 'Failed';
 
 	const type = getTransactionType(parsedTransaction, ownerPublicKey);
 

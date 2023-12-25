@@ -1,8 +1,8 @@
 import { AppRegistry } from 'react-native';
+import { injectModules } from 'utils/ioc';
 
-import './src/utils/shim';
+import 'utils/shim';
 
-import { injectModules } from './src/utils/ioc';
 import { name as appName } from './app.json';
 import App from './src';
 

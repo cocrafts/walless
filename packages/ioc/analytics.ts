@@ -1,6 +1,13 @@
 export interface UniversalAnalytics {
 	logEvent: UniversalEventLogger;
+	logScreenView: UniversalScreeenView;
 }
+
+export type UniversalScreeenView = (
+	screenName: string,
+	screenClass: string,
+	others?: object,
+) => Promise<void>;
 
 export type UniversalEventLogger = (
 	eventName: string,

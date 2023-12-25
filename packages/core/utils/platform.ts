@@ -13,9 +13,10 @@ const browser: any = isFirefox ? (global as any).browser : global.chrome;
 const isExtension = !!global.chrome?.runtime;
 const isServer = !isExtension && typeof window === 'undefined';
 
-const isIOS = Platform.OS === 'ios'
-const isAndroid = Platform.OS === 'android'
-const isMobile = isIOS || isAndroid
+const isWeb = Platform.OS === 'web';
+const isIOS = Platform.OS === 'ios';
+const isAndroid = Platform.OS === 'android';
+const isMobile = isIOS || isAndroid;
 
 export const runtime: UniversalRuntime = {
 	isOpera,
@@ -28,7 +29,7 @@ export const runtime: UniversalRuntime = {
 	isIOS,
 	isAndroid,
 	isMobile,
-	isBrowser: !isExtension && !isServer,
+	isBrowser: isWeb && !isExtension && !isServer,
 	onConnect: browser?.runtime?.onConnect,
 	onMessage: browser?.runtime?.onMessage,
 	connect: browser?.runtime?.connect,

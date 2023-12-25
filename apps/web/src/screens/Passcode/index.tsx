@@ -40,14 +40,14 @@ export const PasscodeScreen = () => {
 			if (isCompleted) {
 				await setupRemotePasscode(value);
 				await signInWithPasscode(value, auth.currentUser);
-				router.navigate('/', { replace: true });
+				router.navigate('/explorer', { replace: true });
 			}
 		} else {
 			if (isCompleted) {
 				try {
 					if (await validateAndRecoverWithPasscode(value)) {
 						await signInWithPasscode(value, auth.currentUser);
-						router.navigate('/', { replace: true });
+						router.navigate('/explorer', { replace: true });
 					} else {
 						setPasscodeError('wrong passcode, please try again!');
 					}

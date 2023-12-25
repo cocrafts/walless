@@ -4,11 +4,11 @@ import type { ViewStyle } from 'react-native';
 import { InvitationFeature, useSafeAreaInsets } from '@walless/app';
 import { validateInvitationCode } from '@walless/auth';
 import { appState } from '@walless/engine';
+import { asset } from 'utils/config';
 import { navigate } from 'utils/navigation';
 
 export const InvitationScreen: FC = () => {
 	const [invitationError, setInvitationError] = useState<string>();
-	const logoSrc = require('assets/img/icon.png');
 	const insets = useSafeAreaInsets();
 	const containerStyle: ViewStyle = {
 		paddingTop: insets.top,
@@ -39,7 +39,7 @@ export const InvitationScreen: FC = () => {
 		<InvitationFeature
 			style={containerStyle}
 			onEnter={onInvitationCodeChange}
-			logoSrc={logoSrc}
+			logoSrc={asset.misc.walless}
 			error={invitationError}
 			onLoginPress={handleLoginPress}
 		/>

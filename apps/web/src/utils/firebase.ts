@@ -33,6 +33,12 @@ export const universalAnalytics: UniversalAnalytics = {
 	logEvent: async (name, params, options) => {
 		return logEvent(getAnalytics(app), name, params, options);
 	},
+	logScreenView: async (firebase_screen, firebase_screen_class) => {
+		return logEvent(getAnalytics(app), 'screen_view', {
+			firebase_screen,
+			firebase_screen_class,
+		});
+	},
 };
 
 export type { FireCache } from './firebase.ext';

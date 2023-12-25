@@ -37,7 +37,7 @@ export const DashboardNavigator: FC<Props> = ({
 		paddingTop: Math.max(insets.top + 6, 12),
 	};
 	const exploreItem: Partial<WidgetDocument> = {
-		_id: '',
+		_id: 'explorer',
 		storeMeta: {
 			iconColor: '#243f56',
 			iconActiveColor: '#1394d3',
@@ -46,12 +46,11 @@ export const DashboardNavigator: FC<Props> = ({
 	const profileItem: Partial<WidgetDocument> = {
 		_id: 'profile',
 		storeMeta: {
-			iconUri: profile.profileImage as string,
+			iconUri: profile?.profileImage as string,
 			iconSize: 40,
 		} as never,
 	};
 	const isExplorerActive = getIsExtensionActive?.(exploreItem as never);
-	const { isMobile } = runtime;
 
 	return (
 		<View style={[styles.container, containerStyle, style]}>
@@ -91,9 +90,7 @@ export const DashboardNavigator: FC<Props> = ({
 				})}
 			</View>
 
-			{isMobile ? (
-				<View />
-			) : (
+			{runtime.isBrowser && profile?.profileImage && (
 				<View style={styles.commandContainer}>
 					<NavigatorOrb
 						item={profileItem as never}
@@ -111,9 +108,10 @@ export default DashboardNavigator;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		paddingVertical: 12,
 		backgroundColor: '#131C24',
-		height: '100%',
+		userSelect: 'none',
 	},
 	orbContainer: {
 		flex: 1,

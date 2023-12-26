@@ -5,9 +5,14 @@ import { Networks } from '@walless/core';
 import { appState } from '@walless/engine';
 import { modules } from '@walless/ioc';
 
-import { usePublicKeys, useSnapshot } from '../../../utils/hooks';
+import {
+	usePublicKeys,
+	useResponsive,
+	useSnapshot,
+} from '../../../utils/hooks';
 
 export const Pixeverse = () => {
+	const { isMobileResponsive } = useResponsive();
 	const { jwtAuth } = useSnapshot(appState);
 	const [isReady, setIsReady] = useState(false);
 	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } =
@@ -25,11 +30,13 @@ export const Pixeverse = () => {
 	};
 
 	useEffect(() => {
+		console.log(isMobileResponsive, '<<<<<<');
 		const forwardContext = async () => {
 			const payload = {
 				apiUrl: PIXEVERSE_ENDPOINT,
 				jwt: jwtAuth,
 				address: pubkey._id,
+				isMobile: isMobileResponsive,
 			};
 
 			webviewRef.current?.injectJavaScript(

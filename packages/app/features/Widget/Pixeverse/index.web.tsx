@@ -4,9 +4,14 @@ import { appState } from '@walless/engine';
 import { View } from '@walless/gui';
 import { modules } from '@walless/ioc';
 
-import { usePublicKeys, useSnapshot } from '../../../utils/hooks';
+import {
+	usePublicKeys,
+	useResponsive,
+	useSnapshot,
+} from '../../../utils/hooks';
 
 export const Pixeverse = () => {
+	const { isMobileResponsive } = useResponsive();
 	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } =
 		modules.config;
 	const { jwtAuth } = useSnapshot(appState);
@@ -19,6 +24,7 @@ export const Pixeverse = () => {
 				apiUrl: PIXEVERSE_ENDPOINT,
 				jwt: jwtAuth,
 				address: pubkey._id,
+				isMobile: isMobileResponsive,
 			};
 
 			iframeRef?.current?.contentWindow?.postMessage(payload, PIXEVERSE_ORIGIN);

@@ -30,7 +30,6 @@ export const Pixeverse = () => {
 	};
 
 	useEffect(() => {
-		console.log(isMobileResponsive, '<<<<<<');
 		const forwardContext = async () => {
 			const payload = {
 				apiUrl: PIXEVERSE_ENDPOINT,

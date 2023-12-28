@@ -56,7 +56,7 @@ const gridGap = 18;
 const styles = StyleSheet.create({
 	container: {
 		marginTop: 16,
-		marginBottom: 32,
+		marginBottom: 12,
 		borderRadius: 12,
 		overflow: 'hidden',
 	},

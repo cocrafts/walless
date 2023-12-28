@@ -75,7 +75,7 @@ export default CollectionFeat;
 const gridGap = 18;
 const styles = StyleSheet.create({
 	container: {
-		padding: 18,
+		padding: 16,
 		gap: 18,
 	},
 	backButton: {

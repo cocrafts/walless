@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { withStackContainer } from '@walless/app';
-import { runtime } from '@walless/core';
+import { useResponsive, withStackContainer } from '@walless/app';
 import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
 import { createDrawerNavigator } from 'components/DrawerNavigation';
 import WidgetScreen from 'screens/Dashboard/Widget';
@@ -13,13 +12,14 @@ import Sidebar, { sidebarWidth } from './Sidebar';
 const Drawer = createDrawerNavigator<ExploreParamList>();
 
 export const ExplorerStack = () => {
+	const { isMobileResponsive } = useResponsive();
 	const screenOptions: DrawerNavigationOptions = {
 		headerShown: false,
 		drawerStyle: styles.drawer,
 		swipeEdgeWidth: 5000,
 		swipeMinDistance: sidebarWidth / 3,
 		overlayColor: 'transparent',
-		drawerType: runtime.isExtension ? 'permanent' : 'back',
+		drawerType: isMobileResponsive ? 'back' : 'permanent',
 	};
 
 	const options = {
@@ -58,6 +58,7 @@ export const ExplorerStack = () => {
 const styles = StyleSheet.create({
 	drawer: {
 		width: sidebarWidth,
+		backgroundColor: '#131c24',
 	},
 });
 

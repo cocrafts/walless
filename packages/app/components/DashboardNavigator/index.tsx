@@ -2,13 +2,12 @@ import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
-import { runtime } from '@walless/core';
 import { Compass } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 
 import RemoveLayout from '../../modals/RemoveLayout';
-import { useUniversalInsets } from '../../utils/hooks';
+import { useResponsive, useUniversalInsets } from '../../utils/hooks';
 
 import NavigatorOrb from './NavigatorOrb';
 
@@ -32,6 +31,7 @@ export const DashboardNavigator: FC<Props> = ({
 	onRemoveLayout,
 }) => {
 	const insets = useUniversalInsets();
+	const { isMobileResponsive } = useResponsive();
 	const containerStyle = {
 		width: size,
 		paddingTop: Math.max(insets.top + 6, 12),
@@ -90,7 +90,7 @@ export const DashboardNavigator: FC<Props> = ({
 				})}
 			</View>
 
-			{runtime.isBrowser && profile?.profileImage && (
+			{!isMobileResponsive && profile?.profileImage && (
 				<View style={styles.commandContainer}>
 					<NavigatorOrb
 						item={profileItem as never}

@@ -3,6 +3,7 @@ import type { LayoutRectangle } from 'react-native';
 import { Platform } from 'react-native';
 import type { EdgeInsets } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { runtime } from '@walless/core';
 import { dimensionState } from '@walless/gui';
 import { useDebouncedCallback } from 'use-debounce';
 import { useSnapshot } from 'valtio';
@@ -11,7 +12,7 @@ export const useResponsive = () => {
 	const { isMobile: isMobileDevice, windowSize } = useSnapshot(dimensionState);
 
 	const isMobileResponsive = useMemo(() => {
-		return windowSize.width < 600;
+		return !runtime.isExtension && windowSize.width < 600;
 	}, [isMobileDevice, windowSize.width]);
 
 	return {

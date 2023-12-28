@@ -1,6 +1,6 @@
 {
   "name": "@walless/mobile",
-  "version": "0.2.1",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "dev": "metacraft",
@@ -8,7 +8,7 @@
     "android": "react-native run-android",
     "build:all": "yarn build:ext && yarn build:web",
     "build:web": "rimraf metacraft builds && metacraft bundle",
-    "build:ext": "BUILD_TARGET=extension && yarn build:web && node scripts/bundler",
+    "build:ext": "BUILD_TARGET=extension && yarn build:web && node browser/bundler",
     "build:store": "BUILD_TARGET=extension && yarn build:web && yarn badlinks && node scripts/bundler",
     "ios": "react-native run-ios",
     "lint": "eslint .",

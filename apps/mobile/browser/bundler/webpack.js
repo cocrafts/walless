@@ -44,11 +44,6 @@ const injectEntries = (config) => {
 			import: 'browser/content/injection.ts',
 			filename: 'injection.js',
 		};
-
-		config.entry.background = {
-			import: 'scripts/background/index.ts',
-			filename: 'background.js',
-		};
 	} else {
 		config.entry.w3ar = {
 			import: 'browser/worker/w3a-response.ts',

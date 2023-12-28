@@ -8,9 +8,9 @@
     "extension_pages": "script-src 'self'; object-src 'self'; frame-ancestors 'none';"
   },
   "icons": {
-    "16": "app-icons/16.png",
-    "48": "app-icons/48.png",
-    "128": "app-icons/128.png"
+    "16": "icons-extension/16.png",
+    "48": "icons-extension/48.png",
+    "128": "icons-extension/128.png"
   },
   "action": {
     "default_popup": "popup.html",

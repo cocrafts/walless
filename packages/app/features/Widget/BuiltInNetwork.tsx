@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingTop: 12,
-		paddingHorizontal: 18,
+		paddingHorizontal: 16,
 	},
 	headerContainer: {
 		alignItems: 'center',

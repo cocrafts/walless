@@ -408,3 +408,60 @@ export const getTokenString = (token: TokenDocument) => {
 		10 ** (token?.account.decimals ?? 0)
 	} ${token?.metadata?.symbol ?? ''}`;
 };
+
+export const prepareTransactionPayload = (
+	element: TokenDocument | CollectibleDocument,
+	sender: string,
+	receiver: string,
+	amount: string,
+	tokenForFee: Token,
+) => {
+	const type = element.type;
+	const payload: TransactionPayload = {
+		sender,
+		receiver,
+		tokenForFee,
+		network: element?.network as Networks,
+	} as unknown as TransactionPayload;
+
+	switch (type) {
+		case 'Token': {
+			payload.amount = parseFloat(amount);
+			payload.token = element;
+			payload.network = element.network as Networks;
+			break;
+		}
+		case 'NFT': {
+			payload.amount = 1;
+			payload.token = element as CollectibleDocument;
+			break;
+		}
+	}
+
+	return payload;
+};
+
+export const getNetworkMetadata = (network: Networks) => {
+	let networkIcon;
+	let networkName = '';
+	let nativeSymbol = '';
+	if (network == Networks.solana) {
+		networkIcon = modules.asset.widget.solana.storeMeta.iconUri;
+		networkName = 'Solana';
+		nativeSymbol = 'SOL';
+	} else if (network == Networks.sui) {
+		networkIcon = modules.asset.widget.sui.storeMeta.iconUri;
+		networkName = 'SUI';
+		nativeSymbol = 'SUI';
+	} else if (network == Networks.tezos) {
+		networkIcon = modules.asset.widget.tezos.storeMeta.iconUri;
+		networkName = 'Tezos';
+		nativeSymbol = 'TEZ';
+	} else if (network === Networks.aptos) {
+		networkIcon = modules.asset.widget.aptos.storeMeta.iconUri;
+		networkName = 'Aptos';
+		nativeSymbol = 'APT';
+	}
+
+	return { networkIcon, networkName, nativeSymbol };
+};

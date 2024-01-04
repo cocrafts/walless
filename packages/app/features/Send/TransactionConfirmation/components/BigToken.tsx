@@ -9,9 +9,7 @@ export const BigToken = () => {
 	const { token, amount } = useSnapshot(transactionContext);
 
 	const icon = token?.metadata?.imageUri
-		? {
-				uri: token?.metadata?.imageUri,
-		  }
+		? { uri: token?.metadata?.imageUri }
 		: modules.asset.misc.unknownToken;
 
 	return (

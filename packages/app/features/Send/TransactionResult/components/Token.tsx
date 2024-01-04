@@ -13,9 +13,7 @@ export const Token = () => {
 		useSnapshot(transactionContext);
 
 	const icon = token?.metadata?.imageUri
-		? {
-				uri: token?.metadata?.imageUri,
-		  }
+		? { uri: token?.metadata?.imageUri }
 		: modules.asset.misc.unknownToken;
 
 	let endpoint = '';

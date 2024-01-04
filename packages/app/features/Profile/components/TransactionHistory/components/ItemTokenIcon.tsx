@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { ImageSourcePropType } from 'react-native';
 import { Image } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
@@ -8,13 +9,13 @@ import type { IconProps } from '@walless/icons/components/types';
 interface Props {
 	type: 'Sent' | 'Received';
 	status: 'Success' | 'Pending' | 'Failed';
-	imageUri?: string;
+	icon: ImageSourcePropType;
 	isCollectible?: boolean;
 }
 
 export const ItemTokenIcon: FC<Props> = ({
 	type,
-	imageUri = '/img/send-token/unknown-token.jpeg',
+	icon,
 	isCollectible = false,
 	status,
 }) => {
@@ -38,12 +39,7 @@ export const ItemTokenIcon: FC<Props> = ({
 
 	return (
 		<View style={styles.container}>
-			<Image
-				source={{
-					uri: imageUri,
-				}}
-				style={tokenIconStyle}
-			/>
+			<Image style={tokenIconStyle} source={icon} />
 			<View style={styles.iconContainer}>
 				<Icon size={14} color={color} />
 			</View>

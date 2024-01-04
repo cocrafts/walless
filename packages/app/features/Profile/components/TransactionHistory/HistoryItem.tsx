@@ -8,6 +8,7 @@ import {
 	Hoverable,
 	modalActions,
 } from '@walless/gui';
+import { modules } from '@walless/ioc';
 
 import { getNetworkInfo } from '../../../../utils';
 
@@ -29,6 +30,10 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 		});
 	};
 
+	const icon = token.metadata?.imageUri
+		? { uri: token.metadata.imageUri }
+		: modules.asset.misc.unknownToken;
+
 	return (
 		<Hoverable style={styles.container} onPress={handleShowDetailsModal}>
 			<View style={styles.contentContainer}>
@@ -36,17 +41,13 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 					<ItemTokenIcon
 						type={type}
 						status={status}
-						imageUri={token.metadata?.imageUri}
+						icon={icon}
 						isCollectible={!!token.metadata?.mpl}
 					/>
 					<ItemAddress
 						type={type}
 						address={address}
-						imageUri={
-							networkInfo?.icon
-								? (networkInfo?.icon as ImageURISource)
-								: { uri: '/img/network-solana/solana-icon.png' }
-						}
+						imageUri={networkInfo?.icon as ImageURISource}
 					/>
 				</View>
 

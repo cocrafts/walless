@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { ImageSourcePropType } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { appState } from '@walless/engine';
@@ -9,16 +10,16 @@ import { removeRedundantCharacters } from '../internal';
 
 interface Props {
 	id: string;
-	imageUri?: string;
-	tokenName?: string;
+	icon: ImageSourcePropType;
+	tokenName: string;
 	isCollectible?: boolean;
 	amount: number;
 	network: Networks;
 }
 
 const TokenDetails: FC<Props> = ({
-	imageUri = '/img/send-token/unknown-token.jpeg',
-	tokenName = 'Unknown',
+	icon,
+	tokenName,
 	amount,
 	id,
 	network,
@@ -49,12 +50,7 @@ const TokenDetails: FC<Props> = ({
 	return (
 		<View style={styles.tokenContainer}>
 			<View style={styles.tokenContainer}>
-				<Image
-					source={{
-						uri: imageUri,
-					}}
-					style={[styles.tokenImage, tokenImageStyle]}
-				/>
+				<Image source={icon} style={[styles.tokenImage, tokenImageStyle]} />
 				<Text style={styles.tokenName}>
 					{amount} {removeRedundantCharacters(tokenName)}
 				</Text>

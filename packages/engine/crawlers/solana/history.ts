@@ -165,11 +165,6 @@ const getTransactionToken = async (
 			balance: '',
 			decimals: 0,
 		},
-		metadata: {
-			name: 'Unknown',
-			symbol: '',
-			imageUri: '/img/send-token/unknown-token.jpeg',
-		},
 	};
 
 	if (!checkIfMetaIsValid(meta)) {

@@ -7,7 +7,7 @@ import { useSnapshot } from 'utils/hooks';
 
 export const ProfileIcon: FC<IconProps> = ({ size = 20 }) => {
 	const { profile } = useSnapshot(appState);
-	const imageSource = { uri: profile.profileImage };
+	const imageSource = { uri: profile?.profileImage };
 	const style: ImageStyle = {
 		width: size,
 		height: size,

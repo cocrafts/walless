@@ -31,12 +31,12 @@ export const createAndSend = async (
 						type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
 						transaction: encode(transaction.serialize()),
 						passcode,
-				  })
+					})
 				: await requestHandleTransaction({
 						type: RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
 						transaction: encode(transaction.serialize()),
 						passcode,
-				  });
+					});
 	} else if (transaction instanceof TransactionBlock) {
 		res = await requestHandleTransaction({
 			type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,

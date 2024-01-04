@@ -1,10 +1,10 @@
-import auth from '@react-native-firebase/auth';
 import { CreatePasscode } from '@walless/app';
 import { floatActions } from '@walless/app';
 import { signInWithPasscode } from '@walless/auth';
+import { auth } from 'utils/firebase';
 import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';
-import { navigate } from 'utils/navigation';
+import { navigate, resetRoute } from 'utils/navigation';
 
 import BiometricIcon from './BiometricIcon';
 
@@ -27,7 +27,7 @@ export const CreatePasscodeScreen = () => {
 		}
 
 		await signInWithPasscode(passcode, auth().currentUser, handleInitFail);
-		navigate('Dashboard');
+		resetRoute('Widget', { id: 'explorer' });
 	};
 
 	const biometricIcon = biometricStatus.isAvailable && (

@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@mysten/sui.js": "0.34.0",
-    "@solana/web3.js": "1.78.4",
+    "@solana/web3.js": "1.87.6",
     "react-native-logs": "5.0.1"
   },
   "devDependencies": {

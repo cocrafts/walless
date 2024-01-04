@@ -64,7 +64,7 @@ const logOut = async () => {
 };
 
 const navigateToWidget = (id: string) => {
-	router.navigate(id);
+	router.navigate(`/${id}`);
 };
 
 const navigateToCollection = (id: string) => {

@@ -40,7 +40,7 @@ export const list: ParserRule & ReactOutputRule = {
 							...tails,
 						],
 						state,
-				  )
+					)
 				: output(item, state);
 
 			const generateListIcon = () => {

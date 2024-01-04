@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "metacraft.walless",
+      "sha256_cert_fingerprints": [
+        "A4:FC:5A:2C:40:98:56:3A:F2:8F:9B:D9:70:F8:81:DA:2A:4C:94:30:A2:D5:2B:3C:A4:DA:E8:5E:04:94:A9:A0"
+      ]
+    }
+  }
+]

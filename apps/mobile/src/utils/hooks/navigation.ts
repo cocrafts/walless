@@ -1,51 +1,49 @@
 import { useRef } from 'react';
-import type { View } from 'react-native';
 import type { NavigationState } from '@react-navigation/native';
 import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
-import { analytics } from 'utils/firebase';
+import { useDebouncedCallback } from 'use-debounce';
+import { universalAnalytics } from 'utils/firebase';
 import { navigationRef } from 'utils/navigation';
 
+let lastWidgetId: string;
+
 export const useNavigationHydrate = () => {
-	const modalContainerRef = useRef<View>(null);
 	const routeNameRef = useRef<string>();
 
 	const onNavigationReady = () => {
 		routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
 	};
 
-	const onNavigationStateChange = async (
-		state: NavigationState | undefined,
-	) => {
-		const currentRoute = state?.routes?.[state?.index];
-		const previousRouteName = routeNameRef.current;
-		const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
+	const onNavigationStateChange = useDebouncedCallback(
+		async (state: NavigationState | undefined) => {
+			const nextRouteName = navigationRef.current?.getCurrentRoute()?.name;
+			/* eslint-disable */
+			const findDashboard = (i: any) => i.name === 'Dashboard';
+			const dashboard = state?.routes.find(findDashboard)?.state;
+			const childRoute = dashboard?.routes[dashboard?.index as never];
+			const widget = childRoute?.params as any
+			const widgetId = widget?.params?.id;
+			/* eslint-enable */
 
-		if (previousRouteName !== currentRouteName) {
-			analytics.logScreenView({
-				screen_name: currentRouteName,
-				screen_class: currentRouteName,
-			});
-
-			routeNameRef.current = currentRouteName;
-
-			if (currentRoute?.key) {
+			if (childRoute?.name === 'Explore' && widgetId !== lastWidgetId) {
+				lastWidgetId = widgetId;
 				modules.storage.upsert<SettingDocument>('settings', async (doc) => {
-					if (doc.config) {
-						doc.config.latestLocation = {
-							name: currentRoute?.name,
-							params: currentRoute?.params,
-						};
-					}
-
+					doc.config = doc.config || {};
+					doc.config.latestLocation = widgetId;
 					return doc;
 				});
 			}
-		}
-	};
+
+			if (!!nextRouteName && routeNameRef.current !== nextRouteName) {
+				universalAnalytics.logScreenView(nextRouteName, nextRouteName);
+				routeNameRef.current = nextRouteName;
+			}
+		},
+		200,
+	);
 
 	return {
-		modalContainerRef,
 		onNavigationReady,
 		onNavigationStateChange,
 	};

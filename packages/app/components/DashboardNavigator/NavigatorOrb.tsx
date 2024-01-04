@@ -132,6 +132,7 @@ export const NavigatorOrb: FC<Props> = ({
 				onHoverIn={handleHoverIn}
 				onHoverOut={handleHoverOut}
 				onPress={() => onPress?.(item)}
+				onLongPress={handleContextMenu}
 				onContextMenu={handleContextMenu}
 			>
 				{children || <Image style={iconImgStyle} source={iconSource} />}

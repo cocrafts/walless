@@ -462,7 +462,7 @@ PODS:
     - React-Core
   - react-native-encrypted-storage (4.0.3):
     - React-Core
-  - react-native-get-random-values (1.9.0):
+  - react-native-get-random-values (1.10.0):
     - React-Core
   - react-native-quick-base64 (2.0.7):
     - React-Core
@@ -475,9 +475,9 @@ PODS:
     - React
     - React-callinvoker
     - React-Core
-  - react-native-safe-area-context (4.7.4):
+  - react-native-safe-area-context (4.8.1):
     - React-Core
-  - react-native-webview (13.6.2):
+  - react-native-webview (13.6.3):
     - React-Core
   - React-perflogger (0.71.14)
   - React-RCTActionSheet (0.71.14):
@@ -564,12 +564,12 @@ PODS:
     - React-logger (= 0.71.14)
     - React-perflogger (= 0.71.14)
   - RecaptchaInterop (100.0.0)
-  - RNCClipboard (1.12.1):
+  - RNCClipboard (1.13.0):
     - React-Core
   - RNCustomAuthSdk (4.0.1):
     - CustomAuth (~> 5.0.0)
     - React
-  - RNDeviceInfo (10.11.0):
+  - RNDeviceInfo (10.12.0):
     - React-Core
   - RNFBAnalytics (18.6.1):
     - Firebase/Analytics (= 10.17.0)
@@ -604,7 +604,7 @@ PODS:
     - Firebase/RemoteConfig (= 10.17.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.13.4):
+  - RNGestureHandler (2.14.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNGoogleSignin (9.1.0):
@@ -616,36 +616,11 @@ PODS:
     - React-Core
   - RNReactNativeHapticFeedback (2.2.0):
     - React-Core
-  - RNReanimated (3.5.4):
-    - DoubleConversion
-    - FBLazyVector
-    - FBReactNativeSpec
-    - glog
-    - hermes-engine
-    - RCT-Folly
-    - RCTRequired
-    - RCTTypeSafety
-    - React-callinvoker
+  - RNReanimated (3.6.1):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
-    - React-Core/DevSupport
-    - React-Core/RCTWebSocket
-    - React-CoreModules
-    - React-cxxreact
-    - React-hermes
-    - React-jsi
-    - React-jsiexecutor
-    - React-jsinspector
-    - React-RCTActionSheet
-    - React-RCTAnimation
-    - React-RCTBlob
-    - React-RCTImage
-    - React-RCTLinking
-    - React-RCTNetwork
-    - React-RCTSettings
-    - React-RCTText
     - ReactCommon/turbomodule/core
-    - Yoga
-  - RNScreens (3.27.0):
+  - RNScreens (3.29.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNSVG (13.10.0):
@@ -957,12 +932,12 @@ SPEC CHECKSUMS:
   react-native-biometrics: 352e5a794bfffc46a0c86725ea7dc62deb085bdc
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
-  react-native-get-random-values: dee677497c6a740b71e5612e8dbd83e7539ed5bb
+  react-native-get-random-values: 384787fd76976f5aec9465aff6fa9e9129af1e74
   react-native-quick-base64: a5dbe4528f1453e662fcf7351029500b8b63e7bb
   react-native-quick-crypto: 455c1b411db006dba1026a30681ececb19180187
   react-native-quick-sqlite: e0e23b749382a85e4b57146f753de737a6c3a9e1
-  react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
-  react-native-webview: 8fc09f66a1a5b16bbe37c3878fda27d5982bb776
+  react-native-safe-area-context: cd1169d797a2ef722a00bfc5af10748d5b6c94f9
+  react-native-webview: 88293a0f23eca8465c0433c023ec632930e644d0
   React-perflogger: 4987ad83731c23d11813c84263963b0d3028c966
   React-RCTActionSheet: 5ad952b2a9740d87a5bd77280c4bc23f6f89ea0c
   React-RCTAnimation: d2de22af3f536cc80bb5b3918e1a455114d1b985
@@ -977,9 +952,9 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: ffe826b7b1cfbc32a35ed5b64d5886c0ff75f501
   ReactCommon: 6f0ee30fda78283c31310e585f7236748e13330d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  RNCClipboard: d77213bfa269013bf4b857b7a9ca37ee062d8ef1
+  RNCClipboard: 204b94473a99932e314b730a81363e0bf795a60d
   RNCustomAuthSdk: e1db0c850b41deaf38fdc8fe5433b3287db29c55
-  RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
+  RNDeviceInfo: db5c64a060e66e5db3102d041ebe3ef307a85120
   RNFBAnalytics: 9138cdb065c6ac9fc7dc076d83f9c2e64bc21d46
   RNFBApp: b43d4829366a5065e17f9af3b03a0c4890eaeb85
   RNFBAppDistribution: 7cb149435e049ab8cdd041642eb439bb9859d48c
@@ -988,13 +963,13 @@ SPEC CHECKSUMS:
   RNFBMessaging: 1b55308131dc7e4cca6b22deb5067f1fdb55f768
   RNFBPerf: a009d7e5863a13b9855ecbeaaa775643ef5f0381
   RNFBRemoteConfig: 26b2e249a3bfa84de59dfbe149174427ada8bd32
-  RNGestureHandler: 6e46dde1f87e5f018a54fe5d40cd0e0b942b49ee
+  RNGestureHandler: 32a01c29ecc9bb0b5bf7bc0a33547f61b4dc2741
   RNGoogleSignin: c15bdaa7e8a9e190b6169d9c96a4e8380a740f22
   RNKeychain: a65256b6ca6ba6976132cc4124b238a5b13b3d9c
   RNPermissions: b199f4189fd6fbe5c9e7e5f542cd3d53fe0cf254
   RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
-  RNReanimated: b9215243fd801b2b874bd0218767eed434de994c
-  RNScreens: 3c2d122f5e08c192e254c510b212306da97d2581
+  RNReanimated: 79f572a7903c60f5aa86cf1698049ab5f75ececd
+  RNScreens: 3c5b9f4a9dcde752466854b6109b79c0e205dad3
   RNSVG: 80584470ff1ffc7994923ea135a3e5ad825546b9
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   Torus-fetchNodeDetails: a92d02f1bfe91bd61c90f92d64df023babaa5bfa

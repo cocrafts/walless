@@ -18,8 +18,8 @@ export const HeaderRequest: FC<Props> = ({ title }) => {
 				<Text style={styles.title}>
 					{title.length > 20
 						? title.substring(0, 10) +
-						  '...' +
-						  title.substring(title.length - 10)
+							'...' +
+							title.substring(title.length - 10)
 						: title}
 				</Text>
 				<Hoverable style={styles.button}>

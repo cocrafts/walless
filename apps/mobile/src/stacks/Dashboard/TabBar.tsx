@@ -16,8 +16,8 @@ import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
 import { Home, Walless } from '@walless/icons';
 import { HapticFeedbackTypes, modules } from '@walless/ioc';
+import { localState } from 'state/local';
 import type { DashboardParamList } from 'utils/navigation';
-import { localState } from 'utils/state';
 
 import { ProfileIcon } from './ProfileIcon';
 import TabBarItem from './TabBarItem';
@@ -36,9 +36,12 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const { isDrawerOpen } = useSnapshot(localState);
 	const offset = useSharedValue(0);
 	const realBarHeight = tabBarHeight + insets.bottom;
-	const animatedStyles = useAnimatedStyle(() => ({
-		transform: [{ translateY: offset.value }],
-	}));
+	const animatedStyles = useAnimatedStyle(
+		() => ({
+			transform: [{ translateY: offset.value }],
+		}),
+		[offset],
+	);
 
 	useEffect(() => {
 		const { routes, index } = state;

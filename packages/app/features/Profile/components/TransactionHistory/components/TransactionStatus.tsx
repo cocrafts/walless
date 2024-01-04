@@ -24,8 +24,8 @@ const TransactionStatus: FC<Props> = ({ status = 'success' }) => {
 		status === 'Success'
 			? '#2FC879'
 			: status === 'Pending'
-			  ? '#E0BD3F'
-			  : '#CC3838';
+				? '#E0BD3F'
+				: '#CC3838';
 
 	const iconContainerStyle = {
 		backgroundColor: color,

@@ -26,7 +26,7 @@ export const Navigator: FC = () => {
 
 	const removeLayout = async (layout: WidgetDocument) => {
 		widgetActions.removeWidget(layout);
-		await router.navigate('/', { replace: true });
+		await router.navigate('/explorer', { replace: true });
 	};
 
 	return (

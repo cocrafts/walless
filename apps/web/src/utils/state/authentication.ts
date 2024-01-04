@@ -79,7 +79,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 			},
 			handleReady: async () => {
 				await setProfile(makeProfile(user));
-				await router.navigate('/', { replace: true });
+				await router.navigate('/explorer', { replace: true });
 			},
 			handleError: async () => showError('Something went wrong') as never,
 		});

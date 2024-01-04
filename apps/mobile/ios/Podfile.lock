@@ -564,7 +564,7 @@ PODS:
     - React-logger (= 0.71.14)
     - React-perflogger (= 0.71.14)
   - RecaptchaInterop (100.0.0)
-  - RNCClipboard (1.13.0):
+  - RNCClipboard (1.13.2):
     - React-Core
   - RNCustomAuthSdk (4.0.1):
     - CustomAuth (~> 5.0.0)
@@ -952,7 +952,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: ffe826b7b1cfbc32a35ed5b64d5886c0ff75f501
   ReactCommon: 6f0ee30fda78283c31310e585f7236748e13330d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  RNCClipboard: 204b94473a99932e314b730a81363e0bf795a60d
+  RNCClipboard: 60fed4b71560d7bfe40e9d35dea9762b024da86d
   RNCustomAuthSdk: e1db0c850b41deaf38fdc8fe5433b3287db29c55
   RNDeviceInfo: db5c64a060e66e5db3102d041ebe3ef307a85120
   RNFBAnalytics: 9138cdb065c6ac9fc7dc076d83f9c2e64bc21d46

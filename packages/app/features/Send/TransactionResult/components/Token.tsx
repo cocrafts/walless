@@ -1,6 +1,7 @@
 import { Image, StyleSheet } from 'react-native';
 import { appState } from '@walless/engine';
 import { Anchor, Text, View } from '@walless/gui';
+import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
@@ -11,9 +12,9 @@ export const Token = () => {
 	const { token, amount, time, status, signatureString } =
 		useSnapshot(transactionContext);
 
-	const iconUri = {
-		uri: token?.metadata?.imageUri ?? 'img/send-token/unknown-token.jpeg',
-	};
+	const icon = token?.metadata?.imageUri
+		? { uri: token?.metadata?.imageUri }
+		: modules.asset.misc.unknownToken;
 
 	let endpoint = '';
 
@@ -27,7 +28,7 @@ export const Token = () => {
 
 	return (
 		<View style={styles.container}>
-			<Image style={styles.tokenIcon} source={iconUri} />
+			<Image style={styles.tokenIcon} source={icon} />
 			<View style={styles.amountContainer}>
 				<Text style={styles.amountText}>{amount}</Text>
 				<Text style={styles.symbolText}>{token?.metadata?.symbol}</Text>

@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { Networks, Transaction } from '@walless/core';
 import { appState } from '@walless/engine';
 import { View } from '@walless/gui';
+import { modules } from '@walless/ioc';
 import { useSnapshot } from 'valtio';
 
 import type { NetworkInfo } from '../../../../utils';
@@ -28,14 +29,17 @@ export const TransactionDetails: FC<Transaction> = ({
 }) => {
 	const { profile } = useSnapshot(appState);
 	const networkInfo = getNetworkInfo(network);
+	const icon = token.metadata?.imageUri
+		? { uri: token.metadata.imageUri }
+		: modules.asset.misc.unknownToken;
 
 	return (
 		<ModalContainer id="transaction-details" title="Transaction Details">
 			<View style={styles.container}>
 				<TokenDetails
 					id={id}
-					imageUri={token.metadata?.imageUri}
-					tokenName={token.metadata?.name}
+					icon={icon}
+					tokenName={token.metadata?.name || 'Unknown'}
 					amount={amount}
 					network={networkInfo?.name as Networks}
 					isCollectible={!!token.metadata?.mpl}

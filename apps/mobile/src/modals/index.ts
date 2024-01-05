@@ -1,7 +1,10 @@
+import type { FC } from 'react';
 import type { Networks } from '@walless/core';
+import type { ModalConfigs } from '@walless/gui';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 
 import ErrorModal from './Error';
+import NotificationModal from './Notification';
 import ReceiveModal from './Receive';
 import type { RequirePasscodeModalConfig } from './RequirePasscode';
 import RequirePasscodeModal from './RequirePasscode';
@@ -32,6 +35,41 @@ const showError = (errorText: string) => {
 	setTimeout(() => {
 		modalActions.hide(MODAL.ERROR);
 	}, 1000);
+};
+
+const showNotifyModal = (
+	id: string,
+	content: {
+		prefix?: FC;
+		message: string;
+		suffix?: FC;
+	},
+	modalConfig?: Omit<ModalConfigs, 'component' | 'context'>,
+	time?: 'none' | number,
+) => {
+	const _id = `notify-${id}`;
+	const { prefix, message, suffix } = content;
+
+	modalActions.show({
+		id: _id,
+		component: NotificationModal,
+		fullWidth: false,
+		withoutMask: true,
+		bindingDirection: BindDirections.InnerTop,
+		positionOffset: { y: 16 },
+		...modalConfig,
+		context: {
+			prefix,
+			message,
+			suffix,
+		},
+	});
+
+	if (time !== 'none') {
+		setTimeout(() => {
+			modalActions.hide(_id);
+		}, time || 1000);
+	}
 };
 
 const showSendTokenModal = (configs?: ModalContext) => {
@@ -75,6 +113,7 @@ const showRequirePasscodeModal = (config: RequirePasscodeModalConfig) => {
 
 export const floatActions = {
 	showError,
+	showNotifyModal,
 	showSendTokenModal,
 	showReceiveModal,
 	showRequirePasscodeModal,

@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { Networks } from '@walless/core';
 import { runtime } from '@walless/core';
 import { keyState } from '@walless/engine';
@@ -10,12 +10,12 @@ import {
 	modalActions,
 	SwipeDownGesture,
 } from '@walless/gui';
+import ModalHeader from 'components/Modal/Header';
 import { ModalId } from 'modals/internal';
 import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
 
-import ModalHeader from '../ModalHeader';
-import ModalWrapper from '../ModalWrapper';
+import { modalStyles } from '../internal';
 
 import Slider, {
 	type IndicatorOption,
@@ -78,14 +78,14 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 			callbackOnClose={handleClose}
 			gestureEnable={runtime.isMobile}
 		>
-			<ModalWrapper>
+			<View style={modalStyles.wrapper}>
 				<ModalHeader content="Receive" onPressClose={handleClose} />
 				<Slider
 					style={styles.sliderContainer}
 					items={items}
 					indicator={indicator}
 				/>
-			</ModalWrapper>
+			</View>
 		</SwipeDownGesture>
 	);
 };

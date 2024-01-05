@@ -8,7 +8,7 @@ import { BackspaceRemove } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 
-export interface RemoveLayoutModalConfig {
+export interface RemoveLayoutModalContext {
 	item: WidgetDocument;
 	orbSize: number;
 	onRemoveLayout?: (item: WidgetDocument) => void;
@@ -18,7 +18,7 @@ export interface RemoveLayoutModalConfig {
 export const RemoveLayoutModal: FC<{
 	config: ModalConfigs;
 }> = ({ config }) => {
-	const { item, onRemoveLayout } = config.context as RemoveLayoutModalConfig;
+	const { item, onRemoveLayout } = config.context as RemoveLayoutModalContext;
 
 	const handleRemoveLayout = () => {
 		onRemoveLayout?.(item);

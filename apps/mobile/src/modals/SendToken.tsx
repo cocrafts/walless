@@ -15,13 +15,13 @@ import type { CollectibleDocument } from '@walless/store';
 
 import { useNfts, usePublicKeys, useTokens } from '../utils/hooks';
 
-export interface ModalContext {
+export interface SendModalContext {
 	layoutNetwork?: Networks;
 	collectible?: CollectibleDocument;
 }
 
 export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
-	const { layoutNetwork, collectible } = config.context as ModalContext;
+	const { layoutNetwork, collectible } = config.context as SendModalContext;
 	const { tokens } = useTokens(layoutNetwork);
 	const { collectibles, collections } = useNfts(layoutNetwork);
 	const addressList = usePublicKeys();

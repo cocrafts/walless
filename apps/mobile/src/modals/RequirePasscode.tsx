@@ -7,7 +7,7 @@ import { modalActions, Text, View } from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
-export interface RequirePasscodeModalConfig {
+export interface RequirePasscodeModalContext {
 	title?: string;
 	desc?: string;
 	onPasscodeComplete: (passcode: string) => Promise<{
@@ -28,7 +28,7 @@ export const RequirePasscodeModal: FC<Props> = ({ config }) => {
 		desc: description = "Secure your passcode! It's essential for accessing your account and authorizing transfers.",
 		onPasscodeComplete,
 		onActionComplete,
-	} = context as RequirePasscodeModalConfig;
+	} = context as RequirePasscodeModalContext;
 
 	const [error, setError] = useState('');
 	const [passcode, setPasscode] = useState('');

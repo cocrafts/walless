@@ -82,7 +82,9 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressReceive = () => {
-		floatActions.showReceiveModal(id as Networks);
+		floatActions.showReceiveModal({
+			network: id as Networks,
+		});
 	};
 
 	const handlePressBuy = () => {

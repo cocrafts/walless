@@ -11,7 +11,7 @@ interface Props {
 	onPress?: () => void;
 }
 
-export const FeatureButton: FC<Props> = ({
+export const Item: FC<Props> = ({
 	children,
 	size = 38,
 	title,
@@ -38,7 +38,7 @@ export const FeatureButton: FC<Props> = ({
 	);
 };
 
-export default FeatureButton;
+export default Item;
 
 const styles = StyleSheet.create({
 	container: {

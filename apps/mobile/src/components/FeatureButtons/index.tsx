@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 import { ArrowBottomRight, ArrowTopRight, Plus } from '@walless/icons';
 
-import FeatureButton from './FeatureButton';
+import Item from './Item';
 
 interface Props {
 	style?: ViewStyle;
@@ -21,24 +21,17 @@ export const FeatureButtons: FC<Props> = ({
 }) => {
 	return (
 		<View style={[styles.container, style]}>
-			{onSendPress && (
-				<FeatureButton title="Send" size={buttonSize} onPress={onSendPress}>
-					<ArrowTopRight size={iconSize} />
-				</FeatureButton>
-			)}
-			{onReceivePress && (
-				<FeatureButton
-					title="Receive"
-					size={buttonSize}
-					onPress={onReceivePress}
-				>
-					<ArrowBottomRight size={iconSize} />
-				</FeatureButton>
-			)}
+			<Item title="Send" size={buttonSize} onPress={onSendPress}>
+				<ArrowTopRight size={iconSize} />
+			</Item>
 
-			<FeatureButton title="Buy" size={buttonSize} onPress={onBuyPress}>
+			<Item title="Receive" size={buttonSize} onPress={onReceivePress}>
+				<ArrowBottomRight size={iconSize} />
+			</Item>
+
+			<Item title="Buy" size={buttonSize} onPress={onBuyPress}>
 				<Plus size={iconSize} />
-			</FeatureButton>
+			</Item>
 		</View>
 	);
 };

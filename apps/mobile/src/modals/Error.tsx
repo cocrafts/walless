@@ -9,6 +9,10 @@ interface Props {
 	config: ModalConfigs;
 }
 
+export interface ErrorModalContext {
+	errorText: string;
+}
+
 const ErrorModal: FC<Props> = ({ config }) => {
 	const insets = useSafeAreaInsets();
 	const containerStyle: ViewStyle = {

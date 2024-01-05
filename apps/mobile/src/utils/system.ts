@@ -11,7 +11,8 @@ export const copy = async (value: string, prefix?: FC) => {
 		await navigator.clipboard.writeText(value);
 	}
 
-	floatActions.showNotifyModal('copied', {
+	floatActions.showNotificationModal({
+		id: 'copy',
 		prefix,
 		message: 'Copied',
 	});

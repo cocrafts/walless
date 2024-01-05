@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
-import { logger, runtime } from '@walless/core';
+import { runtime } from '@walless/core';
 import { keyState } from '@walless/engine';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions, SwipeDownGesture } from '@walless/gui';
@@ -40,8 +40,6 @@ export const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	let items: SlideOption[];
 
 	const { network } = config.context as ReceiveModalContext;
-
-	logger.debug('--> network', network);
 
 	if (network) {
 		items = walletList

@@ -5,11 +5,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { ModalConfigs } from '@walless/gui';
 import { Text } from '@walless/gui';
 
-interface ModalContext {
+export interface NotificationModalContext {
+	id: string;
 	message: string;
 	textStyle?: StyleProp<TextStyle>;
 	prefix?: FC;
 	suffix?: FC;
+	timeout?: number;
 }
 
 interface Props {
@@ -23,7 +25,7 @@ export const NotificationModal: FC<Props> = ({ config }) => {
 		textStyle,
 		prefix: PrefixComponent,
 		suffix: SuffixComponent,
-	} = config.context as ModalContext;
+	} = config.context as NotificationModalContext;
 	const containerStyle: ViewStyle = {
 		marginTop: insets.top,
 	};

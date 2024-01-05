@@ -11,7 +11,7 @@ import {
 	View,
 } from '@walless/gui';
 
-import { MODAL } from './internal';
+import { ModalId } from './internal';
 
 interface Props {
 	config: ModalConfigs;
@@ -40,7 +40,7 @@ const ErrorModal: FC<Props> = ({ config }) => {
 
 export const showError = (context: ErrorModalContext) => {
 	modalActions.show({
-		id: MODAL.ERROR,
+		id: ModalId.Error,
 		bindingDirection: BindDirections.InnerTop,
 		component: ErrorModal,
 		animateDirection: AnimateDirections.Bottom,
@@ -49,6 +49,6 @@ export const showError = (context: ErrorModalContext) => {
 	});
 
 	setTimeout(() => {
-		modalActions.hide(MODAL.ERROR);
+		modalActions.hide(ModalId.Error);
 	}, 1000);
 };

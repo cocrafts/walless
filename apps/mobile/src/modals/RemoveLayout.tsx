@@ -13,7 +13,7 @@ import { BackspaceRemove } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 
-import { MODAL } from './internal';
+import { ModalId } from './internal';
 
 export interface RemoveLayoutModalContext {
 	item: WidgetDocument;
@@ -66,7 +66,7 @@ const RemoveLayoutModal: FC<{
 
 export const showRemoveLayoutModal = (context: RemoveLayoutModalContext) => {
 	modalActions.show({
-		id: MODAL.REMOVE_LAYOUT,
+		id: ModalId.RemoveLayout,
 		component: RemoveLayoutModal,
 		context,
 		bindingDirection: BindDirections.Right,

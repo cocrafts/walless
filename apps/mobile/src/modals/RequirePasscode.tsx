@@ -7,7 +7,7 @@ import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
-import { MODAL } from './internal';
+import { ModalId } from './internal';
 
 export interface RequirePasscodeModalContext {
 	title?: string;
@@ -78,7 +78,7 @@ export const showRequirePasscodeModal = (
 	context: RequirePasscodeModalContext,
 ) => {
 	modalActions.show({
-		id: MODAL.REQUIRE_PASSCODE,
+		id: ModalId.RequirePasscode,
 		bindingDirection: BindDirections.InnerBottom,
 		component: RequirePasscodeModal,
 		context,

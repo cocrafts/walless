@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { ModalConfigs } from '@walless/gui';
 import { BindDirections, modalActions, Text } from '@walless/gui';
 
-import { MODAL } from './internal';
+import { ModalId } from './internal';
 
 export interface NotificationModalContext {
 	id: string;
@@ -42,7 +42,7 @@ const NotificationModal: FC<Props> = ({ config }) => {
 };
 
 export const showNotificationModal = (context: NotificationModalContext) => {
-	const id = `${MODAL.NOTIFICATION}-${context.id}}`;
+	const id = `${ModalId.Notification}-${context.id}}`;
 
 	modalActions.show({
 		id,

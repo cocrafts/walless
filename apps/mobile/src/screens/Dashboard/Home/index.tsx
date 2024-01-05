@@ -14,14 +14,17 @@ import TransactionHistory from './components/TransactionHistory';
 
 export const ProfileScreen = () => {
 	const insets = useSafeAreaInsets();
+	const { valuation } = useTokens();
 	const containerStyle: ViewStyle = {
 		paddingBottom: tabBarHeight + insets.bottom,
 	};
 
-	const { valuation } = useTokens();
-
 	const handleSend = () => {
 		showSendTokenModal({});
+	};
+
+	const handleReceive = () => {
+		showReceiveModal({});
 	};
 
 	const handleNavigateToHistory = () => {
@@ -39,7 +42,7 @@ export const ProfileScreen = () => {
 
 			<FeatureButtons
 				onSendPress={handleSend}
-				onReceivePress={() => showReceiveModal({})}
+				onReceivePress={handleReceive}
 				onBuyPress={() => utils.buyToken(Networks.solana)}
 			/>
 

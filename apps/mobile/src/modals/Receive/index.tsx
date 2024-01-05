@@ -10,7 +10,7 @@ import {
 	modalActions,
 	SwipeDownGesture,
 } from '@walless/gui';
-import { MODAL } from 'modals/internal';
+import { ModalId } from 'modals/internal';
 import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
 
@@ -92,7 +92,7 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 
 export const showReceiveModal = (context: ReceiveModalContext) => {
 	modalActions.show({
-		id: MODAL.RECEIVE,
+		id: ModalId.Receive,
 		bindingDirection: BindDirections.InnerBottom,
 		animateDirection: AnimateDirections.Top,
 		component: ReceiveModal,

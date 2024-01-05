@@ -20,7 +20,7 @@ import type { CollectibleDocument } from '@walless/store';
 
 import { useNfts, usePublicKeys, useTokens } from '../utils/hooks';
 
-import { MODAL } from './internal';
+import { ModalId } from './internal';
 
 export interface SendModalContext {
 	layoutNetwork?: Networks;
@@ -64,7 +64,7 @@ const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 
 export const showSendTokenModal = (context: SendModalContext) => {
 	modalActions.show({
-		id: MODAL.SEND,
+		id: ModalId.Send,
 		bindingDirection: BindDirections.InnerBottom,
 		animateDirection: AnimateDirections.Top,
 		component: SendModal,

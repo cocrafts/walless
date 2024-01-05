@@ -12,8 +12,7 @@ import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import FeatureButtons from 'components/FeatureButtons.tsx';
-import { floatActions } from 'state/float';
-import { showReceiveModal } from 'state/float/token';
+import { floatActions } from 'modals';
 import {
 	useNfts,
 	useOpacityAnimated,
@@ -83,7 +82,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressReceive = () => {
-		showReceiveModal(id as Networks);
+		floatActions.showReceiveModal(id as Networks);
 	};
 
 	const handlePressBuy = () => {

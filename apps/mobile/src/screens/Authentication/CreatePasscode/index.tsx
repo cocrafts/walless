@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { signInWithPasscode } from '@walless/auth';
 import { Passcode, Text, View } from '@walless/gui';
-import { floatActions } from 'state/float';
+import { floatActions } from 'modals';
 import { auth } from 'utils/firebase';
 import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';

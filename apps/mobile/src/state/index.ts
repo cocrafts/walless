@@ -15,6 +15,5 @@ export const universalActions = {
 	syncDeviceInfo,
 };
 
-export * from './float';
 export * from './transaction';
 export { universalSate } from './universal';

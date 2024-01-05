@@ -22,7 +22,7 @@ enum MODAL {
 	SEND = 'Send',
 }
 
-const showError = (errorText: string) => {
+export const showError = (errorText: string) => {
 	modalActions.show({
 		id: MODAL.ERROR,
 		bindingDirection: BindDirections.InnerTop,

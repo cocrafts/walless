@@ -9,7 +9,7 @@ interface Props {
 	config: ModalConfigs;
 }
 
-export const ErrorModal: FC<Props> = ({ config }) => {
+const ErrorModal: FC<Props> = ({ config }) => {
 	const insets = useSafeAreaInsets();
 	const containerStyle: ViewStyle = {
 		justifyContent: 'center',

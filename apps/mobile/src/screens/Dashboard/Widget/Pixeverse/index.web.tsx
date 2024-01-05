@@ -3,8 +3,7 @@ import { Networks } from '@walless/core';
 import { appState } from '@walless/engine';
 import { View } from '@walless/gui';
 import { modules } from '@walless/ioc';
-
-import { usePublicKeys, useSnapshot } from '../../../utils/hooks';
+import { usePublicKeys, useSnapshot } from 'utils/hooks';
 
 export const Pixeverse = () => {
 	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } =

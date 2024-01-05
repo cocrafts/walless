@@ -5,7 +5,7 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
-import { floatActions } from 'state';
+import { floatActions } from 'modals';
 
 interface Props {
 	pubkey: string;

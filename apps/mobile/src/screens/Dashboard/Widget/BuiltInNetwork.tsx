@@ -11,7 +11,7 @@ import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { utils } from '@walless/ioc';
-import FeatureButtons from 'components/FeatureButtons.tsx';
+import FeatureButtons from 'components/FeatureButtons';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
 import {

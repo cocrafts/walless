@@ -2,7 +2,7 @@ import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { Networks } from '@walless/core';
 import { utils } from '@walless/ioc';
-import FeatureButtons from 'components/FeatureButtons.tsx';
+import FeatureButtons from 'components/FeatureButtons';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
 import { tabBarHeight } from 'utils/helper';

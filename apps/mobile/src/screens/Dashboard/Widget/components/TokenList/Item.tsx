@@ -5,7 +5,7 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 
-import { formatQuote, parseTokenAccount } from '../../utils/format';
+import { formatQuote, parseTokenAccount } from '../../../../../utils/format';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;

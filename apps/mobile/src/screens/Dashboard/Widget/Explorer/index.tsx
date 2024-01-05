@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { mockWidgets } from '@walless/engine';
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
-import type { HeaderProps } from 'components/StackContainer';
+import type { HeaderProps } from 'screens/Dashboard/Widget/components/StackContainer';
 import { tabBarHeight } from 'utils/helper';
 import { useWidgets } from 'utils/hooks';
 

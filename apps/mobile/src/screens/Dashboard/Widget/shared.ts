@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import type { TabAble } from 'components/TabsHeader';
-import type { CardSkin } from 'components/WalletCard';
+import type { TabAble } from 'screens/Dashboard/Widget/components/TabsHeader';
+import type { CardSkin } from 'screens/Dashboard/Widget/components/WalletCard';
 
 import BuiltInNetwork from './BuiltInNetwork';
 import { EmptyTab } from './components';

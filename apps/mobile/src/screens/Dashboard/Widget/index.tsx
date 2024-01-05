@@ -4,7 +4,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import { ExplorerFeature } from '@walless/app';
 import { mockWidgets } from '@walless/engine';
 import type { DrawerScreenProps } from 'components/DrawerNavigation';
-import { StackHeader } from 'components/StackContainer';
+import { StackHeader } from 'screens/Dashboard/Widget/components/StackContainer';
 import { useSafeAreaInsets } from 'utils/hooks/aliased';
 import type { ExploreParamList } from 'utils/navigation';
 

@@ -4,7 +4,13 @@ import type { Networks } from '@walless/core';
 import { runtime } from '@walless/core';
 import { keyState } from '@walless/engine';
 import type { ModalConfigs } from '@walless/gui';
-import { modalActions, SwipeDownGesture } from '@walless/gui';
+import {
+	AnimateDirections,
+	BindDirections,
+	modalActions,
+	SwipeDownGesture,
+} from '@walless/gui';
+import { MODAL } from 'modals/internal';
 import { getNetworkInfo } from 'utils';
 import { useSnapshot } from 'valtio';
 
@@ -22,7 +28,7 @@ export interface ReceiveModalContext {
 	network?: Networks;
 }
 
-export const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
+const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const keyMap = useSnapshot(keyState);
 
 	const walletList: WalletProps[] = [];
@@ -84,7 +90,15 @@ export const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	);
 };
 
-export default ReceiveModal;
+export const showReceiveModal = (context: ReceiveModalContext) => {
+	modalActions.show({
+		id: MODAL.RECEIVE,
+		bindingDirection: BindDirections.InnerBottom,
+		animateDirection: AnimateDirections.Top,
+		component: ReceiveModal,
+		context,
+	});
+};
 
 const styles = StyleSheet.create({
 	sliderContainer: {

@@ -9,18 +9,25 @@ import {
 import type { Networks } from '@walless/core';
 import { runtime } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
-import { modalActions, SwipeDownGesture } from '@walless/gui';
+import {
+	AnimateDirections,
+	BindDirections,
+	modalActions,
+	SwipeDownGesture,
+} from '@walless/gui';
 import { utils } from '@walless/ioc';
 import type { CollectibleDocument } from '@walless/store';
 
 import { useNfts, usePublicKeys, useTokens } from '../utils/hooks';
+
+import { MODAL } from './internal';
 
 export interface SendModalContext {
 	layoutNetwork?: Networks;
 	collectible?: CollectibleDocument;
 }
 
-export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
+const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	const { layoutNetwork, collectible } = config.context as SendModalContext;
 	const { tokens } = useTokens(layoutNetwork);
 	const { collectibles, collections } = useNfts(layoutNetwork);
@@ -55,7 +62,15 @@ export const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 	);
 };
 
-export default SendModal;
+export const showSendTokenModal = (context: SendModalContext) => {
+	modalActions.show({
+		id: MODAL.SEND,
+		bindingDirection: BindDirections.InnerBottom,
+		animateDirection: AnimateDirections.Top,
+		component: SendModal,
+		context,
+	});
+};
 
 const styles = StyleSheet.create({
 	container: {

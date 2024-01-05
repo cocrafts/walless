@@ -3,7 +3,15 @@ import type { ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { UnknownObject } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
-import { Text, View } from '@walless/gui';
+import {
+	AnimateDirections,
+	BindDirections,
+	modalActions,
+	Text,
+	View,
+} from '@walless/gui';
+
+import { MODAL } from './internal';
 
 interface Props {
 	config: ModalConfigs;
@@ -30,4 +38,17 @@ const ErrorModal: FC<Props> = ({ config }) => {
 	);
 };
 
-export default ErrorModal;
+export const showError = (context: ErrorModalContext) => {
+	modalActions.show({
+		id: MODAL.ERROR,
+		bindingDirection: BindDirections.InnerTop,
+		component: ErrorModal,
+		animateDirection: AnimateDirections.Bottom,
+		withoutMask: true,
+		context,
+	});
+
+	setTimeout(() => {
+		modalActions.hide(MODAL.ERROR);
+	}, 1000);
+};

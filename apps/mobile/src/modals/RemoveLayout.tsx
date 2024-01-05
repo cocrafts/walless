@@ -3,10 +3,17 @@ import type { ViewStyle } from 'react-native';
 import { View } from 'react-native';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import type { ModalConfigs } from '@walless/gui';
-import { modalActions, Text } from '@walless/gui';
+import {
+	AnimateDirections,
+	BindDirections,
+	modalActions,
+	Text,
+} from '@walless/gui';
 import { BackspaceRemove } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
+
+import { MODAL } from './internal';
 
 export interface RemoveLayoutModalContext {
 	item: WidgetDocument;
@@ -15,7 +22,7 @@ export interface RemoveLayoutModalContext {
 	bindingRef?: React.RefObject<View>;
 }
 
-export const RemoveLayoutModal: FC<{
+const RemoveLayoutModal: FC<{
 	config: ModalConfigs;
 }> = ({ config }) => {
 	const { item, onRemoveLayout } = config.context as RemoveLayoutModalContext;
@@ -57,6 +64,20 @@ export const RemoveLayoutModal: FC<{
 	);
 };
 
+export const showRemoveLayoutModal = (context: RemoveLayoutModalContext) => {
+	modalActions.show({
+		id: MODAL.REMOVE_LAYOUT,
+		component: RemoveLayoutModal,
+		context,
+		bindingDirection: BindDirections.Right,
+		animateDirection: AnimateDirections.Right,
+		positionOffset: {
+			y: context.orbSize / 2,
+		},
+		bindingRef: context.bindingRef,
+	});
+};
+
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#00080E',
@@ -95,5 +116,3 @@ const styles = StyleSheet.create({
 		height: 20,
 	},
 });
-
-export default RemoveLayoutModal;

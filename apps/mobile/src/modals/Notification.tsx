@@ -3,7 +3,9 @@ import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { ModalConfigs } from '@walless/gui';
-import { Text } from '@walless/gui';
+import { BindDirections, modalActions, Text } from '@walless/gui';
+
+import { MODAL } from './internal';
 
 export interface NotificationModalContext {
 	id: string;
@@ -18,7 +20,7 @@ interface Props {
 	config: ModalConfigs;
 }
 
-export const NotificationModal: FC<Props> = ({ config }) => {
+const NotificationModal: FC<Props> = ({ config }) => {
 	const insets = useSafeAreaInsets();
 	const {
 		message,
@@ -39,7 +41,25 @@ export const NotificationModal: FC<Props> = ({ config }) => {
 	);
 };
 
-export default NotificationModal;
+export const showNotificationModal = (context: NotificationModalContext) => {
+	const id = `${MODAL.NOTIFICATION}-${context.id}}`;
+
+	modalActions.show({
+		id,
+		component: NotificationModal,
+		fullWidth: false,
+		withoutMask: true,
+		bindingDirection: BindDirections.InnerTop,
+		positionOffset: { y: 16 },
+		context,
+	});
+
+	if (context.timeout !== undefined) {
+		setTimeout(() => {
+			modalActions.hide(id);
+		}, context.timeout || 1000);
+	}
+};
 
 const styles = StyleSheet.create({
 	container: {

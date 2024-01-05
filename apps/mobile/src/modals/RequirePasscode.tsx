@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { PasscodeFeature } from '@walless/app';
 import type { ModalConfigs } from '@walless/gui';
-import { modalActions, Text, View } from '@walless/gui';
+import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
+
+import { MODAL } from './internal';
 
 export interface RequirePasscodeModalContext {
 	title?: string;
@@ -72,7 +74,16 @@ export const RequirePasscodeModal: FC<Props> = ({ config }) => {
 	);
 };
 
-export default RequirePasscodeModal;
+export const showRequirePasscodeModal = (
+	context: RequirePasscodeModalContext,
+) => {
+	modalActions.show({
+		id: MODAL.REQUIRE_PASSCODE,
+		bindingDirection: BindDirections.InnerBottom,
+		component: RequirePasscodeModal,
+		context,
+	});
+};
 
 const styles = StyleSheet.create({
 	container: {

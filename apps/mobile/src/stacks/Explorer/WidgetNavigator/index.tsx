@@ -21,7 +21,7 @@ interface Props {
 	onRemoveLayout: (item: WidgetDocument) => void;
 }
 
-export const DashboardNavigator: FC<Props> = ({
+export const WidgetNavigator: FC<Props> = ({
 	style,
 	size = 58,
 	profile,
@@ -114,7 +114,7 @@ export const DashboardNavigator: FC<Props> = ({
 	);
 };
 
-export default DashboardNavigator;
+export default WidgetNavigator;
 
 const styles = StyleSheet.create({
 	container: {

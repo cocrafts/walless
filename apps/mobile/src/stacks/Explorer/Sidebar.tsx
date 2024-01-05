@@ -8,7 +8,7 @@ import type { DrawerContentComponentProps } from 'components/DrawerNavigation';
 import { useDrawerStatus } from 'components/DrawerNavigation';
 import { localActions } from 'state/local';
 
-import DashboardNavigator from './DashboardNavigator';
+import WidgetNavigator from './WidgetNavigator';
 
 export const sidebarWidth = 64;
 
@@ -37,7 +37,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 	};
 
 	return (
-		<DashboardNavigator
+		<WidgetNavigator
 			profile={profile}
 			widgets={widgets}
 			size={sidebarWidth}

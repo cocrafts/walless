@@ -7,7 +7,7 @@ import { Button, Text, View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
-import { floatActions } from 'modals';
+import { showRequirePasscodeModal } from 'modals/RequirePasscode';
 import { useSnapshot } from 'valtio';
 
 interface Props {
@@ -41,7 +41,7 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 	};
 
 	const handleClaimToken = async (token: AptosPendingToken) => {
-		floatActions.showRequirePasscodeModal({
+		showRequirePasscodeModal({
 			title: `Claim ${token.name}`,
 			desc: `Claim this token will submit an on-chain transaction and will require a ${fee} APT gas fee.`,
 			onPasscodeComplete: async (passcode) =>

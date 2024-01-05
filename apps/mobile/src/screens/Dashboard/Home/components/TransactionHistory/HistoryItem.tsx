@@ -9,7 +9,7 @@ import {
 	modalActions,
 } from '@walless/gui';
 import { modules } from '@walless/ioc';
-import { getNetworkInfo } from 'utils';
+import { getNetworkInfo } from 'utils/helper';
 
 import { ItemAddress, ItemAmount, ItemTokenIcon } from './components';
 import TransactionDetails from './TransactionDetails';

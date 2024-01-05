@@ -6,7 +6,7 @@ import { runtime } from '@walless/core';
 import { Compass } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
-import { floatActions } from 'modals';
+import { showRemoveLayoutModal } from 'modals/RemoveLayout';
 import { useUniversalInsets } from 'utils/hooks';
 
 import NavigatorOrb from './NavigatorOrb';
@@ -55,7 +55,7 @@ export const WidgetNavigator: FC<Props> = ({
 		item: WidgetDocument,
 		ref: React.RefObject<View>,
 	) => {
-		floatActions.showRemoveLayoutModal({
+		showRemoveLayoutModal({
 			item,
 			orbSize: 40,
 			onRemoveLayout,

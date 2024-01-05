@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { signInWithPasscode } from '@walless/auth';
 import { Passcode, Text, View } from '@walless/gui';
-import { floatActions } from 'modals';
+import { showError } from 'modals/Error';
 import { auth } from 'utils/firebase';
 import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';
@@ -32,7 +32,9 @@ export const CreatePasscodeScreen: FC = () => {
 	};
 
 	const handleInitFail = () => {
-		floatActions.showError('Something went wrong. Please try again.');
+		showError({
+			errorText: 'Something went wrong. Please try again.',
+		});
 		navigate('Authentication', { screen: 'Login' });
 	};
 

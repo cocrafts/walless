@@ -12,7 +12,8 @@ import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import FeatureButtons from 'components/FeatureButtons.tsx';
-import { floatActions } from 'modals';
+import { showReceiveModal } from 'modals/Receive';
+import { showSendTokenModal } from 'modals/SendToken';
 import {
 	useNfts,
 	useOpacityAnimated,
@@ -76,13 +77,13 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressSend = () => {
-		floatActions.showSendTokenModal({
+		showSendTokenModal({
 			layoutNetwork: id as Networks,
 		});
 	};
 
 	const handlePressReceive = () => {
-		floatActions.showReceiveModal({
+		showReceiveModal({
 			network: id as Networks,
 		});
 	};

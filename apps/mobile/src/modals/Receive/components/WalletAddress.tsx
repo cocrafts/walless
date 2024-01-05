@@ -3,8 +3,7 @@ import type { ImageSourcePropType } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
-
-import { copy } from '../../../utils';
+import { copy } from 'utils/system';
 
 interface Props {
 	network: string;

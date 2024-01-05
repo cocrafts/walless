@@ -5,8 +5,8 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { HapticFeedbackTypes, modules } from '@walless/ioc';
 import type { PublicKeyDocument } from '@walless/store';
-import type { NetworkInfo } from 'utils';
-import { copy, getNetworkInfo } from 'utils';
+import { getNetworkInfo, type NetworkInfo } from 'utils/helper';
+import { copy } from 'utils/system';
 
 interface Props {
 	item: PublicKeyDocument;

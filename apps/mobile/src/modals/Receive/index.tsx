@@ -11,7 +11,7 @@ import {
 	SwipeDownGesture,
 } from '@walless/gui';
 import { MODAL } from 'modals/internal';
-import { getNetworkInfo } from 'utils';
+import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
 
 import ModalHeader from '../ModalHeader';

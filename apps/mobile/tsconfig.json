@@ -1,26 +1,43 @@
 {
-	"extends": "@walless/tsconfig/application.json",
-	"include": ["src", "index*.js", "../../globals.d.ts"],
-	"exclude": ["node_modules"],
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"assets": ["./assets"],
-			"assets/*": ["./assets/*"],
-			"utils": ["./src/utils"],
-			"utils/*": ["./src/utils/*"],
-			"state": ["./src/state"],
-			"state/*": ["./src/state/*"],
-			"components": ["./src/components"],
-			"components/*": ["./src/components/*"],
-			"modals": ["./src/modals"],
-			"modals/*": ["./src/modals/*"],
-			"stacks": ["./src/stacks"],
-			"stacks/*": ["./src/stacks/*"],
-			"screens": ["./src/screens"],
-			"screens/*": ["./src/screens/*"],
-			"bridge": ["./browser/bridge"],
-			"bridge/*": ["./browser/bridge/*"]
-		}
-	}
+  "extends": "@walless/tsconfig/application.json",
+  "include": [
+    "src",
+    "index*.js",
+    "../../globals.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "assets/*": [
+        "./assets/*"
+      ],
+      "utils/*": [
+        "./src/utils/*"
+      ],
+      "state/*": [
+        "./src/state/*"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "modals/*": [
+        "./src/modals/*"
+      ],
+      "stacks/*": [
+        "./src/stacks/*"
+      ],
+      "screens/*": [
+        "./src/screens/*"
+      ],
+      "bridge": [
+        "./browser/bridge"
+      ],
+      "bridge/*": [
+        "./browser/bridge/*"
+      ]
+    }
+  }
 }

@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { appState } from '@walless/engine';
 import { Text, View } from '@walless/gui';
-import type { DashboardParamList } from 'utils';
+import type { DashboardParamList } from 'utils/navigation';
 import { useSnapshot } from 'valtio';
 
 import AccountInfo from './components/AccountInfo';

@@ -4,8 +4,8 @@ import type { Networks, Transaction } from '@walless/core';
 import { appState } from '@walless/engine';
 import { View } from '@walless/gui';
 import { modules } from '@walless/ioc';
-import type { NetworkInfo } from 'utils';
-import { getNetworkInfo } from 'utils';
+import type { NetworkInfo } from 'utils/helper';
+import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
 
 import AddressDetails from './components/AddressDetails';

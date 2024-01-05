@@ -3,8 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import { Networks } from '@walless/core';
 import { utils } from '@walless/ioc';
 import FeatureButtons from 'components/FeatureButtons.tsx';
-import { floatActions } from 'modals';
-import { tabBarHeight } from 'utils';
+import { showReceiveModal } from 'modals/Receive';
+import { showSendTokenModal } from 'modals/SendToken';
+import { tabBarHeight } from 'utils/helper';
 import { useSafeAreaInsets, useTokens } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 
@@ -20,7 +21,7 @@ export const ProfileScreen = () => {
 	const { valuation } = useTokens();
 
 	const handleSend = () => {
-		floatActions.showSendTokenModal({});
+		showSendTokenModal({});
 	};
 
 	const handleNavigateToHistory = () => {
@@ -38,7 +39,7 @@ export const ProfileScreen = () => {
 
 			<FeatureButtons
 				onSendPress={handleSend}
-				onReceivePress={() => floatActions.showReceiveModal({})}
+				onReceivePress={() => showReceiveModal({})}
 				onBuyPress={() => utils.buyToken(Networks.solana)}
 			/>
 

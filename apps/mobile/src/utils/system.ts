@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { Keyboard, Platform } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { runtime } from '@walless/core';
-import { floatActions } from 'modals';
+import { showNotificationModal } from 'modals/Notification';
 
 export const copy = async (value: string, prefix?: FC) => {
 	if (runtime.isMobile) {
@@ -11,7 +11,7 @@ export const copy = async (value: string, prefix?: FC) => {
 		await navigator.clipboard.writeText(value);
 	}
 
-	floatActions.showNotificationModal({
+	showNotificationModal({
 		id: 'copy',
 		prefix,
 		message: 'Copied',

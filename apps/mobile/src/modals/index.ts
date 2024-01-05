@@ -6,6 +6,8 @@ import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import ErrorModal from './Error';
 import NotificationModal from './Notification';
 import ReceiveModal from './Receive';
+import type { RemoveLayoutModalConfig } from './RemoveLayout';
+import RemoveLayoutModal from './RemoveLayout';
 import type { RequirePasscodeModalConfig } from './RequirePasscode';
 import RequirePasscodeModal from './RequirePasscode';
 import type { ModalContext } from './SendToken';
@@ -72,6 +74,20 @@ const showNotifyModal = (
 	}
 };
 
+const showRemoveLayoutModal = (config: RemoveLayoutModalConfig) => {
+	modalActions.show({
+		id: MODAL.REMOVE_LAYOUT,
+		component: RemoveLayoutModal,
+		context: config,
+		bindingDirection: BindDirections.Right,
+		animateDirection: AnimateDirections.Right,
+		positionOffset: {
+			y: config.orbSize / 2,
+		},
+		bindingRef: config.bindingRef,
+	});
+};
+
 const showSendTokenModal = (configs?: ModalContext) => {
 	modalActions.show({
 		id: MODAL.SEND,
@@ -102,18 +118,14 @@ const showRequirePasscodeModal = (config: RequirePasscodeModalConfig) => {
 		id: MODAL.REQUIRE_PASSCODE,
 		bindingDirection: BindDirections.InnerBottom,
 		component: RequirePasscodeModal,
-		context: {
-			title: config.title,
-			desc: config.desc,
-			onPasscodeComplete: config.onPasscodeComplete,
-			onActionComplete: config.onActionComplete,
-		},
+		context: config,
 	});
 };
 
 export const floatActions = {
 	showError,
 	showNotifyModal,
+	showRemoveLayoutModal,
 	showSendTokenModal,
 	showReceiveModal,
 	showRequirePasscodeModal,

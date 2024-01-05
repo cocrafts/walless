@@ -1,13 +1,14 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useSnapshot, useWidgets } from '@walless/app';
-import { DashboardNavigator } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
 import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import type { DrawerContentComponentProps } from 'components/DrawerNavigation';
 import { useDrawerStatus } from 'components/DrawerNavigation';
 import { localActions } from 'state/local';
+
+import DashboardNavigator from './DashboardNavigator';
 
 export const sidebarWidth = 64;
 

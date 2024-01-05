@@ -1,25 +1,28 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import type { ModalConfigs } from '@walless/gui';
-import { modalActions, Text, View } from '@walless/gui';
+import { modalActions, Text } from '@walless/gui';
 import { BackspaceRemove } from '@walless/icons';
 import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 
-export interface RemoveContextProps {
+export interface RemoveLayoutModalConfig {
 	item: WidgetDocument;
+	orbSize: number;
+	onRemoveLayout?: (item: WidgetDocument) => void;
+	bindingRef?: React.RefObject<View>;
 }
 
-export const RemoveLayout: FC<{
+export const RemoveLayoutModal: FC<{
 	config: ModalConfigs;
-	onRemoveLayout?: (item: WidgetDocument) => void;
-}> = ({ config, onRemoveLayout }) => {
-	const { item } = config.context as RemoveContextProps;
+}> = ({ config }) => {
+	const { item, onRemoveLayout } = config.context as RemoveLayoutModalConfig;
 
 	const handleRemoveLayout = () => {
 		onRemoveLayout?.(item);
-		modalActions.destroy(`navigator-orb-${item._id}`);
+		modalActions.destroy(config.id as string);
 	};
 
 	const imageBackground: ViewStyle = {
@@ -43,7 +46,9 @@ export const RemoveLayout: FC<{
 				</View>
 				<Text style={styles.layoutTitle}>{item.name}</Text>
 			</View>
+
 			<View style={styles.separatingLine} />
+
 			<View style={styles.removeCTAContainer}>
 				<Text style={styles.removeButton}>Remove this layout</Text>
 				<BackspaceRemove />
@@ -91,4 +96,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default RemoveLayout;
+export default RemoveLayoutModal;

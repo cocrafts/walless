@@ -7,12 +7,12 @@ import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import type { Provider } from 'aptos';
-import type { TabAble } from 'components/index';
-import { TabsHeader } from 'components/index';
 import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import CollectiblesTab from '../CollectiblesTab';
+import type { TabAble } from '../TabsHeader';
+import TabsHeader from '../TabsHeader';
 
 import DirectTransfer from './DirectTransfer';
 import PendingTokens from './PendingTokens';

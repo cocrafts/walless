@@ -11,12 +11,7 @@ import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { utils } from '@walless/ioc';
-import {
-	FeatureButtons,
-	type TabAble,
-	TabsHeader,
-	WalletCard,
-} from 'components/index';
+import FeatureButtons from 'components/FeatureButtons.tsx';
 import { showReceiveModal } from 'modals/Receive';
 import { floatActions } from 'state/float';
 import {
@@ -29,6 +24,9 @@ import { copy } from 'utils/system';
 
 import ActivityTab from './components/ActivityTab';
 import AptosTokensTab from './components/AptosTokensTab';
+import type { TabAble } from './components/TabsHeader';
+import TabsHeader from './components/TabsHeader';
+import WalletCard from './components/WalletCard';
 import { CollectiblesTab, TokenTab } from './components';
 import { getWalletCardSkin, layoutTabs } from './shared';
 

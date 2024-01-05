@@ -10,7 +10,7 @@ import {
 	widgetState,
 } from '@walless/engine';
 import type { PublicKeyDocument } from '@walless/store';
-import { universalActions } from 'state/index';
+import { universalActions } from 'state';
 import { useSnapshot } from 'valtio';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {

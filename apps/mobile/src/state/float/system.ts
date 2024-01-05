@@ -1,10 +1,9 @@
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
-
-import ErrorModal from '../../modals/Error';
+import { ErrorModal, MODAL } from 'modals';
 
 export const showError = (errorText: string) => {
 	modalActions.show({
-		id: 'error-modal',
+		id: MODAL.ERROR,
 		bindingDirection: BindDirections.InnerTop,
 		component: ErrorModal,
 		animateDirection: AnimateDirections.Bottom,
@@ -15,6 +14,6 @@ export const showError = (errorText: string) => {
 	});
 
 	setTimeout(() => {
-		modalActions.hide('error-modal');
+		modalActions.hide(MODAL.ERROR);
 	}, 1000);
 };

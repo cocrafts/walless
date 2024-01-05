@@ -22,7 +22,7 @@ interface Props {
 }
 
 export const RequirePasscodeModal: FC<Props> = ({ config }) => {
-	const { context } = config;
+	const { context, id } = config;
 	const {
 		title = 'Action requires passcode',
 		desc: description = "Secure your passcode! It's essential for accessing your account and authorizing transfers.",
@@ -49,7 +49,7 @@ export const RequirePasscodeModal: FC<Props> = ({ config }) => {
 				setPasscode('');
 			} else {
 				onActionComplete?.();
-				modalActions.hide('require-passcode');
+				modalActions.hide(id as string);
 			}
 		}
 	};

@@ -1,9 +1,9 @@
-import { universalActions } from '@walless/app';
 import { logger, runtime } from '@walless/core';
 import { appState } from '@walless/engine';
 import type { DeviceInfoInput } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { SystemDocument } from '@walless/store';
+import { runtimeActions } from 'state/runtime';
 
 import project from '../../../package.json';
 import { auth } from '../firebase/index.ext';
@@ -43,7 +43,7 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 
 	if (user?.uid) {
 		if (appState.remoteConfig.deepAnalyticsEnabled) {
-			universalActions.syncRemoteProfile();
+			runtimeActions.syncRemoteProfile();
 		}
 	}
 
@@ -57,5 +57,5 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		logger.info('Notification not available for this platform yet!');
 	}
 
-	universalActions.syncDeviceInfo(deviceInfo);
+	runtimeActions.syncDeviceInfo(deviceInfo);
 };

@@ -6,7 +6,7 @@ import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import type { DrawerContentComponentProps } from 'components/DrawerNavigation';
 import { useDrawerStatus } from 'components/DrawerNavigation';
-import { localActions } from 'state/local';
+import { runtimeActions } from 'state/runtime';
 
 import WidgetNavigator from './WidgetNavigator';
 
@@ -18,7 +18,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 	const widgets = useWidgets();
 
 	useEffect(() => {
-		localActions.setIsDrawOpen(drawerStatus === 'open');
+		runtimeActions.toggleDrawer(drawerStatus === 'open');
 	}, [drawerStatus]);
 
 	const handleExtensionPress = (item: WidgetDocument) => {

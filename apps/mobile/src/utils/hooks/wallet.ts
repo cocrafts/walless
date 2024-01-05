@@ -10,7 +10,7 @@ import {
 	widgetState,
 } from '@walless/engine';
 import type { PublicKeyDocument } from '@walless/store';
-import { universalActions } from 'state';
+import { runtimeActions } from 'state/runtime';
 import { useSnapshot } from 'valtio';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
@@ -132,7 +132,7 @@ export const useSettings = () => {
 
 	return {
 		setting: config,
-		setPrivacy: universalActions.setPrivacy,
-		setPathname: universalActions.setPathname,
+		setPrivacy: runtimeActions.setPrivacy,
+		setPathname: runtimeActions.setPathname,
 	};
 };

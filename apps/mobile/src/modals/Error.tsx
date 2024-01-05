@@ -4,12 +4,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { UnknownObject } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import { Text, View } from '@walless/gui';
+import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 
 interface Props {
 	config: ModalConfigs;
 }
 
-export const ErrorModal: FC<Props> = ({ config }) => {
+const ErrorModal: FC<Props> = ({ config }) => {
 	const insets = useSafeAreaInsets();
 	const containerStyle: ViewStyle = {
 		justifyContent: 'center',
@@ -26,4 +27,19 @@ export const ErrorModal: FC<Props> = ({ config }) => {
 	);
 };
 
-export default ErrorModal;
+export const showError = (errorText: string) => {
+	modalActions.show({
+		id: 'error-modal',
+		bindingDirection: BindDirections.InnerTop,
+		component: ErrorModal,
+		animateDirection: AnimateDirections.Bottom,
+		withoutMask: true,
+		context: {
+			errorText: errorText,
+		},
+	});
+
+	setTimeout(() => {
+		modalActions.hide('error-modal');
+	}, 1000);
+};

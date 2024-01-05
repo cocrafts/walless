@@ -12,6 +12,7 @@ import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import FeatureButtons from 'components/FeatureButtons';
+import { showNotificationModal } from 'modals/Notification';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
 import {
@@ -92,6 +93,14 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		if (utils.buyToken) utils.buyToken(id as Networks);
 	};
 
+	const handleCopyAddress = (value: string) => {
+		copy(value);
+		showNotificationModal({
+			id: 'copy',
+			message: 'Copied',
+		});
+	};
+
 	return (
 		<Animated.View style={[container, opacityAnimated.style]}>
 			<View style={styles.headerContainer} onLayout={onHeaderLayout}>
@@ -106,7 +115,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 								skin={cardSkin}
 								hideBalance={false}
 								width={headerLayout.width}
-								onCopyAddress={copy}
+								onCopyAddress={handleCopyAddress}
 							/>
 						);
 					})}

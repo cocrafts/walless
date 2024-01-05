@@ -3,6 +3,7 @@ import type { ImageSourcePropType } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
+import { showNotificationModal } from 'modals/Notification';
 import { copy } from 'utils/system';
 
 interface Props {
@@ -13,7 +14,12 @@ interface Props {
 
 const WalletAddress: FC<Props> = ({ network, networkIcon, address }) => {
 	const handleCopied = async () => {
-		await copy(address, () => <Copy size={18} color="#FFFFFF" />);
+		await copy(address);
+		showNotificationModal({
+			id: 'copy',
+			message: 'Copied',
+			prefix: () => <Copy size={18} color="#FFFFFF" />,
+		});
 	};
 
 	return (

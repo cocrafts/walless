@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
 	title: {
 		color: '#4e5e6b',
 		fontSize: 13,
-		fontWeight: '400',
 		marginTop: 8,
 	},
 });

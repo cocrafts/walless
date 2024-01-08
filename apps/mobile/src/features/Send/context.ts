@@ -39,50 +39,21 @@ const initialContext = {
 	signatureString: '',
 };
 
-export let txContext = proxy<TransactionContext>(initialContext);
+const state = proxy<{ tx: TransactionContext }>({
+	tx: initialContext,
+});
+
+export const txContext = state.tx;
 
 export const txActions = {
-	setType: (type: TransactionType) => {
-		txContext.type = type;
-	},
-	setSender: (sender: string) => {
-		txContext.sender = sender;
-	},
-	setReceiver: (receiver: string) => {
-		txContext.receiver = receiver;
-	},
-	setNetwork: (network: Networks) => {
-		txContext.network = network;
-	},
-	setToken: (token: TokenDocument) => {
-		txContext.token = token;
-	},
-	setCollection: (collection: CollectionDocument) => {
-		txContext.collection = collection;
-	},
-	setCollectible: (collectible: CollectibleDocument) => {
-		txContext.collectible = collectible;
-	},
-	setTokenForFee: (tokenForFee: TokenDocument) => {
-		txContext.tokenForFee = tokenForFee;
-	},
-	setTransactionFee: (fee: number) => {
-		txContext.transactionFee = fee;
-	},
-	setAmount: (amount: string) => {
-		txContext.amount = amount;
-	},
-	setSignatureString: (signature: string) => {
-		txContext.signatureString = signature;
-	},
-	setStatus: (status: ResponseCode) => {
-		txContext.status = status;
-	},
-	setTime: () => {
-		txContext.time = new Date();
+	update(tx: Partial<TransactionContext>) {
+		Object.keys(tx).forEach((key) => {
+			const k = key as never as keyof TransactionContext;
+			state.tx[k] = tx[k] as never;
+		});
 	},
 	resetTransactionContext: () => {
-		txContext = proxy<TransactionContext>(initialContext);
+		state.tx = initialContext;
 	},
 	closeSendFeature: () => {
 		modalActions.hide(ModalId.Send);

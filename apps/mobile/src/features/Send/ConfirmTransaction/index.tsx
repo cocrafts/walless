@@ -47,7 +47,7 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 			} else if (res.responseCode == ResponseCode.SUCCESS) {
 				const signature =
 					res.signatureString || res.signedTransaction?.digest || res.hash;
-				txActions.setSignatureString(signature);
+				txActions.update({ signatureString: signature });
 				navigator.slideTo(3);
 			}
 		} catch (error) {

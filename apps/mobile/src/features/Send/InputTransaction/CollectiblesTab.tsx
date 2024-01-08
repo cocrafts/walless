@@ -30,7 +30,12 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 		};
 	};
 
-	const handleSelectCollectible = () => {};
+	const handleSelectCollectible = (collectible: CollectibleDocument) => {
+		const collection = collections.find(
+			(ele) => ele._id === collectible.collectionId,
+		);
+		txActions.update({ collectible, collection });
+	};
 
 	const filteredCollectibles = collection
 		? collectibles.filter((e) => e.collectionId === collection._id)
@@ -43,7 +48,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 				notFoundText="Not found collections"
 				items={collections}
 				selected={collection as CollectionDocument}
-				onSelect={txActions.setCollection}
+				onSelect={(collection) => txActions.update({ collection })}
 				getRequiredFields={getRequiredFieldsForSelectToken}
 			/>
 

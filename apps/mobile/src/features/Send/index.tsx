@@ -34,7 +34,7 @@ export const SendFeature: FC<Props> = ({ network }) => {
 	];
 
 	useEffect(() => {
-		if (network) txActions.setNetwork(network);
+		if (network) txActions.update({ network });
 	}, []);
 
 	return (

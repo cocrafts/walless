@@ -10,7 +10,7 @@ import { txActions } from '../../context';
 
 export const requestTransactionFee = async (payload: TransactionPayload) => {
 	if (payload.receiver === '') {
-		txActions.setTransactionFee(0);
+		txActions.update({ transactionFee: 0 });
 		return 0;
 	}
 

@@ -33,7 +33,7 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 		<View style={styles.container}>
 			<ModalHeader content="Send" onPressClose={txActions.closeSendFeature} />
 
-			<TabBar curTab={type} setCurTab={txActions.setType} />
+			<TabBar curTab={type} setCurTab={(type) => txActions.update({ type })} />
 
 			{type === 'Token' ? (
 				<TokensTab onContinue={handlePressContinue} />

@@ -52,16 +52,16 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 
 			try {
 				const res = await createAndSend(payload, passcode);
-				txActions.setTime();
-				txActions.setStatus(res.responseCode as ResponseCode);
+				txActions.update({ time: new Date() });
+				txActions.update({ status: res.responseCode });
 
 				if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
 					showError({ errorText: 'Passcode is NOT matched' });
 					setError('Wrong passcode');
 				} else if (res.responseCode == ResponseCode.SUCCESS) {
-					txActions.setSignatureString(
-						res.signatureString || res.signedTransaction?.digest || res.hash,
-					);
+					const signature =
+						res.signatureString || res.signedTransaction?.digest || res.hash;
+					txActions.update({ signatureString: signature });
 					navigator.slideNext();
 				}
 			} catch (error) {

@@ -52,7 +52,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				title="Select token"
 				items={tokens as TokenDocument[]}
 				selected={token as TokenDocument}
-				onSelect={txActions.setToken}
+				onSelect={(token) => txActions.update({ token })}
 				getRequiredFields={getRequiredFieldsForSelectToken}
 			/>
 
@@ -62,7 +62,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				value={amount}
 				placeholder="Token amount"
 				keyboardType="numeric"
-				onChangeText={txActions.setAmount}
+				onChangeText={(amount) => txActions.update({ amount })}
 				checkFunction={checkAmount}
 			/>
 

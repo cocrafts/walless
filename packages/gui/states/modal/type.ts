@@ -47,7 +47,7 @@ export interface PositionOffset {
 }
 
 export interface ModalConfigs {
-	id?: string;
+	id: string;
 	bindingRectangle?: LayoutRectangle;
 	bindingDirection?: BindDirections;
 	animateDirection?: AnimateDirections;

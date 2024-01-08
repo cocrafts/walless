@@ -1,13 +1,19 @@
-import type { FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
+import type { Networks } from '@walless/core';
 import { Slider } from '@walless/gui';
 
 import ConfirmByPasscode from './ConfirmByPasscode';
 import ConfirmTransaction from './ConfirmTransaction';
+import { txActions } from './context';
 import InputTransaction from './InputTransaction';
 import TransactionResult from './TransactionResult';
 
-export const SendFeature: FC = () => {
+export type Props = {
+	network?: Networks;
+};
+
+export const SendFeature: FC<Props> = ({ network }) => {
 	const sendScreens = [
 		{
 			id: 'Input',
@@ -26,6 +32,10 @@ export const SendFeature: FC = () => {
 			component: TransactionResult,
 		},
 	];
+
+	useEffect(() => {
+		if (network) txActions.setNetwork(network);
+	}, []);
 
 	return (
 		<Slider

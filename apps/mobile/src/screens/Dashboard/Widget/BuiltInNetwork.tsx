@@ -78,15 +78,11 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressSend = () => {
-		showSendTokenModal({
-			layoutNetwork: id as Networks,
-		});
+		showSendTokenModal({ network: id as Networks });
 	};
 
 	const handlePressReceive = () => {
-		showReceiveModal({
-			network: id as Networks,
-		});
+		showReceiveModal({ network: id as Networks });
 	};
 
 	const handlePressBuy = () => {

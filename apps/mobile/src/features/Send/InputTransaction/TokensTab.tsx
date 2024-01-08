@@ -20,8 +20,8 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
-	const { tokens } = useTokens();
-	const { token, amount } = useSnapshot(txContext);
+	const { token, amount, network } = useSnapshot(txContext);
+	const { tokens } = useTokens(network);
 
 	const balance = token
 		? parseFloat(token.account.balance) / 10 ** token.account.decimals

@@ -17,8 +17,8 @@ interface Props {
 }
 
 export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
-	const { collectibles, collections } = useNfts();
-	const { collection, collectible } = useSnapshot(txContext);
+	const { collection, collectible, network } = useSnapshot(txContext);
+	const { collectibles, collections } = useNfts(network);
 
 	const getRequiredFieldsForSelectToken = (item: {
 		metadata?: AssetMetadata;

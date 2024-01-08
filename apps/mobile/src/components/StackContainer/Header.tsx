@@ -2,12 +2,11 @@ import type { FC } from 'react';
 import type { Insets } from 'react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { SharedValue } from 'react-native-reanimated';
-import {
+import Animated, {
 	interpolate,
 	useAnimatedStyle,
 	useSharedValue,
 } from 'react-native-reanimated';
-import Animated from 'react-native-reanimated';
 import { ChevronLeft, Hamburger } from '@walless/icons';
 
 export interface HeaderProps {

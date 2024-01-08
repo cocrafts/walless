@@ -4,6 +4,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
+import { convertDateToReadable } from 'utils/format';
 import { useHistory } from 'utils/hooks';
 
 import HistoryItem from './HistoryItem';
@@ -18,12 +19,6 @@ export const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 	const [loading, setLoading] = useState(true);
 
 	let date = '';
-
-	const option: Intl.DateTimeFormatOptions = {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-	};
 
 	useEffect(() => {
 		if (history) {
@@ -43,12 +38,9 @@ export const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 				<Fragment>
 					{history.map((transaction) => {
 						let isOnTheSameDate = true;
-						const transactionDate = transaction.date.toLocaleDateString(
-							'en-US',
-							option,
-						);
+						const transactionDate = convertDateToReadable(transaction.date);
 						if (date !== transactionDate) {
-							date = transaction.date.toLocaleDateString('en-US', option);
+							date = convertDateToReadable(transaction.date);
 							isOnTheSameDate = false;
 						}
 						return isOnTheSameDate ? (

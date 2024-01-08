@@ -14,6 +14,7 @@ export const ItemAddress: FC<Props> = ({ type, address, imageUri }) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>{type}</Text>
+
 			<View style={styles.addressContainer}>
 				<Image source={imageUri} style={styles.networkIcon} />
 				<Text numberOfLines={1} ellipsizeMode="middle" style={styles.address}>

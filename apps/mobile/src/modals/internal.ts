@@ -7,6 +7,7 @@ export enum ModalId {
 	RemoveLayout = 'RemoveLayout',
 	RequirePasscode = 'RequirePasscode',
 	Send = 'Send',
+	TransactionDetails = 'TransactionDetails',
 }
 
 export const modalStyles = StyleSheet.create({

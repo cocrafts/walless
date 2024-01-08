@@ -10,6 +10,7 @@ module.exports = {
 					state: './src/state',
 					features: './src/features',
 					components: './src/components',
+					features: './src/features',
 					modals: './src/modals',
 					stacks: './src/stacks',
 					screens: './src/screens',

@@ -5,7 +5,7 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
 import { HapticFeedbackTypes, modules } from '@walless/ioc';
 import type { PublicKeyDocument } from '@walless/store';
-import { showNotificationModal } from 'modals/Notification';
+import { showCopiedModal } from 'modals/Notification';
 import { getNetworkInfo, type NetworkInfo } from 'utils/helper';
 import { copy } from 'utils/system';
 
@@ -20,11 +20,7 @@ export const Wallet: FC<Props> = ({ item, index }) => {
 	const onCopy = async () => {
 		modules.native.triggerHaptic(HapticFeedbackTypes.impactHeavy);
 		await copy(item._id);
-		showNotificationModal({
-			id: 'copy',
-			message: 'Copied',
-			prefix: () => <Copy size={18} color="#FFFFFF" />,
-		});
+		showCopiedModal();
 	};
 
 	return (

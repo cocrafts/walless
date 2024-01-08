@@ -51,7 +51,6 @@ export default CollectionItem;
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#131C24',
-		// alignSelf: 'center',
 		borderRadius: 10,
 	},
 	image: {

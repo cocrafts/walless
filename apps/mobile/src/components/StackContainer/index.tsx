@@ -5,7 +5,7 @@ import Animated, {
 	useAnimatedRef,
 	useScrollViewOffset,
 } from 'react-native-reanimated';
-import { tabBarHeight } from 'utils/helper';
+import { tabBarHeight } from 'utils/constants';
 import { useUniversalInsets } from 'utils/hooks';
 
 import StackHeader from './Header';

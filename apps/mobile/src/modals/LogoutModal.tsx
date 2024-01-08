@@ -1,17 +1,19 @@
-import { StyleSheet } from 'react-native';
-import { Button, modalActions, Text, View } from '@walless/gui';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button, modalActions } from '@walless/gui';
 import { utils } from '@walless/ioc';
 
-const ConfirmModal = () => {
-	const handleLogOut = async () => {
-		if (utils.logOut) utils.logOut();
-		modalActions.hide('log-out-modal');
-	};
+import { ModalId } from './internal';
 
-	const handleCancelLogOut = () => {
-		modalActions.hide('log-out-modal');
-	};
+const handleLogOut = async () => {
+	if (utils.logOut) utils.logOut();
+	modalActions.hide(ModalId.Logout);
+};
 
+const handleCancelLogOut = () => {
+	modalActions.hide(ModalId.Logout);
+};
+
+const LogoutModal = () => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
@@ -36,7 +38,12 @@ const ConfirmModal = () => {
 	);
 };
 
-export default ConfirmModal;
+export const showLogoutModal = () => {
+	modalActions.show({
+		id: ModalId.Logout,
+		component: LogoutModal,
+	});
+};
 
 const styles = StyleSheet.create({
 	container: {

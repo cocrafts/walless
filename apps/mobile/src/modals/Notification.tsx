@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { ModalConfigs } from '@walless/gui';
 import { BindDirections, modalActions, Text } from '@walless/gui';
+import { Copy } from '@walless/icons';
 
 import { ModalId } from './internal';
 
@@ -54,11 +55,16 @@ export const showNotificationModal = (context: NotificationModalContext) => {
 		context,
 	});
 
-	if (context.timeout !== undefined) {
-		setTimeout(() => {
-			modalActions.hide(id);
-		}, context.timeout || 1000);
-	}
+	context.timeout && setTimeout(() => modalActions.hide(id), context.timeout);
+};
+
+export const showCopiedModal = () => {
+	showNotificationModal({
+		id: 'copy',
+		message: 'Copied',
+		timeout: 2000,
+		prefix: () => <Copy size={18} color="#FFFFFF" />,
+	});
 };
 
 const styles = StyleSheet.create({

@@ -5,7 +5,7 @@ import { utils } from '@walless/ioc';
 import FeatureButtons from 'components/FeatureButtons';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
-import { tabBarHeight } from 'utils/helper';
+import { tabBarHeight } from 'utils/constants';
 import { useSafeAreaInsets, useTokens } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 

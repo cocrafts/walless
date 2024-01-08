@@ -11,12 +11,13 @@ import {
 } from 'react-native-reanimated';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { RouteProp } from '@react-navigation/native';
-import { tabBarHeight, useSnapshot } from '@walless/app';
 import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
 import { Home, Walless } from '@walless/icons';
 import { HapticFeedbackTypes, modules } from '@walless/ioc';
 import { runtimeState } from 'state/runtime';
+import { tabBarHeight } from 'utils/constants';
+import { useSnapshot } from 'utils/hooks';
 import type { DashboardParamList } from 'utils/navigation';
 
 import { ProfileIcon } from './ProfileIcon';

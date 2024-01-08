@@ -37,8 +37,6 @@ export const getNetworkInfo = (network: Networks): NetworkInfo | undefined => {
 	}
 };
 
-export const tabBarHeight = 52;
-
 export const noHeaderNavigation = {
 	headerShown: false,
 };

@@ -11,7 +11,7 @@ import { mockWidgets } from '@walless/engine';
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 import type { HeaderProps } from 'screens/Dashboard/Widget/components/StackContainer';
-import { tabBarHeight } from 'utils/helper';
+import { tabBarHeight } from 'utils/constants';
 import { useWidgets } from 'utils/hooks';
 
 import ExplorerSearchBar from './components/SearchBar';

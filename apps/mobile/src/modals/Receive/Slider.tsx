@@ -15,7 +15,7 @@ import {
 import type { GestureUpdater } from '@walless/gui';
 import { AnimatedView, View } from '@walless/gui';
 
-import type { IndicatorOption, SlideOption } from './shared';
+import type { IndicatorOption, SlideOption } from './internal';
 
 interface Props {
 	style?: ViewStyle;
@@ -118,4 +118,4 @@ export const Slider: FC<Props> = ({ style, items, indicator }) => {
 
 export default Slider;
 
-export * from './shared';
+export * from './internal';

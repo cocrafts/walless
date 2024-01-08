@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import QRCode from 'react-native-qrcode-svg';
+import BaseQRCode from 'react-native-qrcode-svg';
 import { View } from '@walless/gui';
 
 interface Props {
@@ -8,15 +8,15 @@ interface Props {
 	size?: number;
 }
 
-const QRCodeSVG: FC<Props> = ({ value, size }) => {
+const QRCode: FC<Props> = ({ value, size }) => {
 	return (
 		<View style={styles.container}>
-			<QRCode value={value} size={size || 168} />
+			<BaseQRCode value={value} size={size || 168} />
 		</View>
 	);
 };
 
-export default QRCodeSVG;
+export default QRCode;
 
 const styles = StyleSheet.create({
 	container: {

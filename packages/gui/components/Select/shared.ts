@@ -1,4 +1,9 @@
-import type { ImageStyle, StyleProp, ViewStyle } from 'react-native';
+import type {
+	ImageSourcePropType,
+	ImageStyle,
+	StyleProp,
+	ViewStyle,
+} from 'react-native';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -47,7 +52,7 @@ export const styles = StyleSheet.create({
 export type SelectionRequiredFields = {
 	id: string;
 	name: string;
-	icon: string;
+	icon: ImageSourcePropType;
 };
 
 export interface SelectionContext<T extends object> {

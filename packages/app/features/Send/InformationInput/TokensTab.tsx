@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Token } from '@walless/core';
 import { Select, View } from '@walless/gui';
+import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
 import { useSnapshot } from 'valtio';
 
@@ -31,9 +32,11 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 	const getRequiredFieldsForSelectToken = (item: Token) => {
 		return {
-			id: item.metadata?.name as string,
-			name: item.metadata?.name as string,
-			icon: item.metadata?.imageUri as string,
+			id: item.metadata?.name || 'unknown',
+			name: item.metadata?.name || 'Unknown',
+			icon: item.metadata?.imageUri
+				? { uri: item.metadata.imageUri }
+				: modules.asset.misc.unknownToken,
 		};
 	};
 

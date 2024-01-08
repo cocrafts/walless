@@ -9,6 +9,7 @@ module.exports = {
 					utils: './src/utils',
 					state: './src/state',
 					components: './src/components',
+					modals: './src/modals',
 					stacks: './src/stacks',
 					screens: './src/screens',
 					crypto: 'react-native-quick-crypto',

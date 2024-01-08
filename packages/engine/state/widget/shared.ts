@@ -1,6 +1,7 @@
 import { Networks } from '@walless/core';
 import type { WidgetDocument } from '@walless/store';
 
+// TODO: this mocked data is for web only
 export const mockWidgets: WidgetDocument[] = [
 	{
 		_id: 'pixeverse',
@@ -37,7 +38,7 @@ export const mockWidgets: WidgetDocument[] = [
 		widgetType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
-			iconUri: '/img/network/solana-icon-sm.svg',
+			iconUri: '/img/explore/logo-solana.png',
 			iconSize: 24,
 			iconColor: '#0a090e',
 			coverUri: '/img/explore/thumbnail-solana.png',
@@ -63,7 +64,7 @@ export const mockWidgets: WidgetDocument[] = [
 		widgetType: 'Layout',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
-			iconUri: '/img/network/sui-icon-sm.png',
+			iconUri: '/img/explore/logo-sui.png',
 			iconSize: 18,
 			iconColor: '#FFFFFF',
 			coverUri: '/img/explore/thumbnail-sui.png',

@@ -39,11 +39,7 @@ export const Select = <T extends object>({
 
 	let selectedMetadata;
 	if (selected) {
-		const metadata = getRequiredFields(selected);
-		selectedMetadata = {
-			name: metadata.name ?? 'Unknown',
-			iconSrc: { uri: metadata.icon ?? 'img/send-token/unknown-token.jpeg' },
-		};
+		selectedMetadata = getRequiredFields(selected);
 	}
 
 	const openModal = () => {
@@ -100,7 +96,7 @@ export const Select = <T extends object>({
 					) : (
 						<View style={styles.item}>
 							<Image
-								source={selectedMetadata.iconSrc}
+								source={selectedMetadata.icon}
 								style={[styles.itemIcon, selectedItemIconStyle]}
 							/>
 							<Text style={styles.itemName}>{selectedMetadata.name}</Text>

@@ -74,7 +74,7 @@ const Dropdown: FC<Props> = ({ config }) => {
 							return (
 								<DropdownItem
 									key={index}
-									name={name ?? 'Unknown'}
+									name={name}
 									icon={icon}
 									selected={!!selected && getRequiredFields(selected).id === id}
 									onPress={() => handleItemPress(item)}

@@ -3,11 +3,22 @@ import type { ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { UnknownObject } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
-import { Text, View } from '@walless/gui';
-import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
+import {
+	AnimateDirections,
+	BindDirections,
+	modalActions,
+	Text,
+	View,
+} from '@walless/gui';
+
+import { ModalId } from './internal';
 
 interface Props {
 	config: ModalConfigs;
+}
+
+export interface ErrorModalContext {
+	errorText: string;
 }
 
 const ErrorModal: FC<Props> = ({ config }) => {
@@ -27,19 +38,17 @@ const ErrorModal: FC<Props> = ({ config }) => {
 	);
 };
 
-export const showError = (errorText: string) => {
+export const showError = (context: ErrorModalContext) => {
 	modalActions.show({
-		id: 'error-modal',
+		id: ModalId.Error,
 		bindingDirection: BindDirections.InnerTop,
 		component: ErrorModal,
 		animateDirection: AnimateDirections.Bottom,
 		withoutMask: true,
-		context: {
-			errorText: errorText,
-		},
+		context,
 	});
 
 	setTimeout(() => {
-		modalActions.hide('error-modal');
+		modalActions.hide(ModalId.Error);
 	}, 1000);
 };

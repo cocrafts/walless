@@ -2,17 +2,14 @@ import type { FC } from 'react';
 import type { ImageURISource } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { Transaction } from '@walless/core';
-import {
-	AnimateDirections,
-	BindDirections,
-	Hoverable,
-	modalActions,
-} from '@walless/gui';
+import { Hoverable } from '@walless/gui';
 import { modules } from '@walless/ioc';
+import { showTransactionDetailsModal } from 'modals/TransactionDetailsModal';
 import { getNetworkInfo } from 'utils/helper';
 
-import { ItemAddress, ItemAmount, ItemTokenIcon } from './components';
-import TransactionDetails from './TransactionDetails';
+import ItemAddress from './ItemAddress';
+import ItemAmount from './ItemAmount';
+import ItemTokenIcon from './ItemTokenIcon';
 
 const HistoryItem: FC<Transaction> = (transaction) => {
 	const { type, amount, network, sender, receiver, status, token } =
@@ -20,21 +17,15 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 	const networkInfo = getNetworkInfo(network);
 	const address = type === 'Sent' ? receiver : sender;
 
-	const handleShowDetailsModal = () => {
-		modalActions.show({
-			id: 'transaction-details',
-			component: () => <TransactionDetails {...transaction} />,
-			bindingDirection: BindDirections.InnerBottom,
-			animateDirection: AnimateDirections.Top,
-		});
-	};
-
 	const icon = token.metadata?.imageUri
 		? { uri: token.metadata.imageUri }
 		: modules.asset.misc.unknownToken;
 
 	return (
-		<Hoverable style={styles.container} onPress={handleShowDetailsModal}>
+		<Hoverable
+			style={styles.container}
+			onPress={() => showTransactionDetailsModal({ transaction })}
+		>
 			<View style={styles.contentContainer}>
 				<View style={styles.leftPartContainer}>
 					<ItemTokenIcon

@@ -3,7 +3,7 @@ import { ActivityIndicator, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { useHistory } from 'utils/hooks';
 
-import HistoryItem from './HistoryItem';
+import HistoryItem from '../../HistoryFeature/HistoryItem';
 
 interface Props {
 	onNavigateToHistory: () => void;
@@ -41,8 +41,6 @@ export const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
 };
 
 export default TransactionHistory;
-
-export { FullHistoryFeature } from './FullHistory';
 
 const styles = StyleSheet.create({
 	container: {

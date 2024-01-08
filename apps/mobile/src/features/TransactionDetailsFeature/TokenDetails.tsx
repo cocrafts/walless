@@ -4,9 +4,8 @@ import { Image, StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { appState } from '@walless/engine';
 import { Anchor, Text, View } from '@walless/gui';
+import { removeRedundantCharacters } from 'utils/format';
 import { useSnapshot } from 'valtio';
-
-import { removeRedundantCharacters } from '../internal';
 
 interface Props {
 	id: string;

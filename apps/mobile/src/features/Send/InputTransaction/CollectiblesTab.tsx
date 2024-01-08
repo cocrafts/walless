@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { useNfts } from '@walless/app';
 import type { AssetMetadata, Networks } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import { NavButton } from 'components/NavButton';
+import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';

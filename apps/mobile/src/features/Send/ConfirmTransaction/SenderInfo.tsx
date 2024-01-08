@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { usePublicKeys } from '@walless/app';
 import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
+import { usePublicKeys } from 'utils/hooks';
 import { getNetworkMetadata } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 

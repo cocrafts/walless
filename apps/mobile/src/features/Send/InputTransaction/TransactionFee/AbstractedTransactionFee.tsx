@@ -6,13 +6,13 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import { filterGasilonTokens } from '@walless/app/utils/gasilon';
 import type { Token, TransactionPayload } from '@walless/core';
 import type { Networks } from '@walless/core';
 import { solMint } from '@walless/engine/crawlers/solana/metadata';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
+import { filterGasilonTokens } from 'utils/gasilon';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../../context';

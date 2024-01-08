@@ -24,7 +24,7 @@ export const NormalTransactionFee: FC<Props> = () => {
 		sender,
 		receiver,
 		amount,
-	} = useSnapshot(txContext);
+	} = useSnapshot(txContext).tx;
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {

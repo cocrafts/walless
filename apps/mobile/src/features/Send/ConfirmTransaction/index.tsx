@@ -26,7 +26,7 @@ interface Props {
 const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const { type, sender, receiver, amount, token, collectible, tokenForFee } =
-		useSnapshot(txContext);
+		useSnapshot(txContext).tx;
 
 	const handleContinue = async () => {
 		setIsLoading(true);

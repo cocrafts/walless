@@ -10,7 +10,7 @@ import { txContext } from '../context';
 export const Token = () => {
 	const { endpoints } = useSnapshot(appState);
 	const { token, amount, time, status, signatureString } =
-		useSnapshot(txContext);
+		useSnapshot(txContext).tx;
 
 	const icon = token?.metadata?.imageUri
 		? { uri: token?.metadata?.imageUri }

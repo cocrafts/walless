@@ -20,7 +20,8 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
-	const { token, amount, network } = useSnapshot(txContext);
+	const { token, amount, network } = useSnapshot(txContext).tx;
+	console.log(token, '<-- token');
 	const { tokens } = useTokens(network);
 
 	const balance = token

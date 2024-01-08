@@ -44,7 +44,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		amount,
 		collectible,
 		tokenForFee,
-	} = useSnapshot(txContext);
+	} = useSnapshot(txContext).tx;
 	const chosenToken = type === 'Token' ? token : collectible;
 	const enableSelectFee =
 		chosenToken?.account?.mint !== solMint && tokenForFeeList.length > 1;
@@ -52,7 +52,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const dropdownRef = useRef(null);
 
 	if (!tokenForFee) {
-		txActions.setTokenForFee(tokenList[0]);
+		txActions.update({ tokenForFee: tokenList[0] });
 	}
 
 	const tokenForFeeName = getTokenName(
@@ -70,7 +70,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	useEffect(() => {
 		const updateTransactionFee = async () => {
 			if (!chosenToken) {
-				txActions.setTransactionFee(0);
+				txActions.update({ transactionFee: 0 });
 				return;
 			}
 
@@ -86,7 +86,9 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 			setIsFeeLoading(true);
 			const fee = await requestTransactionFee(payload);
 			const decimals = payload.tokenForFee?.account?.decimals;
-			txActions.setTransactionFee(parseFloat(fee.toPrecision(decimals)));
+			txActions.update({
+				transactionFee: parseFloat(fee.toPrecision(decimals)),
+			});
 			setIsFeeLoading(false);
 		};
 		updateTransactionFee();
@@ -94,7 +96,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 
 	useEffect(() => {
 		if (token?.account.mint === solMint) {
-			txActions.setTokenForFee(token as TokenDocument);
+			txActions.update({ tokenForFee: token as TokenDocument });
 		}
 	}, [token]);
 
@@ -105,7 +107,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 			component: () => (
 				<TokenFeeDropDown
 					tokens={tokenForFeeList}
-					onSelect={txActions.setTokenForFee}
+					onSelect={(token) => txActions.update({ tokenForFee: token })}
 					selectedToken={tokenForFee as TokenDocument}
 				/>
 			),

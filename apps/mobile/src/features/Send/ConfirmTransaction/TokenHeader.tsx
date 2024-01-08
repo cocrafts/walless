@@ -6,7 +6,7 @@ import { useSnapshot } from 'valtio';
 import { txContext } from '../context';
 
 export const TokenHeader = () => {
-	const { token, amount } = useSnapshot(txContext);
+	const { token, amount } = useSnapshot(txContext).tx;
 
 	const iconUri = token?.metadata?.imageUri
 		? { uri: token?.metadata?.imageUri }

@@ -11,7 +11,7 @@ export const totalCheckFieldsToContinue = () => {
 		collectible: nftCollectible,
 		receiver,
 		amount,
-	} = txContext;
+	} = txContext.tx;
 
 	switch (type) {
 		case 'Token': {

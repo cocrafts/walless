@@ -6,7 +6,7 @@ import { useSnapshot } from 'valtio';
 import { txActions, txContext } from '../context';
 
 export const Header = () => {
-	const { signatureString } = useSnapshot(txContext);
+	const { signatureString } = useSnapshot(txContext).tx;
 
 	let title = 'Transaction failed';
 	if (signatureString.length > 0) title = 'Transaction successful';

@@ -18,7 +18,7 @@ interface Props {
 }
 
 const InputTransaction: FC<Props> = ({ navigator }) => {
-	const { type } = useSnapshot(txContext);
+	const { type } = useSnapshot(txContext).tx;
 
 	const handlePressContinue = () => {
 		const checkedResult = totalCheckFieldsToContinue();

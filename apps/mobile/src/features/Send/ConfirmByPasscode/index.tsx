@@ -18,7 +18,7 @@ type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const { type, token, tokenForFee, collectible, sender, receiver, amount } =
-		useSnapshot(txContext);
+		useSnapshot(txContext).tx;
 
 	const [error, setError] = useState<string>('');
 	const [passcode, setPasscode] = useState<string>('');

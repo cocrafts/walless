@@ -9,7 +9,7 @@ import { txContext } from '../context';
 
 export const RecipientInfo: FC = () => {
 	const { transactionFee, receiver, tokenForFee, type, token, collectible } =
-		useSnapshot(txContext);
+		useSnapshot(txContext).tx;
 
 	const network = type === 'Token' ? token?.network : collectible?.network;
 	const { networkIcon, networkName, nativeSymbol } = getNetworkMetadata(

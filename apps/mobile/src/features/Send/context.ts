@@ -34,26 +34,24 @@ export type PendingTransactionContext = Omit<
 
 const initialContext = {
 	type: 'Token' as TransactionType,
+	amount: '',
 	sender: '',
 	receiver: '',
 	signatureString: '',
 };
 
-const state = proxy<{ tx: TransactionContext }>({
+export const txContext = proxy<{ tx: TransactionContext }>({
 	tx: initialContext,
 });
-
-export const txContext = state.tx;
-
 export const txActions = {
 	update(tx: Partial<TransactionContext>) {
 		Object.keys(tx).forEach((key) => {
 			const k = key as never as keyof TransactionContext;
-			state.tx[k] = tx[k] as never;
+			txContext.tx[k] = tx[k] as never;
 		});
 	},
 	resetTransactionContext: () => {
-		state.tx = initialContext;
+		txContext.tx = { ...initialContext };
 	},
 	closeSendFeature: () => {
 		modalActions.hide(ModalId.Send);

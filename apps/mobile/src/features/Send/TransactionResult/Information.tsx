@@ -23,7 +23,7 @@ export const Information: FC<Props> = () => {
 		sender,
 		status,
 		tokenForFee,
-	} = useSnapshot(txContext);
+	} = useSnapshot(txContext).tx;
 
 	const network = type === 'Token' ? token?.network : collectible?.network;
 

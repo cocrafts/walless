@@ -1,6 +1,6 @@
 import type { FC } from 'react';
-import { LoginFeature } from '@walless/app';
 import { appState } from '@walless/engine';
+import LoginFeature from 'features/Login';
 import { appActions } from 'state/app';
 import { asset } from 'utils/config';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';

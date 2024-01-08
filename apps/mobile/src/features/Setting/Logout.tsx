@@ -1,19 +1,11 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { modalActions, Text, View } from '@walless/gui';
+import { Text, View } from '@walless/gui';
 import { LogOut as LogOutIcon } from '@walless/icons';
+import { showLogoutModal } from 'modals/LogoutModal';
 
-import ConfirmModal from './ConfirmModal';
-
-export const LogOut = () => {
-	const handleShowLogOutModal = () => {
-		modalActions.show({
-			id: 'log-out-modal',
-			component: ConfirmModal,
-		});
-	};
-
+export const Logout = () => {
 	return (
-		<TouchableOpacity style={styles.container} onPress={handleShowLogOutModal}>
+		<TouchableOpacity style={styles.container} onPress={showLogoutModal}>
 			<View style={styles.titleContainer}>
 				<View style={styles.iconContainer}>
 					<LogOutIcon color="#A45151" size={16} />
@@ -24,7 +16,7 @@ export const LogOut = () => {
 	);
 };
 
-export default LogOut;
+export default Logout;
 
 const styles = StyleSheet.create({
 	container: {

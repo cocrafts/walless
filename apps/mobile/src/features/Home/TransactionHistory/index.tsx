@@ -42,8 +42,6 @@ export const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
 
 export default TransactionHistory;
 
-export { FullHistoryFeature } from '../../HistoryFeature';
-
 const styles = StyleSheet.create({
 	container: {
 		width: '100%',

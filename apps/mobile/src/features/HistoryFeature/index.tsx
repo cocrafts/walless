@@ -14,7 +14,7 @@ interface Props {
 	network?: Networks;
 }
 
-export const FullHistoryFeature: FC<Props> = ({ style, network }) => {
+const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 	const history = useHistory(network);
 	const [loading, setLoading] = useState(true);
 

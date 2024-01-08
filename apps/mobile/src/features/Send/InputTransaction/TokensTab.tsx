@@ -31,7 +31,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		return {
 			id: item.metadata?.name as string,
 			name: item.metadata?.name as string,
-			icon: item.metadata?.imageUri as string,
+			icon: { uri: item.metadata?.imageUri as string },
 		};
 	};
 

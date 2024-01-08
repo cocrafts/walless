@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNfts } from '@walless/app';
-import type { Networks } from '@walless/core';
+import type { AssetMetadata, Networks } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import { NavButton } from 'components/NavButton';
@@ -20,13 +20,13 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	const { collectibles, collections } = useNfts();
 	const { collection, collectible } = useSnapshot(txContext);
 
-	const getRequiredFieldsForSelectToken = (
-		item: CollectibleDocument | CollectionDocument,
-	) => {
+	const getRequiredFieldsForSelectToken = (item: {
+		metadata?: AssetMetadata;
+	}) => {
 		return {
 			id: item.metadata?.name as string,
 			name: item.metadata?.name as string,
-			icon: item.metadata?.imageUri as string,
+			icon: { uri: item.metadata?.imageUri as string },
 		};
 	};
 

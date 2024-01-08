@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import type { TextStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
-import type { TransactionType } from '@walless/app';
 import { Button, View } from '@walless/gui';
+
+import type { TransactionType } from '../context';
 
 interface Props {
 	curTab: TransactionType;

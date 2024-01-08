@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { useTokens } from '@walless/app';
 import type { Networks, Token } from '@walless/core';
 import { Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
+import { useTokens } from 'utils/hooks';
 import { getTokenString } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
@@ -21,7 +21,6 @@ interface Props {
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const { token, amount, network } = useSnapshot(txContext).tx;
-	console.log(token, '<-- token');
 	const { tokens } = useTokens(network);
 
 	const balance = token

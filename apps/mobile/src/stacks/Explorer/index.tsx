@@ -3,9 +3,9 @@ import { withStackContainer } from '@walless/app';
 import { runtime } from '@walless/core';
 import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
 import { createDrawerNavigator } from 'components/DrawerNavigation';
+import CollectibleScreen from 'features/Widget/Collectible';
+import CollectionScreen from 'features/Widget/Collection';
 import WidgetScreen from 'screens/Dashboard/Widget';
-import CollectibleScreen from 'screens/Dashboard/Widget/Collectible';
-import { CollectionScreen } from 'screens/Dashboard/Widget/Collection';
 import type { ExploreParamList } from 'utils/navigation';
 
 import Sidebar, { sidebarWidth } from './Sidebar';

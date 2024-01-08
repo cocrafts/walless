@@ -1,4 +1,4 @@
-import ProfileFeature from 'src/features/Home';
+import ProfileFeature from 'features/Home';
 
 export const ProfileScreen = () => {
 	return <ProfileFeature />;

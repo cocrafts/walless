@@ -7,7 +7,7 @@ import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { NavButton } from 'components/NavButton';
-import { showError } from 'state/float/system';
+import { showError } from 'modals/Error';
 import { createAndSend, prepareTransactionPayload } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
@@ -31,7 +31,7 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 	const handleContinue = async () => {
 		setIsLoading(true);
 		const element = type === 'Token' ? token : collectible;
-		if (!element) return showError('Invalid token to transfer');
+		if (!element) return showError({ errorText: 'Invalid token to transfer' });
 
 		const payload = prepareTransactionPayload(
 			element as never,
@@ -52,7 +52,7 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 			}
 		} catch (error) {
 			logger.error('Failure during NFT send:', error);
-			showError('Something was wrong');
+			showError({ errorText: 'Something was wrong' });
 		}
 
 		setIsLoading(false);

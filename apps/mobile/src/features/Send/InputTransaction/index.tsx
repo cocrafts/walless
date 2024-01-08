@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import ModalHeader from 'components/ModalHeader';
-import { showError } from 'state/float/system';
+import { showError } from 'modals/Error';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
@@ -23,7 +23,7 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 	const handlePressContinue = () => {
 		const checkedResult = totalCheckFieldsToContinue();
 		if (!checkedResult.valid) {
-			showError(checkedResult.message);
+			showError({ errorText: checkedResult.message });
 		} else {
 			navigator.slideNext();
 		}

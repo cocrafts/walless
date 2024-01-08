@@ -1,11 +1,5 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-	checkValidAddress,
-	getTransactionAbstractFee,
-	getTransactionFee,
-	SendFeature,
-} from '@walless/app';
 import type { Networks } from '@walless/core';
 import { runtime } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
@@ -15,10 +9,8 @@ import {
 	modalActions,
 	SwipeDownGesture,
 } from '@walless/gui';
-import { utils } from '@walless/ioc';
 import type { CollectibleDocument } from '@walless/store';
-
-import { useNfts, usePublicKeys, useTokens } from '../utils/hooks';
+import SendFeature from 'src/features/Send';
 
 import { ModalId } from './internal';
 
@@ -28,11 +20,6 @@ export interface SendModalContext {
 }
 
 const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
-	const { layoutNetwork, collectible } = config.context as SendModalContext;
-	const { tokens } = useTokens(layoutNetwork);
-	const { collectibles, collections } = useNfts(layoutNetwork);
-	const addressList = usePublicKeys();
-
 	const handleClose = () => {
 		modalActions.hide(config.id as string);
 	};
@@ -43,7 +30,8 @@ const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 			callbackOnClose={handleClose}
 			gestureEnable={runtime.isMobile}
 		>
-			<SendFeature
+			<SendFeature />
+			{/* <SendFeature
 				initCollectible={collectible}
 				tokens={tokens}
 				tokenForFee={tokens[0]}
@@ -57,7 +45,7 @@ const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 				checkValidAddress={checkValidAddress}
 				createAndSendTransaction={utils.createAndSend}
 				network={layoutNetwork}
-			/>
+			/> */}
 		</SwipeDownGesture>
 	);
 };

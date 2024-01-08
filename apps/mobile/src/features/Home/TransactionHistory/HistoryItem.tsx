@@ -11,7 +11,7 @@ import {
 import { modules } from '@walless/ioc';
 import { getNetworkInfo } from 'utils/helper';
 
-import { ItemAddress, ItemAmount, ItemTokenIcon } from './components';
+import { ItemAddress, ItemAmount, ItemTokenIcon } from './HistoryDetails';
 import TransactionDetails from './TransactionDetails';
 
 const HistoryItem: FC<Transaction> = (transaction) => {

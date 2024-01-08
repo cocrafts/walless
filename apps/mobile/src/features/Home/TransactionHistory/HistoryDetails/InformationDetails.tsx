@@ -1,9 +1,8 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-
-import type { NetworkInfo } from '../../../../../utils';
-import { convertDateToReadable } from '../internal';
+import { convertDateToReadable } from 'utils/format';
+import type { NetworkInfo } from 'utils/helper';
 
 import InfoContainer from './InfoContainer';
 import NetworkDetails from './NetworkDetails';

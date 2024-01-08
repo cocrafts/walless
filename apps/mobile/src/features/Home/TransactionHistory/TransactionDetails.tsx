@@ -8,10 +8,10 @@ import type { NetworkInfo } from 'utils/helper';
 import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
 
-import AddressDetails from './components/AddressDetails';
-import InformationDetails from './components/InformationDetails';
-import ModalContainer from './components/ModalContainer';
-import TokenDetails from './components/TokenDetails';
+import AddressDetails from './HistoryDetails/AddressDetails';
+import InformationDetails from './HistoryDetails/InformationDetails';
+import ModalContainer from './HistoryDetails/ModalContainer';
+import TokenDetails from './HistoryDetails/TokenDetails';
 
 export const TransactionDetails: FC<Transaction> = ({
 	id,

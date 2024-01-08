@@ -36,7 +36,3 @@ export const getNetworkInfo = (network: Networks): NetworkInfo | undefined => {
 			};
 	}
 };
-
-export const noHeaderNavigation = {
-	headerShown: false,
-};

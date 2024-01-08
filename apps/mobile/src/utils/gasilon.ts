@@ -6,6 +6,7 @@ type GasilonToken = {
 	mint: string;
 	decimals: string;
 };
+
 type GasilonConfig = {
 	feePayer: string;
 	transfer: {

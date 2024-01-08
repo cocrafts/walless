@@ -8,8 +8,8 @@ import {
 	modalActions,
 	SwipeDownGesture,
 } from '@walless/gui';
-import type { Props as SendFeatureProps } from 'src/features/Send';
-import SendFeature from 'src/features/Send';
+import type { Props as SendFeatureProps } from 'features/Send';
+import SendFeature from 'features/Send';
 
 import { ModalId } from './internal';
 

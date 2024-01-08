@@ -23,6 +23,9 @@
       "components/*": [
         "./src/components/*"
       ],
+      "features/*": [
+        "./src/features/*"
+      ],
       "modals/*": [
         "./src/modals/*"
       ],

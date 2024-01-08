@@ -23,13 +23,14 @@ import {
 } from 'utils/hooks';
 import { copy } from 'utils/system';
 
-import ActivityTab from './components/ActivityTab';
-import AptosTokensTab from './components/AptosTokensTab';
-import type { TabAble } from './components/TabsHeader';
-import TabsHeader from './components/TabsHeader';
-import WalletCard from './components/WalletCard';
-import { CollectiblesTab, TokenTab } from './components';
+import ActivityTab from './ActivityTab';
+import AptosTokensTab from './AptosTokensTab';
+import CollectiblesTab from './CollectiblesTab';
 import { getWalletCardSkin, layoutTabs } from './shared';
+import type { TabAble } from './SliderTabs';
+import SliderTabs from './SliderTabs';
+import TokenTab from './TokenTab';
+import WalletCard from './WalletCard';
 
 interface Props {
 	id: string;
@@ -127,7 +128,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 				/>
 			</View>
 
-			<TabsHeader
+			<SliderTabs
 				items={layoutTabs}
 				activeItem={layoutTabs[activeTabIndex]}
 				onTabPress={handleTabPress}

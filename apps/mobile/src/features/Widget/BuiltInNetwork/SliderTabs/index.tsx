@@ -3,8 +3,8 @@ import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
+import TabItem from './Item';
 import type { TabAble } from './shared';
-import TabItem from './TabItem';
 
 interface Props {
 	style?: ViewStyle;
@@ -13,7 +13,7 @@ interface Props {
 	onTabPress?: (item: TabAble) => void;
 }
 
-export const TabsHeader: FC<Props> = ({
+export const SliderTabs: FC<Props> = ({
 	style,
 	items,
 	activeItem,
@@ -42,7 +42,7 @@ export const TabsHeader: FC<Props> = ({
 	);
 };
 
-export default TabsHeader;
+export default SliderTabs;
 
 const styles = StyleSheet.create({
 	container: {

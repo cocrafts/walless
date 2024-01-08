@@ -5,7 +5,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import { StackHeader } from 'components/StackContainer';
 import { useSafeAreaInsets } from 'utils/hooks';
 
-import { extractWidgetComponent } from './shared';
+import { extractWidgetComponent } from './internal';
 
 interface WidgetFeatureProps {
 	widgetId: string;

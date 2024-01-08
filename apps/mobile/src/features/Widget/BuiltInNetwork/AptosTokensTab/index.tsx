@@ -11,8 +11,8 @@ import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import CollectiblesTab from '../CollectiblesTab';
-import type { TabAble } from '../TabsHeader';
-import TabsHeader from '../TabsHeader';
+import type { TabAble } from '../SliderTabs';
+import SliderTabs from '../SliderTabs';
 
 import DirectTransfer from './DirectTransfer';
 import PendingTokens from './PendingTokens';
@@ -82,7 +82,7 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 			/>
 
 			<View style={styles.tabContainer}>
-				<TabsHeader
+				<SliderTabs
 					items={layoutTabs}
 					activeItem={layoutTabs[activeTabIndex]}
 					onTabPress={handleTabPress}

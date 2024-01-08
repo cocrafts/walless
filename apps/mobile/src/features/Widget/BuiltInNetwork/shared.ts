@@ -1,33 +1,9 @@
-import type { FC } from 'react';
 import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import type { TabAble } from 'screens/Dashboard/Widget/components/TabsHeader';
-import type { CardSkin } from 'screens/Dashboard/Widget/components/WalletCard';
 
-import BuiltInNetwork from './BuiltInNetwork';
-import { EmptyTab } from './components';
-import NotFound from './NotFound';
-import Pixeverse from './Pixeverse';
-import TRexRunner from './TRexRunner';
-
-export interface WidgetProps {
-	id: string;
-}
-
-export type WidgetComponent = FC<WidgetProps>;
-
-export const widgetMap: Record<string, WidgetComponent> = {
-	sui: BuiltInNetwork,
-	tezos: BuiltInNetwork,
-	solana: BuiltInNetwork,
-	aptos: BuiltInNetwork,
-	tRexRunner: TRexRunner,
-	pixeverse: Pixeverse,
-};
-
-export const extractWidgetComponent = (id: string): WidgetComponent => {
-	return widgetMap[id] || NotFound;
-};
+import EmptyTab from './EmptyTab';
+import type { TabAble } from './SliderTabs';
+import type { CardSkin } from './WalletCard';
 
 export const getWalletCardSkin = (id: Networks): CardSkin => {
 	let asset;

@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export enum ModalId {
 	Error = 'Error',
+	Logout = 'Logout',
 	Notification = 'Notification',
 	Receive = 'Receive',
 	RemoveLayout = 'RemoveLayout',

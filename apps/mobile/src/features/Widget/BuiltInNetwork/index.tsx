@@ -12,7 +12,7 @@ import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import FeatureButtons from 'components/FeatureButtons';
-import { showNotificationModal } from 'modals/Notification';
+import { showCopiedModal } from 'modals/Notification';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
 import {
@@ -96,10 +96,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 
 	const handleCopyAddress = (value: string) => {
 		copy(value);
-		showNotificationModal({
-			id: 'copy',
-			message: 'Copied',
-		});
+		showCopiedModal();
 	};
 
 	return (

@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { withStackContainer } from '@walless/app';
 import { runtime } from '@walless/core';
 import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
 import { createDrawerNavigator } from 'components/DrawerNavigation';
+import { withStackContainer } from 'components/StackContainer';
 import CollectibleScreen from 'screens/Dashboard/Collectible';
 import CollectionScreen from 'screens/Dashboard/Collection';
 import WidgetScreen from 'screens/Dashboard/Widget';

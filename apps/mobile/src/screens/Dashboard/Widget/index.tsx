@@ -1,6 +1,10 @@
 import type { FC } from 'react';
-import { ExplorerFeature, StackHeader, WidgetFeature } from '@walless/app';
+import { StyleSheet } from 'react-native';
+import { ExplorerFeature } from '@walless/app';
+import { mockWidgets } from '@walless/engine';
 import type { DrawerScreenProps } from 'components/DrawerNavigation';
+import { StackHeader } from 'components/StackContainer';
+import { WidgetFeature } from 'features/Widget';
 import type { ExploreParamList } from 'utils/navigation';
 
 type Props = DrawerScreenProps<ExploreParamList, 'Widget'>;
@@ -8,7 +12,7 @@ type Props = DrawerScreenProps<ExploreParamList, 'Widget'>;
 export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
 	const widgetId = route.params?.id;
 
-	if (widgetId === 'explorer') {
+	if (!widgetId || widgetId === 'explorer') {
 		return (
 			<ExplorerFeature
 				headerComponent={StackHeader}
@@ -17,13 +21,23 @@ export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
 		);
 	}
 
+	const widgetName =
+		mockWidgets.find((i) => i._id === widgetId)?.name || 'Unknown';
+
 	return (
 		<WidgetFeature
-			id={widgetId as string}
-			headerComponent={StackHeader}
+			widgetId={widgetId}
+			title={widgetName}
+			style={styles.container}
 			onToggleDrawer={navigation.toggleDrawer}
 		/>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+});
 
 export default WidgetScreen;

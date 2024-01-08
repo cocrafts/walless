@@ -46,18 +46,18 @@ export interface PositionOffset {
 	y?: number;
 }
 
-export interface ModalConfigs<T = unknown> {
-	id?: string;
+export interface ModalConfigs {
+	id: string;
 	bindingRectangle?: LayoutRectangle;
 	bindingDirection?: BindDirections;
 	animateDirection?: AnimateDirections;
-	component: FC<{ config: ModalConfigs<T> }>;
+	component: FC<{ config: ModalConfigs }>;
 	positionOffset?: PositionOffset;
 	maskStyle?: ViewStyle;
 	maskActiveOpacity?: number;
 	withoutMask?: boolean;
 	hide?: boolean;
-	context?: T;
+	context?: unknown;
 	onBeforeHide?: () => void;
 	/**
 	 * use to determine size of modal wrapper (default: true),

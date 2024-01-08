@@ -1,15 +1,15 @@
 {
   "extends": "@walless/tsconfig/application.json",
-	"include": [
-		"src",
-		"index*.js",
-		"../../globals.d.ts"
-	],
-	"exclude": [
-		"node_modules"
-	],
-	"compilerOptions": {
-		"baseUrl": ".",
+  "include": [
+    "src",
+    "index*.js",
+    "../../globals.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "assets/*": [
         "./assets/*"
@@ -23,6 +23,12 @@
       "components/*": [
         "./src/components/*"
       ],
+      "features/*": [
+        "./src/features/*"
+      ],
+      "modals/*": [
+        "./src/modals/*"
+      ],
       "stacks/*": [
         "./src/stacks/*"
       ],
@@ -35,6 +41,6 @@
       "bridge/*": [
         "./browser/bridge/*"
       ]
-		}
-	}
+    }
+  }
 }

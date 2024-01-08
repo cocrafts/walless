@@ -1,13 +1,14 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useSnapshot, useWidgets } from '@walless/app';
-import { DashboardNavigator } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
 import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import type { DrawerContentComponentProps } from 'components/DrawerNavigation';
 import { useDrawerStatus } from 'components/DrawerNavigation';
-import { localActions } from 'state/local';
+import { runtimeActions } from 'state/runtime';
+
+import WidgetNavigator from './WidgetNavigator';
 
 export const sidebarWidth = 64;
 
@@ -17,7 +18,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 	const widgets = useWidgets();
 
 	useEffect(() => {
-		localActions.setIsDrawOpen(drawerStatus === 'open');
+		runtimeActions.toggleDrawer(drawerStatus === 'open');
 	}, [drawerStatus]);
 
 	const handleExtensionPress = (item: WidgetDocument) => {
@@ -36,7 +37,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 	};
 
 	return (
-		<DashboardNavigator
+		<WidgetNavigator
 			profile={profile}
 			widgets={widgets}
 			size={sidebarWidth}

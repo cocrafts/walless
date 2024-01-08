@@ -4,9 +4,9 @@ import {
 	getToken,
 	isSupported as isMessagingSupported,
 } from '@firebase/messaging';
-import { universalActions } from '@walless/app';
 import { logger } from '@walless/core';
 import { appState } from '@walless/engine';
+import { runtimeActions } from 'state/runtime';
 
 import { app, auth } from '../firebase/index.web';
 
@@ -19,7 +19,7 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 
 	if (user?.uid) {
 		if (appState.remoteConfig.deepAnalyticsEnabled) {
-			universalActions.syncRemoteProfile();
+			runtimeActions.syncRemoteProfile();
 		}
 	}
 
@@ -38,7 +38,7 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		setUserProperties(getAnalytics(app), { email: user.email });
 	}
 
-	universalActions.syncDeviceInfo(deviceInfo);
+	runtimeActions.syncDeviceInfo(deviceInfo);
 };
 
 export { getDeviceInfo } from './device.ext';

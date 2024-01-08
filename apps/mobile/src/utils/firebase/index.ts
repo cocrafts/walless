@@ -6,10 +6,10 @@ import getAnalytics, {
 import authModule from '@react-native-firebase/auth';
 import getCrashlytics from '@react-native-firebase/crashlytics';
 import remoteConfig from '@react-native-firebase/remote-config';
-import { universalActions } from '@walless/app';
 import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
 import type { UniversalAnalytics } from '@walless/ioc';
+import { runtimeActions } from 'state/runtime';
 
 export const auth = authModule;
 export const analytics = getAnalytics();
@@ -65,7 +65,7 @@ export const initializeAuth = async () => {
 		crashlytics.setAttributes(attributes);
 
 		if (appState.remoteConfig.deepAnalyticsEnabled) {
-			universalActions.syncRemoteProfile();
+			runtimeActions.syncRemoteProfile();
 		}
 	}
 };

@@ -5,14 +5,14 @@ import {
 	RESULTS,
 } from 'react-native-permissions';
 import getMessaging from '@react-native-firebase/messaging';
-import { universalActions } from '@walless/app';
 import { logger } from '@walless/core';
+import { runtimeActions } from 'state/runtime';
 import { getDeviceInfo } from 'utils/device';
 
 const syncDeviceAndNotification = async (nextToken?: string) => {
 	const deviceInfo = await getDeviceInfo();
 	deviceInfo.notificationToken = nextToken;
-	universalActions.syncDeviceInfo(deviceInfo);
+	runtimeActions.syncDeviceInfo(deviceInfo);
 };
 
 export const useNotifications = () => {

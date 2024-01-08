@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { withStackContainer } from '@walless/app';
 import HistoryScreen from 'screens/Dashboard/History';
 import ProfileScreen from 'screens/Dashboard/Home';
-import { noHeaderNavigation } from 'utils/helper';
+import { noHeaderNavigation } from 'utils/constants';
 import {
 	type DashboardParamList,
 	type HomeParamList,

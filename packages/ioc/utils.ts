@@ -3,6 +3,7 @@ import type { RequestType, ResponsePayload } from '@walless/messaging';
 
 export type CreateAndSendFunction = (
 	payload: TransactionPayload,
+	passcode?: string,
 ) => Promise<ResponsePayload>;
 
 export type BuyTokenFunction = (network: Networks) => void;

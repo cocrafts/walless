@@ -1,12 +1,5 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import {
-	checkValidAddress,
-	getTransactionAbstractFee,
-	getTransactionFee,
-	SendFeature,
-} from '@walless/app';
-import type { Networks } from '@walless/core';
 import { runtime } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import {
@@ -15,26 +8,19 @@ import {
 	modalActions,
 	SwipeDownGesture,
 } from '@walless/gui';
-import { utils } from '@walless/ioc';
-import type { CollectibleDocument } from '@walless/store';
-
-import { useNfts, usePublicKeys, useTokens } from '../utils/hooks';
+import type { Props as SendFeatureProps } from 'features/Send';
+import SendFeature from 'features/Send';
 
 import { ModalId } from './internal';
 
-export interface SendModalContext {
-	layoutNetwork?: Networks;
-	collectible?: CollectibleDocument;
-}
+type Props = {
+	config: ModalConfigs;
+	props: SendFeatureProps;
+};
 
-const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
-	const { layoutNetwork, collectible } = config.context as SendModalContext;
-	const { tokens } = useTokens(layoutNetwork);
-	const { collectibles, collections } = useNfts(layoutNetwork);
-	const addressList = usePublicKeys();
-
+const SendModal: FC<Props> = ({ config, props }) => {
 	const handleClose = () => {
-		modalActions.hide(config.id as string);
+		modalActions.hide(config.id);
 	};
 
 	return (
@@ -43,32 +29,17 @@ const SendModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 			callbackOnClose={handleClose}
 			gestureEnable={runtime.isMobile}
 		>
-			<SendFeature
-				initCollectible={collectible}
-				tokens={tokens}
-				tokenForFee={tokens[0]}
-				nftCollections={collections}
-				nftCollectibles={collectibles}
-				publicKeys={addressList}
-				// TODO: resolve this with gasilon
-				getTransactionFee={getTransactionFee}
-				getTransactionAbstractFee={getTransactionAbstractFee}
-				onClose={handleClose}
-				checkValidAddress={checkValidAddress}
-				createAndSendTransaction={utils.createAndSend}
-				network={layoutNetwork}
-			/>
+			<SendFeature {...props} />
 		</SwipeDownGesture>
 	);
 };
 
-export const showSendTokenModal = (context: SendModalContext) => {
+export const showSendTokenModal = (props: SendFeatureProps) => {
 	modalActions.show({
 		id: ModalId.Send,
 		bindingDirection: BindDirections.InnerBottom,
 		animateDirection: AnimateDirections.Top,
-		component: SendModal,
-		context,
+		component: ({ config }) => <SendModal config={config} props={props} />,
 	});
 };
 

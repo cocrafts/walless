@@ -1,3 +1,4 @@
+import type { Networks } from '@walless/core';
 import { modalActions } from '@walless/gui';
 import type { ResponseCode } from '@walless/messaging';
 import type {
@@ -5,6 +6,7 @@ import type {
 	CollectionDocument,
 	TokenDocument,
 } from '@walless/store';
+import { ModalId } from 'modals/internal';
 import { proxy } from 'valtio';
 
 export type TransactionType = 'Token' | 'Collectible';
@@ -13,6 +15,7 @@ export interface TransactionContext {
 	type: TransactionType;
 	sender: string;
 	receiver: string;
+	network?: Networks;
 	token?: TokenDocument;
 	tokenForFee?: TokenDocument;
 	collection?: CollectionDocument;
@@ -22,7 +25,6 @@ export interface TransactionContext {
 	signatureString: string;
 	status?: ResponseCode;
 	time?: Date;
-	modalId?: string;
 }
 
 export type PendingTransactionContext = Omit<
@@ -32,57 +34,27 @@ export type PendingTransactionContext = Omit<
 
 const initialContext = {
 	type: 'Token' as TransactionType,
+	amount: '',
 	sender: '',
 	receiver: '',
 	signatureString: '',
 };
 
-export let txContext = proxy<TransactionContext>(initialContext);
-
+export const txContext = proxy<{ tx: TransactionContext }>({
+	tx: initialContext,
+});
 export const txActions = {
-	setType: (type: TransactionType) => {
-		txContext.type = type;
-	},
-	setSender: (sender: string) => {
-		txContext.sender = sender;
-	},
-	setReceiver: (receiver: string) => {
-		txContext.receiver = receiver;
-	},
-	setToken: (token: TokenDocument) => {
-		txContext.token = token;
-	},
-	setCollection: (collection: CollectionDocument) => {
-		txContext.collection = collection;
-	},
-	setCollectible: (collectible: CollectibleDocument) => {
-		txContext.collectible = collectible;
-	},
-	setTokenForFee: (tokenForFee: TokenDocument) => {
-		txContext.tokenForFee = tokenForFee;
-	},
-	setTransactionFee: (fee: number) => {
-		txContext.transactionFee = fee;
-	},
-	setAmount: (amount: string) => {
-		txContext.amount = amount;
-	},
-	setSignatureString: (signature: string) => {
-		txContext.signatureString = signature;
-	},
-	setStatus: (status: ResponseCode) => {
-		txContext.status = status;
-	},
-	setTime: () => {
-		txContext.time = new Date();
+	update(tx: Partial<TransactionContext>) {
+		Object.keys(tx).forEach((key) => {
+			const k = key as never as keyof TransactionContext;
+			txContext.tx[k] = tx[k] as never;
+		});
 	},
 	resetTransactionContext: () => {
-		txContext = proxy<TransactionContext>(initialContext);
+		txContext.tx = { ...initialContext };
 	},
 	closeSendFeature: () => {
-		if (txContext.modalId) {
-			modalActions.hide(txContext.modalId);
-		}
+		modalActions.hide(ModalId.Send);
 
 		setTimeout(() => {
 			txActions.resetTransactionContext();

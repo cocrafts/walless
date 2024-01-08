@@ -1,16 +1,16 @@
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
-
-import { transactionActions } from '../../../../../state/transaction';
 import {
 	getTransactionAbstractFee,
 	getTransactionFee,
-} from '../../../../../utils';
+} from 'utils/transaction';
+
+import { txActions } from '../../context';
 
 export const requestTransactionFee = async (payload: TransactionPayload) => {
 	if (payload.receiver === '') {
-		transactionActions.setTransactionFee(0);
+		txActions.update({ transactionFee: 0 });
 		return 0;
 	}
 

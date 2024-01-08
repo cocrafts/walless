@@ -14,13 +14,13 @@ interface Props {
 
 export const SenderInfo: FC<Props> = () => {
 	const publicKeys = usePublicKeys();
-	const { type, token, collectible } = useSnapshot(txContext);
+	const { type, token, collectible } = useSnapshot(txContext).tx;
 
 	const network = type === 'Token' ? token?.network : collectible?.network;
 	const publicKey = publicKeys.find((key) => key.network === network);
 
 	if (publicKey) {
-		txActions.setSender(publicKey._id);
+		txActions.update({ sender: publicKey._id });
 	}
 
 	const { networkIcon, networkName } = getNetworkMetadata(network as Networks);

@@ -5,7 +5,7 @@ import { useSnapshot } from 'valtio';
 import { txContext } from '../context';
 
 export const NFTHeader = () => {
-	const { collection, collectible } = useSnapshot(txContext);
+	const { collection, collectible } = useSnapshot(txContext).tx;
 
 	const iconUri = { uri: collection?.metadata?.imageUri };
 

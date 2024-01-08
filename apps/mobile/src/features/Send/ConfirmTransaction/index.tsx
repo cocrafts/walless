@@ -7,7 +7,7 @@ import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
 import { NavButton } from 'components/NavButton';
-import { showError } from 'state/float/system';
+import { showError } from 'modals/Error';
 import { createAndSend, prepareTransactionPayload } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
@@ -26,12 +26,12 @@ interface Props {
 const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const { type, sender, receiver, amount, token, collectible, tokenForFee } =
-		useSnapshot(txContext);
+		useSnapshot(txContext).tx;
 
 	const handleContinue = async () => {
 		setIsLoading(true);
 		const element = type === 'Token' ? token : collectible;
-		if (!element) return showError('Invalid token to transfer');
+		if (!element) return showError({ errorText: 'Invalid token to transfer' });
 
 		const payload = prepareTransactionPayload(
 			element as never,
@@ -47,12 +47,12 @@ const TransactionConfirmation: FC<Props> = ({ navigator }) => {
 			} else if (res.responseCode == ResponseCode.SUCCESS) {
 				const signature =
 					res.signatureString || res.signedTransaction?.digest || res.hash;
-				txActions.setSignatureString(signature);
+				txActions.update({ signatureString: signature });
 				navigator.slideTo(3);
 			}
 		} catch (error) {
 			logger.error('Failure during NFT send:', error);
-			showError('Something was wrong');
+			showError({ errorText: 'Something was wrong' });
 		}
 
 		setIsLoading(false);

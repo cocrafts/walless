@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import ModalHeader from 'components/ModalHeader';
-import { showError } from 'state/float/system';
+import { showError } from 'modals/Error';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
@@ -18,12 +18,12 @@ interface Props {
 }
 
 const InputTransaction: FC<Props> = ({ navigator }) => {
-	const { type } = useSnapshot(txContext);
+	const { type } = useSnapshot(txContext).tx;
 
 	const handlePressContinue = () => {
 		const checkedResult = totalCheckFieldsToContinue();
 		if (!checkedResult.valid) {
-			showError(checkedResult.message);
+			showError({ errorText: checkedResult.message });
 		} else {
 			navigator.slideNext();
 		}
@@ -33,7 +33,7 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 		<View style={styles.container}>
 			<ModalHeader content="Send" onPressClose={txActions.closeSendFeature} />
 
-			<TabBar curTab={type} setCurTab={txActions.setType} />
+			<TabBar curTab={type} setCurTab={(type) => txActions.update({ type })} />
 
 			{type === 'Token' ? (
 				<TokensTab onContinue={handlePressContinue} />

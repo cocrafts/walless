@@ -24,7 +24,7 @@ export const NormalTransactionFee: FC<Props> = () => {
 		sender,
 		receiver,
 		amount,
-	} = useSnapshot(txContext);
+	} = useSnapshot(txContext).tx;
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -33,7 +33,7 @@ export const NormalTransactionFee: FC<Props> = () => {
 			const chosenToken = type === 'Token' ? token : collectible;
 			if (!chosenToken) {
 				setLoading(false);
-				txActions.setTransactionFee(0);
+				txActions.update({ transactionFee: 0 });
 				return;
 			}
 			const fee = await getTransactionFee({
@@ -44,7 +44,7 @@ export const NormalTransactionFee: FC<Props> = () => {
 				token: chosenToken as TokenDocument,
 				tokenForFee: tokenForFee as never,
 			});
-			txActions.setTransactionFee(fee);
+			txActions.update({ transactionFee: fee });
 			setLoading(false);
 		})();
 	}, [token, collectible, receiver]);

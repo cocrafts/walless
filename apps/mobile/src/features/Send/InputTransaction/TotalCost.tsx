@@ -6,7 +6,7 @@ import { useSnapshot } from 'valtio';
 import { txContext } from '../context';
 
 export const TotalCost: FC = () => {
-	const { token, amount } = useSnapshot(txContext);
+	const { token, amount } = useSnapshot(txContext).tx;
 
 	const costStr = `${amount ? parseFloat(amount) : 0} ${
 		token?.metadata?.symbol || ''

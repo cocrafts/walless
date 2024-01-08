@@ -6,7 +6,7 @@ import { Passcode, Text, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
 import type { TokenDocument } from '@walless/store';
-import { showError } from 'state/float/system';
+import { showError } from 'modals/Error';
 import { createAndSend, prepareTransactionPayload } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
@@ -18,7 +18,7 @@ type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const { type, token, tokenForFee, collectible, sender, receiver, amount } =
-		useSnapshot(txContext);
+		useSnapshot(txContext).tx;
 
 	const [error, setError] = useState<string>('');
 	const [passcode, setPasscode] = useState<string>('');
@@ -39,7 +39,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		if (isCompleted) {
 			const element = type === 'Token' ? token : collectible;
 			if (!element) {
-				return showError('Invalid token to transfer');
+				return showError({ errorText: 'Invalid token to transfer' });
 			}
 
 			const payload = prepareTransactionPayload(
@@ -52,20 +52,20 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 
 			try {
 				const res = await createAndSend(payload, passcode);
-				txActions.setTime();
-				txActions.setStatus(res.responseCode as ResponseCode);
+				txActions.update({ time: new Date() });
+				txActions.update({ status: res.responseCode });
 
 				if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
-					showError('Passcode is NOT matched');
+					showError({ errorText: 'Passcode is NOT matched' });
 					setError('Wrong passcode');
 				} else if (res.responseCode == ResponseCode.SUCCESS) {
-					txActions.setSignatureString(
-						res.signatureString || res.signedTransaction?.digest || res.hash,
-					);
+					const signature =
+						res.signatureString || res.signedTransaction?.digest || res.hash;
+					txActions.update({ signatureString: signature });
 					navigator.slideNext();
 				}
 			} catch (error) {
-				showError((error as Error).message);
+				showError({ errorText: (error as Error).message });
 			}
 
 			setPasscode('');

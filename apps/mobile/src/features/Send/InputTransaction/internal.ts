@@ -4,8 +4,14 @@ import { checkValidAddress } from 'utils/transaction';
 import { txContext } from '../context';
 
 export const totalCheckFieldsToContinue = () => {
-	const { type, token, collection: nftCollection, collectible: nftCollectible, receiver, amount } =
-		txContext;
+	const {
+		type,
+		token,
+		collection: nftCollection,
+		collectible: nftCollectible,
+		receiver,
+		amount,
+	} = txContext.tx;
 
 	switch (type) {
 		case 'Token': {

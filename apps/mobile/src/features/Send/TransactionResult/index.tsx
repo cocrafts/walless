@@ -15,7 +15,7 @@ import { Token } from './Token';
 type Props = SlideComponentProps;
 
 const TransactionResult: FC<Props> = ({ navigator }) => {
-	const { type } = useSnapshot(txContext);
+	const { type } = useSnapshot(txContext).tx;
 
 	const handlePressOtherTransaction = () => {
 		txActions.resetTransactionContext();

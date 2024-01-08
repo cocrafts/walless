@@ -20,8 +20,9 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
-	const { tokens } = useTokens();
-	const { token, amount } = useSnapshot(txContext);
+	const { token, amount, network } = useSnapshot(txContext).tx;
+	console.log(token, '<-- token');
+	const { tokens } = useTokens(network);
 
 	const balance = token
 		? parseFloat(token.account.balance) / 10 ** token.account.decimals
@@ -31,7 +32,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		return {
 			id: item.metadata?.name as string,
 			name: item.metadata?.name as string,
-			icon: item.metadata?.imageUri as string,
+			icon: { uri: item.metadata?.imageUri as string },
 		};
 	};
 
@@ -52,7 +53,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				title="Select token"
 				items={tokens as TokenDocument[]}
 				selected={token as TokenDocument}
-				onSelect={txActions.setToken}
+				onSelect={(token) => txActions.update({ token })}
 				getRequiredFields={getRequiredFieldsForSelectToken}
 			/>
 
@@ -62,7 +63,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				value={amount}
 				placeholder="Token amount"
 				keyboardType="numeric"
-				onChangeText={txActions.setAmount}
+				onChangeText={(amount) => txActions.update({ amount })}
 				checkFunction={checkAmount}
 			/>
 

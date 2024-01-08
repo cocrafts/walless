@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNfts } from '@walless/app';
-import type { Networks } from '@walless/core';
+import type { AssetMetadata, Networks } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import { NavButton } from 'components/NavButton';
@@ -17,20 +17,25 @@ interface Props {
 }
 
 export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
-	const { collectibles, collections } = useNfts();
-	const { collection, collectible } = useSnapshot(txContext);
+	const { collection, collectible, network } = useSnapshot(txContext).tx;
+	const { collectibles, collections } = useNfts(network);
 
-	const getRequiredFieldsForSelectToken = (
-		item: CollectibleDocument | CollectionDocument,
-	) => {
+	const getRequiredFieldsForSelectToken = (item: {
+		metadata?: AssetMetadata;
+	}) => {
 		return {
 			id: item.metadata?.name as string,
 			name: item.metadata?.name as string,
-			icon: item.metadata?.imageUri as string,
+			icon: { uri: item.metadata?.imageUri as string },
 		};
 	};
 
-	const handleSelectCollectible = () => {};
+	const handleSelectCollectible = (collectible: CollectibleDocument) => {
+		const collection = collections.find(
+			(ele) => ele._id === collectible.collectionId,
+		);
+		txActions.update({ collectible, collection });
+	};
 
 	const filteredCollectibles = collection
 		? collectibles.filter((e) => e.collectionId === collection._id)
@@ -43,7 +48,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 				notFoundText="Not found collections"
 				items={collections}
 				selected={collection as CollectionDocument}
-				onSelect={txActions.setCollection}
+				onSelect={(collection) => txActions.update({ collection })}
 				getRequiredFields={getRequiredFieldsForSelectToken}
 			/>
 

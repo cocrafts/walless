@@ -1,3 +1,4 @@
+import Config from 'react-native-config';
 import WebSQLite from 'react-native-quick-websql';
 import { firebase } from '@react-native-firebase/auth';
 import { buyToken } from '@walless/app';
@@ -31,6 +32,7 @@ export const injectModules = async () => {
 
 	modules.native = nativeModules;
 	modules.analytics = universalAnalytics;
+	modules.config = Config;
 	modules.storage = storage;
 	modules.qlClient = qlClient;
 	modules.thresholdKey = key as never;

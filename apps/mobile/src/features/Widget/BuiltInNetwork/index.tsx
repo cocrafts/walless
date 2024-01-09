@@ -10,11 +10,11 @@ import Animated from 'react-native-reanimated';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
-import { utils } from '@walless/ioc';
 import FeatureButtons from 'components/FeatureButtons';
 import { showCopiedModal } from 'modals/Notification';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
+import { buyToken } from 'utils/buy';
 import {
 	useNfts,
 	useOpacityAnimated,
@@ -87,7 +87,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const handlePressBuy = () => {
-		if (utils.buyToken) utils.buyToken(id as Networks);
+		buyToken(id as Networks);
 	};
 
 	const handleCopyAddress = (value: string) => {

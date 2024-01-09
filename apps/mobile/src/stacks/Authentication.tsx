@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import CreatePasscodeScreen from 'screens/Authentication/CreatePasscode';
 import DeprecatedPasscodeScreen from 'screens/Authentication/DeprecatedPasscode';
 import InvitationScreen from 'screens/Authentication/Invitation';
-import LoginScreen from 'screens/Authentication/Log In';
+import LoginScreen from 'screens/Authentication/Login';
 import RecoveryScreen from 'screens/Authentication/Recovery';
 import type { AuthenticationParamList, RootParamList } from 'utils/navigation';
 import { screenOptions } from 'utils/navigation';

@@ -1,17 +1,22 @@
 import { type FC, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
+import HistoryFeature from 'features/History';
 import { useHistory } from 'utils/hooks';
+import { navigate } from 'utils/navigation';
 
-import HistoryItem from '../../HistoryFeature/HistoryItem';
-
-interface Props {
-	onNavigateToHistory: () => void;
-}
-
-export const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
+export const History: FC = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const history = useHistory();
+
+	const handleNavigateToHistory = () => {
+		navigate('Dashboard', {
+			screen: 'Home',
+			params: {
+				screen: 'History',
+			},
+		});
+	};
 
 	useEffect(() => {
 		if (history.length > 0) {
@@ -23,7 +28,7 @@ export const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<Text style={styles.title}>History</Text>
-				<Button style={styles.button} onPress={onNavigateToHistory}>
+				<Button style={styles.button} onPress={handleNavigateToHistory}>
 					<Text>See All</Text>
 				</Button>
 			</View>
@@ -31,16 +36,14 @@ export const TransactionHistory: FC<Props> = ({ onNavigateToHistory }) => {
 				<ActivityIndicator />
 			) : (
 				<View style={styles.transactionsContainer}>
-					{history.slice(0, 3).map((transaction) => (
-						<HistoryItem key={transaction.signature} {...transaction} />
-					))}
+					<HistoryFeature />
 				</View>
 			)}
 		</View>
 	);
 };
 
-export default TransactionHistory;
+export default History;
 
 const styles = StyleSheet.create({
 	container: {

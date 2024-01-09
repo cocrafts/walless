@@ -13,7 +13,8 @@ export const bootstrap = async (): Promise<BootstrapResult> => {
 	return appState;
 };
 
-export const launchApp = async (): Promise<void> => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const launchApp = async (config: BootstrapResult): Promise<void> => {
 	const settings = await modules.storage.safeGet<SettingDocument>('settings');
 	const widgetId = settings?.config?.latestLocation as string;
 

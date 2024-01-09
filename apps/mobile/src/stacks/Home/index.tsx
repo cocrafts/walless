@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
-import { withStackContainer } from '@walless/app';
+import { withStackContainer } from 'components/StackContainer';
 import HistoryScreen from 'screens/Dashboard/History';
 import ProfileScreen from 'screens/Dashboard/Home';
 import { noHeaderNavigation } from 'utils/constants';

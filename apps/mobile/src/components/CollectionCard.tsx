@@ -12,7 +12,7 @@ interface Props {
 	onPress: () => void;
 }
 
-export const CollectionItem: FC<Props> = ({
+export const CollectionCard: FC<Props> = ({
 	style,
 	item,
 	collectibleCount,
@@ -46,7 +46,7 @@ export const CollectionItem: FC<Props> = ({
 	);
 };
 
-export default CollectionItem;
+export default CollectionCard;
 
 const styles = StyleSheet.create({
 	container: {

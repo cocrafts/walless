@@ -9,25 +9,15 @@ import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
 import { tabBarHeight } from 'utils/constants';
 import { useTokens } from 'utils/hooks';
-import { navigate } from 'utils/navigation';
 
+import History from './History';
 import TokenValue from './TokenValue';
-import TransactionHistory from './TransactionHistory';
 
 const ProfileFeature = () => {
 	const insets = useSafeAreaInsets();
 	const { valuation } = useTokens();
 	const containerStyle: ViewStyle = {
 		paddingBottom: tabBarHeight + insets.bottom,
-	};
-
-	const handleNavigateToHistory = () => {
-		navigate('Dashboard', {
-			screen: 'Home',
-			params: {
-				screen: 'History',
-			},
-		});
 	};
 
 	return (
@@ -40,7 +30,7 @@ const ProfileFeature = () => {
 				onBuyPress={() => utils.buyToken(Networks.solana)}
 			/>
 
-			<TransactionHistory onNavigateToHistory={handleNavigateToHistory} />
+			<History />
 		</View>
 	);
 };

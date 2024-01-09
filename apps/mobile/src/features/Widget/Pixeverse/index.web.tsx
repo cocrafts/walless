@@ -2,12 +2,11 @@ import { useEffect, useRef } from 'react';
 import { Networks } from '@walless/core';
 import { appState } from '@walless/engine';
 import { View } from '@walless/gui';
-import { modules } from '@walless/ioc';
+import { environment } from 'utils/config';
 import { usePublicKeys, useSnapshot } from 'utils/hooks';
 
 export const Pixeverse = () => {
-	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } =
-		modules.config;
+	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } = environment;
 	const { jwtAuth } = useSnapshot(appState);
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const [pubkey] = usePublicKeys(Networks.solana);

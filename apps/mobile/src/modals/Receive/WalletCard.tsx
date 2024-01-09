@@ -2,9 +2,8 @@ import type { FC } from 'react';
 import type { ImageSourcePropType } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
-
-import QRCodeSVG from '../components/QRCode';
-import WalletAddress from '../components/WalletAddress';
+import QRCode from 'components/QRCode';
+import Wallet from 'components/Wallet';
 
 import type { SlideOption } from './Slider';
 
@@ -23,12 +22,8 @@ const WalletCard: FC<Props> = ({ config }) => {
 
 	return (
 		<View style={styles.container}>
-			<QRCodeSVG value={address} size={200} />
-			<WalletAddress
-				network={network}
-				networkIcon={networkIcon}
-				address={address}
-			/>
+			<QRCode value={address} size={200} />
+			<Wallet name={network} address={address} icon={networkIcon} />
 		</View>
 	);
 };

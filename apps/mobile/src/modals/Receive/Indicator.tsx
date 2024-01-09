@@ -12,7 +12,7 @@ interface IndicatorProps {
 	count: number;
 }
 
-const WalletCardIndicator: FC<Props> = ({ config }) => {
+const Indicator: FC<Props> = ({ config }) => {
 	const { count } = config.context as IndicatorProps;
 
 	if (count === 1) {
@@ -49,7 +49,7 @@ const WalletCardIndicator: FC<Props> = ({ config }) => {
 	);
 };
 
-export default WalletCardIndicator;
+export default Indicator;
 
 const styles = StyleSheet.create({
 	container: {

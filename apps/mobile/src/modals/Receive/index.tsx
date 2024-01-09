@@ -17,12 +17,9 @@ import { useSnapshot } from 'valtio';
 
 import { modalStyles } from '../internal';
 
-import Slider, {
-	type IndicatorOption,
-	type SlideOption,
-} from './components/Slider';
-import WalletCard, { type WalletProps } from './components/WalletCard';
-import WalletCardIndicator from './components/WalletCardIndicator';
+import Indicator from './Indicator';
+import Slider, { type IndicatorOption, type SlideOption } from './Slider';
+import WalletCard, { type WalletProps } from './WalletCard';
 
 export interface ReceiveModalContext {
 	network?: Networks;
@@ -65,7 +62,7 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 
 	const indicator: IndicatorOption = {
 		id: 'indicator',
-		component: WalletCardIndicator,
+		component: Indicator,
 		context: { count: items.length },
 	};
 

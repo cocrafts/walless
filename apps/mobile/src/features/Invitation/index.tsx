@@ -103,7 +103,7 @@ export const InvitationFeature: FC<Props> = ({
 				<Anchor
 					titleStyle={styles.getInvitationText}
 					title="Get invitation code"
-					href="https://docs.google.com/forms/d/e/1FAIpQLSeMOQGfeYhq4i-V595JRc28VlY1YDpFeU0rPJkTymFH6nV21g/viewform"
+					href="https://twitter.com/walless_wallet/status/1694255782651658737"
 				/>
 			</View>
 		</TouchableWithoutFeedback>

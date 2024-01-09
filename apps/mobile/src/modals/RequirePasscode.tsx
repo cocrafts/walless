@@ -1,9 +1,14 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { PasscodeFeature } from '@walless/app';
 import type { ModalConfigs } from '@walless/gui';
-import { BindDirections, modalActions, Text, View } from '@walless/gui';
+import {
+	BindDirections,
+	modalActions,
+	Passcode,
+	Text,
+	View,
+} from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
@@ -65,7 +70,7 @@ export const RequirePasscodeModal: FC<Props> = ({ config }) => {
 				<Text style={styles.description}>{description}</Text>
 			</View>
 
-			<PasscodeFeature
+			<Passcode
 				passcode={passcode}
 				error={error}
 				onPasscodeChange={onPasscodeChange}

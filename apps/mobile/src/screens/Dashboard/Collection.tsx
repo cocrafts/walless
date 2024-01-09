@@ -3,12 +3,11 @@ import { useMemo } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { useSafeAreaInsets } from '@walless/app';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import { utils } from '@walless/ioc';
 import NftCard from 'components/NftCard';
-import { useLazyGridLayout, useNfts } from 'utils/hooks';
+import { useLazyGridLayout, useNfts, useSafeAreaInsets } from 'utils/hooks';
 
 export const CollectionFeat: FC = () => {
 	const { collections, collectibles } = useNfts();

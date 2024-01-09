@@ -1,14 +1,14 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { FullHistoryFeature } from '@walless/app';
 import type { Networks } from '@walless/core';
+import HistoryFeature from 'features/History';
 
 interface Props {
 	network: Networks;
 }
 
 const ActivityTab: FC<Props> = ({ network }) => {
-	return <FullHistoryFeature style={styles.container} network={network} />;
+	return <HistoryFeature style={styles.container} network={network} />;
 };
 
 export default ActivityTab;

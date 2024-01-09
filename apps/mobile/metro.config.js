@@ -9,7 +9,6 @@ const monoPackages = {
 	'@walless/ioc': resolve(workspaceRoot, 'packages/ioc'),
 	'@walless/core': resolve(workspaceRoot, 'packages/core'),
 	'@walless/gui': resolve(workspaceRoot, 'packages/gui'),
-	'@walless/app': resolve(workspaceRoot, 'packages/app'),
 	'@walless/auth': resolve(workspaceRoot, 'packages/auth'),
 	'@walless/icons': resolve(workspaceRoot, 'packages/icons'),
 	'@walless/store': resolve(workspaceRoot, 'packages/store'),

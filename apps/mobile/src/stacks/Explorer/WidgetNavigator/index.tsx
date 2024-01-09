@@ -4,9 +4,9 @@ import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
 import { runtime } from '@walless/core';
 import { Compass } from '@walless/icons';
-import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import { showRemoveLayoutModal } from 'modals/RemoveLayout';
+import assets from 'utils/assets';
 import { useUniversalInsets } from 'utils/hooks';
 
 import NavigatorOrb from './NavigatorOrb';
@@ -84,8 +84,7 @@ export const WidgetNavigator: FC<Props> = ({
 
 				{widgets.map((item) => {
 					const isActive = getIsExtensionActive?.(item);
-					const iconSource =
-						modules.asset.widget[item._id]?.widgetMeta?.cardIcon;
+					const iconSource = assets.widget[item._id]?.widgetMeta?.cardIcon;
 
 					return (
 						<NavigatorOrb

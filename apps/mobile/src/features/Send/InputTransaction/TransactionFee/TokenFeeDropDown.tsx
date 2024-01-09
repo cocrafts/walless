@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Hoverable, modalActions, Text, View } from '@walless/gui';
-import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
+import assets from 'utils/assets';
 
 interface Props {
 	tokens: TokenDocument[];
@@ -22,7 +22,7 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 				const name = token.metadata?.symbol || 'Unknown';
 				const tokenIcon = token.metadata?.imageUri
 					? { uri: token.metadata.imageUri }
-					: modules.asset.misc.unknownToken;
+					: assets.misc.unknownToken;
 
 				return (
 					<Hoverable

@@ -10,8 +10,8 @@ import {
 	Text,
 } from '@walless/gui';
 import { BackspaceRemove } from '@walless/icons';
-import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
+import assets from 'utils/assets';
 
 import { ModalId } from './internal';
 
@@ -46,7 +46,7 @@ const RemoveLayoutModal: FC<{
 			<View style={styles.layoutInfoContainer}>
 				<View style={imageBackground}>
 					<Image
-						source={modules.asset.widget[item._id].widgetMeta.cardIcon}
+						source={assets.widget[item._id].widgetMeta.cardIcon}
 						alt="network logo"
 						style={styles.image}
 					/>

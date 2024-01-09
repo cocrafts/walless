@@ -3,9 +3,10 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
-import { modules, utils } from '@walless/ioc';
+import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import { addWidgetToStorage } from '@walless/store';
+import assets from 'utils/assets';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
@@ -15,11 +16,11 @@ interface Props {
 
 const ExplorerWidgetItem: FC<Props> = ({ style, widget, isAdded }) => {
 	const coverImgResource = runtime.isMobile
-		? modules.asset.widget[widget._id]?.storeMeta.coverUri
+		? assets.widget[widget._id]?.storeMeta.coverUri
 		: { uri: widget.storeMeta.coverUri };
 
 	const logoImgResource = runtime.isMobile
-		? modules.asset.widget[widget._id]?.storeMeta.iconUri
+		? assets.widget[widget._id]?.storeMeta.iconUri
 		: { uri: widget.storeMeta.iconUri };
 
 	const onAddBtnPress = () => {

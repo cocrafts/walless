@@ -7,7 +7,7 @@ import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
 import IDBPouch from 'pouchdb-adapter-idb';
 
-import { asset, environment } from '../config';
+import { environment } from '../config';
 import { configureDeviceAndNotification } from '../device/device.web';
 import {
 	auth,
@@ -35,7 +35,6 @@ export const injectModules = async () => {
 
 	modules.native = nativeModules;
 	modules.analytics = universalAnalytics;
-	modules.asset = asset;
 	modules.config = environment;
 	modules.storage = storage;
 	modules.qlClient = qlClient;

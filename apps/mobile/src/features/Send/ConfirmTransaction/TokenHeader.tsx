@@ -1,6 +1,6 @@
 import { Image, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-import { modules } from '@walless/ioc';
+import assets from 'utils/assets';
 import { useSnapshot } from 'valtio';
 
 import { txContext } from '../context';
@@ -10,7 +10,7 @@ export const TokenHeader = () => {
 
 	const iconUri = token?.metadata?.imageUri
 		? { uri: token?.metadata?.imageUri }
-		: modules.asset.misc.unknownToken;
+		: assets.misc.unknownToken;
 
 	return (
 		<View style={styles.container}>

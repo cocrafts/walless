@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import { SplashFeature } from '@walless/app';
 import { appActions } from 'state/app';
-import { asset } from 'utils/config';
+import assets from 'utils/assets';
 
 export const SplashScreen: FC = () => {
 	return (
 		<SplashFeature
-			logoSrc={asset.misc.walless}
+			logoSrc={assets.misc.walless}
 			initialize={appActions.bootstrap}
 			onReady={appActions.launchApp as never}
 		/>

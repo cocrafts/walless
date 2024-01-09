@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { Networks, Transaction } from '@walless/core';
 import { appState } from '@walless/engine';
 import { View } from '@walless/gui';
-import { modules } from '@walless/ioc';
+import assets from 'utils/assets';
 import type { NetworkInfo } from 'utils/helper';
 import { getNetworkInfo } from 'utils/helper';
 import { useSnapshot } from 'valtio';
@@ -29,7 +29,7 @@ export const TransactionDetailsFeature: FC<Transaction> = ({
 	const networkInfo = getNetworkInfo(network);
 	const icon = token.metadata?.imageUri
 		? { uri: token.metadata.imageUri }
-		: modules.asset.misc.unknownToken;
+		: assets.misc.unknownToken;
 
 	return (
 		<View style={styles.container}>

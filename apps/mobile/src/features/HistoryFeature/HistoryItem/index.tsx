@@ -3,8 +3,8 @@ import type { ImageURISource } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { Transaction } from '@walless/core';
 import { Hoverable } from '@walless/gui';
-import { modules } from '@walless/ioc';
 import { showTransactionDetailsModal } from 'modals/TransactionDetailsModal';
+import assets from 'utils/assets';
 import { getNetworkInfo } from 'utils/helper';
 
 import ItemAddress from './ItemAddress';
@@ -19,7 +19,7 @@ const HistoryItem: FC<Transaction> = (transaction) => {
 
 	const icon = token.metadata?.imageUri
 		? { uri: token.metadata.imageUri }
-		: modules.asset.misc.unknownToken;
+		: assets.misc.unknownToken;
 
 	return (
 		<Hoverable

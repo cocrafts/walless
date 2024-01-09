@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import { InvitationFeature, useSafeAreaInsets } from '@walless/app';
 import { validateInvitationCode } from '@walless/auth';
 import { appState } from '@walless/engine';
+import InvitationFeature from 'features/Invitation';
 import { asset } from 'utils/config';
+import { useSafeAreaInsets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 
 export const InvitationScreen: FC = () => {

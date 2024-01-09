@@ -77,7 +77,7 @@ export const showTransactionDetailsModal = (
 ) => {
 	modalActions.show({
 		id: ModalId.TransactionDetails,
-		fullWidth: false,
+		fullWidth: true,
 		component: TransactionDetailsModal,
 		bindingDirection: BindDirections.InnerBottom,
 		animateDirection: AnimateDirections.Top,

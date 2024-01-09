@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { appState } from '@walless/engine';
 import { Anchor, Text, View } from '@walless/gui';
 import { appActions } from 'state/app';
-import { asset } from 'utils/config';
+import assets from 'utils/assets';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
 import SignInHeader from './SignInHeader';
@@ -23,7 +23,7 @@ export const LoginScreen: FC = () => {
 	return (
 		<View style={[styles.container, containerStyle]}>
 			<View />
-			<SignInHeader logoSrc={asset.misc.walless} logoSize={logoSize} />
+			<SignInHeader logoSrc={assets.misc.walless} logoSize={logoSize} />
 			<SignInInner
 				onGoogleSignIn={() => appActions.signInWithGoogle(invitationCode)}
 				loading={authenticationLoading}

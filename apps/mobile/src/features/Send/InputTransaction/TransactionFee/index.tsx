@@ -1,6 +1,6 @@
 import type { FC } from 'react';
-import { useTokens } from '@walless/app';
 import type { Networks } from '@walless/core';
+import { useTokens } from 'utils/hooks';
 
 import { gasilonSupportedNetworks } from '../internal';
 

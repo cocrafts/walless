@@ -1,9 +1,5 @@
 import { TransactionBlock } from '@mysten/sui.js';
 import { VersionedTransaction } from '@solana/web3.js';
-import {
-	constructTransaction,
-	constructTransactionAbstractFee,
-} from '@walless/app';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { HandleAptosFunction } from '@walless/ioc';
@@ -11,6 +7,11 @@ import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
 import { sendRequest } from 'bridge';
 import { encode } from 'bs58';
+
+import {
+	constructTransaction,
+	constructTransactionAbstractFee,
+} from './common';
 
 export const createAndSend = async (
 	payload: TransactionPayload,

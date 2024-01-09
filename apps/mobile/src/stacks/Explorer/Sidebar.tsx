@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { useSnapshot, useWidgets } from '@walless/app';
 import { appState, widgetActions } from '@walless/engine';
 import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import type { DrawerContentComponentProps } from 'components/DrawerNavigation';
 import { useDrawerStatus } from 'components/DrawerNavigation';
 import { runtimeActions } from 'state/runtime';
+import { useSnapshot, useWidgets } from 'utils/hooks';
 
 import WidgetNavigator from './WidgetNavigator';
 

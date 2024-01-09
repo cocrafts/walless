@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { getTransactionFee } from '@walless/app';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
+import { getTransactionFee } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../../context';

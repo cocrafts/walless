@@ -12,9 +12,10 @@ import HistoryItem from './HistoryItem';
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	network?: Networks;
+	limit?: number;
 }
 
-const FullHistoryFeature: FC<Props> = ({ style, network }) => {
+const HistoryFeature: FC<Props> = ({ style, network, limit }) => {
 	const history = useHistory(network);
 	const [loading, setLoading] = useState(true);
 
@@ -36,7 +37,7 @@ const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 				<ActivityIndicator />
 			) : (
 				<Fragment>
-					{history.map((transaction) => {
+					{history.slice(0, limit).map((transaction) => {
 						let isOnTheSameDate = true;
 						const transactionDate = convertDateToReadable(transaction.date);
 						if (date !== transactionDate) {
@@ -61,7 +62,7 @@ const FullHistoryFeature: FC<Props> = ({ style, network }) => {
 	);
 };
 
-export default FullHistoryFeature;
+export default HistoryFeature;
 
 const styles = StyleSheet.create({
 	container: {

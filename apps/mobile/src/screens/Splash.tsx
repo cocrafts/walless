@@ -10,7 +10,7 @@ import {
 } from 'react-native-reanimated';
 import { AnimatedImage } from '@walless/gui';
 import { appActions } from 'state/app';
-import { asset } from 'utils/config';
+import assets from 'utils/assets';
 
 const logoSize = 120;
 
@@ -45,7 +45,7 @@ export const SplashScreen: FC = () => {
 
 	return (
 		<View style={styles.container}>
-			<AnimatedImage source={asset.misc.walless} style={logoStyle} />
+			<AnimatedImage source={assets.misc.walless} style={logoStyle} />
 		</View>
 	);
 };

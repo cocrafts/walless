@@ -9,7 +9,6 @@ import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
 import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
 
-import { asset } from '../config';
 import { initializeAuth, universalAnalytics } from '../firebase';
 import { qlClient } from '../graphql';
 import { nativeModules } from '../native';
@@ -33,7 +32,6 @@ export const injectModules = async () => {
 
 	modules.native = nativeModules;
 	modules.analytics = universalAnalytics;
-	modules.asset = asset;
 	modules.config = Config;
 	modules.storage = storage;
 	modules.qlClient = qlClient;

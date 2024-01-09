@@ -4,7 +4,7 @@ import type { ViewStyle } from 'react-native';
 import { validateInvitationCode } from '@walless/auth';
 import { appState } from '@walless/engine';
 import InvitationFeature from 'features/Invitation';
-import { asset } from 'utils/config';
+import assets from 'utils/assets';
 import { useSafeAreaInsets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 
@@ -40,7 +40,7 @@ export const InvitationScreen: FC = () => {
 		<InvitationFeature
 			style={containerStyle}
 			onEnter={onInvitationCodeChange}
-			logoSrc={asset.misc.walless}
+			logoSrc={assets.misc.walless}
 			error={invitationError}
 			onLoginPress={handleLoginPress}
 		/>

@@ -2,8 +2,8 @@ import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
-import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
+import assets from 'utils/assets';
 import { formatQuote, parseTokenAccount } from 'utils/format';
 
 interface Props {
@@ -18,9 +18,7 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 	const amount = parseTokenAccount(account);
 	const unitQuote = account.quotes?.usd;
 	const totalQuote = unitQuote && unitQuote * amount;
-	const iconSource = imageUri
-		? { uri: imageUri }
-		: modules.asset.misc.unknownToken;
+	const iconSource = imageUri ? { uri: imageUri } : assets.misc.unknownToken;
 
 	const itemName = symbol || 'Unknown';
 

@@ -28,6 +28,7 @@ import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import type { Provider } from 'aptos';
 import { TxnBuilderTypes } from 'aptos';
 import base58 from 'bs58';
+import assets from 'utils/assets';
 
 export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {
@@ -446,19 +447,19 @@ export const getNetworkMetadata = (network: Networks) => {
 	let networkName = '';
 	let nativeSymbol = '';
 	if (network == Networks.solana) {
-		networkIcon = modules.asset.widget.solana.storeMeta.iconUri;
+		networkIcon = assets.widget.solana.storeMeta.iconUri;
 		networkName = 'Solana';
 		nativeSymbol = 'SOL';
 	} else if (network == Networks.sui) {
-		networkIcon = modules.asset.widget.sui.storeMeta.iconUri;
+		networkIcon = assets.widget.sui.storeMeta.iconUri;
 		networkName = 'SUI';
 		nativeSymbol = 'SUI';
 	} else if (network == Networks.tezos) {
-		networkIcon = modules.asset.widget.tezos.storeMeta.iconUri;
+		networkIcon = assets.widget.tezos.storeMeta.iconUri;
 		networkName = 'Tezos';
 		nativeSymbol = 'TEZ';
 	} else if (network === Networks.aptos) {
-		networkIcon = modules.asset.widget.aptos.storeMeta.iconUri;
+		networkIcon = assets.widget.aptos.storeMeta.iconUri;
 		networkName = 'Aptos';
 		nativeSymbol = 'APT';
 	}

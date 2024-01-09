@@ -4,7 +4,8 @@ import { getAuth, GoogleAuthProvider } from '@firebase/auth';
 import { getPerformance } from '@firebase/performance';
 import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
-import type { UniversalAnalytics } from '@walless/ioc';
+
+import type { Analytics } from './internal';
 
 const firebaseOptions: FirebaseOptions = {
 	apiKey: FIREBASE_API_KEY,
@@ -52,7 +53,7 @@ export const initializeAuth = async () => {
 	}
 };
 
-export const universalAnalytics: UniversalAnalytics = {
+export const appAnalytics: Analytics = {
 	logEvent: async () => {},
 	logScreenView: async () => {},
 };

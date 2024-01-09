@@ -9,11 +9,7 @@ import IDBPouch from 'pouchdb-adapter-idb';
 
 import { environment } from '../config';
 import { configureDeviceAndNotification } from '../device/device.web';
-import {
-	auth,
-	initializeAuth,
-	universalAnalytics,
-} from '../firebase/index.web';
+import { appAnalytics, auth, initializeAuth } from '../firebase/index.web';
 import { qlClient } from '../graphql';
 import { nativeModules } from '../native';
 import { navigate, navigationRef } from '../navigation';
@@ -34,7 +30,7 @@ export const injectModules = async () => {
 	utils.navigateBack = navigateBack;
 
 	modules.native = nativeModules;
-	modules.analytics = universalAnalytics;
+	modules.analytics = appAnalytics;
 	modules.config = environment;
 	modules.storage = storage;
 	modules.qlClient = qlClient;

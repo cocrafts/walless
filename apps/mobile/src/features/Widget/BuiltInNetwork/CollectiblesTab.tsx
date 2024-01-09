@@ -3,9 +3,8 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import { utils } from '@walless/ioc';
 import type { CollectionDocument } from '@walless/store';
+import NftCard from 'components/NftCard';
 import { useLazyGridLayout } from 'utils/hooks';
-
-import CollectibleItem from './CollectibleItem';
 
 interface Props {
 	collections?: CollectionDocument[];
@@ -36,7 +35,7 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 			<View style={styles.contentContainer}>
 				{width > 0 &&
 					collections.map((ele, index) => (
-						<CollectibleItem
+						<NftCard
 							key={index}
 							item={ele}
 							collectibleCount={ele.count}

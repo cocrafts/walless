@@ -142,9 +142,6 @@ const styles = StyleSheet.create({
 	enterButton: {
 		paddingVertical: 15,
 	},
-	disabledEnterButton: {
-		backgroundColor: '#223240',
-	},
 	buttonTitle: {
 		fontWeight: '500',
 		color: '#ffffff',

@@ -17,7 +17,7 @@ export interface WalletProps {
 	address: string;
 }
 
-const Item: FC<Props> = ({ config }) => {
+const WalletCard: FC<Props> = ({ config }) => {
 	const { network, networkIcon, address } = config.context as WalletProps;
 
 	return (
@@ -28,7 +28,7 @@ const Item: FC<Props> = ({ config }) => {
 	);
 };
 
-export default Item;
+export default WalletCard;
 
 const styles = StyleSheet.create({
 	container: {

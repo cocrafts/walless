@@ -3,14 +3,13 @@ import type { WebViewMessageEvent } from 'react-native-webview';
 import { WebView } from 'react-native-webview';
 import { Networks } from '@walless/core';
 import { appState } from '@walless/engine';
-import { modules } from '@walless/ioc';
+import { environment } from 'utils/config';
 import { usePublicKeys, useSnapshot } from 'utils/hooks';
 
 export const Pixeverse = () => {
 	const { jwtAuth } = useSnapshot(appState);
 	const [isReady, setIsReady] = useState(false);
-	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } =
-		modules.config;
+	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } = environment;
 	const webviewRef = useRef<WebView>();
 	const [pubkey] = usePublicKeys(Networks.solana);
 

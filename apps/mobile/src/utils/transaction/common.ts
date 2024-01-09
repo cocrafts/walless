@@ -29,6 +29,7 @@ import type { Provider } from 'aptos';
 import { TxnBuilderTypes } from 'aptos';
 import base58 from 'bs58';
 import assets from 'utils/assets';
+import { environment } from 'utils/config';
 
 export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {
@@ -298,7 +299,7 @@ const constructTransactionAbstractFeeTemplate = async (
 		receiverPublicKey,
 	);
 
-	const octaneConfig = await fetch(`${modules.config.GASILON_ENDPOINT}`, {
+	const octaneConfig = await fetch(`${environment.GASILON_ENDPOINT}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -378,7 +379,7 @@ export const getTransactionAbstractFee = async (
 	const transactionString = base58.encode(transaction.serialize());
 
 	const data = await (
-		await fetch(`${modules.config.GASILON_ENDPOINT}/solana/getFee`, {
+		await fetch(`${environment.GASILON_ENDPOINT}/solana/getFee`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

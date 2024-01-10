@@ -204,3 +204,28 @@ const recoveryRoute = (params?: object) => ({
 		params,
 	},
 });
+
+export const navigateToWidget = (id: string) => {
+	navigate('Dashboard', {
+		screen: 'Explore',
+		params: { screen: 'Widget', params: { id } },
+	});
+};
+
+export const navigateToCollection = (id: string) => {
+	navigate('Dashboard', {
+		screen: 'Explore',
+		params: { screen: 'Collection', params: { id } },
+	});
+};
+
+export const navigateToCollectible = (id: string) => {
+	navigate('Dashboard', {
+		screen: 'Explore',
+		params: { screen: 'Collectible', params: { id } },
+	});
+};
+
+export const navigateBack = () => {
+	navigationRef.goBack();
+};

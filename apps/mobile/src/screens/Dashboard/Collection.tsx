@@ -5,9 +5,9 @@ import { StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
-import { utils } from '@walless/ioc';
 import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout, useNfts, useSafeAreaInsets } from 'utils/hooks';
+import { navigateBack, navigateToCollectible } from 'utils/navigation';
 
 export const CollectionFeat: FC = () => {
 	const { collections, collectibles } = useNfts();
@@ -35,11 +35,11 @@ export const CollectionFeat: FC = () => {
 	}, [collectibles]);
 
 	const handleNavigateToCollectible = (id: string) => {
-		utils.navigateToCollectible(id);
+		navigateToCollectible(id);
 	};
 
 	const handleGoBack = () => {
-		utils.navigateBack();
+		navigateBack();
 	};
 
 	return (

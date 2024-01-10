@@ -11,7 +11,6 @@ import { configureDeviceAndNotification } from '../device/device.web';
 import { auth, initializeAuth } from '../firebase/index.web';
 import { qlClient } from '../graphql';
 import { nativeModules } from '../native';
-import { navigate, navigationRef } from '../navigation';
 import { createAndSend, handleAptosOnChainAction } from '../transaction';
 import { key } from '../w3a';
 
@@ -22,10 +21,6 @@ export const injectModules = async () => {
 	utils.createAndSend = createAndSend;
 	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.logOut = logOut;
-	utils.navigateToWidget = navigateToWidget;
-	utils.navigateToCollection = navigateToCollection;
-	utils.navigateToCollectible = navigateToCollectible;
-	utils.navigateBack = navigateBack;
 
 	modules.native = nativeModules;
 	modules.config = environment;
@@ -52,29 +47,4 @@ export default modules;
 const logOut = async () => {
 	await signOut(auth());
 	await modules.storage.clearAllDocs();
-};
-
-const navigateToWidget = (id: string) => {
-	navigate('Dashboard', {
-		screen: 'Explore',
-		params: { screen: 'Widget', params: { id } },
-	});
-};
-
-const navigateToCollection = (id: string) => {
-	navigate('Dashboard', {
-		screen: 'Explore',
-		params: { screen: 'Collection', params: { id } },
-	});
-};
-
-const navigateToCollectible = (id: string) => {
-	navigate('Dashboard', {
-		screen: 'Explore',
-		params: { screen: 'Collectible', params: { id } },
-	});
-};
-
-const navigateBack = () => {
-	navigationRef.goBack();
 };

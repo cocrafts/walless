@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { appState, widgetActions } from '@walless/engine';
-import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import type { DrawerContentComponentProps } from 'components/DrawerNavigation';
 import { useDrawerStatus } from 'components/DrawerNavigation';
 import { runtimeActions } from 'state/runtime';
 import { useSnapshot, useWidgets } from 'utils/hooks';
+import { navigateToWidget } from 'utils/navigation';
 
 import WidgetNavigator from './WidgetNavigator';
 
@@ -22,7 +22,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 	}, [drawerStatus]);
 
 	const handleExtensionPress = (item: WidgetDocument) => {
-		utils.navigateToWidget(item._id);
+		navigateToWidget(item._id);
 	};
 
 	const handleRemoveWidget = async (widget: WidgetDocument) => {

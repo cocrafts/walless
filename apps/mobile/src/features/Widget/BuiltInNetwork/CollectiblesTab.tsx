@@ -1,10 +1,10 @@
 import { type FC } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-import { utils } from '@walless/ioc';
 import type { CollectionDocument } from '@walless/store';
 import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout } from 'utils/hooks';
+import { navigateToCollection } from 'utils/navigation';
 
 interface Props {
 	collections?: CollectionDocument[];
@@ -15,10 +15,10 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 		referenceWidth: 156,
 		gap: gridGap,
 	});
+
 	const handlePressItem = (ele: CollectionDocument) => {
-		// TODO: navigate to nft
 		const collectionId = ele._id.split('/')[2];
-		utils.navigateToCollection(collectionId);
+		navigateToCollection(collectionId);
 	};
 
 	return (

@@ -3,10 +3,10 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
-import { utils } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
 import { addWidgetToStorage } from '@walless/store';
 import assets from 'utils/assets';
+import { navigateToWidget } from 'utils/navigation';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
@@ -25,7 +25,7 @@ const ExplorerWidgetItem: FC<Props> = ({ style, widget, isAdded }) => {
 
 	const onAddBtnPress = () => {
 		addWidgetToStorage(widget._id, widget);
-		utils.navigateToWidget(widget._id);
+		navigateToWidget(widget._id);
 	};
 
 	const btnWidth = runtime.isMobile ? { width: 80 } : { width: '50%' };

@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { BulletSeparator } from '@walless/app';
 import { View } from '@walless/gui';
+import BulletSeparator from 'components/BulletSeparator';
 
 import TabTitle from './components/TabTitle';
 import type { CommentProps } from './CommentsTab';

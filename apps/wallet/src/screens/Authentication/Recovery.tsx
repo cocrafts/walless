@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import { recoverByEmergencyKey } from '@walless/auth';
 import { Button, Input, Text, View } from '@walless/gui';
-import { modules } from '@walless/ioc';
 import { showError } from 'modals/Error';
+import assets from 'utils/assets';
 import { useUniversalInsets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { hideNativeKeyboard } from 'utils/system';
@@ -47,7 +47,7 @@ export const RecoveryScreen: FC = () => {
 
 				<View style={styles.headerContainer}>
 					<Image
-						source={modules.asset.misc.walless}
+						source={assets.misc.walless}
 						style={styles.logo}
 						resizeMode="cover"
 					/>

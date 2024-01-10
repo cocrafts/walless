@@ -11,14 +11,12 @@ import { configureDeviceAndNotification } from '../device/device.web';
 import { auth, initializeAuth } from '../firebase/index.web';
 import { qlClient } from '../graphql';
 import { nativeModules } from '../native';
-import { createAndSend } from '../transaction';
 import { key } from '../w3a';
 
 export const injectModules = async () => {
 	const startTime = new Date();
 	const storage = create('engine', IDBPouch);
 
-	utils.createAndSend = createAndSend;
 	utils.logOut = logOut;
 
 	modules.native = nativeModules;

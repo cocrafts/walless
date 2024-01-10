@@ -10,7 +10,6 @@ import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
 
 import { initializeAuth } from '../firebase';
 import { qlClient } from '../graphql';
-import { nativeModules } from '../native';
 import { key } from '../w3a';
 
 export const injectModules = async () => {
@@ -20,7 +19,6 @@ export const injectModules = async () => {
 
 	utils.logOut = logOut;
 
-	modules.native = nativeModules;
 	modules.config = Config;
 	modules.storage = storage;
 	modules.qlClient = qlClient;

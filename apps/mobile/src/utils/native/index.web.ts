@@ -1,4 +1,6 @@
-import type { NativeModules } from '@walless/ioc';
+import type { NativeModules } from './types';
+
+export * from './types';
 
 export const triggerHaptic = () => {};
 export const hydrateEncryptionKey = () => {};

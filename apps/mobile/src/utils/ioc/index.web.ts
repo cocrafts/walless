@@ -10,7 +10,6 @@ import { environment } from '../config';
 import { configureDeviceAndNotification } from '../device/device.web';
 import { auth, initializeAuth } from '../firebase/index.web';
 import { qlClient } from '../graphql';
-import { nativeModules } from '../native';
 import { key } from '../w3a';
 
 export const injectModules = async () => {
@@ -19,7 +18,6 @@ export const injectModules = async () => {
 
 	utils.logOut = logOut;
 
-	modules.native = nativeModules;
 	modules.config = environment;
 	modules.storage = storage;
 	modules.qlClient = qlClient;

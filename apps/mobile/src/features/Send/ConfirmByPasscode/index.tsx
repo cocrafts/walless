@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import type { SlideComponentProps } from '@walless/gui';
 import { Passcode, Text, View } from '@walless/gui';
-import { modules } from '@walless/ioc';
 import { ResponseCode } from '@walless/messaging';
 import type { TokenDocument } from '@walless/store';
 import { showError } from 'modals/Error';
+import { nativeModules } from 'utils/native';
 import { createAndSend, prepareTransactionPayload } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
@@ -82,7 +82,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		} else setRenderPasscode(false);
 
 		if (activatedId === 'PasscodeInput') {
-			modules.native.retrieveEncryptionKey().then((key: string | null) => {
+			nativeModules.retrieveEncryptionKey().then((key: string | null) => {
 				if (key) {
 					handlePasscodeChange(key as string, true);
 				}

@@ -11,7 +11,7 @@ import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
 import { initializeAuth } from '../firebase';
 import { qlClient } from '../graphql';
 import { nativeModules } from '../native';
-import { createAndSend, handleAptosOnChainAction } from '../transaction';
+import { createAndSend } from '../transaction';
 import { key } from '../w3a';
 
 export const injectModules = async () => {
@@ -20,7 +20,6 @@ export const injectModules = async () => {
 	const storage = create('engine', SQLiteAdapter);
 
 	utils.createAndSend = createAndSend;
-	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.logOut = logOut;
 
 	modules.native = nativeModules;

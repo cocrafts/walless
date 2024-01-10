@@ -4,10 +4,10 @@ import { shortenAddress } from '@walless/core';
 import type { AptosPendingToken } from '@walless/engine';
 import { aptosState } from '@walless/engine';
 import { Button, Text, View } from '@walless/gui';
-import { utils } from '@walless/ioc';
 import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 import { showRequirePasscodeModal } from 'modals/RequirePasscode';
+import { handleAptosOnChainAction } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
 interface Props {
@@ -32,7 +32,7 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 			name: token.name,
 		};
 
-		const res = await utils.handleAptosFunction({
+		const res = await handleAptosOnChainAction({
 			passcode,
 			type: RequestType.CLAIM_TOKEN_ON_APTOS,
 			payload,

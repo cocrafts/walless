@@ -11,7 +11,7 @@ import { configureDeviceAndNotification } from '../device/device.web';
 import { auth, initializeAuth } from '../firebase/index.web';
 import { qlClient } from '../graphql';
 import { nativeModules } from '../native';
-import { createAndSend, handleAptosOnChainAction } from '../transaction';
+import { createAndSend } from '../transaction';
 import { key } from '../w3a';
 
 export const injectModules = async () => {
@@ -19,7 +19,6 @@ export const injectModules = async () => {
 	const storage = create('engine', IDBPouch);
 
 	utils.createAndSend = createAndSend;
-	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.logOut = logOut;
 
 	modules.native = nativeModules;

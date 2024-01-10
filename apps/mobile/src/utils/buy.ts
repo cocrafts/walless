@@ -3,6 +3,7 @@ import { Networks } from '@walless/core';
 import { keyState } from '@walless/engine';
 
 import { environment } from './config';
+
 export interface GateFiConfig {
 	wallet?: string;
 	cryptoCurrency?: string;

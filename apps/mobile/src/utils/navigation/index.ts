@@ -1,11 +1,17 @@
 import { Linking } from 'react-native';
-import type { LinkingOptions } from '@react-navigation/native';
+import type {
+	LinkingOptions,
+	NavigationState,
+	PartialRoute,
+	Route,
+} from '@react-navigation/native';
 import { createNavigationContainerRef } from '@react-navigation/native';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 
-import type { ResetAnchors, RootParamList, ScreenOptions } from './types';
+import type { RootParamList, ScreenOptions } from './types';
+import { ResetAnchors } from './types';
 
-export type { DashboardParamList } from './types';
+export * from './types';
 
 export const handleLinkingRequest = (url: string, isInitialURL?: boolean) => {
 	const { href } = new URL(url);
@@ -109,48 +115,52 @@ export const navigateBack = () => {
 };
 
 export const resetRoute = (anchor?: ResetAnchors, params?: object) => {
-	if (anchor === 'Widget') {
-		navigationRef.reset({ index: 0, routes: [widgetRoute(params)] });
-	} else if (anchor === 'Invitation') {
-		navigationRef.reset({ index: 0, routes: [authenticationRoute(params)] });
-	} else if (anchor === 'CreatePasscode') {
-		navigationRef.reset({ index: 0, routes: [createPasscodeRoute()] });
-	} else if (anchor === 'Recovery') {
-		navigationRef.reset({ index: 0, routes: [recoveryRoute(params)] });
-	}
+	navigationRef.reset({ index: 0, routes: [getResetRoute(anchor, params)] });
 };
 
-const authenticationRoute = (params?: object) => ({
-	name: 'Authentication',
-	params: {
-		screen: 'Invitation',
-		params,
-	},
-});
-
-const createPasscodeRoute = (params?: object) => ({
-	name: 'Authentication',
-	params: {
-		screen: 'CreatePasscode',
-		params,
-	},
-});
-
-const recoveryRoute = (params?: object) => ({
-	name: 'Authentication',
-	params: {
-		screen: 'Recovery',
-		params,
-	},
-});
-
-const widgetRoute = (params?: object) => ({
-	name: 'Dashboard',
-	params: {
-		screen: 'Explore',
-		params: {
-			screen: 'Widget',
-			params,
-		},
-	},
-});
+const getResetRoute = (
+	anchor?: ResetAnchors,
+	params?: object,
+): PartialRoute<Route<NavigationState['routeNames'][number]>> => {
+	switch (anchor) {
+		case ResetAnchors.Invitation:
+			return {
+				name: 'Authentication',
+				params: {
+					screen: 'Invitation',
+					params,
+				},
+			};
+		case ResetAnchors.CreatePasscode:
+			return {
+				name: 'Authentication',
+				params: {
+					screen: 'CreatePasscode',
+					params,
+				},
+			};
+		case ResetAnchors.Recovery:
+			return {
+				name: 'Authentication',
+				params: {
+					screen: 'Recovery',
+					params,
+				},
+			};
+		case ResetAnchors.Widget:
+			return {
+				name: 'Dashboard',
+				params: {
+					screen: 'Explore',
+					params: {
+						screen: 'Widget',
+						params,
+					},
+				},
+			};
+		default:
+			return {
+				name: 'Splash',
+			};
+	}
+};

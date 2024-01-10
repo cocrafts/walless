@@ -13,7 +13,7 @@ import { showError } from 'modals/Error';
 import { auth } from 'utils/firebase';
 import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';
-import { navigate, resetRoute } from 'utils/navigation';
+import { navigate, ResetAnchors, resetRoute } from 'utils/navigation';
 
 import BiometricIcon from '../BiometricIcon';
 
@@ -44,7 +44,7 @@ export const CreatePasscodeScreen: FC = () => {
 		}
 
 		await signInWithPasscode(passcode, auth().currentUser, handleInitFail);
-		resetRoute('Widget', { id: 'explorer' });
+		resetRoute(ResetAnchors.Widget, { id: 'explorer' });
 	};
 
 	const onPasscodeChange = async (

@@ -42,11 +42,12 @@ export type RootParamList = {
 	Dashboard: NavigatorScreenParams<DashboardParamList>;
 };
 
-export type ResetAnchors =
-	| 'Widget'
-	| 'Invitation'
-	| 'CreatePasscode'
-	| 'Recovery';
+export enum ResetAnchors {
+	Widget = 'Widget',
+	Invitation = 'Invitation',
+	CreatePasscode = 'CreatePasscode',
+	Recovery = 'Recovery',
+}
 
 export interface ScreenOptions {
 	navigator: StackNavigationOptions;

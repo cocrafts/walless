@@ -4,7 +4,7 @@ import { Text, View } from '@walless/gui';
 import type { CollectionDocument } from '@walless/store';
 import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout } from 'utils/hooks';
-import { navigateToCollection } from 'utils/navigation';
+import { navigate } from 'utils/navigation';
 
 interface Props {
 	collections?: CollectionDocument[];
@@ -18,7 +18,10 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 
 	const handlePressItem = (ele: CollectionDocument) => {
 		const collectionId = ele._id.split('/')[2];
-		navigateToCollection(collectionId);
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: { screen: 'Collection', params: { id: collectionId } },
+		});
 	};
 
 	return (

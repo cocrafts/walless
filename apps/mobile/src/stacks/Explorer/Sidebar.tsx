@@ -6,7 +6,7 @@ import type { DrawerContentComponentProps } from 'components/DrawerNavigation';
 import { useDrawerStatus } from 'components/DrawerNavigation';
 import { runtimeActions } from 'state/runtime';
 import { useSnapshot, useWidgets } from 'utils/hooks';
-import { navigateToWidget } from 'utils/navigation';
+import { navigate } from 'utils/navigation';
 
 import WidgetNavigator from './WidgetNavigator';
 
@@ -22,7 +22,10 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 	}, [drawerStatus]);
 
 	const handleExtensionPress = (item: WidgetDocument) => {
-		navigateToWidget(item._id);
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: { screen: 'Widget', params: { id: item._id } },
+		});
 	};
 
 	const handleRemoveWidget = async (widget: WidgetDocument) => {

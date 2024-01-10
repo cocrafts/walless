@@ -1,4 +1,4 @@
-import { handleUniversalLinkingRequest } from './navigation';
+import { handleLinkingRequest } from './navigation';
 
 export const configureBrowserRuntime = () => {
 	pwaStandaloneHack();
@@ -9,7 +9,7 @@ const configureInitialURL = () => {
 	const { pathname, hash } = new URL(window.location.href);
 
 	if (pathname !== '/' || hash !== '') {
-		handleUniversalLinkingRequest(window.location.href);
+		handleLinkingRequest(window.location.href);
 	}
 
 	setTimeout(() => {

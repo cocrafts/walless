@@ -7,7 +7,7 @@ import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout, useNfts, useSafeAreaInsets } from 'utils/hooks';
-import { navigateBack, navigateToCollectible } from 'utils/navigation';
+import { navigate, navigateBack } from 'utils/navigation';
 
 export const CollectionFeat: FC = () => {
 	const { collections, collectibles } = useNfts();
@@ -35,7 +35,10 @@ export const CollectionFeat: FC = () => {
 	}, [collectibles]);
 
 	const handleNavigateToCollectible = (id: string) => {
-		navigateToCollectible(id);
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: { screen: 'Collectible', params: { id } },
+		});
 	};
 
 	const handleGoBack = () => {

@@ -1,72 +1,28 @@
 import { Linking } from 'react-native';
-import type {
-	LinkingOptions,
-	NavigatorScreenParams,
-} from '@react-navigation/native';
+import type { LinkingOptions } from '@react-navigation/native';
 import { createNavigationContainerRef } from '@react-navigation/native';
-import type { StackNavigationOptions } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 
-export const handleUniversalLinkingRequest = (
-	url: string,
-	isInitialURL?: boolean,
-) => {
+import type { ResetAnchors, RootParamList, ScreenOptions } from './types';
+
+export type { DashboardParamList } from './types';
+
+export const handleLinkingRequest = (url: string, isInitialURL?: boolean) => {
 	const { href } = new URL(url);
-	console.log(href, isInitialURL, 'TODO: handle incoming url universally');
-};
-
-export type AuthenticationParamList = {
-	Login: undefined;
-	CreatePasscode: undefined;
-	DeprecatedPasscode: undefined;
-	Invitation: undefined;
-	Recovery: undefined;
-};
-
-export type ExploreParamList = {
-	Widget: {
-		id?: string;
-	};
-	Collection: {
-		id: string;
-	};
-	Collectible: {
-		id: string;
-	};
-};
-
-export type HomeParamList = {
-	Default: undefined;
-	History: undefined;
-};
-
-export type SettingParamList = {
-	Default: undefined;
-};
-
-export type DashboardParamList = {
-	Explore: NavigatorScreenParams<ExploreParamList>;
-	Home: NavigatorScreenParams<HomeParamList>;
-	Setting: NavigatorScreenParams<SettingParamList>;
-};
-
-export type RootParamList = {
-	Splash: undefined;
-	Authentication: NavigatorScreenParams<AuthenticationParamList>;
-	Dashboard: NavigatorScreenParams<DashboardParamList>;
+	console.log(href, isInitialURL, 'TODO: handle incoming url');
 };
 
 export const linking: LinkingOptions<RootParamList> = {
 	prefixes: ['walless://', 'https://walless.io', 'https://*.walless.io'],
 	getInitialURL: async () => {
 		const initialURL = await Linking.getInitialURL();
-		if (initialURL) handleUniversalLinkingRequest(initialURL, true);
+		if (initialURL) handleLinkingRequest(initialURL, true);
 
 		return initialURL;
 	},
 	subscribe: () => {
 		const subscription = Linking.addEventListener('url', ({ url }) => {
-			handleUniversalLinkingRequest(url);
+			handleLinkingRequest(url);
 		});
 
 		return () => subscription.remove();
@@ -113,14 +69,6 @@ export const linking: LinkingOptions<RootParamList> = {
 	},
 };
 
-interface ScreenOptions {
-	navigator: StackNavigationOptions;
-	slide: StackNavigationOptions;
-	fade: StackNavigationOptions;
-	bottomFade: StackNavigationOptions;
-	bottomReveal: StackNavigationOptions;
-}
-
 export const screenOptions: ScreenOptions = {
 	navigator: {
 		headerShown: false,
@@ -156,7 +104,9 @@ export const navigate = (
 	}
 };
 
-type ResetAnchors = 'Widget' | 'Invitation' | 'CreatePasscode' | 'Recovery';
+export const navigateBack = () => {
+	navigationRef.goBack();
+};
 
 export const resetRoute = (anchor?: ResetAnchors, params?: object) => {
 	if (anchor === 'Widget') {
@@ -166,20 +116,9 @@ export const resetRoute = (anchor?: ResetAnchors, params?: object) => {
 	} else if (anchor === 'CreatePasscode') {
 		navigationRef.reset({ index: 0, routes: [createPasscodeRoute()] });
 	} else if (anchor === 'Recovery') {
-		navigationRef.reset({ index: 0, routes: [recoveryRoute()] });
+		navigationRef.reset({ index: 0, routes: [recoveryRoute(params)] });
 	}
 };
-
-const widgetRoute = (params?: object) => ({
-	name: 'Dashboard',
-	params: {
-		screen: 'Explore',
-		params: {
-			screen: 'Widget',
-			params,
-		},
-	},
-});
 
 const authenticationRoute = (params?: object) => ({
 	name: 'Authentication',
@@ -205,27 +144,13 @@ const recoveryRoute = (params?: object) => ({
 	},
 });
 
-export const navigateToWidget = (id: string) => {
-	navigate('Dashboard', {
+const widgetRoute = (params?: object) => ({
+	name: 'Dashboard',
+	params: {
 		screen: 'Explore',
-		params: { screen: 'Widget', params: { id } },
-	});
-};
-
-export const navigateToCollection = (id: string) => {
-	navigate('Dashboard', {
-		screen: 'Explore',
-		params: { screen: 'Collection', params: { id } },
-	});
-};
-
-export const navigateToCollectible = (id: string) => {
-	navigate('Dashboard', {
-		screen: 'Explore',
-		params: { screen: 'Collectible', params: { id } },
-	});
-};
-
-export const navigateBack = () => {
-	navigationRef.goBack();
-};
+		params: {
+			screen: 'Widget',
+			params,
+		},
+	},
+});

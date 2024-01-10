@@ -6,7 +6,7 @@ import { Hoverable, Text, View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 import { addWidgetToStorage } from '@walless/store';
 import assets from 'utils/assets';
-import { navigateToWidget } from 'utils/navigation';
+import { navigate } from 'utils/navigation';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
@@ -25,7 +25,10 @@ const ExplorerWidgetItem: FC<Props> = ({ style, widget, isAdded }) => {
 
 	const onAddBtnPress = () => {
 		addWidgetToStorage(widget._id, widget);
-		navigateToWidget(widget._id);
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: { screen: 'Widget', params: { id: widget._id } },
+		});
 	};
 
 	const btnWidth = runtime.isMobile ? { width: 80 } : { width: '50%' };

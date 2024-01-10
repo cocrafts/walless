@@ -14,10 +14,10 @@ import type { RouteProp } from '@react-navigation/native';
 import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
 import { Home, Walless } from '@walless/icons';
-import { HapticFeedbackTypes, modules } from '@walless/ioc';
 import { runtimeState } from 'state/runtime';
 import { tabBarHeight } from 'utils/constants';
 import { useSnapshot } from 'utils/hooks';
+import { HapticFeedbackTypes, nativeModules } from 'utils/native';
 import type { DashboardParamList } from 'utils/navigation';
 
 import { ProfileIcon } from './ProfileIcon';
@@ -70,7 +70,7 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 		});
 
 		if (!isFocusing && !event.defaultPrevented) {
-			modules.native.triggerHaptic(HapticFeedbackTypes.impactHeavy);
+			nativeModules.triggerHaptic(HapticFeedbackTypes.impactHeavy);
 			navigation.navigate({
 				name: route.name,
 				merge: true,

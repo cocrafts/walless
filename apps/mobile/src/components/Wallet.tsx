@@ -4,8 +4,8 @@ import { Image, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Copy } from '@walless/icons';
-import { HapticFeedbackTypes, modules } from '@walless/ioc';
 import { showCopiedModal } from 'modals/Notification';
+import { HapticFeedbackTypes, nativeModules } from 'utils/native';
 import { copy } from 'utils/system';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 
 export const Wallet: FC<Props> = ({ name, address, icon }) => {
 	const onCopy = async () => {
-		modules.native.triggerHaptic(HapticFeedbackTypes.impactHeavy);
+		nativeModules.triggerHaptic(HapticFeedbackTypes.impactHeavy);
 		await copy(address);
 		showCopiedModal();
 	};

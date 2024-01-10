@@ -10,9 +10,6 @@ import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
 
 import { initializeAuth } from '../firebase';
 import { qlClient } from '../graphql';
-import { nativeModules } from '../native';
-import { navigate, navigationRef } from '../navigation';
-import { createAndSend, handleAptosOnChainAction } from '../transaction';
 import { key } from '../w3a';
 
 export const injectModules = async () => {
@@ -20,15 +17,8 @@ export const injectModules = async () => {
 	const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
 	const storage = create('engine', SQLiteAdapter);
 
-	utils.createAndSend = createAndSend;
-	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.logOut = logOut;
-	utils.navigateToWidget = navigateToWidget;
-	utils.navigateToCollection = navigateToCollection;
-	utils.navigateToCollectible = navigateToCollectible;
-	utils.navigateBack = navigateBack;
 
-	modules.native = nativeModules;
 	modules.config = Config;
 	modules.storage = storage;
 	modules.qlClient = qlClient;
@@ -51,29 +41,4 @@ export default modules;
 const logOut = async () => {
 	await firebase.auth().signOut();
 	await modules.storage.clearAllDocs();
-};
-
-const navigateToWidget = (id: string) => {
-	navigate('Dashboard', {
-		screen: 'Explore',
-		params: { screen: 'Widget', params: { id } },
-	});
-};
-
-const navigateToCollection = (id: string) => {
-	navigate('Dashboard', {
-		screen: 'Explore',
-		params: { screen: 'Collection', params: { id } },
-	});
-};
-
-const navigateToCollectible = (id: string) => {
-	navigate('Dashboard', {
-		screen: 'Explore',
-		params: { screen: 'Collectible', params: { id } },
-	});
-};
-
-const navigateBack = () => {
-	navigationRef.goBack();
 };

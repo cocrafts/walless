@@ -2,10 +2,10 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
-import { utils } from '@walless/ioc';
 import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
 import { showRequirePasscodeModal } from 'modals/RequirePasscode';
+import { handleAptosOnChainAction } from 'utils/transaction';
 
 interface Props {
 	pubkey: string;
@@ -24,7 +24,7 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 			directTransfer: !directTransfer,
 		};
 
-		const res = await utils.handleAptosFunction({
+		const res = await handleAptosOnChainAction({
 			passcode,
 			type: RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS,
 			payload,

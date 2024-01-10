@@ -8,8 +8,11 @@ import {
 import { logger } from '@walless/core';
 
 export const biometrics = new Biometrics({ allowDeviceCredentials: false });
-import HapticFeedback from 'react-native-haptic-feedback';
-import type { NativeModules } from '@walless/ioc';
+import { trigger } from 'react-native-haptic-feedback';
+
+import type { NativeModules } from './types';
+
+export * from './types';
 
 export const hydrateEncryptionKey = async (value: string) => {
 	await biometrics.simplePrompt({
@@ -42,7 +45,7 @@ export const retrieveEncryptionKey = async (
 };
 
 export const nativeModules: NativeModules = {
-	triggerHaptic: HapticFeedback.trigger,
+	triggerHaptic: trigger,
 	hydrateEncryptionKey,
 	retrieveEncryptionKey,
 };

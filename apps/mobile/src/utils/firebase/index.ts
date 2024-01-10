@@ -10,7 +10,7 @@ import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
 import { runtimeActions } from 'state/runtime';
 
-import type { Analytics } from './internal';
+import type { Analytics } from './types';
 
 export const auth = authModule;
 export const analytics = getAnalytics();

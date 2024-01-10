@@ -9,7 +9,7 @@ import type { RemoteConfig } from '@walless/core';
 import { defaultRemoteConfig } from '@walless/engine';
 
 import { app } from './index.ext';
-import type { Analytics } from './internal';
+import type { Analytics } from './types';
 
 export const analytics = getAnalytics(app);
 export const remoteConfig = getRemoteConfig(app);

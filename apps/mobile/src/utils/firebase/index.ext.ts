@@ -5,7 +5,7 @@ import { getPerformance } from '@firebase/performance';
 import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
 
-import type { Analytics } from './internal';
+import type { Analytics } from './types';
 
 const firebaseOptions: FirebaseOptions = {
 	apiKey: FIREBASE_API_KEY,

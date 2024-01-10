@@ -13,9 +13,7 @@ const InvitationScreen = () => {
 		paddingBottom: Math.max(insets.bottom, 32),
 	};
 
-	useEffect(() => {
-		appState.isAbleToSignIn = true;
-	}, []);
+	useEffect(() => {}, []);
 
 	const onInvitationCodeChange = async (value: string) => {
 		if (invitationError && value.length > 0) {

@@ -16,7 +16,6 @@ import { customAuth, customAuthArgs, getGoogleAuthURL, key } from 'utils/w3a';
 
 export const signInWithGoogle = async (invitationCode?: string) => {
 	try {
-		appState.authenticationLoading = true;
 		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
 
 		if (runtime.isExtension) {
@@ -46,8 +45,6 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 					email: auth.currentUser?.email,
 				});
 			} else if (!walletInvitation && !invitationCode) {
-				appState.isAbleToSignIn = false;
-				appState.authenticationLoading = false;
 				showError('The account does not exist. Enter your Invitation code');
 				router.navigate('/invitation', { replace: true });
 				return;
@@ -85,7 +82,5 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 		});
 	} catch (error) {
 		logger.error('Error during sign-in', error);
-	} finally {
-		appState.authenticationLoading = false;
 	}
 };

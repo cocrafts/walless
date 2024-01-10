@@ -6,7 +6,6 @@ import {
 } from '@firebase/auth';
 import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
 import { logger, runtime } from '@walless/core';
-import { appState } from '@walless/engine';
 import { mutations, queries, type WalletInvitation } from '@walless/graphql';
 import { showError } from 'modals/Error';
 import { auth, googleProvider } from 'utils/firebase/index.web';
@@ -21,7 +20,6 @@ import {
 
 export const signInWithGoogle = async (invitationCode?: string) => {
 	try {
-		appState.authenticationLoading = true;
 		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
 
 		if (runtime.isExtension) {
@@ -47,16 +45,13 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 
 			if (!walletInvitation && invitationCode) {
 				await qlClient.request(mutations.claimWalletInvitation, {
-					code: invitationCode || appState.invitationCode,
+					code: invitationCode,
 					email: auth().currentUser?.email,
 				});
 			} else if (!walletInvitation && !invitationCode) {
 				showError({
 					errorText: 'The account does not exist. Enter your Invitation code',
 				});
-
-				appState.isAbleToSignIn = false;
-				appState.authenticationLoading = false;
 				navigate('Authentication', { screen: 'Invitation' });
 				return;
 			}
@@ -92,12 +87,11 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 				navigate('Dashboard');
 			},
 			handleError: async () => {
-				showError({ errorText: 'Something went wrong' }) as never;
+				showError({ errorText: 'Something went wrong' });
 			},
 		});
 	} catch (error) {
+		showError({ errorText: 'Something went wrong' });
 		logger.error('Error during sign-in', error);
-	} finally {
-		appState.authenticationLoading = false;
 	}
 };

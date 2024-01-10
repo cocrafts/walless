@@ -4,7 +4,6 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import CustomAuth from '@toruslabs/customauth-react-native-sdk';
 import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
 import { logger } from '@walless/core';
-import { appState } from '@walless/engine';
 import type { WalletInvitation } from '@walless/graphql';
 import { mutations, queries } from '@walless/graphql';
 import { showError } from 'modals/Error';
@@ -19,7 +18,6 @@ GoogleSignin.configure({
 
 export const signInWithGoogle = async (invitationCode?: string) => {
 	try {
-		appState.authenticationLoading = true;
 		const redirectUri = 'metacraft://walless/auth';
 		await CustomAuth.init({ redirectUri, network: customAuthArgs.network });
 		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -36,7 +34,7 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 
 			if (!walletInvitation && invitationCode) {
 				await qlClient.request(mutations.claimWalletInvitation, {
-					code: invitationCode || appState.invitationCode,
+					code: invitationCode,
 					email: auth().currentUser?.email,
 				});
 			} else if (!walletInvitation && !invitationCode) {
@@ -44,8 +42,6 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 					errorText: 'The account does not exist. Enter your Invitation code',
 				});
 
-				appState.isAbleToSignIn = false;
-				appState.authenticationLoading = false;
 				navigate('Authentication', { screen: 'Invitation' });
 				return;
 			}
@@ -80,12 +76,11 @@ export const signInWithGoogle = async (invitationCode?: string) => {
 				navigate('Dashboard');
 			},
 			handleError: async () => {
-				showError({ errorText: 'Something went wrong' }) as never;
+				showError({ errorText: 'Something went wrong' });
 			},
 		});
 	} catch (error) {
+		showError({ errorText: 'Something went wrong' });
 		logger.error('Error during sign-in', error);
-	} finally {
-		appState.authenticationLoading = false;
 	}
 };

@@ -1,4 +1,4 @@
-import type { Transaction } from '../../solana/transaction';
+import type { Transaction } from '../../crawlers/solana/history';
 
 import { historyState } from './internal';
 

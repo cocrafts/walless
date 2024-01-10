@@ -12,3 +12,5 @@
 - UI:
   - Styling
   - Layout (Explore, Profile/Settings, Network layout, Pixeverse)
+
+Note: try to guess the error to catch the error handling behavior

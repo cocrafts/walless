@@ -7,7 +7,7 @@ import { resetRoute } from 'utils/navigation';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	appState.remoteConfig = loadRemoteConfig();
-	await liveActions.initialize();
+	// await liveActions.initialize();
 	await liveActions.watchAndSync();
 
 	return appState;

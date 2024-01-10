@@ -2,8 +2,8 @@ import type { FC } from 'react';
 import type { ImageSourcePropType } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
-import { appState } from '@walless/engine';
 import { Anchor, Text, View } from '@walless/gui';
+import { appState } from 'state';
 import { removeRedundantCharacters } from 'utils/format';
 import { useSnapshot } from 'valtio';
 

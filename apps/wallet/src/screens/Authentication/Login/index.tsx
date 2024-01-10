@@ -1,8 +1,7 @@
 import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { appState } from '@walless/engine';
 import { Anchor, Text, View } from '@walless/gui';
-import { appActions } from 'state/app';
+import { appActions, appState } from 'state';
 import assets from 'utils/assets';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 

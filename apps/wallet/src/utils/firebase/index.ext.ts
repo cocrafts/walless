@@ -3,7 +3,8 @@ import { initializeApp } from '@firebase/app';
 import { getAuth, GoogleAuthProvider } from '@firebase/auth';
 import { getPerformance } from '@firebase/performance';
 import type { RemoteConfig } from '@walless/core';
-import { appState, defaultRemoteConfig } from '@walless/engine';
+import { appState } from 'state';
+import { defaultRemoteConfig } from 'utils/constants';
 
 import type { Analytics } from './types';
 

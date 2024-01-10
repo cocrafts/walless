@@ -2,11 +2,11 @@ import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
-import { aptosState } from '@walless/engine';
 import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import type { Provider } from 'aptos';
+import { aptosState } from 'state/assets/aptos';
 import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 

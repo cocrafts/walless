@@ -1,7 +1,7 @@
 import { Image, StyleSheet } from 'react-native';
-import { appState } from '@walless/engine';
 import { Anchor, Text, View } from '@walless/gui';
 import { ResponseCode } from '@walless/messaging';
+import { appState } from 'state';
 import assets from 'utils/assets';
 import { useSnapshot } from 'valtio';
 

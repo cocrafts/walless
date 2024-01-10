@@ -1,9 +1,9 @@
+import type { UnknownObject } from '@walless/core';
 import { logger, runtime } from '@walless/core';
-import { appState } from '@walless/engine';
 import type { DeviceInfoInput } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { SystemDocument } from '@walless/store';
-import { runtimeActions } from 'state/runtime';
+import { appState, runtimeActions } from 'state';
 
 import project from '../../../package.json';
 import { auth } from '../firebase/index.ext';
@@ -47,8 +47,8 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		}
 	}
 
-	if (global.chrome?.instanceID) {
-		const nativeToken = await chrome.instanceID.getToken?.({
+	if ((global.chrome as UnknownObject).instanceID) {
+		const nativeToken = await (chrome as UnknownObject).instanceID.getToken?.({
 			authorizedEntity: FIREBASE_MESSAGING_SENDER_ID,
 			scope: 'FCM',
 		});

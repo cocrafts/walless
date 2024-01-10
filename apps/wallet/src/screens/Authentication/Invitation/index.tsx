@@ -12,9 +12,9 @@ import {
 	type ViewStyle,
 } from 'react-native';
 import { validateInvitationCode } from '@walless/auth';
-import { appState } from '@walless/engine';
 import { Anchor, Button, Input, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
+import { appState } from 'state';
 import assets from 'utils/assets';
 import { useSafeAreaInsets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';

@@ -1,8 +1,8 @@
 import { Linking } from 'react-native';
 import { Networks } from '@walless/core';
 import { keyState } from '@walless/engine';
-import { modules } from '@walless/ioc';
 
+import { environment } from './config';
 export interface GateFiConfig {
 	wallet?: string;
 	cryptoCurrency?: string;
@@ -12,14 +12,16 @@ export interface GateFiConfig {
 }
 
 export const onrampWithGateFi = (config?: GateFiConfig) => {
-	let queryString = `merchantId=${modules.config.GATEFI_MERCHANT_ID}`;
+	const { GATEFI_ENDPOINT, GATEFI_MERCHANT_ID } = environment;
+
+	let queryString = `merchantId=${GATEFI_MERCHANT_ID}`;
 	queryString += `&wallet=${config?.wallet}`;
 	queryString += `&cryptoCurrency=${config?.cryptoCurrency ?? 'USDT'}`;
 	queryString += `&cryptoAmount=${config?.cryptoAmount ?? '100'}`;
 	queryString += `&fiatCurrency=${config?.fiatCurrency ?? 'USD'}`;
 	queryString += `&fiatAmount=${config?.fiatAmount ?? '100'}`;
 
-	const url = `https://${modules.config.GATEFI_ENDPOINT}/?${queryString}`;
+	const url = `https://${GATEFI_ENDPOINT}/?${queryString}`;
 	Linking.openURL(url);
 };
 

@@ -5,8 +5,6 @@ import { selectors } from '@walless/store';
 import type { Provider } from 'aptos';
 import { HexString } from 'aptos';
 
-import { aptosActions, aptosState } from '../../state/aptos';
-import { tokenActions } from '../../state/token';
 import type { EngineRunner } from '../../utils/type';
 
 import { getCoins } from './coins';
@@ -31,8 +29,10 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 
 			const constructAptosData = async () => {
 				try {
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
 					const tokenDocuments = await getCoins(connection, pubkey);
-					tokenActions.setItems(tokenDocuments);
+					// Need to store to db
+					// tokenActions.setItems(tokenDocuments);
 				} catch (error) {
 					// Error means that the account is not created yet
 				}
@@ -42,20 +42,18 @@ export const aptosEngineRunner: EngineRunner<Provider> = {
 						pubkey,
 						'0x3::token::TokenStore',
 					);
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
 					const hasOptedIn = (resource.data as TokenResource).direct_transfer;
-					if (hasOptedIn !== aptosState.directTransfer) {
-						aptosActions.setDirectTransfer(hasOptedIn);
-					}
+					// TODO: need to store direct transfer into db
 				} catch (error) {
-					aptosActions.setDirectTransfer(false);
+					// TODO: need to store direct transfer into db
 				}
 
 				try {
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
 					const pendingNfts = await getPendingTokens(endpoint, pubkey);
 					// NOTE: it is better to have a deep comparison here
-					if (pendingNfts.length !== aptosState.pendingTokens.size) {
-						aptosActions.setPendingTokens(pendingNfts);
-					}
+					// TODO: need to store pendingTokens into db
 				} catch (error) {
 					logger.error('Aptos crawler error', error);
 				}

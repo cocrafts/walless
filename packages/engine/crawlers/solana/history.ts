@@ -12,7 +12,6 @@ import type { Collectible, Token, TokenAccount } from '@walless/core';
 import { logger, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 
-import { historyActions } from './../../state/history/index';
 import { getMetadata, solMint } from './metadata';
 import type { SolanaContext } from './shared';
 import { throttle } from './shared';
@@ -40,7 +39,7 @@ const checkIfMetaIsValid = (
 	);
 };
 
-export interface Transaction {
+export interface TransactionHistory {
 	id: string;
 	signature: string;
 	network: Networks;
@@ -404,7 +403,7 @@ export const getTransactionDetails = async (
 
 	const amount = getTransactionAmount(token, tokenForFee, mainInstruction);
 
-	const finalTransaction: Transaction = {
+	const finalTransaction: TransactionHistory = {
 		id: parsedTransaction.transaction.signatures[0],
 		signature: parsedTransaction.transaction.signatures[0],
 		network: Networks.solana,
@@ -476,7 +475,7 @@ export const getTransactions = async (
 			maxSupportedTransactionVersion: 0,
 		});
 
-	const promisesArray: Promise<Transaction | undefined>[] = [];
+	const promisesArray: Promise<TransactionHistory | undefined>[] = [];
 
 	const filteredTransactions = parsedTransactions
 		.sort((transaction1, transaction2) => {
@@ -501,7 +500,7 @@ export const getTransactions = async (
 		return transaction !== undefined;
 	});
 
-	historyActions.setItems(transactions);
+	// historyActions.setItems(transactions as never);
 
 	return transactions;
 };
@@ -509,7 +508,7 @@ export const getTransactions = async (
 export const historyByAddress = async (
 	context: SolanaContext,
 	pubkey: PublicKey,
-): Promise<Array<Transaction>> => {
+): Promise<Array<TransactionHistory>> => {
 	const address = pubkey.toString();
 	const confirmedSignatures = await throttle(() => {
 		return context.connection.getConfirmedSignaturesForAddress2(pubkey, {
@@ -518,7 +517,7 @@ export const historyByAddress = async (
 	})();
 
 	const signatureIds = confirmedSignatures?.map((i) => i.signature) || [];
-	const transactions: Transaction[] = [];
+	const transactions: TransactionHistory[] = [];
 
 	for (const id of signatureIds) {
 		await throttle(async () => {
@@ -532,7 +531,7 @@ export const historyByAddress = async (
 
 					if (detail) {
 						transactions.push(detail);
-						historyActions.setItems(transactions);
+						// historyActions.setItems(transactions);
 					}
 				}
 			} catch (error) {

@@ -39,7 +39,6 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "@toruslabs/customauth-react-native-sdk": "^4.0.1",
-    "@walless/app": "*",
     "@walless/auth": "*",
     "@walless/core": "*",
     "@walless/graphql": "*",

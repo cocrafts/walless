@@ -1,6 +1,6 @@
 import type { Config, UserProfile } from '@walless/core';
-import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
+import { storage } from 'utils/storage';
 
 export interface BootstrapResult {
 	profile?: UserProfile;
@@ -24,7 +24,7 @@ export const makeProfile = (user: IFirebaseUser): UserProfile => {
 };
 
 export const setProfile = async (profile: UserProfile) => {
-	await modules.storage.upsert<SettingDocument>('settings', async (doc) => {
+	await storage.upsert<SettingDocument>('settings', async (doc) => {
 		doc.type = doc.type || 'Setting';
 		doc.profile = profile;
 		doc.config = doc.config || {

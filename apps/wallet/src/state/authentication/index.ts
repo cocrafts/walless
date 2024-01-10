@@ -2,7 +2,7 @@ import Config from 'react-native-config';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import CustomAuth from '@toruslabs/customauth-react-native-sdk';
-import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
+import { makeProfile, setProfile, signInWithTorusKey } from 'utils/auth';
 import { logger } from '@walless/core';
 import { appState } from '@walless/engine';
 import type { WalletInvitation } from '@walless/graphql';

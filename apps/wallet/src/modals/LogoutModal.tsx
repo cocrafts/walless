@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, modalActions } from '@walless/gui';
-import { utils } from '@walless/ioc';
+import { logout } from 'utils/auth';
 
 import { ModalId } from './internal';
 
 const handleLogOut = async () => {
-	if (utils.logOut) utils.logOut();
+	await logout();
 	modalActions.hide(ModalId.Logout);
 };
 

@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import type { NavigationState } from '@react-navigation/native';
-import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
 import { useDebouncedCallback } from 'use-debounce';
 import { appAnalytics } from 'utils/firebase';
 import { navigationRef } from 'utils/navigation';
+import { storage } from 'utils/storage';
 
 let lastWidgetId: string;
 
@@ -28,7 +28,7 @@ export const useNavigationHydrate = () => {
 
 			if (childRoute?.name === 'Explore' && widgetId !== lastWidgetId) {
 				lastWidgetId = widgetId;
-				modules.storage.upsert<SettingDocument>('settings', async (doc) => {
+				storage.upsert<SettingDocument>('settings', async (doc) => {
 					doc.config = doc.config || {};
 					doc.config.latestLocation = widgetId;
 					return doc;

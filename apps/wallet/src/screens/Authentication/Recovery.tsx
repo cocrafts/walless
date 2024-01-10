@@ -8,7 +8,7 @@ import {
 	StyleSheet,
 	TouchableWithoutFeedback,
 } from 'react-native';
-import { recoverByEmergencyKey } from '@walless/auth';
+import { recoverByEmergencyKey } from 'utils/auth';
 import { Button, Input, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
 import assets from 'utils/assets';

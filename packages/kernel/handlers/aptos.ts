@@ -1,5 +1,4 @@
 import { Networks } from '@walless/core';
-import { collectibleState, collectionState } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import type { Provider } from 'aptos';
 import {
@@ -128,15 +127,6 @@ export const handleTransferToken = async (
 	}
 
 	await connection.waitForTransaction(txHash);
-
-	collectibleState.map.delete(txData.wallessCollectibleId);
-	const collection = collectionState.map.get(txData.wallessCollectionId);
-	if (collection) {
-		collection.count--;
-		if (collection.count === 0) {
-			collectionState.map.delete(txData.wallessCollectionId);
-		}
-	}
 
 	return txHash;
 };

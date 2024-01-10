@@ -11238,31 +11238,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/app@*, @walless/app@workspace:packages/app":
-  version: 0.0.0-use.local
-  resolution: "@walless/app@workspace:packages/app"
-  dependencies:
-    eslint: 8.38.0
-  peerDependencies:
-    "@metaplex-foundation/js": 0.18.3
-    "@mysten/sui.js": 0.34.0
-    "@solana/spl-token": 0.3.7
-    "@solana/web3.js": 1.78.4
-    "@walless/core": "*"
-    "@walless/crypto": "*"
-    "@walless/gui": "*"
-    "@walless/store": "*"
-    "@walless/ui": "*"
-    react: ^18.2.0
-    react-native-gesture-handler: 2.14.0
-    react-native-reanimated: "*"
-    react-native-safe-area-context: 4.8.1
-    react-native-webview: 13.6.3
-    use-debounce: ^10.0.0
-    valtio: 1.10.5
-  languageName: unknown
-  linkType: soft
-
 "@walless/auth@*, @walless/auth@workspace:packages/auth":
   version: 0.0.0-use.local
   resolution: "@walless/auth@workspace:packages/auth"
@@ -11605,7 +11580,6 @@ __metadata:
     "@types/jest": ^29.2.1
     "@types/react": ^18.2.25
     "@types/react-test-renderer": ^18.0.0
-    "@walless/app": "*"
     "@walless/auth": "*"
     "@walless/core": "*"
     "@walless/graphql": "*"

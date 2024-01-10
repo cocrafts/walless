@@ -1,11 +1,15 @@
 import { Image, StyleSheet } from 'react-native';
-import type { NavigationItemProps } from '@walless/app';
-import { NavigationItem } from '@walless/app';
 import { Button, View } from '@walless/gui';
+import NavigationItem from 'components/NavigationItem';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { resources } from 'utils/config';
 import { sharedStyles } from 'utils/style';
+
+export interface NavigationItemProps {
+	title: string;
+	href: string;
+}
 
 export const navigationItems: NavigationItemProps[] = [
 	{
@@ -32,7 +36,8 @@ export const Header = () => {
 				{navigationItems.map((item) => (
 					<NavigationItem
 						key={item.href}
-						item={item}
+						title={item.title}
+						href={item.href}
 						isActive={
 							router.pathname === item.href ||
 							(isLayoutDetail && item.href === '/')

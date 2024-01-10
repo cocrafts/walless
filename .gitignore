@@ -8,6 +8,7 @@ cdk.context.json
 
 # builds
 apps/**/metacraft
+!apps/**/java/metacraft
 apps/**/builds
 packages/**/lib
 .swc

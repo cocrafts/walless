@@ -1,5 +1,4 @@
 import { signOut } from '@firebase/auth';
-import { buyToken } from '@walless/app';
 import { logger } from '@walless/core';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
@@ -9,11 +8,7 @@ import IDBPouch from 'pouchdb-adapter-idb';
 
 import { environment } from '../config';
 import { configureDeviceAndNotification } from '../device/device.web';
-import {
-	auth,
-	initializeAuth,
-	universalAnalytics,
-} from '../firebase/index.web';
+import { auth, initializeAuth } from '../firebase/index.web';
 import { qlClient } from '../graphql';
 import { nativeModules } from '../native';
 import { navigate, navigationRef } from '../navigation';
@@ -26,7 +21,6 @@ export const injectModules = async () => {
 
 	utils.createAndSend = createAndSend;
 	utils.handleAptosFunction = handleAptosOnChainAction;
-	utils.buyToken = buyToken;
 	utils.logOut = logOut;
 	utils.navigateToWidget = navigateToWidget;
 	utils.navigateToCollection = navigateToCollection;
@@ -34,7 +28,6 @@ export const injectModules = async () => {
 	utils.navigateBack = navigateBack;
 
 	modules.native = nativeModules;
-	modules.analytics = universalAnalytics;
 	modules.config = environment;
 	modules.storage = storage;
 	modules.qlClient = qlClient;

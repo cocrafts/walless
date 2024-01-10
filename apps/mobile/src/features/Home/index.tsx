@@ -3,10 +3,10 @@ import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
-import { utils } from '@walless/ioc';
 import FeatureButtons from 'components/FeatureButtons';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
+import { buyToken } from 'utils/buy';
 import { tabBarHeight } from 'utils/constants';
 import { useTokens } from 'utils/hooks';
 
@@ -27,7 +27,7 @@ const ProfileFeature = () => {
 			<FeatureButtons
 				onSendPress={() => showSendTokenModal({})}
 				onReceivePress={() => showReceiveModal({})}
-				onBuyPress={() => utils.buyToken(Networks.solana)}
+				onBuyPress={() => buyToken(Networks.solana)}
 			/>
 
 			<History />

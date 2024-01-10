@@ -1,7 +1,6 @@
 import Config from 'react-native-config';
 import WebSQLite from 'react-native-quick-websql';
 import { firebase } from '@react-native-firebase/auth';
-import { buyToken } from '@walless/app';
 import { logger } from '@walless/core';
 import { createEngine } from '@walless/engine';
 import { modules, utils } from '@walless/ioc';
@@ -9,7 +8,7 @@ import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure, create } from '@walless/store';
 import SQLiteAdapterFactory from 'pouchdb-adapter-react-native-sqlite';
 
-import { initializeAuth, universalAnalytics } from '../firebase';
+import { initializeAuth } from '../firebase';
 import { qlClient } from '../graphql';
 import { nativeModules } from '../native';
 import { navigate, navigationRef } from '../navigation';
@@ -21,7 +20,6 @@ export const injectModules = async () => {
 	const SQLiteAdapter = SQLiteAdapterFactory(WebSQLite);
 	const storage = create('engine', SQLiteAdapter);
 
-	utils.buyToken = buyToken;
 	utils.createAndSend = createAndSend;
 	utils.handleAptosFunction = handleAptosOnChainAction;
 	utils.logOut = logOut;
@@ -31,7 +29,6 @@ export const injectModules = async () => {
 	utils.navigateBack = navigateBack;
 
 	modules.native = nativeModules;
-	modules.analytics = universalAnalytics;
 	modules.config = Config;
 	modules.storage = storage;
 	modules.qlClient = qlClient;

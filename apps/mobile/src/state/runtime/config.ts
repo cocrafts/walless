@@ -3,6 +3,7 @@ import type { Device, DeviceInfoInput } from '@walless/graphql';
 import { mutations } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
+import { qlClient } from 'utils/graphql';
 
 const id = 'settings';
 
@@ -30,7 +31,7 @@ export const syncDeviceInfo = async (device: DeviceInfoInput) => {
 			return doc;
 		});
 
-		await modules.qlClient.request<
+		await qlClient.request<
 			{ registerDevice: Device },
 			{ device: DeviceInfoInput }
 		>(mutations.registerDevice, { device });

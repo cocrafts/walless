@@ -8,8 +8,9 @@ import getCrashlytics from '@react-native-firebase/crashlytics';
 import remoteConfig from '@react-native-firebase/remote-config';
 import type { RemoteConfig } from '@walless/core';
 import { appState, defaultRemoteConfig } from '@walless/engine';
-import type { UniversalAnalytics } from '@walless/ioc';
 import { runtimeActions } from 'state/runtime';
+
+import type { Analytics } from './types';
 
 export const auth = authModule;
 export const analytics = getAnalytics();
@@ -70,7 +71,7 @@ export const initializeAuth = async () => {
 	}
 };
 
-export const universalAnalytics: UniversalAnalytics = {
+export const appAnalytics: Analytics = {
 	logEvent: (name, params, options) => {
 		return logEvent(analytics, name, params, options);
 	},

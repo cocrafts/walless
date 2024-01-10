@@ -3,7 +3,7 @@ import type { NavigationState } from '@react-navigation/native';
 import { modules } from '@walless/ioc';
 import type { SettingDocument } from '@walless/store';
 import { useDebouncedCallback } from 'use-debounce';
-import { universalAnalytics } from 'utils/firebase';
+import { appAnalytics } from 'utils/firebase';
 import { navigationRef } from 'utils/navigation';
 
 let lastWidgetId: string;
@@ -22,7 +22,7 @@ export const useNavigationHydrate = () => {
 			const findDashboard = (i: any) => i.name === 'Dashboard';
 			const dashboard = state?.routes.find(findDashboard)?.state;
 			const childRoute = dashboard?.routes[dashboard?.index as never];
-			const widget = childRoute?.params as any
+			const widget = childRoute?.params as any;
 			const widgetId = widget?.params?.id;
 			/* eslint-enable */
 
@@ -36,7 +36,7 @@ export const useNavigationHydrate = () => {
 			}
 
 			if (!!nextRouteName && routeNameRef.current !== nextRouteName) {
-				universalAnalytics.logScreenView(nextRouteName, nextRouteName);
+				appAnalytics.logScreenView(nextRouteName, nextRouteName);
 				routeNameRef.current = nextRouteName;
 			}
 		},

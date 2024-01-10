@@ -3,6 +3,7 @@ import { mutations, queries } from '@walless/graphql';
 import { modules } from '@walless/ioc';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
+import { qlClient } from 'utils/graphql';
 
 export const syncRemoteProfile = async () => {
 	const keyResult = await modules.storage.find<PublicKeyDocument>(
@@ -11,7 +12,7 @@ export const syncRemoteProfile = async () => {
 
 	if (keyResult.docs.length === 0) return;
 
-	const { userAccount } = await modules.qlClient.request<{
+	const { userAccount } = await qlClient.request<{
 		userAccount: Account;
 	}>(queries.userAccount);
 
@@ -21,6 +22,6 @@ export const syncRemoteProfile = async () => {
 			network: key.network,
 		}));
 
-		await modules.qlClient.request(mutations.trackAccountWallets, { wallets });
+		await qlClient.request(mutations.trackAccountWallets, { wallets });
 	}
 };

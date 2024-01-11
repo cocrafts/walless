@@ -1,5 +1,5 @@
 import type { Networks } from '@walless/core';
-import type { EndpointsDocument } from '@walless/store';
+import type { Database, EndpointsDocument } from '@walless/store';
 
 export interface Runner {
 	start: () => void;
@@ -20,4 +20,5 @@ export type EnginePool = Record<string, Runner>;
 
 export type EngineConfig = {
 	endpoints: EndpointsDocument;
+	storage: Database;
 };

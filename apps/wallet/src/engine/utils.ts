@@ -1,9 +1,8 @@
 import { type Endpoint } from '@walless/core';
-import { modules } from '@walless/ioc';
+import type { Database } from '@walless/store';
 import { type EndpointsDocument } from '@walless/store';
 
-export const getEndpoints = async () => {
-	const { storage } = modules;
+export const getEndpoints = async (storage: Database) => {
 	let endpoints = (await storage.safeGet('endpoints')) as EndpointsDocument;
 
 	if (!endpoints) {

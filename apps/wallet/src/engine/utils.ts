@@ -1,13 +1,6 @@
-import { type Endpoint, Networks } from '@walless/core';
+import { type Endpoint } from '@walless/core';
 import { modules } from '@walless/ioc';
-import {
-	type EndpointsDocument,
-	type PublicKeyDocument,
-	selectors,
-} from '@walless/store';
-
-import { createRunner } from './create';
-import type { EngineConfig, EnginePool } from './types';
+import { type EndpointsDocument } from '@walless/store';
 
 export const getEndpoints = async () => {
 	const { storage } = modules;
@@ -28,20 +21,4 @@ export const defaultEndpoints = {
 	sui: defaultEndpoint,
 	tezos: defaultEndpoint,
 	aptos: defaultEndpoint,
-};
-
-export const initNetworkRunner = async (
-	enginePool: EnginePool,
-	config: EngineConfig,
-) => {
-	const { storage } = modules;
-	const keys = (await storage.find<PublicKeyDocument>(selectors.allKeys)).docs;
-	Object.values(Networks).forEach((network) => {
-		const isNetworkAvailable = !!keys.find((i) => i.network === network);
-		if (!isNetworkAvailable) return;
-
-		enginePool[network]?.stop();
-		enginePool[network] = createRunner(network, config);
-		enginePool[network].start();
-	});
 };

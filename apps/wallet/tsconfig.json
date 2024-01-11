@@ -17,7 +17,7 @@
       "utils/*": [
         "./src/utils/*"
       ],
-      "engine/": [
+      "engine": [
         "./src/engine"
       ],
       "engine/*": [

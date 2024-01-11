@@ -1,15 +1,20 @@
 import type { BootstrapResult } from '@walless/auth';
+import { Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
-import type {
-	CollectibleDocument,
-	CollectionDocument,
-	EndpointsDocument,
-	PouchDocument,
-	PublicKeyDocument,
-	SettingDocument,
-	TokenDocument,
-	WidgetDocument,
+import {
+	type CollectibleDocument,
+	type CollectionDocument,
+	type EndpointsDocument,
+	type PouchDocument,
+	type PublicKeyDocument,
+	selectors,
+	type SettingDocument,
+	type TokenDocument,
+	type WidgetDocument,
 } from '@walless/store';
+import { createEngine } from 'engine';
+import { createSolanaRunner } from 'engine/runners';
+import type { Engine } from 'engine/types';
 import { loadRemoteConfig } from 'utils/firebase';
 import { ResetAnchors, resetRoute } from 'utils/navigation';
 
@@ -20,6 +25,11 @@ import { widgetState } from './widget';
 
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	appState.remoteConfig = loadRemoteConfig();
+
+	const engine = await createEngine();
+	registerNetworkRunners(engine);
+	engine.start();
+
 	await watchAndSync();
 
 	return appState;
@@ -37,7 +47,19 @@ export const launchApp = async (config: BootstrapResult): Promise<void> => {
 	}
 };
 
-export const watchAndSync = async () => {
+const registerNetworkRunners = async (engine: Engine) => {
+	const { storage } = modules;
+	const keys = (await storage.find<PublicKeyDocument>(selectors.allKeys)).docs;
+	Object.values(Networks).forEach((network) => {
+		const isNetworkAvailable = !!keys.find((i) => i.network === network);
+		if (!isNetworkAvailable) return;
+		if (network === Networks.solana) {
+			engine.register(network, createSolanaRunner);
+		}
+	});
+};
+
+const watchAndSync = async () => {
 	const options = {
 		live: true,
 		include_docs: true,

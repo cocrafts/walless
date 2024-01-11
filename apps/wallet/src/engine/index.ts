@@ -1,16 +1,28 @@
 import type { Networks } from '@walless/core';
 
-import type { Engine, EngineConfig, EnginePool } from './types';
-import { getEndpoints, initNetworkRunner } from './utils';
+import type { CreateFunction, Engine, EngineConfig, EnginePool } from './types';
+import { getEndpoints } from './utils';
 
 export const createEngine = async (): Promise<Engine> => {
+	const createPool: Record<string, CreateFunction> = {};
 	const enginePool: EnginePool = {} as never;
 	const endpoints = await getEndpoints();
 	const config: EngineConfig = { endpoints };
 
 	return {
+		register: (key: string, create: CreateFunction) => {
+			if (createPool[key]) {
+				throw Error(`cannot register create function with key ${key}`);
+			}
+			createPool[key] = create;
+		},
 		start: async () => {
-			initNetworkRunner(enginePool, config);
+			const keys = Object.keys(createPool);
+			keys.forEach((key) => {
+				const runner = createPool[key](config);
+				enginePool[key] = runner;
+				runner.start();
+			});
 		},
 		stop: () => {
 			const runners = Object.values(enginePool);
@@ -21,3 +33,5 @@ export const createEngine = async (): Promise<Engine> => {
 		},
 	};
 };
+
+export * from './types';

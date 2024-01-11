@@ -1,6 +1,3 @@
-import { Networks } from '@walless/core';
-
-import { registerRunner } from '../../create';
 import type { EngineConfig, Runner } from '../../types';
 
 export type AptosContext = {
@@ -17,5 +14,3 @@ export const createAptosRunner = (config: EngineConfig): Runner => {
 		},
 	};
 };
-
-registerRunner(Networks.aptos, createAptosRunner);

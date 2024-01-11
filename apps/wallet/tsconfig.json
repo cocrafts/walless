@@ -17,6 +17,12 @@
       "utils/*": [
         "./src/utils/*"
       ],
+      "engine/": [
+        "./src/engine"
+      ],
+      "engine/*": [
+        "./src/engine/*"
+      ],
       "state": [
         "./src/state"
       ],

@@ -1,7 +1,6 @@
 import { logger } from '@walless/core';
 import { createEngine } from '@walless/engine';
 import { modules } from '@walless/ioc';
-import { createEncryptionKeyVault } from '@walless/messaging';
 import { configure } from '@walless/store';
 import { storage } from 'utils/storage';
 
@@ -12,7 +11,6 @@ export const initializeApp = async () => {
 	const startTime = new Date();
 
 	modules.storage = storage;
-	modules.encryptionKeyVault = createEncryptionKeyVault(storage);
 
 	await configure(storage); // pouchdb setup, should be lighting fast
 	await initializeAuth(); // some of its dependency triggered without await causing fast complete/resolve

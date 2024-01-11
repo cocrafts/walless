@@ -1,5 +1,4 @@
 import { logger, runtime } from '@walless/core';
-import { modules } from '@walless/ioc';
 import type {
 	EncryptedMessage,
 	MessagePayload,
@@ -15,6 +14,8 @@ import {
 	ResponseCode,
 	ResponseMessage,
 } from '@walless/messaging';
+
+import { encryptionKeyVault } from '../bridge/utils';
 
 import { onKernelMessage } from './handlers/kernel';
 import { respond } from './utils/requestPool';
@@ -32,7 +33,7 @@ export let registerIncomingMessage: MessengerMessageListener;
 
 export const initializeMessaging = async (): Promise<void> => {
 	await Promise.all(
-		channels.map((id) => modules.encryptionKeyVault.createAndHydrate(id)),
+		channels.map((id) => encryptionKeyVault.createAndHydrate(id)),
 	);
 
 	if (runtime.isExtension) {
@@ -47,7 +48,7 @@ export const initializeMessaging = async (): Promise<void> => {
 
 				if (registeredCallback) {
 					if (isEncrypted) {
-						const key = await modules.encryptionKeyVault.get(port.name);
+						const key = await encryptionKeyVault.get(port.name);
 						const decrypted = await decryptMessage(
 							message as EncryptedMessage,
 							key,
@@ -103,7 +104,7 @@ export const initializeMessaging = async (): Promise<void> => {
 			callbackRegistry[channelId] = handler;
 		};
 	} else {
-		const encryptedMessenger = createMessenger(modules.encryptionKeyVault);
+		const encryptedMessenger = createMessenger(encryptionKeyVault);
 
 		sendMessage = encryptedMessenger.send;
 		registerIncomingMessage = encryptedMessenger.onMessage;

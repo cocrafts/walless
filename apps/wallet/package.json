@@ -83,19 +83,19 @@
   },
   "devDependencies": {
     "@types/jest": "^29.2.1",
+    "@types/pouchdb-adapter-memory": "^6.1.6",
     "@types/react": "^18.2.25",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "eslint": "^8.38.0",
+    "jest": "^29.4.3",
+    "pouchdb-adapter-memory": "^8.0.1",
     "react-test-renderer": "18.2.0",
     "rimraf": "5.0.5"
   },
   "peerDependencies": {
     "@tkey/react-native-storage": "^11.0.0",
     "@tkey/seed-phrase": "^11.0.2"
-  },
-  "jest": {
-    "preset": "react-native"
   }
 }

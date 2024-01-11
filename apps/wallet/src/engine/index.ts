@@ -1,4 +1,3 @@
-import type { Networks } from '@walless/core';
 import type { Database } from '@walless/store';
 
 import type { CreateFunction, Engine, EngineConfig, EnginePool } from './types';
@@ -29,8 +28,8 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 			const runners = Object.values(enginePool);
 			runners.forEach((r) => r.stop());
 		},
-		getContext: <T>(network: Networks) => {
-			return enginePool[network].getContext() as T;
+		getContext: <T>(key: string) => {
+			return enginePool[key]?.getContext() as T;
 		},
 	};
 };

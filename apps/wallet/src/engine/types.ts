@@ -1,4 +1,3 @@
-import type { Networks } from '@walless/core';
 import type { Database, EndpointsDocument } from '@walless/store';
 
 export interface Runner {
@@ -11,7 +10,7 @@ export interface Engine {
 	register: (key: string, create: CreateFunction) => void;
 	start: () => void;
 	stop: () => void;
-	getContext: <T>(network: Networks) => T;
+	getContext: <T>(key: string) => T;
 }
 
 export type CreateFunction = (config: EngineConfig) => Runner;

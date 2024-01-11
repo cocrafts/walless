@@ -10,8 +10,10 @@ export interface Runner {
 export interface Engine {
 	start: () => void;
 	stop: () => void;
-	getNetworkContext: <T>(network: Networks) => T;
+	getContext: <T>(network: Networks) => T;
 }
+
+export type EnginePool = Record<string, Runner>;
 
 export type EngineConfig = {
 	endpoints: EndpointsDocument;

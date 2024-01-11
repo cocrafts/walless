@@ -1,13 +1,14 @@
-import type { Endpoint } from '@walless/core';
+import { Networks } from '@walless/core';
 
-import type { Runner } from '../../types';
+import { registerRunner } from '../../create';
+import type { EngineConfig, Runner } from '../../types';
 
 export type suiContext = {
 	connection: unknown;
 };
 
-export const createSuiRunner = (endpoint: Endpoint): Runner => {
-	console.log(endpoint);
+export const createSuiRunner = (config: EngineConfig): Runner => {
+	console.log(config);
 	return {
 		start() {},
 		stop() {},
@@ -16,3 +17,5 @@ export const createSuiRunner = (endpoint: Endpoint): Runner => {
 		},
 	};
 };
+
+registerRunner(Networks.sui, createSuiRunner);

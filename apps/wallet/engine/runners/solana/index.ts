@@ -1,14 +1,15 @@
 import type { Connection } from '@solana/web3.js';
-import type { Endpoint } from '@walless/core';
+import { Networks } from '@walless/core';
 
-import type { Runner } from '../../types';
+import { registerRunner } from '../../create';
+import type { EngineConfig, Runner } from '../../types';
 
 export type SolanaContext = {
 	connection: Connection;
 };
 
-export const createSolanaRunner = (endpoint: Endpoint): Runner => {
-	console.log(endpoint);
+export const createSolanaRunner = (config: EngineConfig): Runner => {
+	console.log(config);
 	return {
 		start() {},
 		stop() {},
@@ -17,3 +18,5 @@ export const createSolanaRunner = (endpoint: Endpoint): Runner => {
 		},
 	};
 };
+
+registerRunner(Networks.solana, createSolanaRunner);

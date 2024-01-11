@@ -1,13 +1,14 @@
-import type { Endpoint } from '@walless/core';
+import { Networks } from '@walless/core';
 
-import type { Runner } from '../../types';
+import { registerRunner } from '../../create';
+import type { EngineConfig, Runner } from '../../types';
 
 export type AptosContext = {
 	connection: unknown;
 };
 
-export const createAptosRunner = (endpoint: Endpoint): Runner => {
-	console.log(endpoint);
+export const createAptosRunner = (config: EngineConfig): Runner => {
+	console.log(config);
 	return {
 		start() {},
 		stop() {},
@@ -16,3 +17,5 @@ export const createAptosRunner = (endpoint: Endpoint): Runner => {
 		},
 	};
 };
+
+registerRunner(Networks.aptos, createAptosRunner);

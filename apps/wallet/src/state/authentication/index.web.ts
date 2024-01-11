@@ -4,11 +4,11 @@ import {
 	signInWithCredential,
 	signInWithPopup,
 } from '@firebase/auth';
-import { makeProfile, setProfile, signInWithTorusKey } from 'utils/auth';
 import { logger, runtime } from '@walless/core';
 import { appState } from '@walless/engine';
 import { mutations, queries, type WalletInvitation } from '@walless/graphql';
 import { showError } from 'modals/Error';
+import { makeProfile, setProfile, signInWithTorusKey } from 'utils/auth';
 import { auth, googleProvider } from 'utils/firebase/index.web';
 import { qlClient } from 'utils/graphql';
 import { navigate } from 'utils/navigation';

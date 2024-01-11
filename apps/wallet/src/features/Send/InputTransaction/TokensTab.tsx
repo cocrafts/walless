@@ -1,7 +1,7 @@
-import type { FC } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks, Token } from '@walless/core';
-import { Select, Text, View } from '@walless/gui';
+import { Button, Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
@@ -20,8 +20,12 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
-	const { token, amount, network } = useSnapshot(txContext).tx;
+	const { token, amount, network, tokenForFee, transactionFee } =
+		useSnapshot(txContext).tx;
 	const { tokens } = useTokens(network);
+	const [disabledMax, setDisabledMax] = useState(
+		!token || !tokenForFee || !transactionFee,
+	);
 
 	const balance = token
 		? parseFloat(token.account.balance) / 10 ** token.account.decimals
@@ -46,6 +50,21 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		}
 	};
 
+	const handleMaxPress = () => {
+		if (!transactionFee || !token || !tokenForFee) return;
+
+		if (token._id === tokenForFee._id) {
+			const amount = balance - transactionFee;
+			txActions.update({ amount: amount.toString() });
+		} else {
+			txActions.update({ amount: balance.toString() });
+		}
+	};
+
+	useEffect(() => {
+		setDisabledMax(!token || !tokenForFee || !transactionFee);
+	}, [token, tokenForFee, transactionFee]);
+
 	return (
 		<View style={styles.container}>
 			<Select
@@ -64,6 +83,15 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				keyboardType="numeric"
 				onChangeText={(amount) => txActions.update({ amount })}
 				checkFunction={checkAmount}
+				suffix={
+					<Button
+						style={styles.maxButton}
+						titleStyle={styles.titleMaxButton}
+						title="Max"
+						onPress={handleMaxPress}
+						disabled={disabledMax}
+					/>
+				}
 			/>
 
 			<View style={styles.balanceContainer}>
@@ -95,6 +123,18 @@ const styles = StyleSheet.create({
 		height: 1,
 		backgroundColor: '#566674',
 		opacity: 0.2,
+	},
+	maxButton: {
+		paddingHorizontal: 8,
+		paddingVertical: 5,
+		backgroundColor: '#1E2830',
+		borderRadius: 6,
+		marginRight: 6,
+	},
+	titleMaxButton: {
+		fontSize: 10,
+		lineHeight: 12,
+		fontWeight: '500',
 	},
 	balanceContainer: {
 		marginTop: -20,

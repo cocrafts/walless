@@ -50,18 +50,6 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		right: 10,
 	},
-	maxButton: {
-		paddingHorizontal: 8,
-		paddingVertical: 5,
-		backgroundColor: '#1E2830',
-		borderRadius: 6,
-		marginRight: 6,
-	},
-	titleMaxButton: {
-		fontSize: 10,
-		lineHeight: 12,
-		fontWeight: '500',
-	},
 	bottomBox: {
 		height: 14,
 		marginTop: 1,

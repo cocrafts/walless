@@ -17,6 +17,7 @@ import { createSolanaRunner } from 'engine/runners';
 import type { Engine } from 'engine/types';
 import { loadRemoteConfig } from 'utils/firebase';
 import { ResetAnchors, resetRoute } from 'utils/navigation';
+import { storage } from 'utils/storage';
 
 import { appState } from './app';
 import { collectibleState, collectionState, tokenState } from './assets';
@@ -26,7 +27,7 @@ import { widgetState } from './widget';
 export const bootstrap = async (): Promise<BootstrapResult> => {
 	appState.remoteConfig = loadRemoteConfig();
 
-	const engine = await createEngine();
+	const engine = await createEngine(storage);
 	registerNetworkRunners(engine);
 	engine.start();
 

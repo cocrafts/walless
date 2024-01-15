@@ -3,6 +3,7 @@ import getAnalytics, {
 	logScreenView,
 	setUserProperties,
 } from '@react-native-firebase/analytics';
+import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import authModule from '@react-native-firebase/auth';
 import getCrashlytics from '@react-native-firebase/crashlytics';
 import remoteConfig from '@react-native-firebase/remote-config';
@@ -14,6 +15,8 @@ import { defaultRemoteConfig } from 'utils/constants';
 import type { Analytics } from './types';
 
 export const auth = authModule;
+export type UserAuth = FirebaseAuthTypes.User;
+
 export const analytics = getAnalytics();
 export const crashlytics = getCrashlytics();
 

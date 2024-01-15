@@ -1,5 +1,6 @@
 import type { FirebaseOptions } from '@firebase/app';
 import { initializeApp } from '@firebase/app';
+import type { User } from '@firebase/auth';
 import { getAuth, GoogleAuthProvider } from '@firebase/auth';
 import { getPerformance } from '@firebase/performance';
 import type { RemoteConfig } from '@walless/core';
@@ -20,6 +21,8 @@ const firebaseOptions: FirebaseOptions = {
 
 export const app = initializeApp(firebaseOptions);
 export const auth = () => getAuth(app);
+export type UserAuth = User;
+
 export const performance = getPerformance(app);
 export const googleProvider = new GoogleAuthProvider();
 

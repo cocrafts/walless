@@ -10090,19 +10090,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tkey/private-keys@npm:9.0.0":
-  version: 9.0.0
-  resolution: "@tkey/private-keys@npm:9.0.0"
-  dependencies:
-    "@tkey/common-types": ^9.0.0
-    "@toruslabs/tweetnacl-js": ^1.0.4
-    bn.js: ^5.2.1
-  peerDependencies:
-    "@babel/runtime": 7.x
-  checksum: a1f9e49fc1959835a3ba2baf50cf9c320d6ae64a9d3019a022a2c12d4e09b8fc6c023b7758f9a381a919f3b8a43ddb4f038ee3b805fcdfb5ee3e926079c0840e
-  languageName: node
-  linkType: hard
-
 "@tkey/react-native-storage@npm:^11.0.0":
   version: 11.0.0
   resolution: "@tkey/react-native-storage@npm:11.0.0"
@@ -10116,7 +10103,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tkey/security-questions@npm:9.0.0, @tkey/security-questions@npm:^9.0.0":
+"@tkey/security-questions@npm:^9.0.0":
   version: 9.0.0
   resolution: "@tkey/security-questions@npm:9.0.0"
   dependencies:
@@ -10509,13 +10496,6 @@ __metadata:
   peerDependencies:
     "@babel/runtime": 7.x
   checksum: 117489f4f053baf46619edfcee6fd825158e12bd338c3b069a76483e830da3c57953e2fcdc102102ad9968ef656d33b9d005850c016ebca04f32fb6b6eee2b70
-  languageName: node
-  linkType: hard
-
-"@toruslabs/tweetnacl-js@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "@toruslabs/tweetnacl-js@npm:1.0.4"
-  checksum: 9094f55bfab6e4798bc59be20d31d4c1009f8aeb2432fc491e8dab7d6891b87cdffe5edf37c011fafb87c95bb464327b7f5a4e155b44a58d81659d0bcd804ff7
   languageName: node
   linkType: hard
 
@@ -11247,26 +11227,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/auth@*, @walless/auth@workspace:packages/auth":
-  version: 0.0.0-use.local
-  resolution: "@walless/auth@workspace:packages/auth"
-  dependencies:
-    "@taquito/signer": ^17.5.1
-    "@tkey/chrome-storage": 9.0.0
-    "@tkey/default": 9.0.0
-    "@tkey/private-keys": 9.0.0
-    "@tkey/react-native-storage": ^11.0.0
-    "@tkey/security-questions": 9.0.0
-    "@tkey/seed-phrase": ^11.0.2
-    "@tkey/web-storage": 9.0.0
-    "@walless/core": "*"
-    "@walless/graphql": "*"
-    "@walless/ioc": "*"
-    eslint: 8.38.0
-    react-native-encrypted-storage: ^4.0.3
-  languageName: unknown
-  linkType: soft
-
 "@walless/core@*, @walless/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@walless/core@workspace:packages/core"
@@ -11589,15 +11549,19 @@ __metadata:
     "@react-navigation/stack": ^6.3.16
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.78.4
+    "@taquito/signer": ^17.5.1
     "@taquito/taquito": ^16.2.0
     "@taquito/tzip12": ^16.2.0
     "@taquito/tzip16": ^16.2.0
+    "@tkey/default": 9.0.0
+    "@tkey/react-native-storage": ^11.0.0
+    "@tkey/seed-phrase": ^11.0.2
+    "@tkey/web-storage": 9.0.0
     "@toruslabs/customauth-react-native-sdk": ^4.0.1
     "@types/jest": ^29.2.1
     "@types/pouchdb-adapter-memory": ^6.1.6
     "@types/react": ^18.2.25
     "@types/react-test-renderer": ^18.0.0
-    "@walless/auth": "*"
     "@walless/core": "*"
     "@walless/graphql": "*"
     "@walless/gui": "*"
@@ -27124,6 +27088,7 @@ __metadata:
     "@next/eslint-plugin-next": ^13.5.4
     "@react-native-clipboard/clipboard": ^1.13.0
     "@solana/spl-account-compression": ^0.2.0
+    "@tkey/chrome-storage": 9.0.0
     "@types/chrome": ^0.0.231
     "@types/lodash": ^4.14.191
     "@types/node": ^17.0.12

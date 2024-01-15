@@ -13,7 +13,7 @@ import type { SeedPhraseModule } from '@tkey/seed-phrase';
 import type { TorusServiceProvider } from '@tkey/service-provider-torus';
 import type { WebStorageModule } from '@tkey/web-storage';
 import { logger, runtime } from '@walless/core';
-import { modules } from '@walless/ioc';
+import { thresholdKey } from 'utils/w3a';
 
 export enum ThresholdResult {
 	Initializing = 'initializing',
@@ -40,7 +40,7 @@ export enum SeedPhraseFormatType {
 }
 
 export const key = (): TypedThresholdKey => {
-	return modules.thresholdKey as never;
+	return thresholdKey;
 };
 
 export const wallessSeedPhraseFormat: Partial<ISeedPhraseFormat> = {

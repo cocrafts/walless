@@ -6,12 +6,12 @@ import { generateID } from '@tkey/common-types';
 import type { UnknownObject } from '@walless/core';
 import { logger, Networks } from '@walless/core';
 import { encryptWithPasscode } from '@walless/crypto';
-import { modules } from '@walless/ioc';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
 import { AptosAccount } from 'aptos';
 import { generateMnemonic, mnemonicToSeed } from 'bip39';
 import { decode } from 'bs58';
 import { derivePath } from 'ed25519-hd-key';
+import { storage } from 'utils/storage';
 
 import { key, SeedPhraseFormatType } from './w3a';
 
@@ -114,13 +114,13 @@ const generateAndStoreKeypairs = async (
 	if (privateKey && address && keyType) {
 		const id = generateID();
 		const encrypted = await encryptWithPasscode(passcode, privateKey);
-		const putPrivateKeyPromise = modules.storage.put<PrivateKeyDocument>({
+		const putPrivateKeyPromise = storage.put<PrivateKeyDocument>({
 			_id: id,
 			type: 'PrivateKey',
 			keyType,
 			...encrypted,
 		});
-		const putPublicKeyPromise = modules.storage.put<PublicKeyDocument>({
+		const putPublicKeyPromise = storage.put<PublicKeyDocument>({
 			_id: address,
 			type: 'PublicKey',
 			privateKeyId: id,
@@ -157,7 +157,7 @@ export const initByPrivateKeyModule = async (passcode: string) => {
 		const encrypted = await encryptWithPasscode(passcode, key);
 
 		writePromises.push(
-			modules.storage.put<PrivateKeyDocument>({
+			storage.put<PrivateKeyDocument>({
 				_id: id,
 				type: 'PrivateKey',
 				keyType: type,
@@ -172,7 +172,7 @@ export const initByPrivateKeyModule = async (passcode: string) => {
 			const suiAddress = suiPair.getPublicKey().toSuiAddress();
 
 			writePromises.push(
-				modules.storage.put<PublicKeyDocument>({
+				storage.put<PublicKeyDocument>({
 					_id: solAddress,
 					type: 'PublicKey',
 					privateKeyId: id,
@@ -181,7 +181,7 @@ export const initByPrivateKeyModule = async (passcode: string) => {
 			);
 
 			writePromises.push(
-				modules.storage.put<PublicKeyDocument>({
+				storage.put<PublicKeyDocument>({
 					_id: suiAddress,
 					privateKeyId: id,
 					type: 'PublicKey',
@@ -205,7 +205,7 @@ export const initByPrivateKeyModule = async (passcode: string) => {
 				decode(await tezosPair.secretKey()),
 			);
 			writePromises.push(
-				modules.storage.put<PrivateKeyDocument>({
+				storage.put<PrivateKeyDocument>({
 					_id: id + Networks.tezos,
 					type: 'PrivateKey',
 					keyType: type,
@@ -214,7 +214,7 @@ export const initByPrivateKeyModule = async (passcode: string) => {
 			);
 
 			writePromises.push(
-				modules.storage.put<PublicKeyDocument>({
+				storage.put<PublicKeyDocument>({
 					_id: tezosAddress,
 					privateKeyId: id + Networks.tezos,
 					type: 'PublicKey',

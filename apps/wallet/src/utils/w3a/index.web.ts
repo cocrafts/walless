@@ -1,15 +1,15 @@
 import WebStorageModule from '@tkey/web-storage';
-import { ThresholdResult } from '@walless/auth';
 import { logger } from '@walless/core';
+import { ThresholdResult } from 'utils/auth';
 
-import { key, modules } from './index.ext';
+import { modules, thresholdKey } from './index.ext';
 
 modules.webStorage = new WebStorageModule();
 
 export const importAvailableShares = async (): Promise<ThresholdResult> => {
 	try {
-		await key.modules.webStorage?.inputShareFromWebStorage();
-		const { requiredShares, totalShares } = key.getKeyDetails();
+		await thresholdKey.modules.webStorage?.inputShareFromWebStorage();
+		const { requiredShares, totalShares } = thresholdKey.getKeyDetails();
 		const isReady = requiredShares <= 0;
 
 		if (isReady) {
@@ -34,6 +34,6 @@ export {
 	customAuth,
 	customAuthArgs,
 	getGoogleAuthURL,
-	key,
 	recoverDeviceShareFromPasscode,
+	thresholdKey,
 } from './index.ext';

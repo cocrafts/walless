@@ -4,11 +4,11 @@ import {
 	signInWithCredential,
 	signInWithPopup,
 } from '@firebase/auth';
-import { makeProfile, setProfile, signInWithTorusKey } from '@walless/auth';
 import { logger, runtime } from '@walless/core';
 import { appState } from '@walless/engine';
 import { mutations, queries, type WalletInvitation } from '@walless/graphql';
 import { showError } from 'modals/Error';
+import { makeProfile, setProfile, signInWithTorusKey } from 'utils/auth';
 import { auth, googleProvider } from 'utils/firebase/index.web';
 import { qlClient } from 'utils/graphql';
 import { navigate } from 'utils/navigation';
@@ -16,13 +16,16 @@ import {
 	customAuth,
 	customAuthArgs,
 	getGoogleAuthURL,
-	key,
+	thresholdKey,
 } from 'utils/w3a/index.ext';
 
 export const signInWithGoogle = async (invitationCode?: string) => {
 	try {
 		appState.authenticationLoading = true;
-		await key.serviceProvider.init({ skipSw: true, skipPrefetch: true });
+		await thresholdKey.serviceProvider.init({
+			skipSw: true,
+			skipPrefetch: true,
+		});
 
 		if (runtime.isExtension) {
 			const responseUrl = await chrome.identity.launchWebAuthFlow({

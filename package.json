@@ -21,6 +21,9 @@
     "postinstall": "yarn batch",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock"
   },
+  "dependencies": {
+    "@tkey/chrome-storage": "9.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/plugin-proposal-private-methods": "^7.18.6",

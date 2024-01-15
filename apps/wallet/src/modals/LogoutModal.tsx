@@ -1,15 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, modalActions } from '@walless/gui';
-import { utils } from '@walless/ioc';
+import { logout } from 'utils/auth';
+import { resetRoute } from 'utils/navigation';
 
 import { ModalId } from './internal';
 
-const handleLogOut = async () => {
-	if (utils.logOut) utils.logOut();
+const handleLogout = async () => {
+	await logout();
 	modalActions.hide(ModalId.Logout);
+	resetRoute();
 };
 
-const handleCancelLogOut = () => {
+const handleCancelLogout = () => {
 	modalActions.hide(ModalId.Logout);
 };
 
@@ -26,12 +28,12 @@ const LogoutModal = () => {
 				<Button
 					title="Cancel"
 					style={styles.cancelButton}
-					onPress={handleCancelLogOut}
+					onPress={handleCancelLogout}
 				/>
 				<Button
 					title="Log out"
-					style={styles.logOutButton}
-					onPress={handleLogOut}
+					style={styles.logoutButton}
+					onPress={handleLogout}
 				/>
 			</View>
 		</View>
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
 		borderBottomLeftRadius: 16,
 		gap: 8,
 	},
-	logOutButton: {
+	logoutButton: {
 		paddingHorizontal: 20,
 		backgroundColor: '#A54545',
 	},

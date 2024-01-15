@@ -7,9 +7,9 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import { signInWithPasscode } from '@walless/auth';
 import { Passcode, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
+import { signInWithPasscode } from 'utils/auth';
 import { auth } from 'utils/firebase';
 import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';

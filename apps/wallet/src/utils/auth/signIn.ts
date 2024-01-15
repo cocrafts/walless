@@ -1,34 +1,66 @@
+import CustomAuth from '@toruslabs/customauth-react-native-sdk';
 import { logger } from '@walless/core';
-import { modules } from '@walless/ioc';
+import type { WalletInvitation } from '@walless/graphql';
+import { mutations, queries } from '@walless/graphql';
+import { showError } from 'modals/Error';
+import type { UserAuth } from 'utils/firebase';
+import { qlClient } from 'utils/graphql';
+import { navigate } from 'utils/navigation';
 
-import type { IFirebaseUser } from './helper';
-import { makeProfile, setProfile } from './helper';
 import { initBySeedPhraseModule } from './keys';
-import { NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE } from './passcode';
 import { initAndRegisterWallet } from './recovery';
-import { getSharesStatus, key, ThresholdResult } from './w3a';
+import { signInWithGoogle } from './signInGoogle';
+import {
+	customAuthArgs,
+	importAvailableShares,
+	ThresholdResult,
+	tkey,
+} from './w3a';
 
-export interface TorusSignInOptions {
+export const signIn = async (invitationCode?: string) => {
+	try {
+		const user = await signInWithGoogle();
+
+		if (!__DEV__) {
+			checkInvitationCode(user, invitationCode);
+		}
+
+		const verifierToken = await user.getIdToken(true);
+		const verifier = customAuthArgs.web3AuthClientId;
+		const verifierId = user.uid;
+		const verifierParams = { verifierIdField: 'sub', verifier_id: user.uid };
+		const loginDetails = await CustomAuth.getTorusKey(
+			verifier,
+			verifierId,
+			verifierParams,
+			verifierToken,
+		);
+
+		await signInWithTorusKey({
+			verifier,
+			verifierId,
+			privateKey: loginDetails.privateKey as string,
+		});
+
+		return user;
+	} catch (error) {
+		showError({ errorText: 'Something went wrong' });
+		logger.error('Error during sign-in', error);
+	}
+};
+
+type TorusSignInOptions = {
 	verifier: string;
 	verifierId: string;
 	privateKey: string;
-	handlePasscode: () => Promise<void>;
-	handleRecovery: () => Promise<void>;
-	handleDeprecatedPasscode: () => Promise<void>;
-	handleReady: () => Promise<void>;
-	handleError: () => Promise<void>;
-}
+};
 
-export const signInWithTorusKey = async ({
+const signInWithTorusKey = async ({
 	verifier,
 	verifierId,
 	privateKey,
-	handlePasscode,
-	handleRecovery,
-	handleDeprecatedPasscode,
-	handleReady,
 }: TorusSignInOptions) => {
-	const keyInstance = key();
+	const keyInstance = tkey;
 
 	keyInstance.serviceProvider.postboxKey = privateKey as never;
 	/* eslint-disable */
@@ -36,44 +68,27 @@ export const signInWithTorusKey = async ({
 	(keyInstance.serviceProvider as any).verifierId = verifierId;
 	/* eslint-enable */
 	await keyInstance.initialize();
-	const status = await getSharesStatus();
+	const status = await importAvailableShares();
 
 	if (status === ThresholdResult.Initializing) {
-		await handlePasscode();
+		navigate('Authentication', { screen: 'CreatePasscode' });
 	} else if (status === ThresholdResult.Missing) {
-		let isLegacyAccount = false;
-
-		try {
-			const q = keyInstance.modules.securityQuestions.getSecurityQuestions();
-			isLegacyAccount = q === 'universal-passcode';
-		} catch (error) {
-			logger.error('Failed to get security question', error);
-		}
-
-		const { totalShares } = keyInstance.getKeyDetails();
-		const migrated = totalShares > NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE;
-		const isRecovery = !isLegacyAccount || migrated;
-
-		if (isRecovery) {
-			await handleRecovery();
-		} else {
-			await handleDeprecatedPasscode();
-		}
+		navigate('Authentication', { screen: 'Recovery' });
 	} else if (status === ThresholdResult.Ready) {
-		await handleReady();
+		navigate('Dashboard');
 	}
 };
 
 export const signInWithPasscode = async (
 	passcode: string,
-	user: IFirebaseUser | null,
+	user: UserAuth | null,
 	handleInitFail?: () => void,
 ): Promise<void> => {
 	if (!user?.uid) {
 		throw new Error('signInWithPasscode requires user profile from firebase');
 	}
 
-	const status = await getSharesStatus();
+	const status = await importAvailableShares();
 	if (status === ThresholdResult.Initializing) {
 		const registeredAccount = await initAndRegisterWallet();
 		if (!registeredAccount?.identifier) {
@@ -82,10 +97,29 @@ export const signInWithPasscode = async (
 		}
 	}
 
-	await key().reconstructKey();
-	await setProfile(makeProfile(user));
+	await tkey.reconstructKey();
 	await initBySeedPhraseModule(passcode);
-	await key().syncLocalMetadataTransitions();
+	await tkey.syncLocalMetadataTransitions();
+};
 
-	modules.engine?.start();
+const checkInvitationCode = async (user: UserAuth, invitationCode?: string) => {
+	const { walletInvitation } = await qlClient.request<{
+		walletInvitation: WalletInvitation;
+	}>(queries.walletInvitation, {
+		email: user.email,
+	});
+
+	if (!walletInvitation && invitationCode) {
+		await qlClient.request(mutations.claimWalletInvitation, {
+			code: invitationCode,
+			email: user.email,
+		});
+	} else if (!walletInvitation && !invitationCode) {
+		showError({
+			errorText: 'The account does not exist. Enter your Invitation code',
+		});
+
+		navigate('Authentication', { screen: 'Invitation' });
+		return;
+	}
 };

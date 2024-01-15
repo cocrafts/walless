@@ -2,8 +2,10 @@ import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Anchor, Text, View } from '@walless/gui';
 import { useSafeAreaInsets, useSnapshot } from 'hooks';
-import { appActions, appState } from 'state';
+import { appState } from 'state';
 import assets from 'utils/assets';
+import { makeProfile, setProfile, signIn } from 'utils/auth';
+import type { UserAuth } from 'utils/firebase';
 
 import SignInHeader from './SignInHeader';
 import SignInInner from './SignInInner';
@@ -20,7 +22,8 @@ export const LoginScreen: FC = () => {
 
 	const handleGoogleSignIn = async () => {
 		setLoading(true);
-		appActions.signInWithGoogle(invitationCode);
+		const user = await signIn(invitationCode);
+		await setProfile(makeProfile(user as UserAuth));
 		setLoading(false);
 	};
 

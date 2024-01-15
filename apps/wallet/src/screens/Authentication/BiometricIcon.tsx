@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { FingerPrint, ScanFace } from '@walless/icons';
-import type { BiometricStatus } from 'utils/hooks';
+import type { BiometricStatus } from 'hooks';
 
 interface Props {
 	status: BiometricStatus;

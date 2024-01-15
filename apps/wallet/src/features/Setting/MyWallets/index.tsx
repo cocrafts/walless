@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
-import { usePublicKeys } from 'utils/hooks';
+import { usePublicKeys } from 'hooks';
 
 import Wallet from './Wallet';
 

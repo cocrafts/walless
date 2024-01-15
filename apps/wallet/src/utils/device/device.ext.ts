@@ -2,9 +2,9 @@ import type { UnknownObject } from '@walless/core';
 import { logger, runtime } from '@walless/core';
 import type { DeviceInfoInput } from '@walless/graphql';
 import type { SystemDocument } from '@walless/store';
+import { appState } from 'state';
 import { runtimeActions } from 'state/runtime';
 import { storage } from 'utils/storage';
-import { appState } from "state"
 
 import project from '../../../package.json';
 import { auth } from '../firebase/index.ext';

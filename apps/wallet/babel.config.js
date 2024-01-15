@@ -9,6 +9,7 @@ module.exports = {
 					utils: './src/utils',
 					engine: './src/engine',
 					state: './src/state',
+					hooks: './src/hooks',
 					features: './src/features',
 					components: './src/components',
 					modals: './src/modals',

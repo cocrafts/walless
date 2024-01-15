@@ -2,8 +2,8 @@ import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Twitter } from '@walless/icons';
+import { useSnapshot } from 'hooks';
 import { appState } from 'state';
-import { useSnapshot } from 'utils/hooks';
 
 import ForwardLink from './ForwardLink';
 import HelpCenter from './HelpCenter';

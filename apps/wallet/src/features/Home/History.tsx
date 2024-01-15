@@ -2,7 +2,7 @@ import { type FC, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import HistoryFeature from 'features/History';
-import { useHistory } from 'utils/hooks';
+import { useHistory } from 'hooks';
 import { navigate } from 'utils/navigation';
 
 export const History: FC = () => {

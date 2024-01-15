@@ -3,12 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { modalActions, ModalManager, themeState } from '@walless/gui';
+import { useNavigationHydrate, useNotifications, useSnapshot } from 'hooks';
 import ApplicationStack from 'stacks/Application';
-import {
-	useNavigationHydrate,
-	useNotifications,
-	useSnapshot,
-} from 'utils/hooks';
 import { linking, navigationRef } from 'utils/navigation';
 
 export const AppStack = () => {

@@ -6,8 +6,8 @@ import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import { modules } from '@walless/ioc';
 import type { Provider } from 'aptos';
+import { useNfts } from 'hooks';
 import { aptosState } from 'state/assets/aptos';
-import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import CollectiblesTab from '../CollectiblesTab';

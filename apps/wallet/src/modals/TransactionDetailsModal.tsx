@@ -12,7 +12,7 @@ import {
 } from '@walless/gui';
 import { Times } from '@walless/icons';
 import TransactionDetailsFeature from 'features/TransactionDetailsFeature';
-import { useUniversalInsets } from 'utils/hooks';
+import { useUniversalInsets } from 'hooks';
 
 import { ModalId } from './internal';
 

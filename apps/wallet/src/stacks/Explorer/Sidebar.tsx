@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import type { WidgetDocument } from '@walless/store';
 import type { DrawerContentComponentProps } from 'components/DrawerNavigation';
 import { useDrawerStatus } from 'components/DrawerNavigation';
+import { useSnapshot, useWidgets } from 'hooks';
 import { appState, widgetActions } from 'state';
 import { runtimeActions } from 'state/runtime';
-import { useSnapshot, useWidgets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 
 import WidgetNavigator from './WidgetNavigator';

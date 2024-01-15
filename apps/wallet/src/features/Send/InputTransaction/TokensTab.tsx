@@ -5,7 +5,7 @@ import { Button, Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
-import { useTokens } from 'utils/hooks';
+import { useTokens } from 'hooks';
 import { getTokenString } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 

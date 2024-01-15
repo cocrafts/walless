@@ -6,7 +6,7 @@ import { useRoute } from '@react-navigation/native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import CollectionCard from 'components/CollectionCard';
-import { useLazyGridLayout, useNfts, useSafeAreaInsets } from 'utils/hooks';
+import { useLazyGridLayout, useNfts, useSafeAreaInsets } from 'hooks';
 import { navigate, navigateBack } from 'utils/navigation';
 
 export const CollectionFeat: FC = () => {

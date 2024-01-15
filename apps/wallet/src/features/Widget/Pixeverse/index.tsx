@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import type { WebViewMessageEvent } from 'react-native-webview';
 import { WebView } from 'react-native-webview';
 import { Networks } from '@walless/core';
+import { usePublicKeys, useSnapshot } from 'hooks';
 import { appState } from 'state';
 import { environment } from 'utils/config';
-import { usePublicKeys, useSnapshot } from 'utils/hooks';
 
 export const Pixeverse = () => {
 	const { jwtAuth } = useSnapshot(appState);

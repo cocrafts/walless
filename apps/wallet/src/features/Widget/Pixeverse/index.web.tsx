@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
+import { usePublicKeys, useSnapshot } from 'hooks';
 import { appState } from 'state';
 import { environment } from 'utils/config';
-import { usePublicKeys, useSnapshot } from 'utils/hooks';
 
 export const Pixeverse = () => {
 	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } = environment;

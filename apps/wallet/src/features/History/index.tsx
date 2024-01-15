@@ -4,8 +4,8 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
+import { useHistory } from 'hooks';
 import { convertDateToReadable } from 'utils/format';
-import { useHistory } from 'utils/hooks';
 
 import HistoryItem from './HistoryItem';
 

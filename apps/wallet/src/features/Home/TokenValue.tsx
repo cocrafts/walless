@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Hoverable, Text } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
-import { useSettings } from 'utils/hooks';
+import { useSettings } from 'hooks';
 
 interface Props {
 	value: number;

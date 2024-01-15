@@ -9,8 +9,8 @@ import Animated, {
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 import { StackHeader } from 'components/StackContainer';
+import { useSafeAreaInsets, useWidgets } from 'hooks';
 import { mockWidgets } from 'state/widget';
-import { useSafeAreaInsets, useWidgets } from 'utils/hooks';
 
 import ExplorerSearchBar from './SearchBar';
 import ExplorerWidgetItem from './WidgetItem';

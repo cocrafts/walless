@@ -9,10 +9,10 @@ import {
 	TouchableWithoutFeedback,
 } from 'react-native';
 import { Button, Input, Text, View } from '@walless/gui';
+import { useUniversalInsets } from 'hooks';
 import { showError } from 'modals/Error';
 import assets from 'utils/assets';
 import { recoverByEmergencyKey } from 'utils/auth';
-import { useUniversalInsets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { hideNativeKeyboard } from 'utils/system';
 

@@ -4,11 +4,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
 import FeatureButtons from 'components/FeatureButtons';
+import { useTokens } from 'hooks';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
 import { buyToken } from 'utils/buy';
 import { tabBarHeight } from 'utils/constants';
-import { useTokens } from 'utils/hooks';
 
 import History from './History';
 import TokenValue from './TokenValue';

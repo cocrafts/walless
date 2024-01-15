@@ -11,12 +11,12 @@ import {
 	TouchableWithoutFeedback,
 	type ViewStyle,
 } from 'react-native';
-import { validateInvitationCode } from 'utils/auth';
 import { Anchor, Button, Input, Text, View } from '@walless/gui';
+import { useSafeAreaInsets } from 'hooks';
 import { showError } from 'modals/Error';
 import { appState } from 'state';
 import assets from 'utils/assets';
-import { useSafeAreaInsets } from 'utils/hooks';
+import { validateInvitationCode } from 'utils/auth';
 import { navigate } from 'utils/navigation';
 import { hideNativeKeyboard } from 'utils/system';
 

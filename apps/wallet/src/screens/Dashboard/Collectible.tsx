@@ -5,8 +5,8 @@ import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Button, Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
+import { useNfts, useSafeAreaInsets } from 'hooks';
 import { showSendTokenModal } from 'modals/SendToken';
-import { useNfts, useSafeAreaInsets } from 'utils/hooks';
 import { navigationRef } from 'utils/navigation';
 
 interface Props {

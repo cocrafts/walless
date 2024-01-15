@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNotificationPermissionRequest } from 'hooks';
 import HomeStack from 'stacks/Home';
 import SettingStack from 'stacks/Setting';
 import { noHeaderNavigation } from 'utils/constants';
-import { useNotificationPermissionRequest } from 'utils/hooks';
 import type { DashboardParamList } from 'utils/navigation';
 
 import ExplorerStack from '../Explorer';

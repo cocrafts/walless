@@ -1,6 +1,6 @@
 import type { Networks } from '@walless/core';
 import CheckedInput from 'components/CheckedInput';
-import { useSnapshot } from 'utils/hooks';
+import { useSnapshot } from 'hooks';
 import { checkValidAddress } from 'utils/transaction';
 
 import { txActions, txContext } from '../context';

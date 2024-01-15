@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import type { CollectionDocument } from '@walless/store';
 import CollectionCard from 'components/CollectionCard';
-import { useLazyGridLayout } from 'utils/hooks';
+import { useLazyGridLayout } from 'hooks';
 import { navigate } from 'utils/navigation';
 
 interface Props {

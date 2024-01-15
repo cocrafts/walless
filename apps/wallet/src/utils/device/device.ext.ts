@@ -1,9 +1,10 @@
 import type { UnknownObject } from '@walless/core';
 import { logger, runtime } from '@walless/core';
 import type { DeviceInfoInput } from '@walless/graphql';
-import { modules } from '@walless/ioc';
 import type { SystemDocument } from '@walless/store';
-import { appState, runtimeActions } from 'state';
+import { runtimeActions } from 'state/runtime';
+import { storage } from 'utils/storage';
+import { appState } from "state"
 
 import project from '../../../package.json';
 import { auth } from '../firebase/index.ext';
@@ -24,11 +25,11 @@ export const getDeviceInfo = async (): Promise<DeviceInfoInput> => {
 };
 
 const getDeviceId = async (): Promise<string> => {
-	const system = await modules.storage.safeGet<SystemDocument>('system');
+	const system = await storage.safeGet<SystemDocument>('system');
 	if (system?.deviceId) return system?.deviceId;
 
 	const uniqueId = crypto.randomUUID();
-	await modules.storage.upsert<SystemDocument>('system', async (doc) => {
+	await storage.upsert<SystemDocument>('system', async (doc) => {
 		doc.deviceId = uniqueId;
 		return doc;
 	});

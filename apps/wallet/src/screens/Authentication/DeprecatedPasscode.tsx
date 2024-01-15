@@ -11,7 +11,7 @@ import {
 	initAndRegisterWallet,
 	signInWithPasscode,
 	validateAndRecoverWithPasscode,
-} from '@walless/auth';
+} from 'utils/auth';
 import { Passcode, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
 import { auth } from 'utils/firebase';

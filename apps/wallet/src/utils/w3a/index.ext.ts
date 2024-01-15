@@ -17,8 +17,8 @@ import type { TorusServiceProvider } from '@tkey/service-provider-torus';
 import type { WebStorageModule } from '@tkey/web-storage';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
 import CustomAuth from '@toruslabs/customauth';
-import { ThresholdResult } from '@walless/auth';
 import { logger } from '@walless/core';
+import { ThresholdResult } from 'utils/auth';
 
 import { w3aBaseUrl } from '../config/index.web';
 
@@ -86,7 +86,7 @@ export const modules: InternalModules = {
 
 modules.chromeStorage = new ChromeStorageModule();
 
-export const key = new ThresholdKey({
+export const thresholdKey = new ThresholdKey({
 	modules,
 	customAuthArgs,
 	manualSync: true,
@@ -95,15 +95,15 @@ export const key = new ThresholdKey({
 
 export const createAndStoreDeviceShare =
 	async (): Promise<GenerateNewShareResult> => {
-		await key.reconstructKey();
+		await thresholdKey.reconstructKey();
 
-		const shareResult = await key.generateNewShare();
+		const shareResult = await thresholdKey.generateNewShare();
 		const share = shareResult.newShareStores[1];
 
 		if (global.chrome?.runtime) {
-			await key.modules.chromeStorage?.storeDeviceShare(share);
+			await thresholdKey.modules.chromeStorage?.storeDeviceShare(share);
 		} else {
-			await key.modules.webStorage?.storeDeviceShare(share);
+			await thresholdKey.modules.webStorage?.storeDeviceShare(share);
 		}
 
 		return shareResult;
@@ -112,10 +112,10 @@ export const createAndStoreDeviceShare =
 export const configureSecurityQuestionShare = async (
 	passcode: string,
 ): Promise<void> => {
-	await key.reconstructKey();
+	await thresholdKey.reconstructKey();
 
 	const question = 'universal-passcode';
-	await key.modules.securityQuestions.generateNewShareWithSecurityQuestions(
+	await thresholdKey.modules.securityQuestions.generateNewShareWithSecurityQuestions(
 		passcode,
 		question,
 	);
@@ -123,8 +123,8 @@ export const configureSecurityQuestionShare = async (
 
 export const importAvailableShares = async (): Promise<ThresholdResult> => {
 	try {
-		await key.modules.chromeStorage?.inputShareFromChromeExtensionStorage();
-		const { requiredShares, totalShares } = key.getKeyDetails();
+		await thresholdKey.modules.chromeStorage?.inputShareFromChromeExtensionStorage();
+		const { requiredShares, totalShares } = thresholdKey.getKeyDetails();
 		const isReady = requiredShares <= 0;
 
 		if (isReady) {
@@ -143,11 +143,11 @@ export const recoverDeviceShareFromPasscode = async (
 	passcode: string,
 ): Promise<boolean> => {
 	try {
-		const beforeDetails = key.getKeyDetails();
-		await key.modules.securityQuestions.inputShareFromSecurityQuestions(
+		const beforeDetails = thresholdKey.getKeyDetails();
+		await thresholdKey.modules.securityQuestions.inputShareFromSecurityQuestions(
 			passcode,
 		);
-		const afterDetails = key.getKeyDetails();
+		const afterDetails = thresholdKey.getKeyDetails();
 
 		if (beforeDetails.requiredShares > afterDetails.requiredShares) {
 			// await createAndStoreDeviceShare();

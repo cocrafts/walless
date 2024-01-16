@@ -2,9 +2,9 @@ import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import { logger, Networks } from '@walless/core';
-import { modules } from '@walless/ioc';
 import type { MetadataDocument } from '@walless/store';
 import { METADATA_PROGRAM_ID, solMint } from 'utils/constants';
+import { storage } from 'utils/storage';
 
 import localMetadata from './local-metadata.json';
 import { throttle } from './utils';
@@ -32,7 +32,7 @@ const getLocalMeta: GetMetadataFunc = async (_, mintAddress) => {
 };
 
 const getCachedMeta: GetMetadataFunc = async (_, mintAddress) => {
-	const cached = await modules.storage.safeGet<MetadataDocument>(mintAddress);
+	const cached = await storage.safeGet<MetadataDocument>(mintAddress);
 	const timestamp = new Date(cached?.timestamp || '2000-01-01');
 	const cachedTime = new Date().getTime() - timestamp.getTime();
 	const cacheTimeout = 60000 * 60 * 24; // one day cache

@@ -1,5 +1,4 @@
 import type { ConnectOptions, Networks } from '@walless/core';
-import { modules } from '@walless/ioc';
 import { utils } from '@walless/kernel';
 import {
 	PopupType,
@@ -12,6 +11,7 @@ import { selectors } from '@walless/store';
 
 import { closePopup, openPopup } from './popup';
 import { getRequestRecord, requestPool, respond } from './requestPool';
+import { storage } from './storage';
 import type { HandleMethod } from './types';
 
 export const getPrivateKey = (
@@ -43,7 +43,7 @@ export const checkConnection: HandleMethod<{
 		return;
 	}
 
-	const domainResponse = await modules.storage.find(selectors.trustedDomains);
+	const domainResponse = await storage.find(selectors.trustedDomains);
 	const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 	const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
 	if (!savedDomain || !savedDomain.connect) {

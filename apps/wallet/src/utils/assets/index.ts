@@ -81,6 +81,7 @@ const assets: Asset = {
 	misc: {
 		walless: require('assets/img/icon.png'),
 		unknownToken: require('assets/img/send-token/unknown-token.jpeg'),
+		referralGradientBackgroundImage: require('assets/background-image/referral.png'),
 	},
 };
 

@@ -45,6 +45,7 @@ export { Shield } from './components/Shield';
 export { Swap } from './components/Swap';
 export { Times } from './components/Times';
 export { Twitter } from './components/Twitter';
+export { TwoPeople } from './components/TwoPeople';
 export * from './components/types';
 export { Walless } from './components/Walless';
 export { Window } from './components/Window';

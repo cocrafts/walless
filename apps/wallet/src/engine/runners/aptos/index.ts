@@ -1,7 +1,9 @@
+import type { Provider } from 'aptos';
+
 import type { EngineConfig, Runner } from '../../types';
 
 export type AptosContext = {
-	connection: unknown;
+	provider: Provider;
 };
 
 export const createAptosRunner = (config: EngineConfig): Runner => {

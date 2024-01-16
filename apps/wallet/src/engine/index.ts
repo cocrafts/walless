@@ -3,6 +3,12 @@ import type { Database } from '@walless/store';
 import type { CreateFunction, Engine, EngineConfig, EnginePool } from './types';
 import { getEndpoints } from './utils';
 
+export let engine: Engine;
+
+export const setDefaultEngine = (e: Engine) => {
+	engine = e;
+};
+
 export const createEngine = async (storage: Database): Promise<Engine> => {
 	const createPool: Record<string, CreateFunction> = {};
 	const enginePool: EnginePool = {} as never;

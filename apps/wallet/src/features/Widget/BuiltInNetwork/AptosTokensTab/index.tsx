@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
-import { modules } from '@walless/ioc';
-import type { Provider } from 'aptos';
+import { engine } from 'engine';
+import type { AptosContext } from 'engine/runners';
 import { useNfts } from 'hooks';
 import { aptosState } from 'state/assets/aptos';
 import { useSnapshot } from 'valtio';
@@ -29,8 +29,8 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 
 	useEffect(() => {
 		const getFee = async () => {
-			const conn = modules.engine.getConnection<Provider>(Networks.aptos);
-			const fee = await conn.estimateGasPrice();
+			const { provider } = engine.getContext<AptosContext>(Networks.aptos);
+			const fee = await provider.estimateGasPrice();
 			setFee(fee.gas_estimate / 10 ** APTOS_COIN_DECIMALS);
 		};
 		getFee();

@@ -2,7 +2,6 @@ import { TransactionBlock } from '@mysten/sui.js';
 import { VersionedTransaction } from '@solana/web3.js';
 import type { TransactionPayload } from '@walless/core';
 import { logger, Networks } from '@walless/core';
-import type { CreateAndSendFunction, HandleAptosFunction } from '@walless/ioc';
 import { aptosHandler, solanaHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
 import { RequestType, ResponseCode } from '@walless/messaging';
@@ -12,7 +11,7 @@ import {
 	constructTransactionAbstractFee,
 } from './common';
 
-export const createAndSend: CreateAndSendFunction = async (
+export const createAndSend = async (
 	payload: TransactionPayload,
 	passcode?: string,
 ) => {
@@ -94,10 +93,14 @@ export const createAndSend: CreateAndSendFunction = async (
 	return res;
 };
 
-export const handleAptosOnChainAction: HandleAptosFunction = async ({
+export const handleAptosOnChainAction = async ({
 	passcode,
 	type,
 	payload,
+}: {
+	passcode: string;
+	type: RequestType;
+	payload: unknown;
 }) => {
 	const res = {} as ResponsePayload;
 

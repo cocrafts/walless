@@ -1,9 +1,9 @@
-import type { BootstrapResult } from '@walless/auth';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import { modules } from '@walless/ioc';
 import {
 	type CollectibleDocument,
 	type CollectionDocument,
+	configure,
 	type EndpointsDocument,
 	type PouchDocument,
 	type PublicKeyDocument,
@@ -12,10 +12,11 @@ import {
 	type TokenDocument,
 	type WidgetDocument,
 } from '@walless/store';
-import { createEngine } from 'engine';
+import { createEngine, setDefaultEngine } from 'engine';
 import { createSolanaRunner } from 'engine/runners';
 import type { Engine } from 'engine/types';
-import { loadRemoteConfig } from 'utils/firebase';
+import { configureDeviceAndNotification } from 'utils/device/device';
+import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
 import { ResetAnchors, resetRoute } from 'utils/navigation';
 import { storage } from 'utils/storage';
 
@@ -24,20 +25,28 @@ import { collectibleState, collectionState, tokenState } from './assets';
 import { keyState } from './keys';
 import { widgetState } from './widget';
 
-export const bootstrap = async (): Promise<BootstrapResult> => {
+export const bootstrap = async (): Promise<void> => {
+	const startTime = new Date();
 	appState.remoteConfig = loadRemoteConfig();
 
-	const engine = await createEngine(storage);
-	registerNetworkRunners(engine);
-	engine.start();
+	await Promise.all([
+		configure(storage).then(async () => {
+			const engine = await createEngine(storage);
+			registerNetworkRunners(engine);
+			setDefaultEngine(engine);
+			engine.start();
+		}),
+		initializeAuth(),
+		watchStorageAndSyncState(),
+	]);
 
-	await watchAndSync();
+	configureDeviceAndNotification();
 
-	return appState;
+	const milliseconds = new Date().getTime() - startTime.getTime();
+	logger.debug(`Started up in ${milliseconds}ms`);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const launchApp = async (config: BootstrapResult): Promise<void> => {
+export const launchApp = async (): Promise<void> => {
 	const settings = await modules.storage.safeGet<SettingDocument>('settings');
 	const widgetId = settings?.config?.latestLocation as string;
 
@@ -60,7 +69,7 @@ const registerNetworkRunners = async (engine: Engine) => {
 	});
 };
 
-const watchAndSync = async () => {
+const watchStorageAndSyncState = async () => {
 	const options = {
 		live: true,
 		include_docs: true,

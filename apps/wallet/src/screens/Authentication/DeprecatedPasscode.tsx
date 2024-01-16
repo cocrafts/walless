@@ -7,13 +7,13 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
+import { Passcode, Text, View } from '@walless/gui';
+import { showError } from 'modals/Error';
 import {
 	initAndRegisterWallet,
 	signInWithPasscode,
 	validateAndRecoverWithPasscode,
 } from 'utils/auth';
-import { Passcode, Text, View } from '@walless/gui';
-import { showError } from 'modals/Error';
 import { auth } from 'utils/firebase';
 import { navigate } from 'utils/navigation';
 

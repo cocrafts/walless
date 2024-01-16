@@ -1,28 +1,29 @@
 import { logger } from '@walless/core';
-import { modules } from '@walless/ioc';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
+
+import { storage } from './db';
 
 const getCollectibleByIdFromStorage = async (
 	id: string,
 ): Promise<CollectibleDocument | undefined> => {
-	return await modules.storage.safeGet(id);
+	return await storage.safeGet(id);
 };
 
 const getCollectionByIdFromStorage = async (
 	id: string,
 ): Promise<CollectionDocument | undefined> => {
-	return await modules.storage.safeGet(id);
+	return await storage.safeGet(id);
 };
 
 const addCollectibleToStorage = async (
 	id: string,
 	item: CollectibleDocument,
 ) => {
-	return modules.storage.upsert(id, async () => item).catch(logger.warn);
+	return storage.upsert(id, async () => item).catch(logger.warn);
 };
 
 const addCollectionToStorage = async (id: string, item: CollectionDocument) => {
-	return modules.storage.upsert(id, async () => item).catch(logger.warn);
+	return storage.upsert(id, async () => item).catch(logger.warn);
 };
 
 const updateCollectibleAmountToStorage = async (
@@ -33,7 +34,7 @@ const updateCollectibleAmountToStorage = async (
 
 	if (!collectible) return false;
 
-	const result = await modules.storage.upsert<CollectibleDocument>(
+	const result = await storage.upsert<CollectibleDocument>(
 		id,
 		async (prevDoc) => {
 			prevDoc.account.amount = amount;
@@ -49,7 +50,7 @@ const updateCollectionAmountToStorage = async (
 	id: string,
 	count: number,
 ): Promise<boolean> => {
-	const result = await modules.storage.upsert<CollectionDocument>(
+	const result = await storage.upsert<CollectionDocument>(
 		id,
 		async (prevDoc) => {
 			prevDoc.count = count;
@@ -71,9 +72,9 @@ const removeCollectibleFromStorage = async (id: string): Promise<void> => {
 	);
 	const collectionCount = collection!.count - 1;
 	if (collectionCount === 0) {
-		await modules.storage.removeDoc(collection!._id);
+		await storage.removeDoc(collection!._id);
 	} else {
-		await modules.storage.upsert<CollectionDocument>(
+		await storage.upsert<CollectionDocument>(
 			collection!._id,
 			async (prevDoc) => {
 				prevDoc.count = collectionCount;
@@ -83,7 +84,7 @@ const removeCollectibleFromStorage = async (id: string): Promise<void> => {
 		);
 	}
 
-	await modules.storage.removeDoc(id);
+	await storage.removeDoc(id);
 };
 
 export {

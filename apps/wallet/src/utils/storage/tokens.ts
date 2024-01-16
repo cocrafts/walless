@@ -1,17 +1,18 @@
-import { modules } from '@walless/ioc';
 import type { TokenDocument } from '@walless/store';
+
+import { storage } from './db';
 
 const getTokenByIdFromStorage = async (
 	id: string,
 ): Promise<TokenDocument | undefined> => {
-	return await modules.storage.safeGet(id);
+	return await storage.safeGet(id);
 };
 
 const addTokensToStorage = (tokens: TokenDocument[]) => {
 	const tokenPromises: Promise<unknown>[] = [];
 
 	for (const token of tokens) {
-		tokenPromises.push(modules.storage.upsert(token._id, async () => token));
+		tokenPromises.push(storage.upsert(token._id, async () => token));
 	}
 
 	Promise.all(tokenPromises);
@@ -25,20 +26,17 @@ const updateTokenBalanceToStorage = async (
 
 	if (!token) return false;
 
-	const result = await modules.storage.upsert<TokenDocument>(
-		id,
-		async (prevDoc) => {
-			prevDoc.account.balance = balance;
+	const result = await storage.upsert<TokenDocument>(id, async (prevDoc) => {
+		prevDoc.account.balance = balance;
 
-			return prevDoc;
-		},
-	);
+		return prevDoc;
+	});
 
 	return result.ok;
 };
 
 const removeTokenFromStorage = async (id: string) => {
-	await modules.storage.removeDoc(id);
+	await storage.removeDoc(id);
 };
 
 export {

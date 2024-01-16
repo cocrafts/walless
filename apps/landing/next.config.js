@@ -1,6 +1,6 @@
 const withPlugins = require('next-compose-plugins');
 const { withTamagui } = require('@tamagui/next-plugin');
-const project = require('../web/package.json');
+const project = require('../wallet/package.json');
 const { DefinePlugin } = require('webpack');
 const path = require('path');
 

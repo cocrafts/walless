@@ -1,5 +1,5 @@
-import { modules } from '@walless/ioc';
 import type { WidgetDocument } from '@walless/store';
+import { storage } from 'utils/storage';
 
 import { widgetState } from './internal';
 
@@ -10,13 +10,13 @@ export const widgetActions = {
 		}
 	},
 	checkInstalled: async (id: string) => {
-		return (await modules.storage.safeGet<WidgetDocument>(id))?._id;
+		return (await storage.safeGet<WidgetDocument>(id))?._id;
 	},
 	addWidget: async (widget: WidgetDocument) => {
-		await modules.storage.put<WidgetDocument>(widget);
+		await storage.put<WidgetDocument>(widget);
 	},
 	removeWidget: async (widget: WidgetDocument) => {
-		await modules.storage.put<WidgetDocument>({
+		await storage.put<WidgetDocument>({
 			...widget,
 			_deleted: true,
 		});

@@ -1,17 +1,15 @@
 import { logger, Networks } from '@walless/core';
-import { modules } from '@walless/ioc';
-import {
-	type CollectibleDocument,
-	type CollectionDocument,
-	configure,
-	type EndpointsDocument,
-	type PouchDocument,
-	type PublicKeyDocument,
-	selectors,
-	type SettingDocument,
-	type TokenDocument,
-	type WidgetDocument,
+import type {
+	CollectibleDocument,
+	CollectionDocument,
+	EndpointsDocument,
+	PouchDocument,
+	PublicKeyDocument,
+	SettingDocument,
+	TokenDocument,
+	WidgetDocument,
 } from '@walless/store';
+import { configure, selectors } from '@walless/store';
 import { createEngine, setDefaultEngine } from 'engine';
 import { createSolanaRunner } from 'engine/runners';
 import type { Engine } from 'engine/types';
@@ -47,7 +45,7 @@ export const bootstrap = async (): Promise<void> => {
 };
 
 export const launchApp = async (): Promise<void> => {
-	const settings = await modules.storage.safeGet<SettingDocument>('settings');
+	const settings = await storage.safeGet<SettingDocument>('settings');
 	const widgetId = settings?.config?.latestLocation as string;
 
 	if (settings?.profile?.id) {
@@ -58,7 +56,6 @@ export const launchApp = async (): Promise<void> => {
 };
 
 const registerNetworkRunners = async (engine: Engine) => {
-	const { storage } = modules;
 	const keys = (await storage.find<PublicKeyDocument>(selectors.allKeys)).docs;
 	Object.values(Networks).forEach((network) => {
 		const isNetworkAvailable = !!keys.find((i) => i.network === network);
@@ -75,7 +72,7 @@ const watchStorageAndSyncState = async () => {
 		include_docs: true,
 	};
 
-	modules.storage.changes(options).on('change', ({ id, doc, deleted }) => {
+	storage.changes(options).on('change', ({ id, doc, deleted }) => {
 		const item = doc as PouchDocument<object>;
 		if (deleted) {
 			if (item?.type === 'Widget') {

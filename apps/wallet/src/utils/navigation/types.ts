@@ -28,6 +28,7 @@ export type HomeParamList = {
 
 export type SettingParamList = {
 	Default: undefined;
+	Referral: undefined;
 };
 
 export type DashboardParamList = {

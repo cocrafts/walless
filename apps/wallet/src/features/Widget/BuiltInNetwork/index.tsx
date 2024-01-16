@@ -9,7 +9,8 @@ import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
-import { Slider } from '@walless/gui';
+import { Slider, SliderTabs } from '@walless/gui';
+import type { TabItemStyle } from '@walless/gui/components/SliderTabs/TabItem';
 import FeatureButtons from 'components/FeatureButtons';
 import { showCopiedModal } from 'modals/Notification';
 import { showReceiveModal } from 'modals/Receive';
@@ -28,7 +29,6 @@ import AptosTokensTab from './AptosTokensTab';
 import CollectiblesTab from './CollectiblesTab';
 import { getWalletCardSkin, layoutTabs } from './shared';
 import type { TabAble } from './SliderTabs';
-import SliderTabs from './SliderTabs';
 import TokenTab from './TokenTab';
 import WalletCard from './WalletCard';
 
@@ -68,6 +68,26 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 			component: () => <ActivityTab network={id as Networks} />,
 		},
 	];
+
+	const activatedStyle: TabItemStyle = {
+		containerStyle: {
+			backgroundColor: '#0694D3',
+		},
+		textStyle: {
+			color: 'white',
+			fontWeight: '500',
+		},
+	};
+
+	const deactivatedStyle: TabItemStyle = {
+		containerStyle: {
+			backgroundColor: 'transparent',
+		},
+		textStyle: {
+			color: '#566674',
+			fontWeight: '400',
+		},
+	};
 
 	const handleTabPress = (item: TabAble) => {
 		const idx = layoutTabs.indexOf(item);
@@ -125,6 +145,8 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 				items={layoutTabs}
 				activeItem={layoutTabs[activeTabIndex]}
 				onTabPress={handleTabPress}
+				activatedStyle={activatedStyle}
+				deactivatedStyle={deactivatedStyle}
 			/>
 
 			<Slider

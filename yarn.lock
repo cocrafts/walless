@@ -11286,29 +11286,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/engine@*, @walless/engine@workspace:packages/engine":
-  version: 0.0.0-use.local
-  resolution: "@walless/engine@workspace:packages/engine"
-  dependencies:
-    "@metaplex-foundation/js": ^0.19.4
-    "@mysten/sui.js": 0.34.0
-    "@solana/spl-token": 0.3.7
-    "@solana/web3.js": 1.78.4
-    "@taquito/taquito": ^16.2.0
-    "@taquito/tzip12": ^16.2.0
-    "@taquito/tzip16": ^16.2.0
-    "@walless/core": "*"
-    "@walless/graphql": "*"
-    "@walless/network": "*"
-    "@walless/store": "*"
-    aptos: ^1.20.0
-    eslint: 8.38.0
-    p-limit: ^4.0.0
-    p-throttle: ^5.1.0
-    valtio: 1.10.5
-  languageName: unknown
-  linkType: soft
-
 "@walless/eslint-config@*, @walless/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@walless/eslint-config@workspace:packages/eslint-config"
@@ -11369,7 +11346,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/ioc@workspace:packages/ioc"
   dependencies:
-    "@walless/engine": "*"
     "@walless/graphql": "*"
     "@walless/messaging": "*"
     "@walless/store": "*"
@@ -11441,7 +11417,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/network@*, @walless/network@workspace:packages/network":
+"@walless/network@workspace:packages/network":
   version: 0.0.0-use.local
   resolution: "@walless/network@workspace:packages/network"
   dependencies:

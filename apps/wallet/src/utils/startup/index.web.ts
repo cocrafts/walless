@@ -1,5 +1,4 @@
 import { logger } from '@walless/core';
-import { createEngine } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import { configure } from '@walless/store';
 import { storage } from 'utils/storage';
@@ -14,8 +13,6 @@ export const initializeApp = async () => {
 
 	await configure(storage); // pouchdb setup, should be lighting fast
 	await initializeAuth(); // some of its dependency triggered without await causing fast complete/resolve
-	modules.engine = await createEngine(); // start crawling engine
-	modules.engine.start();
 
 	configureDeviceAndNotification(); // asynchronous, should cost nothing evaluate/run
 

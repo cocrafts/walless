@@ -9,7 +9,6 @@
     "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
-    "@walless/engine": "*",
     "@walless/graphql": "*",
     "@walless/messaging": "*",
     "@walless/store": "*"

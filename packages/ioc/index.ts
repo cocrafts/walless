@@ -1,4 +1,3 @@
-import type { Engine } from '@walless/engine';
 import type { EncryptionKeyVault } from '@walless/messaging';
 import type { Database } from '@walless/store';
 import type { GraphQLClient } from 'graphql-request';
@@ -13,7 +12,6 @@ export interface DynamicModules {
 	analytics: UniversalAnalytics;
 	asset: UniversalAsset;
 	config: NativeConfig;
-	engine: Engine;
 	storage: Database;
 	qlClient: GraphQLClient;
 	encryptionKeyVault: EncryptionKeyVault;

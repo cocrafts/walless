@@ -1,5 +1,4 @@
 import { logger } from '@walless/core';
-import { createEngine } from '@walless/engine';
 import { modules } from '@walless/ioc';
 import { configure } from '@walless/store';
 import { storage } from 'utils/storage';
@@ -13,8 +12,6 @@ export const initializeApp = async () => {
 
 	await configure(storage);
 	await initializeAuth();
-	modules.engine = await createEngine();
-	modules.engine.start();
 
 	const milliseconds = new Date().getTime() - startTime.getTime();
 	logger.debug(`Started up in ${milliseconds}ms`);

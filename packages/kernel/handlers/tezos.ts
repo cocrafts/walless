@@ -1,10 +1,9 @@
 import { importKey } from '@taquito/signer';
 import type { TezosToolkit } from '@taquito/taquito';
 import type { TezosTransaction } from '@walless/core';
-import { Networks } from '@walless/core';
-import { modules } from '@walless/ioc';
 
 export const transferToken = async (
+	toolkit: TezosToolkit,
 	transactionStr: string,
 	privateKey: Uint8Array,
 ) => {
@@ -13,9 +12,8 @@ export const transferToken = async (
 		throw Error('Not support this token');
 	}
 
-	const tezos: TezosToolkit = modules.engine.getConnection(Networks.tezos);
-	await importKey(tezos, privateKey.toString());
-	const op = await tezos.contract.transfer({
+	await importKey(toolkit, privateKey.toString());
+	const op = await toolkit.contract.transfer({
 		to: transaction.receiver,
 		amount: transaction.amount,
 	});

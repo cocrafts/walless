@@ -1,7 +1,5 @@
 import type { Connection } from '@solana/web3.js';
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
-import { Networks } from '@walless/core';
-import { modules } from '@walless/ioc';
 import { decode, encode } from 'bs58';
 import { sign } from 'tweetnacl';
 
@@ -35,13 +33,10 @@ export const signTransaction = async (
 };
 
 export const signAndSendTransaction = async (
+	connection: Connection,
 	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,
 ): Promise<string> => {
-	const connection = modules.engine.getConnection(
-		Networks.solana,
-	) as Connection;
-
 	const keypair = Keypair.fromSecretKey(privateKey);
 
 	if (typeof transaction === 'string') {
@@ -62,6 +57,7 @@ export const signAndSendTransaction = async (
 };
 
 export const signAndSendTransactionAbstractionFee = async (
+	gasilonEndpoint: string,
 	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,
 ) => {
@@ -76,18 +72,15 @@ export const signAndSendTransactionAbstractionFee = async (
 
 	const txStr = encode(transaction.serialize());
 
-	const res = await fetch(
-		`${modules.config.GASILON_ENDPOINT}/solana/transfer`,
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				transaction: txStr,
-			}),
+	const res = await fetch(`${gasilonEndpoint}/solana/transfer`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
 		},
-	);
+		body: JSON.stringify({
+			transaction: txStr,
+		}),
+	});
 
 	const data = await res.json();
 

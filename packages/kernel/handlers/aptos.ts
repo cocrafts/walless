@@ -1,5 +1,3 @@
-import { Networks } from '@walless/core';
-import { modules } from '@walless/ioc';
 import type { Provider } from 'aptos';
 import {
 	APTOS_COIN,
@@ -19,6 +17,7 @@ export interface AptosCoinPayload {
 }
 
 export const handleTransferCoin = async (
+	provider: Provider,
 	privateKey: Uint8Array,
 	transaction: string | AptosCoinPayload,
 ) => {
@@ -33,12 +32,11 @@ export const handleTransferCoin = async (
 	const toPubkey = new HexString(txData.to);
 	const fromAccount = new AptosAccount(privateKey, fromPubkey);
 	const isNativeAPT = txData.token === APTOS_COIN;
-	const connection = modules.engine.getConnection<Provider>(Networks.aptos);
 
 	let txHash: string;
 
 	if (isNativeAPT) {
-		const coinClient = new CoinClient(connection.aptosClient);
+		const coinClient = new CoinClient(provider.aptosClient);
 		txHash = await coinClient.transfer(
 			fromAccount,
 			toPubkey,
@@ -47,17 +45,17 @@ export const handleTransferCoin = async (
 				createReceiverIfMissing: true,
 			},
 		);
-		await connection.waitForTransaction(txHash);
+		await provider.waitForTransaction(txHash);
 	} else {
 		const token = new HexString(txData.token);
-		const fungibleClient = new FungibleAssetClient(connection);
+		const fungibleClient = new FungibleAssetClient(provider);
 		txHash = await fungibleClient.transfer(
 			fromAccount,
 			token,
 			toPubkey,
 			txData.amount * 10 ** txData.decimals,
 		);
-		await connection.waitForTransaction(txHash);
+		await provider.waitForTransaction(txHash);
 	}
 
 	return txHash;
@@ -75,6 +73,7 @@ export interface AptosTokenPayload {
 }
 
 export const handleTransferToken = async (
+	provider: Provider,
 	privateKey: Uint8Array,
 	transaction: string | AptosTokenPayload,
 ) => {
@@ -90,10 +89,9 @@ export const handleTransferToken = async (
 	const creatorPubkey = new HexString(txData.creator);
 	const fromAccount = new AptosAccount(privateKey, fromPubkey);
 
-	const connection = modules.engine.getConnection<Provider>(Networks.aptos);
-	const tokenClient = new TokenClient(connection.aptosClient);
+	const tokenClient = new TokenClient(provider.aptosClient);
 
-	const resource = await connection.getAccountResource(
+	const resource = await provider.getAccountResource(
 		toPubkey,
 		'0x3::token::TokenStore',
 	);
@@ -126,7 +124,7 @@ export const handleTransferToken = async (
 		);
 	}
 
-	await connection.waitForTransaction(txHash);
+	await provider.waitForTransaction(txHash);
 
 	return txHash;
 };
@@ -137,6 +135,7 @@ export interface AptosDirectTransferPayload {
 }
 
 export const handleUpdateDirectTransfer = async (
+	provider: Provider,
 	privateKey: Uint8Array,
 	transaction: string | AptosDirectTransferPayload,
 ) => {
@@ -151,11 +150,10 @@ export const handleUpdateDirectTransfer = async (
 	const pubkey = new HexString(txData.pubkey);
 	const account = new AptosAccount(privateKey, pubkey);
 
-	const connection = modules.engine.getConnection<Provider>(Networks.aptos);
-	const tokenClient = new TokenClient(connection.aptosClient);
+	const tokenClient = new TokenClient(provider.aptosClient);
 
 	const txHash = await tokenClient.optInTokenTransfer(account, directTransfer);
-	await connection.waitForTransaction(txHash);
+	await provider.waitForTransaction(txHash);
 
 	return txHash;
 };
@@ -169,6 +167,7 @@ export interface AptosClaimTokenPayload {
 }
 
 export const handleClaimToken = async (
+	provider: Provider,
 	privateKey: Uint8Array,
 	transaction: string | AptosClaimTokenPayload,
 ) => {
@@ -186,8 +185,7 @@ export const handleClaimToken = async (
 	const collectionName = txData.collectionName;
 	const name = txData.name;
 
-	const connection = modules.engine.getConnection<Provider>(Networks.aptos);
-	const tokenClient = new TokenClient(connection.aptosClient);
+	const tokenClient = new TokenClient(provider.aptosClient);
 
 	const txHash = await tokenClient.claimToken(
 		account,
@@ -196,7 +194,7 @@ export const handleClaimToken = async (
 		collectionName,
 		name,
 	);
-	await connection.waitForTransaction(txHash);
+	await provider.waitForTransaction(txHash);
 
 	return txHash;
 };

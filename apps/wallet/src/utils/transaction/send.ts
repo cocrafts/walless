@@ -5,6 +5,9 @@ import { logger, Networks } from '@walless/core';
 import { aptosHandler, solanaHandler, utils } from '@walless/kernel';
 import type { ResponsePayload } from '@walless/messaging';
 import { RequestType, ResponseCode } from '@walless/messaging';
+import { engine } from 'engine';
+import type { AptosContext, SolanaContext } from 'engine/runners';
+import { environment } from 'utils/config';
 
 import {
 	constructTransaction,
@@ -37,13 +40,18 @@ export const createAndSend = async (
 
 		try {
 			if (payload.tokenForFee.metadata?.symbol === 'SOL') {
+				const { connection } = engine.getContext<SolanaContext>(
+					Networks.solana,
+				);
 				res.signatureString = await solanaHandler.signAndSendTransaction(
+					connection,
 					transaction,
 					privateKey,
 				);
 			} else {
 				res.signatureString =
 					await solanaHandler.signAndSendTransactionAbstractionFee(
+						environment.GASILON_ENDPOINT,
 						transaction,
 						privateKey,
 					);
@@ -72,13 +80,16 @@ export const createAndSend = async (
 		const isCoinTransaction = !('creator' in transaction);
 
 		try {
+			const { provider } = engine.getContext<AptosContext>(Networks.aptos);
 			if (isCoinTransaction) {
 				res.signatureString = await aptosHandler.handleTransferCoin(
+					provider,
 					privateKey,
 					transaction as aptosHandler.AptosCoinPayload,
 				);
 			} else {
 				res.signatureString = await aptosHandler.handleTransferToken(
+					provider,
 					privateKey,
 					transaction as aptosHandler.AptosTokenPayload,
 				);

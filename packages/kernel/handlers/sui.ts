@@ -1,17 +1,14 @@
+import type { JsonRpcProvider } from '@mysten/sui.js';
 import { Ed25519Keypair, RawSigner, TransactionBlock } from '@mysten/sui.js';
-import { Networks } from '@walless/core';
-import { modules } from '@walless/ioc';
 import { decode } from 'bs58';
 
 export const signMessage = async (
+	provider: JsonRpcProvider,
 	messageStr: string,
 	privateKey: Uint8Array,
 ) => {
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey);
-	const signer = new RawSigner(
-		keypair,
-		modules.engine.getConnection(Networks.sui),
-	);
+	const signer = new RawSigner(keypair, provider);
 
 	const message = decode(messageStr);
 
@@ -21,14 +18,12 @@ export const signMessage = async (
 };
 
 export const signTransaction = async (
+	provider: JsonRpcProvider,
 	transactionStr: string,
 	privateKey: Uint8Array,
 ) => {
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey);
-	const signer = new RawSigner(
-		keypair,
-		modules.engine.getConnection(Networks.sui),
-	);
+	const signer = new RawSigner(keypair, provider);
 
 	const transaction = TransactionBlock.from(transactionStr);
 
@@ -40,14 +35,12 @@ export const signTransaction = async (
 };
 
 export const signAndExecuteTransaction = async (
+	provider: JsonRpcProvider,
 	transactionStr: string,
 	privateKey: Uint8Array,
 ) => {
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(0, 32));
-	const signer = new RawSigner(
-		keypair,
-		modules.engine.getConnection(Networks.sui),
-	);
+	const signer = new RawSigner(keypair, provider);
 
 	const transaction = TransactionBlock.from(transactionStr);
 

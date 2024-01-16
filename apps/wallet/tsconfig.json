@@ -1,6 +1,7 @@
 {
   "extends": "@walless/tsconfig/application.json",
   "include": [
+    "browser",
     "src",
     "test",
     "index*.js",

@@ -22,8 +22,8 @@
   },
   "peerDependencies": {
     "@solana/web3.js": "1.78.4",
-    "@taquito/signer": "^16.2.0",
-    "@taquito/taquito": "^16.2.0",
+    "@taquito/signer": "^17.5.2",
+    "@taquito/taquito": "^17.5.2",
     "bs58": "5.0.0"
   }
 }

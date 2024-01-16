@@ -2,7 +2,6 @@ import { Networks } from '@walless/core';
 import type { TabAble } from '@walless/gui/components/SliderTabs/TabItem';
 import assets from 'utils/assets';
 
-import EmptyTab from './EmptyTab';
 import type { CardSkin } from './WalletCard';
 
 export const getWalletCardSkin = (id: Networks): CardSkin => {

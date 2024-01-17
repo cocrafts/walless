@@ -4,6 +4,7 @@ import type { ShareStore } from '@tkey/common-types';
 import ThresholdKey from '@tkey/default';
 import { ReactNativeStorageModule } from '@tkey/react-native-storage';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
+import CustomAuthCore from '@toruslabs/customauth-react-native-sdk';
 
 import { type CoreModules, coreModules, type CoreThresholdKey } from './core';
 
@@ -24,6 +25,8 @@ type MobileTkeyModules = CoreModules & {
 type MobileTkey = CoreThresholdKey & {
 	modules: MobileTkeyModules;
 };
+
+export const CustomAuth = CustomAuthCore;
 
 export const initTkey = (): MobileTkey => {
 	return new ThresholdKey({

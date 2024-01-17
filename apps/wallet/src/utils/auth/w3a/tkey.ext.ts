@@ -3,7 +3,7 @@ import ChromeStorageModule from '@tkey/chrome-storage';
 import type { ShareStore } from '@tkey/common-types';
 import ThresholdKey from '@tkey/default';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
-import CustomAuthCore from '@toruslabs/customauth-react-native-sdk';
+import CustomAuthCore from '@toruslabs/customauth';
 
 import { w3aBaseUrl } from '../../config/index.web';
 
@@ -28,7 +28,7 @@ export const customAuthArgs: CustomAuthArgs = {
 	popupFeatures: 'width=380,height=600',
 };
 
-export const CustomAuth = CustomAuthCore;
+export const CustomAuth = new CustomAuthCore(customAuthArgs);
 
 export const initTkey = () => {
 	return new ThresholdKey({

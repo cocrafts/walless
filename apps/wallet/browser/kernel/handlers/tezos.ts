@@ -1,6 +1,6 @@
 import { TezosToolkit } from '@taquito/taquito';
-import { tezosHandler } from '@walless/kernel';
 import { ResponseCode } from '@walless/messaging';
+import { tezosHandler } from '@walless/network';
 
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';

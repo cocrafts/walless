@@ -1,5 +1,5 @@
-import { aptosHandler } from '@walless/kernel';
 import { ResponseCode } from '@walless/messaging';
+import { aptosHandler } from '@walless/network';
 import { Network, Provider } from 'aptos';
 
 import { respond } from '../utils/requestPool';

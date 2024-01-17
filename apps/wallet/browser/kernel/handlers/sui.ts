@@ -1,6 +1,6 @@
 import { Connection, JsonRpcProvider } from '@mysten/sui.js';
-import { suiHandler } from '@walless/kernel';
 import { ResponseCode } from '@walless/messaging';
+import { suiHandler } from '@walless/network';
 
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';

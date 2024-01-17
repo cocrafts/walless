@@ -22,7 +22,7 @@ import type {
 	TransactionPayload,
 } from '@walless/core';
 import { logger, Networks } from '@walless/core';
-import type { aptosHandler } from '@walless/kernel';
+import type { aptosHandler } from '@walless/network';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { TxnBuilderTypes } from 'aptos';
 import base58 from 'bs58';

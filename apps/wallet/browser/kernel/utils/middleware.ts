@@ -1,11 +1,11 @@
 import type { ConnectOptions, Networks } from '@walless/core';
-import { utils } from '@walless/kernel';
 import {
 	PopupType,
 	RequestType,
 	ResponseCode,
 	ResponseMessage,
 } from '@walless/messaging';
+import { utils } from '@walless/network';
 import type { TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 

@@ -44,7 +44,7 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 					runner = await createPool[key](config);
 					enginePool[key] = runner;
 
-					/** start runners asynchronously*/
+					/** start runners asynchronously */
 					runner.start();
 				});
 

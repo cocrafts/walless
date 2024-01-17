@@ -9,7 +9,7 @@ import {
 	withTiming,
 } from 'react-native-reanimated';
 import { AnimatedImage } from '@walless/gui';
-import { appActions } from 'state';
+import { appActions } from 'state/app';
 import assets from 'utils/assets';
 
 const logoSize = 120;

@@ -14,7 +14,7 @@ import {
 import { Anchor, Button, Input, Text, View } from '@walless/gui';
 import { useSafeAreaInsets } from 'hooks';
 import { showError } from 'modals/Error';
-import { appState } from 'state';
+import { appState } from 'state/app';
 import assets from 'utils/assets';
 import { validateInvitationCode } from 'utils/auth';
 import { navigate } from 'utils/navigation';

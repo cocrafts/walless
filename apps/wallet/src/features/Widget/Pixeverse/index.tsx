@@ -3,7 +3,7 @@ import type { WebViewMessageEvent } from 'react-native-webview';
 import { WebView } from 'react-native-webview';
 import { Networks } from '@walless/core';
 import { usePublicKeys, useSnapshot } from 'hooks';
-import { appState } from 'state';
+import { appState } from 'state/app';
 import { environment } from 'utils/config';
 
 export const Pixeverse = () => {

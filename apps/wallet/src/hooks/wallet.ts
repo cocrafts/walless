@@ -1,16 +1,12 @@
 import { useMemo } from 'react';
 import type { Networks } from '@walless/core';
 import type { PublicKeyDocument } from '@walless/store';
-import {
-	appState,
-	collectibleState,
-	collectionState,
-	historyState,
-	keyState,
-	tokenState,
-	widgetState,
-} from 'state';
+import { appState } from 'state/app';
+import { collectibleState, collectionState, tokenState } from 'state/assets';
+import { historyState } from 'state/history';
+import { keyState } from 'state/keys';
 import { runtimeActions } from 'state/runtime';
+import { widgetState } from 'state/widget';
 import { useSnapshot } from 'valtio';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {

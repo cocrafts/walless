@@ -4,7 +4,7 @@ import type { User } from '@firebase/auth';
 import { getAuth, GoogleAuthProvider } from '@firebase/auth';
 import { getPerformance } from '@firebase/performance';
 import type { RemoteConfig } from '@walless/core';
-import { appState } from 'state';
+import { appState } from 'state/app';
 import { defaultRemoteConfig } from 'utils/constants';
 
 import type { Analytics } from './types';

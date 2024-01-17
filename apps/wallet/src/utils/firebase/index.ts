@@ -8,7 +8,7 @@ import authModule from '@react-native-firebase/auth';
 import getCrashlytics from '@react-native-firebase/crashlytics';
 import remoteConfig from '@react-native-firebase/remote-config';
 import type { RemoteConfig } from '@walless/core';
-import { appState } from 'state';
+import { appState } from 'state/app';
 import { runtimeActions } from 'state/runtime';
 import { defaultRemoteConfig } from 'utils/constants';
 

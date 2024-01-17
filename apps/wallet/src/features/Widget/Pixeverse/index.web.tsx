@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Networks } from '@walless/core';
 import { View } from '@walless/gui';
 import { usePublicKeys, useSnapshot } from 'hooks';
-import { appState } from 'state';
+import { appState } from 'state/app';
 import { environment } from 'utils/config';
 
 export const Pixeverse = () => {

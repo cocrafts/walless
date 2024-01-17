@@ -3,7 +3,7 @@ import type { ImageStyle } from 'react-native';
 import { Image } from 'react-native';
 import type { IconProps } from '@walless/icons';
 import { useSnapshot } from 'hooks';
-import { appState } from 'state';
+import { appState } from 'state/app';
 
 export const ProfileIcon: FC<IconProps> = ({ size = 20 }) => {
 	const { profile } = useSnapshot(appState);

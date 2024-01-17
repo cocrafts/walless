@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks, TransactionHistory } from '@walless/core';
 import { View } from '@walless/gui';
-import { appState } from 'state';
+import { appState } from 'state/app';
 import assets from 'utils/assets';
 import type { NetworkInfo } from 'utils/helper';
 import { getNetworkInfo } from 'utils/helper';

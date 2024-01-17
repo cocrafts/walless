@@ -8,6 +8,8 @@ import type {
 import { defaultConfig, defaultRemoteConfig } from 'utils/constants';
 import { proxy } from 'valtio';
 
+import { bootstrap, initAfterSignIn, launchApp } from './bootstrap';
+
 const defaultEndpoint: Endpoint = __DEV__ ? 'devnet' : 'mainnet';
 
 export const defaultEndpoints: EndpointMap = {
@@ -34,3 +36,9 @@ export const appState = proxy<AppState>({
 	remoteConfig: defaultRemoteConfig,
 	endpoints: defaultEndpoints,
 });
+
+export const appActions = {
+	bootstrap,
+	launchApp,
+	initAfterSignIn,
+};

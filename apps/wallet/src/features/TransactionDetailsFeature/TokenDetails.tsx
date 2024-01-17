@@ -3,7 +3,7 @@ import type { ImageSourcePropType } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Anchor, Text, View } from '@walless/gui';
-import { appState } from 'state';
+import { appState } from 'state/app';
 import { removeRedundantCharacters } from 'utils/format';
 import { useSnapshot } from 'valtio';
 

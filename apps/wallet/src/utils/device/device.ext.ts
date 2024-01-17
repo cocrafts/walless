@@ -2,7 +2,7 @@ import type { UnknownObject } from '@walless/core';
 import { logger, runtime } from '@walless/core';
 import type { DeviceInfoInput } from '@walless/graphql';
 import type { SystemDocument } from '@walless/store';
-import { appState } from 'state';
+import { appState } from 'state/app';
 import { runtimeActions } from 'state/runtime';
 import { storage } from 'utils/storage';
 

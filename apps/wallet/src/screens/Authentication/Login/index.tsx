@@ -4,7 +4,7 @@ import { logger } from '@walless/core';
 import { Anchor, Text, View } from '@walless/gui';
 import { useSafeAreaInsets, useSnapshot } from 'hooks';
 import { showError } from 'modals/Error';
-import { appState } from 'state';
+import { appState } from 'state/app';
 import assets from 'utils/assets';
 import {
 	checkInvitationCode,

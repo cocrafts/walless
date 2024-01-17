@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { sortBy } from 'lodash';
-import { widgetState } from 'state';
+import { widgetState } from 'state/widget';
 
 import { useSnapshot } from './aliased';
 

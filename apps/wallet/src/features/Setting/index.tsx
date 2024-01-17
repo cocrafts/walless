@@ -3,7 +3,7 @@ import type { ViewStyle } from 'react-native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Twitter } from '@walless/icons';
 import { useSnapshot } from 'hooks';
-import { appState } from 'state';
+import { appState } from 'state/app';
 
 import ForwardLink from './ForwardLink';
 import HelpCenter from './HelpCenter';

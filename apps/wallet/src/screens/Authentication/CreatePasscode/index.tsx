@@ -11,7 +11,7 @@ import { logger } from '@walless/core';
 import { Passcode, Text, View } from '@walless/gui';
 import { useBiometricStatus, useSafeAreaInsets } from 'hooks';
 import { showError } from 'modals/Error';
-import { appActions } from 'state';
+import { appActions } from 'state/app';
 import { makeProfile, setProfile, signInWithPasscode } from 'utils/auth';
 import { auth } from 'utils/firebase';
 import { hydrateEncryptionKey } from 'utils/native';

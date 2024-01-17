@@ -6241,36 +6241,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metaplex-foundation/js@npm:0.18.3":
-  version: 0.18.3
-  resolution: "@metaplex-foundation/js@npm:0.18.3"
-  dependencies:
-    "@bundlr-network/client": ^0.8.8
-    "@metaplex-foundation/beet": 0.7.1
-    "@metaplex-foundation/mpl-auction-house": ^2.3.0
-    "@metaplex-foundation/mpl-candy-guard": ^0.3.0
-    "@metaplex-foundation/mpl-candy-machine": ^5.0.0
-    "@metaplex-foundation/mpl-candy-machine-core": ^0.1.2
-    "@metaplex-foundation/mpl-token-metadata": ^2.8.6
-    "@noble/ed25519": ^1.7.1
-    "@noble/hashes": ^1.1.3
-    "@solana/spl-token": ^0.3.5
-    "@solana/web3.js": ^1.63.1
-    bignumber.js: ^9.0.2
-    bn.js: ^5.2.1
-    bs58: ^5.0.0
-    buffer: ^6.0.3
-    debug: ^4.3.4
-    eventemitter3: ^4.0.7
-    lodash.clonedeep: ^4.5.0
-    lodash.isequal: ^4.5.0
-    merkletreejs: ^0.2.32
-    mime: ^3.0.0
-    node-fetch: ^2.6.7
-  checksum: 70b7faf32be053f227f2336225d396f8c1c9e3ff2b915a8fdc45156f32bc65c2616d5617928a70e280a7325e7e1def82ab94f4b817e76c6d97f0a8bd081d8ab6
-  languageName: node
-  linkType: hard
-
 "@metaplex-foundation/js@npm:^0.19.4":
   version: 0.19.5
   resolution: "@metaplex-foundation/js@npm:0.19.5"
@@ -6373,7 +6343,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metaplex-foundation/mpl-token-metadata@npm:^2.11.0, @metaplex-foundation/mpl-token-metadata@npm:^2.5.2, @metaplex-foundation/mpl-token-metadata@npm:^2.8.6":
+"@metaplex-foundation/mpl-token-metadata@npm:^2.11.0, @metaplex-foundation/mpl-token-metadata@npm:^2.5.2":
   version: 2.13.0
   resolution: "@metaplex-foundation/mpl-token-metadata@npm:2.13.0"
   dependencies:
@@ -11407,7 +11377,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/network@workspace:packages/network"
   dependencies:
-    "@metaplex-foundation/js": 0.18.3
+    "@metaplex-foundation/js": ^0.19.4
     "@mysten/sui.js": 0.34.0
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.78.4

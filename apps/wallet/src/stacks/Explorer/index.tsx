@@ -6,7 +6,7 @@ import { withStackContainer } from 'components/StackContainer';
 import CollectibleScreen from 'screens/Dashboard/Collectible';
 import CollectionScreen from 'screens/Dashboard/Collection';
 import WidgetScreen from 'screens/Dashboard/Widget';
-import type { ExploreParamList } from 'utils/navigation';
+import { type ExploreParamList, navigateBack } from 'utils/navigation';
 
 import Sidebar, { sidebarWidth } from './Sidebar';
 
@@ -28,10 +28,12 @@ export const ExplorerStack = () => {
 
 	const ManagedCollectionScreen = withStackContainer(CollectionScreen, {
 		title: 'Collection',
+		goBack: navigateBack,
 	});
 
 	const ManagedCollectibleScreen = withStackContainer(CollectibleScreen, {
 		title: 'Collectible',
+		goBack: navigateBack,
 	});
 
 	return (

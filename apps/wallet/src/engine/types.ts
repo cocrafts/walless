@@ -1,17 +1,17 @@
 import type { Database, EndpointsDocument } from '@walless/store';
 
 export interface Runner {
-	start: () => void;
-	stop: () => void;
-	restart: (config: EngineConfig) => void;
+	start: () => Promise<void>;
+	stop: () => Promise<void>;
+	restart: (config: EngineConfig) => Promise<void>;
 	getContext: () => unknown;
 }
 
 export interface Engine {
 	register: (key: string, create: CreateFunction) => void;
-	start: (key?: string) => void;
-	stop: (key?: string) => void;
-	restart: (key?: string) => void;
+	start: (key?: string) => Promise<void>;
+	stop: (key?: string) => Promise<void>;
+	restart: (key?: string) => Promise<void>;
 	getContext: <T>(key: string) => T;
 }
 

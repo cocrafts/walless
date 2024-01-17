@@ -1,8 +1,12 @@
-import { bootstrap, launchApp } from './bootstrap';
+import { bootstrap, initAfterSignIn, launchApp } from './bootstrap';
 
 export { appState } from './app';
 
-export const appActions = { bootstrap, launchApp };
+export const appActions = {
+	bootstrap,
+	launchApp,
+	initAfterSignIn,
+};
 
 export { defaultEndpoints } from './app';
 export * from './assets';

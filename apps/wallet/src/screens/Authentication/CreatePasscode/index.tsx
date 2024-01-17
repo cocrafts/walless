@@ -10,6 +10,7 @@ import {
 import { Passcode, Text, View } from '@walless/gui';
 import { useBiometricStatus, useSafeAreaInsets } from 'hooks';
 import { showError } from 'modals/Error';
+import { appActions } from 'state';
 import { signInWithPasscode } from 'utils/auth';
 import { auth } from 'utils/firebase';
 import { hydrateEncryptionKey } from 'utils/native';
@@ -44,6 +45,7 @@ export const CreatePasscodeScreen: FC = () => {
 		}
 
 		await signInWithPasscode(passcode, auth().currentUser, handleInitFail);
+		await appActions.initAfterSignIn();
 		resetRoute(ResetAnchors.Widget, { id: 'explorer' });
 	};
 

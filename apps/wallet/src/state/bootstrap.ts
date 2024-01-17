@@ -10,7 +10,11 @@ import type {
 	WidgetDocument,
 } from '@walless/store';
 import { configure, selectors } from '@walless/store';
-import { createEngine, setDefaultEngine } from 'engine';
+import {
+	createEngine,
+	engine as defaultEngine,
+	setDefaultEngine,
+} from 'engine';
 import {
 	createAptosRunner,
 	createSolanaRunner,
@@ -58,6 +62,11 @@ export const launchApp = async (): Promise<void> => {
 	} else {
 		resetRoute(ResetAnchors.Invitation);
 	}
+};
+
+export const initAfterSignIn = async () => {
+	await registerNetworkRunners(defaultEngine);
+	await defaultEngine.start();
 };
 
 const registerNetworkRunners = async (engine: Engine) => {

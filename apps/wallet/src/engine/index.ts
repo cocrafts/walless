@@ -43,23 +43,27 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 					}
 					runner = await createPool[key](config);
 					enginePool[key] = runner;
+
+					/** start runners asynchronously*/
 					runner.start();
 				});
 
+				/** wait creations when start engine */
 				await Promise.all(createRunnersPromises);
 			}
 		},
-		stop: (key?: string) => {
+		stop: async (key?: string) => {
 			if (key) {
 				const runner = enginePool[key];
 				if (!runner) throw Error(`runner ${key} not found`);
 				runner.stop();
 			} else {
 				const runners = Object.values(enginePool);
-				runners.forEach((r) => r.stop());
+				const promises = runners.map(async (r) => await r.stop());
+				await Promise.all(promises);
 			}
 		},
-		restart(key?: string) {
+		restart: async (key?: string) => {
 			if (key) {
 				const runner = enginePool[key];
 				if (!runner) throw Error(`runner ${key} not found`);

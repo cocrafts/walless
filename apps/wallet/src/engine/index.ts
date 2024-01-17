@@ -31,20 +31,22 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 				const create = createPool[key];
 				if (!create) throw Error(`runner ${key} is not registered`);
 
-				runner = create(config);
+				runner = await create(config);
 				enginePool[key] = runner;
 				runner.start();
 			} else {
 				const keys = Object.keys(createPool);
-				keys.forEach((key) => {
+				const createRunnersPromises = keys.map(async (key) => {
 					let runner = enginePool[key];
 					if (runner) {
 						throw Error(`runner ${key} is running, use restart instead`);
 					}
-					runner = createPool[key](config);
+					runner = await createPool[key](config);
 					enginePool[key] = runner;
 					runner.start();
 				});
+
+				await Promise.all(createRunnersPromises);
 			}
 		},
 		stop: (key?: string) => {

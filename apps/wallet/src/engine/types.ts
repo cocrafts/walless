@@ -15,7 +15,7 @@ export interface Engine {
 	getContext: <T>(key: string) => T;
 }
 
-export type CreateFunction = (config: EngineConfig) => Runner;
+export type CreateFunction = (config: EngineConfig) => Promise<Runner> | Runner;
 
 export type EnginePool = Record<string, Runner>;
 

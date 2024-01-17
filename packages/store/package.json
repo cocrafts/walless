@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "@walless/tsconfig": "*",
-    "eslint": "8.38.0"
+    "eslint": "^8.56.0"
   }
 }

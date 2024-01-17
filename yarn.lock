@@ -11313,7 +11313,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/graphql@workspace:packages/graphql"
   dependencies:
-    eslint: 8.38.0
+    eslint: ^8.56.0
     graphql-request: ^6.1.0
   languageName: unknown
   linkType: soft
@@ -11322,7 +11322,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/gui@workspace:packages/gui"
   dependencies:
-    eslint: 8.38.0
+    eslint: ^8.56.0
   peerDependencies:
     react: ^18.2.0
     react-native: 0.71.14
@@ -11336,26 +11336,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/icons@workspace:packages/icons"
   dependencies:
-    eslint: 8.38.0
+    eslint: ^8.56.0
   peerDependencies:
     react: ^18.2.0
-  languageName: unknown
-  linkType: soft
-
-"@walless/ioc@workspace:packages/ioc":
-  version: 0.0.0-use.local
-  resolution: "@walless/ioc@workspace:packages/ioc"
-  dependencies:
-    "@walless/graphql": "*"
-    "@walless/messaging": "*"
-    "@walless/store": "*"
-    eslint: 8.38.0
   languageName: unknown
   linkType: soft
 
 "@walless/kernel@workspace:packages/kernel":
   version: 0.0.0-use.local
   resolution: "@walless/kernel@workspace:packages/kernel"
+  dependencies:
+    eslint: ^8.56.0
   peerDependencies:
     "@mysten/sui.js": 0.34.0
     "@solana/web3.js": 1.78.4
@@ -11394,17 +11385,17 @@ __metadata:
   resolution: "@walless/markdown@workspace:packages/markdown"
   dependencies:
     color2k: ^2.0.2
-    eslint: 8.38.0
+    eslint: ^8.56.0
     react-native-syntax-highlighter: ^2.1.0
     simple-markdown: ^0.7.3
   languageName: unknown
   linkType: soft
 
-"@walless/messaging@*, @walless/messaging@workspace:packages/messaging":
+"@walless/messaging@workspace:packages/messaging":
   version: 0.0.0-use.local
   resolution: "@walless/messaging@workspace:packages/messaging"
   dependencies:
-    eslint: 8.38.0
+    eslint: ^8.56.0
   peerDependencies:
     "@walless/core": "*"
     "@walless/crypto": "*"
@@ -11420,7 +11411,7 @@ __metadata:
     "@mysten/sui.js": 0.34.0
     "@solana/spl-token": 0.3.7
     "@solana/web3.js": 1.78.4
-    eslint: 8.38.0
+    eslint: ^8.56.0
   languageName: unknown
   linkType: soft
 
@@ -11429,7 +11420,7 @@ __metadata:
   resolution: "@walless/sdk@workspace:packages/sdk"
   dependencies:
     "@walless/core": "*"
-    eslint: 8.38.0
+    eslint: ^8.56.0
   languageName: unknown
   linkType: soft
 
@@ -11438,7 +11429,7 @@ __metadata:
   resolution: "@walless/store@workspace:packages/store"
   dependencies:
     "@walless/tsconfig": "*"
-    eslint: 8.38.0
+    eslint: ^8.56.0
   peerDependencies:
     pouchdb-adapter-http: ^8.0.1
     pouchdb-core: ^8.0.1
@@ -11459,7 +11450,7 @@ __metadata:
   resolution: "@walless/ui@workspace:packages/ui"
   dependencies:
     "@tamagui/themes": 1.15.16
-    eslint: 8.38.0
+    eslint: ^8.56.0
     react: ^18.2.0
     tamagui: 1.15.16
     valtio: 1.10.5
@@ -11488,7 +11479,7 @@ __metadata:
     "@wallet-standard/base": ^1.0.1
     "@wallet-standard/features": ^1.0.3
     bs58: 5.0.0
-    eslint: 8.38.0
+    eslint: ^8.56.0
     shx: ^0.3.4
   languageName: unknown
   linkType: soft
@@ -16153,7 +16144,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.38.0, eslint@npm:^8.51.0":
+"eslint@npm:^8.38.0, eslint@npm:^8.51.0, eslint@npm:^8.56.0":
   version: 8.56.0
   resolution: "eslint@npm:8.56.0"
   dependencies:

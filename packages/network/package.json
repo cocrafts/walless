@@ -17,6 +17,6 @@
     "@solana/web3.js": "1.78.4"
   },
   "devDependencies": {
-    "eslint": "8.38.0"
+    "eslint": "^8.56.0"
   }
 }

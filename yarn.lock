@@ -11238,7 +11238,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/crypto@*, @walless/crypto@workspace:packages/crypto":
+"@walless/crypto@workspace:packages/crypto":
   version: 0.0.0-use.local
   resolution: "@walless/crypto@workspace:packages/crypto"
   dependencies:
@@ -11342,7 +11342,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/ioc@*, @walless/ioc@workspace:packages/ioc":
+"@walless/ioc@workspace:packages/ioc":
   version: 0.0.0-use.local
   resolution: "@walless/ioc@workspace:packages/ioc"
   dependencies:
@@ -11356,20 +11356,15 @@ __metadata:
 "@walless/kernel@workspace:packages/kernel":
   version: 0.0.0-use.local
   resolution: "@walless/kernel@workspace:packages/kernel"
-  dependencies:
-    "@mysten/sui.js": 0.34.0
-    "@walless/core": "*"
-    "@walless/crypto": "*"
-    "@walless/ioc": "*"
-    "@walless/store": "*"
-    aptos: ^1.20.0
-    eslint: 8.38.0
-    tweetnacl: ^1.0.3
   peerDependencies:
+    "@mysten/sui.js": 0.34.0
     "@solana/web3.js": 1.78.4
     "@taquito/signer": ^17.5.2
     "@taquito/taquito": ^17.5.2
+    "@walless/core": "*"
+    aptos: ^1.20.0
     bs58: 5.0.0
+    tweetnacl: ^1.0.3
   languageName: unknown
   linkType: soft
 

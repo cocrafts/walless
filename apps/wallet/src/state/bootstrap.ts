@@ -11,7 +11,12 @@ import type {
 } from '@walless/store';
 import { configure, selectors } from '@walless/store';
 import { createEngine, setDefaultEngine } from 'engine';
-import { createSolanaRunner } from 'engine/runners';
+import {
+	createAptosRunner,
+	createSolanaRunner,
+	createSuiRunner,
+	createTezosRunner,
+} from 'engine/runners';
 import type { Engine } from 'engine/types';
 import { configureDeviceAndNotification } from 'utils/device/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
@@ -30,7 +35,7 @@ export const bootstrap = async (): Promise<void> => {
 	await Promise.all([
 		configure(storage).then(async () => {
 			const engine = await createEngine(storage);
-			registerNetworkRunners(engine);
+			await registerNetworkRunners(engine);
 			setDefaultEngine(engine);
 			engine.start();
 		}),
@@ -56,13 +61,19 @@ export const launchApp = async (): Promise<void> => {
 };
 
 const registerNetworkRunners = async (engine: Engine) => {
+	const runnersMap = {
+		solana: createSolanaRunner,
+		sui: createSuiRunner,
+		tezos: createTezosRunner,
+		aptos: createAptosRunner,
+	};
+
 	const keys = (await storage.find<PublicKeyDocument>(selectors.allKeys)).docs;
 	Object.values(Networks).forEach((network) => {
 		const isNetworkAvailable = !!keys.find((i) => i.network === network);
+		console.log(network, isNetworkAvailable);
 		if (!isNetworkAvailable) return;
-		if (network === Networks.solana) {
-			engine.register(network, createSolanaRunner);
-		}
+		engine.register(network, runnersMap[network]);
 	});
 };
 

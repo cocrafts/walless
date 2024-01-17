@@ -24,6 +24,10 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 		},
 		start: async () => {
 			const keys = Object.keys(createPool);
+			if (keys.length === 0) {
+				throw Error('no runner found, need to register runner before start');
+			}
+
 			keys.forEach((key) => {
 				const runner = createPool[key](config);
 				enginePool[key] = runner;

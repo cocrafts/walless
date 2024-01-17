@@ -8,6 +8,7 @@ import { RequestType, ResponseCode } from '@walless/messaging';
 import { engine } from 'engine';
 import type { AptosContext, SolanaContext } from 'engine/runners';
 import { environment } from 'utils/config';
+import { storage } from 'utils/storage';
 
 import {
 	constructTransaction,
@@ -32,7 +33,11 @@ export const createAndSend = async (
 	if (transaction instanceof VersionedTransaction) {
 		let privateKey;
 		try {
-			privateKey = await utils.getPrivateKey(Networks.solana, passcode);
+			privateKey = await utils.getPrivateKey(
+				storage,
+				Networks.solana,
+				passcode,
+			);
 		} catch {
 			res.responseCode = ResponseCode.WRONG_PASSCODE;
 			return res;
@@ -71,7 +76,7 @@ export const createAndSend = async (
 	} else if (payload.network === Networks.aptos) {
 		let privateKey;
 		try {
-			privateKey = await utils.getPrivateKey(Networks.aptos, passcode);
+			privateKey = await utils.getPrivateKey(storage, Networks.aptos, passcode);
 		} catch {
 			res.responseCode = ResponseCode.WRONG_PASSCODE;
 			return res;
@@ -117,16 +122,18 @@ export const handleAptosOnChainAction = async ({
 
 	let privateKey;
 	try {
-		privateKey = await utils.getPrivateKey(Networks.aptos, passcode);
+		privateKey = await utils.getPrivateKey(storage, Networks.aptos, passcode);
 	} catch {
 		res.responseCode = ResponseCode.WRONG_PASSCODE;
 		return res;
 	}
 
 	try {
+		const { provider } = engine.getContext<AptosContext>(Networks.aptos);
 		switch (type) {
 			case RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS:
 				res.signatureString = await aptosHandler.handleUpdateDirectTransfer(
+					provider,
 					privateKey,
 					payload as aptosHandler.AptosDirectTransferPayload,
 				);
@@ -134,6 +141,7 @@ export const handleAptosOnChainAction = async ({
 
 			case RequestType.CLAIM_TOKEN_ON_APTOS:
 				res.signatureString = await aptosHandler.handleClaimToken(
+					provider,
 					privateKey,
 					payload as aptosHandler.AptosClaimTokenPayload,
 				);

@@ -24,7 +24,7 @@ export const getPrivateKey = (
 		}
 
 		try {
-			const privateKey = await utils.getPrivateKey(network, passcode);
+			const privateKey = await utils.getPrivateKey(storage, network, passcode);
 			next?.({ ...payload, privateKey });
 		} catch {
 			respond(payload.requestId, ResponseCode.WRONG_PASSCODE);

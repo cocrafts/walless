@@ -1,17 +1,24 @@
 import type { Networks } from '@walless/core';
 import { decryptWithPasscode } from '@walless/crypto';
-import { modules } from '@walless/ioc';
-import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
+import type {
+	Database,
+	PrivateKeyDocument,
+	PublicKeyDocument,
+} from '@walless/store';
 
-export const getPrivateKey = async (network: Networks, passcode: string) => {
-	const result = await modules.storage.find({
+export const getPrivateKey = async (
+	storage: Database,
+	network: Networks,
+	passcode: string,
+) => {
+	const result = await storage.find({
 		selector: {
 			type: 'PublicKey',
 			network: network,
 		},
 	});
 	const [publicKey] = result.docs as PublicKeyDocument[];
-	const encryptedKey = await modules.storage.safeGet<PrivateKeyDocument>(
+	const encryptedKey = await storage.safeGet<PrivateKeyDocument>(
 		publicKey.privateKeyId,
 	);
 

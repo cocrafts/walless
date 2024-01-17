@@ -5,6 +5,6 @@ import { storage } from '../storage';
 
 export const logout = async () => {
 	await firebase.auth().signOut();
-	await engine.stop();
+	await engine.clear();
 	await storage.clearAllDocs();
 };

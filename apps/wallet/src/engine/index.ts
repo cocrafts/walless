@@ -73,6 +73,23 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 				runners.forEach((r) => r.restart(config));
 			}
 		},
+		clear: async (key?: string) => {
+			if (key) {
+				const runner = enginePool[key];
+				if (!runner) throw Error(`runner ${key} not found`);
+				runner.stop();
+				delete enginePool[key];
+				delete createPool[key];
+			} else {
+				const runners = Object.keys(enginePool);
+				runners.forEach((key) => {
+					const runner = enginePool[key];
+					runner.stop();
+					delete enginePool[key];
+					delete createPool[key];
+				});
+			}
+		},
 		getContext: <T>(key: string) => {
 			return enginePool[key]?.getContext() as T;
 		},

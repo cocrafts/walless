@@ -38,6 +38,7 @@ export const bootstrap = async (): Promise<void> => {
 
 	await Promise.all([
 		configure(storage).then(async () => {
+			if (defaultEngine) return;
 			const engine = await createEngine(storage);
 			await registerNetworkRunners(engine);
 			setDefaultEngine(engine);

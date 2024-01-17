@@ -1,6 +1,7 @@
 - Authentication
   - Web3auth
   - Sync account to Gotenks
+  - Engine start correctly after logout -> sign in without reload
 - Engine:
   - Price watching
   - Assets watching/persisting

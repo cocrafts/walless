@@ -12,6 +12,7 @@ export interface Engine {
 	start: (key?: string) => Promise<void>;
 	stop: (key?: string) => Promise<void>;
 	restart: (key?: string) => Promise<void>;
+	clear: (key?: string) => Promise<void>;
 	getContext: <T>(key: string) => T;
 }
 

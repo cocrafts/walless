@@ -1,11 +1,21 @@
 import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { logger } from '@walless/core';
 import { Anchor, Text, View } from '@walless/gui';
 import { useSafeAreaInsets, useSnapshot } from 'hooks';
+import { showError } from 'modals/Error';
 import { appState } from 'state';
 import assets from 'utils/assets';
-import { makeProfile, setProfile, signIn } from 'utils/auth';
+import {
+	checkInvitationCode,
+	makeProfile,
+	setProfile,
+	signInWithGoogle,
+	signInWithTorusKey,
+	ThresholdResult,
+} from 'utils/auth';
 import type { UserAuth } from 'utils/firebase';
+import { navigate } from 'utils/navigation';
 
 import SignInHeader from './SignInHeader';
 import SignInInner from './SignInInner';
@@ -22,8 +32,41 @@ export const LoginScreen: FC = () => {
 
 	const handleGoogleSignIn = async () => {
 		setLoading(true);
-		const user = await signIn(invitationCode);
-		await setProfile(makeProfile(user as UserAuth));
+		let user: UserAuth;
+		try {
+			user = await signInWithGoogle();
+		} catch (error) {
+			showError({ errorText: 'Something went wrong' });
+			logger.error('Error when sign-in with google', error);
+			return;
+		}
+
+		try {
+			checkInvitationCode(user, invitationCode);
+		} catch (error) {
+			showError({ errorText: (error as Error).message });
+			logger.error('Error when sign-in with google', error);
+			navigate('Authentication', { screen: 'Invitation' });
+			return;
+		}
+		checkInvitationCode(user, invitationCode);
+
+		try {
+			const status = await signInWithTorusKey(user);
+			if (status === ThresholdResult.Initializing) {
+				navigate('Authentication', { screen: 'CreatePasscode' });
+			} else if (status === ThresholdResult.Missing) {
+				navigate('Authentication', { screen: 'Recovery' });
+			} else if (status === ThresholdResult.Ready) {
+				navigate('Dashboard');
+			}
+		} catch (error) {
+			showError({ errorText: 'Something went wrong' });
+			logger.error('Error when sign-in with w3a', error);
+			return;
+		}
+
+		await setProfile(makeProfile(user));
 		setLoading(false);
 	};
 

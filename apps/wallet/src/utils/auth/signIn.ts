@@ -1,12 +1,9 @@
-import CustomAuth from '@toruslabs/customauth-react-native-sdk';
-import { logger } from '@walless/core';
 import type { WalletInvitation } from '@walless/graphql';
 import { mutations, queries } from '@walless/graphql';
-import { showError } from 'modals/Error';
 import type { UserAuth } from 'utils/firebase';
 import { qlClient } from 'utils/graphql';
-import { navigate } from 'utils/navigation';
 
+import { CustomAuth } from './w3a/tkey';
 import { initBySeedPhraseModule } from './keys';
 import { initAndRegisterWallet } from './recovery';
 import { signInWithGoogle } from './signInGoogle';
@@ -17,69 +14,59 @@ import {
 	tkey,
 } from './w3a';
 
-export const signIn = async (invitationCode?: string) => {
-	try {
-		const user = await signInWithGoogle();
+const checkInvitationCode = async (user: UserAuth, invitationCode?: string) => {
+	if (!__DEV__) return;
 
-		if (!__DEV__) {
-			checkInvitationCode(user, invitationCode);
-		}
+	const { walletInvitation } = await qlClient.request<{
+		walletInvitation: WalletInvitation;
+	}>(queries.walletInvitation, {
+		email: user.email,
+	});
 
-		const verifierToken = await user.getIdToken(true);
-		const verifier = customAuthArgs.web3AuthClientId;
-		const verifierId = user.uid;
-		const verifierParams = { verifierIdField: 'sub', verifier_id: user.uid };
-		const loginDetails = await CustomAuth.getTorusKey(
-			verifier,
-			verifierId,
-			verifierParams,
-			verifierToken,
+	if (!walletInvitation && invitationCode) {
+		const success = await qlClient.request<boolean>(
+			mutations.claimWalletInvitation,
+			{
+				code: invitationCode,
+				email: user.email,
+			},
 		);
-
-		await signInWithTorusKey({
-			verifier,
-			verifierId,
-			privateKey: loginDetails.privateKey as string,
-		});
-
-		return user;
-	} catch (error) {
-		showError({ errorText: 'Something went wrong' });
-		logger.error('Error during sign-in', error);
+		if (!success) throw Error('Can not use this invitation code');
+	} else if (!walletInvitation && !invitationCode) {
+		throw Error('The account does not exist. Enter your Invitation code');
 	}
 };
 
-type TorusSignInOptions = {
-	verifier: string;
-	verifierId: string;
-	privateKey: string;
-};
+const signInWithTorusKey = async (user: UserAuth): Promise<ThresholdResult> => {
+	const verifierToken = await user.getIdToken(true);
+	const verifier = customAuthArgs.web3AuthClientId;
+	const verifierId = user.uid;
+	const verifierParams = { verifierIdField: 'sub', verifier_id: user.uid };
 
-const signInWithTorusKey = async ({
-	verifier,
-	verifierId,
-	privateKey,
-}: TorusSignInOptions) => {
-	const keyInstance = tkey;
+	const loginDetails = await CustomAuth.getTorusKey(
+		verifier,
+		verifierId,
+		verifierParams,
+		verifierToken,
+	);
 
-	keyInstance.serviceProvider.postboxKey = privateKey as never;
+	await tkey.serviceProvider.init({
+		skipSw: true,
+		skipPrefetch: true,
+	});
+
+	tkey.serviceProvider.postboxKey = loginDetails.privateKey as never;
 	/* eslint-disable */
-	(keyInstance.serviceProvider as any).verifierName = verifier;
-	(keyInstance.serviceProvider as any).verifierId = verifierId;
+	(tkey.serviceProvider as any).verifierName = verifier;
+	(tkey.serviceProvider as any).verifierId = verifierId;
 	/* eslint-enable */
-	await keyInstance.initialize();
+	await tkey.initialize();
 	const status = await importAvailableShares();
 
-	if (status === ThresholdResult.Initializing) {
-		navigate('Authentication', { screen: 'CreatePasscode' });
-	} else if (status === ThresholdResult.Missing) {
-		navigate('Authentication', { screen: 'Recovery' });
-	} else if (status === ThresholdResult.Ready) {
-		navigate('Dashboard');
-	}
+	return status;
 };
 
-export const signInWithPasscode = async (
+const signInWithPasscode = async (
 	passcode: string,
 	user: UserAuth | null,
 	handleInitFail?: () => void,
@@ -102,24 +89,10 @@ export const signInWithPasscode = async (
 	await tkey.syncLocalMetadataTransitions();
 };
 
-const checkInvitationCode = async (user: UserAuth, invitationCode?: string) => {
-	const { walletInvitation } = await qlClient.request<{
-		walletInvitation: WalletInvitation;
-	}>(queries.walletInvitation, {
-		email: user.email,
-	});
-
-	if (!walletInvitation && invitationCode) {
-		await qlClient.request(mutations.claimWalletInvitation, {
-			code: invitationCode,
-			email: user.email,
-		});
-	} else if (!walletInvitation && !invitationCode) {
-		showError({
-			errorText: 'The account does not exist. Enter your Invitation code',
-		});
-
-		navigate('Authentication', { screen: 'Invitation' });
-		return;
-	}
+export {
+	checkInvitationCode,
+	signInWithGoogle,
+	signInWithPasscode,
+	signInWithTorusKey,
 };
+export * from './w3a';

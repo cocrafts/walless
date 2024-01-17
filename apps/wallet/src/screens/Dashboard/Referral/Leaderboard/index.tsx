@@ -1,18 +1,13 @@
 import { ScrollView, StyleSheet } from 'react-native';
 import { shortenAddress } from '@walless/core';
 import { Text, View } from '@walless/gui';
-import { tabBarHeight } from 'utils/constants';
 
 import { mockReferrals } from './internal';
 import LeaderboardRow from './LeaderboardRow';
 
 const LeaderboardTab = () => {
-	const containerStyle = {
-		paddingBottom: tabBarHeight,
-	};
-
 	return (
-		<View style={[styles.container, containerStyle]}>
+		<View>
 			<Text style={styles.title}>Walless Influencers</Text>
 
 			<LeaderboardRow
@@ -37,10 +32,6 @@ const LeaderboardTab = () => {
 export default LeaderboardTab;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		padding: 4,
-	},
 	title: {
 		backgroundColor: '#0694D333',
 		fontSize: 16,

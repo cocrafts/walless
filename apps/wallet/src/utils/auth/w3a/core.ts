@@ -1,13 +1,13 @@
-import Config from 'react-native-config';
 import type { ISeedPhraseFormat, ModuleMap } from '@tkey/common-types';
 import { generateID } from '@tkey/common-types';
 import type ThresholdKey from '@tkey/default';
 import { SeedPhraseModule } from '@tkey/seed-phrase';
 import type { TorusServiceProvider } from '@tkey/service-provider-torus';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
+import { environment } from 'utils/config';
 
 export const customAuthArgs: CustomAuthArgs = {
-	web3AuthClientId: Config.WEB3AUTH_ID as string,
+	web3AuthClientId: environment.WEB3AUTH_ID,
 	network: 'mainnet',
 	baseUrl: 'metacraft://walless/auth',
 	redirectToOpener: false,

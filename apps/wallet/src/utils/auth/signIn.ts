@@ -15,7 +15,7 @@ import {
 } from './w3a';
 
 const checkInvitationCode = async (user: UserAuth, invitationCode?: string) => {
-	if (!__DEV__) return;
+	if (__DEV__) return;
 
 	const { walletInvitation } = await qlClient.request<{
 		walletInvitation: WalletInvitation;
@@ -68,13 +68,8 @@ const signInWithTorusKey = async (user: UserAuth): Promise<ThresholdResult> => {
 
 const signInWithPasscode = async (
 	passcode: string,
-	user: UserAuth | null,
 	handleInitFail?: () => void,
 ): Promise<void> => {
-	if (!user?.uid) {
-		throw new Error('signInWithPasscode requires user profile from firebase');
-	}
-
 	const status = await importAvailableShares();
 	if (status === ThresholdResult.Initializing) {
 		const registeredAccount = await initAndRegisterWallet();

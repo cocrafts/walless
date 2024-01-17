@@ -8,8 +8,6 @@ import { appState } from 'state';
 import assets from 'utils/assets';
 import {
 	checkInvitationCode,
-	makeProfile,
-	setProfile,
 	signInWithGoogle,
 	signInWithTorusKey,
 	ThresholdResult,
@@ -49,7 +47,6 @@ export const LoginScreen: FC = () => {
 			navigate('Authentication', { screen: 'Invitation' });
 			return;
 		}
-		checkInvitationCode(user, invitationCode);
 
 		try {
 			const status = await signInWithTorusKey(user);
@@ -66,7 +63,6 @@ export const LoginScreen: FC = () => {
 			return;
 		}
 
-		await setProfile(makeProfile(user));
 		setLoading(false);
 	};
 

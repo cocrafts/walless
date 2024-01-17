@@ -11238,26 +11238,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/auth@*, @walless/auth@workspace:packages/auth":
-  version: 0.0.0-use.local
-  resolution: "@walless/auth@workspace:packages/auth"
-  dependencies:
-    "@taquito/signer": ^17.5.1
-    "@tkey/chrome-storage": 9.0.0
-    "@tkey/default": 9.0.0
-    "@tkey/private-keys": 9.0.0
-    "@tkey/react-native-storage": ^11.0.0
-    "@tkey/security-questions": 9.0.0
-    "@tkey/seed-phrase": ^11.0.2
-    "@tkey/web-storage": 9.0.0
-    "@walless/core": "*"
-    "@walless/graphql": "*"
-    "@walless/ioc": "*"
-    eslint: 8.38.0
-    react-native-encrypted-storage: ^4.0.3
-  languageName: unknown
-  linkType: soft
-
 "@walless/core@*, @walless/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@walless/core@workspace:packages/core"
@@ -11576,11 +11556,17 @@ __metadata:
     "@react-navigation/drawer": ^6.6.6
     "@react-navigation/native": ^6.1.6
     "@react-navigation/stack": ^6.3.16
+    "@taquito/signer": ^17.5.1
+    "@tkey/default": 9.0.0
+    "@tkey/private-keys": 9.0.0
+    "@tkey/react-native-storage": ^11.0.0
+    "@tkey/security-questions": 9.0.0
+    "@tkey/seed-phrase": ^11.0.2
+    "@tkey/web-storage": 9.0.0
     "@toruslabs/customauth-react-native-sdk": ^4.0.1
     "@types/jest": ^29.2.1
     "@types/react": ^18.2.25
     "@types/react-test-renderer": ^18.0.0
-    "@walless/auth": "*"
     "@walless/core": "*"
     "@walless/graphql": "*"
     "@walless/gui": "*"
@@ -26879,6 +26865,7 @@ __metadata:
     "@next/eslint-plugin-next": ^13.5.4
     "@react-native-clipboard/clipboard": ^1.13.0
     "@solana/spl-account-compression": ^0.2.0
+    "@tkey/chrome-storage": 9.0.0
     "@types/chrome": ^0.0.231
     "@types/lodash": ^4.14.191
     "@types/node": ^17.0.12

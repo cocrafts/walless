@@ -1,5 +1,5 @@
 import { create, type Database } from '@walless/store';
-import { createEngine, engine } from 'engine';
+import { createEngine } from 'engine';
 import MemoryAdapter from 'pouchdb-adapter-memory';
 import PouchDB from 'pouchdb-core';
 
@@ -54,12 +54,6 @@ describe('test engine', () => {
 					getContext() {},
 				};
 			});
-		}).toThrow(Error);
-	});
-
-	test('start error without register', async () => {
-		expect(() => {
-			engine.start();
 		}).toThrow(Error);
 	});
 

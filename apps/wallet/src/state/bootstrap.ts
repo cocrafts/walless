@@ -71,7 +71,6 @@ const registerNetworkRunners = async (engine: Engine) => {
 	const keys = (await storage.find<PublicKeyDocument>(selectors.allKeys)).docs;
 	Object.values(Networks).forEach((network) => {
 		const isNetworkAvailable = !!keys.find((i) => i.network === network);
-		console.log(network, isNetworkAvailable);
 		if (!isNetworkAvailable) return;
 		engine.register(network, runnersMap[network]);
 	});

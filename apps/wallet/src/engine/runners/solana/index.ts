@@ -22,6 +22,7 @@ export const createSolanaRunner = (config: EngineConfig): Runner => {
 		getContext: (): SolanaContext => {
 			return { connection };
 		},
+		restart: () => {},
 	};
 };
 

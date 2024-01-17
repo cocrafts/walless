@@ -12,5 +12,6 @@ export const createTezosRunner = (config: EngineConfig): Runner => {
 		getContext: (): TezosContext => {
 			return {} as TezosContext;
 		},
+		restart: () => {},
 	};
 };

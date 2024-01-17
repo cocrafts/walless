@@ -12,5 +12,6 @@ export const createSuiRunner = (config: EngineConfig): Runner => {
 		getContext: (): suiContext => {
 			return {} as suiContext;
 		},
+		restart: () => {},
 	};
 };

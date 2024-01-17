@@ -24,5 +24,6 @@ export const createAptosRunner = (config: EngineConfig): Runner => {
 		getContext: (): AptosContext => {
 			return { provider };
 		},
+		restart() {},
 	};
 };

@@ -3,13 +3,15 @@ import type { Database, EndpointsDocument } from '@walless/store';
 export interface Runner {
 	start: () => void;
 	stop: () => void;
+	restart: (config: EngineConfig) => void;
 	getContext: () => unknown;
 }
 
 export interface Engine {
 	register: (key: string, create: CreateFunction) => void;
-	start: () => void;
-	stop: () => void;
+	start: (key?: string) => void;
+	stop: (key?: string) => void;
+	restart: (key?: string) => void;
 	getContext: <T>(key: string) => T;
 }
 

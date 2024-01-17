@@ -1,5 +1,5 @@
 import { create, type Database } from '@walless/store';
-import { createEngine } from 'engine';
+import { createEngine, engine } from 'engine';
 import MemoryAdapter from 'pouchdb-adapter-memory';
 import PouchDB from 'pouchdb-core';
 
@@ -23,6 +23,7 @@ describe('test engine', () => {
 				stop() {
 					counts.push(-1);
 				},
+				restart() {},
 				getContext() {},
 			};
 		});
@@ -40,6 +41,7 @@ describe('test engine', () => {
 			return {
 				start() {},
 				stop() {},
+				restart() {},
 				getContext() {},
 			};
 		});
@@ -48,9 +50,16 @@ describe('test engine', () => {
 				return {
 					start() {},
 					stop() {},
+					restart() {},
 					getContext() {},
 				};
 			});
+		}).toThrow(Error);
+	});
+
+	test('start error without register', async () => {
+		expect(() => {
+			engine.start();
 		}).toThrow(Error);
 	});
 
@@ -61,6 +70,7 @@ describe('test engine', () => {
 			return {
 				start() {},
 				stop() {},
+				restart() {},
 				getContext() {
 					return context;
 				},
@@ -78,6 +88,7 @@ describe('test engine', () => {
 			return {
 				start() {},
 				stop() {},
+				restart() {},
 				getContext() {
 					return context;
 				},
@@ -100,6 +111,7 @@ describe('test engine', () => {
 					count++;
 				},
 				stop() {},
+				restart() {},
 				getContext() {},
 			};
 		});
@@ -111,6 +123,7 @@ describe('test engine', () => {
 					count++;
 				},
 				stop() {},
+				restart() {},
 				getContext() {},
 			};
 		});

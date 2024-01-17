@@ -22,21 +22,54 @@ export const createEngine = async (storage: Database): Promise<Engine> => {
 			}
 			createPool[key] = create;
 		},
-		start: async () => {
-			const keys = Object.keys(createPool);
-			if (keys.length === 0) {
-				throw Error('no runner found, need to register runner before start');
-			}
+		start: async (key?: string) => {
+			if (key) {
+				let runner = enginePool[key];
+				if (runner) {
+					throw Error(`runner ${key} already exists`);
+				}
+				const create = createPool[key];
+				if (!create) throw Error(`runner ${key} is not registered`);
 
-			keys.forEach((key) => {
-				const runner = createPool[key](config);
+				runner = create(config);
 				enginePool[key] = runner;
 				runner.start();
-			});
+			} else {
+				const keys = Object.keys(createPool);
+				if (keys.length === 0) {
+					throw Error('no runner found, need to register runner before start');
+				}
+
+				keys.forEach((key) => {
+					let runner = enginePool[key];
+					if (runner) {
+						throw Error(`runner ${key} already exists`);
+					}
+					runner = createPool[key](config);
+					enginePool[key] = runner;
+					runner.start();
+				});
+			}
 		},
-		stop: () => {
-			const runners = Object.values(enginePool);
-			runners.forEach((r) => r.stop());
+		stop: (key?: string) => {
+			if (key) {
+				const runner = enginePool[key];
+				if (!runner) throw Error(`runner ${key} not found`);
+				runner.stop();
+			} else {
+				const runners = Object.values(enginePool);
+				runners.forEach((r) => r.stop());
+			}
+		},
+		restart(key?: string) {
+			if (key) {
+				const runner = enginePool[key];
+				if (!runner) throw Error(`runner ${key} not found`);
+				runner.restart(config);
+			} else {
+				const runners = Object.values(enginePool);
+				runners.forEach((r) => r.restart(config));
+			}
 		},
 		getContext: <T>(key: string) => {
 			return enginePool[key]?.getContext() as T;

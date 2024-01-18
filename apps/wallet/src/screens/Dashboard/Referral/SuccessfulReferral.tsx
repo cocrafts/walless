@@ -7,7 +7,9 @@ interface Props {
 	numberOfActivatedReferrals: number;
 }
 
-const SuccessfullReferral: FC<Props> = ({
+const barHeight = 16;
+
+const SuccessfulReferral: FC<Props> = ({
 	numberOfActivatedReferrals,
 	numberOfReferrals,
 }) => {
@@ -26,7 +28,7 @@ const SuccessfullReferral: FC<Props> = ({
 						);
 					})}
 
-					<Text style={[styles.proportion]}>
+					<Text style={[styles.proportionText]}>
 						{numberOfActivatedReferrals}/{numberOfReferrals}
 					</Text>
 				</View>
@@ -36,42 +38,44 @@ const SuccessfullReferral: FC<Props> = ({
 	);
 };
 
-export default SuccessfullReferral;
+export default SuccessfulReferral;
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#566674',
 		gap: 12,
-		paddingHorizontal: 12,
-		paddingVertical: 16,
+		padding: 12,
 	},
 	title: {
-		fontSize: 16,
+		fontSize: 12,
 		fontWeight: '500',
 	},
 	text: {
+		fontSize: 10,
 		color: '#ffffff',
 	},
 	measurementContainer: {
 		flexDirection: 'row',
 		gap: 12,
 		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	activeReferral: {
 		flex: 1,
 		backgroundColor: '#0694D3',
-		height: 20,
+		height: barHeight,
 	},
 	referral: {
 		flex: 1,
 		flexDirection: 'row',
-		height: 20,
-		borderRadius: 10,
+		height: barHeight,
+		borderRadius: barHeight / 2,
 		backgroundColor: '#ffffff',
 		overflow: 'hidden',
 	},
-	proportion: {
+	proportionText: {
+		fontSize: 10,
 		top: 3,
 		left: '50%',
 		position: 'absolute',

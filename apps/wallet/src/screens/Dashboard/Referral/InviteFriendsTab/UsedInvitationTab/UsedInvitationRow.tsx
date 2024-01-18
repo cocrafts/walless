@@ -6,20 +6,20 @@ import { Text, View } from '@walless/gui';
 interface Props {
 	style?: ViewStyle;
 	invitation: string;
-	signup: string;
+	signUpText: string;
 	activityPoint: string;
 }
 
 const UsedInvitationRow: FC<Props> = ({
 	style,
 	invitation,
-	signup,
+	signUpText,
 	activityPoint,
 }) => {
 	return (
 		<View style={[styles.container, style]}>
 			<Text style={styles.text}>{invitation}</Text>
-			<Text style={styles.text}>{signup}</Text>
+			<Text style={styles.text}>{signUpText}</Text>
 			<Text style={styles.text}>{activityPoint}</Text>
 		</View>
 	);
@@ -29,7 +29,6 @@ export default UsedInvitationRow;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
@@ -39,5 +38,6 @@ const styles = StyleSheet.create({
 	text: {
 		color: '#ffffff',
 		textAlign: 'center',
+		flex: 1,
 	},
 });

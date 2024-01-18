@@ -1,5 +1,4 @@
-import { ScrollView, StyleSheet } from 'react-native';
-import { View } from '@walless/gui';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { mockUsedInvitation } from '../internal';
 
@@ -7,20 +6,20 @@ import UsedInvitationRow from './UsedInvitationRow';
 
 const UsedInvitationTab = () => {
 	return (
-		<View>
+		<View style={styles.container}>
 			<UsedInvitationRow
 				style={styles.titleContainer}
 				invitation="Invitation code"
-				signup="Signup"
-				activityPoint="Acitivity point"
+				signUpText="Signup"
+				activityPoint="Activity point"
 			/>
 
-			<ScrollView>
+			<ScrollView style={styles.scrollviewContainer}>
 				{mockUsedInvitation.map((invitation, index) => (
 					<UsedInvitationRow
 						key={index}
 						invitation={invitation}
-						signup="✅"
+						signUpText="✅"
 						activityPoint="coming soon"
 					/>
 				))}
@@ -32,7 +31,13 @@ const UsedInvitationTab = () => {
 export default UsedInvitationTab;
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
 	titleContainer: {
 		backgroundColor: '#56667433',
+	},
+	scrollviewContainer: {
+		flex: 1,
 	},
 });

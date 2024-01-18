@@ -25,14 +25,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: '#566674',
-		paddingHorizontal: 12,
-		paddingVertical: 16,
+		gap: 12,
+		padding: 12,
 	},
 	title: {
-		fontSize: 16,
 		fontWeight: '500',
 	},
 	text: {
+		fontSize: 12,
 		color: '#ffffff',
 	},
 });

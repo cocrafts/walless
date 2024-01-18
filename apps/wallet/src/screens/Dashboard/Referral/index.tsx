@@ -1,6 +1,5 @@
 import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import Animated from 'react-native-reanimated';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { SlideOption } from '@walless/gui';
 import { Slider, SliderTabs, Text, View } from '@walless/gui';
@@ -13,7 +12,7 @@ import type { SettingParamList } from 'utils/navigation';
 import DetailsContainer from './DetailsContainer';
 import InviteFriendsTab from './InviteFriendsTab';
 import LeaderboardTab from './Leaderboard';
-import SuccessfullReferral from './SuccessfullReferral';
+import SuccessfulReferral from './SuccessfulReferral';
 
 type Props = StackScreenProps<SettingParamList, 'Referral'>;
 
@@ -73,7 +72,7 @@ export const ReferralScreen: FC<Props> = () => {
 	};
 
 	return (
-		<Animated.View style={[styles.container]}>
+		<View style={[styles.container]}>
 			<Text style={styles.title}>Be an Influencer</Text>
 			<Text style={styles.subtext}>
 				Lorem ipsum dolor sit amet consectetur.
@@ -89,7 +88,7 @@ export const ReferralScreen: FC<Props> = () => {
 					/>
 				</View>
 
-				<SuccessfullReferral
+				<SuccessfulReferral
 					{...{ numberOfActivatedReferrals, numberOfReferrals }}
 				/>
 			</View>
@@ -107,7 +106,7 @@ export const ReferralScreen: FC<Props> = () => {
 				items={sliderItems}
 				activeItem={sliderItems[activeIndex]}
 			/>
-		</Animated.View>
+		</View>
 	);
 };
 
@@ -117,6 +116,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 20,
+		marginVertical: 10,
 		gap: 12,
 	},
 	title: {
@@ -139,5 +139,6 @@ const styles = StyleSheet.create({
 	},
 	slider: {
 		flex: 1,
+		padding: 20,
 	},
 });

@@ -7,7 +7,7 @@ import LeaderboardRow from './LeaderboardRow';
 
 const LeaderboardTab = () => {
 	return (
-		<View>
+		<View style={styles.container}>
 			<Text style={styles.title}>Walless Influencers</Text>
 
 			<LeaderboardRow
@@ -32,6 +32,9 @@ const LeaderboardTab = () => {
 export default LeaderboardTab;
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
 	title: {
 		backgroundColor: '#0694D333',
 		fontSize: 16,

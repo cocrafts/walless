@@ -35,13 +35,14 @@ export const SliderTabs: FC<SliderTabsProps> = ({
 					? activatedStyle.textStyle
 					: deactivatedStyle.textStyle;
 
-				const style = { containerStyle, textStyle };
-
 				return (
 					<TabItem
 						key={item.id}
 						item={item}
-						style={style}
+						style={{
+							containerStyle,
+							textStyle,
+						}}
 						onPress={onTabPress}
 					/>
 				);

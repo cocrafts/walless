@@ -37,17 +37,18 @@ const InviteFriendsTab = () => {
 		},
 		textStyle: {
 			color: '#ffffff',
-			fontWeight: '500',
+			...styles.tabText,
 		},
 	};
 
 	const deactivatedStyle: TabItemStyle = {
 		containerStyle: {
 			borderBottomWidth: 1,
+			backgroundColor: 'transparent',
 		},
 		textStyle: {
 			color: '#566674',
-			fontWeight: '500',
+			...styles.tabText,
 		},
 	};
 
@@ -64,6 +65,11 @@ const InviteFriendsTab = () => {
 				onTabPress={handleTabPress}
 				activatedStyle={activatedStyle}
 				deactivatedStyle={deactivatedStyle}
+				style={{
+					width: 'fit-content',
+					alignSelf: 'center',
+					gap: 20,
+				}}
 			/>
 
 			<Slider
@@ -80,8 +86,14 @@ export default InviteFriendsTab;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		gap: 20,
 	},
 	slider: {
 		flex: 1,
+		padding: 20,
+	},
+	tabText: {
+		fontWeight: '500',
+		width: 52,
 	},
 });

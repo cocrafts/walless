@@ -42,7 +42,6 @@ export default SuccessfulReferral;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		backgroundColor: '#566674',
 		gap: 12,
 		padding: 12,

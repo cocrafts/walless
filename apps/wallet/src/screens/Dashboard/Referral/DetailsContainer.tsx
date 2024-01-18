@@ -11,7 +11,7 @@ const DetailsContainer: FC<Props> = ({ title, value }) => {
 	return (
 		<View style={styles.container}>
 			<Text style={[styles.text, styles.title]}>{title}</Text>
-			<Text style={[styles.text]}>{value}</Text>
+			<Text style={[styles.text, styles.value]}>{value}</Text>
 		</View>
 	);
 };
@@ -28,11 +28,15 @@ const styles = StyleSheet.create({
 		gap: 12,
 		padding: 12,
 	},
+	text: {
+		maxWidth: '50%',
+		fontSize: 12,
+		color: '#ffffff',
+	},
 	title: {
 		fontWeight: '500',
 	},
-	text: {
-		fontSize: 12,
-		color: '#ffffff',
+	value: {
+		textAlign: 'right',
 	},
 });

@@ -82,10 +82,7 @@ export const ReferralScreen: FC<Props> = () => {
 				<View style={styles.subpartContainer}>
 					<DetailsContainer title="Rank" value="#439" />
 
-					<DetailsContainer
-						title="Points earned from friends"
-						value="coming soon"
-					/>
+					<DetailsContainer title="Points from friends" value="coming soon" />
 				</View>
 
 				<SuccessfulReferral
@@ -133,7 +130,6 @@ const styles = StyleSheet.create({
 		gap: 12,
 	},
 	subpartContainer: {
-		flex: 1,
 		flexDirection: 'row',
 		gap: 12,
 	},

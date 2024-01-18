@@ -37,13 +37,7 @@ export const bootstrap = async (): Promise<void> => {
 	appState.remoteConfig = loadRemoteConfig();
 
 	await Promise.all([
-		configure(storage).then(async () => {
-			if (defaultEngine) return;
-			const engine = await createEngine(storage);
-			await registerNetworkRunners(engine);
-			setDefaultEngine(engine);
-			engine.start();
-		}),
+		configure(storage).then(configEngine),
 		initializeAuth(),
 		watchStorageAndSyncState(),
 	]);
@@ -68,6 +62,14 @@ export const launchApp = async (): Promise<void> => {
 export const initAfterSignIn = async () => {
 	await registerNetworkRunners(defaultEngine);
 	await defaultEngine.start();
+};
+
+const configEngine = async () => {
+	if (defaultEngine) return;
+	const engine = await createEngine(storage);
+	await registerNetworkRunners(engine);
+	setDefaultEngine(engine);
+	engine.start();
 };
 
 const registerNetworkRunners = async (engine: Engine) => {

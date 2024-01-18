@@ -23,10 +23,12 @@ export type Scalars = {
 
 export type Account = {
   __typename?: 'Account';
+  claimedReferrals?: Maybe<Array<Maybe<WalletInvitation>>>;
   createdAt?: Maybe<Scalars['MongoDateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ObjectID']['output']>;
   identifier: Scalars['String']['output'];
+  unclaimedReferrals?: Maybe<Array<Maybe<WalletInvitation>>>;
   updatedAt?: Maybe<Scalars['MongoDateTime']['output']>;
   walletCount?: Maybe<Scalars['Int']['output']>;
 };
@@ -83,6 +85,15 @@ export type Nonce = {
 export enum NonceType {
   Login = 'Login'
 }
+
+export type ReferralRankingRecord = {
+  __typename?: 'ReferralRankingRecord';
+  display?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ObjectID']['output']>;
+  rank?: Maybe<Scalars['Int']['output']>;
+  rankChange?: Maybe<Scalars['Int']['output']>;
+  referralCount?: Maybe<Scalars['Int']['output']>;
+};
 
 export type RootMutation = {
   __typename?: 'RootMutation';
@@ -195,6 +206,7 @@ export type RootQuery = {
   greeting?: Maybe<Scalars['String']['output']>;
   loginMessage?: Maybe<Scalars['String']['output']>;
   nonce?: Maybe<Nonce>;
+  referralLeaderboard?: Maybe<Array<Maybe<ReferralRankingRecord>>>;
   systemInfo?: Maybe<SystemInfo>;
   token?: Maybe<TokenInfo>;
   tokenByAddress?: Maybe<TokenInfo>;
@@ -298,6 +310,7 @@ export type WalletInvitation = {
   code?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ObjectID']['output']>;
+  referrerId?: Maybe<Scalars['ObjectID']['output']>;
   timestamp?: Maybe<Scalars['MongoDateTime']['output']>;
 };
 
@@ -425,6 +438,7 @@ export type ResolversTypes = {
   Nonce: ResolverTypeWrapper<Nonce>;
   NonceType: NonceType;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']['output']>;
+  ReferralRankingRecord: ResolverTypeWrapper<ReferralRankingRecord>;
   RootMutation: ResolverTypeWrapper<{}>;
   RootQuery: ResolverTypeWrapper<{}>;
   SendEmergencyKitResult: ResolverTypeWrapper<SendEmergencyKitResult>;
@@ -455,6 +469,7 @@ export type ResolversParentTypes = {
   MongoDateTime: Scalars['MongoDateTime']['output'];
   Nonce: Nonce;
   ObjectID: Scalars['ObjectID']['output'];
+  ReferralRankingRecord: ReferralRankingRecord;
   RootMutation: {};
   RootQuery: {};
   SendEmergencyKitResult: SendEmergencyKitResult;
@@ -471,10 +486,12 @@ export type ResolversParentTypes = {
 };
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
+  claimedReferrals?: Resolver<Maybe<Array<Maybe<ResolversTypes['WalletInvitation']>>>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
   identifier?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  unclaimedReferrals?: Resolver<Maybe<Array<Maybe<ResolversTypes['WalletInvitation']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
   walletCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -531,6 +548,15 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'ObjectID';
 }
 
+export type ReferralRankingRecordResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReferralRankingRecord'] = ResolversParentTypes['ReferralRankingRecord']> = {
+  display?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
+  rank?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  rankChange?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  referralCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type RootMutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootMutation'] = ResolversParentTypes['RootMutation']> = {
   addWidget?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationAddWidgetArgs, 'description' | 'name' | 'networks' | 'ownerId'>>;
   claimWalletInvitation?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationClaimWalletInvitationArgs, 'code' | 'email'>>;
@@ -553,6 +579,7 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   greeting?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   loginMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<RootQueryLoginMessageArgs, 'pubkey'>>;
   nonce?: Resolver<Maybe<ResolversTypes['Nonce']>, ParentType, ContextType, RequireFields<RootQueryNonceArgs, 'identifier'>>;
+  referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRankingRecord']>>>, ParentType, ContextType>;
   systemInfo?: Resolver<Maybe<ResolversTypes['SystemInfo']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenArgs, 'id'>>;
   tokenByAddress?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenByAddressArgs, 'address'>>;
@@ -603,6 +630,7 @@ export type WalletInvitationResolvers<ContextType = any, ParentType extends Reso
   code?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
+  referrerId?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -641,6 +669,7 @@ export type Resolvers<ContextType = any> = {
   MongoDateTime?: GraphQLScalarType;
   Nonce?: NonceResolvers<ContextType>;
   ObjectID?: GraphQLScalarType;
+  ReferralRankingRecord?: ReferralRankingRecordResolvers<ContextType>;
   RootMutation?: RootMutationResolvers<ContextType>;
   RootQuery?: RootQueryResolvers<ContextType>;
   SendEmergencyKitResult?: SendEmergencyKitResultResolvers<ContextType>;

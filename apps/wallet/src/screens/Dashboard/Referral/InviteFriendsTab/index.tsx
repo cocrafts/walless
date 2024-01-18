@@ -1,5 +1,7 @@
+import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import type { WalletInvitation } from '@walless/graphql';
 import type { SlideOption } from '@walless/gui';
 import { Slider, SliderTabs, View } from '@walless/gui';
 import type {
@@ -10,7 +12,15 @@ import type {
 import NewInvitationTab from './NewInvitationTab';
 import UsedInvitationTab from './UsedInvitationTab';
 
-const InviteFriendsTab = () => {
+interface Props {
+	claimedReferrals: WalletInvitation[];
+	unclaimedReferrals: WalletInvitation[];
+}
+
+const InviteFriendsTab: FC<Props> = ({
+	claimedReferrals,
+	unclaimedReferrals,
+}) => {
 	const [activeIndex, setActiveIndex] = useState(0);
 
 	const tabItems: TabAble[] = [
@@ -21,11 +31,15 @@ const InviteFriendsTab = () => {
 	const sliderItems: SlideOption[] = [
 		{
 			id: 'new',
-			component: () => <NewInvitationTab />,
+			component: () => (
+				<NewInvitationTab unclaimedReferrals={unclaimedReferrals} />
+			),
 		},
 		{
 			id: 'used',
-			component: () => <UsedInvitationTab />,
+			component: () => (
+				<UsedInvitationTab claimedReferrals={claimedReferrals} />
+			),
 		},
 	];
 

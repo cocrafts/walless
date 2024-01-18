@@ -1,10 +1,14 @@
+import type { FC } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-
-import { mockUsedInvitation } from '../internal';
+import type { WalletInvitation } from '@walless/graphql';
 
 import UsedInvitationRow from './UsedInvitationRow';
 
-const UsedInvitationTab = () => {
+interface Props {
+	claimedReferrals: WalletInvitation[];
+}
+
+const UsedInvitationTab: FC<Props> = ({ claimedReferrals }) => {
 	return (
 		<View style={styles.container}>
 			<UsedInvitationRow
@@ -15,10 +19,10 @@ const UsedInvitationTab = () => {
 			/>
 
 			<ScrollView style={styles.scrollviewContainer}>
-				{mockUsedInvitation.map((invitation, index) => (
+				{claimedReferrals.map((referral) => (
 					<UsedInvitationRow
-						key={index}
-						invitation={invitation}
+						key={referral.id}
+						invitation={referral.code || 'Invalid'}
 						signUpText="✅"
 						activityPoint="coming soon"
 					/>

@@ -1,7 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './apps/web/.env.development' });
+dotenv.config({ path: './apps/wallet/.env.development' });
 
 const config: CodegenConfig = {
 	overwrite: true,

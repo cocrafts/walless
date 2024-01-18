@@ -5,19 +5,28 @@ import { Text, View } from '@walless/gui';
 
 interface Props {
 	style?: ViewStyle;
-	ranking: string;
-	account: string;
-	invitation: string;
-	isIncremental?: boolean;
-	isDecremental?: boolean;
+	display: string;
+	rank: string;
+	rankChange?: string;
+	referralCount: string;
 }
 
-const LeaderboardRow: FC<Props> = ({ style, ranking, account, invitation }) => {
+const LeaderboardRow: FC<Props> = ({
+	style,
+	rank,
+	rankChange,
+	display,
+	referralCount,
+}) => {
 	return (
 		<View style={[styles.container, style]}>
-			<Text style={styles.property}>{ranking}</Text>
-			<Text style={styles.property}>{account}</Text>
-			<Text style={styles.property}>{invitation}</Text>
+			<Text style={styles.property}>
+				{rank} {rankChange && `(${rankChange})`}
+			</Text>
+			<Text style={styles.property} numberOfLines={1} ellipsizeMode="tail">
+				{display}
+			</Text>
+			<Text style={styles.property}>{referralCount}</Text>
 		</View>
 	);
 };
@@ -34,7 +43,7 @@ const styles = StyleSheet.create({
 	},
 	property: {
 		flex: 1,
-		alignSelf: 'center',
+		textAlign: 'center',
 		fontSize: 16,
 		padding: 4,
 	},

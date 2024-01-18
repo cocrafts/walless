@@ -9,6 +9,20 @@ export const userAccount = gql`
 			walletCount
 			createdAt
 			updatedAt
+			claimedReferrals {
+				code
+				email
+				id
+				referrerId
+				timestamp
+			}
+			unclaimedReferrals {
+				code
+				email
+				id
+				referrerId
+				timestamp
+			}
 		}
 	}
 `;

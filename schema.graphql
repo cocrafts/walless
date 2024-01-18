@@ -6,6 +6,9 @@ schema {
 """"""
 type Account {
   """"""
+  claimedReferrals: [WalletInvitation]
+
+  """"""
   createdAt: MongoDateTime
 
   """"""
@@ -16,6 +19,9 @@ type Account {
 
   """"""
   identifier: String!
+
+  """"""
+  unclaimedReferrals: [WalletInvitation]
 
   """"""
   updatedAt: MongoDateTime
@@ -161,6 +167,24 @@ enum NonceType {
 scalar ObjectID
 
 """"""
+type ReferralRankingRecord {
+  """"""
+  display: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  rank: Int
+
+  """"""
+  rankChange: Int
+
+  """"""
+  referralCount: Int
+}
+
+""""""
 type RootMutation {
   """"""
   addWidget(banner: String, description: String!, largeLogo: String, logo: String, name: String!, networks: [String] = ["[]"], nfts: [WidgetTokenInput], ownerId: String!, tokens: [WidgetTokenInput]): Widget
@@ -218,6 +242,9 @@ type RootQuery {
 
   """"""
   nonce(identifier: String!): Nonce
+
+  """"""
+  referralLeaderboard: [ReferralRankingRecord]
 
   """"""
   systemInfo: SystemInfo
@@ -326,6 +353,9 @@ type WalletInvitation {
 
   """"""
   id: ObjectID
+
+  """"""
+  referrerId: ObjectID
 
   """"""
   timestamp: MongoDateTime

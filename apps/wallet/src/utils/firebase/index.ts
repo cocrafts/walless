@@ -15,7 +15,7 @@ import { defaultRemoteConfig } from 'utils/constants';
 import type { Analytics } from './types';
 
 export const auth = authModule;
-export type UserAuth = FirebaseAuthTypes.User;
+export type FirebaseUser = FirebaseAuthTypes.User;
 
 export const analytics = getAnalytics();
 export const crashlytics = getCrashlytics();

@@ -7,7 +7,7 @@ import { Slider, View } from '@walless/gui';
 import { engine } from 'engine';
 import type { AptosContext } from 'engine/runners';
 import { useNfts } from 'hooks';
-import { aptosState } from 'state/assets/aptos';
+import { aptosState } from 'state/assets';
 import { useSnapshot } from 'valtio';
 
 import CollectiblesTab from '../CollectiblesTab';

@@ -2,7 +2,7 @@ import Config from 'react-native-config';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { CustomAuth } from '@toruslabs/customauth-react-native-sdk';
 
-import { auth } from './../firebase/index';
+import { auth } from './../firebase';
 import { customAuthArgs } from './w3a';
 
 GoogleSignin.configure({

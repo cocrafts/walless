@@ -6,11 +6,11 @@ import {
 	signInWithTorusKey,
 	ThresholdResult,
 } from 'utils/auth';
-import type { UserAuth } from 'utils/firebase';
+import type { FirebaseUser } from 'utils/firebase';
 import { navigate } from 'utils/navigation';
 
 export const signIn = async (invitationCode?: string) => {
-	let user: UserAuth;
+	let user: FirebaseUser;
 	try {
 		user = await signInWithGoogle();
 	} catch (error) {

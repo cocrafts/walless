@@ -1,6 +1,6 @@
 import type { WalletInvitation } from '@walless/graphql';
 import { mutations, queries } from '@walless/graphql';
-import type { UserAuth } from 'utils/firebase';
+import type { FirebaseUser } from 'utils/firebase';
 import { qlClient } from 'utils/graphql';
 
 import { CustomAuth } from './w3a/tkey';
@@ -14,7 +14,7 @@ import {
 	tkey,
 } from './w3a';
 
-const checkInvitationCode = async (user: UserAuth, invitationCode?: string) => {
+const checkInvitationCode = async (user: FirebaseUser, invitationCode?: string) => {
 	if (__DEV__) return;
 
 	const { walletInvitation } = await qlClient.request<{
@@ -37,7 +37,7 @@ const checkInvitationCode = async (user: UserAuth, invitationCode?: string) => {
 	}
 };
 
-const signInWithTorusKey = async (user: UserAuth): Promise<ThresholdResult> => {
+const signInWithTorusKey = async (user: FirebaseUser): Promise<ThresholdResult> => {
 	const verifierToken = await user.getIdToken(true);
 	const verifier = customAuthArgs.web3AuthClientId;
 	const verifierId = user.uid;

@@ -21,7 +21,7 @@ const firebaseOptions: FirebaseOptions = {
 
 export const app = initializeApp(firebaseOptions);
 export const auth = () => getAuth(app);
-export type UserAuth = User;
+export type FirebaseUser = User;
 
 export const performance = getPerformance(app);
 export const googleProvider = new GoogleAuthProvider();

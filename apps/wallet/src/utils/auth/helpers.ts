@@ -2,7 +2,7 @@ import type { Config, UserProfile } from '@walless/core';
 import type { WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import type { SettingDocument } from '@walless/store';
-import type { UserAuth } from 'utils/firebase';
+import type { FirebaseUser } from 'utils/firebase';
 import { qlClient } from 'utils/graphql';
 import { storage } from 'utils/storage';
 
@@ -11,7 +11,7 @@ export interface BootstrapResult {
 	config?: Config;
 }
 
-export const makeProfile = (user: UserAuth): UserProfile => {
+export const makeProfile = (user: FirebaseUser): UserProfile => {
 	return {
 		id: user.uid,
 		email: user.email as never,

@@ -3,8 +3,7 @@ import { useMemo } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { Button, Hoverable, Text, View } from '@walless/gui';
-import { ChevronLeft } from '@walless/icons';
+import { Button, Text, View } from '@walless/gui';
 import { showSendTokenModal } from 'modals/SendToken';
 import { useNfts, useSafeAreaInsets } from 'utils/hooks';
 import { navigationRef } from 'utils/navigation';
@@ -47,10 +46,6 @@ export const CollectibleFeat: FC<Props> = () => {
 
 	return (
 		<View style={[styles.container, containerStyle]}>
-			<Hoverable style={styles.backButton} onPress={navigationRef.goBack}>
-				<ChevronLeft size={16} />
-				<Text style={styles.title}>NFT</Text>
-			</Hoverable>
 			<ScrollView
 				contentContainerStyle={styles.scrollContentContainer}
 				showsVerticalScrollIndicator={false}

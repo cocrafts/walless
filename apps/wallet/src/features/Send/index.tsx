@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Slider } from '@walless/gui';
 import type { CollectibleDocument } from '@walless/store';
-import { useNfts } from 'hooks';
+import { useNfts } from 'utils/hooks';
 
 import ConfirmByPasscode from './ConfirmByPasscode';
 import ConfirmTransaction from './ConfirmTransaction';

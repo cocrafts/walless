@@ -5,9 +5,9 @@ import type { UserProfile } from '@walless/core';
 import { runtime } from '@walless/core';
 import { Compass } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
-import { useUniversalInsets } from 'hooks';
 import { showRemoveLayoutModal } from 'modals/RemoveLayout';
 import assets from 'utils/assets';
+import { useUniversalInsets } from 'utils/hooks';
 
 import NavigatorOrb from './NavigatorOrb';
 

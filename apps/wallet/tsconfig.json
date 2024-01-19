@@ -31,12 +31,6 @@
       "state/*": [
         "./src/state/*"
       ],
-      "hooks": [
-        "./src/hooks"
-      ],
-      "hooks/*": [
-        "./src/hooks/*"
-      ],
       "components/*": [
         "./src/components/*"
       ],

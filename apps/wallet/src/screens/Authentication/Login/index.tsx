@@ -1,9 +1,9 @@
 import { type FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Anchor, Text, View } from '@walless/gui';
-import { useSafeAreaInsets, useSnapshot } from 'hooks';
 import { appState } from 'state/app';
 import assets from 'utils/assets';
+import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
 import { signIn } from './internal';
 import SignInHeader from './SignInHeader';

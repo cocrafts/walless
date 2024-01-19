@@ -14,9 +14,9 @@ import type { RouteProp } from '@react-navigation/native';
 import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
 import { Home, Walless } from '@walless/icons';
-import { useSnapshot } from 'hooks';
 import { runtimeState } from 'state/runtime';
 import { tabBarHeight } from 'utils/constants';
+import { useSnapshot } from 'utils/hooks';
 import { HapticFeedbackTypes, nativeModules } from 'utils/native';
 import type { DashboardParamList } from 'utils/navigation';
 

@@ -10,9 +10,9 @@ import {
 	SwipeDownGesture,
 } from '@walless/gui';
 import ModalHeader from 'components/Modal/Header';
-import { usePublicKeys } from 'hooks';
 import { ModalId } from 'modals/internal';
 import { getNetworkInfo } from 'utils/helper';
+import { usePublicKeys } from 'utils/hooks';
 
 import { modalStyles } from '../internal';
 

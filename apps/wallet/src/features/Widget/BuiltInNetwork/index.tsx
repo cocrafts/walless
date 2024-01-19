@@ -11,11 +11,16 @@ import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider } from '@walless/gui';
 import FeatureButtons from 'components/FeatureButtons';
-import { useNfts, useOpacityAnimated, usePublicKeys, useTokens } from 'hooks';
 import { showCopiedModal } from 'modals/Notification';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
 import { buyToken } from 'utils/buy';
+import {
+	useNfts,
+	useOpacityAnimated,
+	usePublicKeys,
+	useTokens,
+} from 'utils/hooks';
 import { copy } from 'utils/system';
 
 import ActivityTab from './ActivityTab';

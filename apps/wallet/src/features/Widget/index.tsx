@@ -3,7 +3,7 @@ import type { ViewStyle } from 'react-native';
 import { View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import { StackHeader } from 'components/StackContainer';
-import { useSafeAreaInsets } from 'hooks';
+import { useSafeAreaInsets } from 'utils/hooks';
 
 import { extractWidgetComponent } from './internal';
 

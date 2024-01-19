@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import { logger } from '@walless/core';
 import { Passcode, Text, View } from '@walless/gui';
-import { useBiometricStatus, useSafeAreaInsets } from 'hooks';
 import { showError } from 'modals/Error';
 import { appActions } from 'state/app';
 import { makeProfile, setProfile, signInWithPasscode } from 'utils/auth';
 import { auth } from 'utils/firebase';
+import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';
 import { navigate, ResetAnchors, resetRoute } from 'utils/navigation';
 

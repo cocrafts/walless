@@ -6,8 +6,8 @@ import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
 import { engine } from 'engine';
 import type { AptosContext } from 'engine/runners';
-import { useNfts } from 'hooks';
 import { aptosState } from 'state/assets';
+import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import CollectiblesTab from '../CollectiblesTab';

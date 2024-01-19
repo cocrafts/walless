@@ -14,7 +14,10 @@ import {
 	tkey,
 } from './w3a';
 
-const checkInvitationCode = async (user: FirebaseUser, invitationCode?: string) => {
+const checkInvitationCode = async (
+	user: FirebaseUser,
+	invitationCode?: string,
+) => {
 	if (__DEV__) return;
 
 	const { walletInvitation } = await qlClient.request<{
@@ -37,7 +40,9 @@ const checkInvitationCode = async (user: FirebaseUser, invitationCode?: string) 
 	}
 };
 
-const signInWithTorusKey = async (user: FirebaseUser): Promise<ThresholdResult> => {
+const signInWithTorusKey = async (
+	user: FirebaseUser,
+): Promise<ThresholdResult> => {
 	const verifierToken = await user.getIdToken(true);
 	const verifier = customAuthArgs.web3AuthClientId;
 	const verifierId = user.uid;

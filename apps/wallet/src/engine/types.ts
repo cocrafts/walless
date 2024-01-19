@@ -1,9 +1,9 @@
 import type { Database, EndpointsDocument } from '@walless/store';
 
 export interface Runner {
-	start: () => Promise<void>;
-	stop: () => Promise<void>;
-	restart: (config: EngineConfig) => Promise<void>;
+	start: () => Promise<void> | void;
+	stop: () => Promise<void> | void;
+	restart: (config: EngineConfig) => Promise<void> | void;
 	getContext: () => unknown;
 }
 

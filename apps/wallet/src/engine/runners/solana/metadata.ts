@@ -6,8 +6,8 @@ import type { MetadataDocument } from '@walless/store';
 import { METADATA_PROGRAM_ID, solMint } from 'utils/constants';
 import { storage } from 'utils/storage';
 
+import { throttle } from './internal';
 import localMetadata from './local-metadata.json';
-import { throttle } from './utils';
 
 export type GetMetadataFunc = (
 	connection: Connection,

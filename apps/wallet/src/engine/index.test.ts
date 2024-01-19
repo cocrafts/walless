@@ -28,7 +28,7 @@ describe('test engine', () => {
 			};
 		});
 
-		engine.start();
+		await engine.start();
 		expect(counts[0]).toEqual(1);
 		engine.stop();
 		expect(counts[0]).toEqual(1);
@@ -89,7 +89,7 @@ describe('test engine', () => {
 			};
 		});
 
-		engine.start();
+		await engine.start();
 
 		const context = engine.getContext<string>('firstRunner');
 		expect(context).toBe('first runner context');
@@ -122,10 +122,68 @@ describe('test engine', () => {
 			};
 		});
 
-		engine.start();
+		await engine.start();
 		setTimeout(() => {
 			expect(count).toBe(2);
 		}, 100);
+	});
+
+	test('async runners failed without wait engine start', async () => {
+		const engine = await createEngine(db);
+		let count = 0;
+		engine.register('firstRunner', () => {
+			return {
+				async start() {
+					count++;
+				},
+				stop() {},
+				restart() {},
+				getContext() {},
+			};
+		});
+
+		engine.register('secondRunner', () => {
+			return {
+				async start() {
+					count++;
+				},
+				stop() {},
+				restart() {},
+				getContext() {},
+			};
+		});
+
+		engine.start();
+		expect(count).toBe(0);
+	});
+
+	test('async runners wait engine start', async () => {
+		const engine = await createEngine(db);
+		let count = 0;
+		engine.register('firstRunner', () => {
+			return {
+				async start() {
+					count++;
+				},
+				stop() {},
+				restart() {},
+				getContext() {},
+			};
+		});
+
+		engine.register('secondRunner', () => {
+			return {
+				async start() {
+					count++;
+				},
+				stop() {},
+				restart() {},
+				getContext() {},
+			};
+		});
+
+		await engine.start();
+		expect(count).toBe(2);
 	});
 });
 

@@ -68,8 +68,8 @@ const configEngine = async () => {
 	if (defaultEngine) return;
 	const engine = await createEngine(storage);
 	await registerNetworkRunners(engine);
+	await engine.start();
 	setDefaultEngine(engine);
-	engine.start();
 };
 
 const registerNetworkRunners = async (engine: Engine) => {

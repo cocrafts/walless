@@ -68,7 +68,9 @@ export const ReferralScreen: FC<Props> = () => {
 		},
 		{
 			id: 'leaderboard',
-			component: () => <LeaderboardTab leaderboard={leaderboard} />,
+			component: () => (
+				<LeaderboardTab accountId={account?.id} leaderboard={leaderboard} />
+			),
 		},
 	];
 

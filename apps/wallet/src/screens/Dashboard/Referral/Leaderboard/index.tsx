@@ -6,6 +6,7 @@ import { Text, View } from '@walless/gui';
 import LeaderboardRow from './LeaderboardRow';
 
 interface Props {
+	accountId?: string;
 	leaderboard: ReferralRankingRecord[];
 }
 
@@ -21,20 +22,22 @@ const rankChangeToString = (rankChange: number | null | undefined) => {
 	}
 };
 
-const LeaderboardTab: FC<Props> = ({ leaderboard }) => {
+const LeaderboardTab: FC<Props> = ({ accountId, leaderboard }) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Walless Influencers</Text>
 
 			<LeaderboardRow rank="#" display="Account" referralCount="Invitation" />
+
 			<ScrollView>
 				{leaderboard.map((record) => (
 					<LeaderboardRow
 						key={record.id}
 						rank={record.rank?.toString() || 'N/A'}
 						rankChange={rankChangeToString(record.rankChange)}
-						display={record.display || 'Anonymous'}
+						display={record.display || 'N/A'}
 						referralCount={record.referralCount?.toString() || 'N/A'}
+						style={accountId === record.id ? styles.activeRecord : undefined}
 					/>
 				))}
 			</ScrollView>
@@ -58,5 +61,8 @@ const styles = StyleSheet.create({
 	},
 	property: {
 		flex: 1,
+	},
+	activeRecord: {
+		backgroundColor: '#0694D3',
 	},
 });

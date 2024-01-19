@@ -3,11 +3,11 @@ import type { Database } from '@walless/store';
 import { type EndpointsDocument } from '@walless/store';
 
 export const getEndpoints = async (storage: Database) => {
-	let endpoints = (await storage.safeGet('endpoints')) as EndpointsDocument;
+	let endpoints = await storage.safeGet<EndpointsDocument>('endpoints');
 
 	if (!endpoints) {
 		endpoints = { _id: 'endpoints', type: 'EndpointMap', ...defaultEndpoints };
-		await storage.upsert('endpoints', async () => endpoints);
+		await storage.put(endpoints);
 	}
 
 	return endpoints;

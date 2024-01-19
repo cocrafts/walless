@@ -27,13 +27,16 @@ export const getTokenDocumentsOnChain = async (
 		getParsedTokenAccountsByOwner(connection, ownerPubkey),
 	)();
 
-	tokenPromises.push(
-		...accounts.map((account) => {
+	const splTokensPromises = accounts
+		.filter((a) => a.tokenAmount.decimals !== 0)
+		.map((account) => {
 			return initTokenDocumentWithMetadata(connection, endpoint, account);
-		}),
-	);
+		});
+
+	tokenPromises.push(...splTokensPromises);
 
 	const tokens = await Promise.all(tokenPromises);
+
 	const quotes = await getTokenQuotes(tokens);
 
 	for (const item of tokens) {
@@ -85,13 +88,12 @@ const getParsedTokenAccountsByOwner = async (
 		'confirmed',
 	);
 
-	return accounts.value.map(
-		(ele) =>
-			({
-				publicKey: ele.pubkey.toString(),
-				...ele.account.data.parsed.info,
-			}) as ParsedTokenAccount,
-	);
+	return accounts.value.map((ele) => {
+		return {
+			publicKey: ele.pubkey.toString(),
+			...ele.account.data.parsed.info,
+		} as ParsedTokenAccount;
+	});
 };
 
 const initTokenDocumentWithMetadata = async (

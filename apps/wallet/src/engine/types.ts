@@ -1,4 +1,4 @@
-import type { Database, EndpointsDocument } from '@walless/store';
+import type { EndpointsDocument } from '@walless/store';
 
 export interface Runner {
 	start: () => Promise<void> | void;
@@ -22,5 +22,4 @@ export type EnginePool = Record<string, Runner>;
 
 export type EngineConfig = {
 	endpoints: EndpointsDocument;
-	storage: Database;
 };

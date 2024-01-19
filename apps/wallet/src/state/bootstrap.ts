@@ -66,7 +66,7 @@ export const initAfterSignIn = async () => {
 
 const configEngine = async () => {
 	if (defaultEngine) return;
-	const engine = await createEngine(storage);
+	const engine = await createEngine();
 	await registerNetworkRunners(engine);
 	await engine.start();
 	setDefaultEngine(engine);

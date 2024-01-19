@@ -32,7 +32,7 @@ export const ReferralScreen: FC<Props> = () => {
 		const fetchReferrals = async () => {
 			const { userAccount } = await qlClient.request<{
 				userAccount: Account;
-			}>(queries.userAccount);
+			}>(queries.userAccountReferral);
 
 			setAccount(userAccount);
 		};
@@ -154,8 +154,9 @@ export default ReferralScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 20,
-		marginVertical: 10,
+		paddingHorizontal: 14,
+		paddingTop: 16,
+		paddingBottom: 36,
 		gap: 12,
 	},
 	title: {

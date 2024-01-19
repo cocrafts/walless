@@ -9,6 +9,14 @@ export const userAccount = gql`
 			walletCount
 			createdAt
 			updatedAt
+		}
+	}
+`;
+
+export const userAccountReferral = gql`
+	query UserAccountReferral {
+		userAccount {
+			id
 			claimedReferrals {
 				code
 				email

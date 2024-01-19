@@ -34,8 +34,8 @@ export const StackContainer: FC<Props> = ({
 	const scrollRef = useAnimatedRef<Animated.ScrollView>();
 	const scrollOffset = useScrollViewOffset(scrollRef);
 	const scrollContentContainerStyle: ViewStyle = {
-		flex: 1,
 		paddingBottom: noBottomTabs ? 0 : tabBarHeight,
+		flex: scrollEnabled ? 0 : 1,
 	};
 
 	return (

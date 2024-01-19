@@ -26,9 +26,9 @@ import type { SolanaContext } from './types';
 type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
 
 export const getAndSyncCollectiblesOnChain = async (
-	{ connection, endpoint }: SolanaContext,
+	{ connection }: SolanaContext,
 	address: string,
-) => {
+): Promise<GenericNft[]> => {
 	const mpl = new Metaplex(connection);
 	const rawNfts = await throttle(() => {
 		return mpl.nfts().findAllByOwner({ owner: new PublicKey(address) });
@@ -60,18 +60,11 @@ export const getAndSyncCollectiblesOnChain = async (
 		}),
 	);
 
-	const promises = nfts
-		.filter((ele) => ele.json)
-		.map(async (nft) => {
-			await updateCollectibleToStorage(connection, endpoint, address, nft);
-		});
-
-	await Promise.all(promises);
+	return nfts;
 };
 
 export const updateCollectibleToStorage = async (
-	connection: Connection,
-	endpoint: Endpoint,
+	{ connection, endpoint }: SolanaContext,
 	address: string,
 	nft: GenericNft,
 ) => {

@@ -2,11 +2,20 @@ import type PouchDB from 'pouchdb-core';
 
 import { type UpsertDiffFunc } from './type';
 
+type UpsertOptions = {
+	new: boolean;
+};
+
+type UpsertResult<T> = PouchDB.Core.Response & {
+	doc: T;
+};
+
 export async function upsert<T extends object>(
 	this: PouchDB.Database,
 	docId: string,
 	diffFunc: UpsertDiffFunc<T>,
-): Promise<PouchDB.Core.Response> {
+	options?: UpsertOptions,
+): Promise<UpsertResult<T>> {
 	let doc: PouchDB.Core.Document<T & { _rev?: string }>;
 
 	try {
@@ -21,5 +30,10 @@ export async function upsert<T extends object>(
 
 	newDoc._id = doc._id as string;
 	newDoc._rev = currentRev;
-	return this.put(newDoc);
+
+	const putResult = await this.put(newDoc);
+	return {
+		...putResult,
+		doc: (options?.new ? newDoc : doc) as T,
+	};
 }

@@ -1,10 +1,11 @@
-import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+import { clusterApiUrl, Connection } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { type PublicKeyDocument, selectors } from '@walless/store';
 import { addTokensToStorage, storage } from 'utils/storage';
 
 import type { CreateFunction } from '../../types';
 
+import { getAndSyncCollectiblesOnChain } from './collectibles';
 import { getTokenDocumentsOnChain } from './tokens';
 import type { SolanaContext } from './types';
 
@@ -21,18 +22,18 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 	const keys = (await storage.find<PublicKeyDocument>(selectors.solanaKeys))
 		.docs;
 
+	const context = { connection, endpoint };
+
 	return {
 		start: async () => {
 			const promises = keys.map((key) => {
-				const address = key._id;
-				const walletPublicKey = new PublicKey(address);
+				const walletAddress = key._id;
 				return [
-					getTokenDocumentsOnChain(connection, endpoint, walletPublicKey).then(
-						(tokens) => {
-							addTokensToStorage(tokens);
-						},
-					),
-				];
+					getTokenDocumentsOnChain(context, walletAddress).then((tokens) => {
+						addTokensToStorage(tokens);
+					}),
+					getAndSyncCollectiblesOnChain(context, walletAddress),
+				] as never[];
 			});
 
 			await Promise.all(promises);
@@ -40,7 +41,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 		stop: async () => {},
 		restart: async () => {},
 		getContext: (): SolanaContext => {
-			return { connection };
+			return context;
 		},
 	};
 };

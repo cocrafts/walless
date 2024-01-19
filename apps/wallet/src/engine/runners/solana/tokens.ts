@@ -1,30 +1,31 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import type { TokenAmount } from '@solana/web3.js';
 import type { Connection } from '@solana/web3.js';
-import type { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import type { Endpoint } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 import { getTokenQuotes, makeHashId } from 'utils/api';
 import { solMint } from 'utils/constants';
 
+import { throttle } from './internal';
 import { getMetadata, solMetadata } from './metadata';
-import { throttle } from './utils';
+import type { SolanaContext } from './types';
 
 export const getTokenDocumentsOnChain = async (
-	connection: Connection,
-	endpoint: Endpoint,
-	ownerPubkey: PublicKey,
+	{ connection, endpoint }: SolanaContext,
+	wallet: string,
 ) => {
+	const walletPublicKey = new PublicKey(wallet);
 	const nativeTokenPromise = getNativeTokenDocument(
 		connection,
 		endpoint,
-		ownerPubkey,
+		walletPublicKey,
 	);
 	const tokenPromises: Promise<TokenDocument>[] = [nativeTokenPromise];
 
 	const accounts = await throttle(async () =>
-		getParsedTokenAccountsByOwner(connection, ownerPubkey),
+		getParsedTokenAccountsByOwner(connection, walletPublicKey),
 	)();
 
 	const splTokensPromises = accounts

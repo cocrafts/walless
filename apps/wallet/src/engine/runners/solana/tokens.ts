@@ -1,6 +1,5 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import type { TokenAmount } from '@solana/web3.js';
-import type { Connection } from '@solana/web3.js';
+import type { Connection, TokenAmount } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { Endpoint } from '@walless/core';
 import { Networks } from '@walless/core';

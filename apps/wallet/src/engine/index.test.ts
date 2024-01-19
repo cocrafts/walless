@@ -1,18 +1,9 @@
-import { create, type Database } from '@walless/store';
+jest.mock('utils/storage/db');
 import { createEngine } from 'engine';
-import MemoryAdapter from 'pouchdb-adapter-memory';
-import PouchDB from 'pouchdb-core';
-
-PouchDB.plugin(MemoryAdapter);
-let db: Database;
-
-beforeAll(() => {
-	db = create('test', MemoryAdapter);
-});
 
 describe('test engine', () => {
 	test('run engine correctly', async () => {
-		const engine = await createEngine(db);
+		const engine = await createEngine();
 		const counts: number[] = [];
 		engine.register('firstRunner', (config) => {
 			expect(config).not.toBeNull();
@@ -36,7 +27,7 @@ describe('test engine', () => {
 	});
 
 	test('register conflict', async () => {
-		const engine = await createEngine(db);
+		const engine = await createEngine();
 		engine.register('firstRunner', () => {
 			return {
 				start() {},
@@ -58,7 +49,7 @@ describe('test engine', () => {
 	});
 
 	test('get context before start', async () => {
-		const engine = await createEngine(db);
+		const engine = await createEngine();
 		engine.register('firstRunner', () => {
 			const context = 'first runner context';
 			return {
@@ -76,7 +67,7 @@ describe('test engine', () => {
 	});
 
 	test('get context after start', async () => {
-		const engine = await createEngine(db);
+		const engine = await createEngine();
 		engine.register('firstRunner', () => {
 			const context = 'first runner context';
 			return {
@@ -96,7 +87,7 @@ describe('test engine', () => {
 	});
 
 	test('async runners', async () => {
-		const engine = await createEngine(db);
+		const engine = await createEngine();
 		let count = 0;
 		engine.register('firstRunner', () => {
 			return {
@@ -129,7 +120,7 @@ describe('test engine', () => {
 	});
 
 	test('async runners failed without wait engine start', async () => {
-		const engine = await createEngine(db);
+		const engine = await createEngine();
 		let count = 0;
 		engine.register('firstRunner', () => {
 			return {
@@ -158,7 +149,7 @@ describe('test engine', () => {
 	});
 
 	test('async runners wait engine start', async () => {
-		const engine = await createEngine(db);
+		const engine = await createEngine();
 		let count = 0;
 		engine.register('firstRunner', () => {
 			return {

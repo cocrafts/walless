@@ -17,6 +17,7 @@ import {
 	addCollectionToStorage,
 	getCollectibleByIdFromStorage,
 	getCollectionByIdFromStorage,
+	storage,
 	updateCollectionAmountToStorage,
 } from 'utils/storage';
 
@@ -63,10 +64,16 @@ export const getCollectiblesOnChain = async (
 	return nfts;
 };
 
+type UpdateCollectibleResult = {
+	collection?: CollectionDocument;
+	collectible?: CollectibleDocument;
+};
+
 export const updateCollectibleToStorage = async (
 	{ connection, endpoint }: SolanaContext,
 	collectible: CollectibleDocument,
-) => {
+): Promise<UpdateCollectibleResult> => {
+	let collection: CollectionDocument | undefined;
 	if (collectible.collectionAddress === collectible.account.mint) {
 		const selfCollectionDocument: CollectionDocument = {
 			...collectible,
@@ -75,12 +82,23 @@ export const updateCollectibleToStorage = async (
 			count: 1,
 		};
 
-		addCollectionToStorage(selfCollectionDocument._id, selfCollectionDocument);
+		const res = await addCollectionToStorage(
+			selfCollectionDocument._id,
+			selfCollectionDocument,
+		);
+
+		collection = res?.doc;
 	} else {
-		await updateRelatedCollection(connection, endpoint, collectible);
+		collection = await updateRelatedCollection(
+			connection,
+			endpoint,
+			collectible,
+		);
 	}
 
-	addCollectibleToStorage(collectible._id, collectible);
+	const res = await addCollectibleToStorage(collectible._id, collectible);
+
+	return { collection, collectible: res?.doc };
 };
 
 export const constructCollectibleDocument = (
@@ -125,7 +143,7 @@ export const updateRelatedCollection = async (
 	connection: Connection,
 	endpoint: Endpoint,
 	collectible: CollectibleDocument,
-) => {
+): Promise<CollectionDocument | undefined> => {
 	const mpl = new Metaplex(connection);
 
 	const storedCollection = await getCollectionByIdFromStorage(
@@ -154,11 +172,15 @@ export const updateRelatedCollection = async (
 			count: 1,
 		};
 
-		await addCollectionToStorage(collection._id, collection);
+		const res = await addCollectionToStorage(collection._id, collection);
+		return res?.doc;
 	} else if (!storedCollectible) {
-		await updateCollectionAmountToStorage(
+		const res = await updateCollectionAmountToStorage(
 			collectible.collectionId,
 			(storedCollection.count += 1),
 		);
+		return res?.doc;
+	} else {
+		return await storage.get<CollectionDocument>(collectible.collectionId);
 	}
 };

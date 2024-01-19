@@ -19,11 +19,15 @@ const addCollectibleToStorage = async (
 	id: string,
 	item: CollectibleDocument,
 ) => {
-	return storage.upsert(id, async () => item).catch(logger.warn);
+	return storage
+		.upsert<CollectibleDocument>(id, async () => item, { new: true })
+		.catch(logger.warn);
 };
 
 const addCollectionToStorage = async (id: string, item: CollectionDocument) => {
-	return storage.upsert(id, async () => item).catch(logger.warn);
+	return storage
+		.upsert<CollectionDocument>(id, async () => item, { new: true })
+		.catch(logger.warn);
 };
 
 const updateCollectibleAmountToStorage = async (
@@ -46,20 +50,12 @@ const updateCollectibleAmountToStorage = async (
 	return result.ok;
 };
 
-const updateCollectionAmountToStorage = async (
-	id: string,
-	count: number,
-): Promise<boolean> => {
-	const result = await storage.upsert<CollectionDocument>(
-		id,
-		async (prevDoc) => {
-			prevDoc.count = count;
+const updateCollectionAmountToStorage = async (id: string, count: number) => {
+	return await storage.upsert<CollectionDocument>(id, async (prevDoc) => {
+		prevDoc.count = count;
 
-			return prevDoc;
-		},
-	);
-
-	return result.ok;
+		return prevDoc;
+	});
 };
 
 const removeCollectibleFromStorage = async (id: string): Promise<void> => {

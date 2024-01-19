@@ -25,10 +25,10 @@ import type { SolanaContext } from './types';
 
 type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
 
-export const getAndSyncCollectiblesOnChain = async (
-	{ connection }: SolanaContext,
+export const getCollectiblesOnChain = async (
+	{ connection, endpoint }: SolanaContext,
 	address: string,
-): Promise<GenericNft[]> => {
+): Promise<CollectibleDocument[]> => {
 	const mpl = new Metaplex(connection);
 	const rawNfts = await throttle(() => {
 		return mpl.nfts().findAllByOwner({ owner: new PublicKey(address) });
@@ -36,7 +36,7 @@ export const getAndSyncCollectiblesOnChain = async (
 
 	const nfts = await Promise.all(
 		rawNfts.map(async (metadata) => {
-			const nft = mpl
+			let nft = await mpl
 				.nfts()
 				.load({ metadata: metadata as Metadata<JsonMetadata<string>> });
 
@@ -48,7 +48,7 @@ export const getAndSyncCollectiblesOnChain = async (
 						loadJsonMetadata: metadata.jsonLoaded,
 					});
 					const jsonRes = await fetch(metadata.uri, { method: 'GET' });
-					return {
+					nft = {
 						...nftByMint,
 						json: await jsonRes.json(),
 						jsonLoaded: true,
@@ -56,7 +56,7 @@ export const getAndSyncCollectiblesOnChain = async (
 				}
 			}
 
-			return nft;
+			return constructCollectibleDocument(address, nft as GenericNft, endpoint);
 		}),
 	);
 
@@ -65,55 +65,40 @@ export const getAndSyncCollectiblesOnChain = async (
 
 export const updateCollectibleToStorage = async (
 	{ connection, endpoint }: SolanaContext,
-	address: string,
-	nft: GenericNft,
+	collectible: CollectibleDocument,
 ) => {
-	let collectionId = await updateRelatedCollection(
-		connection,
-		endpoint,
-		address,
-		nft,
-	);
-
-	const collectibleAddress = nft.mint.address.toString();
-	if (!collectionId) {
-		const selfCollectionId = `${address}/collection/${collectibleAddress}`;
-		collectionId = selfCollectionId;
-	}
-
-	const collectibleDocument: CollectibleDocument = constructCollectibleDocument(
-		address,
-		collectionId,
-		nft,
-		endpoint,
-	);
-
-	if (collectionId.includes(collectibleAddress)) {
+	if (collectible.collectionAddress === collectible.account.mint) {
 		const selfCollectionDocument: CollectionDocument = {
-			...collectibleDocument,
-			_id: collectionId,
+			...collectible,
+			_id: collectible.collectionId,
 			type: 'Collection',
 			count: 1,
 		};
 
-		addCollectionToStorage(collectionId, selfCollectionDocument);
+		addCollectionToStorage(selfCollectionDocument._id, selfCollectionDocument);
+	} else {
+		await updateRelatedCollection(connection, endpoint, collectible);
 	}
 
-	addCollectibleToStorage(collectibleDocument._id, collectibleDocument);
+	addCollectibleToStorage(collectible._id, collectible);
 };
 
 export const constructCollectibleDocument = (
 	address: string,
-	collectionId: string,
 	nft: GenericNft,
 	endpoint: Endpoint,
 ) => {
 	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
+	const collectionAddress = nft.collection
+		? nft.collection.address.toString()
+		: nft.mint.address.toString();
+	const collectionId = `${address}/collection/${collectionAddress}`;
 
-	const newCollectibleDocument: CollectibleDocument = {
+	const collectibleDocument: CollectibleDocument = {
 		_id: collectibleId,
 		type: 'NFT',
 		collectionId,
+		collectionAddress,
 		network: Networks.solana,
 		metadata: {
 			name: nft.json?.name,
@@ -133,36 +118,30 @@ export const constructCollectibleDocument = (
 		},
 	};
 
-	return newCollectibleDocument;
+	return collectibleDocument;
 };
 
 export const updateRelatedCollection = async (
 	connection: Connection,
 	endpoint: Endpoint,
-	address: string,
-	nft: GenericNft,
+	collectible: CollectibleDocument,
 ) => {
 	const mpl = new Metaplex(connection);
 
-	if (!nft.collection) {
-		return null;
-	}
-
-	const collectionAddress = nft.collection?.address.toString();
-
-	const collectionId = `${address}/collection/${collectionAddress}`;
-	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
-
-	const storedCollection = await getCollectionByIdFromStorage(collectionId);
-	const storedCollectible = await getCollectibleByIdFromStorage(collectibleId);
+	const storedCollection = await getCollectionByIdFromStorage(
+		collectible.collectionId,
+	);
+	const storedCollectible = await getCollectibleByIdFromStorage(
+		collectible._id,
+	);
 
 	if (!storedCollection) {
-		const collectionMetadata: GenericNft = await mpl
-			.nfts()
-			.findByMint({ mintAddress: nft.collection.address });
+		const collectionMetadata: GenericNft = await mpl.nfts().findByMint({
+			mintAddress: new PublicKey(collectible.collectionAddress),
+		});
 
-		const newCollectionDocument: CollectionDocument = {
-			_id: collectionId,
+		const collection: CollectionDocument = {
+			_id: collectible.collectionId,
 			type: 'Collection',
 			endpoint,
 			network: Networks.solana,
@@ -175,13 +154,11 @@ export const updateRelatedCollection = async (
 			count: 1,
 		};
 
-		addCollectionToStorage(collectionId, newCollectionDocument);
+		await addCollectionToStorage(collection._id, collection);
 	} else if (!storedCollectible) {
-		updateCollectionAmountToStorage(
-			collectionId,
+		await updateCollectionAmountToStorage(
+			collectible.collectionId,
 			(storedCollection.count += 1),
 		);
 	}
-
-	return storedCollection?._id;
 };

@@ -1,9 +1,7 @@
 jest.mock('utils/storage/db');
-import { inspect } from 'util';
-
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 
-import { getAndSyncCollectiblesOnChain } from './collectibles';
+import { getCollectiblesOnChain } from './collectibles';
 import type { SolanaContext } from './types';
 
 const connection = new Connection(clusterApiUrl('devnet'));
@@ -15,11 +13,8 @@ describe('[solana runner] collectibles', () => {
 			connection,
 			endpoint: 'devnet',
 		};
-		const nfts = await getAndSyncCollectiblesOnChain(
-			context,
-			wallet.toString(),
-		);
+		const nfts = await getCollectiblesOnChain(context, wallet.toString());
 
-		console.log(inspect(nfts));
+		expect(nfts).not.toBeNull();
 	});
 });

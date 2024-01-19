@@ -6,7 +6,7 @@ import { addTokensToStorage, storage } from 'utils/storage';
 import type { CreateFunction } from '../../types';
 
 import {
-	getAndSyncCollectiblesOnChain,
+	getCollectiblesOnChain,
 	updateCollectibleToStorage,
 } from './collectibles';
 import { getTokenDocumentsOnChain } from './tokens';
@@ -35,11 +35,13 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 					getTokenDocumentsOnChain(context, walletAddress).then((tokens) => {
 						addTokensToStorage(tokens);
 					}),
-					getAndSyncCollectiblesOnChain(context, walletAddress).then((nfts) => {
-						nfts.map(async (nft) => {
-							await updateCollectibleToStorage(context, walletAddress, nft);
-						});
-					}),
+					getCollectiblesOnChain(context, walletAddress).then(
+						(collectibles) => {
+							collectibles.map(async (collectible) => {
+								await updateCollectibleToStorage(context, collectible);
+							});
+						},
+					),
 				] as never[];
 			});
 

@@ -37,26 +37,7 @@ export const getCollectiblesOnChain = async (
 
 	const nfts = await Promise.all(
 		rawNfts.map(async (metadata) => {
-			let nft = await mpl
-				.nfts()
-				.load({ metadata: metadata as Metadata<JsonMetadata<string>> });
-
-			// TODO: need to resolve fetch metadata of nft using metaplex on mobile
-			if (metadata.jsonLoaded && !metadata.json) {
-				if ('mintAddress' in metadata) {
-					const nftByMint = await mpl.nfts().findByMint({
-						mintAddress: metadata.mintAddress,
-						loadJsonMetadata: metadata.jsonLoaded,
-					});
-					const jsonRes = await fetch(metadata.uri, { method: 'GET' });
-					nft = {
-						...nftByMint,
-						json: await jsonRes.json(),
-						jsonLoaded: true,
-					};
-				}
-			}
-
+			const nft = await loadCollectibleMetadata(mpl, metadata);
 			return constructCollectibleDocument(address, nft as GenericNft, endpoint);
 		}),
 	);
@@ -99,6 +80,33 @@ export const updateCollectibleToStorage = async (
 	const res = await addCollectibleToStorage(collectible._id, collectible);
 
 	return { collection, collectible: res?.doc };
+};
+
+export const loadCollectibleMetadata = async (
+	mpl: Metaplex,
+	metadata: Metadata | Nft | Sft,
+) => {
+	let nft = await mpl
+		.nfts()
+		.load({ metadata: metadata as Metadata<JsonMetadata<string>> });
+
+	// TODO: need to resolve fetch metadata of nft using metaplex on mobile
+	if (metadata.jsonLoaded && !metadata.json) {
+		if ('mintAddress' in metadata) {
+			const nftByMint = await mpl.nfts().findByMint({
+				mintAddress: metadata.mintAddress,
+				loadJsonMetadata: metadata.jsonLoaded,
+			});
+			const jsonRes = await fetch(metadata.uri, { method: 'GET' });
+			nft = {
+				...nftByMint,
+				json: await jsonRes.json(),
+				jsonLoaded: true,
+			};
+		}
+	}
+
+	return nft;
 };
 
 export const constructCollectibleDocument = (

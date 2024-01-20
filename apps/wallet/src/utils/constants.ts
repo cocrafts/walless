@@ -1,4 +1,4 @@
-import { type Config, type RemoteConfig } from '@walless/core';
+import type { Config, RemoteConfig } from '@walless/core';
 
 export const noHeaderNavigation = {
 	headerShown: false,

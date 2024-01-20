@@ -1,4 +1,5 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Anchor, Text, View } from '@walless/gui';
 import { appState } from 'state/app';

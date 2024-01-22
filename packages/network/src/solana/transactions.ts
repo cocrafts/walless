@@ -1,8 +1,35 @@
+import { isProgrammable } from '@metaplex-foundation/js';
+import {
+	createTransferInstruction as createTransferNftInstruction,
+	Metadata,
+} from '@metaplex-foundation/mpl-token-metadata';
+import {
+	ASSOCIATED_TOKEN_PROGRAM_ID,
+	createAssociatedTokenAccountInstruction,
+	createTransferInstruction as createTransferTokenInstruction,
+	getAssociatedTokenAddressSync,
+	TOKEN_PROGRAM_ID,
+} from '@solana/spl-token';
 import type { Connection, MessageV0, SendOptions } from '@solana/web3.js';
-import { Keypair, Transaction, VersionedTransaction } from '@solana/web3.js';
+import { PublicKey, SYSVAR_INSTRUCTIONS_PUBKEY } from '@solana/web3.js';
+import {
+	Keypair,
+	SystemProgram,
+	Transaction,
+	TransactionMessage,
+	VersionedTransaction,
+} from '@solana/web3.js';
+import type { Collectible, Token } from '@walless/core';
 import { logger } from '@walless/core';
 import { decode } from 'bs58';
 import { sign } from 'tweetnacl';
+
+import { TOKEN_AUTH_RULES_KEY } from './constants';
+import {
+	getMasterEditionPda,
+	getMetadataPda,
+	getTokenRecordPda,
+} from './helpers';
 
 export const signMessage = (message: Uint8Array, privateKey: Uint8Array) => {
 	const keypair = Keypair.fromSecretKey(privateKey);
@@ -51,4 +78,132 @@ export const simulateTransaction = async (
 
 	const simulatedTx = await connection.simulateTransaction(tx);
 	logger.debug('Simulated transaction:', simulatedTx);
+};
+
+export const constructSendSOLTransaction = async (
+	connection: Connection,
+	sender: PublicKey,
+	receiver: PublicKey,
+	amount: number,
+) => {
+	const instructions = [
+		SystemProgram.transfer({
+			fromPubkey: sender,
+			toPubkey: receiver,
+			lamports: amount,
+		}),
+	];
+
+	const blockhash = (await connection.getLatestBlockhash('finalized'))
+		.blockhash;
+
+	const message = new TransactionMessage({
+		payerKey: new PublicKey(sender),
+		recentBlockhash: blockhash,
+		instructions,
+	}).compileToV0Message();
+
+	return new VersionedTransaction(message);
+};
+
+export const constructSendSPLTokenTransactionInSol = async (
+	connection: Connection,
+	sender: PublicKey,
+	receiver: PublicKey,
+	amount: number,
+	token: Token | Collectible,
+) => {
+	// ATA
+	const mintAddress = new PublicKey(token.account.mint as string);
+	const senderATAddress = getAssociatedTokenAddressSync(mintAddress, sender);
+	const receiverATAddress = getAssociatedTokenAddressSync(
+		mintAddress,
+		receiver,
+	);
+	const receiverATA = await connection.getAccountInfo(receiverATAddress);
+
+	// PDA
+	const [metadata] = getMetadataPda(mintAddress);
+
+	const [edition] = getMasterEditionPda(mintAddress);
+
+	const [ownerTokenRecord] = getTokenRecordPda({
+		mint: mintAddress,
+		token: senderATAddress,
+	});
+	const [destinationTokenRecord] = getTokenRecordPda({
+		mint: mintAddress,
+		token: receiverATAddress,
+	});
+
+	const instructions = [];
+	if (!receiverATA) {
+		const createATAInstruction = createAssociatedTokenAccountInstruction(
+			sender,
+			receiverATAddress,
+			receiver,
+			mintAddress,
+		);
+		instructions.push(createATAInstruction);
+	}
+
+	if ('collectionId' in token) {
+		const metadataInfo = await connection.getAccountInfo(metadata);
+		let isProgrammableNft = false;
+		if (metadataInfo?.data) {
+			const [data] = Metadata.deserialize(metadataInfo.data);
+			const { tokenStandard } = data;
+			isProgrammableNft = isProgrammable({ tokenStandard });
+		}
+
+		const transferInstruction = createTransferNftInstruction(
+			{
+				token: senderATAddress,
+				tokenOwner: sender,
+				destination: receiverATAddress,
+				destinationOwner: receiver,
+				mint: mintAddress,
+				metadata,
+				payer: sender,
+				edition,
+				ownerTokenRecord: isProgrammableNft ? ownerTokenRecord : undefined,
+				destinationTokenRecord: isProgrammableNft
+					? destinationTokenRecord
+					: undefined,
+				splAtaProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+				splTokenProgram: TOKEN_PROGRAM_ID,
+				authority: sender,
+				sysvarInstructions: SYSVAR_INSTRUCTIONS_PUBKEY,
+				authorizationRulesProgram: TOKEN_AUTH_RULES_KEY,
+			},
+			{
+				transferArgs: {
+					__kind: 'V1',
+					amount,
+					authorizationData: null,
+				},
+			},
+		);
+		instructions.push(transferInstruction);
+	} else {
+		const transferInstruction = createTransferTokenInstruction(
+			senderATAddress,
+			receiverATAddress,
+			sender,
+			amount,
+		);
+		instructions.push(transferInstruction);
+	}
+
+	const blockhash = (await connection.getLatestBlockhash('finalized'))
+		.blockhash;
+
+	logger.debug(instructions, 'INSTRUCTIONS');
+	const message = new TransactionMessage({
+		payerKey: new PublicKey(sender),
+		recentBlockhash: blockhash,
+		instructions: instructions,
+	}).compileToV0Message();
+
+	return new VersionedTransaction(message);
 };

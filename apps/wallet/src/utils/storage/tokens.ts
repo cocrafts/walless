@@ -28,14 +28,9 @@ const updateTokenBalanceToStorage = async (id: string, balance: string) => {
 	});
 };
 
-const removeTokenFromStorage = async (id: string) => {
-	await storage.removeDoc(id);
-};
-
 export {
 	addTokensToStorage,
 	addTokenToStorage,
 	getTokenByIdFromStorage,
-	removeTokenFromStorage,
 	updateTokenBalanceToStorage,
 };

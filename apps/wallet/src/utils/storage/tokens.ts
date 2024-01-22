@@ -8,31 +8,24 @@ const getTokenByIdFromStorage = async (
 	return await storage.safeGet(id);
 };
 
-const addTokensToStorage = (tokens: TokenDocument[]) => {
-	const tokenPromises: Promise<unknown>[] = [];
-
-	for (const token of tokens) {
-		tokenPromises.push(storage.upsert(token._id, async () => token));
-	}
-
-	Promise.all(tokenPromises);
+const addTokensToStorage = async (tokens: TokenDocument[]) => {
+	return await Promise.all(
+		tokens.map((t) => {
+			return addTokenToStorage(t);
+		}),
+	);
 };
 
-const updateTokenBalanceToStorage = async (
-	id: string,
-	balance: string,
-): Promise<boolean> => {
-	const token = await getTokenByIdFromStorage(id);
+const addTokenToStorage = async (token: TokenDocument) => {
+	return await storage.upsert<TokenDocument>(token._id, async () => token);
+};
 
-	if (!token) return false;
-
-	const result = await storage.upsert<TokenDocument>(id, async (prevDoc) => {
+const updateTokenBalanceToStorage = async (id: string, balance: string) => {
+	return await storage.upsert<TokenDocument>(id, async (prevDoc) => {
 		prevDoc.account.balance = balance;
 
 		return prevDoc;
 	});
-
-	return result.ok;
 };
 
 const removeTokenFromStorage = async (id: string) => {
@@ -41,6 +34,7 @@ const removeTokenFromStorage = async (id: string) => {
 
 export {
 	addTokensToStorage,
+	addTokenToStorage,
 	getTokenByIdFromStorage,
 	removeTokenFromStorage,
 	updateTokenBalanceToStorage,

@@ -30,24 +30,14 @@ const addCollectionToStorage = async (id: string, item: CollectionDocument) => {
 		.catch(logger.warn);
 };
 
-const updateCollectibleAmountToStorage = async (
-	id: string,
-	amount: number,
-): Promise<boolean> => {
-	const collectible = await getCollectibleByIdFromStorage(id);
-
-	if (!collectible) return false;
-
-	const result = await storage.upsert<CollectibleDocument>(
-		id,
-		async (prevDoc) => {
+const updateCollectibleAmountToStorage = async (id: string, amount: number) => {
+	return await storage
+		.upsert<CollectibleDocument>(id, async (prevDoc) => {
 			prevDoc.account.amount = amount;
 
 			return prevDoc;
-		},
-	);
-
-	return result.ok;
+		})
+		.catch(logger.warn);
 };
 
 const updateCollectionAmountToStorage = async (id: string, count: number) => {

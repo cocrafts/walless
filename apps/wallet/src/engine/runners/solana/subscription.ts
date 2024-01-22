@@ -1,5 +1,6 @@
 import { inspect } from 'util';
 
+import type { NftWithToken, SftWithToken } from '@metaplex-foundation/js';
 import { Metaplex } from '@metaplex-foundation/js';
 import type {
 	AccountInfo,
@@ -15,8 +16,6 @@ import {
 	addTokenToStorage,
 	getCollectibleByIdFromStorage,
 	getTokenByIdFromStorage,
-	removeCollectibleFromStorage,
-	removeTokenFromStorage,
 	updateCollectibleAmountToStorage,
 	updateTokenBalanceToStorage,
 } from 'utils/storage';
@@ -105,9 +104,6 @@ const handleSPLTokenChange = async (
 	const isToken = tokenAccount.tokenAmount.decimals !== 0;
 	if (isToken) {
 		const id = `${wallet.toString()}/token/${tokenAccount.mint}`;
-		if (tokenAccount.tokenAmount.amount === '0') {
-			removeTokenFromStorage(id);
-		} else {
 			const storedToken = await getTokenByIdFromStorage(id);
 			if (storedToken) {
 				await updateTokenBalanceToStorage(id, tokenAccount.tokenAmount.amount);
@@ -118,15 +114,10 @@ const handleSPLTokenChange = async (
 					tokenAccount,
 				);
 				await addTokenToStorage(tokenDocument);
-			}
 		}
 	} else {
 		const id = `${wallet.toString()}/collectible/${tokenAccount.mint}`;
-		if (tokenAccount.tokenAmount.amount === '0') {
-			removeCollectibleFromStorage(id);
-		} else {
 			const storedCollectible = await getCollectibleByIdFromStorage(id);
-
 			if (storedCollectible) {
 				await updateCollectibleAmountToStorage(
 					id,
@@ -134,10 +125,12 @@ const handleSPLTokenChange = async (
 				);
 			} else {
 				const mpl = new Metaplex(connection);
-				const collectible = await mpl.nfts().findByMint({
+			const collectible = (await mpl.nfts().findByMint({
 					mintAddress: new PublicKey(tokenAccount.mint),
 					tokenAddress: tokenAccount.publicKey,
-				});
+				tokenOwner: wallet,
+			})) as SftWithToken | NftWithToken;
+
 				const collectibleDocument = constructCollectibleDocument(
 					wallet.toString(),
 					collectible,
@@ -150,6 +143,5 @@ const handleSPLTokenChange = async (
 				);
 			}
 		}
-	}
 };
 

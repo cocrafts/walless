@@ -22,23 +22,27 @@ import {
 } from 'utils/storage';
 
 import { throttle } from './internal';
-import type { SolanaContext } from './types';
 
-type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
+export type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
 
 export const getCollectiblesOnChain = async (
-	{ connection, endpoint }: SolanaContext,
-	address: string,
+	connection: Connection,
+	endpoint: Endpoint,
+	wallet: PublicKey,
 ): Promise<CollectibleDocument[]> => {
 	const mpl = new Metaplex(connection);
 	const rawNfts = await throttle(() => {
-		return mpl.nfts().findAllByOwner({ owner: new PublicKey(address) });
+		return mpl.nfts().findAllByOwner({ owner: wallet });
 	})();
 
 	const nfts = await Promise.all(
 		rawNfts.map(async (metadata) => {
 			const nft = await loadCollectibleMetadata(mpl, metadata);
-			return constructCollectibleDocument(address, nft as GenericNft, endpoint);
+			return constructCollectibleDocument(
+				wallet.toString(),
+				nft as GenericNft,
+				endpoint,
+			);
 		}),
 	);
 
@@ -51,7 +55,8 @@ type UpdateCollectibleResult = {
 };
 
 export const updateCollectibleToStorage = async (
-	{ connection, endpoint }: SolanaContext,
+	connection: Connection,
+	endpoint: Endpoint,
 	collectible: CollectibleDocument,
 ): Promise<UpdateCollectibleResult> => {
 	let collection: CollectionDocument | undefined;

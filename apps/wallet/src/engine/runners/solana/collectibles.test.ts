@@ -20,8 +20,11 @@ describe('[solana runner] collectibles', () => {
 			connection,
 			endpoint: 'devnet',
 		};
-		const nfts = await getCollectiblesOnChain(context, wallet.toString());
-		console.log(inspect(nfts));
+		const nfts = await getCollectiblesOnChain(
+			context.connection,
+			context.endpoint,
+			wallet,
+		);
 
 		expect(nfts).not.toBeNull();
 	});
@@ -33,7 +36,8 @@ describe('[solana runner] collectibles', () => {
 		};
 
 		const result = await updateCollectibleToStorage(
-			context,
+			context.connection,
+			context.endpoint,
 			exampleCollectible,
 		);
 
@@ -48,10 +52,15 @@ describe('[solana runner] collectibles', () => {
 			endpoint: 'devnet',
 		};
 
-		await updateCollectibleToStorage(context, exampleCollectible);
+		await updateCollectibleToStorage(
+			context.connection,
+			context.endpoint,
+			exampleCollectible,
+		);
 
 		const result = await updateCollectibleToStorage(
-			context,
+			context.connection,
+			context.endpoint,
 			exampleCollectible,
 		);
 
@@ -73,7 +82,11 @@ describe('[solana runner] collectibles', () => {
 			_id: 'clone-collectible',
 		};
 
-		const result = await updateCollectibleToStorage(context, newCollectible);
+		const result = await updateCollectibleToStorage(
+			context.connection,
+			context.endpoint,
+			newCollectible,
+		);
 
 		console.log(inspect(result));
 

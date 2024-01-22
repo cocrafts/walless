@@ -35,24 +35,18 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 					getTokenDocumentsOnChain(connection, endpoint, wallet).then(
 						(tokens) => {
 							addTokensToStorage(tokens);
-							tokens.map((ele) => {
-								watchAccount(
-									connection,
-									endpoint,
-									new PublicKey(wallet),
-									new PublicKey(ele.account.address as string),
-								);
+							tokens.map((t) => {
+								const tokenAccountAddress = new PublicKey(t.account.address);
+								watchAccount(connection, endpoint, wallet, tokenAccountAddress);
 							});
 						},
 					),
 					getCollectiblesOnChain(connection, endpoint, wallet).then(
 						(collectibles) => {
-							collectibles.map(async (collectible) => {
-								await updateCollectibleToStorage(
-									connection,
-									endpoint,
-									collectible,
-								);
+							collectibles.map(async (c) => {
+								const tokenAccountAddress = new PublicKey(c.account.address);
+								watchAccount(connection, endpoint, wallet, tokenAccountAddress);
+								await updateCollectibleToStorage(connection, endpoint, c);
 							});
 						},
 					),

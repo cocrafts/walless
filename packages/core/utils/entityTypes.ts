@@ -90,7 +90,6 @@ export interface Token {
 export interface Collection {
 	network: string;
 	metadata?: AssetMetadata;
-	count: number;
 }
 
 export interface CollectibleAccount {

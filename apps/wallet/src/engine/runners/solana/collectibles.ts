@@ -15,10 +15,8 @@ import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import {
 	addCollectibleToStorage,
 	addCollectionToStorage,
-	getCollectibleByIdFromStorage,
 	getCollectionByIdFromStorage,
 	storage,
-	updateCollectionAmountToStorage,
 } from 'utils/storage';
 
 import { throttle } from './internal';
@@ -61,7 +59,6 @@ export const updateCollectibleToStorage = async (
 			...collectible,
 			_id: collectible.collectionId,
 			type: 'Collection',
-			count: 1,
 		};
 
 		const res = await addCollectionToStorage(
@@ -162,9 +159,6 @@ export const updateRelatedCollection = async (
 	const storedCollection = await getCollectionByIdFromStorage(
 		collectible.collectionId,
 	);
-	const storedCollectible = await getCollectibleByIdFromStorage(
-		collectible._id,
-	);
 
 	if (!storedCollection) {
 		const collectionMetadata: GenericNft = await mpl.nfts().findByMint({
@@ -182,16 +176,9 @@ export const updateRelatedCollection = async (
 				imageUri: collectionMetadata?.json?.image,
 				symbol: collectionMetadata?.json?.symbol,
 			},
-			count: 1,
 		};
 
 		const res = await addCollectionToStorage(collection._id, collection);
-		return res?.doc;
-	} else if (!storedCollectible) {
-		const res = await updateCollectionAmountToStorage(
-			collectible.collectionId,
-			(storedCollection.count += 1),
-		);
 		return res?.doc;
 	} else {
 		return await storage.get<CollectionDocument>(collectible.collectionId);

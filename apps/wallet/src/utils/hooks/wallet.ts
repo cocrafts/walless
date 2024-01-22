@@ -56,7 +56,7 @@ export const useTokens = (
 		for (const item of tokens) {
 			const isNetworkValid = network ? item.network === network : true;
 			const isAccountValid = address ? item.account?.address === address : true;
-			const isAvailable = item.account.balance !== '0'
+			const isAvailable = item.account.balance !== '0';
 
 			if (isNetworkValid && isAccountValid && isAvailable) {
 				const { quotes, balance, decimals } = item.account;
@@ -80,9 +80,18 @@ export const useNfts = (network?: Networks, address?: string) => {
 
 	return {
 		collections: useMemo(() => {
-			const collections = Array.from(collectionMap.values()).filter(
-				(ele) => ele.count > 0,
-			);
+			const collectibles = Array.from(collectibleMap.values());
+			const collections = Array.from(collectionMap.values())
+				.map((ele) => {
+					const count = collectibles.reduce((prev, cur) => {
+						return (
+							prev +
+							(cur.collectionId === ele._id && cur.account.amount > 0 ? 1 : 0)
+						);
+					}, 0);
+					return { ...ele, count };
+				})
+				.filter((ele) => ele.count > 0);
 
 			if (!network) return collections;
 			else

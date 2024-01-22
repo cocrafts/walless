@@ -1,6 +1,9 @@
 import device from 'react-native-device-info';
 import type { DeviceInfoInput } from '@walless/graphql';
 
+/** Not use on mobile */
+export const configureDeviceAndNotification = async (): Promise<void> => {};
+
 export const getDeviceInfo = async (): Promise<DeviceInfoInput> => {
 	const [deviceId, deviceName, manufacturer, platform] = await Promise.all([
 		await device.getUniqueId(),

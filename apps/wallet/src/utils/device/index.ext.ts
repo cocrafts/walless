@@ -24,19 +24,6 @@ export const getDeviceInfo = async (): Promise<DeviceInfoInput> => {
 	};
 };
 
-const getDeviceId = async (): Promise<string> => {
-	const system = await storage.safeGet<SystemDocument>('system');
-	if (system?.deviceId) return system?.deviceId;
-
-	const uniqueId = crypto.randomUUID();
-	await storage.upsert<SystemDocument>('system', async (doc) => {
-		doc.deviceId = uniqueId;
-		return doc;
-	});
-
-	return uniqueId;
-};
-
 export const configureDeviceAndNotification = async (): Promise<void> => {
 	await auth().authStateReady();
 	const user = auth().currentUser;
@@ -59,4 +46,17 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 	}
 
 	runtimeActions.syncDeviceInfo(deviceInfo);
+};
+
+const getDeviceId = async (): Promise<string> => {
+	const system = await storage.safeGet<SystemDocument>('system');
+	if (system?.deviceId) return system?.deviceId;
+
+	const uniqueId = crypto.randomUUID();
+	await storage.upsert<SystemDocument>('system', async (doc) => {
+		doc.deviceId = uniqueId;
+		return doc;
+	});
+
+	return uniqueId;
 };

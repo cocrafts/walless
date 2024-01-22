@@ -56,8 +56,9 @@ export const useTokens = (
 		for (const item of tokens) {
 			const isNetworkValid = network ? item.network === network : true;
 			const isAccountValid = address ? item.account?.address === address : true;
+			const isAvailable = item.account.balance !== '0'
 
-			if (isNetworkValid && isAccountValid) {
+			if (isNetworkValid && isAccountValid && isAvailable) {
 				const { quotes, balance, decimals } = item.account;
 				const quote = quotes?.[currency] || 0;
 

@@ -96,6 +96,7 @@ export interface Collection {
 export interface CollectibleAccount {
 	mint: string;
 	owner: string;
+	address: string;
 	amount: number;
 }
 

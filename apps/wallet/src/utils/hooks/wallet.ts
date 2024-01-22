@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import type { Networks } from '@walless/core';
-import type { PublicKeyDocument } from '@walless/store';
+import type { CollectibleDocument, PublicKeyDocument } from '@walless/store';
 import { appState } from 'state/app';
 import { collectibleState, collectionState, tokenState } from 'state/assets';
 import { historyState } from 'state/history';
@@ -74,6 +74,10 @@ export const useTokens = (
 	}, [map, network, address]);
 };
 
+export type WrappedCollection = CollectibleDocument & {
+	count: number;
+};
+
 export const useNfts = (network?: Networks, address?: string) => {
 	const collectibleMap = useSnapshot(collectibleState).map;
 	const collectionMap = useSnapshot(collectionState).map;
@@ -89,16 +93,17 @@ export const useNfts = (network?: Networks, address?: string) => {
 							(cur.collectionId === ele._id && cur.account.amount > 0 ? 1 : 0)
 						);
 					}, 0);
-					return { ...ele, count };
+
+					return { ...ele, count } as WrappedCollection;
 				})
 				.filter((ele) => ele.count > 0);
 
 			if (!network) return collections;
-			else
-				return collections.filter(
-					(ele) => ele.network === network && ele._id.includes(address || ''),
-				);
-		}, [collectionMap, network, address]),
+
+			return collections.filter(
+				(ele) => ele.network === network && ele._id.includes(address || ''),
+			);
+		}, [collectionMap, collectibleMap, network, address]),
 
 		collectibles: useMemo(() => {
 			const collectibles = Array.from(collectibleMap.values()).filter(
@@ -106,10 +111,10 @@ export const useNfts = (network?: Networks, address?: string) => {
 			);
 
 			if (!network) return collectibles;
-			else
-				return collectibles.filter(
-					(ele) => ele.network === network && ele._id.includes(address || ''),
-				);
+
+			return collectibles.filter(
+				(ele) => ele.network === network && ele._id.includes(address || ''),
+			);
 		}, [collectibleMap, network, address]),
 	};
 };

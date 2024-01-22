@@ -1,7 +1,9 @@
 {
   "extends": "@walless/tsconfig/application.json",
   "include": [
+    "browser",
     "src",
+    "test",
     "index*.js",
     "../../globals.d.ts"
   ],
@@ -16,6 +18,15 @@
       ],
       "utils/*": [
         "./src/utils/*"
+      ],
+      "engine": [
+        "./src/engine"
+      ],
+      "engine/*": [
+        "./src/engine/*"
+      ],
+      "state": [
+        "./src/state"
       ],
       "state/*": [
         "./src/state/*"

@@ -7,9 +7,11 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
+import { logger } from '@walless/core';
 import { Passcode, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
-import { signInWithPasscode } from 'utils/auth';
+import { appActions } from 'state/app';
+import { makeProfile, setProfile, signInWithPasscode } from 'utils/auth';
 import { auth } from 'utils/firebase';
 import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';
@@ -42,9 +44,20 @@ export const CreatePasscodeScreen: FC = () => {
 		if (biometricStatus.isAvailable) {
 			await hydrateEncryptionKey(passcode);
 		}
+		const user = auth().currentUser;
+		if (!user) {
+			showError({ errorText: 'Something went wrong' });
+			logger.error(
+				'sign in process run failed, not found user when create passcode',
+			);
+			return;
+		}
 
-		await signInWithPasscode(passcode, auth().currentUser, handleInitFail);
+		await signInWithPasscode(passcode, handleInitFail);
+		await appActions.initAfterSignIn();
 		resetRoute(ResetAnchors.Widget, { id: 'explorer' });
+
+		await setProfile(makeProfile(user));
 	};
 
 	const onPasscodeChange = async (

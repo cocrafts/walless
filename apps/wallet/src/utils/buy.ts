@@ -1,6 +1,6 @@
 import { Linking } from 'react-native';
 import { Networks } from '@walless/core';
-import { keyState } from '@walless/engine';
+import { keyState } from 'state/keys';
 
 import { environment } from './config';
 

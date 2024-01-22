@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import CreatePasscodeScreen from 'screens/Authentication/CreatePasscode';
-import DeprecatedPasscodeScreen from 'screens/Authentication/DeprecatedPasscode';
 import InvitationScreen from 'screens/Authentication/Invitation';
 import LoginScreen from 'screens/Authentication/Login';
 import RecoveryScreen from 'screens/Authentication/Recovery';
@@ -34,11 +33,6 @@ export const AuthenticationStack: FC<Props> = () => {
 			<Stack.Screen
 				name="CreatePasscode"
 				component={CreatePasscodeScreen}
-				options={screenOptions.bottomFade}
-			/>
-			<Stack.Screen
-				name="DeprecatedPasscode"
-				component={DeprecatedPasscodeScreen}
 				options={screenOptions.bottomFade}
 			/>
 		</Stack.Navigator>

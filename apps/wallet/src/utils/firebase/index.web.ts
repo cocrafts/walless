@@ -6,7 +6,7 @@ import {
 	getRemoteConfig,
 } from '@firebase/remote-config';
 import type { RemoteConfig } from '@walless/core';
-import { defaultRemoteConfig } from '@walless/engine';
+import { defaultRemoteConfig } from 'utils/constants';
 
 import { app } from './index.ext';
 import type { Analytics } from './types';

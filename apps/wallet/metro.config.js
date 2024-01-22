@@ -13,9 +13,8 @@ const monoPackages = {
 	'@walless/store': resolve(workspaceRoot, 'packages/store'),
 	'@walless/crypto': resolve(workspaceRoot, 'packages/crypto'),
 	'@walless/messaging': resolve(workspaceRoot, 'packages/messaging'),
-	'@walless/engine': resolve(workspaceRoot, 'packages/engine'),
 	'@walless/graphql': resolve(workspaceRoot, 'packages/graphql'),
-	'@walless/kernel': resolve(workspaceRoot, 'packages/kernel'),
+	'@walless/network': resolve(workspaceRoot, 'packages/network'),
 };
 
 module.exports = {

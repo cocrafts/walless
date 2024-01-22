@@ -80,7 +80,7 @@ export enum Timeout {
 	sixtySeconds = 60000,
 }
 
-export interface Transaction {
+export interface TransactionHistory {
 	id: string;
 	signature: string;
 	network: Networks;
@@ -96,3 +96,24 @@ export interface Transaction {
 	amount: number;
 	date: Date;
 }
+
+export interface AptosToken {
+	ownerAddress: string;
+	creatorAddress: string;
+	collectionId: string;
+	collectionName: string;
+	collectionUri: string;
+	tokenDataId: string;
+	name: string;
+	description: string;
+	uri: string;
+	lastTransactionVersion: number;
+	lastTransactionTimestamp: number;
+	propertyVersion: number;
+	amount: number;
+}
+
+export type AptosPendingToken = AptosToken & {
+	fromAddress: string;
+	toAddress: string;
+};

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { widgetState } from '@walless/engine';
 import { sortBy } from 'lodash';
+import { widgetState } from 'state/widget';
 
 import { useSnapshot } from './aliased';
 

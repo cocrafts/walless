@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import type { Networks, Transaction } from '@walless/core';
-import { appState } from '@walless/engine';
+import type { Networks, TransactionHistory } from '@walless/core';
 import { View } from '@walless/gui';
+import { appState } from 'state/app';
 import assets from 'utils/assets';
 import type { NetworkInfo } from 'utils/helper';
 import { getNetworkInfo } from 'utils/helper';
@@ -12,7 +12,7 @@ import InformationDetails from './InformationDetails/InformationDetails';
 import AddressDetails from './AddressDetails';
 import TokenDetails from './TokenDetails';
 
-export const TransactionDetailsFeature: FC<Transaction> = ({
+export const TransactionDetailsFeature: FC<TransactionHistory> = ({
 	id,
 	date,
 	amount,

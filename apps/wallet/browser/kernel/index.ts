@@ -1,13 +1,13 @@
 import { logger, runtime } from '@walless/core';
 
 import { keepBackgroundAlive } from './utils/extension';
-import { injectModules } from './utils/ioc';
+import { initModules } from './utils/init';
 import { initializeMessaging } from './messaging';
 import { configurePWA } from './pwa';
 
 logger.info('Initializing kernel..');
 
-injectModules().then(async () => {
+initModules().then(async () => {
 	await Promise.all([initializeMessaging()]);
 });
 

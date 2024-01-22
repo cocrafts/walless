@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Networks } from '@walless/core';
-import { appState } from '@walless/engine';
 import { View } from '@walless/gui';
+import { appState } from 'state/app';
 import { environment } from 'utils/config';
 import { usePublicKeys, useSnapshot } from 'utils/hooks';
 

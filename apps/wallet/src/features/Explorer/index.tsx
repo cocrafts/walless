@@ -6,10 +6,10 @@ import Animated, {
 	useAnimatedRef,
 	useScrollViewOffset,
 } from 'react-native-reanimated';
-import { mockWidgets } from '@walless/engine';
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 import { StackHeader } from 'components/StackContainer';
+import { mockWidgets } from 'state/widget';
 import { useSafeAreaInsets, useWidgets } from 'utils/hooks';
 
 import ExplorerSearchBar from './SearchBar';

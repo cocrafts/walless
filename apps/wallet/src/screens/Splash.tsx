@@ -38,8 +38,8 @@ export const SplashScreen: FC = () => {
 			});
 		};
 
-		Promise.all([appActions.bootstrap(), playAnimate()]).then(([response]) => {
-			appActions.launchApp(response);
+		Promise.all([appActions.bootstrap(), playAnimate()]).then(() => {
+			appActions.launchApp();
 		});
 	}, []);
 

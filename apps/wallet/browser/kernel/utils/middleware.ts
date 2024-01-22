@@ -1,17 +1,17 @@
 import type { ConnectOptions, Networks } from '@walless/core';
-import { modules } from '@walless/ioc';
-import { utils } from '@walless/kernel';
 import {
 	PopupType,
 	RequestType,
 	ResponseCode,
 	ResponseMessage,
 } from '@walless/messaging';
+import { utils } from '@walless/network';
 import type { TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 
 import { closePopup, openPopup } from './popup';
 import { getRequestRecord, requestPool, respond } from './requestPool';
+import { storage } from './storage';
 import type { HandleMethod } from './types';
 
 export const getPrivateKey = (
@@ -24,7 +24,7 @@ export const getPrivateKey = (
 		}
 
 		try {
-			const privateKey = await utils.getPrivateKey(network, passcode);
+			const privateKey = await utils.getPrivateKey(storage, network, passcode);
 			next?.({ ...payload, privateKey });
 		} catch {
 			respond(payload.requestId, ResponseCode.WRONG_PASSCODE);
@@ -43,7 +43,7 @@ export const checkConnection: HandleMethod<{
 		return;
 	}
 
-	const domainResponse = await modules.storage.find(selectors.trustedDomains);
+	const domainResponse = await storage.find(selectors.trustedDomains);
 	const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 	const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
 	if (!savedDomain || !savedDomain.connect) {

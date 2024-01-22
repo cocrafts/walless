@@ -1,79 +1,81 @@
-import { logger } from '@walless/core';
-import { modules } from '@walless/ioc';
+import type { WalletInvitation } from '@walless/graphql';
+import { mutations, queries } from '@walless/graphql';
+import type { FirebaseUser } from 'utils/firebase';
+import { qlClient } from 'utils/graphql';
 
-import type { IFirebaseUser } from './helper';
-import { makeProfile, setProfile } from './helper';
+import { CustomAuth } from './w3a/tkey';
 import { initBySeedPhraseModule } from './keys';
-import { NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE } from './passcode';
 import { initAndRegisterWallet } from './recovery';
-import { getSharesStatus, key, ThresholdResult } from './w3a';
+import { signInWithGoogle } from './signInGoogle';
+import {
+	customAuthArgs,
+	importAvailableShares,
+	ThresholdResult,
+	tkey,
+} from './w3a';
 
-export interface TorusSignInOptions {
-	verifier: string;
-	verifierId: string;
-	privateKey: string;
-	handlePasscode: () => Promise<void>;
-	handleRecovery: () => Promise<void>;
-	handleDeprecatedPasscode: () => Promise<void>;
-	handleReady: () => Promise<void>;
-	handleError: () => Promise<void>;
-}
+const checkInvitationCode = async (
+	user: FirebaseUser,
+	invitationCode?: string,
+) => {
+	if (__DEV__) return;
 
-export const signInWithTorusKey = async ({
-	verifier,
-	verifierId,
-	privateKey,
-	handlePasscode,
-	handleRecovery,
-	handleDeprecatedPasscode,
-	handleReady,
-}: TorusSignInOptions) => {
-	const keyInstance = key();
+	const { walletInvitation } = await qlClient.request<{
+		walletInvitation: WalletInvitation;
+	}>(queries.walletInvitation, {
+		email: user.email,
+	});
 
-	keyInstance.serviceProvider.postboxKey = privateKey as never;
-	/* eslint-disable */
-	(keyInstance.serviceProvider as any).verifierName = verifier;
-	(keyInstance.serviceProvider as any).verifierId = verifierId;
-	/* eslint-enable */
-	await keyInstance.initialize();
-	const status = await getSharesStatus();
-
-	if (status === ThresholdResult.Initializing) {
-		await handlePasscode();
-	} else if (status === ThresholdResult.Missing) {
-		let isLegacyAccount = false;
-
-		try {
-			const q = keyInstance.modules.securityQuestions.getSecurityQuestions();
-			isLegacyAccount = q === 'universal-passcode';
-		} catch (error) {
-			logger.error('Failed to get security question', error);
-		}
-
-		const { totalShares } = keyInstance.getKeyDetails();
-		const migrated = totalShares > NUMBER_OF_SHARES_WITH_DEPRECATED_PASSCODE;
-		const isRecovery = !isLegacyAccount || migrated;
-
-		if (isRecovery) {
-			await handleRecovery();
-		} else {
-			await handleDeprecatedPasscode();
-		}
-	} else if (status === ThresholdResult.Ready) {
-		await handleReady();
+	if (!walletInvitation && invitationCode) {
+		const success = await qlClient.request<boolean>(
+			mutations.claimWalletInvitation,
+			{
+				code: invitationCode,
+				email: user.email,
+			},
+		);
+		if (!success) throw Error('Can not use this invitation code');
+	} else if (!walletInvitation && !invitationCode) {
+		throw Error('The account does not exist. Enter your Invitation code');
 	}
 };
 
-export const signInWithPasscode = async (
+const signInWithTorusKey = async (
+	user: FirebaseUser,
+): Promise<ThresholdResult> => {
+	const verifierToken = await user.getIdToken(true);
+	const verifier = customAuthArgs.web3AuthClientId;
+	const verifierId = user.uid;
+	const verifierParams = { verifierIdField: 'sub', verifier_id: user.uid };
+
+	const loginDetails = await CustomAuth.getTorusKey(
+		verifier,
+		verifierId,
+		verifierParams,
+		verifierToken,
+	);
+
+	await tkey.serviceProvider.init({
+		skipSw: true,
+		skipPrefetch: true,
+	});
+
+	tkey.serviceProvider.postboxKey = loginDetails.privateKey as never;
+	/* eslint-disable */
+	(tkey.serviceProvider as any).verifierName = verifier;
+	(tkey.serviceProvider as any).verifierId = verifierId;
+	/* eslint-enable */
+	await tkey.initialize();
+	const status = await importAvailableShares();
+
+	return status;
+};
+
+const signInWithPasscode = async (
 	passcode: string,
-	user: IFirebaseUser | null,
 	handleInitFail?: () => void,
 ): Promise<void> => {
-	if (!user?.uid) {
-		throw new Error('signInWithPasscode requires user profile from firebase');
-	}
-
-	const status = await getSharesStatus();
+	const status = await importAvailableShares();
 	if (status === ThresholdResult.Initializing) {
 		const registeredAccount = await initAndRegisterWallet();
 		if (!registeredAccount?.identifier) {
@@ -82,10 +84,15 @@ export const signInWithPasscode = async (
 		}
 	}
 
-	await key().reconstructKey();
-	await setProfile(makeProfile(user));
+	await tkey.reconstructKey();
 	await initBySeedPhraseModule(passcode);
-	await key().syncLocalMetadataTransitions();
-
-	modules.engine?.start();
+	await tkey.syncLocalMetadataTransitions();
 };
+
+export {
+	checkInvitationCode,
+	signInWithGoogle,
+	signInWithPasscode,
+	signInWithTorusKey,
+};
+export * from './w3a';

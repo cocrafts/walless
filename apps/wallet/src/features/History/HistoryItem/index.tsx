@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { ImageURISource } from 'react-native';
 import { StyleSheet, View } from 'react-native';
-import type { Transaction } from '@walless/core';
+import type { TransactionHistory } from '@walless/core';
 import { Hoverable } from '@walless/gui';
 import { showTransactionDetailsModal } from 'modals/TransactionDetailsModal';
 import assets from 'utils/assets';
@@ -11,7 +11,7 @@ import ItemAddress from './ItemAddress';
 import ItemAmount from './ItemAmount';
 import ItemTokenIcon from './ItemTokenIcon';
 
-const HistoryItem: FC<Transaction> = (transaction) => {
+const HistoryItem: FC<TransactionHistory> = (transaction) => {
 	const { type, amount, network, sender, receiver, status, token } =
 		transaction;
 	const networkInfo = getNetworkInfo(network);

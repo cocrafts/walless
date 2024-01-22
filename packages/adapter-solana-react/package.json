@@ -35,7 +35,7 @@
   "devDependencies": {
     "@solana/web3.js": "1.78.4",
     "@walless/sdk": "*",
-    "eslint": "8.38.0",
+    "eslint": "^8.51.0",
     "typescript": "5.3.3"
   }
 }

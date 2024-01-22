@@ -102,6 +102,7 @@ export interface CollectibleAccount {
 export interface Collectible {
 	network: string;
 	collectionId: string;
+	collectionAddress: string;
 	metadata: AssetMetadata;
 	account: CollectibleAccount;
 }

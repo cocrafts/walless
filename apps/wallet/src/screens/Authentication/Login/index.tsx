@@ -1,33 +1,36 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { appState } from '@walless/engine';
 import { Anchor, Text, View } from '@walless/gui';
-import { appActions } from 'state/app';
+import { appState } from 'state/app';
 import assets from 'utils/assets';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
+import { signIn } from './internal';
 import SignInHeader from './SignInHeader';
 import SignInInner from './SignInInner';
 
 export const LoginScreen: FC = () => {
+	const [loading, setLoading] = useState(false);
 	const insets = useSafeAreaInsets();
-	const { authenticationLoading, invitationCode, config } =
-		useSnapshot(appState);
+	const { invitationCode, config } = useSnapshot(appState);
 	const containerStyle = {
 		paddingTop: insets.top,
 		paddingBottom: insets.bottom,
 	};
-
 	const logoSize = 120;
+
+	const handleGoogleSignIn = async () => {
+		setLoading(true);
+		await signIn(invitationCode);
+		setLoading(false);
+	};
 
 	return (
 		<View style={[styles.container, containerStyle]}>
 			<View />
 			<SignInHeader logoSrc={assets.misc.walless} logoSize={logoSize} />
-			<SignInInner
-				onGoogleSignIn={() => appActions.signInWithGoogle(invitationCode)}
-				loading={authenticationLoading}
-			/>
+			<SignInInner onGoogleSignIn={handleGoogleSignIn} loading={loading} />
 			<View style={styles.footerContainer}>
 				<View style={styles.helpContainer}>
 					<Text>Having issues with log in? Visit </Text>

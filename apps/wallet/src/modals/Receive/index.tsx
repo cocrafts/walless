@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { Networks } from '@walless/core';
 import { runtime } from '@walless/core';
-import { keyState } from '@walless/engine';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -13,7 +12,7 @@ import {
 import ModalHeader from 'components/Modal/Header';
 import { ModalId } from 'modals/internal';
 import { getNetworkInfo } from 'utils/helper';
-import { useSnapshot } from 'valtio';
+import { usePublicKeys } from 'utils/hooks';
 
 import { modalStyles } from '../internal';
 
@@ -26,17 +25,15 @@ export interface ReceiveModalContext {
 }
 
 const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
-	const keyMap = useSnapshot(keyState);
+	const keys = usePublicKeys();
 
 	const walletList: WalletProps[] = [];
-	Object.values(keyMap).forEach((keyMap) => {
-		keyMap.forEach((key) => {
-			const networkInfo = getNetworkInfo(key.network);
-			walletList.push({
-				network: key.network.charAt(0).toUpperCase() + key.network.slice(1),
-				networkIcon: networkInfo?.icon ?? { uri: '/img/...' },
-				address: key._id,
-			});
+	keys.forEach((key) => {
+		const networkInfo = getNetworkInfo(key.network);
+		walletList.push({
+			network: key.network.charAt(0).toUpperCase() + key.network.slice(1),
+			networkIcon: networkInfo?.icon as never,
+			address: key._id,
 		});
 	});
 

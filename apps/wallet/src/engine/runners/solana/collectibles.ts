@@ -37,12 +37,8 @@ export const getCollectiblesOnChain = async (
 
 	const nfts = await Promise.all(
 		rawNfts.map(async (metadata) => {
-			const nft = await loadCollectibleMetadata(mpl, metadata);
-			return constructCollectibleDocument(
-				wallet.toString(),
-				nft as GenericNft,
-				endpoint,
-			);
+			const nft = await loadCollectibleMetadata(mpl, metadata, wallet);
+			return constructCollectibleDocument(wallet.toString(), nft, endpoint);
 		}),
 	);
 
@@ -90,10 +86,12 @@ export const updateCollectibleToStorage = async (
 export const loadCollectibleMetadata = async (
 	mpl: Metaplex,
 	metadata: Metadata | Nft | Sft,
-) => {
-	let nft = await mpl
-		.nfts()
-		.load({ metadata: metadata as Metadata<JsonMetadata<string>> });
+	owner: PublicKey,
+): Promise<SftWithToken | NftWithToken> => {
+	let nft = await mpl.nfts().load({
+		metadata: metadata as Metadata<JsonMetadata<string>>,
+		tokenOwner: owner,
+	});
 
 	// TODO: need to resolve fetch metadata of nft using metaplex on mobile
 	if (metadata.jsonLoaded && !metadata.json) {
@@ -101,6 +99,7 @@ export const loadCollectibleMetadata = async (
 			const nftByMint = await mpl.nfts().findByMint({
 				mintAddress: metadata.mintAddress,
 				loadJsonMetadata: metadata.jsonLoaded,
+				tokenOwner: owner,
 			});
 			const jsonRes = await fetch(metadata.uri, { method: 'GET' });
 			nft = {
@@ -111,12 +110,12 @@ export const loadCollectibleMetadata = async (
 		}
 	}
 
-	return nft;
+	return nft as SftWithToken | NftWithToken;
 };
 
 export const constructCollectibleDocument = (
 	address: string,
-	nft: GenericNft,
+	nft: SftWithToken | NftWithToken,
 	endpoint: Endpoint,
 ) => {
 	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
@@ -143,8 +142,9 @@ export const constructCollectibleDocument = (
 		},
 		endpoint,
 		account: {
-			mint: nft.mint.address.toString(),
 			owner: address,
+			mint: nft.mint.address.toString(),
+			address: nft.token.address.toString(),
 			amount: 1, // default filter of metaplex (just get account which has amount equal to 1)
 		},
 	};

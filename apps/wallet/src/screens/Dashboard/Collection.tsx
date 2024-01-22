@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import type { UnknownObject } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import CollectionCard from 'components/CollectionCard';
@@ -16,9 +17,7 @@ export const CollectionFeat: FC = () => {
 		gap: gridGap,
 	});
 
-	const {
-		params: { id = '' },
-	} = useRoute() as never;
+	const id = (useRoute().params as UnknownObject)?.id;
 	const insets = useSafeAreaInsets();
 	const containerStyle: ViewStyle = {
 		marginTop: insets.top,

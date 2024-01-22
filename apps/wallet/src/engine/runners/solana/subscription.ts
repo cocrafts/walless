@@ -104,44 +104,43 @@ const handleSPLTokenChange = async (
 	const isToken = tokenAccount.tokenAmount.decimals !== 0;
 	if (isToken) {
 		const id = `${wallet.toString()}/token/${tokenAccount.mint}`;
-			const storedToken = await getTokenByIdFromStorage(id);
-			if (storedToken) {
-				await updateTokenBalanceToStorage(id, tokenAccount.tokenAmount.amount);
-			} else {
-				const tokenDocument = await initTokenDocumentWithMetadata(
-					connection,
-					endpoint,
-					tokenAccount,
-				);
-				await addTokenToStorage(tokenDocument);
+		const storedToken = await getTokenByIdFromStorage(id);
+		if (storedToken) {
+			await updateTokenBalanceToStorage(id, tokenAccount.tokenAmount.amount);
+		} else {
+			const tokenDocument = await initTokenDocumentWithMetadata(
+				connection,
+				endpoint,
+				tokenAccount,
+			);
+			await addTokenToStorage(tokenDocument);
 		}
 	} else {
 		const id = `${wallet.toString()}/collectible/${tokenAccount.mint}`;
-			const storedCollectible = await getCollectibleByIdFromStorage(id);
-			if (storedCollectible) {
-				await updateCollectibleAmountToStorage(
-					id,
-					parseInt(tokenAccount.tokenAmount.amount),
-				);
-			} else {
-				const mpl = new Metaplex(connection);
+		const storedCollectible = await getCollectibleByIdFromStorage(id);
+		if (storedCollectible) {
+			await updateCollectibleAmountToStorage(
+				id,
+				parseInt(tokenAccount.tokenAmount.amount),
+			);
+		} else {
+			const mpl = new Metaplex(connection);
 			const collectible = (await mpl.nfts().findByMint({
-					mintAddress: new PublicKey(tokenAccount.mint),
-					tokenAddress: tokenAccount.publicKey,
+				mintAddress: new PublicKey(tokenAccount.mint),
+				tokenAddress: tokenAccount.publicKey,
 				tokenOwner: wallet,
 			})) as SftWithToken | NftWithToken;
 
-				const collectibleDocument = constructCollectibleDocument(
-					wallet.toString(),
-					collectible,
-					endpoint,
-				);
-				await updateCollectibleToStorage(
-					connection,
-					endpoint,
-					collectibleDocument,
-				);
-			}
+			const collectibleDocument = constructCollectibleDocument(
+				wallet.toString(),
+				collectible,
+				endpoint,
+			);
+			await updateCollectibleToStorage(
+				connection,
+				endpoint,
+				collectibleDocument,
+			);
 		}
+	}
 };
-

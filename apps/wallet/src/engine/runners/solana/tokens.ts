@@ -15,6 +15,7 @@ export const getTokenDocumentsOnChain = async (
 	connection: Connection,
 	endpoint: Endpoint,
 	wallet: PublicKey,
+	accounts: ParsedTokenAccountWithAddress[],
 ) => {
 	const nativeTokenPromise = getNativeTokenDocument(
 		connection,
@@ -22,10 +23,6 @@ export const getTokenDocumentsOnChain = async (
 		wallet,
 	);
 	const tokenPromises: Promise<TokenDocument>[] = [nativeTokenPromise];
-
-	const accounts = await throttle(async () =>
-		getParsedTokenAccountsByOwner(connection, wallet),
-	)();
 
 	const splTokensPromises = accounts
 		.filter((a) => a.tokenAmount.decimals !== 0)
@@ -70,7 +67,7 @@ const getNativeTokenDocument = async (
 	} satisfies TokenDocument;
 };
 
-const getParsedTokenAccountsByOwner = async (
+export const getParsedTokenAccountsByOwner = async (
 	connection: Connection,
 	ownerPubkey: PublicKey,
 ) => {
@@ -82,7 +79,7 @@ const getParsedTokenAccountsByOwner = async (
 
 	return accounts.value.map((ele) => {
 		return {
-			publicKey: ele.pubkey.toString(),
+			publicKey: ele.pubkey,
 			...ele.account.data.parsed.info,
 		} as ParsedTokenAccountWithAddress;
 	});

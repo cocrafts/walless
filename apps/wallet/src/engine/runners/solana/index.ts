@@ -10,8 +10,12 @@ import {
 	getCollectiblesOnChain,
 	updateCollectibleToStorage,
 } from './collectibles';
+import { throttle } from './internal';
 import { watchAccount } from './subscription';
-import { getTokenDocumentsOnChain } from './tokens';
+import {
+	getParsedTokenAccountsByOwner,
+	getTokenDocumentsOnChain,
+} from './tokens';
 import type { SolanaContext } from './types';
 
 const endpointUrl: Record<string, string> = {
@@ -29,27 +33,28 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 
 	return {
 		start: async () => {
-			const promises = keys.map((key) => {
+			const promises = keys.map(async (key) => {
 				const wallet = new PublicKey(key._id);
+				const accounts = await throttle(async () =>
+					getParsedTokenAccountsByOwner(connection, wallet),
+				)();
+
 				return [
-					getTokenDocumentsOnChain(connection, endpoint, wallet).then(
+					getTokenDocumentsOnChain(connection, endpoint, wallet, accounts).then(
 						(tokens) => {
 							addTokensToStorage(tokens);
-							tokens.map((t) => {
-								const tokenAccountAddress = new PublicKey(t.account.address);
-								watchAccount(connection, endpoint, wallet, tokenAccountAddress);
-							});
 						},
 					),
 					getCollectiblesOnChain(connection, endpoint, wallet).then(
 						(collectibles) => {
 							collectibles.map(async (c) => {
-								const tokenAccountAddress = new PublicKey(c.account.address);
-								watchAccount(connection, endpoint, wallet, tokenAccountAddress);
 								await updateCollectibleToStorage(connection, endpoint, c);
 							});
 						},
 					),
+					...accounts.map((a) => {
+						return watchAccount(connection, endpoint, wallet, a.publicKey);
+					}),
 				] as never[];
 			});
 

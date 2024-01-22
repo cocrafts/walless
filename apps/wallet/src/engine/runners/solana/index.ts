@@ -1,6 +1,8 @@
 import { clusterApiUrl, Connection } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import { type PublicKeyDocument, selectors } from '@walless/store';
+import type { PublicKeyDocument } from '@walless/store';
+import { selectors } from '@walless/store';
+import { environment } from 'utils/config';
 import { addTokensToStorage, storage } from 'utils/storage';
 
 import type { CreateFunction } from '../../types';
@@ -15,7 +17,7 @@ import type { SolanaContext } from './types';
 const endpointUrl: Record<string, string> = {
 	devnet: clusterApiUrl('devnet'),
 	testnet: clusterApiUrl('testnet'),
-	mainnet: SOLANA_CLUSTER_URL,
+	mainnet: environment.SOLANA_CLUSTER_URL,
 };
 
 export const createSolanaRunner: CreateFunction = async (config) => {

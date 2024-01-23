@@ -7,6 +7,7 @@ import { historyState } from 'state/history';
 import { keyState } from 'state/keys';
 import { runtimeActions } from 'state/runtime';
 import { widgetState } from 'state/widget';
+import { solMint } from 'utils/constants';
 import { useSnapshot } from 'valtio';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
@@ -57,8 +58,9 @@ export const useTokens = (
 			const isNetworkValid = network ? item.network === network : true;
 			const isAccountValid = address ? item.account?.address === address : true;
 			const isAvailable = item.account.balance !== '0';
+			const isSol = item.account.mint === solMint;
 
-			if (isNetworkValid && isAccountValid && isAvailable) {
+			if (isNetworkValid && isAccountValid && (isSol || isAvailable)) {
 				const { quotes, balance, decimals } = item.account;
 				const quote = quotes?.[currency] || 0;
 

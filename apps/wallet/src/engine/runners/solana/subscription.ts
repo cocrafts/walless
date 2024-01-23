@@ -48,7 +48,6 @@ export const watchAccount = async (
 	const id = connection.onAccountChange(
 		tokenAccountAddress,
 		async (info) => {
-			console.log('on account change', tokenAccountAddress);
 			const isNativeToken = info.data.byteLength === 0;
 			if (isNativeToken) {
 				handleNativeTokenChange(wallet, info);
@@ -99,7 +98,6 @@ const handleSPLTokenChange = async (
 		);
 		return;
 	}
-	console.log(inspect(tokenAccount));
 
 	const isToken = tokenAccount.tokenAmount.decimals !== 0;
 	if (isToken) {

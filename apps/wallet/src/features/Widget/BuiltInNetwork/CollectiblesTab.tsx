@@ -38,7 +38,6 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 			<View style={styles.contentContainer}>
 				{width > 0 &&
 					collections.map((ele, index) => {
-						console.log('collection', ele, index);
 						return (
 							<CollectionCard
 								key={index}

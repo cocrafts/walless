@@ -1,3 +1,4 @@
+import { logger } from '@walless/core';
 import type { PureMessagePayload } from '@walless/messaging';
 import { createEncryptionKeyVault, createMessenger } from '@walless/messaging';
 import type { SettingDocument } from '@walless/store';
@@ -47,10 +48,10 @@ export const registerServiceWorker = async (
 	if ('serviceWorker' in navigator) {
 		try {
 			const reg = await navigator.serviceWorker.register(workerUrl, options);
-			console.log('Service worker registered:', reg);
+			logger.info('Service worker registered:', reg);
 			return reg;
 		} catch (error) {
-			console.error('Service worker registration failed:', error);
+			logger.error('Service worker registration failed:', error);
 			throw error;
 		}
 	} else {

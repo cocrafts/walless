@@ -6,10 +6,16 @@ import { checkValidAddress } from 'utils/transaction';
 import { txActions, txContext } from '../context';
 
 const RecipientInput = () => {
-	const { receiver, token } = useSnapshot(txContext).tx;
+	const { receiver, token, collectible, type } = useSnapshot(txContext).tx;
 	const checkRecipient = () => {
-		if (!token && receiver.length === 0) return;
-		return checkValidAddress(receiver, token?.network as Networks).message;
+		if (type === 'Token') {
+			if (!token && receiver.length === 0) return;
+			return checkValidAddress(receiver, token?.network as Networks).message;
+		} else {
+			if (!collectible && receiver.length === 0) return;
+			return checkValidAddress(receiver, collectible?.network as Networks)
+				.message;
+		}
 	};
 
 	return (

@@ -44,7 +44,7 @@ export const SendFeature: FC<Props> = ({ network, collectible }) => {
 			const collection = collections.find(
 				(ele) => ele._id === collectible.collectionId,
 			);
-			txActions.update({ collectible, collection });
+			txActions.update({ collectible, collection, type: 'Collectible' });
 		}
 	}, []);
 

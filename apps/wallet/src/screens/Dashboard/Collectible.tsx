@@ -1,19 +1,13 @@
-import type { FC } from 'react';
-import { useMemo } from 'react';
-import type { StyleProp, ViewStyle } from 'react-native';
+import { useEffect, useMemo } from 'react';
+import type { ViewStyle } from 'react-native';
 import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Button, Text, View } from '@walless/gui';
 import { showSendTokenModal } from 'modals/SendToken';
 import { useNfts, useSafeAreaInsets } from 'utils/hooks';
-import { navigationRef } from 'utils/navigation';
+import { navigateBack, navigationRef } from 'utils/navigation';
 
-interface Props {
-	id: string;
-	style?: StyleProp<ViewStyle>;
-}
-
-export const CollectibleFeat: FC<Props> = () => {
+export const CollectibleFeat = () => {
 	const { collections, collectibles } = useNfts();
 	const insets = useSafeAreaInsets();
 	const {
@@ -30,11 +24,7 @@ export const CollectibleFeat: FC<Props> = () => {
 	}, [collectibles]);
 
 	const curCollection = useMemo(() => {
-		if (!curCollectible) {
-			navigationRef.goBack();
-			return;
-		}
-		return collections.find((ele) => ele._id === curCollectible.collectionId);
+		return collections.find((ele) => ele._id === curCollectible?.collectionId);
 	}, [curCollectible, collections]);
 
 	const handlePressSend = () => {
@@ -43,6 +33,13 @@ export const CollectibleFeat: FC<Props> = () => {
 			collectible: curCollectible,
 		});
 	};
+
+	useEffect(() => {
+		// TODO: need to resolve and remove can go back if possible
+		if (!curCollectible && navigationRef.canGoBack()) {
+			navigateBack();
+		}
+	}, [curCollectible]);
 
 	return (
 		<View style={[styles.container, containerStyle]}>

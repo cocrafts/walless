@@ -67,9 +67,9 @@ export interface AssetMetadata {
 }
 
 export interface TokenAccount {
-	mint?: string;
-	owner?: string;
-	address?: string;
+	mint: string;
+	owner: string;
+	address: string;
 	quotes?: Record<string, number>;
 	balance: string;
 	decimals: number;
@@ -90,12 +90,12 @@ export interface Token {
 export interface Collection {
 	network: string;
 	metadata?: AssetMetadata;
-	count: number;
 }
 
 export interface CollectibleAccount {
 	mint: string;
 	owner: string;
+	address: string;
 	amount: number;
 }
 

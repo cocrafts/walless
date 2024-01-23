@@ -1,3 +1,4 @@
+import { PublicKey } from '@metaplex-foundation/js';
 import { clusterApiUrl, Connection } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import type { PublicKeyDocument } from '@walless/store';
@@ -11,7 +12,12 @@ import {
 	getCollectiblesOnChain,
 	updateCollectibleToStorage,
 } from './collectibles';
-import { getTokenDocumentsOnChain } from './tokens';
+import { throttle } from './internal';
+import { watchAccount } from './subscription';
+import {
+	getParsedTokenAccountsByOwner,
+	getTokenDocumentsOnChain,
+} from './tokens';
 import type { SolanaContext } from './types';
 
 const endpointUrl: Record<string, string> = {
@@ -27,23 +33,30 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 	const keys = (await storage.find<PublicKeyDocument>(selectors.solanaKeys))
 		.docs;
 
-	const context = { connection, endpoint };
-
 	return {
 		start: async () => {
-			const promises = keys.map((key) => {
-				const walletAddress = key._id;
+			const promises = keys.map(async (key) => {
+				const wallet = new PublicKey(key._id);
+				const accounts = await throttle(async () =>
+					getParsedTokenAccountsByOwner(connection, wallet),
+				)();
+
 				return [
-					getTokenDocumentsOnChain(context, walletAddress).then((tokens) => {
-						addTokensToStorage(tokens);
-					}),
-					getCollectiblesOnChain(context, walletAddress).then(
+					getTokenDocumentsOnChain(connection, endpoint, wallet, accounts).then(
+						(tokens) => {
+							addTokensToStorage(tokens);
+						},
+					),
+					getCollectiblesOnChain(connection, endpoint, wallet).then(
 						(collectibles) => {
-							collectibles.map(async (collectible) => {
-								await updateCollectibleToStorage(context, collectible);
+							collectibles.map(async (c) => {
+								await updateCollectibleToStorage(connection, endpoint, c);
 							});
 						},
 					),
+					...accounts.map((a) => {
+						return watchAccount(connection, endpoint, wallet, a.publicKey);
+					}),
 				] as never[];
 			});
 
@@ -52,7 +65,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 		stop: async () => {},
 		restart: async () => {},
 		getContext: (): SolanaContext => {
-			return context;
+			return { connection, endpoint };
 		},
 	};
 };

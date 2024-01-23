@@ -1,13 +1,13 @@
 import { type FC } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-import type { CollectionDocument } from '@walless/store';
 import CollectionCard from 'components/CollectionCard';
+import type { WrappedCollection } from 'utils/hooks';
 import { useLazyGridLayout } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 
 interface Props {
-	collections?: CollectionDocument[];
+	collections?: WrappedCollection[];
 }
 
 export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
@@ -16,7 +16,7 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 		gap: gridGap,
 	});
 
-	const handlePressItem = (ele: CollectionDocument) => {
+	const handlePressItem = (ele: WrappedCollection) => {
 		const collectionId = ele._id.split('/')[2];
 		navigate('Dashboard', {
 			screen: 'Explore',
@@ -37,15 +37,17 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 			)}
 			<View style={styles.contentContainer}>
 				{width > 0 &&
-					collections.map((ele, index) => (
-						<CollectionCard
-							key={index}
-							item={ele}
-							collectibleCount={ele.count}
-							onPress={() => handlePressItem(ele)}
-							size={width}
-						/>
-					))}
+					collections.map((ele, index) => {
+						return (
+							<CollectionCard
+								key={index}
+								item={ele}
+								collectibleCount={ele.count}
+								onPress={() => handlePressItem(ele)}
+								size={width}
+							/>
+						);
+					})}
 			</View>
 		</ScrollView>
 	);

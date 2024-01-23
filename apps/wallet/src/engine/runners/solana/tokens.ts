@@ -1,6 +1,6 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import type { Connection, TokenAmount } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import type { Connection } from '@solana/web3.js';
+import type { PublicKey } from '@solana/web3.js';
 import type { Endpoint } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
@@ -9,23 +9,20 @@ import { solMint } from 'utils/constants';
 
 import { throttle } from './internal';
 import { getMetadata, solMetadata } from './metadata';
-import type { SolanaContext } from './types';
+import type { ParsedTokenAccountWithAddress } from './types';
 
 export const getTokenDocumentsOnChain = async (
-	{ connection, endpoint }: SolanaContext,
-	wallet: string,
+	connection: Connection,
+	endpoint: Endpoint,
+	wallet: PublicKey,
+	accounts: ParsedTokenAccountWithAddress[],
 ) => {
-	const walletPublicKey = new PublicKey(wallet);
 	const nativeTokenPromise = getNativeTokenDocument(
 		connection,
 		endpoint,
-		walletPublicKey,
+		wallet,
 	);
 	const tokenPromises: Promise<TokenDocument>[] = [nativeTokenPromise];
-
-	const accounts = await throttle(async () =>
-		getParsedTokenAccountsByOwner(connection, walletPublicKey),
-	)();
 
 	const splTokensPromises = accounts
 		.filter((a) => a.tokenAmount.decimals !== 0)
@@ -70,15 +67,7 @@ const getNativeTokenDocument = async (
 	} satisfies TokenDocument;
 };
 
-type ParsedTokenAccount = {
-	publicKey: PublicKey;
-	mint: string;
-	owner: string;
-	state: string;
-	tokenAmount: TokenAmount;
-};
-
-const getParsedTokenAccountsByOwner = async (
+export const getParsedTokenAccountsByOwner = async (
 	connection: Connection,
 	ownerPubkey: PublicKey,
 ) => {
@@ -90,16 +79,16 @@ const getParsedTokenAccountsByOwner = async (
 
 	return accounts.value.map((ele) => {
 		return {
-			publicKey: ele.pubkey.toString(),
+			publicKey: ele.pubkey,
 			...ele.account.data.parsed.info,
-		} as ParsedTokenAccount;
+		} as ParsedTokenAccountWithAddress;
 	});
 };
 
-const initTokenDocumentWithMetadata = async (
+export const initTokenDocumentWithMetadata = async (
 	connection: Connection,
 	endpoint: Endpoint,
-	account: ParsedTokenAccount,
+	account: ParsedTokenAccountWithAddress,
 ): Promise<TokenDocument> => {
 	const metadata = await getMetadata(connection, account.mint);
 

@@ -15,30 +15,28 @@ import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import {
 	addCollectibleToStorage,
 	addCollectionToStorage,
-	getCollectibleByIdFromStorage,
 	getCollectionByIdFromStorage,
 	storage,
-	updateCollectionAmountToStorage,
 } from 'utils/storage';
 
 import { throttle } from './internal';
-import type { SolanaContext } from './types';
 
-type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
+export type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
 
 export const getCollectiblesOnChain = async (
-	{ connection, endpoint }: SolanaContext,
-	address: string,
+	connection: Connection,
+	endpoint: Endpoint,
+	wallet: PublicKey,
 ): Promise<CollectibleDocument[]> => {
 	const mpl = new Metaplex(connection);
 	const rawNfts = await throttle(() => {
-		return mpl.nfts().findAllByOwner({ owner: new PublicKey(address) });
+		return mpl.nfts().findAllByOwner({ owner: wallet });
 	})();
 
 	const nfts = await Promise.all(
 		rawNfts.map(async (metadata) => {
-			const nft = await loadCollectibleMetadata(mpl, metadata);
-			return constructCollectibleDocument(address, nft as GenericNft, endpoint);
+			const nft = await loadCollectibleMetadata(mpl, metadata, wallet);
+			return constructCollectibleDocument(wallet.toString(), nft, endpoint);
 		}),
 	);
 
@@ -51,7 +49,8 @@ type UpdateCollectibleResult = {
 };
 
 export const updateCollectibleToStorage = async (
-	{ connection, endpoint }: SolanaContext,
+	connection: Connection,
+	endpoint: Endpoint,
 	collectible: CollectibleDocument,
 ): Promise<UpdateCollectibleResult> => {
 	let collection: CollectionDocument | undefined;
@@ -60,7 +59,6 @@ export const updateCollectibleToStorage = async (
 			...collectible,
 			_id: collectible.collectionId,
 			type: 'Collection',
-			count: 1,
 		};
 
 		const res = await addCollectionToStorage(
@@ -85,10 +83,12 @@ export const updateCollectibleToStorage = async (
 export const loadCollectibleMetadata = async (
 	mpl: Metaplex,
 	metadata: Metadata | Nft | Sft,
-) => {
-	let nft = await mpl
-		.nfts()
-		.load({ metadata: metadata as Metadata<JsonMetadata<string>> });
+	owner: PublicKey,
+): Promise<SftWithToken | NftWithToken> => {
+	let nft = await mpl.nfts().load({
+		metadata: metadata as Metadata<JsonMetadata<string>>,
+		tokenOwner: owner,
+	});
 
 	// TODO: need to resolve fetch metadata of nft using metaplex on mobile
 	if (metadata.jsonLoaded && !metadata.json) {
@@ -96,6 +96,7 @@ export const loadCollectibleMetadata = async (
 			const nftByMint = await mpl.nfts().findByMint({
 				mintAddress: metadata.mintAddress,
 				loadJsonMetadata: metadata.jsonLoaded,
+				tokenOwner: owner,
 			});
 			const jsonRes = await fetch(metadata.uri, { method: 'GET' });
 			nft = {
@@ -106,12 +107,12 @@ export const loadCollectibleMetadata = async (
 		}
 	}
 
-	return nft;
+	return nft as SftWithToken | NftWithToken;
 };
 
 export const constructCollectibleDocument = (
 	address: string,
-	nft: GenericNft,
+	nft: SftWithToken | NftWithToken,
 	endpoint: Endpoint,
 ) => {
 	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
@@ -138,8 +139,9 @@ export const constructCollectibleDocument = (
 		},
 		endpoint,
 		account: {
-			mint: nft.mint.address.toString(),
 			owner: address,
+			mint: nft.mint.address.toString(),
+			address: nft.token.address.toString(),
 			amount: 1, // default filter of metaplex (just get account which has amount equal to 1)
 		},
 	};
@@ -156,9 +158,6 @@ export const updateRelatedCollection = async (
 
 	const storedCollection = await getCollectionByIdFromStorage(
 		collectible.collectionId,
-	);
-	const storedCollectible = await getCollectibleByIdFromStorage(
-		collectible._id,
 	);
 
 	if (!storedCollection) {
@@ -177,16 +176,9 @@ export const updateRelatedCollection = async (
 				imageUri: collectionMetadata?.json?.image,
 				symbol: collectionMetadata?.json?.symbol,
 			},
-			count: 1,
 		};
 
 		const res = await addCollectionToStorage(collection._id, collection);
-		return res?.doc;
-	} else if (!storedCollectible) {
-		const res = await updateCollectionAmountToStorage(
-			collectible.collectionId,
-			(storedCollection.count += 1),
-		);
 		return res?.doc;
 	} else {
 		return await storage.get<CollectionDocument>(collectible.collectionId);

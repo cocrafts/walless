@@ -2,17 +2,16 @@ import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
-import { aptosState } from '@walless/engine';
 import type { SlideOption } from '@walless/gui';
+import type { TabAble, TabItemStyle } from '@walless/gui';
 import { Slider, SliderTabs, View } from '@walless/gui';
-import type { TabItemStyle } from '@walless/gui/components/SliderTabs/TabItem';
-import { modules } from '@walless/ioc';
-import type { Provider } from 'aptos';
+import { engine } from 'engine';
+import type { AptosContext } from 'engine/runners';
+import { aptosState } from 'state/assets';
 import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import CollectiblesTab from '../CollectiblesTab';
-import type { TabAble } from '../SliderTabs';
 
 import DirectTransfer from './DirectTransfer';
 import PendingTokens from './PendingTokens';
@@ -29,8 +28,8 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 
 	useEffect(() => {
 		const getFee = async () => {
-			const conn = modules.engine.getConnection<Provider>(Networks.aptos);
-			const fee = await conn.estimateGasPrice();
+			const { provider } = engine.getContext<AptosContext>(Networks.aptos);
+			const fee = await provider.estimateGasPrice();
 			setFee(fee.gas_estimate / 10 ** APTOS_COIN_DECIMALS);
 		};
 		getFee();

@@ -1,8 +1,14 @@
-import { solanaHandler } from '@walless/kernel';
+import { clusterApiUrl, Connection } from '@solana/web3.js';
 import { ResponseCode } from '@walless/messaging';
+import { solanaHandler } from '@walless/network';
+import { environment } from 'utils/config';
 
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
+
+const connection = new Connection(
+	__DEV__ ? clusterApiUrl('devnet') : environment.SOLANA_CLUSTER_URL,
+);
 
 export const signMessage: HandleMethod<{
 	privateKey?: Uint8Array;
@@ -45,6 +51,7 @@ export const signAndSendTransaction: HandleMethod<{
 	}
 
 	const signatureString = await solanaHandler.signAndSendTransaction(
+		connection,
 		payload.transaction,
 		payload.privateKey,
 	);
@@ -62,6 +69,7 @@ export const signTransactionAbstractionFee: HandleMethod<{
 
 	const signatureString =
 		await solanaHandler.signAndSendTransactionAbstractionFee(
+			environment.GASILON_ENDPOINT,
 			payload.transaction,
 			payload.privateKey,
 		);

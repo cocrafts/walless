@@ -2,7 +2,6 @@ import { TransactionBlock } from '@mysten/sui.js';
 import { VersionedTransaction } from '@solana/web3.js';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { HandleAptosFunction } from '@walless/ioc';
 import type { ResponsePayload } from '@walless/messaging';
 import { RequestType } from '@walless/messaging';
 import { sendRequest } from 'bridge';
@@ -70,10 +69,14 @@ export const createAndSend = async (
 	return res as ResponsePayload;
 };
 
-export const handleAptosOnChainAction: HandleAptosFunction = async ({
+export const handleAptosOnChainAction = async ({
 	passcode,
 	payload,
 	type,
+}: {
+	passcode: string;
+	type: RequestType;
+	payload: unknown;
 }) => {
 	const res = await sendRequest({
 		type,

@@ -1,5 +1,6 @@
-import { suiHandler } from '@walless/kernel';
+import { Connection, JsonRpcProvider } from '@mysten/sui.js';
 import { ResponseCode } from '@walless/messaging';
+import { suiHandler } from '@walless/network';
 
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
@@ -14,6 +15,25 @@ type TransactionPayload = {
 	transaction?: string;
 };
 
+export const suiEndpoints = {
+	devnet: {
+		fullnode: 'https://fullnode.devnet.sui.io',
+		faucet: 'https://faucet.devnet.sui.io/gas',
+	},
+	testnet: {
+		fullnode: 'https://fullnode.testnet.sui.io',
+		faucet: 'https://faucet.testnet.sui.io/gas',
+	},
+	mainnet: {
+		fullnode: 'https://fullnode.mainnet.sui.io',
+		faucet: 'https://faucet.mainnet.sui.io/gas',
+	},
+};
+
+const rpcProvider = new JsonRpcProvider(
+	new Connection(__DEV__ ? suiEndpoints.devnet : suiEndpoints.mainnet),
+);
+
 export const signMessage: HandleMethod<MessagePayload> = async ({
 	payload,
 }) => {
@@ -22,7 +42,11 @@ export const signMessage: HandleMethod<MessagePayload> = async ({
 	}
 
 	const { requestId, message, privateKey } = payload;
-	const signedMessage = await suiHandler.signMessage(message, privateKey);
+	const signedMessage = await suiHandler.signMessage(
+		rpcProvider,
+		message,
+		privateKey,
+	);
 	respond(requestId, ResponseCode.SUCCESS, { signedMessage });
 };
 
@@ -35,6 +59,7 @@ export const signTransaction: HandleMethod<TransactionPayload> = async ({
 
 	const { requestId, transaction, privateKey } = payload;
 	const signedTransaction = await suiHandler.signTransaction(
+		rpcProvider,
 		transaction,
 		privateKey,
 	);
@@ -50,6 +75,7 @@ export const signAndExecuteTransaction: HandleMethod<
 
 	const { requestId, transaction, privateKey } = payload;
 	const signedTransaction = await suiHandler.signAndExecuteTransaction(
+		rpcProvider,
 		transaction,
 		privateKey,
 	);

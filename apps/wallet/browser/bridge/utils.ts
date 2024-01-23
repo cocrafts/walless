@@ -1,4 +1,4 @@
-import { runtime } from '@walless/core';
+import { logger } from '@walless/core';
 import type { PureMessagePayload } from '@walless/messaging';
 import { createEncryptionKeyVault, createMessenger } from '@walless/messaging';
 import type { SettingDocument } from '@walless/store';
@@ -17,26 +17,22 @@ export const encryptionKeyVault = createEncryptionKeyVault(storage);
 export const encryptedMessenger = createMessenger(encryptionKeyVault);
 
 export const launchSignInTab = async () => {
-	if (!runtime.isExtension) return;
 	const settings = await storage.safeGet<SettingDocument>('settings');
 
 	if (!settings?.profile?.email) {
-		chrome.tabs.query(
-			{ url: `${chrome.runtime.getURL('index.html')}*` },
-			(tabs) => {
-				if (tabs.length <= 0) {
-					chrome.tabs.create({
-						url: chrome.runtime.getURL('index.html'),
-						active: true,
-					});
+		chrome.tabs.query({ url: `${chrome.runtime.getURL('/')}*` }, (tabs) => {
+			if (tabs.length <= 0) {
+				chrome.tabs.create({
+					url: chrome.runtime.getURL('index.html'),
+					active: true,
+				});
 
-					/* close extension popup */
-					chrome.extension.getViews({ type: 'popup' }).forEach((view) => {
-						view.close();
-					});
-				}
-			},
-		);
+				/* close extension popup */
+				chrome.extension.getViews({ type: 'popup' }).forEach((view) => {
+					view.close();
+				});
+			}
+		});
 	}
 };
 
@@ -52,10 +48,10 @@ export const registerServiceWorker = async (
 	if ('serviceWorker' in navigator) {
 		try {
 			const reg = await navigator.serviceWorker.register(workerUrl, options);
-			console.log('Service worker registered:', reg);
+			logger.info('Service worker registered:', reg);
 			return reg;
 		} catch (error) {
-			console.error('Service worker registration failed:', error);
+			logger.error('Service worker registration failed:', error);
 			throw error;
 		}
 	} else {

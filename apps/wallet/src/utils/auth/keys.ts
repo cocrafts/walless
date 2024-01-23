@@ -13,7 +13,7 @@ import { decode } from 'bs58';
 import { derivePath } from 'ed25519-hd-key';
 import { storage } from 'utils/storage';
 
-import { key, SeedPhraseFormatType } from './w3a';
+import { SeedPhraseFormatType, tkey } from './w3a';
 
 export interface DerivationOptions {
 	path: string;
@@ -40,15 +40,15 @@ export const defaultPrefixDerivationPaths: DerivationOptions[] = [
 ];
 
 export const initBySeedPhraseModule = async (passcode: string) => {
-	let seedPhrases = await key().modules.seedPhraseModule.getSeedPhrases();
+	let seedPhrases = await tkey.modules.seedPhraseModule.getSeedPhrases();
 
 	if (seedPhrases.length === 0) {
-		await key().modules.seedPhraseModule.setSeedPhrase(
+		await tkey.modules.seedPhraseModule.setSeedPhrase(
 			SeedPhraseFormatType.PRIMARY,
 			generateMnemonic(),
 		);
 
-		seedPhrases = await key().modules.seedPhraseModule.getSeedPhrases();
+		seedPhrases = await tkey.modules.seedPhraseModule.getSeedPhrases();
 	}
 
 	const forSeedPhrasePromises = seedPhrases.map(async (storedSeed) => {
@@ -134,95 +134,4 @@ const generateAndStoreKeypairs = async (
 			logger.error('insert keys error', e);
 		}
 	}
-};
-
-/**
- * @deprecated this method should be replaced by initBySeedPhrase
- */
-export const initByPrivateKeyModule = async (passcode: string) => {
-	const privateKeys = await key().modules.privateKeyModule.getPrivateKeys();
-	if (privateKeys.length === 0) {
-		await key().modules.privateKeyModule.setPrivateKey('secp256k1n');
-		await key().modules.privateKeyModule.setPrivateKey('ed25519');
-	}
-
-	const writePromises = [];
-
-	for (const {
-		id,
-		type,
-		privateKey,
-	} of await key().modules.privateKeyModule.getPrivateKeys()) {
-		const key = Buffer.from(privateKey as never, 'hex');
-		const encrypted = await encryptWithPasscode(passcode, key);
-
-		writePromises.push(
-			storage.put<PrivateKeyDocument>({
-				_id: id,
-				type: 'PrivateKey',
-				keyType: type,
-				...encrypted,
-			}),
-		);
-
-		if (type === 'ed25519') {
-			const solPair = SolPair.fromSecretKey(key);
-			const solAddress = solPair.publicKey.toString();
-			const suiPair = SuiPair.fromSecretKey(key.slice(0, 32));
-			const suiAddress = suiPair.getPublicKey().toSuiAddress();
-
-			writePromises.push(
-				storage.put<PublicKeyDocument>({
-					_id: solAddress,
-					type: 'PublicKey',
-					privateKeyId: id,
-					network: Networks.solana,
-				}),
-			);
-
-			writePromises.push(
-				storage.put<PublicKeyDocument>({
-					_id: suiAddress,
-					privateKeyId: id,
-					type: 'PublicKey',
-					network: Networks.sui,
-				}),
-			);
-
-			/**
-			 * For Tezos, we temporarily use base private as a seed to generate new private key
-			 * */
-			const tezosPair = await InMemorySigner.fromSecretKey(
-				generateSecretKey(key, "44'/1729'", 'ed25519'),
-			);
-			const tezosAddress = await tezosPair.publicKeyHash();
-
-			/**
-			 * Using bs58 to keep format of tezos key string
-			 * */
-			const encryptedTezosKey = await encryptWithPasscode(
-				passcode,
-				decode(await tezosPair.secretKey()),
-			);
-			writePromises.push(
-				storage.put<PrivateKeyDocument>({
-					_id: id + Networks.tezos,
-					type: 'PrivateKey',
-					keyType: type,
-					...encryptedTezosKey,
-				}),
-			);
-
-			writePromises.push(
-				storage.put<PublicKeyDocument>({
-					_id: tezosAddress,
-					privateKeyId: id + Networks.tezos,
-					type: 'PublicKey',
-					network: Networks.tezos,
-				}),
-			);
-		}
-	}
-
-	await Promise.all(writePromises);
 };

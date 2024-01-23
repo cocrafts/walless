@@ -1,7 +1,8 @@
+import type { UnknownObject } from '@walless/core';
 import { logger, runtime } from '@walless/core';
-import { appState } from '@walless/engine';
 import type { DeviceInfoInput } from '@walless/graphql';
 import type { SystemDocument } from '@walless/store';
+import { appState } from 'state/app';
 import { runtimeActions } from 'state/runtime';
 import { storage } from 'utils/storage';
 
@@ -47,8 +48,8 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		}
 	}
 
-	if (global.chrome?.instanceID) {
-		const nativeToken = await chrome.instanceID.getToken?.({
+	if ((global.chrome as UnknownObject).instanceID) {
+		const nativeToken = await (chrome as UnknownObject).instanceID.getToken?.({
 			authorizedEntity: FIREBASE_MESSAGING_SENDER_ID,
 			scope: 'FCM',
 		});

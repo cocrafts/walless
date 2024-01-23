@@ -7,6 +7,7 @@ import type {
 } from '@react-navigation/native';
 import { createNavigationContainerRef } from '@react-navigation/native';
 import { CardStyleInterpolators } from '@react-navigation/stack';
+import { logger } from '@walless/core';
 
 import type { RootParamList, ScreenOptions } from './types';
 import { ResetAnchors } from './types';
@@ -15,7 +16,7 @@ export * from './types';
 
 export const handleLinkingRequest = (url: string, isInitialURL?: boolean) => {
 	const { href } = new URL(url);
-	console.log(href, isInitialURL, 'TODO: handle incoming url');
+	logger.info(href, isInitialURL, 'TODO: handle incoming url');
 };
 
 export const linking: LinkingOptions<RootParamList> = {

@@ -4,9 +4,9 @@ import { Image, StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
-import { addWidgetToStorage } from '@walless/store';
 import assets from 'utils/assets';
 import { navigate } from 'utils/navigation';
+import { addWidgetToStorage } from 'utils/storage';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;

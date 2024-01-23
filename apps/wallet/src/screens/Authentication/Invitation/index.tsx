@@ -11,9 +11,9 @@ import {
 	TouchableWithoutFeedback,
 	type ViewStyle,
 } from 'react-native';
-import { appState } from '@walless/engine';
 import { Anchor, Button, Input, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
+import { appState } from 'state/app';
 import assets from 'utils/assets';
 import { validateInvitationCode } from 'utils/auth';
 import { useSafeAreaInsets } from 'utils/hooks';

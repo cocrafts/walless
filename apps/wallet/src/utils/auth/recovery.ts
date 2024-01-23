@@ -4,12 +4,12 @@ import { mutations } from '@walless/graphql';
 import BN from 'bn.js';
 import { qlClient } from 'utils/graphql';
 
-import { key } from './w3a';
+import { tkey } from './w3a';
 
 export const initAndRegisterWallet = async (): Promise<Account | undefined> => {
 	try {
-		await key().reconstructKey();
-		const newShare = await key().generateNewShare();
+		await tkey.reconstructKey();
+		const newShare = await tkey.generateNewShare();
 		const keyIndex = newShare.newShareIndex.toString('hex');
 		const recoveryBN = newShare.newShareStores[keyIndex].share.share;
 		const readableKey = toReadableString(recoveryBN);
@@ -30,8 +30,8 @@ export const recoverByEmergencyKey = async (readableKey: string) => {
 	try {
 		const recoveryBN = fromReadableString(readableKey);
 
-		await key().inputShare(recoveryBN);
-		await key().reconstructKey();
+		await tkey.inputShare(recoveryBN);
+		await tkey.reconstructKey();
 
 		return true;
 	} catch (e) {

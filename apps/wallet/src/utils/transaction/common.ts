@@ -22,12 +22,12 @@ import type {
 	TransactionPayload,
 } from '@walless/core';
 import { logger, Networks } from '@walless/core';
-import { modules } from '@walless/ioc';
-import type { aptosHandler } from '@walless/kernel';
+import type { aptosHandler } from '@walless/network';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
-import type { Provider } from 'aptos';
 import { TxnBuilderTypes } from 'aptos';
 import base58 from 'bs58';
+import { engine } from 'engine';
+import type { AptosContext, SolanaContext } from 'engine/runners';
 import assets from 'utils/assets';
 import { environment } from 'utils/config';
 
@@ -53,9 +53,7 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 export const getTransactionFee = async (payload: TransactionPayload) => {
 	if (payload.network == Networks.solana) {
 		const transaction = await constructTransaction(payload);
-		const connection = modules.engine.getConnection(
-			Networks.solana,
-		) as Connection;
+		const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 		const message = (transaction as VersionedTransaction).message;
 		const transactionFeePromise = connection
 			.getFeeForMessage(message)
@@ -87,8 +85,8 @@ export const getTransactionFee = async (payload: TransactionPayload) => {
 	} else if (payload.network == Networks.sui) {
 		return 0;
 	} else if (payload.network == Networks.aptos) {
-		const connection = modules.engine.getConnection<Provider>(Networks.aptos);
-		const fee = await connection.estimateGasPrice();
+		const { provider } = engine.getContext<AptosContext>(Networks.aptos);
+		const fee = await provider.estimateGasPrice();
 		return fee.gas_estimate / 10 ** 8;
 	} else return 0;
 };
@@ -115,7 +113,7 @@ export const constructTransaction = async ({
 	const isCollectible = token.type === 'NFT';
 
 	if (network == Networks.solana) {
-		const connection = modules.engine.getConnection(network) as Connection;
+		const { connection } = engine.getContext<SolanaContext>(network);
 		if (token.metadata?.symbol == 'SOL') {
 			return await constructSendSOLTransaction(
 				connection,
@@ -268,7 +266,7 @@ const constructTransactionAbstractFeeTemplate = async (
 	{ network, sender, token, tokenForFee, receiver, amount }: SendTokenProps,
 	fee?: number,
 ) => {
-	const connection = modules.engine.getConnection(network) as Connection;
+	const { connection } = engine.getContext<SolanaContext>(network);
 	const bh = await connection.getLatestBlockhash('finalized');
 
 	const blockhash = bh.blockhash;

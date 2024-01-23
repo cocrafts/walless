@@ -5,7 +5,7 @@ import {
 	isSupported as isMessagingSupported,
 } from '@firebase/messaging';
 import { logger } from '@walless/core';
-import { appState } from '@walless/engine';
+import { appState } from 'state/app';
 import { runtimeActions } from 'state/runtime';
 
 import { app, auth } from '../firebase/index.web';

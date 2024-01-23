@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import type { AptosPendingToken } from '@walless/core';
 import { shortenAddress } from '@walless/core';
-import type { AptosPendingToken } from '@walless/engine';
-import { aptosState } from '@walless/engine';
 import { Button, Text, View } from '@walless/gui';
-import type { aptosHandler } from '@walless/kernel';
 import { RequestType } from '@walless/messaging';
+import type { aptosHandler } from '@walless/network';
 import { showRequirePasscodeModal } from 'modals/RequirePasscode';
+import { aptosState } from 'state/assets';
 import { handleAptosOnChainAction } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 

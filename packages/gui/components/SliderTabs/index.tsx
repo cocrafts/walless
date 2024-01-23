@@ -53,6 +53,8 @@ export const SliderTabs: FC<SliderTabsProps> = ({
 
 export default SliderTabs;
 
+export * from './TabItem';
+
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import type { Transaction } from '@walless/core';
+import type { TransactionHistory } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -17,7 +17,7 @@ import { useUniversalInsets } from 'utils/hooks';
 import { ModalId } from './internal';
 
 export interface TransactionDetailsProps {
-	transaction: Transaction;
+	transaction: TransactionHistory;
 }
 
 interface Props {

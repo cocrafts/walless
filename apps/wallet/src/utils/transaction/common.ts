@@ -5,13 +5,10 @@ import {
 	createTransferInstruction,
 	getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
-import type { Connection } from '@solana/web3.js';
 import {
 	LAMPORTS_PER_SOL,
 	PublicKey,
-	SystemProgram,
 	Transaction,
-	TransactionMessage,
 	VersionedMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
@@ -23,6 +20,7 @@ import type {
 } from '@walless/core';
 import { logger, Networks } from '@walless/core';
 import type { aptosHandler } from '@walless/network';
+import { solana } from '@walless/network';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { TxnBuilderTypes } from 'aptos';
 import base58 from 'bs58';
@@ -115,19 +113,27 @@ export const constructTransaction = async ({
 	if (network == Networks.solana) {
 		const { connection } = engine.getContext<SolanaContext>(network);
 		if (token.metadata?.symbol == 'SOL') {
-			return await constructSendSOLTransaction(
+			return await solana.constructSendSOLTransaction(
 				connection,
 				new PublicKey(sender),
 				new PublicKey(receiver),
 				amount * decimals,
 			);
-		} else if (token.network == Networks.solana) {
-			return await constructSendSPLTokenTransactionInSol(
+		} else if (token.type === 'Token') {
+			return await solana.constructSendSPLTokenTransaction(
 				connection,
 				new PublicKey(sender),
 				new PublicKey(receiver),
 				amount * decimals,
 				token as Token,
+			);
+		} else if (token.type === 'NFT') {
+			return await solana.constructSendNftTransaction(
+				connection,
+				new PublicKey(sender),
+				new PublicKey(receiver),
+				amount,
+				token as Collectible,
 			);
 		}
 	} else if (network == Networks.sui) {
@@ -165,78 +171,6 @@ export const constructTransaction = async ({
 	}
 
 	throw Error('Network or Token is not supported');
-};
-
-const constructSendSOLTransaction = async (
-	connection: Connection,
-	sender: PublicKey,
-	receiver: PublicKey,
-	amount: number,
-) => {
-	const instructions = [
-		SystemProgram.transfer({
-			fromPubkey: sender,
-			toPubkey: receiver,
-			lamports: amount,
-		}),
-	];
-
-	const blockhash = (await connection.getLatestBlockhash('finalized'))
-		.blockhash;
-
-	const message = new TransactionMessage({
-		payerKey: new PublicKey(sender),
-		recentBlockhash: blockhash,
-		instructions,
-	}).compileToV0Message();
-
-	return new VersionedTransaction(message);
-};
-
-const constructSendSPLTokenTransactionInSol = async (
-	connection: Connection,
-	sender: PublicKey,
-	receiver: PublicKey,
-	amount: number,
-	token: Token | Collectible,
-) => {
-	const mintAddress = new PublicKey(token.account.mint as string);
-	const senderATAddress = getAssociatedTokenAddressSync(mintAddress, sender);
-	const ReceiverATAddress = getAssociatedTokenAddressSync(
-		mintAddress,
-		receiver,
-	);
-	const receiverATA = await connection.getAccountInfo(ReceiverATAddress);
-
-	const instructions = [];
-	if (!receiverATA) {
-		const createATAInstruction = createAssociatedTokenAccountInstruction(
-			sender,
-			ReceiverATAddress,
-			receiver,
-			mintAddress,
-		);
-		instructions.push(createATAInstruction);
-	}
-
-	const transferInstruction = createTransferInstruction(
-		senderATAddress,
-		ReceiverATAddress,
-		sender,
-		amount,
-	);
-	instructions.push(transferInstruction);
-
-	const blockhash = (await connection.getLatestBlockhash('finalized'))
-		.blockhash;
-
-	const message = new TransactionMessage({
-		payerKey: new PublicKey(sender),
-		recentBlockhash: blockhash,
-		instructions: instructions,
-	}).compileToV0Message();
-
-	return new VersionedTransaction(message);
 };
 
 const constructSendSUITransaction = async (

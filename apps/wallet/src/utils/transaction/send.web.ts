@@ -18,9 +18,9 @@ export const createAndSend = async (
 ) => {
 	const transaction =
 		payload.network === Networks.solana &&
-		payload.tokenForFee.metadata?.symbol !== 'SOL'
-			? await constructTransactionAbstractFee(payload)
-			: await constructTransaction(payload);
+		payload.tokenForFee.metadata?.symbol === 'SOL'
+			? await constructTransaction(payload)
+			: await constructTransactionAbstractFee(payload);
 
 	let res;
 

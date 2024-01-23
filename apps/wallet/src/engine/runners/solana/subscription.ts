@@ -1,16 +1,17 @@
-import { inspect } from 'util';
-
 import type { NftWithToken, SftWithToken } from '@metaplex-foundation/js';
 import { Metaplex } from '@metaplex-foundation/js';
+import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 import type {
 	AccountInfo,
-	Commitment,
 	Connection,
+	Finality,
+	Logs,
 	ParsedAccountData,
 } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { Endpoint } from '@walless/core';
 import { logger } from '@walless/core';
+import { getTokenQuotes, makeHashId } from 'utils/api';
 import { solMint } from 'utils/constants';
 import {
 	addTokenToStorage,
@@ -24,6 +25,7 @@ import {
 	constructCollectibleDocument,
 	updateCollectibleToStorage,
 } from './collectibles';
+import { throttle } from './internal';
 import { initTokenDocumentWithMetadata } from './tokens';
 import type { ParsedTokenAccountWithAddress } from './types';
 
@@ -43,7 +45,7 @@ export const watchAccount = async (
 	endpoint: Endpoint,
 	wallet: PublicKey,
 	tokenAccountAddress: PublicKey,
-	commitment: Commitment = 'confirmed',
+	commitment: Finality = 'confirmed',
 ) => {
 	const id = connection.onAccountChange(
 		tokenAccountAddress,
@@ -81,7 +83,7 @@ const handleSPLTokenChange = async (
 	endpoint: Endpoint,
 	wallet: PublicKey,
 	tokenAccountAddress: PublicKey,
-	commitment: Commitment,
+	commitment: Finality,
 ) => {
 	const accountData = (
 		await connection.getParsedAccountInfo(tokenAccountAddress, commitment)
@@ -123,8 +125,9 @@ const handleSPLTokenChange = async (
 			);
 		} else {
 			const mpl = new Metaplex(connection);
+			const mintAddress = new PublicKey(tokenAccount.mint);
 			const collectible = (await mpl.nfts().findByMint({
-				mintAddress: new PublicKey(tokenAccount.mint),
+				mintAddress,
 				tokenAddress: tokenAccount.publicKey,
 				tokenOwner: wallet,
 			})) as SftWithToken | NftWithToken;
@@ -141,4 +144,84 @@ const handleSPLTokenChange = async (
 			);
 		}
 	}
+};
+
+const newAccountSignature = 'Initialize the associated token account';
+
+export const watchLogs = async (
+	connection: Connection,
+	endpoint: Endpoint,
+	wallet: PublicKey,
+	commitment: Finality = 'confirmed',
+) => {
+	connection.onLogs(
+		wallet,
+		(change) => {
+			const { logs } = change;
+			const init = logs.find((log) => log.includes(newAccountSignature));
+			if (init) {
+				handleInitAccountOnLogsChange(change, connection, endpoint, wallet);
+			}
+		},
+		commitment,
+	);
+};
+
+const handleInitAccountOnLogsChange = async (
+	change: Logs,
+	connection: Connection,
+	endpoint: Endpoint,
+	wallet: PublicKey,
+) => {
+	const { signature } = change;
+	const transaction = await throttle(() => {
+		return connection.getTransaction(signature, {
+			commitment: 'confirmed',
+			maxSupportedTransactionVersion: 0,
+		});
+	})();
+	if (!transaction) return;
+
+	const tokenBalances = transaction.meta?.postTokenBalances?.filter(
+		(balance) => balance.owner === wallet.toString(),
+	);
+
+	const promises = tokenBalances?.map(async (t) => {
+		const isToken = t.uiTokenAmount.decimals !== 0;
+		const mintAddress = new PublicKey(t.mint);
+		const tokenAddress = getAssociatedTokenAddressSync(mintAddress, wallet);
+		if (isToken && t.uiTokenAmount.amount !== '0') {
+			const token = await initTokenDocumentWithMetadata(connection, endpoint, {
+				mint: t.mint,
+				owner: t.owner as string,
+				publicKey: tokenAddress,
+				state: 'initialized',
+				tokenAmount: t.uiTokenAmount,
+			});
+
+			const quotes = await getTokenQuotes([token]);
+			token.account.quotes = quotes[makeHashId(token)].quotes;
+			await addTokenToStorage(token);
+		} else {
+			const mpl = new Metaplex(connection);
+			const collectible = (await mpl.nfts().findByMint({
+				mintAddress,
+				tokenAddress,
+			})) as SftWithToken | NftWithToken;
+
+			const collectibleDocument = constructCollectibleDocument(
+				wallet.toString(),
+				collectible,
+				endpoint,
+			);
+
+			await updateCollectibleToStorage(
+				connection,
+				endpoint,
+				collectibleDocument,
+			);
+		}
+	}) as never[];
+
+	await Promise.all(promises);
 };

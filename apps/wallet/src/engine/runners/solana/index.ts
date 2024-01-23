@@ -17,7 +17,7 @@ import {
 	updateCollectibleToStorage,
 } from './collectibles';
 import { throttle } from './internal';
-import { watchAccount } from './subscription';
+import { watchAccount, watchLogs } from './subscription';
 import {
 	getParsedTokenAccountsByOwner,
 	getTokenDocumentsOnChain,
@@ -71,6 +71,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 
 						watchAccount(connection, endpoint, wallet, a.publicKey);
 					}),
+					watchLogs(connection, endpoint, wallet),
 				] as never[];
 			});
 

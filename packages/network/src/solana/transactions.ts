@@ -1,7 +1,7 @@
-import { isProgrammable } from '@metaplex-foundation/js';
 import {
 	createTransferInstruction as createTransferNftInstruction,
 	Metadata,
+	TokenStandard,
 } from '@metaplex-foundation/mpl-token-metadata';
 import {
 	ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -106,27 +106,104 @@ export const constructSendSOLTransaction = async (
 	return new VersionedTransaction(message);
 };
 
-export const constructSendSPLTokenTransactionInSol = async (
+interface Accounts {
+	payer: PublicKey;
+	associatedToken: PublicKey;
+	owner: PublicKey;
+	mint: PublicKey;
+}
+
+const constructCreateATAInstruction = async (
+	connection: Connection,
+	{ payer, associatedToken, owner, mint }: Accounts,
+) => {
+	const associatedInfo = await connection.getAccountInfo(associatedToken);
+
+	if (associatedInfo) return;
+
+	return createAssociatedTokenAccountInstruction(
+		payer,
+		associatedToken,
+		owner,
+		mint,
+	);
+};
+
+export const constructSendSPLTokenTransaction = async (
 	connection: Connection,
 	sender: PublicKey,
 	receiver: PublicKey,
 	amount: number,
-	token: Token | Collectible,
+	token: Token,
 ) => {
 	// ATA
-	const mintAddress = new PublicKey(token.account.mint as string);
+	const mintAddress = new PublicKey(token.account.mint);
 	const senderATAddress = getAssociatedTokenAddressSync(mintAddress, sender);
 	const receiverATAddress = getAssociatedTokenAddressSync(
 		mintAddress,
 		receiver,
 	);
-	const receiverATA = await connection.getAccountInfo(receiverATAddress);
+
+	const instructions = [];
+
+	const createATAInstruction = await constructCreateATAInstruction(connection, {
+		payer: sender,
+		associatedToken: receiverATAddress,
+		owner: receiver,
+		mint: mintAddress,
+	});
+
+	if (createATAInstruction) instructions.push(createATAInstruction);
+
+	const transferInstruction = createTransferTokenInstruction(
+		senderATAddress,
+		receiverATAddress,
+		sender,
+		amount,
+	);
+	instructions.push(transferInstruction);
+
+	const blockhash = (await connection.getLatestBlockhash('finalized'))
+		.blockhash;
+
+	const message = new TransactionMessage({
+		payerKey: new PublicKey(sender),
+		recentBlockhash: blockhash,
+		instructions: instructions,
+	}).compileToV0Message();
+
+	return new VersionedTransaction(message);
+};
+
+export const constructSendNftTransaction = async (
+	connection: Connection,
+	sender: PublicKey,
+	receiver: PublicKey,
+	amount: number,
+	collectible: Collectible,
+) => {
+	// ATA
+	const mintAddress = new PublicKey(collectible.account.mint);
+	const senderATAddress = getAssociatedTokenAddressSync(mintAddress, sender);
+	const receiverATAddress = getAssociatedTokenAddressSync(
+		mintAddress,
+		receiver,
+	);
+
+	const instructions = [];
+
+	const createATAInstruction = await constructCreateATAInstruction(connection, {
+		payer: sender,
+		associatedToken: receiverATAddress,
+		owner: receiver,
+		mint: mintAddress,
+	});
+
+	if (createATAInstruction) instructions.push(createATAInstruction);
 
 	// PDA
 	const [metadata] = getMetadataPda(mintAddress);
-
 	const [edition] = getMasterEditionPda(mintAddress);
-
 	const [ownerTokenRecord] = getTokenRecordPda({
 		mint: mintAddress,
 		token: senderATAddress,
@@ -136,69 +213,47 @@ export const constructSendSPLTokenTransactionInSol = async (
 		token: receiverATAddress,
 	});
 
-	const instructions = [];
-	if (!receiverATA) {
-		const createATAInstruction = createAssociatedTokenAccountInstruction(
-			sender,
-			receiverATAddress,
-			receiver,
-			mintAddress,
-		);
-		instructions.push(createATAInstruction);
+	let isProgrammable = false;
+	const metadataInfo = await connection.getAccountInfo(metadata);
+	if (metadataInfo?.data) {
+		const [data] = Metadata.deserialize(metadataInfo.data);
+		const { tokenStandard } = data;
+		isProgrammable = tokenStandard === TokenStandard.ProgrammableNonFungible;
 	}
 
-	if ('collectionId' in token) {
-		const metadataInfo = await connection.getAccountInfo(metadata);
-		let isProgrammableNft = false;
-		if (metadataInfo?.data) {
-			const [data] = Metadata.deserialize(metadataInfo.data);
-			const { tokenStandard } = data;
-			isProgrammableNft = isProgrammable({ tokenStandard });
-		}
-
-		const transferInstruction = createTransferNftInstruction(
-			{
-				token: senderATAddress,
-				tokenOwner: sender,
-				destination: receiverATAddress,
-				destinationOwner: receiver,
-				mint: mintAddress,
-				metadata,
-				payer: sender,
-				edition,
-				ownerTokenRecord: isProgrammableNft ? ownerTokenRecord : undefined,
-				destinationTokenRecord: isProgrammableNft
-					? destinationTokenRecord
-					: undefined,
-				splAtaProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-				splTokenProgram: TOKEN_PROGRAM_ID,
-				authority: sender,
-				sysvarInstructions: SYSVAR_INSTRUCTIONS_PUBKEY,
-				authorizationRulesProgram: TOKEN_AUTH_RULES_KEY,
+	const transferInstruction = createTransferNftInstruction(
+		{
+			token: senderATAddress,
+			tokenOwner: sender,
+			destination: receiverATAddress,
+			destinationOwner: receiver,
+			mint: mintAddress,
+			metadata,
+			payer: sender,
+			edition,
+			ownerTokenRecord: isProgrammable ? ownerTokenRecord : undefined,
+			destinationTokenRecord: isProgrammable
+				? destinationTokenRecord
+				: undefined,
+			splAtaProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+			splTokenProgram: TOKEN_PROGRAM_ID,
+			authority: sender,
+			sysvarInstructions: SYSVAR_INSTRUCTIONS_PUBKEY,
+			authorizationRulesProgram: TOKEN_AUTH_RULES_KEY,
+		},
+		{
+			transferArgs: {
+				__kind: 'V1',
+				amount,
+				authorizationData: null,
 			},
-			{
-				transferArgs: {
-					__kind: 'V1',
-					amount,
-					authorizationData: null,
-				},
-			},
-		);
-		instructions.push(transferInstruction);
-	} else {
-		const transferInstruction = createTransferTokenInstruction(
-			senderATAddress,
-			receiverATAddress,
-			sender,
-			amount,
-		);
-		instructions.push(transferInstruction);
-	}
+		},
+	);
+	instructions.push(transferInstruction);
 
 	const blockhash = (await connection.getLatestBlockhash('finalized'))
 		.blockhash;
 
-	logger.debug(instructions, 'INSTRUCTIONS');
 	const message = new TransactionMessage({
 		payerKey: new PublicKey(sender),
 		recentBlockhash: blockhash,

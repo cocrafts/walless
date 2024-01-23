@@ -23,12 +23,10 @@ export type Scalars = {
 
 export type Account = {
   __typename?: 'Account';
-  claimedReferrals?: Maybe<Array<Maybe<WalletInvitation>>>;
   createdAt?: Maybe<Scalars['MongoDateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ObjectID']['output']>;
   identifier: Scalars['String']['output'];
-  unclaimedReferrals?: Maybe<Array<Maybe<WalletInvitation>>>;
   updatedAt?: Maybe<Scalars['MongoDateTime']['output']>;
   walletCount?: Maybe<Scalars['Int']['output']>;
 };
@@ -202,6 +200,7 @@ export type RootMutationVerifyWidgetAccountArgs = {
 
 export type RootQuery = {
   __typename?: 'RootQuery';
+  claimedWalletInvitations?: Maybe<Array<Maybe<WalletInvitation>>>;
   counter?: Maybe<Scalars['Int']['output']>;
   greeting?: Maybe<Scalars['String']['output']>;
   loginMessage?: Maybe<Scalars['String']['output']>;
@@ -212,6 +211,7 @@ export type RootQuery = {
   tokenByAddress?: Maybe<TokenInfo>;
   tokens?: Maybe<Array<Maybe<TokenInfo>>>;
   tokensByAddress?: Maybe<Array<Maybe<TokenInfo>>>;
+  unclaimedWalletInvitations?: Maybe<Array<Maybe<WalletInvitation>>>;
   userAccount?: Maybe<Account>;
   walletInvitation?: Maybe<WalletInvitation>;
   widget?: Maybe<Widget>;
@@ -229,6 +229,12 @@ export type RootQueryLoginMessageArgs = {
 
 export type RootQueryNonceArgs = {
   identifier: Scalars['String']['input'];
+};
+
+
+export type RootQueryReferralLeaderboardArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -486,12 +492,10 @@ export type ResolversParentTypes = {
 };
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
-  claimedReferrals?: Resolver<Maybe<Array<Maybe<ResolversTypes['WalletInvitation']>>>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
   identifier?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  unclaimedReferrals?: Resolver<Maybe<Array<Maybe<ResolversTypes['WalletInvitation']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
   walletCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -575,16 +579,18 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type RootQueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootQuery'] = ResolversParentTypes['RootQuery']> = {
+  claimedWalletInvitations?: Resolver<Maybe<Array<Maybe<ResolversTypes['WalletInvitation']>>>, ParentType, ContextType>;
   counter?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   greeting?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   loginMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<RootQueryLoginMessageArgs, 'pubkey'>>;
   nonce?: Resolver<Maybe<ResolversTypes['Nonce']>, ParentType, ContextType, RequireFields<RootQueryNonceArgs, 'identifier'>>;
-  referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRankingRecord']>>>, ParentType, ContextType>;
+  referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRankingRecord']>>>, ParentType, ContextType, Partial<RootQueryReferralLeaderboardArgs>>;
   systemInfo?: Resolver<Maybe<ResolversTypes['SystemInfo']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenArgs, 'id'>>;
   tokenByAddress?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenByAddressArgs, 'address'>>;
   tokens?: Resolver<Maybe<Array<Maybe<ResolversTypes['TokenInfo']>>>, ParentType, ContextType, RequireFields<RootQueryTokensArgs, 'ids'>>;
   tokensByAddress?: Resolver<Maybe<Array<Maybe<ResolversTypes['TokenInfo']>>>, ParentType, ContextType, RequireFields<RootQueryTokensByAddressArgs, 'addresses'>>;
+  unclaimedWalletInvitations?: Resolver<Maybe<Array<Maybe<ResolversTypes['WalletInvitation']>>>, ParentType, ContextType>;
   userAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType>;
   walletInvitation?: Resolver<Maybe<ResolversTypes['WalletInvitation']>, ParentType, ContextType, Partial<RootQueryWalletInvitationArgs>>;
   widget?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootQueryWidgetArgs, 'id'>>;

@@ -6,9 +6,6 @@ schema {
 """"""
 type Account {
   """"""
-  claimedReferrals: [WalletInvitation]
-
-  """"""
   createdAt: MongoDateTime
 
   """"""
@@ -19,9 +16,6 @@ type Account {
 
   """"""
   identifier: String!
-
-  """"""
-  unclaimedReferrals: [WalletInvitation]
 
   """"""
   updatedAt: MongoDateTime
@@ -232,6 +226,9 @@ type RootMutation {
 """"""
 type RootQuery {
   """"""
+  claimedWalletInvitations: [WalletInvitation]
+
+  """"""
   counter: Int
 
   """"""
@@ -244,7 +241,7 @@ type RootQuery {
   nonce(identifier: String!): Nonce
 
   """"""
-  referralLeaderboard: [ReferralRankingRecord]
+  referralLeaderboard(limit: Int, offset: Int): [ReferralRankingRecord]
 
   """"""
   systemInfo: SystemInfo
@@ -260,6 +257,9 @@ type RootQuery {
 
   """"""
   tokensByAddress(addresses: [String]!): [TokenInfo]
+
+  """"""
+  unclaimedWalletInvitations: [WalletInvitation]
 
   """"""
   userAccount: Account

@@ -1,11 +1,7 @@
 import { type FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import type {
-	Account,
-	ReferralRankingRecord,
-	WalletInvitation,
-} from '@walless/graphql';
+import type { ReferralRankingRecord, WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import type { SlideOption } from '@walless/gui';
 import { Slider, SliderTabs, Text, View } from '@walless/gui';
@@ -25,16 +21,29 @@ type Props = StackScreenProps<SettingParamList, 'Referral'>;
 
 export const ReferralScreen: FC<Props> = () => {
 	const [activeIndex, setActiveIndex] = useState(0);
-	const [account, setAccount] = useState<Account | null>(null);
+	const [claimedReferrals, setClaimedReferrals] = useState<WalletInvitation[]>(
+		[],
+	);
+	const [unclaimedReferrals, setUnclaimedReferrals] = useState<
+		WalletInvitation[]
+	>([]);
 	const [leaderboard, setLeaderboard] = useState<ReferralRankingRecord[]>([]);
 
 	useEffect(() => {
-		const fetchReferrals = async () => {
-			const { userAccount } = await qlClient.request<{
-				userAccount: Account;
-			}>(queries.userAccountReferral);
+		const fetchClaimedReferrals = async () => {
+			const { claimedWalletInvitations } = await qlClient.request<{
+				claimedWalletInvitations: WalletInvitation[];
+			}>(queries.claimedInvitations);
 
-			setAccount(userAccount);
+			setClaimedReferrals(claimedWalletInvitations);
+		};
+
+		const fetchUnclaimedReferrals = async () => {
+			const { unclaimedWalletInvitations } = await qlClient.request<{
+				unclaimedWalletInvitations: WalletInvitation[];
+			}>(queries.unclaimedInvitations);
+
+			setUnclaimedReferrals(unclaimedWalletInvitations);
 		};
 
 		const fetchLeaderboard = async () => {
@@ -44,32 +53,33 @@ export const ReferralScreen: FC<Props> = () => {
 			setLeaderboard(referralLeaderboard);
 		};
 
-		Promise.all([fetchReferrals(), fetchLeaderboard()]);
+		Promise.all([
+			fetchClaimedReferrals(),
+			fetchUnclaimedReferrals(),
+			fetchLeaderboard(),
+		]);
 	}, []);
 
-	const myRank = leaderboard.find((record) => record.id === account?.id)?.rank;
+	const accountId = unclaimedReferrals?.[0]?.referrerId;
 
-	const numberOfReferrals = 3;
-	const numberOfActivatedReferrals = account?.claimedReferrals?.length || 0;
+	const myRank = leaderboard.find((record) => record.id === accountId)?.rank;
+
+	const currentLevelReferralCount = 3;
 
 	const sliderItems: SlideOption[] = [
 		{
 			id: 'inviteFriends',
 			component: () => (
 				<InviteFriendsTab
-					claimedReferrals={
-						(account?.claimedReferrals as WalletInvitation[]) || []
-					}
-					unclaimedReferrals={
-						(account?.unclaimedReferrals as WalletInvitation[]) || []
-					}
+					claimedReferrals={claimedReferrals.toReversed()}
+					unclaimedReferrals={unclaimedReferrals}
 				/>
 			),
 		},
 		{
 			id: 'leaderboard',
 			component: () => (
-				<LeaderboardTab accountId={account?.id} leaderboard={leaderboard} />
+				<LeaderboardTab accountId={accountId} leaderboard={leaderboard} />
 			),
 		},
 	];
@@ -130,7 +140,10 @@ export const ReferralScreen: FC<Props> = () => {
 				</View>
 
 				<SuccessfulReferral
-					{...{ numberOfActivatedReferrals, numberOfReferrals }}
+					{...{
+						numberOfActivatedReferrals: claimedReferrals.length,
+						numberOfReferrals: currentLevelReferralCount,
+					}}
 				/>
 			</View>
 

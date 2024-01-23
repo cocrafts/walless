@@ -4,7 +4,11 @@ import { Networks } from '@walless/core';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { environment } from 'utils/config';
-import { addTokensToStorage, storage } from 'utils/storage';
+import {
+	addTokensToStorage,
+	storage,
+	updateCollectibleAmountToStorage,
+} from 'utils/storage';
 
 import type { CreateFunction } from '../../types';
 
@@ -55,7 +59,17 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 						},
 					),
 					...accounts.map((a) => {
-						return watchAccount(connection, endpoint, wallet, a.publicKey);
+						/**
+						 * With collectibles, we use Metaplex for querying data,
+						 * but it does not query collectibles which are removed,
+						 * we need to clean it manually
+						 */
+						if (a.tokenAmount.decimals === 0 && a.tokenAmount.amount === '0') {
+							const id = `${wallet.toString()}/collectible/${a.mint}`;
+							updateCollectibleAmountToStorage(id, 0);
+						}
+
+						watchAccount(connection, endpoint, wallet, a.publicKey);
 					}),
 				] as never[];
 			});

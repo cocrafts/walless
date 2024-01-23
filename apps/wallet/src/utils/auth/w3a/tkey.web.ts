@@ -3,6 +3,7 @@ import ThresholdKey from '@tkey/default';
 import { WebStorageModule } from '@tkey/web-storage';
 import type { CustomAuthArgs } from '@toruslabs/customauth';
 import CustomAuthCore from '@toruslabs/customauth';
+import { environment } from 'utils/config';
 import { w3aBaseUrl } from 'utils/config/index.web';
 
 import { type CoreModules, coreModules, type CoreThresholdKey } from './core';
@@ -16,7 +17,7 @@ type WebTkey = CoreThresholdKey & {
 };
 
 export const customAuthArgs: CustomAuthArgs = {
-	web3AuthClientId: WEB3AUTH_ID,
+	web3AuthClientId: environment.WEB3AUTH_ID,
 	network: 'mainnet',
 	baseUrl: w3aBaseUrl,
 	redirectToOpener: true,
@@ -45,4 +46,11 @@ export const storeDeviceShare = async (tkey: WebTkey, share: ShareStore) => {
 
 export const importDeviceShare = async (tkey: WebTkey) => {
 	return await tkey.modules.webStorage.inputShareFromWebStorage();
+};
+
+export const initServiceProvider = async (tkey: WebTkey) => {
+	await tkey.serviceProvider.init({
+		skipSw: true,
+		skipPrefetch: true,
+	});
 };

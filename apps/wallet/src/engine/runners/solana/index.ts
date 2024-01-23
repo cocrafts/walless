@@ -72,6 +72,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 						watchAccount(connection, endpoint, wallet, a.publicKey);
 					}),
 					watchLogs(connection, endpoint, wallet),
+					watchAccount(connection, endpoint, wallet, wallet),
 				] as never[];
 			});
 

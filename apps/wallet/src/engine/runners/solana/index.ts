@@ -33,7 +33,7 @@ const endpointUrl: Record<string, string> = {
 export const createSolanaRunner: CreateFunction = async (config) => {
 	const { endpoints } = config;
 	const endpoint = endpoints[Networks.solana];
-	const connection = new Connection(endpointUrl[endpoint]);
+	const connection = new Connection(endpointUrl[endpoint], 'confirmed');
 	const keys = (await storage.find<PublicKeyDocument>(selectors.solanaKeys))
 		.docs;
 

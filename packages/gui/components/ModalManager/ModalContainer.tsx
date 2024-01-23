@@ -12,7 +12,7 @@ import {
 	View,
 } from 'react-native';
 import Animated, {
-	Extrapolate,
+	Extrapolation,
 	interpolate,
 	runOnJS,
 	useAnimatedStyle,
@@ -59,7 +59,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 				opacity.value,
 				[0, 1],
 				[0, maskActiveOpacity],
-				Extrapolate.CLAMP,
+				Extrapolation.CLAMP,
 			),
 		}),
 		[opacity],

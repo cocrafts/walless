@@ -4,14 +4,13 @@ import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import type { UnknownObject } from '@walless/core';
-import { Hoverable, Text, View } from '@walless/gui';
-import { ChevronLeft } from '@walless/icons';
+import { View } from '@walless/gui';
 import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout, useNfts, useSafeAreaInsets } from 'utils/hooks';
-import { navigate, navigateBack } from 'utils/navigation';
+import { navigate } from 'utils/navigation';
 
 export const CollectionFeat: FC = () => {
-	const { collections, collectibles } = useNfts();
+	const { collectibles } = useNfts();
 	const { onGridContainerLayout, width } = useLazyGridLayout({
 		referenceWidth: 156,
 		gap: gridGap,
@@ -22,10 +21,6 @@ export const CollectionFeat: FC = () => {
 	const containerStyle: ViewStyle = {
 		marginTop: insets.top,
 	};
-
-	const curCollection = useMemo(() => {
-		return collections.find((ele) => ele._id.includes(id as string));
-	}, [collections]);
 
 	const curCollectibles = useMemo(() => {
 		return collectibles.filter((ele) =>
@@ -40,19 +35,8 @@ export const CollectionFeat: FC = () => {
 		});
 	};
 
-	const handleGoBack = () => {
-		navigateBack();
-	};
-
 	return (
 		<View style={[styles.container, containerStyle]}>
-			<Hoverable style={styles.backButton} onPress={handleGoBack}>
-				<ChevronLeft size={16} />
-				<Text style={styles.title}>
-					{`${curCollection?.metadata?.name} (${curCollection?.count})` ||
-						'Unknown collection'}
-				</Text>
-			</Hoverable>
 			<View
 				style={styles.collectiblesContainer}
 				onLayout={(e) => onGridContainerLayout(e.nativeEvent.layout)}

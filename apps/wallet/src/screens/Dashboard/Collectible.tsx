@@ -5,7 +5,7 @@ import { useRoute } from '@react-navigation/native';
 import { Button, Text, View } from '@walless/gui';
 import { showSendTokenModal } from 'modals/SendToken';
 import { useNfts, useSafeAreaInsets } from 'utils/hooks';
-import { navigateBack, navigationRef } from 'utils/navigation';
+import { navigationRef } from 'utils/navigation';
 
 export const CollectibleFeat = () => {
 	const { collections, collectibles } = useNfts();
@@ -37,7 +37,7 @@ export const CollectibleFeat = () => {
 	useEffect(() => {
 		// TODO: need to resolve and remove can go back if possible
 		if (!curCollectible && navigationRef.canGoBack()) {
-			navigateBack();
+			// navigateBack();
 		}
 	}, [curCollectible]);
 

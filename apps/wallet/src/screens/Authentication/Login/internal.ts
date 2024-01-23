@@ -23,7 +23,7 @@ export const signIn = async (invitationCode?: string) => {
 		checkInvitationCode(user, invitationCode);
 	} catch (error) {
 		showError({ errorText: (error as Error).message });
-		logger.error('Error when sign-in with google', error);
+		logger.error('Error when checking invitation code', error);
 		navigate('Authentication', { screen: 'Invitation' });
 		return;
 	}

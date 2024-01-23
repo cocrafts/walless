@@ -3,7 +3,7 @@ import { mutations, queries } from '@walless/graphql';
 import type { FirebaseUser } from 'utils/firebase';
 import { qlClient } from 'utils/graphql';
 
-import { CustomAuth } from './w3a/tkey';
+import { CustomAuth, initServiceProvider } from './w3a/tkey';
 import { initBySeedPhraseModule } from './keys';
 import { initAndRegisterWallet } from './recovery';
 import { signInWithGoogle } from './signInGoogle';
@@ -55,10 +55,7 @@ const signInWithTorusKey = async (
 		verifierToken,
 	);
 
-	await tkey.serviceProvider.init({
-		skipSw: true,
-		skipPrefetch: true,
-	});
+	await initServiceProvider(tkey);
 
 	tkey.serviceProvider.postboxKey = loginDetails.privateKey as never;
 	/* eslint-disable */

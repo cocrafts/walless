@@ -50,7 +50,7 @@ export const bootstrap = async (): Promise<void> => {
 
 export const launchApp = async (): Promise<void> => {
 	const settings = await storage.safeGet<SettingDocument>('settings');
-	const widgetId = settings?.config?.latestLocation as string;
+	const widgetId = settings?.config?.latestLocation;
 
 	if (settings?.profile?.id) {
 		resetRoute(ResetAnchors.Widget, { id: widgetId || 'explorer' });

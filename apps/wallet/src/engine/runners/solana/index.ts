@@ -4,7 +4,11 @@ import { Networks } from '@walless/core';
 import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { environment } from 'utils/config';
-import { addTokensToStorage, storage } from 'utils/storage';
+import {
+	addTokensToStorage,
+	storage,
+	updateCollectibleAmountToStorage,
+} from 'utils/storage';
 
 import type { CreateFunction } from '../../types';
 
@@ -13,7 +17,7 @@ import {
 	updateCollectibleToStorage,
 } from './collectibles';
 import { throttle } from './internal';
-import { watchAccount } from './subscription';
+import { watchAccount, watchLogs } from './subscription';
 import {
 	getParsedTokenAccountsByOwner,
 	getTokenDocumentsOnChain,
@@ -29,7 +33,7 @@ const endpointUrl: Record<string, string> = {
 export const createSolanaRunner: CreateFunction = async (config) => {
 	const { endpoints } = config;
 	const endpoint = endpoints[Networks.solana];
-	const connection = new Connection(endpointUrl[endpoint]);
+	const connection = new Connection(endpointUrl[endpoint], 'confirmed');
 	const keys = (await storage.find<PublicKeyDocument>(selectors.solanaKeys))
 		.docs;
 
@@ -55,8 +59,20 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 						},
 					),
 					...accounts.map((a) => {
-						return watchAccount(connection, endpoint, wallet, a.publicKey);
+						/**
+						 * With collectibles, we use Metaplex for querying data,
+						 * but it does not query collectibles which are removed,
+						 * we need to clean it manually
+						 */
+						if (a.tokenAmount.decimals === 0 && a.tokenAmount.amount === '0') {
+							const id = `${wallet.toString()}/collectible/${a.mint}`;
+							updateCollectibleAmountToStorage(id, 0);
+						}
+
+						watchAccount(connection, endpoint, wallet, a.publicKey);
 					}),
+					watchLogs(connection, endpoint, wallet),
+					watchAccount(connection, endpoint, wallet, wallet),
 				] as never[];
 			});
 

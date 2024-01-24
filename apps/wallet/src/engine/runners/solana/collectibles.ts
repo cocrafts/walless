@@ -56,9 +56,11 @@ export const updateCollectibleToStorage = async (
 	let collection: CollectionDocument | undefined;
 	if (collectible.collectionAddress === collectible.account.mint) {
 		const selfCollectionDocument: CollectionDocument = {
-			...collectible,
 			_id: collectible.collectionId,
 			type: 'Collection',
+			network: collectible.network,
+			endpoint: collectible.endpoint,
+			metadata: collectible.metadata,
 		};
 
 		const res = await addCollectionToStorage(

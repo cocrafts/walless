@@ -77,8 +77,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		if (fullWidth) baseStyle.width = width.value;
 		if (fullHeight) {
 			baseStyle.height = height.value;
-			baseStyle.top = 0;
-			baseStyle.left = 0;
+			baseStyle.bottom = 0;
 		}
 
 		return rectangleAnimatedStyle(opacity, item.animateDirection, baseStyle);

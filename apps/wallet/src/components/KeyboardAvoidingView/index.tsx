@@ -6,7 +6,6 @@ import {
 	Platform,
 	StyleSheet,
 	TouchableWithoutFeedback,
-	View,
 } from 'react-native';
 
 interface Props {
@@ -15,10 +14,6 @@ interface Props {
 }
 
 const KeyboardAvoidingView: FC<Props> = ({ children, style }) => {
-	if (Platform.OS === 'web') {
-		return <View style={[styles.container, style]}>{children}</View>;
-	}
-
 	return (
 		<BaseKeyboardAvoidingView
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

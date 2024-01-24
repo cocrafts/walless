@@ -8,10 +8,16 @@ import {
 
 import { txActions } from '../../context';
 
-export const requestTransactionFee = async (payload: TransactionPayload) => {
+export const requestTransactionFee = async (
+	payload: TransactionPayload,
+	requestID: number,
+) => {
 	if (payload.receiver === '') {
 		txActions.update({ transactionFee: 0 });
-		return 0;
+		return {
+			fee: 0,
+			requestID,
+		};
 	}
 
 	try {
@@ -19,9 +25,15 @@ export const requestTransactionFee = async (payload: TransactionPayload) => {
 			payload.tokenForFee?.metadata?.symbol !== 'SOL'
 				? await getTransactionAbstractFee(payload)
 				: await getTransactionFee(payload);
-		return fee;
+		return {
+			fee,
+			requestID,
+		};
 	} catch {
-		return 0;
+		return {
+			fee: 0,
+			requestID,
+		};
 	}
 };
 

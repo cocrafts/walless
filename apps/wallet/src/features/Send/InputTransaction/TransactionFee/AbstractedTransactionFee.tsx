@@ -28,6 +28,8 @@ interface Props {
 	tokenList: TokenDocument[];
 }
 
+let feeRequestID = 0;
+
 export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
@@ -84,13 +86,21 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 			};
 
 			setIsFeeLoading(true);
-			const fee = await requestTransactionFee(payload);
+
+			const { fee, requestID } = await requestTransactionFee(
+				payload,
+				feeRequestID,
+			);
+			if (requestID !== feeRequestID) return;
+			feeRequestID++;
+
 			const decimals = payload.tokenForFee?.account?.decimals;
 			txActions.update({
 				transactionFee: parseFloat(fee.toPrecision(decimals)),
 			});
 			setIsFeeLoading(false);
 		};
+
 		updateTransactionFee();
 	}, [tokenForFee, token, collectible, receiver]);
 

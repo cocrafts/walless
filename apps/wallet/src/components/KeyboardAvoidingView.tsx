@@ -28,8 +28,6 @@ const KeyboardAvoidingView: FC<Props> = ({ children, style }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		display: 'flex',
-		flexDirection: 'column',
 		flex: 1,
 	},
 });

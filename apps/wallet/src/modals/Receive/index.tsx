@@ -14,8 +14,6 @@ import { ModalId } from 'modals/internal';
 import { getNetworkInfo } from 'utils/helper';
 import { usePublicKeys } from 'utils/hooks';
 
-import { modalStyles } from '../internal';
-
 import Indicator from './Indicator';
 import Slider, { type IndicatorOption, type SlideOption } from './Slider';
 import WalletCard, { type WalletProps } from './WalletCard';
@@ -72,7 +70,7 @@ const ReceiveModal: FC<{ config: ModalConfigs }> = ({ config }) => {
 			callbackOnClose={handleClose}
 			gestureEnable={runtime.isMobile}
 		>
-			<View style={modalStyles.wrapper}>
+			<View style={styles.wrapper}>
 				<ModalHeader content="Receive" onPressClose={handleClose} />
 				<Slider
 					style={styles.sliderContainer}
@@ -98,5 +96,15 @@ const styles = StyleSheet.create({
 	sliderContainer: {
 		gap: 22,
 		overflow: 'hidden',
+	},
+	wrapper: {
+		backgroundColor: '#141B21',
+		justifyContent: 'space-between',
+		gap: 60,
+		borderTopRightRadius: 20,
+		borderTopLeftRadius: 20,
+		paddingTop: 10,
+		paddingBottom: 40,
+		paddingHorizontal: 28,
 	},
 });

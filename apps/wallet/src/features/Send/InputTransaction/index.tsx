@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
@@ -20,6 +20,7 @@ interface Props {
 
 const InputTransaction: FC<Props> = ({ navigator }) => {
 	const { type } = useSnapshot(txContext).tx;
+	const { collectible } = useSnapshot(txContext).tx;
 
 	const handlePressContinue = () => {
 		const checkedResult = totalCheckFieldsToContinue();
@@ -29,6 +30,10 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 			navigator.slideNext();
 		}
 	};
+
+	useEffect(() => {
+		if (collectible) txActions.update({ type: 'Collectible' });
+	}, []);
 
 	return (
 		<KeyboardAvoidingView>

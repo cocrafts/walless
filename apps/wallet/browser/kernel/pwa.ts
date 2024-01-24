@@ -14,6 +14,7 @@ const onActivate = () => {
 	logger.info('Service worker activated');
 };
 
+// TODO: need to optimize later
 /* eslint-disable-next-line */
 const onFetch = async (event: any) => {
 	try {

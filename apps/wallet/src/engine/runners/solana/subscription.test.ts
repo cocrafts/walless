@@ -1,1 +1,3 @@
-describe('[solana runner] subscription', () => {});
+describe('[solana runner] subscription', () => {
+	test('', async () => {});
+});

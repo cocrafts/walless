@@ -1,5 +1,4 @@
 jest.mock('utils/storage/db');
-import { inspect } from 'util';
 
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
@@ -65,7 +64,6 @@ describe('[solana runner] collectibles', () => {
 		);
 
 		expect(result.collection).not.toBeNull();
-		// expect(result.collection?.count).toEqual(1);
 		expect(result.collectible).not.toBeNull();
 	});
 
@@ -87,7 +85,6 @@ describe('[solana runner] collectibles', () => {
 		);
 
 		expect(result.collection).not.toBeNull();
-		// expect(result.collection?.count).toEqual(2);
 		expect(result.collectible).not.toBeNull();
 	});
 });

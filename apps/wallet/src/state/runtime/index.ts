@@ -1,10 +1,9 @@
-import { setPathname, setPrivacy, syncDeviceInfo } from './config';
+import { setPrivacy, syncDeviceInfo } from './config';
 import { runtimeState } from './internal';
 import { syncRemoteProfile } from './profile';
 
 export const runtimeActions = {
 	setPrivacy,
-	setPathname,
 	syncDeviceInfo,
 	syncRemoteProfile,
 	toggleDrawer: (flag?: boolean) => {

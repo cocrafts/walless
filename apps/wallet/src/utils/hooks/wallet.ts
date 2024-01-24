@@ -146,6 +146,5 @@ export const useSettings = () => {
 	return {
 		setting: config,
 		setPrivacy: runtimeActions.setPrivacy,
-		setPathname: runtimeActions.setPathname,
 	};
 };

@@ -48,8 +48,8 @@ export const showSendTokenModal = (props: SendFeatureProps) => {
 		id: ModalId.Send,
 		bindingDirection: BindDirections.InnerBottom,
 		animateDirection: AnimateDirections.Top,
-		component: ({ config }) => <SendModal config={config} props={props} />,
 		fullHeight: true,
+		component: ({ config }) => <SendModal config={config} props={props} />,
 	});
 };
 
@@ -58,6 +58,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#131C24',
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
-		height: '100%',
+		flexGrow: 1,
 	},
 });

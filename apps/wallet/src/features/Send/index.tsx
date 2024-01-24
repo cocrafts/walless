@@ -62,10 +62,9 @@ export default SendFeature;
 
 const styles = StyleSheet.create({
 	container: {
-		height: 590,
+		flexGrow: 1,
 	},
 	slideContainer: {
-		height: 590,
 		paddingTop: 16,
 		paddingBottom: 28,
 		paddingHorizontal: 28,

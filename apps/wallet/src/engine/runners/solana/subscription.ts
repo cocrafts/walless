@@ -52,15 +52,23 @@ export const watchAccount = async (
 		async (info) => {
 			const isNativeToken = info.data.byteLength === 0;
 			if (isNativeToken) {
-				handleNativeTokenChange(wallet, info);
+				try {
+					await handleNativeTokenChange(wallet, info);
+				} catch (error) {
+					logger.error('Failed to handle native token change', error);
+				}
 			} else {
-				handleSPLTokenChange(
-					connection,
-					endpoint,
-					wallet,
-					tokenAccountAddress,
-					commitment,
-				);
+				try {
+					await handleSPLTokenChange(
+						connection,
+						endpoint,
+						wallet,
+						tokenAccountAddress,
+						commitment,
+					);
+				} catch (error) {
+					logger.error('Failed to handle spl token change', error);
+				}
 			}
 		},
 		commitment,
@@ -156,11 +164,20 @@ export const watchLogs = async (
 ) => {
 	connection.onLogs(
 		wallet,
-		(change) => {
+		async (change) => {
 			const { logs } = change;
 			const init = logs.find((log) => log.includes(newAccountSignature));
 			if (init) {
-				handleInitAccountOnLogsChange(change, connection, endpoint, wallet);
+				try {
+					await handleInitAccountOnLogsChange(
+						change,
+						connection,
+						endpoint,
+						wallet,
+					);
+				} catch (error) {
+					logger.error('Failed to handle log change', error);
+				}
 			}
 		},
 		commitment,

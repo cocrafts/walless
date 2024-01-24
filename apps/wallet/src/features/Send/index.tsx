@@ -54,7 +54,7 @@ export const SendFeature: FC<Props> = ({ network, collectible }) => {
 			slideContainerStyle={styles.slideContainer}
 			activeItem={sendScreens[0]}
 			items={sendScreens}
-		></Slider>
+		/>
 	);
 };
 

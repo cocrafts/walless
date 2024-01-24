@@ -11485,6 +11485,7 @@ __metadata:
     aptos: ^1.20.0
     babel-jest: ^29.2.1
     babel-plugin-transform-inline-environment-variables: ^0.4.4
+    color2k: ^2.0.3
     ed25519-hd-key: ^1.3.0
     eslint: ^8.38.0
     events: ^3.3.0
@@ -14113,7 +14114,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color2k@npm:^2.0.2":
+"color2k@npm:^2.0.2, color2k@npm:^2.0.3":
   version: 2.0.3
   resolution: "color2k@npm:2.0.3"
   checksum: 0748e16e43c1740045af61f44de5d181f3f7a2a9cb0d5cccdccee23d04e3f107f02aaafebb7ca3335cca1d11849c6321aba702eb2f893e993a77f65761de7661

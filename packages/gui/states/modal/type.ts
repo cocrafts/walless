@@ -64,6 +64,7 @@ export interface ModalConfigs {
 	 * auto center modal if false
 	 */
 	fullWidth?: boolean;
+	fullHeight?: boolean;
 }
 
 export type ShowModalConfigs = Omit<

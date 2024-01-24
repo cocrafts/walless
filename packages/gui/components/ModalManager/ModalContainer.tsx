@@ -45,10 +45,12 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		maskActiveOpacity = 0.5,
 		withoutMask,
 		fullWidth = true,
+		fullHeight = false,
 	} = item;
 	const layout = useRef<LayoutRectangle>();
 	const top = useSharedValue(0);
 	const left = useSharedValue(0);
+	const height = useSharedValue(0);
 	const width = useSharedValue(0);
 	const opacity = useSharedValue(0);
 	const pointerEvents = item.hide || withoutMask ? 'none' : 'auto';
@@ -73,6 +75,10 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 			opacity: opacity.value,
 		};
 		if (fullWidth) baseStyle.width = width.value;
+		if (fullHeight) {
+			baseStyle.height = height.value;
+			baseStyle.bottom = 0;
+		}
 
 		return rectangleAnimatedStyle(opacity, item.animateDirection, baseStyle);
 	}, [top, left, opacity]);
@@ -122,6 +128,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		top.value = calculatedRectangle.y;
 		left.value = calculatedRectangle.x;
 		width.value = calculatedRectangle.width;
+		height.value = calculatedRectangle.height;
 	};
 
 	const closeModal = () => {

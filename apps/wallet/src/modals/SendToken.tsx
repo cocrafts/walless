@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
@@ -10,6 +11,7 @@ import {
 } from '@walless/gui';
 import type { Props as SendFeatureProps } from 'features/Send';
 import SendFeature from 'features/Send';
+import { useSafeAreaInsets } from 'utils/hooks';
 
 import { ModalId } from './internal';
 
@@ -19,13 +21,20 @@ type Props = {
 };
 
 const SendModal: FC<Props> = ({ config, props }) => {
+	const insets = useSafeAreaInsets();
+
+	const safeAreaStyle: ViewStyle = {
+		paddingBottom: insets.bottom,
+		paddingTop: insets.top,
+	};
+
 	const handleClose = () => {
 		modalActions.hide(config.id);
 	};
 
 	return (
 		<SwipeDownGesture
-			style={styles.container}
+			style={[styles.container, safeAreaStyle]}
 			callbackOnClose={handleClose}
 			gestureEnable={runtime.isMobile}
 		>
@@ -39,6 +48,7 @@ export const showSendTokenModal = (props: SendFeatureProps) => {
 		id: ModalId.Send,
 		bindingDirection: BindDirections.InnerBottom,
 		animateDirection: AnimateDirections.Top,
+		fullHeight: true,
 		component: ({ config }) => <SendModal config={config} props={props} />,
 	});
 };
@@ -48,5 +58,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#131C24',
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
+		flexGrow: 1,
 	},
 });

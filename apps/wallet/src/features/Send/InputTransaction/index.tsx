@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
+import KeyboardAvoidingView from 'components/KeyboardAvoidingView';
 import ModalHeader from 'components/ModalHeader';
 import { showError } from 'modals/Error';
 import { useSnapshot } from 'valtio';
@@ -30,17 +31,22 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 	};
 
 	return (
-		<View style={styles.container}>
-			<ModalHeader content="Send" onPressClose={txActions.closeSendFeature} />
+		<KeyboardAvoidingView>
+			<View style={styles.container}>
+				<ModalHeader content="Send" onPressClose={txActions.closeSendFeature} />
 
-			<TabBar curTab={type} setCurTab={(type) => txActions.update({ type })} />
+				<TabBar
+					curTab={type}
+					setCurTab={(type) => txActions.update({ type })}
+				/>
 
-			{type === 'Token' ? (
-				<TokensTab onContinue={handlePressContinue} />
-			) : (
-				<CollectiblesTab onContinue={handlePressContinue} />
-			)}
-		</View>
+				{type === 'Token' ? (
+					<TokensTab onContinue={handlePressContinue} />
+				) : (
+					<CollectiblesTab onContinue={handlePressContinue} />
+				)}
+			</View>
+		</KeyboardAvoidingView>
 	);
 };
 

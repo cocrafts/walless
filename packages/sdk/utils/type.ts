@@ -1,12 +1,10 @@
 import type {
-	PublicKey,
-	SendOptions,
 	Transaction,
 	TransactionSignature,
 	VersionedTransaction,
 } from '@solana/web3.js';
-
-import type { Networks } from './commonTypes';
+import type { PublicKey, SendOptions } from '@solana/web3.js';
+import type { Networks } from '@walless/core';
 
 export interface ConnectOptions {
 	onlyIfTrusted?: boolean;

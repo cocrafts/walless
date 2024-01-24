@@ -11,8 +11,6 @@
     "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
-    "@mysten/sui.js": "0.34.0",
-    "@solana/web3.js": "1.78.4",
     "react-native-logs": "5.0.1"
   },
   "devDependencies": {

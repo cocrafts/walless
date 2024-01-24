@@ -7,13 +7,13 @@
   "dependencies": {
     "@mysten/wallet-standard": "0.5.2",
     "@solana/wallet-standard-features": "^1.0.1",
-    "@solana/web3.js": "1.78.4",
     "@walless/sdk": "*",
     "@wallet-standard/base": "^1.0.1",
     "@wallet-standard/features": "^1.0.3",
     "bs58": "5.0.0"
   },
   "devDependencies": {
+    "@solana/web3.js": "1.78.4",
     "@types/bs58": "^4.0.1",
     "@types/node-fetch": "^2.6.2",
     "eslint": "^8.56.0",

@@ -1,5 +1,5 @@
 import { Connection, JsonRpcProvider } from '@mysten/sui.js';
-import { ResponseCode } from '@walless/messaging';
+import { ResponseCode } from '@walless/core';
 import { suiHandler } from '@walless/network';
 
 import { respond } from '../utils/requestPool';

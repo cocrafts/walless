@@ -1,6 +1,3 @@
-import type { Metadata as MplMetadata } from '@metaplex-foundation/mpl-token-metadata';
-import type { SuiObjectData } from '@mysten/sui.js';
-
 import type { Endpoint, Networks } from './commonTypes';
 
 export interface AptosTokenMetadata {
@@ -51,9 +48,10 @@ export interface AssetMetadata {
 	name?: string;
 	symbol?: string;
 	imageUri?: string;
-	mpl?: MplMetadata;
-	sod?: SuiObjectData;
-	aptosToken?: AptosTokenMetadata;
+	/* eslint-disable */
+	sod?: any;
+	aptosToken?: any;
+	/* eslint-enable */
 	description?: string;
 	attributes?: {
 		key: string;

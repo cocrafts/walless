@@ -1,4 +1,4 @@
-import { logger, runtime } from '@walless/core';
+import { logger, ResponseCode, runtime } from '@walless/core';
 import type {
 	EncryptedMessage,
 	MessagePayload,
@@ -11,7 +11,6 @@ import {
 	createMessenger,
 	decryptMessage,
 	PopupType,
-	ResponseCode,
 	ResponseMessage,
 } from '@walless/messaging';
 

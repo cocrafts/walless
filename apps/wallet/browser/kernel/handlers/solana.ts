@@ -1,5 +1,5 @@
 import { clusterApiUrl, Connection } from '@solana/web3.js';
-import { ResponseCode } from '@walless/messaging';
+import { ResponseCode } from '@walless/core';
 import { solanaHandler } from '@walless/network';
 import { environment } from 'utils/config';
 

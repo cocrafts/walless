@@ -1,5 +1,5 @@
 import { TezosToolkit } from '@taquito/taquito';
-import { ResponseCode } from '@walless/messaging';
+import { ResponseCode } from '@walless/core';
 import { tezosHandler } from '@walless/network';
 
 import { respond } from '../utils/requestPool';

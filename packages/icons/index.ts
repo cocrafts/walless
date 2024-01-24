@@ -25,6 +25,7 @@ export { Eye } from './components/Eye';
 export { EyeOff } from './components/EyeOff';
 export { FingerPrint } from './components/FingerPrint';
 export { Github } from './components/Github';
+export { Globe } from './components/Globe';
 export { Google } from './components/Google';
 export { Hamburger } from './components/Hamburger';
 export { Heart } from './components/Heart';

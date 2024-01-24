@@ -6,7 +6,7 @@ export const initializeMessaging = async () => {
 	window.postMessage({ from: 'walless-content-script-loaded' });
 	window.addEventListener(
 		'message',
-		async ({ source, data }) => {
+		async ({ source, data }): Promise<void> => {
 			const { from, type } = data || {};
 			if (!from || source !== window) return;
 

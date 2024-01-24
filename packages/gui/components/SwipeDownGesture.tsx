@@ -17,7 +17,7 @@ import { AnimatedView } from './aliased';
 
 interface Props {
 	children: ReactNode;
-	style?: ViewStyle;
+	style?: ViewStyle | ViewStyle[];
 	gestureEnable?: boolean;
 	callbackOnClose?: () => void;
 }

@@ -84,7 +84,7 @@ export const serialize = (data: UnknownObject): string => {
 };
 
 export const deserialize = (encoded: string): UnknownObject => {
-	return JSON.parse(decode(encoded).toString());
+	return JSON.parse(Buffer.from(decode(encoded)).toString());
 };
 
 export {

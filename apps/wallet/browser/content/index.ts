@@ -4,7 +4,7 @@ import { initializeMessaging, injectScript } from './utils';
 
 (async () => {
 	await initializeMessaging();
-	logger.info('Messaging module intialzied..');
+	logger.info('Messaging module initialized..');
 
 	setTimeout(() => {
 		injectScript('injection.js');

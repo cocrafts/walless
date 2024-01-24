@@ -1,5 +1,5 @@
 import { logger } from '@walless/core';
-import Walless from '@walless/sdk';
+import { Walless } from '@walless/sdk';
 import { initialize } from '@walless/wallet-standard';
 
 const configureWalletStandard = async (): Promise<void> => {

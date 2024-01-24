@@ -18,12 +18,14 @@ export interface WallessEventEmitter {
 	on<E extends keyof WallessEvent>(
 		event: E,
 		listener: WallessEvent[E],
+		/* eslint-disable-next-line */
 		context?: any,
 	): void;
 
 	off<E extends keyof WallessEvent>(
 		event: E,
 		listener: WallessEvent[E],
+		/* eslint-disable-next-line */
 		context?: any,
 	): void;
 }

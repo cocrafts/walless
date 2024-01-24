@@ -1,6 +1,5 @@
-import { Networks } from '@walless/core';
+import { Networks, PopupType, RequestType, ResponseCode } from '@walless/core';
 import type { MessengerCallback } from '@walless/messaging';
-import { PopupType, RequestType, ResponseCode } from '@walless/messaging';
 
 import { handle } from '../utils/handle';
 import {

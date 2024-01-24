@@ -1,9 +1,8 @@
 import { TransactionBlock } from '@mysten/sui.js';
 import { VersionedTransaction } from '@solana/web3.js';
 import type { TransactionPayload } from '@walless/core';
-import { Networks } from '@walless/core';
+import { Networks, RequestType } from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
-import { RequestType } from '@walless/messaging';
 import { sendRequest } from 'bridge';
 import { encode } from 'bs58';
 

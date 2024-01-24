@@ -1,4 +1,4 @@
-import { RequestType } from '@walless/messaging';
+import { RequestType } from '@walless/core';
 
 import { sendRequest } from '../utils/messaging';
 

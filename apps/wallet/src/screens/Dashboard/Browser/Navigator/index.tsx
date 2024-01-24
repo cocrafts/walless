@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { StyleProp, StyleSheet, TextInput, View, ViewStyle } from 'react-native';
 import { colors } from 'utils/style';
-import { tabBarHeight }	from 'utils/constants';
 import { lighten }	from 'color2k';
 
 interface Props {
@@ -24,12 +23,11 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.tabNavigatorBg, 
 	},
 	input: {
-		marginHorizontal: 12,
-		marginVertical: 8,
+		margin: 12,
 		paddingHorizontal: 18,
 		paddingVertical: 12,
 		borderRadius: 8,
-		backgroundColor: lighten(colors.tabNavigatorBg, 0.02),
+		backgroundColor: lighten(colors.tabNavigatorBg, 0.05),
 		color: '#FFFFFF',
 	},
 });

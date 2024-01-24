@@ -1,4 +1,3 @@
-// import * as suiProvider from './providers/sui';
 import type {
 	SignedMessage,
 	SignedTransaction,
@@ -7,10 +6,9 @@ import type {
 import { Ed25519PublicKey as SuiPublicKey } from '@mysten/sui.js';
 import type { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 import type { SendOptions } from '@solana/web3.js';
-import {
-	PublicKey as SolanaPublicKey,
-	VersionedTransaction,
-} from '@solana/web3.js';
+import { PublicKey as SolanaPublicKey } from '@solana/web3.js/src/publickey';
+import { VersionedTransaction } from '@solana/web3.js/src/transaction';
+import { logger, Networks, ResponseCode } from '@walless/core';
 import type {
 	ConnectFunc,
 	ConnectOptions,
@@ -18,10 +16,7 @@ import type {
 	SignAndSendFunc,
 	SignFunc,
 	SignMessageFunc,
-} from '@walless/core';
-import { logger, Networks } from '@walless/core';
-import { ResponseCode } from '@walless/messaging';
-import type { PublicKeyDocument } from '@walless/store';
+} from '@walless/sdk';
 import { decode, encode } from 'bs58';
 import { EventEmitter } from 'eventemitter3';
 
@@ -68,7 +63,7 @@ export class Walless extends EventEmitter {
 		}
 
 		this.#publicKeys = publicKeys
-			.map((pk: PublicKeyDocument) => {
+			.map((pk: { _id: string; network: Networks }) => {
 				let publicKey: PublicKeyType;
 
 				// Prepare suitable public key for each network
@@ -238,3 +233,5 @@ export class Walless extends EventEmitter {
 }
 
 export default Walless;
+
+export * from './utils/type';

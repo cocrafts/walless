@@ -1,4 +1,4 @@
-import type Walless from '@walless/sdk';
+import type { Walless } from '@walless/sdk';
 
 import { registerWallet } from './register';
 import { WallessWallet } from './wallet';

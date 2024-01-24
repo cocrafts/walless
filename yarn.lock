@@ -11194,8 +11194,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/core@workspace:packages/core"
   dependencies:
-    "@mysten/sui.js": 0.34.0
-    "@solana/web3.js": 1.78.4
     eslint: ^8.51.0
     react-native-logs: 5.0.1
   languageName: unknown
@@ -11371,6 +11369,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@walless/sdk@workspace:packages/sdk"
   dependencies:
+    "@solana/web3.js": 1.78.4
     "@walless/core": "*"
     eslint: ^8.56.0
   languageName: unknown

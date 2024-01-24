@@ -1,6 +1,6 @@
 import { importKey } from '@taquito/signer';
 import type { TezosToolkit } from '@taquito/taquito';
-import type { TezosTransaction } from '@walless/core';
+import type { TezosTransaction } from '@walless/sdk';
 
 export const transferToken = async (
 	toolkit: TezosToolkit,

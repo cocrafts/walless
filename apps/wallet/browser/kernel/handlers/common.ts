@@ -1,6 +1,6 @@
-import type { ConnectOptions } from '@walless/core';
 import { Networks } from '@walless/core';
-import { ResponseCode } from '@walless/messaging';
+import { ResponseCode } from '@walless/core';
+import type { ConnectOptions } from '@walless/sdk';
 import type { PublicKeyDocument, TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 

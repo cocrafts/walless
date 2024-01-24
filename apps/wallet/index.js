@@ -1,6 +1,6 @@
-import { AppRegistry } from 'react-native';
+require('utils/shim');
 
-import 'utils/shim';
+import { AppRegistry } from 'react-native';
 
 import { name as appName } from './app.json';
 import App from './src';

@@ -1,6 +1,6 @@
 import { Image, StyleSheet } from 'react-native';
+import { ResponseCode } from '@walless/core';
 import { Anchor, Text, View } from '@walless/gui';
-import { ResponseCode } from '@walless/messaging';
 import { useSnapshot } from 'valtio';
 
 import { txContext } from '../context';

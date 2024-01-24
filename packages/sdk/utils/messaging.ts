@@ -1,5 +1,5 @@
 import type { RequestHashmap, UnknownObject } from '@walless/core';
-import { ResponseCode } from '@walless/messaging';
+import { ResponseCode } from '@walless/core';
 
 let initialized = false;
 let queueInterval: NodeJS.Timer | number | undefined;

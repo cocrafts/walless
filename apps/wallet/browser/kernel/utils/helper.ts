@@ -1,6 +1,5 @@
-import { Networks } from '@walless/core';
+import { Networks, RequestType } from '@walless/core';
 import { decryptWithPasscode } from '@walless/crypto';
-import { RequestType } from '@walless/messaging';
 import type { ExtensionDocument } from '@walless/store';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
 

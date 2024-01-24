@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useMemo } from 'react';
 import type { ViewStyle } from 'react-native';
 import {
 	KeyboardAvoidingView,
@@ -17,6 +18,7 @@ import {
 import { hideNativeKeyboard } from 'utils/system';
 
 import Navigator from './Navigator';
+import { colors } from 'utils/style';
 
 export const BrowserScreen: FC = () => {
 	const { uri } = useSnapshot(browserState);
@@ -24,26 +26,31 @@ export const BrowserScreen: FC = () => {
 	const source = { uri };
 	const { onLoadProgress, onLoadStart, onloadEnd } = useWebViewProgress();
 
+	const accumulateTabHeight = useMemo(() => {
+		return tabBarHeight + insets.bottom;
+	}, [insets.bottom]);
+
 	const containerStyle: ViewStyle = {
 		flex: 1,
 		paddingTop: insets.top,
 	};
 
 	const navigatorStyle: ViewStyle = {	
-		paddingBottom: tabBarHeight + insets.bottom,
+		paddingBottom: accumulateTabHeight, 
 	};
 
 	return (
 		<TouchableWithoutFeedback onPress={hideNativeKeyboard}>
 			<View style={containerStyle}>
 				<WebView
+					forceDarkOn
 					source={source}
 					style={styles.webviewContainer}
 					onLoadStart={onLoadStart as never}
 					onLoadProgress={onLoadProgress as never}
 					onLoadEnd={onloadEnd as never}
 				/>
-				<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-tabBarHeight}>
+				<KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-accumulateTabHeight}>
 					<Navigator style={navigatorStyle}/>
 				</KeyboardAvoidingView>
 			</View>
@@ -56,6 +63,7 @@ export default BrowserScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: colors.tabNavigatorBg,
 	},
 	webviewContainer: {
 		flex: 1,

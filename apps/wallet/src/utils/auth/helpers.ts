@@ -27,7 +27,7 @@ export const setProfile = async (profile: UserProfile) => {
 		doc.config = doc.config || {
 			version: '1.0.0',
 			hideBalance: true,
-			latestLocation: '/',
+			latestLocation: 'explorer',
 		};
 
 		return doc;

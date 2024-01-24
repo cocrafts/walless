@@ -14,14 +14,6 @@ export const setPrivacy = async (hideBalance: boolean) => {
 	});
 };
 
-export const setPathname = async (latestScreen: string) => {
-	await storage.upsert<SettingDocument>(id, async (doc) => {
-		doc.config = doc.config || {};
-		doc.config.latestLocation = latestScreen;
-		return doc;
-	});
-};
-
 export const syncDeviceInfo = async (device: DeviceInfoInput) => {
 	try {
 		await storage.upsert<SettingDocument>(id, async (doc) => {

@@ -1,9 +1,6 @@
 import type { FC, ReactNode } from 'react';
-import {
-	type LayoutChangeEvent,
-	StyleSheet,
-	type ViewStyle,
-} from 'react-native';
+import type { LayoutChangeEvent, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
 	Gesture,
 	GestureDetector,

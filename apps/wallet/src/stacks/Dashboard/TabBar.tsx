@@ -44,15 +44,19 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 		[offset],
 	);
 
+	const { routes, index } = state;
+	const currentRoute = routes[index];
+
 	useEffect(() => {
-		const { routes, index } = state;
-		const currentRoute = routes[index];
 		const widgetId = currentRoute.params?.params?.id;
 		const isExploreTab = currentRoute.name === 'Explore' && !widgetId;
+		const isHomeTab = currentRoute.name === 'Home';
 
-		const nextOffset = isDrawerOpen || isExploreTab ? 0 : realBarHeight;
+		const nextOffset =
+			isDrawerOpen || isExploreTab || isHomeTab ? 0 : realBarHeight;
+
 		offset.value = withTiming(nextOffset, timingConfig);
-	}, [isDrawerOpen]);
+	}, [isDrawerOpen, currentRoute]);
 
 	const containerStyle: ViewStyle = {
 		height: realBarHeight,

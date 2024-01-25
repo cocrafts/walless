@@ -2,7 +2,7 @@ import { logger } from '@walless/core';
 import type { PureMessagePayload } from '@walless/messaging';
 import { createEncryptionKeyVault, createMessenger } from '@walless/messaging';
 import type { SettingDocument } from '@walless/store';
-import { storage } from 'utils/storage';
+import { storage } from 'utils/storage/db';
 
 export interface PayloadOptions {
 	sourceRequestId: string;

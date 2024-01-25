@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { SlideComponentProps } from '@walless/gui';
 import { View } from '@walless/gui';
 import { NavButton } from 'components/NavButton';
+import { navigationRef } from 'utils/navigation';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
@@ -22,6 +23,23 @@ const TransactionResult: FC<Props> = ({ navigator }) => {
 		navigator.slideTo(0);
 	};
 
+	const handleBackToHome = () => {
+		navigationRef.reset({
+			index: 1,
+			routes: [
+				{ name: 'Dashboard' },
+				{
+					name: 'Dashboard',
+					params: {
+						screen: 'Home',
+					},
+				},
+			],
+		});
+		txActions.resetTransactionContext();
+		txActions.closeSendFeature();
+	};
+
 	return (
 		<View style={styles.container}>
 			<Header />
@@ -38,7 +56,7 @@ const TransactionResult: FC<Props> = ({ navigator }) => {
 				/>
 				<NavButton
 					style={styles.backButton}
-					onPress={txActions.closeSendFeature}
+					onPress={handleBackToHome}
 					title={'Back to home'}
 				/>
 			</View>

@@ -27,6 +27,21 @@ export const CollectibleFeat = () => {
 		return collections.find((ele) => ele._id === curCollectible?.collectionId);
 	}, [curCollectible, collections]);
 
+	const handleBackToHome = () => {
+		navigationRef.reset({
+			index: 1,
+			routes: [
+				{ name: 'Dashboard' },
+				{
+					name: 'Dashboard',
+					params: {
+						screen: 'Home',
+					},
+				},
+			],
+		});
+	};
+
 	const handlePressSend = () => {
 		showSendTokenModal({
 			network: curCollectible?.network,
@@ -37,7 +52,7 @@ export const CollectibleFeat = () => {
 	useEffect(() => {
 		// TODO: need to resolve and remove can go back if possible
 		if (!curCollectible && navigationRef.canGoBack()) {
-			// navigateBack();
+			handleBackToHome();
 		}
 	}, [curCollectible]);
 

@@ -3,7 +3,7 @@ import { Button, modalActions } from '@walless/gui';
 import { logout } from 'utils/auth';
 import { resetRoute } from 'utils/navigation';
 
-import { ModalId } from './internal';
+import { ModalId } from './types';
 
 const handleLogout = async () => {
 	await logout();

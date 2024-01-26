@@ -6,7 +6,7 @@ import type {
 	CollectionDocument,
 	TokenDocument,
 } from '@walless/store';
-import { ModalId } from 'modals/internal';
+import { ModalId } from 'modals/types';
 import { proxy } from 'valtio';
 
 export type TransactionType = 'Token' | 'Collectible';

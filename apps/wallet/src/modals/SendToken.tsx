@@ -13,7 +13,7 @@ import type { Props as SendFeatureProps } from 'features/Send';
 import SendFeature from 'features/Send';
 import { useSafeAreaInsets } from 'utils/hooks';
 
-import { ModalId } from './internal';
+import { ModalId } from './types';
 
 type Props = {
 	config: ModalConfigs;

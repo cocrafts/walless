@@ -6,7 +6,7 @@ import type { ModalConfigs } from '@walless/gui';
 import { BindDirections, modalActions, Text } from '@walless/gui';
 import { Copy } from '@walless/icons';
 
-import { ModalId } from './internal';
+import { ModalId } from './types';
 
 export interface NotificationModalContext {
 	id: string;

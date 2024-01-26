@@ -14,7 +14,7 @@ import { Times } from '@walless/icons';
 import TransactionDetailsFeature from 'features/TransactionDetailsFeature';
 import { useUniversalInsets } from 'utils/hooks';
 
-import { ModalId } from './internal';
+import { ModalId } from './types';
 
 export interface TransactionDetailsProps {
 	transaction: TransactionHistory;

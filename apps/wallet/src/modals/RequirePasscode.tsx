@@ -12,7 +12,7 @@ import {
 import type { ResponsePayload } from '@walless/messaging';
 import { ResponseCode } from '@walless/messaging';
 
-import { ModalId } from './internal';
+import { ModalId } from './types';
 
 export interface RequirePasscodeModalContext {
 	title?: string;

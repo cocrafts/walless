@@ -11,7 +11,7 @@ import {
 	View,
 } from '@walless/gui';
 
-import { ModalId } from './internal';
+import { ModalId } from './types';
 
 interface Props {
 	config: ModalConfigs;

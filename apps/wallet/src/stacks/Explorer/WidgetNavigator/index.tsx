@@ -3,9 +3,11 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
 import { runtime } from '@walless/core';
+import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { Compass } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
-import { showRemoveLayoutModal } from 'modals/RemoveLayout';
+import { RemoveLayoutModal } from 'modals/RemoveLayout';
+import { ModalId } from 'modals/types';
 import assets from 'utils/assets';
 import { useUniversalInsets } from 'utils/hooks';
 
@@ -20,6 +22,8 @@ interface Props {
 	onExtensionPress?: (item: WidgetDocument) => void;
 	onRemoveLayout: (item: WidgetDocument) => void;
 }
+
+const orbSize = 40;
 
 export const WidgetNavigator: FC<Props> = ({
 	style,
@@ -46,7 +50,7 @@ export const WidgetNavigator: FC<Props> = ({
 		_id: 'profile',
 		storeMeta: {
 			iconUri: profile?.profileImage as string,
-			iconSize: 40,
+			iconSize: orbSize,
 		} as never,
 	};
 	const isExplorerActive = getIsExtensionActive?.(exploreItem as never);
@@ -55,10 +59,18 @@ export const WidgetNavigator: FC<Props> = ({
 		item: WidgetDocument,
 		ref: React.RefObject<View>,
 	) => {
-		showRemoveLayoutModal({
-			item,
-			orbSize: 40,
-			onRemoveLayout,
+		modalActions.show({
+			id: ModalId.RemoveLayout,
+			component: RemoveLayoutModal,
+			context: {
+				item,
+				onRemoveLayout,
+			},
+			bindingDirection: BindDirections.Right,
+			animateDirection: AnimateDirections.Right,
+			positionOffset: {
+				y: orbSize / 2,
+			},
 			bindingRef: ref,
 		});
 	};

@@ -3,26 +3,17 @@ import type { ViewStyle } from 'react-native';
 import { View } from 'react-native';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import type { ModalConfigs } from '@walless/gui';
-import {
-	AnimateDirections,
-	BindDirections,
-	modalActions,
-	Text,
-} from '@walless/gui';
+import { modalActions, Text } from '@walless/gui';
 import { BackspaceRemove } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 import assets from 'utils/assets';
 
-import { ModalId } from './internal';
-
 export interface RemoveLayoutModalContext {
 	item: WidgetDocument;
-	orbSize: number;
-	onRemoveLayout?: (item: WidgetDocument) => void;
-	bindingRef?: React.RefObject<View>;
+	onRemoveLayout: (item: WidgetDocument) => void;
 }
 
-const RemoveLayoutModal: FC<{
+export const RemoveLayoutModal: FC<{
 	config: ModalConfigs;
 }> = ({ config }) => {
 	const { item, onRemoveLayout } = config.context as RemoveLayoutModalContext;
@@ -62,20 +53,6 @@ const RemoveLayoutModal: FC<{
 			</View>
 		</TouchableOpacity>
 	);
-};
-
-export const showRemoveLayoutModal = (context: RemoveLayoutModalContext) => {
-	modalActions.show({
-		id: ModalId.RemoveLayout,
-		component: RemoveLayoutModal,
-		context,
-		bindingDirection: BindDirections.Right,
-		animateDirection: AnimateDirections.Right,
-		positionOffset: {
-			y: context.orbSize / 2,
-		},
-		bindingRef: context.bindingRef,
-	});
 };
 
 const styles = StyleSheet.create({

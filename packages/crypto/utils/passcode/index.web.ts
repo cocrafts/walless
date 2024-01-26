@@ -5,7 +5,7 @@ import {
 	getDeriveKey,
 	getMaterialKey,
 	getRandomBytes,
-} from './helper';
+} from '../helper';
 
 export const encryptWithPasscode = async (
 	passcode: string,

@@ -10,13 +10,15 @@ import { txActions } from '../../context';
 
 export const requestTransactionFee = async (
 	payload: TransactionPayload,
-	requestID: number,
-) => {
+): Promise<{
+	fee: number;
+	feeTokenMint: string;
+}> => {
 	if (payload.receiver === '') {
 		txActions.update({ transactionFee: 0 });
 		return {
 			fee: 0,
-			requestID,
+			feeTokenMint: payload.tokenForFee?.account?.mint || '',
 		};
 	}
 
@@ -27,12 +29,12 @@ export const requestTransactionFee = async (
 				: await getTransactionFee(payload);
 		return {
 			fee,
-			requestID,
+			feeTokenMint: payload.tokenForFee?.account?.mint || '',
 		};
 	} catch {
 		return {
 			fee: 0,
-			requestID,
+			feeTokenMint: payload.tokenForFee?.account?.mint || '',
 		};
 	}
 };

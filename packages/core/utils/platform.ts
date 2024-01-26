@@ -1,4 +1,4 @@
-import { type UniversalRuntime } from './commonTypes';
+import { type UniversalRuntime } from './common';
 
 const userAgent = global.navigator?.userAgent?.toLowerCase() || 'server';
 const isOpera = userAgent.indexOf(' OPR/') !== -1;

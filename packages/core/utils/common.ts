@@ -1,6 +1,6 @@
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
 
-import type { Collectible, Token } from './entityTypes';
+import type { Collectible, Token } from './entity';
 
 export interface EncryptedWithPasscode {
 	iv: string;

@@ -84,13 +84,17 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 			};
 
 			setIsFeeLoading(true);
-			const fee = await requestTransactionFee(payload);
+
+			const { fee, feeTokenMint } = await requestTransactionFee(payload);
+			if (feeTokenMint !== txContext.tx.tokenForFee?.account.mint) return;
+
 			const decimals = payload.tokenForFee?.account?.decimals;
 			txActions.update({
 				transactionFee: parseFloat(fee.toPrecision(decimals)),
 			});
 			setIsFeeLoading(false);
 		};
+
 		updateTransactionFee();
 	}, [tokenForFee, token, collectible, receiver]);
 

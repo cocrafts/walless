@@ -8,10 +8,18 @@ import {
 
 import { txActions } from '../../context';
 
-export const requestTransactionFee = async (payload: TransactionPayload) => {
+export const requestTransactionFee = async (
+	payload: TransactionPayload,
+): Promise<{
+	fee: number;
+	feeTokenMint: string;
+}> => {
 	if (payload.receiver === '') {
 		txActions.update({ transactionFee: 0 });
-		return 0;
+		return {
+			fee: 0,
+			feeTokenMint: payload.tokenForFee?.account?.mint || '',
+		};
 	}
 
 	try {
@@ -19,9 +27,15 @@ export const requestTransactionFee = async (payload: TransactionPayload) => {
 			payload.tokenForFee?.metadata?.symbol !== 'SOL'
 				? await getTransactionAbstractFee(payload)
 				: await getTransactionFee(payload);
-		return fee;
+		return {
+			fee,
+			feeTokenMint: payload.tokenForFee?.account?.mint || '',
+		};
 	} catch {
-		return 0;
+		return {
+			fee: 0,
+			feeTokenMint: payload.tokenForFee?.account?.mint || '',
+		};
 	}
 };
 
@@ -53,7 +67,7 @@ export const getTokenName = (
 		if (tokenForFee && tokenForFee.metadata?.symbol) {
 			return tokenForFee.metadata.symbol;
 		} else {
-			return 'SOL';
+			return 'Unknown';
 		}
 	} else if (network == Networks.sui) {
 		return 'SUI';

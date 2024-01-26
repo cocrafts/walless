@@ -13,7 +13,6 @@ export interface PayloadOptions {
 export type PopupPayload = PureMessagePayload & PayloadOptions;
 
 export const encryptionKeyVault = createEncryptionKeyVault(storage);
-
 export const encryptedMessenger = createMessenger(encryptionKeyVault);
 
 export const launchSignInTab = async () => {

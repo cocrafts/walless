@@ -9,10 +9,10 @@ import { utils } from '@walless/network';
 import type { ConnectOptions } from '@walless/sdk';
 import type { TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
+import { storage } from 'utils/storage/db';
 
 import { closePopup, openPopup } from './popup';
 import { getRequestRecord, requestPool, respond } from './requestPool';
-import { storage } from './storage';
 import type { HandleMethod } from './types';
 
 export const getPrivateKey = (

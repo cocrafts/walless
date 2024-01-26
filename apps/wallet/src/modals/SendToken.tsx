@@ -49,6 +49,8 @@ export const showSendTokenModal = (props: SendFeatureProps) => {
 		bindingDirection: BindDirections.InnerBottom,
 		animateDirection: AnimateDirections.Top,
 		fullHeight: true,
+		maskActiveOpacity: 0.1,
+		positionOffset: { y: 32 },
 		component: ({ config }) => <SendModal config={config} props={props} />,
 	});
 };

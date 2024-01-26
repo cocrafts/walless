@@ -28,8 +28,6 @@ interface Props {
 	tokenList: TokenDocument[];
 }
 
-let currentTokenForFeeMint: string = '';
-
 export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
@@ -87,9 +85,8 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 
 			setIsFeeLoading(true);
 
-			currentTokenForFeeMint = payload.tokenForFee?.account?.mint as string;
 			const { fee, feeTokenMint } = await requestTransactionFee(payload);
-			if (feeTokenMint !== currentTokenForFeeMint) return;
+			if (feeTokenMint !== txContext.tx.tokenForFee?.account.mint) return;
 
 			const decimals = payload.tokenForFee?.account?.decimals;
 			txActions.update({

@@ -1,4 +1,10 @@
-import { logger, ResponseCode, runtime } from '@walless/core';
+import {
+	logger,
+	PopupType,
+	ResponseCode,
+	ResponseMessage,
+	runtime,
+} from '@walless/core';
 import type {
 	EncryptedMessage,
 	MessagePayload,
@@ -8,17 +14,16 @@ import type {
 } from '@walless/messaging';
 import {
 	Channels,
+	createEncryptionKeyVault,
 	createMessenger,
 	decryptMessage,
-	PopupType,
-	ResponseMessage,
 } from '@walless/messaging';
-
-import { encryptionKeyVault } from '../bridge/utils';
+import { storage } from 'utils/storage/db';
 
 import { onKernelMessage } from './handlers/kernel';
 import { respond } from './utils/requestPool';
 
+const encryptionKeyVault = createEncryptionKeyVault(storage);
 const channels = [
 	Channels.ui,
 	Channels.background,

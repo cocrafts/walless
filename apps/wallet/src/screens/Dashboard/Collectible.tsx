@@ -1,13 +1,20 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import type { Networks } from '@walless/core';
 import { Button, Text, View } from '@walless/gui';
 import { showSendTokenModal } from 'modals/SendToken';
 import { useNfts, useSafeAreaInsets } from 'utils/hooks';
-import { navigationRef } from 'utils/navigation';
+import { navigate } from 'utils/navigation';
+
+interface NavigateParams {
+	network: Networks;
+	collectionID: string;
+}
 
 export const CollectibleFeat = () => {
+	const [navigateParams, setNavigateParams] = useState<NavigateParams>();
 	const { collections, collectibles } = useNfts();
 	const insets = useSafeAreaInsets();
 	const {
@@ -20,27 +27,27 @@ export const CollectibleFeat = () => {
 
 	const curCollectible = useMemo(() => {
 		if (!id) return;
-		return collectibles.find((ele) => ele._id.includes(id));
+
+		const collectible = collectibles.find((ele) => ele._id.includes(id));
+		if (collectible) {
+			setNavigateParams({
+				network: collectible.network,
+				collectionID: collectible.collectionId.split('/').pop()!,
+			});
+		}
+
+		return collectible;
 	}, [collectibles]);
 
 	const curCollection = useMemo(() => {
-		return collections.find((ele) => ele._id === curCollectible?.collectionId);
+		return collections.find((ele) =>
+			ele._id.includes(
+				navigateParams?.collectionID ||
+					curCollectible?.collectionId ||
+					'invalid-collection',
+			),
+		);
 	}, [curCollectible, collections]);
-
-	const handleBackToHome = () => {
-		navigationRef.reset({
-			index: 1,
-			routes: [
-				{ name: 'Dashboard' },
-				{
-					name: 'Dashboard',
-					params: {
-						screen: 'Home',
-					},
-				},
-			],
-		});
-	};
 
 	const handlePressSend = () => {
 		showSendTokenModal({
@@ -50,9 +57,21 @@ export const CollectibleFeat = () => {
 	};
 
 	useEffect(() => {
-		// TODO: need to resolve and remove can go back if possible
-		if (!curCollectible && navigationRef.canGoBack()) {
-			handleBackToHome();
+		if (!curCollectible && navigateParams) {
+			if (!curCollection) {
+				navigate('Dashboard', {
+					screen: 'Explore',
+					params: { screen: 'Widget', params: { id: navigateParams.network } },
+				});
+			} else {
+				navigate('Dashboard', {
+					screen: 'Explore',
+					params: {
+						screen: 'Collection',
+						params: { id: navigateParams.collectionID },
+					},
+				});
+			}
 		}
 	}, [curCollectible]);
 

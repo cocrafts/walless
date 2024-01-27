@@ -25,7 +25,7 @@ export const useNavigationHydrate = () => {
 				key: string;
 				name: string;
 				params: {
-					screen: string;
+					screen?: string;
 					params: {
 						id: string;
 					};
@@ -33,9 +33,9 @@ export const useNavigationHydrate = () => {
 			};
 
 			const widgetId =
-				childRoute?.params.screen === 'Collectible' || 'Collection'
+				childRoute?.params?.screen === 'Collectible' || 'Collection'
 					? ''
-					: childRoute.params?.params?.id;
+					: childRoute.params?.params.id;
 
 			if (childRoute?.name === 'Explore' && widgetId !== lastWidgetId) {
 				lastWidgetId = widgetId;

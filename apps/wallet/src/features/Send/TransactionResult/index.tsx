@@ -36,7 +36,6 @@ const TransactionResult: FC<Props> = ({ navigator }) => {
 				},
 			],
 		});
-		txActions.resetTransactionContext();
 		txActions.closeSendFeature();
 	};
 

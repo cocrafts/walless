@@ -41,7 +41,7 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 			);
 			txActions.update({ collection });
 		}
-	}, []);
+	}, [collectible]);
 
 	return (
 		<KeyboardAvoidingView>

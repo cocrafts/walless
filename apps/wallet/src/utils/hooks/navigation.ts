@@ -21,10 +21,21 @@ export const useNavigationHydrate = () => {
 			/* eslint-disable */
 			const findDashboard = (i: any) => i.name === 'Dashboard';
 			const dashboard = state?.routes.find(findDashboard)?.state;
-			const childRoute = dashboard?.routes[dashboard?.index as never];
-			const widget = childRoute?.params as any;
-			const widgetId = widget?.params?.id;
-			/* eslint-enable */
+			const childRoute = dashboard?.routes[dashboard?.index as never] as {
+				key: string;
+				name: string;
+				params: {
+					screen: string;
+					params: {
+						id: string;
+					};
+				};
+			};
+
+			const widgetId =
+				childRoute?.params.screen === 'Collectible' || 'Collection'
+					? ''
+					: childRoute.params?.params?.id;
 
 			if (childRoute?.name === 'Explore' && widgetId !== lastWidgetId) {
 				lastWidgetId = widgetId;

@@ -1,59 +1,96 @@
 import type { FC } from 'react';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import type { ViewStyle } from 'react-native';
 import {
 	KeyboardAvoidingView,
 	StyleSheet,
 	TouchableWithoutFeedback,
-	View,
 } from 'react-native';
+import Animated, {
+	useAnimatedStyle,
+	useSharedValue,
+} from 'react-native-reanimated';
 import { WebView } from 'react-native-webview';
-import { browserState } from 'state/browser';
+import { browserActions, browserState } from 'state/browser';
 import { tabBarHeight } from 'utils/constants';
 import {
 	useSafeAreaInsets,
 	useSnapshot,
 	useWebViewProgress,
 } from 'utils/hooks';
+import { colors } from 'utils/style';
 import { hideNativeKeyboard } from 'utils/system';
 
 import Navigator from './Navigator';
-import { colors } from 'utils/style';
 
 export const BrowserScreen: FC = () => {
-	const { uri } = useSnapshot(browserState);
+	const { url: uri } = useSnapshot(browserState);
+	const webviewRef = useRef<WebView>();
 	const insets = useSafeAreaInsets();
 	const source = { uri };
-	const { onLoadProgress, onLoadStart, onloadEnd } = useWebViewProgress();
+	const scrollOffset = useSharedValue<number>(0);
+	const {
+		backgroundColor,
+		progress,
+		onLoadProgress,
+		onLoadStart,
+		onloadEnd,
+		onMessage,
+	} = useWebViewProgress(webviewRef as never);
 
 	const accumulateTabHeight = useMemo(() => {
 		return tabBarHeight + insets.bottom;
 	}, [insets.bottom]);
 
-	const containerStyle: ViewStyle = {
-		flex: 1,
-		paddingTop: insets.top,
+	const containerStyle: ViewStyle = useAnimatedStyle(() => {
+		return {
+			flex: 1,
+			backgroundColor: backgroundColor.value,
+			paddingTop: insets.top,
+		};
+	}, [backgroundColor]);
+
+	const navigatorStyle: ViewStyle = {
+		paddingBottom: accumulateTabHeight,
 	};
 
-	const navigatorStyle: ViewStyle = {	
-		paddingBottom: accumulateTabHeight, 
+	/* eslint-disable-next-line */
+  const onWebViewScroll = ({ nativeEvent: { contentOffset } }: any) => {
+		scrollOffset.value = contentOffset.y;
+	};
+
+	const handleBrowserGo = (url: string) => {
+		browserActions.setUrl(url);
+		console.log(url);
 	};
 
 	return (
 		<TouchableWithoutFeedback onPress={hideNativeKeyboard}>
-			<View style={containerStyle}>
+			<Animated.View style={containerStyle}>
 				<WebView
 					forceDarkOn
+					webviewDebuggingEnabled
+					useWebView2={false}
+					ref={(ref) => (webviewRef.current = ref as never)}
 					source={source}
 					style={styles.webviewContainer}
+					onScroll={onWebViewScroll}
+					onMessage={onMessage as never}
 					onLoadStart={onLoadStart as never}
 					onLoadProgress={onLoadProgress as never}
 					onLoadEnd={onloadEnd as never}
 				/>
-				<KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-accumulateTabHeight}>
-					<Navigator style={navigatorStyle}/>
+				<KeyboardAvoidingView
+					behavior="position"
+					keyboardVerticalOffset={-accumulateTabHeight}
+				>
+					<Navigator
+						style={navigatorStyle}
+						progress={progress}
+						onGo={handleBrowserGo}
+					/>
 				</KeyboardAvoidingView>
-			</View>
+			</Animated.View>
 		</TouchableWithoutFeedback>
 	);
 };
@@ -67,5 +104,6 @@ const styles = StyleSheet.create({
 	},
 	webviewContainer: {
 		flex: 1,
+		backgroundColor: 'transparent',
 	},
 });

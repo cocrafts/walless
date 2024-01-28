@@ -1,9 +1,9 @@
 import type { FC } from 'react';
-import { Circle, Path, Svg } from 'react-native-svg';
+import { Path, Rect, Svg } from 'react-native-svg';
 
 import type { IconProps } from './types';
 
-export const Search: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
+export const Lock: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
 	return (
 		<Svg
 			width={size}
@@ -15,10 +15,10 @@ export const Search: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
 			strokeLinecap="round"
 			strokeLinejoin="round"
 		>
-			<Circle cx={11} cy={11} r={8} />
-			<Path d="m21 21-4.3-4.3" />
+			<Rect width={18} height={11} x={3} y={11} rx={2} ry={2} />
+			<Path d="M7 11V7a5 5 0 0 1 10 0v4" />
 		</Svg>
 	);
 };
 
-export default Search;
+export default Lock;

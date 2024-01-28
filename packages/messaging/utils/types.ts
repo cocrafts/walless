@@ -1,6 +1,7 @@
 import type {
 	ChannelHashmap,
 	MiniBroadcast,
+	RequestType,
 	ResponseCode,
 	UnknownObject,
 } from '@walless/core';

@@ -42,12 +42,17 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 	const checkAmount = (amount?: string) => {
 		if (!token || !amount) return;
+
+		if (Number(amount) <= 0) {
+			return 'Positive amount required';
+		}
+
 		if (isNaN(Number(amount))) {
 			return 'Invalid amount number';
-		} else if (balance) {
-			if (Number(amount) > balance) {
-				return 'Your balance is not enough';
-			}
+		}
+
+		if (balance && Number(amount) > balance) {
+			return 'Your balance is not enough';
 		}
 	};
 
@@ -59,8 +64,9 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 			const balanceBN = new BN(balance * decimalsMultiplier);
 			const feeBN = new BN(transactionFee * decimalsMultiplier);
 			const amountBN = balanceBN.sub(feeBN);
+			const amount = amountBN.toNumber() / decimalsMultiplier;
 			txActions.update({
-				amount: (amountBN.toNumber() / decimalsMultiplier).toString(),
+				amount: amount <= 0 ? '0' : amount.toString(),
 			});
 		} else {
 			txActions.update({ amount: balance.toString() });
@@ -143,7 +149,6 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 	},
 	balanceContainer: {
-		marginTop: -20,
 		marginTop: -8,
 		marginBottom: 12,
 		flexDirection: 'row',

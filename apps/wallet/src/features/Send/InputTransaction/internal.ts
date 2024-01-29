@@ -38,6 +38,11 @@ export const totalCheckFieldsToContinue = () => {
 					valid: false,
 					message: 'Please type token amount to transfer',
 				};
+			} else if (parseFloat(amount) <= 0) {
+				return {
+					valid: false,
+					message: 'Invalid amount',
+				};
 			} else if (parseFloat(amount) > balance) {
 				return {
 					valid: false,

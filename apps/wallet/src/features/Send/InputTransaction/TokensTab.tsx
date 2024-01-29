@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
 	},
 	balanceContainer: {
 		marginTop: -20,
+		marginTop: -8,
 		marginBottom: 12,
 		flexDirection: 'row',
 		alignItems: 'center',

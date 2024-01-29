@@ -23,9 +23,11 @@ const CheckedInput: FC<Props> = ({ value, checkFunction, ...inputProps }) => {
 				importantStyle={!!errorText && styles.errorInputStyle}
 				onBlur={handlerBlur}
 			/>
-			<View style={styles.bottomBox}>
-				{!!errorText && <Text style={styles.errorText}>{errorText}</Text>}
-			</View>
+			{!!errorText && (
+				<View style={styles.bottomBox}>
+					<Text style={styles.errorText}>{errorText}</Text>
+				</View>
+			)}
 		</View>
 	);
 };
@@ -51,8 +53,7 @@ const styles = StyleSheet.create({
 		right: 10,
 	},
 	bottomBox: {
-		height: 14,
-		marginTop: 1,
+		marginTop: 4,
 		marginRight: 'auto',
 		paddingLeft: 6,
 	},

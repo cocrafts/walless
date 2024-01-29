@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { Networks, Token } from '@walless/core';
 import { Button, Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
+import BN from 'bn.js';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
 import { useTokens } from 'utils/hooks';
@@ -54,8 +55,13 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		if (!transactionFee || !token || !tokenForFee) return;
 
 		if (token._id === tokenForFee._id) {
-			const amount = balance - transactionFee;
-			txActions.update({ amount: amount.toString() });
+			const decimalsMultiplier = 10 ** token.account.decimals;
+			const balanceBN = new BN(balance * decimalsMultiplier);
+			const feeBN = new BN(transactionFee * decimalsMultiplier);
+			const amountBN = balanceBN.sub(feeBN);
+			txActions.update({
+				amount: (amountBN.toNumber() / decimalsMultiplier).toString(),
+			});
 		} else {
 			txActions.update({ amount: balance.toString() });
 		}

@@ -16,6 +16,7 @@ import {
 	getCollectiblesOnChain,
 	updateCollectibleToStorage,
 } from './collectibles';
+import { getTransactionsHistory } from './history';
 import { throttle } from './internal';
 import { watchAccount, watchLogs } from './subscription';
 import {
@@ -73,6 +74,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 					}),
 					watchLogs(connection, endpoint, wallet),
 					watchAccount(connection, endpoint, wallet, wallet),
+					getTransactionsHistory(connection, wallet, accounts),
 				] as never[];
 			});
 

@@ -39,9 +39,11 @@ const HistoryFeature: FC<Props> = ({ style, network, limit }) => {
 				<Fragment>
 					{history.slice(0, limit).map((transaction) => {
 						let isOnTheSameDate = true;
-						const transactionDate = convertDateToReadable(transaction.date);
+						const transactionDate = convertDateToReadable(
+							new Date(transaction.date),
+						);
 						if (date !== transactionDate) {
-							date = convertDateToReadable(transaction.date);
+							date = convertDateToReadable(new Date(transaction.date));
 							isOnTheSameDate = false;
 						}
 						return isOnTheSameDate ? (

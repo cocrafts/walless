@@ -84,11 +84,13 @@ export interface TransactionHistory {
 	id: string;
 	signature: string;
 	network: Networks;
-	type: 'Sent' | 'Received';
+	transactionType: 'Sent' | 'Received';
 	status: 'Success' | 'Pending' | 'Failed';
 	sender: string;
 	receiver: string;
-	token: Omit<Token, 'account'> | Omit<Collectible, 'account' | 'collectionId'>;
+	token:
+		| Omit<Token, 'account'>
+		| Omit<Collectible, 'account' | 'collectionId' | 'collectionAddress'>;
 	tokenForFee: Token;
 	fee: number;
 	preBalance?: number;

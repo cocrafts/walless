@@ -11,6 +11,7 @@ import type {
 	Setting,
 	System,
 	Token,
+	TransactionHistory,
 	TrustedDomain,
 	UnknownObject,
 	Widget,
@@ -28,7 +29,8 @@ export type DocumentType =
 	| 'Metadata'
 	| 'TrustedDomain'
 	| 'Widget'
-	| 'Extension';
+	| 'Extension'
+	| 'History';
 
 export interface IndexedDocument {
 	type: DocumentType;
@@ -74,6 +76,8 @@ export type TrustedDomainDocument = PouchDocument<TrustedDomain>;
 export type CollectionDocument = PouchDocument<Collection>;
 
 export type CollectibleDocument = PouchDocument<Collectible>;
+
+export type TransactionHistoryDocument = PouchDocument<TransactionHistory>;
 
 export type TypedFind = <T extends object, F extends object = never>(
 	request?: PouchDB.Find.FindRequest<F> | undefined,

@@ -1,4 +1,4 @@
-import type { Endpoint, Networks } from './commonTypes';
+import type { Endpoint, Networks } from './common';
 
 export interface AptosTokenMetadata {
 	creatorAddress: string;
@@ -24,7 +24,7 @@ export interface Setting {
 export type EndpointMap = Record<Networks, Endpoint>;
 
 export interface Config {
-	version?: string;
+	storageVersion?: number;
 	hideBalance: boolean;
 	latestLocation: string;
 	notificationToken?: string;

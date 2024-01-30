@@ -25,7 +25,7 @@ export const setProfile = async (profile: UserProfile) => {
 		doc.type = doc.type || 'Setting';
 		doc.profile = profile;
 		doc.config = doc.config || {
-			version: '1.0.0',
+			storageVersion: 2,
 			hideBalance: true,
 			latestLocation: 'explorer',
 		};

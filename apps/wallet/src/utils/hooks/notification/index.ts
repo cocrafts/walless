@@ -6,11 +6,13 @@ import {
 } from 'react-native-permissions';
 import getMessaging from '@react-native-firebase/messaging';
 import { logger } from '@walless/core';
+import { appState } from 'state/app';
 import { runtimeActions } from 'state/runtime';
 import { getDeviceInfo } from 'utils/device';
 
 const syncDeviceAndNotification = async (nextToken?: string) => {
 	const deviceInfo = await getDeviceInfo();
+	appState.version = deviceInfo.appVersion as string;
 	deviceInfo.notificationToken = nextToken;
 	runtimeActions.syncDeviceInfo(deviceInfo);
 };

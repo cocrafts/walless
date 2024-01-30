@@ -18,7 +18,6 @@ export const syncDeviceInfo = async (device: DeviceInfoInput) => {
 	try {
 		await storage.upsert<SettingDocument>(id, async (doc) => {
 			doc.config = Object.assign({}, doc.config);
-			doc.config.version = device.appVersion as string;
 			doc.config.notificationToken = device.notificationToken as string;
 			return doc;
 		});

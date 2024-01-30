@@ -10,6 +10,7 @@
     "build:web": "rimraf metacraft builds && metacraft bundle",
     "build:ext": "BUILD_TARGET=extension && yarn build:web && node browser/bundler",
     "build:store": "BUILD_TARGET=extension && yarn build:web && yarn badlinks && node browser/bundler",
+    "build:android": "npx react-native build-android --mode=release",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

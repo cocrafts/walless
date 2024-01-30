@@ -17,6 +17,8 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 	const user = auth().currentUser;
 	const deviceInfo = await getDeviceInfo();
 
+	appState.version = deviceInfo.appVersion as string;
+
 	if (user?.uid) {
 		if (appState.remoteConfig.deepAnalyticsEnabled) {
 			runtimeActions.syncRemoteProfile();

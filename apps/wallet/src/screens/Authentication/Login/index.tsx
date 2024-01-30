@@ -13,7 +13,7 @@ import SignInInner from './SignInInner';
 export const LoginScreen: FC = () => {
 	const [loading, setLoading] = useState(false);
 	const insets = useSafeAreaInsets();
-	const { invitationCode, config } = useSnapshot(appState);
+	const { invitationCode, version } = useSnapshot(appState);
 	const containerStyle = {
 		paddingTop: insets.top,
 		paddingBottom: insets.bottom,
@@ -37,7 +37,7 @@ export const LoginScreen: FC = () => {
 					<Anchor href="https://walless.io/faq/login" title="Help page" />
 				</View>
 				<Text style={styles.poweredText}>
-					Powered by walless.io, version@{config?.version}
+					Powered by walless.io, version@{version}
 				</Text>
 			</View>
 		</View>

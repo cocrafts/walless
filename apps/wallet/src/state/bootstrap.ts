@@ -25,7 +25,7 @@ import type { Engine } from 'engine/types';
 import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
 import { ResetAnchors, resetRoute } from 'utils/navigation';
-import { storage } from 'utils/storage';
+import { migrateDatabase, storage } from 'utils/storage';
 
 import { appState } from './app';
 import { collectibleState, collectionState, tokenState } from './assets';
@@ -36,8 +36,10 @@ export const bootstrap = async (): Promise<void> => {
 	const startTime = new Date();
 	appState.remoteConfig = loadRemoteConfig();
 
+	await configure(storage);
+	await migrateDatabase();
 	await Promise.all([
-		configure(storage).then(configEngine),
+		configEngine(),
 		initializeAuth(),
 		watchStorageAndSyncState(),
 	]);

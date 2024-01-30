@@ -1,13 +1,11 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
 import { runtime } from '@walless/core';
-import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import { Compass } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
-import { RemoveLayoutModal } from 'modals/RemoveLayout';
-import { ModalId } from 'modals/types';
+import { showRemoveLayoutModal } from 'modals/RemoveLayout';
 import assets from 'utils/assets';
 import { useUniversalInsets } from 'utils/hooks';
 
@@ -59,18 +57,12 @@ export const WidgetNavigator: FC<Props> = ({
 		item: WidgetDocument,
 		ref: React.RefObject<View>,
 	) => {
-		modalActions.show({
-			id: ModalId.RemoveLayout,
-			component: RemoveLayoutModal,
+		showRemoveLayoutModal({
 			context: {
 				item,
 				onRemoveLayout,
 			},
-			bindingDirection: BindDirections.Right,
-			animateDirection: AnimateDirections.Right,
-			positionOffset: {
-				y: orbSize / 2,
-			},
+			orbSize,
 			bindingRef: ref,
 		});
 	};

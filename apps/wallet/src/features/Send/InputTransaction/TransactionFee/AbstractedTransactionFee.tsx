@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: 4,
+		gap: 8,
 	},
 	feeText: {
 		fontWeight: '500',

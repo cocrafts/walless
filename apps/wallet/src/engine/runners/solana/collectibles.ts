@@ -92,21 +92,18 @@ export const loadCollectibleMetadata = async (
 		tokenOwner: owner,
 	});
 
-	// TODO: need to resolve fetch metadata of nft using metaplex on mobile
-	if (metadata.jsonLoaded && !metadata.json) {
-		if ('mintAddress' in metadata) {
-			const nftByMint = await mpl.nfts().findByMint({
-				mintAddress: metadata.mintAddress,
-				loadJsonMetadata: metadata.jsonLoaded,
-				tokenOwner: owner,
-			});
-			const jsonRes = await fetch(metadata.uri, { method: 'GET' });
-			nft = {
-				...nftByMint,
-				json: await jsonRes.json(),
-				jsonLoaded: true,
-			};
-		}
+	if (!metadata.json && 'mintAddress' in metadata) {
+		const nftByMint = await mpl.nfts().findByMint({
+			mintAddress: metadata.mintAddress,
+			loadJsonMetadata: metadata.jsonLoaded,
+			tokenOwner: owner,
+		});
+		const jsonRes = await fetch(metadata.uri, { method: 'GET' });
+		nft = {
+			...nftByMint,
+			json: await jsonRes.json(),
+			jsonLoaded: true,
+		};
 	}
 
 	return nft as SftWithToken | NftWithToken;

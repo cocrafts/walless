@@ -95,7 +95,6 @@ export const loadCollectibleMetadata = async (
 	if (!metadata.json && 'mintAddress' in metadata) {
 		const nftByMint = await mpl.nfts().findByMint({
 			mintAddress: metadata.mintAddress,
-			loadJsonMetadata: metadata.jsonLoaded,
 			tokenOwner: owner,
 		});
 		const jsonRes = await fetch(metadata.uri, { method: 'GET' });

@@ -14,6 +14,7 @@ import type { TokenDocument, TransactionHistoryDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { storage } from 'utils/storage';
 
+import { throttle } from './internal';
 import { getMetadata } from './metadata';
 import type { ParsedTokenAccountWithAddress } from './types';
 
@@ -24,17 +25,27 @@ export const getTransactionsHistory = async (
 	wallet: PublicKey,
 	accounts: ParsedTokenAccountWithAddress[],
 ) => {
-	const splTokenAccount = accounts
+	const tokenAccounts = accounts
 		.filter((account) => account.tokenAmount.decimals > 0)
 		.map((account) => account.publicKey);
 
-	const accountList = [wallet].concat(splTokenAccount);
+	tokenAccounts.unshift(wallet);
+
 	const signatureList = [
-		...new Set(await getTransactionSignatures(connection, accountList)),
+		...new Set(await getTransactionSignatures(connection, tokenAccounts)),
 	];
+
 	const transactions = (
-		await getTransactionsDetail(connection, signatureList)
-	).slice(0, 20);
+		await connection.getParsedTransactions(signatureList, {
+			maxSupportedTransactionVersion: 0,
+			commitment: 'finalized',
+		})
+	)
+		.sort((trans1, trans2) =>
+			(trans1?.blockTime || 0) < (trans2?.blockTime || 0) ? 1 : -1,
+		)
+		.slice(0, historyLimit);
+
 	const transactionHistoryDocuments: TransactionHistoryDocument[] = (
 		await Promise.all(
 			transactions
@@ -49,55 +60,34 @@ export const getTransactionsHistory = async (
 		)
 	).filter((doc) => doc !== null);
 
-	removeOldHistories(transactionHistoryDocuments);
-
 	transactionHistoryDocuments.forEach((historyDoc) => {
 		storage.upsert<TransactionHistoryDocument>(historyDoc._id, async () => {
 			return historyDoc;
 		});
 	});
+
+	removeOldHistories();
 };
 
 const getTransactionSignatures = async (
 	connection: Connection,
 	accountList: PublicKey[],
 ) => {
-	const signatureBufferList = await Promise.all(
-		accountList.map(async (account) => {
-			const transactionList = await connection.getSignaturesForAddress(
-				account,
-				{
-					limit: historyLimit,
-				},
-			);
+	const signatureList = (
+		await Promise.all(
+			accountList.map(async (account) => {
+				const transactionList = await throttle(() => {
+					return connection.getSignaturesForAddress(account, {
+						limit: historyLimit,
+					});
+				})();
 
-			return transactionList.map((trans) => trans.signature);
-		}),
-	);
-
-	const signatureList = signatureBufferList.reduce((signatureList, subList) => {
-		return signatureList.concat(subList);
-	}, []);
+				return transactionList.map((trans) => trans.signature);
+			}),
+		)
+	).flat();
 
 	return signatureList;
-};
-
-const getTransactionsDetail = async (
-	connection: Connection,
-	signatureList: string[],
-) => {
-	const parsedTransactions = await connection.getParsedTransactions(
-		signatureList,
-		{
-			maxSupportedTransactionVersion: 0,
-			commitment: 'finalized',
-		},
-	);
-	const sortedTransactions = parsedTransactions.sort((trans1, trans2) =>
-		(trans1?.blockTime || 0) < (trans2?.blockTime || 0) ? 1 : -1,
-	);
-
-	return sortedTransactions;
 };
 
 const constructTransactionHistoryDocument = async (
@@ -118,7 +108,7 @@ const constructTransactionHistoryDocument = async (
 	const { sender, receiver, amount, token } =
 		(await getTransactionBalances(connection, parsedTransaction)) || {};
 
-	const tokenForFee = await getTransactionFee(walletAddress);
+	const tokenForFee = await getTransactionTokenFee(walletAddress);
 	const fee = (meta?.fee || 0) / 10 ** (tokenForFee?.account.decimals || 9);
 	const date = blockTime ? new Date(blockTime * 1000) : new Date();
 
@@ -162,7 +152,6 @@ const getTransactionBalances = async (
 };
 
 const getNativeTransactionBalances = async (transaction: ParsedTransaction) => {
-	// const _id = `${walletAddress}/token/${solana.solMint}`;
 	const token: TransactionHistory['token'] = {
 		network: Networks.solana,
 		metadata: solana.solMetadata,
@@ -217,17 +206,17 @@ const analyzeTokenBalances = (
 	postTokenBalances: TokenBalance[],
 ) => {
 	if (postTokenBalances.length > preTokenBalances.length) {
-		const referralPreBalance = preTokenBalances[0];
+		const referencedPreBalance = preTokenBalances[0];
 		const correspondingPostBalance = postTokenBalances.find(
-			(balance) => balance.accountIndex === referralPreBalance.accountIndex,
+			(balance) => balance.accountIndex === referencedPreBalance.accountIndex,
 		);
 		const otherPostBalance = postTokenBalances.find(
-			(balance) => balance.accountIndex !== referralPreBalance.accountIndex,
+			(balance) => balance.accountIndex !== referencedPreBalance.accountIndex,
 		);
-		const mint = referralPreBalance.mint;
+		const mint = referencedPreBalance.mint;
 		const amount =
 			(correspondingPostBalance?.uiTokenAmount.uiAmount || 0) -
-			(referralPreBalance?.uiTokenAmount.uiAmount || 0);
+			(referencedPreBalance?.uiTokenAmount.uiAmount || 0);
 
 		let sender: string;
 		let receiver: string;
@@ -247,16 +236,16 @@ const analyzeTokenBalances = (
 		};
 	}
 
-	const referralPostBalance = postTokenBalances[0];
+	const referencedPostBalance = postTokenBalances[0];
 	const correspondingPreBalance = preTokenBalances.find(
-		(balance) => balance.accountIndex === referralPostBalance.accountIndex,
+		(balance) => balance.accountIndex === referencedPostBalance.accountIndex,
 	);
 	const otherPreBalance = preTokenBalances.find(
-		(balance) => balance.accountIndex !== referralPostBalance.accountIndex,
+		(balance) => balance.accountIndex !== referencedPostBalance.accountIndex,
 	);
-	const mint = referralPostBalance.mint;
+	const mint = referencedPostBalance.mint;
 	const amount =
-		(referralPostBalance.uiTokenAmount.uiAmount || 0) -
+		(referencedPostBalance.uiTokenAmount.uiAmount || 0) -
 		(correspondingPreBalance?.uiTokenAmount.uiAmount || 0);
 
 	let sender: string;
@@ -277,42 +266,24 @@ const analyzeTokenBalances = (
 	};
 };
 
-const getTransactionFee = async (walletAddress: string) => {
+const getTransactionTokenFee = async (walletAddress: string) => {
 	return await storage.safeGet<TokenDocument>(
 		`${walletAddress}/token/${solana.solMint}`,
 	);
 };
 
-const removeOldHistories = async (
-	newHistoryDocs: TransactionHistoryDocument[],
-) => {
+const removeOldHistories = async () => {
 	const { docs } = await storage.find(selectors.allHistories);
 
 	if (docs.length === 0) return;
 
-	const oldHistoryDocs = (docs as TransactionHistoryDocument[]).sort(
+	const historyDocs = (docs as TransactionHistoryDocument[]).sort(
 		(doc1, doc2) => (doc1.date > doc2.date ? -1 : 1),
 	);
 
-	for (let i = 0; i < 20; i++) {
-		if (newHistoryDocs.length === 0 && oldHistoryDocs.length === 0) return;
+	const historyDocsToRemove = historyDocs.slice(historyLimit);
 
-		const currentNewDoc = newHistoryDocs[0];
-		const currentOldDoc = oldHistoryDocs[0];
-
-		if (currentNewDoc) {
-			if (currentNewDoc._id === currentOldDoc._id) {
-				oldHistoryDocs.shift();
-			}
-			newHistoryDocs.shift();
-		} else {
-			oldHistoryDocs.shift();
-		}
-	}
-
-	Promise.all(
-		oldHistoryDocs.map(async (doc) => {
-			await storage.removeDoc(doc._id);
-		}),
-	);
+	historyDocsToRemove.forEach((doc) => {
+		storage.removeDoc(doc._id);
+	});
 };

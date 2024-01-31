@@ -10,6 +10,7 @@ import SelectToToken from './SelectToToken';
 export interface SwapContext {
 	network?: Networks;
 	fromToken?: TokenDocument;
+	toToken?: TokenDocument;
 }
 
 const initialContext = {};
@@ -52,9 +53,5 @@ export const swapActions = {
 	},
 	closeSelectToken: (type: 'from' | 'to') => {
 		modalActions.hide(modalMap[type].id);
-
-		setTimeout(() => {
-			swapActions.resetTransactionContext();
-		}, 200);
 	},
 };

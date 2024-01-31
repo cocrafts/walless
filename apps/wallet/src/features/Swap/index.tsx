@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { View } from '@walless/gui';
 import ModalHeader from 'components/ModalHeader';
+import { useTokens } from 'utils/hooks';
 
 import { swapActions } from './context';
 import InputSwap from './InputSwap';
@@ -13,18 +14,20 @@ export type Props = {
 };
 
 const SwapFeature: FC<Props> = ({ network, onPressClose }) => {
+	const { tokens } = useTokens(network);
+
 	const handleClose = () => {
 		onPressClose?.();
 	};
 
 	useEffect(() => {
-		swapActions.update({ network });
+		swapActions.update({ network, fromToken: tokens[0] });
 	}, []);
 
 	return (
 		<View style={styles.container}>
 			<ModalHeader content="Swap" onPressClose={handleClose} />
-			<InputSwap network={network} />
+			<InputSwap />
 		</View>
 	);
 };

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
+import TokenList from 'features/Widget/BuiltInNetwork/TokenList';
 import { useSnapshot, useTokens } from 'utils/hooks';
 
 import { swapActions, swapContext } from './context';
@@ -17,9 +18,11 @@ const SelectFromToken: FC = () => {
 		<View style={styles.container}>
 			<SelectModalHeader onBack={handleBack} />
 
-			{tokens.map((t) => {
-				return <View key={t._id}></View>;
-			})}
+			<TokenList
+				itemStyle={styles.tokenStyle}
+				separateStyle={styles.separateLineStyle}
+				items={tokens}
+			/>
 		</View>
 	);
 };
@@ -35,5 +38,11 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 28,
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
+	},
+	tokenStyle: {
+		paddingHorizontal: 0,
+	},
+	separateLineStyle: {
+		paddingHorizontal: 0,
 	},
 });

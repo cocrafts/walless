@@ -1,29 +1,25 @@
 import { type FC, useMemo, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
-import type { Networks } from '@walless/core';
 import { Switch } from '@walless/icons';
-import { useTokens } from 'utils/hooks';
+import { useSnapshot } from 'utils/hooks';
 
-import { swapActions } from './context';
+import type { SwapContext } from './context';
+import { swapActions, swapContext } from './context';
 import SelectButton from './SelectButton';
 
-type Props = {
-	network?: Networks;
-};
-
-const InputSwap: FC<Props> = ({ network }) => {
-	const { tokens } = useTokens(network);
-	const [fromToken] = useState(tokens[0]);
+const InputSwap: FC = () => {
+	const { fromToken } = useSnapshot(swapContext).swap as SwapContext;
 	const [amount, setAmount] = useState('');
 
 	const balance = useMemo(() => {
+		if (!fromToken) return 0;
 		return (
 			parseFloat(fromToken.account.balance) / 10 ** fromToken.account.decimals
 		);
 	}, [fromToken]);
 
 	const priceString = useMemo(() => {
-		if (!fromToken.account.quotes) return '-';
+		if (!fromToken?.account.quotes) return '-';
 		if (!amount || isNaN(parseFloat(amount))) return '$0.00';
 		const price = parseFloat(amount) * fromToken.account.quotes?.usd;
 		return `$${price.toFixed(2)}`;

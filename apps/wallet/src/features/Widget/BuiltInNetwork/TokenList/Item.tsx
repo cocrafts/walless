@@ -10,9 +10,10 @@ interface Props {
 	style?: StyleProp<ViewStyle>;
 	index: number;
 	item: TokenDocument;
+	onPress?: () => void;
 }
 
-export const TokenItem: FC<Props> = ({ style, item }) => {
+export const TokenItem: FC<Props> = ({ style, item, onPress }) => {
 	const { metadata = {}, account } = item;
 	const { symbol, imageUri } = metadata;
 	const amount = parseTokenAccount(account);
@@ -23,7 +24,7 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 	const itemName = symbol || 'Unknown';
 
 	return (
-		<Hoverable style={[styles.container, style]}>
+		<Hoverable style={[styles.container, style]} onPress={onPress}>
 			<Image style={styles.iconImg} source={iconSource} resizeMode="cover" />
 			<View style={styles.infoContainer}>
 				<Text style={styles.primaryText}>{itemName}</Text>
@@ -62,10 +63,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingVertical: 4,
 		paddingHorizontal: 12,
+		gap: 2,
 	},
 	balanceContainer: {
 		paddingVertical: 4,
 		alignItems: 'flex-end',
+		gap: 2,
 	},
 	primaryText: {
 		color: 'white',

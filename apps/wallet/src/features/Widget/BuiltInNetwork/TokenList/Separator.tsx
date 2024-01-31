@@ -1,10 +1,15 @@
 import { type FC } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 
-const Separator: FC = () => {
+type Props = {
+	style?: StyleProp<ViewStyle>;
+};
+
+const Separator: FC<Props> = ({ style }) => {
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			<View style={styles.inner} />
 		</View>
 	);

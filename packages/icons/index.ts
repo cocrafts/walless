@@ -45,6 +45,7 @@ export { Search } from './components/Search';
 export { Setting } from './components/Setting';
 export { Shield } from './components/Shield';
 export { Swap } from './components/Swap';
+export { Switch } from './components/Switch';
 export { Times } from './components/Times';
 export { Twitter } from './components/Twitter';
 export * from './components/types';

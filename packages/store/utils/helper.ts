@@ -21,4 +21,5 @@ export const selectors: Record<string, Selector> = {
 	allCollectibles: { selector: { type: 'NFT' } },
 	allCollections: { selector: { type: 'Collection' } },
 	trustedDomains: { selector: { type: 'TrustedDomain' } },
+	allHistories: { selector: { type: 'History' } },
 };

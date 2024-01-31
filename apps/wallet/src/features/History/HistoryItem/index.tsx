@@ -12,10 +12,10 @@ import ItemAmount from './ItemAmount';
 import ItemTokenIcon from './ItemTokenIcon';
 
 const HistoryItem: FC<TransactionHistory> = (transaction) => {
-	const { type, amount, network, sender, receiver, status, token } =
+	const { transactionType, amount, network, sender, receiver, status, token } =
 		transaction;
 	const networkInfo = getNetworkInfo(network);
-	const address = type === 'Sent' ? receiver : sender;
+	const address = transactionType === 'Sent' ? receiver : sender;
 
 	const icon = token.metadata?.imageUri
 		? { uri: token.metadata.imageUri }
@@ -29,13 +29,13 @@ const HistoryItem: FC<TransactionHistory> = (transaction) => {
 			<View style={styles.contentContainer}>
 				<View style={styles.leftPartContainer}>
 					<ItemTokenIcon
-						type={type}
+						type={transactionType}
 						status={status}
 						icon={icon}
 						isCollectible={!!token.metadata?.mpl}
 					/>
 					<ItemAddress
-						type={type}
+						type={transactionType}
 						address={address}
 						imageUri={networkInfo?.icon as ImageURISource}
 					/>
@@ -43,7 +43,7 @@ const HistoryItem: FC<TransactionHistory> = (transaction) => {
 
 				<ItemAmount
 					amount={amount}
-					type={type}
+					type={transactionType}
 					status={status}
 					tokenSymbol={token.metadata?.symbol}
 				/>

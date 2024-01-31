@@ -1,8 +1,9 @@
-import type { ConnectOptions } from '@walless/core';
 import { Networks } from '@walless/core';
-import { ResponseCode } from '@walless/messaging';
+import { ResponseCode } from '@walless/core';
+import type { ConnectOptions } from '@walless/sdk';
 import type { PublicKeyDocument, TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
+import { storage } from 'utils/storage/db';
 
 import {
 	addExtensionsById,
@@ -10,7 +11,6 @@ import {
 } from '../utils/helper';
 import { openPopup } from '../utils/popup';
 import { getRequestRecord, respond } from '../utils/requestPool';
-import { storage } from '../utils/storage';
 import type { HandleMethod } from '../utils/types';
 
 export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({

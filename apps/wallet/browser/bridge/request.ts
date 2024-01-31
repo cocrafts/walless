@@ -1,6 +1,6 @@
-import { Timeout } from '@walless/core';
+import { RequestType, Timeout } from '@walless/core';
 import type { PureMessagePayload } from '@walless/messaging';
-import { Channels, RequestType } from '@walless/messaging';
+import { Channels } from '@walless/messaging';
 import * as bs58 from 'bs58';
 
 import type { PopupPayload } from './utils';

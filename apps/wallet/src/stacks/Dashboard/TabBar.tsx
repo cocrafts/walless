@@ -13,12 +13,13 @@ import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { RouteProp } from '@react-navigation/native';
 import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
-import { Home, Walless } from '@walless/icons';
+import { Globe, Home, Walless } from '@walless/icons';
 import { runtimeState } from 'state/runtime';
 import { tabBarHeight } from 'utils/constants';
 import { useSnapshot } from 'utils/hooks';
 import { HapticFeedbackTypes, nativeModules } from 'utils/native';
 import type { DashboardParamList } from 'utils/navigation';
+import { colors } from 'utils/style';
 
 import { ProfileIcon } from './ProfileIcon';
 import TabBarItem from './TabBarItem';
@@ -46,7 +47,8 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 
 	useEffect(() => {
 		const { routes, index } = state;
-		const currentRoute = routes[index];
+		/* eslint-disable-next-line */
+		const currentRoute: any = routes[index];
 		const widgetId = currentRoute.params?.params?.id;
 		const isExploreTab = currentRoute.name === 'Explore' && !widgetId;
 
@@ -70,7 +72,7 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 		});
 
 		if (!isFocusing && !event.defaultPrevented) {
-			nativeModules.triggerHaptic(HapticFeedbackTypes.impactHeavy);
+			nativeModules.triggerHaptic(HapticFeedbackTypes.impactMedium);
 			navigation.navigate({
 				name: route.name,
 				merge: true,
@@ -114,6 +116,10 @@ const iconPropsFromRouteMap: Record<string, IconMapProps> = {
 		icon: Home,
 		size: 20,
 	},
+	Browser: {
+		icon: Globe,
+		size: 20,
+	},
 	Setting: {
 		icon: ProfileIcon,
 		size: 20,
@@ -131,7 +137,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		height: tabBarHeight,
 		paddingVertical: 4,
-		backgroundColor: '#081016',
+		backgroundColor: colors.tabNavigatorBg,
 	},
 	itemContainer: {
 		padding: 8,

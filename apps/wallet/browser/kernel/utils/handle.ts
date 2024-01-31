@@ -1,6 +1,6 @@
 import type { UnknownObject } from '@walless/core';
+import { ResponseCode } from '@walless/core';
 import type { MessagePayload } from '@walless/messaging';
-import { ResponseCode } from '@walless/messaging';
 
 import { respond } from './requestPool';
 import type { HandleMethod } from './types';

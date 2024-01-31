@@ -22,7 +22,7 @@ import {
 	createTezosRunner,
 } from 'engine/runners';
 import type { Engine } from 'engine/types';
-import { configureDeviceAndNotification } from 'utils/device/device';
+import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
 import { ResetAnchors, resetRoute } from 'utils/navigation';
 import { storage } from 'utils/storage';

@@ -10,7 +10,7 @@ import { runtimeActions } from 'state/runtime';
 
 import { app, auth } from '../firebase/index.web';
 
-import { getDeviceInfo } from './device.ext';
+import { getDeviceInfo } from './index.ext';
 
 export const configureDeviceAndNotification = async (): Promise<void> => {
 	await auth().authStateReady();
@@ -41,4 +41,4 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 	runtimeActions.syncDeviceInfo(deviceInfo);
 };
 
-export { getDeviceInfo } from './device.ext';
+export { getDeviceInfo } from './index.ext';

@@ -1,4 +1,4 @@
-import { ResponseCode } from '@walless/messaging';
+import { ResponseCode } from '@walless/core';
 import { aptosHandler } from '@walless/network';
 import { Network, Provider } from 'aptos';
 

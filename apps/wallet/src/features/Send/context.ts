@@ -1,6 +1,5 @@
-import type { Networks } from '@walless/core';
+import type { Networks, ResponseCode } from '@walless/core';
 import { modalActions } from '@walless/gui';
-import type { ResponseCode } from '@walless/messaging';
 import type {
 	CollectibleDocument,
 	CollectionDocument,

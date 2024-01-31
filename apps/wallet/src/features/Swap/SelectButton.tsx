@@ -8,7 +8,7 @@ type Props = {
 	token?: TokenDocument;
 };
 
-const SelectToken: FC<Props> = ({ token }) => {
+const SelectButton: FC<Props> = ({ token }) => {
 	return (
 		<View style={styles.container}>
 			{token ? (
@@ -29,7 +29,7 @@ const SelectToken: FC<Props> = ({ token }) => {
 	);
 };
 
-export default SelectToken;
+export default SelectButton;
 
 const styles = StyleSheet.create({
 	container: {

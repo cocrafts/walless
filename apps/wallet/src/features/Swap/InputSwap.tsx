@@ -1,4 +1,4 @@
-import { type FC, useMemo, useState } from 'react';
+import { type FC, useMemo } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { Switch } from '@walless/icons';
 import { useSnapshot } from 'utils/hooks';
@@ -8,8 +8,7 @@ import { swapActions, swapContext } from './context';
 import SelectButton from './SelectButton';
 
 const InputSwap: FC = () => {
-	const { fromToken } = useSnapshot(swapContext).swap as SwapContext;
-	const [amount, setAmount] = useState('');
+	const { fromToken, amount } = useSnapshot(swapContext).swap as SwapContext;
 
 	const balance = useMemo(() => {
 		if (!fromToken) return 0;
@@ -19,7 +18,7 @@ const InputSwap: FC = () => {
 	}, [fromToken]);
 
 	const priceString = useMemo(() => {
-		if (!fromToken?.account.quotes) return '-';
+		if (!fromToken?.account.quotes?.usd) return '-';
 		if (!amount || isNaN(parseFloat(amount))) return '$0.00';
 		const price = parseFloat(amount) * fromToken.account.quotes?.usd;
 		return `$${price.toFixed(2)}`;
@@ -33,6 +32,10 @@ const InputSwap: FC = () => {
 		swapActions.openSelectToken('to');
 	};
 
+	const updateAmount = (value: string) => {
+		swapActions.update({ amount: value });
+	};
+
 	return (
 		<View style={styles.swapContainer}>
 			<View style={styles.fromContainer}>
@@ -41,7 +44,7 @@ const InputSwap: FC = () => {
 					<TextInput
 						style={styles.amountInput}
 						value={amount}
-						onChangeText={setAmount}
+						onChangeText={updateAmount}
 						placeholder="0"
 						placeholderTextColor={'#566674'}
 					/>

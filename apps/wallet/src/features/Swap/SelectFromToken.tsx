@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { TokenDocument } from '@walless/store';
 import TokenList from 'features/Widget/BuiltInNetwork/TokenList';
 import { useSnapshot, useTokens } from 'utils/hooks';
 
@@ -7,10 +8,17 @@ import { swapActions, swapContext } from './context';
 import SelectModalHeader from './SelectModalHeader';
 
 const SelectFromToken: FC = () => {
-	const { network } = useSnapshot(swapContext).swap;
+	const { network, fromToken } = useSnapshot(swapContext).swap;
 	const { tokens } = useTokens(network);
 
 	const handleBack = () => {
+		swapActions.closeSelectToken('from');
+	};
+
+	const handleSelectToken = (token: TokenDocument) => {
+		if (token._id != fromToken?._id) {
+			swapActions.update({ fromToken: token, amount: '' });
+		}
 		swapActions.closeSelectToken('from');
 	};
 
@@ -22,6 +30,7 @@ const SelectFromToken: FC = () => {
 				itemStyle={styles.tokenStyle}
 				separateStyle={styles.separateLineStyle}
 				items={tokens}
+				onPressItem={handleSelectToken}
 			/>
 		</View>
 	);

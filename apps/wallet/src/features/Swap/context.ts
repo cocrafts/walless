@@ -11,9 +11,12 @@ export interface SwapContext {
 	network?: Networks;
 	fromToken?: TokenDocument;
 	toToken?: TokenDocument;
+	amount: string;
 }
 
-const initialContext = {};
+const initialContext = {
+	amount: '',
+};
 
 export const swapContext = proxy<{ swap: SwapContext }>({
 	swap: initialContext,

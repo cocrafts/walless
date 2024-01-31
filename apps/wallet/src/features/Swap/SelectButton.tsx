@@ -3,6 +3,7 @@ import { Image, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
+import assets from 'utils/assets';
 
 type Props = {
 	token?: TokenDocument;
@@ -10,15 +11,16 @@ type Props = {
 };
 
 const SelectButton: FC<Props> = ({ token, onPress }) => {
+	const tokenIcon = token?.metadata?.imageUri
+		? { uri: token.metadata.imageUri }
+		: assets.misc.unknownToken;
+
 	return (
 		<Button style={styles.container} onPress={onPress}>
 			{token ? (
 				<Fragment>
-					<Image
-						style={styles.icon}
-						source={{ uri: token.metadata?.imageUri }}
-					/>
-					<Text style={styles.text}>{token.metadata?.name}</Text>
+					<Image style={styles.icon} source={tokenIcon} />
+					<Text style={styles.text}>{token.metadata?.symbol || 'Unknown'}</Text>
 				</Fragment>
 			) : (
 				<View style={styles.emptyContainer}>

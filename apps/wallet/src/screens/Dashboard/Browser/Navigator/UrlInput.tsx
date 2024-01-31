@@ -10,7 +10,6 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import { logger } from '@walless/core';
 import { Search, XCircle } from '@walless/icons';
 import { isValidHttpUrl, isValidUrl } from 'utils/helper';
 

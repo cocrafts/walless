@@ -1,7 +1,7 @@
 import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
-import { View } from '@walless/gui';
+import { Button, View } from '@walless/gui';
 import ModalHeader from 'components/ModalHeader';
 import { useTokens } from 'utils/hooks';
 
@@ -27,7 +27,12 @@ const SwapFeature: FC<Props> = ({ network, onPressClose }) => {
 	return (
 		<View style={styles.container}>
 			<ModalHeader content="Swap" onPressClose={handleClose} />
-			<InputSwap />
+
+			<View style={styles.mainContainer}>
+				<InputSwap />
+			</View>
+
+			<Button title="Swap" />
 		</View>
 	);
 };
@@ -36,9 +41,13 @@ export default SwapFeature;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		paddingTop: 10,
 		paddingBottom: 28,
 		paddingHorizontal: 28,
 		gap: 16,
+	},
+	mainContainer: {
+		flex: 1,
 	},
 });

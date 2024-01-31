@@ -1,16 +1,17 @@
 import { type FC, Fragment } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Text, View } from '@walless/gui';
+import { Button, Text, View } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
 
 type Props = {
 	token?: TokenDocument;
+	onPress?: () => void;
 };
 
-const SelectButton: FC<Props> = ({ token }) => {
+const SelectButton: FC<Props> = ({ token, onPress }) => {
 	return (
-		<View style={styles.container}>
+		<Button style={styles.container} onPress={onPress}>
 			{token ? (
 				<Fragment>
 					<Image
@@ -25,7 +26,7 @@ const SelectButton: FC<Props> = ({ token }) => {
 				</View>
 			)}
 			<ChevronDown size={16} color="#566674" />
-		</View>
+		</Button>
 	);
 };
 
@@ -37,7 +38,8 @@ const styles = StyleSheet.create({
 		backgroundColor: '#313F4A',
 		alignItems: 'center',
 		gap: 8,
-		padding: 6,
+		paddingHorizontal: 6,
+		paddingVertical: 6,
 		borderRadius: 20,
 		alignSelf: 'flex-start',
 	},

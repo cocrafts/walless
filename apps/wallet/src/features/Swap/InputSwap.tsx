@@ -4,6 +4,7 @@ import type { Networks } from '@walless/core';
 import { Switch } from '@walless/icons';
 import { useTokens } from 'utils/hooks';
 
+import { swapActions } from './context';
 import SelectButton from './SelectButton';
 
 type Props = {
@@ -28,11 +29,19 @@ const InputSwap: FC<Props> = ({ network }) => {
 		return `$${price.toFixed(2)}`;
 	}, [amount]);
 
+	const handleSelectFromToken = () => {
+		swapActions.openSelectToken('from');
+	};
+
+	const handleSelectToToken = () => {
+		swapActions.openSelectToken('to');
+	};
+
 	return (
 		<View style={styles.swapContainer}>
 			<View style={styles.fromContainer}>
 				<View style={styles.fromTokenContainer}>
-					<SelectButton token={fromToken} />
+					<SelectButton token={fromToken} onPress={handleSelectFromToken} />
 					<TextInput
 						style={styles.amountInput}
 						value={amount}
@@ -59,7 +68,7 @@ const InputSwap: FC<Props> = ({ network }) => {
 			</View>
 
 			<View style={styles.toContainer}>
-				<SelectButton />
+				<SelectButton onPress={handleSelectToToken} />
 			</View>
 		</View>
 	);

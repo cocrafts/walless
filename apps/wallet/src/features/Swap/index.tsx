@@ -1,9 +1,10 @@
-import type { FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { View } from '@walless/gui';
 import ModalHeader from 'components/ModalHeader';
 
+import { swapActions } from './context';
 import InputSwap from './InputSwap';
 
 export type Props = {
@@ -15,6 +16,10 @@ const SwapFeature: FC<Props> = ({ network, onPressClose }) => {
 	const handleClose = () => {
 		onPressClose?.();
 	};
+
+	useEffect(() => {
+		swapActions.update({ network });
+	}, []);
 
 	return (
 		<View style={styles.container}>

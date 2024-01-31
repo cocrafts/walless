@@ -1,5 +1,6 @@
 import { type FC, useMemo } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
+import { Button, Text, View } from '@walless/gui';
 import { Switch } from '@walless/icons';
 import { useSnapshot } from 'utils/hooks';
 
@@ -38,6 +39,14 @@ const InputSwap: FC = () => {
 
 	return (
 		<View style={styles.swapContainer}>
+			<View style={styles.fromTitleContainer}>
+				<Text style={styles.title}>From</Text>
+				<Button
+					style={styles.maxButton}
+					titleStyle={styles.maxTitle}
+					title="Max"
+				/>
+			</View>
 			<View style={styles.fromContainer}>
 				<View style={styles.fromTokenContainer}>
 					<SelectButton token={fromToken} onPress={handleSelectFromToken} />
@@ -66,6 +75,7 @@ const InputSwap: FC = () => {
 				<View style={styles.separateLine} />
 			</View>
 
+			<Text style={styles.title}>To</Text>
 			<View style={styles.toContainer}>
 				<SelectButton onPress={handleSelectToToken} />
 			</View>
@@ -83,7 +93,25 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		paddingVertical: 20,
 		paddingHorizontal: 16,
-		gap: 14,
+		gap: 10,
+	},
+	title: {
+		color: '#FFFFFF',
+	},
+	fromTitleContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+	maxButton: {
+		paddingVertical: 4,
+		paddingHorizontal: 10,
+		borderWidth: 1,
+		borderColor: '#566674',
+		backgroundColor: 'transparent',
+		borderRadius: 10,
+	},
+	maxTitle: {
+		fontSize: 12,
 	},
 	fromContainer: {
 		gap: 14,
@@ -117,8 +145,9 @@ const styles = StyleSheet.create({
 	},
 	switchContainer: {
 		flexDirection: 'row',
-		gap: 10,
 		alignItems: 'center',
+		gap: 10,
+		marginVertical: 6,
 	},
 	separateLine: {
 		flex: 1,

@@ -1,10 +1,11 @@
 export enum ModalId {
 	Error = 'Error',
 	Logout = 'Logout',
-	Notification = 'Notification',
+	Send = 'Send',
 	Receive = 'Receive',
+	Swap = 'Swap',
+	Notification = 'Notification',
 	RemoveLayout = 'RemoveLayout',
 	RequirePasscode = 'RequirePasscode',
-	Send = 'Send',
 	TransactionDetails = 'TransactionDetails',
 }

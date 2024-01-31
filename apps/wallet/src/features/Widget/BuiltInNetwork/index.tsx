@@ -14,6 +14,7 @@ import FeatureButtons from 'components/FeatureButtons';
 import { showCopiedModal } from 'modals/Notification';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
+import { showSwapModal } from 'modals/Swap';
 import { buyToken } from 'utils/buy';
 import {
 	useNfts,
@@ -86,6 +87,10 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		showReceiveModal({ network: id as Networks });
 	};
 
+	const handlePressSwap = () => {
+		showSwapModal({ network: id as Networks });
+	};
+
 	const handlePressBuy = () => {
 		buyToken(id as Networks);
 	};
@@ -118,6 +123,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 					onSendPress={handlePressSend}
 					onReceivePress={handlePressReceive}
 					onBuyPress={id === Networks.solana ? handlePressBuy : undefined}
+					onSwapPress={id === Networks.solana ? handlePressSwap : undefined}
 				/>
 			</View>
 

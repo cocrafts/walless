@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
-import { ArrowBottomRight, ArrowTopRight, Plus } from '@walless/icons';
+import { ArrowBottomRight, ArrowTopRight, Plus, Swap } from '@walless/icons';
 
 import Item from './Item';
 
@@ -11,6 +11,7 @@ interface Props {
 	onSendPress?: () => void;
 	onReceivePress?: () => void;
 	onBuyPress?: () => void;
+	onSwapPress?: () => void;
 }
 
 export const FeatureButtons: FC<Props> = ({
@@ -18,6 +19,7 @@ export const FeatureButtons: FC<Props> = ({
 	onSendPress,
 	onReceivePress,
 	onBuyPress,
+	onSwapPress,
 }) => {
 	return (
 		<View style={[styles.container, style]}>
@@ -31,6 +33,10 @@ export const FeatureButtons: FC<Props> = ({
 
 			<Item title="Buy" size={buttonSize} onPress={onBuyPress}>
 				<Plus size={iconSize} />
+			</Item>
+
+			<Item title="Swap" size={buttonSize} onPress={onSwapPress}>
+				<Swap size={iconSize} />
 			</Item>
 		</View>
 	);

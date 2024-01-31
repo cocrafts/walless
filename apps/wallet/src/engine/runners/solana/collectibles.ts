@@ -95,7 +95,6 @@ export const loadCollectibleMetadata = async (
 	if (!metadata.json && 'mintAddress' in metadata) {
 		const nftByMint = await mpl.nfts().findByMint({
 			mintAddress: metadata.mintAddress,
-			loadJsonMetadata: metadata.jsonLoaded,
 			tokenOwner: owner,
 		});
 		const jsonRes = await fetch(metadata.uri, { method: 'GET' });
@@ -159,10 +158,16 @@ export const updateRelatedCollection = async (
 		collectible.collectionId,
 	);
 
-	if (!storedCollection) {
-		const collectionMetadata: GenericNft = await mpl.nfts().findByMint({
+	if (
+		!storedCollection ||
+		!storedCollection.metadata ||
+		!('name' in storedCollection.metadata)
+	) {
+		const collectionOnChain: GenericNft = await mpl.nfts().findByMint({
 			mintAddress: new PublicKey(collectible.collectionAddress),
 		});
+		const jsonRes = await fetch(collectionOnChain.uri, { method: 'GET' });
+		const collectionMetadata = await jsonRes.json();
 
 		const collection: CollectionDocument = {
 			_id: collectible.collectionId,
@@ -170,10 +175,10 @@ export const updateRelatedCollection = async (
 			endpoint,
 			network: Networks.solana,
 			metadata: {
-				name: collectionMetadata?.json?.name,
-				description: collectionMetadata?.json?.description,
-				imageUri: collectionMetadata?.json?.image,
-				symbol: collectionMetadata?.json?.symbol,
+				name: collectionMetadata?.name,
+				description: collectionMetadata?.description,
+				imageUri: collectionMetadata?.image,
+				symbol: collectionMetadata?.symbol,
 			},
 		};
 

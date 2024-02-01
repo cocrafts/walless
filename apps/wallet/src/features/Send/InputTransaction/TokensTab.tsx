@@ -26,6 +26,9 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const [disabledMax, setDisabledMax] = useState(
 		!token || !tokenForFee || !transactionFee,
 	);
+	const [validRecipient, setValidRecipient] = useState(false);
+	const [validAmount, setValidAmount] = useState(false);
+	const canContinue = validRecipient && validAmount && token;
 
 	const balance = token
 		? parseFloat(token.account.balance) / 10 ** token.account.decimals
@@ -40,23 +43,28 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	};
 
 	const checkAmount = (amount?: string) => {
-		if (!token || !amount) return;
+		let errorText: string | undefined;
 
-		if (isNaN(Number(amount))) {
-			return 'Wrong number format, try again';
+		if (!token || !amount) {
+			errorText = '';
+		} else if (isNaN(Number(amount))) {
+			errorText = 'Wrong number format, try again';
+		} else if (Number(amount) <= 0) {
+			errorText = 'Try again with valid number';
+		} else if (balance && Number(amount) > balance) {
+			errorText = 'Insufficient balance to send';
 		}
 
-		if (Number(amount) <= 0) {
-			return 'Try again with valid number';
-		}
+		setValidAmount(errorText === undefined ? true : false);
 
-		if (balance && Number(amount) > balance) {
-			return 'Insufficient balance to send';
-		}
+		return errorText;
 	};
 
 	const handleMaxPress = () => {
 		if (!transactionFee || !token || !tokenForFee) return;
+		if (balance > 0) {
+			setValidAmount(true);
+		}
 		txActions.update({ amount: balance.toString() });
 	};
 
@@ -74,7 +82,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				getRequiredFields={getRequiredFieldsForSelectToken}
 			/>
 
-			<RecipientInput />
+			<RecipientInput setValidRecipient={setValidRecipient} />
 
 			<CheckedInput
 				value={amount}
@@ -106,7 +114,11 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 			<TotalCost />
 
-			<NavButton title="Continue" onPress={onContinue} />
+			<NavButton
+				title="Continue"
+				disabled={!canContinue}
+				onPress={onContinue}
+			/>
 		</View>
 	);
 };

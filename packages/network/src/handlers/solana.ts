@@ -84,5 +84,9 @@ export const signAndSendTransactionAbstractionFee = async (
 
 	const data = await res.json();
 
+	if (data.status === 'error') {
+		throw new Error(data.message);
+	}
+
 	return data.signature;
 };

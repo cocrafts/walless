@@ -1,28 +1,38 @@
-import type { FC } from 'react';
-import { useState } from 'react';
+import type { FC, ReactNode } from 'react';
+import type { KeyboardTypeOptions } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
-import type { InputProps } from '@walless/gui';
 import { Input } from '@walless/gui';
 
 type Props = {
-	checkFunction: (value?: string) => string | undefined;
-} & InputProps;
+	value?: string;
+	placeholder?: string;
+	keyboardType?: KeyboardTypeOptions;
+	errorText?: string;
+	suffix?: ReactNode;
+	onChangeText?: (value?: string) => void;
+	onBlur?: (value?: string) => void;
+};
 
-const CheckedInput: FC<Props> = ({ value, checkFunction, ...inputProps }) => {
-	const [errorText, setErrorText] = useState<string>();
-
-	const handlerBlur = () => {
-		setErrorText(checkFunction(value));
-	};
-
+const CheckedInput: FC<Props> = ({
+	value,
+	placeholder,
+	keyboardType,
+	suffix,
+	errorText,
+	onChangeText,
+	onBlur,
+}) => {
 	return (
 		<View style={styles.container}>
 			<Input
-				{...inputProps}
+				placeholder={placeholder}
 				value={value}
 				inputStyle={!!errorText && styles.errorText}
 				importantStyle={!!errorText && styles.errorInputContainer}
-				onBlur={handlerBlur}
+				keyboardType={keyboardType}
+				suffix={suffix}
+				onChangeText={onChangeText}
+				onBlur={() => onBlur && onBlur(value)}
 			/>
 			{!!errorText && (
 				<View style={styles.bottomBox}>

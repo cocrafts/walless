@@ -22,8 +22,11 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	const { collection, collectible, network, receiver } =
 		useSnapshot(txContext).tx;
 	const { collectibles, collections } = useNfts(network);
-	const [validRecipient, setValidRecipient] = useState(false);
-	const canContinue = validRecipient && collection && collectible;
+	const [recipientInput, setRecipientInput] = useState({
+		valid: false,
+		message: '',
+	});
+	const canContinue = recipientInput.valid && collection && collectible;
 
 	const getRequiredFieldsForSelectToken = (item: {
 		metadata?: AssetMetadata;
@@ -36,18 +39,10 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	};
 
 	const checkRecipient = (receiver?: string, network?: Networks) => {
-		let result = {
-			valid: false,
-			message: '',
-		};
-
 		if (receiver && network) {
-			result = checkValidAddress(receiver, network);
+			const result = checkValidAddress(receiver, network);
+			setRecipientInput(result);
 		}
-
-		setValidRecipient(result.valid ? true : false);
-
-		return result.message;
 	};
 
 	const handleSelectCollectible = (collectible: CollectibleDocument) => {
@@ -61,6 +56,13 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	const handleSelectCollection = (collection: CollectionDocument) => {
 		txActions.update({ collection });
 		checkRecipient(receiver, collection.network);
+	};
+
+	const handleBlurRecipient = (value?: string) => {
+		checkRecipient(
+			value,
+			network || collection?.network || collectible?.network,
+		);
 	};
 
 	const filteredCollectibles = collection
@@ -94,8 +96,9 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 			<CheckedInput
 				value={receiver}
 				placeholder="Recipient account"
+				errorText={recipientInput.message}
 				onChangeText={(receiver) => txActions.update({ receiver })}
-				checkFunction={(value) => checkRecipient(value, network)}
+				onBlur={handleBlurRecipient}
 			/>
 
 			<TransactionFee network={collectible?.network as Networks} />

@@ -6,12 +6,15 @@ import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
 import { useTokens } from 'utils/hooks';
-import { getTokenString } from 'utils/transaction';
+import {
+	checkValidAddress,
+	getBalanceFromToken,
+	getTokenString,
+} from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
 
-import RecipientInput from './RecipientInput';
 import { TotalCost } from './TotalCost';
 import TransactionFee from './TransactionFee';
 
@@ -20,7 +23,7 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
-	const { token, amount, network, tokenForFee, transactionFee } =
+	const { token, amount, network, tokenForFee, transactionFee, receiver } =
 		useSnapshot(txContext).tx;
 	const { tokens } = useTokens(network);
 	const [disabledMax, setDisabledMax] = useState(
@@ -30,9 +33,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const [validAmount, setValidAmount] = useState(false);
 	const canContinue = validRecipient && validAmount && token;
 
-	const balance = token
-		? parseFloat(token.account.balance) / 10 ** token.account.decimals
-		: -1;
+	const balance = token ? getBalanceFromToken(token as TokenDocument) : -1;
 
 	const getRequiredFieldsForSelectToken = (item: Token) => {
 		return {
@@ -42,10 +43,27 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		};
 	};
 
-	const checkAmount = (amount?: string) => {
+	const checkRecipient = (receiver?: string, network?: Networks) => {
+		let result = {
+			valid: false,
+			message: '',
+		};
+
+		if (receiver && network) {
+			result = checkValidAddress(receiver, network);
+		}
+
+		setValidRecipient(result.valid ? true : false);
+
+		return result.message;
+	};
+
+	const checkAmount = (amount?: string, balance?: number) => {
 		let errorText: string | undefined;
 
-		if (!token || !amount) {
+		console.log('--> Check amount', amount, balance);
+
+		if (!amount) {
 			errorText = '';
 		} else if (isNaN(Number(amount))) {
 			errorText = 'Wrong number format, try again';
@@ -58,6 +76,12 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		setValidAmount(errorText === undefined ? true : false);
 
 		return errorText;
+	};
+
+	const handleSelectToken = (token: TokenDocument) => {
+		txActions.update({ token });
+		checkRecipient(receiver, network);
+		checkAmount(amount, getBalanceFromToken(token));
 	};
 
 	const handleMaxPress = () => {
@@ -78,18 +102,23 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				title="Select token"
 				items={tokens as TokenDocument[]}
 				selected={token as TokenDocument}
-				onSelect={(token) => txActions.update({ token })}
+				onSelect={handleSelectToken}
 				getRequiredFields={getRequiredFieldsForSelectToken}
 			/>
 
-			<RecipientInput setValidRecipient={setValidRecipient} />
+			<CheckedInput
+				value={receiver}
+				placeholder="Recipient account"
+				onChangeText={(receiver) => txActions.update({ receiver })}
+				checkFunction={(value) => checkRecipient(value, network)}
+			/>
 
 			<CheckedInput
 				value={amount}
 				placeholder="Token amount"
 				keyboardType="numeric"
 				onChangeText={(amount) => txActions.update({ amount })}
-				checkFunction={checkAmount}
+				checkFunction={(value) => checkAmount(value, balance)}
 				suffix={
 					<Button
 						style={styles.maxButton}

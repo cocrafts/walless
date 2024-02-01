@@ -4,13 +4,14 @@ import { StyleSheet } from 'react-native';
 import type { AssetMetadata, Networks } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
+import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
 import { useNfts } from 'utils/hooks';
+import { checkValidAddress } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
 
-import RecipientInput from './RecipientInput';
 import TransactionFee from './TransactionFee';
 
 interface Props {
@@ -18,7 +19,8 @@ interface Props {
 }
 
 export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
-	const { collection, collectible, network } = useSnapshot(txContext).tx;
+	const { collection, collectible, network, receiver } =
+		useSnapshot(txContext).tx;
 	const { collectibles, collections } = useNfts(network);
 	const [validRecipient, setValidRecipient] = useState(false);
 	const canContinue = validRecipient && collection && collectible;
@@ -33,11 +35,32 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 		};
 	};
 
+	const checkRecipient = (receiver?: string, network?: Networks) => {
+		let result = {
+			valid: false,
+			message: '',
+		};
+
+		if (receiver && network) {
+			result = checkValidAddress(receiver, network);
+		}
+
+		setValidRecipient(result.valid ? true : false);
+
+		return result.message;
+	};
+
 	const handleSelectCollectible = (collectible: CollectibleDocument) => {
 		const collection = collections.find(
 			(ele) => ele._id === collectible.collectionId,
 		);
 		txActions.update({ collectible, collection });
+		checkRecipient(receiver, collectible.network);
+	};
+
+	const handleSelectCollection = (collection: CollectionDocument) => {
+		txActions.update({ collection });
+		checkRecipient(receiver, collection.network);
 	};
 
 	const filteredCollectibles = collection
@@ -51,7 +74,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 				notFoundText="Not found collections"
 				items={collections}
 				selected={collection as CollectionDocument}
-				onSelect={(collection) => txActions.update({ collection })}
+				onSelect={handleSelectCollection}
 				getRequiredFields={getRequiredFieldsForSelectToken}
 			/>
 
@@ -68,7 +91,12 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 				selectedItemIconStyle={styles.selectedNftIcon}
 			/>
 
-			<RecipientInput setValidRecipient={setValidRecipient} />
+			<CheckedInput
+				value={receiver}
+				placeholder="Recipient account"
+				onChangeText={(receiver) => txActions.update({ receiver })}
+				checkFunction={(value) => checkRecipient(value, network)}
+			/>
 
 			<TransactionFee network={collectible?.network as Networks} />
 

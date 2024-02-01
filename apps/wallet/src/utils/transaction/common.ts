@@ -26,6 +26,7 @@ import { TxnBuilderTypes } from 'aptos';
 import base58 from 'bs58';
 import { engine } from 'engine';
 import type { AptosContext, SolanaContext } from 'engine/runners';
+import { capitalize } from 'lodash';
 import assets from 'utils/assets';
 import { environment } from 'utils/config';
 
@@ -50,7 +51,7 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 		return {
 			valid: false,
 			message: network
-				? `Wrong [${network}] wallet address`
+				? `Wrong [${capitalize(network)}] wallet address. Please check again.`
 				: (error as Error).message,
 		};
 	}
@@ -350,6 +351,9 @@ export const getTokenString = (token: TokenDocument) => {
 		10 ** (token?.account.decimals ?? 0)
 	} ${token?.metadata?.symbol ?? ''}`;
 };
+
+export const getBalanceFromToken = (token: TokenDocument) =>
+	parseFloat(token.account.balance) / 10 ** token.account.decimals;
 
 export const prepareTransactionPayload = (
 	element: TokenDocument | CollectibleDocument,

@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { AssetMetadata, Networks } from '@walless/core';
 import { Select, View } from '@walless/gui';
@@ -19,6 +20,8 @@ interface Props {
 export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	const { collection, collectible, network } = useSnapshot(txContext).tx;
 	const { collectibles, collections } = useNfts(network);
+	const [validRecipient, setValidRecipient] = useState(false);
+	const canContinue = validRecipient && collection && collectible;
 
 	const getRequiredFieldsForSelectToken = (item: {
 		metadata?: AssetMetadata;
@@ -65,11 +68,15 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 				selectedItemIconStyle={styles.selectedNftIcon}
 			/>
 
-			<RecipientInput />
+			<RecipientInput setValidRecipient={setValidRecipient} />
 
 			<TransactionFee network={collectible?.network as Networks} />
 
-			<NavButton title="Continue" onPress={onContinue} />
+			<NavButton
+				title="Continue"
+				disabled={!canContinue}
+				onPress={onContinue}
+			/>
 		</View>
 	);
 };

@@ -43,11 +43,16 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 			return { valid: AccountAddress.isValid(keyStr), message: '' };
 		}
 		return {
-			valid: false,
-			message: 'Wrong' + (network ? ` [${network}] ` : ' ') + 'wallet address',
+			valid: true,
+			message: '',
 		};
 	} catch (error) {
-		return { valid: false, message: (error as Error).message };
+		return {
+			valid: false,
+			message: network
+				? `Wrong [${network}] wallet address`
+				: (error as Error).message,
+		};
 	}
 };
 

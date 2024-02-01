@@ -32,6 +32,8 @@ interface Props {
 	tabProps: BottomTabBarProps;
 }
 
+const mustHaveBottomTabBarRoutes = ['Home', 'Setting'];
+
 export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const { insets, state, navigation } = tabProps;
 	const { isDrawerOpen } = useSnapshot(runtimeState);
@@ -48,12 +50,11 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const currentRoute = routes[index];
 
 	useEffect(() => {
-		const widgetId = currentRoute.params?.params?.id;
-		const isExploreTab = currentRoute.name === 'Explore' && !widgetId;
-		const isHomeTab = currentRoute.name === 'Home';
+		const mustHaveBottomTabBar = mustHaveBottomTabBarRoutes.includes(
+			currentRoute.name,
+		);
 
-		const nextOffset =
-			isDrawerOpen || isExploreTab || isHomeTab ? 0 : realBarHeight;
+		const nextOffset = isDrawerOpen || mustHaveBottomTabBar ? 0 : realBarHeight;
 
 		offset.value = withTiming(nextOffset, timingConfig);
 	}, [isDrawerOpen, currentRoute]);

@@ -53,8 +53,13 @@ export const linking: LinkingOptions<RootParamList> = {
 						path: '/',
 						screens: {
 							Widget: '/widget/:id',
-							Collection: '/collection/:id',
-							Collectible: '/collectible/:id',
+							Collection: {
+								path: '/',
+								screens: {
+									Default: '/collection/:id',
+									Collectible: '/collectible/:id',
+								},
+							},
 						},
 					},
 					Home: {
@@ -112,7 +117,7 @@ export const navigate = (
 };
 
 export const navigateBack = () => {
-	navigationRef.goBack();
+	if (navigationRef.canGoBack()) navigationRef.goBack();
 };
 
 export const resetRoute = (anchor?: ResetAnchors, params?: object) => {

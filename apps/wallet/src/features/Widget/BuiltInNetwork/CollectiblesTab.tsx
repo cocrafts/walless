@@ -18,9 +18,16 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 
 	const handlePressItem = (ele: WrappedCollection) => {
 		const collectionId = ele._id.split('/')[2];
+
 		navigate('Dashboard', {
 			screen: 'Explore',
-			params: { screen: 'Collection', params: { id: collectionId } },
+			params: {
+				screen: 'Collection',
+				params: {
+					screen: 'Default',
+					params: { id: collectionId },
+				},
+			},
 		});
 	};
 

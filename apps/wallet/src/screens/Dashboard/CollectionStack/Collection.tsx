@@ -1,14 +1,14 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import type { UnknownObject } from '@walless/core';
 import { View } from '@walless/gui';
 import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout, useNfts } from 'utils/hooks';
-import { navigate } from 'utils/navigation';
+import { navigate, navigateBack } from 'utils/navigation';
 
 export const CollectionFeat = () => {
-	const { collectibles } = useNfts();
+	const { collectibles, collections } = useNfts();
 	const { onGridContainerLayout, width } = useLazyGridLayout({
 		referenceWidth: 156,
 		gap: gridGap,
@@ -22,6 +22,10 @@ export const CollectionFeat = () => {
 		);
 	}, [collectibles]);
 
+	const curCollection = useMemo(() => {
+		return collections.find((ele) => ele._id.includes(id as string));
+	}, [collections]);
+
 	const handleNavigateToCollectible = (id: string) => {
 		navigate('Dashboard', {
 			screen: 'Explore',
@@ -34,6 +38,12 @@ export const CollectionFeat = () => {
 			},
 		});
 	};
+
+	useEffect(() => {
+		if (!curCollection) {
+			navigateBack();
+		}
+	}, [curCollection]);
 
 	return (
 		<View style={styles.container}>

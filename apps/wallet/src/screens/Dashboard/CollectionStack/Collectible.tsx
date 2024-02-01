@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { ViewStyle } from 'react-native';
 import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Button, Text, View } from '@walless/gui';
 import { showSendTokenModal } from 'modals/SendToken';
 import type { WrappedCollection } from 'utils/hooks';
-import { useNfts, useSafeAreaInsets } from 'utils/hooks';
+import { useNfts } from 'utils/hooks';
 import { navigateBack } from 'utils/navigation';
 
 export const CollectibleFeat = () => {
@@ -25,8 +24,6 @@ export const CollectibleFeat = () => {
 	useMemo(() => {
 		if (!curCollectible) return;
 
-		console.log('curCollection', curCollection);
-
 		setCurCollection(
 			collections.find((ele) =>
 				ele._id.includes(curCollectible?.collectionId || 'invalid-collection'),
@@ -41,13 +38,11 @@ export const CollectibleFeat = () => {
 		});
 	};
 
+	console.log('curCollection', curCollection);
+
 	useEffect(() => {
 		if (!curCollectible) {
 			navigateBack();
-			if (curCollection?.count === 0) {
-				console.log('collection count is 0');
-				navigateBack();
-			}
 		}
 	}, [curCollectible]);
 

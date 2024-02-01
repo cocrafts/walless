@@ -1,9 +1,5 @@
-import {
-	Channels,
-	PopupType,
-	RequestType,
-	ResponseCode,
-} from '@walless/messaging';
+import { PopupType, RequestType, ResponseCode } from '@walless/core';
+import { Channels } from '@walless/messaging';
 
 import type { PayloadOptions, PopupPayload } from './utils';
 import { encryptedMessenger } from './utils';

@@ -10,6 +10,6 @@ import App from './src';
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-configureBrowserRuntime();
 runBridge();
+configureBrowserRuntime();
 root.render(<App />);

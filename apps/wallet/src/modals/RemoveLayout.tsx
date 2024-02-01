@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, RefObject } from 'react';
 import type { ViewStyle } from 'react-native';
 import { View } from 'react-native';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
@@ -13,13 +13,17 @@ import { BackspaceRemove } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 import assets from 'utils/assets';
 
-import { ModalId } from './internal';
+import { ModalId } from './types';
 
-export interface RemoveLayoutModalContext {
+interface RemoveLayoutModalContext {
 	item: WidgetDocument;
+	onRemoveLayout: (item: WidgetDocument) => void;
+}
+
+interface RemoveLayoutModalProps {
+	context: RemoveLayoutModalContext;
 	orbSize: number;
-	onRemoveLayout?: (item: WidgetDocument) => void;
-	bindingRef?: React.RefObject<View>;
+	bindingRef: RefObject<View>;
 }
 
 const RemoveLayoutModal: FC<{
@@ -64,17 +68,15 @@ const RemoveLayoutModal: FC<{
 	);
 };
 
-export const showRemoveLayoutModal = (context: RemoveLayoutModalContext) => {
+export const showRemoveLayoutModal = (props: RemoveLayoutModalProps) => {
 	modalActions.show({
 		id: ModalId.RemoveLayout,
 		component: RemoveLayoutModal,
-		context,
 		bindingDirection: BindDirections.Right,
 		animateDirection: AnimateDirections.Right,
-		positionOffset: {
-			y: context.orbSize / 2,
-		},
-		bindingRef: context.bindingRef,
+		bindingRef: props.bindingRef,
+		positionOffset: { y: props.orbSize / 2 },
+		context: props.context,
 	});
 };
 

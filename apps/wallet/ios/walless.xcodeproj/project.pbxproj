@@ -28,6 +28,7 @@
 		B3C6998B8D44409FB4F93A2E /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66FA93B9E3524ADF86797248 /* Rubik-Bold.ttf */; };
 		CB5E4166BDA6467791ED9EC3 /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E43D053007E4CC59BA77477 /* Rubik-Light.ttf */; };
 		DF2FA0F131C94212AC775AD8 /* Rubik-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88850E96427946EDB142EFA0 /* Rubik-MediumItalic.ttf */; };
+		BE174F5325434FB6B11CD280 /* injection.js in Resources */ = {isa = PBXBuildFile; fileRef = D5D943F51A2642988096D450 /* injection.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		EB26035FC3CD44F7B9C5A0BA /* Rubik-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-ExtraBold.ttf"; path = "../assets/fonts/Rubik-ExtraBold.ttf"; sourceTree = "<group>"; };
 		EC0C551D9B704C69898F9E22 /* Rubik-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-Italic.ttf"; path = "../assets/fonts/Rubik-Italic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		D5D943F51A2642988096D450 /* injection.js */ = {isa = PBXFileReference; name = "injection.js"; path = "../metacraft/injection.js"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 				AB66F0032513425A8C7244B9 /* Rubik-Regular.ttf */,
 				BDCAE1BD4C0643CCB71F1AE9 /* Rubik-SemiBold.ttf */,
 				E862DE4F41FC412EACF54DE8 /* Rubik-SemiBoldItalic.ttf */,
+				D5D943F51A2642988096D450 /* injection.js */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				12871312AA01443A950A2BC7 /* Rubik-Regular.ttf in Resources */,
 				7B18BDA8C7914D83B03F5043 /* Rubik-SemiBold.ttf in Resources */,
 				AFF586F58218444FB597B378 /* Rubik-SemiBoldItalic.ttf in Resources */,
+				BE174F5325434FB6B11CD280 /* injection.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

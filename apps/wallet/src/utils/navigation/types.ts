@@ -37,6 +37,10 @@ export type HomeParamList = {
 	History: undefined;
 };
 
+export type BrowserParamList = {
+	uri?: string;
+};
+
 export type SettingParamList = {
 	Default: undefined;
 };
@@ -44,6 +48,7 @@ export type SettingParamList = {
 export type DashboardParamList = {
 	Explore: NavigatorScreenParams<ExploreParamList>;
 	Home: NavigatorScreenParams<HomeParamList>;
+	Browser: NavigatorScreenParams<BrowserParamList>;
 	Setting: NavigatorScreenParams<SettingParamList>;
 };
 

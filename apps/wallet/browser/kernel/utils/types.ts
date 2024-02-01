@@ -1,5 +1,10 @@
-import type { MiniBroadcast, Networks, UnknownObject } from '@walless/core';
-import type { MessagePayload, ResponseCode } from '@walless/messaging';
+import type {
+	MiniBroadcast,
+	Networks,
+	ResponseCode,
+	UnknownObject,
+} from '@walless/core';
+import type { MessagePayload } from '@walless/messaging';
 
 export type HandleMethod<T> = (props: {
 	payload: T & MessagePayload;

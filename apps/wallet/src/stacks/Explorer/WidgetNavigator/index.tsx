@@ -21,6 +21,8 @@ interface Props {
 	onRemoveLayout: (item: WidgetDocument) => void;
 }
 
+const orbSize = 40;
+
 export const WidgetNavigator: FC<Props> = ({
 	style,
 	size = 58,
@@ -46,7 +48,7 @@ export const WidgetNavigator: FC<Props> = ({
 		_id: 'profile',
 		storeMeta: {
 			iconUri: profile?.profileImage as string,
-			iconSize: 40,
+			iconSize: orbSize,
 		} as never,
 	};
 	const isExplorerActive = getIsExtensionActive?.(exploreItem as never);
@@ -56,9 +58,11 @@ export const WidgetNavigator: FC<Props> = ({
 		ref: React.RefObject<View>,
 	) => {
 		showRemoveLayoutModal({
-			item,
-			orbSize: 40,
-			onRemoveLayout,
+			context: {
+				item,
+				onRemoveLayout,
+			},
+			orbSize,
 			bindingRef: ref,
 		});
 	};

@@ -14,6 +14,8 @@ module.exports = {
 					modals: './src/modals',
 					stacks: './src/stacks',
 					screens: './src/screens',
+					kernel: './browser/kernel',
+					bridge: './browser/bridge',
 					crypto: 'react-native-quick-crypto',
 					path: './vendor/path',
 					zlib: './vendor/zlib',
@@ -25,6 +27,6 @@ module.exports = {
 			},
 		],
 		['react-native-reanimated/plugin'],
-		'@babel/plugin-proposal-export-namespace-from',
+		['@babel/plugin-proposal-export-namespace-from'],
 	],
 };

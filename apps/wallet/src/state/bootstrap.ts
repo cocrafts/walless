@@ -7,6 +7,7 @@ import type {
 	PublicKeyDocument,
 	SettingDocument,
 	TokenDocument,
+	TransactionHistoryDocument,
 	WidgetDocument,
 } from '@walless/store';
 import { configure, selectors } from '@walless/store';
@@ -22,13 +23,14 @@ import {
 	createTezosRunner,
 } from 'engine/runners';
 import type { Engine } from 'engine/types';
-import { configureDeviceAndNotification } from 'utils/device/device';
+import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
 import { ResetAnchors, resetRoute } from 'utils/navigation';
 import { storage } from 'utils/storage';
 
 import { appState } from './app';
 import { collectibleState, collectionState, tokenState } from './assets';
+import { historyState } from './history';
 import { keyState } from './keys';
 import { widgetState } from './widget';
 
@@ -107,6 +109,8 @@ const watchStorageAndSyncState = async () => {
 				collectibleState.map.delete(id);
 			} else if (item?.type === 'Collection') {
 				collectionState.map.delete(id);
+			} else if (item?.type === 'History') {
+				historyState.map.delete(id);
 			}
 		} else {
 			if (item?.type === 'Widget') {
@@ -125,6 +129,8 @@ const watchStorageAndSyncState = async () => {
 				appState.config = settings.config;
 			} else if (item?.type === 'EndpointMap') {
 				appState.endpoints = item as EndpointsDocument;
+			} else if (item?.type === 'History') {
+				historyState.map.set(id, item as TransactionHistoryDocument);
 			}
 		}
 	});

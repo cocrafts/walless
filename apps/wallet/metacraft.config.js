@@ -27,6 +27,7 @@ module.exports = {
 	moduleAlias: {
 		global: {
 			'react-native$': 'react-native-web',
+			'react-native-webview': 'vendor/web-webview',
 			'react-native-keychain': 'vendor/web-keychain',
 			'react-native-haptic-feedback': 'vendor/web-haptic',
 		},

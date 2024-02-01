@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { ResponseCode } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	BindDirections,
@@ -10,9 +11,8 @@ import {
 	View,
 } from '@walless/gui';
 import type { ResponsePayload } from '@walless/messaging';
-import { ResponseCode } from '@walless/messaging';
 
-import { ModalId } from './internal';
+import { ModalId } from './types';
 
 export interface RequirePasscodeModalContext {
 	title?: string;

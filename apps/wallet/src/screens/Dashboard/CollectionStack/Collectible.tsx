@@ -11,14 +11,9 @@ import { navigateBack } from 'utils/navigation';
 export const CollectibleFeat = () => {
 	const [curCollection, setCurCollection] = useState<WrappedCollection>();
 	const { collections, collectibles } = useNfts();
-	const insets = useSafeAreaInsets();
 	const {
 		params: { id = '' },
 	} = useRoute() as never;
-
-	const containerStyle: ViewStyle = {
-		marginTop: insets.top,
-	};
 
 	const curCollectible = useMemo(() => {
 		if (!id) return;
@@ -57,7 +52,7 @@ export const CollectibleFeat = () => {
 	}, [curCollectible]);
 
 	return (
-		<View style={[styles.container, containerStyle]}>
+		<View style={styles.container}>
 			<ScrollView
 				contentContainerStyle={styles.scrollContentContainer}
 				showsVerticalScrollIndicator={false}

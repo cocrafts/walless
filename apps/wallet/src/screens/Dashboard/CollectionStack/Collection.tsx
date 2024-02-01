@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
-import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import type { UnknownObject } from '@walless/core';
 import { View } from '@walless/gui';
 import CollectionCard from 'components/CollectionCard';
-import { useLazyGridLayout, useNfts, useSafeAreaInsets } from 'utils/hooks';
+import { useLazyGridLayout, useNfts } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 
 export const CollectionFeat = () => {
@@ -16,10 +15,6 @@ export const CollectionFeat = () => {
 	});
 
 	const id = (useRoute().params as UnknownObject)?.id;
-	const insets = useSafeAreaInsets();
-	const containerStyle: ViewStyle = {
-		marginTop: insets.top,
-	};
 
 	const curCollectibles = useMemo(() => {
 		return collectibles.filter((ele) =>
@@ -41,7 +36,7 @@ export const CollectionFeat = () => {
 	};
 
 	return (
-		<View style={[styles.container, containerStyle]}>
+		<View style={styles.container}>
 			<View
 				style={styles.collectiblesContainer}
 				onLayout={(e) => onGridContainerLayout(e.nativeEvent.layout)}

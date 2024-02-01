@@ -52,6 +52,10 @@
     {
       "path": "assets/fonts/Rubik-SemiBoldItalic.ttf",
       "sha1": "6a8ffebd4702be10b6e3fc980eace615b16634d9"
+    },
+    {
+      "path": "metacraft/injection.js",
+      "sha1": "f9d3a2e5e46cb50e09ccfb78dff5f8db8c6b803e"
     }
   ]
 }

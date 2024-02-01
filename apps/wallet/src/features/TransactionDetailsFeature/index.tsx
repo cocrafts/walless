@@ -16,7 +16,7 @@ export const TransactionDetailsFeature: FC<TransactionHistory> = ({
 	id,
 	date,
 	amount,
-	type,
+	transactionType,
 	status,
 	network,
 	token,
@@ -45,13 +45,13 @@ export const TransactionDetailsFeature: FC<TransactionHistory> = ({
 			<AddressDetails
 				sender={sender}
 				receiver={receiver}
-				type={type}
+				type={transactionType}
 				profileImage={{ uri: profile.profileImage }}
 				networkImage={networkInfo?.icon}
 			/>
 
 			<InformationDetails
-				date={date}
+				date={new Date(date)}
 				status={status}
 				networkInfo={networkInfo as NetworkInfo}
 				fee={fee}

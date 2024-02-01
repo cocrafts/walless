@@ -1,12 +1,11 @@
-import type { Networks } from '@walless/core';
+import type { Networks, ResponseCode } from '@walless/core';
 import { modalActions } from '@walless/gui';
-import type { ResponseCode } from '@walless/messaging';
 import type {
 	CollectibleDocument,
 	CollectionDocument,
 	TokenDocument,
 } from '@walless/store';
-import { ModalId } from 'modals/internal';
+import { ModalId } from 'modals/types';
 import { proxy } from 'valtio';
 
 export type TransactionType = 'Token' | 'Collectible';

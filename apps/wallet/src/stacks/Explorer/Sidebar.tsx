@@ -31,6 +31,15 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 
 	const handleRemoveWidget = async (widget: WidgetDocument) => {
 		await widgetActions.removeWidget(widget);
+
+		const currentRoute = state.routes[state.index];
+
+		if (widget._id === (currentRoute.params as { id: string }).id) {
+			navigate('Dashboard', {
+				screen: 'Explore',
+				params: { screen: 'Widget', params: { id: '' } },
+			});
+		}
 	};
 
 	const getIsExtensionActive = (item: WidgetDocument) => {

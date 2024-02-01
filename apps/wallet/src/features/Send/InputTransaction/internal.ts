@@ -33,20 +33,15 @@ export const totalCheckFieldsToContinue = () => {
 
 			const balance =
 				parseFloat(token.account.balance) / 10 ** token.account.decimals;
-			if (!amount) {
+			if (!amount || parseFloat(amount) <= 0) {
 				return {
 					valid: false,
-					message: 'Please type token amount to transfer',
-				};
-			} else if (parseFloat(amount) <= 0) {
-				return {
-					valid: false,
-					message: 'Invalid amount',
+					message: 'Try again with valid number',
 				};
 			} else if (parseFloat(amount) > balance) {
 				return {
 					valid: false,
-					message: 'Your balance is not enough',
+					message: 'Insufficient balance to send',
 				};
 			}
 			break;

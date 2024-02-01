@@ -42,7 +42,10 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 			const { AccountAddress } = TxnBuilderTypes;
 			return { valid: AccountAddress.isValid(keyStr), message: '' };
 		}
-		return { valid: false, message: 'Unsupported network ' + network };
+		return {
+			valid: false,
+			message: 'Wrong' + (network ? ` [${network}] ` : ' ') + 'wallet address',
+		};
 	} catch (error) {
 		return { valid: false, message: (error as Error).message };
 	}

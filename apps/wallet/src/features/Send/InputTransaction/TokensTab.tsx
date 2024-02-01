@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import type { Networks, Token } from '@walless/core';
 import { Button, Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
-import BN from 'bn.js';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
 import { useTokens } from 'utils/hooks';
@@ -43,34 +42,22 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const checkAmount = (amount?: string) => {
 		if (!token || !amount) return;
 
-		if (Number(amount) <= 0) {
-			return 'Positive amount required';
+		if (isNaN(Number(amount))) {
+			return 'Wrong number format, try again';
 		}
 
-		if (isNaN(Number(amount))) {
-			return 'Invalid amount number';
+		if (Number(amount) <= 0) {
+			return 'Try again with valid number';
 		}
 
 		if (balance && Number(amount) > balance) {
-			return 'Your balance is not enough';
+			return 'Insufficient balance to send';
 		}
 	};
 
 	const handleMaxPress = () => {
 		if (!transactionFee || !token || !tokenForFee) return;
-
-		if (token._id === tokenForFee._id) {
-			const decimalsMultiplier = 10 ** token.account.decimals;
-			const balanceBN = new BN(balance * decimalsMultiplier);
-			const feeBN = new BN(transactionFee * decimalsMultiplier);
-			const amountBN = balanceBN.sub(feeBN);
-			const amount = amountBN.toNumber() / decimalsMultiplier;
-			txActions.update({
-				amount: amount <= 0 ? '0' : amount.toString(),
-			});
-		} else {
-			txActions.update({ amount: balance.toString() });
-		}
+		txActions.update({ amount: balance.toString() });
 	};
 
 	useEffect(() => {
@@ -107,7 +94,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 			/>
 
 			<View style={styles.balanceContainer}>
-				<Text style={styles.title}>Balance</Text>
+				<Text style={styles.title}>Available balance</Text>
 				<Text style={styles.balance}>
 					{getTokenString(token as TokenDocument)}
 				</Text>

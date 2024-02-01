@@ -61,8 +61,6 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const checkAmount = (amount?: string, balance?: number) => {
 		let errorText: string | undefined;
 
-		console.log('--> Check amount', amount, balance);
-
 		if (!amount) {
 			errorText = '';
 		} else if (isNaN(Number(amount))) {

@@ -38,8 +38,6 @@ export const CollectibleFeat = () => {
 		});
 	};
 
-	console.log('curCollection', curCollection);
-
 	useEffect(() => {
 		if (!curCollectible) {
 			navigateBack();

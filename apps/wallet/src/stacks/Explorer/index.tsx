@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
 import { createDrawerNavigator } from 'components/DrawerNavigation';
-import CollectionStack from 'screens/Dashboard/CollectionStack';
 import WidgetScreen from 'screens/Dashboard/Widget';
+import CollectionStack from 'stacks/Explorer/CollectionStack';
 import { type ExploreParamList } from 'utils/navigation';
 
 import Sidebar, { sidebarWidth } from './Sidebar';

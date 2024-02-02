@@ -1,7 +1,8 @@
 import { type FC, useMemo } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-import { Button, Text, View } from '@walless/gui';
+import { Button, Hoverable, Text, View } from '@walless/gui';
 import { Switch } from '@walless/icons';
+import { showError } from 'modals/Error';
 import { useSnapshot } from 'utils/hooks';
 
 import type { SwapContext } from './context';
@@ -9,7 +10,8 @@ import { swapActions, swapContext } from './context';
 import SelectButton from './SelectButton';
 
 const InputSwap: FC = () => {
-	const { fromToken, amount } = useSnapshot(swapContext).swap as SwapContext;
+	const { fromToken, toToken, amount } = useSnapshot(swapContext)
+		.swap as SwapContext;
 
 	const balance = useMemo(() => {
 		if (!fromToken) return 0;
@@ -31,6 +33,12 @@ const InputSwap: FC = () => {
 
 	const handleSelectToToken = () => {
 		swapActions.openSelectToken('to');
+	};
+
+	const handleSwitch = () => {
+		if (!fromToken || !toToken) {
+			showError({ errorText: 'Please select tokens to swap' });
+		}
 	};
 
 	const updateAmount = (value: string) => {
@@ -69,9 +77,9 @@ const InputSwap: FC = () => {
 
 			<View style={styles.switchContainer}>
 				<View style={styles.separateLine} />
-				<View style={styles.switchButton}>
+				<Hoverable style={styles.switchButton} onPress={handleSwitch}>
 					<Switch size={20} color="#3DC3FF" />
-				</View>
+				</Hoverable>
 				<View style={styles.separateLine} />
 			</View>
 

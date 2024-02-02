@@ -2,6 +2,7 @@ import type { Networks } from '@walless/core';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import { ModalId } from 'modals/types';
+import type { JupiterToken } from 'utils/hooks';
 import { proxy } from 'valtio';
 
 import SelectFromToken from './SelectFromToken';
@@ -10,7 +11,7 @@ import SelectToToken from './SelectToToken';
 export interface SwapContext {
 	network?: Networks;
 	fromToken?: TokenDocument;
-	toToken?: TokenDocument;
+	toToken?: JupiterToken;
 	amount: string;
 }
 

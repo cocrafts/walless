@@ -53,7 +53,7 @@ export const getTokenName = (
 		if (tokenForFee && tokenForFee.metadata?.symbol) {
 			return tokenForFee.metadata.symbol;
 		} else {
-			return 'SOL';
+			return 'Unknown';
 		}
 	} else if (network == Networks.sui) {
 		return 'SUI';

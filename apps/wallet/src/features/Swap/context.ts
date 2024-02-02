@@ -5,8 +5,8 @@ import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
 import { proxy } from 'valtio';
 
-import SelectFromToken from './SelectFromToken';
-import SelectToToken from './SelectToToken';
+import SelectFromToken from './Select/SelectFromToken';
+import SelectToToken from './Select/SelectToToken';
 
 export interface SwapContext {
 	network?: Networks;

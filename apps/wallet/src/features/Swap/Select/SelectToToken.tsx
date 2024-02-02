@@ -7,7 +7,8 @@ import { ChevronLeft } from '@walless/icons';
 import type { JupiterToken } from 'utils/hooks';
 import { useJupiterContext } from 'utils/hooks';
 
-import { swapActions } from './context';
+import { swapActions } from '../context';
+
 import SearchBar from './SearchBar';
 import ToToken from './ToToken';
 
@@ -27,11 +28,21 @@ const SelectToToken: FC = () => {
 				t.symbol.toLowerCase().includes(search)
 			);
 		});
-	}, [searchText]);
+	}, [tokens, searchText]);
 
 	const renderToken: ListRenderItem<JupiterToken> = useCallback(({ item }) => {
+		const handleSelectToken = () => {
+			swapActions.update({ toToken: item });
+			swapActions.closeSelectToken('to');
+		};
+
 		return (
-			<ToToken name={item.name} symbol={item.symbol} logoURI={item.logoURI} />
+			<ToToken
+				name={item.name}
+				symbol={item.symbol}
+				logoURI={item.logoURI}
+				onPress={handleSelectToken}
+			/>
 		);
 	}, []);
 

@@ -5,8 +5,9 @@ import { Switch } from '@walless/icons';
 import { showError } from 'modals/Error';
 import { useSnapshot } from 'utils/hooks';
 
-import type { SwapContext } from './context';
-import { swapActions, swapContext } from './context';
+import type { SwapContext } from '../context';
+import { swapActions, swapContext } from '../context';
+
 import SelectButton from './SelectButton';
 
 const InputSwap: FC = () => {
@@ -57,7 +58,11 @@ const InputSwap: FC = () => {
 			</View>
 			<View style={styles.fromContainer}>
 				<View style={styles.fromTokenContainer}>
-					<SelectButton token={fromToken} onPress={handleSelectFromToken} />
+					<SelectButton
+						symbol={fromToken?.metadata?.symbol}
+						logoURI={fromToken?.metadata?.imageUri}
+						onPress={handleSelectFromToken}
+					/>
 					<TextInput
 						style={styles.amountInput}
 						value={amount}
@@ -85,7 +90,12 @@ const InputSwap: FC = () => {
 
 			<Text style={styles.title}>To</Text>
 			<View style={styles.toContainer}>
-				<SelectButton onPress={handleSelectToToken} />
+				<SelectButton
+					symbol={toToken?.symbol}
+					logoURI={toToken?.logoURI}
+					onPress={handleSelectToToken}
+				/>
+				<Text></Text>
 			</View>
 		</View>
 	);
@@ -169,6 +179,7 @@ const styles = StyleSheet.create({
 		padding: 8,
 	},
 	toContainer: {
+		flexDirection: 'row',
 		paddingBottom: 30,
 	},
 });

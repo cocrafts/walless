@@ -5,7 +5,8 @@ import type { TokenDocument } from '@walless/store';
 import TokenList from 'features/Widget/BuiltInNetwork/TokenList';
 import { useSnapshot, useTokens } from 'utils/hooks';
 
-import { swapActions, swapContext } from './context';
+import { swapActions, swapContext } from '../context';
+
 import SearchBar from './SearchBar';
 import SelectModalHeader from './SelectModalHeader';
 

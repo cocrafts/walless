@@ -1,15 +1,30 @@
 import type { FC } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { TokenDocument } from '@walless/store';
 import TokenList from 'features/Widget/BuiltInNetwork/TokenList';
 import { useSnapshot, useTokens } from 'utils/hooks';
 
 import { swapActions, swapContext } from './context';
+import SearchBar from './SearchBar';
 import SelectModalHeader from './SelectModalHeader';
 
 const SelectFromToken: FC = () => {
+	const [searchText, setSearchText] = useState('');
 	const { network, fromToken } = useSnapshot(swapContext).swap;
 	const { tokens } = useTokens(network);
+
+	const filteredTokens = useMemo(() => {
+		const search = searchText.toLowerCase();
+
+		return tokens.filter((t) => {
+			return (
+				t.account.mint.toLowerCase().includes(search) ||
+				(t.metadata?.name || '').toLowerCase().includes(search) ||
+				(t.metadata?.symbol || '').toLowerCase().includes(search)
+			);
+		});
+	}, [searchText]);
 
 	const handleBack = () => {
 		swapActions.closeSelectToken('from');
@@ -26,10 +41,16 @@ const SelectFromToken: FC = () => {
 		<View style={styles.container}>
 			<SelectModalHeader onBack={handleBack} />
 
+			<SearchBar
+				value={searchText}
+				setValue={setSearchText}
+				placeholder="Search by token or paste address"
+			/>
+
 			<TokenList
 				itemStyle={styles.tokenStyle}
 				separateStyle={styles.separateLineStyle}
-				items={tokens}
+				items={filteredTokens}
 				onPressItem={handleSelectToken}
 			/>
 		</View>
@@ -47,6 +68,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 28,
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
+		gap: 12,
 	},
 	tokenStyle: {
 		paddingHorizontal: 0,

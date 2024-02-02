@@ -25,26 +25,6 @@ export const requestTransactionFee = async (payload: TransactionPayload) => {
 	}
 };
 
-export const handleCheckIfBalanceIsEnough = async (
-	tokenForFee: TokenDocument,
-	transactionFee: number,
-	setError: (error: string) => void,
-) => {
-	if (
-		parseFloat(tokenForFee?.account.balance as string) /
-			10 ** (tokenForFee?.account.decimals ?? 0) <
-		(transactionFee ?? 0)
-	) {
-		setError(
-			`Not enough ${
-				tokenForFee?.metadata?.symbol ?? 'Unknown'
-			}, select other token`,
-		);
-	} else {
-		setError('');
-	}
-};
-
 export const getTokenName = (
 	tokenForFee: TokenDocument,
 	network?: Networks,

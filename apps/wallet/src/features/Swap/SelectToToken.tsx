@@ -1,14 +1,26 @@
-import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button } from '@walless/gui';
+import { type FC, useCallback } from 'react';
+import type { ListRenderItem } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { Button, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
+import type { JupiterToken } from 'utils/hooks';
+import { useJupiterContext } from 'utils/hooks';
 
 import { swapActions } from './context';
+import ToToken from './ToToken';
 
 const SelectToToken: FC = () => {
 	const handleBack = () => {
 		swapActions.closeSelectToken('to');
 	};
+
+	const { tokens } = useJupiterContext();
+
+	const renderToken: ListRenderItem<JupiterToken> = useCallback(({ item }) => {
+		return (
+			<ToToken name={item.name} symbol={item.symbol} logoURI={item.logoURI} />
+		);
+	}, []);
 
 	return (
 		<View style={styles.container}>
@@ -18,6 +30,17 @@ const SelectToToken: FC = () => {
 					<ChevronLeft />
 				</Button>
 			</View>
+
+			{tokens.length === 0 ? (
+				<ActivityIndicator style={styles.loading} />
+			) : (
+				<FlatList
+					style={styles.tokensContainer}
+					data={tokens}
+					renderItem={renderToken}
+					ItemSeparatorComponent={() => <View style={styles.separator} />}
+				/>
+			)}
 		</View>
 	);
 };
@@ -47,5 +70,16 @@ const styles = StyleSheet.create({
 	backButton: {
 		backgroundColor: 'transparent',
 		paddingHorizontal: 0,
+	},
+	loading: {
+		marginTop: 50,
+		alignSelf: 'center',
+	},
+	tokensContainer: {
+		flex: 1,
+	},
+	separator: {
+		height: 1,
+		backgroundColor: '#5666746a',
 	},
 });

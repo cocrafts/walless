@@ -43,7 +43,7 @@ export const swapActions = {
 			swapContext.swap[k] = tx[k] as never;
 		});
 	},
-	resetTransactionContext: () => {
+	resetContext: () => {
 		swapContext.swap = { ...initialContext };
 	},
 	openSelectToken: (type: 'from' | 'to') => {

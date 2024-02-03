@@ -18,6 +18,9 @@ const SwapFeature: FC<Props> = ({ network, onPressClose }) => {
 
 	const handleClose = () => {
 		onPressClose?.();
+		setTimeout(() => {
+			swapActions.resetContext();
+		}, 200);
 	};
 
 	useEffect(() => {

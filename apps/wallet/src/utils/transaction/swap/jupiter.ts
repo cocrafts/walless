@@ -21,7 +21,6 @@ export const getSwapQuote = async (
 	amount: number,
 	slippageBps: number = 50,
 ): Promise<SwapQuote | undefined> => {
-	console.log({ amount });
 	const res = await fetch(
 		`https://quote-api.jup.ag/v6/quote?inputMint=${fromMint}&outputMint=${toMint}&amount=${amount}&slippageBps=${slippageBps}`,
 	);

@@ -38,7 +38,10 @@ const ErrorModal: FC<Props> = ({ config }) => {
 	);
 };
 
-export const showError = (context: ErrorModalContext) => {
+export const showError = (
+	context: ErrorModalContext,
+	timeout: number = 1000,
+) => {
 	modalActions.show({
 		id: ModalId.Error,
 		bindingDirection: BindDirections.InnerTop,
@@ -50,5 +53,7 @@ export const showError = (context: ErrorModalContext) => {
 
 	setTimeout(() => {
 		modalActions.hide(ModalId.Error);
-	}, 1000);
+	}, timeout);
+
+	return ModalId.Error;
 };

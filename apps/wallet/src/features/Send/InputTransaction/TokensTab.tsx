@@ -113,7 +113,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				placeholder="Recipient account"
 				errorText={recipientInput.message}
 				onChangeText={(receiver) => txActions.update({ receiver })}
-				onBlur={(value) => checkRecipient(value, network)}
+				onFocusOut={(value) => checkRecipient(value, network)}
 			/>
 
 			<CheckedInput
@@ -122,7 +122,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				keyboardType="numeric"
 				errorText={amountInput.message}
 				onChangeText={(amount) => txActions.update({ amount })}
-				onBlur={(value) => checkAmount(value, balance)}
+				onFocusOut={(value) => checkAmount(value, balance)}
 				suffix={
 					<Button
 						style={styles.maxButton}

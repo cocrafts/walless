@@ -29,8 +29,8 @@ const FromToken = () => {
 		swapActions.openSelectToken('from');
 	};
 
-	const updateAmount = (value: string) => {
-		swapActions.update({ amount: value });
+	const updateAmount = (amount: string) => {
+		swapActions.update({ amount });
 	};
 
 	return (

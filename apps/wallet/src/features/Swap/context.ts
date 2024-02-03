@@ -3,6 +3,7 @@ import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
+import type { SwapQuote } from 'utils/transaction';
 import { proxy } from 'valtio';
 
 import SelectFromToken from './Select/SelectFromToken';
@@ -13,6 +14,7 @@ export interface SwapContext {
 	fromToken?: TokenDocument;
 	toToken?: JupiterToken;
 	amount: string;
+	swapQuote?: SwapQuote;
 }
 
 const initialContext = {

@@ -42,6 +42,7 @@ export const createAndSend = async (
 			return res;
 		}
 
+		// eslint-disable-next-line no-useless-catch
 		try {
 			if (payload.tokenForFee.metadata?.symbol === 'SOL') {
 				const { connection } = engine.getContext<SolanaContext>(
@@ -62,9 +63,8 @@ export const createAndSend = async (
 			}
 
 			res.responseCode = ResponseCode.SUCCESS;
-		} catch {
-			res.responseCode = ResponseCode.ERROR;
-			return res;
+		} catch (error) {
+			throw error;
 		}
 	} else if (transaction instanceof TransactionBlock) {
 		// TODO: implement transfer sui

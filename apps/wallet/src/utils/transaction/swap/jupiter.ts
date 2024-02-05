@@ -1,3 +1,4 @@
+import { VersionedTransaction } from '@solana/web3.js';
 import { logger } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 
@@ -48,14 +49,14 @@ type SwapParams = {
 	userPublicKey: string;
 	wrapAndUnwrapSol: boolean;
 };
-export const swap = async ({
+export const constructSwapTransaction = async ({
 	fromMint,
 	toMint,
 	amount,
 	slippageBps,
 	userPublicKey,
 	wrapAndUnwrapSol,
-}: SwapParams) => {
+}: SwapParams): Promise<VersionedTransaction> => {
 	const quoteResponse = await getSwapQuote({
 		fromMint,
 		toMint,
@@ -87,5 +88,8 @@ export const swap = async ({
 	}
 
 	const { swapTransaction } = await res.json();
-	console.log('Tx', swapTransaction);
+	const swapTransactionBuf = Buffer.from(swapTransaction, 'base64');
+	const transaction = VersionedTransaction.deserialize(swapTransactionBuf);
+
+	return transaction;
 };

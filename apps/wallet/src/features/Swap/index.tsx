@@ -27,7 +27,7 @@ const SwapFeature: FC<Props> = ({ network, onPressClose }) => {
 
 	const handlePressSwap = async () => {
 		setLoading(true);
-		await swapActions.executeSwap(publicKeys[0]._id);
+		await swapActions.prepareSwapTransaction(publicKeys[0]._id);
 		setLoading(false);
 	};
 

@@ -1,3 +1,4 @@
+import type { VersionedTransaction } from '@solana/web3.js';
 import type { Networks } from '@walless/core';
 import { logger } from '@walless/core';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
@@ -6,7 +7,7 @@ import { showError } from 'modals/Error';
 import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
 import type { SwapQuote } from 'utils/transaction';
-import { getMappedMint, swap } from 'utils/transaction';
+import { constructSwapTransaction, getMappedMint } from 'utils/transaction';
 import { proxy } from 'valtio';
 
 import SelectFromToken from './Select/SelectFromToken';
@@ -18,6 +19,7 @@ export interface SwapContext {
 	toToken?: JupiterToken;
 	amount: string;
 	swapQuote?: SwapQuote;
+	transaction?: VersionedTransaction;
 }
 
 const initialContext = {
@@ -63,7 +65,7 @@ export const swapActions = {
 	closeSelectToken: (type: 'from' | 'to') => {
 		modalActions.hide(modalMap[type].id);
 	},
-	executeSwap: async (publicKey: string) => {
+	prepareSwapTransaction: async (publicKey: string) => {
 		const { fromToken, toToken, amount } = swapContext.swap;
 		if (!fromToken || !toToken || !amount) {
 			showError({ errorText: 'Please input tokens to swap' });
@@ -83,13 +85,15 @@ export const swapActions = {
 		}
 
 		try {
-			await swap({
+			const transaction = await constructSwapTransaction({
 				fromMint: fromMint,
 				toMint: toToken.address,
 				amount: amountValue * 10 ** fromToken.account.decimals,
 				userPublicKey: publicKey,
 				wrapAndUnwrapSol: true,
 			});
+
+			swapContext.swap.transaction = transaction;
 		} catch (error) {
 			const errorText = (error as Error).message;
 			showError({ errorText });

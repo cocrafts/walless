@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import type { Networks } from '@walless/core';
-import { solMint } from 'utils/constants';
 import { useTokens } from 'utils/hooks';
 
 import { gasilonSupportedNetworks } from '../internal';
@@ -16,21 +15,12 @@ export const TransactionFee: FC<Props> = ({ network }) => {
 	const { tokens } = useTokens(network);
 
 	const isAbstractFee = gasilonSupportedNetworks.includes(network);
-	if (isAbstractFee) {
-		const sortedTokens = tokens.slice();
-		const solIndex = sortedTokens.findIndex(
-			(token) => token.account.mint === solMint,
-		);
-		if (solIndex !== -1) {
-			[sortedTokens[0], sortedTokens[solIndex]] = [
-				sortedTokens[solIndex],
-				sortedTokens[0],
-			];
-		}
-		return <AbstractedTransactionFee tokenList={sortedTokens} />;
-	}
 
-	return <NormalTransactionFee />;
+	return isAbstractFee ? (
+		<AbstractedTransactionFee tokenList={tokens} />
+	) : (
+		<NormalTransactionFee />
+	);
 };
 
 export default TransactionFee;

@@ -131,13 +131,13 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 			isNotEnoughToken = feeBN.gt(balanceBN);
 		}
 
-		setError(
-			isNotEnoughToken
-				? `Not enough ${
-						tokenForFee.metadata?.symbol ?? 'Unknown'
-					}, select other token`
-				: '',
-		);
+		let errorText = '';
+		if (isNotEnoughToken) {
+			errorText = `Not enough ${
+				tokenForFee.metadata?.symbol ?? 'Unknown'
+			}, select other token`;
+		}
+		setError(errorText);
 	}, [transactionFee, amount, token, tokenForFee]);
 
 	return (

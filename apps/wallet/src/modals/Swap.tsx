@@ -38,7 +38,7 @@ const SwapModal: FC<Props> = ({ config, props }) => {
 			callbackOnClose={handleClose}
 			gestureEnable={runtime.isMobile}
 		>
-			<SwapFeature {...props} onPressClose={handleClose} />
+			<SwapFeature {...props} />
 		</SwipeDownGesture>
 	);
 };

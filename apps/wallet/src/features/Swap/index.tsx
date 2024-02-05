@@ -1,54 +1,43 @@
-import { type FC, useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import type { FC } from 'react';
+import { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
-import { Button, View } from '@walless/gui';
-import ModalHeader from 'components/ModalHeader';
-import { usePublicKeys, useTokens } from 'utils/hooks';
+import { Slider } from '@walless/gui';
+import { useTokens } from 'utils/hooks';
 
+import ConfirmByPasscode from './ConfirmByPasscode';
 import { swapActions } from './context';
 import InputSwap from './InputSwap';
 
 export type Props = {
 	network?: Networks;
-	onPressClose?: () => void;
 };
 
-const SwapFeature: FC<Props> = ({ network, onPressClose }) => {
+const SwapFeature: FC<Props> = ({ network }) => {
 	const { tokens } = useTokens(network);
-	const publicKeys = usePublicKeys(network);
-	const [loading, setLoading] = useState(false);
 
-	const handleClose = () => {
-		onPressClose?.();
-		setTimeout(() => {
-			swapActions.resetContext();
-		}, 200);
-	};
-
-	const handlePressSwap = async () => {
-		setLoading(true);
-		await swapActions.prepareSwapTransaction(publicKeys[0]._id);
-		setLoading(false);
-	};
+	const swapScreens = [
+		{
+			id: 'Input',
+			component: InputSwap,
+		},
+		{
+			id: 'PasscodeInput',
+			component: ConfirmByPasscode,
+		},
+	];
 
 	useEffect(() => {
 		swapActions.update({ network, fromToken: tokens[0] });
 	}, []);
 
 	return (
-		<View style={styles.container}>
-			<ModalHeader content="Swap" onPressClose={handleClose} />
-
-			<View style={styles.mainContainer}>
-				<InputSwap />
-			</View>
-
-			{loading ? (
-				<ActivityIndicator />
-			) : (
-				<Button title="Swap" onPress={handlePressSwap} />
-			)}
-		</View>
+		<Slider
+			style={styles.container}
+			slideContainerStyle={styles.slideContainer}
+			activeItem={swapScreens[0]}
+			items={swapScreens}
+		/>
 	);
 };
 
@@ -62,7 +51,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 28,
 		gap: 16,
 	},
-	mainContainer: {
-		flex: 1,
+	slideContainer: {
+		paddingTop: 16,
+		paddingBottom: 28,
+		paddingHorizontal: 28,
 	},
 });

@@ -51,6 +51,12 @@ export const swapActions = {
 	resetContext: () => {
 		swapContext.swap = { ...initialContext };
 	},
+	closeSwap: () => {
+		modalActions.hide(ModalId.Swap);
+		setTimeout(() => {
+			swapActions.resetContext();
+		}, 200);
+	},
 	openSelectToken: (type: 'from' | 'to') => {
 		modalActions.show({
 			id: modalMap[type].id,

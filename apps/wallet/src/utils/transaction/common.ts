@@ -23,6 +23,7 @@ import type { aptosHandler } from '@walless/network';
 import { solana } from '@walless/network';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { TxnBuilderTypes } from 'aptos';
+import BN from 'bn.js';
 import base58 from 'bs58';
 import { engine } from 'engine';
 import type { AptosContext, SolanaContext } from 'engine/runners';
@@ -120,20 +121,21 @@ export const constructTransaction = async ({
 	const isCollectible = token.type === 'NFT';
 
 	if (network == Networks.solana) {
+		const amountBN = new BN(amount * decimals);
 		const { connection } = engine.getContext<SolanaContext>(network);
 		if (token.metadata?.symbol == 'SOL') {
 			return await solana.constructSendSOLTransaction(
 				connection,
 				new PublicKey(sender),
 				new PublicKey(receiver),
-				amount * decimals,
+				amountBN.toNumber(),
 			);
 		} else if (token.type === 'Token') {
 			return await solana.constructSendSPLTokenTransaction(
 				connection,
 				new PublicKey(sender),
 				new PublicKey(receiver),
-				amount * decimals,
+				amountBN.toNumber(),
 				token as Token,
 			);
 		} else if (token.type === 'NFT') {
@@ -278,7 +280,7 @@ const constructTransactionAbstractFeeTemplate = async (
 		senderAta,
 		receiverAta,
 		senderPublicKey,
-		amount * 10 ** decimals,
+		new BN(amount * 10 ** decimals).toNumber(),
 	);
 
 	instructions.push(feePaymentInstruction);

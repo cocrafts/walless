@@ -6,6 +6,7 @@ import type { SlideComponentProps } from '@walless/gui';
 import { Passcode, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import { showError } from 'modals/Error';
+import assets from 'utils/assets';
 import { nativeModules } from 'utils/native';
 import { createAndSend, prepareTransactionPayload } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
@@ -94,7 +95,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		<View style={styles.container}>
 			<Header onBack={handleBack} />
 
-			<Image style={styles.icon} source={{ uri: '/img/icon.png' }} />
+			<Image style={styles.icon} source={assets.misc.walless} />
 			<View style={styles.titleBlock}>
 				<Text style={styles.title}>Confirm your passcode</Text>
 				<Text style={styles.description}>

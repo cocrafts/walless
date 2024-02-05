@@ -5,7 +5,7 @@ import type { Networks } from '@walless/core';
 import { Slider } from '@walless/gui';
 import { useTokens } from 'utils/hooks';
 
-import ConfirmByPasscode from './ConfirmByPasscode';
+import ConfirmPasscode from './ConfirmPasscode';
 import { swapActions } from './context';
 import InputSwap from './InputSwap';
 
@@ -15,6 +15,7 @@ export type Props = {
 
 const SwapFeature: FC<Props> = ({ network }) => {
 	const { tokens } = useTokens(network);
+	console.log('rerender here');
 
 	const swapScreens = [
 		{
@@ -22,8 +23,8 @@ const SwapFeature: FC<Props> = ({ network }) => {
 			component: InputSwap,
 		},
 		{
-			id: 'PasscodeInput',
-			component: ConfirmByPasscode,
+			id: 'Passcode',
+			component: ConfirmPasscode,
 		},
 	];
 

@@ -1,22 +1,24 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { ResponseCode } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Hoverable, Passcode, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
+import { showError } from 'modals/Error';
 import assets from 'utils/assets';
-import { useSnapshot } from 'utils/hooks';
 import { nativeModules } from 'utils/native';
+import { signAndSendTransaction } from 'utils/transaction/solana';
 
 import { swapContext } from '../context';
 
 type Props = SlideComponentProps;
 
-const ConfirmByPasscode: FC<Props> = ({ navigator, activatedId }) => {
+const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string>('');
 	const [passcode, setPasscode] = useState<string>('');
-	const { transaction } = useSnapshot(swapContext).swap;
+	const [renderPasscode, setRenderPasscode] = useState(false);
 
 	const handleBack = () => {
 		navigator.slideBack();
@@ -31,8 +33,24 @@ const ConfirmByPasscode: FC<Props> = ({ navigator, activatedId }) => {
 		setIsLoading(true);
 		setPasscode(passcode);
 		if (isCompleted) {
-			console.log('handle swap transaction', transaction);
-			setPasscode('');
+			if (!swapContext.swap.transaction) return;
+			try {
+				const res = await signAndSendTransaction(
+					swapContext.swap.transaction,
+					passcode,
+				);
+				if (res.responseCode === ResponseCode.WRONG_PASSCODE) {
+					showError({ errorText: 'Passcode is NOT matched' });
+					setError('Wrong passcode');
+				} else if (res.responseCode === ResponseCode.SUCCESS) {
+					console.log('success');
+				}
+
+				setPasscode('');
+			} catch (error) {
+				showError({ errorText: 'Something went wrong' });
+				setPasscode('');
+			}
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
@@ -41,13 +59,14 @@ const ConfirmByPasscode: FC<Props> = ({ navigator, activatedId }) => {
 	};
 
 	useEffect(() => {
-		if (activatedId === 'PasscodeInput') {
+		if (item.id == activatedId) {
+			setTimeout(() => setRenderPasscode(true), 200);
 			nativeModules.retrieveEncryptionKey().then((key: string | null) => {
 				if (key) {
 					handlePasscodeChange(key as string, true);
 				}
 			});
-		}
+		} else setRenderPasscode(false);
 	}, [activatedId]);
 
 	return (
@@ -66,17 +85,19 @@ const ConfirmByPasscode: FC<Props> = ({ navigator, activatedId }) => {
 				</Text>
 			</View>
 
-			<Passcode
-				passcode={passcode}
-				error={error}
-				loading={isLoading}
-				onPasscodeChange={handlePasscodeChange}
-			/>
+			{renderPasscode && (
+				<Passcode
+					passcode={passcode}
+					error={error}
+					loading={isLoading}
+					onPasscodeChange={handlePasscodeChange}
+				/>
+			)}
 		</View>
 	);
 };
 
-export default ConfirmByPasscode;
+export default ConfirmPasscode;
 
 const styles = StyleSheet.create({
 	container: {

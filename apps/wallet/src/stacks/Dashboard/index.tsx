@@ -1,4 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { runtime } from '@walless/core';
+import BrowserScreen from 'screens/Dashboard/Browser';
 import HomeStack from 'stacks/Home';
 import SettingStack from 'stacks/Setting';
 import { noHeaderNavigation } from 'utils/constants';
@@ -29,6 +31,9 @@ export const DashboardStack = () => {
 				component={HomeStack}
 				options={noHeaderNavigation}
 			/>
+			{runtime.isMobile && (
+				<Tab.Screen name="Browser" component={BrowserScreen} />
+			)}
 			<Tab.Screen name="Setting" component={SettingStack} />
 		</Tab.Navigator>
 	);

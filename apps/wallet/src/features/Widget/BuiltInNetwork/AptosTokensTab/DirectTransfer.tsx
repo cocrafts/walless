@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { RequestType } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
-import { RequestType } from '@walless/messaging';
 import type { aptosHandler } from '@walless/network';
 import { showRequirePasscodeModal } from 'modals/RequirePasscode';
 import { handleAptosOnChainAction } from 'utils/transaction';

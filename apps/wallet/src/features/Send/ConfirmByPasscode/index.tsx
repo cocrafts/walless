@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { ResponseCode } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Passcode, Text, View } from '@walless/gui';
-import { ResponseCode } from '@walless/messaging';
 import type { TokenDocument } from '@walless/store';
 import { showError } from 'modals/Error';
 import { nativeModules } from 'utils/native';

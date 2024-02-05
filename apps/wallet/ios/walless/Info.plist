@@ -61,7 +61,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Unlock wallet for sensitive action e.g sign crypto message</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Black.ttf</string>

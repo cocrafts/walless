@@ -134,10 +134,14 @@ const handleSPLTokenChange = async (
 		} else {
 			const mpl = new Metaplex(connection);
 			const mintAddress = new PublicKey(tokenAccount.mint);
+			const tokenATAddress = getAssociatedTokenAddressSync(
+				new PublicKey(tokenAccount.mint),
+				wallet,
+			);
 			const collectible = (await mpl.nfts().findByMint({
 				mintAddress,
-				tokenAddress: tokenAccount.publicKey,
-				tokenOwner: wallet,
+				tokenAddress: tokenATAddress,
+				tokenOwner: tokenAccount.publicKey,
 			})) as SftWithToken | NftWithToken;
 
 			const collectibleDocument = constructCollectibleDocument(

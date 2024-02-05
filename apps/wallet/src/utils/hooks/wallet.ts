@@ -136,7 +136,9 @@ export const useHistory = (network?: Networks, address?: string) => {
 			}
 		}
 
-		return filteredHistory;
+		return filteredHistory.sort((history1, history2) =>
+			history1.date > history2.date ? -1 : 1,
+		);
 	}, [map, network, address]);
 };
 

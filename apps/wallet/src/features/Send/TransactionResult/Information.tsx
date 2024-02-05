@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
+import { ResponseCode } from '@walless/core';
 import { Text, View } from '@walless/gui';
-import { ResponseCode } from '@walless/messaging';
 import { GreenTag, RedTag } from 'components/tags';
 import { getNetworkMetadata } from 'utils/transaction';
 import { useSnapshot } from 'valtio';

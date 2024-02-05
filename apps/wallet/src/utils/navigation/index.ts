@@ -64,6 +64,7 @@ export const linking: LinkingOptions<RootParamList> = {
 							History: '/history',
 						},
 					},
+					Browser: '/browser/:uri',
 					Setting: {
 						path: '/setting',
 						screens: {

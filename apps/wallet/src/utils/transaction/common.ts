@@ -12,15 +12,11 @@ import {
 	VersionedMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
-import type {
-	Collectible,
-	TezosTransaction,
-	Token,
-	TransactionPayload,
-} from '@walless/core';
+import type { Collectible, Token, TransactionPayload } from '@walless/core';
 import { logger, Networks } from '@walless/core';
 import type { aptosHandler } from '@walless/network';
 import { solana } from '@walless/network';
+import type { TezosTransaction } from '@walless/sdk';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { TxnBuilderTypes } from 'aptos';
 import BN from 'bn.js';

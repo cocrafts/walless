@@ -1,22 +1,16 @@
 import { useEffect, useMemo } from 'react';
-import type { ViewStyle } from 'react-native';
 import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Button, Text, View } from '@walless/gui';
 import { showSendTokenModal } from 'modals/SendToken';
-import { useNfts, useSafeAreaInsets } from 'utils/hooks';
+import { useNfts } from 'utils/hooks';
 import { navigationRef } from 'utils/navigation';
 
 export const CollectibleFeat = () => {
 	const { collections, collectibles } = useNfts();
-	const insets = useSafeAreaInsets();
 	const {
 		params: { id = '' },
 	} = useRoute() as never;
-
-	const containerStyle: ViewStyle = {
-		marginTop: insets.top,
-	};
 
 	const curCollectible = useMemo(() => {
 		if (!id) return;
@@ -42,7 +36,7 @@ export const CollectibleFeat = () => {
 	}, [curCollectible]);
 
 	return (
-		<View style={[styles.container, containerStyle]}>
+		<View style={styles.container}>
 			<ScrollView
 				contentContainerStyle={styles.scrollContentContainer}
 				showsVerticalScrollIndicator={false}

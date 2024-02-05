@@ -5,15 +5,9 @@ import { Input } from '@walless/gui';
 
 type Props = {
 	errorText?: string;
-	onFocusOut?: (value?: string) => void;
 } & InputProps;
 
-const CheckedInput: FC<Props> = ({
-	value,
-	errorText,
-	onFocusOut,
-	...inputProps
-}) => {
+const CheckedInput: FC<Props> = ({ value, errorText, ...inputProps }) => {
 	return (
 		<View style={styles.container}>
 			<Input
@@ -21,7 +15,6 @@ const CheckedInput: FC<Props> = ({
 				value={value}
 				inputStyle={!!errorText && styles.errorText}
 				importantStyle={!!errorText && styles.errorInputContainer}
-				onBlur={() => onFocusOut && onFocusOut(value)}
 			/>
 			{!!errorText && (
 				<View style={styles.bottomBox}>

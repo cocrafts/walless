@@ -98,7 +98,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 				placeholder="Recipient account"
 				errorText={recipientInput.message}
 				onChangeText={(receiver) => txActions.update({ receiver })}
-				onFocusOut={handleFocusOutRecipient}
+				onBlur={() => handleFocusOutRecipient(receiver)}
 			/>
 
 			<TransactionFee network={collectible?.network as Networks} />

@@ -17,14 +17,17 @@ export const TransactionFee: FC<Props> = ({ network }) => {
 
 	const isAbstractFee = gasilonSupportedNetworks.includes(network);
 	if (isAbstractFee) {
-		const tokenList = tokens;
-		const solIndex = tokenList.findIndex(
+		const sortedTokens = tokens.slice();
+		const solIndex = sortedTokens.findIndex(
 			(token) => token.account.mint === solMint,
 		);
 		if (solIndex !== -1) {
-			[tokenList[0], tokenList[solIndex]] = [tokenList[solIndex], tokenList[0]];
+			[sortedTokens[0], sortedTokens[solIndex]] = [
+				sortedTokens[solIndex],
+				sortedTokens[0],
+			];
 		}
-		return <AbstractedTransactionFee tokenList={tokens} />;
+		return <AbstractedTransactionFee tokenList={sortedTokens} />;
 	}
 
 	return <NormalTransactionFee />;

@@ -1,9 +1,12 @@
 import type { Networks } from '@walless/core';
+import { logger } from '@walless/core';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
+import { showError } from 'modals/Error';
 import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
 import type { SwapQuote } from 'utils/transaction';
+import { getMappedMint, swap } from 'utils/transaction';
 import { proxy } from 'valtio';
 
 import SelectFromToken from './Select/SelectFromToken';
@@ -59,5 +62,38 @@ export const swapActions = {
 	},
 	closeSelectToken: (type: 'from' | 'to') => {
 		modalActions.hide(modalMap[type].id);
+	},
+	executeSwap: async (publicKey: string) => {
+		const { fromToken, toToken, amount } = swapContext.swap;
+		if (!fromToken || !toToken || !amount) {
+			showError({ errorText: 'Please input tokens to swap' });
+			return;
+		}
+
+		const fromMint = getMappedMint(fromToken);
+		if (fromMint === toToken.address) {
+			showError({ errorText: 'Can not swap these tokens' });
+			return;
+		}
+
+		const amountValue = parseFloat(amount);
+		if (isNaN(amountValue) || amountValue === 0) {
+			showError({ errorText: 'Invalid amount to swap' });
+			return;
+		}
+
+		try {
+			await swap({
+				fromMint: fromMint,
+				toMint: toToken.address,
+				amount: amountValue * 10 ** fromToken.account.decimals,
+				userPublicKey: publicKey,
+				wrapAndUnwrapSol: true,
+			});
+		} catch (error) {
+			const errorText = (error as Error).message;
+			showError({ errorText });
+			logger.error('swap error:', errorText);
+		}
 	},
 };

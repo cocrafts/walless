@@ -1,9 +1,9 @@
-import { type FC, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { type FC, useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Button, View } from '@walless/gui';
 import ModalHeader from 'components/ModalHeader';
-import { useTokens } from 'utils/hooks';
+import { usePublicKeys, useTokens } from 'utils/hooks';
 
 import { swapActions } from './context';
 import InputSwap from './InputSwap';
@@ -15,12 +15,20 @@ export type Props = {
 
 const SwapFeature: FC<Props> = ({ network, onPressClose }) => {
 	const { tokens } = useTokens(network);
+	const publicKeys = usePublicKeys(network);
+	const [loading, setLoading] = useState(false);
 
 	const handleClose = () => {
 		onPressClose?.();
 		setTimeout(() => {
 			swapActions.resetContext();
 		}, 200);
+	};
+
+	const handlePressSwap = async () => {
+		setLoading(true);
+		await swapActions.executeSwap(publicKeys[0]._id);
+		setLoading(false);
 	};
 
 	useEffect(() => {
@@ -35,7 +43,11 @@ const SwapFeature: FC<Props> = ({ network, onPressClose }) => {
 				<InputSwap />
 			</View>
 
-			<Button title="Swap" />
+			{loading ? (
+				<ActivityIndicator />
+			) : (
+				<Button title="Swap" onPress={handlePressSwap} />
+			)}
 		</View>
 	);
 };

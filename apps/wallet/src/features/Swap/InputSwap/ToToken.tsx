@@ -43,11 +43,11 @@ const ToToken = () => {
 					return;
 				}
 
-				const swapQuote = await getSwapQuote(
-					getMappedMint(fromToken),
-					toToken.address,
-					amountValue * 10 ** fromToken.account.decimals,
-				);
+				const swapQuote = await getSwapQuote({
+					fromMint: getMappedMint(fromToken),
+					toMint: toToken.address,
+					amount: amountValue * 10 ** fromToken.account.decimals,
+				});
 				if (!swapQuote) {
 					showError(
 						{ errorText: 'Can not swap these tokens, try another one' },

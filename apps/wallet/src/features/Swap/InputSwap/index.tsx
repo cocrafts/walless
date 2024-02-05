@@ -8,7 +8,7 @@ import ToToken from './ToToken';
 
 const InputSwap: FC = () => {
 	return (
-		<View style={styles.swapContainer}>
+		<View style={styles.container}>
 			<FromToken />
 			<SwitchSeparator />
 			<ToToken />
@@ -19,7 +19,7 @@ const InputSwap: FC = () => {
 export default InputSwap;
 
 const styles = StyleSheet.create({
-	swapContainer: {
+	container: {
 		backgroundColor: '#1F2A34',
 		borderWidth: 1,
 		borderColor: '#566674',

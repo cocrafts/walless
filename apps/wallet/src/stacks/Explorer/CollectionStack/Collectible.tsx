@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Image, ScrollView, StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import { Button, Text, View } from '@walless/gui';
 import { showSendTokenModal } from 'modals/SendToken';
@@ -25,9 +26,7 @@ export const CollectibleFeat = () => {
 		if (!curCollectible) return;
 
 		setCurCollection(
-			collections.find((ele) =>
-				ele._id.includes(curCollectible?.collectionId || 'invalid-collection'),
-			),
+			collections.find((ele) => ele._id.includes(curCollectible.collectionId)),
 		);
 	}, [curCollectible, collections]);
 
@@ -38,11 +37,13 @@ export const CollectibleFeat = () => {
 		});
 	};
 
-	useEffect(() => {
-		if (!curCollectible) {
-			navigateBack();
-		}
-	}, [curCollectible]);
+	useFocusEffect(
+		useCallback(() => {
+			if (!curCollectible) {
+				navigateBack();
+			}
+		}, [curCollectible]),
+	);
 
 	return (
 		<View style={styles.container}>

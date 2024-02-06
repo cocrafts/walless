@@ -31,9 +31,11 @@ export const useNavigationHydrate = () => {
 					};
 				};
 			};
+			/* eslint-enable */
 
 			const widgetId =
-				childRoute?.params?.screen === 'Collectible' || 'Collection'
+				childRoute?.params?.screen === 'Collectible' ||
+				childRoute?.params?.screen === 'Collection'
 					? ''
 					: childRoute.params?.params.id;
 

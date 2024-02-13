@@ -15,18 +15,6 @@ export type Props = {
 
 const SwapFeature: FC<Props> = ({ network }) => {
 	const { tokens } = useTokens(network);
-	console.log('rerender here');
-
-	const swapScreens = [
-		{
-			id: 'Input',
-			component: InputSwap,
-		},
-		{
-			id: 'Passcode',
-			component: ConfirmPasscode,
-		},
-	];
 
 	useEffect(() => {
 		swapActions.update({ network, fromToken: tokens[0] });
@@ -43,6 +31,17 @@ const SwapFeature: FC<Props> = ({ network }) => {
 };
 
 export default SwapFeature;
+
+const swapScreens = [
+	{
+		id: 'Input',
+		component: InputSwap,
+	},
+	{
+		id: 'Passcode',
+		component: ConfirmPasscode,
+	},
+];
 
 const styles = StyleSheet.create({
 	container: {

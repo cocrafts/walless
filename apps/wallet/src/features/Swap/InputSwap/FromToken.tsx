@@ -33,14 +33,22 @@ const FromToken = () => {
 		swapActions.update({ amount });
 	};
 
+	const handlePressMax = () => {
+		if (!fromToken) return;
+		const maxAmount =
+			parseFloat(fromToken.account.balance) / 10 ** fromToken.account.decimals;
+		swapActions.update({ amount: maxAmount.toString() });
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Text style={styles.title}>From</Text>
 				<Button
 					style={styles.maxButton}
-					titleStyle={styles.maxTitle}
 					title="Max"
+					titleStyle={styles.maxTitle}
+					onPress={handlePressMax}
 				/>
 			</View>
 
@@ -112,7 +120,6 @@ const styles = StyleSheet.create({
 		color: '#FFFFFF',
 	},
 	amountInput: {
-		width: 140,
 		fontSize: 30,
 		textAlign: 'right',
 		color: '#FFFFFF',

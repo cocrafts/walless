@@ -3,6 +3,7 @@ import { ActivityIndicator, StyleSheet } from 'react-native';
 import type { SlideComponentProps } from '@walless/gui';
 import { Button, View } from '@walless/gui';
 import ModalHeader from 'components/ModalHeader';
+import { showError } from 'modals/Error';
 import { usePublicKeys, useSnapshot } from 'utils/hooks';
 
 import { swapActions, swapContext } from '../context';
@@ -20,8 +21,12 @@ const InputSwap: FC<Props> = ({ navigator }) => {
 
 	const handlePressSwap = async () => {
 		setLoading(true);
-		await swapActions.prepareSwapTransaction(publicKeys[0]._id);
-		navigator.slideNext();
+		try {
+			await swapActions.prepareSwapTransaction(publicKeys[0]._id);
+			navigator.slideNext();
+		} catch (error) {
+			showError({ errorText: (error as Error).message });
+		}
 		setLoading(false);
 	};
 

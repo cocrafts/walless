@@ -1,9 +1,7 @@
 import type { VersionedTransaction } from '@solana/web3.js';
 import type { Networks } from '@walless/core';
-import { logger } from '@walless/core';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
-import { showError } from 'modals/Error';
 import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
 import type { SwapQuote } from 'utils/transaction';
@@ -72,37 +70,28 @@ export const swapActions = {
 	prepareSwapTransaction: async (publicKey: string) => {
 		const { fromToken, toToken, amount } = swapContext.swap;
 		if (!fromToken || !toToken || !amount) {
-			showError({ errorText: 'Please input tokens to swap' });
-			return;
+			throw Error('Please input tokens to swap');
 		}
 
 		const fromMint = getMappedMint(fromToken);
 		if (fromMint === toToken.address) {
-			showError({ errorText: 'Can not swap these tokens' });
-			return;
+			throw Error('Can not swap these tokens');
 		}
 
 		const amountValue = parseFloat(amount);
 		if (isNaN(amountValue) || amountValue === 0) {
-			showError({ errorText: 'Invalid amount to swap' });
-			return;
+			throw Error('Invalid amount to swap');
 		}
 
-		try {
-			const transaction = await constructSwapTransaction({
-				fromMint: fromMint,
-				toMint: toToken.address,
-				amount: amountValue * 10 ** fromToken.account.decimals,
-				userPublicKey: publicKey,
-				wrapAndUnwrapSol: true,
-			});
+		const transaction = await constructSwapTransaction({
+			fromMint: fromMint,
+			toMint: toToken.address,
+			amount: amountValue * 10 ** fromToken.account.decimals,
+			userPublicKey: publicKey,
+			wrapAndUnwrapSol: true,
+		});
 
-			swapContext.swap.transaction = transaction;
-		} catch (error) {
-			const errorText = (error as Error).message;
-			showError({ errorText });
-			logger.error('swap error:', errorText);
-		}
+		swapContext.swap.transaction = transaction;
 	},
 	showSuccess: () => {
 		const id = ModalId.Swap + 'Success';

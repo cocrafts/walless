@@ -12,6 +12,7 @@ import { proxy } from 'valtio';
 
 import SelectFromToken from './Select/SelectFromToken';
 import SelectToToken from './Select/SelectToToken';
+import Success from './Success';
 
 export interface SwapContext {
 	network?: Networks;
@@ -53,9 +54,6 @@ export const swapActions = {
 	},
 	closeSwap: () => {
 		modalActions.hide(ModalId.Swap);
-		setTimeout(() => {
-			swapActions.resetContext();
-		}, 200);
 	},
 	openSelectToken: (type: 'from' | 'to') => {
 		modalActions.show({
@@ -105,5 +103,24 @@ export const swapActions = {
 			showError({ errorText });
 			logger.error('swap error:', errorText);
 		}
+	},
+	showSuccess: () => {
+		const id = ModalId.Swap + 'Success';
+
+		modalActions.show({
+			id,
+			bindingDirection: BindDirections.InnerTop,
+			animateDirection: AnimateDirections.Bottom,
+			component: Success,
+			withoutMask: true,
+		});
+
+		setTimeout(() => {
+			modalActions.hide(id);
+			// TODO: need to resolve this callback hell by modal life cycle
+			setTimeout(() => {
+				swapActions.resetContext();
+			}, 200);
+		}, 3000);
 	},
 };

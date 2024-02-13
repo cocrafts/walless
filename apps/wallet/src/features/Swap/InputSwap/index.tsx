@@ -25,9 +25,16 @@ const InputSwap: FC<Props> = ({ navigator }) => {
 		setLoading(false);
 	};
 
+	const handleClose = () => {
+		swapActions.closeSwap();
+		setTimeout(() => {
+			swapActions.resetContext();
+		}, 200);
+	};
+
 	return (
 		<View style={styles.container}>
-			<ModalHeader content="Swap" onPressClose={swapActions.closeSwap} />
+			<ModalHeader content="Swap" onPressClose={handleClose} />
 
 			<View style={styles.swapContainer}>
 				<FromToken />

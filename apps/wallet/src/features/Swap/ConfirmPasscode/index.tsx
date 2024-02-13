@@ -10,7 +10,7 @@ import assets from 'utils/assets';
 import { nativeModules } from 'utils/native';
 import { signAndSendTransaction } from 'utils/transaction/solana';
 
-import { swapContext } from '../context';
+import { swapActions, swapContext } from '../context';
 
 type Props = SlideComponentProps;
 
@@ -43,7 +43,8 @@ const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 					showError({ errorText: 'Passcode is NOT matched' });
 					setError('Wrong passcode');
 				} else if (res.responseCode === ResponseCode.SUCCESS) {
-					console.log('success');
+					swapActions.closeSwap();
+					swapActions.showSuccess();
 				}
 
 				setPasscode('');

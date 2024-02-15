@@ -5,7 +5,7 @@ import type { TokenDocument } from '@walless/store';
 import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
 import type { SwapQuote } from 'utils/transaction';
-import { constructSwapTransaction, getMappedMint } from 'utils/transaction';
+import { constructSwapTransaction, getAliasedMint } from 'utils/transaction';
 import { proxy } from 'valtio';
 
 import SelectFromToken from './Select/SelectFromToken';
@@ -72,7 +72,7 @@ export const swapActions = {
 			throw Error('Please input tokens to swap');
 		}
 
-		const fromMint = getMappedMint(fromToken);
+		const fromMint = getAliasedMint(fromToken);
 		if (fromMint === toToken.address) {
 			throw Error('Can not swap these tokens');
 		}

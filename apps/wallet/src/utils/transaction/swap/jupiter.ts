@@ -5,7 +5,7 @@ import { environment } from 'utils/config';
 
 import type { SwapQuote } from './types';
 
-export const getMappedMint = (token: TokenDocument) => {
+export const getAliasedMint = (token: TokenDocument) => {
 	if (token.account.mint === '11111111111111111111111111111111') {
 		return 'So11111111111111111111111111111111111111112';
 	} else if (
@@ -74,14 +74,9 @@ export const constructSwapTransaction = async ({
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({
-			// quoteResponse from /quote api
 			quoteResponse,
-			// user public key to be used for the swap
 			userPublicKey,
-			// auto wrap and unwrap SOL. default is true
 			wrapAndUnwrapSol,
-			// feeAccount is optional. Use if you want to charge a fee.  feeBps must have been passed in /quote API.
-			// feeAccount: "fee_account_public_key"
 		}),
 	});
 	if (!res.ok) {

@@ -8,8 +8,7 @@ import { swapContext } from './context';
 
 const Success = () => {
 	const insets = useSafeAreaInsets();
-	const containerStyle: ViewStyle = {
-		...styles.container,
+	const dynamicContainerStyle: ViewStyle = {
 		paddingTop: Math.max(insets.top, 20),
 		paddingBottom: 20,
 	};
@@ -24,7 +23,7 @@ const Success = () => {
 		: 0;
 
 	return (
-		<View style={containerStyle}>
+		<View style={[styles.container, dynamicContainerStyle]}>
 			<Switch size={14} />
 			<Text style={styles.content}>
 				Swapped {amount} {fromSymbol} for {outAmount} {toSymbol}

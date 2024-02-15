@@ -20,14 +20,13 @@ const SelectFromToken: FC = () => {
 	const { tokens } = useTokens(network);
 
 	const filteredTokens = useMemo(() => {
-		const search = searchText.toLowerCase();
-
+		const s = searchText.toLowerCase();
 		return tokens.filter((t) => {
-			return (
-				t.account.mint.toLowerCase().includes(search) ||
-				(t.metadata?.name || '').toLowerCase().includes(search) ||
-				(t.metadata?.symbol || '').toLowerCase().includes(search)
-			);
+			const isSearchInMint = t.account.mint.toLowerCase().includes(s);
+			const isSearchInName = t.metadata?.name?.toLowerCase().includes(s);
+			const isSearchInSymbol = t.metadata?.symbol?.toLowerCase().includes(s);
+
+			return isSearchInMint || isSearchInName || isSearchInSymbol;
 		});
 	}, [searchText]);
 
@@ -36,7 +35,7 @@ const SelectFromToken: FC = () => {
 	};
 
 	const handleSelectToken = (token: TokenDocument) => {
-		if (token._id != fromToken?._id) {
+		if (token._id !== fromToken?._id) {
 			swapActions.update({ fromToken: token, amount: '' });
 		}
 		swapActions.closeSelectToken('from');

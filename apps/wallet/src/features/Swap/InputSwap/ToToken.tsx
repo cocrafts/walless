@@ -6,7 +6,7 @@ import { showError } from 'modals/Error';
 import { useDebouncedCallback } from 'use-debounce';
 import type { JupiterToken } from 'utils/hooks';
 import { useSnapshot } from 'utils/hooks';
-import { getMappedMint, getSwapQuote } from 'utils/transaction';
+import { getAliasedMint, getSwapQuote } from 'utils/transaction';
 
 import type { SwapContext } from '../context';
 import { swapActions, swapContext } from '../context';
@@ -43,7 +43,7 @@ const ToToken = () => {
 			}
 
 			const swapQuote = await getSwapQuote({
-				fromMint: getMappedMint(fromToken),
+				fromMint: getAliasedMint(fromToken),
 				toMint: toToken.address,
 				amount: amountValue * 10 ** fromToken.account.decimals,
 			});

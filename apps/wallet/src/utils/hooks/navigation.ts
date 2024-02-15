@@ -23,7 +23,7 @@ export const useNavigationHydrate = () => {
 			const dashboard = state?.routes.find(findDashboard)?.state;
 			const childRoute = dashboard?.routes[dashboard?.index as never];
 			const widget = childRoute?.params as any;
-            const screen = widget?.screen as any;
+			const screen = widget?.screen as any;
 			const widgetId = widget?.params?.id;
 			/* eslint-enable */
 

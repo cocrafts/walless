@@ -49,7 +49,7 @@ const SelectToToken: FC = () => {
 	}, []);
 
 	const dynamicContainerStyle: ViewStyle = {
-		marginTop: insets.top,
+		marginTop: insets.top || 20,
 		paddingBottom: insets.bottom,
 	};
 

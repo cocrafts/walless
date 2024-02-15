@@ -24,8 +24,8 @@ const SwapModal: FC<Props> = ({ config, props }) => {
 	const insets = useSafeAreaInsets();
 
 	const safeAreaStyle: ViewStyle = {
+		marginTop: insets.top || 20,
 		paddingBottom: insets.bottom,
-		marginTop: insets.top,
 	};
 
 	const handleClose = () => {

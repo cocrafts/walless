@@ -4,7 +4,7 @@ import type {
 	RequestHashmap,
 	UniBroadcast,
 } from '@walless/core';
-import { logger, runtime } from '@walless/core';
+import { logger, ResponseCode, runtime } from '@walless/core';
 import { decryptFromString, encryptToString } from '@walless/crypto';
 
 import type {
@@ -15,6 +15,7 @@ import type {
 	MessengerMessageListener,
 	MessengerRequest,
 	MessengerSend,
+	ResponsePayload,
 } from './types';
 
 export const createMessenger = (
@@ -70,7 +71,12 @@ export const createMessenger = (
 		const associatedRequest = requestHashmap[requestId];
 
 		if (associatedRequest) {
-			associatedRequest.resolve(revealed);
+			const res = revealed as ResponsePayload;
+			if (res.responseCode === ResponseCode.ERROR) {
+				associatedRequest.reject(Error(res.error));
+			} else {
+				associatedRequest.resolve(revealed);
+			}
 			delete requestHashmap[requestId];
 		}
 	};

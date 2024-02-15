@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { environment } from 'utils/config';
 import { proxy } from 'valtio';
 
 import { useSnapshot } from './aliased';
@@ -27,9 +28,11 @@ export const useJupiterContext = () => {
 
 	return useMemo(() => {
 		if (ctx.tokens.length === 0) {
-			fetch('https://token.jup.ag/strict').then(async (res) => {
-				jupiterContext.tokens = (await res.json()) as JupiterToken[];
-			});
+			fetch(`${environment.JUPITER_TOKENS_ENDPOINT}/strict`).then(
+				async (res) => {
+					jupiterContext.tokens = (await res.json()) as JupiterToken[];
+				},
+			);
 		}
 
 		return ctx as JupiterContext;

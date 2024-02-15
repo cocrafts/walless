@@ -1,6 +1,7 @@
 import { VersionedTransaction } from '@solana/web3.js';
 import { logger } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
+import { environment } from 'utils/config';
 
 import type { SwapQuote } from './types';
 
@@ -30,7 +31,7 @@ export const getSwapQuote = async ({
 	slippageBps = 50,
 }: GetSwapParams): Promise<SwapQuote | undefined> => {
 	const res = await fetch(
-		`https://quote-api.jup.ag/v6/quote?inputMint=${fromMint}&outputMint=${toMint}&amount=${amount}&slippageBps=${slippageBps}`,
+		`${environment.JUPITER_API_ENDPOINT}/quote?inputMint=${fromMint}&outputMint=${toMint}&amount=${amount}&slippageBps=${slippageBps}`,
 	);
 
 	const data = await res.json();
@@ -67,7 +68,7 @@ export const constructSwapTransaction = async ({
 		throw Error('Can not fetch swap quote, please try again!');
 	}
 
-	const res = await fetch('https://quote-api.jup.ag/v6/swap', {
+	const res = await fetch(`${environment.JUPITER_API_ENDPOINT}/swap`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

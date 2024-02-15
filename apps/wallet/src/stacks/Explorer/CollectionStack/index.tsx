@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useMemo } from 'react';
 import type {
 	StackNavigationOptions,
 	StackScreenProps,
@@ -23,17 +23,25 @@ const CollectionStack: FC<Props> = () => {
 		headerShown: false,
 	};
 
-	const ManagedCollectionScreen = withStackContainer(CollectionFeat, {
-		title: 'Collection',
-		goBack: navigateBack,
-		noBottomTabs: true,
-	});
+	const ManagedCollectionScreen = useMemo(
+		() =>
+			withStackContainer(CollectionFeat, {
+				title: 'Collection',
+				goBack: navigateBack,
+				noBottomTabs: true,
+			}),
+		[],
+	);
 
-	const ManagedCollectibleScreen = withStackContainer(CollectibleFeat, {
-		title: 'Collectible',
-		goBack: navigateBack,
-		noBottomTabs: true,
-	});
+	const ManagedCollectibleScreen = useMemo(
+		() =>
+			withStackContainer(CollectibleFeat, {
+				title: 'Collectible',
+				goBack: navigateBack,
+				noBottomTabs: true,
+			}),
+		[],
+	);
 
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>

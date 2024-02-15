@@ -4,6 +4,7 @@ import { Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import { showError } from 'modals/Error';
 import { useDebouncedCallback } from 'use-debounce';
+import { parseWithDecimals } from 'utils/format';
 import type { JupiterToken } from 'utils/hooks';
 import { useSnapshot } from 'utils/hooks';
 import { getAliasedMint, getSwapQuote } from 'utils/transaction';
@@ -21,9 +22,10 @@ const ToToken = () => {
 		swapActions.openSelectToken('to');
 	};
 
-	const outAmount = swapQuote
-		? (parseInt(swapQuote.outAmount) * 1.0) / 10 ** (toToken?.decimals || 0)
-		: 0;
+	const outAmount =
+		swapQuote && toToken
+			? parseWithDecimals(swapQuote.outAmount, toToken.decimals)
+			: 0;
 
 	const updateSwapQuote = useDebouncedCallback(
 		async (

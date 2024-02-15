@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
+import { parseTokenAccountBalance } from 'utils/format';
 import { useSnapshot } from 'utils/hooks';
 
 import type { SwapContext } from '../context';
@@ -13,9 +14,7 @@ const FromToken = () => {
 
 	const balance = useMemo(() => {
 		if (!fromToken) return 0;
-		return (
-			parseFloat(fromToken.account.balance) / 10 ** fromToken.account.decimals
-		);
+		return parseTokenAccountBalance(fromToken.account);
 	}, [fromToken]);
 
 	const priceString = useMemo(() => {
@@ -35,8 +34,7 @@ const FromToken = () => {
 
 	const handlePressMax = () => {
 		if (!fromToken) return;
-		const maxAmount =
-			parseFloat(fromToken.account.balance) / 10 ** fromToken.account.decimals;
+		const maxAmount = parseTokenAccountBalance(fromToken.account);
 		swapActions.update({ amount: maxAmount.toString() });
 	};
 

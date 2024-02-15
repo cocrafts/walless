@@ -1,11 +1,12 @@
 import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
-import type { ListRenderItem } from 'react-native';
+import type { ListRenderItem, ViewStyle } from 'react-native';
 import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
-import { Button, Text, View } from '@walless/gui';
+import { runtime } from '@walless/core';
+import { Button, SwipeDownGesture, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import type { JupiterToken } from 'utils/hooks';
-import { useJupiterContext } from 'utils/hooks';
+import { useJupiterContext, useSafeAreaInsets } from 'utils/hooks';
 
 import { swapActions } from '../context';
 
@@ -13,6 +14,7 @@ import SearchBar from './SearchBar';
 import ToToken from './ToToken';
 
 const SelectToToken: FC = () => {
+	const insets = useSafeAreaInsets();
 	const [searchText, setSearchText] = useState('');
 	const handleBack = () => {
 		swapActions.closeSelectToken('to');
@@ -46,8 +48,17 @@ const SelectToToken: FC = () => {
 		);
 	}, []);
 
+	const dynamicContainerStyle: ViewStyle = {
+		marginTop: insets.top,
+		paddingBottom: insets.bottom,
+	};
+
 	return (
-		<View style={styles.container}>
+		<SwipeDownGesture
+			style={[dynamicContainerStyle, styles.container]}
+			callbackOnClose={handleBack}
+			gestureEnable={runtime.isMobile}
+		>
 			<View style={styles.headerContainer}>
 				<Text style={styles.title}>Select a token</Text>
 				<Button style={styles.backButton} onPress={handleBack}>
@@ -71,7 +82,7 @@ const SelectToToken: FC = () => {
 					ItemSeparatorComponent={() => <View style={styles.separator} />}
 				/>
 			)}
-		</View>
+		</SwipeDownGesture>
 	);
 };
 
@@ -82,8 +93,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#131C24',
 		paddingTop: 10,
-		paddingBottom: 28,
-		paddingHorizontal: 28,
+		paddingHorizontal: 18,
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 		gap: 12,

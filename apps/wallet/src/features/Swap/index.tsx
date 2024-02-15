@@ -46,14 +46,10 @@ const swapScreens = [
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingTop: 10,
-		paddingBottom: 28,
-		paddingHorizontal: 28,
-		gap: 16,
 	},
 	slideContainer: {
 		paddingTop: 16,
 		paddingBottom: 28,
-		paddingHorizontal: 28,
+		paddingHorizontal: 18,
 	},
 });

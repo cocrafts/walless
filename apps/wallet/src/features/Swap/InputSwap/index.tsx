@@ -61,6 +61,7 @@ export default InputSwap;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		gap: 10,
 	},
 	swapContainer: {
 		backgroundColor: '#1F2A34',

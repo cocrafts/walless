@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { StyleSheet, TextInput } from 'react-native';
 import { View } from '@walless/gui';
 import { Search } from '@walless/icons';
 

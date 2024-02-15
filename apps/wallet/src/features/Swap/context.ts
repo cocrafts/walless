@@ -60,7 +60,6 @@ export const swapActions = {
 			animateDirection: AnimateDirections.Top,
 			fullHeight: true,
 			maskActiveOpacity: 0.1,
-			positionOffset: { y: 32 },
 			component: modalMap[type].component,
 		});
 	},

@@ -25,7 +25,7 @@ const SwapModal: FC<Props> = ({ config, props }) => {
 
 	const safeAreaStyle: ViewStyle = {
 		paddingBottom: insets.bottom,
-		paddingTop: insets.top,
+		marginTop: insets.top,
 	};
 
 	const handleClose = () => {
@@ -50,7 +50,6 @@ export const showSwapModal = (props: SwapProps) => {
 		animateDirection: AnimateDirections.Top,
 		fullHeight: true,
 		maskActiveOpacity: 0.1,
-		positionOffset: { y: 32 },
 		component: ({ config }) => <SwapModal config={config} props={props} />,
 	});
 };

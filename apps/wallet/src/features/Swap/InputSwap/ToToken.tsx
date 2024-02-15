@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
-import { throttle } from 'lodash';
 import { showError } from 'modals/Error';
+import { useDebouncedCallback } from 'use-debounce';
 import type { JupiterToken } from 'utils/hooks';
 import { useSnapshot } from 'utils/hooks';
 import { getMappedMint, getSwapQuote } from 'utils/transaction';
@@ -25,41 +25,38 @@ const ToToken = () => {
 		? (parseInt(swapQuote.outAmount) * 1.0) / 10 ** (toToken?.decimals || 0)
 		: 0;
 
-	const updateSwapQuote = useCallback(
-		throttle(
-			async (
-				fromToken?: TokenDocument,
-				toToken?: JupiterToken,
-				amount?: string,
-			) => {
-				if (!fromToken || !toToken || !amount) {
-					swapActions.update({ swapQuote: undefined });
-					return;
-				}
+	const updateSwapQuote = useDebouncedCallback(
+		async (
+			fromToken?: TokenDocument,
+			toToken?: JupiterToken,
+			amount?: string,
+		) => {
+			if (!fromToken || !toToken || !amount) {
+				swapActions.update({ swapQuote: undefined });
+				return;
+			}
 
-				const amountValue = parseFloat(amount);
-				if (isNaN(amountValue) || amountValue === 0) {
-					swapActions.update({ swapQuote: undefined });
-					return;
-				}
+			const amountValue = parseFloat(amount);
+			if (isNaN(amountValue) || amountValue === 0) {
+				swapActions.update({ swapQuote: undefined });
+				return;
+			}
 
-				const swapQuote = await getSwapQuote({
-					fromMint: getMappedMint(fromToken),
-					toMint: toToken.address,
-					amount: amountValue * 10 ** fromToken.account.decimals,
-				});
-				if (!swapQuote) {
-					showError(
-						{ errorText: 'Can not swap these tokens, try another one' },
-						1500,
-					);
-				} else {
-					swapActions.update({ swapQuote });
-				}
-			},
-			1000,
-		),
-		[],
+			const swapQuote = await getSwapQuote({
+				fromMint: getMappedMint(fromToken),
+				toMint: toToken.address,
+				amount: amountValue * 10 ** fromToken.account.decimals,
+			});
+			if (!swapQuote) {
+				showError(
+					{ errorText: 'Can not swap these tokens, try another one' },
+					1500,
+				);
+			} else {
+				swapActions.update({ swapQuote });
+			}
+		},
+		1000,
 	);
 
 	useEffect(() => {

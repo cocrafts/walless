@@ -18,8 +18,7 @@ export const CollectibleFeat = () => {
 	const curCollectible = useMemo(() => {
 		if (!id) return;
 
-		const collectible = collectibles.find((ele) => ele._id.includes(id));
-		return collectible;
+		return collectibles.find((ele) => ele._id.includes(id));
 	}, [collectibles]);
 
 	useMemo(() => {

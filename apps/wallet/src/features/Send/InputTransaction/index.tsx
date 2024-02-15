@@ -21,8 +21,8 @@ interface Props {
 }
 
 const InputTransaction: FC<Props> = ({ navigator }) => {
-	const { type } = useSnapshot(txContext).tx;
-	const { collectible } = useSnapshot(txContext).tx;
+	const { tx } = useSnapshot(txContext);
+	const { type, collectible } = tx;
 	const { collections } = useNfts();
 
 	const handlePressContinue = () => {
@@ -36,11 +36,10 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 
 	useEffect(() => {
 		if (collectible) {
-			txActions.update({ type: 'Collectible' });
 			const collection = collections.find(
 				(ele) => ele._id === collectible.collectionId,
 			);
-			txActions.update({ collection });
+			txActions.update({ type: 'Collectible', collection });
 		}
 	}, [collectible]);
 

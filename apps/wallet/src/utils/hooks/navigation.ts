@@ -26,12 +26,9 @@ export const useNavigationHydrate = () => {
 			const screen = widget?.screen as any;
 			const widgetId = widget?.params?.id;
 			/* eslint-enable */
+			const isWidgetScreen = screen === 'Widget';
 
-			if (
-				childRoute?.name === 'Explore' &&
-				screen === 'Widget' &&
-				widgetId !== lastWidgetId
-			) {
+			if (isWidgetScreen && widgetId !== lastWidgetId) {
 				lastWidgetId = widgetId;
 				storage.upsert<SettingDocument>('settings', async (doc) => {
 					doc.config = doc.config || {};

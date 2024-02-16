@@ -5,14 +5,12 @@ import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import KeyboardAvoidingView from 'components/KeyboardAvoidingView';
 import ModalHeader from 'components/ModalHeader';
-import { showError } from 'modals/Error';
 import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
 
 import { CollectiblesTab } from './CollectiblesTab';
-import { totalCheckFieldsToContinue } from './internal';
 import { TabBar } from './TabBar';
 import { TokensTab } from './TokensTab';
 
@@ -24,15 +22,6 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 	const { tx } = useSnapshot(txContext);
 	const { type, collectible } = tx;
 	const { collections } = useNfts();
-
-	const handlePressContinue = () => {
-		const checkedResult = totalCheckFieldsToContinue();
-		if (!checkedResult.valid) {
-			showError({ errorText: checkedResult.message });
-		} else {
-			navigator.slideNext();
-		}
-	};
 
 	useEffect(() => {
 		if (collectible) {
@@ -54,9 +43,9 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 				/>
 
 				{type === 'Token' ? (
-					<TokensTab onContinue={handlePressContinue} />
+					<TokensTab onContinue={navigator.slideNext} />
 				) : (
-					<CollectiblesTab onContinue={handlePressContinue} />
+					<CollectiblesTab onContinue={navigator.slideNext} />
 				)}
 			</View>
 		</KeyboardAvoidingView>

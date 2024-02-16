@@ -7,13 +7,7 @@ import type { PopupPayload } from './utils';
 import { encryptedMessenger } from './utils';
 
 export const sendRequest = async (payload: PureMessagePayload) => {
-	try {
-		return await encryptedMessenger.request('kernel', payload);
-	} catch (e) {
-		return {
-			message: (e as Error).message,
-		};
-	}
+	return await encryptedMessenger.request('kernel', payload);
 };
 
 export const findRequest = async (requestId: string, from: string) => {

@@ -6,10 +6,11 @@ import { Button } from '@walless/gui';
 interface Props {
 	title: string;
 	style?: ViewStyle;
+	disabled?: boolean;
 	onPress?: () => void;
 }
 
-export const NavButton: FC<Props> = ({ title, style, onPress }) => {
+export const NavButton: FC<Props> = ({ title, style, disabled, onPress }) => {
 	const handlePress = () => {
 		onPress && onPress();
 	};
@@ -19,6 +20,7 @@ export const NavButton: FC<Props> = ({ title, style, onPress }) => {
 			style={{ ...styles.button, ...style }}
 			titleStyle={styles.title}
 			title={title}
+			disabled={disabled}
 			onPress={handlePress}
 		/>
 	);
@@ -26,7 +28,6 @@ export const NavButton: FC<Props> = ({ title, style, onPress }) => {
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: '#0694D3',
 		borderRadius: 15,
 		height: 48,
 		marginTop: 'auto',

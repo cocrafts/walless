@@ -13,6 +13,7 @@ interface Props {
 
 export const TransactionFee: FC<Props> = ({ network }) => {
 	const { tokens } = useTokens(network);
+
 	const isAbstractFee = gasilonSupportedNetworks.includes(network);
 
 	return isAbstractFee ? (

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
@@ -21,7 +21,7 @@ export const CollectibleFeat = () => {
 		return collectibles.find((ele) => ele._id.includes(id));
 	}, [collectibles]);
 
-	useMemo(() => {
+	useEffect(() => {
 		if (!curCollectible) return;
 
 		setCurCollection(

@@ -2,11 +2,9 @@ import { StyleSheet } from 'react-native';
 import { runtime } from '@walless/core';
 import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
 import { createDrawerNavigator } from 'components/DrawerNavigation';
-import { withStackContainer } from 'components/StackContainer';
-import CollectibleScreen from 'screens/Dashboard/Collectible';
-import CollectionScreen from 'screens/Dashboard/Collection';
 import WidgetScreen from 'screens/Dashboard/Widget';
-import { type ExploreParamList, navigateBack } from 'utils/navigation';
+import CollectionStack from 'stacks/Explorer/CollectionStack';
+import { type ExploreParamList } from 'utils/navigation';
 
 import Sidebar, { sidebarWidth } from './Sidebar';
 
@@ -26,16 +24,6 @@ export const ExplorerStack = () => {
 		unmountOnBlur: false,
 	};
 
-	const ManagedCollectionScreen = withStackContainer(CollectionScreen, {
-		title: 'Collection',
-		goBack: navigateBack,
-	});
-
-	const ManagedCollectibleScreen = withStackContainer(CollectibleScreen, {
-		title: 'Collectible',
-		goBack: navigateBack,
-	});
-
 	return (
 		<Drawer.Navigator
 			drawerContent={Sidebar}
@@ -45,12 +33,8 @@ export const ExplorerStack = () => {
 			<Drawer.Screen name="Widget" component={WidgetScreen} options={options} />
 			<Drawer.Screen
 				name="Collection"
-				component={ManagedCollectionScreen}
-				options={options}
-			/>
-			<Drawer.Screen
-				name="Collectible"
-				component={ManagedCollectibleScreen}
+				component={CollectionStack}
+				initialParams={{ screen: 'Default' }}
 				options={options}
 			/>
 		</Drawer.Navigator>

@@ -9,16 +9,27 @@ export type AuthenticationParamList = {
 	Recovery: undefined;
 };
 
-export type ExploreParamList = {
-	Widget: {
+export type CollectionParamList = {
+	Default: {
 		id?: string;
-	};
-	Collection: {
-		id: string;
 	};
 	Collectible: {
 		id: string;
 	};
+};
+
+export type WidgetParamList = {
+	Default: {
+		id?: string;
+	};
+	Collection: NavigatorScreenParams<CollectionParamList>;
+};
+
+export type ExploreParamList = {
+	Widget: {
+		id?: string;
+	};
+	Collection: NavigatorScreenParams<CollectionParamList>;
 };
 
 export type HomeParamList = {

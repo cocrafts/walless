@@ -33,6 +33,8 @@ interface Props {
 	tabProps: BottomTabBarProps;
 }
 
+const mustHaveBottomTabBarRoutes = ['Home', 'Setting'];
+
 export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const { insets, state, navigation } = tabProps;
 	const { isDrawerOpen } = useSnapshot(runtimeState);
@@ -45,16 +47,18 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 		[offset],
 	);
 
-	useEffect(() => {
-		const { routes, index } = state;
-		/* eslint-disable-next-line */
-		const currentRoute: any = routes[index];
-		const widgetId = currentRoute.params?.params?.id;
-		const isExploreTab = currentRoute.name === 'Explore' && !widgetId;
+	const { routes, index } = state;
+	const currentRoute = routes[index];
 
-		const nextOffset = isDrawerOpen || isExploreTab ? 0 : realBarHeight;
+	useEffect(() => {
+		const mustHaveBottomTabBar = mustHaveBottomTabBarRoutes.includes(
+			currentRoute.name,
+		);
+
+		const nextOffset = isDrawerOpen || mustHaveBottomTabBar ? 0 : realBarHeight;
+
 		offset.value = withTiming(nextOffset, timingConfig);
-	}, [isDrawerOpen]);
+	}, [isDrawerOpen, currentRoute]);
 
 	const containerStyle: ViewStyle = {
 		height: realBarHeight,

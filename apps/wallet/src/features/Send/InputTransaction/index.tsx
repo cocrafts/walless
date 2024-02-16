@@ -1,9 +1,11 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import KeyboardAvoidingView from 'components/KeyboardAvoidingView';
 import ModalHeader from 'components/ModalHeader';
+import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
@@ -17,7 +19,18 @@ interface Props {
 }
 
 const InputTransaction: FC<Props> = ({ navigator }) => {
-	const { type } = useSnapshot(txContext).tx;
+	const { tx } = useSnapshot(txContext);
+	const { type, collectible } = tx;
+	const { collections } = useNfts();
+
+	useEffect(() => {
+		if (collectible) {
+			const collection = collections.find(
+				(ele) => ele._id === collectible.collectionId,
+			);
+			txActions.update({ type: 'Collectible', collection });
+		}
+	}, [collectible]);
 
 	return (
 		<KeyboardAvoidingView>

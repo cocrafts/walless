@@ -21,25 +21,14 @@ export const useNavigationHydrate = () => {
 			/* eslint-disable */
 			const findDashboard = (i: any) => i.name === 'Dashboard';
 			const dashboard = state?.routes.find(findDashboard)?.state;
-			const childRoute = dashboard?.routes[dashboard?.index as never] as {
-				key: string;
-				name: string;
-				params: {
-					screen?: string;
-					params: {
-						id: string;
-					};
-				};
-			};
+			const childRoute = dashboard?.routes[dashboard?.index as never];
+			const widget = childRoute?.params as any;
+			const screen = widget?.screen as any;
+			const widgetId = widget?.params?.id;
 			/* eslint-enable */
+			const isWidgetScreen = screen === 'Widget';
 
-			const widgetId =
-				childRoute?.params?.screen === 'Collectible' ||
-				childRoute?.params?.screen === 'Collection'
-					? ''
-					: childRoute.params?.params.id;
-
-			if (childRoute?.name === 'Explore' && widgetId !== lastWidgetId) {
+			if (isWidgetScreen && widgetId !== lastWidgetId) {
 				lastWidgetId = widgetId;
 				storage.upsert<SettingDocument>('settings', async (doc) => {
 					doc.config = doc.config || {};

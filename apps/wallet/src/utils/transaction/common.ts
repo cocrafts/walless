@@ -31,26 +31,21 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {
 		if (network == Networks.solana) {
 			new PublicKey(keyStr);
-			return { valid: true, message: '' };
+			return null;
 		} else if (network == Networks.sui) {
-			return { valid: true, message: '' };
+			return null;
 		} else if (network == Networks.tezos) {
-			return { valid: true, message: '' };
+			return null;
 		} else if (network == Networks.aptos) {
 			const { AccountAddress } = TxnBuilderTypes;
-			return { valid: AccountAddress.isValid(keyStr), message: '' };
+			if (AccountAddress.isValid(keyStr)) {
+				return null;
+			} else throw new Error();
 		}
-		return {
-			valid: true,
-			message: '',
-		};
-	} catch (error) {
-		return {
-			valid: false,
-			message: network
-				? `Wrong [${capitalize(network)}] wallet address. Please check again.`
-				: (error as Error).message,
-		};
+
+		return null;
+	} catch {
+		return `Wrong [${capitalize(network)}] wallet address. Please check again.`;
 	}
 };
 

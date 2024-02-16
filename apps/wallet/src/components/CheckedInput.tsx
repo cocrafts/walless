@@ -4,7 +4,7 @@ import type { InputProps } from '@walless/gui';
 import { Input } from '@walless/gui';
 
 type Props = {
-	errorText?: string;
+	errorText: string | null;
 } & InputProps;
 
 const CheckedInput: FC<Props> = ({ value, errorText, ...inputProps }) => {

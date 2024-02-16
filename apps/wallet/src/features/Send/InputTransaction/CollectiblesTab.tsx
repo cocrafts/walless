@@ -12,6 +12,7 @@ import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
 
+import type { ErrorMessage } from './internal';
 import TransactionFee from './TransactionFee';
 
 interface Props {
@@ -22,11 +23,11 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	const { collection, collectible, network, receiver } =
 		useSnapshot(txContext).tx;
 	const { collectibles, collections } = useNfts(network);
-	const [recipientInput, setRecipientInput] = useState({
-		valid: false,
-		message: '',
-	});
-	const canContinue = recipientInput.valid && collection && collectible;
+	const [recipientErrorMessage, setRecipientErrorMessage] =
+		useState<ErrorMessage>('');
+
+	const canContinue =
+		recipientErrorMessage === null && collection && collectible;
 
 	const getRequiredFieldsForSelectToken = (item: {
 		metadata?: AssetMetadata;
@@ -41,7 +42,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	const checkRecipient = (receiver?: string, network?: Networks) => {
 		if (receiver && network) {
 			const result = checkValidAddress(receiver, network);
-			setRecipientInput(result);
+			setRecipientErrorMessage(result);
 		}
 	};
 
@@ -96,7 +97,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 			<CheckedInput
 				value={receiver}
 				placeholder="Recipient account"
-				errorText={recipientInput.message}
+				errorText={recipientErrorMessage}
 				onChangeText={(receiver) => txActions.update({ receiver })}
 				onBlur={handleFocusOutRecipient}
 			/>

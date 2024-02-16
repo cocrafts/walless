@@ -15,6 +15,7 @@ import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
 
+import type { ErrorMessage } from './internal';
 import { TotalCost } from './TotalCost';
 import TransactionFee from './TransactionFee';
 
@@ -29,15 +30,13 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const [disabledMax, setDisabledMax] = useState(
 		!token || !tokenForFee || !transactionFee,
 	);
-	const [recipientInput, setRecipientInput] = useState({
-		valid: false,
-		message: '',
-	});
-	const [amountInput, setAmountInput] = useState({
-		valid: false,
-		message: '',
-	});
-	const canContinue = recipientInput.valid && amountInput.valid && token;
+	const [recipientErrorMessage, setRecipientErrorMessage] =
+		useState<ErrorMessage>('');
+	const [amountErrorMessage, setAmountErrorMessage] =
+		useState<ErrorMessage>('');
+
+	const canContinue =
+		recipientErrorMessage === null && amountErrorMessage === null && token;
 
 	const balance = token ? getBalanceFromToken(token as TokenDocument) : -1;
 
@@ -52,29 +51,22 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const checkRecipient = (receiver?: string, network?: Networks) => {
 		if (receiver && network) {
 			const result = checkValidAddress(receiver, network);
-			setRecipientInput(result);
+			setRecipientErrorMessage(result);
 		}
 	};
 
 	const checkAmount = (amount?: string, balance?: number) => {
-		const result = {
-			valid: false,
-			message: '',
-		};
-
 		if (!amount) {
-			result.message = '';
+			setAmountErrorMessage('');
 		} else if (isNaN(Number(amount))) {
-			result.message = 'Wrong number format, try again';
+			setAmountErrorMessage('Wrong number format, try again');
 		} else if (Number(amount) <= 0) {
-			result.message = 'Try again with valid number';
+			setAmountErrorMessage('Try again with valid number');
 		} else if (balance && Number(amount) > balance) {
-			result.message = 'Insufficient balance to send';
+			setAmountErrorMessage('Insufficient balance to send');
 		} else {
-			result.valid = true;
+			setAmountErrorMessage(null);
 		}
-
-		setAmountInput(result);
 	};
 
 	const handleSelectToken = (token: TokenDocument) => {
@@ -86,10 +78,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const handleMaxPress = () => {
 		if (!transactionFee || !token || !tokenForFee) return;
 		if (balance > 0) {
-			setAmountInput({
-				valid: true,
-				message: '',
-			});
+			setAmountErrorMessage(null);
 		}
 		txActions.update({ amount: balance.toString() });
 	};
@@ -111,7 +100,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 			<CheckedInput
 				value={receiver}
 				placeholder="Recipient account"
-				errorText={recipientInput.message}
+				errorText={recipientErrorMessage}
 				onChangeText={(receiver) => txActions.update({ receiver })}
 				onBlur={() => checkRecipient(receiver, network)}
 			/>
@@ -120,7 +109,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				value={amount}
 				placeholder="Token amount"
 				keyboardType="numeric"
-				errorText={amountInput.message}
+				errorText={amountErrorMessage}
 				onChangeText={(amount) => txActions.update({ amount })}
 				onBlur={() => checkAmount(amount, balance)}
 				suffix={

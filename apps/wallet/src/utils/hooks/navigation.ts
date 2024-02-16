@@ -23,10 +23,12 @@ export const useNavigationHydrate = () => {
 			const dashboard = state?.routes.find(findDashboard)?.state;
 			const childRoute = dashboard?.routes[dashboard?.index as never];
 			const widget = childRoute?.params as any;
+			const screen = widget?.screen as any;
 			const widgetId = widget?.params?.id;
 			/* eslint-enable */
+			const isWidgetScreen = screen === 'Widget';
 
-			if (childRoute?.name === 'Explore' && widgetId !== lastWidgetId) {
+			if (isWidgetScreen && widgetId !== lastWidgetId) {
 				lastWidgetId = widgetId;
 				storage.upsert<SettingDocument>('settings', async (doc) => {
 					doc.config = doc.config || {};

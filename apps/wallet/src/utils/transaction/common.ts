@@ -19,9 +19,11 @@ import { solana } from '@walless/network';
 import type { TezosTransaction } from '@walless/sdk';
 import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { TxnBuilderTypes } from 'aptos';
+import BN from 'bn.js';
 import base58 from 'bs58';
 import { engine } from 'engine';
 import type { AptosContext, SolanaContext } from 'engine/runners';
+import { capitalize } from 'lodash';
 import assets from 'utils/assets';
 import { environment } from 'utils/config';
 
@@ -29,18 +31,21 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 	try {
 		if (network == Networks.solana) {
 			new PublicKey(keyStr);
-			return { valid: true, message: '' };
+			return null;
 		} else if (network == Networks.sui) {
-			return { valid: true, message: '' };
+			return null;
 		} else if (network == Networks.tezos) {
-			return { valid: true, message: '' };
+			return null;
 		} else if (network == Networks.aptos) {
 			const { AccountAddress } = TxnBuilderTypes;
-			return { valid: AccountAddress.isValid(keyStr), message: '' };
+			if (AccountAddress.isValid(keyStr)) {
+				return null;
+			} else throw new Error();
 		}
-		return { valid: false, message: 'Unsupported network ' + network };
-	} catch (error) {
-		return { valid: false, message: (error as Error).message };
+
+		return null;
+	} catch {
+		return `Wrong [${capitalize(network)}] wallet address. Please check again.`;
 	}
 };
 
@@ -107,20 +112,21 @@ export const constructTransaction = async ({
 	const isCollectible = token.type === 'NFT';
 
 	if (network == Networks.solana) {
+		const amountBN = new BN(amount * decimals);
 		const { connection } = engine.getContext<SolanaContext>(network);
 		if (token.metadata?.symbol == 'SOL') {
 			return await solana.constructSendSOLTransaction(
 				connection,
 				new PublicKey(sender),
 				new PublicKey(receiver),
-				amount * decimals,
+				amountBN.toNumber(),
 			);
 		} else if (token.type === 'Token') {
 			return await solana.constructSendSPLTokenTransaction(
 				connection,
 				new PublicKey(sender),
 				new PublicKey(receiver),
-				amount * decimals,
+				amountBN.toNumber(),
 				token as Token,
 			);
 		} else if (token.type === 'NFT') {
@@ -265,7 +271,7 @@ const constructTransactionAbstractFeeTemplate = async (
 		senderAta,
 		receiverAta,
 		senderPublicKey,
-		amount * 10 ** decimals,
+		new BN(amount * 10 ** decimals).toNumber(),
 	);
 
 	instructions.push(feePaymentInstruction);
@@ -338,6 +344,9 @@ export const getTokenString = (token: TokenDocument) => {
 		10 ** (token?.account.decimals ?? 0)
 	} ${token?.metadata?.symbol ?? ''}`;
 };
+
+export const getBalanceFromToken = (token: TokenDocument) =>
+	parseFloat(token.account.balance) / 10 ** token.account.decimals;
 
 export const prepareTransactionPayload = (
 	element: TokenDocument | CollectibleDocument,

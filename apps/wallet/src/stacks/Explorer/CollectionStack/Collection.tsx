@@ -1,15 +1,15 @@
-import type { FC } from 'react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import type { UnknownObject } from '@walless/core';
 import { View } from '@walless/gui';
 import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout, useNfts } from 'utils/hooks';
-import { navigate } from 'utils/navigation';
+import { navigate, navigateBack } from 'utils/navigation';
 
-export const CollectionFeat: FC = () => {
-	const { collectibles } = useNfts();
+export const CollectionFeat = () => {
+	const { collectibles, collections } = useNfts();
 	const { onGridContainerLayout, width } = useLazyGridLayout({
 		referenceWidth: 156,
 		gap: gridGap,
@@ -23,12 +23,30 @@ export const CollectionFeat: FC = () => {
 		);
 	}, [collectibles]);
 
+	const curCollection = useMemo(() => {
+		return collections.find((ele) => ele._id.includes(id as string));
+	}, [collections]);
+
 	const handleNavigateToCollectible = (id: string) => {
 		navigate('Dashboard', {
 			screen: 'Explore',
-			params: { screen: 'Collectible', params: { id } },
+			params: {
+				screen: 'Collection',
+				params: {
+					screen: 'Collectible',
+					params: { id },
+				},
+			},
 		});
 	};
+
+	useFocusEffect(
+		useCallback(() => {
+			if (!curCollection) {
+				navigateBack();
+			}
+		}, [curCollection]),
+	);
 
 	return (
 		<View style={styles.container}>

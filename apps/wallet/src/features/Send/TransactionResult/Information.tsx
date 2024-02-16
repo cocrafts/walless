@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { ResponseCode } from '@walless/core';
@@ -9,11 +8,7 @@ import { useSnapshot } from 'valtio';
 
 import { txContext } from '../context';
 
-interface Props {
-	onBack?: () => void;
-}
-
-export const Information: FC<Props> = () => {
+export const Information = () => {
 	const {
 		type,
 		token,

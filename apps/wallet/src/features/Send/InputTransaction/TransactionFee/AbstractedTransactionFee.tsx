@@ -11,17 +11,14 @@ import type { Networks } from '@walless/core';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
+import BN from 'bn.js';
 import { solMint } from 'utils/constants';
 import { filterGasilonTokens } from 'utils/gasilon';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../../context';
 
-import {
-	getTokenName,
-	handleCheckIfBalanceIsEnough,
-	requestTransactionFee,
-} from './internal';
+import { getTokenName, requestTransactionFee } from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
 
 interface Props {
@@ -123,12 +120,29 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 	};
 
 	useEffect(() => {
-		handleCheckIfBalanceIsEnough(
-			tokenForFee as TokenDocument,
-			transactionFee as number,
-			setError,
-		);
-	}, [transactionFee]);
+		if (!token || !tokenForFee) return;
+
+		let isNotEnoughToken = false;
+
+		const decimalsMultiplier = 10 ** tokenForFee.account.decimals;
+		const balanceBN = new BN(tokenForFee.account.balance);
+		const feeBN = new BN((transactionFee || 0) * decimalsMultiplier);
+
+		if (token._id === tokenForFee._id) {
+			const amountBN = new BN(parseFloat(amount || '0') * decimalsMultiplier);
+			isNotEnoughToken = amountBN.add(feeBN).gt(balanceBN);
+		} else {
+			isNotEnoughToken = feeBN.gt(balanceBN);
+		}
+
+		let errorText = '';
+		if (isNotEnoughToken) {
+			errorText = `Not enough ${
+				tokenForFee.metadata?.symbol ?? 'Unknown'
+			}, select other token`;
+		}
+		setError(errorText);
+	}, [transactionFee, amount, token, tokenForFee]);
 
 	return (
 		<View>
@@ -198,7 +212,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: 4,
+		gap: 8,
 	},
 	feeText: {
 		fontWeight: '500',

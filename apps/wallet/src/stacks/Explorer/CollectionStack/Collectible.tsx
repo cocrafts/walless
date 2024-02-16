@@ -1,12 +1,15 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Image, ScrollView, StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import { Button, Text, View } from '@walless/gui';
 import { showSendTokenModal } from 'modals/SendToken';
+import type { WrappedCollection } from 'utils/hooks';
 import { useNfts } from 'utils/hooks';
-import { navigationRef } from 'utils/navigation';
+import { navigateBack } from 'utils/navigation';
 
 export const CollectibleFeat = () => {
+	const [curCollection, setCurCollection] = useState<WrappedCollection>();
 	const { collections, collectibles } = useNfts();
 	const {
 		params: { id = '' },
@@ -14,11 +17,16 @@ export const CollectibleFeat = () => {
 
 	const curCollectible = useMemo(() => {
 		if (!id) return;
+
 		return collectibles.find((ele) => ele._id.includes(id));
 	}, [collectibles]);
 
-	const curCollection = useMemo(() => {
-		return collections.find((ele) => ele._id === curCollectible?.collectionId);
+	useEffect(() => {
+		if (!curCollectible) return;
+
+		setCurCollection(
+			collections.find((ele) => ele._id.includes(curCollectible.collectionId)),
+		);
 	}, [curCollectible, collections]);
 
 	const handlePressSend = () => {
@@ -28,12 +36,13 @@ export const CollectibleFeat = () => {
 		});
 	};
 
-	useEffect(() => {
-		// TODO: need to resolve and remove can go back if possible
-		if (!curCollectible && navigationRef.canGoBack()) {
-			// navigateBack();
-		}
-	}, [curCollectible]);
+	useFocusEffect(
+		useCallback(() => {
+			if (!curCollectible) {
+				navigateBack();
+			}
+		}, [curCollectible]),
+	);
 
 	return (
 		<View style={styles.container}>

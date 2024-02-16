@@ -1,31 +1,26 @@
 import type { FC } from 'react';
-import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import type { InputProps } from '@walless/gui';
 import { Input } from '@walless/gui';
 
 type Props = {
-	checkFunction: (value?: string) => string | undefined;
+	errorText: string | null;
 } & InputProps;
 
-const CheckedInput: FC<Props> = ({ value, checkFunction, ...inputProps }) => {
-	const [errorText, setErrorText] = useState<string>();
-
-	const handlerBlur = () => {
-		setErrorText(checkFunction(value));
-	};
-
+const CheckedInput: FC<Props> = ({ value, errorText, ...inputProps }) => {
 	return (
 		<View style={styles.container}>
 			<Input
 				{...inputProps}
 				value={value}
-				importantStyle={!!errorText && styles.errorInputStyle}
-				onBlur={handlerBlur}
+				inputStyle={!!errorText && styles.errorText}
+				importantStyle={!!errorText && styles.errorInputContainer}
 			/>
-			<View style={styles.bottomBox}>
-				{!!errorText && <Text style={styles.errorText}>{errorText}</Text>}
-			</View>
+			{!!errorText && (
+				<View style={styles.bottomBox}>
+					<Text style={[styles.errorText, styles.subText]}>{errorText}</Text>
+				</View>
+			)}
 		</View>
 	);
 };
@@ -51,17 +46,17 @@ const styles = StyleSheet.create({
 		right: 10,
 	},
 	bottomBox: {
-		height: 14,
-		marginTop: 1,
+		marginTop: 4,
 		marginRight: 'auto',
 		paddingLeft: 6,
 	},
+	errorInputContainer: {
+		borderColor: '#AE3939',
+	},
 	errorText: {
-		fontSize: 13,
 		color: '#AE3939',
 	},
-	errorInputStyle: {
-		borderColor: '#AE3939',
-		color: '#AE3939',
+	subText: {
+		fontSize: 13,
 	},
 });

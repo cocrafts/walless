@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Slider } from '@walless/gui';
 import type { CollectibleDocument } from '@walless/store';
-import { useNfts } from 'utils/hooks';
 
 import ConfirmByPasscode from './ConfirmByPasscode';
 import ConfirmTransaction from './ConfirmTransaction';
@@ -17,16 +16,9 @@ export type Props = {
 };
 
 export const SendFeature: FC<Props> = ({ network, collectible }) => {
-	const { collections } = useNfts();
-
 	useEffect(() => {
 		if (network) txActions.update({ network });
-		if (collectible) {
-			const collection = collections.find(
-				(ele) => ele._id === collectible.collectionId,
-			);
-			txActions.update({ collectible, collection, type: 'Collectible' });
-		}
+		if (collectible) txActions.update({ collectible });
 	}, []);
 
 	return (

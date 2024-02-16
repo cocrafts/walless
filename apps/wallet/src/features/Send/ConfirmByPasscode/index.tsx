@@ -53,6 +53,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 
 			try {
 				const res = await createAndSend(payload, passcode);
+
 				txActions.update({ time: new Date() });
 				txActions.update({ status: res.responseCode });
 

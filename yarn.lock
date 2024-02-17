@@ -5753,6 +5753,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@invertase/react-native-apple-authentication@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@invertase/react-native-apple-authentication@npm:2.3.0"
+  checksum: 7e70b69cdf61c81e955392fa63827dd675a7c1ae029683f21f1f591cf4564d6ca277a55e594b4a3c1636bbf056bf32ceffe699ea1da20f3fa90d00ab6422b4b0
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -11452,6 +11459,7 @@ __metadata:
     "@craftzdog/pouchdb-collate-react-native": ^7.3.0
     "@craftzdog/react-native-buffer": ^6.0.5
     "@dreson4/react-native-quick-bip39": 0.0.5
+    "@invertase/react-native-apple-authentication": ^2.3.0
     "@metacraft/cli-web3-polyfills": ^0.0.7
     "@metaplex-foundation/js": ^0.19.4
     "@mysten/sui.js": 0.34.0

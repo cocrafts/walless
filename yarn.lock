@@ -11521,6 +11521,7 @@ __metadata:
     pouchdb-mapreduce: ^8.0.1
     pouchdb-replication: ^8.0.1
     react: ^18.2.0
+    react-apple-signin-auth: ^1.1.0
     react-dom: ^18.2.0
     react-native: 0.71.14
     react-native-biometrics: ^3.0.1
@@ -23289,6 +23290,16 @@ __metadata:
     iconv-lite: 0.4.24
     unpipe: 1.0.0
   checksum: 5362adff1575d691bb3f75998803a0ffed8c64eabeaa06e54b4ada25a0cd1b2ae7f4f5ec46565d1bec337e08b5ac90c76eaa0758de6f72a633f025d754dec29e
+  languageName: node
+  linkType: hard
+
+"react-apple-signin-auth@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "react-apple-signin-auth@npm:1.1.0"
+  peerDependencies:
+    react: ">= 16.8.0"
+    react-dom: ">= 16.8.0"
+  checksum: 3b820c27a20b389b98f29cd77f9bbddb4c14d8b69bd7ea1b604ecc686d122aa1c93e2f63396e46171d51be3f9af53f68a95ac418f215f12ea3c7ecff3b4578a5
   languageName: node
   linkType: hard
 

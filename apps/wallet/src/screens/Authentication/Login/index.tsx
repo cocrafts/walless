@@ -6,7 +6,7 @@ import { appState } from 'state/app';
 import assets from 'utils/assets';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
-import { signIn } from './internal';
+import { signIn, SignInMethod } from './internal';
 import SignInHeader from './SignInHeader';
 import SignInInner from './SignInInner';
 
@@ -20,17 +20,24 @@ export const LoginScreen: FC = () => {
 	};
 	const logoSize = 120;
 
-	const handleGoogleSignIn = async () => {
+	const handleSignIn = async (method: SignInMethod) => {
 		setLoading(true);
-		await signIn(invitationCode);
+		await signIn(invitationCode, method);
 		setLoading(false);
 	};
 
 	return (
 		<View style={[styles.container, containerStyle]}>
 			<View />
+
 			<SignInHeader logoSrc={assets.misc.walless} logoSize={logoSize} />
-			<SignInInner onGoogleSignIn={handleGoogleSignIn} loading={loading} />
+
+			<SignInInner
+				onGoogleSignIn={() => handleSignIn(SignInMethod.Google)}
+				onAppleSignIn={() => handleSignIn(SignInMethod.Apple)}
+				loading={loading}
+			/>
+
 			<View style={styles.footerContainer}>
 				<View style={styles.helpContainer}>
 					<Text>Having issues with log in? Visit </Text>

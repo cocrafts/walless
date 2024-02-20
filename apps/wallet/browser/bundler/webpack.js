@@ -113,6 +113,8 @@ const injectEnvironments = (config, internal) => {
 		'PIXEVERSE_ORIGIN',
 		'PIXEVERSE_URL',
 		'SOLANA_CLUSTER_URL',
+		'JUPITER_TOKENS_ENDPOINT',
+		'JUPITER_API_ENDPOINT',
 	].reduce((a, i) => {
 		a[i] = JSON.stringify(process.env[i]);
 		return a;

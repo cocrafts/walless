@@ -22,6 +22,8 @@ declare const PIXEVERSE_ENDPOINT: string;
 declare const PIXEVERSE_ORIGIN: string;
 declare const PIXEVERSE_URL: string;
 declare const SOLANA_CLUSTER_URL: string;
+declare const JUPITER_TOKENS_ENDPOINT: string;
+declare const JUPITER_API_ENDPOINT: string;
 
 declare module 'react-native-config' {
 	export interface NativeConfig {
@@ -46,6 +48,8 @@ declare module 'react-native-config' {
 		PIXEVERSE_URL: string;
 		SOLANA_CLUSTER_URL: string;
 		GASILON_ENDPOINT: string;
+		JUPITER_TOKENS_ENDPOINT: string;
+		JUPITER_API_ENDPOINT: string;
 	}
 
 	export const Config: NativeConfig;

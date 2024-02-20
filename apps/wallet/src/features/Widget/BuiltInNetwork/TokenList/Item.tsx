@@ -4,18 +4,19 @@ import { Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import assets from 'utils/assets';
-import { formatQuote, parseTokenAccount } from 'utils/format';
+import { formatQuote, parseTokenAccountBalance } from 'utils/format';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	index: number;
 	item: TokenDocument;
+	onPress?: () => void;
 }
 
-export const TokenItem: FC<Props> = ({ style, item }) => {
+export const TokenItem: FC<Props> = ({ style, item, onPress }) => {
 	const { metadata = {}, account } = item;
 	const { symbol, imageUri } = metadata;
-	const amount = parseTokenAccount(account);
+	const amount = parseTokenAccountBalance(account);
 	const unitQuote = account.quotes?.usd;
 	const totalQuote = unitQuote && unitQuote * amount;
 	const iconSource = imageUri ? { uri: imageUri } : assets.misc.unknownToken;
@@ -23,7 +24,7 @@ export const TokenItem: FC<Props> = ({ style, item }) => {
 	const itemName = symbol || 'Unknown';
 
 	return (
-		<Hoverable style={[styles.container, style]}>
+		<Hoverable style={[styles.container, style]} onPress={onPress}>
 			<Image style={styles.iconImg} source={iconSource} resizeMode="cover" />
 			<View style={styles.infoContainer}>
 				<Text style={styles.primaryText}>{itemName}</Text>
@@ -62,10 +63,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingVertical: 4,
 		paddingHorizontal: 12,
+		gap: 2,
 	},
 	balanceContainer: {
 		paddingVertical: 4,
 		alignItems: 'flex-end',
+		gap: 2,
 	},
 	primaryText: {
 		color: 'white',

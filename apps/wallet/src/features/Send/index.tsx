@@ -16,25 +16,6 @@ export type Props = {
 };
 
 export const SendFeature: FC<Props> = ({ network, collectible }) => {
-	const sendScreens = [
-		{
-			id: 'Input',
-			component: InputTransaction,
-		},
-		{
-			id: 'Confirm',
-			component: ConfirmTransaction,
-		},
-		{
-			id: 'Passcode',
-			component: ConfirmByPasscode,
-		},
-		{
-			id: 'Result',
-			component: TransactionResult,
-		},
-	];
-
 	useEffect(() => {
 		if (network) txActions.update({ network });
 		if (collectible) txActions.update({ collectible });
@@ -51,6 +32,25 @@ export const SendFeature: FC<Props> = ({ network, collectible }) => {
 };
 
 export default SendFeature;
+
+const sendScreens = [
+	{
+		id: 'Input',
+		component: InputTransaction,
+	},
+	{
+		id: 'Confirm',
+		component: ConfirmTransaction,
+	},
+	{
+		id: 'Passcode',
+		component: ConfirmByPasscode,
+	},
+	{
+		id: 'Result',
+		component: TransactionResult,
+	},
+];
 
 const styles = StyleSheet.create({
 	container: {

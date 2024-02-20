@@ -32,6 +32,7 @@ const InputSwap: FC<Props> = ({ navigator }) => {
 
 	const handleClose = () => {
 		swapActions.closeSwap();
+		// TODO: need to resolve this timeout by modal life cycle
 		setTimeout(() => {
 			swapActions.resetContext();
 		}, 200);

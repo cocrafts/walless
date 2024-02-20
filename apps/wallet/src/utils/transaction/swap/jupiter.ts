@@ -2,16 +2,19 @@ import { VersionedTransaction } from '@solana/web3.js';
 import { logger } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 import { environment } from 'utils/config';
+import { solMint } from 'utils/constants';
 
 import type { SwapQuote } from './types';
 
 export const getAliasedMint = (token: TokenDocument) => {
-	if (token.account.mint === '11111111111111111111111111111111') {
+	if (__DEV__) {
+		if (token.account.mint === 'Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr') {
+			return 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+		}
+	}
+
+	if (token.account.mint === solMint) {
 		return 'So11111111111111111111111111111111111111112';
-	} else if (
-		token.account.mint === 'Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr'
-	) {
-		return 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
 	}
 
 	return token.account.mint;

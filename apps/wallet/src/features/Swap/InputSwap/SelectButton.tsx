@@ -1,4 +1,5 @@
-import { type FC, Fragment } from 'react';
+import type { FC } from 'react';
+import { Fragment } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { ChevronDown } from '@walless/icons';

@@ -2,9 +2,11 @@ import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import type { ListRenderItem, ViewStyle } from 'react-native';
 import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { Image } from 'react-native';
 import { runtime } from '@walless/core';
 import { Button, SwipeDownGesture, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
+import assets from 'utils/assets';
 import type { JupiterToken } from 'utils/hooks';
 import { useJupiterContext, useSafeAreaInsets } from 'utils/hooks';
 
@@ -20,7 +22,7 @@ const SelectToToken: FC = () => {
 		swapActions.closeSelectToken('to');
 	};
 
-	const { tokens } = useJupiterContext();
+	const { tokens, tokensLoading } = useJupiterContext();
 	const filteredTokens = useMemo(() => {
 		const search = searchText.toLowerCase();
 		return tokens.filter((t) => {
@@ -72,8 +74,19 @@ const SelectToToken: FC = () => {
 				placeholder="Search by token or paste address"
 			/>
 
-			{tokens.length === 0 ? (
+			{tokensLoading ? (
 				<ActivityIndicator style={styles.loading} />
+			) : tokens.length !== 0 ? (
+				<View style={styles.emptyContainer}>
+					<Image
+						style={styles.emptyIcon}
+						source={assets.misc.swapPlaceholder}
+					/>
+					<Text style={styles.emptyText}>
+						There are no available tokens for the selected chain. It might be a
+						network issue, please check your connection and try again
+					</Text>
+				</View>
 			) : (
 				<FlatList
 					style={styles.tokensContainer}
@@ -115,6 +128,20 @@ const styles = StyleSheet.create({
 	loading: {
 		marginTop: 50,
 		alignSelf: 'center',
+	},
+	emptyContainer: {
+		marginTop: 40,
+		justifyContent: 'center',
+		alignItems: 'center',
+		gap: 40,
+	},
+	emptyIcon: {
+		width: 105,
+		height: 150,
+	},
+	emptyText: {
+		color: '#566674',
+		textAlign: 'center',
 	},
 	tokensContainer: {
 		flex: 1,

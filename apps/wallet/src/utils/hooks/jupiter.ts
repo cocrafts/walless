@@ -17,20 +17,24 @@ export type JupiterToken = {
 
 type JupiterContext = {
 	tokens: JupiterToken[];
+	tokensLoading: boolean;
 };
 
 const jupiterContext = proxy<JupiterContext>({
 	tokens: [],
+	tokensLoading: false,
 });
 
 export const useJupiterContext = () => {
 	const ctx = useSnapshot(jupiterContext);
 
 	return useMemo(() => {
-		if (ctx.tokens.length === 0) {
+		if (!ctx.tokensLoading && ctx.tokens.length === 0) {
+			jupiterContext.tokensLoading = true;
 			fetch(`${environment.JUPITER_TOKENS_ENDPOINT}/strict`).then(
 				async (res) => {
 					jupiterContext.tokens = (await res.json()) as JupiterToken[];
+					jupiterContext.tokensLoading = false;
 				},
 			);
 		}

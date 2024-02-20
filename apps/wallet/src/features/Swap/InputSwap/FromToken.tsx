@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
 	},
 	tokenContainer: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
 	},
 	valueContainer: {
 		flexDirection: 'row',
@@ -118,6 +117,8 @@ const styles = StyleSheet.create({
 		color: '#FFFFFF',
 	},
 	amountInput: {
+		flex: 1,
+		width: 200,
 		fontSize: 30,
 		textAlign: 'right',
 		color: '#FFFFFF',

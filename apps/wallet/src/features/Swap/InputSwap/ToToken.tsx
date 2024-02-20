@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
-import { showError } from 'modals/Error';
 import { useDebouncedCallback } from 'use-debounce';
 import { parseWithDecimals } from 'utils/format';
 import type { JupiterToken } from 'utils/hooks';
@@ -49,12 +48,7 @@ const ToToken = () => {
 				toMint: toToken.address,
 				amount: amountValue * 10 ** fromToken.account.decimals,
 			});
-			if (!swapQuote) {
-				showError(
-					{ errorText: 'Can not swap these tokens, try another one' },
-					1500,
-				);
-			} else {
+			if (swapQuote) {
 				swapActions.update({ swapQuote });
 			}
 		},
@@ -92,10 +86,13 @@ const styles = StyleSheet.create({
 	},
 	tokenContainer: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		overflow: 'hidden',
+		gap: 10,
 	},
 	outAmount: {
+		flex: 1,
 		fontSize: 30,
 		color: '#FFFFFF',
+		textAlign: 'right',
 	},
 });

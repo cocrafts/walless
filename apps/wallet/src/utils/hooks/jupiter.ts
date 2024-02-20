@@ -31,12 +31,13 @@ export const useJupiterContext = () => {
 	return useMemo(() => {
 		if (!ctx.tokensLoading && ctx.tokens.length === 0) {
 			jupiterContext.tokensLoading = true;
-			fetch(`${environment.JUPITER_TOKENS_ENDPOINT}/strict`).then(
-				async (res) => {
+			fetch(`${environment.JUPITER_TOKENS_ENDPOINT}/strict`)
+				.then(async (res) => {
 					jupiterContext.tokens = (await res.json()) as JupiterToken[];
+				})
+				.finally(() => {
 					jupiterContext.tokensLoading = false;
-				},
-			);
+				});
 		}
 
 		return ctx as JupiterContext;

@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { SvgUri } from 'react-native-svg';
+import { runtime } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 
 type Props = {
@@ -12,7 +14,11 @@ type Props = {
 const ToToken: FC<Props> = ({ name, symbol, logoURI, onPress }) => {
 	return (
 		<Hoverable style={styles.container} onPress={onPress}>
-			<Image style={styles.icon} source={{ uri: logoURI }} />
+			{logoURI.endsWith('.svg') && runtime.isMobile ? (
+				<SvgUri width={40} height={40} uri={logoURI} />
+			) : (
+				<Image style={styles.icon} source={{ uri: logoURI }} />
+			)}
 			<View style={styles.infoContainer}>
 				<Text style={styles.name}>{name}</Text>
 				<Text style={styles.symbol}>{symbol}</Text>

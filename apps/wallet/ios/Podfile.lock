@@ -625,7 +625,7 @@ PODS:
   - RNScreens (3.29.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNSVG (13.10.0):
+  - RNSVG (14.1.0):
     - React-Core
   - secp256k1.swift (0.1.4)
   - Torus-fetchNodeDetails (4.0.1):
@@ -882,7 +882,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
-  boost: 57d2868c099736d80fcd648bf211b4431e51a558
+  boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
   CustomAuth: 2cbaef9c54da21080eef7ea1fa3d2ecb96517f18
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -976,7 +976,7 @@ SPEC CHECKSUMS:
   RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
   RNReanimated: 79f572a7903c60f5aa86cf1698049ab5f75ececd
   RNScreens: 3c5b9f4a9dcde752466854b6109b79c0e205dad3
-  RNSVG: 80584470ff1ffc7994923ea135a3e5ad825546b9
+  RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   Torus-fetchNodeDetails: a92d02f1bfe91bd61c90f92d64df023babaa5bfa
   Torus-utils: 2517d21b0bc84759fc2cd9617761ce9083e8ee2c

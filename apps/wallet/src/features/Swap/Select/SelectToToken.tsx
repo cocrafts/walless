@@ -76,7 +76,7 @@ const SelectToToken: FC = () => {
 
 			{tokensLoading ? (
 				<ActivityIndicator style={styles.loading} />
-			) : tokens.length !== 0 ? (
+			) : tokens.length === 0 ? (
 				<View style={styles.emptyContainer}>
 					<Image
 						style={styles.emptyIcon}

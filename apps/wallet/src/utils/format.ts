@@ -1,7 +1,7 @@
 import type { TokenAccount } from '@walless/core';
 import numeral from 'numeral';
 
-export const parseTokenAccount = (item: TokenAccount): number => {
+export const parseTokenAccountBalance = (item: TokenAccount): number => {
 	return parseFloat(item.balance) / 10 ** item.decimals;
 };
 
@@ -24,3 +24,7 @@ export const convertDateToReadable = (date: Date) =>
 		month: 'long',
 		day: 'numeric',
 	});
+
+export const parseWithDecimals = (balance: string, decimals: number) => {
+	return parseFloat(balance) / 10 ** decimals;
+};

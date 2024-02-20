@@ -3,24 +3,19 @@ import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { ResponseCode } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
-import { Passcode, Text, View } from '@walless/gui';
-import type { TokenDocument } from '@walless/store';
+import { Hoverable, Passcode, Text, View } from '@walless/gui';
+import { ChevronLeft } from '@walless/icons';
 import { showError } from 'modals/Error';
 import assets from 'utils/assets';
 import { nativeModules } from 'utils/native';
-import { createAndSend, prepareTransactionPayload } from 'utils/transaction';
-import { useSnapshot } from 'valtio';
+import { signAndSendTransaction } from 'utils/transaction/solana';
 
-import { txActions, txContext } from '../context';
-
-import { Header } from './Header';
+import { swapActions, swapContext } from '../context';
 
 type Props = SlideComponentProps;
-const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
-	const [isLoading, setIsLoading] = useState(false);
-	const { type, token, tokenForFee, collectible, sender, receiver, amount } =
-		useSnapshot(txContext).tx;
 
+const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string>('');
 	const [passcode, setPasscode] = useState<string>('');
 	const [renderPasscode, setRenderPasscode] = useState(false);
@@ -38,39 +33,25 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		setIsLoading(true);
 		setPasscode(passcode);
 		if (isCompleted) {
-			const element = type === 'Token' ? token : collectible;
-			if (!element) {
-				return showError({ errorText: 'Invalid token to transfer' });
-			}
-
-			const payload = prepareTransactionPayload(
-				element as never,
-				sender,
-				receiver,
-				amount as string,
-				tokenForFee as TokenDocument,
-			);
-
+			if (!swapContext.swap.transaction) return;
 			try {
-				const res = await createAndSend(payload, passcode);
-
-				txActions.update({ time: new Date() });
-				txActions.update({ status: res.responseCode });
-
-				if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
+				const res = await signAndSendTransaction(
+					swapContext.swap.transaction,
+					passcode,
+				);
+				if (res.responseCode === ResponseCode.WRONG_PASSCODE) {
 					showError({ errorText: 'Passcode is NOT matched' });
 					setError('Wrong passcode');
-				} else if (res.responseCode == ResponseCode.SUCCESS) {
-					const signature =
-						res.signatureString || res.signedTransaction?.digest || res.hash;
-					txActions.update({ signatureString: signature });
-					navigator.slideNext();
+				} else if (res.responseCode === ResponseCode.SUCCESS) {
+					swapActions.closeSwap();
+					swapActions.showSuccess();
 				}
-			} catch (error) {
-				showError({ errorText: (error as Error).message });
-			}
 
-			setPasscode('');
+				setPasscode('');
+			} catch (error) {
+				showError({ errorText: 'Something went wrong' });
+				setPasscode('');
+			}
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
@@ -81,20 +62,19 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 	useEffect(() => {
 		if (item.id == activatedId) {
 			setTimeout(() => setRenderPasscode(true), 200);
-		} else setRenderPasscode(false);
-
-		if (activatedId === 'PasscodeInput') {
 			nativeModules.retrieveEncryptionKey().then((key: string | null) => {
 				if (key) {
 					handlePasscodeChange(key as string, true);
 				}
 			});
-		}
+		} else setRenderPasscode(false);
 	}, [activatedId]);
 
 	return (
 		<View style={styles.container}>
-			<Header onBack={handleBack} />
+			<Hoverable style={styles.closeButton} onPress={handleBack}>
+				<ChevronLeft size={16} />
+			</Hoverable>
 
 			<Image style={styles.icon} source={assets.misc.walless} />
 			<View style={styles.titleBlock}>
@@ -105,6 +85,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 					}
 				</Text>
 			</View>
+
 			{renderPasscode && (
 				<Passcode
 					passcode={passcode}
@@ -117,12 +98,15 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 	);
 };
 
-export default PasscodeInput;
+export default ConfirmPasscode;
 
 const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
 		gap: 40,
+	},
+	closeButton: {
+		marginRight: 'auto',
 	},
 	icon: {
 		width: 120,

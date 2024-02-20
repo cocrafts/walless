@@ -9,26 +9,41 @@ import Separator from './Separator';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
+	itemStyle?: StyleProp<ViewStyle>;
+	separateStyle?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
 	items: TokenDocument[];
 	ListHeaderComponent?: ComponentType<TokenDocument> | ReactElement;
+	onPressItem?: (item: TokenDocument) => void;
 }
 
 export const TokenList: FC<Props> = ({
 	style,
+	itemStyle,
+	separateStyle,
 	contentContainerStyle,
 	items,
 	ListHeaderComponent,
+	onPressItem,
 }) => {
 	const renderItem: ListRenderItem<TokenDocument> = ({ item, index }) => {
 		const isFirst = index === 0;
 		const isLast = index === items.length - 1;
 
+		const handlePressItem = () => {
+			onPressItem?.(item);
+		};
+
 		return (
 			<TokenItem
 				index={index}
 				item={item}
-				style={[isFirst && styles.firstItem, isLast && styles.lastItem]}
+				style={[
+					isFirst && styles.firstItem,
+					isLast && styles.lastItem,
+					itemStyle,
+				]}
+				onPress={handlePressItem}
 			/>
 		);
 	};
@@ -41,7 +56,7 @@ export const TokenList: FC<Props> = ({
 			contentContainerStyle={contentContainerStyle}
 			data={items}
 			renderItem={renderItem}
-			ItemSeparatorComponent={Separator}
+			ItemSeparatorComponent={() => <Separator style={separateStyle} />}
 			ListEmptyComponent={ListEmpty}
 		/>
 	);

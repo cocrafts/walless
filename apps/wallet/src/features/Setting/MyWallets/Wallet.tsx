@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { shortenAddress } from '@walless/core';
 import type { PublicKeyDocument } from '@walless/store';
 import BaseWallet from 'components/Wallet';
 import { getNetworkInfo, type NetworkInfo } from 'utils/helper';
@@ -15,7 +14,7 @@ export const Wallet: FC<Props> = ({ item, index }) => {
 	return (
 		<BaseWallet
 			name={`Wallet ${index + 1} (${network?.name})`}
-			address={shortenAddress(item._id)}
+			address={item._id}
 			icon={network.icon}
 		/>
 	);

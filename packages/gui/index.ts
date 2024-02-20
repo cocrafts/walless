@@ -7,6 +7,7 @@ export * from './components/DrawerContainer';
 export * from './components/Hoverable';
 export * from './components/Input';
 export * from './components/ModalManager';
+export * from './components/Passcode';
 export * from './components/Select';
 export * from './components/Slider';
 export * from './components/SwipeDownGesture';

@@ -1,5 +1,4 @@
-import { Platform } from 'react-native';
-import { type UniversalRuntime } from './commonTypes';
+import { type UniversalRuntime } from './common';
 
 const userAgent = global.navigator?.userAgent?.toLowerCase() || 'server';
 const isOpera = userAgent.indexOf(' OPR/') !== -1;
@@ -13,11 +12,6 @@ const browser: any = isFirefox ? (global as any).browser : global.chrome;
 const isExtension = !!global.chrome?.runtime;
 const isServer = !isExtension && typeof window === 'undefined';
 
-const isWeb = Platform.OS === 'web';
-const isIOS = Platform.OS === 'ios';
-const isAndroid = Platform.OS === 'android';
-const isMobile = isIOS || isAndroid;
-
 export const runtime: UniversalRuntime = {
 	isOpera,
 	isFirefox,
@@ -26,10 +20,10 @@ export const runtime: UniversalRuntime = {
 	isBlink,
 	isExtension,
 	isServer,
-	isIOS,
-	isAndroid,
-	isMobile,
-	isBrowser: isWeb && !isExtension && !isServer,
+	isBrowser: !isExtension && !isServer,
+	isMobile: false,
+	isIOS: false,
+	isAndroid: false,
 	onConnect: browser?.runtime?.onConnect,
 	onMessage: browser?.runtime?.onMessage,
 	connect: browser?.runtime?.connect,

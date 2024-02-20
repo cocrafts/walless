@@ -22,10 +22,12 @@ import {
 	SolanaSignMessage,
 	SolanaSignTransaction,
 } from '@solana/wallet-standard-features';
-import { Transaction, VersionedTransaction } from '@solana/web3.js';
-import type { ConnectOptions } from '@walless/core';
+import {
+	Transaction,
+	VersionedTransaction,
+} from '@solana/web3.js/src/transaction';
 import { Networks } from '@walless/core';
-import type Walless from '@walless/sdk';
+import type { ConnectOptions, Walless } from '@walless/sdk';
 import type { Wallet, WalletAccount } from '@wallet-standard/base';
 import type {
 	StandardConnectFeature,

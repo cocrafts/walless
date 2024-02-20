@@ -1,5 +1,4 @@
-import { Timeout } from '@walless/core';
-import { RequestType } from '@walless/messaging';
+import { RequestType, Timeout } from '@walless/core';
 
 import { sendRequest } from '../utils/messaging';
 

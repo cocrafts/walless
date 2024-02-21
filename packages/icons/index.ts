@@ -40,6 +40,7 @@ export { Menu } from './components/Menu';
 export { Message } from './components/Message';
 export { MissionBackground } from './components/MissionBackground';
 export { Plus } from './components/Plus';
+export { QrIcon } from './components/QR';
 export { ScanFace } from './components/ScanFace';
 export { Search } from './components/Search';
 export { Setting } from './components/Setting';

@@ -1,14 +1,10 @@
-import type { FC } from 'react';
-import { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import type { Networks, Token } from '@walless/core';
-import { Button, modalActions, Select, Text, View } from '@walless/gui';
-import { QrIcon } from '@walless/icons';
+import { type FC, useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { type Networks, type Token } from '@walless/core';
+import { Button, Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
-import { showQRScannerModal } from 'modals/QrScan';
-import { ModalId } from 'modals/types';
 import { useTokens } from 'utils/hooks';
 import {
 	checkValidAddress,
@@ -97,25 +93,6 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		/>
 	);
 
-	const handleScan = (value: string) => {
-		txActions.update({ receiver: value });
-		modalActions.destroy(ModalId.QRScanner);
-	};
-
-	const ScanButton = (
-		<TouchableOpacity
-			style={styles.qrButton}
-			onPress={() =>
-				showQRScannerModal({
-					onScan: handleScan,
-					networkName: network as string,
-				})
-			}
-		>
-			<QrIcon size={16} />
-		</TouchableOpacity>
-	);
-
 	useEffect(() => {
 		setDisabledMax(!token || !tokenForFee || !transactionFee);
 	}, [token, tokenForFee, transactionFee]);
@@ -136,7 +113,6 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				errorText={recipientErrorMessage}
 				onChangeText={(receiver) => txActions.update({ receiver })}
 				onBlur={() => checkRecipient(receiver, network)}
-				suffix={ScanButton}
 			/>
 
 			<CheckedInput

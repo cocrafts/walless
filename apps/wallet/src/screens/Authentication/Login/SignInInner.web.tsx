@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { Fragment } from 'react';
+import AppleSignin from 'react-apple-signin-auth';
 import { ActivityIndicator, StyleSheet } from 'react-native';
-import { appleAuthAndroid } from '@invertase/react-native-apple-authentication';
-import { runtime } from '@walless/core';
+import { logger } from '@walless/core';
 import { Button, Text, View } from '@walless/gui';
 import { Apple, Google } from '@walless/icons';
 
@@ -13,9 +13,7 @@ interface Props {
 	onGetInvitationCode?: () => void;
 }
 
-const SignInInner: FC<Props> = ({ onGoogleSignIn, onAppleSignIn, loading }) => {
-	const isAppleSignInSupported = runtime.isIOS || appleAuthAndroid.isSupported;
-
+const SignInInner: FC<Props> = ({ onGoogleSignIn, loading }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.commandContainer}>
@@ -28,17 +26,48 @@ const SignInInner: FC<Props> = ({ onGoogleSignIn, onAppleSignIn, loading }) => {
 							<Text style={styles.buttonText}>Sign in with Google</Text>
 						</Button>
 
-						{isAppleSignInSupported && (
-							<Button
-								style={[styles.signInButton, styles.appleButton]}
-								onPress={onAppleSignIn}
-							>
-								<Apple color="black" />
-								<Text style={[styles.buttonText, styles.appleButtonText]}>
-									Sign in with Apple
-								</Text>
-							</Button>
-						)}
+						<AppleSignin
+							authOptions={{
+								clientId: 'Config.APPLE_SIGNIN_CLIENT_ID',
+								redirectURI: 'metacraft://walless/auth',
+								scope: 'email name',
+								state: crypto.randomUUID(),
+								nonce: crypto.randomUUID(),
+								usePopup: true,
+							}}
+							onSuccess={(response) => {
+								// Response
+								// {
+								//     "authorization": {
+								//       "state": "[STATE]",
+								//       "code": "[CODE]",
+								//       "id_token": "[ID_TOKEN]"
+								//     },
+								//     "user": {
+								//       "email": "[EMAIL]",
+								//       "name": {
+								//         "firstName": "[FIRST_NAME]",
+								//         "lastName": "[LAST_NAME]"
+								//       }
+								//     }
+								// }
+
+								console.log('--> apple sign-in on web', response);
+							}}
+							onError={(e) => logger.error(e)}
+							uiType="light"
+							render={({ onClick }) => (
+								<Button
+									style={[styles.signInButton, styles.appleButton]}
+									onPress={onClick}
+								>
+									<Apple color="black" />
+									<Text style={[styles.buttonText, styles.appleButtonText]}>
+										Sign in with Apple
+									</Text>
+								</Button>
+							)}
+						/>
 					</Fragment>
 				)}
 			</View>

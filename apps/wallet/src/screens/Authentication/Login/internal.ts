@@ -2,6 +2,7 @@ import { logger } from '@walless/core';
 import { showError } from 'modals/Error';
 import {
 	checkInvitationCode,
+	signInWithApple,
 	signInWithGoogle,
 	signInWithTorusKey,
 	ThresholdResult,
@@ -9,13 +10,28 @@ import {
 import type { FirebaseUser } from 'utils/firebase';
 import { navigate } from 'utils/navigation';
 
-export const signIn = async (invitationCode?: string) => {
+export enum SignInMethod {
+	Google = 'Google',
+	Apple = 'Apple',
+}
+
+export const signIn = async (
+	invitationCode?: string,
+	method: SignInMethod = SignInMethod.Google,
+) => {
 	let user: FirebaseUser;
+
 	try {
-		user = await signInWithGoogle();
+		if (method === SignInMethod.Google) {
+			user = await signInWithGoogle();
+		} else if (method === SignInMethod.Apple) {
+			user = await signInWithApple();
+		} else {
+			throw new Error('Unsupported sign-in method');
+		}
 	} catch (error) {
 		showError({ errorText: 'Something went wrong' });
-		logger.error('Error when sign-in with google', error);
+		logger.error(`Error when sign-in with ${method}`, error);
 		return;
 	}
 

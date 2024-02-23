@@ -1,4 +1,5 @@
 export { AlertCircle } from './components/AlertCircle';
+export { Apple } from './components/Apple';
 export { ArrowBottomRight } from './components/ArrowBottomRight';
 export { ArrowDown } from './components/ArrowDown';
 export { ArrowRight } from './components/ArrowRight';

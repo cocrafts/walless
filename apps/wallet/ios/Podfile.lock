@@ -564,6 +564,8 @@ PODS:
     - React-logger (= 0.71.14)
     - React-perflogger (= 0.71.14)
   - RecaptchaInterop (100.0.0)
+  - RNAppleAuthentication (2.3.0):
+    - React-Core
   - RNCClipboard (1.13.2):
     - React-Core
   - RNCustomAuthSdk (4.0.1):
@@ -686,6 +688,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../../../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../../../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
+  - "RNAppleAuthentication (from `../../../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCustomAuthSdk (from `../../../node_modules/@toruslabs/customauth-react-native-sdk`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
@@ -836,6 +839,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../../../node_modules/react-native/ReactCommon"
+  RNAppleAuthentication:
+    :path: "../../../node_modules/@invertase/react-native-apple-authentication"
   RNCClipboard:
     :path: "../../../node_modules/@react-native-clipboard/clipboard"
   RNCustomAuthSdk:
@@ -957,6 +962,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: ffe826b7b1cfbc32a35ed5b64d5886c0ff75f501
   ReactCommon: 6f0ee30fda78283c31310e585f7236748e13330d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
+  RNAppleAuthentication: e99eaf3c4c01ad8ecb6125dd6f0cfd98871685b5
   RNCClipboard: 60fed4b71560d7bfe40e9d35dea9762b024da86d
   RNCustomAuthSdk: e1db0c850b41deaf38fdc8fe5433b3287db29c55
   RNDeviceInfo: db5c64a060e66e5db3102d041ebe3ef307a85120

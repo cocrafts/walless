@@ -7,6 +7,7 @@ import { CustomAuth, initServiceProvider } from './w3a/tkey';
 import { initBySeedPhraseModule } from './keys';
 import { initAndRegisterWallet } from './recovery';
 import { signInWithGoogle } from './signInGoogle';
+import { signInWithApple } from './signInWithApple';
 import {
 	customAuthArgs,
 	importAvailableShares,
@@ -88,6 +89,7 @@ const signInWithPasscode = async (
 
 export {
 	checkInvitationCode,
+	signInWithApple,
 	signInWithGoogle,
 	signInWithPasscode,
 	signInWithTorusKey,

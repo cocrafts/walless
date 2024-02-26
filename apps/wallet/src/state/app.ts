@@ -5,8 +5,10 @@ import type {
 	RemoteConfig,
 	UserProfile,
 } from '@walless/core';
+import { runtime } from '@walless/core';
+import { dimensionState } from '@walless/gui';
 import { defaultConfig, defaultRemoteConfig } from 'utils/constants';
-import { proxy } from 'valtio';
+import { proxy, subscribe } from 'valtio';
 
 import { bootstrap, initAfterSignIn, launchApp } from './bootstrap';
 
@@ -27,6 +29,12 @@ export interface AppState {
 	remoteConfig: RemoteConfig;
 	endpoints: EndpointMap;
 	jwtAuth?: string;
+	navigationDisplay: {
+		navigationHeaderActive: boolean;
+		drawerPermanent: boolean;
+		bottomTabActive: boolean;
+		sidebarAvatarActive: boolean;
+	};
 }
 
 export const appState = proxy<AppState>({
@@ -35,6 +43,12 @@ export const appState = proxy<AppState>({
 	config: defaultConfig,
 	remoteConfig: defaultRemoteConfig,
 	endpoints: defaultEndpoints,
+	navigationDisplay: {
+		navigationHeaderActive: false,
+		drawerPermanent: false,
+		bottomTabActive: false,
+		sidebarAvatarActive: false,
+	},
 });
 
 export const appActions = {
@@ -42,3 +56,29 @@ export const appActions = {
 	launchApp,
 	initAfterSignIn,
 };
+
+export const controlNavigationDisplay = () => {
+	const { width } = dimensionState.windowSize;
+	const isResponsiveWidth = width < 420;
+
+	const isMobileLayout =
+		!runtime.isExtension && (isResponsiveWidth || runtime.isMobile);
+
+	if (isMobileLayout) {
+		appState.navigationDisplay = {
+			navigationHeaderActive: true,
+			drawerPermanent: false,
+			bottomTabActive: true,
+			sidebarAvatarActive: false,
+		};
+	} else {
+		appState.navigationDisplay = {
+			navigationHeaderActive: false,
+			drawerPermanent: true,
+			bottomTabActive: false,
+			sidebarAvatarActive: true,
+		};
+	}
+};
+
+subscribe(dimensionState, controlNavigationDisplay);

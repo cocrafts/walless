@@ -28,7 +28,7 @@ import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
 import { ResetAnchors, resetRoute } from 'utils/navigation';
 import { storage } from 'utils/storage';
 
-import { appState } from './app';
+import { appState, controlNavigationDisplay } from './app';
 import { collectibleState, collectionState, tokenState } from './assets';
 import { historyState } from './history';
 import { keyState } from './keys';
@@ -45,6 +45,7 @@ export const bootstrap = async (): Promise<void> => {
 	]);
 
 	configureDeviceAndNotification();
+	controlNavigationDisplay();
 
 	const milliseconds = new Date().getTime() - startTime.getTime();
 	logger.debug(`Started up in ${milliseconds}ms`);

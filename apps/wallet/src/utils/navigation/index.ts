@@ -7,23 +7,22 @@ import type {
 } from '@react-navigation/native';
 import { createNavigationContainerRef } from '@react-navigation/native';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import { logger } from '@walless/core';
+import { appState } from 'state/app';
 
 import type { RootParamList, ScreenOptions } from './types';
 import { ResetAnchors } from './types';
 
 export * from './types';
 
-export const handleLinkingRequest = (url: string, isInitialURL?: boolean) => {
-	const { href } = new URL(url);
-	logger.info(href, isInitialURL, 'TODO: handle incoming url');
+export const handleLinkingRequest = (url: string) => {
+	appState.initialLinkingURL = url;
 };
 
 export const linking: LinkingOptions<RootParamList> = {
 	prefixes: ['walless://', 'https://walless.io', 'https://*.walless.io'],
 	getInitialURL: async () => {
 		const initialURL = await Linking.getInitialURL();
-		if (initialURL) handleLinkingRequest(initialURL, true);
+		if (initialURL) handleLinkingRequest(initialURL);
 
 		return initialURL;
 	},
@@ -75,6 +74,20 @@ export const linking: LinkingOptions<RootParamList> = {
 						screens: {
 							Default: '/',
 						},
+					},
+				},
+			},
+			Requests: {
+				path: '/requests',
+				screens: {
+					RequestConnect: {
+						path: '/connect/:requestId',
+					},
+					RequestSignature: {
+						path: '/signature/:requestId',
+					},
+					RequestInstallLayout: {
+						path: '/install-layout/:requestId',
 					},
 				},
 			},

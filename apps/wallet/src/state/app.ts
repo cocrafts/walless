@@ -27,6 +27,7 @@ export interface AppState {
 	remoteConfig: RemoteConfig;
 	endpoints: EndpointMap;
 	jwtAuth?: string;
+	initialLinkingURL?: string;
 }
 
 export const appState = proxy<AppState>({

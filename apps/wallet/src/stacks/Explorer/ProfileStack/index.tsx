@@ -26,7 +26,6 @@ export const ProfileStack: FC<Props> = () => {
 			withStackContainer(ProfileScreen, {
 				title: '',
 				headerActive: false,
-				noBottomTabs: false,
 			}),
 		[],
 	);
@@ -36,7 +35,6 @@ export const ProfileStack: FC<Props> = () => {
 			withStackContainer(HistoryScreen, {
 				title: '',
 				headerActive: true,
-				noBottomTabs: false,
 				goBack: navigateBack,
 			}),
 		[],
@@ -47,7 +45,6 @@ export const ProfileStack: FC<Props> = () => {
 			withStackContainer(SettingScreen, {
 				title: '',
 				headerActive: true,
-				noBottomTabs: false,
 				goBack: navigateBack,
 			}),
 		[],

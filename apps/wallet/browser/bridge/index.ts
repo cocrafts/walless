@@ -2,12 +2,15 @@
  * should be super lightweight */
 
 import { runtime } from '@walless/core';
+import type { SettingDocument } from '@walless/store';
+import { storage } from 'utils/storage';
 
 import { injectServiceWorker, launchSignInTab } from './utils';
 
 export const runBridge = async (): Promise<void> => {
 	if (runtime.isExtension) {
-		await launchSignInTab();
+		const settings = await storage.safeGet<SettingDocument>('settings');
+		if (!settings?.profile?.email) await launchSignInTab();
 	} else {
 		await injectServiceWorker();
 	}

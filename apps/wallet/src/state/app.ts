@@ -35,6 +35,7 @@ export interface AppState {
 		bottomTabActive: boolean;
 		sidebarAvatarActive: boolean;
 	};
+	isMobileDisplay: boolean;
 }
 
 export const appState = proxy<AppState>({
@@ -49,6 +50,7 @@ export const appState = proxy<AppState>({
 		bottomTabActive: false,
 		sidebarAvatarActive: false,
 	},
+	isMobileDisplay: false,
 });
 
 export const appActions = {
@@ -59,10 +61,11 @@ export const appActions = {
 
 export const controlNavigationDisplay = () => {
 	const { width } = dimensionState.windowSize;
-	const isResponsiveWidth = width < 420;
+	const isResponsiveWidth = width <= 420;
 
 	const isMobileLayout =
 		!runtime.isExtension && (isResponsiveWidth || runtime.isMobile);
+	appState.isMobileDisplay = isMobileLayout;
 
 	if (isMobileLayout) {
 		appState.navigationDisplay = {

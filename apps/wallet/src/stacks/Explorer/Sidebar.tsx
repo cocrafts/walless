@@ -42,8 +42,21 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 		}
 	};
 
+	const handleAvatarPress = () => {
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: { screen: 'Profile', params: { screen: 'Default' } },
+		});
+	};
+
 	const getIsExtensionActive = (item: WidgetDocument) => {
 		const { routes, index } = state;
+		const isProfileScreen = routes[index].name === 'Profile';
+
+		if (isProfileScreen) {
+			return item._id === 'profile';
+		}
+
 		const params: { id?: string } = routes[index]?.params || {};
 		const activeId = params?.id ?? '';
 		return activeId === item._id;
@@ -57,6 +70,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 			getIsExtensionActive={getIsExtensionActive}
 			onExtensionPress={handleExtensionPress}
 			onRemoveLayout={handleRemoveWidget}
+			onAvatarPress={handleAvatarPress}
 		/>
 	);
 };

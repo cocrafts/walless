@@ -14,6 +14,7 @@ import type { RouteProp } from '@react-navigation/native';
 import { AnimatedView } from '@walless/gui';
 import type { IconProps } from '@walless/icons';
 import { Globe, Home, Walless } from '@walless/icons';
+import { appState } from 'state/app';
 import { runtimeState } from 'state/runtime';
 import { tabBarHeight } from 'utils/constants';
 import { useSnapshot } from 'utils/hooks';
@@ -38,6 +39,7 @@ const mustHaveBottomTabBarRoutes = ['Home', 'Setting'];
 export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 	const { insets, state, navigation } = tabProps;
 	const { isDrawerOpen } = useSnapshot(runtimeState);
+	const { navigationDisplay } = useSnapshot(appState);
 	const offset = useSharedValue(0);
 	const realBarHeight = tabBarHeight + insets.bottom;
 	const animatedStyles = useAnimatedStyle(
@@ -55,10 +57,14 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 			currentRoute.name,
 		);
 
-		const nextOffset = isDrawerOpen || mustHaveBottomTabBar ? 0 : realBarHeight;
+		const isBottomTabActive =
+			navigationDisplay.bottomTabActive &&
+			(isDrawerOpen || mustHaveBottomTabBar);
+
+		const nextOffset = isBottomTabActive ? 0 : realBarHeight;
 
 		offset.value = withTiming(nextOffset, timingConfig);
-	}, [isDrawerOpen, currentRoute]);
+	}, [isDrawerOpen, currentRoute, navigationDisplay.bottomTabActive]);
 
 	const containerStyle: ViewStyle = {
 		height: realBarHeight,

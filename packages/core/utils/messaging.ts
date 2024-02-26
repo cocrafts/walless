@@ -32,9 +32,9 @@ export enum RequestType {
 }
 
 export enum PopupType {
-	REQUEST_CONNECT_POPUP = 'request-connect-popup',
-	SIGNATURE_POPUP = 'request-signature-popup',
-	REQUEST_INSTALL_LAYOUT_POPUP = 'request-install-layout-popup',
+	REQUEST_CONNECT_POPUP = 'connect',
+	SIGNATURE_POPUP = 'signature',
+	REQUEST_INSTALL_LAYOUT_POPUP = 'install-layout',
 }
 
 export enum ResponseMessage {

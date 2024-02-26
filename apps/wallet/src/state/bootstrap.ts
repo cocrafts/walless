@@ -1,3 +1,4 @@
+import { getStateFromPath } from '@react-navigation/native';
 import { logger, Networks } from '@walless/core';
 import type {
 	CollectibleDocument,
@@ -25,7 +26,12 @@ import {
 import type { Engine } from 'engine/types';
 import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
-import { ResetAnchors, resetRoute } from 'utils/navigation';
+import {
+	linking,
+	navigationRef,
+	ResetAnchors,
+	resetRoute,
+} from 'utils/navigation';
 import { storage } from 'utils/storage';
 
 import { appState } from './app';
@@ -52,10 +58,19 @@ export const bootstrap = async (): Promise<void> => {
 
 export const launchApp = async (): Promise<void> => {
 	const settings = await storage.safeGet<SettingDocument>('settings');
-	const widgetId = settings?.config?.latestLocation;
 
-	if (settings?.profile?.id) {
-		resetRoute(ResetAnchors.Widget, { id: widgetId || 'explorer' });
+	const isSignedIn = settings?.profile?.id;
+	if (isSignedIn) {
+		const initialLinkingURL = appState.initialLinkingURL;
+		if (initialLinkingURL) {
+			const route = getStateFromPath(initialLinkingURL, linking.config);
+			if (!route) return;
+			navigationRef.reset({ index: 0, routes: route.routes });
+		} else {
+			resetRoute();
+			const widgetId = settings?.config?.latestLocation;
+			resetRoute(ResetAnchors.Widget, { id: widgetId || 'explorer' });
+		}
 	} else {
 		resetRoute(ResetAnchors.Invitation);
 	}

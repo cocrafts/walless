@@ -52,10 +52,17 @@ export type DashboardParamList = {
 	Setting: NavigatorScreenParams<SettingParamList>;
 };
 
+export type RequestsParamList = {
+	RequestConnect: { requestId: string };
+	RequestSignature: { requestId: string };
+	RequestInstallLayout: { requestId: string };
+};
+
 export type RootParamList = {
 	Splash: undefined;
 	Authentication: NavigatorScreenParams<AuthenticationParamList>;
 	Dashboard: NavigatorScreenParams<DashboardParamList>;
+	Requests: NavigatorScreenParams<RequestsParamList>;
 };
 
 export enum ResetAnchors {

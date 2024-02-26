@@ -6,5 +6,6 @@ export * from './jupiter';
 export * from './native';
 export * from './navigation';
 export * from './notification';
+export * from './request';
 export * from './wallet';
 export * from './widget';

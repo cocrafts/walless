@@ -3,18 +3,22 @@ import { StyleSheet } from 'react-native';
 import type { DrawerScreenProps } from 'components/DrawerNavigation';
 import ExplorerFeature from 'features/Explorer';
 import WidgetFeature from 'features/Widget';
+import { appState } from 'state/app';
 import { mockWidgets } from 'state/widget';
+import { useSnapshot } from 'utils/hooks';
 import type { ExploreParamList } from 'utils/navigation';
 
 type Props = DrawerScreenProps<ExploreParamList, 'Widget'>;
 
 export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
+	const { navigationDisplay } = useSnapshot(appState);
 	const widgetId = route.params?.id;
 
 	if (!widgetId || widgetId === 'explorer') {
 		return (
 			<ExplorerFeature
 				style={styles.container}
+				headerActive={navigationDisplay.navigationHeaderActive}
 				onToggleDrawer={navigation.toggleDrawer}
 			/>
 		);
@@ -27,7 +31,7 @@ export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
 		<WidgetFeature
 			widgetId={widgetId}
 			title={widgetName}
-			style={styles.container}
+			headerActive={navigationDisplay.navigationHeaderActive}
 			onToggleDrawer={navigation.toggleDrawer}
 		/>
 	);

@@ -18,12 +18,14 @@ import ExplorerWidgetItem from './WidgetItem';
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	widgets?: WidgetDocument[];
+	headerActive?: boolean;
 	onToggleDrawer?: () => void;
 }
 
 export const ExplorerFeature: FC<Props> = ({
 	style,
 	widgets = mockWidgets,
+	headerActive = false,
 	onToggleDrawer,
 }) => {
 	const insets = useSafeAreaInsets();
@@ -47,12 +49,14 @@ export const ExplorerFeature: FC<Props> = ({
 
 	return (
 		<View style={style}>
-			<StackHeader
-				onToggleDrawer={onToggleDrawer}
-				title="Explorer"
-				insets={insets}
-				scrollOffset={scrollOffset}
-			/>
+			{headerActive && (
+				<StackHeader
+					onToggleDrawer={onToggleDrawer}
+					title="Explorer"
+					insets={insets}
+					scrollOffset={scrollOffset}
+				/>
+			)}
 			<Animated.ScrollView
 				ref={scrollRef}
 				scrollEventThrottle={12}

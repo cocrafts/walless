@@ -1,40 +1,36 @@
 import type { FC } from 'react';
-import type { ViewStyle } from 'react-native';
-import { View } from 'react-native';
-import { useSharedValue } from 'react-native-reanimated';
-import { StackHeader } from 'components/StackContainer';
-import { useSafeAreaInsets } from 'utils/hooks';
+import { useMemo } from 'react';
+import { withStackContainer } from 'components/StackContainer';
 
 import { extractWidgetComponent } from './internal';
 
 interface WidgetFeatureProps {
 	widgetId: string;
 	title: string;
-	style?: ViewStyle;
+	headerActive?: boolean;
 	onToggleDrawer: () => void;
 }
 
 export const WidgetFeature: FC<WidgetFeatureProps> = ({
 	widgetId,
 	title,
-	style,
+	headerActive = false,
 	onToggleDrawer,
 }) => {
-	const insets = useSafeAreaInsets();
-	const scrollOffset = useSharedValue(60);
 	const WidgetComponent = extractWidgetComponent(widgetId);
 
-	return (
-		<View style={style}>
-			<StackHeader
-				title={title}
-				insets={insets}
-				scrollOffset={scrollOffset}
-				onToggleDrawer={onToggleDrawer}
-			/>
-			<WidgetComponent id={widgetId} />
-		</View>
+	const ManageWidgetScreen = useMemo(
+		() =>
+			withStackContainer(WidgetComponent, {
+				title,
+				headerActive,
+				noBottomTabs: true,
+				toggleDrawer: onToggleDrawer,
+			}),
+		[],
 	);
+
+	return <ManageWidgetScreen id={widgetId} />;
 };
 
 export default WidgetFeature;

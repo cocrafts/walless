@@ -1,12 +1,8 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import type { StackScreenProps } from '@react-navigation/stack';
 import SettingFeature from 'features/Setting';
-import type { DashboardParamList } from 'utils/navigation';
 
-type Props = StackScreenProps<DashboardParamList, 'Setting'>;
-
-export const SettingScreen: FC<Props> = () => {
+export const SettingScreen: FC = () => {
 	return <SettingFeature style={styles.container} />;
 };
 

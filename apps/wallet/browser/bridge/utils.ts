@@ -17,7 +17,6 @@ export const encryptedMessenger = createMessenger(encryptionKeyVault);
 export const launchSignInTab = async () => {
 	chrome.tabs.query({ url: `${chrome.runtime.getURL('/')}*` }, (tabs) => {
 		if (tabs.length <= 0) {
-			console.log('create sign in tab');
 			chrome.tabs.create({
 				url: chrome.runtime.getURL('index.html'),
 				active: true,

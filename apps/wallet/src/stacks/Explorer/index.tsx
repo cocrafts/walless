@@ -7,6 +7,7 @@ import { appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
 import type { ExploreParamList } from 'utils/navigation';
 
+import ProfileStack from './ProfileStack';
 import Sidebar, { sidebarWidth } from './Sidebar';
 
 const Drawer = createDrawerNavigator<ExploreParamList>();
@@ -36,6 +37,12 @@ export const ExplorerStack = () => {
 			<Drawer.Screen
 				name="Collection"
 				component={CollectionStack}
+				initialParams={{ screen: 'Default' }}
+				options={options}
+			/>
+			<Drawer.Screen
+				name="Profile"
+				component={ProfileStack}
 				initialParams={{ screen: 'Default' }}
 				options={options}
 			/>

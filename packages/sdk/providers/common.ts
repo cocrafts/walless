@@ -1,3 +1,4 @@
+import type { Networks, ResponseCode } from '@walless/core';
 import { RequestType, Timeout } from '@walless/core';
 
 import { sendRequest } from '../utils/messaging';
@@ -5,7 +6,14 @@ import type { ConnectOptions } from '../utils/type';
 
 const from = 'walless@sdk';
 
-export const requestConnect = async (options: ConnectOptions) => {
+type ConnectResponse = {
+	responseCode: ResponseCode;
+	publicKeys?: Array<{ publicKey: string; network: Networks }>;
+};
+
+export const requestConnect = async (
+	options: ConnectOptions,
+): Promise<ConnectResponse> => {
 	return await sendRequest(
 		{
 			from,

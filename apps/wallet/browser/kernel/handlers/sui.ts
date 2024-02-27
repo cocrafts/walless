@@ -1,4 +1,4 @@
-import { Connection, JsonRpcProvider } from '@mysten/sui.js';
+import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { ResponseCode } from '@walless/core';
 import { suiHandler } from '@walless/network';
 
@@ -30,9 +30,9 @@ export const suiEndpoints = {
 	},
 };
 
-const rpcProvider = new JsonRpcProvider(
-	new Connection(__DEV__ ? suiEndpoints.devnet : suiEndpoints.mainnet),
-);
+const suiClient = new SuiClient({
+	url: __DEV__ ? getFullnodeUrl('devnet') : getFullnodeUrl('mainnet'),
+});
 
 export const signMessage: HandleMethod<MessagePayload> = async ({
 	payload,
@@ -42,11 +42,7 @@ export const signMessage: HandleMethod<MessagePayload> = async ({
 	}
 
 	const { requestId, message, privateKey } = payload;
-	const signedMessage = await suiHandler.signMessage(
-		rpcProvider,
-		message,
-		privateKey,
-	);
+	const signedMessage = await suiHandler.signMessage(message, privateKey);
 	respond(requestId, ResponseCode.SUCCESS, { signedMessage });
 };
 
@@ -59,7 +55,6 @@ export const signTransaction: HandleMethod<TransactionPayload> = async ({
 
 	const { requestId, transaction, privateKey } = payload;
 	const signedTransaction = await suiHandler.signTransaction(
-		rpcProvider,
 		transaction,
 		privateKey,
 	);
@@ -75,7 +70,7 @@ export const signAndExecuteTransaction: HandleMethod<
 
 	const { requestId, transaction, privateKey } = payload;
 	const signedTransaction = await suiHandler.signAndExecuteTransaction(
-		rpcProvider,
+		suiClient,
 		transaction,
 		privateKey,
 	);

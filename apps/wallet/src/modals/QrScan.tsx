@@ -27,17 +27,14 @@ interface QRScannerProps {
 	network: Networks;
 }
 
-interface Props {
+type Props = QRScannerProps & {
 	config: ModalConfigs;
-	props: QRScannerProps;
-}
+};
 
-const QRScanner: FC<Props> = ({ config, props }) => {
+const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 	const [layoutHeight, setLayoutHeight] = useState(200);
 	const [layoutWidth, setLayoutWidth] = useState(200);
 
-	// eslint-disable-next-line react/prop-types
-	const { network, onScan } = props;
 	const { hasPermission, requestPermission } = useCameraPermission();
 	const [active, setActive] = useState(false);
 	const device = useCameraDevice('back');
@@ -125,7 +122,7 @@ export default QRScanner;
 export const showQRScannerModal = (props: QRScannerProps) => {
 	modalActions.show({
 		id: ModalId.QRScanner,
-		component: ({ config }) => <QRScanner config={config} props={props} />,
+		component: ({ config }) => <QRScanner config={config} {...props} />,
 		fullHeight: true,
 		fullWidth: true,
 	});

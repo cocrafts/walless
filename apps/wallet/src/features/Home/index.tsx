@@ -37,7 +37,7 @@ const ProfileFeature = () => {
 
 	return (
 		<View style={[styles.container, containerStyle]}>
-			<View style={styles.headerContainer}>
+			<View>
 				{!isMobileDisplay && (
 					<View style={styles.widgetContainer}>
 						<Button style={styles.settingBtn} onPress={handleSettingPress}>
@@ -49,6 +49,7 @@ const ProfileFeature = () => {
 			</View>
 
 			<FeatureButtons
+				style={styles.featureBtnGroup}
 				onSendPress={() => showSendTokenModal({})}
 				onReceivePress={() => showReceiveModal({})}
 				onBuyPress={() => buyToken(Networks.solana)}
@@ -66,11 +67,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingHorizontal: 14,
 		marginVertical: 16,
-		alignItems: 'center',
 		gap: 36,
-	},
-	headerContainer: {
-		width: '100%',
 	},
 	widgetContainer: {
 		alignSelf: 'flex-end',
@@ -82,5 +79,8 @@ const styles = StyleSheet.create({
 		paddingVertical: 0,
 		width: 30,
 		height: 30,
+	},
+	featureBtnGroup: {
+		alignSelf: 'center',
 	},
 });

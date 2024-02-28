@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 6,
 		paddingVertical: 6,
 		borderRadius: 20,
-		alignSelf: 'flex-start',
 	},
 	icon: {
 		height: 26,

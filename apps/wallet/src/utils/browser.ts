@@ -6,10 +6,11 @@ export const configureBrowserRuntime = () => {
 };
 
 const configureInitialURL = () => {
-	const { pathname, hash } = new URL(window.location.href);
+	const { hash } = new URL(window.location.href);
 
-	if (pathname !== '/' || hash !== '') {
-		handleLinkingRequest(window.location.href);
+	if (hash !== '') {
+		const url = hash.replace('#', '');
+		handleLinkingRequest(url);
 	}
 
 	setTimeout(() => {

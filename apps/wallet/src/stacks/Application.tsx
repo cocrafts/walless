@@ -6,6 +6,7 @@ import { screenOptions } from 'utils/navigation';
 
 import AuthenticationStack from './Authentication';
 import DashboardStack from './Dashboard';
+import RequestsStack from './Requests';
 
 const Stack = createStackNavigator<RootParamList>();
 
@@ -25,6 +26,11 @@ export const ApplicationStack: FC = () => {
 			<Stack.Screen
 				name="Authentication"
 				component={AuthenticationStack}
+				options={screenOptions.fade}
+			/>
+			<Stack.Screen
+				name="Requests"
+				component={RequestsStack}
 				options={screenOptions.fade}
 			/>
 		</Stack.Navigator>

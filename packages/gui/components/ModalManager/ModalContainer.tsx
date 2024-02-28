@@ -142,11 +142,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	};
 
 	return (
-		<View
-			pointerEvents={pointerEvents}
-			style={styles.container}
-			renderToHardwareTextureAndroid
-		>
+		<View pointerEvents={pointerEvents} style={styles.container}>
 			{!withoutMask && (
 				<TouchableWithoutFeedback onPress={closeModal}>
 					<Animated.View style={[styles.mask, maskAnimatedStyle, maskStyle]} />

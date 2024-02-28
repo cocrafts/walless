@@ -108,7 +108,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 			onPress={() =>
 				showQRScannerModal({
 					onScan: handleScan,
-					networkName: network as string,
+					network: network as Networks,
 				})
 			}
 		>

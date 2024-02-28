@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
 	ActivityIndicator,
 	Image,
@@ -12,16 +12,18 @@ import {
 	useCameraPermission,
 	useCodeScanner,
 } from 'react-native-vision-camera';
+import type { Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions, Text, View } from '@walless/gui';
 import { Times } from '@walless/icons';
 import assets from 'utils/assets';
+import { getNetworkInfo } from 'utils/helper';
 
 import { ModalId } from './types';
 
 interface QRScannerProps {
 	onScan: (code: string) => void;
-	networkName: string;
+	network: Networks;
 }
 
 interface Props {
@@ -30,10 +32,12 @@ interface Props {
 }
 
 const QRScanner: FC<Props> = ({ config, props }) => {
-	const { networkName, onScan } = props;
+	const { network, onScan } = props;
 	const { hasPermission, requestPermission } = useCameraPermission();
 	const [active, setActive] = useState(false);
 	const device = useCameraDevice('back');
+
+	const networkInfo = useMemo(() => getNetworkInfo(network), [network]);
 
 	if (!hasPermission) {
 		requestPermission();
@@ -64,7 +68,6 @@ const QRScanner: FC<Props> = ({ config, props }) => {
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<Text style={styles.title}>Scan QR</Text>
-				<Text style={styles.title}>Scan QR</Text>
 
 				<TouchableOpacity style={styles.closeButton} onPress={handleClose}>
 					<Times />
@@ -78,12 +81,9 @@ const QRScanner: FC<Props> = ({ config, props }) => {
 				codeScanner={codeScanner}
 			/>
 			<View style={styles.networkContainer}>
-				<Image
-					style={styles.networkIcon}
-					source={assets.widget.solana.storeMeta.iconUri}
-				/>
+				<Image style={styles.networkIcon} source={assets.widget[network]} />
 				<Text style={styles.networkText}>
-					Scan {networkName} address to send funds
+					Scan {networkInfo?.name} address to send funds
 				</Text>
 			</View>
 		</View>
@@ -104,10 +104,9 @@ export const showQRScannerModal = (props: QRScannerProps) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// minHeight: 320,
-		backgroundColor: 'red',
 	},
 	camera: {
+		flex: 1,
 		position: 'relative',
 		width: 600,
 		height: 600,
@@ -118,11 +117,9 @@ const styles = StyleSheet.create({
 		left: 16,
 	},
 	header: {
-		flex: 1,
-		minHeight: 100,
 		alignItems: 'center',
 		justifyContent: 'center',
-		// backgroundColor: '#081016',
+		backgroundColor: '#081016',
 		paddingVertical: 16,
 		zIndex: 1,
 	},
@@ -136,8 +133,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: 4,
-		left: 'auto',
-		right: 'auto',
+		left: 0,
+		right: 0,
 		bottom: 40,
 	},
 	networkText: {

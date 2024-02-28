@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
+import type { LayoutChangeEvent } from 'react-native';
 import {
 	ActivityIndicator,
 	Image,
@@ -32,6 +33,9 @@ interface Props {
 }
 
 const QRScanner: FC<Props> = ({ config, props }) => {
+	const [layoutHeight, setLayoutHeight] = useState(200);
+	const [layoutWidth, setLayoutWidth] = useState(200);
+
 	const { network, onScan } = props;
 	const { hasPermission, requestPermission } = useCameraPermission();
 	const [active, setActive] = useState(false);
@@ -54,6 +58,23 @@ const QRScanner: FC<Props> = ({ config, props }) => {
 		modalActions.hide(config.id);
 	};
 
+	const handleLayout = (event: LayoutChangeEvent) => {
+		setLayoutHeight(event.nativeEvent.layout.height);
+		setLayoutWidth(event.nativeEvent.layout.width);
+	};
+
+	const qrFrameContainerStyle = useMemo(() => {
+		const qrFrameWidth = (layoutWidth / 2 - 80) * 2;
+
+		return {
+			height: qrFrameWidth,
+			width: qrFrameWidth,
+			left: 80,
+			top: (layoutHeight - qrFrameWidth) / 2,
+			right: 80,
+		};
+	}, [layoutHeight, layoutWidth]);
+
 	useEffect(() => {
 		if (!hasPermission || !device) return;
 		const timeout = setTimeout(() => setActive(true), 100);
@@ -65,7 +86,7 @@ const QRScanner: FC<Props> = ({ config, props }) => {
 	}
 
 	return (
-		<View style={styles.container}>
+		<View onLayout={handleLayout} style={styles.container}>
 			<View style={styles.header}>
 				<Text style={styles.title}>Scan QR</Text>
 
@@ -80,6 +101,18 @@ const QRScanner: FC<Props> = ({ config, props }) => {
 				isActive={active}
 				codeScanner={codeScanner}
 			/>
+
+			<View style={[styles.qrFrameContainer, qrFrameContainerStyle]}>
+				<View style={styles.sideFrameContainer}>
+					<View style={[styles.leftTopFrame, styles.qrFrame]} />
+					<View style={[styles.leftBottomFrame, styles.qrFrame]} />
+				</View>
+				<View style={styles.sideFrameContainer}>
+					<View style={[styles.rightTopFrame, styles.qrFrame]} />
+					<View style={[styles.rightBottomFrame, styles.qrFrame]} />
+				</View>
+			</View>
+
 			<View style={styles.networkContainer}>
 				<Image
 					style={styles.networkIcon}
@@ -148,5 +181,43 @@ const styles = StyleSheet.create({
 		width: 36,
 		height: 36,
 		borderRadius: 18,
+	},
+	sideFrameContainer: {
+		justifyContent: 'space-between',
+	},
+	qrFrame: {
+		borderColor: '#FFFFFF',
+		height: 40,
+		width: 40,
+	},
+	leftTopFrame: {
+		borderTopWidth: 2,
+		borderLeftWidth: 2,
+		borderTopLeftRadius: 4,
+	},
+	rightTopFrame: {
+		borderTopWidth: 2,
+		borderRightWidth: 2,
+		borderTopRightRadius: 4,
+	},
+	leftBottomFrame: {
+		borderBottomWidth: 2,
+		borderLeftWidth: 2,
+		borderBottomLeftRadius: 4,
+	},
+	rightBottomFrame: {
+		borderBottomWidth: 2,
+		borderRightWidth: 2,
+		borderBottomRightRadius: 4,
+	},
+	qrFrameContainer: {
+		position: 'absolute',
+		flexDirection: 'row',
+		top: 200,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		justifyContent: 'space-between',
+		maxHeight: 400,
 	},
 });

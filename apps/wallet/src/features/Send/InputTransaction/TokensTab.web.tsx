@@ -97,6 +97,11 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		setDisabledMax(!token || !tokenForFee || !transactionFee);
 	}, [token, tokenForFee, transactionFee]);
 
+	useEffect(() => {
+		checkRecipient(receiver, network);
+		checkAmount(amount, balance);
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			<Select

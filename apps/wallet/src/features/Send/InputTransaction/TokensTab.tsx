@@ -7,6 +7,7 @@ import { QrIcon } from '@walless/icons';
 import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
+import { showError } from 'modals/Error';
 import { showQRScannerModal } from 'modals/QrScan';
 import { ModalId } from 'modals/types';
 import { useTokens } from 'utils/hooks';
@@ -100,8 +101,15 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	);
 
 	const handleScan = (value: string) => {
-		txActions.update({ receiver: value });
-		modalActions.destroy(ModalId.QRScanner);
+		const result = checkValidAddress(value, network as Networks);
+
+		if (result !== null) {
+			const errorTimeout = 2000;
+			showError({ errorText: 'Invalid address' }, errorTimeout);
+		} else {
+			txActions.update({ receiver: value });
+			modalActions.destroy(ModalId.QRScanner);
+		}
 	};
 
 	const ScanButton = (

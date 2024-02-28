@@ -81,7 +81,10 @@ const QRScanner: FC<Props> = ({ config, props }) => {
 				codeScanner={codeScanner}
 			/>
 			<View style={styles.networkContainer}>
-				<Image style={styles.networkIcon} source={assets.widget[network]} />
+				<Image
+					style={styles.networkIcon}
+					source={assets.widget[network].storeMeta.iconUri}
+				/>
 				<Text style={styles.networkText}>
 					Scan {networkInfo?.name} address to send funds
 				</Text>

@@ -78,7 +78,6 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		if (fullWidth) baseStyle.width = width.value;
 		if (fullHeight) {
 			baseStyle.height = height.value;
-			console.log('height', height.value);
 			baseStyle.bottom = 0;
 
 			if (positionOffset?.y && positionOffset.y > 0) {
@@ -124,7 +123,6 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	}, []);
 
 	const onInnerLayout = async ({ nativeEvent }: LayoutChangeEvent) => {
-		console.log('onInnerLyaout', nativeEvent.layout);
 		const calculatedRectangle = await rectangleBind(
 			bindingRectangle as never, // parent or root
 			nativeEvent.layout, // current component
@@ -137,7 +135,6 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		left.value = calculatedRectangle.x;
 		width.value = calculatedRectangle.width;
 		height.value = calculatedRectangle.height;
-		console.log('height from change', height.value);
 	};
 
 	const closeModal = () => {

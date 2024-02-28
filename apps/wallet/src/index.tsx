@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,6 +17,16 @@ export const AppStack = () => {
 	const modalContainerRef = useRef<View>(null);
 	const theme = useSnapshot(themeState);
 	const { isMobileDisplay } = useSnapshot(appState);
+
+	const containerStyle: StyleProp<ViewStyle> = [
+		styles.container,
+		!isMobileDisplay && styles.centerLayout,
+	];
+
+	const innerStyle: StyleProp<ViewStyle> = [
+		styles.innerLayout,
+		!isMobileDisplay && styles.extensionLayout,
+	];
 	const hydrate = useNavigationHydrate();
 
 	useNotifications();
@@ -23,14 +34,8 @@ export const AppStack = () => {
 
 	return (
 		<SafeAreaProvider>
-			<View style={[styles.container, !isMobileDisplay && styles.centerLayout]}>
-				<View
-					style={[
-						styles.innerLayout,
-						!isMobileDisplay && styles.extensionLayout,
-					]}
-					ref={modalContainerRef}
-				>
+			<View style={containerStyle}>
+				<View style={innerStyle} ref={modalContainerRef}>
 					<NavigationContainer
 						ref={navigationRef}
 						theme={theme}

@@ -11,7 +11,7 @@ import { useUniversalInsets } from 'utils/hooks';
 import StackHeader from './Header';
 
 interface Props {
-	title: string;
+	title?: string;
 	style?: StyleProp<ViewStyle>;
 	headerActive?: boolean;
 	noBottomTabs?: boolean;
@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const StackContainer: FC<Props> = ({
-	title,
+	title = '',
 	style,
 	headerActive = true,
 	noBottomTabs,

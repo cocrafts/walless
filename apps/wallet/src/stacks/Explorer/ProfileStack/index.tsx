@@ -24,7 +24,6 @@ export const ProfileStack: FC<Props> = () => {
 	const ManageProfileScreen = useMemo(
 		() =>
 			withStackContainer(ProfileScreen, {
-				title: '',
 				headerActive: false,
 			}),
 		[],
@@ -33,7 +32,6 @@ export const ProfileStack: FC<Props> = () => {
 	const ManageHistoryScreen = useMemo(
 		() =>
 			withStackContainer(HistoryScreen, {
-				title: '',
 				headerActive: true,
 				goBack: navigateBack,
 			}),
@@ -43,7 +41,6 @@ export const ProfileStack: FC<Props> = () => {
 	const ManageSettingScreen = useMemo(
 		() =>
 			withStackContainer(SettingScreen, {
-				title: '',
 				headerActive: true,
 				goBack: navigateBack,
 			}),

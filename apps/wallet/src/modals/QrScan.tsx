@@ -41,10 +41,6 @@ const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 
 	const networkInfo = useMemo(() => getNetworkInfo(network), [network]);
 
-	if (!hasPermission) {
-		requestPermission();
-	}
-
 	const codeScanner = useCodeScanner({
 		codeTypes: ['qr'],
 		onCodeScanned: (codes) => {
@@ -72,6 +68,12 @@ const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 			right: 80,
 		};
 	}, [layoutHeight, layoutWidth]);
+
+	useEffect(() => {
+		if (!hasPermission) {
+			requestPermission();
+		}
+	}, []);
 
 	useEffect(() => {
 		if (!hasPermission || !device) return;

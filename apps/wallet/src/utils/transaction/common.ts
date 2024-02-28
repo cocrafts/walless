@@ -410,6 +410,7 @@ export const isNativeToken = (
 	network: Networks,
 	tokenSymbol?: string,
 ): boolean => {
+	// NOTE: it is better to verify the symbol using network's sdk
 	switch (network) {
 		case Networks.solana:
 			return tokenSymbol === 'SOL';

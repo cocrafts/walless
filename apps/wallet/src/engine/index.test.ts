@@ -1,4 +1,5 @@
 jest.mock('utils/storage/db');
+jest.mock('utils/config');
 import { createEngine } from 'engine';
 
 describe('test engine', () => {

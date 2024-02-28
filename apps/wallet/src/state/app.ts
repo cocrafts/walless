@@ -36,6 +36,7 @@ export interface AppState {
 		sidebarAvatarActive: boolean;
 	};
 	isMobileDisplay: boolean;
+	initialLinkingURL?: string;
 }
 
 export const appState = proxy<AppState>({

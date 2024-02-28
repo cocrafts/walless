@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { AssetMetadata, Networks } from '@walless/core';
 import { Select, View } from '@walless/gui';
@@ -43,6 +43,8 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 		if (receiver && network) {
 			const result = checkValidAddress(receiver, network);
 			setRecipientErrorMessage(result);
+		} else {
+			setRecipientErrorMessage('');
 		}
 	};
 
@@ -69,6 +71,10 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	const filteredCollectibles = collection
 		? collectibles.filter((e) => e.collectionId === collection._id)
 		: collectibles;
+
+	useEffect(() => {
+		checkRecipient(receiver, network);
+	}, []);
 
 	return (
 		<View style={styles.container}>

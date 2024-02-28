@@ -52,6 +52,8 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		if (receiver && network) {
 			const result = checkValidAddress(receiver, network);
 			setRecipientErrorMessage(result);
+		} else {
+			setRecipientErrorMessage('');
 		}
 	};
 
@@ -86,6 +88,11 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	useEffect(() => {
 		setDisabledMax(!token || !tokenForFee || !transactionFee);
 	}, [token, tokenForFee, transactionFee]);
+
+	useEffect(() => {
+		checkRecipient(receiver, network);
+		checkAmount(amount, balance);
+	}, []);
 
 	return (
 		<View style={styles.container}>

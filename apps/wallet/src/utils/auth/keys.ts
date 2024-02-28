@@ -1,4 +1,4 @@
-import { Ed25519Keypair as SuiPair } from '@mysten/sui.js';
+import { Ed25519Keypair as SuiPair } from '@mysten/sui.js/keypairs/ed25519';
 import { Keypair as SolPair } from '@solana/web3.js';
 import { generateSecretKey, InMemorySigner } from '@taquito/signer';
 import type { ISeedPhraseStore } from '@tkey/common-types';

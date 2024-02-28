@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { RequestType } from '@walless/core';
 import { Networks, PopupType } from '@walless/core';
@@ -79,7 +80,8 @@ export const RequestSignature: FC<Props> = ({ route }) => {
 
 	return (
 		<Slider
-			style={{ flex: 1, justifyContent: 'flex-start' }}
+			style={styles.container}
+			slideContainerStyle={styles.slideContainer}
 			items={sliderItems}
 			activeItem={sliderItems[activeIndex]}
 		/>
@@ -87,3 +89,13 @@ export const RequestSignature: FC<Props> = ({ route }) => {
 };
 
 export default RequestSignature;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'flex-start',
+	},
+	slideContainer: {
+		paddingHorizontal: 10,
+	},
+});

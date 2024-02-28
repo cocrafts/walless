@@ -1,4 +1,4 @@
-import { TransactionBlock } from '@mysten/sui.js';
+import { TransactionBlock } from '@mysten/sui.js/transactions';
 import {
 	ACCOUNT_SIZE,
 	createAssociatedTokenAccountInstruction,

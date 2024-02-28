@@ -1,4 +1,4 @@
-import { TransactionBlock } from '@mysten/sui.js';
+import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { VersionedTransaction } from '@solana/web3.js';
 import type { TransactionPayload } from '@walless/core';
 import { logger, Networks, RequestType, ResponseCode } from '@walless/core';

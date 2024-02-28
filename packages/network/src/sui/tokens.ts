@@ -1,15 +1,15 @@
-import type { JsonRpcProvider } from '@mysten/sui.js';
+import type { SuiClient } from '@mysten/sui.js/client';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 
 import { getSuiMetadata } from './metadata';
 
 export const getSuiTokensByAddress = async (
-	provider: JsonRpcProvider,
+	suiClient: SuiClient,
 	address: string,
 ): Promise<TokenDocument[]> => {
-	const { data } = await provider.getAllCoins({ owner: address });
-	const details = await provider.multiGetObjects({
+	const { data } = await suiClient.getAllCoins({ owner: address });
+	const details = await suiClient.multiGetObjects({
 		ids: data.map((i) => i.coinObjectId),
 		options: { showType: true, showDisplay: true },
 	});
@@ -23,6 +23,7 @@ export const getSuiTokensByAddress = async (
 			type: 'Token',
 			network: Networks.sui,
 			account: {
+				owner: address,
 				mint: object.coinObjectId,
 				address,
 				balance: object.balance,

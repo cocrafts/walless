@@ -5,7 +5,7 @@
   "types": "./src/index.ts",
   "license": "MIT",
   "dependencies": {
-    "@mysten/wallet-standard": "0.5.2",
+    "@mysten/wallet-standard": "0.10.3",
     "@solana/wallet-standard-features": "^1.0.1",
     "@walless/sdk": "*",
     "@wallet-standard/base": "^1.0.1",
@@ -13,6 +13,7 @@
     "bs58": "5.0.0"
   },
   "devDependencies": {
+    "@mysten/sui.js": "0.50.1",
     "@solana/web3.js": "1.78.4",
     "@types/bs58": "^4.0.1",
     "@types/node-fetch": "^2.6.2",

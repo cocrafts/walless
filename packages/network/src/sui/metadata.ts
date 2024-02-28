@@ -1,4 +1,4 @@
-import type { SuiObjectData } from '@mysten/sui.js';
+import type { SuiObjectData } from '@mysten/sui.js/client';
 import { Networks } from '@walless/core';
 import type { MetadataDocument } from '@walless/store';
 

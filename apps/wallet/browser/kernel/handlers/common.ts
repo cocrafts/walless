@@ -1,8 +1,10 @@
+import { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { ResponseCode } from '@walless/core';
 import type { ConnectOptions } from '@walless/sdk';
 import type { PublicKeyDocument, TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
+import { encode } from 'bs58';
 import { storage } from 'utils/storage/db';
 
 import {
@@ -36,12 +38,21 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 		});
 	}
 
-	const publicKeys = await storage.find(selectors.allKeys);
-	const solKey = (publicKeys.docs as PublicKeyDocument[]).find(
-		(key) => key.network == Networks.solana,
-	);
+	const pkDocs = await storage.find<PublicKeyDocument>(selectors.allKeys);
+	const publicKeys = pkDocs.docs
+		.map(({ _id, network }) => {
+			switch (network) {
+				case Networks.solana: {
+					return {
+						publicKey: encode(new PublicKey(_id).toBytes()),
+						network,
+					};
+				}
+			}
+		})
+		.filter((k) => !!k);
 
-	respond(payload.requestId, ResponseCode.SUCCESS, { publicKeys: [solKey] });
+	respond(payload.requestId, ResponseCode.SUCCESS, { publicKeys });
 };
 
 export const disconnect: HandleMethod<{

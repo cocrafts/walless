@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { parseTokenAccountBalance } from 'utils/format';
@@ -10,7 +10,8 @@ import { swapActions, swapContext } from '../context';
 import SelectButton from './SelectButton';
 
 const FromToken = () => {
-	const { fromToken, amount } = useSnapshot(swapContext).swap as SwapContext;
+	const { fromToken } = useSnapshot(swapContext).swap as SwapContext;
+	const [innerAmount, setInnerAmount] = useState('');
 
 	const balance = useMemo(() => {
 		if (!fromToken) return 0;
@@ -19,23 +20,24 @@ const FromToken = () => {
 
 	const priceString = useMemo(() => {
 		if (!fromToken?.account.quotes?.usd) return '-';
-		if (!amount || isNaN(parseFloat(amount))) return '$0.00';
-		const price = parseFloat(amount) * fromToken.account.quotes?.usd;
+		if (!innerAmount || isNaN(parseFloat(innerAmount))) return '$0.00';
+		const price = parseFloat(innerAmount) * fromToken.account.quotes?.usd;
 		return `$${price.toFixed(2)}`;
-	}, [amount]);
+	}, [innerAmount]);
 
 	const handleSelectFromToken = () => {
 		swapActions.openSelectToken('from');
 	};
 
 	const updateAmount = (amount: string) => {
+		setInnerAmount(amount);
 		swapActions.update({ amount });
 	};
 
 	const handlePressMax = () => {
 		if (!fromToken) return;
 		const maxAmount = parseTokenAccountBalance(fromToken.account);
-		swapActions.update({ amount: maxAmount.toString() });
+		updateAmount(maxAmount.toString());
 	};
 
 	return (
@@ -58,7 +60,7 @@ const FromToken = () => {
 				/>
 				<TextInput
 					style={styles.amountInput}
-					value={amount}
+					value={innerAmount}
 					onChangeText={updateAmount}
 					placeholder="0"
 					placeholderTextColor={'#566674'}

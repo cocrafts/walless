@@ -45,6 +45,7 @@ export const signTransaction: HandleMethod<{
 export const signAndSendTransaction: HandleMethod<{
 	privateKey?: Uint8Array;
 	transaction?: string;
+	options?: solanaHandler.SignAndSendOptions;
 }> = async ({ payload }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
@@ -54,6 +55,7 @@ export const signAndSendTransaction: HandleMethod<{
 		connection,
 		payload.transaction,
 		payload.privateKey,
+		payload.options,
 	);
 
 	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });

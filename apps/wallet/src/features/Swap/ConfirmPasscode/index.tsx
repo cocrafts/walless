@@ -38,6 +38,7 @@ const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 				const res = await signAndSendTransaction(
 					swapContext.swap.transaction,
 					passcode,
+					{ manuallyRetry: true },
 				);
 				if (res.responseCode === ResponseCode.WRONG_PASSCODE) {
 					showError({ errorText: 'Passcode is NOT matched' });

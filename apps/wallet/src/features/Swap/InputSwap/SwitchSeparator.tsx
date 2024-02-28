@@ -2,18 +2,28 @@ import { StyleSheet } from 'react-native';
 import { Hoverable, View } from '@walless/gui';
 import { Switch } from '@walless/icons';
 import { showError } from 'modals/Error';
-import { useSnapshot } from 'utils/hooks';
+import { useJupiterContext, useSnapshot, useTokens } from 'utils/hooks';
 
-import type { SwapContext } from '../context';
-import { swapContext } from '../context';
+import { swapActions, swapContext } from '../context';
 
 const SwitchSeparator = () => {
-	const { fromToken, toToken } = useSnapshot(swapContext).swap as SwapContext;
+	const { network } = useSnapshot(swapContext).swap;
+	const { tokens } = useTokens(network);
+	const { tokens: JupTokens } = useJupiterContext();
 
 	const handleSwitch = () => {
-		if (!fromToken || !toToken) {
+		if (!swapContext.swap.fromToken || !swapContext.swap.toToken) {
 			showError({ errorText: 'Please select tokens to swap' });
 		}
+		const newFromToken = tokens.find(
+			(t) => t.account.mint === swapContext.swap.toToken?.address,
+		);
+		const newToToken = JupTokens.find(
+			(t) => t.address === swapContext.swap.fromToken?.account.mint,
+		);
+		if (!newFromToken || !newFromToken) return;
+
+		swapActions.update({ fromToken: newFromToken, toToken: newToToken });
 	};
 
 	return (

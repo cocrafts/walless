@@ -19,18 +19,17 @@ export const History: FC = () => {
 					screen: 'History',
 				},
 			});
-			return;
-		}
-
-		navigate('Dashboard', {
-			screen: 'Explore',
-			params: {
-				screen: 'Profile',
+		} else {
+			navigate('Dashboard', {
+				screen: 'Explore',
 				params: {
-					screen: 'History',
+					screen: 'Profile',
+					params: {
+						screen: 'History',
+					},
 				},
-			},
-		});
+			});
+		}
 	};
 
 	useEffect(() => {

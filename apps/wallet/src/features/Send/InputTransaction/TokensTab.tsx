@@ -1,15 +1,11 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import type { Networks, Token } from '@walless/core';
-import { Button, modalActions, Select, Text, View } from '@walless/gui';
-import { QrIcon } from '@walless/icons';
+import { Button, Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
-import { showError } from 'modals/Error';
-import { showQRScannerModal } from 'modals/QrScan';
-import { ModalId } from 'modals/types';
 import { useTokens } from 'utils/hooks';
 import {
 	checkValidAddress,
@@ -21,6 +17,7 @@ import { useSnapshot } from 'valtio';
 import { txActions, txContext } from '../context';
 
 import type { ErrorMessage } from './internal';
+import QRScanButton from './QRScanButton';
 import { TotalCost } from './TotalCost';
 import TransactionFee from './TransactionFee';
 
@@ -100,32 +97,6 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		/>
 	);
 
-	const handleScan = (value: string) => {
-		const result = checkValidAddress(value, network as Networks);
-
-		if (result !== null) {
-			const errorTimeout = 2000;
-			showError({ errorText: 'Invalid address' }, errorTimeout);
-		} else {
-			txActions.update({ receiver: value });
-			modalActions.destroy(ModalId.QRScanner);
-		}
-	};
-
-	const ScanButton = (
-		<TouchableOpacity
-			style={styles.qrButton}
-			onPress={() =>
-				showQRScannerModal({
-					onScan: handleScan,
-					network: network as Networks,
-				})
-			}
-		>
-			<QrIcon size={16} />
-		</TouchableOpacity>
-	);
-
 	useEffect(() => {
 		setDisabledMax(!token || !tokenForFee || !transactionFee);
 	}, [token, tokenForFee, transactionFee]);
@@ -151,7 +122,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				errorText={recipientErrorMessage}
 				onChangeText={(receiver) => txActions.update({ receiver })}
 				onBlur={() => checkRecipient(receiver, network)}
-				suffix={ScanButton}
+				suffix={QRScanButton({ network: network as Networks })}
 			/>
 
 			<CheckedInput
@@ -204,10 +175,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1E2830',
 		borderRadius: 6,
 		marginRight: 6,
-	},
-	qrButton: {
-		padding: 8,
-		marginRight: 8,
 	},
 	titleMaxButton: {
 		fontSize: 10,

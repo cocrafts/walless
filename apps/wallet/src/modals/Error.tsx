@@ -29,6 +29,7 @@ const ErrorModal: FC<Props> = ({ config }) => {
 		backgroundColor: '#AE3939',
 		paddingTop: Math.max(insets.top, 20),
 		paddingBottom: 20,
+		paddingHorizontal: 20,
 	};
 
 	return (

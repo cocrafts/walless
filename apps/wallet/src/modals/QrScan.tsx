@@ -16,7 +16,7 @@ import {
 import type { Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions, Text, View } from '@walless/gui';
-import { Times } from '@walless/icons';
+import { QrFrame, Times } from '@walless/icons';
 import assets from 'utils/assets';
 import { getNetworkInfo } from 'utils/helper';
 
@@ -103,14 +103,7 @@ const QRScanner: FC<Props> = ({ config, props }) => {
 			/>
 
 			<View style={[styles.qrFrameContainer, qrFrameContainerStyle]}>
-				<View style={styles.sideFrameContainer}>
-					<View style={[styles.leftTopFrame, styles.qrFrame]} />
-					<View style={[styles.leftBottomFrame, styles.qrFrame]} />
-				</View>
-				<View style={styles.sideFrameContainer}>
-					<View style={[styles.rightTopFrame, styles.qrFrame]} />
-					<View style={[styles.rightBottomFrame, styles.qrFrame]} />
-				</View>
+				<QrFrame size={(layoutWidth / 2 - 80) * 2} />
 			</View>
 
 			<View style={styles.networkContainer}>
@@ -181,34 +174,6 @@ const styles = StyleSheet.create({
 		width: 36,
 		height: 36,
 		borderRadius: 18,
-	},
-	sideFrameContainer: {
-		justifyContent: 'space-between',
-	},
-	qrFrame: {
-		borderColor: '#FFFFFF',
-		height: 40,
-		width: 40,
-	},
-	leftTopFrame: {
-		borderTopWidth: 2,
-		borderLeftWidth: 2,
-		borderTopLeftRadius: 4,
-	},
-	rightTopFrame: {
-		borderTopWidth: 2,
-		borderRightWidth: 2,
-		borderTopRightRadius: 4,
-	},
-	leftBottomFrame: {
-		borderBottomWidth: 2,
-		borderLeftWidth: 2,
-		borderBottomLeftRadius: 4,
-	},
-	rightBottomFrame: {
-		borderBottomWidth: 2,
-		borderRightWidth: 2,
-		borderBottomRightRadius: 4,
 	},
 	qrFrameContainer: {
 		position: 'absolute',

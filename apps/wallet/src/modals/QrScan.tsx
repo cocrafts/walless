@@ -20,6 +20,7 @@ import { QrFrame, Times } from '@walless/icons';
 import assets from 'utils/assets';
 import { getNetworkInfo } from 'utils/helper';
 
+import { showError } from './Error';
 import { ModalId } from './types';
 
 interface QRScannerProps {
@@ -71,7 +72,17 @@ const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 
 	useEffect(() => {
 		if (!hasPermission) {
-			requestPermission();
+			requestPermission().then((permission) => {
+				if (!permission) {
+					showError({ errorText: 'Camera permission denied' });
+					modalActions.hide(config.id);
+				}
+			});
+		}
+
+		if (!device) {
+			showError({ errorText: 'No camera found' });
+			modalActions.hide(config.id);
 		}
 	}, []);
 
@@ -81,9 +92,7 @@ const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 		return () => clearTimeout(timeout);
 	}, [device, hasPermission]);
 
-	if (!device) {
-		return <ActivityIndicator />;
-	}
+	if (!device) return <ActivityIndicator />;
 
 	return (
 		<View onLayout={handleLayout} style={styles.container}>

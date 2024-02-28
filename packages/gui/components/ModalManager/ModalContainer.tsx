@@ -50,7 +50,8 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	const layout = useRef<LayoutRectangle>();
 	const top = useSharedValue(0);
 	const left = useSharedValue(0);
-	const height = useSharedValue(0);
+	// Android breaking change: Since the component has zero height, there's no initial layout change to trigger the onLayout event.
+	const height = useSharedValue(1);
 	const width = useSharedValue(0);
 	const opacity = useSharedValue(0);
 	const pointerEvents = item.hide || withoutMask ? 'none' : 'auto';
@@ -77,6 +78,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		if (fullWidth) baseStyle.width = width.value;
 		if (fullHeight) {
 			baseStyle.height = height.value;
+			console.log('height', height.value);
 			baseStyle.bottom = 0;
 
 			if (positionOffset?.y && positionOffset.y > 0) {
@@ -122,6 +124,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	}, []);
 
 	const onInnerLayout = async ({ nativeEvent }: LayoutChangeEvent) => {
+		console.log('onInnerLyaout', nativeEvent.layout);
 		const calculatedRectangle = await rectangleBind(
 			bindingRectangle as never, // parent or root
 			nativeEvent.layout, // current component
@@ -134,6 +137,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		left.value = calculatedRectangle.x;
 		width.value = calculatedRectangle.width;
 		height.value = calculatedRectangle.height;
+		console.log('height from change', height.value);
 	};
 
 	const closeModal = () => {
@@ -141,7 +145,11 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	};
 
 	return (
-		<View pointerEvents={pointerEvents} style={styles.container}>
+		<View
+			pointerEvents={pointerEvents}
+			style={styles.container}
+			renderToHardwareTextureAndroid
+		>
 			{!withoutMask && (
 				<TouchableWithoutFeedback onPress={closeModal}>
 					<Animated.View style={[styles.mask, maskAnimatedStyle, maskStyle]} />

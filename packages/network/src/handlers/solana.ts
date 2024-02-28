@@ -1,5 +1,6 @@
 import type { Connection } from '@solana/web3.js';
 import { Keypair, VersionedTransaction } from '@solana/web3.js';
+import { logger } from '@walless/core';
 import { decode, encode } from 'bs58';
 import { sign } from 'tweetnacl';
 
@@ -32,10 +33,15 @@ export const signTransaction = async (
 	return encode(transaction.serialize());
 };
 
+export type SignAndSendOptions = {
+	manuallyRetry: boolean;
+};
+
 export const signAndSendTransaction = async (
 	connection: Connection,
 	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,
+	options?: SignAndSendOptions,
 ): Promise<string> => {
 	const keypair = Keypair.fromSecretKey(privateKey);
 
@@ -51,9 +57,36 @@ export const signAndSendTransaction = async (
 	}
 
 	transaction.sign([keypair]);
-	const signatureStr = await connection.sendTransaction(transaction);
 
-	return signatureStr;
+	let signature;
+
+	// Manually retry the transaction
+	// Ref: https://stackoverflow.com/questions/70717996/blockhash-not-found-when-sending-transaction
+	if (options?.manuallyRetry) {
+		logger.debug('manually retrying the transaction...');
+		const { lastValidBlockHeight } = await connection.getLatestBlockhash();
+		let blockheight = await connection.getBlockHeight();
+		while (blockheight < lastValidBlockHeight) {
+			try {
+				signature = await connection.sendTransaction(transaction);
+				logger.debug('retry successfully!');
+				break;
+			} catch (error) {
+				logger.debug((error as Error).message, '. retry...');
+				await new Promise((resolve) => setTimeout(resolve, 500));
+				const isBlockhashValid = await connection.isBlockhashValid(
+					transaction.message.recentBlockhash,
+				);
+				if (!isBlockhashValid) throw Error('blockhash is not valid to retry');
+
+				blockheight = await connection.getBlockHeight();
+			}
+		}
+	} else {
+		signature = await connection.sendTransaction(transaction);
+	}
+
+	return signature as string;
 };
 
 export const signAndSendTransactionAbstractionFee = async (

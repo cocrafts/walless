@@ -9,6 +9,7 @@ import { storage } from 'utils/storage';
 export const signAndSendTransaction = async (
 	transaction: VersionedTransaction,
 	passcode: string,
+	options?: solanaHandler.SignAndSendOptions,
 ): Promise<ResponsePayload> => {
 	const res = {} as ResponsePayload;
 	let privateKey;
@@ -24,6 +25,7 @@ export const signAndSendTransaction = async (
 		connection,
 		transaction,
 		privateKey,
+		options,
 	);
 
 	return res;

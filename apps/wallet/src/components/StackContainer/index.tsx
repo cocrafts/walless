@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
@@ -11,9 +11,9 @@ import { useUniversalInsets } from 'utils/hooks';
 import StackHeader from './Header';
 
 interface Props {
-	title: string;
+	title?: string;
 	style?: StyleProp<ViewStyle>;
-	noHeader?: boolean;
+	isHeaderActive?: boolean;
 	noBottomTabs?: boolean;
 	toggleDrawer?: () => void;
 	goBack?: () => void;
@@ -21,8 +21,9 @@ interface Props {
 }
 
 export const StackContainer: FC<Props> = ({
-	title,
+	title = '',
 	style,
+	isHeaderActive = true,
 	noBottomTabs,
 	toggleDrawer,
 	goBack,
@@ -33,17 +34,20 @@ export const StackContainer: FC<Props> = ({
 	const scrollOffset = useScrollViewOffset(scrollRef);
 	const scrollContentContainerStyle: ViewStyle = {
 		paddingBottom: noBottomTabs ? 0 : tabBarHeight,
+		flex: 1,
 	};
 
 	return (
 		<View style={[styles.container, style]}>
-			<StackHeader
-				title={title}
-				insets={insets}
-				scrollOffset={scrollOffset}
-				onToggleDrawer={toggleDrawer}
-				onGoBack={goBack}
-			/>
+			{isHeaderActive && (
+				<StackHeader
+					title={title}
+					insets={insets}
+					scrollOffset={scrollOffset}
+					onToggleDrawer={toggleDrawer}
+					onGoBack={goBack}
+				/>
+			)}
 			<Animated.ScrollView
 				ref={scrollRef}
 				showsVerticalScrollIndicator={false}

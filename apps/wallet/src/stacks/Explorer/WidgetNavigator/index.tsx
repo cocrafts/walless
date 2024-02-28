@@ -2,12 +2,12 @@ import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
-import { runtime } from '@walless/core';
 import { Compass } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 import { showRemoveLayoutModal } from 'modals/RemoveLayout';
+import { appState } from 'state/app';
 import assets from 'utils/assets';
-import { useUniversalInsets } from 'utils/hooks';
+import { useSnapshot, useUniversalInsets } from 'utils/hooks';
 
 import NavigatorOrb from './NavigatorOrb';
 
@@ -19,6 +19,7 @@ interface Props {
 	getIsExtensionActive?: (item: WidgetDocument) => boolean;
 	onExtensionPress?: (item: WidgetDocument) => void;
 	onRemoveLayout: (item: WidgetDocument) => void;
+	onAvatarPress?: () => void;
 }
 
 const orbSize = 40;
@@ -31,12 +32,14 @@ export const WidgetNavigator: FC<Props> = ({
 	getIsExtensionActive,
 	onExtensionPress,
 	onRemoveLayout,
+	onAvatarPress,
 }) => {
 	const insets = useUniversalInsets();
 	const containerStyle = {
 		width: size,
 		paddingTop: Math.max(insets.top + 6, 12),
 	};
+	const { navigationDisplay } = useSnapshot(appState);
 	const exploreItem: Partial<WidgetDocument> = {
 		_id: 'explorer',
 		storeMeta: {
@@ -103,12 +106,12 @@ export const WidgetNavigator: FC<Props> = ({
 				})}
 			</View>
 
-			{runtime.isBrowser && profile?.profileImage && (
+			{navigationDisplay.isSidebarAvatarActive && profile?.profileImage && (
 				<View style={styles.commandContainer}>
 					<NavigatorOrb
 						item={profileItem as never}
 						iconSource={{ uri: profile.profileImage }}
-						onPress={onExtensionPress}
+						onPress={onAvatarPress}
 						isActive={getIsExtensionActive?.(profileItem as never)}
 					/>
 				</View>

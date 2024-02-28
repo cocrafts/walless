@@ -59,6 +59,14 @@ export const linking: LinkingOptions<RootParamList> = {
 									Collectible: '/collectible/:id',
 								},
 							},
+							Profile: {
+								path: '/profile',
+								screens: {
+									Default: '/',
+									Setting: '/setting',
+									History: '/history',
+								},
+							},
 						},
 					},
 					Home: {

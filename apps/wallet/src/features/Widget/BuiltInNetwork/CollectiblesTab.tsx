@@ -12,7 +12,7 @@ interface Props {
 
 export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 	const { onGridContainerLayout, width } = useLazyGridLayout({
-		referenceWidth: 156,
+		referenceWidth: 150,
 		gap: gridGap,
 	});
 

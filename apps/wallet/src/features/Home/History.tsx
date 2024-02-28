@@ -2,20 +2,34 @@ import { type FC, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import HistoryFeature from 'features/History';
-import { useHistory } from 'utils/hooks';
+import { appState } from 'state/app';
+import { useHistory, useSnapshot } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 
 export const History: FC = () => {
 	const [isLoading, setIsLoading] = useState(true);
+	const { isMobileDisplay } = useSnapshot(appState);
 	const history = useHistory();
 
 	const handleNavigateToHistory = () => {
-		navigate('Dashboard', {
-			screen: 'Home',
-			params: {
-				screen: 'History',
-			},
-		});
+		if (isMobileDisplay) {
+			navigate('Dashboard', {
+				screen: 'Home',
+				params: {
+					screen: 'History',
+				},
+			});
+		} else {
+			navigate('Dashboard', {
+				screen: 'Explore',
+				params: {
+					screen: 'Profile',
+					params: {
+						screen: 'History',
+					},
+				},
+			});
+		}
 	};
 
 	useEffect(() => {

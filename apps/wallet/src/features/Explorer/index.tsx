@@ -18,14 +18,14 @@ import ExplorerWidgetItem from './WidgetItem';
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	widgets?: WidgetDocument[];
-	headerActive?: boolean;
+	isHeaderActive?: boolean;
 	onToggleDrawer?: () => void;
 }
 
 export const ExplorerFeature: FC<Props> = ({
 	style,
 	widgets = mockWidgets,
-	headerActive = false,
+	isHeaderActive = false,
 	onToggleDrawer,
 }) => {
 	const insets = useSafeAreaInsets();
@@ -49,7 +49,7 @@ export const ExplorerFeature: FC<Props> = ({
 
 	return (
 		<View style={style}>
-			{headerActive && (
+			{isHeaderActive && (
 				<StackHeader
 					onToggleDrawer={onToggleDrawer}
 					title="Explorer"

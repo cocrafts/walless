@@ -7,14 +7,14 @@ import { extractWidgetComponent } from './internal';
 interface WidgetFeatureProps {
 	widgetId: string;
 	title: string;
-	headerActive?: boolean;
+	isHeaderActive?: boolean;
 	onToggleDrawer: () => void;
 }
 
 export const WidgetFeature: FC<WidgetFeatureProps> = ({
 	widgetId,
 	title,
-	headerActive = false,
+	isHeaderActive = false,
 	onToggleDrawer,
 }) => {
 	const WidgetComponent = extractWidgetComponent(widgetId);
@@ -23,11 +23,11 @@ export const WidgetFeature: FC<WidgetFeatureProps> = ({
 		() =>
 			withStackContainer(WidgetComponent, {
 				title,
-				headerActive,
+				isHeaderActive,
 				noBottomTabs: true,
 				toggleDrawer: onToggleDrawer,
 			}),
-		[headerActive],
+		[isHeaderActive],
 	);
 
 	return <ManageWidgetScreen id={widgetId} />;

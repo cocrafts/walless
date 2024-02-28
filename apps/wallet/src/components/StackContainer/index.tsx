@@ -13,7 +13,7 @@ import StackHeader from './Header';
 interface Props {
 	title?: string;
 	style?: StyleProp<ViewStyle>;
-	headerActive?: boolean;
+	isHeaderActive?: boolean;
 	noBottomTabs?: boolean;
 	toggleDrawer?: () => void;
 	goBack?: () => void;
@@ -23,7 +23,7 @@ interface Props {
 export const StackContainer: FC<Props> = ({
 	title = '',
 	style,
-	headerActive = true,
+	isHeaderActive = true,
 	noBottomTabs,
 	toggleDrawer,
 	goBack,
@@ -39,7 +39,7 @@ export const StackContainer: FC<Props> = ({
 
 	return (
 		<View style={[styles.container, style]}>
-			{headerActive && (
+			{isHeaderActive && (
 				<StackHeader
 					title={title}
 					insets={insets}

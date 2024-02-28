@@ -171,6 +171,8 @@ export class WallessWallet implements Wallet {
 	}
 
 	constructor(walless: Walless) {
+		Object.freeze(this);
+
 		this.#walless = walless;
 
 		walless.on('connect', this.#connected, this);
@@ -207,7 +209,6 @@ export class WallessWallet implements Wallet {
 		const publicKeys = this.#walless.publicKeys;
 		if (!publicKeys) return;
 
-		console.log('here');
 		this.#accounts = publicKeys
 			.map(({ publicKey, network }) => {
 				switch (network) {

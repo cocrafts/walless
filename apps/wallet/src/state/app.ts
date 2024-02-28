@@ -30,10 +30,10 @@ export interface AppState {
 	endpoints: EndpointMap;
 	jwtAuth?: string;
 	navigationDisplay: {
-		navigationHeaderActive: boolean;
-		drawerPermanent: boolean;
-		bottomTabActive: boolean;
-		sidebarAvatarActive: boolean;
+		isNavigationHeaderActive: boolean;
+		isPermanentDrawer: boolean;
+		isBottomTabActive: boolean;
+		isSidebarAvatarActive: boolean;
 	};
 	isMobileDisplay: boolean;
 	initialLinkingURL?: string;
@@ -46,10 +46,10 @@ export const appState = proxy<AppState>({
 	remoteConfig: defaultRemoteConfig,
 	endpoints: defaultEndpoints,
 	navigationDisplay: {
-		navigationHeaderActive: false,
-		drawerPermanent: false,
-		bottomTabActive: false,
-		sidebarAvatarActive: false,
+		isNavigationHeaderActive: false,
+		isPermanentDrawer: false,
+		isBottomTabActive: false,
+		isSidebarAvatarActive: false,
 	},
 	isMobileDisplay: false,
 });
@@ -60,7 +60,7 @@ export const appActions = {
 	initAfterSignIn,
 };
 
-export const controlNavigationDisplay = () => {
+const controlNavigationDisplay = () => {
 	const { width } = dimensionState.windowSize;
 	const isResponsiveWidth = width <= 420;
 
@@ -70,19 +70,20 @@ export const controlNavigationDisplay = () => {
 
 	if (isMobileLayout) {
 		appState.navigationDisplay = {
-			navigationHeaderActive: true,
-			drawerPermanent: false,
-			bottomTabActive: true,
-			sidebarAvatarActive: false,
+			isNavigationHeaderActive: true,
+			isPermanentDrawer: false,
+			isBottomTabActive: true,
+			isSidebarAvatarActive: false,
 		};
 	} else {
 		appState.navigationDisplay = {
-			navigationHeaderActive: false,
-			drawerPermanent: true,
-			bottomTabActive: false,
-			sidebarAvatarActive: true,
+			isNavigationHeaderActive: false,
+			isPermanentDrawer: true,
+			isBottomTabActive: false,
+			isSidebarAvatarActive: true,
 		};
 	}
 };
 
+controlNavigationDisplay();
 subscribe(dimensionState, controlNavigationDisplay);

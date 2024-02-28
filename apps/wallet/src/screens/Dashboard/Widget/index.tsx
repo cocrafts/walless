@@ -18,7 +18,7 @@ export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
 		return (
 			<ExplorerFeature
 				style={styles.container}
-				headerActive={navigationDisplay.navigationHeaderActive}
+				headerActive={navigationDisplay.isNavigationHeaderActive}
 				onToggleDrawer={navigation.toggleDrawer}
 			/>
 		);
@@ -31,7 +31,7 @@ export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
 		<WidgetFeature
 			widgetId={widgetId}
 			title={widgetName}
-			headerActive={navigationDisplay.navigationHeaderActive}
+			headerActive={navigationDisplay.isNavigationHeaderActive}
 			onToggleDrawer={navigation.toggleDrawer}
 		/>
 	);

@@ -106,7 +106,7 @@ export const WidgetNavigator: FC<Props> = ({
 				})}
 			</View>
 
-			{navigationDisplay.sidebarAvatarActive && profile?.profileImage && (
+			{navigationDisplay.isSidebarAvatarActive && profile?.profileImage && (
 				<View style={styles.commandContainer}>
 					<NavigatorOrb
 						item={profileItem as never}

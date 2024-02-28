@@ -20,7 +20,7 @@ export const ExplorerStack = () => {
 		swipeEdgeWidth: 5000,
 		swipeMinDistance: sidebarWidth / 3,
 		overlayColor: 'transparent',
-		drawerType: navigationDisplay.drawerPermanent ? 'permanent' : 'back',
+		drawerType: navigationDisplay.isPermanentDrawer ? 'permanent' : 'back',
 	};
 
 	const options = {

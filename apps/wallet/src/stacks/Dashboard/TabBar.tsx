@@ -58,13 +58,13 @@ export const BottomNavigationTabBar: FC<Props> = ({ tabProps }) => {
 		);
 
 		const isBottomTabActive =
-			navigationDisplay.bottomTabActive &&
+			navigationDisplay.isBottomTabActive &&
 			(isDrawerOpen || mustHaveBottomTabBar);
 
 		const nextOffset = isBottomTabActive ? 0 : realBarHeight;
 
 		offset.value = withTiming(nextOffset, timingConfig);
-	}, [isDrawerOpen, currentRoute, navigationDisplay.bottomTabActive]);
+	}, [isDrawerOpen, currentRoute, navigationDisplay.isBottomTabActive]);
 
 	const containerStyle: ViewStyle = {
 		height: realBarHeight,

@@ -1,6 +1,7 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { ResponseCode } from '@walless/core';
 import { tezosHandler } from '@walless/network';
+import { environment } from 'utils/config';
 
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
@@ -14,7 +15,9 @@ export const tezosEndpoints: Record<string, string> = {
 };
 
 const tezosToolkit = new TezosToolkit(
-	__DEV__ ? tezosEndpoints.ghostnetTestnet : tezosEndpoints.tezosMainnet,
+	environment.NETWORK_CLUSTER === 'mainnet'
+		? tezosEndpoints.tezosMainnet
+		: tezosEndpoints.ghostnetTestnet,
 );
 
 export const transferToken: HandleMethod<{

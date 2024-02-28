@@ -1,6 +1,8 @@
-export const w3aBaseUrl = __DEV__ ? location.origin : 'https:app.walless.io';
+export const w3aBaseUrl =
+	NETWORK_CLUSTER === 'mainnet' ? 'https:app.walless.io' : location.origin;
 
 export const environment = {
+	NETWORK_CLUSTER,
 	FIREBASE_API_KEY,
 	BUILD_TARGET,
 	BROWSER_CLIENT_ID,

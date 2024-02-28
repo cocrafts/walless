@@ -93,6 +93,7 @@ const injectEnvironments = (config, internal) => {
 	const env = internal.configs.env();
 	const isProduction = internal.configs.isProduction(env);
 	const environments = [
+		'NETWORK_CLUSTER',
 		'BROWSER_CLIENT_ID',
 		'EXTENSION_CLIENT_ID',
 		'FIREBASE_API_KEY',

@@ -3,10 +3,10 @@ import type {
 	Collectible,
 	Collection,
 	EncryptedWithPasscode,
-	Endpoint,
-	EndpointMap,
 	ExtensionConfig,
 	HydratedKey,
+	NetworkCluster,
+	NetworkClusterMap,
 	Networks,
 	Setting,
 	System,
@@ -19,7 +19,8 @@ import type {
 
 export type DocumentType =
 	| 'Setting'
-	| 'EndpointMap'
+	// | 'EndpointMap'
+	| 'ClusterMap'
 	| 'EncryptionKey'
 	| 'PrivateKey'
 	| 'PublicKey'
@@ -35,7 +36,7 @@ export type DocumentType =
 export interface IndexedDocument {
 	type: DocumentType;
 	network?: Networks;
-	endpoint?: Endpoint;
+	cluster?: NetworkCluster;
 	timestamp?: string;
 }
 
@@ -47,7 +48,7 @@ export type SystemDocument = PouchDocument<System>;
 
 export type SettingDocument = PouchDocument<Setting>;
 
-export type EndpointsDocument = PouchDocument<EndpointMap>;
+export type NetworkClustersDocument = PouchDocument<NetworkClusterMap>;
 
 export type EncryptionKeyDocument = PouchDocument<HydratedKey>;
 

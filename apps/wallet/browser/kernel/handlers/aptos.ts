@@ -1,11 +1,14 @@
 import { ResponseCode } from '@walless/core';
 import { aptosHandler } from '@walless/network';
 import { Network, Provider } from 'aptos';
+import { environment } from 'utils/config';
 
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 
-const provider = new Provider(__DEV__ ? Network.DEVNET : Network.MAINNET);
+const provider = new Provider(
+	environment.NETWORK_CLUSTER === 'mainnet' ? Network.MAINNET : Network.DEVNET,
+);
 
 type Payload = {
 	privateKey?: Uint8Array;

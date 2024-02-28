@@ -1,23 +1,29 @@
-import { type Endpoint } from '@walless/core';
-import { type EndpointsDocument } from '@walless/store';
+import type { NetworkCluster } from '@walless/core';
+import type { NetworkClustersDocument } from '@walless/store';
+import { environment } from 'utils/config';
 import { storage } from 'utils/storage';
 
-export const getEndpoints = async () => {
-	let endpoints = await storage.safeGet<EndpointsDocument>('endpoints');
+export const getNetworkClusters = async () => {
+	let networkClusters =
+		await storage.safeGet<NetworkClustersDocument>('clusters');
 
-	if (!endpoints) {
-		endpoints = { _id: 'endpoints', type: 'EndpointMap', ...defaultEndpoints };
-		await storage.put(endpoints);
+	if (!networkClusters) {
+		networkClusters = {
+			_id: 'clusters',
+			type: 'ClusterMap',
+			...defaultNetworkClusters,
+		};
+		await storage.put(networkClusters);
 	}
 
-	return endpoints;
+	return networkClusters;
 };
 
-const defaultEndpoint: Endpoint = __DEV__ ? 'devnet' : 'mainnet';
+const defaultNetworkCluster: NetworkCluster = environment.NETWORK_CLUSTER;
 
-export const defaultEndpoints = {
-	solana: defaultEndpoint,
-	sui: defaultEndpoint,
-	tezos: defaultEndpoint,
-	aptos: defaultEndpoint,
+export const defaultNetworkClusters = {
+	solana: defaultNetworkCluster,
+	sui: defaultNetworkCluster,
+	tezos: defaultNetworkCluster,
+	aptos: defaultNetworkCluster,
 };

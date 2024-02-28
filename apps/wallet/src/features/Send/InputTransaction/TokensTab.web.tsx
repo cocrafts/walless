@@ -1,6 +1,7 @@
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { type Networks, type Token } from '@walless/core';
+import type { Networks, Token } from '@walless/core';
 import { Button, Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';

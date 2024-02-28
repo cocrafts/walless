@@ -36,6 +36,7 @@ const QRScanner: FC<Props> = ({ config, props }) => {
 	const [layoutHeight, setLayoutHeight] = useState(200);
 	const [layoutWidth, setLayoutWidth] = useState(200);
 
+	// eslint-disable-next-line react/prop-types
 	const { network, onScan } = props;
 	const { hasPermission, requestPermission } = useCameraPermission();
 	const [active, setActive] = useState(false);

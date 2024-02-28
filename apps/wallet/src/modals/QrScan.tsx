@@ -32,8 +32,8 @@ type Props = QRScannerProps & {
 };
 
 const QRScanner: FC<Props> = ({ config, network, onScan }) => {
-	const [layoutHeight, setLayoutHeight] = useState(200);
-	const [layoutWidth, setLayoutWidth] = useState(200);
+	const [layoutHeight, setLayoutHeight] = useState(400);
+	const [layoutWidth, setLayoutWidth] = useState(400);
 
 	const { hasPermission, requestPermission } = useCameraPermission();
 	const [active, setActive] = useState(false);

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "metacraft",
+    "dev:prod": "metacraft --envFile .env.production",
     "dev:ext": "BUILD_TARGET=extension && metacraft",
     "android": "react-native run-android",
     "build:all": "yarn build:ext && yarn build:web",

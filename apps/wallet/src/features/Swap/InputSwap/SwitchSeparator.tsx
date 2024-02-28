@@ -2,16 +2,12 @@ import { StyleSheet } from 'react-native';
 import { Hoverable, View } from '@walless/gui';
 import { Switch } from '@walless/icons';
 import { showError } from 'modals/Error';
-import { useSnapshot } from 'utils/hooks';
 
-import type { SwapContext } from '../context';
 import { swapContext } from '../context';
 
 const SwitchSeparator = () => {
-	const { fromToken, toToken } = useSnapshot(swapContext).swap as SwapContext;
-
 	const handleSwitch = () => {
-		if (!fromToken || !toToken) {
+		if (!swapContext.swap.fromToken || !swapContext.swap.toToken) {
 			showError({ errorText: 'Please select tokens to swap' });
 		}
 	};

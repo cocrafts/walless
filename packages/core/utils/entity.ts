@@ -1,4 +1,4 @@
-import type { Endpoint, Networks } from './commonTypes';
+import type { NetworkCluster, Networks } from './common';
 
 export interface AptosTokenMetadata {
 	creatorAddress: string;
@@ -21,7 +21,7 @@ export interface Setting {
 	config: Config;
 }
 
-export type EndpointMap = Record<Networks, Endpoint>;
+export type NetworkClusterMap = Record<Networks, NetworkCluster>;
 
 export interface Config {
 	version?: string;
@@ -78,11 +78,13 @@ export interface Token {
 	network: string;
 	account: TokenAccount;
 	metadata?: AssetMetadata;
+	cluster: NetworkCluster;
 }
 
 export interface Collection {
 	network: string;
 	metadata?: AssetMetadata;
+	cluster: NetworkCluster;
 }
 
 export interface CollectibleAccount {
@@ -98,6 +100,7 @@ export interface Collectible {
 	collectionAddress: string;
 	metadata: AssetMetadata;
 	account: CollectibleAccount;
+	cluster: NetworkCluster;
 }
 
 export interface TrustedDomain {

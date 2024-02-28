@@ -8,7 +8,7 @@ import { useSnapshot } from 'valtio';
 import { txContext } from '../context';
 
 export const Token = () => {
-	const { endpoints } = useSnapshot(appState);
+	const { networkClusters } = useSnapshot(appState);
 	const { token, amount, time, status, signatureString } =
 		useSnapshot(txContext).tx;
 
@@ -16,7 +16,7 @@ export const Token = () => {
 		? { uri: token?.metadata?.imageUri }
 		: assets.misc.unknownToken;
 
-	const endpoint = endpoints[token?.network as never];
+	const cluster = networkClusters[token?.network as never];
 
 	return (
 		<View style={styles.container}>
@@ -31,7 +31,7 @@ export const Token = () => {
 					<Anchor
 						style={styles.shareButton}
 						title="View on Solscan"
-						href={`https://solscan.io/tx/${signatureString}?cluster=${endpoint}`}
+						href={`https://solscan.io/tx/${signatureString}?cluster=${cluster}`}
 					/>
 				)}
 			</View>

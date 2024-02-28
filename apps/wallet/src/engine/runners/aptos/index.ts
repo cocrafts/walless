@@ -15,7 +15,7 @@ export const aptosEndpoints: Record<string, Network> = {
 
 export const createAptosRunner = (config: EngineConfig): Runner => {
 	const provider = new Provider(
-		aptosEndpoints[config.endpoints[Networks.aptos]],
+		aptosEndpoints[config.networkClusters[Networks.aptos]],
 	);
 
 	return {

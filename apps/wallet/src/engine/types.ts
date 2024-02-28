@@ -1,4 +1,4 @@
-import type { EndpointsDocument } from '@walless/store';
+import type { NetworkClustersDocument } from '@walless/store';
 
 export interface Runner {
 	start: () => Promise<void> | void;
@@ -21,5 +21,5 @@ export type CreateFunction = (config: EngineConfig) => Promise<Runner> | Runner;
 export type EnginePool = Record<string, Runner>;
 
 export type EngineConfig = {
-	endpoints: EndpointsDocument;
+	networkClusters: NetworkClustersDocument;
 };

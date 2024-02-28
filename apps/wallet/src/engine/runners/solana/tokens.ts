@@ -1,7 +1,7 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import type { Connection } from '@solana/web3.js';
 import type { PublicKey } from '@solana/web3.js';
-import type { Endpoint } from '@walless/core';
+import type { NetworkCluster } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 import { getTokenQuotes, makeHashId } from 'utils/api';
@@ -13,13 +13,13 @@ import type { ParsedTokenAccountWithAddress } from './types';
 
 export const getTokenDocumentsOnChain = async (
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	wallet: PublicKey,
 	accounts: ParsedTokenAccountWithAddress[],
 ) => {
 	const nativeTokenPromise = getNativeTokenDocument(
 		connection,
-		endpoint,
+		cluster,
 		wallet,
 	);
 	const tokenPromises: Promise<TokenDocument>[] = [nativeTokenPromise];
@@ -27,7 +27,7 @@ export const getTokenDocumentsOnChain = async (
 	const splTokensPromises = accounts
 		.filter((a) => a.tokenAmount.decimals !== 0)
 		.map((account) => {
-			return initTokenDocumentWithMetadata(connection, endpoint, account);
+			return initTokenDocumentWithMetadata(connection, cluster, account);
 		});
 
 	tokenPromises.push(...splTokensPromises);
@@ -45,7 +45,7 @@ export const getTokenDocumentsOnChain = async (
 
 const getNativeTokenDocument = async (
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	key: PublicKey,
 ): Promise<TokenDocument> => {
 	const address = key.toString();
@@ -54,7 +54,7 @@ const getNativeTokenDocument = async (
 	return {
 		_id: `${address}/token/${solMint}`,
 		network: Networks.solana,
-		endpoint,
+		cluster,
 		type: 'Token',
 		account: {
 			mint: solMint,
@@ -87,7 +87,7 @@ export const getParsedTokenAccountsByOwner = async (
 
 export const initTokenDocumentWithMetadata = async (
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	account: ParsedTokenAccountWithAddress,
 ): Promise<TokenDocument> => {
 	const metadata = await getMetadata(connection, account.mint);
@@ -95,7 +95,7 @@ export const initTokenDocumentWithMetadata = async (
 	return {
 		_id: `${account.owner}/token/${account.mint}`,
 		network: Networks.solana,
-		endpoint,
+		cluster,
 		type: 'Token',
 		account: {
 			mint: account.mint,

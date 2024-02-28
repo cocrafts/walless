@@ -60,7 +60,7 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 				(metadata as UnknownObject)['displayUri'] ||
 				(metadata as UnknownObject)['thumbnailUri'],
 		),
-		endpoint: connection.rpc.getRpcUrl(),
+		cluster: connection.rpc.getRpcUrl(),
 		type: 'Metadata',
 	};
 };

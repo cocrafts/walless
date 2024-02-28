@@ -1,9 +1,9 @@
 import type { Connection, PublicKey, TokenAmount } from '@solana/web3.js';
-import type { Endpoint } from '@walless/core';
+import type { NetworkCluster } from '@walless/core';
 
 export type SolanaContext = {
 	connection: Connection;
-	endpoint: Endpoint;
+	cluster: NetworkCluster;
 };
 
 export type ParsedTokenAccountWithAddress = ParsedTokenAccount & {

@@ -17,11 +17,11 @@ describe('[solana runner] collectibles', () => {
 	test('getAndSyncCollectiblesOnChain', async () => {
 		const context: SolanaContext = {
 			connection,
-			endpoint: 'devnet',
+			cluster: 'devnet',
 		};
 		const nfts = await getCollectiblesOnChain(
 			context.connection,
-			context.endpoint,
+			context.cluster,
 			wallet,
 		);
 
@@ -31,12 +31,12 @@ describe('[solana runner] collectibles', () => {
 	test('updateCollectibleToStorage', async () => {
 		const context: SolanaContext = {
 			connection,
-			endpoint: 'devnet',
+			cluster: 'devnet',
 		};
 
 		const result = await updateCollectibleToStorage(
 			context.connection,
-			context.endpoint,
+			context.cluster,
 			exampleCollectible,
 		);
 
@@ -48,18 +48,18 @@ describe('[solana runner] collectibles', () => {
 	test('updateCollectibleToStorage twice', async () => {
 		const context: SolanaContext = {
 			connection,
-			endpoint: 'devnet',
+			cluster: 'devnet',
 		};
 
 		await updateCollectibleToStorage(
 			context.connection,
-			context.endpoint,
+			context.cluster,
 			exampleCollectible,
 		);
 
 		const result = await updateCollectibleToStorage(
 			context.connection,
-			context.endpoint,
+			context.cluster,
 			exampleCollectible,
 		);
 
@@ -70,7 +70,7 @@ describe('[solana runner] collectibles', () => {
 	test('updateCollectibleToStorage with stored collection', async () => {
 		const context: SolanaContext = {
 			connection,
-			endpoint: 'devnet',
+			cluster: 'devnet',
 		};
 
 		const newCollectible = {
@@ -80,7 +80,7 @@ describe('[solana runner] collectibles', () => {
 
 		const result = await updateCollectibleToStorage(
 			context.connection,
-			context.endpoint,
+			context.cluster,
 			newCollectible,
 		);
 
@@ -104,7 +104,7 @@ const exampleCollectible: CollectibleDocument = {
 		description:
 			'Collection of 10 numbers on the blockchain. This is the number 5/10.',
 	},
-	endpoint: 'devnet',
+	cluster: 'devnet',
 	account: {
 		address: '',
 		mint: 'ZmzsJiN4eaFpS61WkSvLRJahE4v1YebPh7nu9AzUedL',

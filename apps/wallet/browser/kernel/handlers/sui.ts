@@ -1,6 +1,7 @@
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { ResponseCode } from '@walless/core';
 import { suiHandler } from '@walless/network';
+import { environment } from 'utils/config';
 
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
@@ -31,7 +32,10 @@ export const suiEndpoints = {
 };
 
 const suiClient = new SuiClient({
-	url: __DEV__ ? getFullnodeUrl('devnet') : getFullnodeUrl('mainnet'),
+	url:
+		environment.NETWORK_CLUSTER === 'mainnet'
+			? getFullnodeUrl('mainnet')
+			: getFullnodeUrl('devnet'),
 });
 
 export const signMessage: HandleMethod<MessagePayload> = async ({

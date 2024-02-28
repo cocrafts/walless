@@ -9,7 +9,7 @@ import type {
 	ParsedAccountData,
 } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import type { Endpoint } from '@walless/core';
+import type { NetworkCluster } from '@walless/core';
 import { logger } from '@walless/core';
 import { getTokenQuotes, makeHashId } from 'utils/api';
 import { solMint } from 'utils/constants';
@@ -42,7 +42,7 @@ const accountChangeIds: number[] = [];
 
 export const watchAccount = async (
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	wallet: PublicKey,
 	tokenAccountAddress: PublicKey,
 	commitment: Finality = 'confirmed',
@@ -61,7 +61,7 @@ export const watchAccount = async (
 				try {
 					await handleSPLTokenChange(
 						connection,
-						endpoint,
+						cluster,
 						wallet,
 						tokenAccountAddress,
 						commitment,
@@ -88,7 +88,7 @@ const handleNativeTokenChange = async (
 
 const handleSPLTokenChange = async (
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	wallet: PublicKey,
 	tokenAccountAddress: PublicKey,
 	commitment: Finality,
@@ -118,7 +118,7 @@ const handleSPLTokenChange = async (
 		} else {
 			const tokenDocument = await initTokenDocumentWithMetadata(
 				connection,
-				endpoint,
+				cluster,
 				tokenAccount,
 			);
 			await addTokenToStorage(tokenDocument);
@@ -147,11 +147,11 @@ const handleSPLTokenChange = async (
 			const collectibleDocument = constructCollectibleDocument(
 				wallet.toString(),
 				collectible,
-				endpoint,
+				cluster,
 			);
 			await updateCollectibleToStorage(
 				connection,
-				endpoint,
+				cluster,
 				collectibleDocument,
 			);
 		}
@@ -162,7 +162,7 @@ const newAccountSignature = 'Initialize the associated token account';
 
 export const watchLogs = async (
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	wallet: PublicKey,
 	commitment: Finality = 'confirmed',
 ) => {
@@ -176,7 +176,7 @@ export const watchLogs = async (
 					await handleInitAccountOnLogsChange(
 						change,
 						connection,
-						endpoint,
+						cluster,
 						wallet,
 					);
 				} catch (error) {
@@ -191,7 +191,7 @@ export const watchLogs = async (
 const handleInitAccountOnLogsChange = async (
 	change: Logs,
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	wallet: PublicKey,
 ) => {
 	const { signature } = change;
@@ -212,7 +212,7 @@ const handleInitAccountOnLogsChange = async (
 		const mintAddress = new PublicKey(t.mint);
 		const tokenAddress = getAssociatedTokenAddressSync(mintAddress, wallet);
 		if (isToken && t.uiTokenAmount.amount !== '0') {
-			const token = await initTokenDocumentWithMetadata(connection, endpoint, {
+			const token = await initTokenDocumentWithMetadata(connection, cluster, {
 				mint: t.mint,
 				owner: t.owner as string,
 				publicKey: tokenAddress,
@@ -233,12 +233,12 @@ const handleInitAccountOnLogsChange = async (
 			const collectibleDocument = constructCollectibleDocument(
 				wallet.toString(),
 				collectible,
-				endpoint,
+				cluster,
 			);
 
 			await updateCollectibleToStorage(
 				connection,
-				endpoint,
+				cluster,
 				collectibleDocument,
 			);
 		}

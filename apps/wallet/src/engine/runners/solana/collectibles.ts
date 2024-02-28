@@ -9,7 +9,7 @@ import type {
 import { Metaplex } from '@metaplex-foundation/js';
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import type { Endpoint } from '@walless/core';
+import type { NetworkCluster } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import {
@@ -25,7 +25,7 @@ export type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
 
 export const getCollectiblesOnChain = async (
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	wallet: PublicKey,
 ): Promise<CollectibleDocument[]> => {
 	const mpl = new Metaplex(connection);
@@ -36,7 +36,7 @@ export const getCollectiblesOnChain = async (
 	const nfts = await Promise.all(
 		rawNfts.map(async (metadata) => {
 			const nft = await loadCollectibleMetadata(mpl, metadata, wallet);
-			return constructCollectibleDocument(wallet.toString(), nft, endpoint);
+			return constructCollectibleDocument(wallet.toString(), nft, cluster);
 		}),
 	);
 
@@ -50,7 +50,7 @@ type UpdateCollectibleResult = {
 
 export const updateCollectibleToStorage = async (
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	collectible: CollectibleDocument,
 ): Promise<UpdateCollectibleResult> => {
 	let collection: CollectionDocument | undefined;
@@ -59,7 +59,7 @@ export const updateCollectibleToStorage = async (
 			_id: collectible.collectionId,
 			type: 'Collection',
 			network: collectible.network,
-			endpoint: collectible.endpoint,
+			cluster: collectible.cluster,
 			metadata: collectible.metadata,
 		};
 
@@ -72,7 +72,7 @@ export const updateCollectibleToStorage = async (
 	} else {
 		collection = await updateRelatedCollection(
 			connection,
-			endpoint,
+			cluster,
 			collectible,
 		);
 	}
@@ -111,7 +111,7 @@ export const loadCollectibleMetadata = async (
 export const constructCollectibleDocument = (
 	address: string,
 	nft: SftWithToken | NftWithToken,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 ) => {
 	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
 	const collectionAddress = nft.collection
@@ -135,7 +135,7 @@ export const constructCollectibleDocument = (
 				value: ele.value || 'Unknown',
 			})),
 		},
-		endpoint,
+		cluster,
 		account: {
 			owner: address,
 			mint: nft.mint.address.toString(),
@@ -149,7 +149,7 @@ export const constructCollectibleDocument = (
 
 export const updateRelatedCollection = async (
 	connection: Connection,
-	endpoint: Endpoint,
+	cluster: NetworkCluster,
 	collectible: CollectibleDocument,
 ): Promise<CollectionDocument | undefined> => {
 	const mpl = new Metaplex(connection);
@@ -172,7 +172,7 @@ export const updateRelatedCollection = async (
 		const collection: CollectionDocument = {
 			_id: collectible.collectionId,
 			type: 'Collection',
-			endpoint,
+			cluster,
 			network: Networks.solana,
 			metadata: {
 				name: collectionMetadata?.name,

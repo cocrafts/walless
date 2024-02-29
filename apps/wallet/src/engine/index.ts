@@ -1,5 +1,5 @@
 import type { CreateFunction, Engine, EngineConfig, EnginePool } from './types';
-import { getEndpoints } from './utils';
+import { getNetworkClusters } from './utils';
 
 export let engine: Engine;
 
@@ -10,8 +10,8 @@ export const setDefaultEngine = (e: Engine) => {
 export const createEngine = async (): Promise<Engine> => {
 	const createPool: Record<string, CreateFunction> = {};
 	const enginePool: EnginePool = {} as never;
-	const endpoints = await getEndpoints();
-	const config: EngineConfig = { endpoints };
+	const networkClusters = await getNetworkClusters();
+	const config: EngineConfig = { networkClusters };
 
 	return {
 		register: (key: string, create: CreateFunction) => {

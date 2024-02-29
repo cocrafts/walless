@@ -3,7 +3,7 @@ import { logger, Networks } from '@walless/core';
 import type {
 	CollectibleDocument,
 	CollectionDocument,
-	EndpointsDocument,
+	NetworkClustersDocument,
 	PouchDocument,
 	PublicKeyDocument,
 	SettingDocument,
@@ -142,8 +142,8 @@ const watchStorageAndSyncState = async () => {
 				const settings = item as SettingDocument;
 				appState.profile = settings.profile;
 				appState.config = settings.config;
-			} else if (item?.type === 'EndpointMap') {
-				appState.endpoints = item as EndpointsDocument;
+			} else if (item?.type === 'ClusterMap') {
+				appState.networkClusters = item as NetworkClustersDocument;
 			} else if (item?.type === 'History') {
 				historyState.map.set(id, item as TransactionHistoryDocument);
 			}

@@ -57,13 +57,13 @@ export enum Networks {
 	aptos = 'aptos',
 }
 
-export enum Endpoints {
+export enum NetworkClusters {
 	mainnet = 'mainnet',
 	testnet = 'testnet',
 	devnet = 'devnet',
 }
 
-export type Endpoint = Endpoints | string;
+export type NetworkCluster = NetworkClusters | string;
 
 export interface TransactionPayload {
 	sender: string;

@@ -1,25 +1,16 @@
 import type {
 	Config,
-	Endpoint,
-	EndpointMap,
+	NetworkClusterMap,
 	RemoteConfig,
 	UserProfile,
 } from '@walless/core';
 import { runtime } from '@walless/core';
 import { dimensionState } from '@walless/gui';
+import { defaultNetworkClusters } from 'engine/utils';
 import { defaultConfig, defaultRemoteConfig } from 'utils/constants';
 import { proxy, subscribe } from 'valtio';
 
 import { bootstrap, initAfterSignIn, launchApp } from './bootstrap';
-
-const defaultEndpoint: Endpoint = __DEV__ ? 'devnet' : 'mainnet';
-
-export const defaultEndpoints: EndpointMap = {
-	solana: defaultEndpoint,
-	sui: defaultEndpoint,
-	tezos: defaultEndpoint,
-	aptos: defaultEndpoint,
-};
 
 export interface AppState {
 	version: string;
@@ -27,7 +18,7 @@ export interface AppState {
 	profile: UserProfile;
 	config: Config;
 	remoteConfig: RemoteConfig;
-	endpoints: EndpointMap;
+	networkClusters: NetworkClusterMap;
 	jwtAuth?: string;
 	navigationDisplay: {
 		isNavigationHeaderActive: boolean;
@@ -44,7 +35,7 @@ export const appState = proxy<AppState>({
 	profile: {},
 	config: defaultConfig,
 	remoteConfig: defaultRemoteConfig,
-	endpoints: defaultEndpoints,
+	networkClusters: defaultNetworkClusters,
 	navigationDisplay: {
 		isNavigationHeaderActive: false,
 		isPermanentDrawer: false,

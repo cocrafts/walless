@@ -7,7 +7,7 @@ import { solMint } from 'utils/constants';
 import type { SwapQuote } from './types';
 
 export const getAliasedMint = (token: TokenDocument) => {
-	if (__DEV__) {
+	if (environment.NETWORK_CLUSTER === 'devnet') {
 		if (token.account.mint === 'Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr') {
 			return 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
 		}

@@ -24,20 +24,20 @@ const TokenDetails: FC<Props> = ({
 	network,
 	isCollectible = false,
 }) => {
-	const { endpoints } = useSnapshot(appState);
+	const { networkClusters } = useSnapshot(appState);
 	let networkExplorerLink;
 	let networkExplorerName;
 
 	switch (network) {
 		case Networks.solana: {
-			const endpoint = endpoints?.solana;
-			networkExplorerLink = `https://solscan.io/tx/${id}?cluster=${endpoint}`;
+			const cluster = networkClusters?.solana;
+			networkExplorerLink = `https://solscan.io/tx/${id}?cluster=${cluster}`;
 			networkExplorerName = 'Solscan';
 			break;
 		}
 		default: {
-			const endpoint = endpoints?.solana;
-			networkExplorerLink = `https://solscan.io/tx/${id}?cluster=${endpoint}`;
+			const cluster = networkClusters?.solana;
+			networkExplorerLink = `https://solscan.io/tx/${id}?cluster=${cluster}`;
 			networkExplorerName = 'Solscan';
 		}
 	}

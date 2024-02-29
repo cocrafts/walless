@@ -7,7 +7,9 @@ import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 
 const connection = new Connection(
-	__DEV__ ? clusterApiUrl('devnet') : environment.SOLANA_CLUSTER_URL,
+	environment.NETWORK_CLUSTER === 'mainnet'
+		? environment.SOLANA_CLUSTER_URL
+		: clusterApiUrl('devnet'),
 );
 
 export const signMessage: HandleMethod<{

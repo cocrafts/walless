@@ -32,9 +32,9 @@ const endpointUrl: Record<string, string> = {
 };
 
 export const createSolanaRunner: CreateFunction = async (config) => {
-	const { endpoints } = config;
-	const endpoint = endpoints[Networks.solana];
-	const connection = new Connection(endpointUrl[endpoint], 'confirmed');
+	const { networkClusters } = config;
+	const cluster = networkClusters[Networks.solana];
+	const connection = new Connection(endpointUrl[cluster], 'confirmed');
 	const keys = (await storage.find<PublicKeyDocument>(selectors.solanaKeys))
 		.docs;
 
@@ -47,15 +47,15 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 				)();
 
 				return [
-					getTokenDocumentsOnChain(connection, endpoint, wallet, accounts).then(
+					getTokenDocumentsOnChain(connection, cluster, wallet, accounts).then(
 						(tokens) => {
 							addTokensToStorage(tokens);
 						},
 					),
-					getCollectiblesOnChain(connection, endpoint, wallet).then(
+					getCollectiblesOnChain(connection, cluster, wallet).then(
 						(collectibles) => {
 							collectibles.map(async (c) => {
-								await updateCollectibleToStorage(connection, endpoint, c);
+								await updateCollectibleToStorage(connection, cluster, c);
 							});
 						},
 					),
@@ -70,10 +70,10 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 							updateCollectibleAmountToStorage(id, 0);
 						}
 
-						watchAccount(connection, endpoint, wallet, a.publicKey);
+						watchAccount(connection, cluster, wallet, a.publicKey);
 					}),
-					watchLogs(connection, endpoint, wallet),
-					watchAccount(connection, endpoint, wallet, wallet),
+					watchLogs(connection, cluster, wallet),
+					watchAccount(connection, cluster, wallet, wallet),
 					getTransactionsHistory(connection, wallet, accounts),
 				] as never[];
 			});
@@ -83,7 +83,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 		stop: async () => {},
 		restart: async () => {},
 		getContext: (): SolanaContext => {
-			return { connection, endpoint };
+			return { connection, cluster: cluster };
 		},
 	};
 };

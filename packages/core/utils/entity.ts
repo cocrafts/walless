@@ -57,6 +57,7 @@ export interface AssetMetadata {
 		key: string;
 		value: string;
 	}[];
+	mpl?: unknown;
 }
 
 export interface TokenAccount {

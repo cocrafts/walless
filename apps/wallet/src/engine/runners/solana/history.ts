@@ -32,33 +32,33 @@ export const getTransactionsHistory = async (
 
 	tokenAccounts.unshift(wallet);
 
-	const signatureList = [
-		...new Set(await getTransactionSignatures(connection, tokenAccounts)),
-	];
+	const signatures = await getTransactionSignatures(connection, tokenAccounts);
+	signatures.splice(historyLimit, signatures.length - historyLimit);
 
-	const transactions = (
-		await connection.getParsedTransactions(signatureList, {
-			maxSupportedTransactionVersion: 0,
-			commitment: 'finalized',
-		})
-	)
-		.sort((trans1, trans2) =>
-			(trans1?.blockTime || 0) < (trans2?.blockTime || 0) ? 1 : -1,
-		)
-		.slice(0, historyLimit);
+	const txPromises = signatures.map((s) => {
+		return throttle(() => {
+			// don't use getParsedTransactions because
+			// it uses batch rpc request which is failed by rpc limit for all
+			// without retrying
+			// we need to use getParsedTransaction for separately retry
+			return connection.getParsedTransaction(s, {
+				maxSupportedTransactionVersion: 0,
+				commitment: 'finalized',
+			});
+		})();
+	});
+	const transactions = await Promise.all(txPromises);
 
 	const transactionHistoryDocuments: TransactionHistoryDocument[] = (
 		await Promise.all(
-			transactions
-				.filter((transaction) => transaction !== null)
-				.map((transaction) =>
-					constructTransactionHistoryDocument(
-						connection,
-						cluster,
-						transaction as ParsedTransactionWithMeta,
-						wallet,
-					),
+			transactions.map((tx) =>
+				constructTransactionHistoryDocument(
+					connection,
+					cluster,
+					tx as ParsedTransactionWithMeta,
+					wallet,
 				),
+			),
 		)
 	).filter((doc) => doc !== null);
 
@@ -73,23 +73,28 @@ export const getTransactionsHistory = async (
 
 const getTransactionSignatures = async (
 	connection: Connection,
-	accountList: PublicKey[],
+	accounts: PublicKey[],
 ) => {
-	const signatureList = (
+	const signatures = (
 		await Promise.all(
-			accountList.map(async (account) => {
-				const transactionList = await throttle(() => {
+			accounts.map(async (account) => {
+				const sigs = await throttle(() => {
 					return connection.getSignaturesForAddress(account, {
 						limit: historyLimit,
 					});
 				})();
 
-				return transactionList.map((trans) => trans.signature);
+				return sigs;
 			}),
 		)
-	).flat();
+	)
+		.flat()
+		.sort((sig1, sig2) =>
+			(sig1?.blockTime || 0) < (sig2?.blockTime || 0) ? 1 : -1,
+		)
+		.map((s) => s.signature);
 
-	return signatureList;
+	return [...new Set(signatures)];
 };
 
 const constructTransactionHistoryDocument = async (

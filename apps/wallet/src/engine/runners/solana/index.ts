@@ -35,8 +35,10 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 	const { networkClusters } = config;
 	const cluster = networkClusters[Networks.solana];
 	const connection = new Connection(endpointUrl[cluster], 'confirmed');
-	const keys = (await storage.find<PublicKeyDocument>(selectors.solanaKeys))
-		.docs;
+	const keysResult = await storage.find<PublicKeyDocument>(
+		selectors.solanaKeys,
+	);
+	const keys = keysResult.docs;
 
 	return {
 		start: async () => {

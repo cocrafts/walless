@@ -38,8 +38,7 @@ export const getTransactionsHistory = async (
 	const txPromises = signatures.map((s) => {
 		return throttle(() => {
 			// don't use getParsedTransactions because
-			// it uses batch rpc request which is failed by rpc limit for all
-			// without retrying
+			// it uses batch rpc request failed by rpc limit without retrying
 			// we need to use getParsedTransaction for separately retry
 			return connection.getParsedTransaction(s, {
 				maxSupportedTransactionVersion: 0,
@@ -156,7 +155,7 @@ const getTransactionBalances = async (
 		meta.preTokenBalances?.length > 0 || meta.postTokenBalances?.length > 0;
 
 	if (isSplTokenTransaction) {
-		return await getSplTransactionBalances(connection, meta);
+		return await getSplTransactionBalances(connection, cluster, meta);
 	}
 	return await getNativeTransactionBalances(transaction, cluster);
 };
@@ -191,6 +190,7 @@ const getNativeTransactionBalances = async (
 
 const getSplTransactionBalances = async (
 	connection: Connection,
+	cluster: NetworkCluster,
 	meta: ParsedTransactionMeta,
 ) => {
 	if (!meta.preTokenBalances || !meta.postTokenBalances) return;
@@ -203,7 +203,7 @@ const getSplTransactionBalances = async (
 	);
 
 	const token: TransactionHistory['token'] = {
-		cluster: '',
+		cluster,
 		network: Networks.solana,
 		metadata: await getMetadata(connection, mint),
 	};

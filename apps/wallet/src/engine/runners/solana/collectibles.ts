@@ -44,9 +44,8 @@ export const getCollectiblesOnChain = async (
 			}
 		}),
 	);
-	const filteredNfts = nfts.filter((nft) => !!nft) as CollectibleDocument[];
 
-	return filteredNfts;
+	return nfts.filter((nft) => !!nft) as CollectibleDocument[];
 };
 
 type UpdateCollectibleResult = {

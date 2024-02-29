@@ -10,7 +10,7 @@ import { Metaplex } from '@metaplex-foundation/js';
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { NetworkCluster } from '@walless/core';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import type { CollectibleDocument, CollectionDocument } from '@walless/store';
 import {
 	addCollectibleToStorage,
@@ -32,15 +32,22 @@ export const getCollectiblesOnChain = async (
 	const rawNfts = await throttle(() => {
 		return mpl.nfts().findAllByOwner({ owner: wallet });
 	})();
+	console.log(rawNfts, '<-- raw nfts');
 
 	const nfts = await Promise.all(
 		rawNfts.map(async (metadata) => {
-			const nft = await loadCollectibleMetadata(mpl, metadata, wallet);
-			return constructCollectibleDocument(wallet.toString(), nft, cluster);
+			try {
+				const nft = await loadCollectibleMetadata(mpl, metadata, wallet);
+
+				return constructCollectibleDocument(wallet.toString(), nft, cluster);
+			} catch (error) {
+				logger.error('Failed to load collectible metadata', error);
+			}
 		}),
 	);
+	const filteredNfts = nfts.filter((nft) => !!nft) as CollectibleDocument[];
 
-	return nfts;
+	return filteredNfts;
 };
 
 type UpdateCollectibleResult = {
@@ -53,6 +60,7 @@ export const updateCollectibleToStorage = async (
 	cluster: NetworkCluster,
 	collectible: CollectibleDocument,
 ): Promise<UpdateCollectibleResult> => {
+	console.log(collectible, 'collectible');
 	let collection: CollectionDocument | undefined;
 	if (collectible.collectionAddress === collectible.account.mint) {
 		const selfCollectionDocument: CollectionDocument = {
@@ -87,22 +95,17 @@ export const loadCollectibleMetadata = async (
 	metadata: Metadata | Nft | Sft,
 	owner: PublicKey,
 ): Promise<SftWithToken | NftWithToken> => {
-	let nft = await mpl.nfts().load({
-		metadata: metadata as Metadata<JsonMetadata<string>>,
-		tokenOwner: owner,
-	});
-
-	if (!metadata.json && 'mintAddress' in metadata) {
-		const nftByMint = await mpl.nfts().findByMint({
-			mintAddress: metadata.mintAddress,
+	const nft = {
+		...(await mpl.nfts().load({
+			metadata: metadata as Metadata<JsonMetadata<string>>,
 			tokenOwner: owner,
-		});
-		const jsonRes = await fetch(metadata.uri, { method: 'GET' });
-		nft = {
-			...nftByMint,
-			json: await jsonRes.json(),
-			jsonLoaded: true,
-		};
+		})),
+	};
+
+	if (!nft.json) {
+		const res = await fetch(metadata.uri, { method: 'GET' });
+		nft.json = await res.json();
+		nft.jsonLoaded = true;
 	}
 
 	return nft as SftWithToken | NftWithToken;
@@ -161,13 +164,32 @@ export const updateRelatedCollection = async (
 	if (
 		!storedCollection ||
 		!storedCollection.metadata ||
-		!('name' in storedCollection.metadata)
+		!storedCollection.metadata.name
 	) {
-		const collectionOnChain: GenericNft = await mpl.nfts().findByMint({
-			mintAddress: new PublicKey(collectible.collectionAddress),
-		});
-		const jsonRes = await fetch(collectionOnChain.uri, { method: 'GET' });
-		const collectionMetadata = await jsonRes.json();
+		const collectionOnChain: GenericNft = await throttle(() => {
+			return mpl.nfts().findByMint({
+				mintAddress: new PublicKey(collectible.collectionAddress),
+				loadJsonMetadata: true,
+			});
+		})();
+
+		let metadata = collectionOnChain.json;
+		if (!metadata) {
+			try {
+				const res = await fetch(collectionOnChain.uri, { method: 'GET' });
+				metadata = await res.json();
+			} catch (error) {
+				logger.error('Failed to fetch collection metadata', error);
+
+				// use collectible metadata for collection
+				metadata = {
+					name: collectible.metadata.name,
+					image: collectible.metadata.imageUri,
+					symbol: collectible.metadata.symbol,
+					description: collectible.metadata.description,
+				};
+			}
+		}
 
 		const collection: CollectionDocument = {
 			_id: collectible.collectionId,
@@ -175,10 +197,10 @@ export const updateRelatedCollection = async (
 			cluster,
 			network: Networks.solana,
 			metadata: {
-				name: collectionMetadata?.name,
-				description: collectionMetadata?.description,
-				imageUri: collectionMetadata?.image,
-				symbol: collectionMetadata?.symbol,
+				name: metadata?.name,
+				description: metadata?.description,
+				imageUri: metadata?.image,
+				symbol: metadata?.symbol,
 			},
 		};
 

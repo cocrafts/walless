@@ -7,18 +7,14 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import {
-	Camera,
-	useCameraDevice,
-	useCameraPermission,
-	useCodeScanner,
-} from 'react-native-vision-camera';
+import { Camera, useCodeScanner } from 'react-native-vision-camera';
 import type { Networks } from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import { modalActions, Text, View } from '@walless/gui';
 import { QrFrame, Times } from '@walless/icons';
 import assets from 'utils/assets';
 import { getNetworkInfo } from 'utils/helper';
+import { useVisionCamera } from 'utils/hooks/camera';
 
 import { showError } from './Error';
 import { ModalId } from './types';
@@ -36,9 +32,8 @@ const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 	const [layoutHeight, setLayoutHeight] = useState(400);
 	const [layoutWidth, setLayoutWidth] = useState(400);
 
-	const { hasPermission, requestPermission } = useCameraPermission();
+	const { device, hasPermission, error } = useVisionCamera('back');
 	const [active, setActive] = useState(false);
-	const device = useCameraDevice('back');
 
 	const networkInfo = useMemo(() => getNetworkInfo(network), [network]);
 
@@ -71,20 +66,11 @@ const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 	}, [layoutHeight, layoutWidth]);
 
 	useEffect(() => {
-		if (!hasPermission) {
-			requestPermission().then((permission) => {
-				if (!permission) {
-					showError({ errorText: 'Camera permission denied' });
-					modalActions.hide(config.id);
-				}
-			});
-		}
-
-		if (!device) {
-			showError({ errorText: 'No camera found' });
+		if (error !== '') {
+			showError({ errorText: error });
 			modalActions.hide(config.id);
 		}
-	}, []);
+	}, [error]);
 
 	useEffect(() => {
 		if (!hasPermission || !device) return;
@@ -92,7 +78,7 @@ const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 		return () => clearTimeout(timeout);
 	}, [device, hasPermission]);
 
-	if (!device) return <ActivityIndicator />;
+	if (!device || !hasPermission) return <ActivityIndicator />;
 
 	return (
 		<View onLayout={handleLayout} style={styles.container}>

@@ -11,12 +11,18 @@
     "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx"
   },
   "dependencies": {
-    "@metaplex-foundation/js": "0.20.1",
-    "@mysten/sui.js": "0.34.0",
-    "@solana/spl-token": "0.3.9",
-    "@solana/web3.js": "1.87.6"
+    "@metaplex-foundation/js": "^0.19.4",
+    "@mysten/sui.js": "0.50.1",
+    "@solana/spl-token": "0.3.7",
+    "@solana/web3.js": "1.78.4",
+    "@taquito/signer": "^17.5.2",
+    "@taquito/taquito": "^17.5.2",
+    "@walless/core": "*",
+    "aptos": "^1.20.0",
+    "bs58": "5.0.0",
+    "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
-    "eslint": "8.38.0"
+    "eslint": "^8.56.0"
   }
 }

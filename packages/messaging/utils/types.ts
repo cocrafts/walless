@@ -1,6 +1,8 @@
 import type {
 	ChannelHashmap,
 	MiniBroadcast,
+	RequestType,
+	ResponseCode,
 	UnknownObject,
 } from '@walless/core';
 
@@ -82,49 +84,4 @@ export interface Messenger {
 	onMessage: MessengerMessageListener;
 	send: MessengerSend;
 	request: MessengerRequest;
-}
-
-export enum ResponseCode {
-	SUCCESS,
-	REQUIRE_PASSCODE,
-	WRONG_PASSCODE,
-	ERROR,
-}
-
-export enum RequestType {
-	REQUEST_CONNECT,
-	REQUEST_DISCONNECT,
-	GET_ENDPOINT_ON_SOLANA,
-	SIGN_SEND_TRANSACTION_ON_SOLANA,
-	SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
-	SIGN_TRANSACTION_ON_SOLANA,
-	SIGN_MESSAGE_ON_SOLANA,
-	SIGH_EXECUTE_TRANSACTION_ON_SUI,
-	SIGN_TRANSACTION_ON_SUI,
-	SIGN_MESSAGE_ON_SUI,
-	TRANSFER_TEZOS_TOKEN,
-	RESOLVE_REQUEST_CONNECT,
-	RESOLVE_REQUEST_SIGNATURE,
-	REQUEST_PAYLOAD,
-	INSTALL_LAYOUT,
-	CHECK_INSTALLED_LAYOUT,
-	OPEN_LAYOUT_POPUP,
-	UPDATE_DIRECT_TRANSFER_ON_APTOS,
-	CLAIM_TOKEN_ON_APTOS,
-	TRANSFER_COIN_ON_APTOS,
-	TRANSFER_TOKEN_ON_APTOS,
-	REQUEST_OPERATION_ON_TEZOS = 'operation_request',
-	SIGN_PAYLOAD_ON_TEZOS = 'sign_payload_request',
-}
-
-export enum PopupType {
-	REQUEST_CONNECT_POPUP = 'request-connect-popup',
-	SIGNATURE_POPUP = 'request-signature-popup',
-	REQUEST_INSTALL_LAYOUT_POPUP = 'request-install-layout-popup',
-}
-
-export enum ResponseMessage {
-	REJECT_REQUEST_CONNECT = 'Connect request has been rejected',
-	REJECT_COMMON_REQUEST = 'Request has been rejected by user',
-	REJECT_INSTALL_LAYOUT_REQUEST = 'Install layout request has been rejected',
 }

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { BulletSeparator } from '@walless/app';
 import { Button, Text, View } from '@walless/gui';
+import BulletSeparator from 'components/BulletSeparator';
 import Image from 'next/image';
 
 import { particles } from './components/shared';

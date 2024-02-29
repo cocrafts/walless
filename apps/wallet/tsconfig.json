@@ -1,0 +1,57 @@
+{
+  "extends": "@walless/tsconfig/application.json",
+  "include": [
+    "browser",
+    "src",
+    "test",
+    "index*.js",
+    "../../globals.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "assets/*": [
+        "./assets/*"
+      ],
+      "utils/*": [
+        "./src/utils/*"
+      ],
+      "engine": [
+        "./src/engine"
+      ],
+      "engine/*": [
+        "./src/engine/*"
+      ],
+      "state": [
+        "./src/state"
+      ],
+      "state/*": [
+        "./src/state/*"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "features/*": [
+        "./src/features/*"
+      ],
+      "modals/*": [
+        "./src/modals/*"
+      ],
+      "stacks/*": [
+        "./src/stacks/*"
+      ],
+      "screens/*": [
+        "./src/screens/*"
+      ],
+      "bridge": [
+        "./browser/bridge"
+      ],
+      "bridge/*": [
+        "./browser/bridge/*"
+      ]
+    }
+  }
+}

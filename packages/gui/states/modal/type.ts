@@ -47,7 +47,7 @@ export interface PositionOffset {
 }
 
 export interface ModalConfigs {
-	id?: string;
+	id: string;
 	bindingRectangle?: LayoutRectangle;
 	bindingDirection?: BindDirections;
 	animateDirection?: AnimateDirections;
@@ -64,6 +64,7 @@ export interface ModalConfigs {
 	 * auto center modal if false
 	 */
 	fullWidth?: boolean;
+	fullHeight?: boolean;
 }
 
 export type ShowModalConfigs = Omit<

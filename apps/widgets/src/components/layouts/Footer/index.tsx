@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { BulletSeparator } from '@walless/app';
 import { View } from '@walless/gui';
 import { sharedStyles } from 'utils/style';
+
+import { BulletSeparator } from '../../BulletSeparator';
 
 import BottomPart from './components/BottomPart';
 import UpperPart from './components/UpperPart';

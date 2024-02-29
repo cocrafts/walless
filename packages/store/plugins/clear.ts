@@ -2,9 +2,11 @@ const persistedIds = ['system'];
 
 export async function clearAllDocs(this: PouchDB.Database) {
 	const { rows } = await this.allDocs();
-	rows.map((row) => {
+	rows.map(async (row) => {
 		if (persistedIds.indexOf(row.id) === -1) {
-			return this.remove(row.id, row.value.rev);
+			const doc: { _deleted: boolean } = await this.get(row.id);
+			doc._deleted = true;
+			return this.put(doc);
 		}
 	});
 }

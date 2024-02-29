@@ -2,6 +2,7 @@ declare module 'react-native-syntax-highlighter';
 declare module 'react-syntax-highlighter/styles/hljs';
 declare module 'react-native-url-polyfill/auto';
 
+declare const NETWORK_CLUSTER: 'mainnet' | 'devnet';
 declare const FIREBASE_API_KEY: string;
 declare const BUILD_TARGET: string;
 declare const BROWSER_CLIENT_ID: string;
@@ -22,9 +23,12 @@ declare const PIXEVERSE_ENDPOINT: string;
 declare const PIXEVERSE_ORIGIN: string;
 declare const PIXEVERSE_URL: string;
 declare const SOLANA_CLUSTER_URL: string;
+declare const JUPITER_TOKENS_ENDPOINT: string;
+declare const JUPITER_API_ENDPOINT: string;
 
 declare module 'react-native-config' {
 	export interface NativeConfig {
+		NETWORK_CLUSTER: 'devnet' | 'mainnet';
 		FIREBASE_API_KEY: string;
 		BUILD_TARGET: string;
 		GOOGLE_SIGNIN_CLIENT_ID: string;
@@ -46,6 +50,8 @@ declare module 'react-native-config' {
 		PIXEVERSE_URL: string;
 		SOLANA_CLUSTER_URL: string;
 		GASILON_ENDPOINT: string;
+		JUPITER_TOKENS_ENDPOINT: string;
+		JUPITER_API_ENDPOINT: string;
 	}
 
 	export const Config: NativeConfig;

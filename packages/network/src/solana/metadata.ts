@@ -4,9 +4,7 @@ import { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import type { MetadataDocument } from '@walless/store';
 
-export const METADATA_PROGRAM_ID =
-	'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s';
-export const METADATA_PROGRAM_KEY = new PublicKey(METADATA_PROGRAM_ID);
+import { getMetadataPda } from './helpers';
 
 export type GetSolanaMetadataFunction = (
 	connection: Connection,
@@ -24,10 +22,7 @@ export const getSolanaMetadata: GetSolanaMetadataFunction = async (
 		timestamp: new Date().toISOString(),
 	};
 	const mint = new PublicKey(mintAddress);
-	const [pda] = PublicKey.findProgramAddressSync(
-		[Buffer.from('metadata'), METADATA_PROGRAM_KEY.toBuffer(), mint.toBuffer()],
-		METADATA_PROGRAM_KEY,
-	);
+	const [pda] = getMetadataPda(mint);
 	const info = await connection.getAccountInfo(pda);
 	if (!info?.data) return result;
 

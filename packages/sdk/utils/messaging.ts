@@ -1,5 +1,5 @@
 import type { RequestHashmap, UnknownObject } from '@walless/core';
-import { ResponseCode } from '@walless/messaging';
+import { ResponseCode } from '@walless/core';
 
 let initialized = false;
 let queueInterval: NodeJS.Timer | number | undefined;
@@ -43,7 +43,14 @@ export const sendRequest = <T extends UnknownObject>(
 			queueInterval = setInterval(runInterval, 500);
 		}
 
-		window.postMessage(payload);
+		/* eslint-disable-next-line */
+		const nativePostMessage = (window as any).ReactNativeWebView?.postMessage;
+
+		if (nativePostMessage) {
+			nativePostMessage(JSON.stringify(payload));
+		} else {
+			window.postMessage(payload);
+		}
 	});
 };
 

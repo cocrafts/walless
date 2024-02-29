@@ -1,9 +1,7 @@
-import type { Ed25519PublicKey } from '@mysten/sui.js';
 import type {
 	SuiFeatures,
 	SuiSignAndExecuteTransactionBlockMethod,
-	SuiSignMessageInput,
-	SuiSignMessageMethod,
+	SuiSignPersonalMessageMethod,
 	SuiSignTransactionBlockMethod,
 } from '@mysten/wallet-standard';
 import type {
@@ -22,10 +20,8 @@ import {
 	SolanaSignMessage,
 	SolanaSignTransaction,
 } from '@solana/wallet-standard-features';
-import { Transaction, VersionedTransaction } from '@solana/web3.js';
-import type { ConnectOptions } from '@walless/core';
 import { Networks } from '@walless/core';
-import type Walless from '@walless/sdk';
+import type { ConnectOptions, Walless } from '@walless/sdk';
 import type { Wallet, WalletAccount } from '@wallet-standard/base';
 import type {
 	StandardConnectFeature,
@@ -38,22 +34,25 @@ import type {
 	StandardEventsNames,
 	StandardEventsOnMethod,
 } from '@wallet-standard/features';
-// TODO: replace deprecated after successfully debug
-import { Connect, Disconnect, Events } from '@wallet-standard/features';
-import { decode } from 'bs58';
+import {
+	StandardConnect,
+	StandardDisconnect,
+	StandardEvents,
+} from '@wallet-standard/features';
+import { decode, encode } from 'bs58';
 
-import { SolanaWalletAccount, SuiWalletAccount } from './account';
+import { SolanaWalletAccount } from './account';
 import { icon } from './icon';
 import type { SolanaChain } from './solana';
 import { isSolanaChain, SOLANA_CHAINS } from './solana';
 import {
 	SuiSignAndExecuteTransactionBlock,
-	SuiSignMessage,
+	SuiSignPersonalMessage,
 	SuiSignTransactionBlock,
 	WallessCheckInstalledLayout,
 	WallessInstallLayout,
 	WallessOpenLayoutPopup,
-} from './util';
+} from './utils';
 
 export const WallessNamespace = 'walless:';
 
@@ -82,7 +81,6 @@ export class WallessWallet implements Wallet {
 	readonly #version = '1.0.0' as const;
 	readonly #name = 'Walless' as const;
 	readonly #icon = icon;
-	// #account: WalletAccount | null = null;
 	#accounts: WalletAccount[] = [];
 	readonly #walless: Walless;
 
@@ -111,15 +109,15 @@ export class WallessWallet implements Wallet {
 		SuiFeatures &
 		WallessFeature {
 		return {
-			[Connect]: {
+			[StandardConnect]: {
 				version: '1.0.0',
 				connect: this.#connect,
 			},
-			[Disconnect]: {
+			[StandardDisconnect]: {
 				version: '1.0.0',
 				disconnect: this.#disconnect,
 			},
-			[Events]: {
+			[StandardEvents]: {
 				version: '1.0.0',
 				on: this.#on,
 			},
@@ -137,9 +135,9 @@ export class WallessWallet implements Wallet {
 				version: '1.0.0',
 				signMessage: this.#signMessageOnSolana,
 			},
-			[SuiSignMessage]: {
+			[SuiSignPersonalMessage]: {
 				version: '1.0.0',
-				signMessage: this.#signMessageOnSui,
+				signPersonalMessage: this.#signPersonalMessageOnSui,
 			},
 			[SuiSignTransactionBlock]: {
 				version: '1.0.0',
@@ -169,15 +167,11 @@ export class WallessWallet implements Wallet {
 	}
 
 	get accounts() {
-		// return this.#account ? [this.#account] : [];
 		return this.#accounts;
 	}
 
 	constructor(walless: Walless) {
-		// TODO: un-comment following
-		// if (new.target === WallessWallet) {
-		// 	Object.freeze(this);
-		// }
+		Object.freeze(this);
 
 		this.#walless = walless;
 
@@ -212,47 +206,26 @@ export class WallessWallet implements Wallet {
 	}
 
 	#connected = () => {
-		const accounts = this.#walless.publicKeys;
+		const publicKeys = this.#walless.publicKeys;
+		if (!publicKeys) return;
 
-		if (!accounts) {
-			// throw Error('Accounts is null');
-			return;
-		}
-
-		let solIdx = -1;
-
-		this.#accounts = accounts.map(({ publicKey, network }, index) => {
-			switch (network) {
-				case Networks.solana:
-					solIdx = index;
-					return new SolanaWalletAccount({
-						address: publicKey.toString(),
-						publicKey: publicKey.toBytes(),
-					});
-				case Networks.sui:
-					return new SuiWalletAccount({
-						address: (publicKey as Ed25519PublicKey).toSuiAddress(),
-						publicKey: publicKey.toBytes(),
-					});
-				default:
-					return null;
-			}
-		}) as Array<SolanaWalletAccount | SuiWalletAccount>;
-
-		// Move solana account to head of account list
-		// Match with default Solana Wallet Adapter
-		if (solIdx !== -1) {
-			const solanaAccount = this.#accounts[solIdx];
-			this.#accounts.splice(solIdx, 1);
-			this.#accounts.unshift(solanaAccount);
-		}
+		this.#accounts = publicKeys
+			.map(({ publicKey, network }) => {
+				switch (network) {
+					case Networks.solana:
+						return new SolanaWalletAccount({
+							address: encode(publicKey),
+							publicKey: publicKey,
+						});
+				}
+			})
+			.filter((a) => !!a) as WalletAccount[];
 
 		this.#emit('change', { accounts: this.accounts });
 	};
 
 	#disconnected = () => {
 		if (this.#accounts.length > 0) {
-			// this.#account = null;
 			this.#accounts = [];
 			this.#emit('change', { accounts: this.accounts });
 		}
@@ -294,18 +267,19 @@ export class WallessWallet implements Wallet {
 		const outputs: SolanaSignAndSendTransactionOutput[] = [];
 
 		if (inputs.length === 1) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const { transaction, account, chain, options } = inputs[0]!;
+			if (!isSolanaChain(chain)) throw new Error('invalid chain');
+
 			const { minContextSlot, preflightCommitment, skipPreflight, maxRetries } =
 				options || {};
+
 			const accountIndex = this.#accounts.findIndex(
 				(acc) => acc.address === account.address,
 			);
 			if (accountIndex === -1) throw new Error('invalid account');
-			if (!isSolanaChain(chain)) throw new Error('invalid chain');
 
 			const { signature } = await this.#walless.signAndSendTransactionOnSolana(
-				VersionedTransaction.deserialize(transaction),
+				transaction,
 				{
 					preflightCommitment,
 					minContextSlot,
@@ -330,7 +304,6 @@ export class WallessWallet implements Wallet {
 		const outputs: SolanaSignTransactionOutput[] = [];
 
 		if (inputs.length === 1) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const { transaction, account, chain } = inputs[0]!;
 			const accountIndex = this.#accounts.findIndex(
 				(acc) => acc.address === account.address,
@@ -338,11 +311,10 @@ export class WallessWallet implements Wallet {
 			if (accountIndex === -1) throw new Error('invalid account');
 			if (chain && !isSolanaChain(chain)) throw new Error('invalid chain');
 
-			const signedTransaction = await this.#walless.signTransactionOnSolana(
-				VersionedTransaction.deserialize(transaction),
-			);
+			const signedTransaction =
+				await this.#walless.signTransactionOnSolana(transaction);
 
-			outputs.push({ signedTransaction: signedTransaction.serialize() });
+			outputs.push({ signedTransaction });
 		} else if (inputs.length > 1) {
 			let chain: SolanaChain | undefined = undefined;
 			for (const input of inputs) {
@@ -360,18 +332,10 @@ export class WallessWallet implements Wallet {
 				}
 			}
 
-			const transactions = inputs.map(({ transaction }) =>
-				Transaction.from(transaction),
-			);
+			const transactions = inputs.map((i) => i.transaction);
+			const txs = await this.#walless.signAllTransactionsOnSolana(transactions);
 
-			const signedTransactions =
-				await this.#walless.signAllTransactionsOnSolana(transactions);
-
-			outputs.push(
-				...signedTransactions.map((signedTransaction) => ({
-					signedTransaction: signedTransaction.serialize(),
-				})),
-			);
+			outputs.push(...txs.map((signedTransaction) => ({ signedTransaction })));
 		}
 
 		return outputs;
@@ -402,9 +366,7 @@ export class WallessWallet implements Wallet {
 		return outputs;
 	};
 
-	#signMessageOnSui: SuiSignMessageMethod = async (
-		input: SuiSignMessageInput,
-	) => {
+	#signPersonalMessageOnSui: SuiSignPersonalMessageMethod = async (input) => {
 		const { message, account } = input;
 		const accountIndex = this.#accounts.findIndex(
 			(acc) => acc.address === account.address,
@@ -417,24 +379,21 @@ export class WallessWallet implements Wallet {
 	};
 
 	#signTransactionBlockOnSui: SuiSignTransactionBlockMethod = async (input) => {
-		const { transactionBlock, account, chain } = input;
+		const { transactionBlock, account } = input;
 		const accountIndex = this.#accounts.findIndex(
 			(acc) => acc.address === account.address,
 		);
 		if (accountIndex === -1) throw new Error('invalid account');
 
-		const signedTransaction = await this.#walless.signTransactionBlockOnSui(
-			transactionBlock,
-			chain,
-		);
+		const signedTransaction =
+			await this.#walless.signTransactionBlockOnSui(transactionBlock);
 
-		return signedTransaction;
+		return signedTransaction as never;
 	};
 
 	#signAndExecuteTransactionBlockOnSui: SuiSignAndExecuteTransactionBlockMethod =
 		async (input) => {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const { transactionBlock, account, chain, options, requestType } = input;
+			const { transactionBlock, account, options } = input;
 			const accountIndex = this.#accounts.findIndex(
 				(acc) => acc.address === account.address,
 			);

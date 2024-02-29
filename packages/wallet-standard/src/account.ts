@@ -9,9 +9,9 @@ import type { WalletAccount } from '@wallet-standard/base';
 import { SOLANA_CHAINS } from './solana';
 import {
 	SuiSignAndExecuteTransactionBlock,
-	SuiSignMessage,
+	SuiSignPersonalMessage,
 	SuiSignTransactionBlock,
-} from './util';
+} from './utils';
 
 const solanaFeatures = [
 	SolanaSignAndSendTransaction,
@@ -19,8 +19,8 @@ const solanaFeatures = [
 	SolanaSignMessage,
 ] as const;
 
-const suiFetures = [
-	SuiSignMessage,
+const suiFeatures = [
+	SuiSignPersonalMessage,
 	SuiSignTransactionBlock,
 	SuiSignAndExecuteTransactionBlock,
 ] as const;
@@ -123,7 +123,7 @@ export class SuiWalletAccount implements WalletAccount {
 		this.#address = address;
 		this.#publicKey = publicKey;
 		this.#chains = SUI_CHAINS;
-		this.#features = suiFetures;
+		this.#features = suiFeatures;
 		this.#label = label;
 		this.#icon = icon;
 	}

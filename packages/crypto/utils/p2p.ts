@@ -1,15 +1,15 @@
 import { randomBytes } from 'crypto';
 
+import type { KeyPair } from '@stablelib/ed25519';
 import {
 	convertPublicKeyToX25519,
 	convertSecretKeyToX25519,
-	type KeyPair,
 } from '@stablelib/ed25519';
 import { openSecretBox, secretBox } from '@stablelib/nacl';
+import type { SessionKeys } from '@stablelib/x25519-session';
 import {
 	clientSessionKeys,
 	serverSessionKeys,
-	type SessionKeys,
 } from '@stablelib/x25519-session';
 import type { UnknownObject } from '@walless/core';
 import { decode, encode } from 'bs58check';
@@ -84,11 +84,11 @@ export const serialize = (data: UnknownObject): string => {
 };
 
 export const deserialize = (encoded: string): UnknownObject => {
-	return JSON.parse(decode(encoded).toString());
+	return JSON.parse(Buffer.from(decode(encoded)).toString());
 };
 
+export type { KeyPair } from '@stablelib/ed25519';
 export {
 	extractPublicKeyFromSecretKey,
 	generateKeyPair,
-	type KeyPair,
 } from '@stablelib/ed25519';

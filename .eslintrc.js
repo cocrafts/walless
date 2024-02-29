@@ -6,6 +6,7 @@ module.exports = {
 		'tool/batch/**',
 		'packages/core/utils/platform.ts',
 		'packages/graphql/types.ts',
+		'apps/wallet/assets/background.js',
 	],
 	env: {
 		node: true,

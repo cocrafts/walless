@@ -1,5 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import type { LayoutChangeEvent, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
 	Gesture,
 	GestureDetector,
@@ -17,7 +18,7 @@ import { AnimatedView } from './aliased';
 
 interface Props {
 	children: ReactNode;
-	style?: ViewStyle;
+	style?: ViewStyle | ViewStyle[];
 	gestureEnable?: boolean;
 	callbackOnClose?: () => void;
 }
@@ -72,7 +73,7 @@ export const SwipeDownGesture: FC<Props> = ({
 	}, [offset]);
 
 	return (
-		<GestureHandlerRootView>
+		<GestureHandlerRootView style={styles.container}>
 			<GestureDetector gesture={pan}>
 				<AnimatedView
 					style={[style, animatedStyle]}
@@ -86,3 +87,9 @@ export const SwipeDownGesture: FC<Props> = ({
 };
 
 export default SwipeDownGesture;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+});

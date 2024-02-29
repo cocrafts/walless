@@ -3,14 +3,15 @@ import type {
 	Collectible,
 	Collection,
 	EncryptedWithPasscode,
-	Endpoint,
-	EndpointMap,
 	ExtensionConfig,
 	HydratedKey,
+	NetworkCluster,
+	NetworkClusterMap,
 	Networks,
 	Setting,
 	System,
 	Token,
+	TransactionHistory,
 	TrustedDomain,
 	UnknownObject,
 	Widget,
@@ -18,7 +19,8 @@ import type {
 
 export type DocumentType =
 	| 'Setting'
-	| 'EndpointMap'
+	// | 'EndpointMap'
+	| 'ClusterMap'
 	| 'EncryptionKey'
 	| 'PrivateKey'
 	| 'PublicKey'
@@ -28,12 +30,13 @@ export type DocumentType =
 	| 'Metadata'
 	| 'TrustedDomain'
 	| 'Widget'
-	| 'Extension';
+	| 'Extension'
+	| 'History';
 
 export interface IndexedDocument {
 	type: DocumentType;
 	network?: Networks;
-	endpoint?: Endpoint;
+	cluster?: NetworkCluster;
 	timestamp?: string;
 }
 
@@ -45,7 +48,7 @@ export type SystemDocument = PouchDocument<System>;
 
 export type SettingDocument = PouchDocument<Setting>;
 
-export type EndpointsDocument = PouchDocument<EndpointMap>;
+export type NetworkClustersDocument = PouchDocument<NetworkClusterMap>;
 
 export type EncryptionKeyDocument = PouchDocument<HydratedKey>;
 
@@ -74,6 +77,8 @@ export type TrustedDomainDocument = PouchDocument<TrustedDomain>;
 export type CollectionDocument = PouchDocument<Collection>;
 
 export type CollectibleDocument = PouchDocument<Collectible>;
+
+export type TransactionHistoryDocument = PouchDocument<TransactionHistory>;
 
 export type TypedFind = <T extends object, F extends object = never>(
 	request?: PouchDB.Find.FindRequest<F> | undefined,

@@ -3,6 +3,7 @@ import { logger } from '@walless/core';
 export const configurePWA = () => {
 	self.addEventListener('install', onInstall);
 	self.addEventListener('activate', onActivate);
+	// TODO: need to resolve this one for pwa
 	// self.addEventListener('fetch', onFetch);
 };
 

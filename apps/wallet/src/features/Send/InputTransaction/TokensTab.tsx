@@ -42,7 +42,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 	const getRequiredFieldsForSelectToken = (item: Token) => {
 		return {
-			id: item.account.mint as string,
+			id: item.account.mint,
 			name: item.metadata?.name as string,
 			icon: { uri: item.metadata?.imageUri as string },
 		};

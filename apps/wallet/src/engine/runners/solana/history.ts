@@ -7,7 +7,7 @@ import type {
 	PublicKey,
 	TokenBalance,
 } from '@solana/web3.js';
-import type { TransactionHistory } from '@walless/core';
+import type { NetworkCluster, TransactionHistory } from '@walless/core';
 import { Networks } from '@walless/core';
 import { solana } from '@walless/network';
 import type { TokenDocument, TransactionHistoryDocument } from '@walless/store';
@@ -22,6 +22,7 @@ const historyLimit = 20;
 
 export const getTransactionsHistory = async (
 	connection: Connection,
+	cluster: NetworkCluster,
 	wallet: PublicKey,
 	accounts: ParsedTokenAccountWithAddress[],
 ) => {
@@ -53,6 +54,7 @@ export const getTransactionsHistory = async (
 				.map((transaction) =>
 					constructTransactionHistoryDocument(
 						connection,
+						cluster,
 						transaction as ParsedTransactionWithMeta,
 						wallet,
 					),
@@ -92,6 +94,7 @@ const getTransactionSignatures = async (
 
 const constructTransactionHistoryDocument = async (
 	connection: Connection,
+	cluster: NetworkCluster,
 	parsedTransaction: ParsedTransactionWithMeta,
 	wallet: PublicKey,
 ): Promise<TransactionHistoryDocument> => {
@@ -106,7 +109,8 @@ const constructTransactionHistoryDocument = async (
 		walletAddress,
 	);
 	const { sender, receiver, amount, token } =
-		(await getTransactionBalances(connection, parsedTransaction)) || {};
+		(await getTransactionBalances(connection, cluster, parsedTransaction)) ||
+		{};
 
 	const tokenForFee = await getTransactionTokenFee(walletAddress);
 	const fee = (meta?.fee || 0) / 10 ** (tokenForFee?.account.decimals || 9);
@@ -136,6 +140,7 @@ const getTransactionType = (sender: PublicKey, walletAddress: string) => {
 
 const getTransactionBalances = async (
 	connection: Connection,
+	cluster: NetworkCluster,
 	parsedTransaction: ParsedTransactionWithMeta,
 ) => {
 	const { meta, transaction } = parsedTransaction;
@@ -148,11 +153,15 @@ const getTransactionBalances = async (
 	if (isSplTokenTransaction) {
 		return await getSplTransactionBalances(connection, meta);
 	}
-	return await getNativeTransactionBalances(transaction);
+	return await getNativeTransactionBalances(transaction, cluster);
 };
 
-const getNativeTransactionBalances = async (transaction: ParsedTransaction) => {
+const getNativeTransactionBalances = async (
+	transaction: ParsedTransaction,
+	cluster: NetworkCluster,
+) => {
 	const token: TransactionHistory['token'] = {
+		cluster,
 		network: Networks.solana,
 		metadata: solana.solMetadata,
 	};
@@ -189,6 +198,7 @@ const getSplTransactionBalances = async (
 	);
 
 	const token: TransactionHistory['token'] = {
+		cluster: '',
 		network: Networks.solana,
 		metadata: await getMetadata(connection, mint),
 	};

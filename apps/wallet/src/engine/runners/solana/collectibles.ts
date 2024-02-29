@@ -32,7 +32,6 @@ export const getCollectiblesOnChain = async (
 	const rawNfts = await throttle(() => {
 		return mpl.nfts().findAllByOwner({ owner: wallet });
 	})();
-	console.log(rawNfts, '<-- raw nfts');
 
 	const nfts = await Promise.all(
 		rawNfts.map(async (metadata) => {
@@ -60,7 +59,6 @@ export const updateCollectibleToStorage = async (
 	cluster: NetworkCluster,
 	collectible: CollectibleDocument,
 ): Promise<UpdateCollectibleResult> => {
-	console.log(collectible, 'collectible');
 	let collection: CollectionDocument | undefined;
 	if (collectible.collectionAddress === collectible.account.mint) {
 		const selfCollectionDocument: CollectionDocument = {

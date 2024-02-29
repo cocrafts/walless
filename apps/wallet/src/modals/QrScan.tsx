@@ -59,7 +59,7 @@ const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 	};
 
 	const qrFrameContainerStyle = useMemo(() => {
-		const qrFrameWidth = (layoutWidth / 2 - 80) * 2;
+		const qrFrameWidth = layoutWidth - 160;
 
 		return {
 			height: qrFrameWidth,
@@ -112,7 +112,7 @@ const QRScanner: FC<Props> = ({ config, network, onScan }) => {
 			/>
 
 			<View style={[styles.qrFrameContainer, qrFrameContainerStyle]}>
-				<QrFrame size={(layoutWidth / 2 - 80) * 2} />
+				<QrFrame size={layoutWidth - 160} />
 			</View>
 
 			<View style={styles.networkContainer}>

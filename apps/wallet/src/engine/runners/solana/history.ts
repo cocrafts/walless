@@ -40,28 +40,22 @@ export const getTransactionsHistory = async (
 			// don't use getParsedTransactions because
 			// it uses batch rpc request failed by rpc limit without retrying
 			// we need to use getParsedTransaction for separately retry
-			return await connection
-				.getParsedTransaction(s, {
-					maxSupportedTransactionVersion: 0,
-					commitment: 'finalized',
-				})
-				.then(async (tx) => {
-					return await constructTransactionHistoryDocument(
-						connection,
-						cluster,
-						tx as ParsedTransactionWithMeta,
-						wallet,
-					);
-				})
-				.then(async (txDoc) => {
-					if (!txDoc) return;
-					await storage.upsert<TransactionHistoryDocument>(
-						txDoc._id,
-						async () => {
-							return txDoc;
-						},
-					);
-				});
+			const tx = await connection.getParsedTransaction(s, {
+				maxSupportedTransactionVersion: 0,
+				commitment: 'finalized',
+			});
+
+			const txDoc = await constructTransactionHistoryDocument(
+				connection,
+				cluster,
+				tx as ParsedTransactionWithMeta,
+				wallet,
+			);
+
+			if (!txDoc) return;
+			await storage.upsert<TransactionHistoryDocument>(txDoc._id, async () => {
+				return txDoc;
+			});
 		})();
 	});
 

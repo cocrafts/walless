@@ -19,7 +19,8 @@ export const getNetworkClusters = async () => {
 	return networkClusters;
 };
 
-const defaultNetworkCluster: NetworkCluster = environment.NETWORK_CLUSTER;
+const defaultNetworkCluster: NetworkCluster =
+	environment.NETWORK_CLUSTER || 'devnet';
 
 export const defaultNetworkClusters = {
 	solana: defaultNetworkCluster,

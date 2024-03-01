@@ -11,7 +11,7 @@ import { navigate, navigateBack } from 'utils/navigation';
 export const CollectionFeat = () => {
 	const { collectibles, collections } = useNfts();
 	const { onGridContainerLayout, width } = useLazyGridLayout({
-		referenceWidth: 156,
+		referenceWidth: 150,
 		gap: gridGap,
 	});
 

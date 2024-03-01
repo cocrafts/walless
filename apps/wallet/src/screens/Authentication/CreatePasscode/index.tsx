@@ -11,6 +11,7 @@ import { logger } from '@walless/core';
 import { Passcode, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
 import { appActions } from 'state/app';
+import assets from 'utils/assets';
 import { makeProfile, setProfile, signInWithPasscode } from 'utils/auth';
 import { auth } from 'utils/firebase';
 import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
@@ -30,7 +31,7 @@ export const CreatePasscodeScreen: FC = () => {
 	const title = confirmation ? 'Confirm your passcode' : 'Create passcode';
 	const style = {
 		paddingTop: insets.top,
-		paddingBottom: insets.bottom,
+		paddingBottom: insets.bottom || 20,
 	};
 
 	const handleInitFail = () => {
@@ -98,7 +99,7 @@ export const CreatePasscodeScreen: FC = () => {
 				style={styles.contentContainer}
 				contentContainerStyle={styles.scrollContentContainer}
 			>
-				<Image source={{ uri: '/img/bare-icon.png' }} style={styles.logo} />
+				<Image source={assets.misc.walless} style={styles.logo} />
 
 				<View style={styles.titleContainer}>
 					<Text style={styles.title}>{title}</Text>
@@ -136,7 +137,6 @@ export default CreatePasscodeScreen;
 export const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingBottom: 20,
 	},
 	contentContainer: {
 		flex: 1,

@@ -23,6 +23,7 @@ import BN from 'bn.js';
 import base58 from 'bs58';
 import { engine } from 'engine';
 import type { AptosContext, SolanaContext } from 'engine/runners';
+import { gasilonSupportedNetworks } from 'features/Send/InputTransaction/internal';
 import { capitalize } from 'lodash';
 import assets from 'utils/assets';
 import { environment } from 'utils/config';
@@ -403,4 +404,50 @@ export const getNetworkMetadata = (network: Networks) => {
 	}
 
 	return { networkIcon, networkName, nativeSymbol };
+};
+
+export const isNativeToken = (
+	network: Networks,
+	tokenSymbol?: string,
+): boolean => {
+	// NOTE: it is better to verify the symbol using network's sdk
+	switch (network) {
+		case Networks.solana:
+			return tokenSymbol === 'SOL';
+		case Networks.sui:
+			return tokenSymbol === 'SUI';
+		case Networks.aptos:
+			return tokenSymbol === 'APT';
+		case Networks.tezos:
+			return tokenSymbol === 'XTZ';
+		default:
+			return false;
+	}
+};
+
+export const hasEnoughBalanceToMakeTx = async (payload: TransactionPayload) => {
+	const { token, tokenForFee, amount, network } = payload;
+
+	const decimals = (token as TokenDocument).account?.decimals
+		? 10 ** ((token as TokenDocument).account.decimals || 0)
+		: 1;
+
+	const amountBN = new BN(amount * decimals);
+
+	const tokenForFeeBalanceBN = new BN(tokenForFee.account.balance);
+
+	const fee =
+		gasilonSupportedNetworks.includes(network) &&
+		!isNativeToken(network, tokenForFee.metadata?.symbol)
+			? await getTransactionAbstractFee(payload)
+			: await getTransactionFee(payload);
+
+	const feeBN = new BN(fee * decimals);
+
+	const hasEnoughBalance =
+		token.account.mint === tokenForFee.account.mint
+			? tokenForFeeBalanceBN.gte(amountBN.add(feeBN))
+			: tokenForFeeBalanceBN.gte(feeBN);
+
+	return hasEnoughBalance;
 };

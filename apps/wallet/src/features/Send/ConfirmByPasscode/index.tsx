@@ -1,14 +1,18 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { ResponseCode } from '@walless/core';
+import { logger, ResponseCode } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Passcode, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import { showError } from 'modals/Error';
 import assets from 'utils/assets';
 import { nativeModules } from 'utils/native';
-import { createAndSend, prepareTransactionPayload } from 'utils/transaction';
+import {
+	createAndSend,
+	hasEnoughBalanceToMakeTx,
+	prepareTransactionPayload,
+} from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
 import { txActions, txContext } from '../context';
@@ -52,22 +56,29 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 			);
 
 			try {
-				const res = await createAndSend(payload, passcode);
+				const hasEnoughBalance = await hasEnoughBalanceToMakeTx(payload);
 
-				txActions.update({ time: new Date() });
-				txActions.update({ status: res.responseCode });
+				if (!hasEnoughBalance) {
+					showError({ errorText: 'Insufficient balance to send' });
+				} else {
+					const res = await createAndSend(payload, passcode);
 
-				if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
-					showError({ errorText: 'Passcode is NOT matched' });
-					setError('Wrong passcode');
-				} else if (res.responseCode == ResponseCode.SUCCESS) {
-					const signature =
-						res.signatureString || res.signedTransaction?.digest || res.hash;
-					txActions.update({ signatureString: signature });
-					navigator.slideNext();
+					txActions.update({ time: new Date() });
+					txActions.update({ status: res.responseCode });
+
+					if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
+						showError({ errorText: 'Passcode is NOT matched' });
+						setError('Wrong passcode');
+					} else if (res.responseCode == ResponseCode.SUCCESS) {
+						const signature =
+							res.signatureString || res.signedTransaction?.digest || res.hash;
+						txActions.update({ signatureString: signature });
+						navigator.slideNext();
+					}
 				}
-			} catch (error) {
-				showError({ errorText: (error as Error).message });
+			} catch (err) {
+				logger.error(err);
+				showError({ errorText: 'Something went wrong' });
 			}
 
 			setPasscode('');

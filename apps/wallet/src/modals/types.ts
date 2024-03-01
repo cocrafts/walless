@@ -8,4 +8,5 @@ export enum ModalId {
 	RemoveLayout = 'RemoveLayout',
 	RequirePasscode = 'RequirePasscode',
 	TransactionDetails = 'TransactionDetails',
+	QRScanner = 'QRScanner',
 }

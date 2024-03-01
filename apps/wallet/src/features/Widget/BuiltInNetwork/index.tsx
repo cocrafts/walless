@@ -52,25 +52,27 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		...styles.container,
 	};
 
-	const bottomSliderItems: SlideOption[] = [
-		{
-			id: 'tokens',
-			component: () => <TokenTab tokens={tokens} />,
-		},
-		{
-			id: 'collectibles',
-			component: () =>
-				id === Networks.aptos ? (
-					<AptosTokensTab pubkey={keys[0]._id} />
-				) : (
-					<CollectiblesTab collections={collections} />
-				),
-		},
-		{
-			id: 'activities',
-			component: () => <ActivityTab network={id as Networks} />,
-		},
-	];
+	const bottomSliderItems: SlideOption[] = useMemo(() => {
+		return [
+			{
+				id: 'tokens',
+				component: () => <TokenTab tokens={tokens} />,
+			},
+			{
+				id: 'collectibles',
+				component: () =>
+					id === Networks.aptos ? (
+						<AptosTokensTab pubkey={keys[0]._id} />
+					) : (
+						<CollectiblesTab collections={collections} />
+					),
+			},
+			{
+				id: 'activities',
+				component: () => <ActivityTab network={id as Networks} />,
+			},
+		];
+	}, []);
 
 	const activatedStyle: TabItemStyle = {
 		containerStyle: {

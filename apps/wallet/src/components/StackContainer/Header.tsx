@@ -30,7 +30,7 @@ export const StackHeader: FC<HeaderProps> = ({
 		backgroundColor.value = `rgba(8, 16, 22, ${bgOpacity})`;
 
 		return {
-			paddingTop: Math.max(insets.top || 0, 12),
+			paddingTop: insets.top || 0,
 			backgroundColor: backgroundColor.value,
 		};
 	}, [scrollOffset, insets]);
@@ -60,7 +60,6 @@ export const StackHeader: FC<HeaderProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#081016',
-		paddingBottom: 12,
 		paddingLeft: 18,
 	},
 	textContainer: {

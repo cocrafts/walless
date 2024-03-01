@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 import type { Networks } from '@walless/core';
-import type { CollectibleDocument, PublicKeyDocument } from '@walless/store';
+import type {
+	CollectibleDocument,
+	PublicKeyDocument,
+	TokenDocument,
+} from '@walless/store';
 import { appState } from 'state/app';
 import { collectibleState, collectionState, tokenState } from 'state/assets';
 import { historyState } from 'state/history';
@@ -42,6 +46,13 @@ export const useRelevantKeys = () => {
 	}, [keyMap, widgetMap]);
 };
 
+const getTokenValue = (token: TokenDocument, currency: string) => {
+	const { quotes, balance, decimals } = token.account;
+	const quote = quotes?.[currency] || 0;
+
+	return quote * (parseInt(balance) / Math.pow(10, decimals));
+};
+
 export const useTokens = (
 	network?: Networks,
 	address?: string,
@@ -54,20 +65,33 @@ export const useTokens = (
 		let valuation = 0;
 		const filteredTokens = [];
 
-		for (const item of tokens) {
-			const isNetworkValid = network ? item.network === network : true;
-			const isAccountValid = address ? item.account?.address === address : true;
-			const isAvailable = item.account.balance !== '0';
-			const isSol = item.account.mint === solMint;
+		for (const token of tokens) {
+			const isNetworkValid = network ? token.network === network : true;
+			const isAccountValid = address
+				? token.account?.address === address
+				: true;
+			const isAvailable = token.account.balance !== '0';
+			const isSol = token.account.mint === solMint;
 
 			if (isNetworkValid && isAccountValid && (isSol || isAvailable)) {
-				const { quotes, balance, decimals } = item.account;
-				const quote = quotes?.[currency] || 0;
-
-				valuation += quote * (parseInt(balance) / Math.pow(10, decimals));
-				filteredTokens.push(item);
+				valuation += getTokenValue(token, currency);
+				filteredTokens.push(token);
 			}
 		}
+
+		filteredTokens.sort((token1, token2) => {
+			if (token1.account.mint === solMint) {
+				return -1;
+			} else if (token2.account.mint === solMint) {
+				return 1;
+			} else if (
+				getTokenValue(token1, currency) < getTokenValue(token2, currency)
+			) {
+				return 1;
+			} else {
+				return -1;
+			}
+		});
 
 		return {
 			tokens: filteredTokens,

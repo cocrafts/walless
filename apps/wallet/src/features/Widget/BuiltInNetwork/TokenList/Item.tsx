@@ -8,7 +8,6 @@ import { formatQuote, parseTokenAccountBalance } from 'utils/format';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
-	index: number;
 	item: TokenDocument;
 	onPress?: () => void;
 }

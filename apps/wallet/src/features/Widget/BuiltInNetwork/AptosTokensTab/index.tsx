@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, View } from '@walless/gui';
-import { engine } from 'engine';
+import { getDefaultEngine } from 'engine';
 import type { AptosContext } from 'engine/runners';
 import { aptosState } from 'state/assets';
 import { useNfts } from 'utils/hooks';
@@ -29,6 +29,7 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 
 	useEffect(() => {
 		const getFee = async () => {
+			const engine = getDefaultEngine();
 			const { provider } = engine.getContext<AptosContext>(Networks.aptos);
 			const fee = await provider.estimateGasPrice();
 			setFee(fee.gas_estimate / 10 ** APTOS_COIN_DECIMALS);

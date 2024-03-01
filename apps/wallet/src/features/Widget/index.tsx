@@ -27,7 +27,7 @@ export const WidgetFeature: FC<WidgetFeatureProps> = ({
 				noBottomTabs: true,
 				toggleDrawer: onToggleDrawer,
 			}),
-		[isHeaderActive],
+		[isHeaderActive, widgetId],
 	);
 
 	return <ManageWidgetScreen id={widgetId} />;

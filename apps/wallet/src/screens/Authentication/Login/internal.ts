@@ -20,7 +20,7 @@ export const signIn = async (invitationCode?: string) => {
 	}
 
 	try {
-		checkInvitationCode(user, invitationCode);
+		await checkInvitationCode(user, invitationCode);
 	} catch (error) {
 		showError({ errorText: (error as Error).message });
 		logger.error('Error when checking invitation code', error);

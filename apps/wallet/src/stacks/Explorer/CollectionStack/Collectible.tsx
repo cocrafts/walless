@@ -19,7 +19,7 @@ export const CollectibleFeat = () => {
 		if (!id) return;
 
 		return collectibles.find((ele) => ele._id.includes(id));
-	}, [collectibles]);
+	}, [collectibles, id]);
 
 	useEffect(() => {
 		if (!curCollectible) return;

@@ -49,11 +49,11 @@ export const linking: LinkingOptions<RootParamList> = {
 			Dashboard: {
 				screens: {
 					Explore: {
-						path: '/',
+						path: '/explore',
 						screens: {
 							Widget: '/widget/:id',
 							Collection: {
-								path: '/',
+								path: '/collection',
 								screens: {
 									Default: '/collection/:id',
 									Collectible: '/collectible/:id',

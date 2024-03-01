@@ -9,6 +9,7 @@ import ForwardLink from './ForwardLink';
 import HelpCenter from './HelpCenter';
 import Logout from './Logout';
 import MyWallets from './MyWallets';
+import ReferralCard from './ReferralCard';
 
 interface Props {
 	style?: ViewStyle;
@@ -25,6 +26,8 @@ const SettingFeature: FC<Props> = ({ style }) => {
 				<Image source={imageSource} style={styles.avatar} />
 				<Text style={styles.nameText}>{displayName}</Text>
 			</View>
+
+			<ReferralCard />
 
 			<View style={styles.delimiter} />
 
@@ -75,7 +78,6 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	delimiter: {
-		flexGrow: 1,
 		height: 1,
 		backgroundColor: '#56667466',
 		marginTop: 10,

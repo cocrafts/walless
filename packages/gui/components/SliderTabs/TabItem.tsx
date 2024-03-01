@@ -1,31 +1,31 @@
 import type { FC } from 'react';
-import type { TextStyle } from 'react-native';
+import type { TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text } from '@walless/gui';
 
-import type { TabAble } from './shared';
+export interface TabItemStyle {
+	containerStyle: ViewStyle;
+	textStyle: TextStyle;
+}
+
+export interface TabAble {
+	id: string;
+	title: string;
+}
 
 interface Props {
 	item: TabAble;
-	backgroundColor: string;
-	color: string;
-	fontWeight: TextStyle['fontWeight'];
+	style?: TabItemStyle;
 	onPress?: (item: TabAble) => void;
 }
 
-export const TabItem: FC<Props> = ({
-	item,
-	backgroundColor = 'transparent',
-	color = 'white',
-	fontWeight,
-	onPress,
-}) => {
+export const TabItem: FC<Props> = ({ item, style, onPress }) => {
 	return (
 		<Hoverable
-			style={[styles.container, { backgroundColor }]}
+			style={[styles.container, style?.containerStyle]}
 			onPress={() => onPress?.(item)}
 		>
-			<Text style={[styles.title, { color, fontWeight }]}>{item.title}</Text>
+			<Text style={[styles.title, style?.textStyle]}>{item.title}</Text>
 		</Hoverable>
 	);
 };

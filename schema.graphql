@@ -161,6 +161,24 @@ enum NonceType {
 scalar ObjectID
 
 """"""
+type ReferralRankingRecord {
+  """"""
+  display: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  rank: Int
+
+  """"""
+  rankChange: Int
+
+  """"""
+  referralCount: Int
+}
+
+""""""
 type RootMutation {
   """"""
   addWidget(banner: String, description: String!, largeLogo: String, logo: String, name: String!, networks: [String] = ["[]"], nfts: [WidgetTokenInput], ownerId: String!, tokens: [WidgetTokenInput]): Widget
@@ -208,6 +226,9 @@ type RootMutation {
 """"""
 type RootQuery {
   """"""
+  claimedWalletInvitations: [WalletInvitation]
+
+  """"""
   counter: Int
 
   """"""
@@ -218,6 +239,9 @@ type RootQuery {
 
   """"""
   nonce(identifier: String!): Nonce
+
+  """"""
+  referralLeaderboard(limit: Int, offset: Int): [ReferralRankingRecord]
 
   """"""
   systemInfo: SystemInfo
@@ -233,6 +257,9 @@ type RootQuery {
 
   """"""
   tokensByAddress(addresses: [String]!): [TokenInfo]
+
+  """"""
+  unclaimedWalletInvitations: [WalletInvitation]
 
   """"""
   userAccount: Account
@@ -326,6 +353,9 @@ type WalletInvitation {
 
   """"""
   id: ObjectID
+
+  """"""
+  referrerId: ObjectID
 
   """"""
   timestamp: MongoDateTime

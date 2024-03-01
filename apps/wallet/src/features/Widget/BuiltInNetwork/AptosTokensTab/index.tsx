@@ -3,7 +3,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
-import { Slider, View } from '@walless/gui';
+import type { TabAble, TabItemStyle } from '@walless/gui';
+import { Slider, SliderTabs, View } from '@walless/gui';
 import { engine } from 'engine';
 import type { AptosContext } from 'engine/runners';
 import { aptosState } from 'state/assets';
@@ -11,8 +12,6 @@ import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import CollectiblesTab from '../CollectiblesTab';
-import type { TabAble } from '../SliderTabs';
-import SliderTabs from '../SliderTabs';
 
 import DirectTransfer from './DirectTransfer';
 import PendingTokens from './PendingTokens';
@@ -73,6 +72,26 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 		setActiveTabIndex(idx);
 	};
 
+	const activatedStyle: TabItemStyle = {
+		containerStyle: {
+			backgroundColor: '#0694D3',
+		},
+		textStyle: {
+			color: 'white',
+			fontWeight: '500',
+		},
+	};
+
+	const deactivatedStyle: TabItemStyle = {
+		containerStyle: {
+			backgroundColor: 'transparent',
+		},
+		textStyle: {
+			color: '#566674',
+			fontWeight: '400',
+		},
+	};
+
 	return (
 		<View style={styles.container}>
 			<DirectTransfer
@@ -86,6 +105,8 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 					items={layoutTabs}
 					activeItem={layoutTabs[activeTabIndex]}
 					onTabPress={handleTabPress}
+					activatedStyle={activatedStyle}
+					deactivatedStyle={deactivatedStyle}
 				/>
 
 				<Slider

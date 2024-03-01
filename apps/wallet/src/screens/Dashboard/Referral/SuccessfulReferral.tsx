@@ -1,38 +1,47 @@
 import type { FC } from 'react';
+import type { LayoutChangeEvent } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { Text, View } from '@walless/gui';
+import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import { AnimatedView, Text, View } from '@walless/gui';
 
 interface Props {
-	numberOfReferrals: number;
-	numberOfActivatedReferrals: number;
+	currentPoints: number;
+	goalPoint: number;
 }
 
 const barHeight = 16;
 
-const SuccessfulReferral: FC<Props> = ({
-	numberOfActivatedReferrals,
-	numberOfReferrals,
-}) => {
+const SuccessfulReferral: FC<Props> = ({ currentPoints, goalPoint }) => {
+	const lengthBar = useSharedValue(0);
+
+	const activeReferralStyle = useAnimatedStyle(() => {
+		return {
+			width: lengthBar.value * (currentPoints / goalPoint),
+		};
+	}, [lengthBar, goalPoint, currentPoints]);
+
+	const handleLayout = (event: LayoutChangeEvent) => {
+		lengthBar.value = event.nativeEvent.layout.width;
+	};
+
 	return (
 		<View style={styles.container}>
-			<Text style={[styles.text, styles.title]}>Successful referral</Text>
-			<View style={styles.measurementContainer}>
-				<View style={styles.referral}>
-					{Array.from({ length: numberOfReferrals }).map((_, index) => {
-						const isActivated = index < numberOfActivatedReferrals;
-						return (
-							<View
-								key={index}
-								style={isActivated ? styles.activeReferral : styles.referral}
-							/>
-						);
-					})}
+			<View style={styles.titleContainer}>
+				<Text style={[styles.text, styles.title]}>Your Influencer Meter</Text>
+				<Text>Goal {goalPoint} points</Text>
+			</View>
 
-					<Text style={[styles.proportionText]}>
-						{numberOfActivatedReferrals}/{numberOfReferrals}
-					</Text>
+			<View onLayout={handleLayout} style={styles.referral}>
+				<AnimatedView style={[styles.activeReferral, activeReferralStyle]} />
+			</View>
+
+			<View style={styles.levelContainer}>
+				<Text style={styles.levelText}>Level 1</Text>
+
+				<View style={styles.levelContainer}>
+					<Text style={styles.leftPoint}>40 points to </Text>
+					<Text style={styles.levelText}>Level 1</Text>
 				</View>
-				<Text style={styles.text}>Level 1</Text>
 			</View>
 		</View>
 	);
@@ -42,28 +51,25 @@ export default SuccessfulReferral;
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#566674',
 		gap: 12,
 		padding: 12,
 	},
+	titleContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'flex-end',
+	},
 	title: {
-		fontSize: 12,
-		fontWeight: '500',
+		fontSize: 18,
 	},
 	text: {
 		fontSize: 10,
 		color: '#ffffff',
 	},
-	measurementContainer: {
-		flexDirection: 'row',
-		gap: 12,
-		justifyContent: 'space-between',
-		alignItems: 'center',
-	},
 	activeReferral: {
-		flex: 1,
 		backgroundColor: '#0694D3',
 		height: barHeight,
+		borderRadius: barHeight / 2,
 	},
 	referral: {
 		flex: 1,
@@ -73,11 +79,15 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ffffff',
 		overflow: 'hidden',
 	},
-	proportionText: {
-		fontSize: 10,
-		top: 3,
-		left: '50%',
-		position: 'absolute',
-		color: '#000000',
+	levelContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		gap: 4,
+	},
+	levelText: {
+		color: '#0694D3',
+	},
+	leftPoint: {
+		color: '#798997',
 	},
 });

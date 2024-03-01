@@ -5,13 +5,22 @@ import { Text, View } from '@walless/gui';
 interface Props {
 	title: string;
 	value: string;
+	LeftIcon?: React.ReactNode;
+	RightIcon?: React.ReactNode;
 }
 
-const DetailsContainer: FC<Props> = ({ title, value }) => {
+const DetailsContainer: FC<Props> = ({ LeftIcon, RightIcon, title, value }) => {
 	return (
 		<View style={styles.container}>
-			<Text style={[styles.text, styles.title]}>{title}</Text>
-			<Text style={[styles.text, styles.value]}>{value}</Text>
+			<View style={styles.titleContainer}>
+				{LeftIcon}
+				<View>
+					<Text style={styles.title}>{title}</Text>
+					<Text style={styles.value}>{value}</Text>
+				</View>
+			</View>
+
+			<View>{RightIcon}</View>
 		</View>
 	);
 };
@@ -22,21 +31,23 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: 'row',
-		justifyContent: 'space-between',
 		alignItems: 'center',
-		backgroundColor: '#566674',
-		gap: 12,
-		padding: 12,
-	},
-	text: {
-		maxWidth: '50%',
-		fontSize: 12,
-		color: '#ffffff',
+		justifyContent: 'space-between',
+		backgroundColor: '#19232C',
+		gap: 8,
+		padding: 8,
+		borderRadius: 16,
 	},
 	title: {
-		fontWeight: '500',
+		fontSize: 12,
+		color: '#798997',
 	},
 	value: {
-		textAlign: 'right',
+		color: '#ffffff',
+	},
+	titleContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 8,
 	},
 });

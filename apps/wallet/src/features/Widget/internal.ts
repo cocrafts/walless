@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import BuiltInNetwork from './BuiltInNetwork';
+import NotFound from './NotFound';
 import Pixeverse from './Pixeverse';
 import TRexRunner from './TRexRunner';
 
@@ -20,9 +21,5 @@ export const widgetMap: Record<string, WidgetComponent> = {
 };
 
 export const extractWidgetComponent = (id: string): WidgetComponent => {
-	return widgetMap[id];
-};
-
-export const isValidWidget = (id: string): boolean => {
-	return widgetMap[id] ? true : false;
+	return widgetMap[id] || NotFound;
 };

@@ -4,7 +4,7 @@ import type { TransactionPayload } from '@walless/core';
 import { logger, Networks, RequestType, ResponseCode } from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
 import { aptosHandler, solanaHandler, utils } from '@walless/network';
-import { engine } from 'engine';
+import { getDefaultEngine } from 'engine';
 import type { AptosContext, SolanaContext } from 'engine/runners';
 import { environment } from 'utils/config';
 import { storage } from 'utils/storage';
@@ -45,6 +45,7 @@ export const createAndSend = async (
 		// eslint-disable-next-line no-useless-catch
 		try {
 			if (payload.tokenForFee.metadata?.symbol === 'SOL') {
+				const engine = getDefaultEngine();
 				const { connection } = engine.getContext<SolanaContext>(
 					Networks.solana,
 				);
@@ -84,6 +85,7 @@ export const createAndSend = async (
 		const isCoinTransaction = !('creator' in transaction);
 
 		try {
+			const engine = getDefaultEngine();
 			const { provider } = engine.getContext<AptosContext>(Networks.aptos);
 			if (isCoinTransaction) {
 				res.signatureString = await aptosHandler.handleTransferCoin(
@@ -128,6 +130,7 @@ export const handleAptosOnChainAction = async ({
 	}
 
 	try {
+		const engine = getDefaultEngine();
 		const { provider } = engine.getContext<AptosContext>(Networks.aptos);
 		switch (type) {
 			case RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS:

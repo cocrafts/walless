@@ -12,11 +12,7 @@ import type {
 	WidgetDocument,
 } from '@walless/store';
 import { configure, selectors } from '@walless/store';
-import {
-	createEngine,
-	engine as defaultEngine,
-	setDefaultEngine,
-} from 'engine';
+import { createEngine, getDefaultEngine, setDefaultEngine } from 'engine';
 import {
 	createAptosRunner,
 	createSolanaRunner,
@@ -78,13 +74,15 @@ export const launchApp = async (): Promise<void> => {
 };
 
 export const initAfterSignIn = async () => {
-	await registerNetworkRunners(defaultEngine);
-	await defaultEngine.start();
+	const engine = getDefaultEngine();
+	await registerNetworkRunners(engine);
+	await engine.start();
 };
 
 const configEngine = async () => {
-	if (defaultEngine) return;
-	const engine = await createEngine();
+	let engine = getDefaultEngine();
+	if (engine) return;
+	engine = await createEngine();
 	await registerNetworkRunners(engine);
 	await engine.start();
 	setDefaultEngine(engine);
@@ -99,6 +97,7 @@ const registerNetworkRunners = async (engine: Engine) => {
 	};
 
 	const keys = (await storage.find<PublicKeyDocument>(selectors.allKeys)).docs;
+	console.log(keys, '<-- keys');
 	Object.values(Networks).forEach((network) => {
 		const isNetworkAvailable = !!keys.find((i) => i.network === network);
 		if (!isNetworkAvailable) return;

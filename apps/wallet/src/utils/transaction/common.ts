@@ -21,7 +21,7 @@ import type { CollectibleDocument, TokenDocument } from '@walless/store';
 import { TxnBuilderTypes } from 'aptos';
 import BN from 'bn.js';
 import base58 from 'bs58';
-import { engine } from 'engine';
+import { getDefaultEngine } from 'engine';
 import type { AptosContext, SolanaContext } from 'engine/runners';
 import { gasilonSupportedNetworks } from 'features/Send/InputTransaction/internal';
 import { capitalize } from 'lodash';
@@ -53,6 +53,7 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 export const getTransactionFee = async (payload: TransactionPayload) => {
 	if (payload.network == Networks.solana) {
 		const transaction = await constructTransaction(payload);
+		const engine = getDefaultEngine();
 		const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 		const message = (transaction as VersionedTransaction).message;
 		const transactionFeePromise = connection
@@ -85,6 +86,7 @@ export const getTransactionFee = async (payload: TransactionPayload) => {
 	} else if (payload.network == Networks.sui) {
 		return 0;
 	} else if (payload.network == Networks.aptos) {
+		const engine = getDefaultEngine();
 		const { provider } = engine.getContext<AptosContext>(Networks.aptos);
 		const fee = await provider.estimateGasPrice();
 		return fee.gas_estimate / 10 ** 8;
@@ -114,6 +116,7 @@ export const constructTransaction = async ({
 
 	if (network == Networks.solana) {
 		const amountBN = new BN(amount * decimals);
+		const engine = getDefaultEngine();
 		const { connection } = engine.getContext<SolanaContext>(network);
 		if (token.metadata?.symbol == 'SOL') {
 			return await solana.constructSendSOLTransaction(
@@ -203,6 +206,7 @@ const constructTransactionAbstractFeeTemplate = async (
 	{ network, sender, token, tokenForFee, receiver, amount }: SendTokenProps,
 	fee?: number,
 ) => {
+	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(network);
 	const bh = await connection.getLatestBlockhash('finalized');
 

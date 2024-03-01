@@ -4,6 +4,9 @@ import { environment } from 'utils/config';
 import { storage } from 'utils/storage';
 
 export const getNetworkClusters = async () => {
+	if (!environment.NETWORK_CLUSTER)
+		throw Error('please provide NETWORK_CLUSTER in environment');
+
 	let networkClusters =
 		await storage.safeGet<NetworkClustersDocument>('clusters');
 

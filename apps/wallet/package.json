@@ -98,6 +98,7 @@
     "react-native-screens": "^3.20.0",
     "react-native-svg": "13.10.0",
     "react-native-url-polyfill": "^2.0.0",
+    "react-native-vision-camera": "^3.9.0",
     "react-native-webview": "13.6.3",
     "use-debounce": "^10.0.0"
   },

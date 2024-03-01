@@ -49,6 +49,7 @@ export const TokenList: FC<Props> = ({
 			contentContainerStyle={contentContainerStyle}
 			data={items}
 			renderItem={renderItem}
+			keyExtractor={(item) => item._id}
 			ItemSeparatorComponent={() => <Separator style={separateStyle} />}
 			ListEmptyComponent={ListEmpty}
 		/>

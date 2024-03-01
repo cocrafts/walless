@@ -19,7 +19,7 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 
 	if (user?.uid) {
 		if (appState.remoteConfig.deepAnalyticsEnabled) {
-			runtimeActions.syncRemoteProfile();
+			await runtimeActions.syncRemoteProfile();
 		}
 	}
 
@@ -38,7 +38,7 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		setUserProperties(getAnalytics(app), { email: user.email });
 	}
 
-	runtimeActions.syncDeviceInfo(deviceInfo);
+	await runtimeActions.syncDeviceInfo(deviceInfo);
 };
 
 export { getDeviceInfo } from './index.ext';

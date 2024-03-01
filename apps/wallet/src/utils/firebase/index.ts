@@ -26,9 +26,9 @@ const minimumFetchIntervalMillis = __DEV__
 remoteConfig().setDefaults(defaultRemoteConfig as never);
 remoteConfig().setConfigSettings({ minimumFetchIntervalMillis });
 
-export const loadRemoteConfig = (): RemoteConfig => {
-	remoteConfig().activate();
-	remoteConfig().fetch(); // fetch for next launch
+export const loadRemoteConfig = async (): Promise<RemoteConfig> => {
+	await remoteConfig().activate();
+	await remoteConfig().fetch(); // fetch for next launch
 	const allConfig = remoteConfig().getAll();
 
 	return {

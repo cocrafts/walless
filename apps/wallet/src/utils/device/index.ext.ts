@@ -31,7 +31,7 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 
 	if (user?.uid) {
 		if (appState.remoteConfig.deepAnalyticsEnabled) {
-			runtimeActions.syncRemoteProfile();
+			await runtimeActions.syncRemoteProfile();
 		}
 	}
 
@@ -45,7 +45,7 @@ export const configureDeviceAndNotification = async (): Promise<void> => {
 		logger.info('Notification not available for this platform yet!');
 	}
 
-	runtimeActions.syncDeviceInfo(deviceInfo);
+	await runtimeActions.syncDeviceInfo(deviceInfo);
 };
 
 const getDeviceId = async (): Promise<string> => {

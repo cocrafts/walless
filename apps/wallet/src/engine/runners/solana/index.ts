@@ -35,8 +35,10 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 	const { networkClusters } = config;
 	const cluster = networkClusters[Networks.solana];
 	const connection = new Connection(endpointUrl[cluster], 'confirmed');
-	const keys = (await storage.find<PublicKeyDocument>(selectors.solanaKeys))
-		.docs;
+	const keysResult = await storage.find<PublicKeyDocument>(
+		selectors.solanaKeys,
+	);
+	const keys = keysResult.docs;
 
 	return {
 		start: async () => {
@@ -74,7 +76,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 					}),
 					watchLogs(connection, cluster, wallet),
 					watchAccount(connection, cluster, wallet, wallet),
-					getTransactionsHistory(connection, wallet, accounts),
+					getTransactionsHistory(connection, cluster, wallet, accounts),
 				] as never[];
 			});
 

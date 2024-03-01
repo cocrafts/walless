@@ -1,4 +1,5 @@
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks, Token } from '@walless/core';
 import { Button, Select, Text, View } from '@walless/gui';
@@ -16,6 +17,7 @@ import { useSnapshot } from 'valtio';
 import { txActions, txContext } from '../context';
 
 import type { ErrorMessage } from './internal';
+import QRScanButton from './QRScanButton';
 import { TotalCost } from './TotalCost';
 import TransactionFee from './TransactionFee';
 
@@ -85,6 +87,16 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		txActions.update({ amount: balance.toString() });
 	};
 
+	const MaxButon = (
+		<Button
+			style={styles.maxButton}
+			titleStyle={styles.titleMaxButton}
+			title="Max"
+			onPress={handleMaxPress}
+			disabled={disabledMax}
+		/>
+	);
+
 	useEffect(() => {
 		setDisabledMax(!token || !tokenForFee || !transactionFee);
 	}, [token, tokenForFee, transactionFee]);
@@ -110,6 +122,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				errorText={recipientErrorMessage}
 				onChangeText={(receiver) => txActions.update({ receiver })}
 				onBlur={() => checkRecipient(receiver, network)}
+				suffix={QRScanButton({ network: network as Networks })}
 			/>
 
 			<CheckedInput
@@ -119,15 +132,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				errorText={amountErrorMessage}
 				onChangeText={(amount) => txActions.update({ amount })}
 				onBlur={() => checkAmount(amount, balance)}
-				suffix={
-					<Button
-						style={styles.maxButton}
-						titleStyle={styles.titleMaxButton}
-						title="Max"
-						onPress={handleMaxPress}
-						disabled={disabledMax}
-					/>
-				}
+				suffix={MaxButon}
 			/>
 
 			<View style={styles.balanceContainer}>

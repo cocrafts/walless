@@ -50,7 +50,11 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 	const layout = useRef<LayoutRectangle>();
 	const top = useSharedValue(0);
 	const left = useSharedValue(0);
-	const height = useSharedValue(0);
+
+	// Android breaking change: Since the component has zero height, there's no initial layout change to trigger the onLayout event.
+	// Reference: https://stackoverflow.com/questions/46389042/onlayout-not-being-called
+	// Reference: https://github.com/facebook/react-native/wiki/#android-only-call-onlayout-when-layout-has-actually-changed-15429e---astreet
+	const height = useSharedValue(1);
 	const width = useSharedValue(0);
 	const opacity = useSharedValue(0);
 	const pointerEvents = item.hide || withoutMask ? 'none' : 'auto';

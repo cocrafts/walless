@@ -7,7 +7,7 @@ import type {
 	PublicKey,
 	TokenBalance,
 } from '@solana/web3.js';
-import type { TransactionHistory } from '@walless/core';
+import type { NetworkCluster, TransactionHistory } from '@walless/core';
 import { Networks } from '@walless/core';
 import { solana } from '@walless/network';
 import type { TokenDocument, TransactionHistoryDocument } from '@walless/store';
@@ -22,6 +22,7 @@ const historyLimit = 20;
 
 export const getTransactionsHistory = async (
 	connection: Connection,
+	cluster: NetworkCluster,
 	wallet: PublicKey,
 	accounts: ParsedTokenAccountWithAddress[],
 ) => {
@@ -31,67 +32,67 @@ export const getTransactionsHistory = async (
 
 	tokenAccounts.unshift(wallet);
 
-	const signatureList = [
-		...new Set(await getTransactionSignatures(connection, tokenAccounts)),
-	];
+	const signatures = await getTransactionSignatures(connection, tokenAccounts);
+	signatures.splice(historyLimit, signatures.length - historyLimit);
 
-	const transactions = (
-		await connection.getParsedTransactions(signatureList, {
-			maxSupportedTransactionVersion: 0,
-			commitment: 'finalized',
-		})
-	)
-		.sort((trans1, trans2) =>
-			(trans1?.blockTime || 0) < (trans2?.blockTime || 0) ? 1 : -1,
-		)
-		.slice(0, historyLimit);
+	const txPromises = signatures.map(async (s) => {
+		return throttle(async () => {
+			// don't use getParsedTransactions because
+			// it uses batch rpc request failed by rpc limit without retrying
+			// we need to use getParsedTransaction for separately retry
+			const tx = await connection.getParsedTransaction(s, {
+				maxSupportedTransactionVersion: 0,
+				commitment: 'finalized',
+			});
 
-	const transactionHistoryDocuments: TransactionHistoryDocument[] = (
-		await Promise.all(
-			transactions
-				.filter((transaction) => transaction !== null)
-				.map((transaction) =>
-					constructTransactionHistoryDocument(
-						connection,
-						transaction as ParsedTransactionWithMeta,
-						wallet,
-					),
-				),
-		)
-	).filter((doc) => doc !== null);
+			const txDoc = await constructTransactionHistoryDocument(
+				connection,
+				cluster,
+				tx as ParsedTransactionWithMeta,
+				wallet,
+			);
 
-	transactionHistoryDocuments.forEach((historyDoc) => {
-		storage.upsert<TransactionHistoryDocument>(historyDoc._id, async () => {
-			return historyDoc;
-		});
+			if (!txDoc) return;
+			await storage.upsert<TransactionHistoryDocument>(txDoc._id, async () => {
+				return txDoc;
+			});
+		})();
 	});
+
+	await Promise.all(txPromises);
 
 	removeOldHistories();
 };
 
 const getTransactionSignatures = async (
 	connection: Connection,
-	accountList: PublicKey[],
+	accounts: PublicKey[],
 ) => {
-	const signatureList = (
+	const signatures = (
 		await Promise.all(
-			accountList.map(async (account) => {
-				const transactionList = await throttle(() => {
+			accounts.map(async (account) => {
+				const sigs = await throttle(() => {
 					return connection.getSignaturesForAddress(account, {
 						limit: historyLimit,
 					});
 				})();
 
-				return transactionList.map((trans) => trans.signature);
+				return sigs;
 			}),
 		)
-	).flat();
+	)
+		.flat()
+		.sort((sig1, sig2) =>
+			(sig1?.blockTime || 0) < (sig2?.blockTime || 0) ? 1 : -1,
+		)
+		.map((s) => s.signature);
 
-	return signatureList;
+	return [...new Set(signatures)];
 };
 
 const constructTransactionHistoryDocument = async (
 	connection: Connection,
+	cluster: NetworkCluster,
 	parsedTransaction: ParsedTransactionWithMeta,
 	wallet: PublicKey,
 ): Promise<TransactionHistoryDocument> => {
@@ -106,7 +107,8 @@ const constructTransactionHistoryDocument = async (
 		walletAddress,
 	);
 	const { sender, receiver, amount, token } =
-		(await getTransactionBalances(connection, parsedTransaction)) || {};
+		(await getTransactionBalances(connection, cluster, parsedTransaction)) ||
+		{};
 
 	const tokenForFee = await getTransactionTokenFee(walletAddress);
 	const fee = (meta?.fee || 0) / 10 ** (tokenForFee?.account.decimals || 9);
@@ -136,6 +138,7 @@ const getTransactionType = (sender: PublicKey, walletAddress: string) => {
 
 const getTransactionBalances = async (
 	connection: Connection,
+	cluster: NetworkCluster,
 	parsedTransaction: ParsedTransactionWithMeta,
 ) => {
 	const { meta, transaction } = parsedTransaction;
@@ -146,13 +149,17 @@ const getTransactionBalances = async (
 		meta.preTokenBalances?.length > 0 || meta.postTokenBalances?.length > 0;
 
 	if (isSplTokenTransaction) {
-		return await getSplTransactionBalances(connection, meta);
+		return await getSplTransactionBalances(connection, cluster, meta);
 	}
-	return await getNativeTransactionBalances(transaction);
+	return await getNativeTransactionBalances(transaction, cluster);
 };
 
-const getNativeTransactionBalances = async (transaction: ParsedTransaction) => {
+const getNativeTransactionBalances = async (
+	transaction: ParsedTransaction,
+	cluster: NetworkCluster,
+) => {
 	const token: TransactionHistory['token'] = {
+		cluster,
 		network: Networks.solana,
 		metadata: solana.solMetadata,
 	};
@@ -177,6 +184,7 @@ const getNativeTransactionBalances = async (transaction: ParsedTransaction) => {
 
 const getSplTransactionBalances = async (
 	connection: Connection,
+	cluster: NetworkCluster,
 	meta: ParsedTransactionMeta,
 ) => {
 	if (!meta.preTokenBalances || !meta.postTokenBalances) return;
@@ -189,6 +197,7 @@ const getSplTransactionBalances = async (
 	);
 
 	const token: TransactionHistory['token'] = {
+		cluster,
 		network: Networks.solana,
 		metadata: await getMetadata(connection, mint),
 	};

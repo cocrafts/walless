@@ -71,11 +71,13 @@ export const getParsedTokenAccountsByOwner = async (
 	connection: Connection,
 	ownerPubkey: PublicKey,
 ) => {
-	const accounts = await connection.getParsedTokenAccountsByOwner(
-		ownerPubkey,
-		{ programId: TOKEN_PROGRAM_ID },
-		'confirmed',
-	);
+	const accounts = await throttle(() => {
+		return connection.getParsedTokenAccountsByOwner(
+			ownerPubkey,
+			{ programId: TOKEN_PROGRAM_ID },
+			'confirmed',
+		);
+	})();
 
 	return accounts.value.map((ele) => {
 		return {

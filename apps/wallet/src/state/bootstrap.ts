@@ -39,7 +39,7 @@ import { widgetState } from './widget';
 
 export const bootstrap = async (): Promise<void> => {
 	const startTime = new Date();
-	appState.remoteConfig = await loadRemoteConfig();
+	appState.remoteConfig = loadRemoteConfig();
 
 	await Promise.all([
 		configure(storage).then(configEngine),
@@ -97,6 +97,7 @@ const registerNetworkRunners = async (engine: Engine) => {
 	};
 
 	const keys = (await storage.find<PublicKeyDocument>(selectors.allKeys)).docs;
+	console.log(keys, '<-- keys');
 	Object.values(Networks).forEach((network) => {
 		const isNetworkAvailable = !!keys.find((i) => i.network === network);
 		if (!isNetworkAvailable) return;

@@ -35,37 +35,37 @@ export const getTransactionsHistory = async (
 	const signatures = await getTransactionSignatures(connection, tokenAccounts);
 	signatures.splice(historyLimit, signatures.length - historyLimit);
 
-	const txPromises = signatures.map((s) => {
-		return throttle(() => {
+	const txPromises = signatures.map(async (s) => {
+		return throttle(async () => {
 			// don't use getParsedTransactions because
 			// it uses batch rpc request failed by rpc limit without retrying
 			// we need to use getParsedTransaction for separately retry
-			return connection.getParsedTransaction(s, {
-				maxSupportedTransactionVersion: 0,
-				commitment: 'finalized',
-			});
+			return await connection
+				.getParsedTransaction(s, {
+					maxSupportedTransactionVersion: 0,
+					commitment: 'finalized',
+				})
+				.then(async (tx) => {
+					return await constructTransactionHistoryDocument(
+						connection,
+						cluster,
+						tx as ParsedTransactionWithMeta,
+						wallet,
+					);
+				})
+				.then(async (txDoc) => {
+					if (!txDoc) return;
+					await storage.upsert<TransactionHistoryDocument>(
+						txDoc._id,
+						async () => {
+							return txDoc;
+						},
+					);
+				});
 		})();
 	});
-	const transactions = await Promise.all(txPromises);
 
-	const transactionHistoryDocuments: TransactionHistoryDocument[] = (
-		await Promise.all(
-			transactions.map((tx) =>
-				constructTransactionHistoryDocument(
-					connection,
-					cluster,
-					tx as ParsedTransactionWithMeta,
-					wallet,
-				),
-			),
-		)
-	).filter((doc) => doc !== null);
-
-	transactionHistoryDocuments.forEach((historyDoc) => {
-		storage.upsert<TransactionHistoryDocument>(historyDoc._id, async () => {
-			return historyDoc;
-		});
-	});
+	await Promise.all(txPromises);
 
 	removeOldHistories();
 };

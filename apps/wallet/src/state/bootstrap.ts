@@ -24,6 +24,7 @@ import {
 	createTezosRunner,
 } from 'engine/runners';
 import type { Engine } from 'engine/types';
+import { isValidWidget } from 'features/Widget/internal';
 import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
 import {
@@ -67,9 +68,9 @@ export const launchApp = async (): Promise<void> => {
 			if (!route) return;
 			navigationRef.reset({ index: 0, routes: route.routes });
 		} else {
-			resetRoute();
 			const widgetId = settings?.config?.latestLocation;
-			resetRoute(ResetAnchors.Widget, { id: widgetId || 'explorer' });
+			const verifiedWidgetId = isValidWidget(widgetId) ? widgetId : 'explorer';
+			resetRoute(ResetAnchors.Widget, { id: verifiedWidgetId });
 		}
 	} else {
 		resetRoute(ResetAnchors.Invitation);

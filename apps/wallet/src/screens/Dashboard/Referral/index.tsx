@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
+import { showLeaderBoard } from 'screens/Dashboard/Referral/LeaderBoard';
 import type { SettingParamList } from 'utils/navigation';
 
 import DetailsContainer from './DetailsContainer';
@@ -30,7 +31,10 @@ export const ReferralScreen: FC<Props> = () => {
 	);
 
 	const arrowIcon = (
-		<TouchableOpacity style={styles.arrowIcon}>
+		<TouchableOpacity
+			style={styles.arrowIcon}
+			onPress={() => showLeaderBoard({ rankingPercent })}
+		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
 		</TouchableOpacity>
 	);

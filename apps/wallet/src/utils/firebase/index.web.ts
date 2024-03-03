@@ -18,7 +18,7 @@ export const remoteConfig = getRemoteConfig(app);
 remoteConfig.settings.minimumFetchIntervalMillis = __DEV__ ? 10000 : 3600000;
 remoteConfig.defaultConfig = defaultRemoteConfig as never;
 
-export const loadRemoteConfig = async (): Promise<RemoteConfig> => {
+export const loadRemoteConfig = (): RemoteConfig => {
 	activate(remoteConfig);
 	fetchConfig(remoteConfig);
 	const allConfig = getAll(remoteConfig);

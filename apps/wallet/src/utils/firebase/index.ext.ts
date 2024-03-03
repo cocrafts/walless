@@ -26,7 +26,7 @@ export type FirebaseUser = User;
 export const performance = getPerformance(app);
 export const googleProvider = new GoogleAuthProvider();
 
-export const loadRemoteConfig = async (): Promise<RemoteConfig> => {
+export const loadRemoteConfig = (): RemoteConfig => {
 	return defaultRemoteConfig;
 };
 

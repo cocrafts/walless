@@ -11,7 +11,7 @@ import { navigate, navigateBack } from 'utils/navigation';
 export const CollectionFeat = () => {
 	const { collectibles, collections } = useNfts();
 	const { onGridContainerLayout, width } = useLazyGridLayout({
-		referenceWidth: 156,
+		referenceWidth: 150,
 		gap: gridGap,
 	});
 
@@ -21,11 +21,11 @@ export const CollectionFeat = () => {
 		return collectibles.filter((ele) =>
 			ele.collectionId.includes(id as string),
 		);
-	}, [collectibles]);
+	}, [collectibles, id]);
 
 	const curCollection = useMemo(() => {
 		return collections.find((ele) => ele._id.includes(id as string));
-	}, [collections]);
+	}, [collections, id]);
 
 	const handleNavigateToCollectible = (id: string) => {
 		navigate('Dashboard', {

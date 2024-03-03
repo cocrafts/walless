@@ -1,22 +1,39 @@
 import type { FC } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
+import type {
+	Account,
+	ReferralRankings,
+	WalletInvitation,
+} from '@walless/graphql';
+import { queries } from '@walless/graphql';
 import { Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
 import { showLeaderBoard } from 'screens/Dashboard/Referral/LeaderBoard';
+import { qlClient } from 'utils/graphql';
 import type { SettingParamList } from 'utils/navigation';
 
 import DetailsContainer from './DetailsContainer';
-import { mockNewInvitation } from './internal';
 import InvitationCard from './InvitationCard';
 import SuccessfulReferral from './SuccessfulReferral';
 
 type Props = StackScreenProps<SettingParamList, 'Referral'>;
 
 export const ReferralScreen: FC<Props> = () => {
-	const totalPoints = 200;
+	const [referralCodes, setReferralCodes] = useState<WalletInvitation[]>([]);
+	const [referralRankings, setReferralRankings] = useState<ReferralRankings[]>(
+		[],
+	);
+
+	const totalPoints = referralCodes.reduce(
+		(acc, { email }) => acc + (email ? 20 : 0),
+		0,
+	);
+
+	const goalPoints = 60;
+
 	const rankingPercent = 10;
-	const currentPoints = 20;
 
 	const chartIcon = (
 		<View style={[styles.chartIcon, styles.icon]}>
@@ -33,19 +50,45 @@ export const ReferralScreen: FC<Props> = () => {
 	const arrowIcon = (
 		<TouchableOpacity
 			style={styles.arrowIcon}
-			onPress={() => showLeaderBoard({ rankingPercent })}
+			onPress={() =>
+				showLeaderBoard({ rankings: referralRankings, rankingPercent })
+			}
 		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
 		</TouchableOpacity>
 	);
 
+	useEffect(() => {
+		const fetchUserReferralCodes = async () => {
+			const { userAccount } = await qlClient.request<{
+				userAccount: Account;
+			}>(queries.userReferralCodes);
+
+			let codes = (userAccount.referralCodes as WalletInvitation[]) || [];
+			codes = codes.sort((a, b) => (a.email ? 1 : 0) - (b.email ? 1 : 0));
+
+			setReferralCodes(codes);
+		};
+
+		const fetchReferralRankings = async () => {
+			const { referralRankings } = await qlClient.request<{
+				referralRankings: ReferralRankings[];
+			}>(queries.referralRankings);
+
+			setReferralRankings(referralRankings || []);
+		};
+
+		fetchUserReferralCodes();
+		fetchReferralRankings();
+	}, []);
+
 	return (
-		<ScrollView showsVerticalScrollIndicator={false} style={[styles.container]}>
+		<View style={[styles.container]}>
 			<View style={styles.summaryContainer}>
 				<SuccessfulReferral
 					{...{
-						currentPoints: currentPoints,
-						goalPoint: 60,
+						currentPoints: totalPoints,
+						goalPoints: goalPoints,
 					}}
 				/>
 				<View style={styles.infoDetailsContainer}>
@@ -67,21 +110,22 @@ export const ReferralScreen: FC<Props> = () => {
 				<View style={styles.titleContainer}>
 					<Text style={styles.title}>Spread the fun!</Text>
 					<Text style={styles.subtext}>
-						Let&apos;s ride this wave together with your pals{' '}
+						Let&apos;s ride this wave together with your pals :)
 					</Text>
 				</View>
+
 				<View style={styles.referralCodeList}>
-					{mockNewInvitation.map((invitation) => (
+					{referralCodes.map((invitation) => (
 						<InvitationCard
-							key={invitation}
-							invitation={invitation}
-							isReadyToCollect={true}
+							key={invitation.id}
+							invitation={invitation.code as string}
+							isReadyToCollect={!!invitation.email}
 							points={20}
 						/>
 					))}
 				</View>
 			</View>
-		</ScrollView>
+		</View>
 	);
 };
 

@@ -9,34 +9,11 @@ export const walletInvitation = gql`
 	}
 `;
 
-export const claimedInvitations = gql`
-	query claimedWalletInvitations {
-		claimedWalletInvitations {
-			code
-			email
-			id
-			referrerId
-			timestamp
-		}
-	}
-`;
-
-export const unclaimedInvitations = gql`
-	query unclaimedWalletInvitations {
-		unclaimedWalletInvitations {
-			code
-			email
-			id
-			referrerId
-			timestamp
-		}
-	}
-`;
-
-export const referralLeaderboard = gql`
-	query referralLeaderboard {
-		referralLeaderboard {
-			display
+export const referralRankings = gql`
+	query referralRankings {
+		referralRankings {
+			accountId
+			displayName
 			id
 			rank
 			rankChange

@@ -28,7 +28,6 @@ export const SettingStack: FC<Props> = () => {
 					screen: 'Default',
 				},
 			}),
-		scrollEnabled: false,
 	});
 
 	return (

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native';
+import type { ReferralRankings } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -16,6 +17,7 @@ import { mockRankingList } from './internal';
 import RankingCard from './RankingCard';
 
 interface LeaderBoardProps {
+	rankings: ReferralRankings[];
 	rankingPercent: number;
 }
 
@@ -23,11 +25,7 @@ type Props = LeaderBoardProps & {
 	config: ModalConfigs;
 };
 
-const LeaderBoardModal: FC<Props> = ({ rankingPercent }) => {
-	const top1 = mockRankingList[0];
-	const top2 = mockRankingList[1];
-	const top3 = mockRankingList[2];
-
+const LeaderBoardModal: FC<Props> = ({ rankingPercent, rankings }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.topBar} />
@@ -38,21 +36,27 @@ const LeaderBoardModal: FC<Props> = ({ rankingPercent }) => {
 			</View>
 
 			<View style={styles.topRankContainer}>
-				<HighestRankingCard
-					avatar={top2.username}
-					ranking={top2.rank}
-					totalInvities={top2.points}
-				/>
-				<HighestRankingCard
-					avatar={top1.username}
-					ranking={top1.rank}
-					totalInvities={top1.points}
-				/>
-				<HighestRankingCard
-					avatar={top3.username}
-					ranking={top3.rank}
-					totalInvities={top3.points}
-				/>
+				{rankings[1] && (
+					<HighestRankingCard
+						avatar={rankings[1].displayName || 'Unknown'}
+						ranking={2}
+						totalInvitations={rankings[1].referralCount || 0}
+					/>
+				)}
+				{rankings[0] && (
+					<HighestRankingCard
+						avatar={rankings[0].displayName || 'Unknown'}
+						ranking={1}
+						totalInvitations={rankings[0].referralCount || 0}
+					/>
+				)}
+				{rankings[2] && (
+					<HighestRankingCard
+						avatar={rankings[2].displayName || 'Unknown'}
+						ranking={3}
+						totalInvitations={rankings[2].referralCount || 0}
+					/>
+				)}
 			</View>
 
 			<ScrollView
@@ -60,17 +64,15 @@ const LeaderBoardModal: FC<Props> = ({ rankingPercent }) => {
 				showsVerticalScrollIndicator={false}
 			>
 				<View style={styles.referrerRankingList}>
-					{mockRankingList
-						.slice(3, mockRankingList.length)
-						.map((item, index) => (
-							<RankingCard
-								key={index}
-								avatar={item.username}
-								ranking={item.rank}
-								username={item.username}
-								totalInvities={item.points}
-							/>
-						))}
+					{rankings.slice(3, mockRankingList.length).map((item) => (
+						<RankingCard
+							key={item.id}
+							avatar={item.displayName || 'Unknown'}
+							ranking={item.rank || 0}
+							username={item.displayName || 'Unknown'}
+							totalInvites={item.referralCount || 0}
+						/>
+					))}
 				</View>
 			</ScrollView>
 		</View>

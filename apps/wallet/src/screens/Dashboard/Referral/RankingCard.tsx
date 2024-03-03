@@ -5,11 +5,11 @@ import { Text, View } from '@walless/gui';
 interface Props {
 	avatar: string;
 	ranking: number;
-	totalInvities: number;
+	totalInvites: number;
 	username: string;
 }
 
-const RankingCard: FC<Props> = ({ ranking, totalInvities, username }) => {
+const RankingCard: FC<Props> = ({ ranking, totalInvites, username }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.rowDirection}>
@@ -21,7 +21,7 @@ const RankingCard: FC<Props> = ({ ranking, totalInvities, username }) => {
 				<Text style={styles.text}>{username}</Text>
 			</View>
 			<View style={styles.rowDirection}>
-				<Text style={styles.invitiesText}>{totalInvities}</Text>
+				<Text style={styles.invitiesText}>{totalInvites}</Text>
 				<Text style={styles.text}>Invities</Text>
 			</View>
 		</View>

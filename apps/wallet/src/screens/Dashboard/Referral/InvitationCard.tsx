@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@walless/gui';
-import { BlingBling, Copy, Kite } from '@walless/icons';
+import { Copy, Kite } from '@walless/icons';
 import { showCopiedModal } from 'modals/Notification';
 import { copy } from 'utils/system';
 
@@ -25,14 +25,21 @@ const InvitationCard: FC<Props> = ({
 
 	const collectButton = (
 		<View style={styles.buttonContainer}>
-			<Text style={[styles.text, styles.mediumText]}>{points} Points</Text>
-			<TouchableOpacity
+			<Text
+				style={[
+					styles.mediumText,
+					isCollected ? styles.collectedText : styles.text,
+				]}
+			>
+				{points} Points
+			</Text>
+			{/* <TouchableOpacity
 				style={[styles.buttonContainer, styles.collectButton]}
 				disabled={!isCollected}
 			>
 				<BlingBling size={20} />
 				<Text style={styles.text}>Collect</Text>
-			</TouchableOpacity>
+			</TouchableOpacity> */}
 		</View>
 	);
 
@@ -51,8 +58,17 @@ const InvitationCard: FC<Props> = ({
 	);
 
 	return (
-		<View style={styles.container}>
-			<Text style={[styles.text, styles.mediumText]}>{invitation}</Text>
+		<View
+			style={[styles.container, isReadyToCollect && styles.collectedContainer]}
+		>
+			<Text
+				style={[
+					styles.mediumText,
+					isCollected ? styles.collectedText : styles.text,
+				]}
+			>
+				{invitation}
+			</Text>
 			{isReadyToCollect ? collectButton : inviteButton}
 		</View>
 	);
@@ -72,9 +88,13 @@ const styles = StyleSheet.create({
 	},
 	collectedContainer: {
 		backgroundColor: '#43525F',
+		opacity: 0.4,
 	},
 	text: {
 		color: '#ffffff',
+	},
+	collectedText: {
+		color: '#43525F',
 	},
 	buttonContainer: {
 		flexDirection: 'row',
@@ -99,10 +119,8 @@ const styles = StyleSheet.create({
 		padding: 8,
 		borderRadius: 20,
 	},
-	collectedText: {
-		color: '#626D77',
-	},
+
 	mediumText: {
-		fontSize: 16,
+		fontSize: 14,
 	},
 });

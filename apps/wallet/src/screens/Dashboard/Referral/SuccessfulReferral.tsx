@@ -6,19 +6,19 @@ import { AnimatedView, Text, View } from '@walless/gui';
 
 interface Props {
 	currentPoints: number;
-	goalPoint: number;
+	goalPoints: number;
 }
 
 const barHeight = 16;
 
-const SuccessfulReferral: FC<Props> = ({ currentPoints, goalPoint }) => {
+const SuccessfulReferral: FC<Props> = ({ currentPoints, goalPoints }) => {
 	const lengthBar = useSharedValue(0);
 
 	const activeReferralStyle = useAnimatedStyle(() => {
 		return {
-			width: lengthBar.value * (currentPoints / goalPoint),
+			width: lengthBar.value * (currentPoints / goalPoints),
 		};
-	}, [lengthBar, goalPoint, currentPoints]);
+	}, [lengthBar, goalPoints, currentPoints]);
 
 	const handleLayout = (event: LayoutChangeEvent) => {
 		lengthBar.value = event.nativeEvent.layout.width;
@@ -28,7 +28,7 @@ const SuccessfulReferral: FC<Props> = ({ currentPoints, goalPoint }) => {
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Text style={[styles.text, styles.title]}>Your Influencer Meter</Text>
-				<Text>Goal {goalPoint} points</Text>
+				<Text>Goal {goalPoints} points</Text>
 			</View>
 
 			<View onLayout={handleLayout} style={styles.referral}>
@@ -39,7 +39,9 @@ const SuccessfulReferral: FC<Props> = ({ currentPoints, goalPoint }) => {
 				<Text style={styles.levelText}>Level 1</Text>
 
 				<View style={styles.levelContainer}>
-					<Text style={styles.leftPoint}>40 points to </Text>
+					<Text style={styles.leftPoint}>
+						{goalPoints - currentPoints} points to{' '}
+					</Text>
 					<Text style={styles.levelText}>Level 1</Text>
 				</View>
 			</View>

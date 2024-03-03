@@ -5,10 +5,10 @@ import { Text, View } from '@walless/gui';
 interface Props {
 	avatar: string;
 	ranking: number;
-	totalInvities: number;
+	totalInvitations: number;
 }
 
-const HighestRankingCard: FC<Props> = ({ ranking, totalInvities }) => {
+const HighestRankingCard: FC<Props> = ({ ranking, totalInvitations }) => {
 	const rankingColor =
 		ranking === 1 ? '#7ED7FF' : ranking === 2 ? '#FFB803' : '#1CCF84';
 
@@ -18,11 +18,11 @@ const HighestRankingCard: FC<Props> = ({ ranking, totalInvities }) => {
 		borderColor: rankingColor,
 	};
 
-	const invitiesContainerStyle = {
+	const invitesContainerStyle = {
 		paddingVertical: 6 * (5 - ranking),
 	};
 
-	const invitiesContainerOfTop1 = {
+	const invitesContainerOfTop1 = {
 		backgroundColor: '#19232C',
 	};
 
@@ -46,12 +46,12 @@ const HighestRankingCard: FC<Props> = ({ ranking, totalInvities }) => {
 
 			<View
 				style={[
-					styles.invitiesContainer,
-					invitiesContainerStyle,
-					ranking === 1 && invitiesContainerOfTop1,
+					styles.invitesContainer,
+					invitesContainerStyle,
+					ranking === 1 && invitesContainerOfTop1,
 				]}
 			>
-				<Text>{totalInvities} Invities</Text>
+				<Text>{totalInvitations} Invites</Text>
 			</View>
 		</View>
 	);
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginTop: -12,
 	},
-	invitiesContainer: {
+	invitesContainer: {
 		borderTopWidth: 4,
 		backgroundColor: '#202D38',
 		borderTopColor: '#32404B',

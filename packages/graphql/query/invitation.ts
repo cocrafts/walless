@@ -9,9 +9,9 @@ export const walletInvitation = gql`
 	}
 `;
 
-export const referralRankings = gql`
-	query referralRankings {
-		referralRankings {
+export const referralLeaderboard = gql`
+	query referralLeaderboard {
+		referralLeaderboard {
 			accountId
 			displayName
 			id

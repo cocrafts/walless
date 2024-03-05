@@ -2,11 +2,7 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import type {
-	Account,
-	ReferralRankings,
-	WalletInvitation,
-} from '@walless/graphql';
+import type { Account, ReferralRank, WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
@@ -22,9 +18,7 @@ type Props = StackScreenProps<SettingParamList, 'Referral'>;
 
 export const ReferralScreen: FC<Props> = () => {
 	const [referralCodes, setReferralCodes] = useState<WalletInvitation[]>([]);
-	const [referralRankings, setReferralRankings] = useState<ReferralRankings[]>(
-		[],
-	);
+	const [referralRankings, setReferralRankings] = useState<ReferralRank[]>([]);
 
 	const totalPoints = referralCodes.reduce(
 		(acc, { email }) => acc + (email ? 20 : 0),
@@ -64,18 +58,20 @@ export const ReferralScreen: FC<Props> = () => {
 				userAccount: Account;
 			}>(queries.userReferralCodes);
 
-			let codes = (userAccount.referralCodes as WalletInvitation[]) || [];
+			let codes = userAccount
+				? (userAccount.referralCodes as WalletInvitation[])
+				: [];
 			codes = codes.sort((a, b) => (a.email ? 1 : 0) - (b.email ? 1 : 0));
 
 			setReferralCodes(codes);
 		};
 
 		const fetchReferralRankings = async () => {
-			const { referralRankings } = await qlClient.request<{
-				referralRankings: ReferralRankings[];
-			}>(queries.referralRankings);
+			const { referralLeaderboard } = await qlClient.request<{
+				referralLeaderboard: ReferralRank[];
+			}>(queries.referralLeaderboard);
 
-			setReferralRankings(referralRankings || []);
+			setReferralRankings(referralLeaderboard ? referralLeaderboard : []);
 		};
 
 		fetchUserReferralCodes();
@@ -83,7 +79,7 @@ export const ReferralScreen: FC<Props> = () => {
 	}, []);
 
 	return (
-		<View style={[styles.container]}>
+		<View style={styles.container}>
 			<View style={styles.summaryContainer}>
 				<SuccessfulReferral
 					{...{
@@ -135,6 +131,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		gap: 12,
+		paddingVertical: 16,
 	},
 	title: {
 		fontSize: 20,

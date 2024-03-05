@@ -28,6 +28,7 @@ export type Account = {
   id?: Maybe<Scalars['ObjectID']['output']>;
   identifier: Scalars['String']['output'];
   referralCodes?: Maybe<Array<Maybe<WalletInvitation>>>;
+  referralRank?: Maybe<Scalars['Int']['output']>;
   updatedAt?: Maybe<Scalars['MongoDateTime']['output']>;
   walletCount?: Maybe<Scalars['Int']['output']>;
 };
@@ -85,8 +86,8 @@ export enum NonceType {
   Login = 'Login'
 }
 
-export type ReferralRankings = {
-  __typename?: 'ReferralRankings';
+export type ReferralRank = {
+  __typename?: 'ReferralRank';
   accountId?: Maybe<Scalars['ObjectID']['output']>;
   displayName?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ObjectID']['output']>;
@@ -97,8 +98,10 @@ export type ReferralRankings = {
 
 export type RootMutation = {
   __typename?: 'RootMutation';
+  addNewCode?: Maybe<Scalars['Boolean']['output']>;
   addWidget?: Maybe<Widget>;
   claimWalletInvitation?: Maybe<Scalars['Boolean']['output']>;
+  createSimpleAccount?: Maybe<Account>;
   deleteWidget?: Maybe<Scalars['Boolean']['output']>;
   deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
   joinWaitlist?: Maybe<JoinWaitlistResult>;
@@ -107,10 +110,16 @@ export type RootMutation = {
   registerWidgetAccount?: Maybe<Account>;
   sendEmergencyKit?: Maybe<SendEmergencyKitResult>;
   trackAccountWallets?: Maybe<Scalars['Int']['output']>;
+  updateRankings?: Maybe<Scalars['Boolean']['output']>;
   updateWidgetAccountRole?: Maybe<WidgetAccount>;
   updateWidgetOwner?: Maybe<Widget>;
   updateWidgetStatus?: Maybe<Widget>;
   verifyWidgetAccount?: Maybe<WidgetAccount>;
+};
+
+
+export type RootMutationAddNewCodeArgs = {
+  amount: Scalars['Int']['input'];
 };
 
 
@@ -206,7 +215,7 @@ export type RootQuery = {
   greeting?: Maybe<Scalars['String']['output']>;
   loginMessage?: Maybe<Scalars['String']['output']>;
   nonce?: Maybe<Nonce>;
-  referralRankings?: Maybe<Array<Maybe<ReferralRankings>>>;
+  referralLeaderboard?: Maybe<Array<Maybe<ReferralRank>>>;
   systemInfo?: Maybe<SystemInfo>;
   token?: Maybe<TokenInfo>;
   tokenByAddress?: Maybe<TokenInfo>;
@@ -437,7 +446,7 @@ export type ResolversTypes = {
   Nonce: ResolverTypeWrapper<Nonce>;
   NonceType: NonceType;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']['output']>;
-  ReferralRankings: ResolverTypeWrapper<ReferralRankings>;
+  ReferralRank: ResolverTypeWrapper<ReferralRank>;
   RootMutation: ResolverTypeWrapper<{}>;
   RootQuery: ResolverTypeWrapper<{}>;
   SendEmergencyKitResult: ResolverTypeWrapper<SendEmergencyKitResult>;
@@ -468,7 +477,7 @@ export type ResolversParentTypes = {
   MongoDateTime: Scalars['MongoDateTime']['output'];
   Nonce: Nonce;
   ObjectID: Scalars['ObjectID']['output'];
-  ReferralRankings: ReferralRankings;
+  ReferralRank: ReferralRank;
   RootMutation: {};
   RootQuery: {};
   SendEmergencyKitResult: SendEmergencyKitResult;
@@ -490,6 +499,7 @@ export type AccountResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
   identifier?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   referralCodes?: Resolver<Maybe<Array<Maybe<ResolversTypes['WalletInvitation']>>>, ParentType, ContextType>;
+  referralRank?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
   walletCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -546,7 +556,7 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'ObjectID';
 }
 
-export type ReferralRankingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReferralRankings'] = ResolversParentTypes['ReferralRankings']> = {
+export type ReferralRankResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReferralRank'] = ResolversParentTypes['ReferralRank']> = {
   accountId?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
   displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
@@ -557,8 +567,10 @@ export type ReferralRankingsResolvers<ContextType = any, ParentType extends Reso
 };
 
 export type RootMutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootMutation'] = ResolversParentTypes['RootMutation']> = {
+  addNewCode?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationAddNewCodeArgs, 'amount'>>;
   addWidget?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationAddWidgetArgs, 'description' | 'name' | 'networks' | 'ownerId'>>;
   claimWalletInvitation?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationClaimWalletInvitationArgs, 'code' | 'email'>>;
+  createSimpleAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType>;
   deleteWidget?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetArgs, 'id'>>;
   deleteWidgetAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetAccountArgs, 'id'>>;
   joinWaitlist?: Resolver<Maybe<ResolversTypes['JoinWaitlistResult']>, ParentType, ContextType, RequireFields<RootMutationJoinWaitlistArgs, 'description' | 'email' | 'twitter'>>;
@@ -567,6 +579,7 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   registerWidgetAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterWidgetAccountArgs, 'pubkey'>>;
   sendEmergencyKit?: Resolver<Maybe<ResolversTypes['SendEmergencyKitResult']>, ParentType, ContextType, RequireFields<RootMutationSendEmergencyKitArgs, 'key'>>;
   trackAccountWallets?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<RootMutationTrackAccountWalletsArgs, 'wallets'>>;
+  updateRankings?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   updateWidgetAccountRole?: Resolver<Maybe<ResolversTypes['WidgetAccount']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetAccountRoleArgs, 'id' | 'role'>>;
   updateWidgetOwner?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetOwnerArgs, 'id' | 'ownerId'>>;
   updateWidgetStatus?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetStatusArgs, 'id' | 'status' | 'updaterPubkey'>>;
@@ -578,7 +591,7 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   greeting?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   loginMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<RootQueryLoginMessageArgs, 'pubkey'>>;
   nonce?: Resolver<Maybe<ResolversTypes['Nonce']>, ParentType, ContextType, RequireFields<RootQueryNonceArgs, 'identifier'>>;
-  referralRankings?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRankings']>>>, ParentType, ContextType>;
+  referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRank']>>>, ParentType, ContextType>;
   systemInfo?: Resolver<Maybe<ResolversTypes['SystemInfo']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenArgs, 'id'>>;
   tokenByAddress?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenByAddressArgs, 'address'>>;
@@ -667,7 +680,7 @@ export type Resolvers<ContextType = any> = {
   MongoDateTime?: GraphQLScalarType;
   Nonce?: NonceResolvers<ContextType>;
   ObjectID?: GraphQLScalarType;
-  ReferralRankings?: ReferralRankingsResolvers<ContextType>;
+  ReferralRank?: ReferralRankResolvers<ContextType>;
   RootMutation?: RootMutationResolvers<ContextType>;
   RootQuery?: RootQueryResolvers<ContextType>;
   SendEmergencyKitResult?: SendEmergencyKitResultResolvers<ContextType>;

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native';
-import type { ReferralRankings } from '@walless/graphql';
+import type { ReferralRank } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -16,22 +16,22 @@ import HighestRankingCard from './HighestRankingCard';
 import { mockRankingList } from './internal';
 import RankingCard from './RankingCard';
 
-interface LeaderBoardProps {
-	rankings: ReferralRankings[];
+interface LeaderboardProps {
+	rankings: ReferralRank[];
 	rankingPercent: number;
 }
 
-type Props = LeaderBoardProps & {
+type Props = LeaderboardProps & {
 	config: ModalConfigs;
 };
 
-const LeaderBoardModal: FC<Props> = ({ rankingPercent, rankings }) => {
+const LeaderboardModal: FC<Props> = ({ rankingPercent, rankings }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.topBar} />
 
 			<View>
-				<Text style={styles.title}>LeaderBoard</Text>
+				<Text style={styles.title}>Leaderboard</Text>
 				<Text style={styles.subtext}>You are in Top {rankingPercent}%</Text>
 			</View>
 
@@ -118,12 +118,12 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default LeaderBoardModal;
+export default LeaderboardModal;
 
-export const showLeaderBoard = (props: LeaderBoardProps) => {
+export const showLeaderboard = (props: LeaderboardProps) => {
 	modalActions.show({
 		id: ModalId.LeaderBoard,
-		component: ({ config }) => <LeaderBoardModal config={config} {...props} />,
+		component: ({ config }) => <LeaderboardModal config={config} {...props} />,
 		animateDirection: AnimateDirections.Top,
 		bindingDirection: BindDirections.InnerBottom,
 		fullWidth: true,

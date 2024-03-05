@@ -40,7 +40,7 @@ const HighestRankingCard: FC<Props> = ({ ranking, totalInvitations }) => {
 						{ backgroundColor: rankingColor },
 					]}
 				>
-					<Text>{ranking}</Text>
+					<Text style={styles.rankingText}>{ranking}</Text>
 				</View>
 			</View>
 
@@ -73,6 +73,9 @@ const styles = StyleSheet.create({
 		width: 20,
 		borderRadius: 10,
 		marginTop: -12,
+	},
+	rankingText: {
+		color: '#ffffff',
 	},
 	invitesContainer: {
 		borderTopWidth: 4,

@@ -1,12 +1,12 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { Account, ReferralRank, WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
-import { showLeaderBoard } from 'screens/Dashboard/Referral/LeaderBoard';
+import { showLeaderboard } from 'screens/Dashboard/Referral/Leaderboard';
 import { qlClient } from 'utils/graphql';
 import type { SettingParamList } from 'utils/navigation';
 
@@ -28,7 +28,13 @@ export const ReferralScreen: FC<Props> = () => {
 
 	const goalPoints = 60;
 
-	const rankingPercent = 10;
+	const rankingPercent = useMemo(
+		() =>
+			referralRankings.length
+				? Math.round((referralRank / referralRankings.length) * 100)
+				: 0,
+		[referralRank, referralRankings],
+	);
 
 	const chartIcon = (
 		<View style={[styles.chartIcon, styles.icon]}>
@@ -46,7 +52,7 @@ export const ReferralScreen: FC<Props> = () => {
 		<Hoverable
 			style={styles.arrowIcon}
 			onPress={() =>
-				showLeaderBoard({ rankings: referralRankings, rankingPercent })
+				showLeaderboard({ rankings: referralRankings, rankingPercent })
 			}
 		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
@@ -93,11 +99,7 @@ export const ReferralScreen: FC<Props> = () => {
 					<DetailsContainer
 						LeftIcon={chartIcon}
 						title="You are in"
-						value={
-							referralRank
-								? `Top ${(referralRank / referralCodes.length).toFixed(2)}%`
-								: 'N/A'
-						}
+						value={referralRank ? `Top ${rankingPercent}%` : 'N/A'}
 						RightIcon={arrowIcon}
 					/>
 					<DetailsContainer

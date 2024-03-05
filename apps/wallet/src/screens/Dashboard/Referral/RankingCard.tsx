@@ -12,7 +12,7 @@ interface Props {
 const RankingCard: FC<Props> = ({ ranking, totalInvites, username }) => {
 	return (
 		<View style={styles.container}>
-			<View style={styles.rowDirection}>
+			<View style={[styles.rowDirection, styles.leftGap]}>
 				<Text style={styles.text}>{ranking}</Text>
 				<Image
 					style={styles.avatar}
@@ -20,9 +20,9 @@ const RankingCard: FC<Props> = ({ ranking, totalInvites, username }) => {
 				/>
 				<Text style={styles.text}>{username}</Text>
 			</View>
-			<View style={styles.rowDirection}>
-				<Text style={styles.invitiesText}>{totalInvites}</Text>
-				<Text style={styles.text}>Invities</Text>
+			<View style={[styles.rowDirection, styles.rightGap]}>
+				<Text style={styles.invitesText}>{totalInvites}</Text>
+				<Text style={styles.text}>Invites</Text>
 			</View>
 		</View>
 	);
@@ -50,12 +50,17 @@ const styles = StyleSheet.create({
 	text: {
 		color: '#19232C',
 	},
-	invitiesText: {
+	invitesText: {
 		color: '#19A3E1',
 	},
 	rowDirection: {
 		flexDirection: 'row',
 		alignItems: 'center',
+	},
+	leftGap: {
 		gap: 8,
+	},
+	rightGap: {
+		gap: 4,
 	},
 });

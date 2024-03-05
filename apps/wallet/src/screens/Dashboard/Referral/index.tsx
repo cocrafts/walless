@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { Account, ReferralRank, WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
-import { Text, View } from '@walless/gui';
+import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
 import { showLeaderBoard } from 'screens/Dashboard/Referral/LeaderBoard';
 import { qlClient } from 'utils/graphql';
@@ -19,6 +19,7 @@ type Props = StackScreenProps<SettingParamList, 'Referral'>;
 export const ReferralScreen: FC<Props> = () => {
 	const [referralCodes, setReferralCodes] = useState<WalletInvitation[]>([]);
 	const [referralRankings, setReferralRankings] = useState<ReferralRank[]>([]);
+	const [referralRank, setReferralRank] = useState<number>(0);
 
 	const totalPoints = referralCodes.reduce(
 		(acc, { email }) => acc + (email ? 20 : 0),
@@ -42,14 +43,14 @@ export const ReferralScreen: FC<Props> = () => {
 	);
 
 	const arrowIcon = (
-		<TouchableOpacity
+		<Hoverable
 			style={styles.arrowIcon}
 			onPress={() =>
 				showLeaderBoard({ rankings: referralRankings, rankingPercent })
 			}
 		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
-		</TouchableOpacity>
+		</Hoverable>
 	);
 
 	useEffect(() => {
@@ -64,6 +65,7 @@ export const ReferralScreen: FC<Props> = () => {
 			codes = codes.sort((a, b) => (a.email ? 1 : 0) - (b.email ? 1 : 0));
 
 			setReferralCodes(codes);
+			setReferralRank(userAccount?.referralRank || 0);
 		};
 
 		const fetchReferralRankings = async () => {
@@ -91,7 +93,11 @@ export const ReferralScreen: FC<Props> = () => {
 					<DetailsContainer
 						LeftIcon={chartIcon}
 						title="You are in"
-						value={`Top ${rankingPercent}%`}
+						value={
+							referralRank
+								? `Top ${(referralRank / referralCodes.length).toFixed(2)}%`
+								: 'N/A'
+						}
 						RightIcon={arrowIcon}
 					/>
 					<DetailsContainer

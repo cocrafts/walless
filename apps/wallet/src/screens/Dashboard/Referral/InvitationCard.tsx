@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Text, View } from '@walless/gui';
+import { Hoverable, Text, View } from '@walless/gui';
 import { Copy, Kite } from '@walless/icons';
 import { showCopiedModal } from 'modals/Notification';
 import { copy } from 'utils/system';
@@ -47,9 +47,9 @@ const InvitationCard: FC<Props> = ({
 		<View
 			style={[styles.buttonContainer, isCollected && styles.collectedContainer]}
 		>
-			<TouchableOpacity style={styles.copyButton} onPress={handleCopy}>
+			<Hoverable style={styles.copyButton} onPress={handleCopy}>
 				<Copy size={20} />
-			</TouchableOpacity>
+			</Hoverable>
 			<TouchableOpacity style={[styles.buttonContainer, styles.inviteButton]}>
 				<Kite size={20} />
 				<Text style={styles.text}>Invite</Text>

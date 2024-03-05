@@ -14,7 +14,7 @@ const DetailsContainer: FC<Props> = ({ LeftIcon, RightIcon, title, value }) => {
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
 				{LeftIcon}
-				<View>
+				<View style={styles.detailsContainer}>
 					<Text style={styles.title}>{title}</Text>
 					<Text style={styles.value}>{value}</Text>
 				</View>
@@ -49,5 +49,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 8,
+	},
+	detailsContainer: {
+		gap: 2,
 	},
 });

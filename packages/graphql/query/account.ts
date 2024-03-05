@@ -19,14 +19,11 @@ export const userAccount = gql`
 export const userReferralCodes = gql`
 	query UserAccount {
 		userAccount {
-			id
-			email
-			identifier
 			referralCodes {
 				code
 				email
-				id
 			}
+			referralRank
 		}
 	}
 `;

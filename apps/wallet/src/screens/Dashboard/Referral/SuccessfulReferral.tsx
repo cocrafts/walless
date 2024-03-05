@@ -36,7 +36,7 @@ const SuccessfulReferral: FC<Props> = ({ currentPoints, goalPoints }) => {
 			</View>
 
 			<View style={styles.levelContainer}>
-				<Text style={styles.levelText}>Level 1</Text>
+				<Text style={styles.levelText}>Level 0</Text>
 
 				<View style={styles.levelContainer}>
 					<Text style={styles.leftPoint}>

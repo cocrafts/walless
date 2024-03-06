@@ -29,16 +29,17 @@ export enum ThresholdResult {
 export const importAvailableShares = async (): Promise<ThresholdResult> => {
 	try {
 		await importDeviceShare(tkey);
-		const { requiredShares, totalShares } = tkey.getKeyDetails();
-		const isReady = requiredShares <= 0;
-
-		if (isReady) {
-			return totalShares === 2
-				? ThresholdResult.Initializing
-				: ThresholdResult.Ready;
-		}
 	} catch (e) {
-		logger.info('Existing share not available, skip..');
+		logger.error('Existing share not available, skip..', e);
+	}
+
+	const { requiredShares, totalShares } = tkey.getKeyDetails();
+	const isReady = requiredShares <= 0;
+
+	if (isReady) {
+		return totalShares === 2
+			? ThresholdResult.Initializing
+			: ThresholdResult.Ready;
 	}
 
 	return ThresholdResult.Missing;

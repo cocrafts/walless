@@ -1,3 +1,4 @@
+export * from './utils/assets';
 export * from './utils/common';
 export * from './utils/entity';
 export * from './utils/extension';

@@ -13,7 +13,6 @@ import {
 import { ModalId } from 'modals/types';
 
 import HighestRankingCard from './HighestRankingCard';
-import { mockRankingList } from './internal';
 import RankingCard from './RankingCard';
 
 interface LeaderboardProps {
@@ -64,7 +63,7 @@ const LeaderboardModal: FC<Props> = ({ rankingPercent, rankings }) => {
 				showsVerticalScrollIndicator={false}
 			>
 				<View style={styles.referrerRankingList}>
-					{rankings.slice(3, mockRankingList.length).map((item) => (
+					{rankings.slice(3).map((item) => (
 						<RankingCard
 							key={item.id}
 							avatar={item.displayName || 'Unknown'}

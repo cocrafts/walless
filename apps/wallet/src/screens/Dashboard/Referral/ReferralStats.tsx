@@ -11,7 +11,7 @@ interface Props {
 
 const barHeight = 16;
 
-const SuccessfulReferral: FC<Props> = ({ currentPoints, goalPoints }) => {
+const ReferralStats: FC<Props> = ({ currentPoints, goalPoints }) => {
 	const lengthBar = useSharedValue(0);
 
 	const activeReferralStyle = useAnimatedStyle(() => {
@@ -27,7 +27,7 @@ const SuccessfulReferral: FC<Props> = ({ currentPoints, goalPoints }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
-				<Text style={[styles.text, styles.title]}>Your Influencer Meter</Text>
+				<Text style={[styles.text, styles.title]}>Your Influence Meter</Text>
 				<Text>Goal {goalPoints} points</Text>
 			</View>
 
@@ -49,7 +49,7 @@ const SuccessfulReferral: FC<Props> = ({ currentPoints, goalPoints }) => {
 	);
 };
 
-export default SuccessfulReferral;
+export default ReferralStats;
 
 const styles = StyleSheet.create({
 	container: {

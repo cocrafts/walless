@@ -12,48 +12,45 @@ import type { SettingParamList } from 'utils/navigation';
 
 import DetailsContainer from './DetailsContainer';
 import InvitationCard from './InvitationCard';
-import SuccessfulReferral from './SuccessfulReferral';
+import ReferralStats from './ReferralStats';
 
 type Props = StackScreenProps<SettingParamList, 'Referral'>;
 
-export const ReferralScreen: FC<Props> = () => {
-	const [referralCodes, setReferralCodes] = useState<WalletInvitation[]>([]);
-	const [referralRankings, setReferralRankings] = useState<ReferralRank[]>([]);
-	const [referralRank, setReferralRank] = useState<number>(0);
+const goalPoints = 100;
+const pointsPerReferral = 20;
 
-	const totalPoints = referralCodes.reduce(
-		(acc, { email }) => acc + (email ? 20 : 0),
+export const ReferralScreen: FC<Props> = () => {
+	const [codes, setCodes] = useState<WalletInvitation[]>([]);
+	const [rankings, setRankings] = useState<ReferralRank[]>([]);
+	const [currentRank, setCurrentRank] = useState<number>(0);
+
+	const totalPoints = codes.reduce(
+		(acc, { email }) => acc + (email ? pointsPerReferral : 0),
 		0,
 	);
 
-	const goalPoints = 60;
-
 	const rankingPercent = useMemo(
 		() =>
-			referralRankings.length
-				? Math.round((referralRank / referralRankings.length) * 100)
-				: 0,
-		[referralRank, referralRankings],
+			rankings.length ? Math.round((currentRank / rankings.length) * 100) : 0,
+		[currentRank, rankings],
 	);
 
-	const chartIcon = (
+	const ChartIcon = (
 		<View style={[styles.chartIcon, styles.icon]}>
 			<Chart size={20} color="#F6D570" />
 		</View>
 	);
 
-	const starIcon = (
+	const StarIcon = (
 		<View style={[styles.starIcon, styles.icon]}>
 			<Star size={20} color="#44C5FF" />
 		</View>
 	);
 
-	const arrowIcon = (
+	const ArrowIcon = (
 		<Hoverable
 			style={styles.arrowIcon}
-			onPress={() =>
-				showLeaderboard({ rankings: referralRankings, rankingPercent })
-			}
+			onPress={() => showLeaderboard({ rankings: rankings, rankingPercent })}
 		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
 		</Hoverable>
@@ -65,13 +62,13 @@ export const ReferralScreen: FC<Props> = () => {
 				userAccount: Account;
 			}>(queries.userReferralCodes);
 
-			let codes = userAccount
+			let refCodes = userAccount
 				? (userAccount.referralCodes as WalletInvitation[])
 				: [];
-			codes = codes.sort((a, b) => (a.email ? 1 : 0) - (b.email ? 1 : 0));
+			refCodes = refCodes.sort((a, b) => (a.email ? 1 : 0) - (b.email ? 1 : 0));
 
-			setReferralCodes(codes);
-			setReferralRank(userAccount?.referralRank || 0);
+			setCodes(refCodes);
+			setCurrentRank(userAccount?.referralRank || 0);
 		};
 
 		const fetchReferralRankings = async () => {
@@ -79,7 +76,7 @@ export const ReferralScreen: FC<Props> = () => {
 				referralLeaderboard: ReferralRank[];
 			}>(queries.referralLeaderboard);
 
-			setReferralRankings(referralLeaderboard ? referralLeaderboard : []);
+			setRankings(referralLeaderboard ? referralLeaderboard : []);
 		};
 
 		fetchUserReferralCodes();
@@ -89,21 +86,17 @@ export const ReferralScreen: FC<Props> = () => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.summaryContainer}>
-				<SuccessfulReferral
-					{...{
-						currentPoints: totalPoints,
-						goalPoints: goalPoints,
-					}}
-				/>
+				<ReferralStats currentPoints={totalPoints} goalPoints={goalPoints} />
+
 				<View style={styles.infoDetailsContainer}>
 					<DetailsContainer
-						LeftIcon={chartIcon}
+						LeftIcon={ChartIcon}
 						title="You are in"
-						value={referralRank ? `Top ${rankingPercent}%` : 'N/A'}
-						RightIcon={arrowIcon}
+						value={currentRank ? `Top ${rankingPercent}%` : 'N/A'}
+						RightIcon={ArrowIcon}
 					/>
 					<DetailsContainer
-						LeftIcon={starIcon}
+						LeftIcon={StarIcon}
 						title="Your Point"
 						value={totalPoints.toString()}
 					/>
@@ -119,11 +112,11 @@ export const ReferralScreen: FC<Props> = () => {
 				</View>
 
 				<View style={styles.referralCodeList}>
-					{referralCodes.map((invitation) => (
+					{codes.map((invitation) => (
 						<InvitationCard
-							key={invitation.id}
-							invitation={invitation.code as string}
-							isReadyToCollect={!!invitation.email}
+							key={invitation.code}
+							code={invitation.code as string}
+							isClaimed={!!invitation.email}
 							points={20}
 						/>
 					))}

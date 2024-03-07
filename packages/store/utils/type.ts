@@ -2,15 +2,17 @@ import type {
 	AssetMetadata,
 	Collectible,
 	Collection,
+	CollectionV2,
 	EncryptedWithPasscode,
 	ExtensionConfig,
 	HydratedKey,
-	NetworkCluster,
 	NetworkClusterMap,
 	Networks,
+	NftV2,
 	Setting,
 	System,
 	Token,
+	TokenV2,
 	TransactionHistory,
 	TrustedDomain,
 	UnknownObject,
@@ -35,8 +37,6 @@ export type DocumentType =
 
 export interface IndexedDocument {
 	type: DocumentType;
-	network?: Networks;
-	cluster?: NetworkCluster;
 	timestamp?: string;
 }
 
@@ -86,3 +86,10 @@ export type TypedFind = <T extends object, F extends object = never>(
 	docs: Array<T>;
 	warning?: string | undefined;
 }>;
+
+export type NftDocumentV2<T extends NftV2 = NftV2> = PouchDocument<T>;
+
+export type CollectionDocumentV2<T extends CollectionV2 = CollectionV2> =
+	PouchDocument<T>;
+
+export type TokenDocumentV2<T extends TokenV2 = TokenV2> = PouchDocument<T>;

@@ -1,39 +1,48 @@
+import type { CollectionV2, NftV2 } from '@walless/core';
 import { logger } from '@walless/core';
-import type { CollectibleDocument, CollectionDocument } from '@walless/store';
+import type { CollectionDocumentV2, NftDocumentV2 } from '@walless/store';
 
 import { storage } from './db';
 
-const getCollectibleByIdFromStorage = async (
+const getNftByIdFromStorage = async <T extends NftV2 = NftV2>(
 	id: string,
-): Promise<CollectibleDocument | undefined> => {
+): Promise<NftDocumentV2<T> | undefined> => {
 	return await storage.safeGet(id);
 };
 
-const getCollectionByIdFromStorage = async (
+const getCollectionByIdFromStorage = async <
+	T extends CollectionV2 = CollectionV2,
+>(
 	id: string,
-): Promise<CollectionDocument | undefined> => {
+): Promise<CollectionDocumentV2<T> | undefined> => {
 	return await storage.safeGet(id);
 };
 
-const addCollectibleToStorage = async (
+const addCollectibleToStorage = async <T extends NftV2 = NftV2>(
 	id: string,
-	item: CollectibleDocument,
+	item: NftDocumentV2<T>,
 ) => {
 	return storage
-		.upsert<CollectibleDocument>(id, async () => item, { new: true })
+		.upsert<T>(id, async () => item, { new: true })
 		.catch(logger.warn);
 };
 
-const addCollectionToStorage = async (id: string, item: CollectionDocument) => {
+const addCollectionToStorage = async <T extends CollectionV2 = CollectionV2>(
+	id: string,
+	item: CollectionDocumentV2<T>,
+) => {
 	return storage
-		.upsert<CollectionDocument>(id, async () => item, { new: true })
+		.upsert<CollectionDocumentV2<T>>(id, async () => item, { new: true })
 		.catch(logger.warn);
 };
 
-const updateCollectibleAmountToStorage = async (id: string, amount: number) => {
+const updateNftAmountToStorage = async <T extends NftV2 = NftV2>(
+	id: string,
+	amount: number,
+) => {
 	return await storage
-		.upsert<CollectibleDocument>(id, async (prevDoc) => {
-			prevDoc.account.amount = amount;
+		.upsert<NftDocumentV2<T>>(id, async (prevDoc) => {
+			prevDoc.amount = amount;
 
 			return prevDoc;
 		})
@@ -43,7 +52,7 @@ const updateCollectibleAmountToStorage = async (id: string, amount: number) => {
 export {
 	addCollectibleToStorage,
 	addCollectionToStorage,
-	getCollectibleByIdFromStorage,
 	getCollectionByIdFromStorage,
-	updateCollectibleAmountToStorage,
+	getNftByIdFromStorage,
+	updateNftAmountToStorage,
 };

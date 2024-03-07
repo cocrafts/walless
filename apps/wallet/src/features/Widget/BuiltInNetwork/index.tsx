@@ -26,7 +26,7 @@ import { copy } from 'utils/system';
 
 import ActivityTab from './ActivityTab';
 import AptosTokensTab from './AptosTokensTab';
-import CollectiblesTab from './CollectiblesTab';
+import NftTab from './NFTTab';
 import { getWalletCardSkin, layoutTabs } from './shared';
 import type { TabAble } from './SliderTabs';
 import SliderTabs from './SliderTabs';
@@ -62,7 +62,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 					id === Networks.aptos ? (
 						<AptosTokensTab pubkey={keys[0]._id} />
 					) : (
-						<CollectiblesTab collections={collections} />
+						<NftTab collections={collections} />
 					),
 			},
 			{

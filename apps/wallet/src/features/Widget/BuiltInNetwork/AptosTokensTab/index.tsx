@@ -10,7 +10,7 @@ import { aptosState } from 'state/assets';
 import { useNfts } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
-import CollectiblesTab from '../CollectiblesTab';
+import NftTab from '../NFTTab';
 import type { TabAble } from '../SliderTabs';
 import SliderTabs from '../SliderTabs';
 
@@ -61,7 +61,7 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 	const bottomSliderItems: SlideOption[] = [
 		{
 			id: 'owned',
-			component: () => <CollectiblesTab collections={collections} />,
+			component: () => <NftTab collections={collections} />,
 		},
 		{
 			id: 'pending',

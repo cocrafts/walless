@@ -1,14 +1,17 @@
-import type { TokenDocument } from '@walless/store';
+import type { TokenV2 } from '@walless/core';
+import type { TokenDocumentV2 } from '@walless/store';
 
 import { storage } from './db';
 
 const getTokenByIdFromStorage = async (
 	id: string,
-): Promise<TokenDocument | undefined> => {
+): Promise<TokenDocumentV2 | undefined> => {
 	return await storage.safeGet(id);
 };
 
-const addTokensToStorage = async (tokens: TokenDocument[]) => {
+const addTokensToStorage = async <T extends TokenV2 = TokenV2>(
+	tokens: TokenDocumentV2<T>[],
+) => {
 	return await Promise.all(
 		tokens.map((t) => {
 			return addTokenToStorage(t);
@@ -16,21 +19,10 @@ const addTokensToStorage = async (tokens: TokenDocument[]) => {
 	);
 };
 
-const addTokenToStorage = async (token: TokenDocument) => {
-	return await storage.upsert<TokenDocument>(token._id, async () => token);
+const addTokenToStorage = async <T extends TokenV2 = TokenV2>(
+	token: TokenDocumentV2<T>,
+) => {
+	return await storage.upsert<T>(token._id, async () => token);
 };
 
-const updateTokenBalanceToStorage = async (id: string, balance: string) => {
-	return await storage.upsert<TokenDocument>(id, async (prevDoc) => {
-		prevDoc.account.balance = balance;
-
-		return prevDoc;
-	});
-};
-
-export {
-	addTokensToStorage,
-	addTokenToStorage,
-	getTokenByIdFromStorage,
-	updateTokenBalanceToStorage,
-};
+export { addTokensToStorage, addTokenToStorage, getTokenByIdFromStorage };

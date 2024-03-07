@@ -10,7 +10,7 @@ interface Props {
 	collections?: WrappedCollection[];
 }
 
-export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
+export const NftTab: FC<Props> = ({ collections = [] }) => {
 	const { onGridContainerLayout, width } = useLazyGridLayout({
 		referenceWidth: 150,
 		gap: gridGap,
@@ -60,7 +60,7 @@ export const CollectiblesTab: FC<Props> = ({ collections = [] }) => {
 	);
 };
 
-export default CollectiblesTab;
+export default NftTab;
 
 const gridGap = 18;
 const styles = StyleSheet.create({

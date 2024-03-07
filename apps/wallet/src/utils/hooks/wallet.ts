@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
-import type { Networks } from '@walless/core';
+import type { SolanaToken } from '@walless/core';
+import { Networks } from '@walless/core';
 import type {
-	CollectibleDocument,
+	CollectionDocumentV2,
 	PublicKeyDocument,
-	TokenDocument,
+	TokenDocumentV2,
 } from '@walless/store';
 import { appState } from 'state/app';
-import { collectibleState, collectionState, tokenState } from 'state/assets';
+import { collectionState, nftState, tokenState } from 'state/assets';
 import { historyState } from 'state/history';
 import { keyState } from 'state/keys';
 import { runtimeActions } from 'state/runtime';
@@ -46,11 +47,11 @@ export const useRelevantKeys = () => {
 	}, [keyMap, widgetMap]);
 };
 
-const getTokenValue = (token: TokenDocument, currency: string) => {
-	const { quotes, balance, decimals } = token.account;
+const getTokenValue = (token: TokenDocumentV2, currency: string) => {
+	const { quotes, balance } = token;
 	const quote = quotes?.[currency] || 0;
 
-	return quote * (parseInt(balance) / Math.pow(10, decimals));
+	return quote * balance;
 };
 
 export const useTokens = (
@@ -59,39 +60,46 @@ export const useTokens = (
 	currency = 'usd',
 ) => {
 	const { map } = useSnapshot(tokenState);
-	const tokens = Array.from(map.values());
 
 	return useMemo(() => {
+		const tokens = Array.from(map.values()).filter((token) => {
+			const isInNetwork = network ? token.network === network : true;
+			const isOwnedByAddress = address ? token.owner === address : true;
+			return isInNetwork && isOwnedByAddress;
+		});
+
 		let valuation = 0;
-		const filteredTokens = [];
+		let filteredTokens = [];
 
-		for (const token of tokens) {
-			const isNetworkValid = network ? token.network === network : true;
-			const isAccountValid = address
-				? token.account?.address === address
-				: true;
-			const isAvailable = token.account.balance !== '0';
-			const isSol = token.account.mint === solMint;
+		switch (network) {
+			case Networks.solana: {
+				for (const token of tokens as TokenDocumentV2<SolanaToken>[]) {
+					const isNetworkValid = network ? token.network === network : true;
+					const isAvailable = token.amount !== '0';
+					const isSol = token.mint === solMint;
 
-			if (isNetworkValid && isAccountValid && (isSol || isAvailable)) {
-				valuation += getTokenValue(token, currency);
-				filteredTokens.push(token);
+					if (isNetworkValid && (isSol || isAvailable)) {
+						valuation += getTokenValue(token, currency);
+						filteredTokens.push(token);
+					}
+				}
+
+				filteredTokens.sort((token1, token2) => {
+					if (token1.mint === solMint) return -1;
+					else if (token2.mint === solMint) return 1;
+					else if (
+						getTokenValue(token1, currency) < getTokenValue(token2, currency)
+					)
+						return 1;
+					else return -1;
+				});
+				break;
+			}
+			default: {
+				filteredTokens = tokens;
+				break;
 			}
 		}
-
-		filteredTokens.sort((token1, token2) => {
-			if (token1.account.mint === solMint) {
-				return -1;
-			} else if (token2.account.mint === solMint) {
-				return 1;
-			} else if (
-				getTokenValue(token1, currency) < getTokenValue(token2, currency)
-			) {
-				return 1;
-			} else {
-				return -1;
-			}
-		});
 
 		return {
 			tokens: filteredTokens,
@@ -100,49 +108,44 @@ export const useTokens = (
 	}, [map, network, address]);
 };
 
-export type WrappedCollection = CollectibleDocument & {
+export type WrappedCollection = CollectionDocumentV2 & {
 	count: number;
 };
 
 export const useNfts = (network?: Networks, address?: string) => {
-	const collectibleMap = useSnapshot(collectibleState).map;
+	const NftMap = useSnapshot(nftState).map;
 	const collectionMap = useSnapshot(collectionState).map;
 
-	return {
-		collections: useMemo(() => {
-			const collectibles = Array.from(collectibleMap.values());
-			const collections = Array.from(collectionMap.values())
-				.map((ele) => {
-					const count = collectibles.reduce((prev, cur) => {
-						return (
-							prev +
-							(cur.collectionId === ele._id && cur.account.amount > 0 ? 1 : 0)
-						);
-					}, 0);
+	const nfts = useMemo(() => {
+		return Array.from(NftMap.values()).filter((nft) => {
+			const isInNetwork = network ? nft.network === network : true;
+			const isOwnedByAddress = address ? nft.owner === address : true;
+			const isAvailable = nft.amount > 0;
 
-					return { ...ele, count } as WrappedCollection;
-				})
-				.filter((ele) => ele.count > 0);
+			return isInNetwork && isOwnedByAddress && isAvailable;
+		});
+	}, [NftMap, network, address]);
 
-			if (!network) return collections;
+	const collections = useMemo(() => {
+		return Array.from(collectionMap.values())
+			.filter((collection) => {
+				const isInNetwork = network ? collection.network === network : true;
+				const isOwnedByAddress = address
+					? collection._id.includes(address)
+					: true;
 
-			return collections.filter(
-				(ele) => ele.network === network && ele._id.includes(address || ''),
-			);
-		}, [collectionMap, collectibleMap, network, address]),
+				return isInNetwork && isOwnedByAddress;
+			})
+			.map((collection) => {
+				const count = nfts.filter(
+					(nft) => nft.collectionId === collection._id,
+				).length;
 
-		collectibles: useMemo(() => {
-			const collectibles = Array.from(collectibleMap.values()).filter(
-				(ele) => ele.account.amount > 0,
-			);
+				return { ...collection, count };
+			});
+	}, [collectionMap, nfts, network, address]);
 
-			if (!network) return collectibles;
-
-			return collectibles.filter(
-				(ele) => ele.network === network && ele._id.includes(address || ''),
-			);
-		}, [collectibleMap, network, address]),
-	};
+	return { collections, nfts };
 };
 
 export const useHistory = (network?: Networks, address?: string) => {

@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import type { TokenDocument } from '@walless/store';
+import type { TokenDocumentV2 } from '@walless/store';
 
 import TokenList from './TokenList';
 
 interface Props {
-	tokens: TokenDocument[];
+	tokens: TokenDocumentV2[];
 }
 
 export const TokenTab: FC<Props> = ({ tokens }) => {

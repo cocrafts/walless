@@ -1,7 +1,7 @@
 import type { ComponentType, FC, ReactElement } from 'react';
 import type { ListRenderItem, StyleProp, ViewStyle } from 'react-native';
 import { FlatList } from 'react-native';
-import type { TokenDocument } from '@walless/store';
+import type { TokenDocumentV2 } from '@walless/store';
 
 import TokenItem from './Item';
 import ListEmpty from './ListEmpty';
@@ -12,9 +12,9 @@ interface Props {
 	itemStyle?: StyleProp<ViewStyle>;
 	separateStyle?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
-	items: TokenDocument[];
-	ListHeaderComponent?: ComponentType<TokenDocument> | ReactElement;
-	onPressItem?: (item: TokenDocument) => void;
+	items: TokenDocumentV2[];
+	ListHeaderComponent?: ComponentType<TokenDocumentV2> | ReactElement;
+	onPressItem?: (item: TokenDocumentV2) => void;
 }
 
 export const TokenList: FC<Props> = ({
@@ -26,7 +26,7 @@ export const TokenList: FC<Props> = ({
 	ListHeaderComponent,
 	onPressItem,
 }) => {
-	const renderItem: ListRenderItem<TokenDocument> = ({ item }) => {
+	const renderItem: ListRenderItem<TokenDocumentV2> = ({ item }) => {
 		const handlePressItem = () => {
 			onPressItem?.(item);
 		};
@@ -34,7 +34,7 @@ export const TokenList: FC<Props> = ({
 		return (
 			<TokenItem
 				key={item._id}
-				item={item}
+				token={item}
 				style={itemStyle}
 				onPress={handlePressItem}
 			/>

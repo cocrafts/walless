@@ -1,26 +1,26 @@
 import type { AptosPendingToken } from '@walless/core';
 import type {
-	CollectibleDocument,
-	CollectionDocument,
-	TokenDocument,
+	CollectionDocumentV2,
+	NftDocumentV2,
+	TokenDocumentV2,
 } from '@walless/store';
 
 import { aptosState } from './aptos';
-import { collectibleState, collectionState } from './collectibles';
+import { collectionState, nftState } from './nfts';
 import { tokenState } from './tokens';
 
 export const assetsActions = {
-	setTokens: (items: TokenDocument[]) => {
+	setTokens: (items: TokenDocumentV2[]) => {
 		for (const item of items) {
 			tokenState.map.set(item._id, item);
 		}
 	},
-	setCollectibles: (items: CollectibleDocument[]) => {
+	setNfts: (items: NftDocumentV2[]) => {
 		for (const item of items) {
-			collectibleState.map.set(item._id, item);
+			nftState.map.set(item._id, item);
 		}
 	},
-	setCollections: (items: CollectionDocument[]) => {
+	setCollections: (items: CollectionDocumentV2[]) => {
 		for (const item of items) {
 			collectionState.map.set(item._id, item);
 		}
@@ -37,5 +37,5 @@ export const assetsActions = {
 	},
 };
 
-export { collectibleState, collectionState, tokenState };
+export { collectionState, nftState, tokenState };
 export * from './aptos';

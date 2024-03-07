@@ -1,13 +1,13 @@
 import { getStateFromPath } from '@react-navigation/native';
 import { logger, Networks } from '@walless/core';
 import type {
-	CollectibleDocument,
-	CollectionDocument,
+	CollectionDocumentV2,
 	NetworkClustersDocument,
+	NftDocumentV2,
 	PouchDocument,
 	PublicKeyDocument,
 	SettingDocument,
-	TokenDocument,
+	TokenDocumentV2,
 	TransactionHistoryDocument,
 	WidgetDocument,
 } from '@walless/store';
@@ -31,7 +31,7 @@ import {
 import { storage } from 'utils/storage';
 
 import { appState } from './app';
-import { collectibleState, collectionState, tokenState } from './assets';
+import { collectionState, nftState, tokenState } from './assets';
 import { historyState } from './history';
 import { keyState } from './keys';
 import { widgetState } from './widget';
@@ -119,7 +119,7 @@ const watchStorageAndSyncState = async () => {
 			} else if (item?.type === 'Token') {
 				tokenState.map.delete(id);
 			} else if (item?.type === 'NFT') {
-				collectibleState.map.delete(id);
+				nftState.map.delete(id);
 			} else if (item?.type === 'Collection') {
 				collectionState.map.delete(id);
 			} else if (item?.type === 'History') {
@@ -131,11 +131,11 @@ const watchStorageAndSyncState = async () => {
 			} else if (item?.type === 'PublicKey') {
 				keyState.map.set(id, item as PublicKeyDocument);
 			} else if (item?.type === 'Token') {
-				tokenState.map.set(id, item as TokenDocument);
+				tokenState.map.set(id, item as TokenDocumentV2);
 			} else if (item?.type === 'NFT') {
-				collectibleState.map.set(id, item as CollectibleDocument);
+				nftState.map.set(id, item as NftDocumentV2);
 			} else if (item?.type === 'Collection') {
-				collectionState.map.set(id, item as CollectionDocument);
+				collectionState.map.set(id, item as CollectionDocumentV2);
 			} else if (item?.type === 'Setting') {
 				const settings = item as SettingDocument;
 				appState.profile = settings.profile;

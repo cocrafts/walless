@@ -1,8 +1,9 @@
 jest.mock('utils/storage/db');
 
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+import type { SolanaCollectible } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { CollectibleDocument } from '@walless/store';
+import type { NftDocumentV2 } from '@walless/store';
 
 import {
 	getCollectiblesOnChain,
@@ -89,26 +90,22 @@ describe('[solana runner] collectibles', () => {
 	});
 });
 
-const exampleCollectible: CollectibleDocument = {
+const exampleCollectible: NftDocumentV2<SolanaCollectible> = {
 	_id: 'H9d4gR9nG6G7bMZLfUF5cR8MuP4wMXNwsJyPfHbeVicP/collectible/ZmzsJiN4eaFpS61WkSvLRJahE4v1YebPh7nu9AzUedL',
 	type: 'NFT',
 	collectionId:
 		'H9d4gR9nG6G7bMZLfUF5cR8MuP4wMXNwsJyPfHbeVicP/collection/3PqfGCSzkbHLrwFPsoaMwNDciRTcAnuYU5k9x4tBvKj6',
 	collectionAddress: '3PqfGCSzkbHLrwFPsoaMwNDciRTcAnuYU5k9x4tBvKj6',
 	network: Networks.solana,
-	metadata: {
-		name: 'Number #0005',
-		imageUri:
-			'https://arweave.net/4YpmywZ273XBTw8tSRC3hM-USweR8AJtPwMkWAW5DBk?ext=png',
-		symbol: 'NBer',
-		description:
-			'Collection of 10 numbers on the blockchain. This is the number 5/10.',
-	},
+	name: 'Number #0005',
+	image:
+		'https://arweave.net/4YpmywZ273XBTw8tSRC3hM-USweR8AJtPwMkWAW5DBk?ext=png',
+	symbol: 'NBer',
+	description:
+		'Collection of 10 numbers on the blockchain. This is the number 5/10.',
 	cluster: 'devnet',
-	account: {
-		address: '',
-		mint: 'ZmzsJiN4eaFpS61WkSvLRJahE4v1YebPh7nu9AzUedL',
-		owner: 'H9d4gR9nG6G7bMZLfUF5cR8MuP4wMXNwsJyPfHbeVicP',
-		amount: 1,
-	},
+	mint: 'ZmzsJiN4eaFpS61WkSvLRJahE4v1YebPh7nu9AzUedL',
+	ata: '',
+	owner: 'H9d4gR9nG6G7bMZLfUF5cR8MuP4wMXNwsJyPfHbeVicP',
+	amount: 1,
 };

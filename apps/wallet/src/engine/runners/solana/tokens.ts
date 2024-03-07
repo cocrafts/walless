@@ -1,9 +1,9 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import type { Connection } from '@solana/web3.js';
 import type { PublicKey } from '@solana/web3.js';
-import type { NetworkCluster } from '@walless/core';
+import { type Connection, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import type { NetworkCluster, SolanaToken } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { TokenDocument } from '@walless/store';
+import type { TokenDocumentV2 } from '@walless/store';
 import { getTokenQuotes, makeHashId } from 'utils/api';
 import { solMint } from 'utils/constants';
 
@@ -22,7 +22,7 @@ export const getTokenDocumentsOnChain = async (
 		cluster,
 		wallet,
 	);
-	const tokenPromises: Promise<TokenDocument>[] = [nativeTokenPromise];
+	const tokenPromises = [nativeTokenPromise];
 
 	const splTokensPromises = accounts
 		.filter((a) => a.tokenAmount.decimals !== 0)
@@ -34,10 +34,13 @@ export const getTokenDocumentsOnChain = async (
 
 	const tokens = await Promise.all(tokenPromises);
 
-	const quotes = await getTokenQuotes(tokens);
+	const quotes = await getTokenQuotes(
+		tokens.map((token) => ({ address: token.mint, network: token.network })),
+	);
 
 	for (const item of tokens) {
-		item.account.quotes = quotes[makeHashId(item)].quotes;
+		item.quotes =
+			quotes[makeHashId({ address: item.mint, network: item.network })].quotes;
 	}
 
 	return tokens;
@@ -47,7 +50,7 @@ const getNativeTokenDocument = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	key: PublicKey,
-): Promise<TokenDocument> => {
+): Promise<TokenDocumentV2<SolanaToken>> => {
 	const address = key.toString();
 	const balance = await throttle(() => connection.getBalance(key))();
 
@@ -56,15 +59,14 @@ const getNativeTokenDocument = async (
 		network: Networks.solana,
 		cluster,
 		type: 'Token',
-		account: {
-			mint: solMint,
-			owner: 'system',
-			address,
-			balance: String(balance),
-			decimals: 9,
-		},
-		metadata: solMetadata,
-	} satisfies TokenDocument;
+		mint: solMint,
+		owner: 'system',
+		ata: address,
+		balance: balance / 10 ** LAMPORTS_PER_SOL,
+		amount: balance.toString(),
+		decimals: LAMPORTS_PER_SOL,
+		...solMetadata,
+	};
 };
 
 export const getParsedTokenAccountsByOwner = async (
@@ -91,21 +93,29 @@ export const initTokenDocumentWithMetadata = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	account: ParsedTokenAccountWithAddress,
-): Promise<TokenDocument> => {
-	const metadata = await getMetadata(connection, account.mint);
+): Promise<TokenDocumentV2<SolanaToken>> => {
+	const metadata = (await getMetadata(connection, account.mint)) || {
+		name: 'Unknown',
+		symbol: 'Unknown',
+		image: '',
+	};
+
+	const amount = account.tokenAmount.amount;
+	const decimals = account.tokenAmount.decimals;
+	const balance =
+		account.tokenAmount.uiAmount || Number(amount) / 10 ** decimals;
 
 	return {
 		_id: `${account.owner}/token/${account.mint}`,
 		network: Networks.solana,
 		cluster,
 		type: 'Token',
-		account: {
-			mint: account.mint,
-			owner: account.owner,
-			address: account.publicKey.toString(),
-			balance: account.tokenAmount.amount,
-			decimals: account.tokenAmount.decimals,
-		},
-		metadata: metadata,
+		mint: account.mint,
+		owner: account.owner,
+		ata: account.publicKey.toString(),
+		amount,
+		decimals,
+		balance,
+		...metadata,
 	};
 };

@@ -1,10 +1,9 @@
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import { logger, Networks } from '@walless/core';
-import type { MetadataDocument } from '@walless/store';
-import { METADATA_PROGRAM_ID, solMint } from 'utils/constants';
-import { storage } from 'utils/storage';
+import type { TokenMetadata } from '@walless/core';
+import { logger } from '@walless/core';
+import { METADATA_PROGRAM_ID } from 'utils/constants';
 
 import { throttle } from './internal';
 import localMetadata from './local-metadata.json';
@@ -12,14 +11,10 @@ import localMetadata from './local-metadata.json';
 export type GetMetadataFunc = (
 	connection: Connection,
 	mintAddress: string,
-) => Promise<MetadataDocument | undefined>;
+) => Promise<TokenMetadata | undefined>;
 
 export const getMetadata: GetMetadataFunc = async (connection, mintAddress) => {
-	const fetchers: GetMetadataFunc[] = [
-		getLocalMeta,
-		getCachedMeta,
-		getRemoteMeta,
-	];
+	const fetchers: GetMetadataFunc[] = [getLocalMeta, getRemoteMeta];
 
 	for (const fetcher of fetchers) {
 		const result = await fetcher(connection, mintAddress);
@@ -31,24 +26,8 @@ const getLocalMeta: GetMetadataFunc = async (_, mintAddress) => {
 	return localRegistry[mintAddress];
 };
 
-const getCachedMeta: GetMetadataFunc = async (_, mintAddress) => {
-	const cached = await storage.safeGet<MetadataDocument>(mintAddress);
-	const timestamp = new Date(cached?.timestamp || '2000-01-01');
-	const cachedTime = new Date().getTime() - timestamp.getTime();
-	const cacheTimeout = 60000 * 60 * 24; // one day cache
-
-	if (cachedTime < cacheTimeout) {
-		return cached;
-	}
-};
-
 const getRemoteMeta: GetMetadataFunc = async (connection, mintAddress) => {
-	const result: MetadataDocument = {
-		_id: mintAddress,
-		type: 'Metadata',
-		network: Networks.solana,
-		timestamp: new Date().toISOString(),
-	};
+	const result: TokenMetadata = {} as never;
 	const mint = new PublicKey(mintAddress);
 	const METADATA_PROGRAM_KEY = new PublicKey(METADATA_PROGRAM_ID);
 	const [pda] = PublicKey.findProgramAddressSync(
@@ -59,9 +38,8 @@ const getRemoteMeta: GetMetadataFunc = async (connection, mintAddress) => {
 	if (!info?.data) return result;
 
 	const [metadata] = Metadata.deserialize(info.data);
-	result.name = metadata.data?.name;
-	result.symbol = metadata.data?.symbol;
-	result.mpl = metadata;
+	result.name = metadata.data?.name.replaceAll('\u0000', '');
+	result.symbol = metadata.data?.symbol.replaceAll('\u0000', '');
 
 	try {
 		const metadataResponse = await fetch(
@@ -71,7 +49,7 @@ const getRemoteMeta: GetMetadataFunc = async (connection, mintAddress) => {
 
 		const offChainMetadata = await metadataResponse.json();
 
-		result.imageUri = offChainMetadata.image;
+		result.image = offChainMetadata.image;
 	} catch (error) {
 		logger.error('Failed to fetch Solana metadata off-chain', error);
 	}
@@ -79,7 +57,7 @@ const getRemoteMeta: GetMetadataFunc = async (connection, mintAddress) => {
 	return result;
 };
 
-export const localRegistry: Record<string, MetadataDocument> = {};
+export const localRegistry: Record<string, TokenMetadata> = {};
 
 interface LegacySolanaMetadata {
 	address: string;
@@ -99,25 +77,17 @@ interface LegacyMetadataSource {
 	tokens: LegacySolanaMetadata[];
 }
 
-export const solMetadata: MetadataDocument = {
-	_id: solMint,
-	type: 'Metadata',
-	network: Networks.solana,
+export const solMetadata: TokenMetadata = {
 	name: 'SOL',
 	symbol: 'SOL',
-	imageUri:
+	image:
 		'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
 };
 
 for (const i of (localMetadata as LegacyMetadataSource).tokens) {
 	localRegistry[i.address] = {
-		_id: i.address,
-		type: 'Metadata',
-		network: Networks.solana,
-		name: i.name,
-		symbol: i.symbol,
-		imageUri: i.logoURI,
+		name: i.name || 'Unknown',
+		symbol: i.symbol || 'Unknown',
+		image: i.logoURI || '',
 	};
 }
-
-localRegistry[solMint] = solMetadata;

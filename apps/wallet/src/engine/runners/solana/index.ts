@@ -1,13 +1,14 @@
 import { PublicKey } from '@metaplex-foundation/js';
 import { clusterApiUrl, Connection } from '@solana/web3.js';
+import type { SolanaToken } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { PublicKeyDocument } from '@walless/store';
+import type { PublicKeyDocument, TokenDocumentV2 } from '@walless/store';
 import { selectors } from '@walless/store';
 import { environment } from 'utils/config';
 import {
 	addTokensToStorage,
 	storage,
-	updateCollectibleAmountToStorage,
+	updateNftAmountToStorage,
 } from 'utils/storage';
 
 import type { CreateFunction } from '../../types';
@@ -51,7 +52,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 				return [
 					getTokenDocumentsOnChain(connection, cluster, wallet, accounts).then(
 						(tokens) => {
-							addTokensToStorage(tokens);
+							addTokensToStorage<TokenDocumentV2<SolanaToken>>(tokens);
 						},
 					),
 					getCollectiblesOnChain(connection, cluster, wallet).then(
@@ -69,7 +70,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 						 */
 						if (a.tokenAmount.decimals === 0 && a.tokenAmount.amount === '0') {
 							const id = `${wallet.toString()}/collectible/${a.mint}`;
-							updateCollectibleAmountToStorage(id, 0);
+							updateNftAmountToStorage(id, 0);
 						}
 
 						watchAccount(connection, cluster, wallet, a.publicKey);

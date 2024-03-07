@@ -1,16 +1,18 @@
 import { type FC } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
+import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import CollectionCard from 'components/CollectionCard';
 import type { WrappedCollection } from 'utils/hooks';
-import { useLazyGridLayout } from 'utils/hooks';
+import { useLazyGridLayout, useNfts } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 
 interface Props {
-	collections?: WrappedCollection[];
+	network: Networks;
 }
 
-export const NftTab: FC<Props> = ({ collections = [] }) => {
+export const NftTab: FC<Props> = ({ network }) => {
+	const { collections } = useNfts(network);
 	const { onGridContainerLayout, width } = useLazyGridLayout({
 		referenceWidth: 150,
 		gap: gridGap,

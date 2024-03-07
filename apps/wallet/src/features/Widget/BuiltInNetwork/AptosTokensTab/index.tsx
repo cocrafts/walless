@@ -7,7 +7,7 @@ import { Slider, View } from '@walless/gui';
 import { getDefaultEngine } from 'engine';
 import type { AptosContext } from 'engine/runners';
 import { aptosState } from 'state/assets';
-import { useNfts } from 'utils/hooks';
+import { useNfts, usePublicKeys } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import NftTab from '../NFTTab';
@@ -18,12 +18,14 @@ import DirectTransfer from './DirectTransfer';
 import PendingTokens from './PendingTokens';
 
 interface Props {
-	pubkey: string;
+	network: Networks;
 }
 
 const APTOS_COIN_DECIMALS = 8;
 
-const AptosTokensTab: FC<Props> = ({ pubkey }) => {
+const AptosTokensTab: FC<Props> = ({ network }) => {
+	const publicKey = usePublicKeys(network)[0];
+	const publicKeyString = publicKey._id;
 	const aptosSnap = useSnapshot(aptosState);
 	const [fee, setFee] = useState(0);
 
@@ -61,7 +63,7 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 	const bottomSliderItems: SlideOption[] = [
 		{
 			id: 'owned',
-			component: () => <NftTab collections={collections} />,
+			component: () => <NftTab network={network} />,
 		},
 		{
 			id: 'pending',
@@ -77,7 +79,7 @@ const AptosTokensTab: FC<Props> = ({ pubkey }) => {
 	return (
 		<View style={styles.container}>
 			<DirectTransfer
-				pubkey={pubkey}
+				pubkey={publicKeyString}
 				directTransfer={aptosSnap.directTransfer}
 				fee={fee}
 			/>

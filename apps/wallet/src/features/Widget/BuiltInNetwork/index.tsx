@@ -16,12 +16,7 @@ import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
 import { showSwapModal } from 'modals/Swap';
 import { buyToken } from 'utils/buy';
-import {
-	useNfts,
-	useOpacityAnimated,
-	usePublicKeys,
-	useTokens,
-} from 'utils/hooks';
+import { useOpacityAnimated, usePublicKeys, useTokens } from 'utils/hooks';
 import { copy } from 'utils/system';
 
 import ActivityTab from './ActivityTab';
@@ -38,12 +33,12 @@ interface Props {
 }
 
 export const BuiltInNetwork: FC<Props> = ({ id }) => {
+	const network = id as Networks;
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
-	const keys = usePublicKeys(id as Networks);
+	const keys = usePublicKeys(network);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
-	const { tokens, valuation } = useTokens(id as Networks);
-	const { collections } = useNfts(id as Networks);
-	const cardSkin = useMemo(() => getWalletCardSkin(id as never), [id]);
+	const { valuation } = useTokens(network);
+	const cardSkin = useMemo(() => getWalletCardSkin(network), [network]);
 	const opacityAnimated = useOpacityAnimated({ from: 0, to: 1 });
 
 	const container: ViewStyle = {
@@ -54,20 +49,20 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		return [
 			{
 				id: 'tokens',
-				component: () => <TokenTab tokens={tokens} />,
+				component: () => <TokenTab network={network} />,
 			},
 			{
 				id: 'collectibles',
 				component: () =>
 					id === Networks.aptos ? (
-						<AptosTokensTab pubkey={keys[0]._id} />
+						<AptosTokensTab network={network} />
 					) : (
-						<NftTab collections={collections} />
+						<NftTab network={network} />
 					),
 			},
 			{
 				id: 'activities',
-				component: () => <ActivityTab network={id as Networks} />,
+				component: () => <ActivityTab network={network} />,
 			},
 		];
 	}, []);

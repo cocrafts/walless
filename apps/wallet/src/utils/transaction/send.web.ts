@@ -1,71 +1,83 @@
-import { TransactionBlock } from '@mysten/sui.js/transactions';
-import { VersionedTransaction } from '@solana/web3.js';
-import type { TransactionPayload } from '@walless/core';
+import type { TransactionBlock } from '@mysten/sui.js/transactions';
 import { Networks, RequestType } from '@walless/core';
-import type { ResponsePayload } from '@walless/messaging';
 import { sendRequest } from 'bridge';
 import { encode } from 'bs58';
+import { solMint } from 'utils/constants';
 
-import {
-	constructTransaction,
-	constructTransactionAbstractFee,
-} from './common';
+import { constructSendTransaction } from './construct';
+import type {
+	SendNftTransaction,
+	SendTokenTransaction,
+	SendTransaction,
+	SolanaSendNftTransaction,
+	SolanaSendTokenTransaction,
+	SolanaSendTransaction,
+} from './types';
 
-export const createAndSend = async (
-	payload: TransactionPayload,
+export const sendTransaction = async (
+	initTransaction:
+		| SendTransaction
+		| SendTokenTransaction
+		| SendNftTransaction
+		| SolanaSendTokenTransaction
+		| SolanaSendNftTransaction,
+
 	passcode?: string,
 ) => {
-	const transaction =
-		payload.network === Networks.solana &&
-		payload.tokenForFee.metadata?.symbol === 'SOL'
-			? await constructTransaction(payload)
-			: await constructTransactionAbstractFee(payload);
+	const transaction = await constructSendTransaction(initTransaction);
+	if (!transaction) throw Error('failed to construct transaction');
 
-	let res;
+	const { network } = initTransaction;
 
-	if (transaction instanceof VersionedTransaction) {
-		res =
-			payload.tokenForFee.metadata?.symbol === 'SOL'
-				? await sendRequest({
-						type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
-						transaction: encode(transaction.serialize()),
-						passcode,
-					})
-				: await sendRequest({
-						type: RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
-						transaction: encode(transaction.serialize()),
-						passcode,
-					});
-	} else if (transaction instanceof TransactionBlock) {
-		res = await sendRequest({
-			type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
-			transaction: transaction.serialize(),
-			passcode,
-		});
-	} else if (payload.network == Networks.tezos) {
-		res = await sendRequest({
-			type: RequestType.TRANSFER_TEZOS_TOKEN,
-			transaction: JSON.stringify(transaction),
-			passcode,
-		});
-	} else if (payload.network == Networks.aptos) {
-		const isCoinTransaction = !('creator' in transaction);
-		if (isCoinTransaction) {
-			res = await sendRequest({
-				type: RequestType.TRANSFER_COIN_ON_APTOS,
-				transaction: JSON.stringify(transaction),
+	switch (network) {
+		case Networks.solana: {
+			const { tokenForFee } = initTransaction as SolanaSendTransaction;
+			const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
+			if (isGasilon) {
+				return await sendRequest({
+					type: RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
+					transaction: encode(transaction.serialize()),
+					passcode,
+				});
+			} else {
+				return await sendRequest({
+					type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
+					transaction: encode(transaction.serialize()),
+					passcode,
+				});
+			}
+		}
+		case Networks.sui: {
+			return await sendRequest({
+				type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
+				transaction: (transaction as never as TransactionBlock).serialize(),
 				passcode,
 			});
-		} else {
-			res = await sendRequest({
-				type: RequestType.TRANSFER_TOKEN_ON_APTOS,
+		}
+		case Networks.tezos: {
+			return await sendRequest({
+				type: RequestType.TRANSFER_TEZOS_TOKEN,
 				transaction: JSON.stringify(transaction),
 				passcode,
 			});
 		}
+		case Networks.aptos: {
+			const isCoinTransaction = !('creator' in transaction);
+			if (isCoinTransaction) {
+				return await sendRequest({
+					type: RequestType.TRANSFER_COIN_ON_APTOS,
+					transaction: JSON.stringify(transaction),
+					passcode,
+				});
+			} else {
+				return await sendRequest({
+					type: RequestType.TRANSFER_TOKEN_ON_APTOS,
+					transaction: JSON.stringify(transaction),
+					passcode,
+				});
+			}
+		}
 	}
-
-	return res as ResponsePayload;
 };
 
 export const handleAptosOnChainAction = async ({

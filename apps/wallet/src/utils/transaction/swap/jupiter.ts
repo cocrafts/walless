@@ -1,23 +1,24 @@
 import { VersionedTransaction } from '@solana/web3.js';
+import type { SolanaToken } from '@walless/core';
 import { logger } from '@walless/core';
-import type { TokenDocument } from '@walless/store';
+import type { TokenDocumentV2 } from '@walless/store';
 import { environment } from 'utils/config';
 import { solMint } from 'utils/constants';
 
 import type { SwapQuote } from './types';
 
-export const getAliasedMint = (token: TokenDocument) => {
+export const getAliasedMint = (token: TokenDocumentV2<SolanaToken>) => {
 	if (environment.NETWORK_CLUSTER === 'devnet') {
-		if (token.account.mint === 'Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr') {
+		if (token.mint === 'Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr') {
 			return 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
 		}
 	}
 
-	if (token.account.mint === solMint) {
+	if (token.mint === solMint) {
 		return 'So11111111111111111111111111111111111111112';
 	}
 
-	return token.account.mint;
+	return token.mint;
 };
 
 type GetSwapParams = {

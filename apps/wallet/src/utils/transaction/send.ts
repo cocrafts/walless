@@ -1,115 +1,142 @@
-import { TransactionBlock } from '@mysten/sui.js/transactions';
-import { VersionedTransaction } from '@solana/web3.js';
-import type { TransactionPayload } from '@walless/core';
+import type { VersionedTransaction } from '@solana/web3.js';
 import { logger, Networks, RequestType, ResponseCode } from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
-import { aptosHandler, solanaHandler, utils } from '@walless/network';
+import { aptos, solana, utils } from '@walless/network';
 import { getDefaultEngine } from 'engine';
 import type { AptosContext, SolanaContext } from 'engine/runners';
 import { environment } from 'utils/config';
+import { solMint } from 'utils/constants';
 import { storage } from 'utils/storage';
 
-import {
-	constructTransaction,
-	constructTransactionAbstractFee,
-} from './common';
+import { constructSendTransaction } from './construct';
+import type {
+	SendNftTransaction,
+	SendTokenTransaction,
+	SendTransaction,
+	SolanaSendNftTransaction,
+	SolanaSendTokenTransaction,
+	SolanaSendTransaction,
+} from './types';
 
-export const createAndSend = async (
-	payload: TransactionPayload,
+export const sendTransaction = async (
+	initTransaction:
+		| SendTransaction
+		| SendTokenTransaction
+		| SendNftTransaction
+		| SolanaSendTokenTransaction
+		| SolanaSendNftTransaction,
 	passcode?: string,
-) => {
+): Promise<ResponsePayload> => {
 	const res = {} as ResponsePayload;
 	if (!passcode) {
 		res.responseCode = ResponseCode.REQUIRE_PASSCODE;
 		return res;
 	}
 
-	const transaction =
-		payload.tokenForFee.metadata?.symbol === 'SOL'
-			? await constructTransaction(payload)
-			: await constructTransactionAbstractFee(payload);
+	const { network } = initTransaction;
 
-	if (transaction instanceof VersionedTransaction) {
-		let privateKey;
-		try {
-			privateKey = await utils.getPrivateKey(
-				storage,
-				Networks.solana,
-				passcode,
-			);
-		} catch {
-			res.responseCode = ResponseCode.WRONG_PASSCODE;
-			return res;
+	const transaction = await constructSendTransaction(initTransaction);
+	if (!transaction) throw Error('Failed to construct transaction');
+
+	switch (network) {
+		case Networks.solana: {
+			const { tokenForFee } = initTransaction as SolanaSendTransaction;
+			const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
+			const type = isGasilon ? 'gasilon' : 'default';
+
+			return await sendSolanaTransaction(transaction, passcode, type);
 		}
-
-		// eslint-disable-next-line no-useless-catch
-		try {
-			if (payload.tokenForFee.metadata?.symbol === 'SOL') {
-				const engine = getDefaultEngine();
-				const { connection } = engine.getContext<SolanaContext>(
-					Networks.solana,
-				);
-				res.signatureString = await solanaHandler.signAndSendTransaction(
-					connection,
-					transaction,
-					privateKey,
-				);
-			} else {
-				res.signatureString =
-					await solanaHandler.signAndSendTransactionAbstractionFee(
-						environment.GASILON_ENDPOINT,
-						transaction,
-						privateKey,
-					);
-			}
-
-			res.responseCode = ResponseCode.SUCCESS;
-		} catch (error) {
-			throw error;
+		case Networks.sui: {
+			// TODO: implement transfer sui
+			logger.debug('hello sui');
+			break;
 		}
-	} else if (transaction instanceof TransactionBlock) {
-		// TODO: implement transfer sui
-		logger.debug('hello sui');
-	} else if (payload.network == Networks.tezos) {
-		// TODO: implement transfer tezos
-		logger.debug('hello tezos');
-	} else if (payload.network === Networks.aptos) {
-		let privateKey;
-		try {
-			privateKey = await utils.getPrivateKey(storage, Networks.aptos, passcode);
-		} catch {
-			res.responseCode = ResponseCode.WRONG_PASSCODE;
-			return res;
+		case Networks.tezos: {
+			// TODO: implement transfer tezos
+			logger.debug('hello tezos');
+			break;
 		}
-
-		const isCoinTransaction = !('creator' in transaction);
-
-		try {
-			const engine = getDefaultEngine();
-			const { provider } = engine.getContext<AptosContext>(Networks.aptos);
-			if (isCoinTransaction) {
-				res.signatureString = await aptosHandler.handleTransferCoin(
-					provider,
-					privateKey,
-					transaction as aptosHandler.AptosCoinPayload,
-				);
-			} else {
-				res.signatureString = await aptosHandler.handleTransferToken(
-					provider,
-					privateKey,
-					transaction as aptosHandler.AptosTokenPayload,
-				);
-			}
-			res.responseCode = ResponseCode.SUCCESS;
-		} catch {
-			res.responseCode = ResponseCode.ERROR;
-			return res;
+		case Networks.aptos: {
+			// TODO: implement transfer tezos
+			logger.debug('hello aptos');
+			break;
 		}
 	}
 
 	return res;
 };
 
+const sendSolanaTransaction = async (
+	transaction: VersionedTransaction,
+	passcode: string,
+	type: 'default' | 'gasilon' = 'default',
+) => {
+	const res = {} as ResponsePayload;
+	let privateKey;
+	try {
+		privateKey = await utils.getPrivateKey(storage, Networks.solana, passcode);
+	} catch {
+		res.responseCode = ResponseCode.WRONG_PASSCODE;
+		return res;
+	}
+
+	if (type === 'gasilon') {
+		const gasilonEndpoint = environment.GASILON_ENDPOINT;
+		res.signatureString = await solana.signAndSendTransactionAbstractionFee(
+			gasilonEndpoint,
+			transaction,
+			privateKey,
+		);
+	} else {
+		const engine = getDefaultEngine();
+		const { connection } = engine.getContext<SolanaContext>(Networks.solana);
+		res.signatureString = await solana.signAndSendTransaction(
+			connection,
+			transaction,
+			privateKey,
+		);
+	}
+
+	res.responseCode = ResponseCode.SUCCESS;
+	return res;
+};
+
+export const sendAptosTransaction = async (
+	transaction: aptos.AptosCoinPayload | aptos.AptosTokenPayload,
+	passcode: string,
+) => {
+	const res = {} as ResponsePayload;
+
+	let privateKey;
+	try {
+		privateKey = await utils.getPrivateKey(storage, Networks.aptos, passcode);
+	} catch {
+		res.responseCode = ResponseCode.WRONG_PASSCODE;
+		return res;
+	}
+
+	const isCoinTransaction = !('creator' in transaction);
+
+	const engine = getDefaultEngine();
+	const { provider } = engine.getContext<AptosContext>(Networks.aptos);
+	if (isCoinTransaction) {
+		res.signatureString = await aptos.handleTransferCoin(
+			provider,
+			privateKey,
+			transaction,
+		);
+	} else {
+		res.signatureString = await aptos.handleTransferToken(
+			provider,
+			privateKey,
+			transaction,
+		);
+	}
+
+	res.responseCode = ResponseCode.SUCCESS;
+
+	return res;
+};
 export const handleAptosOnChainAction = async ({
 	passcode,
 	type,
@@ -134,18 +161,18 @@ export const handleAptosOnChainAction = async ({
 		const { provider } = engine.getContext<AptosContext>(Networks.aptos);
 		switch (type) {
 			case RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS:
-				res.signatureString = await aptosHandler.handleUpdateDirectTransfer(
+				res.signatureString = await aptos.handleUpdateDirectTransfer(
 					provider,
 					privateKey,
-					payload as aptosHandler.AptosDirectTransferPayload,
+					payload as aptos.AptosDirectTransferPayload,
 				);
 				break;
 
 			case RequestType.CLAIM_TOKEN_ON_APTOS:
-				res.signatureString = await aptosHandler.handleClaimToken(
+				res.signatureString = await aptos.handleClaimToken(
 					provider,
 					privateKey,
-					payload as aptosHandler.AptosClaimTokenPayload,
+					payload as aptos.AptosClaimTokenPayload,
 				);
 				break;
 

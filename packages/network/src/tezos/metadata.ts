@@ -3,7 +3,7 @@ import { tzip12, Tzip12Module } from '@taquito/tzip12';
 import { tzip16 } from '@taquito/tzip16';
 import type { UnknownObject } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { MetadataDocument, TokenDocument } from '@walless/store';
+import type { MetadataDocument, TokenDocumentV2 } from '@walless/store';
 
 import { getURL } from '../utils/convert';
 
@@ -20,7 +20,7 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 	contractAddress,
 	tokenId = 0,
 ) => {
-	let token: Omit<TokenDocument, '_id' | 'type' | 'network'> | undefined;
+	let token: Omit<TokenDocumentV2, '_id' | 'type' | 'network'> | undefined;
 
 	if (contractAddress == '0x16939ef78684453bfdfb47825f8a5f714f12623a') {
 		token = tezosNativeToken;
@@ -35,7 +35,7 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 			_id: contractAddress,
 			name: token.metadata?.name,
 			symbol: token.metadata?.symbol,
-			imageUri: token.metadata?.imageUri,
+			image: token.metadata?.image,
 			type: 'Metadata',
 		};
 	}
@@ -55,7 +55,7 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 		_id: `${contractAddress}`,
 		name: metadata.name,
 		symbol: metadata.symbol,
-		imageUri: getURL(
+		image: getURL(
 			metadata.icon ||
 				(metadata as UnknownObject)['displayUri'] ||
 				(metadata as UnknownObject)['thumbnailUri'],
@@ -65,30 +65,26 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 	};
 };
 
-const tezosNativeToken: TokenDocument = {
+const tezosNativeToken: TokenDocumentV2 = {
 	_id: 'tezos-native-token',
 	network: Networks.tezos,
 	type: 'Token',
-	metadata: {
-		name: 'Tezos',
-		symbol: 'XTZ',
-		imageUri: '/img/network/tezos-icon-sm.png',
-	},
-	account: {
-		balance: '0',
-		decimals: 6,
-	},
+	name: 'Tezos',
+	symbol: 'XTZ',
+	image: '/img/network/tezos-icon-sm.png',
+	balance: 0,
+	// decimals: 6,
 };
 
 const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
-	TokenDocument,
+	TokenDocumentV2,
 	'_id' | 'type' | 'network'
 >[] = [
 	{
 		metadata: {
 			name: 'Tether USD',
 			symbol: 'USDt',
-			imageUri:
+			image:
 				'https://ipfs.io/ipfs/QmRymVGWEudMfLrbjaEiXxngCRTDgWCsscjQMwizy4ZJjX',
 		},
 		account: {
@@ -102,7 +98,7 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		metadata: {
 			name: 'youves uUSD',
 			symbol: 'uUSD',
-			imageUri:
+			image:
 				'https://ipfs.io/ipfs/QmbvhanNCxydZEbGu1RdqkG3LcpNGv7XYsCHgzWBXnmxRd',
 		},
 		account: {
@@ -116,7 +112,7 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		metadata: {
 			name: 'Kolibri',
 			symbol: 'kUSD',
-			imageUri: 'https://kolibri-data.s3.amazonaws.com/logo.png',
+			image: 'https://kolibri-data.s3.amazonaws.com/logo.png',
 		},
 		account: {
 			tokenId: 0,
@@ -129,7 +125,7 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		metadata: {
 			name: 'Tezos BTC',
 			symbol: 'tzBTC',
-			imageUri:
+			image:
 				'https://tzbtc.io/wp-content/uploads/2020/03/tzbtc_logo_single.svg',
 		},
 		account: {
@@ -143,7 +139,7 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		metadata: {
 			name: 'youves uBTC',
 			symbol: 'uBTC',
-			imageUri:
+			image:
 				'https://ipfs.io/ipfs/Qmbev41h4axBqVzxsXP2NSaAF996bJjJBPb8FFZVqTvJTY',
 		},
 		account: {
@@ -154,24 +150,19 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		},
 	},
 	{
-		metadata: {
-			name: 'Quipuswap governance token',
-			symbol: 'QUIPU',
-			imageUri:
-				'https://ipfs.io/ipfs/Qmb2GiHN9EjcrN29J6y9PsXu3ZDosXTv6uLUWGZfRRSzS2/quipu.png',
-		},
-		account: {
-			tokenId: 0,
-			address: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
-			balance: '0',
-			decimals: 6,
-		},
+		name: 'Quipuswap governance token',
+		symbol: 'QUIPU',
+		image:
+			'https://ipfs.io/ipfs/Qmb2GiHN9EjcrN29J6y9PsXu3ZDosXTv6uLUWGZfRRSzS2/quipu.png',
+		tokenId: 0,
+		address: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
+		decimals: 6,
 	},
 	{
 		metadata: {
 			name: 'youves YOU Governance',
 			symbol: 'YOU',
-			imageUri:
+			image:
 				'https://ipfs.io/ipfs/QmYAJaJvEJuwvMEgRbBoAUKrTxRTT22nCC9RuY7Jy4L4Gc',
 		},
 		account: {

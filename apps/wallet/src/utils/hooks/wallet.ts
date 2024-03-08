@@ -175,7 +175,7 @@ export const useHistory = (network?: Networks, address?: string) => {
 		const filteredHistory = [];
 		for (const transaction of history) {
 			const isNetworkValid = network ? transaction.network === network : true;
-			const isAddressValid = address ? transaction.sender === address : true;
+			const isAddressValid = address ? transaction._id.includes(address) : true;
 
 			if (isNetworkValid && isAddressValid) {
 				filteredHistory.push(transaction);

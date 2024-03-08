@@ -21,7 +21,6 @@ const historyLimit = 20;
 
 export const getTransactionsHistory = async (
 	connection: Connection,
-	cluster: NetworkCluster,
 	wallet: PublicKey,
 	accounts: ParsedTokenAccountWithAddress[],
 ) => {
@@ -46,7 +45,6 @@ export const getTransactionsHistory = async (
 
 			const txDoc = await constructTransactionHistoryDocument(
 				connection,
-				cluster,
 				tx as ParsedTransactionWithMeta,
 				wallet,
 			);
@@ -91,7 +89,6 @@ const getTransactionSignatures = async (
 
 const constructTransactionHistoryDocument = async (
 	connection: Connection,
-	cluster: NetworkCluster,
 	parsedTransaction: ParsedTransactionWithMeta,
 	wallet: PublicKey,
 ): Promise<TransactionHistoryDocument> => {
@@ -137,7 +134,6 @@ const getTransactionType = (sender: PublicKey, walletAddress: string) => {
 
 const getTransactionBalances = async (
 	connection: Connection,
-	cluster: NetworkCluster,
 	parsedTransaction: ParsedTransactionWithMeta,
 ) => {
 	const { meta, transaction } = parsedTransaction;

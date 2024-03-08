@@ -77,7 +77,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 					}),
 					watchLogs(connection, cluster, wallet),
 					watchAccount(connection, cluster, wallet, wallet),
-					getTransactionsHistory(connection, cluster, wallet, accounts),
+					getTransactionsHistory(connection, wallet, accounts),
 				] as never[];
 			});
 

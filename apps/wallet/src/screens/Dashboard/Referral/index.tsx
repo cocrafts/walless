@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import type { Account, ReferralRank, WalletInvitation } from '@walless/graphql';
+import type { Account, WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
@@ -21,8 +21,8 @@ const pointsPerReferral = 20;
 
 export const ReferralScreen: FC<Props> = () => {
 	const [codes, setCodes] = useState<WalletInvitation[]>([]);
-	const [rankings, setRankings] = useState<ReferralRank[]>([]);
 	const [currentRank, setCurrentRank] = useState<number>(0);
+	const [leaderboardSize, setLeaderboardSize] = useState<number>(0);
 
 	const totalPoints = codes.reduce(
 		(acc, { email }) => acc + (email ? pointsPerReferral : 0),
@@ -31,8 +31,10 @@ export const ReferralScreen: FC<Props> = () => {
 
 	const rankingPercent = useMemo(
 		() =>
-			rankings.length ? Math.round((currentRank / rankings.length) * 100) : 0,
-		[currentRank, rankings],
+			leaderboardSize !== 0
+				? Math.round((currentRank / leaderboardSize) * 100)
+				: 0,
+		[currentRank, leaderboardSize],
 	);
 
 	const ChartIcon = (
@@ -50,7 +52,7 @@ export const ReferralScreen: FC<Props> = () => {
 	const ArrowIcon = (
 		<Hoverable
 			style={styles.arrowIcon}
-			onPress={() => showLeaderboard({ rankings: rankings, rankingPercent })}
+			onPress={() => showLeaderboard({ rankingPercent })}
 		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
 		</Hoverable>
@@ -71,17 +73,19 @@ export const ReferralScreen: FC<Props> = () => {
 			setCurrentRank(userAccount?.referralRank || 0);
 		};
 
-		const fetchReferralRankings = async () => {
-			const { referralLeaderboard } = await qlClient.request<{
-				referralLeaderboard: ReferralRank[];
-			}>(queries.referralLeaderboard);
+		const fetchReferralLeaderboardSize = async () => {
+			const { referralLeaderboardSize } = await qlClient.request<{
+				referralLeaderboardSize: number;
+			}>(queries.referralLeaderboardSize);
 
-			setRankings(referralLeaderboard ? referralLeaderboard : []);
+			setLeaderboardSize(referralLeaderboardSize);
 		};
 
 		fetchUserReferralCodes();
-		fetchReferralRankings();
+		fetchReferralLeaderboardSize();
 	}, []);
+
+	console.log('--> size', leaderboardSize);
 
 	return (
 		<View style={styles.container}>

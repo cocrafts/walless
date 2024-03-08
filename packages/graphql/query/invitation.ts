@@ -10,8 +10,8 @@ export const walletInvitation = gql`
 `;
 
 export const referralLeaderboard = gql`
-	query referralLeaderboard {
-		referralLeaderboard {
+	query referralLeaderboard($limit: Int, $offset: Int) {
+		referralLeaderboard(limit: $limit, offset: $offset) {
 			accountId
 			displayName
 			id
@@ -19,5 +19,11 @@ export const referralLeaderboard = gql`
 			rankChange
 			referralCount
 		}
+	}
+`;
+
+export const referralLeaderboardSize = gql`
+	query referralLeaderboardSize {
+		referralLeaderboardSize
 	}
 `;

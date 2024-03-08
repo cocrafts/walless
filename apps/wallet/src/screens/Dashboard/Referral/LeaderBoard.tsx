@@ -1,7 +1,8 @@
 import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native';
-import type { ReferralRank } from '@walless/graphql';
+import { queries, type ReferralRank } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -11,12 +12,12 @@ import {
 	View,
 } from '@walless/gui';
 import { ModalId } from 'modals/types';
+import { qlClient } from 'utils/graphql';
 
 import HighestRankingCard from './HighestRankingCard';
 import RankingCard from './RankingCard';
 
 interface LeaderboardProps {
-	rankings: ReferralRank[];
 	rankingPercent: number;
 }
 
@@ -24,7 +25,24 @@ type Props = LeaderboardProps & {
 	config: ModalConfigs;
 };
 
-const LeaderboardModal: FC<Props> = ({ rankingPercent, rankings }) => {
+const LeaderboardModal: FC<Props> = ({ rankingPercent }) => {
+	const [rankings, setRankings] = useState<ReferralRank[]>([]);
+
+	useEffect(() => {
+		const fetchReferralRankings = async () => {
+			const { referralLeaderboard } = await qlClient.request<{
+				referralLeaderboard: ReferralRank[];
+			}>(queries.referralLeaderboard, {
+				limit: 10,
+				offset: 0,
+			});
+
+			setRankings(referralLeaderboard ? referralLeaderboard : []);
+		};
+
+		fetchReferralRankings();
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.topBar} />

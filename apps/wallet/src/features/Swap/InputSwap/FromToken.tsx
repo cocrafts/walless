@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
-import { parseTokenAccountBalance } from 'utils/format';
 import { useSnapshot } from 'utils/hooks';
 
 import type { SwapContext } from '../context';
@@ -13,15 +12,10 @@ const FromToken = () => {
 	const { fromToken } = useSnapshot(swapContext).swap as SwapContext;
 	const [innerAmount, setInnerAmount] = useState('');
 
-	const balance = useMemo(() => {
-		if (!fromToken) return 0;
-		return parseTokenAccountBalance(fromToken.account);
-	}, [fromToken]);
-
 	const priceString = useMemo(() => {
-		if (!fromToken?.account.quotes?.usd) return '-';
+		if (!fromToken?.quotes?.usd) return '-';
 		if (!innerAmount || isNaN(parseFloat(innerAmount))) return '$0.00';
-		const price = parseFloat(innerAmount) * fromToken.account.quotes?.usd;
+		const price = parseFloat(innerAmount) * fromToken?.quotes?.usd;
 		return `$${price.toFixed(2)}`;
 	}, [innerAmount]);
 
@@ -36,7 +30,7 @@ const FromToken = () => {
 
 	const handlePressMax = () => {
 		if (!fromToken) return;
-		const maxAmount = parseTokenAccountBalance(fromToken.account);
+		const maxAmount = fromToken.balance;
 		updateAmount(maxAmount.toString());
 	};
 
@@ -54,8 +48,8 @@ const FromToken = () => {
 
 			<View style={styles.tokenContainer}>
 				<SelectButton
-					symbol={fromToken?.metadata?.symbol}
-					logoURI={fromToken?.metadata?.imageUri}
+					symbol={fromToken?.symbol}
+					logoURI={fromToken?.image}
 					onPress={handleSelectFromToken}
 				/>
 				<TextInput
@@ -67,13 +61,15 @@ const FromToken = () => {
 				/>
 			</View>
 
-			<View style={styles.valueContainer}>
-				<View style={styles.balanceContainer}>
-					<Text style={styles.balanceTitle}>Balance: </Text>
-					<Text style={styles.balanceAmount}>{balance}</Text>
+			{fromToken && (
+				<View style={styles.valueContainer}>
+					<View style={styles.balanceContainer}>
+						<Text style={styles.balanceTitle}>Balance: </Text>
+						<Text style={styles.balanceAmount}>{fromToken.balance}</Text>
+					</View>
+					<Text style={styles.amountPrice}>{priceString}</Text>
 				</View>
-				<Text style={styles.amountPrice}>{priceString}</Text>
-			</View>
+			)}
 		</View>
 	);
 };

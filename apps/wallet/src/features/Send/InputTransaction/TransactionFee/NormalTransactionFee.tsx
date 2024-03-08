@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
-import type { TokenDocument } from '@walless/store';
+import type { TokenDocumentV2 } from '@walless/store';
 import { getTransactionFee } from 'utils/transaction';
 import { useSnapshot } from 'valtio';
 
@@ -41,7 +41,7 @@ export const NormalTransactionFee: FC<Props> = () => {
 				receiver,
 				amount: type === 'Token' ? parseFloat(amount || '0') : 1,
 				network: chosenToken.network,
-				token: chosenToken as TokenDocument,
+				token: chosenToken as TokenDocumentV2,
 				tokenForFee: tokenForFee as never,
 			});
 			txActions.update({ transactionFee: fee });

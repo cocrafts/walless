@@ -1,12 +1,15 @@
+import { useEffect, useMemo } from 'react';
 import type { TransactionPayload } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { TokenDocument } from '@walless/store';
+import type { TokenDocumentV2 } from '@walless/store';
+import type { SolanaTransactionContext } from 'features/Send/internal';
+import { useTransactionContext } from 'features/Send/internal';
 import {
 	getTransactionAbstractFee,
 	getTransactionFee,
 } from 'utils/transaction';
 
-import { txActions } from '../../context';
+import { txActions } from './../../context';
 
 export const requestTransactionFee = async (
 	payload: TransactionPayload,
@@ -40,15 +43,11 @@ export const requestTransactionFee = async (
 };
 
 export const getTokenName = (
-	tokenForFee: TokenDocument,
+	tokenForFee: TokenDocumentV2,
 	network?: Networks,
 ) => {
 	if (network == Networks.solana) {
-		if (tokenForFee && tokenForFee.metadata?.symbol) {
-			return tokenForFee.metadata.symbol;
-		} else {
-			return 'Unknown';
-		}
+		return tokenForFee.symbol;
 	} else if (network == Networks.sui) {
 		return 'SUI';
 	} else if (network == Networks.aptos) {
@@ -56,4 +55,46 @@ export const getTokenName = (
 	}
 
 	return 'Unknown';
+};
+
+export const useTransactionFee = () => {
+	const { tokenForFee, token, nft, amount, type, sender, receiver, network } =
+		useTransactionContext<SolanaTransactionContext>();
+
+	const chosenToken = useMemo(() => {
+		return type === 'token' ? token : nft;
+	}, [token, nft, type]);
+
+	useEffect(() => {
+		const updateTransactionFee = async () => {
+			if (!chosenToken) {
+				txActions.update({ feeAmount: 0 });
+				return;
+			}
+
+			const payload: TransactionPayload = {
+				sender: sender,
+				receiver: receiver,
+				tokenForFee,
+				amount: type === 'token' ? parseFloat(amount || '0') : 1,
+				token: chosenToken,
+				network,
+			};
+
+			const { fee, feeTokenMint } = await requestTransactionFee(payload);
+			if (
+				feeTokenMint !==
+				(txContext.tx.tokenForFee as TokenDocumentV2<SolanaToken>).mint
+			)
+				return;
+
+			const decimals = payload.tokenForFee?.account?.decimals;
+			txActions.update({
+				feeAmount: parseFloat(fee.toPrecision(decimals)),
+			});
+			setIsFeeLoading(false);
+		};
+
+		updateTransactionFee();
+	}, [tokenForFee, chosenToken]);
 };

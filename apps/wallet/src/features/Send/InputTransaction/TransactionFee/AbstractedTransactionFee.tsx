@@ -6,100 +6,50 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import type { Token, TransactionPayload } from '@walless/core';
+import type { SolanaToken, TransactionPayload } from '@walless/core';
 import type { Networks } from '@walless/core';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
-import type { TokenDocument } from '@walless/store';
-import BN from 'bn.js';
+import type { TokenDocumentV2 } from '@walless/store';
+import type { SolanaTransactionContext } from 'features/Send/internal';
+import {
+	txActions,
+	txContext,
+	useTransactionContext,
+} from 'features/Send/internal';
 import { solMint } from 'utils/constants';
-import { filterGasilonTokens } from 'utils/gasilon';
-import { useSnapshot } from 'valtio';
-
-import { txActions, txContext } from '../../context';
+import { useGasilon, useTokens } from 'utils/hooks';
 
 import { getTokenName, requestTransactionFee } from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
 
-interface Props {
-	tokenList: TokenDocument[];
-}
-
-export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
-	const [isFeeLoading, setIsFeeLoading] = useState(false);
-	const [error, setError] = useState('');
-	const [tokenForFeeList, setTokenForFeeList] = useState<TokenDocument[]>([
-		tokenList[0],
-	]);
-
+export const AbstractedTransactionFee: FC = () => {
 	const {
 		type,
 		token,
-		transactionFee,
+		nft,
+		feeAmount,
 		receiver,
 		sender,
 		amount,
-		collectible,
 		tokenForFee,
-	} = useSnapshot(txContext).tx;
-	const chosenToken = type === 'Token' ? token : collectible;
+		network,
+	} = useTransactionContext<SolanaTransactionContext>();
+	const tokens = useTokens(network).tokens as TokenDocumentV2<SolanaToken>[];
+	const gasilonTokens = useGasilon(tokens);
+	const chosenToken = type === 'token' ? token : nft;
 	const enableSelectFee =
-		chosenToken?.account?.mint !== solMint && tokenForFeeList.length > 1;
+		chosenToken.mint !== solMint && gasilonTokens.length > 1;
+
+	const [isFeeLoading, setIsFeeLoading] = useState(false);
+	const [error, setError] = useState('');
 
 	const dropdownRef = useRef(null);
 
-	if (!tokenForFee) {
-		txActions.update({ tokenForFee: tokenList[0] });
-	}
-
 	const tokenForFeeName = getTokenName(
-		tokenForFee as TokenDocument,
+		tokenForFee as TokenDocumentV2,
 		chosenToken?.network,
 	);
-
-	useEffect(() => {
-		(async () => {
-			const tokens = await filterGasilonTokens(tokenList);
-			setTokenForFeeList([tokenList[0], ...tokens]);
-		})();
-	}, []);
-
-	useEffect(() => {
-		const updateTransactionFee = async () => {
-			if (!chosenToken) {
-				txActions.update({ transactionFee: 0 });
-				return;
-			}
-
-			const payload: TransactionPayload = {
-				sender: sender,
-				receiver: receiver,
-				tokenForFee: tokenForFee as Token,
-				amount: type === 'Token' ? parseFloat(amount || '0') : 1,
-				token: chosenToken as TokenDocument,
-				network: chosenToken?.network as Networks,
-			};
-
-			setIsFeeLoading(true);
-
-			const { fee, feeTokenMint } = await requestTransactionFee(payload);
-			if (feeTokenMint !== txContext.tx.tokenForFee?.account.mint) return;
-
-			const decimals = payload.tokenForFee?.account?.decimals;
-			txActions.update({
-				transactionFee: parseFloat(fee.toPrecision(decimals)),
-			});
-			setIsFeeLoading(false);
-		};
-
-		updateTransactionFee();
-	}, [tokenForFee, token, collectible, receiver]);
-
-	useEffect(() => {
-		if (token?.account.mint === solMint) {
-			txActions.update({ tokenForFee: token as TokenDocument });
-		}
-	}, [token]);
 
 	const handlePressSelect = () => {
 		if (!enableSelectFee) return;
@@ -107,9 +57,9 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 			id: 'NetworkFee',
 			component: () => (
 				<TokenFeeDropDown
-					tokens={tokenForFeeList}
+					tokens={gasilonTokens}
 					onSelect={(token) => txActions.update({ tokenForFee: token })}
-					selectedToken={tokenForFee as TokenDocument}
+					selectedToken={tokenForFee as TokenDocumentV2}
 				/>
 			),
 			bindingRef: dropdownRef,
@@ -123,26 +73,25 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 		if (!token || !tokenForFee) return;
 
 		let isNotEnoughToken = false;
-
-		const decimalsMultiplier = 10 ** tokenForFee.account.decimals;
-		const balanceBN = new BN(tokenForFee.account.balance);
-		const feeBN = new BN((transactionFee || 0) * decimalsMultiplier);
-
 		if (token._id === tokenForFee._id) {
-			const amountBN = new BN(parseFloat(amount || '0') * decimalsMultiplier);
-			isNotEnoughToken = amountBN.add(feeBN).gt(balanceBN);
+			const sendAmount = parseFloat(amount);
+			isNotEnoughToken = tokenForFee.balance < feeAmount + sendAmount;
 		} else {
-			isNotEnoughToken = feeBN.gt(balanceBN);
+			isNotEnoughToken = tokenForFee.balance < feeAmount;
 		}
 
-		let errorText = '';
 		if (isNotEnoughToken) {
-			errorText = `Not enough ${
-				tokenForFee.metadata?.symbol ?? 'Unknown'
-			}, select other token`;
+			const tokenName = tokenForFee.symbol ?? 'Unknown';
+			const errorText = `Not enough ${tokenName}, select other token`;
+			setError(errorText);
 		}
-		setError(errorText);
-	}, [transactionFee, amount, token, tokenForFee]);
+	}, [tokenForFee, token, amount]);
+
+	useEffect(() => {
+		if (chosenToken.mint === solMint) {
+			txActions.update({ tokenForFee: tokens[0] });
+		}
+	}, [chosenToken]);
 
 	return (
 		<View>
@@ -157,7 +106,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 						<ActivityIndicator size="small" color="#FFFFFF" />
 					) : (
 						<Text style={[styles.feeText, !!error && { color: '#FC9B0A' }]}>
-							{parseFloat((transactionFee || 0)?.toPrecision(7) as string)}
+							{feeAmount.toPrecision(7)}
 						</Text>
 					)}
 					{chosenToken && (
@@ -169,11 +118,7 @@ export const AbstractedTransactionFee: FC<Props> = ({ tokenList }) => {
 							<View style={styles.selectContainer}>
 								<Image
 									style={styles.tokenIcon}
-									source={{
-										uri:
-											tokenForFee?.metadata?.imageUri ||
-											'/img/send-token/unknown-token.jpeg',
-									}}
+									source={{ uri: tokenForFee.image }}
 								/>
 								<Text numberOfLines={1} style={styles.selectedToken}>
 									{tokenForFeeName}
@@ -194,7 +139,6 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		width: '100%',
 	},
 	titleContainer: {
 		flexDirection: 'row',

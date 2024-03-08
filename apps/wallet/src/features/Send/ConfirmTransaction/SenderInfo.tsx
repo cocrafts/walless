@@ -4,9 +4,8 @@ import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import { usePublicKeys } from 'utils/hooks';
 import { getNetworkMetadata } from 'utils/transaction';
-import { useSnapshot } from 'valtio';
 
-import { txActions, txContext } from '../context';
+import { txActions, useTransactionContext } from '../internal';
 
 interface Props {
 	onBack?: () => void;
@@ -14,9 +13,8 @@ interface Props {
 
 export const SenderInfo: FC<Props> = () => {
 	const publicKeys = usePublicKeys();
-	const { type, token, collectible } = useSnapshot(txContext).tx;
+	const { network } = useTransactionContext();
 
-	const network = type === 'Token' ? token?.network : collectible?.network;
 	const publicKey = publicKeys.find((key) => key.network === network);
 
 	if (publicKey) {
@@ -28,7 +26,7 @@ export const SenderInfo: FC<Props> = () => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>From account</Text>
-			<View style={styles.inforBlock}>
+			<View style={styles.infoBlock}>
 				{networkIcon && <Image style={styles.icon} source={networkIcon} />}
 				<View style={styles.wallet}>
 					<Text style={styles.walletTitle}>Wallet 1 {networkName}</Text>
@@ -51,7 +49,7 @@ const styles = StyleSheet.create({
 		color: '#566674',
 		marginRight: 'auto',
 	},
-	inforBlock: {
+	infoBlock: {
 		flexDirection: 'row',
 		backgroundColor: '#0F151A',
 		padding: 15,

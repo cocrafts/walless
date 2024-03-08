@@ -4,11 +4,10 @@ import type { SlideComponentProps } from '@walless/gui';
 import { View } from '@walless/gui';
 import { NavButton } from 'components/NavButton';
 import { navigationRef } from 'utils/navigation';
-import { useSnapshot } from 'valtio';
 
-import { txActions, txContext } from '../context';
+import { txActions, useTransactionContext } from '../internal';
 
-import { Header } from './Header';
+import { SolanaHeader } from './Header';
 import { Information } from './Information';
 import { Nft } from './Nft';
 import { Token } from './Token';
@@ -16,7 +15,7 @@ import { Token } from './Token';
 type Props = SlideComponentProps;
 
 const TransactionResult: FC<Props> = ({ navigator }) => {
-	const { type } = useSnapshot(txContext).tx;
+	const { type } = useTransactionContext();
 
 	const handlePressOtherTransaction = () => {
 		txActions.resetTransactionContext();
@@ -41,9 +40,9 @@ const TransactionResult: FC<Props> = ({ navigator }) => {
 
 	return (
 		<View style={styles.container}>
-			<Header />
+			<SolanaHeader />
 
-			{type === 'Token' ? <Token /> : <Nft />}
+			{type === 'token' ? <Token /> : <Nft />}
 
 			<Information />
 

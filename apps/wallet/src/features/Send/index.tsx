@@ -2,23 +2,24 @@ import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Slider } from '@walless/gui';
-import type { CollectibleDocument } from '@walless/store';
+import type { NftDocumentV2 } from '@walless/store';
 
 import ConfirmByPasscode from './ConfirmByPasscode';
 import ConfirmTransaction from './ConfirmTransaction';
-import { txActions } from './context';
 import InputTransaction from './InputTransaction';
+import type { NftTransactionContext } from './internal';
+import { txActions } from './internal';
 import TransactionResult from './TransactionResult';
 
 export type Props = {
 	network?: Networks;
-	collectible?: CollectibleDocument;
+	nft?: NftDocumentV2;
 };
 
-export const SendFeature: FC<Props> = ({ network, collectible }) => {
+export const SendFeature: FC<Props> = ({ network, nft }) => {
 	useEffect(() => {
 		if (network) txActions.update({ network });
-		if (collectible) txActions.update({ collectible });
+		if (nft) txActions.update<NftTransactionContext>({ nft, type: 'nft' });
 	}, []);
 
 	return (

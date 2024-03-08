@@ -1,17 +1,17 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Hoverable, modalActions, Text, View } from '@walless/gui';
-import type { TokenDocument } from '@walless/store';
+import type { TokenDocumentV2 } from '@walless/store';
 import assets from 'utils/assets';
 
 interface Props {
-	tokens: TokenDocument[];
-	onSelect: (token: TokenDocument) => void;
-	selectedToken?: TokenDocument;
+	tokens: TokenDocumentV2[];
+	onSelect: (token: TokenDocumentV2) => void;
+	selectedToken?: TokenDocumentV2;
 }
 
 const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
-	const handleSelectToken = (token: TokenDocument) => {
+	const handleSelectToken = (token: TokenDocumentV2) => {
 		onSelect(token);
 		modalActions.destroy('NetworkFee');
 	};
@@ -19,9 +19,9 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 	return (
 		<View style={styles.dropdown}>
 			{tokens.map((token, idx) => {
-				const name = token.metadata?.symbol || 'Unknown';
-				const tokenIcon = token.metadata?.imageUri
-					? { uri: token.metadata.imageUri }
+				const name = token.symbol;
+				const icon = token.image
+					? { uri: token.image }
 					: assets.misc.unknownToken;
 
 				return (
@@ -33,7 +33,7 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 						key={idx}
 						onPress={() => handleSelectToken(token)}
 					>
-						<Image source={tokenIcon} style={styles.tokenIcon} />
+						<Image source={icon} style={styles.tokenIcon} />
 						<Text numberOfLines={1}>{name}</Text>
 					</Hoverable>
 				);

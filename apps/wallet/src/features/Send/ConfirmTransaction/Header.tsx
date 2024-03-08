@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { ChevronLeft, Times } from '@walless/icons';
 
-import { txActions } from '../context';
+import { txActions } from '../internal';
 
 interface Props {
 	onBack: () => void;

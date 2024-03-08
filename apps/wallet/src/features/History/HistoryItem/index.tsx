@@ -17,8 +17,8 @@ const HistoryItem: FC<TransactionHistory> = (transaction) => {
 	const networkInfo = getNetworkInfo(network);
 	const address = transactionType === 'Sent' ? receiver : sender;
 
-	const icon = token.metadata?.imageUri
-		? { uri: token.metadata.imageUri }
+	const icon = token.metadata?.image
+		? { uri: token.metadata.image }
 		: assets.misc.unknownToken;
 
 	return (

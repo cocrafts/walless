@@ -1,23 +1,17 @@
 import type { FC } from 'react';
-import type { Networks } from '@walless/core';
-import { useTokens } from 'utils/hooks';
 
+import { useTransactionContext } from '../../internal';
 import { gasilonSupportedNetworks } from '../internal';
 
 import { AbstractedTransactionFee } from './AbstractedTransactionFee';
 import { NormalTransactionFee } from './NormalTransactionFee';
 
-interface Props {
-	network: Networks;
-}
-
-export const TransactionFee: FC<Props> = ({ network }) => {
-	const { tokens } = useTokens(network);
-
+export const TransactionFee: FC = () => {
+	const { network } = useTransactionContext();
 	const isAbstractFee = gasilonSupportedNetworks.includes(network);
 
 	return isAbstractFee ? (
-		<AbstractedTransactionFee tokenList={tokens} />
+		<AbstractedTransactionFee />
 	) : (
 		<NormalTransactionFee />
 	);

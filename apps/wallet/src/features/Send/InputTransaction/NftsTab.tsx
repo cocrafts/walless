@@ -1,16 +1,20 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import type { AssetMetadata, Networks } from '@walless/core';
+import type { Networks, NftMetadata } from '@walless/core';
 import { Select, View } from '@walless/gui';
-import type { CollectibleDocument, CollectionDocument } from '@walless/store';
+import type {
+	CollectionDocumentV2,
+	NftDocumentV2,
+	PouchDocument,
+} from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
 import { useNfts } from 'utils/hooks';
 import { checkValidAddress } from 'utils/transaction';
-import { useSnapshot } from 'valtio';
 
-import { txActions, txContext } from '../context';
+import type { NftTransactionContext } from '../internal';
+import { txActions, useTransactionContext } from '../internal';
 
 import type { ErrorMessage } from './internal';
 import TransactionFee from './TransactionFee';
@@ -19,23 +23,20 @@ interface Props {
 	onContinue: () => void;
 }
 
-export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
-	const { collection, collectible, network, receiver } =
-		useSnapshot(txContext).tx;
-	const { collectibles, collections } = useNfts(network);
+export const NftTab: FC<Props> = ({ onContinue }) => {
+	const { nft, collection, network, receiver } =
+		useTransactionContext<NftTransactionContext>();
+	const { nfts, collections } = useNfts(network);
 	const [recipientErrorMessage, setRecipientErrorMessage] =
 		useState<ErrorMessage>('');
 
-	const canContinue =
-		recipientErrorMessage === null && collection && collectible;
+	const canContinue = recipientErrorMessage === null && collection && nft;
 
-	const getRequiredFieldsForSelectToken = (item: {
-		metadata?: AssetMetadata;
-	}) => {
+	const getMetadata = (nft: PouchDocument<NftMetadata>) => {
 		return {
-			id: item.metadata?.name as string,
-			name: item.metadata?.name as string,
-			icon: { uri: item.metadata?.imageUri as string },
+			id: nft._id,
+			name: nft.name,
+			icon: { uri: nft.image },
 		};
 	};
 
@@ -48,29 +49,26 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 		}
 	};
 
-	const handleSelectCollectible = (collectible: CollectibleDocument) => {
-		const collection = collections.find(
-			(ele) => ele._id === collectible.collectionId,
-		);
-		txActions.update({ collectible, collection });
-		checkRecipient(receiver, collectible.network);
+	const handleSelectNft = (nft: NftDocumentV2) => {
+		const collection = collections.find((ele) => ele._id === nft.collectionId);
+		txActions.update<NftTransactionContext>({ nft, collection });
+		checkRecipient(receiver, network);
 	};
 
-	const handleSelectCollection = (collection: CollectionDocument) => {
-		txActions.update({ collection });
-		checkRecipient(receiver, collection.network);
+	const handleSelectCollection = (collection: CollectionDocumentV2) => {
+		txActions.update<NftTransactionContext>({ collection });
+		checkRecipient(receiver, network);
 	};
 
 	const handleFocusOutRecipient = () => {
-		checkRecipient(
-			receiver,
-			network || collection?.network || collectible?.network,
-		);
+		checkRecipient(receiver, network);
 	};
 
-	const filteredCollectibles = collection
-		? collectibles.filter((e) => e.collectionId === collection._id)
-		: collectibles;
+	const filteredNfts = useMemo(() => {
+		return collection
+			? nfts.filter((nft) => nft.collectionId === collection._id)
+			: nfts;
+	}, [collection]);
 
 	useEffect(() => {
 		checkRecipient(receiver, network);
@@ -82,18 +80,18 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 				title="Select collection"
 				notFoundText="Not found collections"
 				items={collections}
-				selected={collection as CollectionDocument}
+				selected={collection as CollectionDocumentV2}
 				onSelect={handleSelectCollection}
-				getRequiredFields={getRequiredFieldsForSelectToken}
+				getRequiredFields={getMetadata}
 			/>
 
 			<Select
 				title="Select NFT"
 				notFoundText="Not found NFTs"
-				items={filteredCollectibles}
-				selected={collectible as CollectibleDocument}
-				onSelect={handleSelectCollectible}
-				getRequiredFields={getRequiredFieldsForSelectToken}
+				items={filteredNfts}
+				selected={nft}
+				onSelect={handleSelectNft}
+				getRequiredFields={getMetadata}
 				itemStyle={styles.selectNftItem}
 				itemIconStyle={styles.selectNftIcon}
 				selectedItemStyle={styles.selectedNftItem}
@@ -108,7 +106,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 				onBlur={handleFocusOutRecipient}
 			/>
 
-			<TransactionFee network={collectible?.network as Networks} />
+			<TransactionFee />
 
 			<NavButton
 				title="Continue"
@@ -119,7 +117,7 @@ export const CollectiblesTab: FC<Props> = ({ onContinue }) => {
 	);
 };
 
-export default CollectiblesTab;
+export default NftTab;
 
 const styles = StyleSheet.create({
 	container: {

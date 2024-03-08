@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { RequestType } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
-import type { aptosHandler } from '@walless/network';
+import type { aptos } from '@walless/network';
 import { showRequirePasscodeModal } from 'modals/RequirePasscode';
 import { handleAptosOnChainAction } from 'utils/transaction';
 
@@ -19,7 +19,7 @@ const DirectTransfer: FC<Props> = ({ pubkey, directTransfer, fee }) => {
 	const [disabled, setDisabled] = useState(false);
 
 	const handleOnPasscodeComplete = async (passcode: string) => {
-		const payload: aptosHandler.AptosDirectTransferPayload = {
+		const payload: aptos.AptosDirectTransferPayload = {
 			pubkey,
 			directTransfer: !directTransfer,
 		};

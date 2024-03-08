@@ -3,14 +3,11 @@ import type { TextStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Button, View } from '@walless/gui';
 
-import type { TransactionType } from '../context';
+import { txActions, useTransactionContext } from '../internal';
 
-interface Props {
-	curTab: TransactionType;
-	setCurTab: (type: TransactionType) => void;
-}
+export const TabBar: FC = () => {
+	const { type } = useTransactionContext();
 
-export const TabBar: FC<Props> = ({ curTab, setCurTab }) => {
 	const activeButtonStyle = {
 		...styles.button,
 		backgroundColor: '#0694D3',
@@ -22,26 +19,29 @@ export const TabBar: FC<Props> = ({ curTab, setCurTab }) => {
 		color: '#FFFFFF',
 	};
 
+	const titleStyle = (currentType: 'token' | 'nft') => {
+		return type === currentType ? activeButtonTitleStyle : styles.buttonTitle;
+	};
+	const buttonStyle = (currentType: 'token' | 'nft') => {
+		return type === currentType ? activeButtonStyle : styles.button;
+	};
+
 	return (
 		<View style={styles.container}>
 			<Button
 				title="Tokens"
-				style={curTab === 'Token' ? activeButtonStyle : styles.button}
-				titleStyle={
-					curTab === 'Token' ? activeButtonTitleStyle : styles.buttonTitle
-				}
-				onPress={() => setCurTab('Token')}
+				style={buttonStyle('token')}
+				titleStyle={titleStyle('token')}
+				onPress={() => txActions.update({ type: 'token' })}
 			/>
 
 			<View style={styles.verticalLine} />
 
 			<Button
-				title="Collectibles"
-				style={curTab === 'Collectible' ? activeButtonStyle : styles.button}
-				titleStyle={
-					curTab === 'Collectible' ? activeButtonTitleStyle : styles.buttonTitle
-				}
-				onPress={() => setCurTab('Collectible')}
+				title="NFTs"
+				style={buttonStyle('nft')}
+				titleStyle={titleStyle('nft')}
+				onPress={() => txActions.update({ type: 'nft' })}
 			/>
 		</View>
 	);

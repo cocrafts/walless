@@ -8,7 +8,7 @@ import { showQRScannerModal } from 'modals/QrScan';
 import { ModalId } from 'modals/types';
 import { checkValidAddress } from 'utils/transaction';
 
-import { txActions } from '../context';
+import { txActions } from '../internal';
 
 interface QRScanButtonProps {
 	network: Networks;

@@ -6,7 +6,7 @@ import { txContext } from '../context';
 
 export const NFTHeader = () => {
 	const { collection, collectible } = useSnapshot(txContext).tx;
-	const iconUri = { uri: collectible?.metadata?.imageUri };
+	const iconUri = { uri: collectible?.metadata?.image };
 
 	return (
 		<View style={styles.container}>

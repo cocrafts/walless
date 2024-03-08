@@ -1,7 +1,7 @@
 import type { VersionedTransaction } from '@solana/web3.js';
-import type { Networks } from '@walless/core';
+import type { Networks, SolanaToken } from '@walless/core';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
-import type { TokenDocument } from '@walless/store';
+import type { TokenDocumentV2 } from '@walless/store';
 import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
 import type { SwapQuote } from 'utils/transaction';
@@ -13,17 +13,15 @@ import SelectToToken from './Select/SelectToToken';
 import Success from './Success';
 
 export interface SwapContext {
-	network?: Networks;
-	fromToken?: TokenDocument;
+	network: Networks;
+	fromToken?: TokenDocumentV2<SolanaToken>;
 	toToken?: JupiterToken;
 	amount: string;
 	swapQuote?: SwapQuote;
 	transaction?: VersionedTransaction;
 }
 
-const initialContext = {
-	amount: '',
-};
+const initialContext = {} as SwapContext;
 
 export const swapContext = proxy<{ swap: SwapContext }>({
 	swap: initialContext,
@@ -85,7 +83,7 @@ export const swapActions = {
 		const transaction = await constructSwapTransaction({
 			fromMint: fromMint,
 			toMint: toToken.address,
-			amount: amountValue * 10 ** fromToken.account.decimals,
+			amount: amountValue * 10 ** fromToken.decimals, // jupiter uses int amount with decimals
 			userPublicKey: publicKey,
 			wrapAndUnwrapSol: true,
 		});

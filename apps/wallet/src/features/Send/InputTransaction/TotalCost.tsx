@@ -1,16 +1,14 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-import { useSnapshot } from 'valtio';
 
-import { txContext } from '../context';
+import type { TokenTransactionContext } from '../internal';
+import { useTransactionContext } from '../internal';
 
 export const TotalCost: FC = () => {
-	const { token, amount } = useSnapshot(txContext).tx;
+	const { token, amount } = useTransactionContext<TokenTransactionContext>();
 
-	const costStr = `${amount ? parseFloat(amount) : 0} ${
-		token?.metadata?.symbol || ''
-	}`;
+	const costStr = `${amount ? parseFloat(amount) : 0} ${token.symbol}`;
 
 	return (
 		<View style={styles.container}>
@@ -38,8 +36,6 @@ const styles = StyleSheet.create({
 		gap: 4,
 	},
 	titleText: {
-		fontWeight: '400',
-		fontSize: 14,
 		color: '#EEEEEE',
 	},
 	valueContainer: {
@@ -53,7 +49,6 @@ const styles = StyleSheet.create({
 		color: '#FFFFFF',
 	},
 	equalText: {
-		fontWeight: '400',
 		fontSize: 12,
 		color: '#566674',
 	},

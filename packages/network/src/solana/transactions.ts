@@ -279,3 +279,37 @@ export const constructGasilonTransaction = async (
 
 	return versionedTransaction;
 };
+
+type GasilonTransactionConfig = {
+	feeAmount: number;
+	sender: PublicKey;
+	feeMint: PublicKey;
+	feePayer: PublicKey;
+};
+
+export const withGasilon = async (
+	transaction: VersionedTransaction,
+	{ feeAmount, sender, feeMint, feePayer }: GasilonTransactionConfig,
+) => {
+	const message = transaction.message.serialize();
+	const gasilonTransaction = Transaction.from(message);
+	const [senderFeeAta, feePayerAta] = await Promise.all([
+		getAssociatedTokenAddress(feeMint, sender),
+		getAssociatedTokenAddress(feeMint, feePayer),
+	]);
+
+	const feePaymentInstruction = createTransferTokenInstruction(
+		senderFeeAta,
+		feePayerAta,
+		sender,
+		feeAmount,
+	);
+
+	gasilonTransaction.add(feePaymentInstruction);
+
+	const versionedMessage = VersionedMessage.deserialize(
+		gasilonTransaction.serializeMessage(),
+	);
+
+	return new VersionedTransaction(versionedMessage);
+};

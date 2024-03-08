@@ -1,4 +1,4 @@
-import type { Networks } from './commonTypes';
+import type { Networks } from './common';
 
 export interface WidgetStoreOptions {
 	iconUri: string;

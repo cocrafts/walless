@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { SolanaToken } from '@walless/core';
+import type { SolanaToken, TokenV2 } from '@walless/core';
 import { Networks } from '@walless/core';
 import type {
 	CollectionDocumentV2,
@@ -54,7 +54,7 @@ const getTokenValue = (token: TokenDocumentV2, currency: string) => {
 	return quote * balance;
 };
 
-export const useTokens = (
+export const useTokens = <T extends TokenV2 = TokenV2>(
 	network?: Networks,
 	address?: string,
 	currency = 'usd',
@@ -102,7 +102,7 @@ export const useTokens = (
 		}
 
 		return {
-			tokens: filteredTokens,
+			tokens: filteredTokens as TokenDocumentV2<T>[],
 			valuation,
 		};
 	}, [map, network, address]);

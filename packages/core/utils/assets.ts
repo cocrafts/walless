@@ -1,10 +1,11 @@
-import type { NetworkCluster } from './common';
+import type { NetworkCluster, Networks } from './common';
 
 export type NftV2 = {
-	network: string;
+	network: Networks;
 	cluster: NetworkCluster;
 	amount: number;
 	owner: string;
+	collectionId: string;
 } & NftMetadata;
 
 export type NftMetadata = {
@@ -24,7 +25,7 @@ export type CollectionMetadata = {
 };
 
 export type TokenV2 = {
-	network: string;
+	network: Networks;
 	cluster: NetworkCluster;
 	owner: string;
 	balance: number;
@@ -47,7 +48,6 @@ export type SolanaToken = TokenV2 & {
 export type SolanaCollectible = NftV2 & {
 	mint: string;
 	ata: string;
-	collectionId: string;
 	collectionAddress: string;
 	symbol: string;
 	attributes?: {

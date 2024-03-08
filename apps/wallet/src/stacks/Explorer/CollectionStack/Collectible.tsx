@@ -32,7 +32,7 @@ export const CollectibleFeat = () => {
 	const handlePressSend = () => {
 		showSendTokenModal({
 			network: curCollectible?.network,
-			collectible: curCollectible,
+			nft: curCollectible,
 		});
 	};
 
@@ -55,7 +55,7 @@ export const CollectibleFeat = () => {
 						<View style={styles.nftContainer}>
 							<Image
 								style={styles.nftImage}
-								source={{ uri: curCollectible.metadata?.imageUri }}
+								source={{ uri: curCollectible.metadata?.image }}
 								resizeMode="contain"
 							/>
 						</View>

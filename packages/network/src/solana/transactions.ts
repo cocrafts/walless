@@ -7,22 +7,21 @@ import {
 	ASSOCIATED_TOKEN_PROGRAM_ID,
 	createAssociatedTokenAccountInstruction,
 	createTransferInstruction as createTransferTokenInstruction,
-	getAssociatedTokenAddressSync,
+	getAssociatedTokenAddress,
 	TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
-import type { Connection, MessageV0, SendOptions } from '@solana/web3.js';
-import { PublicKey, SYSVAR_INSTRUCTIONS_PUBKEY } from '@solana/web3.js';
+import type { Connection } from '@solana/web3.js';
 import {
-	Keypair,
+	PublicKey,
+	SYSVAR_INSTRUCTIONS_PUBKEY,
+	VersionedMessage,
+} from '@solana/web3.js';
+import {
 	SystemProgram,
 	Transaction,
 	TransactionMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
-import type { Collectible, Token } from '@walless/core';
-import { logger } from '@walless/core';
-import { decode } from 'bs58';
-import { sign } from 'tweetnacl';
 
 import { TOKEN_AUTH_RULES_KEY } from './constants';
 import {
@@ -30,61 +29,17 @@ import {
 	getMetadataPda,
 	getTokenRecordPda,
 } from './helpers';
-
-export const signMessage = (message: Uint8Array, privateKey: Uint8Array) => {
-	const keypair = Keypair.fromSecretKey(privateKey);
-	const signatureBytes = sign.detached(message, keypair.secretKey);
-	return signatureBytes;
-};
-
-export const signAndSendTransaction = async (
-	connection: Connection,
-	transaction: VersionedTransaction | Transaction,
-	options: SendOptions,
-	privateKey: Uint8Array,
-) => {
-	try {
-		const keypair = Keypair.fromSecretKey(privateKey);
-		if (transaction instanceof Transaction) {
-			const signatureString = await connection.sendTransaction(
-				transaction,
-				[keypair],
-				options,
-			);
-			return signatureString;
-		} else if (transaction instanceof VersionedTransaction) {
-			const latestBlockhash = await connection.getLatestBlockhash();
-
-			(transaction.message as MessageV0).recentBlockhash =
-				latestBlockhash.blockhash;
-
-			transaction.sign([keypair]);
-			const signatureString = await connection.sendTransaction(transaction, {
-				...options,
-			});
-
-			return signatureString;
-		}
-	} catch (error) {
-		throw Error(error as never);
-	}
-};
-
-export const simulateTransaction = async (
-	connection: Connection,
-	transaction: string,
-) => {
-	const tx = VersionedTransaction.deserialize(decode(transaction));
-
-	const simulatedTx = await connection.simulateTransaction(tx);
-	logger.debug('Simulated transaction:', simulatedTx);
-};
+import type {
+	Accounts,
+	GasilonTransaction,
+	NftTransaction,
+	SolTransaction,
+	SplTransaction,
+} from './types';
 
 export const constructSendSOLTransaction = async (
 	connection: Connection,
-	sender: PublicKey,
-	receiver: PublicKey,
-	amount: number,
+	{ sender, receiver, amount }: SolTransaction,
 ) => {
 	const instructions = [
 		SystemProgram.transfer({
@@ -106,13 +61,6 @@ export const constructSendSOLTransaction = async (
 	return new VersionedTransaction(message);
 };
 
-interface Accounts {
-	payer: PublicKey;
-	associatedToken: PublicKey;
-	owner: PublicKey;
-	mint: PublicKey;
-}
-
 const constructCreateATAInstruction = async (
 	connection: Connection,
 	{ payer, associatedToken, owner, mint }: Accounts,
@@ -131,26 +79,21 @@ const constructCreateATAInstruction = async (
 
 export const constructSendSPLTokenTransaction = async (
 	connection: Connection,
-	sender: PublicKey,
-	receiver: PublicKey,
-	amount: number,
-	token: Token,
+	{ sender, receiver, mint, amount }: SplTransaction,
 ) => {
 	// ATA
-	const mintAddress = new PublicKey(token.account.mint);
-	const senderATAddress = getAssociatedTokenAddressSync(mintAddress, sender);
-	const receiverATAddress = getAssociatedTokenAddressSync(
-		mintAddress,
-		receiver,
-	);
+	const [senderATAddress, receiverATAddress] = await Promise.all([
+		getAssociatedTokenAddress(mint, sender),
+		getAssociatedTokenAddress(mint, receiver),
+	]);
 
 	const instructions = [];
 
 	const createATAInstruction = await constructCreateATAInstruction(connection, {
-		payer: sender,
-		associatedToken: receiverATAddress,
+		mint,
 		owner: receiver,
-		mint: mintAddress,
+		associatedToken: receiverATAddress,
+		payer: sender,
 	});
 
 	if (createATAInstruction) instructions.push(createATAInstruction);
@@ -177,18 +120,13 @@ export const constructSendSPLTokenTransaction = async (
 
 export const constructSendNftTransaction = async (
 	connection: Connection,
-	sender: PublicKey,
-	receiver: PublicKey,
-	amount: number,
-	collectible: Collectible,
+	{ sender, receiver, amount, mint }: NftTransaction,
 ) => {
 	// ATA
-	const mintAddress = new PublicKey(collectible.account.mint);
-	const senderATAddress = getAssociatedTokenAddressSync(mintAddress, sender);
-	const receiverATAddress = getAssociatedTokenAddressSync(
-		mintAddress,
-		receiver,
-	);
+	const [senderATAddress, receiverATAddress] = await Promise.all([
+		getAssociatedTokenAddress(mint, sender),
+		getAssociatedTokenAddress(mint, receiver),
+	]);
 
 	const instructions = [];
 
@@ -196,20 +134,20 @@ export const constructSendNftTransaction = async (
 		payer: sender,
 		associatedToken: receiverATAddress,
 		owner: receiver,
-		mint: mintAddress,
+		mint,
 	});
 
 	if (createATAInstruction) instructions.push(createATAInstruction);
 
 	// PDA
-	const [metadata] = getMetadataPda(mintAddress);
-	const [edition] = getMasterEditionPda(mintAddress);
+	const [metadata] = getMetadataPda(mint);
+	const [edition] = getMasterEditionPda(mint);
 	const [ownerTokenRecord] = getTokenRecordPda({
-		mint: mintAddress,
+		mint,
 		token: senderATAddress,
 	});
 	const [destinationTokenRecord] = getTokenRecordPda({
-		mint: mintAddress,
+		mint,
 		token: receiverATAddress,
 	});
 
@@ -227,7 +165,7 @@ export const constructSendNftTransaction = async (
 			tokenOwner: sender,
 			destination: receiverATAddress,
 			destinationOwner: receiver,
-			mint: mintAddress,
+			mint,
 			metadata,
 			payer: sender,
 			edition,

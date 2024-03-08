@@ -216,6 +216,7 @@ export type RootQuery = {
   loginMessage?: Maybe<Scalars['String']['output']>;
   nonce?: Maybe<Nonce>;
   referralLeaderboard?: Maybe<Array<Maybe<ReferralRank>>>;
+  referralLeaderboardSize?: Maybe<Scalars['Int']['output']>;
   systemInfo?: Maybe<SystemInfo>;
   token?: Maybe<TokenInfo>;
   tokenByAddress?: Maybe<TokenInfo>;
@@ -238,6 +239,12 @@ export type RootQueryLoginMessageArgs = {
 
 export type RootQueryNonceArgs = {
   identifier: Scalars['String']['input'];
+};
+
+
+export type RootQueryReferralLeaderboardArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -591,7 +598,8 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   greeting?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   loginMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<RootQueryLoginMessageArgs, 'pubkey'>>;
   nonce?: Resolver<Maybe<ResolversTypes['Nonce']>, ParentType, ContextType, RequireFields<RootQueryNonceArgs, 'identifier'>>;
-  referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRank']>>>, ParentType, ContextType>;
+  referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRank']>>>, ParentType, ContextType, Partial<RootQueryReferralLeaderboardArgs>>;
+  referralLeaderboardSize?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   systemInfo?: Resolver<Maybe<ResolversTypes['SystemInfo']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenArgs, 'id'>>;
   tokenByAddress?: Resolver<Maybe<ResolversTypes['TokenInfo']>, ParentType, ContextType, RequireFields<RootQueryTokenByAddressArgs, 'address'>>;

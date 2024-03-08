@@ -256,7 +256,10 @@ type RootQuery {
   nonce(identifier: String!): Nonce
 
   """"""
-  referralLeaderboard: [ReferralRank]
+  referralLeaderboard(limit: Int, offset: Int): [ReferralRank]
+
+  """"""
+  referralLeaderboardSize: Int
 
   """"""
   systemInfo: SystemInfo

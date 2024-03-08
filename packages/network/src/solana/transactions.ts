@@ -200,3 +200,82 @@ export const constructSendNftTransaction = async (
 
 	return new VersionedTransaction(message);
 };
+
+/**
+ * Construct send SPL Token on Solana to use Gasilon
+ * currently support general SPL transaction (token | nft) only
+ * still not work for the new nft standard
+ */
+export const constructGasilonTransaction = async (
+	connection: Connection,
+	{
+		sender,
+		receiver,
+		amount,
+		mint,
+		fee,
+		feeMint,
+		feePayer,
+	}: GasilonTransaction,
+) => {
+	const bh = await connection.getLatestBlockhash('finalized');
+	const blockhash = bh.blockhash;
+
+	const lastValidBlockHeight = bh.lastValidBlockHeight;
+	const transaction = new Transaction({
+		blockhash,
+		lastValidBlockHeight,
+	});
+
+	const senderAta = await getAssociatedTokenAddress(mint, sender);
+
+	const senderFeeAta = await getAssociatedTokenAddress(feeMint, sender);
+
+	const receiverPublicKey = new PublicKey(receiver);
+	const receiverAta = await getAssociatedTokenAddress(mint, receiverPublicKey);
+
+	const feePayerAta = await getAssociatedTokenAddress(feeMint, feePayer);
+
+	const instructions = [];
+
+	const feePaymentInstruction = createTransferTokenInstruction(
+		senderFeeAta,
+		feePayerAta,
+		sender,
+		fee,
+	);
+
+	const receiverAtaInfo = await connection.getAccountInfo(receiverAta);
+
+	const receiverTokenAtaCreationInstruction =
+		createAssociatedTokenAccountInstruction(
+			feePayer,
+			receiverAta,
+			receiverPublicKey,
+			mint,
+		);
+
+	const transferInstruction = createTransferTokenInstruction(
+		senderAta,
+		receiverAta,
+		sender,
+		amount,
+	);
+
+	instructions.push(feePaymentInstruction);
+
+	if (!receiverAtaInfo) {
+		instructions.push(receiverTokenAtaCreationInstruction);
+	}
+	instructions.push(transferInstruction);
+
+	transaction.feePayer = feePayer;
+	transaction.add(...instructions);
+
+	const versionedMessage = VersionedMessage.deserialize(
+		transaction.serializeMessage(),
+	);
+	const versionedTransaction = new VersionedTransaction(versionedMessage);
+
+	return versionedTransaction;
+};

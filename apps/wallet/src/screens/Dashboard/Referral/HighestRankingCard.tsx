@@ -7,14 +7,14 @@ interface Props {
 	Icon: FC<IconProps>;
 	displayName: string;
 	ranking: number;
-	totalInvitations: number;
+	totalInvites: number;
 }
 
 const HighestRankingCard: FC<Props> = ({
 	Icon,
 	displayName,
 	ranking,
-	totalInvitations,
+	totalInvites,
 }) => {
 	const invitesContainerStyle = {
 		paddingVertical: 6 * (5 - ranking),
@@ -38,9 +38,11 @@ const HighestRankingCard: FC<Props> = ({
 				<Text style={styles.displayName} numberOfLines={1} lineBreakMode="tail">
 					{displayName}
 				</Text>
-				<View style={styles.totalInvitationsContainer}>
-					<Text style={styles.totalInvitationsText}>{totalInvitations}</Text>
-					<Text style={styles.invitesText}>Invites</Text>
+				<View style={styles.totalInvitesContainer}>
+					<Text style={styles.totalInvitesText}>{totalInvites}</Text>
+					<Text style={styles.invitesText}>
+						{totalInvites === 1 ? 'Invite' : 'Invites'}
+					</Text>
 				</View>
 			</View>
 		</View>
@@ -79,12 +81,12 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		fontSize: 14,
 	},
-	totalInvitationsContainer: {
+	totalInvitesContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 4,
 	},
-	totalInvitationsText: {
+	totalInvitesText: {
 		color: '#ffffff',
 		fontWeight: '500',
 		fontSize: 12,

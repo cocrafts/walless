@@ -19,7 +19,9 @@ const RankingCard: FC<Props> = ({ ranking, totalInvites, username, style }) => {
 			</View>
 			<View style={[styles.rowDirection, styles.rightGap]}>
 				<Text style={styles.invitesText}>{totalInvites}</Text>
-				<Text style={styles.text}>Invites</Text>
+				<Text style={styles.text}>
+					{totalInvites === 1 ? 'Invite' : 'Invites'}
+				</Text>
 			</View>
 		</View>
 	);

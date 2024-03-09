@@ -15,6 +15,7 @@ import { Top1, Top2, Top3 } from '@walless/icons';
 import { ModalId } from 'modals/types';
 import { qlClient } from 'utils/graphql';
 
+import GradientRankingCard from './GradientRankingCard';
 import HighestRankingCard from './HighestRankingCard';
 import RankingCard from './RankingCard';
 
@@ -82,7 +83,7 @@ const LeaderboardModal: FC<Props> = ({
 						Icon={Top2}
 						displayName={rankings[1].displayName || 'Unknown'}
 						ranking={2}
-						totalInvitations={rankings[1].referralCount || 0}
+						totalInvites={rankings[1].referralCount || 0}
 					/>
 				)}
 				{rankings[0] && (
@@ -90,7 +91,7 @@ const LeaderboardModal: FC<Props> = ({
 						Icon={Top1}
 						displayName={rankings[0].displayName || 'Unknown'}
 						ranking={1}
-						totalInvitations={rankings[0].referralCount || 0}
+						totalInvites={rankings[0].referralCount || 0}
 					/>
 				)}
 				{rankings[2] && (
@@ -98,7 +99,7 @@ const LeaderboardModal: FC<Props> = ({
 						Icon={Top3}
 						displayName={rankings[2].displayName || 'Unknown'}
 						ranking={3}
-						totalInvitations={rankings[2].referralCount || 0}
+						totalInvites={rankings[2].referralCount || 0}
 					/>
 				)}
 			</View>
@@ -106,14 +107,23 @@ const LeaderboardModal: FC<Props> = ({
 			<FlatList
 				style={styles.referrerRankingList}
 				data={rankings.slice(3)}
-				renderItem={({ item }) => (
-					<RankingCard
-						style={styles.referralRankingItem}
-						ranking={item.rank || 0}
-						username={item.displayName || 'Unknown'}
-						totalInvites={item.referralCount || 0}
-					/>
-				)}
+				renderItem={({ item }) =>
+					item.rank !== rank ? (
+						<RankingCard
+							style={styles.referralRankingItem}
+							ranking={item.rank || 0}
+							username={item.displayName || 'Unknown'}
+							totalInvites={item.referralCount || 0}
+						/>
+					) : (
+						<GradientRankingCard
+							style={styles.referralRankingItem}
+							rank={rank}
+							rankingPercent={rankingPercent}
+							totalInvites={item.referralCount || 0}
+						/>
+					)
+				}
 				keyExtractor={(item) => item.id.toString()}
 				showsVerticalScrollIndicator={false}
 				onEndReached={fetchMoreRankings}

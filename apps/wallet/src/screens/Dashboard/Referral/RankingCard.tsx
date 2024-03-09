@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
@@ -6,11 +7,12 @@ interface Props {
 	ranking: number;
 	totalInvites: number;
 	username: string;
+	style?: ViewStyle;
 }
 
-const RankingCard: FC<Props> = ({ ranking, totalInvites, username }) => {
+const RankingCard: FC<Props> = ({ ranking, totalInvites, username, style }) => {
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			<View style={[styles.rowDirection, styles.leftGap]}>
 				<Text style={styles.text}>{ranking}</Text>
 				<Text style={styles.text}>{username}</Text>

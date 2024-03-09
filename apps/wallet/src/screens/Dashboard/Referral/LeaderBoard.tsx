@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
+import { logger } from '@walless/core';
 import { queries, type ReferralRank } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
 import {
@@ -19,39 +19,62 @@ import HighestRankingCard from './HighestRankingCard';
 import RankingCard from './RankingCard';
 
 interface LeaderboardProps {
+	rank: number;
 	rankingPercent: number;
+	leaderboardSize: number;
 }
 
 type Props = LeaderboardProps & {
 	config: ModalConfigs;
 };
 
-const LeaderboardModal: FC<Props> = ({ rankingPercent }) => {
+const rankingItemGap = 10;
+const rankingItemHeight = 48;
+const itemsPerPage = 10;
+
+const fetchReferralRankings = async (limit: number, offset: number) => {
+	const { referralLeaderboard } = await qlClient.request<{
+		referralLeaderboard: ReferralRank[];
+	}>(queries.referralLeaderboard, {
+		limit,
+		offset,
+	});
+
+	return referralLeaderboard;
+};
+
+const LeaderboardModal: FC<Props> = ({
+	rank,
+	rankingPercent,
+	leaderboardSize,
+}) => {
+	const [currentOffset, setCurrentOffset] = useState(0);
 	const [rankings, setRankings] = useState<ReferralRank[]>([]);
 
+	const fetchMoreRankings = async () => {
+		try {
+			if (currentOffset < leaderboardSize) {
+				const newRankings = await fetchReferralRankings(
+					itemsPerPage,
+					currentOffset,
+				);
+				setRankings([...rankings, ...newRankings]);
+				setCurrentOffset(currentOffset + newRankings.length);
+			}
+		} catch (error) {
+			logger.error('Error fetching referral rankings', error);
+		}
+	};
+
 	useEffect(() => {
-		const fetchReferralRankings = async () => {
-			const { referralLeaderboard } = await qlClient.request<{
-				referralLeaderboard: ReferralRank[];
-			}>(queries.referralLeaderboard, {
-				limit: 10,
-				offset: 0,
-			});
-
-			setRankings(referralLeaderboard ? referralLeaderboard : []);
-		};
-
-		fetchReferralRankings();
+		fetchMoreRankings();
 	}, []);
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.topBar} />
 
-			<View>
-				<Text style={styles.title}>Leaderboard</Text>
-				<Text style={styles.subtext}>You are in Top {rankingPercent}%</Text>
-			</View>
+			<Text style={styles.title}>Leaderboard</Text>
 
 			<View style={styles.topRankContainer}>
 				{rankings[1] && (
@@ -80,21 +103,22 @@ const LeaderboardModal: FC<Props> = ({ rankingPercent }) => {
 				)}
 			</View>
 
-			<ScrollView
-				style={styles.scrollView}
+			<FlatList
+				style={styles.referrerRankingList}
+				data={rankings.slice(3)}
+				renderItem={({ item }) => (
+					<RankingCard
+						style={styles.referralRankingItem}
+						ranking={item.rank || 0}
+						username={item.displayName || 'Unknown'}
+						totalInvites={item.referralCount || 0}
+					/>
+				)}
+				keyExtractor={(item) => item.id.toString()}
 				showsVerticalScrollIndicator={false}
-			>
-				<View style={styles.referrerRankingList}>
-					{rankings.slice(3).map((item) => (
-						<RankingCard
-							key={item.id}
-							ranking={item.rank || 0}
-							username={item.displayName || 'Unknown'}
-							totalInvites={item.referralCount || 0}
-						/>
-					))}
-				</View>
-			</ScrollView>
+				onEndReached={fetchMoreRankings}
+				onEndReachedThreshold={1}
+			/>
 		</View>
 	);
 };
@@ -104,7 +128,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#19A3E1',
 		borderTopLeftRadius: 16,
 		borderTopRightRadius: 16,
-		gap: 16,
 	},
 	topBar: {
 		backgroundColor: '#131C24',
@@ -113,11 +136,13 @@ const styles = StyleSheet.create({
 		width: 64,
 		alignSelf: 'center',
 		marginTop: 8,
+		marginBottom: 16,
 	},
 	title: {
 		color: '#ffffff',
-		fontSize: 16,
+		fontSize: 20,
 		textAlign: 'center',
+		marginBottom: 16,
 	},
 	subtext: {
 		color: '#FFFFFF80',
@@ -127,14 +152,18 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'flex-end',
 		alignSelf: 'center',
+		width: '80%',
 	},
 	referrerRankingList: {
 		backgroundColor: '#EBF0F5',
-		padding: 16,
-		gap: 12,
+		paddingTop: 16,
+		paddingBottom: 16 - rankingItemGap,
+		paddingHorizontal: 16,
+		maxHeight: rankingItemHeight * 5 + rankingItemGap * 4,
 	},
-	scrollView: {
-		maxHeight: 300,
+	referralRankingItem: {
+		height: rankingItemHeight,
+		marginBottom: rankingItemGap,
 	},
 });
 
@@ -146,6 +175,5 @@ export const showLeaderboard = (props: LeaderboardProps) => {
 		component: ({ config }) => <LeaderboardModal config={config} {...props} />,
 		animateDirection: AnimateDirections.Top,
 		bindingDirection: BindDirections.InnerBottom,
-		fullWidth: true,
 	});
 };

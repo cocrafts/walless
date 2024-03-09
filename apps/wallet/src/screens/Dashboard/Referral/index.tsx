@@ -11,6 +11,7 @@ import { qlClient } from 'utils/graphql';
 import type { SettingParamList } from 'utils/navigation';
 
 import DetailsContainer from './DetailsContainer';
+import { calculateRankingPercent } from './internal';
 import InvitationCard from './InvitationCard';
 import ReferralStats from './ReferralStats';
 
@@ -21,7 +22,7 @@ const pointsPerReferral = 20;
 
 export const ReferralScreen: FC<Props> = () => {
 	const [codes, setCodes] = useState<WalletInvitation[]>([]);
-	const [currentRank, setCurrentRank] = useState<number>(0);
+	const [rank, setRank] = useState<number>(0);
 	const [leaderboardSize, setLeaderboardSize] = useState<number>(0);
 
 	const totalPoints = codes.reduce(
@@ -32,9 +33,9 @@ export const ReferralScreen: FC<Props> = () => {
 	const rankingPercent = useMemo(
 		() =>
 			leaderboardSize !== 0
-				? Math.round((currentRank / leaderboardSize) * 100)
+				? calculateRankingPercent(rank, leaderboardSize)
 				: 0,
-		[currentRank, leaderboardSize],
+		[rank, leaderboardSize],
 	);
 
 	const ChartIcon = (
@@ -52,7 +53,7 @@ export const ReferralScreen: FC<Props> = () => {
 	const ArrowIcon = (
 		<Hoverable
 			style={styles.arrowIcon}
-			onPress={() => showLeaderboard({ rankingPercent })}
+			onPress={() => showLeaderboard({ rank, rankingPercent, leaderboardSize })}
 		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
 		</Hoverable>
@@ -70,7 +71,7 @@ export const ReferralScreen: FC<Props> = () => {
 			refCodes = refCodes.sort((a, b) => (a.email ? 1 : 0) - (b.email ? 1 : 0));
 
 			setCodes(refCodes);
-			setCurrentRank(userAccount?.referralRank || 0);
+			setRank(userAccount?.referralRank || 0);
 		};
 
 		const fetchReferralLeaderboardSize = async () => {
@@ -94,7 +95,7 @@ export const ReferralScreen: FC<Props> = () => {
 					<DetailsContainer
 						LeftIcon={ChartIcon}
 						title="You are in"
-						value={currentRank ? `Top ${rankingPercent}%` : 'N/A'}
+						value={rank ? `Top ${rankingPercent}%` : 'N/A'}
 						RightIcon={ArrowIcon}
 					/>
 					<DetailsContainer

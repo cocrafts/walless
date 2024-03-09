@@ -125,6 +125,10 @@ export const ReferralScreen: FC<Props> = () => {
 					))}
 				</View>
 			</View>
+
+			<Text style={styles.subtext}>
+				More Invitation codes are awaiting, stay tuned!
+			</Text>
 		</View>
 	);
 };
@@ -133,7 +137,6 @@ export default ReferralScreen;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		gap: 12,
 		paddingVertical: 16,
 	},

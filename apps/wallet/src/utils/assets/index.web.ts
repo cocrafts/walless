@@ -73,6 +73,9 @@ const assets: Asset = {
 	misc: {
 		walless: { uri: '/img/icon.png' },
 		unknownToken: { uri: '/img/send-token/unknown-token.jpeg' },
+		referralGradientBackground: {
+			uri: '/img/misc/referral-gradient-bg.png',
+		},
 	},
 };
 

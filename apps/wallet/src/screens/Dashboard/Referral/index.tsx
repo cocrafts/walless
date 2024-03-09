@@ -85,8 +85,6 @@ export const ReferralScreen: FC<Props> = () => {
 		fetchReferralLeaderboardSize();
 	}, []);
 
-	console.log('--> size', leaderboardSize);
-
 	return (
 		<View style={styles.container}>
 			<View style={styles.summaryContainer}>

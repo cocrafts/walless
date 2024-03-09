@@ -11,6 +11,7 @@ import {
 	Text,
 	View,
 } from '@walless/gui';
+import { Top1, Top2, Top3 } from '@walless/icons';
 import { ModalId } from 'modals/types';
 import { qlClient } from 'utils/graphql';
 
@@ -55,21 +56,24 @@ const LeaderboardModal: FC<Props> = ({ rankingPercent }) => {
 			<View style={styles.topRankContainer}>
 				{rankings[1] && (
 					<HighestRankingCard
-						avatar={rankings[1].displayName || 'Unknown'}
+						Icon={Top2}
+						displayName={rankings[1].displayName || 'Unknown'}
 						ranking={2}
 						totalInvitations={rankings[1].referralCount || 0}
 					/>
 				)}
 				{rankings[0] && (
 					<HighestRankingCard
-						avatar={rankings[0].displayName || 'Unknown'}
+						Icon={Top1}
+						displayName={rankings[0].displayName || 'Unknown'}
 						ranking={1}
 						totalInvitations={rankings[0].referralCount || 0}
 					/>
 				)}
 				{rankings[2] && (
 					<HighestRankingCard
-						avatar={rankings[2].displayName || 'Unknown'}
+						Icon={Top3}
+						displayName={rankings[2].displayName || 'Unknown'}
 						ranking={3}
 						totalInvitations={rankings[2].referralCount || 0}
 					/>
@@ -84,7 +88,6 @@ const LeaderboardModal: FC<Props> = ({ rankingPercent }) => {
 					{rankings.slice(3).map((item) => (
 						<RankingCard
 							key={item.id}
-							avatar={item.displayName || 'Unknown'}
 							ranking={item.rank || 0}
 							username={item.displayName || 'Unknown'}
 							totalInvites={item.referralCount || 0}

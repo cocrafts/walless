@@ -1,23 +1,21 @@
 import type { FC } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
+import type { IconProps } from '@walless/icons';
 
 interface Props {
-	avatar: string;
+	Icon: FC<IconProps>;
+	displayName: string;
 	ranking: number;
 	totalInvitations: number;
 }
 
-const HighestRankingCard: FC<Props> = ({ ranking, totalInvitations }) => {
-	const rankingColor =
-		ranking === 1 ? '#7ED7FF' : ranking === 2 ? '#FFB803' : '#1CCF84';
-
-	const avatarStyle = {
-		width: 8 * (11 - ranking),
-		height: 8 * (11 - ranking),
-		borderColor: rankingColor,
-	};
-
+const HighestRankingCard: FC<Props> = ({
+	Icon,
+	displayName,
+	ranking,
+	totalInvitations,
+}) => {
 	const invitesContainerStyle = {
 		paddingVertical: 6 * (5 - ranking),
 	};
@@ -28,21 +26,7 @@ const HighestRankingCard: FC<Props> = ({ ranking, totalInvitations }) => {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.container}>
-				<Image
-					style={[styles.avatar, avatarStyle]}
-					source={{ uri: 'https://picsum.photos/200' }}
-				/>
-				<View
-					style={[
-						styles.container,
-						styles.rankingContainer,
-						{ backgroundColor: rankingColor },
-					]}
-				>
-					<Text style={styles.rankingText}>{ranking}</Text>
-				</View>
-			</View>
+			<Icon size={8 * (12 - ranking)} />
 
 			<View
 				style={[
@@ -51,7 +35,13 @@ const HighestRankingCard: FC<Props> = ({ ranking, totalInvitations }) => {
 					ranking === 1 && invitesContainerOfTop1,
 				]}
 			>
-				<Text>{totalInvitations} Invites</Text>
+				<Text style={styles.displayName} numberOfLines={1} lineBreakMode="tail">
+					{displayName}
+				</Text>
+				<View style={styles.totalInvitationsContainer}>
+					<Text style={styles.totalInvitationsText}>{totalInvitations}</Text>
+					<Text style={styles.invitesText}>Invites</Text>
+				</View>
 			</View>
 		</View>
 	);
@@ -63,10 +53,7 @@ const styles = StyleSheet.create({
 	container: {
 		justifyContent: 'center',
 		alignItems: 'center',
-	},
-	avatar: {
-		borderRadius: 50,
-		borderWidth: 4,
+		flex: 1,
 	},
 	rankingContainer: {
 		height: 20,
@@ -83,5 +70,27 @@ const styles = StyleSheet.create({
 		borderTopColor: '#32404B',
 		paddingHorizontal: 12,
 		marginTop: 8,
+		alignItems: 'center',
+		gap: 4,
+		width: '100%',
+	},
+	displayName: {
+		color: '#ffffff',
+		fontWeight: '500',
+		fontSize: 14,
+	},
+	totalInvitationsContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 4,
+	},
+	totalInvitationsText: {
+		color: '#ffffff',
+		fontWeight: '500',
+		fontSize: 12,
+	},
+	invitesText: {
+		color: '#657788',
+		fontSize: 12,
 	},
 });

@@ -1,9 +1,8 @@
 import type { FC } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
 interface Props {
-	avatar: string;
 	ranking: number;
 	totalInvites: number;
 	username: string;
@@ -14,10 +13,6 @@ const RankingCard: FC<Props> = ({ ranking, totalInvites, username }) => {
 		<View style={styles.container}>
 			<View style={[styles.rowDirection, styles.leftGap]}>
 				<Text style={styles.text}>{ranking}</Text>
-				<Image
-					style={styles.avatar}
-					source={{ uri: 'https://picsum.photos/200' }}
-				/>
 				<Text style={styles.text}>{username}</Text>
 			</View>
 			<View style={[styles.rowDirection, styles.rightGap]}>
@@ -40,13 +35,6 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 		gap: 8,
 	},
-	avatar: {
-		width: 32,
-		height: 32,
-		borderRadius: 20,
-		borderWidth: 2,
-		borderColor: '#CFCFCF',
-	},
 	text: {
 		color: '#19232C',
 	},
@@ -58,7 +46,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	leftGap: {
-		gap: 8,
+		gap: 12,
 	},
 	rightGap: {
 		gap: 4,

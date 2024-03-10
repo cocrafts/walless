@@ -1,18 +1,20 @@
 import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
+import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { Account, WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
-import { showLeaderboard } from 'screens/Dashboard/Referral/Leaderboard';
 import { qlClient } from 'utils/graphql';
 import type { SettingParamList } from 'utils/navigation';
 
 import DetailsContainer from './DetailsContainer';
 import { calculateRankingPercent } from './internal';
 import InvitationCard from './InvitationCard';
+import { showLeaderboard } from './LeaderBoard';
 import ReferralStats from './ReferralStats';
 
 type Props = StackScreenProps<SettingParamList, 'Referral'>;
@@ -24,6 +26,11 @@ export const ReferralScreen: FC<Props> = () => {
 	const [codes, setCodes] = useState<WalletInvitation[]>([]);
 	const [rank, setRank] = useState<number>(0);
 	const [leaderboardSize, setLeaderboardSize] = useState<number>(0);
+	const safeAreaInsets = useSafeAreaInsets();
+
+	const safeAreaStyle: ViewStyle = {
+		marginBottom: safeAreaInsets.bottom,
+	};
 
 	const totalPoints = codes.reduce(
 		(acc, { email }) => acc + (email ? pointsPerReferral : 0),
@@ -87,7 +94,7 @@ export const ReferralScreen: FC<Props> = () => {
 	}, []);
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, safeAreaStyle]}>
 			<View style={styles.summaryContainer}>
 				<ReferralStats currentPoints={totalPoints} goalPoints={goalPoints} />
 

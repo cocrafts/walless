@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
+import type { ViewStyle } from 'react-native';
 import { FlatList, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { logger } from '@walless/core';
 import { queries, type ReferralRank } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
@@ -51,6 +53,11 @@ const LeaderboardModal: FC<Props> = ({
 }) => {
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [rankings, setRankings] = useState<ReferralRank[]>([]);
+	const safeAreaInsets = useSafeAreaInsets();
+
+	const safeAreaStyle: ViewStyle = {
+		paddingBottom: safeAreaInsets.bottom,
+	};
 
 	const fetchMoreRankings = async () => {
 		try {
@@ -72,36 +79,38 @@ const LeaderboardModal: FC<Props> = ({
 	}, []);
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.topBar} />
+		<View style={[styles.container, safeAreaStyle]}>
+			<View style={styles.upperPartContainer}>
+				<View style={styles.topBar} />
 
-			<Text style={styles.title}>Leaderboard</Text>
+				<Text style={styles.title}>Leaderboard</Text>
 
-			<View style={styles.topRankContainer}>
-				{rankings[1] && (
-					<HighestRankingCard
-						Icon={Top2}
-						displayName={rankings[1].displayName || 'Unknown'}
-						ranking={2}
-						totalInvites={rankings[1].referralCount || 0}
-					/>
-				)}
-				{rankings[0] && (
-					<HighestRankingCard
-						Icon={Top1}
-						displayName={rankings[0].displayName || 'Unknown'}
-						ranking={1}
-						totalInvites={rankings[0].referralCount || 0}
-					/>
-				)}
-				{rankings[2] && (
-					<HighestRankingCard
-						Icon={Top3}
-						displayName={rankings[2].displayName || 'Unknown'}
-						ranking={3}
-						totalInvites={rankings[2].referralCount || 0}
-					/>
-				)}
+				<View style={styles.topRankContainer}>
+					{rankings[1] && (
+						<HighestRankingCard
+							Icon={Top2}
+							displayName={rankings[1].displayName || 'Unknown'}
+							ranking={2}
+							totalInvites={rankings[1].referralCount || 0}
+						/>
+					)}
+					{rankings[0] && (
+						<HighestRankingCard
+							Icon={Top1}
+							displayName={rankings[0].displayName || 'Unknown'}
+							ranking={1}
+							totalInvites={rankings[0].referralCount || 0}
+						/>
+					)}
+					{rankings[2] && (
+						<HighestRankingCard
+							Icon={Top3}
+							displayName={rankings[2].displayName || 'Unknown'}
+							ranking={3}
+							totalInvites={rankings[2].referralCount || 0}
+						/>
+					)}
+				</View>
 			</View>
 
 			<FlatList
@@ -135,9 +144,13 @@ const LeaderboardModal: FC<Props> = ({
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#19A3E1',
+		backgroundColor: '#EBF0F5',
 		borderTopLeftRadius: 16,
 		borderTopRightRadius: 16,
+		overflow: 'hidden',
+	},
+	upperPartContainer: {
+		backgroundColor: '#19A3E1',
 	},
 	topBar: {
 		backgroundColor: '#131C24',

@@ -15,7 +15,7 @@ interface Props {
 
 export const SettingButton: FC<Props> = ({
 	title,
-	titleColor,
+	titleColor = '#ffffff',
 	prefixIcon,
 	prefixIconContainerStyle,
 	suffixIcon,

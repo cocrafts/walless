@@ -4,11 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { withStackContainer } from 'components/StackContainer';
 import ReferralScreen from 'screens/Dashboard/Referral';
 import SettingScreen from 'screens/Dashboard/Setting';
-import {
-	type DashboardParamList,
-	navigate,
-	type SettingParamList,
-} from 'utils/navigation';
+import type { DashboardParamList, SettingParamList } from 'utils/navigation';
+
+import { handleGoBackFromReferralScreen } from './utils';
 
 type Props = StackScreenProps<DashboardParamList, 'Setting'>;
 
@@ -21,13 +19,7 @@ export const SettingStack: FC<Props> = () => {
 	});
 	const ManagedReferralScreen = withStackContainer(ReferralScreen, {
 		title: 'Referral',
-		goBack: () =>
-			navigate('Dashboard', {
-				screen: 'Setting',
-				params: {
-					screen: 'Default',
-				},
-			}),
+		goBack: handleGoBackFromReferralScreen,
 	});
 
 	return (

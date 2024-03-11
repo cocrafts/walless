@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
 	ActivityIndicator,
 	Image,
@@ -29,11 +29,18 @@ export const GasilonTransactionFee: FC = () => {
 		network,
 		receiver,
 	} = useTransactionContext<SolanaTransactionContext>();
+
 	const tokens = useTokens(network).tokens as TokenDocumentV2<SolanaToken>[];
+	const solToken = tokens.find((t) => t.mint === solMint);
 	const gasilonTokens = useGasilon(tokens);
+
+	const feeTokens = useMemo(() => {
+		if (solToken) return [solToken, ...gasilonTokens];
+		else return gasilonTokens;
+	}, [solToken, gasilonTokens]);
+
 	const chosenToken = type === 'token' ? token : nft;
-	const enableSelectFee =
-		chosenToken?.mint !== solMint && gasilonTokens.length > 1;
+	const enableSelectFee = chosenToken?.mint !== solMint && feeTokens.length > 1;
 
 	const [error, setError] = useState('');
 
@@ -45,7 +52,7 @@ export const GasilonTransactionFee: FC = () => {
 			id: 'NetworkFee',
 			component: () => (
 				<TokenFeeDropDown
-					tokens={gasilonTokens}
+					tokens={feeTokens}
 					onSelect={(token) => txActions.update({ tokenForFee: token })}
 					selectedToken={tokenForFee}
 				/>

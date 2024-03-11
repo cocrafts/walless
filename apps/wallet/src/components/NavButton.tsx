@@ -29,7 +29,7 @@ export const NavButton: FC<Props> = ({ title, style, disabled, onPress }) => {
 const styles = StyleSheet.create({
 	button: {
 		borderRadius: 15,
-		height: 48,
+		height: 46,
 		marginTop: 'auto',
 	},
 	title: {

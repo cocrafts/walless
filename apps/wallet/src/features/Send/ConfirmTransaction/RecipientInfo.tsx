@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 		marginVertical: 4,
 	},
 	infoBlock: {
-		gap: 16,
+		gap: 12,
 	},
 	infoLine: {
 		flexDirection: 'row',

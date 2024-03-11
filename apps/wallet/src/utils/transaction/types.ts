@@ -25,12 +25,13 @@ export type SendNftTransaction<N extends NftV2 = NftV2> = SendTransaction & {
 };
 
 export type GasilonSupportedTransaction<T extends TokenV2 = TokenV2> = {
-	fee?: number;
-	tokenForFee: TokenDocumentV2<T> | null;
+	fee: number;
+	tokenForFee: TokenDocumentV2<T>;
 };
 
-export type SolanaSendTransaction = SendTransaction &
-	GasilonSupportedTransaction<SolanaToken>;
+export type SolanaSendTransaction =
+	| SolanaSendTokenTransaction
+	| SolanaSendNftTransaction;
 
 export type SolanaSendTokenTransaction = SendTokenTransaction<SolanaToken> &
 	GasilonSupportedTransaction<SolanaToken>;

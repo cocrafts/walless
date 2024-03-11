@@ -9,36 +9,12 @@ import { solMint } from 'utils/constants';
 
 import { getGasilonConfig } from './gasilon';
 import type {
-	SendTransaction,
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
 } from './types';
 
-export const constructSendTransaction = async (
-	transaction: SendTransaction,
-) => {
-	const { network, type } = transaction;
-
-	switch (network) {
-		case Networks.solana: {
-			if (type === 'token') {
-				return await constructSolanaSendTokenTransaction(
-					transaction as SolanaSendTokenTransaction,
-				);
-			} else {
-				return await constructSolanaSendNftTransaction(
-					transaction as SolanaSendNftTransaction,
-				);
-			}
-		}
-		default: {
-			return;
-		}
-	}
-};
-
 export const constructSolanaSendTokenTransaction = async (
-	transaction: SolanaSendTokenTransaction,
+	transaction: Omit<SolanaSendTokenTransaction, 'type' | 'network'>,
 ): Promise<VersionedTransaction | undefined> => {
 	const {
 		sender: senderStr,
@@ -54,13 +30,16 @@ export const constructSolanaSendTokenTransaction = async (
 
 	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
-	if (token.mint == solMint) {
+
+	const isNativeTransaction = token.mint == solMint;
+	const isGasilonTransaction = tokenForFee && tokenForFee.mint !== solMint;
+	if (isNativeTransaction) {
 		return await solana.constructSendSOLTransaction(connection, {
 			sender,
 			receiver,
 			amount,
 		});
-	} else if (tokenForFee && tokenForFee.mint !== solMint) {
+	} else if (isGasilonTransaction) {
 		if (!fee) return;
 
 		const config = await getGasilonConfig();
@@ -85,8 +64,8 @@ export const constructSolanaSendTokenTransaction = async (
 	}
 };
 
-const constructSolanaSendNftTransaction = async (
-	initTransaction: SolanaSendNftTransaction,
+export const constructSolanaSendNftTransaction = async (
+	initTransaction: Omit<SolanaSendNftTransaction, 'type' | 'network'>,
 ): Promise<VersionedTransaction> => {
 	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);

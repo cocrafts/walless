@@ -1,13 +1,13 @@
-import type { TransactionBlock } from '@mysten/sui.js/transactions';
 import { Networks, RequestType } from '@walless/core';
 import { sendRequest } from 'bridge';
 import { encode } from 'bs58';
 import { solMint } from 'utils/constants';
 
-import { constructSendTransaction } from './construct';
+import {
+	constructSolanaSendNftTransaction,
+	constructSolanaSendTokenTransaction,
+} from './construct';
 import type {
-	SendNftTransaction,
-	SendTokenTransaction,
 	SendTransaction,
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
@@ -15,22 +15,23 @@ import type {
 } from './types';
 
 export const sendTransaction = async (
-	initTransaction:
-		| SendTransaction
-		| SendTokenTransaction
-		| SendNftTransaction
-		| SolanaSendTokenTransaction
-		| SolanaSendNftTransaction,
-
+	initTransaction: SendTransaction | SolanaSendTransaction,
 	passcode?: string,
 ) => {
-	const transaction = await constructSendTransaction(initTransaction);
-	if (!transaction) throw Error('failed to construct transaction');
-
-	const { network } = initTransaction;
+	const { network, type } = initTransaction;
 
 	switch (network) {
 		case Networks.solana: {
+			const transaction =
+				type === 'token'
+					? await constructSolanaSendTokenTransaction(
+							initTransaction as SolanaSendTokenTransaction,
+						)
+					: await constructSolanaSendNftTransaction(
+							initTransaction as SolanaSendNftTransaction,
+						);
+			if (!transaction) throw Error('Failed to construct transaction');
+
 			const { tokenForFee } = initTransaction as SolanaSendTransaction;
 			const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
 			if (isGasilon) {
@@ -48,34 +49,37 @@ export const sendTransaction = async (
 			}
 		}
 		case Networks.sui: {
-			return await sendRequest({
-				type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
-				transaction: (transaction as never as TransactionBlock).serialize(),
-				passcode,
-			});
+			// return await sendRequest({
+			// 	type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
+			// 	// transaction: (transaction as never as TransactionBlock).serialize(),
+			// 	passcode,
+			// });
+			break;
 		}
 		case Networks.tezos: {
-			return await sendRequest({
-				type: RequestType.TRANSFER_TEZOS_TOKEN,
-				transaction: JSON.stringify(transaction),
-				passcode,
-			});
+			// return await sendRequest({
+			// 	type: RequestType.TRANSFER_TEZOS_TOKEN,
+			// 	// transaction: JSON.stringify(transaction),
+			// 	passcode,
+			// });
+			break;
 		}
 		case Networks.aptos: {
-			const isCoinTransaction = !('creator' in transaction);
-			if (isCoinTransaction) {
-				return await sendRequest({
-					type: RequestType.TRANSFER_COIN_ON_APTOS,
-					transaction: JSON.stringify(transaction),
-					passcode,
-				});
-			} else {
-				return await sendRequest({
-					type: RequestType.TRANSFER_TOKEN_ON_APTOS,
-					transaction: JSON.stringify(transaction),
-					passcode,
-				});
-			}
+			// const isCoinTransaction = !('creator' in transaction);
+			// if (isCoinTransaction) {
+			// 	return await sendRequest({
+			// 		type: RequestType.TRANSFER_COIN_ON_APTOS,
+			// 		transaction: JSON.stringify(transaction),
+			// 		passcode,
+			// 	});
+			// } else {
+			// 	return await sendRequest({
+			// 		type: RequestType.TRANSFER_TOKEN_ON_APTOS,
+			// 		transaction: JSON.stringify(transaction),
+			// 		passcode,
+			// 	});
+			// }
+			break;
 		}
 	}
 };

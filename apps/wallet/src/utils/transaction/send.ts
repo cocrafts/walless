@@ -8,7 +8,10 @@ import { environment } from 'utils/config';
 import { solMint } from 'utils/constants';
 import { storage } from 'utils/storage';
 
-import { constructSendTransaction } from './construct';
+import {
+	constructSolanaSendNftTransaction,
+	constructSolanaSendTokenTransaction,
+} from './construct';
 import type {
 	SendNftTransaction,
 	SendTokenTransaction,
@@ -23,8 +26,7 @@ export const sendTransaction = async (
 		| SendTransaction
 		| SendTokenTransaction
 		| SendNftTransaction
-		| SolanaSendTokenTransaction
-		| SolanaSendNftTransaction,
+		| SolanaSendTransaction,
 	passcode?: string,
 ): Promise<ResponsePayload> => {
 	const res = {} as ResponsePayload;
@@ -33,18 +35,28 @@ export const sendTransaction = async (
 		return res;
 	}
 
-	const { network } = initTransaction;
-
-	const transaction = await constructSendTransaction(initTransaction);
-	if (!transaction) throw Error('Failed to construct transaction');
+	const { network, type } = initTransaction;
 
 	switch (network) {
 		case Networks.solana: {
+			const transaction =
+				type === 'token'
+					? await constructSolanaSendTokenTransaction(
+							initTransaction as SolanaSendTokenTransaction,
+						)
+					: await constructSolanaSendNftTransaction(
+							initTransaction as SolanaSendNftTransaction,
+						);
+			if (!transaction) throw Error('Failed to construct transaction');
+
 			const { tokenForFee } = initTransaction as SolanaSendTransaction;
 			const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
-			const type = isGasilon ? 'gasilon' : 'default';
 
-			return await sendSolanaTransaction(transaction, passcode, type);
+			return await sendSolanaTransaction(
+				transaction,
+				passcode,
+				isGasilon ? 'gasilon' : 'default',
+			);
 		}
 		case Networks.sui: {
 			// TODO: implement transfer sui

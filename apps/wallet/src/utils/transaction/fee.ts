@@ -39,7 +39,8 @@ export const hasEnoughBalanceToMakeTx = async (
 			const { sender, receiver, tokenForFee, type, token, nft } =
 				solanaTransaction;
 
-			if (tokenForFee && tokenForFee.mint !== solMint) {
+			const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
+			if (isGasilon) {
 				const fee = await getGasilonFee({
 					sender,
 					receiver,
@@ -191,7 +192,7 @@ export const getGasilonFee = async ({
 
 		return data.totalByFeeToken;
 	} catch (error) {
-		logger.error('Failed to get gasilon transaction fee', error);
+		logger.error('failed to get gasilon transaction fee', error);
 		return 0;
 	}
 };

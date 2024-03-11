@@ -61,6 +61,9 @@ export const txActions = {
 			txActions.resetTransactionContext();
 		}, 600); // TODO: need to handle by modal life cycle
 	},
+	handleAfterSent: () => {
+		txContext.tx.onSent?.();
+	},
 	updateTransactionFee: async () => {
 		const { network } = txContext.tx;
 		switch (network) {
@@ -118,11 +121,12 @@ export const txActions = {
 	handleSendTransaction: async (passcode: string) => {
 		const { type, sender, receiver, network, amount, tokenForFee, feeAmount } =
 			txContext.tx;
-		if (!type || !sender || !receiver || !network || !amount)
-			throw Error('require type, sender, receiver, network, amount to send');
+		if (!type || !sender || !receiver || !network)
+			throw Error('require type, sender, receiver, network to send');
 
 		let transaction;
 		if (type === 'token') {
+			if (!amount) throw Error("require amount when type is 'token'");
 			const { token } = txContext.tx as TokenTransactionContext;
 			if (!token) throw Error("token doesn't exist");
 			transaction = {
@@ -143,7 +147,7 @@ export const txActions = {
 				sender,
 				receiver,
 				network,
-				amount: Number(amount),
+				amount: 1,
 				nft,
 				fee: feeAmount,
 				...{ tokenForFee },
@@ -189,6 +193,7 @@ export interface TransactionContext {
 	tokenForFee?: TokenDocumentV2;
 	status: 'init' | 'success' | 'failed';
 	time?: Date;
+	onSent?: () => void;
 }
 
 export type TokenTransactionContext = TransactionContext & {

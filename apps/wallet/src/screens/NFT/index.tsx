@@ -7,6 +7,7 @@ import { Text, View } from '@walless/gui';
 import type { NftDocumentV2 } from '@walless/store';
 import type { WrappedCollection } from 'utils/hooks';
 import { useNfts } from 'utils/hooks';
+import { navigateBack } from 'utils/navigation';
 
 import SolanaCollectibleScreen from './SolanaCollectible';
 
@@ -22,7 +23,11 @@ export const NFTScreen = () => {
 	}, [nfts, id]);
 
 	useEffect(() => {
-		if (!nft) return;
+		if (!nft) {
+			navigateBack();
+			return;
+		}
+
 		const collection = collections.find((ele) => ele._id === nft.collectionId);
 		setCollection(collection);
 	}, [nft, collections]);

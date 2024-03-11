@@ -14,10 +14,12 @@ import TransactionResult from './TransactionResult';
 export type Props = {
 	network?: Networks;
 	nft?: NftDocumentV2;
+	onSent?: () => void;
 };
 
-export const SendFeature: FC<Props> = ({ network, nft }) => {
+export const SendFeature: FC<Props> = ({ network, nft, onSent }) => {
 	useEffect(() => {
+		txActions.update({ onSent });
 		if (network) txActions.update({ network });
 		if (nft) txActions.update<NftTransactionContext>({ nft, type: 'nft' });
 	}, []);

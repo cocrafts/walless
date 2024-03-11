@@ -1,6 +1,5 @@
-import { useCallback, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import type { UnknownObject } from '@walless/core';
 import { View } from '@walless/gui';
@@ -35,13 +34,11 @@ export const CollectionScreen = () => {
 		});
 	};
 
-	useFocusEffect(
-		useCallback(() => {
-			if (!collection) {
-				navigateBack();
-			}
-		}, [collection]),
-	);
+	useEffect(() => {
+		if (!collection) {
+			navigateBack();
+		}
+	}, [collection]);
 
 	return (
 		<View style={styles.container}>

@@ -28,7 +28,7 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 	const { nfts, collections } = useNfts(network);
 	const [recipientError, setRecipientError] = useState('');
 
-	const canContinue = recipientError === null && collection && nft;
+	const canContinue = !recipientError && collection && nft;
 
 	const getMetadata = (nft: PouchDocument<NftMetadata>) => {
 		return {
@@ -48,8 +48,7 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 	};
 
 	const handleSelectNft = (nft: NftDocumentV2) => {
-		const collection = collections.find((ele) => ele._id === nft.collectionId);
-		txActions.update<NftTransactionContext>({ nft, collection });
+		txActions.update<NftTransactionContext>({ nft });
 		checkRecipient(receiver, network);
 	};
 
@@ -70,7 +69,13 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 
 	useEffect(() => {
 		if (type === 'nft' && nft) {
-			txActions.update({ network: nft.network });
+			const collection = collections.find(
+				(ele) => ele._id === nft.collectionId,
+			);
+			txActions.update<NftTransactionContext>({
+				network: nft.network,
+				collection,
+			});
 		}
 	}, [type, nft]);
 

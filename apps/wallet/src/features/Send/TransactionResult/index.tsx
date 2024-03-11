@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { SlideComponentProps } from '@walless/gui';
 import { View } from '@walless/gui';
@@ -14,7 +14,7 @@ import { Token } from './Token';
 type Props = SlideComponentProps;
 
 const TransactionResult: FC<Props> = ({ navigator }) => {
-	const { type } = useTransactionContext();
+	const { type, status } = useTransactionContext();
 
 	const handlePressOtherTransaction = () => {
 		txActions.resetTransactionContext();
@@ -24,6 +24,10 @@ const TransactionResult: FC<Props> = ({ navigator }) => {
 	const handleBackToHome = () => {
 		txActions.closeSendFeature();
 	};
+
+	useEffect(() => {
+		if (status === 'success') txActions.handleAfterSent();
+	}, []);
 
 	return (
 		<View style={styles.container}>

@@ -1,6 +1,6 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import type { PublicKey } from '@solana/web3.js';
-import { type Connection, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import type { Connection, PublicKey } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import type { NetworkCluster, SolanaToken } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';

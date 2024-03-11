@@ -1,5 +1,5 @@
 import type { VersionedTransaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { solana } from '@walless/network';
 import { withGasilon } from '@walless/network/src/solana';
@@ -37,7 +37,7 @@ export const constructSolanaSendTokenTransaction = async (
 		return await solana.constructSendSOLTransaction(connection, {
 			sender,
 			receiver,
-			amount,
+			amount: amount * LAMPORTS_PER_SOL,
 		});
 	} else if (isGasilonTransaction) {
 		if (!fee) return;
@@ -58,7 +58,7 @@ export const constructSolanaSendTokenTransaction = async (
 		return await solana.constructSendSPLTokenTransaction(connection, {
 			sender,
 			receiver,
-			amount,
+			amount: Math.round(amount * 10 ** token.decimals),
 			mint: new PublicKey(token.mint),
 		});
 	}
@@ -81,7 +81,7 @@ export const constructSolanaSendNftTransaction = async (
 	if (tokenForFee && tokenForFee.mint !== solMint && fee) {
 		return await withGasilon(transaction, {
 			sender: new PublicKey(sender),
-			feeAmount: fee,
+			feeAmount: Math.round(fee * 10 ** tokenForFee.decimals),
 			feeMint: new PublicKey(tokenForFee.mint),
 			feePayer: new PublicKey(nft.mint),
 		});

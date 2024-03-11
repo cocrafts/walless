@@ -10,9 +10,7 @@ const getNftByIdFromStorage = async <T extends Nft = Nft>(
 	return await storage.safeGet(id);
 };
 
-const getCollectionByIdFromStorage = async <
-	T extends Collection = Collection,
->(
+const getCollectionByIdFromStorage = async <T extends Collection = Collection>(
 	id: string,
 ): Promise<CollectionDocument<T> | undefined> => {
 	return await storage.safeGet(id);

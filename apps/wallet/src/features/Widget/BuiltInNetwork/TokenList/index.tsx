@@ -29,9 +29,7 @@ export const TokenList: FC<Props> = ({
 	ListHeaderComponent,
 	onPressItem,
 }) => {
-	const renderItem: ListRenderItem<TokenDocument<SolanaToken>> = ({
-		item,
-	}) => {
+	const renderItem: ListRenderItem<TokenDocument<SolanaToken>> = ({ item }) => {
 		const handlePressItem = () => {
 			onPressItem?.(item);
 		};

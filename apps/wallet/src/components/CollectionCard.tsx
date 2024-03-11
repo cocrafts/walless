@@ -2,12 +2,12 @@ import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet, View } from 'react-native';
 import { Hoverable, Text } from '@walless/gui';
-import type { CollectionDocumentV2, NftDocumentV2 } from '@walless/store';
+import type { CollectionDocument, NftDocument } from '@walless/store';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	size?: number;
-	item: CollectionDocumentV2 | NftDocumentV2;
+	item: CollectionDocument | NftDocument;
 	collectibleCount?: number;
 	onPress: () => void;
 }

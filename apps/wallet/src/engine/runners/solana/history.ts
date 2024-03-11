@@ -9,13 +9,12 @@ import type {
 } from '@solana/web3.js';
 import type { NetworkCluster, TransactionHistory } from '@walless/core';
 import { Networks } from '@walless/core';
-import { solana } from '@walless/network';
 import type { TransactionHistoryDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { storage } from 'utils/storage';
 
 import { throttle } from './internal';
-import { getMetadata } from './metadata';
+import { getTokenMetadata, solMetadata } from './metadata';
 import type { ParsedTokenAccountWithAddress } from './types';
 
 const historyLimit = 20;
@@ -161,7 +160,7 @@ const getNativeTransactionBalances = async (
 	const token: TransactionHistory['token'] = {
 		cluster,
 		network: Networks.solana,
-		metadata: solana.solMetadata,
+		metadata: solMetadata,
 	};
 	const parsedInstruction = transaction.message.instructions.find(
 		(instruction) =>
@@ -199,7 +198,7 @@ const getSplTransactionBalances = async (
 	const token: TransactionHistory['token'] = {
 		cluster,
 		network: Networks.solana,
-		metadata: await getMetadata(connection, mint),
+		metadata: await getTokenMetadata(connection, mint),
 	};
 
 	return {

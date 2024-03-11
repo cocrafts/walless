@@ -8,7 +8,7 @@ import { getTokenQuotes, makeHashId } from 'utils/api';
 import { solMint } from 'utils/constants';
 
 import { throttle } from './internal';
-import { getMetadata, solMetadata } from './metadata';
+import { getTokenMetadata, solMetadata } from './metadata';
 import type { ParsedTokenAccountWithAddress } from './types';
 
 export const getTokenDocumentsOnChain = async (
@@ -94,7 +94,7 @@ export const initTokenDocumentWithMetadata = async (
 	cluster: NetworkCluster,
 	account: ParsedTokenAccountWithAddress,
 ): Promise<TokenDocumentV2<SolanaToken>> => {
-	const metadata = (await getMetadata(connection, account.mint)) || {
+	const metadata = (await getTokenMetadata(connection, account.mint)) || {
 		name: 'Unknown',
 		symbol: 'Unknown',
 		image: '',

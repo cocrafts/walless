@@ -8,13 +8,16 @@ import { METADATA_PROGRAM_ID } from 'utils/constants';
 import { throttle } from './internal';
 import localMetadata from './local-metadata.json';
 
-export type GetMetadataFunc = (
+export type GetTokenMetadataFunc = (
 	connection: Connection,
 	mintAddress: string,
 ) => Promise<TokenMetadata | undefined>;
 
-export const getMetadata: GetMetadataFunc = async (connection, mintAddress) => {
-	const fetchers: GetMetadataFunc[] = [getLocalMeta, getRemoteMeta];
+export const getTokenMetadata: GetTokenMetadataFunc = async (
+	connection,
+	mintAddress,
+) => {
+	const fetchers: GetTokenMetadataFunc[] = [getLocalMeta, getRemoteMeta];
 
 	for (const fetcher of fetchers) {
 		const result = await fetcher(connection, mintAddress);
@@ -22,11 +25,11 @@ export const getMetadata: GetMetadataFunc = async (connection, mintAddress) => {
 	}
 };
 
-const getLocalMeta: GetMetadataFunc = async (_, mintAddress) => {
+const getLocalMeta: GetTokenMetadataFunc = async (_, mintAddress) => {
 	return localRegistry[mintAddress];
 };
 
-const getRemoteMeta: GetMetadataFunc = async (connection, mintAddress) => {
+const getRemoteMeta: GetTokenMetadataFunc = async (connection, mintAddress) => {
 	const result: TokenMetadata = {} as never;
 	const mint = new PublicKey(mintAddress);
 	const METADATA_PROGRAM_KEY = new PublicKey(METADATA_PROGRAM_ID);

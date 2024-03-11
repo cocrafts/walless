@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import type {
 	SolanaCollectible,
 	SolanaCollection,
@@ -23,9 +22,17 @@ import {
 } from 'utils/transaction';
 import { proxy } from 'valtio';
 
-const initialContext: Partial<TransactionContext> = {};
+const initialContext: TransactionContext = {
+	type: 'token',
+	amount: '',
+	sender: '',
+	receiver: '',
+	status: 'init',
+	feeAmount: 0,
+	feeLoading: false,
+};
 const txContext = proxy<{ tx: TransactionContext }>({
-	tx: initialContext as TransactionContext,
+	tx: initialContext,
 });
 
 export const useTransactionContext = <
@@ -33,12 +40,6 @@ export const useTransactionContext = <
 >(): T => {
 	const context = useSnapshot(txContext).tx as TokenTransactionContext &
 		NftTransactionContext;
-
-	const { type, network, token, nft, tokenForFee, receiver } = context;
-
-	useEffect(() => {
-		txActions.updateTransactionFee();
-	}, [type, network, token, nft, tokenForFee, receiver]);
 
 	return context as never as T;
 };
@@ -61,29 +62,27 @@ export const txActions = {
 		}, 200);
 	},
 	updateTransactionFee: async () => {
-		txActions.update({ feeLoading: true });
 		const { network } = txContext.tx;
 		switch (network) {
 			case Networks.solana: {
 				const { type, sender, receiver, tokenForFee, token, nft } =
 					txContext.tx as SolanaTransactionContext;
-				if (!sender || !receiver || !tokenForFee || !token || !nft) return;
+				if (!type || !sender || !receiver || !network) break;
 
+				txActions.update({ feeLoading: true });
+
+				let fee;
 				const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
 				if (isGasilon) {
-					const { fee, mint } = await getGasilonFee({
+					const mint = (type === 'token' ? token?.mint : nft?.mint) as string;
+					fee = await getGasilonFee({
 						sender,
 						receiver,
-						mint: type === 'token' ? token.mint : nft.mint,
+						mint,
 						feeMint: tokenForFee.mint,
 					});
-					const newestTokenFee = txContext.tx
-						.tokenForFee as TokenDocumentV2<SolanaToken>;
-					if (mint == newestTokenFee.mint) {
-						txActions.update({ feeAmount: fee });
-					}
-				} else {
-					const { fee, mint } = await getSolanaTransactionFee({
+				} else if (tokenForFee) {
+					fee = await getSolanaTransactionFee({
 						type,
 						sender,
 						receiver,
@@ -91,13 +90,15 @@ export const txActions = {
 						token,
 						tokenForFee,
 					});
-
-					const currentFeeMint = (
-						txContext.tx.tokenForFee as TokenDocumentV2<SolanaToken>
-					).mint;
-
-					if (mint === currentFeeMint) txActions.update({ feeAmount: fee });
 				}
+
+				const currentFeeMint = txContext.tx
+					.tokenForFee as TokenDocumentV2<SolanaToken>;
+
+				if (tokenForFee?.mint === currentFeeMint?.mint) {
+					txActions.update({ feeAmount: fee, feeLoading: false });
+				}
+
 				break;
 			}
 			default: {
@@ -105,15 +106,17 @@ export const txActions = {
 				break;
 			}
 		}
-		txActions.update({ feeLoading: false });
 	},
 	handleSendTransaction: async (passcode: string) => {
-		const { type, sender, receiver, network, amount, tokenForFee } =
+		const { type, sender, receiver, network, amount, tokenForFee, feeAmount } =
 			txContext.tx;
+		if (!type || !sender || !receiver || !network || !amount)
+			throw Error('require type, sender, receiver, network, amount to send');
 
 		let transaction;
 		if (type === 'token') {
 			const { token } = txContext.tx as TokenTransactionContext;
+			if (!token) throw Error("token doesn't exist");
 			transaction = {
 				type,
 				sender,
@@ -121,10 +124,12 @@ export const txActions = {
 				network,
 				amount: Number(amount),
 				token,
+				fee: feeAmount,
 				...{ tokenForFee },
 			};
 		} else {
 			const { nft } = txContext.tx as NftTransactionContext;
+			if (!nft) throw Error("nft doesn't exist");
 			transaction = {
 				type,
 				sender,
@@ -132,6 +137,7 @@ export const txActions = {
 				network,
 				amount: Number(amount),
 				nft,
+				fee: feeAmount,
 				...{ tokenForFee },
 			};
 		}
@@ -157,6 +163,8 @@ export const txActions = {
 		txActions.update({
 			status: res.responseCode === ResponseCode.SUCCESS ? 'success' : 'failed',
 		});
+
+		return true;
 	},
 };
 
@@ -164,40 +172,40 @@ export type TransactionType = 'token' | 'nft';
 
 export interface TransactionContext {
 	type: TransactionType;
-	network: Networks;
+	network?: Networks;
 	sender: string;
 	receiver: string;
 	amount: string;
 	feeAmount: number;
 	feeLoading: boolean;
 	tokenForFee?: TokenDocumentV2;
-	status: 'success' | 'failed';
-	time: Date;
+	status: 'init' | 'success' | 'failed';
+	time?: Date;
 }
 
 export type TokenTransactionContext = TransactionContext & {
-	token: TokenDocumentV2;
+	token?: TokenDocumentV2;
 };
 
 export type NftTransactionContext = TransactionContext & {
-	nft: NftDocumentV2;
-	collection: CollectionDocumentV2;
+	nft?: NftDocumentV2;
+	collection?: CollectionDocumentV2;
 };
 
 export type SolanaTransactionContext = SolanaTokenTransactionContext &
 	SolanaCollectibleTransactionContext;
 
 export type SolanaTokenTransactionContext = TokenTransactionContext & {
-	signature: string;
-	token: TokenDocumentV2<SolanaToken>;
-	tokenForFee: TokenDocumentV2<SolanaToken>;
+	signature?: string;
+	token?: TokenDocumentV2<SolanaToken>;
+	tokenForFee?: TokenDocumentV2<SolanaToken>;
 };
 
 export type SolanaCollectibleTransactionContext = NftTransactionContext & {
-	signature: string;
-	nft: NftDocumentV2<SolanaCollectible>;
-	collection: CollectionDocumentV2<SolanaCollection>;
-	tokenForFee: TokenDocumentV2<SolanaToken>;
+	signature?: string;
+	nft?: NftDocumentV2<SolanaCollectible>;
+	collection?: CollectionDocumentV2<SolanaCollection>;
+	tokenForFee?: TokenDocumentV2<SolanaToken>;
 };
 
 export type CombinedTransactionContext = SolanaTransactionContext;

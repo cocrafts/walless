@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
 	},
 	titleText: {
 		fontWeight: '500',
-		fontSize: 14,
 		color: '#566674',
 	},
 	valueContainer: {
@@ -66,11 +65,9 @@ const styles = StyleSheet.create({
 	},
 	feeText: {
 		fontWeight: '500',
-		fontSize: 14,
 		color: '#FFFFFF',
 	},
 	equalText: {
-		fontWeight: '400',
 		fontSize: 12,
 		color: '#566674',
 	},

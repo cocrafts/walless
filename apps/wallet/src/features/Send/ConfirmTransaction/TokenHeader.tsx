@@ -2,11 +2,12 @@ import { Image, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import assets from 'utils/assets';
 
-import type { TokenTransactionContext } from '../internal';
 import { useTransactionContext } from '../internal';
 
+import type { FulfilledTokenTransaction } from './internal';
+
 export const TokenHeader = () => {
-	const { token, amount } = useTransactionContext<TokenTransactionContext>();
+	const { token, amount } = useTransactionContext<FulfilledTokenTransaction>();
 
 	const iconUri = token.image ? { uri: token.image } : assets.misc.unknownToken;
 

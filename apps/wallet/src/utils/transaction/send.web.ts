@@ -30,11 +30,12 @@ export const sendTransaction = async (
 					: await constructSolanaSendNftTransaction(
 							initTransaction as SolanaSendNftTransaction,
 						);
-			if (!transaction) throw Error('Failed to construct transaction');
+			if (!transaction) throw Error('failed to construct transaction');
 
 			const { tokenForFee } = initTransaction as SolanaSendTransaction;
 			const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
 			if (isGasilon) {
+				console.log('gasilon transaction', transaction);
 				return await sendRequest({
 					type: RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
 					transaction: encode(transaction.serialize()),

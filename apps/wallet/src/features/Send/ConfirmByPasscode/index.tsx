@@ -33,7 +33,8 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		setPasscode(passcode);
 		if (isCompleted) {
 			try {
-				await txActions.handleSendTransaction(passcode);
+				const isSuccess = await txActions.handleSendTransaction(passcode);
+				if (isSuccess) navigator.slideNext();
 			} catch (error) {
 				logger.error('failed to send transaction', error);
 				showError({ errorText: 'Something went wrong.' });

@@ -28,6 +28,7 @@ export const SendFeature: FC<Props> = ({ network, nft }) => {
 			slideContainerStyle={styles.slideContainer}
 			activeItem={sendScreens[0]}
 			items={sendScreens}
+			lazy={true}
 		/>
 	);
 };

@@ -4,6 +4,7 @@ import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import KeyboardAvoidingView from 'components/KeyboardAvoidingView';
 import ModalHeader from 'components/ModalHeader';
+import { keyState } from 'state/keys';
 import { useTokens } from 'utils/hooks';
 
 import { txActions, useTransactionContext } from '../internal';
@@ -17,12 +18,17 @@ interface Props {
 }
 
 const InputTransaction: FC<Props> = ({ navigator }) => {
-	const { type, network } = useTransactionContext();
+	const { type, network, tokenForFee } = useTransactionContext();
 	const { tokens } = useTokens(network);
 
 	useEffect(() => {
-		txActions.update({ tokenForFee: tokens[0] });
-	}, []);
+		if (!network) return;
+		if (!tokenForFee) txActions.update({ tokenForFee: tokens[0] });
+
+		const publicKeys = Array.from(keyState.map.values());
+		const key = publicKeys.find((k) => k.network === network);
+		if (key) txActions.update({ sender: publicKeys[0]._id });
+	}, [network]);
 
 	return (
 		<KeyboardAvoidingView>

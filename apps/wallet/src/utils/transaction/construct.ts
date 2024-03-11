@@ -48,9 +48,9 @@ export const constructSolanaSendTokenTransaction = async (
 		return await solana.constructGasilonTransaction(connection, {
 			sender,
 			receiver,
-			amount,
+			amount: Math.round(amount * 10 ** tokenForFee.decimals),
 			mint: new PublicKey(token.mint),
-			fee,
+			fee: Math.round(fee * 10 ** tokenForFee.decimals),
 			feeMint: new PublicKey(tokenForFee.mint),
 			feePayer: new PublicKey(config.feePayer),
 		});

@@ -6,14 +6,19 @@ import { getNetworkMetadata } from 'utils/transaction';
 
 import { useTransactionContext } from '../internal';
 
+import type { FulfilledTransaction } from './internal';
+
 export const RecipientInfo: FC = () => {
-	const { feeAmount, receiver, tokenForFee, network } = useTransactionContext();
+	const { feeAmount, receiver, tokenForFee, network } =
+		useTransactionContext<FulfilledTransaction>();
 
 	const { networkIcon, networkName, nativeSymbol } = getNetworkMetadata(
 		network as Networks,
 	);
 
-	const feeString = `${feeAmount} ${tokenForFee?.symbol || nativeSymbol}`;
+	const feeString = `${parseFloat(feeAmount.toPrecision(7))} ${
+		tokenForFee?.symbol || nativeSymbol
+	}`;
 
 	return (
 		<View style={styles.container}>

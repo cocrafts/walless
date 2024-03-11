@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const NftTab: FC<Props> = ({ onContinue }) => {
-	const { nft, collection, network, receiver } =
+	const { type, nft, collection, network, receiver } =
 		useTransactionContext<NftTransactionContext>();
 	const { nfts, collections } = useNfts(network);
 	const [recipientError, setRecipientError] = useState('');
@@ -69,8 +69,10 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 	}, [collection]);
 
 	useEffect(() => {
-		checkRecipient(receiver, network);
-	}, []);
+		if (type === 'nft' && nft) {
+			txActions.update({ network: nft.network });
+		}
+	}, [type, nft]);
 
 	return (
 		<View style={styles.container}>

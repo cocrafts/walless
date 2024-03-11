@@ -21,13 +21,9 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
-	const { token, amount, network, tokenForFee, feeAmount, receiver } =
+	const { type, token, amount, network, receiver } =
 		useTransactionContext<TokenTransactionContext>();
-
 	const { tokens } = useTokens(network);
-	const [disabledMax, setDisabledMax] = useState(
-		!token || !tokenForFee || !feeAmount,
-	);
 	const [recipientError, setRecipientError] = useState('');
 	const [amountError, setAmountError] = useState('');
 
@@ -74,11 +70,9 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	};
 
 	const handleMaxPress = () => {
-		if (!feeAmount || !token || !tokenForFee) return;
-		if (token.balance > 0) {
-			setAmountError('');
-		}
+		if (!token) return;
 		txActions.update({ amount: token.balance.toString() });
+		setAmountError('');
 	};
 
 	const MaxButton = (
@@ -87,18 +81,14 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 			titleStyle={styles.titleMaxButton}
 			title="Max"
 			onPress={handleMaxPress}
-			disabled={disabledMax}
 		/>
 	);
 
 	useEffect(() => {
-		setDisabledMax(!token || !tokenForFee || !feeAmount);
-	}, [token, tokenForFee, feeAmount]);
-
-	useEffect(() => {
-		checkRecipient(receiver, network);
-		checkAmount(amount, token.balance);
-	}, []);
+		if (type === 'token' && token) {
+			txActions.update({ network: token.network });
+		}
+	}, [type, token]);
 
 	return (
 		<View style={styles.container}>
@@ -116,7 +106,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				errorText={recipientError}
 				onChangeText={(receiver) => txActions.update({ receiver })}
 				onBlur={() => checkRecipient(receiver, network)}
-				suffix={QRScanButton({ network })}
+				suffix={network && QRScanButton({ network })}
 			/>
 
 			<CheckedInput
@@ -125,14 +115,18 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				keyboardType="numeric"
 				errorText={amountError}
 				onChangeText={(amount) => txActions.update({ amount })}
-				onBlur={() => checkAmount(amount, token.balance)}
+				onBlur={token && (() => checkAmount(amount, token.balance))}
 				suffix={MaxButton}
 			/>
 
-			<View style={styles.balanceContainer}>
-				<Text style={styles.title}>Available balance</Text>
-				<Text style={styles.balance}>{`${token.balance} ${token.symbol}`}</Text>
-			</View>
+			{token && (
+				<View style={styles.balanceContainer}>
+					<Text style={styles.title}>Balance</Text>
+					<Text
+						style={styles.balance}
+					>{`${token.balance} ${token.symbol}`}</Text>
+				</View>
+			)}
 
 			<TransactionFee />
 

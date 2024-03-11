@@ -1,27 +1,20 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
-import { usePublicKeys } from 'utils/hooks';
 import { getNetworkMetadata } from 'utils/transaction';
 
-import { txActions, useTransactionContext } from '../internal';
+import { useTransactionContext } from '../internal';
+
+import type { FulfilledTransaction } from './internal';
 
 interface Props {
 	onBack?: () => void;
 }
 
 export const SenderInfo: FC<Props> = () => {
-	const publicKeys = usePublicKeys();
-	const { network } = useTransactionContext();
+	const { network, sender } = useTransactionContext<FulfilledTransaction>();
 
-	const publicKey = publicKeys.find((key) => key.network === network);
-
-	if (publicKey) {
-		txActions.update({ sender: publicKey._id });
-	}
-
-	const { networkIcon, networkName } = getNetworkMetadata(network as Networks);
+	const { networkIcon, networkName } = getNetworkMetadata(network);
 
 	return (
 		<View style={styles.container}>
@@ -31,7 +24,7 @@ export const SenderInfo: FC<Props> = () => {
 				<View style={styles.wallet}>
 					<Text style={styles.walletTitle}>Wallet 1 {networkName}</Text>
 					<Text style={styles.walletAddress}>
-						{publicKey ? publicKey._id.substring(0, 26) : 'Loading'} ...
+						{sender.substring(0, 26)} ...
 					</Text>
 				</View>
 			</View>

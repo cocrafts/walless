@@ -27,12 +27,13 @@ export const GasilonTransactionFee: FC = () => {
 		amount,
 		tokenForFee,
 		network,
+		receiver,
 	} = useTransactionContext<SolanaTransactionContext>();
 	const tokens = useTokens(network).tokens as TokenDocumentV2<SolanaToken>[];
 	const gasilonTokens = useGasilon(tokens);
 	const chosenToken = type === 'token' ? token : nft;
 	const enableSelectFee =
-		chosenToken.mint !== solMint && gasilonTokens.length > 1;
+		chosenToken?.mint !== solMint && gasilonTokens.length > 1;
 
 	const [error, setError] = useState('');
 
@@ -46,7 +47,7 @@ export const GasilonTransactionFee: FC = () => {
 				<TokenFeeDropDown
 					tokens={gasilonTokens}
 					onSelect={(token) => txActions.update({ tokenForFee: token })}
-					selectedToken={tokenForFee as TokenDocumentV2}
+					selectedToken={tokenForFee}
 				/>
 			),
 			bindingRef: dropdownRef,
@@ -57,10 +58,15 @@ export const GasilonTransactionFee: FC = () => {
 	};
 
 	useEffect(() => {
-		if (!token || !tokenForFee) return;
+		console.log('update gasilon fee', tokenForFee?.name);
+		txActions.updateTransactionFee();
+	}, [type, network, token, nft, tokenForFee, receiver]);
+
+	useEffect(() => {
+		if (!token || !tokenForFee || !feeAmount) return;
 
 		let isNotEnoughToken = false;
-		if (token._id === tokenForFee._id) {
+		if (token._id === tokenForFee._id && tokenForFee.mint !== solMint) {
 			const sendAmount = parseFloat(amount);
 			isNotEnoughToken = tokenForFee.balance < feeAmount + sendAmount;
 		} else {
@@ -71,11 +77,13 @@ export const GasilonTransactionFee: FC = () => {
 			const tokenName = tokenForFee.symbol ?? 'Unknown';
 			const errorText = `Not enough ${tokenName}, select other token`;
 			setError(errorText);
+		} else {
+			setError('');
 		}
-	}, [tokenForFee, token, amount]);
+	}, [tokenForFee, token, amount, feeAmount]);
 
 	useEffect(() => {
-		if (chosenToken.mint === solMint) {
+		if (chosenToken && chosenToken.mint === solMint) {
 			txActions.update({ tokenForFee: tokens[0] });
 		}
 	}, [chosenToken]);
@@ -93,7 +101,7 @@ export const GasilonTransactionFee: FC = () => {
 						<ActivityIndicator size="small" color="#FFFFFF" />
 					) : (
 						<Text style={[styles.feeText, !!error && { color: '#FC9B0A' }]}>
-							{feeAmount.toPrecision(7)}
+							{parseFloat(feeAmount?.toPrecision(7) || '0')}
 						</Text>
 					)}
 					{chosenToken && (
@@ -108,7 +116,7 @@ export const GasilonTransactionFee: FC = () => {
 									source={{ uri: tokenForFee?.image }}
 								/>
 								<Text numberOfLines={1} style={styles.selectedToken}>
-									{tokenForFee.name}
+									{tokenForFee?.name}
 								</Text>
 							</View>
 
@@ -126,12 +134,11 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	titleContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginTop: 2,
-		marginBottom: 'auto',
 		gap: 4,
 	},
 	titleText: {

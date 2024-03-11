@@ -8,7 +8,7 @@ import { useTransactionContext } from '../internal';
 export const TotalCost: FC = () => {
 	const { token, amount } = useTransactionContext<TokenTransactionContext>();
 
-	const costStr = `${amount ? parseFloat(amount) : 0} ${token.symbol}`;
+	const costStr = token && `${amount ? parseFloat(amount) : 0} ${token.symbol}`;
 
 	return (
 		<View style={styles.container}>

@@ -3,22 +3,19 @@ import { Text, View } from '@walless/gui';
 import { GreenTag, RedTag } from 'components/tags';
 import { getNetworkMetadata } from 'utils/transaction';
 
+import type { FulfilledTransaction } from '../ConfirmTransaction/internal';
 import { useTransactionContext } from '../internal';
 
 export const Information = () => {
-	const {
-		network,
-		feeAmount: transactionFee,
-		receiver,
-		sender,
-		status,
-		tokenForFee,
-	} = useTransactionContext();
+	const { network, feeAmount, receiver, sender, status, tokenForFee } =
+		useTransactionContext<FulfilledTransaction>();
 
 	const { networkIcon, networkName, nativeSymbol } =
 		getNetworkMetadata(network);
 
-	const feeString = `${transactionFee} ${tokenForFee?.symbol || nativeSymbol}`;
+	const feeString = `${parseFloat(feeAmount.toPrecision(7))} ${
+		tokenForFee?.symbol || nativeSymbol
+	}`;
 
 	return (
 		<View style={styles.container}>

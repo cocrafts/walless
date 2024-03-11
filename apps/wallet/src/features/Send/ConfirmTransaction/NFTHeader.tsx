@@ -1,11 +1,12 @@
 import { Image, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
-import type { NftTransactionContext } from '../internal';
 import { useTransactionContext } from '../internal';
 
+import type { FulfilledNftTransaction } from './internal';
+
 export const NFTHeader = () => {
-	const { nft, collection } = useTransactionContext<NftTransactionContext>();
+	const { nft, collection } = useTransactionContext<FulfilledNftTransaction>();
 	const iconUri = { uri: nft.image };
 
 	return (

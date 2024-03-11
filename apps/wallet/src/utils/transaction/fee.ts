@@ -1,6 +1,6 @@
 import { ACCOUNT_SIZE, getAssociatedTokenAddressSync } from '@solana/spl-token';
 import type { VersionedTransaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import type { SolanaCollectible, SolanaToken } from '@walless/core';
 import { logger, Networks } from '@walless/core';
 import { solana } from '@walless/network';
@@ -40,7 +40,7 @@ export const hasEnoughBalanceToMakeTx = async (
 				solanaTransaction;
 
 			if (tokenForFee && tokenForFee.mint !== solMint) {
-				const { fee } = await getGasilonFee({
+				const fee = await getGasilonFee({
 					sender,
 					receiver,
 					mint: type === 'token' ? token.mint : nft.mint,
@@ -57,7 +57,7 @@ export const hasEnoughBalanceToMakeTx = async (
 					return token.balance > amount;
 				}
 			} else if (tokenForFee && tokenForFee.mint === solMint) {
-				const { fee } = await getSolanaTransactionFee(solanaTransaction);
+				const fee = await getSolanaTransactionFee(solanaTransaction);
 				return tokenForFee.balance > fee;
 			}
 			break;
@@ -77,14 +77,9 @@ export type GetSolanaFeeConfig = {
 	tokenForFee: TokenDocumentV2<SolanaToken>;
 };
 
-export type SolanaFeeResult = {
-	fee: number;
-	mint: string;
-};
-
 export const getSolanaTransactionFee = async (
 	initTransaction: GetSolanaFeeConfig,
-): Promise<SolanaFeeResult> => {
+): Promise<number> => {
 	const { type, sender, receiver, token, nft, tokenForFee } = initTransaction;
 
 	let transaction;
@@ -110,7 +105,7 @@ export const getSolanaTransactionFee = async (
 		});
 	}
 
-	if (!transaction) return { fee: 0, mint: tokenForFee.mint };
+	if (!transaction) 0;
 
 	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
@@ -152,7 +147,7 @@ export const getSolanaTransactionFee = async (
 		rentFeePromise,
 	]);
 
-	return { fee: txFee + rentFee, mint: tokenForFee.mint };
+	return (txFee + rentFee) / LAMPORTS_PER_SOL;
 };
 
 export type GetGasilonFeeConfig = {
@@ -167,9 +162,9 @@ export const getGasilonFee = async ({
 	receiver,
 	mint,
 	feeMint,
-}: GetGasilonFeeConfig): Promise<SolanaFeeResult> => {
+}: GetGasilonFeeConfig): Promise<number> => {
 	const config = await getGasilonConfig();
-	if (!config) return { fee: 0, mint };
+	if (!config) return 0;
 
 	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
@@ -194,9 +189,9 @@ export const getGasilonFee = async ({
 
 		const data = await res.json();
 
-		return { fee: data.totalByFeeToken, mint };
+		return data.totalByFeeToken;
 	} catch (error) {
 		logger.error('Failed to get gasilon transaction fee', error);
-		return { fee: 0, mint };
+		return 0;
 	}
 };

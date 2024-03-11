@@ -8,7 +8,7 @@ import { GasilonTransactionFee } from './GasilonFee';
 
 export const TransactionFee: FC = () => {
 	const { network } = useTransactionContext();
-	const useGasilonFee = gasilonSupportedNetworks.includes(network);
+	const useGasilonFee = network && gasilonSupportedNetworks.includes(network);
 
 	return useGasilonFee ? <GasilonTransactionFee /> : <DefaultTransactionFee />;
 };

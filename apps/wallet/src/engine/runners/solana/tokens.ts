@@ -62,9 +62,9 @@ const getNativeTokenDocument = async (
 		mint: solMint,
 		owner: 'system',
 		ata: address,
-		balance: balance / 10 ** LAMPORTS_PER_SOL,
+		balance: balance / LAMPORTS_PER_SOL,
 		amount: balance.toString(),
-		decimals: LAMPORTS_PER_SOL,
+		decimals: 9,
 		...solMetadata,
 	};
 };

@@ -142,7 +142,8 @@ export const useNfts = (network?: Networks, address?: string) => {
 				).length;
 
 				return { ...collection, count };
-			});
+			})
+			.filter((collection) => collection.count > 0);
 	}, [collectionMap, nfts, network, address]);
 
 	return { collections, nfts };

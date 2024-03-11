@@ -20,10 +20,6 @@ const HighestRankingCard: FC<Props> = ({
 		paddingVertical: 6 * (5 - ranking),
 	};
 
-	const invitesContainerOfTop1 = {
-		backgroundColor: '#19232C',
-	};
-
 	return (
 		<View style={styles.container}>
 			<Icon size={8 * (12 - ranking)} />
@@ -32,7 +28,7 @@ const HighestRankingCard: FC<Props> = ({
 				style={[
 					styles.invitesContainer,
 					invitesContainerStyle,
-					ranking === 1 && invitesContainerOfTop1,
+					ranking === 1 && styles.top1Container,
 				]}
 			>
 				<Text style={styles.displayName} numberOfLines={1} lineBreakMode="tail">
@@ -56,6 +52,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		flex: 1,
+	},
+	top1Container: {
+		backgroundColor: '#19232C',
 	},
 	rankingContainer: {
 		height: 20,

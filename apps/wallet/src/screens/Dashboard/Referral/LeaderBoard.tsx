@@ -4,7 +4,8 @@ import type { ViewStyle } from 'react-native';
 import { FlatList, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { logger } from '@walless/core';
-import { queries, type ReferralRank } from '@walless/graphql';
+import type { ReferralRank } from '@walless/graphql';
+import { queries } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,

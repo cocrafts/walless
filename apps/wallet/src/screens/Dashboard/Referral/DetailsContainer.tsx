@@ -1,12 +1,12 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
 interface Props {
 	title: string;
 	value: string;
-	LeftIcon?: React.ReactNode;
-	RightIcon?: React.ReactNode;
+	LeftIcon?: ReactNode;
+	RightIcon?: ReactNode;
 }
 
 const DetailsContainer: FC<Props> = ({ LeftIcon, RightIcon, title, value }) => {

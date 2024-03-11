@@ -10,10 +10,7 @@ import Animated from 'react-native-reanimated';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, SliderTabs } from '@walless/gui';
-import type {
-	TabAble,
-	TabItemStyle,
-} from '@walless/gui/components/SliderTabs/TabItem';
+import type { TabAble, TabItemStyle } from '@walless/gui/components/SliderTabs';
 import FeatureButtons from 'components/FeatureButtons';
 import { showCopiedModal } from 'modals/Notification';
 import { showReceiveModal } from 'modals/Receive';

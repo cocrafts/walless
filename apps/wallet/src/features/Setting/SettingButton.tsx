@@ -1,26 +1,29 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Linking } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
-import { ArrowTopRight } from '@walless/icons';
 
 interface Props {
-	link: string;
 	title: string;
-	icon?: React.ReactNode;
-	iconBackground?: string;
+	titleColor?: string;
+	prefixIcon?: ReactNode;
+	prefixIconContainerStyle?: ViewStyle;
+	suffixIcon?: ReactNode;
+	onPress?: () => void;
 }
 
-export const ForwardLink: FC<Props> = ({ title, icon, link }) => {
+export const SettingButton: FC<Props> = ({
+	title,
+	titleColor = '#ffffff',
+	prefixIcon,
+	prefixIconContainerStyle,
+	suffixIcon,
+	onPress,
+}) => {
 	const [onHover, setOnHover] = useState(false);
 	const hoverStyle: ViewStyle = {
 		backgroundColor: '#202D38',
-	};
-
-	const handlePress = () => {
-		Linking.openURL(link);
 	};
 
 	return (
@@ -28,20 +31,23 @@ export const ForwardLink: FC<Props> = ({ title, icon, link }) => {
 			style={[styles.container, onHover && hoverStyle]}
 			onHoverIn={() => setOnHover(true)}
 			onHoverOut={() => setOnHover(false)}
-			onPress={handlePress}
+			onPress={onPress}
 		>
 			<View style={styles.titleBlock}>
-				{icon && <View style={styles.icon}>{icon}</View>}
-
-				<Text>{title}</Text>
+				{prefixIcon && (
+					<View style={[styles.icon, prefixIconContainerStyle]}>
+						{prefixIcon}
+					</View>
+				)}
+				<Text style={{ color: titleColor }}>{title}</Text>
 			</View>
 
-			<ArrowTopRight size={16} />
+			{suffixIcon}
 		</Hoverable>
 	);
 };
 
-export default ForwardLink;
+export default SettingButton;
 
 const styles = StyleSheet.create({
 	container: {

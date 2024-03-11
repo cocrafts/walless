@@ -18,6 +18,12 @@ type Account {
   identifier: String!
 
   """"""
+  referralCodes: [WalletInvitation]
+
+  """"""
+  referralRank: Int
+
+  """"""
   updatedAt: MongoDateTime
 
   """"""
@@ -161,12 +167,39 @@ enum NonceType {
 scalar ObjectID
 
 """"""
+type ReferralRank {
+  """"""
+  accountId: ObjectID
+
+  """"""
+  displayName: String
+
+  """"""
+  id: ObjectID
+
+  """"""
+  rank: Int
+
+  """"""
+  rankChange: Int
+
+  """"""
+  referralCount: Int
+}
+
+""""""
 type RootMutation {
+  """"""
+  addNewCode(amount: Int!): Boolean
+
   """"""
   addWidget(banner: String, description: String!, largeLogo: String, logo: String, name: String!, networks: [String] = ["[]"], nfts: [WidgetTokenInput], ownerId: String!, tokens: [WidgetTokenInput]): Widget
 
   """"""
   claimWalletInvitation(code: String!, email: String!): Boolean
+
+  """"""
+  createSimpleAccount: Account
 
   """"""
   deleteWidget(id: String!): Boolean
@@ -191,6 +224,9 @@ type RootMutation {
 
   """"""
   trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
+
+  """"""
+  updateRankings: Boolean
 
   """"""
   updateWidgetAccountRole(id: String!, role: WidgetAccountRole!): WidgetAccount
@@ -218,6 +254,12 @@ type RootQuery {
 
   """"""
   nonce(identifier: String!): Nonce
+
+  """"""
+  referralLeaderboard(limit: Int, offset: Int): [ReferralRank]
+
+  """"""
+  referralLeaderboardSize: Int
 
   """"""
   systemInfo: SystemInfo

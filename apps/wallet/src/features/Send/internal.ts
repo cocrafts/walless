@@ -3,7 +3,7 @@ import type {
 	SolanaCollection,
 	SolanaToken,
 } from '@walless/core';
-import { Networks, ResponseCode } from '@walless/core';
+import { logger, Networks, ResponseCode } from '@walless/core';
 import { modalActions } from '@walless/gui';
 import type {
 	CollectionDocumentV2,
@@ -59,7 +59,7 @@ export const txActions = {
 
 		setTimeout(() => {
 			txActions.resetTransactionContext();
-		}, 200);
+		}, 600); // TODO: need to handle by modal life cycle
 	},
 	updateTransactionFee: async () => {
 		const { network } = txContext.tx;
@@ -71,25 +71,33 @@ export const txActions = {
 
 				txActions.update({ feeLoading: true });
 
-				let fee;
+				let fee = 0;
 				const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
 				if (isGasilon) {
 					const mint = (type === 'token' ? token?.mint : nft?.mint) as string;
-					fee = await getGasilonFee({
-						sender,
-						receiver,
-						mint,
-						feeMint: tokenForFee.mint,
-					});
+					try {
+						fee = await getGasilonFee({
+							sender,
+							receiver,
+							mint,
+							feeMint: tokenForFee.mint,
+						});
+					} catch (error) {
+						logger.error('failed to get gasilon fee', error);
+					}
 				} else if (tokenForFee) {
-					fee = await getSolanaTransactionFee({
-						type,
-						sender,
-						receiver,
-						nft,
-						token,
-						tokenForFee,
-					});
+					try {
+						fee = await getSolanaTransactionFee({
+							type,
+							sender,
+							receiver,
+							nft,
+							token,
+							tokenForFee,
+						});
+					} catch (error) {
+						logger.error('failed to get solana transaction fee', error);
+					}
 				}
 
 				const currentFeeMint = txContext.tx

@@ -6,31 +6,24 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import type { SolanaToken, TransactionPayload } from '@walless/core';
-import type { Networks } from '@walless/core';
+import type { SolanaToken } from '@walless/core';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
 import type { TokenDocumentV2 } from '@walless/store';
 import type { SolanaTransactionContext } from 'features/Send/internal';
-import {
-	txActions,
-	txContext,
-	useTransactionContext,
-} from 'features/Send/internal';
+import { txActions, useTransactionContext } from 'features/Send/internal';
 import { solMint } from 'utils/constants';
 import { useGasilon, useTokens } from 'utils/hooks';
 
-import { getTokenName, requestTransactionFee } from './internal';
 import TokenFeeDropDown from './TokenFeeDropDown';
 
-export const AbstractedTransactionFee: FC = () => {
+export const GasilonTransactionFee: FC = () => {
 	const {
 		type,
 		token,
 		nft,
 		feeAmount,
-		receiver,
-		sender,
+		feeLoading,
 		amount,
 		tokenForFee,
 		network,
@@ -41,15 +34,9 @@ export const AbstractedTransactionFee: FC = () => {
 	const enableSelectFee =
 		chosenToken.mint !== solMint && gasilonTokens.length > 1;
 
-	const [isFeeLoading, setIsFeeLoading] = useState(false);
 	const [error, setError] = useState('');
 
 	const dropdownRef = useRef(null);
-
-	const tokenForFeeName = getTokenName(
-		tokenForFee as TokenDocumentV2,
-		chosenToken?.network,
-	);
 
 	const handlePressSelect = () => {
 		if (!enableSelectFee) return;
@@ -102,7 +89,7 @@ export const AbstractedTransactionFee: FC = () => {
 				</View>
 
 				<View style={styles.valueContainer}>
-					{isFeeLoading ? (
+					{feeLoading ? (
 						<ActivityIndicator size="small" color="#FFFFFF" />
 					) : (
 						<Text style={[styles.feeText, !!error && { color: '#FC9B0A' }]}>
@@ -118,10 +105,10 @@ export const AbstractedTransactionFee: FC = () => {
 							<View style={styles.selectContainer}>
 								<Image
 									style={styles.tokenIcon}
-									source={{ uri: tokenForFee.image }}
+									source={{ uri: tokenForFee?.image }}
 								/>
 								<Text numberOfLines={1} style={styles.selectedToken}>
-									{tokenForFeeName}
+									{tokenForFee.name}
 								</Text>
 							</View>
 

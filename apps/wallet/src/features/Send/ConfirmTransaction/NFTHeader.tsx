@@ -1,19 +1,19 @@
 import { Image, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-import { useSnapshot } from 'valtio';
 
-import { txContext } from '../context';
+import type { NftTransactionContext } from '../internal';
+import { useTransactionContext } from '../internal';
 
 export const NFTHeader = () => {
-	const { collection, collectible } = useSnapshot(txContext).tx;
-	const iconUri = { uri: collectible?.metadata?.image };
+	const { nft, collection } = useTransactionContext<NftTransactionContext>();
+	const iconUri = { uri: nft.image };
 
 	return (
 		<View style={styles.container}>
 			<Image style={styles.tokenIcon} source={iconUri} />
 			<View style={styles.titleContainer}>
-				<Text style={styles.nftText}>{collectible?.metadata?.name}</Text>
-				<Text style={styles.collectionText}>{collection?.metadata?.name}</Text>
+				<Text style={styles.nftText}>{nft.name}</Text>
+				<Text style={styles.collectionText}>{collection.name}</Text>
 			</View>
 		</View>
 	);

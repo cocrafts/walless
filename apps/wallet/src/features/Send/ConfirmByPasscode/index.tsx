@@ -8,8 +8,9 @@ import { showError } from 'modals/Error';
 import assets from 'utils/assets';
 import { nativeModules } from 'utils/native';
 
+import { txActions } from '../internal';
+
 import { Header } from './Header';
-import { handleSendTransaction } from './internal';
 
 type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
@@ -32,7 +33,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		setPasscode(passcode);
 		if (isCompleted) {
 			try {
-				await handleSendTransaction(passcode);
+				await txActions.handleSendTransaction(passcode);
 			} catch (error) {
 				logger.error('failed to send transaction', error);
 				showError({ errorText: 'Something went wrong.' });

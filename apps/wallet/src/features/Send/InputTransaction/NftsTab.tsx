@@ -16,7 +16,6 @@ import { checkValidAddress } from 'utils/transaction';
 import type { NftTransactionContext } from '../internal';
 import { txActions, useTransactionContext } from '../internal';
 
-import type { ErrorMessage } from './internal';
 import TransactionFee from './TransactionFee';
 
 interface Props {
@@ -27,10 +26,9 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 	const { nft, collection, network, receiver } =
 		useTransactionContext<NftTransactionContext>();
 	const { nfts, collections } = useNfts(network);
-	const [recipientErrorMessage, setRecipientErrorMessage] =
-		useState<ErrorMessage>('');
+	const [recipientError, setRecipientError] = useState('');
 
-	const canContinue = recipientErrorMessage === null && collection && nft;
+	const canContinue = recipientError === null && collection && nft;
 
 	const getMetadata = (nft: PouchDocument<NftMetadata>) => {
 		return {
@@ -43,9 +41,9 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 	const checkRecipient = (receiver?: string, network?: Networks) => {
 		if (receiver && network) {
 			const result = checkValidAddress(receiver, network);
-			setRecipientErrorMessage(result);
+			setRecipientError(result || '');
 		} else {
-			setRecipientErrorMessage('');
+			setRecipientError('');
 		}
 	};
 
@@ -80,7 +78,7 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 				title="Select collection"
 				notFoundText="Not found collections"
 				items={collections}
-				selected={collection as CollectionDocumentV2}
+				selected={collection}
 				onSelect={handleSelectCollection}
 				getRequiredFields={getMetadata}
 			/>
@@ -101,7 +99,7 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 			<CheckedInput
 				value={receiver}
 				placeholder="Recipient account"
-				errorText={recipientErrorMessage}
+				errorText={recipientError}
 				onChangeText={(receiver) => txActions.update({ receiver })}
 				onBlur={handleFocusOutRecipient}
 			/>

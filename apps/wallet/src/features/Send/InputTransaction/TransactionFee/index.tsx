@@ -1,20 +1,16 @@
 import type { FC } from 'react';
+import { gasilonSupportedNetworks } from 'utils/transaction';
 
 import { useTransactionContext } from '../../internal';
-import { gasilonSupportedNetworks } from '../internal';
 
-import { AbstractedTransactionFee } from './AbstractedTransactionFee';
-import { NormalTransactionFee } from './NormalTransactionFee';
+import { DefaultTransactionFee } from './DefaultFee';
+import { GasilonTransactionFee } from './GasilonFee';
 
 export const TransactionFee: FC = () => {
 	const { network } = useTransactionContext();
-	const isAbstractFee = gasilonSupportedNetworks.includes(network);
+	const useGasilonFee = gasilonSupportedNetworks.includes(network);
 
-	return isAbstractFee ? (
-		<AbstractedTransactionFee />
-	) : (
-		<NormalTransactionFee />
-	);
+	return useGasilonFee ? <GasilonTransactionFee /> : <DefaultTransactionFee />;
 };
 
 export default TransactionFee;

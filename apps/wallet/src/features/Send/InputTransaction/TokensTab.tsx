@@ -12,7 +12,6 @@ import { checkValidAddress } from 'utils/transaction';
 import type { TokenTransactionContext } from '../internal';
 import { txActions, useTransactionContext } from '../internal';
 
-import type { ErrorMessage } from './internal';
 import QRScanButton from './QRScanButton';
 import { TotalCost } from './TotalCost';
 import TransactionFee from './TransactionFee';
@@ -29,13 +28,10 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const [disabledMax, setDisabledMax] = useState(
 		!token || !tokenForFee || !feeAmount,
 	);
-	const [recipientErrorMessage, setRecipientErrorMessage] =
-		useState<ErrorMessage>('');
-	const [amountErrorMessage, setAmountErrorMessage] =
-		useState<ErrorMessage>('');
+	const [recipientError, setRecipientError] = useState('');
+	const [amountError, setAmountError] = useState('');
 
-	const canContinue =
-		recipientErrorMessage === null && amountErrorMessage === null && token;
+	const canContinue = recipientError === '' && amountError === '' && token;
 
 	const getMetadata = (token: TokenDocumentV2) => {
 		return {
@@ -48,23 +44,23 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const checkRecipient = (receiver?: string, network?: Networks) => {
 		if (receiver && network) {
 			const result = checkValidAddress(receiver, network);
-			setRecipientErrorMessage(result);
+			setRecipientError(result || '');
 		} else {
-			setRecipientErrorMessage('');
+			setRecipientError('');
 		}
 	};
 
 	const checkAmount = (amount?: string, balance?: number) => {
 		if (!amount) {
-			setAmountErrorMessage('');
+			setAmountError('');
 		} else if (isNaN(Number(amount))) {
-			setAmountErrorMessage('Wrong number format, try again');
+			setAmountError('Wrong number format, try again');
 		} else if (Number(amount) <= 0) {
-			setAmountErrorMessage('Try again with valid number');
+			setAmountError('Try again with valid number');
 		} else if (balance && Number(amount) > balance) {
-			setAmountErrorMessage('Insufficient balance to send');
+			setAmountError('Insufficient balance to send');
 		} else {
-			setAmountErrorMessage(null);
+			setAmountError('');
 		}
 	};
 
@@ -80,7 +76,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const handleMaxPress = () => {
 		if (!feeAmount || !token || !tokenForFee) return;
 		if (token.balance > 0) {
-			setAmountErrorMessage(null);
+			setAmountError('');
 		}
 		txActions.update({ amount: token.balance.toString() });
 	};
@@ -108,8 +104,8 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		<View style={styles.container}>
 			<Select
 				title="Select token"
-				items={tokens as TokenDocumentV2[]}
-				selected={token as TokenDocumentV2}
+				items={tokens}
+				selected={token}
 				onSelect={handleSelectToken}
 				getRequiredFields={getMetadata}
 			/>
@@ -117,7 +113,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 			<CheckedInput
 				value={receiver}
 				placeholder="Recipient account"
-				errorText={recipientErrorMessage}
+				errorText={recipientError}
 				onChangeText={(receiver) => txActions.update({ receiver })}
 				onBlur={() => checkRecipient(receiver, network)}
 				suffix={QRScanButton({ network })}
@@ -127,7 +123,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 				value={amount}
 				placeholder="Token amount"
 				keyboardType="numeric"
-				errorText={amountErrorMessage}
+				errorText={amountError}
 				onChangeText={(amount) => txActions.update({ amount })}
 				onBlur={() => checkAmount(amount, token.balance)}
 				suffix={MaxButton}

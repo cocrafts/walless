@@ -18,7 +18,7 @@ export const Information = () => {
 	const { networkIcon, networkName, nativeSymbol } =
 		getNetworkMetadata(network);
 
-	const feeString = `${transactionFee} ${tokenForFee.symbol || nativeSymbol}`;
+	const feeString = `${transactionFee} ${tokenForFee?.symbol || nativeSymbol}`;
 
 	return (
 		<View style={styles.container}>

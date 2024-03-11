@@ -1,18 +1,18 @@
-import { type FC, useMemo } from 'react';
+import type { FC } from 'react';
+import { useMemo } from 'react';
 import type {
 	StackNavigationOptions,
 	StackScreenProps,
 } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import { withStackContainer } from 'components/StackContainer';
+import NFTScreen from 'screens/NFT';
+import CollectionScreen from 'screens/NFTCollection';
 import {
 	type CollectionParamList,
 	type ExploreParamList,
 	navigateBack,
 } from 'utils/navigation';
-
-import CollectibleFeat from './Collectible';
-import CollectionFeat from './Collection';
 
 type Props = StackScreenProps<ExploreParamList, 'Collection'>;
 
@@ -25,7 +25,7 @@ const CollectionStack: FC<Props> = () => {
 
 	const ManagedCollectionScreen = useMemo(
 		() =>
-			withStackContainer(CollectionFeat, {
+			withStackContainer(CollectionScreen, {
 				title: 'Collection',
 				goBack: navigateBack,
 				noBottomTabs: true,
@@ -35,8 +35,8 @@ const CollectionStack: FC<Props> = () => {
 
 	const ManagedCollectibleScreen = useMemo(
 		() =>
-			withStackContainer(CollectibleFeat, {
-				title: 'Collectible',
+			withStackContainer(NFTScreen, {
+				title: 'NFT',
 				goBack: navigateBack,
 				noBottomTabs: true,
 			}),
@@ -46,7 +46,7 @@ const CollectionStack: FC<Props> = () => {
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
 			<Stack.Screen name="Default" component={ManagedCollectionScreen} />
-			<Stack.Screen name="Collectible" component={ManagedCollectibleScreen} />
+			<Stack.Screen name="NFT" component={ManagedCollectibleScreen} />
 		</Stack.Navigator>
 	);
 };

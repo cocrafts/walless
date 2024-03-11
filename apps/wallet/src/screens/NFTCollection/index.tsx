@@ -8,44 +8,39 @@ import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout, useNfts } from 'utils/hooks';
 import { navigate, navigateBack } from 'utils/navigation';
 
-export const CollectionFeat = () => {
-	const { collectibles, collections } = useNfts();
+export const CollectionScreen = () => {
+	const { id } = useRoute().params as UnknownObject;
+
+	const { nfts, collections } = useNfts();
 	const { onGridContainerLayout, width } = useLazyGridLayout({
 		referenceWidth: 150,
 		gap: gridGap,
 	});
 
-	const id = (useRoute().params as UnknownObject)?.id;
-
-	const curCollectibles = useMemo(() => {
-		return collectibles.filter((ele) =>
-			ele.collectionId.includes(id as string),
-		);
-	}, [collectibles, id]);
-
-	const curCollection = useMemo(() => {
+	const collection = useMemo(() => {
 		return collections.find((ele) => ele._id.includes(id as string));
 	}, [collections, id]);
+
+	const filteredNFTs = useMemo(() => {
+		return nfts.filter((ele) => ele.collectionId === collection?._id);
+	}, [nfts, collection]);
 
 	const handleNavigateToCollectible = (id: string) => {
 		navigate('Dashboard', {
 			screen: 'Explore',
 			params: {
 				screen: 'Collection',
-				params: {
-					screen: 'Collectible',
-					params: { id },
-				},
+				params: { screen: 'NFT', params: { id } },
 			},
 		});
 	};
 
 	useFocusEffect(
 		useCallback(() => {
-			if (!curCollection) {
+			if (!collection) {
 				navigateBack();
 			}
-		}, [curCollection]),
+		}, [collection]),
 	);
 
 	return (
@@ -54,7 +49,7 @@ export const CollectionFeat = () => {
 				style={styles.collectiblesContainer}
 				onLayout={(e) => onGridContainerLayout(e.nativeEvent.layout)}
 			>
-				{curCollectibles.map((ele) => {
+				{filteredNFTs.map((ele) => {
 					const collectibleId = ele._id.split('/')[2];
 
 					return (
@@ -71,7 +66,7 @@ export const CollectionFeat = () => {
 	);
 };
 
-export default CollectionFeat;
+export default CollectionScreen;
 
 const gridGap = 18;
 const styles = StyleSheet.create({

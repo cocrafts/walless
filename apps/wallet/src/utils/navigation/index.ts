@@ -55,8 +55,8 @@ export const linking: LinkingOptions<RootParamList> = {
 							Collection: {
 								path: '/collection',
 								screens: {
-									Default: '/collection/:id',
-									Collectible: '/collectible/:id',
+									Default: '/:id',
+									NFT: '/nft/:id',
 								},
 							},
 							Profile: {

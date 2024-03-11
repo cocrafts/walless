@@ -5,7 +5,7 @@ import { View } from '@walless/gui';
 import HistoryFeature from 'features/History';
 import { tabBarHeight } from 'utils/constants';
 import { useSafeAreaInsets } from 'utils/hooks';
-import { type HomeParamList } from 'utils/navigation';
+import type { HomeParamList } from 'utils/navigation';
 
 type Props = StackScreenProps<HomeParamList, 'History'>;
 

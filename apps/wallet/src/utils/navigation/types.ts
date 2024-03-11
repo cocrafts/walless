@@ -50,6 +50,7 @@ export type BrowserParamList = {
 
 export type SettingParamList = {
 	Default: undefined;
+	Referral: undefined;
 };
 
 export type DashboardParamList = {

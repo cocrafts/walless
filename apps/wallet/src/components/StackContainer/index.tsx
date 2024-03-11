@@ -17,6 +17,7 @@ interface Props {
 	noBottomTabs?: boolean;
 	toggleDrawer?: () => void;
 	goBack?: () => void;
+	scrollEnabled?: boolean;
 	children: ReactNode;
 }
 
@@ -28,13 +29,14 @@ export const StackContainer: FC<Props> = ({
 	toggleDrawer,
 	goBack,
 	children,
+	scrollEnabled = true,
 }) => {
 	const insets = useUniversalInsets();
 	const scrollRef = useAnimatedRef<Animated.ScrollView>();
 	const scrollOffset = useScrollViewOffset(scrollRef);
 	const scrollContentContainerStyle: ViewStyle = {
 		paddingBottom: noBottomTabs ? 0 : tabBarHeight,
-		flex: 1,
+		flex: scrollEnabled ? 0 : 1,
 	};
 
 	return (
@@ -53,6 +55,7 @@ export const StackContainer: FC<Props> = ({
 				showsVerticalScrollIndicator={false}
 				scrollEventThrottle={12}
 				contentContainerStyle={scrollContentContainerStyle}
+				scrollEnabled={scrollEnabled}
 			>
 				{children}
 			</Animated.ScrollView>

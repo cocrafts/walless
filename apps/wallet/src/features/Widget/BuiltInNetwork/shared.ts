@@ -1,8 +1,7 @@
 import { Networks } from '@walless/core';
+import type { TabAble } from '@walless/gui/components/SliderTabs/TabItem';
 import assets from 'utils/assets';
 
-import EmptyTab from './EmptyTab';
-import type { TabAble } from './SliderTabs';
 import type { CardSkin } from './WalletCard';
 
 export const getWalletCardSkin = (id: Networks): CardSkin => {
@@ -40,16 +39,13 @@ export const layoutTabs: TabAble[] = [
 	{
 		id: 'tokens',
 		title: 'Tokens',
-		component: EmptyTab,
 	},
 	{
 		id: 'collectibles',
 		title: 'Collectibles',
-		component: EmptyTab,
 	},
 	{
 		id: 'activities',
 		title: 'Activities',
-		component: EmptyTab,
 	},
 ];

@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import type { SlideComponentProps } from '@walless/gui';
 import { View } from '@walless/gui';
 import { NavButton } from 'components/NavButton';
-import { navigationRef } from 'utils/navigation';
 
 import { txActions, useTransactionContext } from '../internal';
 
@@ -23,18 +22,6 @@ const TransactionResult: FC<Props> = ({ navigator }) => {
 	};
 
 	const handleBackToHome = () => {
-		navigationRef.reset({
-			index: 1,
-			routes: [
-				{ name: 'Dashboard' },
-				{
-					name: 'Dashboard',
-					params: {
-						screen: 'Home',
-					},
-				},
-			],
-		});
 		txActions.closeSendFeature();
 	};
 

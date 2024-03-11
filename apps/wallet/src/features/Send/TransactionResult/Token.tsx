@@ -3,14 +3,14 @@ import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import assets from 'utils/assets';
 
-import type { TokenTransactionContext } from '../internal';
+import type { FulfilledTokenTransaction } from '../ConfirmTransaction/internal';
 import { useTransactionContext } from '../internal';
 
 import { SolanaShareButton } from './ShareButton';
 
 export const Token = () => {
 	const { token, amount, time, status, network } =
-		useTransactionContext<TokenTransactionContext>();
+		useTransactionContext<FulfilledTokenTransaction>();
 
 	const icon = token.image ? { uri: token.image } : assets.misc.unknownToken;
 

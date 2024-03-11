@@ -65,7 +65,6 @@ export const GasilonTransactionFee: FC = () => {
 	};
 
 	useEffect(() => {
-		console.log('update gasilon fee', tokenForFee?.name);
 		txActions.updateTransactionFee();
 	}, [type, network, token, nft, tokenForFee, receiver]);
 

@@ -2,13 +2,14 @@ import { Image, StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 
-import { type NftTransactionContext, useTransactionContext } from '../internal';
+import type { FulfilledNftTransaction } from '../ConfirmTransaction/internal';
+import { useTransactionContext } from '../internal';
 
 import { SolanaShareButton } from './ShareButton';
 
 export const Nft = () => {
 	const { nft, network, status, time } =
-		useTransactionContext<NftTransactionContext>();
+		useTransactionContext<FulfilledNftTransaction>();
 
 	const iconUri = { uri: nft.image };
 

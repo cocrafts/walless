@@ -1,6 +1,6 @@
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { ResponseCode } from '@walless/core';
-import { suiHandler } from '@walless/network';
+import { sui } from '@walless/network';
 import { environment } from 'utils/config';
 
 import { respond } from '../utils/requestPool';
@@ -46,7 +46,7 @@ export const signMessage: HandleMethod<MessagePayload> = async ({
 	}
 
 	const { requestId, message, privateKey } = payload;
-	const signedMessage = await suiHandler.signMessage(message, privateKey);
+	const signedMessage = await sui.signMessage(message, privateKey);
 	respond(requestId, ResponseCode.SUCCESS, { signedMessage });
 };
 
@@ -58,10 +58,7 @@ export const signTransaction: HandleMethod<TransactionPayload> = async ({
 	}
 
 	const { requestId, transaction, privateKey } = payload;
-	const signedTransaction = await suiHandler.signTransaction(
-		transaction,
-		privateKey,
-	);
+	const signedTransaction = await sui.signTransaction(transaction, privateKey);
 	respond(requestId, ResponseCode.SUCCESS, { signedTransaction });
 };
 
@@ -73,7 +70,7 @@ export const signAndExecuteTransaction: HandleMethod<
 	}
 
 	const { requestId, transaction, privateKey } = payload;
-	const signedTransaction = await suiHandler.signAndExecuteTransaction(
+	const signedTransaction = await sui.signAndExecuteTransaction(
 		suiClient,
 		transaction,
 		privateKey,

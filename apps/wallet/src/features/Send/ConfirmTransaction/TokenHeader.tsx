@@ -1,25 +1,22 @@
 import { Image, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 import assets from 'utils/assets';
-import { useSnapshot } from 'valtio';
 
-import { txContext } from '../context';
+import { useTransactionContext } from '../internal';
+
+import type { FulfilledTokenTransaction } from './internal';
 
 export const TokenHeader = () => {
-	const { token, amount } = useSnapshot(txContext).tx;
+	const { token, amount } = useTransactionContext<FulfilledTokenTransaction>();
 
-	const iconUri = token?.metadata?.imageUri
-		? { uri: token?.metadata?.imageUri }
-		: assets.misc.unknownToken;
+	const iconUri = token.image ? { uri: token.image } : assets.misc.unknownToken;
 
 	return (
 		<View style={styles.container}>
 			<Image style={styles.tokenIcon} source={iconUri} />
 			<View style={styles.amountContainer}>
 				<Text style={styles.amountText}>{amount}</Text>
-				<Text style={styles.symbolText}>
-					{token?.metadata?.symbol || 'Unknown'}
-				</Text>
+				<Text style={styles.symbolText}>{token.symbol || 'Unknown'}</Text>
 			</View>
 		</View>
 	);

@@ -35,7 +35,7 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 			_id: contractAddress,
 			name: token.metadata?.name,
 			symbol: token.metadata?.symbol,
-			imageUri: token.metadata?.imageUri,
+			image: token.metadata?.image,
 			type: 'Metadata',
 		};
 	}
@@ -55,7 +55,7 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 		_id: `${contractAddress}`,
 		name: metadata.name,
 		symbol: metadata.symbol,
-		imageUri: getURL(
+		image: getURL(
 			metadata.icon ||
 				(metadata as UnknownObject)['displayUri'] ||
 				(metadata as UnknownObject)['thumbnailUri'],
@@ -69,15 +69,11 @@ const tezosNativeToken: TokenDocument = {
 	_id: 'tezos-native-token',
 	network: Networks.tezos,
 	type: 'Token',
-	metadata: {
-		name: 'Tezos',
-		symbol: 'XTZ',
-		imageUri: '/img/network/tezos-icon-sm.png',
-	},
-	account: {
-		balance: '0',
-		decimals: 6,
-	},
+	name: 'Tezos',
+	symbol: 'XTZ',
+	image: '/img/network/tezos-icon-sm.png',
+	balance: 0,
+	// decimals: 6,
 };
 
 const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
@@ -88,7 +84,7 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		metadata: {
 			name: 'Tether USD',
 			symbol: 'USDt',
-			imageUri:
+			image:
 				'https://ipfs.io/ipfs/QmRymVGWEudMfLrbjaEiXxngCRTDgWCsscjQMwizy4ZJjX',
 		},
 		account: {
@@ -102,7 +98,7 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		metadata: {
 			name: 'youves uUSD',
 			symbol: 'uUSD',
-			imageUri:
+			image:
 				'https://ipfs.io/ipfs/QmbvhanNCxydZEbGu1RdqkG3LcpNGv7XYsCHgzWBXnmxRd',
 		},
 		account: {
@@ -116,7 +112,7 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		metadata: {
 			name: 'Kolibri',
 			symbol: 'kUSD',
-			imageUri: 'https://kolibri-data.s3.amazonaws.com/logo.png',
+			image: 'https://kolibri-data.s3.amazonaws.com/logo.png',
 		},
 		account: {
 			tokenId: 0,
@@ -129,7 +125,7 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		metadata: {
 			name: 'Tezos BTC',
 			symbol: 'tzBTC',
-			imageUri:
+			image:
 				'https://tzbtc.io/wp-content/uploads/2020/03/tzbtc_logo_single.svg',
 		},
 		account: {
@@ -143,7 +139,7 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		metadata: {
 			name: 'youves uBTC',
 			symbol: 'uBTC',
-			imageUri:
+			image:
 				'https://ipfs.io/ipfs/Qmbev41h4axBqVzxsXP2NSaAF996bJjJBPb8FFZVqTvJTY',
 		},
 		account: {
@@ -154,24 +150,19 @@ const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
 		},
 	},
 	{
-		metadata: {
-			name: 'Quipuswap governance token',
-			symbol: 'QUIPU',
-			imageUri:
-				'https://ipfs.io/ipfs/Qmb2GiHN9EjcrN29J6y9PsXu3ZDosXTv6uLUWGZfRRSzS2/quipu.png',
-		},
-		account: {
-			tokenId: 0,
-			address: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
-			balance: '0',
-			decimals: 6,
-		},
+		name: 'Quipuswap governance token',
+		symbol: 'QUIPU',
+		image:
+			'https://ipfs.io/ipfs/Qmb2GiHN9EjcrN29J6y9PsXu3ZDosXTv6uLUWGZfRRSzS2/quipu.png',
+		tokenId: 0,
+		address: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
+		decimals: 6,
 	},
 	{
 		metadata: {
 			name: 'youves YOU Governance',
 			symbol: 'YOU',
-			imageUri:
+			image:
 				'https://ipfs.io/ipfs/QmYAJaJvEJuwvMEgRbBoAUKrTxRTT22nCC9RuY7Jy4L4Gc',
 		},
 		account: {

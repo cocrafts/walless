@@ -27,8 +27,8 @@ export const TransactionDetailsFeature: FC<TransactionHistory> = ({
 }) => {
 	const { profile } = useSnapshot(appState);
 	const networkInfo = getNetworkInfo(network);
-	const icon = token.metadata?.imageUri
-		? { uri: token.metadata.imageUri }
+	const icon = token.metadata?.image
+		? { uri: token.metadata.image }
 		: assets.misc.unknownToken;
 
 	return (

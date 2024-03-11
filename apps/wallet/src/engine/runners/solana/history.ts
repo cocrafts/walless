@@ -9,13 +9,12 @@ import type {
 } from '@solana/web3.js';
 import type { NetworkCluster, TransactionHistory } from '@walless/core';
 import { Networks } from '@walless/core';
-import { solana } from '@walless/network';
-import type { TokenDocument, TransactionHistoryDocument } from '@walless/store';
+import type { TransactionHistoryDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { storage } from 'utils/storage';
 
 import { throttle } from './internal';
-import { getMetadata } from './metadata';
+import { getTokenMetadata, solMetadata } from './metadata';
 import type { ParsedTokenAccountWithAddress } from './types';
 
 const historyLimit = 20;
@@ -96,7 +95,7 @@ const constructTransactionHistoryDocument = async (
 	parsedTransaction: ParsedTransactionWithMeta,
 	wallet: PublicKey,
 ): Promise<TransactionHistoryDocument> => {
-	const { meta, transaction, blockTime } = parsedTransaction;
+	const { transaction, blockTime } = parsedTransaction;
 	const walletAddress = wallet.toString();
 
 	const _id = `${walletAddress}/history/${transaction.signatures[0]}`;
@@ -110,8 +109,8 @@ const constructTransactionHistoryDocument = async (
 		(await getTransactionBalances(connection, cluster, parsedTransaction)) ||
 		{};
 
-	const tokenForFee = await getTransactionTokenFee(walletAddress);
-	const fee = (meta?.fee || 0) / 10 ** (tokenForFee?.account.decimals || 9);
+	// const tokenForFee = await getTransactionTokenFee(walletAddress);
+	// const fee = (meta?.fee || 0) / 10 ** (tokenForFee?.account.decimals || 9);
 	const date = blockTime ? new Date(blockTime * 1000) : new Date();
 
 	return {
@@ -126,8 +125,8 @@ const constructTransactionHistoryDocument = async (
 		receiver,
 		amount,
 		token,
-		tokenForFee,
-		fee,
+		tokenForFee: {},
+		fee: 0,
 		date,
 	} as TransactionHistoryDocument;
 };
@@ -161,7 +160,7 @@ const getNativeTransactionBalances = async (
 	const token: TransactionHistory['token'] = {
 		cluster,
 		network: Networks.solana,
-		metadata: solana.solMetadata,
+		metadata: solMetadata,
 	};
 	const parsedInstruction = transaction.message.instructions.find(
 		(instruction) =>
@@ -199,7 +198,7 @@ const getSplTransactionBalances = async (
 	const token: TransactionHistory['token'] = {
 		cluster,
 		network: Networks.solana,
-		metadata: await getMetadata(connection, mint),
+		metadata: await getTokenMetadata(connection, mint),
 	};
 
 	return {
@@ -275,11 +274,11 @@ const analyzeTokenBalances = (
 	};
 };
 
-const getTransactionTokenFee = async (walletAddress: string) => {
-	return await storage.safeGet<TokenDocument>(
-		`${walletAddress}/token/${solana.solMint}`,
-	);
-};
+// const getTransactionTokenFee = async (walletAddress: string) => {
+// 	return await storage.safeGet<TokenDocument>(
+// 		`${walletAddress}/token/${solana.solMint}`,
+// 	);
+// };
 
 const removeOldHistories = async () => {
 	const { docs } = await storage.find(selectors.allHistories);

@@ -7,8 +7,8 @@ type WidgetAsset = {
 	};
 	widgetMeta: {
 		cardIcon: ImageSourcePropType;
-		cardMark?: ImageSourcePropType;
-		cardBackground?: ImageSourcePropType;
+		cardMark: ImageSourcePropType;
+		cardBackground: ImageSourcePropType;
 	};
 };
 

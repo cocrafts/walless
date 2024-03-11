@@ -1,6 +1,6 @@
 import { clusterApiUrl, Connection } from '@solana/web3.js';
 import { ResponseCode } from '@walless/core';
-import { solanaHandler } from '@walless/network';
+import { solana } from '@walless/network';
 import { environment } from 'utils/config';
 
 import { respond } from '../utils/requestPool';
@@ -20,7 +20,7 @@ export const signMessage: HandleMethod<{
 		throw Error('Missing privateKey or message');
 	}
 
-	const signature = await solanaHandler.signMessage(
+	const signature = await solana.signMessage(
 		payload.message,
 		payload.privateKey,
 	);
@@ -36,7 +36,7 @@ export const signTransaction: HandleMethod<{
 		throw Error('Missing privateKey or transaction');
 	}
 
-	const signedTransaction = await solanaHandler.signTransaction(
+	const signedTransaction = await solana.signTransaction(
 		payload.transaction,
 		payload.privateKey,
 	);
@@ -47,13 +47,13 @@ export const signTransaction: HandleMethod<{
 export const signAndSendTransaction: HandleMethod<{
 	privateKey?: Uint8Array;
 	transaction?: string;
-	options?: solanaHandler.SignAndSendOptions;
+	options?: solana.SignAndSendOptions;
 }> = async ({ payload }) => {
 	if (!payload.privateKey || !payload.transaction) {
 		throw Error('Missing privateKey or transaction');
 	}
 
-	const signatureString = await solanaHandler.signAndSendTransaction(
+	const signatureString = await solana.signAndSendTransaction(
 		connection,
 		payload.transaction,
 		payload.privateKey,
@@ -71,12 +71,11 @@ export const signTransactionAbstractionFee: HandleMethod<{
 		throw Error('Missing privateKey or transaction');
 	}
 
-	const signatureString =
-		await solanaHandler.signAndSendTransactionAbstractionFee(
-			environment.GASILON_ENDPOINT,
-			payload.transaction,
-			payload.privateKey,
-		);
+	const signatureString = await solana.signAndSendTransactionAbstractionFee(
+		environment.GASILON_ENDPOINT,
+		payload.transaction,
+		payload.privateKey,
+	);
 
 	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
 };

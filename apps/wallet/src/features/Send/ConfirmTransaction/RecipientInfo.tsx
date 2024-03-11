@@ -3,48 +3,48 @@ import { Image, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import { getNetworkMetadata } from 'utils/transaction';
-import { useSnapshot } from 'valtio';
 
-import { txContext } from '../context';
+import { useTransactionContext } from '../internal';
+
+import type { FulfilledTransaction } from './internal';
 
 export const RecipientInfo: FC = () => {
-	const { transactionFee, receiver, tokenForFee, type, token, collectible } =
-		useSnapshot(txContext).tx;
+	const { feeAmount, receiver, tokenForFee, network } =
+		useTransactionContext<FulfilledTransaction>();
 
-	const network = type === 'Token' ? token?.network : collectible?.network;
 	const { networkIcon, networkName, nativeSymbol } = getNetworkMetadata(
 		network as Networks,
 	);
 
-	const feeString = `${transactionFee} ${
-		tokenForFee?.metadata?.symbol || nativeSymbol
+	const feeString = `${parseFloat(feeAmount.toPrecision(7))} ${
+		tokenForFee?.symbol || nativeSymbol
 	}`;
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Recipient account</Text>
-			<View style={styles.inforBlock}>
-				<View style={styles.inforLine}>
+			<View style={styles.infoBlock}>
+				<View style={styles.infoLine}>
 					<Text>Address</Text>
-					<Text style={styles.inforText}>{receiver.substring(0, 20)}...</Text>
+					<Text style={styles.infoText}>{receiver.substring(0, 20)}...</Text>
 				</View>
 
 				<View style={styles.separatedLine}></View>
 
-				<View style={styles.inforLine}>
+				<View style={styles.infoLine}>
 					<Text>Network</Text>
 					<View style={styles.networkBlock}>
 						{networkIcon && <Image style={styles.icon} source={networkIcon} />}
 
-						<Text style={styles.inforText}>{networkName}</Text>
+						<Text style={styles.infoText}>{networkName}</Text>
 					</View>
 				</View>
 
 				<View style={styles.separatedLine}></View>
 
-				<View style={styles.inforLine}>
+				<View style={styles.infoLine}>
 					<Text>Transaction fee</Text>
-					<Text style={styles.inforText}>{feeString}</Text>
+					<Text style={styles.infoText}>{feeString}</Text>
 				</View>
 			</View>
 		</View>
@@ -62,14 +62,14 @@ const styles = StyleSheet.create({
 		marginRight: 'auto',
 		marginVertical: 4,
 	},
-	inforBlock: {
-		gap: 16,
+	infoBlock: {
+		gap: 12,
 	},
-	inforLine: {
+	infoLine: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
-	inforText: {
+	infoText: {
 		color: '#566674',
 	},
 	networkBlock: {

@@ -3,7 +3,7 @@ import { Image, StyleSheet } from 'react-native';
 import type { AptosPendingToken } from '@walless/core';
 import { RequestType, shortenAddress } from '@walless/core';
 import { Button, Text, View } from '@walless/gui';
-import type { aptosHandler } from '@walless/network';
+import type { aptos } from '@walless/network';
 import { showRequirePasscodeModal } from 'modals/RequirePasscode';
 import { aptosState } from 'state/assets';
 import { handleAptosOnChainAction } from 'utils/transaction';
@@ -23,7 +23,7 @@ const PendingTokens: FC<Props> = ({ fee }) => {
 		token: AptosPendingToken,
 		passcode: string,
 	) => {
-		const payload: aptosHandler.AptosClaimTokenPayload = {
+		const payload: aptos.AptosClaimTokenPayload = {
 			pubkey: token.toAddress,
 			sender: token.fromAddress,
 			creator: token.creatorAddress,

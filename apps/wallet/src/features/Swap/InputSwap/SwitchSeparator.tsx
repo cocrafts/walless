@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import type { SolanaToken } from '@walless/core';
 import { Hoverable, View } from '@walless/gui';
 import { Switch } from '@walless/icons';
 import { showError } from 'modals/Error';
@@ -8,7 +9,7 @@ import { swapActions, swapContext } from '../context';
 
 const SwitchSeparator = () => {
 	const { network } = useSnapshot(swapContext).swap;
-	const { tokens } = useTokens(network);
+	const { tokens } = useTokens<SolanaToken>(network);
 	const { tokens: JupTokens } = useJupiterContext();
 
 	const handleSwitch = () => {
@@ -16,10 +17,10 @@ const SwitchSeparator = () => {
 			showError({ errorText: 'Please select tokens to swap' });
 		}
 		const newFromToken = tokens.find(
-			(t) => t.account.mint === swapContext.swap.toToken?.address,
+			(t) => t.mint === swapContext.swap.toToken?.address,
 		);
 		const newToToken = JupTokens.find(
-			(t) => t.address === swapContext.swap.fromToken?.account.mint,
+			(t) => t.address === swapContext.swap.fromToken?.mint,
 		);
 		if (!newFromToken || !newFromToken) return;
 

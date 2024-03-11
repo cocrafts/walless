@@ -1,39 +1,46 @@
+import type { Collection, Nft } from '@walless/core';
 import { logger } from '@walless/core';
-import type { CollectibleDocument, CollectionDocument } from '@walless/store';
+import type { CollectionDocument, NftDocument } from '@walless/store';
 
 import { storage } from './db';
 
-const getCollectibleByIdFromStorage = async (
+const getNftByIdFromStorage = async <T extends Nft = Nft>(
 	id: string,
-): Promise<CollectibleDocument | undefined> => {
+): Promise<NftDocument<T> | undefined> => {
 	return await storage.safeGet(id);
 };
 
-const getCollectionByIdFromStorage = async (
+const getCollectionByIdFromStorage = async <T extends Collection = Collection>(
 	id: string,
-): Promise<CollectionDocument | undefined> => {
+): Promise<CollectionDocument<T> | undefined> => {
 	return await storage.safeGet(id);
 };
 
-const addCollectibleToStorage = async (
+const addCollectibleToStorage = async <T extends Nft = Nft>(
 	id: string,
-	item: CollectibleDocument,
+	item: NftDocument<T>,
 ) => {
 	return storage
-		.upsert<CollectibleDocument>(id, async () => item, { new: true })
+		.upsert<T>(id, async () => item, { new: true })
 		.catch(logger.warn);
 };
 
-const addCollectionToStorage = async (id: string, item: CollectionDocument) => {
+const addCollectionToStorage = async <T extends Collection = Collection>(
+	id: string,
+	item: CollectionDocument<T>,
+) => {
 	return storage
-		.upsert<CollectionDocument>(id, async () => item, { new: true })
+		.upsert<CollectionDocument<T>>(id, async () => item, { new: true })
 		.catch(logger.warn);
 };
 
-const updateCollectibleAmountToStorage = async (id: string, amount: number) => {
+const updateNftAmountToStorage = async <T extends Nft = Nft>(
+	id: string,
+	amount: number,
+) => {
 	return await storage
-		.upsert<CollectibleDocument>(id, async (prevDoc) => {
-			prevDoc.account.amount = amount;
+		.upsert<NftDocument<T>>(id, async (prevDoc) => {
+			prevDoc.amount = amount;
 
 			return prevDoc;
 		})
@@ -43,7 +50,7 @@ const updateCollectibleAmountToStorage = async (id: string, amount: number) => {
 export {
 	addCollectibleToStorage,
 	addCollectionToStorage,
-	getCollectibleByIdFromStorage,
 	getCollectionByIdFromStorage,
-	updateCollectibleAmountToStorage,
+	getNftByIdFromStorage,
+	updateNftAmountToStorage,
 };

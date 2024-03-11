@@ -44,7 +44,7 @@ export interface UserProfile {
 	profileImage?: string;
 }
 
-export interface AssetMetadata {
+export interface AssetMetadataV1 {
 	name?: string;
 	symbol?: string;
 	imageUri?: string;
@@ -60,7 +60,7 @@ export interface AssetMetadata {
 	mpl?: unknown;
 }
 
-export interface TokenAccount {
+export interface TokenAccountV1 {
 	mint: string;
 	owner: string;
 	address: string;
@@ -75,32 +75,32 @@ export interface TokenAccount {
 	tokenId?: number;
 }
 
-export interface Token {
+export interface TokenV1 {
 	network: string;
-	account: TokenAccount;
-	metadata?: AssetMetadata;
+	account: TokenAccountV1;
+	metadata?: AssetMetadataV1;
 	cluster: NetworkCluster;
 }
 
-export interface Collection {
+export interface CollectionV1 {
 	network: string;
-	metadata?: AssetMetadata;
+	metadata?: AssetMetadataV1;
 	cluster: NetworkCluster;
 }
 
-export interface CollectibleAccount {
+export interface CollectibleAccountV1 {
 	mint: string;
 	owner: string;
 	address: string;
 	amount: number;
 }
 
-export interface Collectible {
+export interface CollectibleV1 {
 	network: string;
 	collectionId: string;
 	collectionAddress: string;
-	metadata: AssetMetadata;
-	account: CollectibleAccount;
+	metadata: AssetMetadataV1;
+	account: CollectibleAccountV1;
 	cluster: NetworkCluster;
 }
 

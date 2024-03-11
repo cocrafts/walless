@@ -1,16 +1,15 @@
-import type { FC } from 'react';
-import { useEffect } from 'react';
+import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';
 import KeyboardAvoidingView from 'components/KeyboardAvoidingView';
 import ModalHeader from 'components/ModalHeader';
-import { useNfts } from 'utils/hooks';
-import { useSnapshot } from 'valtio';
+import { keyState } from 'state/keys';
+import { useTokens } from 'utils/hooks';
 
-import { txActions, txContext } from '../context';
+import { txActions, useTransactionContext } from '../internal';
 
-import { CollectiblesTab } from './CollectiblesTab';
+import { NftTab } from './NftsTab';
 import { TabBar } from './TabBar';
 import { TokensTab } from './TokensTab';
 
@@ -19,33 +18,29 @@ interface Props {
 }
 
 const InputTransaction: FC<Props> = ({ navigator }) => {
-	const { tx } = useSnapshot(txContext);
-	const { type, collectible } = tx;
-	const { collections } = useNfts();
+	const { type, network, tokenForFee } = useTransactionContext();
+	const { tokens } = useTokens(network);
 
 	useEffect(() => {
-		if (collectible) {
-			const collection = collections.find(
-				(ele) => ele._id === collectible.collectionId,
-			);
-			txActions.update({ type: 'Collectible', collection });
-		}
-	}, [collectible]);
+		if (!network) return;
+		if (!tokenForFee) txActions.update({ tokenForFee: tokens[0] });
+
+		const publicKeys = Array.from(keyState.map.values());
+		const key = publicKeys.find((k) => k.network === network);
+		if (key) txActions.update({ sender: publicKeys[0]._id });
+	}, [network]);
 
 	return (
 		<KeyboardAvoidingView>
 			<View style={styles.container}>
 				<ModalHeader content="Send" onPressClose={txActions.closeSendFeature} />
 
-				<TabBar
-					curTab={type}
-					setCurTab={(type) => txActions.update({ type })}
-				/>
+				<TabBar />
 
-				{type === 'Token' ? (
+				{type === 'token' ? (
 					<TokensTab onContinue={navigator.slideNext} />
 				) : (
-					<CollectiblesTab onContinue={navigator.slideNext} />
+					<NftTab onContinue={navigator.slideNext} />
 				)}
 			</View>
 		</KeyboardAvoidingView>

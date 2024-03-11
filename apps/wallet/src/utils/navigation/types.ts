@@ -13,7 +13,7 @@ export type CollectionParamList = {
 	Default: {
 		id?: string;
 	};
-	Collectible: {
+	NFT: {
 		id: string;
 	};
 };

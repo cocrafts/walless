@@ -1,6 +1,6 @@
-import type { CollectibleDocument, TokenDocument } from '@walless/store';
+import type { CollectibleDocumentV1, TokenDocumentV1 } from '@walless/store';
 
-import type { Collectible, Token } from './entity';
+import type { CollectibleV1, TokenV1 } from './entity';
 
 export interface EncryptedWithPasscode {
 	iv: string;
@@ -70,8 +70,8 @@ export interface TransactionPayload {
 	receiver: string;
 	amount: number;
 	network: Networks;
-	tokenForFee: Token;
-	token: TokenDocument | CollectibleDocument;
+	tokenForFee: TokenV1;
+	token: TokenDocumentV1 | CollectibleDocumentV1;
 	passcode?: string;
 }
 
@@ -89,9 +89,9 @@ export interface TransactionHistory {
 	sender: string;
 	receiver: string;
 	token:
-		| Omit<Token, 'account'>
-		| Omit<Collectible, 'account' | 'collectionId' | 'collectionAddress'>;
-	tokenForFee: Token;
+		| Omit<TokenV1, 'account'>
+		| Omit<CollectibleV1, 'account' | 'collectionId' | 'collectionAddress'>;
+	tokenForFee: TokenV1;
 	fee: number;
 	preBalance?: number;
 	postBalance?: number;

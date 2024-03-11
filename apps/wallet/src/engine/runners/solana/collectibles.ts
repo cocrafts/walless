@@ -9,25 +9,30 @@ import type {
 import { Metaplex } from '@metaplex-foundation/js';
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import type { NetworkCluster } from '@walless/core';
+import type {
+	NetworkCluster,
+	SolanaCollectible,
+	SolanaCollection,
+} from '@walless/core';
 import { logger, Networks } from '@walless/core';
-import type { CollectibleDocument, CollectionDocument } from '@walless/store';
+import type { CollectionDocument, NftDocument } from '@walless/store';
 import {
 	addCollectibleToStorage,
 	addCollectionToStorage,
 	getCollectionByIdFromStorage,
-	storage,
 } from 'utils/storage';
 
 import { throttle } from './internal';
 
 export type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
+type SolanaCollectibleDocument = NftDocument<SolanaCollectible>;
+type SolanaCollectionDocument = CollectionDocument<SolanaCollection>;
 
 export const getCollectiblesOnChain = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	wallet: PublicKey,
-): Promise<CollectibleDocument[]> => {
+): Promise<NftDocument<SolanaCollectible>[]> => {
 	const mpl = new Metaplex(connection);
 	const rawNfts = await throttle(() => {
 		return mpl.nfts().findAllByOwner({ owner: wallet });
@@ -45,27 +50,29 @@ export const getCollectiblesOnChain = async (
 		}),
 	);
 
-	return nfts.filter((nft) => !!nft) as CollectibleDocument[];
+	return nfts.filter((nft) => !!nft) as NftDocument<SolanaCollectible>[];
 };
 
 type UpdateCollectibleResult = {
-	collection?: CollectionDocument;
-	collectible?: CollectibleDocument;
+	collection?: SolanaCollectionDocument;
+	collectible?: SolanaCollectibleDocument;
 };
 
 export const updateCollectibleToStorage = async (
 	connection: Connection,
 	cluster: NetworkCluster,
-	collectible: CollectibleDocument,
+	collectible: NftDocument<SolanaCollectible>,
 ): Promise<UpdateCollectibleResult> => {
-	let collection: CollectionDocument | undefined;
-	if (collectible.collectionAddress === collectible.account.mint) {
-		const selfCollectionDocument: CollectionDocument = {
+	let collection: CollectionDocument<SolanaCollection> | undefined;
+	if (collectible.collectionAddress === collectible.mint) {
+		const selfCollectionDocument: SolanaCollectionDocument = {
 			_id: collectible.collectionId,
 			type: 'Collection',
 			network: collectible.network,
 			cluster: collectible.cluster,
-			metadata: collectible.metadata,
+			name: collectible.name,
+			symbol: collectible.symbol,
+			image: collectible.image,
 		};
 
 		const res = await addCollectionToStorage(
@@ -82,9 +89,9 @@ export const updateCollectibleToStorage = async (
 		);
 	}
 
-	const res = await addCollectibleToStorage(collectible._id, collectible);
+	await addCollectibleToStorage(collectible._id, collectible);
 
-	return { collection, collectible: res?.doc };
+	return { collection, collectible };
 };
 
 export const loadCollectibleMetadata = async (
@@ -112,36 +119,32 @@ export const constructCollectibleDocument = (
 	address: string,
 	nft: SftWithToken | NftWithToken,
 	cluster: NetworkCluster,
-) => {
+): NftDocument<SolanaCollectible> => {
 	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
 	const collectionAddress = nft.collection
 		? nft.collection.address.toString()
 		: nft.mint.address.toString();
 	const collectionId = `${address}/collection/${collectionAddress}`;
 
-	const collectibleDocument: CollectibleDocument = {
+	const collectibleDocument: NftDocument<SolanaCollectible> = {
 		_id: collectibleId,
 		type: 'NFT',
+		network: Networks.solana,
+		cluster,
+		owner: address,
+		mint: nft.mint.address.toString(),
+		ata: nft.token.address.toString(),
+		amount: 1, // default filter of metaplex (just get account which has amount equal to 1)
+		name: nft.json?.name || 'Unknown',
+		symbol: nft.json?.symbol || 'Unknown',
+		image: nft.json?.image || '',
+		description: nft.json?.description,
+		attributes: nft.json?.attributes?.map((ele) => ({
+			key: ele.trait_type || 'Unknown',
+			value: ele.value || 'Unknown',
+		})),
 		collectionId,
 		collectionAddress,
-		network: Networks.solana,
-		metadata: {
-			name: nft.json?.name,
-			imageUri: nft.json?.image,
-			symbol: nft.json?.symbol,
-			description: nft.json?.description,
-			attributes: nft.json?.attributes?.map((ele) => ({
-				key: ele.trait_type || 'Unknown',
-				value: ele.value || 'Unknown',
-			})),
-		},
-		cluster,
-		account: {
-			owner: address,
-			mint: nft.mint.address.toString(),
-			address: nft.token.address.toString(),
-			amount: 1, // default filter of metaplex (just get account which has amount equal to 1)
-		},
 	};
 
 	return collectibleDocument;
@@ -150,19 +153,16 @@ export const constructCollectibleDocument = (
 export const updateRelatedCollection = async (
 	connection: Connection,
 	cluster: NetworkCluster,
-	collectible: CollectibleDocument,
-): Promise<CollectionDocument | undefined> => {
+	collectible: SolanaCollectibleDocument,
+): Promise<SolanaCollectionDocument> => {
 	const mpl = new Metaplex(connection);
 
-	const storedCollection = await getCollectionByIdFromStorage(
-		collectible.collectionId,
-	);
+	const storedCollection =
+		await getCollectionByIdFromStorage<SolanaCollectionDocument>(
+			collectible.collectionId,
+		);
 
-	if (
-		!storedCollection ||
-		!storedCollection.metadata ||
-		!storedCollection.metadata.name
-	) {
+	if (!storedCollection) {
 		const collectionOnChain: GenericNft = await throttle(() => {
 			return mpl.nfts().findByMint({
 				mintAddress: new PublicKey(collectible.collectionAddress),
@@ -178,32 +178,30 @@ export const updateRelatedCollection = async (
 			} catch (error) {
 				logger.error('Failed to fetch collection metadata', error);
 
-				// use collectible metadata for collection
+				// use collectible metadata for collection if failed to query collection metadata
 				metadata = {
-					name: collectible.metadata.name,
-					image: collectible.metadata.imageUri,
-					symbol: collectible.metadata.symbol,
-					description: collectible.metadata.description,
+					name: collectible.name,
+					image: collectible.image,
+					description: collectible.description,
 				};
 			}
 		}
 
-		const collection: CollectionDocument = {
+		const collection: SolanaCollectionDocument = {
 			_id: collectible.collectionId,
 			type: 'Collection',
 			cluster,
 			network: Networks.solana,
-			metadata: {
-				name: metadata?.name,
-				description: metadata?.description,
-				imageUri: metadata?.image,
-				symbol: metadata?.symbol,
-			},
+			name: metadata?.name || 'Unknown',
+			symbol: metadata?.symbol || 'Unknown',
+			image: metadata?.image || '',
+			description: metadata?.description,
 		};
 
-		const res = await addCollectionToStorage(collection._id, collection);
-		return res?.doc;
+		await addCollectionToStorage(collection._id, collection);
+
+		return collection;
 	} else {
-		return await storage.get<CollectionDocument>(collectible.collectionId);
+		return storedCollection;
 	}
 };

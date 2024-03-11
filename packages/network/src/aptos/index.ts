@@ -8,13 +8,12 @@ import {
 	TokenClient,
 } from 'aptos';
 
-export interface AptosCoinPayload {
-	from: string;
-	to: string;
-	amount: number;
-	decimals: number;
-	token: string;
-}
+import type {
+	AptosClaimTokenPayload,
+	AptosCoinPayload,
+	AptosDirectTransferPayload,
+	AptosTokenPayload,
+} from './types';
 
 export const handleTransferCoin = async (
 	provider: Provider,
@@ -60,17 +59,6 @@ export const handleTransferCoin = async (
 
 	return txHash;
 };
-
-export interface AptosTokenPayload {
-	wallessCollectionId: string;
-	wallessCollectibleId: string;
-	from: string;
-	to: string;
-	creator: string;
-	collectionName: string;
-	tokenName: string;
-	amount: number;
-}
 
 export const handleTransferToken = async (
 	provider: Provider,
@@ -129,11 +117,6 @@ export const handleTransferToken = async (
 	return txHash;
 };
 
-export interface AptosDirectTransferPayload {
-	pubkey: string;
-	directTransfer: boolean;
-}
-
 export const handleUpdateDirectTransfer = async (
 	provider: Provider,
 	privateKey: Uint8Array,
@@ -157,14 +140,6 @@ export const handleUpdateDirectTransfer = async (
 
 	return txHash;
 };
-
-export interface AptosClaimTokenPayload {
-	pubkey: string;
-	sender: string;
-	creator: string;
-	collectionName: string;
-	name: string;
-}
 
 export const handleClaimToken = async (
 	provider: Provider,
@@ -198,3 +173,5 @@ export const handleClaimToken = async (
 
 	return txHash;
 };
+
+export * from './types';

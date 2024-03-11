@@ -20,6 +20,12 @@ interface Props {
 	activeItem: SlideOption;
 	onItemSelect?: (item: SlideOption) => void;
 	animator?: SlideAnimator;
+	/**
+	 * lazily render slide items if the item is not in the viewport
+	 * disclaimer: it's not recommended because it will remount the component
+	 * when navigating between items
+	 */
+	lazy?: boolean;
 }
 
 export const Slider = forwardRef<SliderHandle, Props>(
@@ -30,6 +36,7 @@ export const Slider = forwardRef<SliderHandle, Props>(
 			items,
 			activeItem,
 			animator = slideAnimators.fade,
+			lazy,
 		},
 		ref,
 	) => {
@@ -76,6 +83,7 @@ export const Slider = forwardRef<SliderHandle, Props>(
 				{layout.width > 0 &&
 					items.map((item, index) => {
 						const { id, component: InnerComponent } = item;
+						const render = !lazy || innerActive.id === id;
 
 						return (
 							<ItemContainer
@@ -87,11 +95,13 @@ export const Slider = forwardRef<SliderHandle, Props>(
 								animatedOffset={offset}
 								animator={animator}
 							>
-								<InnerComponent
-									item={item}
-									navigator={navigator}
-									activatedId={innerActive.id}
-								/>
+								{render && (
+									<InnerComponent
+										item={item}
+										navigator={navigator}
+										activatedId={innerActive.id}
+									/>
+								)}
 							</ItemContainer>
 						);
 					})}

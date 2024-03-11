@@ -3,7 +3,7 @@ jest.mock('utils/storage/db');
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 import type { SolanaCollectible } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { NftDocumentV2 } from '@walless/store';
+import type { NftDocument } from '@walless/store';
 
 import {
 	getCollectiblesOnChain,
@@ -90,7 +90,7 @@ describe('[solana runner] collectibles', () => {
 	});
 });
 
-const exampleCollectible: NftDocumentV2<SolanaCollectible> = {
+const exampleCollectible: NftDocument<SolanaCollectible> = {
 	_id: 'H9d4gR9nG6G7bMZLfUF5cR8MuP4wMXNwsJyPfHbeVicP/collectible/ZmzsJiN4eaFpS61WkSvLRJahE4v1YebPh7nu9AzUedL',
 	type: 'NFT',
 	collectionId:

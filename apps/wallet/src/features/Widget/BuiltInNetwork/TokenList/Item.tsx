@@ -2,13 +2,13 @@ import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import assets from 'utils/assets';
 import { formatQuote } from 'utils/format';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
-	token: TokenDocumentV2;
+	token: TokenDocument;
 	onPress?: () => void;
 }
 

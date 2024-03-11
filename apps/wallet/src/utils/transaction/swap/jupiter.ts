@@ -1,13 +1,13 @@
 import { VersionedTransaction } from '@solana/web3.js';
 import type { SolanaToken } from '@walless/core';
 import { logger } from '@walless/core';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { environment } from 'utils/config';
 import { solMint } from 'utils/constants';
 
 import type { SwapQuote } from './types';
 
-export const getAliasedMint = (token: TokenDocumentV2<SolanaToken>) => {
+export const getAliasedMint = (token: TokenDocument<SolanaToken>) => {
 	if (environment.NETWORK_CLUSTER === 'devnet') {
 		if (token.mint === 'Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr') {
 			return 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';

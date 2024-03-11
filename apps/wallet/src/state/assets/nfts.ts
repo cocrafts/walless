@@ -1,9 +1,9 @@
-import type { CollectionDocumentV2, NftDocumentV2 } from '@walless/store';
+import type { CollectionDocument, NftDocument } from '@walless/store';
 import { proxy } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 
 interface NftState {
-	map: Map<string, NftDocumentV2>;
+	map: Map<string, NftDocument>;
 }
 
 export const nftState = proxy<NftState>({
@@ -11,7 +11,7 @@ export const nftState = proxy<NftState>({
 });
 
 interface CollectionState {
-	map: Map<string, CollectionDocumentV2>;
+	map: Map<string, CollectionDocument>;
 }
 
 export const collectionState = proxy<CollectionState>({

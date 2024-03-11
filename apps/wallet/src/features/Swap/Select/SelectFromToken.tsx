@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import type { SolanaToken } from '@walless/core';
 import { runtime } from '@walless/core';
 import { SwipeDownGesture } from '@walless/gui';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import TokenList from 'features/Widget/BuiltInNetwork/TokenList';
 import { useSafeAreaInsets, useSnapshot, useTokens } from 'utils/hooks';
 
@@ -35,7 +35,7 @@ const SelectFromToken: FC = () => {
 		swapActions.closeSelectToken('from');
 	};
 
-	const handleSelectToken = (token: TokenDocumentV2<SolanaToken>) => {
+	const handleSelectToken = (token: TokenDocument<SolanaToken>) => {
 		if (token._id !== fromToken?._id) {
 			swapActions.update({ fromToken: token, amount: '' });
 		}

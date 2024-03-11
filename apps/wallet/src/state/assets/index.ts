@@ -1,8 +1,8 @@
 import type { AptosPendingToken } from '@walless/core';
 import type {
-	CollectionDocumentV2,
-	NftDocumentV2,
-	TokenDocumentV2,
+	CollectionDocument,
+	NftDocument,
+	TokenDocument,
 } from '@walless/store';
 
 import { aptosState } from './aptos';
@@ -10,17 +10,17 @@ import { collectionState, nftState } from './nfts';
 import { tokenState } from './tokens';
 
 export const assetsActions = {
-	setTokens: (items: TokenDocumentV2[]) => {
+	setTokens: (items: TokenDocument[]) => {
 		for (const item of items) {
 			tokenState.map.set(item._id, item);
 		}
 	},
-	setNfts: (items: NftDocumentV2[]) => {
+	setNfts: (items: NftDocument[]) => {
 		for (const item of items) {
 			nftState.map.set(item._id, item);
 		}
 	},
-	setCollections: (items: CollectionDocumentV2[]) => {
+	setCollections: (items: CollectionDocument[]) => {
 		for (const item of items) {
 			collectionState.map.set(item._id, item);
 		}

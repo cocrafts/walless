@@ -1,17 +1,17 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Hoverable, modalActions, Text, View } from '@walless/gui';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import assets from 'utils/assets';
 
 interface Props {
-	tokens: TokenDocumentV2[];
-	onSelect: (token: TokenDocumentV2) => void;
-	selectedToken?: TokenDocumentV2;
+	tokens: TokenDocument[];
+	onSelect: (token: TokenDocument) => void;
+	selectedToken?: TokenDocument;
 }
 
 const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
-	const handleSelectToken = (token: TokenDocumentV2) => {
+	const handleSelectToken = (token: TokenDocument) => {
 		onSelect(token);
 		modalActions.destroy('NetworkFee');
 	};

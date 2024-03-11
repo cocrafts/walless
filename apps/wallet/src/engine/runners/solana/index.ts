@@ -2,7 +2,7 @@ import { PublicKey } from '@metaplex-foundation/js';
 import { clusterApiUrl, Connection } from '@solana/web3.js';
 import type { SolanaToken } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { PublicKeyDocument, TokenDocumentV2 } from '@walless/store';
+import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { environment } from 'utils/config';
 import {
@@ -52,7 +52,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 				return [
 					getTokenDocumentsOnChain(connection, cluster, wallet, accounts).then(
 						(tokens) => {
-							addTokensToStorage<TokenDocumentV2<SolanaToken>>(tokens);
+							addTokensToStorage<TokenDocument<SolanaToken>>(tokens);
 						},
 					),
 					getCollectiblesOnChain(connection, cluster, wallet).then(

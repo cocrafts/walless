@@ -1,13 +1,13 @@
 import { getStateFromPath } from '@react-navigation/native';
 import { logger, Networks } from '@walless/core';
 import type {
-	CollectionDocumentV2,
+	CollectionDocument,
 	NetworkClustersDocument,
-	NftDocumentV2,
+	NftDocument,
 	PouchDocument,
 	PublicKeyDocument,
 	SettingDocument,
-	TokenDocumentV2,
+	TokenDocument,
 	TransactionHistoryDocument,
 	WidgetDocument,
 } from '@walless/store';
@@ -131,11 +131,11 @@ const watchStorageAndSyncState = async () => {
 			} else if (item?.type === 'PublicKey') {
 				keyState.map.set(id, item as PublicKeyDocument);
 			} else if (item?.type === 'Token') {
-				tokenState.map.set(id, item as TokenDocumentV2);
+				tokenState.map.set(id, item as TokenDocument);
 			} else if (item?.type === 'NFT') {
-				nftState.map.set(id, item as NftDocumentV2);
+				nftState.map.set(id, item as NftDocument);
 			} else if (item?.type === 'Collection') {
-				collectionState.map.set(id, item as CollectionDocumentV2);
+				collectionState.map.set(id, item as CollectionDocument);
 			} else if (item?.type === 'Setting') {
 				const settings = item as SettingDocument;
 				appState.profile = settings.profile;

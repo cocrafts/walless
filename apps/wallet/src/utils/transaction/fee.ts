@@ -4,7 +4,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import type { SolanaCollectible, SolanaToken } from '@walless/core';
 import { logger, Networks } from '@walless/core';
 import { solana } from '@walless/network';
-import type { NftDocumentV2, TokenDocumentV2 } from '@walless/store';
+import type { NftDocument, TokenDocument } from '@walless/store';
 import base58 from 'bs58';
 import { getDefaultEngine } from 'engine';
 import type { SolanaContext } from 'engine/runners';
@@ -73,9 +73,9 @@ export type GetSolanaFeeConfig = {
 	type: 'token' | 'nft';
 	sender: string;
 	receiver: string;
-	nft?: NftDocumentV2<SolanaCollectible>;
-	token?: TokenDocumentV2<SolanaToken>;
-	tokenForFee: TokenDocumentV2<SolanaToken>;
+	nft?: NftDocument<SolanaCollectible>;
+	token?: TokenDocument<SolanaToken>;
+	tokenForFee: TokenDocument<SolanaToken>;
 };
 
 export const getSolanaTransactionFee = async (

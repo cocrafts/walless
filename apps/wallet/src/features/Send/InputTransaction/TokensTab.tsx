@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Button, Select, Text, View } from '@walless/gui';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
 import { useTokens } from 'utils/hooks';
@@ -29,7 +29,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 
 	const canContinue = recipientError === '' && amountError === '' && token;
 
-	const getMetadata = (token: TokenDocumentV2) => {
+	const getMetadata = (token: TokenDocument) => {
 		return {
 			id: token._id,
 			name: token.name,
@@ -60,7 +60,7 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 		}
 	};
 
-	const handleSelectToken = (token: TokenDocumentV2) => {
+	const handleSelectToken = (token: TokenDocument) => {
 		txActions.update<TokenTransactionContext>({
 			token,
 			network: token.network,

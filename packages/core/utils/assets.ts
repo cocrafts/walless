@@ -1,6 +1,6 @@
 import type { NetworkCluster, Networks } from './common';
 
-export type NftV2 = {
+export type Nft = {
 	network: Networks;
 	cluster: NetworkCluster;
 	amount: number;
@@ -14,7 +14,7 @@ export type NftMetadata = {
 	description?: string;
 };
 
-export type CollectionV2 = {
+export type Collection = {
 	network: string;
 	cluster: NetworkCluster;
 } & CollectionMetadata;
@@ -24,7 +24,7 @@ export type CollectionMetadata = {
 	image: string;
 };
 
-export type TokenV2 = {
+export type Token = {
 	network: Networks;
 	cluster: NetworkCluster;
 	owner: string;
@@ -38,14 +38,14 @@ export type TokenMetadata = {
 	image: string;
 };
 
-export type SolanaToken = TokenV2 & {
+export type SolanaToken = Token & {
 	mint: string;
 	ata: string;
 	amount: string;
 	decimals: number;
 };
 
-export type SolanaCollectible = NftV2 & {
+export type SolanaCollectible = Nft & {
 	mint: string;
 	ata: string;
 	collectionAddress: string;
@@ -56,7 +56,7 @@ export type SolanaCollectible = NftV2 & {
 	}[];
 };
 
-export type SolanaCollection = CollectionV2 & {
+export type SolanaCollection = Collection & {
 	symbol: string;
 	description?: string;
 	attributes?: {
@@ -65,11 +65,11 @@ export type SolanaCollection = CollectionV2 & {
 	}[];
 };
 
-export type SuiNft = NftV2 & {
+export type SuiNft = Nft & {
 	objectId: string;
 };
 
-export type SuiToken = TokenV2 & {
+export type SuiToken = Token & {
 	coinObjectId: string;
 	coinType: string;
 };

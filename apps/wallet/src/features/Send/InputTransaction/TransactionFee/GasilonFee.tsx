@@ -9,7 +9,7 @@ import {
 import type { SolanaToken } from '@walless/core';
 import { BindDirections, modalActions, Text, View } from '@walless/gui';
 import { ChevronDown, Exclamation } from '@walless/icons';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import type { SolanaTransactionContext } from 'features/Send/internal';
 import { txActions, useTransactionContext } from 'features/Send/internal';
 import { solMint } from 'utils/constants';
@@ -30,7 +30,7 @@ export const GasilonTransactionFee: FC = () => {
 		receiver,
 	} = useTransactionContext<SolanaTransactionContext>();
 
-	const tokens = useTokens(network).tokens as TokenDocumentV2<SolanaToken>[];
+	const tokens = useTokens(network).tokens as TokenDocument<SolanaToken>[];
 	const solToken = tokens.find((t) => t.mint === solMint);
 	const gasilonTokens = useGasilon(tokens);
 

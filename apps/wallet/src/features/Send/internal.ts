@@ -6,9 +6,9 @@ import type {
 import { logger, Networks, ResponseCode } from '@walless/core';
 import { modalActions } from '@walless/gui';
 import type {
-	CollectionDocumentV2,
-	NftDocumentV2,
-	TokenDocumentV2,
+	CollectionDocument,
+	NftDocument,
+	TokenDocument,
 } from '@walless/store';
 import { showError } from 'modals/Error';
 import { ModalId } from 'modals/types';
@@ -104,7 +104,7 @@ export const txActions = {
 				}
 
 				const currentFeeMint = txContext.tx
-					.tokenForFee as TokenDocumentV2<SolanaToken>;
+					.tokenForFee as TokenDocument<SolanaToken>;
 
 				if (tokenForFee?.mint === currentFeeMint?.mint) {
 					txActions.update({ feeAmount: fee, feeLoading: false });
@@ -190,19 +190,19 @@ export interface TransactionContext {
 	amount: string;
 	feeAmount: number;
 	feeLoading: boolean;
-	tokenForFee?: TokenDocumentV2;
+	tokenForFee?: TokenDocument;
 	status: 'init' | 'success' | 'failed';
 	time?: Date;
 	onSent?: () => void;
 }
 
 export type TokenTransactionContext = TransactionContext & {
-	token?: TokenDocumentV2;
+	token?: TokenDocument;
 };
 
 export type NftTransactionContext = TransactionContext & {
-	nft?: NftDocumentV2;
-	collection?: CollectionDocumentV2;
+	nft?: NftDocument;
+	collection?: CollectionDocument;
 };
 
 export type SolanaTransactionContext = SolanaTokenTransactionContext &
@@ -210,15 +210,15 @@ export type SolanaTransactionContext = SolanaTokenTransactionContext &
 
 export type SolanaTokenTransactionContext = TokenTransactionContext & {
 	signature?: string;
-	token?: TokenDocumentV2<SolanaToken>;
-	tokenForFee?: TokenDocumentV2<SolanaToken>;
+	token?: TokenDocument<SolanaToken>;
+	tokenForFee?: TokenDocument<SolanaToken>;
 };
 
 export type SolanaCollectibleTransactionContext = NftTransactionContext & {
 	signature?: string;
-	nft?: NftDocumentV2<SolanaCollectible>;
-	collection?: CollectionDocumentV2<SolanaCollection>;
-	tokenForFee?: TokenDocumentV2<SolanaToken>;
+	nft?: NftDocument<SolanaCollectible>;
+	collection?: CollectionDocument<SolanaCollection>;
+	tokenForFee?: TokenDocument<SolanaToken>;
 };
 
 export type CombinedTransactionContext = SolanaTransactionContext;

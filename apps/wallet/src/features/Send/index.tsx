@@ -2,7 +2,7 @@ import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Slider } from '@walless/gui';
-import type { NftDocumentV2 } from '@walless/store';
+import type { NftDocument } from '@walless/store';
 
 import ConfirmByPasscode from './ConfirmByPasscode';
 import ConfirmTransaction from './ConfirmTransaction';
@@ -13,7 +13,7 @@ import TransactionResult from './TransactionResult';
 
 export type Props = {
 	network?: Networks;
-	nft?: NftDocumentV2;
+	nft?: NftDocument;
 	onSent?: () => void;
 };
 

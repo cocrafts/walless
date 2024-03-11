@@ -3,7 +3,7 @@ import { tzip12, Tzip12Module } from '@taquito/tzip12';
 import { tzip16 } from '@taquito/tzip16';
 import type { UnknownObject } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { MetadataDocument, TokenDocumentV2 } from '@walless/store';
+import type { MetadataDocument, TokenDocument } from '@walless/store';
 
 import { getURL } from '../utils/convert';
 
@@ -20,7 +20,7 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 	contractAddress,
 	tokenId = 0,
 ) => {
-	let token: Omit<TokenDocumentV2, '_id' | 'type' | 'network'> | undefined;
+	let token: Omit<TokenDocument, '_id' | 'type' | 'network'> | undefined;
 
 	if (contractAddress == '0x16939ef78684453bfdfb47825f8a5f714f12623a') {
 		token = tezosNativeToken;
@@ -65,7 +65,7 @@ export const getTezosMetadata: GetTezosMetadataFunction = async (
 	};
 };
 
-const tezosNativeToken: TokenDocumentV2 = {
+const tezosNativeToken: TokenDocument = {
 	_id: 'tezos-native-token',
 	network: Networks.tezos,
 	type: 'Token',
@@ -77,7 +77,7 @@ const tezosNativeToken: TokenDocumentV2 = {
 };
 
 const KNOWN_TEZOS_MAINNET_TOKENS: Omit<
-	TokenDocumentV2,
+	TokenDocument,
 	'_id' | 'type' | 'network'
 >[] = [
 	{

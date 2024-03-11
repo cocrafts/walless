@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { useDebouncedCallback } from 'use-debounce';
 import { parseWithDecimals } from 'utils/format';
 import type { JupiterToken } from 'utils/hooks';
@@ -28,7 +28,7 @@ const ToToken = () => {
 
 	const updateSwapQuote = useDebouncedCallback(
 		async (
-			fromToken?: TokenDocumentV2,
+			fromToken?: TokenDocument,
 			toToken?: JupiterToken,
 			amount?: string,
 		) => {

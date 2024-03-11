@@ -2,12 +2,12 @@ import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import type { SolanaCollectible } from '@walless/core';
 import { Button, Text, View } from '@walless/gui';
-import type { NftDocumentV2 } from '@walless/store';
+import type { NftDocument } from '@walless/store';
 import { showSendTokenModal } from 'modals/SendToken';
 import type { WrappedCollection } from 'utils/hooks';
 
 type Props = {
-	collectible: NftDocumentV2<SolanaCollectible>;
+	collectible: NftDocument<SolanaCollectible>;
 	collection?: WrappedCollection;
 };
 

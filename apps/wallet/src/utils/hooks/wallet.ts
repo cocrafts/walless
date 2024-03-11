@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import type { SolanaToken, TokenV2 } from '@walless/core';
+import type { SolanaToken, Token } from '@walless/core';
 import { Networks } from '@walless/core';
 import type {
-	CollectionDocumentV2,
+	CollectionDocument,
 	PublicKeyDocument,
-	TokenDocumentV2,
+	TokenDocument,
 } from '@walless/store';
 import { appState } from 'state/app';
 import { collectionState, nftState, tokenState } from 'state/assets';
@@ -47,14 +47,14 @@ export const useRelevantKeys = () => {
 	}, [keyMap, widgetMap]);
 };
 
-const getTokenValue = (token: TokenDocumentV2, currency: string) => {
+const getTokenValue = (token: TokenDocument, currency: string) => {
 	const { quotes, balance } = token;
 	const quote = quotes?.[currency] || 0;
 
 	return quote * balance;
 };
 
-export const useTokens = <T extends TokenV2 = TokenV2>(
+export const useTokens = <T extends Token = Token>(
 	network?: Networks,
 	address?: string,
 	currency = 'usd',
@@ -73,7 +73,7 @@ export const useTokens = <T extends TokenV2 = TokenV2>(
 
 		switch (network) {
 			case Networks.solana: {
-				for (const token of tokens as TokenDocumentV2<SolanaToken>[]) {
+				for (const token of tokens as TokenDocument<SolanaToken>[]) {
 					const isNetworkValid = network ? token.network === network : true;
 					const isAvailable = token.amount !== '0';
 					const isSol = token.mint === solMint;
@@ -102,13 +102,13 @@ export const useTokens = <T extends TokenV2 = TokenV2>(
 		}
 
 		return {
-			tokens: filteredTokens as TokenDocumentV2<T>[],
+			tokens: filteredTokens as TokenDocument<T>[],
 			valuation,
 		};
 	}, [map, network, address]);
 };
 
-export type WrappedCollection = CollectionDocumentV2 & {
+export type WrappedCollection = CollectionDocument & {
 	count: number;
 };
 

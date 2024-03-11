@@ -1,18 +1,18 @@
 import type {
-	AssetMetadata,
-	Collectible,
+	AssetMetadataV1,
+	CollectibleV1,
 	Collection,
-	CollectionV2,
+	CollectionV1,
 	EncryptedWithPasscode,
 	ExtensionConfig,
 	HydratedKey,
 	NetworkClusterMap,
 	Networks,
-	NftV2,
+	Nft,
 	Setting,
 	System,
 	Token,
-	TokenV2,
+	TokenV1,
 	TransactionHistory,
 	TrustedDomain,
 	UnknownObject,
@@ -68,15 +68,15 @@ export type ExtensionDocument = PouchDocument<ExtensionConfig>;
 
 export type WidgetDocument = PouchDocument<Widget>;
 
-export type TokenDocument = PouchDocument<Token>;
+export type TokenDocumentV1 = PouchDocument<TokenV1>;
 
-export type MetadataDocument = PouchDocument<AssetMetadata>;
+export type MetadataDocumentV1 = PouchDocument<AssetMetadataV1>;
 
 export type TrustedDomainDocument = PouchDocument<TrustedDomain>;
 
-export type CollectionDocument = PouchDocument<Collection>;
+export type CollectionDocumentV1 = PouchDocument<CollectionV1>;
 
-export type CollectibleDocument = PouchDocument<Collectible>;
+export type CollectibleDocumentV1 = PouchDocument<CollectibleV1>;
 
 export type TransactionHistoryDocument = PouchDocument<TransactionHistory>;
 
@@ -87,9 +87,9 @@ export type TypedFind = <T extends object, F extends object = never>(
 	warning?: string | undefined;
 }>;
 
-export type NftDocumentV2<T extends NftV2 = NftV2> = PouchDocument<T>;
+export type NftDocument<T extends Nft = Nft> = PouchDocument<T>;
 
-export type CollectionDocumentV2<T extends CollectionV2 = CollectionV2> =
+export type CollectionDocument<T extends Collection = Collection> =
 	PouchDocument<T>;
 
-export type TokenDocumentV2<T extends TokenV2 = TokenV2> = PouchDocument<T>;
+export type TokenDocument<T extends Token = Token> = PouchDocument<T>;

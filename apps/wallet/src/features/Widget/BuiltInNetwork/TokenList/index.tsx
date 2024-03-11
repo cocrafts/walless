@@ -2,7 +2,7 @@ import type { ComponentType, FC, ReactElement } from 'react';
 import type { ListRenderItem, StyleProp, ViewStyle } from 'react-native';
 import { FlatList } from 'react-native';
 import type { SolanaToken } from '@walless/core';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 
 import TokenItem from './Item';
 import ListEmpty from './ListEmpty';
@@ -13,11 +13,11 @@ interface Props {
 	itemStyle?: StyleProp<ViewStyle>;
 	separateStyle?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
-	items: TokenDocumentV2<SolanaToken>[];
+	items: TokenDocument<SolanaToken>[];
 	ListHeaderComponent?:
-		| ComponentType<TokenDocumentV2<SolanaToken>>
+		| ComponentType<TokenDocument<SolanaToken>>
 		| ReactElement;
-	onPressItem?: (item: TokenDocumentV2<SolanaToken>) => void;
+	onPressItem?: (item: TokenDocument<SolanaToken>) => void;
 }
 
 export const TokenList: FC<Props> = ({
@@ -29,7 +29,7 @@ export const TokenList: FC<Props> = ({
 	ListHeaderComponent,
 	onPressItem,
 }) => {
-	const renderItem: ListRenderItem<TokenDocumentV2<SolanaToken>> = ({
+	const renderItem: ListRenderItem<TokenDocument<SolanaToken>> = ({
 		item,
 	}) => {
 		const handlePressItem = () => {

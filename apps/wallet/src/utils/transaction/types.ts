@@ -1,11 +1,11 @@
 import type {
 	Networks,
-	NftV2,
+	Nft,
 	SolanaCollectible,
 	SolanaToken,
-	TokenV2,
+	Token,
 } from '@walless/core';
-import type { NftDocumentV2, TokenDocumentV2 } from '@walless/store';
+import type { NftDocument, TokenDocument } from '@walless/store';
 
 export type SendTransaction = {
 	type: 'token' | 'nft';
@@ -15,18 +15,17 @@ export type SendTransaction = {
 	amount: number;
 };
 
-export type SendTokenTransaction<T extends TokenV2 = TokenV2> =
-	SendTransaction & {
-		token: TokenDocumentV2<T>;
-	};
-
-export type SendNftTransaction<N extends NftV2 = NftV2> = SendTransaction & {
-	nft: NftDocumentV2<N>;
+export type SendTokenTransaction<T extends Token = Token> = SendTransaction & {
+	token: TokenDocument<T>;
 };
 
-export type GasilonSupportedTransaction<T extends TokenV2 = TokenV2> = {
+export type SendNftTransaction<N extends Nft = Nft> = SendTransaction & {
+	nft: NftDocument<N>;
+};
+
+export type GasilonSupportedTransaction<T extends Token = Token> = {
 	fee: number;
-	tokenForFee: TokenDocumentV2<T>;
+	tokenForFee: TokenDocument<T>;
 };
 
 export type SolanaSendTransaction =

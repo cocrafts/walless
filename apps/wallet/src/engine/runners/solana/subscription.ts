@@ -11,7 +11,7 @@ import type {
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import type { NetworkCluster, SolanaToken } from '@walless/core';
 import { logger } from '@walless/core';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { getTokenQuotes, makeHashId } from 'utils/api';
 import { solMint } from 'utils/constants';
 import {
@@ -264,7 +264,7 @@ const updateTokenBalanceToStorage = async (
 	balance: number,
 	amount: string,
 ) => {
-	return await storage.upsert<TokenDocumentV2<SolanaToken>>(
+	return await storage.upsert<TokenDocument<SolanaToken>>(
 		id,
 		async (prevDoc) => {
 			prevDoc.balance = balance;

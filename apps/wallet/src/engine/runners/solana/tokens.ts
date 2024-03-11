@@ -3,7 +3,7 @@ import type { PublicKey } from '@solana/web3.js';
 import { type Connection, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import type { NetworkCluster, SolanaToken } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { getTokenQuotes, makeHashId } from 'utils/api';
 import { solMint } from 'utils/constants';
 
@@ -50,7 +50,7 @@ const getNativeTokenDocument = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	key: PublicKey,
-): Promise<TokenDocumentV2<SolanaToken>> => {
+): Promise<TokenDocument<SolanaToken>> => {
 	const address = key.toString();
 	const balance = await throttle(() => connection.getBalance(key))();
 
@@ -93,7 +93,7 @@ export const initTokenDocumentWithMetadata = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	account: ParsedTokenAccountWithAddress,
-): Promise<TokenDocumentV2<SolanaToken>> => {
+): Promise<TokenDocument<SolanaToken>> => {
 	const metadata = (await getTokenMetadata(connection, account.mint)) || {
 		name: 'Unknown',
 		symbol: 'Unknown',

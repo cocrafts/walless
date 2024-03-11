@@ -1,7 +1,7 @@
 import type { VersionedTransaction } from '@solana/web3.js';
 import type { Networks, SolanaToken } from '@walless/core';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
-import type { TokenDocumentV2 } from '@walless/store';
+import type { TokenDocument } from '@walless/store';
 import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
 import type { SwapQuote } from 'utils/transaction';
@@ -14,7 +14,7 @@ import Success from './Success';
 
 export interface SwapContext {
 	network: Networks;
-	fromToken?: TokenDocumentV2<SolanaToken>;
+	fromToken?: TokenDocument<SolanaToken>;
 	toToken?: JupiterToken;
 	amount: string;
 	swapQuote?: SwapQuote;

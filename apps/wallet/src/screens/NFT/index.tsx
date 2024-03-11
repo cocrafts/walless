@@ -4,7 +4,7 @@ import { useRoute } from '@react-navigation/native';
 import type { SolanaCollectible, UnknownObject } from '@walless/core';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
-import type { NftDocumentV2 } from '@walless/store';
+import type { NftDocument } from '@walless/store';
 import type { WrappedCollection } from 'utils/hooks';
 import { useNfts } from 'utils/hooks';
 import { navigateBack } from 'utils/navigation';
@@ -43,7 +43,7 @@ export const NFTScreen = () => {
 				) : (
 					nft.network === Networks.solana && (
 						<SolanaCollectibleScreen
-							collectible={nft as NftDocumentV2<SolanaCollectible>}
+							collectible={nft as NftDocument<SolanaCollectible>}
 							collection={collection}
 						/>
 					)

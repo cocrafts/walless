@@ -15,7 +15,7 @@ import type {
 	SolanaCollection,
 } from '@walless/core';
 import { logger, Networks } from '@walless/core';
-import type { CollectionDocumentV2, NftDocumentV2 } from '@walless/store';
+import type { CollectionDocument, NftDocument } from '@walless/store';
 import {
 	addCollectibleToStorage,
 	addCollectionToStorage,
@@ -25,14 +25,14 @@ import {
 import { throttle } from './internal';
 
 export type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
-type SolanaCollectibleDocument = NftDocumentV2<SolanaCollectible>;
-type SolanaCollectionDocument = CollectionDocumentV2<SolanaCollection>;
+type SolanaCollectibleDocument = NftDocument<SolanaCollectible>;
+type SolanaCollectionDocument = CollectionDocument<SolanaCollection>;
 
 export const getCollectiblesOnChain = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	wallet: PublicKey,
-): Promise<NftDocumentV2<SolanaCollectible>[]> => {
+): Promise<NftDocument<SolanaCollectible>[]> => {
 	const mpl = new Metaplex(connection);
 	const rawNfts = await throttle(() => {
 		return mpl.nfts().findAllByOwner({ owner: wallet });
@@ -50,7 +50,7 @@ export const getCollectiblesOnChain = async (
 		}),
 	);
 
-	return nfts.filter((nft) => !!nft) as NftDocumentV2<SolanaCollectible>[];
+	return nfts.filter((nft) => !!nft) as NftDocument<SolanaCollectible>[];
 };
 
 type UpdateCollectibleResult = {
@@ -61,9 +61,9 @@ type UpdateCollectibleResult = {
 export const updateCollectibleToStorage = async (
 	connection: Connection,
 	cluster: NetworkCluster,
-	collectible: NftDocumentV2<SolanaCollectible>,
+	collectible: NftDocument<SolanaCollectible>,
 ): Promise<UpdateCollectibleResult> => {
-	let collection: CollectionDocumentV2<SolanaCollection> | undefined;
+	let collection: CollectionDocument<SolanaCollection> | undefined;
 	if (collectible.collectionAddress === collectible.mint) {
 		const selfCollectionDocument: SolanaCollectionDocument = {
 			_id: collectible.collectionId,
@@ -119,14 +119,14 @@ export const constructCollectibleDocument = (
 	address: string,
 	nft: SftWithToken | NftWithToken,
 	cluster: NetworkCluster,
-): NftDocumentV2<SolanaCollectible> => {
+): NftDocument<SolanaCollectible> => {
 	const collectibleId = `${address}/collectible/${nft.mint.address.toString()}`;
 	const collectionAddress = nft.collection
 		? nft.collection.address.toString()
 		: nft.mint.address.toString();
 	const collectionId = `${address}/collection/${collectionAddress}`;
 
-	const collectibleDocument: NftDocumentV2<SolanaCollectible> = {
+	const collectibleDocument: NftDocument<SolanaCollectible> = {
 		_id: collectibleId,
 		type: 'NFT',
 		network: Networks.solana,

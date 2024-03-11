@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native';
 import type { Networks, NftMetadata } from '@walless/core';
 import { Select, View } from '@walless/gui';
 import type {
-	CollectionDocumentV2,
-	NftDocumentV2,
+	CollectionDocument,
+	NftDocument,
 	PouchDocument,
 } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
@@ -47,12 +47,12 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 		}
 	};
 
-	const handleSelectNft = (nft: NftDocumentV2) => {
+	const handleSelectNft = (nft: NftDocument) => {
 		txActions.update<NftTransactionContext>({ nft });
 		checkRecipient(receiver, network);
 	};
 
-	const handleSelectCollection = (collection: CollectionDocumentV2) => {
+	const handleSelectCollection = (collection: CollectionDocument) => {
 		txActions.update<NftTransactionContext>({ collection });
 		checkRecipient(receiver, network);
 	};

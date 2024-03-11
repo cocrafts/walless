@@ -10,7 +10,7 @@ import {
 	getAssociatedTokenAddress,
 	TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
-import type { Connection } from '@solana/web3.js';
+import type { Connection, TransactionInstruction } from '@solana/web3.js';
 import {
 	PublicKey,
 	SYSVAR_INSTRUCTIONS_PUBKEY,
@@ -87,7 +87,7 @@ export const constructSendSPLTokenTransaction = async (
 		getAssociatedTokenAddress(mint, receiver),
 	]);
 
-	const instructions = [];
+	const instructions: TransactionInstruction[] = [];
 
 	const createATAInstruction = await constructCreateATAInstruction(connection, {
 		mint,
@@ -128,7 +128,7 @@ export const constructSendNftTransaction = async (
 		getAssociatedTokenAddress(mint, receiver),
 	]);
 
-	const instructions = [];
+	const instructions: TransactionInstruction[] = [];
 
 	const createATAInstruction = await constructCreateATAInstruction(connection, {
 		payer: sender,
@@ -236,7 +236,7 @@ export const constructGasilonTransaction = async (
 
 	const feePayerAta = await getAssociatedTokenAddress(feeMint, feePayer);
 
-	const instructions = [];
+	const instructions: TransactionInstruction[] = [];
 
 	const feePaymentInstruction = createTransferTokenInstruction(
 		senderFeeAta,

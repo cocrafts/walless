@@ -56,6 +56,8 @@ const SettingFeature: FC<Props> = ({ style }) => {
 						<SettingButton
 							title="Referral"
 							prefixIcon={<Star size={16} />}
+							hasNotification
+							isNew
 							onPress={handleNavigateToReferralScreen}
 						/>
 

@@ -89,8 +89,8 @@ export const ReferralScreen: FC<Props> = () => {
 			setLeaderboardSize(referralLeaderboardSize);
 		};
 
-		fetchUserReferralCodes();
-		fetchReferralLeaderboardSize();
+		fetchUserReferralCodes().catch(console.error);
+		fetchReferralLeaderboardSize().catch(console.error);
 	}, []);
 
 	return (

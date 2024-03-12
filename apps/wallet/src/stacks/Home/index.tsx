@@ -32,7 +32,7 @@ export const HomeStack: FC<Props> = () => {
 
 	return (
 		<Stack.Navigator screenOptions={noHeaderNavigation}>
-			<Stack.Screen name="Default" component={ManagedHomeScreen as never} />
+			<Stack.Screen name="Default" component={ManagedHomeScreen} />
 			<Stack.Screen name="History" component={ManagedHistoryScreen} />
 		</Stack.Navigator>
 	);

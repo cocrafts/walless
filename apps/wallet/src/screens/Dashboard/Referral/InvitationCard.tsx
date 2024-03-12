@@ -36,9 +36,9 @@ export default InvitationCard;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		flexDirection: 'row',
-		padding: 12,
+		paddingHorizontal: 12,
+		paddingVertical: 16,
 		borderRadius: 16,
 		backgroundColor: '#19232C',
 		alignItems: 'center',

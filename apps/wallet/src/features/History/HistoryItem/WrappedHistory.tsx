@@ -7,14 +7,21 @@ import { showTransactionDetailsModal } from 'modals/TransactionDetailsModal';
 
 interface Props {
 	transaction: TransactionHistoryDocument;
+	onPress?: () => void;
 	children: ReactNode;
 }
 
-export const WrappedHistory: FC<Props> = ({ transaction, children }) => {
+export const WrappedHistory: FC<Props> = ({
+	transaction,
+	onPress,
+	children,
+}) => {
 	return (
 		<Hoverable
 			style={styles.container}
-			onPress={() => showTransactionDetailsModal({ transaction })}
+			onPress={() =>
+				onPress ? onPress() : showTransactionDetailsModal({ transaction })
+			}
 		>
 			<View style={styles.contentContainer}>{children}</View>
 		</Hoverable>

@@ -10,6 +10,7 @@ import type { TransactionHistoryDocument } from '@walless/store';
 
 import SolanaSwapHistoryItem from './SolanaSwap';
 import SolanaTransferHistoryItem from './SolanaTransfer';
+import { SolanaUnknownHistoryItem } from './SolanaUnknown';
 
 interface Props {
 	transaction: TransactionHistoryDocument;
@@ -23,9 +24,14 @@ export const HistoryItem: FC<Props> = ({ transaction }) => {
 		>;
 
 		if (transactionType === 'Unknown') {
-			return <View style={{ height: 50, backgroundColor: 'blue' }}></View>;
+			return (
+				<SolanaUnknownHistoryItem
+					transaction={
+						transaction as TransactionHistoryDocument<SolanaUnknownHistory>
+					}
+				/>
+			);
 		} else if (transactionType === 'Swap') {
-			console.log(JSON.stringify(transaction, null, 2));
 			return (
 				<SolanaSwapHistoryItem
 					transaction={

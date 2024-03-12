@@ -47,10 +47,10 @@ export default SolanaTransferHistoryItem;
 
 const styles = StyleSheet.create({
 	leftPartContainer: {
-		width: '70%',
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 8,
+		marginRight: 10,
 	},
 	balance: {
 		textAlign: 'right',

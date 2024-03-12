@@ -7,8 +7,8 @@ import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
 import type { IconProps } from '@walless/icons/components/types';
 
 interface Props {
-	type: 'Sent' | 'Received';
-	status: 'Success' | 'Pending' | 'Failed';
+	type: string;
+	status: string;
 	icon: ImageSourcePropType;
 	isCollectible?: boolean;
 }

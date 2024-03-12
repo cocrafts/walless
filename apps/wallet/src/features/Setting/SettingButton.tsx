@@ -104,6 +104,5 @@ const styles = StyleSheet.create({
 	newText: {
 		color: '#ffffff',
 		fontSize: 11,
-		fontWeight: '400',
 	},
 });

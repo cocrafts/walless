@@ -9,13 +9,7 @@ export const userAccount = gql`
 			walletCount
 			createdAt
 			updatedAt
-			referralCodes {
-				code
-				email
-				id
-			}
-			referralRank
-		}
+		
 	}
 `;
 

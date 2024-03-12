@@ -95,6 +95,13 @@ export const useTokens = <T extends Token = Token>(
 				});
 				break;
 			}
+			case Networks.sui: {
+				tokens.forEach((token) => {
+					valuation += getTokenValue(token, currency);
+				});
+				filteredTokens = tokens;
+				break;
+			}
 			default: {
 				filteredTokens = tokens;
 				break;

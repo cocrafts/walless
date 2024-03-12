@@ -5,7 +5,7 @@ export type Nft = {
 	cluster: NetworkCluster;
 	amount: number;
 	owner: string;
-	collectionId: string;
+	collectionId?: string;
 } & NftMetadata;
 
 export type NftMetadata = {

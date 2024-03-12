@@ -54,11 +54,16 @@ const getTokenValue = (token: TokenDocument, currency: string) => {
 	return quote * balance;
 };
 
+type TokenResult<T extends Token> = {
+	tokens: TokenDocument<T>[];
+	valuation: number;
+};
+
 export const useTokens = <T extends Token = Token>(
 	network?: Networks,
 	address?: string,
 	currency = 'usd',
-) => {
+): TokenResult<T> => {
 	const { map } = useSnapshot(tokenState);
 
 	return useMemo(() => {
@@ -69,10 +74,10 @@ export const useTokens = <T extends Token = Token>(
 		});
 
 		let valuation = 0;
-		let filteredTokens = [];
 
 		switch (network) {
 			case Networks.solana: {
+				const filteredTokens = [];
 				for (const token of tokens as TokenDocument<SolanaToken>[]) {
 					const isNetworkValid = network ? token.network === network : true;
 					const isAvailable = token.amount !== '0';
@@ -93,19 +98,32 @@ export const useTokens = <T extends Token = Token>(
 						return 1;
 					else return -1;
 				});
-				break;
+
+				return {
+					tokens: filteredTokens,
+					valuation,
+				};
+			}
+			case Networks.sui: {
+				tokens.forEach((token) => {
+					valuation += getTokenValue(token, currency);
+				});
+				return { tokens, valuation };
+			}
+			case Networks.tezos: {
+				return { tokens, valuation };
+			}
+			case Networks.aptos: {
+				return { tokens, valuation };
 			}
 			default: {
-				filteredTokens = tokens;
-				break;
+				tokens.forEach((token) => {
+					valuation += getTokenValue(token, currency);
+				});
+				return { tokens, valuation };
 			}
 		}
-
-		return {
-			tokens: filteredTokens as TokenDocument<T>[],
-			valuation,
-		};
-	}, [map, network, address]);
+	}, [map, network, address]) as never as TokenResult<T>;
 };
 
 export type WrappedCollection = CollectionDocument & {

@@ -28,3 +28,12 @@ export const getTokenQuotes = async (
 
 	return result;
 };
+
+export const getTokenQuote = async (token: IToken) => {
+	const response = await qlClient.request<
+		{ tokenByAddress: TokenInfo },
+		{ address: string }
+	>(queries.tokenByAddress, { address: makeHashId(token) });
+
+	return response.tokenByAddress;
+};

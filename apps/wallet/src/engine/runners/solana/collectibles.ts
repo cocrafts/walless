@@ -64,7 +64,10 @@ export const updateCollectibleToStorage = async (
 	collectible: NftDocument<SolanaCollectible>,
 ): Promise<UpdateCollectibleResult> => {
 	let collection: CollectionDocument<SolanaCollection> | undefined;
-	if (collectible.collectionAddress === collectible.mint) {
+	if (!collectible.collectionId) return { collectible };
+
+	const isUsingSelfCollection = collectible.collectionId === collectible._id;
+	if (isUsingSelfCollection) {
 		const selfCollectionDocument: SolanaCollectionDocument = {
 			_id: collectible.collectionId,
 			type: 'Collection',
@@ -154,13 +157,14 @@ export const updateRelatedCollection = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	collectible: SolanaCollectibleDocument,
-): Promise<SolanaCollectionDocument> => {
+): Promise<SolanaCollectionDocument | undefined> => {
 	const mpl = new Metaplex(connection);
 
+	const collectionId = collectible.collectionId;
+	if (!collectionId) return;
+
 	const storedCollection =
-		await getCollectionByIdFromStorage<SolanaCollectionDocument>(
-			collectible.collectionId,
-		);
+		await getCollectionByIdFromStorage<SolanaCollectionDocument>(collectionId);
 
 	if (!storedCollection) {
 		const collectionOnChain: GenericNft = await throttle(() => {
@@ -188,7 +192,7 @@ export const updateRelatedCollection = async (
 		}
 
 		const collection: SolanaCollectionDocument = {
-			_id: collectible.collectionId,
+			_id: collectionId,
 			type: 'Collection',
 			cluster,
 			network: Networks.solana,

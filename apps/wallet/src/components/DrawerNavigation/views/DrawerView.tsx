@@ -12,7 +12,7 @@ import type {
 	DrawerStatus,
 	ParamListBase,
 } from '@react-navigation/native';
-import { DrawerActions, useTheme } from '@react-navigation/native';
+import { DrawerActions } from '@react-navigation/native';
 
 import type {
 	DrawerContentComponentProps,
@@ -100,8 +100,6 @@ function DrawerViewBase({
 	}
 
 	const dimensions = useSafeAreaFrame();
-
-	const { colors } = useTheme();
 
 	const drawerStatus = getDrawerStatusFromState(state);
 

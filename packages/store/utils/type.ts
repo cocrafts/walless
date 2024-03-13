@@ -78,9 +78,8 @@ export type CollectionDocumentV1 = PouchDocument<CollectionV1>;
 
 export type CollectibleDocumentV1 = PouchDocument<CollectibleV1>;
 
-export type TransactionHistoryDocument<
-	T extends TransactionHistory = TransactionHistory,
-> = PouchDocument<T>;
+export type HistoryDocument<T extends TransactionHistory = TransactionHistory> =
+	PouchDocument<T>;
 
 export type TypedFind = <T extends object, F extends object = never>(
 	request?: PouchDB.Find.FindRequest<F> | undefined,

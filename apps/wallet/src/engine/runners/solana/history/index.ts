@@ -10,16 +10,17 @@ import type { PublicKey } from '@solana/web3.js';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import type {
 	SolanaSwapHistory,
-	SolanaSwapHistoryV2,
+	SolanaSwapHistoryV1,
 	SolanaToken,
 	SolanaTransferHistory,
-	SolanaTransferHistoryV2,
+	SolanaTransferHistoryV1,
 	SolanaUnknownHistory,
+	SolanaUnknownHistoryV1,
 } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { TokenDocument, TransactionHistoryDocument } from '@walless/store';
+import type { HistoryDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { solMint } from 'utils/constants';
+import { solMint, wrappedSolMint } from 'utils/constants';
 import { storage } from 'utils/storage';
 
 import { throttle } from '../internal';
@@ -67,7 +68,7 @@ export const getTransactionsHistory = async (
 			);
 
 			if (!txDoc) return;
-			await storage.upsert<TransactionHistoryDocument>(txDoc._id, async () => {
+			await storage.upsert<HistoryDocument>(txDoc._id, async () => {
 				return txDoc;
 			});
 		})();
@@ -110,8 +111,8 @@ const constructTransactionHistoryDocument = async (
 	parsedTransaction: ParsedTransactionWithMeta,
 	wallet: PublicKey,
 ): Promise<
-	TransactionHistoryDocument<
-		SolanaTransferHistoryV2 | SolanaSwapHistoryV2 | SolanaUnknownHistory
+	HistoryDocument<
+		SolanaTransferHistory | SolanaSwapHistory | SolanaUnknownHistory
 	>
 > => {
 	const { meta, transaction, blockTime } = parsedTransaction;
@@ -204,7 +205,7 @@ const parseSwapTransaction = async ({
 	transaction: ParsedTransaction;
 	meta: ParsedTransactionMeta;
 	ownerAddress: string;
-}): Promise<SolanaSwapHistory | { transactionType: 'Unknown' }> => {
+}): Promise<SolanaSwapHistoryV1 | SolanaUnknownHistoryV1> => {
 	const {
 		receivedTokenMint,
 		receivedTokenAmount,
@@ -231,9 +232,9 @@ const parseSwapTransaction = async ({
 		amount: receivedTokenAmount / 10 ** (receivedTokenDoc?.decimals || 9),
 		metadata: {
 			mint: receivedTokenMint,
-			name: receivedTokenDoc?.name || '',
-			symbol: receivedTokenDoc?.symbol || '',
-			image: receivedTokenDoc?.image || '',
+			name: receivedTokenDoc?.name || 'Unknown',
+			symbol: receivedTokenDoc?.symbol || 'Unknown',
+			image: receivedTokenDoc?.image || 'Unknown',
 		},
 	};
 
@@ -241,9 +242,9 @@ const parseSwapTransaction = async ({
 		amount: sentTokenAmount / 10 ** (sentTokenDoc?.decimals || 9),
 		metadata: {
 			mint: sentTokenMint,
-			name: sentTokenDoc?.name || '',
-			symbol: sentTokenDoc?.symbol || '',
-			image: sentTokenDoc?.image || '',
+			name: sentTokenDoc?.name || 'Unknown',
+			symbol: sentTokenDoc?.symbol || 'Unknown',
+			image: sentTokenDoc?.image || 'Unknown',
 		},
 	};
 
@@ -267,7 +268,7 @@ const getNativeTransactionBalances = async (
 		};
 	}
 
-	const token: SolanaTransferHistoryV2['token'] = {
+	const token: SolanaTransferHistoryV1['token'] = {
 		mint: solMint,
 		name: solMetadata.name,
 		symbol: solMetadata.symbol,
@@ -287,9 +288,10 @@ const getNativeTransactionBalances = async (
 		};
 	}
 
-	const sender = (parsedInstruction?.parsed?.info?.source as string) || '';
+	const sender =
+		(parsedInstruction?.parsed?.info?.source as string) || 'Unknown';
 	const receiver =
-		(parsedInstruction?.parsed?.info?.destination as string) || '';
+		(parsedInstruction?.parsed?.info?.destination as string) || 'Unknown';
 	const transactionType = getTransferTxType(ownerAddress, sender);
 
 	return {
@@ -306,7 +308,7 @@ const getSplTransactionBalances = async (
 	preTokenBalances: TokenBalance[],
 	postTokenBalances: TokenBalance[],
 	ownerAddress: string,
-): Promise<SolanaTransferHistory | SolanaSwapHistory> => {
+): Promise<SolanaTransferHistoryV1 | SolanaSwapHistoryV1> => {
 	const tokenBalanceMap = mappingTokenBalance(
 		preTokenBalances,
 		postTokenBalances,
@@ -366,11 +368,11 @@ const parseSplTransferTransaction = async ({
 	txRelatedToOwner: string[];
 	tokenBalanceMap: Record<string, AccountBalanceMap>;
 	ownerAddress: string;
-}): Promise<SolanaTransferHistory> => {
+}): Promise<SolanaTransferHistoryV1> => {
 	const [mint] = txRelatedToOwner;
 	const tokenMetadata = await getTokenMetadata(connection, mint);
 
-	const token: SolanaTransferHistoryV2['token'] = {
+	const token: SolanaTransferHistory['token'] = {
 		mint,
 		name: tokenMetadata?.name,
 		symbol: tokenMetadata?.symbol,
@@ -419,8 +421,8 @@ const removeOldHistories = async () => {
 
 	if (docs.length === 0) return;
 
-	const historyDocs = (docs as TransactionHistoryDocument[]).sort(
-		(doc1, doc2) => (doc1.date > doc2.date ? -1 : 1),
+	const historyDocs = (docs as HistoryDocument[]).sort((doc1, doc2) =>
+		doc1.date > doc2.date ? -1 : 1,
 	);
 
 	const historyDocsToRemove = historyDocs.slice(historyLimit);

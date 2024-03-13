@@ -2,8 +2,9 @@ import type { IdlEvents, IdlTypes } from '@coral-xyz/anchor';
 import type { Connection, PublicKey, TokenAmount } from '@solana/web3.js';
 import type {
 	NetworkCluster,
-	SolanaSwapHistory,
-	SolanaTransferHistory,
+	SolanaSwapHistoryV1,
+	SolanaTransferHistoryV1,
+	SolanaUnknownHistoryV1,
 } from '@walless/core';
 
 import type { Jupiter } from './history/jupiter';
@@ -32,11 +33,9 @@ export interface AccountBalance {
 export type AccountBalanceMap = Record<string, AccountBalance>;
 
 export type TransactionBalances =
-	| {
-			transactionType: 'Unknown';
-	  }
-	| SolanaTransferHistory
-	| SolanaSwapHistory;
+	| SolanaUnknownHistoryV1
+	| SolanaTransferHistoryV1
+	| SolanaSwapHistoryV1;
 
 export type SwapEvent = IdlEvents<Jupiter>['SwapEvent'];
 

@@ -1,7 +1,7 @@
 import type { Networks } from './common';
 
 export interface TransactionHistory {
-	id: string;
+	cluster: string;
 	signature: string;
 	network: Networks;
 	date: Date;
@@ -18,7 +18,7 @@ interface SolanaTransactionHistory extends TransactionHistory {
 	status: 'Success' | 'Failed';
 }
 
-export interface SolanaTransferHistory {
+export interface SolanaTransferHistoryV1 {
 	transactionType: 'Sent' | 'Received';
 	sender: string;
 	receiver: string;
@@ -26,16 +26,16 @@ export interface SolanaTransferHistory {
 	token: SolanaTokenMetadata;
 }
 
-export interface SolanaTransferHistoryV2
+export interface SolanaTransferHistory
 	extends SolanaTransactionHistory,
-		SolanaTransferHistory {
+		SolanaTransferHistoryV1 {
 	fee: number;
 	tokenForFee: SolanaTokenMetadata;
 	preBalance?: number;
 	postBalance?: number;
 }
 
-export interface SolanaSwapHistory {
+export interface SolanaSwapHistoryV1 {
 	transactionType: 'Swap';
 	receivedToken: {
 		metadata: SolanaTokenMetadata;
@@ -47,13 +47,16 @@ export interface SolanaSwapHistory {
 	};
 }
 
-export interface SolanaSwapHistoryV2
+export interface SolanaSwapHistory
 	extends SolanaTransactionHistory,
-		SolanaSwapHistory {
+		SolanaSwapHistoryV1 {
 	fee: number;
 	tokenForFee: SolanaTokenMetadata;
 }
 
-export interface SolanaUnknownHistory extends SolanaTransactionHistory {
+export interface SolanaUnknownHistoryV1 {
 	transactionType: 'Unknown';
 }
+
+export type SolanaUnknownHistory = SolanaTransactionHistory &
+	SolanaUnknownHistoryV1;

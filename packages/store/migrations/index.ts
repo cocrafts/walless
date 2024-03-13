@@ -1,7 +1,6 @@
 import { logger } from '@walless/core';
 
-import type { Database } from '..';
-import type { PouchDocument, SettingDocument } from '../utils/type';
+import type { Database, PouchDocument, SettingDocument } from '../utils/type';
 
 type MigrateScope = 'app' | 'kernel' | 'all';
 

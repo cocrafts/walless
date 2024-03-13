@@ -23,10 +23,10 @@ export const migrateDatabase = async (
 	const latestVersion = migrations[migrations.length - 1].version;
 
 	if (storedVersion < latestVersion) {
-		const newerFilter = (i: Migration) =>
+		const newerVersionFilter = (i: Migration) =>
 			i.version > storedVersion && (i.scope === 'all' || i.scope === scope);
 
-		const filteredMigrations = migrations.filter(newerFilter);
+		const filteredMigrations = migrations.filter(newerVersionFilter);
 
 		await runMigrations(storage, filteredMigrations);
 		await storage.upsert<SettingDocument>('settings', async (setting) => {

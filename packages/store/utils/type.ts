@@ -26,7 +26,6 @@ export type Database = Omit<PouchDB.Database, 'find'> &
 
 export type DocumentType =
 	| 'Setting'
-	// | 'EndpointMap'
 	| 'ClusterMap'
 	| 'EncryptionKey'
 	| 'PrivateKey'

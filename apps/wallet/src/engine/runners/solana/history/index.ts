@@ -119,7 +119,6 @@ const constructTransactionHistoryDocument = async (
 
 	const _id = `${walletAddress}/history/${transaction.signatures[0]}`;
 	const signature = transaction.signatures[0];
-	const id = signature;
 	const date = blockTime ? new Date(blockTime * 1000) : new Date();
 	const status = !meta?.err ? 'Success' : 'Failed';
 	const tokenForFee = getTransactionTokenFee();
@@ -133,7 +132,6 @@ const constructTransactionHistoryDocument = async (
 	if (!tokenForFee || balances.transactionType === 'Unknown') {
 		return {
 			_id,
-			id,
 			type: 'History',
 			cluster,
 			signature,

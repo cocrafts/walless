@@ -17,7 +17,7 @@ import type {
 	SolanaUnknownHistory,
 	SolanaUnknownHistoryV1,
 } from '@walless/core';
-import { Networks } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import type { HistoryDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { solMint, wrappedSolMint } from 'utils/constants';
@@ -55,15 +55,21 @@ export const getTransactionsHistory = async (
 			// don't use getParsedTransactions because
 			// it uses batch rpc request failed by rpc limit without retrying
 			// we need to use getParsedTransaction for separately retry
-			const tx = await connection.getParsedTransaction(s, {
-				maxSupportedTransactionVersion: 0,
-				commitment: 'finalized',
-			});
+			const tx = await connection
+				.getParsedTransaction(s, {
+					maxSupportedTransactionVersion: 0,
+					commitment: 'finalized',
+				})
+				.catch(() => {
+					logger.error('Unable to get transaction');
+				});
+
+			if (!tx) return;
 
 			const txDoc = await constructTransactionHistoryDocument(
 				connection,
 				cluster,
-				tx as ParsedTransactionWithMeta,
+				tx,
 				wallet,
 			);
 

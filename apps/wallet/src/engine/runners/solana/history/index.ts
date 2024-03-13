@@ -7,6 +7,7 @@ import type {
 	TokenBalance,
 } from '@solana/web3.js';
 import type { PublicKey } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import type {
 	SolanaSwapHistory,
 	SolanaSwapHistoryV2,
@@ -122,7 +123,7 @@ const constructTransactionHistoryDocument = async (
 	const date = blockTime ? new Date(blockTime * 1000) : new Date();
 	const status = !meta?.err ? 'Success' : 'Failed';
 	const tokenForFee = getTransactionTokenFee();
-	const fee = (meta?.fee || 0) / 10 ** 9;
+	const fee = (meta?.fee || 0) / LAMPORTS_PER_SOL;
 	const balances = await getTransactionBalances(
 		connection,
 		parsedTransaction,
@@ -280,7 +281,8 @@ const getNativeTransactionBalances = async (
 			'parsed' in instruction && instruction.parsed !== 'undefined',
 	) as ParsedInstruction;
 	const amount =
-		((parsedInstruction?.parsed?.info?.lamports as number) || 0) / 10 ** 9;
+		((parsedInstruction?.parsed?.info?.lamports as number) || 0) /
+		LAMPORTS_PER_SOL;
 
 	if (!amount) {
 		return {

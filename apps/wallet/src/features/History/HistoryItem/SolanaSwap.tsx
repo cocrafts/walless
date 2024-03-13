@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import type { ImageSourcePropType } from 'react-native';
-import { StyleSheet, View } from 'react-native';
-import type { SolanaSwapHistoryV2 } from '@walless/core';
+import { Linking, StyleSheet, View } from 'react-native';
+import type { SolanaSwapHistory } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { TransactionHistoryDocument } from '@walless/store';
+import type { HistoryDocument } from '@walless/store';
 import assets from 'utils/assets';
 import { getNetworkInfo } from 'utils/helper';
 import { usePublicKeys } from 'utils/hooks';
@@ -14,17 +14,26 @@ import ItemTokenIcon from './ItemTokenIcon';
 import WrappedHistory from './WrappedHistory';
 
 interface Props {
-	transaction: TransactionHistoryDocument<SolanaSwapHistoryV2>;
+	transaction: HistoryDocument<SolanaSwapHistory>;
 }
 
 export const SolanaSwapHistoryItem: FC<Props> = ({ transaction }) => {
-	const { transactionType, network, status, receivedToken, sentToken } =
-		transaction;
+	const {
+		transactionType,
+		network,
+		status,
+		receivedToken,
+		sentToken,
+		signature,
+	} = transaction;
 	const networkInfo = getNetworkInfo(network);
 	const [walletAddress] = usePublicKeys(Networks.solana);
 
 	return (
-		<WrappedHistory transaction={transaction}>
+		<WrappedHistory
+			transaction={transaction}
+			onPress={() => Linking.openURL(`https://solscan.io/tx/${signature}`)}
+		>
 			<View style={styles.leftPartContainer}>
 				<ItemTokenIcon
 					type={transactionType}

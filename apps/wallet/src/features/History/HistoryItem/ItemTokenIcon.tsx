@@ -1,9 +1,9 @@
-import type { FC } from 'react';
+import { type FC, Fragment } from 'react';
 import type { ImageSourcePropType } from 'react-native';
 import { Image } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
-import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
+import { ArrowBottomRight, ArrowTopRight, Swap } from '@walless/icons';
 import type { IconProps } from '@walless/icons/components/types';
 
 interface Props {
@@ -39,10 +39,19 @@ export const ItemTokenIcon: FC<Props> = ({
 
 	return (
 		<View style={styles.container}>
-			<Image style={tokenIconStyle} source={icon} />
-			<View style={styles.iconContainer}>
-				<Icon size={14} color={color} />
-			</View>
+			{type === 'Swap' ? (
+				<Swap />
+			) : (
+				<Fragment>
+					<Image style={tokenIconStyle} source={icon} />
+
+					{type !== 'Unknown' && (
+						<View style={styles.iconContainer}>
+							<Icon size={14} color={color} />
+						</View>
+					)}
+				</Fragment>
+			)}
 		</View>
 	);
 };

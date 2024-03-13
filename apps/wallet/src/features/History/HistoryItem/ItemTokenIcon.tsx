@@ -1,4 +1,5 @@
-import { type FC, Fragment } from 'react';
+import type { FC } from 'react';
+import { Fragment } from 'react';
 import type { ImageSourcePropType } from 'react-native';
 import { Image } from 'react-native';
 import { StyleSheet } from 'react-native';

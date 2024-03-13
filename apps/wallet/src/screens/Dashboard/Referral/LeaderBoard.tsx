@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { FlatList, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { logger } from '@walless/core';
+import { logger, runtime } from '@walless/core';
 import type { ReferralRank } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
@@ -11,6 +11,7 @@ import {
 	AnimateDirections,
 	BindDirections,
 	modalActions,
+	SwipeDownGesture,
 	Text,
 	View,
 } from '@walless/gui';
@@ -51,6 +52,7 @@ const LeaderboardModal: FC<Props> = ({
 	rank,
 	rankingPercent,
 	leaderboardSize,
+	config,
 }) => {
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [rankings, setRankings] = useState<ReferralRank[]>([]);
@@ -75,12 +77,20 @@ const LeaderboardModal: FC<Props> = ({
 		}
 	};
 
+	const handleClose = () => {
+		modalActions.hide(config.id);
+	};
+
 	useEffect(() => {
 		fetchMoreRankings();
 	}, []);
 
 	return (
-		<View style={[styles.container, safeAreaStyle]}>
+		<SwipeDownGesture
+			style={[styles.container, safeAreaStyle]}
+			callbackOnClose={handleClose}
+			gestureEnable={runtime.isMobile}
+		>
 			<View style={styles.upperPartContainer}>
 				<View style={styles.topBar} />
 
@@ -139,7 +149,7 @@ const LeaderboardModal: FC<Props> = ({
 				onEndReached={fetchMoreRankings}
 				onEndReachedThreshold={1}
 			/>
-		</View>
+		</SwipeDownGesture>
 	);
 };
 

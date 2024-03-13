@@ -9,8 +9,8 @@ import { configurePWA } from './pwa';
 
 logger.info('Initializing kernel..');
 
-configure(storage).then(() => {
-	migrateDatabase(storage, 'kernel').catch(logger.error);
+configure(storage).then(async () => {
+	await migrateDatabase(storage, 'kernel').catch(logger.error);
 	initializeMessaging();
 });
 

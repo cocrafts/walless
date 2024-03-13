@@ -35,7 +35,6 @@ export const sendTransaction = async (
 			const { tokenForFee } = initTransaction as SolanaSendTransaction;
 			const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
 			if (isGasilon) {
-				console.log('gasilon transaction', transaction);
 				return await sendRequest({
 					type: RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
 					transaction: encode(transaction.serialize()),

@@ -41,7 +41,6 @@ export const createSuiRunner = async (
 						owner,
 						coin,
 					);
-					console.log({ tokenDocument });
 					if (!tokenDocument) return;
 
 					try {
@@ -50,7 +49,6 @@ export const createSuiRunner = async (
 							network: tokenDocument.network,
 						});
 						tokenDocument.quotes = responseQuotes?.quotes;
-						console.log(responseQuotes);
 					} catch (e) {
 						logger.error('failed to get token quote', e);
 					}

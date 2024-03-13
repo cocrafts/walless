@@ -45,6 +45,7 @@ export { MissionBackground } from './components/MissionBackground';
 export { Plus } from './components/Plus';
 export { QrIcon } from './components/Qr';
 export { QrFrame } from './components/QrFrame';
+export { QuestionMark } from './components/QuestionMark';
 export { ScanFace } from './components/ScanFace';
 export { Search } from './components/Search';
 export { Setting } from './components/Setting';

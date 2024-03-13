@@ -2,11 +2,11 @@ import type { FC, ReactNode } from 'react';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Hoverable } from '@walless/gui';
-import type { TransactionHistoryDocument } from '@walless/store';
+import type { HistoryDocument } from '@walless/store';
 import { showTransactionDetailsModal } from 'modals/TransactionDetailsModal';
 
 interface Props {
-	transaction: TransactionHistoryDocument;
+	transaction: HistoryDocument;
 	onPress?: () => void;
 	children: ReactNode;
 }

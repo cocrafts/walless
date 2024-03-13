@@ -3,7 +3,7 @@ import type { ImageSourcePropType } from 'react-native';
 import { Linking, StyleSheet, Text, View } from 'react-native';
 import type { SolanaUnknownHistory } from '@walless/core';
 import { Networks, shortenAddress } from '@walless/core';
-import type { TransactionHistoryDocument } from '@walless/store';
+import type { HistoryDocument } from '@walless/store';
 import assets from 'utils/assets';
 import { getNetworkInfo } from 'utils/helper';
 import { usePublicKeys } from 'utils/hooks';
@@ -13,7 +13,7 @@ import ItemTokenIcon from './ItemTokenIcon';
 import WrappedHistory from './WrappedHistory';
 
 interface Props {
-	transaction: TransactionHistoryDocument<SolanaUnknownHistory>;
+	transaction: HistoryDocument<SolanaUnknownHistory>;
 }
 
 export const SolanaUnknownHistoryItem: FC<Props> = ({ transaction }) => {

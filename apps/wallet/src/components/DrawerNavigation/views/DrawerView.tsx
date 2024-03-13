@@ -258,18 +258,7 @@ function DrawerViewBase({
 				drawerStyle={[
 					{
 						width: getDefaultDrawerWidth(dimensions),
-						backgroundColor: colors.card,
 					},
-					drawerType === 'permanent' &&
-						(drawerPosition === 'left'
-							? {
-									borderRightColor: colors.border,
-									borderRightWidth: StyleSheet.hairlineWidth,
-								}
-							: {
-									borderLeftColor: colors.border,
-									borderLeftWidth: StyleSheet.hairlineWidth,
-								}),
 					drawerStyle,
 				]}
 				overlayStyle={{ backgroundColor: overlayColor }}

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { ResponseCode } from '@walless/core';
+import { logger, ResponseCode } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Hoverable, Passcode, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
@@ -35,10 +35,12 @@ const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 		if (isCompleted) {
 			if (!swapContext.swap.transaction) return;
 			try {
+				const fiveMinutesTimeout = 1000 * 60 * 5;
 				const res = await signAndSendTransaction(
 					swapContext.swap.transaction,
 					passcode,
 					{ manuallyRetry: true },
+					fiveMinutesTimeout,
 				);
 				if (res.responseCode === ResponseCode.WRONG_PASSCODE) {
 					showError({ errorText: 'Passcode is NOT matched' });
@@ -50,6 +52,7 @@ const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 
 				setPasscode('');
 			} catch (error) {
+				logger.error('failed to sign and send swap transaction', error);
 				showError({ errorText: 'Something went wrong' });
 				setPasscode('');
 			}

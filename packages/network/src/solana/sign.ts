@@ -58,21 +58,23 @@ export const signAndSendTransaction = async (
 
 	transaction.sign([keypair]);
 
-	let signature;
+	let signature: string = '';
 
 	// Manually retry the transaction
 	// Ref: https://stackoverflow.com/questions/70717996/blockhash-not-found-when-sending-transaction
 	if (options?.manuallyRetry) {
 		logger.debug('manually retrying the transaction...');
 		const { lastValidBlockHeight } = await connection.getLatestBlockhash();
+		let count = 0;
+		const maxRetries = 30;
 		let blockheight = await connection.getBlockHeight();
-		while (blockheight < lastValidBlockHeight) {
+		while (count < maxRetries && blockheight < lastValidBlockHeight) {
 			try {
 				signature = await connection.sendTransaction(transaction);
 				logger.debug('retry successfully!');
 				break;
 			} catch (error) {
-				logger.debug((error as Error).message, '. retry...');
+				logger.debug('retry...', (error as Error).message);
 				await new Promise((resolve) => setTimeout(resolve, 500));
 				const isBlockhashValid = await connection.isBlockhashValid(
 					transaction.message.recentBlockhash,
@@ -81,12 +83,16 @@ export const signAndSendTransaction = async (
 
 				blockheight = await connection.getBlockHeight();
 			}
+
+			count++;
 		}
 	} else {
 		signature = await connection.sendTransaction(transaction);
 	}
 
-	return signature as string;
+	if (!signature) throw Error('failed to send transaction');
+
+	return signature;
 };
 
 export const signAndSendTransactionAbstractionFee = async (

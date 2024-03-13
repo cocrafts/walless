@@ -6,10 +6,14 @@ import * as bs58 from 'bs58';
 import type { PayloadOptions, PopupPayload } from './utils';
 import { encryptedMessenger } from './utils';
 
-export const sendRequest = async (payload: PureMessagePayload) => {
+export const sendRequest = async (
+	payload: PureMessagePayload,
+	timeout?: number,
+) => {
 	return (await encryptedMessenger.request(
 		'kernel',
 		payload,
+		timeout,
 	)) as ResponsePayload;
 };
 

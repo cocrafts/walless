@@ -11,7 +11,7 @@ import type {
 	TransactionHistoryDocument,
 	WidgetDocument,
 } from '@walless/store';
-import { configure, selectors } from '@walless/store';
+import { configure, migrateDatabase, selectors } from '@walless/store';
 import { createEngine, getDefaultEngine, setDefaultEngine } from 'engine';
 import {
 	createAptosRunner,
@@ -40,8 +40,11 @@ export const bootstrap = async (): Promise<void> => {
 	const startTime = new Date();
 	appState.remoteConfig = loadRemoteConfig();
 
+	await configure(storage);
+	await migrateDatabase(storage, 'app');
+
 	await Promise.all([
-		configure(storage).then(configEngine),
+		configEngine(),
 		initializeAuth(),
 		watchStorageAndSyncState(),
 	]);

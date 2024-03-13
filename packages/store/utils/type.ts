@@ -19,9 +19,13 @@ import type {
 	Widget,
 } from '@walless/core';
 
+import type helpers from '../plugins';
+
+export type Database = Omit<PouchDB.Database, 'find'> &
+	typeof helpers & { find: TypedFind };
+
 export type DocumentType =
 	| 'Setting'
-	// | 'EndpointMap'
 	| 'ClusterMap'
 	| 'EncryptionKey'
 	| 'PrivateKey'

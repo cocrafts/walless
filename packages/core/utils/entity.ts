@@ -28,6 +28,7 @@ export interface Config {
 	hideBalance: boolean;
 	latestLocation: string;
 	notificationToken?: string;
+	storageVersion?: number;
 }
 
 export interface RemoteConfig {

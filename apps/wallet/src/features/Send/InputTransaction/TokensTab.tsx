@@ -1,22 +1,17 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import type { Networks, Token } from '@walless/core';
+import type { Networks } from '@walless/core';
 import { Button, Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
 import { useTokens } from 'utils/hooks';
-import {
-	checkValidAddress,
-	getBalanceFromToken,
-	getTokenString,
-} from 'utils/transaction';
-import { useSnapshot } from 'valtio';
+import { checkValidAddress } from 'utils/transaction';
 
-import { txActions, txContext } from '../context';
+import type { TokenTransactionContext } from '../internal';
+import { txActions, useTransactionContext } from '../internal';
 
-import type { ErrorMessage } from './internal';
 import QRScanButton from './QRScanButton';
 import { TotalCost } from './TotalCost';
 import TransactionFee from './TransactionFee';
@@ -26,123 +21,114 @@ interface Props {
 }
 
 export const TokensTab: FC<Props> = ({ onContinue }) => {
-	const { token, amount, network, tokenForFee, transactionFee, receiver } =
-		useSnapshot(txContext).tx;
+	const { type, token, amount, network, receiver } =
+		useTransactionContext<TokenTransactionContext>();
 	const { tokens } = useTokens(network);
-	const [disabledMax, setDisabledMax] = useState(
-		!token || !tokenForFee || !transactionFee,
-	);
-	const [recipientErrorMessage, setRecipientErrorMessage] =
-		useState<ErrorMessage>('');
-	const [amountErrorMessage, setAmountErrorMessage] =
-		useState<ErrorMessage>('');
+	const [recipientError, setRecipientError] = useState('');
+	const [amountError, setAmountError] = useState('');
 
-	const canContinue =
-		recipientErrorMessage === null && amountErrorMessage === null && token;
+	const canContinue = recipientError === '' && amountError === '' && token;
 
-	const balance = token ? getBalanceFromToken(token as TokenDocument) : -1;
-
-	const getRequiredFieldsForSelectToken = (item: Token) => {
+	const getMetadata = (token: TokenDocument) => {
 		return {
-			id: item.account.mint,
-			name: item.metadata?.name as string,
-			icon: { uri: item.metadata?.imageUri as string },
+			id: token._id,
+			name: token.name,
+			icon: { uri: token.image },
 		};
 	};
 
 	const checkRecipient = (receiver?: string, network?: Networks) => {
 		if (receiver && network) {
 			const result = checkValidAddress(receiver, network);
-			setRecipientErrorMessage(result);
+			setRecipientError(result || '');
 		} else {
-			setRecipientErrorMessage('');
+			setRecipientError('');
 		}
 	};
 
 	const checkAmount = (amount?: string, balance?: number) => {
 		if (!amount) {
-			setAmountErrorMessage('');
+			setAmountError('');
 		} else if (isNaN(Number(amount))) {
-			setAmountErrorMessage('Wrong number format, try again');
+			setAmountError('Wrong number format, try again');
 		} else if (Number(amount) <= 0) {
-			setAmountErrorMessage('Try again with valid number');
+			setAmountError('Try again with valid number');
 		} else if (balance && Number(amount) > balance) {
-			setAmountErrorMessage('Insufficient balance to send');
+			setAmountError('Insufficient balance to send');
 		} else {
-			setAmountErrorMessage(null);
+			setAmountError('');
 		}
 	};
 
 	const handleSelectToken = (token: TokenDocument) => {
-		txActions.update({ token, network: token.network });
+		txActions.update<TokenTransactionContext>({
+			token,
+			network: token.network,
+		});
 		checkRecipient(receiver, token.network);
-		checkAmount(amount, getBalanceFromToken(token));
+		checkAmount(amount, token.balance);
 	};
 
 	const handleMaxPress = () => {
-		if (!transactionFee || !token || !tokenForFee) return;
-		if (balance > 0) {
-			setAmountErrorMessage(null);
-		}
-		txActions.update({ amount: balance.toString() });
+		if (!token) return;
+		txActions.update({ amount: token.balance.toString() });
+		setAmountError('');
 	};
 
-	const MaxButon = (
+	const MaxButton = (
 		<Button
 			style={styles.maxButton}
 			titleStyle={styles.titleMaxButton}
 			title="Max"
 			onPress={handleMaxPress}
-			disabled={disabledMax}
 		/>
 	);
 
 	useEffect(() => {
-		setDisabledMax(!token || !tokenForFee || !transactionFee);
-	}, [token, tokenForFee, transactionFee]);
-
-	useEffect(() => {
-		checkRecipient(receiver, network);
-		checkAmount(amount, balance);
-	}, []);
+		if (type === 'token' && token) {
+			txActions.update({ network: token.network });
+		}
+	}, [type, token]);
 
 	return (
 		<View style={styles.container}>
 			<Select
 				title="Select token"
-				items={tokens as TokenDocument[]}
-				selected={token as TokenDocument}
+				items={tokens}
+				selected={token}
 				onSelect={handleSelectToken}
-				getRequiredFields={getRequiredFieldsForSelectToken}
+				getRequiredFields={getMetadata}
 			/>
 
 			<CheckedInput
 				value={receiver}
 				placeholder="Recipient account"
-				errorText={recipientErrorMessage}
+				errorText={recipientError}
 				onChangeText={(receiver) => txActions.update({ receiver })}
 				onBlur={() => checkRecipient(receiver, network)}
-				suffix={QRScanButton({ network: network as Networks })}
+				suffix={network && QRScanButton({ network })}
 			/>
 
 			<CheckedInput
 				value={amount}
 				placeholder="Token amount"
 				keyboardType="numeric"
-				errorText={amountErrorMessage}
+				errorText={amountError}
 				onChangeText={(amount) => txActions.update({ amount })}
-				onBlur={() => checkAmount(amount, balance)}
-				suffix={MaxButon}
+				onBlur={token && (() => checkAmount(amount, token.balance))}
+				suffix={MaxButton}
 			/>
 
-			<View style={styles.balanceContainer}>
-				<Text style={styles.title}>Available balance</Text>
-				<Text style={styles.balance}>
-					{getTokenString(token as TokenDocument)}
-				</Text>
-			</View>
+			{token && (
+				<View style={styles.balanceContainer}>
+					<Text style={styles.title}>Balance</Text>
+					<Text
+						style={styles.balance}
+					>{`${token.balance} ${token.symbol}`}</Text>
+				</View>
+			)}
 
-			<TransactionFee network={token?.network as Networks} />
+			<TransactionFee />
 
 			<View style={styles.totalLine} />
 

@@ -1,30 +1,28 @@
 import { Image, StyleSheet } from 'react-native';
-import { ResponseCode } from '@walless/core';
-import { Anchor, Text, View } from '@walless/gui';
-import { useSnapshot } from 'valtio';
+import { Networks } from '@walless/core';
+import { Text, View } from '@walless/gui';
 
-import { txContext } from '../context';
+import type { FulfilledNftTransaction } from '../ConfirmTransaction/internal';
+import { useTransactionContext } from '../internal';
+
+import { SolanaShareButton } from './ShareButton';
 
 export const Nft = () => {
-	const { collectible, time, status, signatureString } =
-		useSnapshot(txContext).tx;
+	const { nft, network, status, time } =
+		useTransactionContext<FulfilledNftTransaction>();
 
-	const iconUri = { uri: collectible?.metadata?.imageUri };
+	const iconUri = { uri: nft.image };
 
 	return (
 		<View style={styles.container}>
 			<Image style={styles.nftIcon} source={iconUri} />
 			<View style={styles.amountContainer}>
-				<Text style={styles.amountText}>{collectible?.metadata?.name}</Text>
+				<Text style={styles.amountText}>{nft.name}</Text>
 				<Text style={styles.dateText}>{time?.toLocaleString()}</Text>
 			</View>
 			<View>
-				{status == ResponseCode.SUCCESS && (
-					<Anchor
-						style={styles.shareButton}
-						title="View on Solscan"
-						href={`https://solscan.io/tx/${signatureString}?cluster=devnet`}
-					/>
+				{status == 'success' && network === Networks.solana && (
+					<SolanaShareButton />
 				)}
 			</View>
 		</View>
@@ -56,10 +54,5 @@ const styles = StyleSheet.create({
 	},
 	shareBlock: {
 		height: 30,
-	},
-	shareButton: {
-		borderRadius: 10,
-		paddingHorizontal: 30,
-		paddingVertical: 5,
 	},
 });

@@ -1,14 +1,17 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import type { TokenDocument } from '@walless/store';
+import type { Networks } from '@walless/core';
+import { useTokens } from 'utils/hooks';
 
 import TokenList from './TokenList';
 
 interface Props {
-	tokens: TokenDocument[];
+	network: Networks;
 }
 
-export const TokenTab: FC<Props> = ({ tokens }) => {
+export const TokenTab: FC<Props> = ({ network }) => {
+	const { tokens } = useTokens(network);
+
 	return <TokenList items={tokens} style={styles.tokenListContainer} />;
 };
 

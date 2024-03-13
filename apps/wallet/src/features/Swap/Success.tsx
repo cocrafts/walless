@@ -17,7 +17,7 @@ const Success = () => {
 	const { fromToken, amount, toToken, swapQuote } =
 		useSnapshot(swapContext).swap;
 
-	const fromSymbol = fromToken?.metadata?.symbol;
+	const fromSymbol = fromToken?.symbol;
 	const toSymbol = toToken?.symbol;
 	const outAmount =
 		swapQuote && toToken

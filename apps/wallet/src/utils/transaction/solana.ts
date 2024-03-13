@@ -1,7 +1,7 @@
 import type { VersionedTransaction } from '@solana/web3.js';
 import { Networks, ResponseCode } from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
-import { solanaHandler, utils } from '@walless/network';
+import { solana, utils } from '@walless/network';
 import { getDefaultEngine } from 'engine';
 import type { SolanaContext } from 'engine/runners';
 import { storage } from 'utils/storage';
@@ -9,7 +9,9 @@ import { storage } from 'utils/storage';
 export const signAndSendTransaction = async (
 	transaction: VersionedTransaction,
 	passcode: string,
-	options?: solanaHandler.SignAndSendOptions,
+	options?: solana.SignAndSendOptions,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	timeout?: number,
 ): Promise<ResponsePayload> => {
 	const res = {} as ResponsePayload;
 	let privateKey;
@@ -22,7 +24,7 @@ export const signAndSendTransaction = async (
 
 	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
-	res.signatureString = await solanaHandler.signAndSendTransaction(
+	res.signatureString = await solana.signAndSendTransaction(
 		connection,
 		transaction,
 		privateKey,

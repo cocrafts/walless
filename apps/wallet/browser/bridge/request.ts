@@ -1,13 +1,20 @@
 import { PopupType, RequestType, ResponseCode, Timeout } from '@walless/core';
-import type { PureMessagePayload } from '@walless/messaging';
+import type { PureMessagePayload, ResponsePayload } from '@walless/messaging';
 import { Channels } from '@walless/messaging';
 import * as bs58 from 'bs58';
 
 import type { PayloadOptions, PopupPayload } from './utils';
 import { encryptedMessenger } from './utils';
 
-export const sendRequest = async (payload: PureMessagePayload) => {
-	return await encryptedMessenger.request('kernel', payload);
+export const sendRequest = async (
+	payload: PureMessagePayload,
+	timeout?: number,
+) => {
+	return (await encryptedMessenger.request(
+		'kernel',
+		payload,
+		timeout,
+	)) as ResponsePayload;
 };
 
 export const handleRequestConnect = async (

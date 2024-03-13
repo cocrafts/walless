@@ -1,6 +1,6 @@
 import { TezosToolkit } from '@taquito/taquito';
 import { ResponseCode } from '@walless/core';
-import { tezosHandler } from '@walless/network';
+import { tezos } from '@walless/network';
 import { environment } from 'utils/config';
 
 import { respond } from '../utils/requestPool';
@@ -28,7 +28,7 @@ export const transferToken: HandleMethod<{
 		throw Error('Missing privateKey or transaction');
 	}
 
-	const hash = await tezosHandler.transferToken(
+	const hash = await tezos.transferToken(
 		tezosToolkit,
 		payload.transaction,
 		payload.privateKey,

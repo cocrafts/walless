@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-import type { Networks } from '@walless/core';
+import type { Networks, SolanaToken } from '@walless/core';
 import { Slider } from '@walless/gui';
 import { useTokens } from 'utils/hooks';
 
@@ -14,7 +14,7 @@ export type Props = {
 };
 
 const SwapFeature: FC<Props> = ({ network }) => {
-	const { tokens } = useTokens(network);
+	const { tokens } = useTokens<SolanaToken>(network);
 
 	useEffect(() => {
 		swapActions.update({ network, fromToken: tokens[0] });

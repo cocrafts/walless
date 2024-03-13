@@ -21,5 +21,6 @@ export const defaultRemoteConfig: RemoteConfig = {
  * Solana only
  */
 export const solMint = '11111111111111111111111111111111';
+export const wrappedSolMint = 'So11111111111111111111111111111111111111112';
 export const METADATA_PROGRAM_ID =
 	'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s';

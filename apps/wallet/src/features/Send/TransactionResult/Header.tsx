@@ -1,15 +1,14 @@
 import { StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { Times } from '@walless/icons';
-import { useSnapshot } from 'valtio';
 
-import { txActions, txContext } from '../context';
+import { txActions, useTransactionContext } from '../internal';
 
-export const Header = () => {
-	const { signatureString } = useSnapshot(txContext).tx;
+export const SolanaHeader = () => {
+	const { status } = useTransactionContext();
 
-	let title = 'Transaction failed';
-	if (signatureString.length > 0) title = 'Transaction successful';
+	const title =
+		status === 'success' ? 'Transaction successful' : 'Transaction failed';
 
 	return (
 		<View style={styles.container}>

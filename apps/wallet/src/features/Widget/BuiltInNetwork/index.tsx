@@ -9,27 +9,21 @@ import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { Networks } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
-import { Slider } from '@walless/gui';
+import { Slider, SliderTabs } from '@walless/gui';
+import type { TabAble, TabItemStyle } from '@walless/gui/components/SliderTabs';
 import FeatureButtons from 'components/FeatureButtons';
 import { showCopiedModal } from 'modals/Notification';
 import { showReceiveModal } from 'modals/Receive';
 import { showSendTokenModal } from 'modals/SendToken';
 import { showSwapModal } from 'modals/Swap';
 import { buyToken } from 'utils/buy';
-import {
-	useNfts,
-	useOpacityAnimated,
-	usePublicKeys,
-	useTokens,
-} from 'utils/hooks';
+import { useOpacityAnimated, usePublicKeys, useTokens } from 'utils/hooks';
 import { copy } from 'utils/system';
 
 import ActivityTab from './ActivityTab';
 import AptosTokensTab from './AptosTokensTab';
-import CollectiblesTab from './CollectiblesTab';
+import NftTab from './NFTTab';
 import { getWalletCardSkin, layoutTabs } from './shared';
-import type { TabAble } from './SliderTabs';
-import SliderTabs from './SliderTabs';
 import TokenTab from './TokenTab';
 import WalletCard from './WalletCard';
 
@@ -38,12 +32,12 @@ interface Props {
 }
 
 export const BuiltInNetwork: FC<Props> = ({ id }) => {
+	const network = id as Networks;
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
-	const keys = usePublicKeys(id as Networks);
+	const keys = usePublicKeys(network);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
-	const { tokens, valuation } = useTokens(id as Networks);
-	const { collections } = useNfts(id as Networks);
-	const cardSkin = useMemo(() => getWalletCardSkin(id as never), [id]);
+	const { valuation } = useTokens(network);
+	const cardSkin = useMemo(() => getWalletCardSkin(network), [network]);
 	const opacityAnimated = useOpacityAnimated({ from: 0, to: 1 });
 
 	const container: ViewStyle = {
@@ -54,23 +48,43 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		return [
 			{
 				id: 'tokens',
-				component: () => <TokenTab tokens={tokens} />,
+				component: () => <TokenTab network={network} />,
 			},
 			{
 				id: 'collectibles',
 				component: () =>
 					id === Networks.aptos ? (
-						<AptosTokensTab pubkey={keys[0]._id} />
+						<AptosTokensTab network={network} />
 					) : (
-						<CollectiblesTab collections={collections} />
+						<NftTab network={network} />
 					),
 			},
 			{
 				id: 'activities',
-				component: () => <ActivityTab network={id as Networks} />,
+				component: () => <ActivityTab network={network} />,
 			},
 		];
 	}, []);
+
+	const activatedStyle: TabItemStyle = {
+		containerStyle: {
+			backgroundColor: '#0694D3',
+		},
+		textStyle: {
+			color: 'white',
+			fontWeight: '500',
+		},
+	};
+
+	const deactivatedStyle: TabItemStyle = {
+		containerStyle: {
+			backgroundColor: 'transparent',
+		},
+		textStyle: {
+			color: '#566674',
+			fontWeight: '400',
+		},
+	};
 
 	const handleTabPress = (item: TabAble) => {
 		const idx = layoutTabs.indexOf(item);
@@ -133,6 +147,8 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 				items={layoutTabs}
 				activeItem={layoutTabs[activeTabIndex]}
 				onTabPress={handleTabPress}
+				activatedStyle={activatedStyle}
+				deactivatedStyle={deactivatedStyle}
 			/>
 
 			<Slider

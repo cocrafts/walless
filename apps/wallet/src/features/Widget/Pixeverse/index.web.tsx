@@ -7,7 +7,7 @@ import { usePublicKeys, useSnapshot } from 'utils/hooks';
 
 export const Pixeverse = () => {
 	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } = environment;
-	const { jwtAuth } = useSnapshot(appState);
+	const { jwtAuth, isMobileDisplay } = useSnapshot(appState);
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const [pubkey] = usePublicKeys(Networks.solana);
 
@@ -17,6 +17,7 @@ export const Pixeverse = () => {
 				apiUrl: PIXEVERSE_ENDPOINT,
 				jwt: jwtAuth,
 				address: pubkey._id,
+				isMobile: isMobileDisplay,
 			};
 
 			iframeRef?.current?.contentWindow?.postMessage(payload, PIXEVERSE_ORIGIN);

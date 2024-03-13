@@ -1,23 +1,24 @@
-import type { ComponentType, FC, ReactElement } from 'react';
+import type { ComponentType, ReactElement } from 'react';
 import type { ListRenderItem, StyleProp, ViewStyle } from 'react-native';
 import { FlatList } from 'react-native';
+import type { Token } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 
 import TokenItem from './Item';
 import ListEmpty from './ListEmpty';
 import Separator from './Separator';
 
-interface Props {
+interface Props<T extends Token> {
 	style?: StyleProp<ViewStyle>;
 	itemStyle?: StyleProp<ViewStyle>;
 	separateStyle?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
-	items: TokenDocument[];
-	ListHeaderComponent?: ComponentType<TokenDocument> | ReactElement;
-	onPressItem?: (item: TokenDocument) => void;
+	items: TokenDocument<T>[];
+	ListHeaderComponent?: ComponentType<TokenDocument<T>> | ReactElement;
+	onPressItem?: (item: TokenDocument<T>) => void;
 }
 
-export const TokenList: FC<Props> = ({
+export const TokenList = <T extends Token>({
 	style,
 	itemStyle,
 	separateStyle,
@@ -25,8 +26,8 @@ export const TokenList: FC<Props> = ({
 	items,
 	ListHeaderComponent,
 	onPressItem,
-}) => {
-	const renderItem: ListRenderItem<TokenDocument> = ({ item }) => {
+}: Props<T>) => {
+	const renderItem: ListRenderItem<TokenDocument<T>> = ({ item }) => {
 		const handlePressItem = () => {
 			onPressItem?.(item);
 		};
@@ -34,7 +35,7 @@ export const TokenList: FC<Props> = ({
 		return (
 			<TokenItem
 				key={item._id}
-				item={item}
+				token={item}
 				style={itemStyle}
 				onPress={handlePressItem}
 			/>

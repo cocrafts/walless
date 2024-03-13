@@ -1,14 +1,23 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { Twitter } from '@walless/icons';
+import { Image, Linking, StyleSheet, Text, View } from 'react-native';
+import {
+	ArrowTopRight,
+	Book,
+	LogOut,
+	Message,
+	Shield,
+	Star,
+	Twitter,
+	Window,
+} from '@walless/icons';
+import { showLogoutModal } from 'modals/LogoutModal';
 import { appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
+import { navigate } from 'utils/navigation';
 
-import ForwardLink from './ForwardLink';
-import HelpCenter from './HelpCenter';
-import Logout from './Logout';
 import MyWallets from './MyWallets';
+import SettingButton from './SettingButton';
 
 interface Props {
 	style?: ViewStyle;
@@ -18,6 +27,15 @@ const SettingFeature: FC<Props> = ({ style }) => {
 	const { profile } = useSnapshot(appState);
 	const displayName = profile.name || profile.email || 'Anonymous';
 	const imageSource = { uri: profile.profileImage };
+
+	const handleNavigateToReferralScreen = () => {
+		navigate('Dashboard', {
+			screen: 'Setting',
+			params: {
+				screen: 'Referral',
+			},
+		});
+	};
 
 	return (
 		<View style={[styles.container, style]}>
@@ -32,20 +50,67 @@ const SettingFeature: FC<Props> = ({ style }) => {
 				<MyWallets />
 
 				<View>
-					<Text style={styles.title}>Help Center</Text>
-					<View style={styles.forwardLinkContainer}>
-						<HelpCenter />
-						<Logout />
+					<Text style={styles.title}>Settings</Text>
+
+					<View style={styles.sectionContainer}>
+						<SettingButton
+							title="Referral"
+							prefixIcon={<Star size={16} />}
+							hasNotification
+							isNew
+							onPress={handleNavigateToReferralScreen}
+						/>
+
+						<SettingButton
+							title="Feedback to us"
+							prefixIcon={<Message />}
+							suffixIcon={<ArrowTopRight size={16} />}
+							onPress={() => Linking.openURL('https://discord.gg/uG2JEmTZXZ')}
+						/>
+
+						<SettingButton
+							title="Contact Support"
+							prefixIcon={<Book />}
+							suffixIcon={<ArrowTopRight size={16} />}
+							onPress={() => Linking.openURL('https://discord.gg/3v7jwG45pe')}
+						/>
+
+						<SettingButton
+							title="Privacy Policy"
+							prefixIcon={<Shield size={16} />}
+							suffixIcon={<ArrowTopRight size={16} />}
+							onPress={() =>
+								Linking.openURL('https://walless.io/privacy-policy')
+							}
+						/>
+
+						<SettingButton
+							title="About Walless"
+							prefixIcon={<Window />}
+							suffixIcon={<ArrowTopRight size={16} />}
+							onPress={() => Linking.openURL('https://walless.io/')}
+						/>
+
+						<SettingButton
+							title="Log out"
+							titleColor="#A45151"
+							prefixIcon={<LogOut color="#A45151" size={16} />}
+							prefixIconContainerStyle={{ backgroundColor: '#422626' }}
+							onPress={showLogoutModal}
+						/>
 					</View>
 				</View>
 
 				<View>
 					<Text style={styles.title}>Follow Us</Text>
-					<ForwardLink
-						link="https://twitter.com/walless_wallet"
+
+					<SettingButton
 						title="Follow us on Twitter"
-						icon={<Twitter color="#0694D3" />}
-						iconBackground="#243F56"
+						prefixIcon={<Twitter color="#0694D3" />}
+						prefixIconContainerStyle={{ backgroundColor: '#243F56' }}
+						onPress={() =>
+							Linking.openURL('https://twitter.com/walless_wallet')
+						}
 					/>
 				</View>
 			</View>
@@ -75,7 +140,6 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	delimiter: {
-		flexGrow: 1,
 		height: 1,
 		backgroundColor: '#56667466',
 		marginTop: 10,
@@ -85,7 +149,7 @@ const styles = StyleSheet.create({
 		color: '#566674',
 		marginBottom: 4,
 	},
-	forwardLinkContainer: {
+	sectionContainer: {
 		gap: 12,
 	},
 	innerContainer: {

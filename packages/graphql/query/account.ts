@@ -12,3 +12,15 @@ export const userAccount = gql`
 		}
 	}
 `;
+
+export const userReferralCodes = gql`
+	query UserAccount {
+		userAccount {
+			referralCodes {
+				code
+				email
+			}
+			referralRank
+		}
+	}
+`;

@@ -13,7 +13,7 @@ export type CollectionParamList = {
 	Default: {
 		id?: string;
 	};
-	Collectible: {
+	NFT: {
 		id: string;
 	};
 };
@@ -50,6 +50,7 @@ export type BrowserParamList = {
 
 export type SettingParamList = {
 	Default: undefined;
+	Referral: undefined;
 };
 
 export type DashboardParamList = {

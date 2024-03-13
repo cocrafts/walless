@@ -1,38 +1,30 @@
 import { Image, StyleSheet } from 'react-native';
-import { ResponseCode } from '@walless/core';
-import { Anchor, Text, View } from '@walless/gui';
-import { appState } from 'state/app';
+import { Networks } from '@walless/core';
+import { Text, View } from '@walless/gui';
 import assets from 'utils/assets';
-import { useSnapshot } from 'valtio';
 
-import { txContext } from '../context';
+import type { FulfilledTokenTransaction } from '../ConfirmTransaction/internal';
+import { useTransactionContext } from '../internal';
+
+import { SolanaShareButton } from './ShareButton';
 
 export const Token = () => {
-	const { networkClusters } = useSnapshot(appState);
-	const { token, amount, time, status, signatureString } =
-		useSnapshot(txContext).tx;
+	const { token, amount, time, status, network } =
+		useTransactionContext<FulfilledTokenTransaction>();
 
-	const icon = token?.metadata?.imageUri
-		? { uri: token?.metadata?.imageUri }
-		: assets.misc.unknownToken;
-
-	const cluster = networkClusters[token?.network as never];
+	const icon = token.image ? { uri: token.image } : assets.misc.unknownToken;
 
 	return (
 		<View style={styles.container}>
 			<Image style={styles.tokenIcon} source={icon} />
 			<View style={styles.amountContainer}>
 				<Text style={styles.amountText}>{amount}</Text>
-				<Text style={styles.symbolText}>{token?.metadata?.symbol}</Text>
+				<Text style={styles.symbolText}>{token.symbol}</Text>
 			</View>
 			<Text style={styles.dateText}>{time?.toLocaleString()}</Text>
 			<View>
-				{status == ResponseCode.SUCCESS && (
-					<Anchor
-						style={styles.shareButton}
-						title="View on Solscan"
-						href={`https://solscan.io/tx/${signatureString}?cluster=${cluster}`}
-					/>
+				{status == 'success' && network === Networks.solana && (
+					<SolanaShareButton />
 				)}
 			</View>
 		</View>

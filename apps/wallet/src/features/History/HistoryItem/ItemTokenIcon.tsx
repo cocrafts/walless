@@ -1,14 +1,20 @@
 import type { FC } from 'react';
+import { Fragment } from 'react';
 import type { ImageSourcePropType } from 'react-native';
 import { Image } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
-import { ArrowBottomRight, ArrowTopRight } from '@walless/icons';
+import {
+	ArrowBottomRight,
+	ArrowTopRight,
+	QuestionMark,
+	Swap,
+} from '@walless/icons';
 import type { IconProps } from '@walless/icons/components/types';
 
 interface Props {
-	type: 'Sent' | 'Received';
-	status: 'Success' | 'Pending' | 'Failed';
+	type: string;
+	status: string;
 	icon: ImageSourcePropType;
 	isCollectible?: boolean;
 }
@@ -39,10 +45,23 @@ export const ItemTokenIcon: FC<Props> = ({
 
 	return (
 		<View style={styles.container}>
-			<Image style={tokenIconStyle} source={icon} />
-			<View style={styles.iconContainer}>
-				<Icon size={14} color={color} />
-			</View>
+			{type === 'Swap' ? (
+				<View style={styles.wrapIcon}>
+					<Swap />
+				</View>
+			) : type === 'Unknown' ? (
+				<View style={styles.wrapIcon}>
+					<QuestionMark size={28} />
+				</View>
+			) : (
+				<Fragment>
+					<Image style={tokenIconStyle} source={icon} />
+
+					<View style={styles.iconContainer}>
+						<Icon size={14} color={color} />
+					</View>
+				</Fragment>
+			)}
 		</View>
 	);
 };
@@ -63,5 +82,10 @@ const styles = StyleSheet.create({
 		backgroundColor: '#131C24',
 		marginLeft: -8,
 		marginBottom: -4,
+	},
+	wrapIcon: {
+		width: 40,
+		paddingRight: 8,
+		alignItems: 'center',
 	},
 });

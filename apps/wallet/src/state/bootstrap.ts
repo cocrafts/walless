@@ -1,9 +1,9 @@
 import { getStateFromPath } from '@react-navigation/native';
 import { logger, Networks } from '@walless/core';
 import type {
-	CollectibleDocument,
 	CollectionDocument,
 	NetworkClustersDocument,
+	NftDocument,
 	PouchDocument,
 	PublicKeyDocument,
 	SettingDocument,
@@ -11,7 +11,7 @@ import type {
 	TransactionHistoryDocument,
 	WidgetDocument,
 } from '@walless/store';
-import { configure, selectors } from '@walless/store';
+import { configure, migrateDatabase, selectors } from '@walless/store';
 import { createEngine, getDefaultEngine, setDefaultEngine } from 'engine';
 import {
 	createAptosRunner,
@@ -31,7 +31,7 @@ import {
 import { storage } from 'utils/storage';
 
 import { appState } from './app';
-import { collectibleState, collectionState, tokenState } from './assets';
+import { collectionState, nftState, tokenState } from './assets';
 import { historyState } from './history';
 import { keyState } from './keys';
 import { widgetState } from './widget';
@@ -40,8 +40,11 @@ export const bootstrap = async (): Promise<void> => {
 	const startTime = new Date();
 	appState.remoteConfig = loadRemoteConfig();
 
+	await configure(storage);
+	await migrateDatabase(storage, 'app');
+
 	await Promise.all([
-		configure(storage).then(configEngine),
+		configEngine(),
 		initializeAuth(),
 		watchStorageAndSyncState(),
 	]);
@@ -119,7 +122,7 @@ const watchStorageAndSyncState = async () => {
 			} else if (item?.type === 'Token') {
 				tokenState.map.delete(id);
 			} else if (item?.type === 'NFT') {
-				collectibleState.map.delete(id);
+				nftState.map.delete(id);
 			} else if (item?.type === 'Collection') {
 				collectionState.map.delete(id);
 			} else if (item?.type === 'History') {
@@ -133,7 +136,7 @@ const watchStorageAndSyncState = async () => {
 			} else if (item?.type === 'Token') {
 				tokenState.map.set(id, item as TokenDocument);
 			} else if (item?.type === 'NFT') {
-				collectibleState.map.set(id, item as CollectibleDocument);
+				nftState.map.set(id, item as NftDocument);
 			} else if (item?.type === 'Collection') {
 				collectionState.map.set(id, item as CollectionDocument);
 			} else if (item?.type === 'Setting') {

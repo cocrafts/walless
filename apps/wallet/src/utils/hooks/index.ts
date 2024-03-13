@@ -2,6 +2,7 @@ export * from './aliased';
 export * from './animated';
 export * from './app';
 export * from './browser';
+export * from './gasilon';
 export * from './jupiter';
 export * from './native';
 export * from './navigation';

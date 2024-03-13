@@ -3,7 +3,6 @@ import { withRetry } from './internal';
 test('withRetry success', async () => {
 	let count = 0;
 	const f = async (): Promise<number> => {
-		console.log('try', count);
 		if (count < 3) {
 			count++;
 			throw Error('failed');
@@ -18,7 +17,6 @@ test('withRetry success', async () => {
 test('withRetry wrong maxRetry', async () => {
 	let count = 0;
 	const f = async (): Promise<number> => {
-		console.log('try', count);
 		if (count < 3) {
 			count++;
 			throw Error('failed');

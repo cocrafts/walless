@@ -34,10 +34,3 @@ export interface SignMessageResult {
 export type SignMessageFunc = (
 	message: Uint8Array,
 ) => Promise<SignMessageResult>;
-
-export interface TezosTransaction {
-	type: 'native' | 'custom';
-	receiver: string;
-	amount: number;
-	tokenAddress?: string;
-}

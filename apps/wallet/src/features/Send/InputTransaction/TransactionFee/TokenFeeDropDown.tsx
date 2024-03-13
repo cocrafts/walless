@@ -19,9 +19,9 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 	return (
 		<View style={styles.dropdown}>
 			{tokens.map((token, idx) => {
-				const name = token.metadata?.symbol || 'Unknown';
-				const tokenIcon = token.metadata?.imageUri
-					? { uri: token.metadata.imageUri }
+				const name = token.symbol;
+				const icon = token.image
+					? { uri: token.image }
 					: assets.misc.unknownToken;
 
 				return (
@@ -33,7 +33,7 @@ const TokenFeeDropDown: FC<Props> = ({ tokens, onSelect, selectedToken }) => {
 						key={idx}
 						onPress={() => handleSelectToken(token)}
 					>
-						<Image source={tokenIcon} style={styles.tokenIcon} />
+						<Image source={icon} style={styles.tokenIcon} />
 						<Text numberOfLines={1}>{name}</Text>
 					</Hoverable>
 				);

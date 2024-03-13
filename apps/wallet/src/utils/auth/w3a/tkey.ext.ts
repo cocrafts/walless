@@ -38,7 +38,7 @@ export const initTkey = () => {
 		enableLogging: true,
 		modules: {
 			...coreModules,
-			ChromeStorageModule: new ChromeStorageModule(),
+			chromeStorage: new ChromeStorageModule(),
 		},
 	});
 };

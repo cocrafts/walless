@@ -5,7 +5,7 @@ import { shortenAddress } from '@walless/core';
 import { Text, View } from '@walless/gui';
 
 interface Props {
-	type: 'Sent' | 'Received';
+	type: string;
 	address: string;
 	imageUri: ImageSourcePropType;
 }

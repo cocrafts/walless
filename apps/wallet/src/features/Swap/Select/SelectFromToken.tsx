@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
+import type { SolanaToken } from '@walless/core';
 import { runtime } from '@walless/core';
 import { SwipeDownGesture } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
@@ -17,14 +18,14 @@ const SelectFromToken: FC = () => {
 	const insets = useSafeAreaInsets();
 	const [searchText, setSearchText] = useState('');
 	const { network, fromToken } = useSnapshot(swapContext).swap;
-	const { tokens } = useTokens(network);
+	const { tokens } = useTokens<SolanaToken>(network);
 
 	const filteredTokens = useMemo(() => {
 		const s = searchText.toLowerCase();
 		return tokens.filter((t) => {
-			const isSearchInMint = t.account.mint.toLowerCase().includes(s);
-			const isSearchInName = t.metadata?.name?.toLowerCase().includes(s);
-			const isSearchInSymbol = t.metadata?.symbol?.toLowerCase().includes(s);
+			const isSearchInMint = t.mint.toLowerCase().includes(s);
+			const isSearchInName = t.name.toLowerCase().includes(s);
+			const isSearchInSymbol = t.symbol?.toLowerCase().includes(s);
 
 			return isSearchInMint || isSearchInName || isSearchInSymbol;
 		});
@@ -34,7 +35,7 @@ const SelectFromToken: FC = () => {
 		swapActions.closeSelectToken('from');
 	};
 
-	const handleSelectToken = (token: TokenDocument) => {
+	const handleSelectToken = (token: TokenDocument<SolanaToken>) => {
 		if (token._id !== fromToken?._id) {
 			swapActions.update({ fromToken: token, amount: '' });
 		}

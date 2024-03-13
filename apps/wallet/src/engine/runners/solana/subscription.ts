@@ -8,17 +8,18 @@ import type {
 	Logs,
 	ParsedAccountData,
 } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
-import type { NetworkCluster } from '@walless/core';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import type { NetworkCluster, SolanaToken } from '@walless/core';
 import { logger } from '@walless/core';
+import type { TokenDocument } from '@walless/store';
 import { getTokenQuotes, makeHashId } from 'utils/api';
 import { solMint } from 'utils/constants';
 import {
 	addTokenToStorage,
-	getCollectibleByIdFromStorage,
+	getNftByIdFromStorage,
 	getTokenByIdFromStorage,
-	updateCollectibleAmountToStorage,
-	updateTokenBalanceToStorage,
+	storage,
+	updateNftAmountToStorage,
 } from 'utils/storage';
 
 import {
@@ -81,9 +82,10 @@ const handleNativeTokenChange = async (
 	wallet: PublicKey,
 	info: AccountInfo<Buffer>,
 ) => {
-	const newBalance = info.lamports.toString();
+	const newAmount = info.lamports;
+	const newBalance = newAmount / LAMPORTS_PER_SOL;
 	const id = `${wallet.toString()}/token/${solMint}`;
-	await updateTokenBalanceToStorage(id, newBalance);
+	await updateTokenBalanceToStorage(id, newBalance, newAmount.toString());
 };
 
 const handleSPLTokenChange = async (
@@ -114,7 +116,12 @@ const handleSPLTokenChange = async (
 		const id = `${wallet.toString()}/token/${tokenAccount.mint}`;
 		const storedToken = await getTokenByIdFromStorage(id);
 		if (storedToken) {
-			await updateTokenBalanceToStorage(id, tokenAccount.tokenAmount.amount);
+			const amount = tokenAccount.tokenAmount.amount;
+			const balance =
+				tokenAccount.tokenAmount.uiAmount ||
+				Number(amount) / 10 ** tokenAccount.tokenAmount.decimals;
+
+			await updateTokenBalanceToStorage(id, balance, amount);
 		} else {
 			const tokenDocument = await initTokenDocumentWithMetadata(
 				connection,
@@ -125,9 +132,9 @@ const handleSPLTokenChange = async (
 		}
 	} else {
 		const id = `${wallet.toString()}/collectible/${tokenAccount.mint}`;
-		const storedCollectible = await getCollectibleByIdFromStorage(id);
+		const storedCollectible = await getNftByIdFromStorage(id);
 		if (storedCollectible) {
-			await updateCollectibleAmountToStorage(
+			await updateNftAmountToStorage(
 				id,
 				parseInt(tokenAccount.tokenAmount.amount),
 			);
@@ -220,8 +227,13 @@ const handleInitAccountOnLogsChange = async (
 				tokenAmount: t.uiTokenAmount,
 			});
 
-			const quotes = await getTokenQuotes([token]);
-			token.account.quotes = quotes[makeHashId(token)].quotes;
+			const quotes = await getTokenQuotes([
+				{ address: token.mint, network: token.network },
+			]);
+			token.quotes =
+				quotes[
+					makeHashId({ address: token.mint, network: token.network })
+				].quotes;
 			await addTokenToStorage(token);
 		} else {
 			const mpl = new Metaplex(connection);
@@ -245,4 +257,20 @@ const handleInitAccountOnLogsChange = async (
 	}) as never[];
 
 	await Promise.all(promises);
+};
+
+const updateTokenBalanceToStorage = async (
+	id: string,
+	balance: number,
+	amount: string,
+) => {
+	return await storage.upsert<TokenDocument<SolanaToken>>(
+		id,
+		async (prevDoc) => {
+			prevDoc.balance = balance;
+			prevDoc.amount = amount;
+
+			return prevDoc;
+		},
+	);
 };

@@ -1,25 +1,31 @@
 import type {
-	AssetMetadata,
-	Collectible,
+	AssetMetadataV1,
+	CollectibleV1,
 	Collection,
+	CollectionV1,
 	EncryptedWithPasscode,
 	ExtensionConfig,
 	HydratedKey,
-	NetworkCluster,
 	NetworkClusterMap,
 	Networks,
+	Nft,
 	Setting,
 	System,
 	Token,
+	TokenV1,
 	TransactionHistory,
 	TrustedDomain,
 	UnknownObject,
 	Widget,
 } from '@walless/core';
 
+import type helpers from '../plugins';
+
+export type Database = Omit<PouchDB.Database, 'find'> &
+	typeof helpers & { find: TypedFind };
+
 export type DocumentType =
 	| 'Setting'
-	// | 'EndpointMap'
 	| 'ClusterMap'
 	| 'EncryptionKey'
 	| 'PrivateKey'
@@ -35,8 +41,6 @@ export type DocumentType =
 
 export interface IndexedDocument {
 	type: DocumentType;
-	network?: Networks;
-	cluster?: NetworkCluster;
 	timestamp?: string;
 }
 
@@ -68,17 +72,18 @@ export type ExtensionDocument = PouchDocument<ExtensionConfig>;
 
 export type WidgetDocument = PouchDocument<Widget>;
 
-export type TokenDocument = PouchDocument<Token>;
+export type TokenDocumentV1 = PouchDocument<TokenV1>;
 
-export type MetadataDocument = PouchDocument<AssetMetadata>;
+export type MetadataDocumentV1 = PouchDocument<AssetMetadataV1>;
 
 export type TrustedDomainDocument = PouchDocument<TrustedDomain>;
 
-export type CollectionDocument = PouchDocument<Collection>;
+export type CollectionDocumentV1 = PouchDocument<CollectionV1>;
 
-export type CollectibleDocument = PouchDocument<Collectible>;
+export type CollectibleDocumentV1 = PouchDocument<CollectibleV1>;
 
-export type TransactionHistoryDocument = PouchDocument<TransactionHistory>;
+export type HistoryDocument<T extends TransactionHistory = TransactionHistory> =
+	PouchDocument<T>;
 
 export type TypedFind = <T extends object, F extends object = never>(
 	request?: PouchDB.Find.FindRequest<F> | undefined,
@@ -86,3 +91,10 @@ export type TypedFind = <T extends object, F extends object = never>(
 	docs: Array<T>;
 	warning?: string | undefined;
 }>;
+
+export type NftDocument<T extends Nft = Nft> = PouchDocument<T>;
+
+export type CollectionDocument<T extends Collection = Collection> =
+	PouchDocument<T>;
+
+export type TokenDocument<T extends Token = Token> = PouchDocument<T>;

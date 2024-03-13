@@ -1,17 +1,21 @@
 import type { TokenInfo } from '@walless/graphql';
 import { queries } from '@walless/graphql';
-import type { TokenDocument } from '@walless/store';
 
 import { qlClient } from './graphql';
 
-export const makeHashId = (i: TokenDocument) => {
-	return `${i.network}#${i.account.mint}`;
+type IToken = {
+	address: string;
+	network: string;
+};
+
+export const makeHashId = (i: IToken) => {
+	return `${i.network}#${i.address}`;
 };
 
 export const getTokenQuotes = async (
-	docs: TokenDocument[],
+	tokens: IToken[],
 ): Promise<Record<string, TokenInfo>> => {
-	const addresses = docs.map(makeHashId);
+	const addresses = tokens.map(makeHashId);
 	const result: Record<string, TokenInfo> = {};
 	const response = await qlClient.request<
 		{ tokensByAddress: TokenInfo[] },
@@ -23,4 +27,13 @@ export const getTokenQuotes = async (
 	}
 
 	return result;
+};
+
+export const getTokenQuote = async (token: IToken) => {
+	const response = await qlClient.request<
+		{ tokenByAddress: TokenInfo },
+		{ address: string }
+	>(queries.tokenByAddress, { address: makeHashId(token) });
+
+	return response.tokenByAddress;
 };

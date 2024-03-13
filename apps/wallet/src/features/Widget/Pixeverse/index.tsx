@@ -7,7 +7,7 @@ import { environment } from 'utils/config';
 import { usePublicKeys, useSnapshot } from 'utils/hooks';
 
 export const Pixeverse = () => {
-	const { jwtAuth } = useSnapshot(appState);
+	const { jwtAuth, isMobileDisplay } = useSnapshot(appState);
 	const [isReady, setIsReady] = useState(false);
 	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } = environment;
 	const webviewRef = useRef<WebView>();
@@ -28,6 +28,7 @@ export const Pixeverse = () => {
 				apiUrl: PIXEVERSE_ENDPOINT,
 				jwt: jwtAuth,
 				address: pubkey._id,
+				isMobile: isMobileDisplay,
 			};
 
 			webviewRef.current?.injectJavaScript(

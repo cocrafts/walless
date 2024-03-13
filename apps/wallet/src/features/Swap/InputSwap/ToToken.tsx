@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
+import type { SolanaToken } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import { useDebouncedCallback } from 'use-debounce';
@@ -28,7 +29,7 @@ const ToToken = () => {
 
 	const updateSwapQuote = useDebouncedCallback(
 		async (
-			fromToken?: TokenDocument,
+			fromToken?: TokenDocument<SolanaToken>,
 			toToken?: JupiterToken,
 			amount?: string,
 		) => {
@@ -46,7 +47,7 @@ const ToToken = () => {
 			const swapQuote = await getSwapQuote({
 				fromMint: getAliasedMint(fromToken),
 				toMint: toToken.address,
-				amount: amountValue * 10 ** fromToken.account.decimals,
+				amount: amountValue * 10 ** fromToken.decimals,
 			});
 			if (swapQuote) {
 				swapActions.update({ swapQuote });

@@ -47,14 +47,17 @@ const HistoryFeature: FC<Props> = ({ style, network, limit }) => {
 							isOnTheSameDate = false;
 						}
 						return isOnTheSameDate ? (
-							<HistoryItem key={transaction.signature} {...transaction} />
+							<HistoryItem
+								key={transaction.signature}
+								transaction={transaction}
+							/>
 						) : (
 							<View
 								key={transaction.signature}
 								style={styles.dateAndTransactionContainer}
 							>
 								<Text style={styles.date}>{transactionDate}</Text>
-								<HistoryItem {...transaction} />
+								<HistoryItem transaction={transaction} />
 							</View>
 						);
 					})}

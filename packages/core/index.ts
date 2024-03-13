@@ -4,6 +4,7 @@ export * from './utils/entity';
 export * from './utils/extension';
 export * from './utils/format';
 export * from './utils/helper';
+export * from './utils/history';
 export * from './utils/logger';
 export * from './utils/messaging';
 export * from './utils/platform';

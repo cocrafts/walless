@@ -16,7 +16,7 @@ export const ItemAmount: FC<Props> = ({
 	status = 'Success',
 }) => {
 	let color = '#ffffff';
-	let changeBalance = `- ${amount}`;
+	let changeBalance = `- ${parseFloat(amount.toFixed(5))}`;
 
 	if (type === 'Sent') {
 		if (status === 'Failed') {
@@ -24,7 +24,7 @@ export const ItemAmount: FC<Props> = ({
 		}
 	} else {
 		color = '#2FC879';
-		changeBalance = `+ ${amount}`;
+		changeBalance = `+ ${parseFloat(amount.toFixed(5))}`;
 	}
 
 	const handleRemoveRedundantCharacters = (text: string) =>

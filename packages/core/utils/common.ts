@@ -80,7 +80,7 @@ export enum Timeout {
 	sixtySeconds = 60000,
 }
 
-export interface TransactionHistory {
+export interface TransactionHistoryV1 {
 	id: string;
 	signature: string;
 	network: Networks;

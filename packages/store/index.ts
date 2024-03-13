@@ -38,5 +38,6 @@ export const configure = async (db: PouchDB.Database): Promise<void> => {
 	}
 };
 
+export * from './migrations';
 export * from './utils/helper';
 export * from './utils/type';

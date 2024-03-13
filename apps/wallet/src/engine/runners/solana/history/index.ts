@@ -217,8 +217,7 @@ const parseSwapTransaction = async ({
 	if (!receivedTokenMint || !sentTokenMint)
 		return { transactionType: 'Unknown' };
 
-	const isWrappedSol =
-		receivedTokenMint === 'So11111111111111111111111111111111111111112';
+	const isWrappedSol = receivedTokenMint === wrappedSolMint;
 
 	const receivedTokenId = `${ownerAddress}/token/${
 		isWrappedSol ? solMint : receivedTokenMint

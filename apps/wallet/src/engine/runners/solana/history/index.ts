@@ -35,6 +35,7 @@ const historyLimit = 20;
 
 export const getTransactionsHistory = async (
 	connection: Connection,
+	cluster: string,
 	wallet: PublicKey,
 	accounts: ParsedTokenAccountWithAddress[],
 ) => {
@@ -59,6 +60,7 @@ export const getTransactionsHistory = async (
 
 			const txDoc = await constructTransactionHistoryDocument(
 				connection,
+				cluster,
 				tx as ParsedTransactionWithMeta,
 				wallet,
 			);
@@ -103,6 +105,7 @@ const getTransactionSignatures = async (
 
 const constructTransactionHistoryDocument = async (
 	connection: Connection,
+	cluster: string,
 	parsedTransaction: ParsedTransactionWithMeta,
 	wallet: PublicKey,
 ): Promise<
@@ -131,6 +134,7 @@ const constructTransactionHistoryDocument = async (
 			_id,
 			id,
 			type: 'History',
+			cluster,
 			signature,
 			network: Networks.solana,
 			transactionType: 'Unknown',
@@ -142,7 +146,7 @@ const constructTransactionHistoryDocument = async (
 	return {
 		_id,
 		type: 'History',
-		id,
+		cluster,
 		signature,
 		network: Networks.solana,
 		tokenForFee,

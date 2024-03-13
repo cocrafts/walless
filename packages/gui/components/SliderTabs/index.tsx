@@ -57,6 +57,7 @@ export * from './TabItem';
 
 const styles = StyleSheet.create({
 	container: {
+		backgroundColor: '#202d38',
 		flexDirection: 'row',
 		borderRadius: 10,
 		padding: 4,

@@ -1,6 +1,6 @@
 import type { CollectibleDocumentV1, TokenDocumentV1 } from '@walless/store';
 
-import type { TokenV1 } from './entity';
+import type { CollectibleV1, TokenV1 } from './entity';
 
 export interface EncryptedWithPasscode {
 	iv: string;
@@ -78,6 +78,25 @@ export interface TransactionPayload {
 export enum Timeout {
 	thirtySeconds = 30000,
 	sixtySeconds = 60000,
+}
+
+export interface TransactionHistoryV1 {
+	id: string;
+	signature: string;
+	network: Networks;
+	transactionType: 'Sent' | 'Received';
+	status: 'Success' | 'Pending' | 'Failed';
+	sender: string;
+	receiver: string;
+	token:
+		| Omit<TokenV1, 'account'>
+		| Omit<CollectibleV1, 'account' | 'collectionId' | 'collectionAddress'>;
+	tokenForFee: TokenV1;
+	fee: number;
+	preBalance?: number;
+	postBalance?: number;
+	amount: number;
+	date: Date;
 }
 
 export interface AptosToken {

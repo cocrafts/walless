@@ -1,6 +1,6 @@
 import { logger, runtime } from '@walless/core';
 import { configure, migrateDatabase } from '@walless/store';
-// need to initialize storage separately for kernel
+// TODO: need to initialize storage separately for kernel
 import { storage } from 'utils/storage/db';
 
 import { keepBackgroundAlive } from './utils/extension';

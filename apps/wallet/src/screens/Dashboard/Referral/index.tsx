@@ -130,12 +130,11 @@ export const ReferralScreen: FC<Props> = () => {
 							points={20}
 						/>
 					))}
+					<Text style={styles.subtext}>
+						More Invitation codes are awaiting, stay tuned!
+					</Text>
 				</View>
 			</View>
-
-			<Text style={styles.subtext}>
-				More Invitation codes are awaiting, stay tuned!
-			</Text>
 		</View>
 	);
 };
@@ -144,8 +143,9 @@ export default ReferralScreen;
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		gap: 12,
-		paddingVertical: 16,
+		paddingTop: 16,
 	},
 	title: {
 		fontSize: 20,
@@ -186,9 +186,12 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 	},
 	referralCodeContainer: {
+		flex: 1,
 		backgroundColor: '#131C24',
-		borderRadius: 16,
+		borderTopStartRadius: 16,
+		borderTopEndRadius: 16,
 		padding: 16,
+		gap: 12,
 	},
 	referralCodeList: {
 		flex: 1,
@@ -196,6 +199,5 @@ const styles = StyleSheet.create({
 	},
 	titleContainer: {
 		gap: 12,
-		marginBottom: 12,
 	},
 });

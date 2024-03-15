@@ -28,7 +28,8 @@ export const NftTab: FC<Props> = ({ onContinue }) => {
 	const { nfts, collections } = useNfts(network);
 	const [recipientError, setRecipientError] = useState('');
 
-	const canContinue = !recipientError && collection && nft;
+	const isFullfilled = nft && collection && receiver;
+	const canContinue = !recipientError && isFullfilled;
 
 	const getMetadata = (nft: PouchDocument<NftMetadata>) => {
 		return {

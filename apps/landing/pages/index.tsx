@@ -1,7 +1,7 @@
 import HomeLayout from 'components/layouts/Home';
 // import Developer from 'features/home/Developer';
 import EasyOnboarding from 'features/home/EasyOnboarding';
-import EditTool from 'features/home/EditTool';
+// import EditTool from 'features/home/EditTool';
 import ExtensionDownload from 'features/home/ExtensionDownload';
 import HeadingSection from 'features/home/HeadingSection';
 // TODO: Refactor Partners section
@@ -14,7 +14,7 @@ export const IndexPage = () => {
 			<HeadingSection />
 			<ExtensionDownload />
 			<EasyOnboarding />
-			<EditTool />
+			{/* <EditTool /> */}
 			{/* <Developer /> */}
 			<News />
 			<Partners />

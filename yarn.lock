@@ -11808,6 +11808,7 @@ __metadata:
     react-native-vision-camera: ^3.9.0
     react-native-webview: 13.6.3
     react-test-renderer: 18.2.0
+    replace-in-file-webpack-plugin: ^1.0.6
     rimraf: 5.0.5
     use-debounce: ^10.0.0
   peerDependencies:
@@ -24552,6 +24553,13 @@ __metadata:
     lodash: ^4.17.21
     strip-ansi: ^6.0.1
   checksum: 77162b62d6f33ab81f337c39efce0439ff0d1f6d441e29c35183151f83041c7850774fb904da163d6c844264d440d10557714e6daa0b19e4561a5cd4ef305d41
+  languageName: node
+  linkType: hard
+
+"replace-in-file-webpack-plugin@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "replace-in-file-webpack-plugin@npm:1.0.6"
+  checksum: 0c00a074e544ebe1aef0615e594f6daad47427950a2454e88f94dcb185839d68ce07854b83bbcb5f9b2336f8e8ae24017db4eca085135a9be84e43585163301a
   languageName: node
   linkType: hard
 

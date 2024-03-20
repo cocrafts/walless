@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import type { NavigationState } from '@react-navigation/native';
 import type { SettingDocument } from '@walless/store';
+import { appState } from 'state/app';
 import { useDebouncedCallback } from 'use-debounce';
 import { appAnalytics } from 'utils/firebase';
 import { navigationRef } from 'utils/navigation';
@@ -38,7 +39,10 @@ export const useNavigationHydrate = () => {
 			}
 
 			if (!!nextRouteName && routeNameRef.current !== nextRouteName) {
-				appAnalytics.logScreenView(nextRouteName, nextRouteName);
+				if (appState.config.allowTracking) {
+					appAnalytics.logScreenView(nextRouteName, nextRouteName);
+				}
+
 				routeNameRef.current = nextRouteName;
 			}
 		},

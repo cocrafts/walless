@@ -28,6 +28,7 @@ export interface Config {
 	hideBalance: boolean;
 	latestLocation: string;
 	notificationToken?: string;
+	allowTracking?: boolean;
 	storageVersion?: number;
 }
 

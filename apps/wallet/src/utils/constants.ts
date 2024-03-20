@@ -8,6 +8,7 @@ export const tabBarHeight = 52;
 
 export const defaultConfig: Config = {
 	hideBalance: true,
+	allowTracking: false,
 	latestLocation: '/',
 };
 

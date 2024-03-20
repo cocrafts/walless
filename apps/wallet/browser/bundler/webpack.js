@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const ReplaceInFilePlugin = require('replace-in-file-webpack-plugin');
 
 const isProd = process.env.ENV === 'production';
 const isExtension = process.env.BUILD_TARGET === 'extension';
@@ -130,6 +131,37 @@ const injectEnvironments = (config, internal) => {
 	return config;
 };
 
+const replaceExtensionArgonLinks = (config) => {
+	if (isExtension) {
+		config.plugins.push(
+			new ReplaceInFilePlugin([
+				{
+					dir: 'metacraft',
+					test: [/app.js(\.map)?$/],
+					rules: [
+						{
+							search: 'https://apis.google.com/js/api.js',
+							replace: '',
+						},
+						{
+							search: 'https://www.googletagmanager.com/gtag/js',
+							replace: '',
+						},
+					],
+				},
+			]),
+		);
+	}
+
+	return config;
+};
+
+const minifyOption = {
+	compress: true,
+	mangle: true,
+	format: { comments: false },
+};
+
 const swcOptions = () => ({
 	jsc: {
 		parser: {
@@ -137,15 +169,7 @@ const swcOptions = () => ({
 			tsx: true,
 			dynamicImport: true,
 		},
-		minify: isProd
-			? {
-					compress: true,
-					mangle: true,
-					format: {
-						comments: false,
-					},
-				}
-			: {},
+		minify: isProd ? {} : minifyOption,
 	},
 	env: {
 		targets: {
@@ -166,4 +190,5 @@ module.exports = {
 	registerExtFile,
 	buildOptimization,
 	injectEnvironments,
+	replaceExtensionArgonLinks,
 };

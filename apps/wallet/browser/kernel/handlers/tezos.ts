@@ -1,6 +1,8 @@
+import { InMemorySigner } from '@taquito/signer';
 import { TezosToolkit } from '@taquito/taquito';
 import { ResponseCode } from '@walless/core';
 import { tezos } from '@walless/network';
+import { encode } from 'bs58';
 import { environment } from 'utils/config';
 
 import { respond } from '../utils/requestPool';
@@ -19,6 +21,21 @@ const tezosToolkit = new TezosToolkit(
 		? tezosEndpoints.tezosMainnet
 		: tezosEndpoints.ghostnetTestnet,
 );
+
+export const signPayload: HandleMethod<{
+	privateKey?: Uint8Array;
+	payload?: string;
+}> = async ({ payload }) => {
+	if (!payload.privateKey || !payload.payload) {
+		throw Error('Missing privateKey or message');
+	}
+
+	const privateKey = encode(payload.privateKey);
+	const signer = await InMemorySigner.fromSecretKey(privateKey);
+	const { prefixSig } = await signer.sign(payload.payload as string);
+
+	respond(payload.requestId, ResponseCode.SUCCESS, { signature: prefixSig });
+};
 
 export const transferToken: HandleMethod<{
 	privateKey?: Uint8Array;

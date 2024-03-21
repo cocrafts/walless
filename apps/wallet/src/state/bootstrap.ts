@@ -2,13 +2,13 @@ import { getStateFromPath } from '@react-navigation/native';
 import { logger, Networks } from '@walless/core';
 import type {
 	CollectionDocument,
+	HistoryDocument,
 	NetworkClustersDocument,
 	NftDocument,
 	PouchDocument,
 	PublicKeyDocument,
 	SettingDocument,
 	TokenDocument,
-	TransactionHistoryDocument,
 	WidgetDocument,
 } from '@walless/store';
 import { configure, migrateDatabase, selectors } from '@walless/store';
@@ -147,7 +147,7 @@ const watchStorageAndSyncState = async () => {
 			} else if (item?.type === 'ClusterMap') {
 				appState.networkClusters = item as NetworkClustersDocument;
 			} else if (item?.type === 'History') {
-				historyState.map.set(id, item as TransactionHistoryDocument);
+				historyState.map.set(id, item as HistoryDocument);
 			}
 		}
 	});

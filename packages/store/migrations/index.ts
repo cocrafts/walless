@@ -3,16 +3,21 @@ import { logger } from '@walless/core';
 import type { Database, PouchDocument, SettingDocument } from '../utils/type';
 
 type MigrateScope = 'app' | 'kernel' | 'all';
+interface MigrateParams {
+	storage: Database;
+	logout: () => void;
+}
 
 type Migration = {
 	description?: string;
 	version: number;
-	migrate: (storage: Database) => Promise<void>;
+	migrate: (params: MigrateParams) => Promise<void>;
 	scope: MigrateScope;
 };
 
 export const migrateDatabase = async (
 	storage: Database,
+	logout: () => void,
 	scope: MigrateScope,
 ) => {
 	logger.info(`start migrating database, scope: ${scope}`);
@@ -28,7 +33,7 @@ export const migrateDatabase = async (
 
 		const filteredMigrations = migrations.filter(newerVersionFilter);
 
-		await runMigrations(storage, filteredMigrations);
+		await runMigrations(storage, logout, filteredMigrations);
 		await storage.upsert<SettingDocument>('settings', async (setting) => {
 			setting.config = Object.assign({}, setting.config);
 			setting.config.storageVersion = latestVersion;
@@ -37,10 +42,14 @@ export const migrateDatabase = async (
 	}
 };
 
-const runMigrations = async (storage: Database, migrations: Migration[]) => {
+const runMigrations = async (
+	storage: Database,
+	logout: () => void,
+	migrations: Migration[],
+) => {
 	for (const migration of migrations) {
 		logger.info(`migrating database, version: ${migration.version}`);
-		await migration.migrate(storage);
+		await migration.migrate({ storage, logout });
 	}
 };
 
@@ -50,7 +59,7 @@ const migrations: Migration[] = [
 		description:
 			'This migration removes all assets/histories documents from the database. Apply new universal/cross-chain assets and histories.',
 		scope: 'app',
-		migrate: async (storage: Database) => {
+		migrate: async ({ storage }) => {
 			const migrateTokenPromises = storage
 				.find<PouchDocument<unknown>>({
 					selector: { type: 'Token', account: { $exists: true } },
@@ -104,6 +113,8 @@ const migrations: Migration[] = [
 		description:
 			"This migration add encodedPublicKey to Sui PublicKeyDocument['meta']",
 		scope: 'app',
-		migrate: async () => {},
+		migrate: async ({ logout }) => {
+			logout();
+		},
 	},
 ];

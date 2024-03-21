@@ -20,6 +20,7 @@ import {
 	createTezosRunner,
 } from 'engine/runners';
 import type { Engine } from 'engine/types';
+import { logout } from 'utils/auth';
 import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
 import {
@@ -41,7 +42,7 @@ export const bootstrap = async (): Promise<void> => {
 	appState.remoteConfig = loadRemoteConfig();
 
 	await configure(storage);
-	await migrateDatabase(storage, 'app');
+	await migrateDatabase(storage, logout, 'app');
 
 	await Promise.all([
 		configEngine(),

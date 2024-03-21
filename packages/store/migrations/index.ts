@@ -99,4 +99,11 @@ const migrations: Migration[] = [
 			]);
 		},
 	},
+	{
+		version: 3,
+		description:
+			"This migration add encodedPublicKey to Sui PublicKeyDocument['meta']",
+		scope: 'app',
+		migrate: async () => {},
+	},
 ];

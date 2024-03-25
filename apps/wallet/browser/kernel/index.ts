@@ -1,6 +1,5 @@
 import { logger, runtime } from '@walless/core';
 import { configure, migrateDatabase } from '@walless/store';
-import { logout } from 'utils/auth';
 // TODO: need to initialize storage separately for kernel
 import { storage } from 'utils/storage/db';
 
@@ -11,7 +10,7 @@ import { configurePWA } from './pwa';
 logger.info('Initializing kernel..');
 
 configure(storage).then(async () => {
-	await migrateDatabase(storage, logout, 'kernel').catch(logger.error);
+	await migrateDatabase(storage, 'kernel').catch(logger.error);
 	initializeMessaging();
 });
 

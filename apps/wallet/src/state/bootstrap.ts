@@ -11,7 +11,12 @@ import type {
 	TokenDocument,
 	WidgetDocument,
 } from '@walless/store';
-import { configure, migrateDatabase, selectors } from '@walless/store';
+import {
+	configure,
+	getLatestMigrationVersion,
+	migrateDatabase,
+	selectors,
+} from '@walless/store';
 import { createEngine, getDefaultEngine, setDefaultEngine } from 'engine';
 import {
 	createAptosRunner,
@@ -42,7 +47,9 @@ export const bootstrap = async (): Promise<void> => {
 	appState.remoteConfig = loadRemoteConfig();
 
 	await configure(storage);
-	await migrateDatabase(storage, logout, 'app');
+	await migrateDatabase(storage, 'app', () => {
+		logout();
+	});
 
 	await Promise.all([
 		configEngine(),
@@ -77,6 +84,16 @@ export const launchApp = async (): Promise<void> => {
 };
 
 export const initAfterSignIn = async () => {
+	console.log('init after sign in');
+	const latestMigration = getLatestMigrationVersion();
+	await storage.upsert<SettingDocument>('settings', async (doc) => {
+		console.log(doc, '<<<<<<<< setting doc');
+		doc.config = Object.assign({}, doc.config);
+		doc.config.storageVersion = latestMigration;
+
+		return doc;
+	});
+
 	const engine = getDefaultEngine();
 	await registerNetworkRunners(engine);
 	await engine.start();

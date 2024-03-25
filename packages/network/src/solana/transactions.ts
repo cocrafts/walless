@@ -12,6 +12,7 @@ import {
 } from '@solana/spl-token';
 import type { Connection, TransactionInstruction } from '@solana/web3.js';
 import {
+	ComputeBudgetProgram,
 	PublicKey,
 	SYSVAR_INSTRUCTIONS_PUBKEY,
 	VersionedMessage,
@@ -305,11 +306,14 @@ export const withGasilon = async (
 		feeAmount,
 	);
 
-	gasilonTransaction.add(feePaymentInstruction);
 
-	const versionedMessage = VersionedMessage.deserialize(
-		gasilonTransaction.serializeMessage(),
-	);
+export const withSetComputeUnitLimit = (transaction: VersionedTransaction) => {
+	const message = TransactionMessage.decompile(transaction.message);
+	const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
+		microLamports: 20000,
+	});
+	message.instructions.unshift(addPriorityFee);
+	transaction.message = message.compileToV0Message();
 
-	return new VersionedTransaction(versionedMessage);
+	return transaction;
 };

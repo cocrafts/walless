@@ -3,7 +3,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { solana } from '@walless/network';
 import { withGasilon } from '@walless/network/src/solana';
-import { getDefaultEngine } from 'engine';
+import { engine } from 'engine';
 import type { SolanaContext } from 'engine/runners';
 import { solMint } from 'utils/constants';
 
@@ -28,7 +28,6 @@ export const constructSolanaSendTokenTransaction = async (
 	const sender = new PublicKey(senderStr);
 	const receiver = new PublicKey(receiverStr);
 
-	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 
 	const isNativeTransaction = token.mint == solMint;
@@ -67,7 +66,6 @@ export const constructSolanaSendTokenTransaction = async (
 export const constructSolanaSendNftTransaction = async (
 	initTransaction: Omit<SolanaSendNftTransaction, 'type' | 'network'>,
 ): Promise<VersionedTransaction> => {
-	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 	const { sender, receiver, amount, nft, tokenForFee, fee } = initTransaction;
 

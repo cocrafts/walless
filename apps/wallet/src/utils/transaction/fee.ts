@@ -6,7 +6,7 @@ import { logger, Networks } from '@walless/core';
 import { solana } from '@walless/network';
 import type { NftDocument, TokenDocument } from '@walless/store';
 import base58 from 'bs58';
-import { getDefaultEngine } from 'engine';
+import { engine } from 'engine';
 import type { SolanaContext } from 'engine/runners';
 import { environment } from 'utils/config';
 import { solMint } from 'utils/constants';
@@ -108,7 +108,6 @@ export const getSolanaTransactionFee = async (
 
 	if (!transaction) 0;
 
-	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 
 	const message = (transaction as VersionedTransaction).message;
@@ -167,7 +166,6 @@ export const getGasilonFee = async ({
 	const config = await getGasilonConfig();
 	if (!config) return 0;
 
-	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 	const transaction = await solana.constructGasilonTransaction(connection, {
 		sender: new PublicKey(sender),

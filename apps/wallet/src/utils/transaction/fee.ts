@@ -81,7 +81,7 @@ export type GetSolanaFeeConfig = {
 export const getSolanaTransactionFee = async (
 	initTransaction: GetSolanaFeeConfig,
 ): Promise<number> => {
-	const { type, sender, receiver, token, nft, tokenForFee } = initTransaction;
+	const { type, sender, receiver, token, nft } = initTransaction;
 
 	let transaction;
 	if (type === 'token') {
@@ -90,8 +90,6 @@ export const getSolanaTransactionFee = async (
 			sender,
 			receiver,
 			token,
-			tokenForFee,
-			fee: 0,
 			amount: 0,
 		});
 	} else {
@@ -100,13 +98,11 @@ export const getSolanaTransactionFee = async (
 			sender,
 			receiver,
 			nft,
-			tokenForFee,
-			fee: 0,
 			amount: 0,
 		});
 	}
 
-	if (!transaction) 0;
+	if (!transaction) return 0;
 
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 

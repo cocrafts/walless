@@ -5,6 +5,10 @@ import type {
 	SuiSignPersonalMessageMethod,
 	SuiSignTransactionBlockMethod,
 } from '@mysten/wallet-standard';
+import {
+	ReadonlyWalletAccount,
+	SUI_MAINNET_CHAIN,
+} from '@mysten/wallet-standard';
 import { SUI_CHAINS } from '@mysten/wallet-standard';
 import { Networks } from '@walless/core';
 import type { ConnectOptions, Walless } from '@walless/sdk';
@@ -26,7 +30,6 @@ import {
 	StandardEvents,
 } from '@wallet-standard/features';
 
-import { SuiWalletAccount } from './account';
 import { icon } from './icon';
 import {
 	SuiSignAndExecuteTransactionBlock,
@@ -181,9 +184,15 @@ export class SuiWallessWallet implements Wallet {
 					case Networks.sui: {
 						const suiPublicKey = new Ed25519PublicKey(publicKey);
 
-						return new SuiWalletAccount({
+						return new ReadonlyWalletAccount({
 							address: suiPublicKey.toSuiAddress(),
 							publicKey: suiPublicKey.toRawBytes(),
+							chains: [SUI_MAINNET_CHAIN],
+							features: [
+								SuiSignAndExecuteTransactionBlock,
+								SuiSignPersonalMessage,
+								SuiSignTransactionBlock,
+							],
 						});
 					}
 				}

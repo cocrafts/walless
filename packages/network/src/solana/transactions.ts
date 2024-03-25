@@ -292,8 +292,7 @@ export const withGasilon = async (
 	transaction: VersionedTransaction,
 	{ feeAmount, sender, feeMint, feePayer }: GasilonTransactionConfig,
 ) => {
-	const message = transaction.message.serialize();
-	const gasilonTransaction = Transaction.from(message);
+	const message = TransactionMessage.decompile(transaction.message);
 	const [senderFeeAta, feePayerAta] = await Promise.all([
 		getAssociatedTokenAddress(feeMint, sender),
 		getAssociatedTokenAddress(feeMint, feePayer),
@@ -306,6 +305,11 @@ export const withGasilon = async (
 		feeAmount,
 	);
 
+	message.instructions.push(feePaymentInstruction);
+	transaction.message = message.compileToV0Message();
+
+	return transaction;
+};
 
 export const withSetComputeUnitLimit = (transaction: VersionedTransaction) => {
 	const message = TransactionMessage.decompile(transaction.message);

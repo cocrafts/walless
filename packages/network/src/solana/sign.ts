@@ -95,7 +95,7 @@ export const signAndSendTransaction = async (
 	return signature;
 };
 
-export const signAndSendTransactionAbstractionFee = async (
+export const signAndSendGasilonTransaction = async (
 	gasilonEndpoint: string,
 	transaction: string | VersionedTransaction,
 	privateKey: Uint8Array,

@@ -68,10 +68,10 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			forwardToSourceRequest,
 			solana.signAndSendTransaction,
 		]);
-	} else if (type === RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA) {
+	} else if (type === RequestType.SIGN_GASILON_TRANSACTION_ON_SOLANA) {
 		handle(payload).execute([
 			getPrivateKey(Networks.solana),
-			solana.signTransactionAbstractionFee,
+			solana.signAndSendGasilonTransaction,
 		]);
 	} else if (type === RequestType.SIGN_MESSAGE_ON_SUI) {
 		handle(payload).execute([getPrivateKey(Networks.sui), sui.signMessage]);

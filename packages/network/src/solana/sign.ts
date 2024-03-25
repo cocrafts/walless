@@ -1,5 +1,5 @@
 import type { Connection } from '@solana/web3.js';
-import { Keypair, VersionedTransaction } from '@solana/web3.js';
+import { Keypair, Transaction, VersionedTransaction } from '@solana/web3.js';
 import { logger } from '@walless/core';
 import { decode, encode } from 'bs58';
 import { sign } from 'tweetnacl';
@@ -97,19 +97,23 @@ export const signAndSendTransaction = async (
 
 export const signAndSendGasilonTransaction = async (
 	gasilonEndpoint: string,
-	transaction: string | VersionedTransaction,
+	transaction: string | Transaction,
 	privateKey: Uint8Array,
 ) => {
 	const keypair = Keypair.fromSecretKey(privateKey);
 
 	if (typeof transaction === 'string') {
 		const serializedTransaction = decode(transaction);
-		transaction = VersionedTransaction.deserialize(serializedTransaction);
+		transaction = Transaction.from(serializedTransaction);
 	}
 
-	transaction.sign([keypair]);
-
-	const txStr = encode(transaction.serialize());
+	// Gasilon only supports Legacy Transaction
+	transaction.partialSign(keypair);
+	const txStr = encode(
+		transaction.serialize({
+			requireAllSignatures: false,
+		}),
+	);
 
 	const res = await fetch(`${gasilonEndpoint}/solana/transfer`, {
 		method: 'POST',

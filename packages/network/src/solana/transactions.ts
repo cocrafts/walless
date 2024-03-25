@@ -291,8 +291,14 @@ type GasilonTransactionConfig = {
 export const withGasilon = async (
 	transaction: VersionedTransaction,
 	{ feeAmount, sender, feeMint, feePayer }: GasilonTransactionConfig,
-) => {
-	const message = TransactionMessage.decompile(transaction.message);
+): Promise<Transaction> => {
+	const legacyMessage = TransactionMessage.decompile(transaction.message);
+
+	// Gasilon only supports Legacy Transaction
+	const gasilonTransaction = Transaction.populate(
+		legacyMessage.compileToLegacyMessage(),
+	);
+
 	const [senderFeeAta, feePayerAta] = await Promise.all([
 		getAssociatedTokenAddress(feeMint, sender),
 		getAssociatedTokenAddress(feeMint, feePayer),
@@ -305,10 +311,9 @@ export const withGasilon = async (
 		feeAmount,
 	);
 
-	message.instructions.push(feePaymentInstruction);
-	transaction.message = message.compileToV0Message();
+	gasilonTransaction.add(feePaymentInstruction);
 
-	return transaction;
+	return gasilonTransaction;
 };
 
 export const withSetComputeUnitLimit = (transaction: VersionedTransaction) => {

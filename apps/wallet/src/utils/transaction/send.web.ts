@@ -1,3 +1,4 @@
+import { PublicKey } from '@solana/web3.js';
 import { RequestType } from '@walless/core';
 import { solana } from '@walless/network';
 import { sendRequest } from 'bridge';
@@ -8,6 +9,7 @@ import {
 	constructSolanaSendNftTransaction,
 	constructSolanaSendTokenTransaction,
 } from './construct';
+import { getGasilonConfig } from './gasilon';
 import type {
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
@@ -35,9 +37,23 @@ export const createAndSendSolanaTransaction = async (
 	const { tokenForFee } = initTransaction as SolanaSendTransaction;
 	const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
 	if (isGasilon) {
+		const { sender, tokenForFee, fee } = initTransaction;
+		const config = await getGasilonConfig();
+		if (!config) throw Error('Gasilon is not available');
+		transaction = await solana.withGasilon(transaction, {
+			sender: new PublicKey(sender),
+			feeAmount: Math.round(fee * 10 ** tokenForFee.decimals),
+			feeMint: new PublicKey(tokenForFee.mint),
+			feePayer: new PublicKey(config.feePayer),
+		});
+
 		return await sendRequest({
 			type: RequestType.SIGN_GASILON_TRANSACTION_ON_SOLANA,
-			transaction: encode(transaction.serialize()),
+			transaction: encode(
+				transaction.serialize({
+					requireAllSignatures: false,
+				}),
+			),
 			passcode,
 		});
 	} else {

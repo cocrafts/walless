@@ -8,11 +8,10 @@ import type {
 	PublicKeyDocument,
 	SettingDocument,
 	TokenDocument,
-	TransactionHistoryDocument,
 	WidgetDocument,
 } from '@walless/store';
 import { configure, migrateDatabase, selectors } from '@walless/store';
-import { createEngine, getDefaultEngine, setDefaultEngine } from 'engine';
+import { createEngine, engine, setEngine } from 'engine';
 import {
 	createAptosRunner,
 	createSolanaRunner,
@@ -76,18 +75,16 @@ export const launchApp = async (): Promise<void> => {
 };
 
 export const initAfterSignIn = async () => {
-	const engine = getDefaultEngine();
 	await registerNetworkRunners(engine);
 	await engine.start();
 };
 
 const configEngine = async () => {
-	let engine = getDefaultEngine();
 	if (engine) return;
-	engine = await createEngine();
-	await registerNetworkRunners(engine);
-	await engine.start();
-	setDefaultEngine(engine);
+	const newEngine = await createEngine();
+	await registerNetworkRunners(newEngine);
+	await newEngine.start();
+	setEngine(newEngine);
 };
 
 const registerNetworkRunners = async (engine: Engine) => {
@@ -146,7 +143,7 @@ const watchStorageAndSyncState = async () => {
 			} else if (item?.type === 'ClusterMap') {
 				appState.networkClusters = item as NetworkClustersDocument;
 			} else if (item?.type === 'History') {
-				historyState.map.set(id, item as TransactionHistoryDocument);
+				historyState.map.set(id, item);
 			}
 		}
 	});

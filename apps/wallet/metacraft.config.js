@@ -6,6 +6,7 @@ const {
 	registerExtFile,
 	injectEntries,
 	injectEnvironments,
+	replaceExtensionArgonLinks,
 } = require('./browser/bundler/webpack');
 
 module.exports = {
@@ -19,6 +20,7 @@ module.exports = {
 		registerExtFile,
 		injectEntries,
 		injectEnvironments,
+		replaceExtensionArgonLinks,
 	],
 	devMiddlewares: [w3aDevRoute],
 	htmlPluginOptions: {

@@ -13,9 +13,9 @@ export const Extension = ({ stack, app }: StackContext) => {
 	});
 
 	const extension = new StaticSite(stack, 'extension', {
-		path: 'apps/web',
+		path: 'apps/wallet',
 		buildOutput: 'metacraft',
-		buildCommand: 'yarn build',
+		buildCommand: 'yarn build:all',
 		customDomain: {
 			domainName: domain,
 			cdk: { hostedZone, certificate },

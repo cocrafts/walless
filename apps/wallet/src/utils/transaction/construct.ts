@@ -2,57 +2,39 @@ import type { VersionedTransaction } from '@solana/web3.js';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { solana } from '@walless/network';
-import { withGasilon } from '@walless/network/src/solana';
-import { getDefaultEngine } from 'engine';
+import { engine } from 'engine';
 import type { SolanaContext } from 'engine/runners';
 import { solMint } from 'utils/constants';
 
-import { getGasilonConfig } from './gasilon';
 import type {
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
 } from './types';
 
 export const constructSolanaSendTokenTransaction = async (
-	transaction: Omit<SolanaSendTokenTransaction, 'type' | 'network'>,
+	transaction: Omit<
+		SolanaSendTokenTransaction,
+		'type' | 'network' | 'fee' | 'tokenForFee'
+	>,
 ): Promise<VersionedTransaction | undefined> => {
 	const {
 		sender: senderStr,
 		receiver: receiverStr,
 		token,
 		amount,
-		fee,
-		tokenForFee,
 	} = transaction;
 
 	const sender = new PublicKey(senderStr);
 	const receiver = new PublicKey(receiverStr);
 
-	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 
 	const isNativeTransaction = token.mint == solMint;
-	const isGasilonTransaction = tokenForFee && tokenForFee.mint !== solMint;
 	if (isNativeTransaction) {
 		return await solana.constructSendSOLTransaction(connection, {
 			sender,
 			receiver,
 			amount: amount * LAMPORTS_PER_SOL,
-		});
-	} else if (isGasilonTransaction) {
-		if (!fee) return;
-
-		const config = await getGasilonConfig();
-		if (!config) return;
-
-		return await solana.constructGasilonTransaction(connection, {
-			sender,
-			receiver,
-			amount: Math.round(amount * 10 ** tokenForFee.decimals),
-			mint: new PublicKey(token.mint),
-			fee: Math.round(fee * 10 ** tokenForFee.decimals),
-			feeMint: new PublicKey(tokenForFee.mint),
-			feePayer: new PublicKey(config.feePayer),
 		});
 	} else {
 		return await solana.constructSendSPLTokenTransaction(connection, {
@@ -65,11 +47,13 @@ export const constructSolanaSendTokenTransaction = async (
 };
 
 export const constructSolanaSendNftTransaction = async (
-	initTransaction: Omit<SolanaSendNftTransaction, 'type' | 'network'>,
+	initTransaction: Omit<
+		SolanaSendNftTransaction,
+		'type' | 'network' | 'fee' | 'tokenForFee'
+	>,
 ): Promise<VersionedTransaction> => {
-	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
-	const { sender, receiver, amount, nft, tokenForFee, fee } = initTransaction;
+	const { sender, receiver, amount, nft } = initTransaction;
 
 	const transaction = await solana.constructSendNftTransaction(connection, {
 		sender: new PublicKey(sender),
@@ -77,15 +61,6 @@ export const constructSolanaSendNftTransaction = async (
 		amount: amount,
 		mint: new PublicKey(nft.mint),
 	});
-
-	if (tokenForFee && tokenForFee.mint !== solMint && fee) {
-		return await withGasilon(transaction, {
-			sender: new PublicKey(sender),
-			feeAmount: Math.round(fee * 10 ** tokenForFee.decimals),
-			feeMint: new PublicKey(tokenForFee.mint),
-			feePayer: new PublicKey(nft.mint),
-		});
-	}
 
 	return transaction;
 };

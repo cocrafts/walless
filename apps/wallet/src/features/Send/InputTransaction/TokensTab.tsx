@@ -27,7 +27,9 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	const [recipientError, setRecipientError] = useState('');
 	const [amountError, setAmountError] = useState('');
 
-	const canContinue = recipientError === '' && amountError === '' && token;
+	const isNotError = recipientError === '' && amountError === '';
+	const isFulfilled = token && amount && receiver;
+	const canContinue = isFulfilled && isNotError && token;
 
 	const getMetadata = (token: TokenDocument) => {
 		return {

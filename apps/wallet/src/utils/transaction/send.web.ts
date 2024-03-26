@@ -1,4 +1,7 @@
-import { Networks, RequestType } from '@walless/core';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
+import { RequestType } from '@walless/core';
+import { solana } from '@walless/network';
 import { sendRequest } from 'bridge';
 import { encode } from 'bs58';
 import { solMint } from 'utils/constants';
@@ -7,80 +10,64 @@ import {
 	constructSolanaSendNftTransaction,
 	constructSolanaSendTokenTransaction,
 } from './construct';
+import { getGasilonConfig } from './gasilon';
 import type {
-	SendTransaction,
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
 	SolanaSendTransaction,
 } from './types';
 
-export const sendTransaction = async (
-	initTransaction: SendTransaction | SolanaSendTransaction,
-	passcode?: string,
+export const createAndSendSolanaTransaction = async (
+	initTransaction: SolanaSendTokenTransaction | SolanaSendNftTransaction,
+	passcode: string,
 ) => {
-	const { network, type } = initTransaction;
+	const { type } = initTransaction;
+	let transaction;
+	if (type === 'token') {
+		transaction = await constructSolanaSendTokenTransaction(
+			initTransaction as SolanaSendTokenTransaction,
+		);
+	} else {
+		transaction = await constructSolanaSendNftTransaction(
+			initTransaction as SolanaSendNftTransaction,
+		);
+	}
+	if (!transaction) throw Error('failed to construct transaction');
 
-	switch (network) {
-		case Networks.solana: {
-			const transaction =
-				type === 'token'
-					? await constructSolanaSendTokenTransaction(
-							initTransaction as SolanaSendTokenTransaction,
-						)
-					: await constructSolanaSendNftTransaction(
-							initTransaction as SolanaSendNftTransaction,
-						);
-			if (!transaction) throw Error('failed to construct transaction');
+	const { tokenForFee } = initTransaction as SolanaSendTransaction;
+	const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
+	if (isGasilon) {
+		const { sender, tokenForFee, fee } = initTransaction;
+		const config = await getGasilonConfig();
+		if (!config) throw Error('Gasilon is not available');
+		transaction = await solana.withGasilon(transaction, {
+			sender: new PublicKey(sender),
+			feeAmount: Math.round(fee * 10 ** tokenForFee.decimals),
+			feeMint: new PublicKey(tokenForFee.mint),
+			feePayer: new PublicKey(config.feePayer),
+		});
 
-			const { tokenForFee } = initTransaction as SolanaSendTransaction;
-			const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
-			if (isGasilon) {
-				return await sendRequest({
-					type: RequestType.SIGN_TRANSACTION_ABSTRACTION_FEE_ON_SOLANA,
-					transaction: encode(transaction.serialize()),
-					passcode,
-				});
-			} else {
-				return await sendRequest({
-					type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
-					transaction: encode(transaction.serialize()),
-					passcode,
-				});
-			}
-		}
-		case Networks.sui: {
-			// return await sendRequest({
-			// 	type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
-			// 	// transaction: (transaction as never as TransactionBlock).serialize(),
-			// 	passcode,
-			// });
-			break;
-		}
-		case Networks.tezos: {
-			// return await sendRequest({
-			// 	type: RequestType.TRANSFER_TEZOS_TOKEN,
-			// 	// transaction: JSON.stringify(transaction),
-			// 	passcode,
-			// });
-			break;
-		}
-		case Networks.aptos: {
-			// const isCoinTransaction = !('creator' in transaction);
-			// if (isCoinTransaction) {
-			// 	return await sendRequest({
-			// 		type: RequestType.TRANSFER_COIN_ON_APTOS,
-			// 		transaction: JSON.stringify(transaction),
-			// 		passcode,
-			// 	});
-			// } else {
-			// 	return await sendRequest({
-			// 		type: RequestType.TRANSFER_TOKEN_ON_APTOS,
-			// 		transaction: JSON.stringify(transaction),
-			// 		passcode,
-			// 	});
-			// }
-			break;
-		}
+		transaction = solana.withSetComputeUnitLimit(transaction) as Transaction;
+
+		return await sendRequest({
+			type: RequestType.SIGN_GASILON_TRANSACTION_ON_SOLANA,
+			transaction: encode(
+				transaction.serialize({
+					requireAllSignatures: false,
+				}),
+			),
+			passcode,
+		});
+	} else {
+		transaction = solana.withSetComputeUnitLimit(transaction);
+		return await sendRequest(
+			{
+				type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
+				transaction: encode(transaction.serialize()),
+				passcode,
+			},
+			1000 * 60 * 5,
+		);
 	}
 };
 

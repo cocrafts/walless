@@ -63,7 +63,7 @@ export const signAndSendTransaction: HandleMethod<{
 	respond(payload.requestId, ResponseCode.SUCCESS, { signatureString });
 };
 
-export const signTransactionAbstractionFee: HandleMethod<{
+export const signAndSendGasilonTransaction: HandleMethod<{
 	privateKey?: Uint8Array;
 	transaction?: string;
 }> = async ({ payload }) => {
@@ -71,7 +71,7 @@ export const signTransactionAbstractionFee: HandleMethod<{
 		throw Error('Missing privateKey or transaction');
 	}
 
-	const signatureString = await solana.signAndSendTransactionAbstractionFee(
+	const signatureString = await solana.signAndSendGasilonTransaction(
 		environment.GASILON_ENDPOINT,
 		payload.transaction,
 		payload.privateKey,

@@ -1,13 +1,9 @@
 import type { CreateFunction, Engine, EngineConfig, EnginePool } from './types';
 import { getNetworkClusters } from './utils';
 
-let engine: Engine;
+export let engine: Engine = null as never as Engine;
 
-export const getDefaultEngine = () => {
-	return engine;
-};
-
-export const setDefaultEngine = (e: Engine) => {
+export const setEngine = (e: Engine) => {
 	engine = e;
 	Object.freeze(engine);
 };

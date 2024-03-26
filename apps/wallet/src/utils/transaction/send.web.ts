@@ -1,3 +1,4 @@
+import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import { RequestType } from '@walless/core';
 import { solana } from '@walless/network';
@@ -32,7 +33,6 @@ export const createAndSendSolanaTransaction = async (
 		);
 	}
 	if (!transaction) throw Error('failed to construct transaction');
-	transaction = solana.withSetComputeUnitLimit(transaction);
 
 	const { tokenForFee } = initTransaction as SolanaSendTransaction;
 	const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
@@ -47,6 +47,8 @@ export const createAndSendSolanaTransaction = async (
 			feePayer: new PublicKey(config.feePayer),
 		});
 
+		transaction = solana.withSetComputeUnitLimit(transaction) as Transaction;
+
 		return await sendRequest({
 			type: RequestType.SIGN_GASILON_TRANSACTION_ON_SOLANA,
 			transaction: encode(
@@ -57,6 +59,7 @@ export const createAndSendSolanaTransaction = async (
 			passcode,
 		});
 	} else {
+		transaction = solana.withSetComputeUnitLimit(transaction);
 		return await sendRequest(
 			{
 				type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,

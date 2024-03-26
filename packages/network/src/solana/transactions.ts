@@ -289,15 +289,14 @@ type GasilonTransactionConfig = {
 };
 
 export const withGasilon = async (
-	transaction: VersionedTransaction,
+	transaction: VersionedTransaction | Transaction,
 	{ feeAmount, sender, feeMint, feePayer }: GasilonTransactionConfig,
 ): Promise<Transaction> => {
-	const legacyMessage = TransactionMessage.decompile(transaction.message);
-
 	// Gasilon only supports Legacy Transaction
-	const gasilonTransaction = Transaction.populate(
-		legacyMessage.compileToLegacyMessage(),
-	);
+	if (transaction instanceof VersionedTransaction) {
+		const legacyMessage = TransactionMessage.decompile(transaction.message);
+		transaction = Transaction.populate(legacyMessage.compileToLegacyMessage());
+	}
 
 	const [senderFeeAta, feePayerAta] = await Promise.all([
 		getAssociatedTokenAddress(feeMint, sender),
@@ -311,18 +310,30 @@ export const withGasilon = async (
 		feeAmount,
 	);
 
-	gasilonTransaction.add(feePaymentInstruction);
-
-	return gasilonTransaction;
-};
-
-export const withSetComputeUnitLimit = (transaction: VersionedTransaction) => {
-	const message = TransactionMessage.decompile(transaction.message);
-	const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
-		microLamports: 20000,
-	});
-	message.instructions.unshift(addPriorityFee);
-	transaction.message = message.compileToV0Message();
+	transaction.add(feePaymentInstruction);
+	transaction.feePayer = feePayer;
 
 	return transaction;
+};
+
+export const withSetComputeUnitLimit = (
+	transaction: VersionedTransaction | Transaction,
+	microLamports: number = 20000,
+) => {
+	const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
+		microLamports,
+	});
+
+	if (transaction instanceof VersionedTransaction) {
+		const message = TransactionMessage.decompile(transaction.message);
+		message.instructions.unshift(addPriorityFee);
+		transaction.message = message.compileToV0Message();
+
+		return transaction;
+	} else {
+		const legacyTransaction = transaction as Transaction;
+		legacyTransaction.instructions.push(addPriorityFee);
+
+		return legacyTransaction;
+	}
 };

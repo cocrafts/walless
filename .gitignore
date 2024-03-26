@@ -72,3 +72,4 @@ cli/tokens/**/cache.json
 cli/tokens/**/config.json
 cli/tokens/**/sugar.log
 
+playground

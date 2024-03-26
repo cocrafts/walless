@@ -4,9 +4,10 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import type { SolanaCollectible, SolanaToken } from '@walless/core';
 import { logger, Networks } from '@walless/core';
 import { solana } from '@walless/network';
+import { withSetComputeUnitLimit } from '@walless/network/src/solana';
 import type { NftDocument, TokenDocument } from '@walless/store';
 import base58 from 'bs58';
-import { getDefaultEngine } from 'engine';
+import { engine } from 'engine';
 import type { SolanaContext } from 'engine/runners';
 import { environment } from 'utils/config';
 import { solMint } from 'utils/constants';
@@ -81,7 +82,7 @@ export type GetSolanaFeeConfig = {
 export const getSolanaTransactionFee = async (
 	initTransaction: GetSolanaFeeConfig,
 ): Promise<number> => {
-	const { type, sender, receiver, token, nft, tokenForFee } = initTransaction;
+	const { type, sender, receiver, token, nft } = initTransaction;
 
 	let transaction;
 	if (type === 'token') {
@@ -90,8 +91,6 @@ export const getSolanaTransactionFee = async (
 			sender,
 			receiver,
 			token,
-			tokenForFee,
-			fee: 0,
 			amount: 0,
 		});
 	} else {
@@ -100,15 +99,13 @@ export const getSolanaTransactionFee = async (
 			sender,
 			receiver,
 			nft,
-			tokenForFee,
-			fee: 0,
 			amount: 0,
 		});
 	}
 
-	if (!transaction) 0;
+	if (!transaction) return 0;
+	transaction = withSetComputeUnitLimit(transaction);
 
-	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 
 	const message = (transaction as VersionedTransaction).message;
@@ -167,7 +164,6 @@ export const getGasilonFee = async ({
 	const config = await getGasilonConfig();
 	if (!config) return 0;
 
-	const engine = getDefaultEngine();
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 	const transaction = await solana.constructGasilonTransaction(connection, {
 		sender: new PublicKey(sender),

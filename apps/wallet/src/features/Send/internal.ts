@@ -1,3 +1,4 @@
+import {} from '@solana/web3.js';
 import type {
 	SolanaCollectible,
 	SolanaCollection,
@@ -10,16 +11,19 @@ import type {
 	NftDocument,
 	TokenDocument,
 } from '@walless/store';
+import { engine } from 'engine';
+import type { SolanaContext } from 'engine/runners';
 import { showError } from 'modals/Error';
 import { ModalId } from 'modals/types';
 import { solMint } from 'utils/constants';
 import { useSnapshot } from 'utils/hooks';
 import {
+	createAndSendSolanaTransaction,
 	getGasilonFee,
 	getSolanaTransactionFee,
 	hasEnoughBalanceToMakeTx,
-	sendTransaction,
 } from 'utils/transaction';
+import type { SolanaSendTransaction } from 'utils/transaction/types';
 import { proxy } from 'valtio';
 
 const initialContext: TransactionContext = {
@@ -118,66 +122,92 @@ export const txActions = {
 			}
 		}
 	},
-	handleSendTransaction: async (passcode: string) => {
-		const { type, sender, receiver, network, amount, tokenForFee, feeAmount } =
-			txContext.tx;
-		if (!type || !sender || !receiver || !network)
-			throw Error('require type, sender, receiver, network to send');
+	handleSendTransaction: async (passcode: string, onComplete?: () => void) => {
+		const genericTransaction = await createGenericTransaction();
+		if (txContext.tx.network === Networks.solana) {
+			const res = await createAndSendSolanaTransaction(
+				genericTransaction as SolanaSendTransaction,
+				passcode,
+			);
 
-		let transaction;
-		if (type === 'token') {
-			if (!amount) throw Error("require amount when type is 'token'");
-			const { token } = txContext.tx as TokenTransactionContext;
-			if (!token) throw Error("token doesn't exist");
-			transaction = {
-				type,
-				sender,
-				receiver,
-				network,
-				amount: Number(amount),
-				token,
-				fee: feeAmount,
-				...{ tokenForFee },
-			};
-		} else {
-			const { nft } = txContext.tx as NftTransactionContext;
-			if (!nft) throw Error("nft doesn't exist");
-			transaction = {
-				type,
-				sender,
-				receiver,
-				network,
-				amount: 1,
-				nft,
-				fee: feeAmount,
-				...{ tokenForFee },
-			};
+			if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
+				showError({ errorText: 'Passcode is NOT matched' });
+			} else if (res.responseCode == ResponseCode.SUCCESS) {
+				const signature = res.signatureString;
+				txActions.update<SolanaTransactionContext>({ signature });
+				const { connection } = engine.getContext<SolanaContext>(
+					Networks.solana,
+				);
+				connection.onSignature(
+					signature,
+					async () => {
+						const status = await connection.getSignatureStatus(signature);
+						if (!status.value?.err) {
+							txActions.update({ status: 'success' });
+						} else {
+							txActions.update({ status: 'failed' });
+						}
+						onComplete?.();
+					},
+					'confirmed',
+				);
+			}
+
+			txActions.update({ time: new Date() });
+			txActions.update({
+				status:
+					res.responseCode === ResponseCode.SUCCESS ? 'pending' : 'failed',
+			});
 		}
-
-		const hasEnoughBalance = await hasEnoughBalanceToMakeTx(transaction);
-
-		if (!hasEnoughBalance) {
-			showError({ errorText: 'Insufficient balance to send' });
-			return;
-		}
-
-		const res = await sendTransaction(transaction, passcode);
-
-		if (res.responseCode == ResponseCode.WRONG_PASSCODE) {
-			showError({ errorText: 'Passcode is NOT matched' });
-		} else if (res.responseCode == ResponseCode.SUCCESS) {
-			const signature =
-				res.signatureString || res.signedTransaction?.digest || res.hash;
-			txActions.update<SolanaTransactionContext>({ signature });
-		}
-
-		txActions.update({ time: new Date() });
-		txActions.update({
-			status: res.responseCode === ResponseCode.SUCCESS ? 'success' : 'failed',
-		});
 
 		return true;
 	},
+};
+
+const createGenericTransaction = async () => {
+	const { type, sender, receiver, network, amount, tokenForFee, feeAmount } =
+		txContext.tx;
+	if (!type || !sender || !receiver || !network)
+		throw Error('require type, sender, receiver, network to send');
+
+	let transaction;
+	if (type === 'token') {
+		if (!amount) throw Error("require amount when type is 'token'");
+		const { token } = txContext.tx as TokenTransactionContext;
+		if (!token) throw Error("token doesn't exist");
+		transaction = {
+			type,
+			sender,
+			receiver,
+			network,
+			amount: Number(amount),
+			token,
+			fee: feeAmount,
+			...{ tokenForFee },
+		};
+	} else {
+		const { nft } = txContext.tx as NftTransactionContext;
+		if (!nft) throw Error("nft doesn't exist");
+		transaction = {
+			type,
+			sender,
+			receiver,
+			network,
+			amount: 1,
+			nft,
+			fee: feeAmount,
+			...{ tokenForFee },
+		};
+	}
+
+	const hasEnoughBalance = await hasEnoughBalanceToMakeTx(transaction);
+
+	if (!hasEnoughBalance) {
+		showError({ errorText: 'Insufficient balance to send' });
+		return;
+	}
+
+	return transaction;
 };
 
 export type TransactionType = 'token' | 'nft';
@@ -191,7 +221,7 @@ export interface TransactionContext {
 	feeAmount: number;
 	feeLoading: boolean;
 	tokenForFee?: TokenDocument;
-	status: 'init' | 'success' | 'failed';
+	status: 'init' | 'pending' | 'success' | 'failed';
 	time?: Date;
 	onSent?: () => void;
 }

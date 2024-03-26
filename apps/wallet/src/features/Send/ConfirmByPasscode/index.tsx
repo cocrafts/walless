@@ -8,9 +8,10 @@ import { showError } from 'modals/Error';
 import assets from 'utils/assets';
 import { nativeModules } from 'utils/native';
 
-import { txActions } from '../internal';
+import { txActions, useTransactionContext } from '../internal';
 
 import { Header } from './Header';
+import Processing from './Processing';
 
 type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
@@ -18,6 +19,7 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 	const [error, setError] = useState<string>('');
 	const [passcode, setPasscode] = useState<string>('');
 	const [renderPasscode, setRenderPasscode] = useState(false);
+	const { status } = useTransactionContext();
 
 	const handleBack = () => {
 		navigator.slideBack();
@@ -33,8 +35,9 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		setPasscode(passcode);
 		if (isCompleted) {
 			try {
-				const isSuccess = await txActions.handleSendTransaction(passcode);
-				if (isSuccess) navigator.slideNext();
+				await txActions.handleSendTransaction(passcode, () => {
+					navigator.slideNext();
+				});
 			} catch (error) {
 				logger.error('failed to send transaction', error);
 				showError({ errorText: 'Something went wrong.' });
@@ -74,13 +77,17 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 					}
 				</Text>
 			</View>
-			{renderPasscode && (
-				<Passcode
-					passcode={passcode}
-					error={error}
-					loading={isLoading}
-					onPasscodeChange={handlePasscodeChange}
-				/>
+			{status === 'pending' ? (
+				<Processing />
+			) : (
+				renderPasscode && (
+					<Passcode
+						passcode={passcode}
+						error={error}
+						loading={isLoading}
+						onPasscodeChange={handlePasscodeChange}
+					/>
+				)
 			)}
 		</View>
 	);

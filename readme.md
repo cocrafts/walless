@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="/apps/web/assets/img/icon-lg.png" />
+  <img width=150 src="apps/wallet/assets/img/icon-lg.png" />
 </div>
 
 **World's first Web3 sandbox-wallet** with embedded dApps, simplified onboarding through social logins, and a unified cross-chain interface, offering a seamless experience for new web3 users. This allows for endless possibilities for building on Walless and enables even web2 apps to onboard to the world of web3.

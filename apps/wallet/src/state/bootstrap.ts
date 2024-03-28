@@ -18,7 +18,7 @@ import {
 	selectors,
 } from '@walless/store';
 import { initializeVaultKeys } from 'browser/kernel/messaging/shared';
-import { createEngine, getDefaultEngine, setDefaultEngine } from 'engine';
+import { createEngine, engine, setEngine } from 'engine';
 import {
 	createAptosRunner,
 	createSolanaRunner,
@@ -94,18 +94,16 @@ export const initAfterSignIn = async () => {
 	});
 	await initializeVaultKeys();
 
-	const engine = getDefaultEngine();
 	await registerNetworkRunners(engine);
 	await engine.start();
 };
 
 const configEngine = async () => {
-	let engine = getDefaultEngine();
 	if (engine) return;
-	engine = await createEngine();
-	await registerNetworkRunners(engine);
-	await engine.start();
-	setDefaultEngine(engine);
+	const newEngine = await createEngine();
+	await registerNetworkRunners(newEngine);
+	await newEngine.start();
+	setEngine(newEngine);
 };
 
 const registerNetworkRunners = async (engine: Engine) => {

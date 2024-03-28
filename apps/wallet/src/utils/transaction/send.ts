@@ -1,8 +1,8 @@
-import type { VersionedTransaction } from '@solana/web3.js';
-import { logger, Networks, RequestType, ResponseCode } from '@walless/core';
+import { PublicKey } from '@solana/web3.js';
+import { Networks, RequestType, ResponseCode } from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
 import { aptos, solana, utils } from '@walless/network';
-import { getDefaultEngine } from 'engine';
+import { engine } from 'engine';
 import type { AptosContext, SolanaContext } from 'engine/runners';
 import { environment } from 'utils/config';
 import { solMint } from 'utils/constants';
@@ -12,77 +12,31 @@ import {
 	constructSolanaSendNftTransaction,
 	constructSolanaSendTokenTransaction,
 } from './construct';
+import { getGasilonConfig } from './gasilon';
 import type {
-	SendNftTransaction,
-	SendTokenTransaction,
-	SendTransaction,
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
 	SolanaSendTransaction,
 } from './types';
 
-export const sendTransaction = async (
-	initTransaction:
-		| SendTransaction
-		| SendTokenTransaction
-		| SendNftTransaction
-		| SolanaSendTransaction,
-	passcode?: string,
-): Promise<ResponsePayload> => {
-	const res = {} as ResponsePayload;
-	if (!passcode) {
-		res.responseCode = ResponseCode.REQUIRE_PASSCODE;
-		return res;
-	}
-
-	const { network, type } = initTransaction;
-
-	switch (network) {
-		case Networks.solana: {
-			const transaction =
-				type === 'token'
-					? await constructSolanaSendTokenTransaction(
-							initTransaction as SolanaSendTokenTransaction,
-						)
-					: await constructSolanaSendNftTransaction(
-							initTransaction as SolanaSendNftTransaction,
-						);
-			if (!transaction) throw Error('failed to construct transaction');
-
-			const { tokenForFee } = initTransaction as SolanaSendTransaction;
-			const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
-
-			return await sendSolanaTransaction(
-				transaction,
-				passcode,
-				isGasilon ? 'gasilon' : 'default',
-			);
-		}
-		case Networks.sui: {
-			// TODO: implement transfer sui
-			logger.debug('hello sui');
-			break;
-		}
-		case Networks.tezos: {
-			// TODO: implement transfer tezos
-			logger.debug('hello tezos');
-			break;
-		}
-		case Networks.aptos: {
-			// TODO: implement transfer tezos
-			logger.debug('hello aptos');
-			break;
-		}
-	}
-
-	return res;
-};
-
-const sendSolanaTransaction = async (
-	transaction: VersionedTransaction,
+export const createAndSendSolanaTransaction = async (
+	initTransaction: SolanaSendTokenTransaction | SolanaSendNftTransaction,
 	passcode: string,
-	type: 'default' | 'gasilon' = 'default',
 ) => {
+	const { type } = initTransaction;
+	let transaction;
+	if (type === 'token') {
+		transaction = await constructSolanaSendTokenTransaction(
+			initTransaction as SolanaSendTokenTransaction,
+		);
+	} else {
+		transaction = await constructSolanaSendNftTransaction(
+			initTransaction as SolanaSendNftTransaction,
+		);
+	}
+	if (!transaction) throw Error('failed to construct transaction');
+	transaction = solana.withSetComputeUnitLimit(transaction);
+
 	const res = {} as ResponsePayload;
 	let privateKey;
 	try {
@@ -92,15 +46,26 @@ const sendSolanaTransaction = async (
 		return res;
 	}
 
-	if (type === 'gasilon') {
+	const { tokenForFee } = initTransaction as SolanaSendTransaction;
+	const isGasilon = tokenForFee && tokenForFee.mint !== solMint;
+	if (isGasilon) {
+		const { sender, tokenForFee, fee } = initTransaction;
+		const config = await getGasilonConfig();
+		if (!config) throw Error('Gasilon is not available');
+		transaction = await solana.withGasilon(transaction, {
+			sender: new PublicKey(sender),
+			feeAmount: Math.round(fee * 10 ** tokenForFee.decimals),
+			feeMint: new PublicKey(tokenForFee.mint),
+			feePayer: new PublicKey(config.feePayer),
+		});
+
 		const gasilonEndpoint = environment.GASILON_ENDPOINT;
-		res.signatureString = await solana.signAndSendTransactionAbstractionFee(
+		res.signatureString = await solana.signAndSendGasilonTransaction(
 			gasilonEndpoint,
 			transaction,
 			privateKey,
 		);
 	} else {
-		const engine = getDefaultEngine();
 		const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 		res.signatureString = await solana.signAndSendTransaction(
 			connection,
@@ -108,8 +73,8 @@ const sendSolanaTransaction = async (
 			privateKey,
 		);
 	}
-
 	res.responseCode = ResponseCode.SUCCESS;
+
 	return res;
 };
 
@@ -129,7 +94,6 @@ export const sendAptosTransaction = async (
 
 	const isCoinTransaction = !('creator' in transaction);
 
-	const engine = getDefaultEngine();
 	const { provider } = engine.getContext<AptosContext>(Networks.aptos);
 	if (isCoinTransaction) {
 		res.signatureString = await aptos.handleTransferCoin(
@@ -169,7 +133,6 @@ export const handleAptosOnChainAction = async ({
 	}
 
 	try {
-		const engine = getDefaultEngine();
 		const { provider } = engine.getContext<AptosContext>(Networks.aptos);
 		switch (type) {
 			case RequestType.UPDATE_DIRECT_TRANSFER_ON_APTOS:

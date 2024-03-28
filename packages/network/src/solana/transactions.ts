@@ -12,6 +12,7 @@ import {
 } from '@solana/spl-token';
 import type { Connection, TransactionInstruction } from '@solana/web3.js';
 import {
+	ComputeBudgetProgram,
 	PublicKey,
 	SYSVAR_INSTRUCTIONS_PUBKEY,
 	VersionedMessage,
@@ -288,11 +289,15 @@ type GasilonTransactionConfig = {
 };
 
 export const withGasilon = async (
-	transaction: VersionedTransaction,
+	transaction: VersionedTransaction | Transaction,
 	{ feeAmount, sender, feeMint, feePayer }: GasilonTransactionConfig,
-) => {
-	const message = transaction.message.serialize();
-	const gasilonTransaction = Transaction.from(message);
+): Promise<Transaction> => {
+	// Gasilon only supports Legacy Transaction
+	if (transaction instanceof VersionedTransaction) {
+		const legacyMessage = TransactionMessage.decompile(transaction.message);
+		transaction = Transaction.populate(legacyMessage.compileToLegacyMessage());
+	}
+
 	const [senderFeeAta, feePayerAta] = await Promise.all([
 		getAssociatedTokenAddress(feeMint, sender),
 		getAssociatedTokenAddress(feeMint, feePayer),
@@ -305,11 +310,30 @@ export const withGasilon = async (
 		feeAmount,
 	);
 
-	gasilonTransaction.add(feePaymentInstruction);
+	transaction.add(feePaymentInstruction);
+	transaction.feePayer = feePayer;
 
-	const versionedMessage = VersionedMessage.deserialize(
-		gasilonTransaction.serializeMessage(),
-	);
+	return transaction;
+};
 
-	return new VersionedTransaction(versionedMessage);
+export const withSetComputeUnitLimit = (
+	transaction: VersionedTransaction | Transaction,
+	microLamports: number = 20000,
+) => {
+	const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
+		microLamports,
+	});
+
+	if (transaction instanceof VersionedTransaction) {
+		const message = TransactionMessage.decompile(transaction.message);
+		message.instructions.unshift(addPriorityFee);
+		transaction.message = message.compileToV0Message();
+
+		return transaction;
+	} else {
+		const legacyTransaction = transaction as Transaction;
+		legacyTransaction.instructions.push(addPriorityFee);
+
+		return legacyTransaction;
+	}
 };

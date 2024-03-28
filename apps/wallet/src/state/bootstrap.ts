@@ -17,6 +17,7 @@ import {
 	migrateDatabase,
 	selectors,
 } from '@walless/store';
+import { initializeVaultKeys } from 'browser/kernel/messaging/shared';
 import { createEngine, getDefaultEngine, setDefaultEngine } from 'engine';
 import {
 	createAptosRunner,
@@ -84,15 +85,14 @@ export const launchApp = async (): Promise<void> => {
 };
 
 export const initAfterSignIn = async () => {
-	console.log('init after sign in');
 	const latestMigration = getLatestMigrationVersion();
 	await storage.upsert<SettingDocument>('settings', async (doc) => {
-		console.log(doc, '<<<<<<<< setting doc');
 		doc.config = Object.assign({}, doc.config);
 		doc.config.storageVersion = latestMigration;
 
 		return doc;
 	});
+	await initializeVaultKeys();
 
 	const engine = getDefaultEngine();
 	await registerNetworkRunners(engine);

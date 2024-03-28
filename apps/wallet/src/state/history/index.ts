@@ -1,9 +1,9 @@
-import type { TransactionHistoryDocument } from '@walless/store';
+import type { HistoryDocument } from '@walless/store';
 import { proxy } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 
 interface HistoryState {
-	map: Map<string, TransactionHistoryDocument>;
+	map: Map<string, HistoryDocument>;
 }
 
 export const historyState = proxy<HistoryState>({
@@ -11,12 +11,12 @@ export const historyState = proxy<HistoryState>({
 });
 
 export const historyActions = {
-	setItems: async (items: (TransactionHistoryDocument | null)[]) => {
+	setItems: async (items: (HistoryDocument | null)[]) => {
 		items.forEach((item) => {
 			if (item) historyState.map.set(item.signature, item);
 		});
 	},
-	setItem: (item: TransactionHistoryDocument) => {
+	setItem: (item: HistoryDocument) => {
 		historyState.map.set(item.signature, item);
 	},
 	getItems: () => {

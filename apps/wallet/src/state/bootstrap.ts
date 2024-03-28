@@ -2,6 +2,7 @@ import { getStateFromPath } from '@react-navigation/native';
 import { logger, Networks } from '@walless/core';
 import type {
 	CollectionDocument,
+	HistoryDocument,
 	NetworkClustersDocument,
 	NftDocument,
 	PouchDocument,
@@ -10,7 +11,13 @@ import type {
 	TokenDocument,
 	WidgetDocument,
 } from '@walless/store';
-import { configure, migrateDatabase, selectors } from '@walless/store';
+import {
+	configure,
+	getLatestMigrationVersion,
+	migrateDatabase,
+	selectors,
+} from '@walless/store';
+import { initializeVaultKeys } from 'browser/kernel/messaging/shared';
 import { createEngine, engine, setEngine } from 'engine';
 import {
 	createAptosRunner,
@@ -19,6 +26,7 @@ import {
 	createTezosRunner,
 } from 'engine/runners';
 import type { Engine } from 'engine/types';
+import { logout } from 'utils/auth';
 import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
 import {
@@ -40,7 +48,9 @@ export const bootstrap = async (): Promise<void> => {
 	appState.remoteConfig = loadRemoteConfig();
 
 	await configure(storage);
-	await migrateDatabase(storage, 'app');
+	await migrateDatabase(storage, 'app', () => {
+		logout();
+	});
 
 	await Promise.all([
 		configEngine(),
@@ -75,6 +85,15 @@ export const launchApp = async (): Promise<void> => {
 };
 
 export const initAfterSignIn = async () => {
+	const latestMigration = getLatestMigrationVersion();
+	await storage.upsert<SettingDocument>('settings', async (doc) => {
+		doc.config = Object.assign({}, doc.config);
+		doc.config.storageVersion = latestMigration;
+
+		return doc;
+	});
+	await initializeVaultKeys();
+
 	await registerNetworkRunners(engine);
 	await engine.start();
 };
@@ -143,7 +162,7 @@ const watchStorageAndSyncState = async () => {
 			} else if (item?.type === 'ClusterMap') {
 				appState.networkClusters = item as NetworkClustersDocument;
 			} else if (item?.type === 'History') {
-				historyState.map.set(id, item);
+				historyState.map.set(id, item as HistoryDocument);
 			}
 		}
 	});

@@ -9,7 +9,7 @@ import { encryptWithPasscode } from '@walless/crypto';
 import type { PrivateKeyDocument, PublicKeyDocument } from '@walless/store';
 import { AptosAccount } from 'aptos';
 import { generateMnemonic, mnemonicToSeed } from 'bip39';
-import { decode } from 'bs58';
+import { decode, encode } from 'bs58';
 import { derivePath } from 'ed25519-hd-key';
 import { storage } from 'utils/storage';
 
@@ -84,9 +84,14 @@ const generateAndStoreKeypairs = async (
 	} else if (network === Networks.sui) {
 		const mnemonic = storedSeed.seedPhrase;
 		const keypair = SuiPair.deriveKeypair(mnemonic, `m/${path}/0'/0'/0'`);
+		const publicKey = keypair.getPublicKey();
+		const encodedPublicKey = encode(publicKey.toRawBytes());
 
 		keyType = 'ed25519';
-		address = keypair.getPublicKey().toSuiAddress();
+		meta = {
+			encodedPublicKey,
+		};
+		address = publicKey.toSuiAddress();
 		privateKey = Buffer.from(keypair.export().privateKey, 'base64') as never;
 	} else if (network === Networks.tezos) {
 		const secret = generateSecretKey(rootSeed, `m/${path}/0'/0'`, 'ed25519');

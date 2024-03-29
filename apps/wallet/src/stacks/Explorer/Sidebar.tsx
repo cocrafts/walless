@@ -37,7 +37,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 		if (widget._id === (currentRoute.params as { id: string }).id) {
 			navigate('Dashboard', {
 				screen: 'Explore',
-				params: { screen: 'Widget', params: { id: '' } },
+				params: { screen: 'Widget', params: { id: 'explorer' } },
 			});
 		}
 	};
@@ -59,6 +59,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 
 		const params: { id?: string } = routes[index]?.params || {};
 		const activeId = params?.id ?? '';
+
 		return activeId === item._id;
 	};
 

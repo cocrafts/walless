@@ -41,7 +41,7 @@ export const WidgetNavigator: FC<Props> = ({
 	};
 	const { navigationDisplay } = useSnapshot(appState);
 	const exploreItem: Partial<WidgetDocument> = {
-		_id: '',
+		_id: 'explorer',
 		storeMeta: {
 			iconColor: '#243f56',
 			iconActiveColor: '#1394d3',

@@ -1,4 +1,4 @@
-import { RequestType } from '@walless/core';
+import { RequestType, Timeout } from '@walless/core';
 
 import { sendRequest } from '../utils/messaging';
 
@@ -15,11 +15,14 @@ export const requestSignAndExecuteTransactionBlock = async (
 };
 
 export const requestSignMessage = async (message: string) => {
-	return await sendRequest({
-		from: 'walless@sdk',
-		type: RequestType.SIGN_MESSAGE_ON_SUI,
-		message,
-	});
+	return await sendRequest(
+		{
+			from: 'walless@sdk',
+			type: RequestType.SIGN_MESSAGE_ON_SUI,
+			message,
+		},
+		Timeout.sixtySeconds,
+	);
 };
 
 export const requestSignTransactionBlock = async (transaction: string) => {

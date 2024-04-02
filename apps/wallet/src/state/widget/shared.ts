@@ -158,6 +158,32 @@ export const mockWidgets: WidgetDocument[] = [
 			iconSize: 40,
 		},
 	},
+	{
+		_id: 'suijump',
+		name: 'Suipiens Jump',
+		networks: [],
+		version: '0.0.1',
+		type: 'Widget',
+		widgetType: 'Hybrid',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/sui-jump/suijump-icon.webp',
+			iconSize: 40,
+			iconColor: '#ffffff',
+			coverUri: '/img/sui-jump/suijump-bg.webp',
+			description:
+				'Suipiens Jump is a Hyper Casual game, created by Suipiens, play with your favorite character on Sui!',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/sui-jump/suijump-icon.webp',
+			iconUri: '/img/sui-jump/suijump-icon.webp',
+			iconColor: '#ffffff',
+			iconSize: 40,
+		},
+	},
 	// {
 	// 	_id: '000003',
 	// 	name: 'Under Realm',

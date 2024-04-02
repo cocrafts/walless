@@ -63,6 +63,15 @@ const assets: Asset = {
 				cardIcon: { uri: '/img/widget/runner-icon.png' },
 			},
 		},
+		suijump: {
+			storeMeta: {
+				iconUri: { uri: '/img/explore/logo-suijump.wwebp' },
+				coverUri: { uri: '/img/explore/thumbnail-suijump.webp' },
+			},
+			widgetMeta: {
+				cardIcon: { uri: '/img/widget/suijump-icon.webp' },
+			},
+		},
 	},
 	setting: {
 		solana: { icon: { uri: '/img/send-token/icon-solana.png' } },

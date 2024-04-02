@@ -13,7 +13,7 @@
     "bs58": "5.0.0"
   },
   "devDependencies": {
-    "@mysten/sui.js": "0.50.1",
+    "@mysten/sui.js": "0.51.1",
     "@solana/web3.js": "1.78.4",
     "@types/bs58": "^4.0.1",
     "@types/node-fetch": "^2.6.2",

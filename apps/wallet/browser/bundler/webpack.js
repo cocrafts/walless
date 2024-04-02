@@ -91,8 +91,8 @@ const w3aDevRoute = (config) => {
 const injectEnvironments = (config, internal) => {
 	const { webpack } = internal.modules;
 	const { DefinePlugin } = webpack;
-	const env = internal.configs.env();
-	const isProduction = internal.configs.isProduction(env);
+	const env = internal.configs.env;
+	const isProduction = internal.configs.isProduction;
 	const environments = [
 		'NETWORK_CLUSTER',
 		'BROWSER_CLIENT_ID',

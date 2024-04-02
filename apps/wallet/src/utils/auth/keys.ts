@@ -1,3 +1,4 @@
+import { decodeSuiPrivateKey } from '@mysten/sui.js/cryptography';
 import { Ed25519Keypair as SuiPair } from '@mysten/sui.js/keypairs/ed25519';
 import { Keypair as SolPair } from '@solana/web3.js';
 import { generateSecretKey, InMemorySigner } from '@taquito/signer';
@@ -92,7 +93,7 @@ const generateAndStoreKeypairs = async (
 			encodedPublicKey,
 		};
 		address = publicKey.toSuiAddress();
-		privateKey = Buffer.from(keypair.export().privateKey, 'base64') as never;
+		privateKey = decodeSuiPrivateKey(keypair.getSecretKey()).secretKey as never;
 	} else if (network === Networks.tezos) {
 		const secret = generateSecretKey(rootSeed, `m/${path}/0'/0'`, 'ed25519');
 		const keypair = await InMemorySigner.fromSecretKey(secret);

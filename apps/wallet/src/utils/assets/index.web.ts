@@ -65,11 +65,11 @@ const assets: Asset = {
 		},
 		suijump: {
 			storeMeta: {
-				iconUri: { uri: '/img/explore/logo-suijump.wwebp' },
-				coverUri: { uri: '/img/explore/thumbnail-suijump.webp' },
+				iconUri: { uri: '/img/explore/logo-suijump.png' },
+				coverUri: { uri: '/img/explore/thumbnail-suijump.png' },
 			},
 			widgetMeta: {
-				cardIcon: { uri: '/img/widget/suijump-icon.webp' },
+				cardIcon: { uri: '/img/widget/suijump-icon.png' },
 			},
 		},
 	},

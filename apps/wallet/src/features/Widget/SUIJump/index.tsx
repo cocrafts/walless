@@ -4,9 +4,15 @@ export const SUIJump = () => {
 	return (
 		<WebView
 			source={{ uri: 'https://suipien-jump.vercel.app/' }}
-			style={{ flex: 1 }}
+			style={styles.webView}
 		/>
 	);
+};
+
+const styles = {
+	webView: {
+		flex: 1,
+	},
 };
 
 export default SUIJump;

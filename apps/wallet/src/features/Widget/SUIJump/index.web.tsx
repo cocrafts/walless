@@ -27,8 +27,7 @@ export default SUIJump;
 
 const styles = StyleSheet.create({
 	container: {
-		width: 352,
-		height: 600,
-		justifyContent: 'center',
+		flex: 1,
+		alignItems: 'center',
 	},
 });

@@ -167,10 +167,10 @@ export const mockWidgets: WidgetDocument[] = [
 		widgetType: 'Hybrid',
 		timestamp: new Date().toISOString(),
 		storeMeta: {
-			iconUri: '/img/sui-jump/suijump-icon.webp',
+			iconUri: '/img/sui-jump/suijump-icon.png',
 			iconSize: 40,
 			iconColor: '#ffffff',
-			coverUri: '/img/sui-jump/suijump-bg.webp',
+			coverUri: '/img/sui-jump/suijump-bg.png',
 			description:
 				'Suipiens Jump is a Hyper Casual game, created by Suipiens, play with your favorite character on Sui!',
 			loveCount: 46,
@@ -178,8 +178,8 @@ export const mockWidgets: WidgetDocument[] = [
 		},
 		networkMeta: {
 			backgroundUri: '/img/network/sky-card-bg.png',
-			markUri: '/img/sui-jump/suijump-icon.webp',
-			iconUri: '/img/sui-jump/suijump-icon.webp',
+			markUri: '/img/sui-jump/suijump-icon.png',
+			iconUri: '/img/sui-jump/suijump-icon.png',
 			iconColor: '#ffffff',
 			iconSize: 40,
 		},

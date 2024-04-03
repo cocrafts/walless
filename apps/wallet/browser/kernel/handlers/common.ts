@@ -52,9 +52,7 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 
 				case Networks.sui: {
 					const { meta, network } = publickey;
-
 					if (!meta?.encodedPublicKey) return;
-
 					return {
 						publicKey: meta.encodedPublicKey,
 						network,

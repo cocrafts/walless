@@ -17,7 +17,6 @@ import {
 	migrateDatabase,
 	selectors,
 } from '@walless/store';
-import { initializeVaultKeys } from 'browser/kernel/messaging/shared';
 import { createEngine, engine, setEngine } from 'engine';
 import {
 	createAptosRunner,
@@ -26,7 +25,6 @@ import {
 	createTezosRunner,
 } from 'engine/runners';
 import type { Engine } from 'engine/types';
-import { logout } from 'utils/auth';
 import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
 import {
@@ -36,6 +34,7 @@ import {
 	resetRoute,
 } from 'utils/navigation';
 import { initializeVaultKeys, storage } from 'utils/storage';
+import { appMigrations } from 'utils/storage/migrations';
 
 import { appState } from './app';
 import { collectionState, nftState, tokenState } from './assets';
@@ -48,9 +47,7 @@ export const bootstrap = async (): Promise<void> => {
 	appState.remoteConfig = loadRemoteConfig();
 
 	await configure(storage);
-	await migrateDatabase(storage, 'app', () => {
-		logout();
-	});
+	await migrateDatabase(storage, 'app', appMigrations);
 
 	await Promise.all([
 		configEngine(),

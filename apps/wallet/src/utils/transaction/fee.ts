@@ -4,7 +4,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import type { SolanaCollectible, SolanaToken } from '@walless/core';
 import { logger, Networks } from '@walless/core';
 import { solana } from '@walless/network';
-import { withSetComputeUnitLimit } from '@walless/network/src/solana';
+import { withSetComputeUnitPrice } from '@walless/network/src/solana';
 import type { NftDocument, TokenDocument } from '@walless/store';
 import base58 from 'bs58';
 import { engine } from 'engine';
@@ -103,10 +103,10 @@ export const getSolanaTransactionFee = async (
 		});
 	}
 
-	if (!transaction) return 0;
-	transaction = withSetComputeUnitLimit(transaction);
-
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
+
+	if (!transaction) return 0;
+	transaction = await withSetComputeUnitPrice(transaction, connection);
 
 	const message = (transaction as VersionedTransaction).message;
 	const transactionFeePromise = connection

@@ -7,14 +7,14 @@ import type { FulfilledNftTransaction } from './internal';
 
 export const NFTHeader = () => {
 	const { nft, collection } = useTransactionContext<FulfilledNftTransaction>();
-	const iconUri = { uri: nft.image };
+	const iconUri = { uri: nft?.image };
 
 	return (
 		<View style={styles.container}>
 			<Image style={styles.tokenIcon} source={iconUri} />
 			<View style={styles.titleContainer}>
-				<Text style={styles.nftText}>{nft.name}</Text>
-				<Text style={styles.collectionText}>{collection.name}</Text>
+				<Text style={styles.nftText}>{nft?.name}</Text>
+				<Text style={styles.collectionText}>{collection?.name}</Text>
 			</View>
 		</View>
 	);

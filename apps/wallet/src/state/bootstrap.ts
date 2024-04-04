@@ -35,7 +35,7 @@ import {
 	ResetAnchors,
 	resetRoute,
 } from 'utils/navigation';
-import { storage } from 'utils/storage';
+import { initializeVaultKeys, storage } from 'utils/storage';
 
 import { appState } from './app';
 import { collectionState, nftState, tokenState } from './assets';

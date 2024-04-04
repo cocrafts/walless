@@ -56,17 +56,14 @@ export const appMigrations: Migration[] = [
 						await storage.upsert<PrivateKeyDocument>(
 							suiPublicKeyDoc.privateKeyId,
 							async (doc) => {
-								doc = {
-									...doc,
-									...encrypted,
-								};
+								doc = Object.assign(doc, encrypted);
 								return doc;
 							},
 						);
 						await storage.upsert<PublicKeyDocument>(
 							suiPublicKeyDoc._id,
 							async (doc) => {
-								doc['meta'] = { encodedPublicKey };
+								doc = Object.assign(doc, { encodedPublicKey });
 								return doc;
 							},
 						);

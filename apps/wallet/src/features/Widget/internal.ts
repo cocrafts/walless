@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import BuiltInNetwork from './BuiltInNetwork';
+import FlowXFinance from './FlowXFinance';
 import NotFound from './NotFound';
 import Pixeverse from './Pixeverse';
 import TRexRunner from './TRexRunner';
@@ -18,6 +19,7 @@ export const widgetMap: Record<string, WidgetComponent> = {
 	aptos: BuiltInNetwork,
 	tRexRunner: TRexRunner,
 	pixeverse: Pixeverse,
+	flowXFinance: FlowXFinance,
 };
 
 export const extractWidgetComponent = (id: string): WidgetComponent => {

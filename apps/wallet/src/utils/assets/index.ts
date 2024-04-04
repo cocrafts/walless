@@ -63,6 +63,15 @@ const assets: Asset = {
 				cardIcon: require('assets/img/widget/runner-icon.png'),
 			},
 		},
+		flowXFinance: {
+			storeMeta: {
+				iconUri: require('assets/img/explore/logo-flowxfinance.png'),
+				coverUri: require('assets/img/explore/thumbnail-flowxfinance.png'),
+			},
+			widgetMeta: {
+				cardIcon: require('assets/img/widget/flowxfinance-icon.png'),
+			},
+		},
 	},
 	setting: {
 		solana: {

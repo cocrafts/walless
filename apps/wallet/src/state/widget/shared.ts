@@ -158,6 +158,32 @@ export const mockWidgets: WidgetDocument[] = [
 			iconSize: 40,
 		},
 	},
+	{
+		_id: 'flowXFinance',
+		name: 'FlowX Finance',
+		networks: [],
+		version: '0.0.1',
+		type: 'Widget',
+		widgetType: 'Hybrid',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/flowx-finance/flowxfinance-icon.png',
+			iconSize: 40,
+			iconColor: '#ffffff',
+			coverUri: '/img/flowx-finance/flowxfinance-bg.png',
+			description:
+				'FlowX Finance is the one stop DEX for trading needs, designed to provide a seamless, user-friendly experience for all.',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/flowx-finance/flowxfinance-icon.png',
+			iconUri: '/img/flowx-finance/flowxfinance-icon.png',
+			iconColor: '#ffffff',
+			iconSize: 40,
+		},
+	},
 	// {
 	// 	_id: '000003',
 	// 	name: 'Under Realm',

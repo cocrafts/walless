@@ -339,7 +339,6 @@ export const withSetComputeUnitPrice = async (
 			const fees = await connection.getRecentPrioritizationFees({
 				lockedWritableAccounts: accounts,
 			});
-			console.log({ fees });
 
 			if (fees.length > 0) {
 				microLamports = fees[0].prioritizationFee;

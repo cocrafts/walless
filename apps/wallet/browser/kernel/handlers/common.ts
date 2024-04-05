@@ -40,11 +40,21 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 
 	const pkDocs = await storage.find<PublicKeyDocument>(selectors.allKeys);
 	const publicKeys = pkDocs.docs
-		.map(({ _id, network }) => {
-			switch (network) {
+		.map((publickey) => {
+			switch (publickey.network) {
 				case Networks.solana: {
+					const { _id, network } = publickey;
 					return {
 						publicKey: encode(new PublicKey(_id).toBytes()),
+						network,
+					};
+				}
+
+				case Networks.sui: {
+					const { meta, network } = publickey;
+					if (!meta?.encodedPublicKey) return;
+					return {
+						publicKey: meta.encodedPublicKey,
 						network,
 					};
 				}

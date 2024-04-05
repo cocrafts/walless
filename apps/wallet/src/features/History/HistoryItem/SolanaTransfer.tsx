@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import type { ImageURISource } from 'react-native';
 import { StyleSheet, View } from 'react-native';
-import { SolanaTransferHistoryV2 as SolanaTransferHistoryItem } from '@walless/core';
-import type { TransactionHistoryDocument } from '@walless/store';
+import type { SolanaTransferHistory } from '@walless/core';
+import type { HistoryDocument } from '@walless/store';
 import assets from 'utils/assets';
 import { getNetworkInfo } from 'utils/helper';
 
@@ -12,7 +12,7 @@ import ItemTokenIcon from './ItemTokenIcon';
 import WrappedHistory from './WrappedHistory';
 
 interface Props {
-	transaction: TransactionHistoryDocument<SolanaTransferHistoryItem>;
+	transaction: HistoryDocument<SolanaTransferHistory>;
 }
 
 const SolanaTransferHistoryItem: FC<Props> = ({ transaction }) => {

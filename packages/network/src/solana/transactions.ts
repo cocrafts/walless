@@ -23,6 +23,7 @@ import {
 	TransactionMessage,
 	VersionedTransaction,
 } from '@solana/web3.js';
+import { logger } from '@walless/core';
 
 import { TOKEN_AUTH_RULES_KEY } from './constants';
 import {
@@ -316,10 +317,37 @@ export const withGasilon = async (
 	return transaction;
 };
 
-export const withSetComputeUnitLimit = (
+export const withSetComputeUnitPrice = async (
 	transaction: VersionedTransaction | Transaction,
-	microLamports: number = 20000,
+	connection?: Connection,
 ) => {
+	let microLamports = 20000;
+	if (connection) {
+		let accounts: PublicKey[];
+		if (transaction instanceof VersionedTransaction) {
+			accounts = transaction.message.staticAccountKeys;
+		} else {
+			const allAccounts = transaction.instructions.flatMap((i) =>
+				i.keys.map((k) => k.pubkey.toString()),
+			);
+			accounts = new Array(new Set(allAccounts).values()).map(
+				(k) => new PublicKey(k),
+			);
+		}
+
+		try {
+			const fees = await connection.getRecentPrioritizationFees({
+				lockedWritableAccounts: accounts,
+			});
+
+			if (fees.length > 0) {
+				microLamports = fees[0].prioritizationFee;
+			}
+		} catch (error) {
+			logger.error('failed to get prioritization fees', error);
+		}
+	}
+
 	const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
 		microLamports,
 	});

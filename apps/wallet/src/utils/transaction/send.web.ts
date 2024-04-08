@@ -1,9 +1,10 @@
-import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import { RequestType } from '@walless/core';
+import { Networks, RequestType } from '@walless/core';
 import { solana } from '@walless/network';
 import { sendRequest } from 'bridge';
 import { encode } from 'bs58';
+import { engine } from 'engine';
+import type { SolanaContext } from 'engine/runners';
 import { solMint } from 'utils/constants';
 
 import {
@@ -47,7 +48,8 @@ export const createAndSendSolanaTransaction = async (
 			feePayer: new PublicKey(config.feePayer),
 		});
 
-		transaction = solana.withSetComputeUnitLimit(transaction) as Transaction;
+		const { connection } = engine.getContext<SolanaContext>(Networks.solana);
+		transaction = await solana.withSetComputeUnitPrice(transaction, connection);
 
 		return await sendRequest({
 			type: RequestType.SIGN_GASILON_TRANSACTION_ON_SOLANA,
@@ -59,7 +61,8 @@ export const createAndSendSolanaTransaction = async (
 			passcode,
 		});
 	} else {
-		transaction = solana.withSetComputeUnitLimit(transaction);
+		const { connection } = engine.getContext<SolanaContext>(Networks.solana);
+		transaction = await solana.withSetComputeUnitPrice(transaction, connection);
 		return await sendRequest(
 			{
 				type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,

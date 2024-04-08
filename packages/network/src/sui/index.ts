@@ -19,8 +19,8 @@ export const signTransaction = async (
 	privateKey: Uint8Array,
 ) => {
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey);
-	const transaction = decode(transactionStr);
-	const signedTransaction = await keypair.signTransactionBlock(transaction);
+	const transaction = TransactionBlock.from(transactionStr);
+	const signedTransaction = await transaction.sign({ signer: keypair });
 
 	return signedTransaction;
 };
@@ -30,11 +30,9 @@ export const signAndExecuteTransaction = async (
 	transactionStr: string,
 	privateKey: Uint8Array,
 ) => {
-	const keypair = Ed25519Keypair.fromSecretKey(privateKey.slice(0, 32));
-
-	const transaction = decode(transactionStr);
-
-	const executedTransaction = suiClient.signAndExecuteTransactionBlock({
+	const keypair = Ed25519Keypair.fromSecretKey(privateKey);
+	const transaction = TransactionBlock.from(transactionStr);
+	const executedTransaction = await suiClient.signAndExecuteTransactionBlock({
 		transactionBlock: transaction,
 		signer: keypair,
 	});

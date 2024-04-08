@@ -7,15 +7,14 @@ import type {
 	ExtensionConfig,
 	HydratedKey,
 	NetworkClusterMap,
-	Networks,
 	Nft,
+	PublicKey,
 	Setting,
 	System,
 	Token,
 	TokenV1,
 	TransactionHistory,
 	TrustedDomain,
-	UnknownObject,
 	Widget,
 } from '@walless/core';
 
@@ -62,11 +61,8 @@ export type PrivateKeyDocument = PouchDocument<
 	}
 >;
 
-export type PublicKeyDocument = PouchDocument<{
-	privateKeyId: string;
-	network: Networks;
-	meta?: UnknownObject;
-}>;
+export type PublicKeyDocument<T extends PublicKey = PublicKey> =
+	PouchDocument<T>;
 
 export type ExtensionDocument = PouchDocument<ExtensionConfig>;
 

@@ -1,6 +1,9 @@
 import type { SignatureWithBytes } from '@mysten/sui.js/cryptography';
 import type { TransactionBlock } from '@mysten/sui.js/transactions';
-import type { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
+import type {
+	SuiSignAndExecuteTransactionBlockOutput,
+	SuiSignTransactionBlockOutput,
+} from '@mysten/wallet-standard';
 import type { SendOptions } from '@solana/web3.js';
 import type { Networks } from '@walless/core';
 import { logger, ResponseCode } from '@walless/core';
@@ -124,11 +127,12 @@ export class Walless extends EventEmitter {
 
 	signTransactionBlockOnSui = async (
 		transaction: TransactionBlock,
-	): Promise<SignatureWithBytes> => {
+	): Promise<SuiSignTransactionBlockOutput> => {
 		if (!this.#publicKeys) throw Error('wallet not connected');
 
 		const res = await sui.requestSignTransactionBlock(transaction.serialize());
-		const signedTransaction: SignatureWithBytes = res.signedTransaction;
+		const signedTransaction: SuiSignTransactionBlockOutput =
+			res.signedTransaction;
 
 		return signedTransaction;
 	};

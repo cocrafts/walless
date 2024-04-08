@@ -1,4 +1,5 @@
 import { PublicKey } from '@solana/web3.js';
+import type { SuiPublicKey } from '@walless/core';
 import { Networks } from '@walless/core';
 import { ResponseCode } from '@walless/core';
 import type { ConnectOptions } from '@walless/sdk';
@@ -51,10 +52,10 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 				}
 
 				case Networks.sui: {
-					const { meta, network } = publickey;
-					if (!meta?.encodedPublicKey) return;
+					const { network, encodedPublicKey } =
+						publickey as never as SuiPublicKey;
 					return {
-						publicKey: meta.encodedPublicKey,
+						publicKey: encodedPublicKey,
 						network,
 					};
 				}

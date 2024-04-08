@@ -87,7 +87,7 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			forwardToSourceRequest,
 			sui.signTransaction,
 		]);
-	} else if (type === RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI) {
+	} else if (type === RequestType.SIGN_EXECUTE_TRANSACTION_ON_SUI) {
 		handle(payload).execute([
 			filterSDKSignatureRequest,
 			getPrivateKey(Networks.sui),

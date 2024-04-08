@@ -6,12 +6,7 @@ export const requestSignAndExecuteTransactionBlock = async (
 	transaction: string,
 	options: unknown,
 ) => {
-	return await sendRequest({
-		from: 'walless@sdk',
-		type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
-		transaction,
-		options,
-	});
+			type: RequestType.SIGN_EXECUTE_TRANSACTION_ON_SUI,
 };
 
 export const requestSignMessage = async (message: string) => {

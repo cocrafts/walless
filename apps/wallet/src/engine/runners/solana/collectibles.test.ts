@@ -1,4 +1,9 @@
 jest.mock('utils/storage/db');
+jest.mock('utils/storage/shared', () => ({
+	channels: jest.fn(),
+	encryptionKeyVault: jest.fn(),
+	initializeVaultKeys: jest.fn(),
+}));
 
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 import type { SolanaCollectible } from '@walless/core';

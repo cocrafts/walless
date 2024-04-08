@@ -6,12 +6,15 @@ export const requestSignAndExecuteTransactionBlock = async (
 	transaction: string,
 	options: unknown,
 ) => {
-	return await sendRequest({
-		from: 'walless@sdk',
-		type: RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI,
-		transaction,
-		options,
-	});
+	return await sendRequest(
+		{
+			from: 'walless@sdk',
+			type: RequestType.SIGN_EXECUTE_TRANSACTION_ON_SUI,
+			transaction,
+			options,
+		},
+		Timeout.sixtySeconds,
+	);
 };
 
 export const requestSignMessage = async (message: string) => {
@@ -26,9 +29,12 @@ export const requestSignMessage = async (message: string) => {
 };
 
 export const requestSignTransactionBlock = async (transaction: string) => {
-	return await sendRequest({
-		from: 'walless@sdk',
-		type: RequestType.SIGN_TRANSACTION_ON_SUI,
-		transaction,
-	});
+	return await sendRequest(
+		{
+			from: 'walless@sdk',
+			type: RequestType.SIGN_TRANSACTION_ON_SUI,
+			transaction,
+		},
+		Timeout.sixtySeconds,
+	);
 };

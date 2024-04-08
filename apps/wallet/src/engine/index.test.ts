@@ -1,3 +1,8 @@
+jest.mock('utils/storage/shared', () => ({
+	channels: jest.fn(),
+	encryptionKeyVault: jest.fn(),
+	initializeVaultKeys: jest.fn(),
+}));
 jest.mock('utils/storage/db');
 jest.mock('utils/config');
 import { createEngine } from 'engine';

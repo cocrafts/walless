@@ -31,150 +31,151 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@airgap/beacon-blockchain-substrate@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-blockchain-substrate@npm:4.1.2"
+"@airgap/beacon-blockchain-substrate@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-blockchain-substrate@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-types": 4.1.2
-    "@airgap/beacon-ui": 4.1.2
-  checksum: 5415bd489aeeea1a2931a4e2def7dd99b56ca399d381327531be25614019d1b30495df11e2f30962144d244975a7313414b884fff00297f68211a270186a9e26
+    "@airgap/beacon-types": 4.2.1
+    "@airgap/beacon-ui": 4.2.1
+  checksum: 203b60bf5c8f500a857ddec2f899f165ccedcf6d2b70a86e6ec2c5408432d172d9ca6c0c62beec3a2088b3fb68cca7786a0a91bfb6947482d5b920b3a3d3deb9
   languageName: node
   linkType: hard
 
-"@airgap/beacon-blockchain-tezos@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-blockchain-tezos@npm:4.1.2"
+"@airgap/beacon-blockchain-tezos@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-blockchain-tezos@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-types": 4.1.2
-    "@airgap/beacon-ui": 4.1.2
-  checksum: 44ab2e69d817ffe20744b656072183d42811eb8ca189844f972659bb72c2d1b24b7b6edbc432ac7f74e5a5fe1ef1742dd26524587bbdaa38a7cfd3841eb26742
+    "@airgap/beacon-types": 4.2.1
+    "@airgap/beacon-ui": 4.2.1
+  checksum: 2d70045e26ae23cabc9a259f38a8612acd0988ebfa6578496e6c3666d3fd27bd029062d11fb31865e670ca802c6da8a1eec297df5d91d185ab40cecd5d4116f6
   languageName: node
   linkType: hard
 
-"@airgap/beacon-core@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-core@npm:4.1.2"
+"@airgap/beacon-core@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-core@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-types": 4.1.2
-    "@airgap/beacon-utils": 4.1.2
+    "@airgap/beacon-types": 4.2.1
+    "@airgap/beacon-utils": 4.2.1
     "@stablelib/ed25519": ^1.0.3
     "@stablelib/nacl": ^1.0.4
     "@stablelib/utf8": ^1.0.1
     "@stablelib/x25519-session": ^1.0.4
     bs58check: 2.1.2
-  checksum: 7f28cf74e9de4431de7ce190c05d8bec3f490e471d1f614692a1d01abea5c381a753ae61b0ad3cdf1696ede34333e0d70bd36173806df90d63990c31190ec53e
+  checksum: 8b9a2b8a13ca262e5bd230f49d3f489150f0ee72b9bba7f8461d05984816abaed8fe0fe36ce9972753225ffd0188eae001722e32e31abb14f0968e7d93876f67
   languageName: node
   linkType: hard
 
-"@airgap/beacon-dapp@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-dapp@npm:4.1.2"
+"@airgap/beacon-dapp@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-dapp@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-core": 4.1.2
-    "@airgap/beacon-transport-matrix": 4.1.2
-    "@airgap/beacon-transport-postmessage": 4.1.2
-    "@airgap/beacon-transport-walletconnect": 4.1.2
-    "@airgap/beacon-ui": 4.1.2
-  checksum: 1cda839193bf3093c0150e7a5889b8af1711a04f5a6546281a21281f427d29f79d71b323741acbac154e13606a5f475c91932d8c3b07bcde56c87ce222e0999d
+    "@airgap/beacon-core": 4.2.1
+    "@airgap/beacon-transport-matrix": 4.2.1
+    "@airgap/beacon-transport-postmessage": 4.2.1
+    "@airgap/beacon-transport-walletconnect": 4.2.1
+    "@airgap/beacon-ui": 4.2.1
+  checksum: 343df511eb9176cb1a8da608b5ac7a807d7090754200121ee73173dc60a789006da0617f961b5da20388c7c92aca9c44f247527537c9688ea532ff3b4025dafe
   languageName: node
   linkType: hard
 
-"@airgap/beacon-sdk@npm:^4.0.12":
-  version: 4.1.2
-  resolution: "@airgap/beacon-sdk@npm:4.1.2"
+"@airgap/beacon-sdk@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-sdk@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-blockchain-substrate": 4.1.2
-    "@airgap/beacon-blockchain-tezos": 4.1.2
-    "@airgap/beacon-core": 4.1.2
-    "@airgap/beacon-dapp": 4.1.2
-    "@airgap/beacon-transport-matrix": 4.1.2
-    "@airgap/beacon-transport-postmessage": 4.1.2
-    "@airgap/beacon-types": 4.1.2
-    "@airgap/beacon-ui": 4.1.2
-    "@airgap/beacon-utils": 4.1.2
-    "@airgap/beacon-wallet": 4.1.2
-  checksum: 53034c6ea1b1fa2b4a6d933caab2bdcc433f8ceb33b551c5ab875179371ab7f5e9694fd96dc657b4ae67ddc889471d3cba75a3d48fc5b643a8e5108f34cac662
+    "@airgap/beacon-blockchain-substrate": 4.2.1
+    "@airgap/beacon-blockchain-tezos": 4.2.1
+    "@airgap/beacon-core": 4.2.1
+    "@airgap/beacon-dapp": 4.2.1
+    "@airgap/beacon-transport-matrix": 4.2.1
+    "@airgap/beacon-transport-postmessage": 4.2.1
+    "@airgap/beacon-types": 4.2.1
+    "@airgap/beacon-ui": 4.2.1
+    "@airgap/beacon-utils": 4.2.1
+    "@airgap/beacon-wallet": 4.2.1
+  checksum: 6e4d4d18e5ecc8258f94db308a43bd64777e00247fb3580676a9f6fe69d8d6436d6ada15df7f36b2280a2e90b66e80b53e6f84c31623ae056ee649ce534f1fc5
   languageName: node
   linkType: hard
 
-"@airgap/beacon-transport-matrix@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-transport-matrix@npm:4.1.2"
+"@airgap/beacon-transport-matrix@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-transport-matrix@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-core": 4.1.2
-    "@airgap/beacon-utils": 4.1.2
+    "@airgap/beacon-core": 4.2.1
+    "@airgap/beacon-utils": 4.2.1
     axios: ^1.6.2
-  checksum: b298d49c6a4a3b26e57e2398280f56784978f22edb6dff424dc123e119619cd59562e445372f00b581170a2302084726822dc02e293dd5adac45c0d00addd5ac
+  checksum: c1dd7644d618192cd5660cc892a6f6b82e399c21c8c440c8ef8a24535e67d2477e406dfff865b8dc1182de6adfec3677c6a9f731515f63d258ce130bece29226
   languageName: node
   linkType: hard
 
-"@airgap/beacon-transport-postmessage@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-transport-postmessage@npm:4.1.2"
+"@airgap/beacon-transport-postmessage@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-transport-postmessage@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-core": 4.1.2
-    "@airgap/beacon-types": 4.1.2
-    "@airgap/beacon-utils": 4.1.2
-  checksum: d0bba4e9bcfd3265887353a8a7640e95e2ecda847eba82e193145c4175b461492e20125626b18701a7d2bc810002945e3d87f584242a2298b6a87ab7c3bfb044
+    "@airgap/beacon-core": 4.2.1
+    "@airgap/beacon-types": 4.2.1
+    "@airgap/beacon-utils": 4.2.1
+  checksum: abe39aa301facc0c060c26c0b9f757a595dc30bd44c432ebc1a37e2db5797dc3668355bd7b4d9d264b634461811b6350430c14d51832b878c2ba780ebe277410
   languageName: node
   linkType: hard
 
-"@airgap/beacon-transport-walletconnect@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-transport-walletconnect@npm:4.1.2"
+"@airgap/beacon-transport-walletconnect@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-transport-walletconnect@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-core": 4.1.2
-    "@airgap/beacon-types": 4.1.2
-    "@airgap/beacon-utils": 4.1.2
-    "@walletconnect/sign-client": ^2.10.6
-  checksum: e95c1160e647c7ff4eefcf050bc9e27829cb295833d5b610908bfa2d9e10f18593c7e26837ec83487379853d2a8a158ce8441ac3e16e41d4f33980b22a8413d7
+    "@airgap/beacon-core": 4.2.1
+    "@airgap/beacon-types": 4.2.1
+    "@airgap/beacon-utils": 4.2.1
+    "@walletconnect/sign-client": 2.11.2
+  checksum: 7e74ef722b222b5d5c142c2334f6c6cd036915f1a3125c5edb280ee1bb6aacab8b030ced72b71b256b41583cc233ba314be8fa33bbd9ce1af548d8c21520ee2b
   languageName: node
   linkType: hard
 
-"@airgap/beacon-types@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-types@npm:4.1.2"
+"@airgap/beacon-types@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-types@npm:4.2.1"
   dependencies:
     "@types/chrome": 0.0.246
-  checksum: c8256c37e4f40bf372bbae0c5ecc2d91ab3d102d9b007cf08bca37749c28ce15c0d537adf6ec2ad720df825502f1808f066bcbf30567b2a0a8736862f8fd32b0
+  checksum: 84b5997badecfae1d0f470c3e325f27d57cdfb905b087f1506c77fdb12c673fc8c62cc4c59a24d428a6447d79a109108f74a7642b35d0eab8354eb4b8f1254b5
   languageName: node
   linkType: hard
 
-"@airgap/beacon-ui@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-ui@npm:4.1.2"
+"@airgap/beacon-ui@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-ui@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-core": 4.1.2
-    "@airgap/beacon-transport-postmessage": 4.1.2
-    "@airgap/beacon-types": 4.1.2
-    "@airgap/beacon-utils": 4.1.2
+    "@airgap/beacon-core": 4.2.1
+    "@airgap/beacon-transport-postmessage": 4.2.1
+    "@airgap/beacon-types": 4.2.1
+    "@airgap/beacon-utils": 4.2.1
+    "@walletconnect/utils": 2.11.2
     qrcode-svg: ^1.1.0
     solid-js: ^1.7.11
-  checksum: 4f3e8004462163750b095a4b4cf9768ef5c61e8a3ffd63c8877f0c2480d0c6acf954f280dd496128304bd7c0a2e10efd29f2c5a15fa674f169931fcb8140ca33
+  checksum: 709b39baa0091ab4eb935669865b537a744d1d591149cfab588e765e626c05ac57e929afd971764707630285eb34f0da65973f09c4d0ec59338bc2e209e0f5bb
   languageName: node
   linkType: hard
 
-"@airgap/beacon-utils@npm:4.1.2, @airgap/beacon-utils@npm:^4.0.12":
-  version: 4.1.2
-  resolution: "@airgap/beacon-utils@npm:4.1.2"
+"@airgap/beacon-utils@npm:4.2.1, @airgap/beacon-utils@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-utils@npm:4.2.1"
   dependencies:
     "@stablelib/ed25519": ^1.0.3
     "@stablelib/nacl": ^1.0.4
     "@stablelib/random": ^1.0.2
     "@stablelib/utf8": ^1.0.1
     bs58check: 2.1.2
-  checksum: 0b4228bffb2ed724bde1205fe4e5a3d6857fa0afa2fb4d42b4a45d4d8d1be94119fb07e4fffa31b6d2fd04fe220bd92e5f25cbef66a340aa9f1310f69edf21c4
+  checksum: ea4f21fdaff3ded76173379a57e671ecfb28ca4c18d8a5119b7ae1238c126b86170d6fd28a5d4f7fcb8a8e9b47b15cf71613245ed850464d9321d46c78a8aedc
   languageName: node
   linkType: hard
 
-"@airgap/beacon-wallet@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@airgap/beacon-wallet@npm:4.1.2"
+"@airgap/beacon-wallet@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@airgap/beacon-wallet@npm:4.2.1"
   dependencies:
-    "@airgap/beacon-core": 4.1.2
-    "@airgap/beacon-transport-matrix": 4.1.2
-    "@airgap/beacon-transport-postmessage": 4.1.2
-  checksum: 2105cc430b39d010b2d51d09f1bc0a3365513fafe6c800f5855f94f2770081c205027dd9997211b9843b8b2ffba98921613ed8d3e9ce2c0c92b457e4db364f27
+    "@airgap/beacon-core": 4.2.1
+    "@airgap/beacon-transport-matrix": 4.2.1
+    "@airgap/beacon-transport-postmessage": 4.2.1
+  checksum: 84019b883636d35ec50a51e4d9061b95ee6ff1b2317d6d18e72393a8a1f4fdb6880d5633379b2a0470229697d857de30efd6d1ce904bab9ebfce27a8e0d3ad0f
   languageName: node
   linkType: hard
 
@@ -12030,6 +12031,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@walless/tezos-dapp-example@workspace:examples/dapps/tezos":
+  version: 0.0.0-use.local
+  resolution: "@walless/tezos-dapp-example@workspace:examples/dapps/tezos"
+  dependencies:
+    "@airgap/beacon-sdk": ^4.2.1
+    "@airgap/beacon-utils": ^4.2.1
+    "@walless/wallet": "workspace:^"
+    react: ^18.2.0
+    react-dom: ^18.2.0
+  languageName: unknown
+  linkType: soft
+
 "@walless/tsconfig@*, @walless/tsconfig@workspace:packages/tsconfig":
   version: 0.0.0-use.local
   resolution: "@walless/tsconfig@workspace:packages/tsconfig"
@@ -12076,12 +12089,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@walless/wallet@workspace:apps/wallet":
+"@walless/wallet@workspace:^, @walless/wallet@workspace:apps/wallet":
   version: 0.0.0-use.local
   resolution: "@walless/wallet@workspace:apps/wallet"
   dependencies:
-    "@airgap/beacon-sdk": ^4.0.12
-    "@airgap/beacon-utils": ^4.0.12
+    "@airgap/beacon-sdk": ^4.2.1
+    "@airgap/beacon-utils": ^4.2.1
     "@babel/plugin-proposal-export-namespace-from": ^7.18.9
     "@coral-xyz/anchor": ^0.29.0
     "@craftzdog/pouchdb-collate-react-native": ^7.3.0
@@ -12228,9 +12241,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/core@npm:2.11.3":
-  version: 2.11.3
-  resolution: "@walletconnect/core@npm:2.11.3"
+"@walletconnect/core@npm:2.11.2":
+  version: 2.11.2
+  resolution: "@walletconnect/core@npm:2.11.2"
   dependencies:
     "@walletconnect/heartbeat": 1.2.1
     "@walletconnect/jsonrpc-provider": 1.0.13
@@ -12243,13 +12256,13 @@ __metadata:
     "@walletconnect/relay-auth": ^1.0.4
     "@walletconnect/safe-json": ^1.0.2
     "@walletconnect/time": ^1.0.2
-    "@walletconnect/types": 2.11.3
-    "@walletconnect/utils": 2.11.3
+    "@walletconnect/types": 2.11.2
+    "@walletconnect/utils": 2.11.2
     events: ^3.3.0
     isomorphic-unfetch: 3.1.0
     lodash.isequal: 4.5.0
     uint8arrays: ^3.1.0
-  checksum: 75bef3c4f09971c4e38abb01fe9497580c4c6f3f33e4841f240bbbeca38c241f482c8d6205d4a4bf961fdcfd02a214733800bb10a5745170ed94e2834ab9dfc3
+  checksum: 048c1dbdf096218b1e0c878005faf6ec98b825594e38dedbbf1bbd488c0cc73cc9376180c1701c8b26e9735e0cde0fe31ab3ee01facb34c30cd75077fe03f31f
   languageName: node
   linkType: hard
 
@@ -12386,20 +12399,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/sign-client@npm:^2.10.6":
-  version: 2.11.3
-  resolution: "@walletconnect/sign-client@npm:2.11.3"
+"@walletconnect/sign-client@npm:2.11.2":
+  version: 2.11.2
+  resolution: "@walletconnect/sign-client@npm:2.11.2"
   dependencies:
-    "@walletconnect/core": 2.11.3
+    "@walletconnect/core": 2.11.2
     "@walletconnect/events": ^1.0.1
     "@walletconnect/heartbeat": 1.2.1
     "@walletconnect/jsonrpc-utils": 1.0.8
     "@walletconnect/logger": ^2.0.1
     "@walletconnect/time": ^1.0.2
-    "@walletconnect/types": 2.11.3
-    "@walletconnect/utils": 2.11.3
+    "@walletconnect/types": 2.11.2
+    "@walletconnect/utils": 2.11.2
     events: ^3.3.0
-  checksum: 5bb322a691f22ba54983d6a2f6440ff18ce7a415b869520d3c3bc6514cf3018e2435e1a4b11e1f77636cc5ad3402519385b098ad426b3921f292dc5cfc6e4120
+  checksum: c7e566bcddedfd3c2498541c4ba9caf45436e8de0d3aa3b1da4d3b09d3fbad630ecbfe249c3ea19ed16b368c32ec3fa28b3ed78a82f1ce52793af17a585a4d71
   languageName: node
   linkType: hard
 
@@ -12412,9 +12425,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/types@npm:2.11.3":
-  version: 2.11.3
-  resolution: "@walletconnect/types@npm:2.11.3"
+"@walletconnect/types@npm:2.11.2":
+  version: 2.11.2
+  resolution: "@walletconnect/types@npm:2.11.2"
   dependencies:
     "@walletconnect/events": ^1.0.1
     "@walletconnect/heartbeat": 1.2.1
@@ -12422,13 +12435,13 @@ __metadata:
     "@walletconnect/keyvaluestorage": ^1.1.1
     "@walletconnect/logger": ^2.0.1
     events: ^3.3.0
-  checksum: a8afbffa401fab7c8c67ac5c3f12638d0d14a763c3b3000f71b77a3d5f451498e6ede5f9ab7c112db48f620fbcb892ac55ebac0dbfa2ce1bd9159e9aa291b5b2
+  checksum: 0979f214682f46762f15bef23d37220abc677dac09b38d40687efb32d7ac2636a92eff952a382ecc291641054736b9236ddaab870d6607e42b9cb77ffdce4079
   languageName: node
   linkType: hard
 
-"@walletconnect/utils@npm:2.11.3":
-  version: 2.11.3
-  resolution: "@walletconnect/utils@npm:2.11.3"
+"@walletconnect/utils@npm:2.11.2":
+  version: 2.11.2
+  resolution: "@walletconnect/utils@npm:2.11.2"
   dependencies:
     "@stablelib/chacha20poly1305": 1.0.1
     "@stablelib/hkdf": 1.0.1
@@ -12438,13 +12451,13 @@ __metadata:
     "@walletconnect/relay-api": ^1.0.9
     "@walletconnect/safe-json": ^1.0.2
     "@walletconnect/time": ^1.0.2
-    "@walletconnect/types": 2.11.3
+    "@walletconnect/types": 2.11.2
     "@walletconnect/window-getters": ^1.0.1
     "@walletconnect/window-metadata": ^1.0.1
     detect-browser: 5.3.0
     query-string: 7.1.3
     uint8arrays: ^3.1.0
-  checksum: b62b80ad2ea02d799637b1014894e8b227d68e4e79c1267b7ffccf2176acf79387cf7f909923739a1b7a7f2084fd50149bc7528a5a2fb9991671e88637ebd7ac
+  checksum: 169147f99c7486c48c23ad0a8ebcbbb4f07aaffd954bad20f4b98516391e89e44f213b5226b3ef737ee91e1226fff9b1becf79dd56738c86becdc96d86cbbc72
   languageName: node
   linkType: hard
 

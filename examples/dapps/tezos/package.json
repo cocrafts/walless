@@ -1,0 +1,22 @@
+{
+  "name": "@walless/tezos-dapp-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "metacraft --port 3011"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@airgap/beacon-sdk": "^4.2.1",
+    "@airgap/beacon-utils": "^4.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@walless/wallet": "workspace:^",
+    "@metacraft/cli-web3-polyfills": "^0.0.7"
+  }
+}

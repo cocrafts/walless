@@ -3,8 +3,8 @@ import { TezosToolkit } from '@taquito/taquito';
 import { ResponseCode } from '@walless/core';
 import { tezos } from '@walless/network';
 import { encode } from 'bs58';
-import { environment } from 'utils/config';
 
+import { environment } from '../utils/config';
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 

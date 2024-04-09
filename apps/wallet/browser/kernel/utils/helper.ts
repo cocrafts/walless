@@ -5,9 +5,9 @@ import type {
 	PrivateKeyDocument,
 	PublicKeyDocument,
 } from '@walless/store';
-import { storage } from 'utils/storage/db';
 
 import { mockLayoutCards } from './mockExtension';
+import { storage } from './storage';
 
 export const getExtensionById = async (id: string) => {
 	return mockLayoutCards.find((card) => card._id === id);

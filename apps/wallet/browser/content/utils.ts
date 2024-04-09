@@ -4,7 +4,11 @@ import {
 	generateKeyPair,
 } from '@walless/crypto/utils/p2p';
 import { createMessenger } from '@walless/messaging';
+import { create } from '@walless/store';
 import { decode, encode } from 'bs58check';
+import IDBPouch from 'pouchdb-adapter-idb';
+
+export const storage = create('engine', IDBPouch);
 
 export const messenger = createMessenger();
 

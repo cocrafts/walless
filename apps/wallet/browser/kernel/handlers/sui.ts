@@ -1,8 +1,8 @@
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { ResponseCode } from '@walless/core';
 import { sui } from '@walless/network';
-import { environment } from 'utils/config';
 
+import { environment } from '../utils/config';
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 

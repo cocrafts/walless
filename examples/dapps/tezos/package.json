@@ -10,13 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@airgap/beacon-sdk": "^4.2.1",
-    "@airgap/beacon-utils": "^4.2.1",
+    "@airgap/beacon-sdk": "3.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@walless/wallet": "workspace:^",
     "@metacraft/cli-web3-polyfills": "^0.0.7"
   }
 }

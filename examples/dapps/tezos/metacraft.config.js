@@ -9,7 +9,6 @@ const injectEnvironments = (configs, internal) => {
 	configs.plugins[0] = new DefinePlugin({
 		__DEV__: !isProduction,
 		ENV: JSON.stringify(env),
-		chrome: { runtime: { id: JSON.stringify('walless-tezos-example') } },
 	});
 
 	return configs;

@@ -29,12 +29,29 @@ export const signAndExecuteTransaction = async (
 	suiClient: SuiClient,
 	transactionStr: string,
 	privateKey: Uint8Array,
+	requestType: ExecuteTransactionRequestType = 'WaitForLocalExecution',
+	options?: SuiTransactionBlockResponseOptions,
 ) => {
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey);
+	const {
+		showEffects = true,
+		showEvents = true,
+		showBalanceChanges = true,
+		showInput = true,
+		showObjectChanges = true,
+	} = options ?? {};
 	const transaction = TransactionBlock.from(transactionStr);
 	const executedTransaction = await suiClient.signAndExecuteTransactionBlock({
 		transactionBlock: transaction,
 		signer: keypair,
+		options: {
+			showEffects,
+			showEvents,
+			showBalanceChanges,
+			showInput,
+			showObjectChanges,
+		},
+		requestType,
 	});
 
 	return executedTransaction;

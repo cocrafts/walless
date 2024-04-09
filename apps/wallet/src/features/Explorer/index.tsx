@@ -65,14 +65,15 @@ export const ExplorerFeature: FC<Props> = ({
 				showsVerticalScrollIndicator={false}
 				stickyHeaderIndices={[0]}
 			>
-				<View style={styles.barContainer}>
+				<View>
 					<ExplorerSearchBar
 						style={styles.searchBar}
 						inputStyle={styles.searchInput}
 						onChangeSearch={onChangeSearch}
 					/>
-					<LoyaltyBar />
 				</View>
+
+				<LoyaltyBar />
 
 				{widgets
 					.filter((widget) => filterWidgetsByName(widget.name))
@@ -93,9 +94,6 @@ export default ExplorerFeature;
 const styles = StyleSheet.create({
 	container: {
 		marginHorizontal: 16,
-	},
-	barContainer: {
-		gap: 16,
 	},
 	searchBar: {
 		backgroundColor: '#19232c',

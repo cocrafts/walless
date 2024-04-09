@@ -67,6 +67,9 @@ export const linking: LinkingOptions<RootParamList> = {
 									History: '/history',
 								},
 							},
+							Loyalty: {
+								path: '/loyalty',
+							},
 						},
 					},
 					Home: {

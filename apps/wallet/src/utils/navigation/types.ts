@@ -37,6 +37,7 @@ export type ExploreParamList = {
 	};
 	Collection: NavigatorScreenParams<CollectionParamList>;
 	Profile: NavigatorScreenParams<ProfileParamList>;
+	Loyalty: undefined;
 };
 
 export type HomeParamList = {

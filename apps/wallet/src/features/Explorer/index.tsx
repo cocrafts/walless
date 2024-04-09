@@ -12,6 +12,7 @@ import { StackHeader } from 'components/StackContainer';
 import { mockWidgets } from 'state/widget';
 import { useSafeAreaInsets, useWidgets } from 'utils/hooks';
 
+import LoyaltyBar from './LoyaltyBar';
 import ExplorerSearchBar from './SearchBar';
 import ExplorerWidgetItem from './WidgetItem';
 
@@ -48,7 +49,7 @@ export const ExplorerFeature: FC<Props> = ({
 	};
 
 	return (
-		<View style={style}>
+		<View style={[styles.container, style]}>
 			{isHeaderActive && (
 				<StackHeader
 					onToggleDrawer={onToggleDrawer}
@@ -64,19 +65,20 @@ export const ExplorerFeature: FC<Props> = ({
 				showsVerticalScrollIndicator={false}
 				stickyHeaderIndices={[0]}
 			>
-				<View>
+				<View style={styles.barContainer}>
 					<ExplorerSearchBar
 						style={styles.searchBar}
 						inputStyle={styles.searchInput}
 						onChangeSearch={onChangeSearch}
 					/>
+					<LoyaltyBar />
 				</View>
+
 				{widgets
 					.filter((widget) => filterWidgetsByName(widget.name))
 					.map((widget) => (
 						<ExplorerWidgetItem
 							key={widget._id}
-							style={styles.widgetItem}
 							widget={widget}
 							isAdded={activeWidgets.includes(widget._id)}
 						/>
@@ -89,6 +91,12 @@ export const ExplorerFeature: FC<Props> = ({
 export default ExplorerFeature;
 
 const styles = StyleSheet.create({
+	container: {
+		marginHorizontal: 16,
+	},
+	barContainer: {
+		gap: 16,
+	},
 	searchBar: {
 		backgroundColor: '#19232c',
 		marginBottom: 8,
@@ -96,9 +104,5 @@ const styles = StyleSheet.create({
 	searchInput: {
 		bottom: -8,
 		marginTop: 4,
-		marginHorizontal: 16,
-	},
-	widgetItem: {
-		marginHorizontal: 16,
 	},
 });

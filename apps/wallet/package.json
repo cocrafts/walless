@@ -1,6 +1,6 @@
 {
   "name": "@walless/wallet",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": true,
   "scripts": {
     "dev": "metacraft",
@@ -18,8 +18,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@airgap/beacon-sdk": "^4.0.12",
-    "@airgap/beacon-utils": "^4.0.12",
+    "@airgap/beacon-sdk": "^4.2.1",
+    "@airgap/beacon-utils": "^4.2.1",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@coral-xyz/anchor": "^0.29.0",
     "@craftzdog/pouchdb-collate-react-native": "^7.3.0",

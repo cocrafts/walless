@@ -37,7 +37,7 @@ const TEZOS_PAIRING_RESPONSE = 'postmessage-pairing-response';
 
 const ONE_MINUTE_TO_MS = 60000;
 
-const WALLESS_TEZOS = {
+export const WALLESS_TEZOS = {
 	id: chrome.runtime.id,
 	name: 'Walless',
 	iconUrl: 'https://walless.io/img/walless-icon.svg',
@@ -45,29 +45,42 @@ const WALLESS_TEZOS = {
 	version: '3',
 };
 
-window.addEventListener('message', async (e) => {
-	const isNotTezosRequest = e.data?.target !== ExtensionMessageTarget.EXTENSION;
-	const wrongTarget = e.data?.targetId && e.data?.targetId !== WALLESS_TEZOS.id;
-	if (isNotTezosRequest || wrongTarget) {
-		return;
-	}
+let init = false;
+export const initializeTezosWallet = () => {
+	if (init) throw Error('Already initialized');
+	init = true;
 
-	if (e.data?.payload === 'ping') {
-		return handlePingPong();
-	} else {
+	window.addEventListener('message', async (e) => {
+		if (!e.data) return;
+		const { target, targetId } = e.data;
+		const isNotTezosRequest = target !== ExtensionMessageTarget.EXTENSION;
+		const wrongTarget = targetId && targetId !== WALLESS_TEZOS.id;
+		if (isNotTezosRequest || wrongTarget) return;
+
+		if (e.data.payload === 'ping') return handlePingPong();
+
 		origin = e.origin;
-		let payload = e.data?.payload;
-		const encryptedPayload = e.data?.encryptedPayload;
-		if (payload) {
+		if (e.data.payload) {
+			let payload = e.data.payload;
 			if (typeof payload === 'string') payload = deserialize(payload);
+
 			if (payload.type === TEZOS_PAIRING_REQUEST) {
 				return handlePairingRequest(payload);
+			} else if (payload.type === BeaconMessageType.PermissionRequest) {
+				const response = await handlePermissionRequest(payload as never);
+				window.postMessage({
+					message: {
+						target: ExtensionMessageTarget.PAGE,
+						payload: response,
+					},
+					sender: { id: WALLESS_TEZOS.id },
+				});
 			}
-		} else if (encryptedPayload) {
-			handleEncryptedRequest(encryptedPayload);
+		} else if (e.data.encryptedPayload) {
+			handleEncryptedRequest(e.data.encryptedPayload);
 		}
-	}
-});
+	});
+};
 
 const handlePingPong = () => {
 	window.postMessage({
@@ -114,16 +127,21 @@ const handleEncryptedRequest = async (encryptedPayload: string) => {
 	if (!payload || !payload.type) return;
 	sendAckMessage(payload.id);
 
+	let response;
 	if (payload.type === BeaconMessageType.PermissionRequest) {
-		handlePermissionRequest(payload as never);
+		response = await handlePermissionRequest(payload as never);
 	} else if (payload.type === BeaconMessageType.Disconnect) {
 		handleDisconnect();
 	} else if (payload.type === BeaconMessageType.SignPayloadRequest) {
-		handleSignPayloadRequest(payload as never);
+		response = await handleSignPayloadRequest(payload as never);
 	} else if (payload.type === BeaconMessageType.OperationRequest) {
-		handleOperationRequest(payload as never);
+		response = await handleOperationRequest(payload as never);
 	} else {
 		console.log('not support this type of request');
+	}
+
+	if (response) {
+		respondWithSharedKeyEncrypt(response);
 	}
 };
 
@@ -143,15 +161,15 @@ const handlePermissionRequest = async (payload: PermissionRequest) => {
 		ONE_MINUTE_TO_MS,
 	);
 
-	const resPayload = {
+	const response = {
 		id: payload.id,
 		type: BeaconMessageType.PermissionResponse,
 		network: { type: NetworkType.MAINNET }, // TODO: handle custom networks
-		publicKey: res.publicKeys[0]?.meta?.publicKey,
+		publicKey: res.publicKeys[0].publicKey,
 		scopes: [PermissionScope.OPERATION_REQUEST, PermissionScope.SIGN],
 	};
 
-	respondWithSharedKeyEncrypt(resPayload);
+	return response;
 };
 
 const handleSignPayloadRequest = async (payload: SignPayloadRequest) => {
@@ -166,7 +184,7 @@ const handleSignPayloadRequest = async (payload: SignPayloadRequest) => {
 		ONE_MINUTE_TO_MS,
 	);
 
-	const resPayload: SignPayloadResponse = {
+	const response: SignPayloadResponse = {
 		id: payload.id,
 		signature: res.signature,
 		signingType: payload.signingType,
@@ -175,7 +193,7 @@ const handleSignPayloadRequest = async (payload: SignPayloadRequest) => {
 		version: '2',
 	};
 
-	respondWithSharedKeyEncrypt(resPayload);
+	return response;
 };
 
 const handleOperationRequest = async (payload: OperationRequest) => {
@@ -184,12 +202,12 @@ const handleOperationRequest = async (payload: OperationRequest) => {
 };
 
 const sendAckMessage = async (requestId: string) => {
-	const resPayload = {
+	const response = {
 		type: BeaconMessageType.Acknowledge,
 		id: requestId,
 	};
 
-	respondWithSharedKeyEncrypt(resPayload);
+	return response;
 };
 
 const decryptPayload = async (encryptedPayload: string) => {
@@ -202,7 +220,8 @@ const decryptPayload = async (encryptedPayload: string) => {
 			sharedKey.receive,
 		);
 
-		return deserialize(payload);
+		const payloadJson = deserialize(payload);
+		return payloadJson;
 	} catch (e) {
 		// TODO: need to respond error to client side
 		console.log('error decrypting payload', e);

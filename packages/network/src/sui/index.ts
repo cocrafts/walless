@@ -1,4 +1,8 @@
-import type { SuiClient } from '@mysten/sui.js/client';
+import type {
+	ExecuteTransactionRequestType,
+	SuiClient,
+	SuiTransactionBlockResponseOptions,
+} from '@mysten/sui.js/client';
 import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { decode } from 'bs58';
@@ -19,10 +23,18 @@ export const signTransaction = async (
 	privateKey: Uint8Array,
 ) => {
 	const keypair = Ed25519Keypair.fromSecretKey(privateKey);
-	const transaction = TransactionBlock.from(transactionStr);
-	const signedTransaction = await transaction.sign({ signer: keypair });
+	const transactionBlock = prepareTransactionBlock(
+		TransactionBlock.from(transactionStr),
+		keypair.getPublicKey().toSuiAddress(),
+	);
+	const transaction = await transactionBlock.build();
+	const signedTransaction = await keypair.signTransactionBlock(transaction);
+	const res = {
+		...signedTransaction,
+		transactionBlockBytes: signedTransaction.bytes,
+	};
 
-	return signedTransaction;
+	return res;
 };
 
 export const signAndExecuteTransaction = async (
@@ -67,4 +79,12 @@ export const constructSendSUITransaction = async (
 
 	tx.transferObjects([coin], tx.pure(receiver));
 	return tx;
+};
+
+const prepareTransactionBlock = (
+	transactionBlock: TransactionBlock,
+	sender: string,
+) => {
+	transactionBlock.setSenderIfNotSet(sender);
+	return transactionBlock;
 };

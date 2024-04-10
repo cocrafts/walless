@@ -8,6 +8,10 @@ const {
 	injectEnvironments,
 	replaceExtensionArgonLinks,
 } = require('./browser/bundler/webpack');
+const {
+	contentScriptPolyfill,
+	widgetsProxy,
+} = require('./browser/bundler/utils');
 
 module.exports = {
 	publicPath: () => process.env.PUBLIC_URL || '/',
@@ -21,8 +25,9 @@ module.exports = {
 		injectEntries,
 		injectEnvironments,
 		replaceExtensionArgonLinks,
+		contentScriptPolyfill,
 	],
-	devMiddlewares: [w3aDevRoute],
+	devMiddlewares: [w3aDevRoute, widgetsProxy],
 	htmlPluginOptions: {
 		chunks: ['app'],
 	},

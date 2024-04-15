@@ -1,20 +1,25 @@
+import { useEffect } from 'react';
+
 import './bootstrap';
 
 import { connect } from './utils';
 
 export const App = () => {
+	useEffect(() => {
+		window.postMessage('hello world from tezos example');
+	}, []);
+
 	return (
 		<div
 			style={{
-				height: '100vh',
-				width: '100vw',
+				flex: 1,
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'center',
 				alignItems: 'center',
 			}}
 		>
-			<h1>Hello Tezos example dApp</h1>
+			<h1 style={{ textAlign: 'center' }}>Example dApp on Tezos</h1>
 			<button
 				style={{
 					paddingTop: 14,

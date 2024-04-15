@@ -16,7 +16,7 @@ import {
 	sealCryptobox,
 } from '@airgap/beacon-sdk';
 import type { UnknownObject } from '@walless/core';
-import { Networks, RequestType } from '@walless/core';
+import { logger, Networks, RequestType } from '@walless/core';
 import {
 	createCryptoBoxClient,
 	createCryptoBoxServer,
@@ -45,12 +45,31 @@ export const WALLESS_TEZOS = {
 	version: '3',
 };
 
-let init = false;
+let targetWindow = window;
+export const resolveTargetWindow = (w: Window) => {
+	if (w) {
+		console.log('use external window');
+		targetWindow = w as never;
+	}
+	targetWindow.postMessage('hello from Walless - Tezos wallet 2', '*');
+};
+
+export let init = false;
 export const initializeTezosWallet = () => {
-	if (init) throw Error('Already initialized');
+	console.log('init tezos wallet');
+	if (init) {
+		logger.error('already initialized tezos wallet');
+		return;
+	}
+
 	init = true;
 
 	window.addEventListener('message', async (e) => {
+		if (e.data?.type && e.data.type.includes('webpack')) {
+			return;
+		}
+
+		console.log('tezos wallet - on message:', e.data, e.origin);
 		if (!e.data) return;
 		const { target, targetId } = e.data;
 		const isNotTezosRequest = target !== ExtensionMessageTarget.EXTENSION;
@@ -68,7 +87,7 @@ export const initializeTezosWallet = () => {
 				return handlePairingRequest(payload);
 			} else if (payload.type === BeaconMessageType.PermissionRequest) {
 				const response = await handlePermissionRequest(payload as never);
-				window.postMessage({
+				targetWindow.postMessage({
 					message: {
 						target: ExtensionMessageTarget.PAGE,
 						payload: response,
@@ -83,7 +102,8 @@ export const initializeTezosWallet = () => {
 };
 
 const handlePingPong = () => {
-	window.postMessage({
+	console.log('handle ping pong');
+	targetWindow.postMessage({
 		target: ExtensionMessageTarget.PAGE,
 		payload: 'pong',
 		sender: WALLESS_TEZOS,
@@ -112,7 +132,7 @@ const handlePairingRequest = async (payload: PostMessagePairingRequest) => {
 		recipientPublicKeyBytes,
 	);
 
-	window.postMessage({
+	targetWindow.postMessage({
 		message: {
 			target: ExtensionMessageTarget.PAGE,
 			payload: encryptedPayload,
@@ -238,7 +258,7 @@ const respondWithSharedKeyEncrypt = async (payload: UnknownObject) => {
 		sharedKey.send,
 	);
 
-	window.postMessage({
+	targetWindow.postMessage({
 		message: {
 			target: ExtensionMessageTarget.PAGE,
 			encryptedPayload,

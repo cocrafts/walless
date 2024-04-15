@@ -1,12 +1,4 @@
-import { logger } from '@walless/core';
+import { initializeContentScript } from './init';
 
-import { initializeTezosWallet } from './tezos';
-import { initializeMessaging, injectScript } from './utils';
-
-(async () => {
-	await initializeMessaging();
-	initializeTezosWallet();
-	logger.info('Messaging module initialized..');
-
-	injectScript('injection.js');
-})();
+console.log('init content script');
+initializeContentScript();

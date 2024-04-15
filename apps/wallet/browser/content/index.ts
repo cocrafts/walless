@@ -1,10 +1,4 @@
-import { logger } from '@walless/core';
+import { initializeContentScript } from './init';
 
-import { initializeMessaging, injectScript } from './utils';
-
-(async () => {
-	await initializeMessaging();
-	logger.info('Messaging module initialized..');
-
-	injectScript('injection.js');
-})();
+console.log('init content script');
+initializeContentScript();

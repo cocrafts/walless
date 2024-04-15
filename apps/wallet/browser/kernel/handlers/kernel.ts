@@ -5,6 +5,7 @@ import { handle } from '../utils/handle';
 import {
 	checkApproval,
 	checkConnection,
+	deserializePayloadToMessageOnTezos,
 	filterSDKSignatureRequest,
 	forwardToSourceRequest,
 	getPrivateKey,
@@ -93,6 +94,14 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			getPrivateKey(Networks.sui),
 			forwardToSourceRequest,
 			sui.signAndExecuteTransaction,
+		]);
+	} else if (payload.type === RequestType.SIGN_PAYLOAD_ON_TEZOS) {
+		handle(payload).execute([
+			deserializePayloadToMessageOnTezos,
+			filterSDKSignatureRequest,
+			getPrivateKey(Networks.tezos),
+			forwardToSourceRequest,
+			tezos.signPayload,
 		]);
 	} else if (payload.type === RequestType.TRANSFER_TEZOS_TOKEN) {
 		handle(payload).execute([

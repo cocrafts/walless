@@ -1,0 +1,7 @@
+{
+  "extends": "@walless/tsconfig/application.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2017"
+  }
+}

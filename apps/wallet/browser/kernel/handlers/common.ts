@@ -1,12 +1,11 @@
 import { PublicKey } from '@solana/web3.js';
-import type { SuiPublicKey } from '@walless/core';
+import type { SuiPublicKey, TezosPublicKey } from '@walless/core';
 import { Networks } from '@walless/core';
 import { ResponseCode } from '@walless/core';
 import type { ConnectOptions } from '@walless/sdk';
 import type { PublicKeyDocument, TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { encode } from 'bs58';
-import { storage } from 'utils/storage/db';
 
 import {
 	addExtensionsById,
@@ -14,6 +13,7 @@ import {
 } from '../utils/helper';
 import { openPopup } from '../utils/popup';
 import { getRequestRecord, respond } from '../utils/requestPool';
+import { storage } from '../utils/storage';
 import type { HandleMethod } from '../utils/types';
 
 export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
@@ -41,6 +41,7 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 
 	const pkDocs = await storage.find<PublicKeyDocument>(selectors.allKeys);
 	const publicKeys = pkDocs.docs
+		.filter((k) => k.network === connectOptions.network)
 		.map((publickey) => {
 			switch (publickey.network) {
 				case Networks.solana: {
@@ -50,12 +51,21 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 						network,
 					};
 				}
-
 				case Networks.sui: {
 					const { network, encodedPublicKey } =
 						publickey as never as SuiPublicKey;
 					return {
 						publicKey: encodedPublicKey,
+						network,
+					};
+				}
+				case Networks.tezos: {
+					const {
+						network,
+						meta: { publicKey },
+					} = publickey as PublicKeyDocument<TezosPublicKey>;
+					return {
+						publicKey,
 						network,
 					};
 				}

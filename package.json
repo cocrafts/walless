@@ -4,7 +4,9 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "examples/*",
+    "examples/dapps/*"
   ],
   "scripts": {
     "batch": "node tool/batch",

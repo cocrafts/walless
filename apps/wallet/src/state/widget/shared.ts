@@ -210,3 +210,28 @@ export const mockWidgets: WidgetDocument[] = [
 	// 	},
 	// },
 ];
+
+const devWidgets: WidgetDocument[] = [
+	{
+		_id: 'tezosDApp',
+		name: 'Tezos DApp',
+		networks: [],
+		version: '0.0.1',
+		type: 'Widget',
+		widgetType: 'Hybrid',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/network/tezos-icon-sm.png',
+			iconSize: 26,
+			iconColor: '#2D7DF8',
+			coverUri: '/img/explore/thumbnail-tezos.png',
+			description: 'Example DApp on Tezos',
+			loveCount: 100,
+			activeCount: 567,
+		},
+	} as never,
+];
+
+if (__DEV__) {
+	mockWidgets.push(...devWidgets);
+}

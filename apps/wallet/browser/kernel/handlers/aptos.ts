@@ -1,8 +1,8 @@
 import { ResponseCode } from '@walless/core';
 import { aptos } from '@walless/network';
 import { Network, Provider } from 'aptos';
-import { environment } from 'utils/config';
 
+import { environment } from '../utils/config';
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 

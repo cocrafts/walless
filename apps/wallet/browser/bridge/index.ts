@@ -3,9 +3,8 @@
 
 import { runtime } from '@walless/core';
 import type { SettingDocument } from '@walless/store';
-import { storage } from 'utils/storage';
 
-import { injectServiceWorker, launchSignInTab } from './utils';
+import { injectServiceWorker, launchSignInTab, storage } from './utils';
 
 export const runBridge = async (): Promise<void> => {
 	if (runtime.isExtension) {

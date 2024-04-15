@@ -1,7 +1,9 @@
 import { VersionedTransaction } from '@solana/web3.js';
 import type { SolanaToken } from '@walless/core';
-import { logger } from '@walless/core';
+import { logger, Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
+import { engine } from 'engine';
+import type { SolanaContext } from 'engine/runners';
 import { environment } from 'utils/config';
 import { solMint } from 'utils/constants';
 
@@ -81,6 +83,9 @@ export const constructSwapTransaction = async ({
 			quoteResponse,
 			userPublicKey,
 			wrapAndUnwrapSol,
+			// ref: https://station.jup.ag/docs/apis/swap-api#setting-priority-fee-for-your-transaction
+			dynamicComputeUnitLimit: true, // allow dynamic compute limit instead of max 1,400,000
+			prioritizationFeeLamports: 'auto', // or custom lamports: 1000
 		}),
 	});
 	if (!res.ok) {
@@ -90,6 +95,17 @@ export const constructSwapTransaction = async ({
 	const { swapTransaction } = await res.json();
 	const swapTransactionBuf = Buffer.from(swapTransaction, 'base64');
 	const transaction = VersionedTransaction.deserialize(swapTransactionBuf);
+	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
+	try {
+		// refetch latest blockhash, to avoid blockhash not found (might be from query commitment of jupiter implementation)
+		const { blockhash } = await connection.getLatestBlockhash('finalized');
+		transaction.message.recentBlockhash = blockhash;
+	} catch (error) {
+		logger.error(
+			'failed to refetch latest blockhash for swap transaction',
+			error,
+		);
+	}
 
 	return transaction;
 };

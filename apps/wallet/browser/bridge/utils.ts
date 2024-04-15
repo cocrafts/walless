@@ -1,7 +1,10 @@
 import { logger } from '@walless/core';
 import type { PureMessagePayload } from '@walless/messaging';
 import { createEncryptionKeyVault, createMessenger } from '@walless/messaging';
-import { storage } from 'utils/storage/db';
+import { create } from '@walless/store';
+import IDBPouch from 'pouchdb-adapter-idb';
+
+export const storage = create('engine', IDBPouch);
 
 export interface PayloadOptions {
 	sourceRequestId: string;

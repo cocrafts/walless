@@ -47,7 +47,15 @@ export const bootstrap = async (): Promise<void> => {
 	appState.remoteConfig = loadRemoteConfig();
 
 	await configure(storage);
-	await migrateDatabase(storage, 'app', appMigrations);
+	await migrateDatabase(storage, 'app', appMigrations).then(async () => {
+		const latestMigration = getLatestMigrationVersion();
+		await storage.upsert<SettingDocument>('settings', async (doc) => {
+			doc.config = Object.assign({}, doc.config);
+			doc.config.storageVersion = latestMigration;
+
+			return doc;
+		});
+	});
 
 	await Promise.all([
 		configEngine(),
@@ -82,15 +90,7 @@ export const launchApp = async (): Promise<void> => {
 };
 
 export const initAfterSignIn = async () => {
-	const latestMigration = getLatestMigrationVersion();
-	await storage.upsert<SettingDocument>('settings', async (doc) => {
-		doc.config = Object.assign({}, doc.config);
-		doc.config.storageVersion = latestMigration;
-
-		return doc;
-	});
 	await initializeVaultKeys();
-
 	await registerNetworkRunners(engine);
 	await engine.start();
 };

@@ -3,15 +3,22 @@ import { StyleSheet, View } from 'react-native';
 import type { TabAble } from '@walless/gui';
 import { activatedStyle, deactivatedStyle, SliderTabs } from '@walless/gui';
 
+import AchievementsTab from './AchievementsTab';
+import LeaderboardTab from './LeaderboardTab';
 import PointCard from './PointCard';
+
+enum Tab {
+	Achievements = 'Achievements',
+	Leaderboard = 'Leaderboard',
+}
 
 const tabs: TabAble[] = [
 	{
-		id: 'Achievements',
+		id: Tab.Achievements,
 		title: 'Achievements',
 	},
 	{
-		id: 'Leaderboard',
+		id: Tab.Leaderboard,
 		title: 'Leaderboard',
 	},
 ];
@@ -31,6 +38,12 @@ const LoyaltyFeature = () => {
 					deactivatedStyle={deactivatedStyle}
 					onTabPress={setActiveTab}
 				/>
+
+				{activeTab.id === Tab.Achievements ? (
+					<AchievementsTab />
+				) : (
+					<LeaderboardTab />
+				)}
 			</View>
 		</View>
 	);
@@ -52,6 +65,7 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: 16,
 		borderTopRightRadius: 16,
 		flexGrow: 1,
+		gap: 12,
 	},
 });
 

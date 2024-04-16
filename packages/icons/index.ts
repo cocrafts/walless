@@ -61,6 +61,7 @@ export { Twitter } from './components/Twitter';
 export { TwoPeople } from './components/TwoPeople';
 export * from './components/types';
 export { Walless } from './components/Walless';
+export { WallessMonochrome } from './components/WallessMonochrome';
 export { Window } from './components/Window';
 export { XCircle } from './components/XCircle';
 export { Youtube } from './components/Youtube';

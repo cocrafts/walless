@@ -73,7 +73,7 @@ export const ExplorerFeature: FC<Props> = ({
 					/>
 				</View>
 
-				<LoyaltyBar />
+				<LoyaltyBar style={styles.loyaltyBar} />
 
 				{widgets
 					.filter((widget) => filterWidgetsByName(widget.name))
@@ -98,6 +98,10 @@ const styles = StyleSheet.create({
 	searchBar: {
 		backgroundColor: '#19232c',
 		marginBottom: 8,
+	},
+	loyaltyBar: {
+		marginTop: 16,
+		marginBottom: 12,
 	},
 	searchInput: {
 		bottom: -8,

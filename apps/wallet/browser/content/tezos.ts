@@ -38,7 +38,7 @@ const TEZOS_PAIRING_RESPONSE = 'postmessage-pairing-response';
 const ONE_MINUTE_TO_MS = 60000;
 
 export const WALLESS_TEZOS = {
-	id: chrome.runtime.id,
+	id: chrome?.runtime?.id || 'sdfsdgfsd',
 	name: 'Walless',
 	iconUrl: 'https://walless.io/img/walless-icon.svg',
 	appUrl: 'https://walless.io',

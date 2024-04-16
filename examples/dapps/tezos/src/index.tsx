@@ -9,6 +9,12 @@ export const App = () => {
 		window.postMessage('hello world from tezos example');
 	}, []);
 
+	// useEffect(() => {
+	// 	window.addEventListener('message', async (e) => {
+	// 		console.log('Walless ext - on message:', e.data, e.origin);
+	// 	});
+	// }, []);
+
 	return (
 		<div
 			style={{

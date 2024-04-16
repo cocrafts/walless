@@ -5,9 +5,12 @@ import { Image, Linking, StyleSheet, Text, View } from 'react-native';
 import type { Action, ActionMetadata } from '@walless/graphql';
 import { ActionCategory } from '@walless/graphql';
 import { Button } from '@walless/gui';
-import { WallessMonochrome } from '@walless/icons';
 
-import { extractDataFromMetadata, navigateInternalByCta } from './internal';
+import {
+	extractDataFromMetadata,
+	getIconByType,
+	navigateInternalByCta,
+} from './internal';
 
 interface Props {
 	style?: ViewStyle;
@@ -19,6 +22,8 @@ const ActionCard: FC<Props> = ({ style, action, isPerformed }) => {
 	const { name, desc, icon, ctaText, ctaType, cta } = useMemo(() => {
 		return extractDataFromMetadata(action.metadata as ActionMetadata[]);
 	}, [action]);
+
+	const FallbackIcon = getIconByType(action.type || '');
 
 	const handleNavigate = () => {
 		if (ctaType === 'internal') {
@@ -34,7 +39,7 @@ const ActionCard: FC<Props> = ({ style, action, isPerformed }) => {
 				{icon ? (
 					<Image source={{ uri: icon }} style={styles.image} />
 				) : (
-					<WallessMonochrome size={24} />
+					FallbackIcon
 				)}
 				<View>
 					<View>

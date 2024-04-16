@@ -1,5 +1,12 @@
+import { Image } from 'react-native';
 import type { ActionMetadata } from '@walless/graphql';
+import {
+	DiscordMonochrome,
+	WallessMonochrome,
+	XMonochrome,
+} from '@walless/icons';
 import { mockWidgets } from 'state/widget';
+import assets from 'utils/assets';
 import { navigate } from 'utils/navigation';
 import { addWidgetToStorage } from 'utils/storage';
 
@@ -41,6 +48,31 @@ export const extractDataFromMetadata = (
 	}
 
 	return extractedMetadata;
+};
+
+export const getIconByType = (type: string) => {
+	if (type.toLowerCase().includes('twitter')) {
+		return <XMonochrome size={24} />;
+	}
+
+	if (type.toLowerCase().includes('discord')) {
+		return <DiscordMonochrome size={24} />;
+	}
+
+	if (type.toLowerCase() === 'open chest') {
+		return (
+			<Image
+				source={assets.widget.pixeverse.storeMeta.iconUri}
+				style={{
+					width: 24,
+					height: 24,
+					borderRadius: 4,
+				}}
+			/>
+		);
+	}
+
+	return <WallessMonochrome size={24} />;
 };
 
 export const navigateInternalByCta = (cta: string) => {

@@ -1,11 +1,17 @@
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { type Action, queries } from '@walless/graphql';
+import type { Action, Progress, Record } from '@walless/graphql';
+import { queries } from '@walless/graphql';
 import { qlClient } from 'utils/graphql';
 
 import ActionCard from './ActionCard';
 
-const AchievementsTab = () => {
+interface Props {
+	progress?: Progress;
+}
+
+const AchievementsTab: FC<Props> = ({ progress }) => {
 	const [actions, setActions] = useState<Action[]>([]);
 
 	useEffect(() => {
@@ -20,7 +26,6 @@ const AchievementsTab = () => {
 		try {
 			fetchActiveActions().then((activeActions) => {
 				setActions(activeActions);
-				console.log('--> activeActions', activeActions);
 			});
 		} catch (error) {
 			console.error(error);
@@ -30,7 +35,18 @@ const AchievementsTab = () => {
 	return (
 		<View style={styles.container}>
 			{actions.map((action) => (
-				<ActionCard key={action.id} action={action} isPerformed={false} />
+				<ActionCard
+					key={action.id}
+					action={action}
+					isPerformed={(() => {
+						if (!progress) {
+							return false;
+						}
+						return (progress.records as Record[]).some(
+							(record) => record.actionId === action.id,
+						);
+					})()}
+				/>
 			))}
 		</View>
 	);

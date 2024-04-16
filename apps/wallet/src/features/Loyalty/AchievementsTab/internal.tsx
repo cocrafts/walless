@@ -16,7 +16,7 @@ export interface ExtractedMetadata {
 	icon: string;
 	cta: string;
 	ctaText: string;
-	ctaType: 'internal' | 'external';
+	ctaType: string;
 }
 
 export const extractDataFromMetadata = (
@@ -28,7 +28,7 @@ export const extractDataFromMetadata = (
 		icon: '',
 		cta: '',
 		ctaText: '',
-		ctaType: 'internal',
+		ctaType: '',
 	};
 
 	for (const meta of metadata) {
@@ -43,7 +43,7 @@ export const extractDataFromMetadata = (
 		} else if (meta.key === 'ctaText' && meta.value) {
 			extractedMetadata.ctaText = meta.value;
 		} else if (meta.key === 'ctaType' && meta.value) {
-			extractedMetadata.ctaType = meta.value as ExtractedMetadata['ctaType'];
+			extractedMetadata.ctaType = meta.value;
 		}
 	}
 

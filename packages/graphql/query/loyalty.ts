@@ -21,3 +21,27 @@ export const loyaltyActiveActions = gql`
 		}
 	}
 `;
+
+export const loyaltyProgress = gql`
+	query loyaltyProgress {
+		loyaltyProgress {
+			id
+			totalPoints
+			records {
+				actionId
+				timestamp
+				userId
+			}
+			trackList {
+				lastClaim
+				milestone
+				type
+				streaks {
+					currentStreak
+					remainingClaims
+					streak
+				}
+			}
+		}
+	}
+`;

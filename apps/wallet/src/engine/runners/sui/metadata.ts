@@ -1,17 +1,17 @@
 import type { CoinStruct, SuiClient } from '@mysten/sui.js/client';
-import type { TokenMetadata } from '@walless/core';
+import type { SuiTokenMetadata } from '@walless/core';
 
 import metadata from './metadata.json';
 
 type GetMetadataFunc = (
 	coinType: string,
 	client?: SuiClient,
-) => Promise<TokenMetadata | undefined>;
+) => Promise<SuiTokenMetadata | undefined>;
 
 export const getSUITokenMetadata = async (
 	client: SuiClient,
 	coin: CoinStruct,
-): Promise<TokenMetadata | undefined> => {
+): Promise<SuiTokenMetadata | undefined> => {
 	const fetchers: GetMetadataFunc[] = [getLocalMetadata, getOnChainMetadata];
 
 	for (const fetcher of fetchers) {
@@ -24,11 +24,13 @@ const getOnChainMetadata: GetMetadataFunc = async (coinType, client) => {
 	if (!client) return;
 
 	const coinMetadata = await client.getCoinMetadata({ coinType });
+	if (!coinMetadata) return;
 
 	return {
-		name: coinMetadata?.name || 'Unknown',
-		symbol: coinMetadata?.symbol || 'Unknown',
-		image: coinMetadata?.iconUrl || '',
+		name: coinMetadata.name,
+		symbol: coinMetadata.symbol,
+		image: coinMetadata.iconUrl as string,
+		decimals: coinMetadata.decimals,
 	};
 };
 
@@ -40,6 +42,7 @@ const getLocalMetadata: GetMetadataFunc = async (coinType: string) => {
 		name: metadata.name,
 		symbol: metadata.symbol,
 		image: metadata.icon_url,
+		decimals: metadata.decimals,
 	};
 };
 

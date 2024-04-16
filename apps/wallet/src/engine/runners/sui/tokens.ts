@@ -38,7 +38,7 @@ export const constructSuiTokenDocument = async (
 			};
 		} else {
 			tokenDoc.coinObjectIds.push(coinObject.coinObjectId);
-			tokenDoc.balance += Number(coinObject.balance) / 10 ** SUI_DECIMALS;
+			tokenDoc.balance += Number(coinObject.balance) / 10 ** metadata.decimals;
 		}
 
 		return tokenDoc;

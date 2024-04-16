@@ -29,6 +29,7 @@ export const constructSuiTokenDocument = async (
 				symbol: metadata.symbol,
 				image: metadata.image,
 				balance: Number(coinObject.balance) / 10 ** metadata.decimals,
+				decimals: metadata.decimals,
 				coinObjectIds: [coinObject.coinObjectId],
 				coinType: coinObject.coinType,
 				owner,

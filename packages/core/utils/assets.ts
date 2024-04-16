@@ -78,4 +78,5 @@ export type SuiToken = Token & {
 	coinType: string;
 	lockedUntilEpoch: number | null | undefined;
 	previousTransaction: string;
+	decimals: number;
 };

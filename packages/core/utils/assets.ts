@@ -38,6 +38,10 @@ export type TokenMetadata = {
 	image: string;
 };
 
+export type SuiTokenMetadata = TokenMetadata & {
+	decimals: number;
+};
+
 export type SolanaToken = Token & {
 	mint: string;
 	ata: string;

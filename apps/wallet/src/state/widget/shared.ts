@@ -160,7 +160,7 @@ export const mockWidgets: WidgetDocument[] = [
 	},
 	{
 		_id: 'suijump',
-		name: 'Suipiens Jump',
+		name: 'Sui Jump',
 		networks: [],
 		version: '0.0.1',
 		type: 'Widget',
@@ -171,8 +171,7 @@ export const mockWidgets: WidgetDocument[] = [
 			iconSize: 40,
 			iconColor: '#ffffff',
 			coverUri: '/img/sui-jump/suijump-bg.png',
-			description:
-				'Suipiens Jump is a Hyper Casual game, created by Suipiens, play with your favorite character on Sui!',
+			description: 'Jump, jump and collect Sui',
 			loveCount: 46,
 			activeCount: 202,
 		},

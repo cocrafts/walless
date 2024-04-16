@@ -35,7 +35,7 @@ export const createAndSendSolanaTransaction = async (
 		);
 	}
 	if (!transaction) throw Error('failed to construct transaction');
-	transaction = solana.withSetComputeUnitLimit(transaction);
+	transaction = await solana.withSetComputeUnitPrice(transaction);
 
 	const res = {} as ResponsePayload;
 	let privateKey;
@@ -69,7 +69,8 @@ export const createAndSendSolanaTransaction = async (
 		const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 		res.signatureString = await solana.signAndSendTransaction(
 			connection,
-			transaction,
+			// TODO: support legacy transaction
+			transaction as never,
 			privateKey,
 		);
 	}

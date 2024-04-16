@@ -77,6 +77,9 @@ const assets: Asset = {
 		referralGradientBackground: {
 			uri: '/img/misc/referral-gradient-bg.png',
 		},
+		loyaltyGradientBackground: {
+			uri: '/img/misc/loyalty-gradient-bg.png',
+		},
 		loyaltyBarGradientBackground: {
 			uri: '/img/misc/loyalty-bar-gradient-bg.png',
 		},

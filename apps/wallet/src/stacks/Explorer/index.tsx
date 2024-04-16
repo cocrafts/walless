@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
+import { runtime } from '@walless/core';
 import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
 import { createDrawerNavigator } from 'components/DrawerNavigation';
 import { withStackContainer } from 'components/StackContainer';
@@ -36,6 +37,7 @@ export const ExplorerStack = () => {
 			withStackContainer(LoyaltyScreen, {
 				isHeaderActive: true,
 				title: 'Walless Rewards',
+				noBottomTabs: runtime.isExtension,
 				goBack: () =>
 					navigate('Dashboard', {
 						screen: 'Explore',

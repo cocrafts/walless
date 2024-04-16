@@ -84,6 +84,7 @@ export const linking: LinkingOptions<RootParamList> = {
 						path: '/setting',
 						screens: {
 							Default: '/',
+							Referral: '/referral',
 						},
 					},
 				},

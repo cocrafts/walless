@@ -3,7 +3,6 @@ import type {
 	PaginatedCoins,
 	SuiClient,
 } from '@mysten/sui.js/client';
-import { SUI_DECIMALS } from '@mysten/sui.js/utils';
 import type { NetworkCluster, SuiToken } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
@@ -29,7 +28,7 @@ export const constructSuiTokenDocument = async (
 				name: metadata.name,
 				symbol: metadata.symbol,
 				image: metadata.image,
-				balance: Number(coinObject.balance) / 10 ** SUI_DECIMALS,
+				balance: Number(coinObject.balance) / 10 ** metadata.decimals,
 				coinObjectIds: [coinObject.coinObjectId],
 				coinType: coinObject.coinType,
 				owner,

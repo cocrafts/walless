@@ -3,8 +3,22 @@ require('dotenv').config({ path: '.env.production' });
 const fs = require('fs-extra');
 const { readFileSync, readdirSync, writeFileSync } = require('fs');
 const archiver = require('archiver');
+const { promisify } = require('util');
+const exec = promisify(require('child_process').exec);
+
 const manifest = require('./manifest.json');
 const project = require('../../package.json');
+
+const getVersionNameFromGit = async () => {
+	let { stdout: hash } = await exec('git rev-parse --short HEAD');
+	let { stdout: branch } = await exec('git rev-parse --abbrev-ref HEAD');
+	branch = branch.trim();
+	hash = hash.trim();
+
+	if (branch === 'main') return project.version;
+
+	return `${project.version} (${branch}-${hash})`;
+};
 
 const zipDir = (platform) => {
 	const buildDir = '../landing/public/builds';
@@ -26,7 +40,13 @@ const zipDir = (platform) => {
 
 const cloneExtensionBuild = async (platform, override = {}) => {
 	const manifestUri = `./builds/${platform}/manifest.json`;
-	const mergedManifest = { ...manifest, ...override, version: project.version };
+	const version_name = await getVersionNameFromGit();
+	const mergedManifest = {
+		...manifest,
+		...override,
+		version: project.version,
+		version_name,
+	};
 	const indexTemplate = readFileSync('./metacraft/index.html', 'utf8');
 	const popupTemplate = indexTemplate.replace('<body>', '<body class="popup">');
 

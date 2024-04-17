@@ -1,3 +1,6 @@
+import type { GasCostSummary } from '@mysten/sui.js/client';
+import type { TransactionBlock } from '@mysten/sui.js/transactions';
+import { SUI_DECIMALS } from '@mysten/sui.js/utils';
 import { ACCOUNT_SIZE, getAssociatedTokenAddressSync } from '@solana/spl-token';
 import type { VersionedTransaction } from '@solana/web3.js';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
@@ -8,13 +11,14 @@ import { withSetComputeUnitPrice } from '@walless/network/src/solana';
 import type { NftDocument, TokenDocument } from '@walless/store';
 import base58 from 'bs58';
 import { engine } from 'engine';
-import type { SolanaContext } from 'engine/runners';
+import type { SolanaContext, SuiContext } from 'engine/runners';
 import { environment } from 'utils/config';
 import { solMint } from 'utils/constants';
 
 import {
 	constructSolanaSendNftTransaction,
 	constructSolanaSendTokenTransaction,
+	constructSuiSendTokenTransaction,
 } from './construct';
 import { getGasilonConfig } from './gasilon';
 import type {
@@ -22,6 +26,7 @@ import type {
 	SendTokenTransaction,
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
+	SuiSendTransaction,
 } from './types';
 
 export const hasEnoughBalanceToMakeTx = async (
@@ -29,7 +34,8 @@ export const hasEnoughBalanceToMakeTx = async (
 		| SendTokenTransaction
 		| SendNftTransaction
 		| SolanaSendTokenTransaction
-		| SolanaSendNftTransaction,
+		| SolanaSendNftTransaction
+		| SuiSendTransaction,
 ) => {
 	const { network } = initTransaction;
 
@@ -63,6 +69,18 @@ export const hasEnoughBalanceToMakeTx = async (
 				return tokenForFee.balance > fee;
 			}
 			break;
+		}
+		case Networks.sui: {
+			const suiTransaction = initTransaction as SuiSendTransaction;
+			try {
+				const transactionBlock =
+					await constructSuiSendTokenTransaction(suiTransaction);
+				const fee = await getSuiTransactionFee(transactionBlock);
+
+				return suiTransaction.tokenForFee.balance > fee;
+			} catch {
+				return false;
+			}
 		}
 		default: {
 			return false;
@@ -191,4 +209,23 @@ export const getGasilonFee = async ({
 		logger.error('failed to get gasilon transaction fee', error);
 		return 0;
 	}
+};
+
+export const getSuiTransactionFee = async (txb: TransactionBlock) => {
+	const { client } = engine.getContext<SuiContext>(Networks.sui);
+	const builtTxb = await txb.build({ client }).catch(console.log);
+	if (!builtTxb) throw new Error('unable to build txb');
+	const dryrunResult = await client.dryRunTransactionBlock({
+		transactionBlock: builtTxb,
+	});
+
+	return calculateSuiGas(dryrunResult?.effects.gasUsed);
+};
+
+const calculateSuiGas = (gas: GasCostSummary): number => {
+	const gasBigInt =
+		BigInt(gas.computationCost) +
+		BigInt(gas.storageCost) -
+		BigInt(gas.storageRebate);
+	return Number(gasBigInt) / 10 ** SUI_DECIMALS;
 };

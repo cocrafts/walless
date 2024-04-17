@@ -27,7 +27,7 @@ const InputTransaction: FC<Props> = ({ navigator }) => {
 
 		const publicKeys = Array.from(keyState.map.values());
 		const key = publicKeys.find((k) => k.network === network);
-		if (key) txActions.update({ sender: publicKeys[0]._id });
+		if (key) txActions.update({ sender: key._id });
 	}, [network]);
 
 	return (

@@ -1,16 +1,19 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import { Exclamation } from '@walless/icons';
-import { useTransactionContext } from 'features/Send/internal';
+import type { GenericTransactionContext } from 'features/Send/internal';
+import { txActions, useTransactionContext } from 'features/Send/internal';
 
 interface Props {
 	feeText?: string;
 }
 
 export const DefaultTransactionFee: FC<Props> = () => {
-	const { feeAmount, feeLoading, network } = useTransactionContext();
+	const { feeAmount, feeLoading, network, receiver, nft, token, amount } =
+		useTransactionContext<GenericTransactionContext>();
 
 	let networkToken = '';
 	if (network == Networks.tezos) {
@@ -22,6 +25,12 @@ export const DefaultTransactionFee: FC<Props> = () => {
 	}
 
 	const feeString = `${feeAmount ? feeAmount : 0} ${networkToken}`;
+
+	useEffect(() => {
+		if (network && (token || nft) && receiver && Number(amount) > 0) {
+			txActions.updateTransactionFee();
+		}
+	}, [network, token, nft, receiver, amount]);
 
 	return (
 		<View style={styles.container}>

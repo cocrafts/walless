@@ -7,13 +7,15 @@ import { connect } from './utils';
 export const App = () => {
 	useEffect(() => {
 		window.postMessage('hello world from tezos example');
-	}, []);
 
-	// useEffect(() => {
-	// 	window.addEventListener('message', async (e) => {
-	// 		console.log('Walless ext - on message:', e.data, e.origin);
-	// 	});
-	// }, []);
+		window.addEventListener('message', async (e) => {
+			if (e.data?.type && e.data.type.includes('webpack')) {
+				return;
+			}
+
+			console.log('Walless wallet - on message:', e.data, e.origin);
+		});
+	}, []);
 
 	return (
 		<div

@@ -21,11 +21,8 @@ export const FlowXFinance = () => {
 		console.log('resolve target window', iframeRef.current.contentWindow);
 		resolveTargetWindow(iframeRef.current.contentWindow as never);
 		initializeTezosWallet();
+		window.postMessage('hello world from Walless ext.');
 	}, [iframeRef]);
-
-	useEffect(() => {
-		window.postMessage('hello world from Walless ext');
-	}, []);
 
 	return (
 		<View style={styles.container}>

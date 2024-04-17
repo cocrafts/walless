@@ -1,8 +1,14 @@
 import type { FC } from 'react';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { Image, Linking, StyleSheet, Text, View } from 'react-native';
-import type { Action, ActionMetadata, Progress } from '@walless/graphql';
+import type {
+	Action,
+	ActionCount,
+	ActionMetadata,
+	Progress,
+	Record,
+} from '@walless/graphql';
 import {
 	ActionCategory,
 	mutations,
@@ -11,25 +17,70 @@ import {
 } from '@walless/graphql';
 import { Button } from '@walless/gui';
 import { showNotificationModal } from 'modals/Notification';
-import { loyaltyActions } from 'state/loyalty';
+import { loyaltyActions, loyaltyState } from 'state/loyalty';
 import { qlClient } from 'utils/graphql';
+import { useSnapshot } from 'utils/hooks';
 
 import {
 	extractDataFromMetadata,
+	getCycleEndTime,
 	getIconByType,
 	navigateInternalByCta,
 } from './internal';
+import StreakBar from './StreakBar';
 
 interface Props {
 	style?: ViewStyle;
 	action: Action;
-	isPerformed: boolean;
+	canUserPerformAction: boolean;
 }
 
-const ActionCard: FC<Props> = ({ style, action, isPerformed }) => {
+const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
+	const { progress } = useSnapshot(loyaltyState);
 	const { name, desc, icon, ctaText, ctaType, cta } = useMemo(() => {
 		return extractDataFromMetadata(action.metadata as ActionMetadata[]);
 	}, [action]);
+
+	const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
+
+	useEffect(() => {
+		if (
+			!progress ||
+			canUserPerformAction ||
+			action.category !== ActionCategory.Recurring ||
+			!action.cycleInHours
+		) {
+			return;
+		}
+
+		const interval = setInterval(() => {
+			setTimeRemaining((prev) => {
+				if (prev === null) {
+					const lastRecord = (progress.records as Record[]).findLast(
+						(record) => record.actionId === action.id,
+					);
+					if (!lastRecord) {
+						return 0;
+					}
+
+					const cycleEndTime = getCycleEndTime(
+						new Date(lastRecord.timestamp),
+						action.cycleInHours as number,
+					);
+
+					return cycleEndTime.getTime() - Date.now();
+				}
+
+				if (prev <= 0) {
+					return null;
+				}
+
+				return prev - 1000;
+			});
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, [progress, action, canUserPerformAction]);
 
 	const FallbackIcon = getIconByType(action.type || '');
 
@@ -68,11 +119,29 @@ const ActionCard: FC<Props> = ({ style, action, isPerformed }) => {
 		}
 	};
 
+	const stat = (progress?.trackList as ActionCount[]).find(
+		(track) => track.type === action.type,
+	);
+
+	const currentStreak = useMemo(() => {
+		if (!stat || !stat.streaks) {
+			return 0;
+		}
+
+		let currentStreak = 0;
+		for (const streak of stat.streaks) {
+			if (streak?.streak === action.streak) {
+				currentStreak = streak?.currentStreak ?? 0;
+			}
+		}
+		return currentStreak;
+	}, [stat, action.streak]);
+
 	return (
 		<View
 			style={[
 				styles.container,
-				isPerformed && styles.performedContainerBackground,
+				!canUserPerformAction && styles.performedContainerBackground,
 				style,
 			]}
 		>
@@ -82,19 +151,55 @@ const ActionCard: FC<Props> = ({ style, action, isPerformed }) => {
 				) : (
 					FallbackIcon
 				)}
-				<View>
+
+				<View style={{ flex: 1, gap: 4 }}>
 					<View style={styles.titleContainer}>
 						<Text style={styles.nameText}>{name}</Text>
-						{isPerformed && action.type === ActionCategory.Recurring && (
-							<Text style={styles.counterText}>{action.cycleInHours}</Text>
+
+						{timeRemaining && (
+							<Text style={styles.counterText}>
+								{Math.floor(
+									(timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+								)}
+								h:
+								{Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60))}
+								m:
+								{Math.floor((timeRemaining % (1000 * 60)) / 1000)}s
+							</Text>
 						)}
 					</View>
-					{action.category === ActionCategory.Milestone ||
-					action.category === ActionCategory.Streak ? (
-						<View />
-					) : (
-						<Text>{desc}</Text>
+
+					{action.category === ActionCategory.Streak && action.streak && (
+						<StreakBar
+							streak={action.streak}
+							currentStreak={currentStreak}
+							style={{
+								marginTop: 4,
+							}}
+						/>
 					)}
+
+					<View style={styles.descContainer}>
+						<Text
+							style={styles.descText}
+							numberOfLines={2}
+							ellipsizeMode="tail"
+						>
+							{desc}
+						</Text>
+
+						{action.category === ActionCategory.Streak && (
+							<Text style={styles.descText}>
+								{currentStreak}/{action.streak}
+							</Text>
+						)}
+
+						{action.category === ActionCategory.Milestone && (
+							<Text style={styles.descText}>
+								{stat?.milestone || 0}/{action.milestone}
+							</Text>
+						)}
+					</View>
 				</View>
 			</View>
 
@@ -105,9 +210,9 @@ const ActionCard: FC<Props> = ({ style, action, isPerformed }) => {
 						<Button
 							style={[
 								styles.ctaButton,
-								isPerformed && styles.performedCtaButton,
+								!canUserPerformAction && styles.performedCtaButton,
 							]}
-							disabled={isPerformed}
+							disabled={!canUserPerformAction}
 							title={ctaText || 'Go'}
 							titleStyle={styles.pointText}
 							onPress={handlePerformAction}
@@ -121,12 +226,12 @@ const ActionCard: FC<Props> = ({ style, action, isPerformed }) => {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: '#29323A',
 		paddingHorizontal: 16,
 		paddingVertical: 12,
 		borderRadius: 10,
+		gap: 32,
 	},
 	performedContainerBackground: {
 		backgroundColor: '#19232C',
@@ -135,6 +240,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 8,
+		flex: 1,
 	},
 	image: {
 		width: 24,
@@ -146,19 +252,28 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 12,
 	},
-	counterText: {
-		fontSize: 11,
-		fontWeight: '500',
-		color: '#00B1FF',
-	},
 	nameText: {
 		fontSize: 11,
 		fontWeight: '500',
 		color: 'white',
 	},
+	counterText: {
+		fontSize: 11,
+		fontWeight: '500',
+		color: '#00B1FF',
+	},
+	descContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+	descText: {
+		fontSize: 10,
+		color: '#566674',
+		maxWidth: 240,
+	},
 	rightContainer: {
 		width: 64,
-
 		alignItems: 'center',
 		gap: 4,
 	},

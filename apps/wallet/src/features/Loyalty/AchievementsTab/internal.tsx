@@ -128,3 +128,18 @@ export const navigateInternalByCta = (cta: string) => {
 			break;
 	}
 };
+
+export const getCycleEndTime = (actionTime: Date, cycle: number): Date => {
+	const actionDate = new Date(actionTime.getTime() + cycle * 60 * 60 * 1000);
+
+	const cycleEndTimeInUTC = new Date(
+		actionDate.setUTCHours(
+			Math.floor(actionDate.getUTCHours() / cycle) * cycle,
+			0,
+			0,
+			0,
+		),
+	);
+
+	return cycleEndTimeInUTC;
+};

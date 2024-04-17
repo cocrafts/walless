@@ -2,10 +2,11 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { Action, Progress, Record } from '@walless/graphql';
-import { queries } from '@walless/graphql';
+import { ActionCategory, queries } from '@walless/graphql';
 import { qlClient } from 'utils/graphql';
 
 import ActionCard from './ActionCard';
+import { getCycleEndTime } from './internal';
 
 interface Props {
 	progress?: Progress;
@@ -32,20 +33,50 @@ const AchievementsTab: FC<Props> = ({ progress }) => {
 		}
 	}, []);
 
+	const canUserPerformAction = (action: Action) => {
+		if (!progress) {
+			return false;
+		}
+
+		if (
+			action.category === ActionCategory.Onetime ||
+			action.category === ActionCategory.Milestone
+		) {
+			return !(progress.records as Record[]).some(
+				(record) => record.actionId === action.id,
+			);
+		}
+
+		if (action.category === ActionCategory.Recurring) {
+			if (!action.cycleInHours) {
+				return true;
+			}
+
+			const lastRecord = (progress.records as Record[]).findLast(
+				(record) => record.actionId === action.id,
+			);
+			if (!lastRecord) {
+				return true;
+			}
+
+			const cycleEndTime = getCycleEndTime(
+				new Date(lastRecord.timestamp),
+				action.cycleInHours,
+			);
+
+			return new Date() >= cycleEndTime;
+		}
+
+		return false;
+	};
+
 	return (
 		<View style={styles.container}>
 			{actions.map((action) => (
 				<ActionCard
 					key={action.id}
 					action={action}
-					isPerformed={(() => {
-						if (!progress) {
-							return false;
-						}
-						return (progress.records as Record[]).some(
-							(record) => record.actionId === action.id,
-						);
-					})()}
+					canUserPerformAction={canUserPerformAction(action)}
 				/>
 			))}
 		</View>

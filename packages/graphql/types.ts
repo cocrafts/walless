@@ -192,6 +192,7 @@ export type RootMutation = {
   registerWidgetAccount?: Maybe<Account>;
   sendEmergencyKit?: Maybe<SendEmergencyKitResult>;
   trackAccountWallets?: Maybe<Scalars['Int']['output']>;
+  tryToPerformActiveActionsByType?: Maybe<Array<Maybe<Record>>>;
   updateWidgetAccountRole?: Maybe<WidgetAccount>;
   updateWidgetOwner?: Maybe<Widget>;
   updateWidgetStatus?: Maybe<Widget>;
@@ -277,6 +278,11 @@ export type RootMutationSendEmergencyKitArgs = {
 
 export type RootMutationTrackAccountWalletsArgs = {
   wallets: Array<InputMaybe<TrackAccountWalletInput>>;
+};
+
+
+export type RootMutationTryToPerformActiveActionsByTypeArgs = {
+  type: Scalars['String']['input'];
 };
 
 
@@ -782,6 +788,7 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   registerWidgetAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterWidgetAccountArgs, 'pubkey'>>;
   sendEmergencyKit?: Resolver<Maybe<ResolversTypes['SendEmergencyKitResult']>, ParentType, ContextType, RequireFields<RootMutationSendEmergencyKitArgs, 'key'>>;
   trackAccountWallets?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<RootMutationTrackAccountWalletsArgs, 'wallets'>>;
+  tryToPerformActiveActionsByType?: Resolver<Maybe<Array<Maybe<ResolversTypes['Record']>>>, ParentType, ContextType, RequireFields<RootMutationTryToPerformActiveActionsByTypeArgs, 'type'>>;
   updateWidgetAccountRole?: Resolver<Maybe<ResolversTypes['WidgetAccount']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetAccountRoleArgs, 'id' | 'role'>>;
   updateWidgetOwner?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetOwnerArgs, 'id' | 'ownerId'>>;
   updateWidgetStatus?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetStatusArgs, 'id' | 'status' | 'updaterPubkey'>>;

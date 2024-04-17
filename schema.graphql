@@ -400,6 +400,9 @@ type RootMutation {
   trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
 
   """"""
+  tryToPerformActiveActionsByType(type: String!): [Record]
+
+  """"""
   updateWidgetAccountRole(id: String!, role: WidgetAccountRole!): WidgetAccount
 
   """"""

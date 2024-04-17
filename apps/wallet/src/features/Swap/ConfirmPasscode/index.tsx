@@ -2,11 +2,13 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { logger, ResponseCode } from '@walless/core';
+import { mutations } from '@walless/graphql';
 import type { SlideComponentProps } from '@walless/gui';
 import { Hoverable, Passcode, Text, View } from '@walless/gui';
 import { ChevronLeft } from '@walless/icons';
 import { showError } from 'modals/Error';
 import assets from 'utils/assets';
+import { qlClient } from 'utils/graphql';
 import { nativeModules } from 'utils/native';
 import { signAndSendTransaction } from 'utils/transaction/solana';
 
@@ -48,6 +50,14 @@ const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 				} else if (res.responseCode === ResponseCode.SUCCESS) {
 					swapActions.closeSwap();
 					swapActions.showSuccess();
+
+					try {
+						await qlClient.request(mutations.tryToPerformActiveActionsByType, {
+							type: 'Swap',
+						});
+					} catch (error) {
+						console.log('Failed to perform active actions', error);
+					}
 				}
 
 				setPasscode('');

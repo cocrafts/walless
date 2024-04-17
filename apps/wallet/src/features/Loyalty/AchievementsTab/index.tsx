@@ -26,6 +26,9 @@ const AchievementsTab: FC<Props> = ({ progress }) => {
 
 		try {
 			fetchActiveActions().then((activeActions) => {
+				activeActions.sort((a, b) => {
+					return (a.points ?? 0) - (b.points ?? 0);
+				});
 				setActions(activeActions);
 			});
 		} catch (error) {
@@ -36,6 +39,10 @@ const AchievementsTab: FC<Props> = ({ progress }) => {
 	const canUserPerformAction = (action: Action) => {
 		if (!progress) {
 			return false;
+		}
+
+		if (action.category === ActionCategory.Streak) {
+			return true;
 		}
 
 		if (

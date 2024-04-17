@@ -119,9 +119,15 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 		}
 	};
 
-	const stat = (progress?.trackList as ActionCount[]).find(
-		(track) => track.type === action.type,
-	);
+	const stat = useMemo(() => {
+		if (!progress) {
+			return null;
+		}
+
+		return (progress.trackList as ActionCount[]).find(
+			(track) => track.type === action.type,
+		);
+	}, [progress]);
 
 	const currentStreak = useMemo(() => {
 		if (!stat || !stat.streaks) {
@@ -213,7 +219,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 								!canUserPerformAction && styles.performedCtaButton,
 							]}
 							disabled={!canUserPerformAction}
-							title={ctaText || 'Go'}
+							title={canUserPerformAction ? ctaText || 'Go' : 'Done'}
 							titleStyle={styles.pointText}
 							onPress={handlePerformAction}
 						/>

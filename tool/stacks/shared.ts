@@ -17,7 +17,7 @@ const documentAlias = {
 };
 
 export const sslArn =
-	'arn:aws:acm:us-east-1:984261700405:certificate/c6375953-4ae4-4c6e-8357-38b215aed3a6';
+	'arn:aws:acm:us-east-1:984261700405:certificate/62eebd95-add3-42cc-bcb1-4b6926c0ef13';
 
 export const landingDomainFromStage = (stage: string) => {
 	const prefix = landingAlias[stage] || `${stage}.`;

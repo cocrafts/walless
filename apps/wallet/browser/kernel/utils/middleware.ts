@@ -9,10 +9,10 @@ import { utils } from '@walless/network';
 import type { ConnectOptions } from '@walless/sdk';
 import type { TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { storage } from 'utils/storage/db';
 
 import { closePopup, openPopup } from './popup';
 import { getRequestRecord, requestPool, respond } from './requestPool';
+import { storage } from './storage';
 import type { HandleMethod } from './types';
 
 export const getPrivateKey = (
@@ -47,13 +47,14 @@ export const checkConnection: HandleMethod<{
 	const domainResponse = await storage.find(selectors.trustedDomains);
 	const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
 	const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
+
 	if (!savedDomain || !savedDomain.connect) {
 		Object.values(requestPool).forEach((ele) => {
-			if (
+			const isDuplicatedRequest =
 				ele.payload.requestId !== payload.requestId &&
 				ele.payload.type === RequestType.REQUEST_CONNECT &&
-				ele.payload.options.domain === domain
-			) {
+				ele.payload.options.domain === domain;
+			if (isDuplicatedRequest) {
 				respond(ele.payload.requestId, ResponseCode.ERROR);
 				closePopup(ele.payload.popupId);
 			}
@@ -120,4 +121,34 @@ export const forwardToSourceRequest: HandleMethod<{
 	} else {
 		next?.(payload);
 	}
+};
+
+export const deserializePayloadToMessageOnTezos: HandleMethod<{
+	payload?: string;
+	signingType?: string;
+}> = ({ payload, next }) => {
+	if (payload.from === 'walless@sdk') {
+		if (!payload.payload || !payload.signingType)
+			throw Error('Missing payload or signingType');
+
+		let message: string;
+		try {
+			if (payload.signingType === 'raw') {
+				message = Buffer.from(payload.payload, 'hex').toString();
+				payload.message = message;
+			} else if (
+				payload.signingType === 'operation' ||
+				payload.signingType === 'micheline'
+			) {
+				message = Buffer.from(payload.payload, 'hex').toString();
+				payload.message = message;
+			} else {
+				throw Error(`can not handle this signing type ${payload.signingType}`);
+			}
+		} catch (e) {
+			console.log('deserialize failed', e);
+		}
+	}
+
+	next?.(payload);
 };

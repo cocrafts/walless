@@ -18,6 +18,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@airgap/beacon-sdk": "^4.2.1",
+    "@airgap/beacon-utils": "^4.2.1",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@coral-xyz/anchor": "^0.29.0",
     "@craftzdog/pouchdb-collate-react-native": "^7.3.0",

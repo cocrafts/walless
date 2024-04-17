@@ -1,5 +1,6 @@
 import { Channels, createEncryptionKeyVault } from '@walless/messaging';
-import { storage } from 'utils/storage/db';
+
+import { storage } from '../utils/storage';
 
 export const channels = [
 	Channels.ui,

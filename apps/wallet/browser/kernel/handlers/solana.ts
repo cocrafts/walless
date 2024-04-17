@@ -1,8 +1,8 @@
 import { clusterApiUrl, Connection } from '@solana/web3.js';
 import { ResponseCode } from '@walless/core';
 import { solana } from '@walless/network';
-import { environment } from 'utils/config';
 
+import { environment } from '../utils/config';
 import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 

@@ -158,6 +158,32 @@ export const mockWidgets: WidgetDocument[] = [
 			iconSize: 40,
 		},
 	},
+	{
+		_id: 'flowXFinance',
+		name: 'FlowX Finance',
+		networks: [],
+		version: '0.0.1',
+		type: 'Widget',
+		widgetType: 'Hybrid',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/flowx-finance/flowxfinance-icon.png',
+			iconSize: 40,
+			iconColor: '#ffffff',
+			coverUri: '/img/flowx-finance/flowxfinance-bg.png',
+			description:
+				'FlowX Finance is the one stop DEX for trading needs, designed to provide a seamless, user-friendly experience for all.',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		networkMeta: {
+			backgroundUri: '/img/network/sky-card-bg.png',
+			markUri: '/img/flowx-finance/flowxfinance-icon.png',
+			iconUri: '/img/flowx-finance/flowxfinance-icon.png',
+			iconColor: '#ffffff',
+			iconSize: 40,
+		},
+	},
 	// {
 	// 	_id: '000003',
 	// 	name: 'Under Realm',
@@ -184,3 +210,28 @@ export const mockWidgets: WidgetDocument[] = [
 	// 	},
 	// },
 ];
+
+const devWidgets: WidgetDocument[] = [
+	{
+		_id: 'tezosDApp',
+		name: 'Tezos DApp',
+		networks: [],
+		version: '0.0.1',
+		type: 'Widget',
+		widgetType: 'Hybrid',
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/network/tezos-icon-sm.png',
+			iconSize: 26,
+			iconColor: '#2D7DF8',
+			coverUri: '/img/explore/thumbnail-tezos.png',
+			description: 'Example DApp on Tezos',
+			loveCount: 100,
+			activeCount: 567,
+		},
+	} as never,
+];
+
+if (__DEV__) {
+	mockWidgets.push(...devWidgets);
+}

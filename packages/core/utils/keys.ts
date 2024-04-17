@@ -1,4 +1,4 @@
-import type { Networks, UnknownObject } from './common';
+import type { Networks } from './common';
 
 export type PublicKey = {
 	privateKeyId: string;
@@ -11,5 +11,8 @@ export type SuiPublicKey = PublicKey & {
 };
 
 export type TezosPublicKey = PublicKey & {
-	meta: UnknownObject;
+	meta: {
+		publicKey: string;
+		address: string;
+	};
 };

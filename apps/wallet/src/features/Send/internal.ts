@@ -19,6 +19,7 @@ import { solMint } from 'utils/constants';
 import { useSnapshot } from 'utils/hooks';
 import {
 	createAndSendSolanaTransaction,
+	createAndSendSuiTransaction,
 	getGasilonFee,
 	getSolanaTransactionFee,
 	getSuiTransactionFee,
@@ -181,6 +182,24 @@ export const txActions = {
 				status:
 					res.responseCode === ResponseCode.SUCCESS ? 'pending' : 'failed',
 			});
+		} else if (txContext.tx.network === Networks.sui) {
+			const res = await createAndSendSuiTransaction(
+				genericTransaction as SuiSendTransaction,
+				passcode,
+			);
+
+			if (res.responseCode === ResponseCode.WRONG_PASSCODE) {
+				showError({ errorText: 'Passcode is NOT matched' });
+			} else if (res.responseCode === ResponseCode.SUCCESS) {
+				const signature = res.signatureString;
+				txActions.update<SuiTransactionContext>({ signature });
+				txActions.update({ time: new Date() });
+				txActions.update({
+					status:
+						res.responseCode === ResponseCode.SUCCESS ? 'success' : 'failed',
+				});
+				onComplete?.();
+			}
 		}
 
 		return true;

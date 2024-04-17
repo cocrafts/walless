@@ -1,21 +1,25 @@
 import { PublicKey } from '@solana/web3.js';
-import { Networks, RequestType } from '@walless/core';
-import { solana } from '@walless/network';
+import { Networks, RequestType, ResponseCode } from '@walless/core';
+import type { ResponsePayload } from '@walless/messaging';
+import { solana, sui, utils } from '@walless/network';
 import { sendRequest } from 'bridge';
 import { encode } from 'bs58';
 import { engine } from 'engine';
-import type { SolanaContext } from 'engine/runners';
+import type { SolanaContext, SuiContext } from 'engine/runners';
 import { solMint } from 'utils/constants';
+import { storage } from 'utils/storage';
 
 import {
 	constructSolanaSendNftTransaction,
 	constructSolanaSendTokenTransaction,
+	constructSuiSendTokenTransaction,
 } from './construct';
 import { getGasilonConfig } from './gasilon';
 import type {
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
 	SolanaSendTransaction,
+	SuiSendTokenTransaction,
 } from './types';
 
 export const createAndSendSolanaTransaction = async (
@@ -88,6 +92,33 @@ export const handleAptosOnChainAction = async ({
 		transaction: JSON.stringify(payload),
 		passcode,
 	});
+
+	return res;
+};
+
+export const createAndSendSuiTransaction = async (
+	initTransaction: SuiSendTokenTransaction,
+	passcode: string,
+) => {
+	const res = {} as ResponsePayload;
+	let privateKey: Uint8Array;
+	try {
+		privateKey = await utils.getPrivateKey(storage, Networks.sui, passcode);
+	} catch {
+		res.responseCode = ResponseCode.WRONG_PASSCODE;
+		return res;
+	}
+
+	const transactionBlock =
+		await constructSuiSendTokenTransaction(initTransaction);
+	const { client } = engine.getContext<SuiContext>(Networks.sui);
+	const response = await sui.signAndExecuteTransaction(
+		client,
+		transactionBlock.serialize(),
+		privateKey,
+	);
+	res.signatureString = response.transaction?.txSignatures;
+	res.responseCode = ResponseCode.SUCCESS;
 
 	return res;
 };

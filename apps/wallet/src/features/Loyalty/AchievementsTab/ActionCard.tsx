@@ -21,6 +21,7 @@ import { loyaltyActions, loyaltyState } from 'state/loyalty';
 import { qlClient } from 'utils/graphql';
 import { useSnapshot } from 'utils/hooks';
 
+import CountDown from './CountDown';
 import {
 	extractDataFromMetadata,
 	getCycleEndTime,
@@ -143,6 +144,22 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 		return currentStreak;
 	}, [stat, action.streak]);
 
+	const showDescContainer: boolean = useMemo(() => {
+		if (
+			action.category === ActionCategory.Milestone &&
+			stat?.milestone &&
+			action.milestone
+		) {
+			return stat.milestone < action.milestone;
+		}
+
+		if (action.category === ActionCategory.Streak && action.streak) {
+			return true;
+		}
+
+		return !!desc || !!stat;
+	}, [desc, stat, action.category]);
+
 	return (
 		<View
 			style={[
@@ -162,50 +179,46 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 					<View style={styles.titleContainer}>
 						<Text style={styles.nameText}>{name}</Text>
 
-						{timeRemaining && (
-							<Text style={styles.counterText}>
-								{Math.floor(
-									(timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-								)}
-								h:
-								{Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60))}
-								m:
-								{Math.floor((timeRemaining % (1000 * 60)) / 1000)}s
-							</Text>
-						)}
+						{timeRemaining && <CountDown timeRemaining={timeRemaining} />}
 					</View>
 
 					{action.category === ActionCategory.Streak && action.streak && (
 						<StreakBar
 							streak={action.streak}
 							currentStreak={currentStreak}
-							style={{
-								marginTop: 4,
-							}}
+							style={{ marginTop: 4 }}
 						/>
 					)}
 
-					<View style={styles.descContainer}>
-						<Text
-							style={styles.descText}
-							numberOfLines={2}
-							ellipsizeMode="tail"
-						>
-							{desc}
-						</Text>
-
-						{action.category === ActionCategory.Streak && (
-							<Text style={styles.descText}>
-								{currentStreak}/{action.streak}
+					{showDescContainer && (
+						<View style={styles.descContainer}>
+							<Text
+								style={styles.descText}
+								numberOfLines={2}
+								ellipsizeMode="tail"
+							>
+								{desc}
 							</Text>
-						)}
 
-						{action.category === ActionCategory.Milestone && (
 							<Text style={styles.descText}>
-								{stat?.milestone || 0}/{action.milestone}
+								{action.category === ActionCategory.Recurring &&
+									stat?.milestone &&
+									stat.milestone > 0 &&
+									`Claimed ${stat.milestone} ${
+										stat.milestone > 1 ? 'times' : 'time'
+									}`}
+
+								{action.category === ActionCategory.Streak &&
+									`${currentStreak}/${action.streak}`}
+
+								{action.category === ActionCategory.Milestone &&
+									stat?.milestone &&
+									action.milestone &&
+									stat.milestone < action.milestone &&
+									`${stat.milestone || 0}/${action.milestone}`}
 							</Text>
-						)}
-					</View>
+						</View>
+					)}
 				</View>
 			</View>
 
@@ -263,11 +276,6 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		color: 'white',
 	},
-	counterText: {
-		fontSize: 11,
-		fontWeight: '500',
-		color: '#00B1FF',
-	},
 	descContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -289,8 +297,8 @@ const styles = StyleSheet.create({
 	},
 	ctaButton: {
 		width: '100%',
-		borderRadius: 8,
-		paddingVertical: 8,
+		borderRadius: 32,
+		paddingVertical: 4,
 		paddingHorizontal: 0,
 	},
 	performedCtaButton: {

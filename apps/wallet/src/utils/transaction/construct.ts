@@ -1,8 +1,7 @@
-import { TransactionBlock } from '@mysten/sui.js/transactions';
 import type { VersionedTransaction } from '@solana/web3.js';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import { solana } from '@walless/network';
+import { solana, sui } from '@walless/network';
 import { engine } from 'engine';
 import type { SolanaContext } from 'engine/runners';
 import { solMint } from 'utils/constants';
@@ -70,35 +69,14 @@ export const constructSolanaSendNftTransaction = async (
 export const constructSuiSendTokenTransaction = async (
 	initTransaction: SuiSendTokenTransaction,
 ) => {
-	const { coins, amount, receiver, sender, token, coinsForFee } =
+	const { coins, coinsForFee, amount, receiver, sender, token } =
 		initTransaction;
-	const txb = new TransactionBlock();
-	txb.setGasPayment(
-		coinsForFee.map((coin) => ({
-			version: coin.version,
-			digest: coin.digest,
-			objectId: coin.coinObjectId,
-		})),
+	return sui.constructSuiTransactionBlock(
+		coins,
+		coinsForFee,
+		amount,
+		receiver,
+		sender,
+		token,
 	);
-
-	let coin;
-	if (coins[0].coinType === coinsForFee[0].coinType) {
-		coin = txb.splitCoins(txb.gas, [txb.pure(amount * 10 ** token.decimals)]);
-	} else {
-		const [destinationCoin, ...sourceCoins] = coins;
-		const primaryCoin = txb.object(destinationCoin.coinObjectId);
-		if (sourceCoins.length > 0) {
-			txb.mergeCoins(
-				primaryCoin,
-				sourceCoins.map((coin) => coin.coinObjectId),
-			);
-		}
-		coin = txb.splitCoins(primaryCoin, [
-			txb.pure(amount * 10 ** token.decimals),
-		]);
-	}
-	txb.transferObjects([coin], txb.pure(receiver, 'address'));
-	txb.setSenderIfNotSet(sender);
-
-	return txb;
 };

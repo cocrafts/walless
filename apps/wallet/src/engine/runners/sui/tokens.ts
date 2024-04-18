@@ -18,31 +18,27 @@ export const constructSuiTokenDocument = async (
 	const [coin] = coinObjects;
 	const metadata = await getSUITokenMetadata(client, coin);
 	if (!metadata) return;
-	return coinObjects.reduce((tokenDoc, coinObject) => {
-		if (Object.keys(tokenDoc).length === 0) {
-			tokenDoc = {
-				_id: `${owner}/token/${coinObject.coinType}`,
-				type: 'Token',
-				network: Networks.sui,
-				cluster,
-				name: metadata.name,
-				symbol: metadata.symbol,
-				image: metadata.image,
-				balance: Number(coinObject.balance) / 10 ** metadata.decimals,
-				decimals: metadata.decimals,
-				coinObjectIds: [coinObject.coinObjectId],
-				coinType: coinObject.coinType,
-				owner,
-				lockedUntilEpoch: null,
-				previousTransaction: coinObject.previousTransaction,
-			};
-		} else {
-			tokenDoc.coinObjectIds.push(coinObject.coinObjectId);
-			tokenDoc.balance += Number(coinObject.balance) / 10 ** metadata.decimals;
-		}
-
-		return tokenDoc;
-	}, {} as TokenDocument<SuiToken>);
+	const suiTokenDoc = {
+		_id: `${owner}/token/${coin.coinType}`,
+		type: 'Token',
+		network: Networks.sui,
+		cluster,
+		name: metadata.name,
+		symbol: metadata.symbol,
+		image: metadata.image,
+		balance: 0,
+		decimals: metadata.decimals,
+		coinObjectIds: [],
+		coinType: coin.coinType,
+		owner,
+		lockedUntilEpoch: null,
+		previousTransaction: coin.previousTransaction,
+	} as TokenDocument<SuiToken>;
+	coinObjects.forEach((coinObject) => {
+		suiTokenDoc.balance += Number(coinObject.balance) / 10 ** metadata.decimals;
+		suiTokenDoc.coinObjectIds.push(coinObject.coinObjectId);
+	});
+	return suiTokenDoc;
 };
 
 export const groupCoinByType = (coins: PaginatedCoins) => {

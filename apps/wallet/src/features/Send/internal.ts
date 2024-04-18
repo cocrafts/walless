@@ -13,6 +13,7 @@ import type {
 } from '@walless/store';
 import { engine } from 'engine';
 import type { SolanaContext, SuiContext } from 'engine/runners';
+import { throttle } from 'lodash';
 import { showError } from 'modals/Error';
 import { ModalId } from 'modals/types';
 import { solMint } from 'utils/constants';
@@ -74,7 +75,7 @@ export const txActions = {
 	handleAfterSent: () => {
 		txContext.tx.onSent?.();
 	},
-	updateTransactionFee: async () => {
+	updateTransactionFee: throttle(async () => {
 		const { network } = txContext.tx;
 		switch (network) {
 			case Networks.solana: {
@@ -145,7 +146,7 @@ export const txActions = {
 				break;
 			}
 		}
-	},
+	}, 300),
 	handleSendTransaction: async (passcode: string, onComplete?: () => void) => {
 		const genericTransaction = await createGenericTransaction();
 		if (txContext.tx.network === Networks.solana) {
@@ -244,10 +245,8 @@ const createGenericTransaction = async () => {
 			};
 		}
 	} else if (network === Networks.sui) {
-		if (!type || !sender || !receiver || !network || !amount)
-			throw new Error(
-				'Require type, sender, receiver, network and amount to send',
-			);
+		if (!type || !sender || !receiver || !network)
+			throw new Error('Require type, sender, receiver and network to send');
 
 		if (type === 'token') {
 			const { token, tokenForFee } = txContext.tx as SuiTokenTransactionContext;
@@ -266,7 +265,7 @@ const createGenericTransaction = async () => {
 
 			transaction = {
 				type,
-				amount: Number(amount),
+				amount: Number(amount) || 0,
 				coins,
 				coinsForFee,
 				network,

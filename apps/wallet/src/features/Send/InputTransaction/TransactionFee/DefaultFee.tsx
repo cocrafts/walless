@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const DefaultTransactionFee: FC<Props> = () => {
-	const { feeAmount, feeLoading, network, receiver, nft, token, amount } =
+	const { feeAmount, feeLoading, network, receiver, nft, token } =
 		useTransactionContext<GenericTransactionContext>();
 
 	let networkToken = '';
@@ -27,10 +27,10 @@ export const DefaultTransactionFee: FC<Props> = () => {
 	const feeString = `${feeAmount ? feeAmount : 0} ${networkToken}`;
 
 	useEffect(() => {
-		if (network && (token || nft) && receiver && Number(amount) > 0) {
+		if (network && (token || nft) && receiver) {
 			txActions.updateTransactionFee();
 		}
-	}, [network, token, nft, receiver, amount]);
+	}, [network, token, nft, receiver]);
 
 	return (
 		<View style={styles.container}>

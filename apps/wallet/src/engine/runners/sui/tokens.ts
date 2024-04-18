@@ -43,16 +43,5 @@ export const constructSuiTokenDocument = async (
 
 export const groupCoinByType = (coins: PaginatedCoins) => {
 	const { data: coinObjects } = coins;
-	return coinObjects.reduce(
-		(coinList, coinObject) => {
-			if (!coinList[coinObject.coinType]) {
-				coinList[coinObject.coinType] = [coinObject];
-			} else {
-				coinList[coinObject.coinType].push(coinObject);
-			}
-
-			return coinList;
-		},
-		{} as Record<string, CoinStruct[]>,
-	);
+	return Object.groupBy(coinObjects, ({ coinType }) => coinType);
 };

@@ -36,7 +36,7 @@ export const createSuiRunner = async (
 				const groupedCoin = groupCoinByType(coins);
 
 				const promises = Object.keys(groupedCoin).map(async (coinType) => {
-					const coinObjects = groupedCoin[coinType];
+					const coinObjects = groupedCoin[coinType] || [];
 					const tokenDocument = await constructSuiTokenDocument(
 						client,
 						cluster,

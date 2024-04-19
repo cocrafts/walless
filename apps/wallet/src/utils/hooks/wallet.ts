@@ -105,9 +105,6 @@ export const useTokens = <T extends Token = Token>(
 				};
 			}
 			case Networks.sui: {
-				tokens.forEach((token) => {
-					valuation += getTokenValue(token, currency);
-				});
 				const filteredTokens = [];
 				for (const token of tokens as TokenDocument<SuiToken>[]) {
 					const isNetworkValid = network ? token.network === network : true;

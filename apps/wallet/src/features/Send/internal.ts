@@ -1,8 +1,8 @@
-import {} from '@solana/web3.js';
 import type {
 	SolanaCollectible,
 	SolanaCollection,
 	SolanaToken,
+	SuiToken,
 } from '@walless/core';
 import { logger, Networks, ResponseCode } from '@walless/core';
 import { modalActions } from '@walless/gui';
@@ -12,18 +12,25 @@ import type {
 	TokenDocument,
 } from '@walless/store';
 import { engine } from 'engine';
-import type { SolanaContext } from 'engine/runners';
+import type { SolanaContext, SuiContext } from 'engine/runners';
+import { throttle } from 'lodash';
 import { showError } from 'modals/Error';
 import { ModalId } from 'modals/types';
 import { solMint } from 'utils/constants';
 import { useSnapshot } from 'utils/hooks';
 import {
 	createAndSendSolanaTransaction,
+	createAndSendSuiTransaction,
 	getGasilonFee,
 	getSolanaTransactionFee,
+	getSuiTransactionFee,
 	hasEnoughBalanceToMakeTx,
 } from 'utils/transaction';
-import type { SolanaSendTransaction } from 'utils/transaction/types';
+import { constructSuiSendTokenTransaction } from 'utils/transaction/construct';
+import type {
+	SolanaSendTransaction,
+	SuiSendTransaction,
+} from 'utils/transaction/types';
 import { proxy } from 'valtio';
 
 const initialContext: TransactionContext = {
@@ -68,7 +75,7 @@ export const txActions = {
 	handleAfterSent: () => {
 		txContext.tx.onSent?.();
 	},
-	updateTransactionFee: async () => {
+	updateTransactionFee: throttle(async () => {
 		const { network } = txContext.tx;
 		switch (network) {
 			case Networks.solana: {
@@ -116,12 +123,30 @@ export const txActions = {
 
 				break;
 			}
+
+			case Networks.sui: {
+				txActions.update({ feeLoading: true });
+				const genericTransaction = await createGenericTransaction();
+				const transactionBlock = await constructSuiSendTokenTransaction(
+					genericTransaction as SuiSendTransaction,
+				);
+				const fee = await getSuiTransactionFee(transactionBlock).catch(
+					(error) => {
+						logger.error('Failed to get Sui transaction fee', error);
+						throw new Error('Failed to get Sui transaction fee', error);
+					},
+				);
+
+				txActions.update({ feeAmount: fee, feeLoading: false });
+				break;
+			}
+
 			default: {
 				txActions.update({ feeAmount: 0 });
 				break;
 			}
 		}
-	},
+	}, 300),
 	handleSendTransaction: async (passcode: string, onComplete?: () => void) => {
 		const genericTransaction = await createGenericTransaction();
 		if (txContext.tx.network === Networks.solana) {
@@ -158,6 +183,24 @@ export const txActions = {
 				status:
 					res.responseCode === ResponseCode.SUCCESS ? 'pending' : 'failed',
 			});
+		} else if (txContext.tx.network === Networks.sui) {
+			const res = await createAndSendSuiTransaction(
+				genericTransaction as SuiSendTransaction,
+				passcode,
+			);
+
+			if (res.responseCode === ResponseCode.WRONG_PASSCODE) {
+				showError({ errorText: 'Passcode is NOT matched' });
+			} else if (res.responseCode === ResponseCode.SUCCESS) {
+				const signature = res.signatureString;
+				txActions.update<SuiTransactionContext>({ signature });
+				txActions.update({ time: new Date() });
+				txActions.update({
+					status:
+						res.responseCode === ResponseCode.SUCCESS ? 'success' : 'failed',
+				});
+				onComplete?.();
+			}
 		}
 
 		return true;
@@ -167,37 +210,75 @@ export const txActions = {
 const createGenericTransaction = async () => {
 	const { type, sender, receiver, network, amount, tokenForFee, feeAmount } =
 		txContext.tx;
-	if (!type || !sender || !receiver || !network)
-		throw Error('require type, sender, receiver, network to send');
 
 	let transaction;
-	if (type === 'token') {
-		if (!amount) throw Error("require amount when type is 'token'");
-		const { token } = txContext.tx as TokenTransactionContext;
-		if (!token) throw Error("token doesn't exist");
-		transaction = {
-			type,
-			sender,
-			receiver,
-			network,
-			amount: Number(amount),
-			token,
-			fee: feeAmount,
-			...{ tokenForFee },
-		};
+	if (network === Networks.solana) {
+		if (!type || !sender || !receiver || !network)
+			throw Error('require type, sender, receiver, network to send');
+
+		if (type === 'token') {
+			if (!amount) throw Error("require amount when type is 'token'");
+			const { token } = txContext.tx as TokenTransactionContext;
+			if (!token) throw Error("token doesn't exist");
+			transaction = {
+				type,
+				sender,
+				receiver,
+				network,
+				amount: Number(amount),
+				token,
+				fee: feeAmount,
+				...{ tokenForFee },
+			};
+		} else {
+			const { nft } = txContext.tx as NftTransactionContext;
+			if (!nft) throw Error("nft doesn't exist");
+			transaction = {
+				type,
+				sender,
+				receiver,
+				network,
+				amount: 1,
+				nft,
+				fee: feeAmount,
+				...{ tokenForFee },
+			};
+		}
+	} else if (network === Networks.sui) {
+		if (!type || !sender || !receiver || !network)
+			throw new Error('Require type, sender, receiver and network to send');
+
+		if (type === 'token') {
+			const { token, tokenForFee } = txContext.tx as SuiTokenTransactionContext;
+			if (!token || !tokenForFee)
+				throw new Error('Require token and tokenForFee to send');
+
+			const { client } = engine.getContext<SuiContext>(Networks.sui);
+			const { data: coins } = await client.getCoins({
+				owner: sender,
+				coinType: token.coinType,
+			});
+			const { data: coinsForFee } = await client.getCoins({
+				owner: sender,
+				coinType: tokenForFee?.coinType,
+			});
+
+			transaction = {
+				type,
+				amount: Number(amount) || 0,
+				coins,
+				coinsForFee,
+				network,
+				receiver,
+				sender,
+				token,
+				tokenForFee,
+			};
+		} else {
+			throw new Error('Transfer Sui NFT not supported');
+		}
 	} else {
-		const { nft } = txContext.tx as NftTransactionContext;
-		if (!nft) throw Error("nft doesn't exist");
-		transaction = {
-			type,
-			sender,
-			receiver,
-			network,
-			amount: 1,
-			nft,
-			fee: feeAmount,
-			...{ tokenForFee },
-		};
+		throw new Error('Unsupported network');
 	}
 
 	const hasEnoughBalance = await hasEnoughBalanceToMakeTx(transaction);
@@ -235,6 +316,9 @@ export type NftTransactionContext = TransactionContext & {
 	collection?: CollectionDocument;
 };
 
+export type GenericTransactionContext = TokenTransactionContext &
+	NftTransactionContext;
+
 export type SolanaTransactionContext = SolanaTokenTransactionContext &
 	SolanaCollectibleTransactionContext;
 
@@ -252,3 +336,16 @@ export type SolanaCollectibleTransactionContext = NftTransactionContext & {
 };
 
 export type CombinedTransactionContext = SolanaTransactionContext;
+
+export type SuiTokenTransactionContext<T extends SuiToken = SuiToken> =
+	TokenTransactionContext & {
+		token?: TokenDocument<T>;
+		tokenForFee?: TokenDocument<T>;
+	};
+
+export type SuiCollectibleTransactionContext = NftTransactionContext;
+
+export type SuiTransactionContext = SuiTokenTransactionContext &
+	SuiCollectibleTransactionContext & {
+		signature?: string;
+	};

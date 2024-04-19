@@ -74,6 +74,9 @@ export type SuiNft = Nft & {
 };
 
 export type SuiToken = Token & {
-	coinObjectId: string;
+	coinObjectIds: string[];
 	coinType: string;
+	lockedUntilEpoch: number | null | undefined;
+	previousTransaction: string;
+	decimals: number;
 };

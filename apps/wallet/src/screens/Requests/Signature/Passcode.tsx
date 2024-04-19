@@ -21,6 +21,7 @@ export const RequestSignaturePasscode: FC<Props> = ({
 	const [error, setError] = useState('');
 	const [passcode, setPasscode] = useState('');
 	const [renderPasscode, setRenderPasscode] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const onPasscodeChange = async (value: string, isCompleted?: boolean) => {
 		setPasscode(value);
@@ -28,6 +29,7 @@ export const RequestSignaturePasscode: FC<Props> = ({
 			setError('');
 		}
 		if (isCompleted) {
+			setLoading(true);
 			const res: ResponsePayload = await onPasscodeComplete(value);
 
 			if (res?.responseCode === ResponseCode.WRONG_PASSCODE) {
@@ -39,6 +41,7 @@ export const RequestSignaturePasscode: FC<Props> = ({
 			} else if (res.responseCode === ResponseCode.SUCCESS) {
 				window.close();
 			}
+			setLoading(false);
 		}
 	};
 
@@ -64,6 +67,7 @@ export const RequestSignaturePasscode: FC<Props> = ({
 					passcode={passcode}
 					error={error}
 					onPasscodeChange={onPasscodeChange}
+					loading={loading}
 				/>
 			)}
 		</View>

@@ -22,7 +22,7 @@ const InputSwap: FC<Props> = ({ navigator }) => {
 	const handlePressSwap = async () => {
 		setLoading(true);
 		try {
-			await swapActions.prepareSwapTransaction(publicKeys[0]._id);
+			swapActions.prepareSwapTransaction(publicKeys[0]._id);
 			navigator.slideNext();
 		} catch (error) {
 			showError({ errorText: (error as Error).message });

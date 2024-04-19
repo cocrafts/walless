@@ -71,7 +71,7 @@ export const constructSwapTransaction = async ({
 		slippageBps,
 	});
 	if (!quoteResponse) {
-		throw Error('Can not fetch swap quote, please try again!');
+		throw Error('Can not fetch swap quote, try again!');
 	}
 
 	const res = await fetch(`${environment.JUPITER_API_ENDPOINT}/swap`, {
@@ -89,7 +89,7 @@ export const constructSwapTransaction = async ({
 		}),
 	});
 	if (!res.ok) {
-		throw Error('Something went wrong, can not swap!');
+		throw Error('Can not construct swap transaction, try again!');
 	}
 
 	const { swapTransaction } = await res.json();
@@ -97,7 +97,7 @@ export const constructSwapTransaction = async ({
 	const transaction = VersionedTransaction.deserialize(swapTransactionBuf);
 	const { connection } = engine.getContext<SolanaContext>(Networks.solana);
 	try {
-		// refetch latest blockhash, to avoid blockhash not found (might be from query commitment of jupiter implementation)
+		// refetch latest blockhash with finalized, to avoid blockhash not found
 		const { blockhash } = await connection.getLatestBlockhash('finalized');
 		transaction.message.recentBlockhash = blockhash;
 	} catch (error) {
@@ -105,6 +105,7 @@ export const constructSwapTransaction = async ({
 			'failed to refetch latest blockhash for swap transaction',
 			error,
 		);
+		throw Error('Can not construct swap transaction, try again!');
 	}
 
 	return transaction;

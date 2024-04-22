@@ -160,9 +160,9 @@ const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 				{status === 'building' ? (
 					<Text>Construct transaction...</Text>
 				) : status === 'sending' ? (
-					<Text>Send transaction to network...</Text>
+					<Text>Sending transaction...</Text>
 				) : (
-					status === 'processing' && <Text>Proceed transaction...</Text>
+					status === 'processing' && <Text>Processing transaction...</Text>
 				)}
 			</View>
 		</View>

@@ -16,6 +16,7 @@ const getVersionNameFromGit = async () => {
 	hash = hash.trim();
 
 	if (branch === 'main') return project.version;
+	else if (branch === 'staging') return `${project.version} (${hash})`;
 
 	return `${project.version} (${branch}-${hash})`;
 };

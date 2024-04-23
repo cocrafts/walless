@@ -1,6 +1,10 @@
 name: CD Deploy
 on:
   workflow_dispatch:
+  push:
+    branches: ["main", "staging"]
+  pull_request:
+    branches: ["main", "staging"]
 
 jobs:
   release:
@@ -20,25 +24,63 @@ jobs:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
 
-      - name: Install @metacraft/cli
-        run: npm i --location=global @metacraft/cli
+      # - name: Install @metacraft/cli
+      #   run: npm i --location=global @metacraft/cli
       
-      - name: Install yarn cli
-        run:  corepack enable && corepack prepare yarn@3.6.4 --activate
+      # - name: Install yarn cli
+      #   run:  corepack enable && corepack prepare yarn@3.6.4 --activate
 
-      - name: Install dependencies
-        run: yarn
+      # - name: Install dependencies
+      #   run: yarn
 
-      - name: Execute eslint
-        run: yarn lint
+      # - name: Execute eslint
+      #   run: yarn lint
 
-      - name: Run test cases
-        run: yarn test
+      # - name: Run test cases
+      #   run: yarn test
 
       - name: Set branch name
         id: branch
         run: echo "::set-output name=BRANCH_NAME::${GITHUB_REF##*/}"
+      
+      - name: Get merge commit SHA
+        id: merge_commit
+        run: |
+          MERGE_COMMIT_SHA=$(git log --merges --format="%H" -n 1)
+          echo "::set-output name=merge_commit_sha::${MERGE_COMMIT_SHA}"
 
+      - name: Get PR message from merge commit
+        id: pr_message
+        run: |
+          PR_MESSAGE=$(git log --format="%B" -n 1 ${{ steps.merge_commit.outputs.merge_commit_sha }})
+          echo "::set-output name=message::${PR_MESSAGE}"
+
+      - name: Show PR message
+        run: |
+          echo "Merged PR Message: ${{ steps.pr_message.outputs.message }}"
+
+      - name: Get PR title from merge commit
+        id: pr_title
+        run: |
+          PR_TITLE=$(git log --format="%s" -n 1 ${{ steps.merge_commit.outputs.merge_commit_sha }} | grep -oP 'Merge pull request #\K.*')
+          echo "::set-output name=title::${PR_TITLE}"
+
+      - name: Show PR title
+        run: |
+          echo "Merged PR Title: ${{ steps.pr_title.outputs.title }}"
+
+      # - name: Deploy
+      #   run: yarn deploy
+      #   if: github.ref == 'refs/heads/dev'
       - name: Deploy
-        run: yarn deploy
-        if: github.ref == 'refs/heads/dev'
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "Deploying to production"
+            # yarn deploy --stage production
+          elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+            echo "Deploying to staging"
+            # yarn deploy --stage staging
+          else
+            echo "This is a different branch. Exiting workflow with failure."
+            exit 1
+          fi

@@ -3,8 +3,6 @@ on:
   workflow_dispatch:
   push:
     branches: ["main", "staging"]
-  pull_request:
-    branches: ["main", "staging"]
 
 jobs:
   release:
@@ -54,10 +52,24 @@ jobs:
         run: |
           PR_MESSAGE=$(git log --format="%B" -n 1 ${{ steps.merge_commit.outputs.merge_commit_sha }})
           echo "::set-output name=message::${PR_MESSAGE}"
+      
+      - name: Show PR commit SHA
+        run: | 
+          echo "Merge commit SHA: ${{ steps.merge_commit.outputs.merge_commit_sha }}"
+
+      - name: Get PR message from merge commit
+        id: pr_message
+        run: |
+          MERGE_COMMIT_MESSAGE=$(git log --format="%B" -n 1 ${{ steps.merge_commit.outputs.merge_commit_sha }})
+          PR_TITLE=$(echo "${MERGE_COMMIT_MESSAGE}" | sed '1q;d')  # Get the first line (title)
+          PR_BODY=$(echo "${MERGE_COMMIT_MESSAGE}" | sed '1,/^$/d')  # Get everything after the first empty line (body)
+          echo "::set-output name=title::${PR_TITLE}"
+          echo "::set-output name=body::${PR_BODY}"
 
       - name: Show PR message
         run: |
-          echo "Merged PR Message: ${{ steps.pr_message.outputs.message }}"
+          echo "Merged PR Title: ${{ steps.pr_message.outputs.title }}"
+          echo "Merged PR Body: ${{ steps.pr_message.outputs.body }}"
 
       - name: Get PR title from merge commit
         id: pr_title

@@ -1,9 +1,9 @@
 import type { SSTConfig } from 'sst';
 
-import Document from './tool/stacks/document';
-import Extension from './tool/stacks/extension';
-import Landing from './tool/stacks/landing';
+import document from './tool/stacks/document';
+import landing from './tool/stacks/landing';
 import { functionDefaults } from './tool/stacks/shared';
+import wallet from './tool/stacks/wallet';
 
 export default {
 	config() {
@@ -14,8 +14,8 @@ export default {
 	},
 	stacks(app) {
 		app.setDefaultFunctionProps(functionDefaults);
-		app.stack(Document);
-		app.stack(Extension);
-		app.stack(Landing);
+		app.stack(document);
+		app.stack(landing);
+		app.stack(wallet);
 	},
 } satisfies SSTConfig;

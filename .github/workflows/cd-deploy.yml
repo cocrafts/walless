@@ -1,6 +1,10 @@
 name: CD Deploy
 on:
   workflow_dispatch:
+  push:
+    branches: 
+      - "main"
+      - "staging"
 
 jobs:
   release:
@@ -38,7 +42,26 @@ jobs:
       - name: Set branch name
         id: branch
         run: echo "::set-output name=BRANCH_NAME::${GITHUB_REF##*/}"
+      
+      - name: Inspect stack_name from commit message
+        id: inspect_commit_message
+        run: |
+          commit=$(git log --format="%B" -n 1)
+          stack_regex="\[(document|landing|wallet)\]"
+          remove_brackets_regex="(\w+)"
+          STACK_NAME=$(echo $commit | grep -oE $stack_regex | grep -oE $remove_brackets_regex)
+          echo "::set-output name=stack_name::${STACK_NAME}"
 
       - name: Deploy
-        run: yarn deploy
-        if: github.ref == 'refs/heads/dev'
+        run: |
+          stack_name=${{ steps.inspect_commit_message.outputs.stack_name }}
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "Deploying to production - ${{ steps.inspect_commit_message.outputs.stack_name }}"
+            yarn deploy $stack_name --stage production
+          elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+            echo "Deploying to staging - ${{ steps.inspect_commit_message.outputs.stack_name }}"
+            yarn deploy $stack_name --stage staging
+          else
+            echo "This is a different branch. Exiting workflow with failure."
+            exit 1
+          fi

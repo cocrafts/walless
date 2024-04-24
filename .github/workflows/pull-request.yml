@@ -25,7 +25,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
 
       - name: Install @metacraft/cli
-        run: npm i --location=global @metacraft/cli
+        run: npm i --location=global @metacraft/cli@latest
 
       - name: Install yarn cli
         run:  corepack enable && corepack prepare yarn@3.6.4 --activate

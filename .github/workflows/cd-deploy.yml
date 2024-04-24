@@ -5,14 +5,16 @@ on:
     branches: 
       - "main"
       - "staging"
+      - "dev"
 
 jobs:
   release:
-    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || (github.ref == 'refs/heads/staging' && 'staging' || 'development') }}
     runs-on: ubuntu-latest
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      STAGE: ${{ github.ref == 'refs/heads/main' && 'production' || (github.ref == 'refs/heads/staging' && 'staging' || 'development') }}
       CI: false
     steps:
       - name: Checkout
@@ -52,6 +54,11 @@ jobs:
           remove_brackets_regex="(\w+)"
           stacks_str=$(echo $commit | grep -oE $stack_regex | grep -oE $remove_brackets_regex | tr "\n" " ")
           echo "stacks_str=\"$stacks_str\"" >> $GITHUB_OUTPUT
+
+      - name: Create .env file
+        run: |
+          touch .env.$STAGE
+          echo "${{secrets.WALLET_ENV_FILE}}" >> apps/wallet/.env.$STAGE
 
       - name: Deploy
         run: |

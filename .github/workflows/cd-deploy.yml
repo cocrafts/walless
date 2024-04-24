@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 18
+          node-version: 20
           registry-url: https://npm.pkg.github.com/
 
       - name: Install @metacraft/cli
@@ -58,7 +58,7 @@ jobs:
       - name: Create .env file
         run: |
           touch .env.$DEPLOYMENT_STAGE
-          echo "${{secrets.WALLET_ENV_FILE}}" >> apps/wallet/.env.$DEPLOYMENT_STAGE
+          echo "${{ secrets.WALLET_ENV_FILE }}" >> apps/wallet/.env.$DEPLOYMENT_STAGE
 
       - name: Deploy
         run: |

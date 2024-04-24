@@ -8,6 +8,7 @@ on:
 
 jobs:
   release:
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
     runs-on: ubuntu-latest
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

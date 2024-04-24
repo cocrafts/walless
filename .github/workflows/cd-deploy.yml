@@ -14,7 +14,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      STAGE: ${{ github.ref == 'refs/heads/main' && 'production' || (github.ref == 'refs/heads/staging' && 'staging' || 'development') }}
+      DEPLOYMENT_STAGE: ${{ github.ref == 'refs/heads/main' && 'production' || (github.ref == 'refs/heads/staging' && 'staging' || 'development') }}
       CI: false
     steps:
       - name: Checkout
@@ -57,29 +57,20 @@ jobs:
 
       - name: Create .env file
         run: |
-          touch .env.$STAGE
-          echo "${{secrets.WALLET_ENV_FILE}}" >> apps/wallet/.env.$STAGE
+          touch .env.$DEPLOYMENT_STAGE
+          echo "${{secrets.WALLET_ENV_FILE}}" >> apps/wallet/.env.$DEPLOYMENT_STAGE
 
       - name: Deploy
         run: |
           stacks_str=${{ steps.inspect_stacks_from_commit_message.outputs.stacks_str }}
           read -r -a stacks <<< $stacks_str
 
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            stage="production"
-          elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
-            stage="staging"
-          else
-            echo "This is a different branch. Exiting workflow with failure."
-            exit 1
-          fi
-
           if [ ${#stacks[@]} -eq 0 ]; then
-            echo "Deploying all stacks to $stage"
-            yarn deploy --stage $stage
+            echo "Deploying all stacks to $DEPLOYMENT_STAGE"
+            yarn deploy --stage $DEPLOYMENT_STAGE
           else
             for stack in "${stacks[@]}"; do
-              echo "Deploying $stack to $stage"
-              yarn deploy $stack --stage $stage
+              echo "Deploying $stack to $DEPLOYMENT_STAGE"
+              yarn deploy $stack --stage $DEPLOYMENT_STAGE
             done
           fi

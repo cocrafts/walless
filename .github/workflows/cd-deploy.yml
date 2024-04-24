@@ -1,13 +1,20 @@
 name: CD Deploy
 on:
   workflow_dispatch:
+  push:
+    branches: 
+      - "main"
+      - "staging"
+      - "dev"
 
 jobs:
   release:
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || (github.ref == 'refs/heads/staging' && 'staging' || 'development') }}
     runs-on: ubuntu-latest
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      DEPLOYMENT_STAGE: ${{ github.ref == 'refs/heads/main' && 'production' || (github.ref == 'refs/heads/staging' && 'staging' || 'development') }}
       CI: false
     steps:
       - name: Checkout
@@ -15,16 +22,16 @@ jobs:
         with:
           submodules: true
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
-          registry-url: https://npm.pkg.github.com/
+          node-version: 20
+          # registry-url: https://npm.pkg.github.com/
 
       - name: Install @metacraft/cli
-        run: npm i --location=global @metacraft/cli
+        run: npm i --location=global @metacraft/cli@latest
       
-      - name: Install yarn cli
-        run:  corepack enable && corepack prepare yarn@3.6.4 --activate
+      - name: Setup Yarn
+        run: corepack enable && yarn set version stable
 
       - name: Install dependencies
         run: yarn
@@ -38,7 +45,32 @@ jobs:
       - name: Set branch name
         id: branch
         run: echo "::set-output name=BRANCH_NAME::${GITHUB_REF##*/}"
+      
+      - name: Inspect stacks from commit message
+        id: inspect_stacks_from_commit_message
+        run: |
+          commit=$(git log --format="%B" -n 1)
+          stack_regex="\[(document|landing|wallet)\]"
+          remove_brackets_regex="(\w+)"
+          stacks_str=$(echo $commit | grep -oE $stack_regex | grep -oE $remove_brackets_regex | tr "\n" " ")
+          echo "stacks_str=\"$stacks_str\"" >> $GITHUB_OUTPUT
+
+      - name: Create .env file
+        run: |
+          touch .env.$DEPLOYMENT_STAGE
+          echo "${{ secrets.WALLET_ENV_FILE }}" >> apps/wallet/.env.$DEPLOYMENT_STAGE
 
       - name: Deploy
-        run: yarn deploy
-        if: github.ref == 'refs/heads/dev'
+        run: |
+          stacks_str=${{ steps.inspect_stacks_from_commit_message.outputs.stacks_str }}
+          read -r -a stacks <<< $stacks_str
+
+          if [ ${#stacks[@]} -eq 0 ]; then
+            echo "Deploying all stacks to $DEPLOYMENT_STAGE"
+            yarn deploy --stage $DEPLOYMENT_STAGE
+          else
+            for stack in "${stacks[@]}"; do
+              echo "Deploying $stack to $DEPLOYMENT_STAGE"
+              yarn deploy $stack --stage $DEPLOYMENT_STAGE
+            done
+          fi

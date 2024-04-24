@@ -1,11 +1,11 @@
-import type { VersionedTransaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import type { Networks, SolanaToken } from '@walless/core';
 import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
 import type { SwapQuote } from 'utils/transaction';
-import { constructSwapTransaction, getAliasedMint } from 'utils/transaction';
+import { checkValidAddress, getAliasedMint } from 'utils/transaction';
 import { proxy } from 'valtio';
 
 import SelectFromToken from './Select/SelectFromToken';
@@ -18,7 +18,7 @@ export interface SwapContext {
 	toToken?: JupiterToken;
 	amount: string;
 	swapQuote?: SwapQuote;
-	transaction?: VersionedTransaction;
+	publicKey?: PublicKey;
 }
 
 const initialContext = {} as SwapContext;
@@ -64,7 +64,7 @@ export const swapActions = {
 	closeSelectToken: (type: 'from' | 'to') => {
 		modalActions.hide(modalMap[type].id);
 	},
-	prepareSwapTransaction: async (publicKey: string) => {
+	prepareSwapTransaction: (publicKey: string) => {
 		const { fromToken, toToken, amount } = swapContext.swap;
 		if (!fromToken || !toToken || !amount) {
 			throw Error('Please input tokens to swap');
@@ -80,15 +80,9 @@ export const swapActions = {
 			throw Error('Invalid amount to swap');
 		}
 
-		const transaction = await constructSwapTransaction({
-			fromMint: fromMint,
-			toMint: toToken.address,
-			amount: amountValue * 10 ** fromToken.decimals, // jupiter uses int amount with decimals
-			userPublicKey: publicKey,
-			wrapAndUnwrapSol: true,
-		});
-
-		swapContext.swap.transaction = transaction;
+		const error = checkValidAddress(publicKey, swapContext.swap.network);
+		if (error) throw Error(error);
+		else swapActions.update({ publicKey: new PublicKey(publicKey) });
 	},
 	showSuccess: () => {
 		const id = ModalId.Swap + 'Success';

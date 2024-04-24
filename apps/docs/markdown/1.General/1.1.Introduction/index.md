@@ -1,5 +1,7 @@
 # Walless Introduction
 
+Welcome to Walless
+
 ## What is WALLESS?
 
 Walless is a comprehensive and innovative web3 wallet solution that caters to both end-users and developers. Our `non-custodial` wallet `simplifies onboarding` with social account logins and offers a `user-centric unified layout` for a seamless experience for new web3 users. Additionally, our `embedded dApp sandbox` allows for endless possibilities for building on our platform and enables web2 apps to onboard to the world of web3. With this approach, Walless has the potential to revolutionize the way we think about crypto wallets.

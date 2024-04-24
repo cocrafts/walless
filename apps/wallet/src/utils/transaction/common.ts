@@ -1,3 +1,4 @@
+import { isValidSuiAddress } from '@mysten/sui.js/utils';
 import { PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
 import { TxnBuilderTypes } from 'aptos';
@@ -10,7 +11,9 @@ export const checkValidAddress = (keyStr: string, network: Networks) => {
 			new PublicKey(keyStr);
 			return null;
 		} else if (network == Networks.sui) {
-			return null;
+			if (isValidSuiAddress(keyStr)) {
+				return null;
+			} else throw new Error();
 		} else if (network == Networks.tezos) {
 			return null;
 		} else if (network == Networks.aptos) {

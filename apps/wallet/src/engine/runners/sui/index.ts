@@ -8,9 +8,9 @@ import { addTokenToStorage, storage } from 'utils/storage';
 
 import type { EngineConfig, Runner } from '../../types';
 
-import { constructSuiTokenDocument } from './tokens';
+import { constructSuiTokenDocument, groupCoinByType } from './tokens';
 
-export type suiContext = {
+export type SuiContext = {
 	client: SuiClient;
 };
 
@@ -33,13 +33,15 @@ export const createSuiRunner = async (
 			const tokensPromises = keys.map(async (key) => {
 				const owner = key._id;
 				const coins = await client.getAllCoins({ owner });
+				const groupedCoin = groupCoinByType(coins);
 
-				const promises = coins.data.map(async (coin) => {
+				const promises = Object.keys(groupedCoin).map(async (coinType) => {
+					const coinObjects = groupedCoin[coinType] || [];
 					const tokenDocument = await constructSuiTokenDocument(
 						client,
 						cluster,
 						owner,
-						coin,
+						coinObjects,
 					);
 					if (!tokenDocument) return;
 
@@ -65,7 +67,7 @@ export const createSuiRunner = async (
 			await Promise.all([...tokensPromises]);
 		},
 		stop() {},
-		getContext: (): suiContext => {
+		getContext: (): SuiContext => {
 			return { client };
 		},
 		restart: () => {},

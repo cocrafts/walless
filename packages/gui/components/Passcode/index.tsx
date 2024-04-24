@@ -91,19 +91,21 @@ export const Passcode: FC<Props> = ({
 					onChange={handlePasscodeChange}
 				/>
 			)}
-			<View style={styles.errorContainer}>
-				<Text numberOfLines={2} style={styles.errorMessage}>
-					{innerError || ' '}
-				</Text>
-			</View>
+			{innerError && (
+				<View style={styles.errorContainer}>
+					<Text numberOfLines={2} style={styles.errorMessage}>
+						{innerError}
+					</Text>
+				</View>
+			)}
 
-			<View style={styles.commandContainer}>
-				{isCreate && createPasscodeRef.current.isConfirmation && (
+			{isCreate && createPasscodeRef.current.isConfirmation && (
+				<View style={styles.commandContainer}>
 					<TouchableOpacity onPress={handleResetPasscode}>
 						<Text style={styles.newPasscodeText}>Try new passcode?</Text>
 					</TouchableOpacity>
-				)}
-			</View>
+				</View>
+			)}
 		</View>
 	);
 };

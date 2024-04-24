@@ -3,8 +3,6 @@ on:
   workflow_dispatch:
   push:
     branches: ["main", "staging"]
-  pull_request:
-    branches: ["main", "staging"]
 
 jobs:
   release:
@@ -43,21 +41,14 @@ jobs:
         id: branch
         run: echo "::set-output name=BRANCH_NAME::${GITHUB_REF##*/}"
       
-      - name: Get merge commit SHA
-        id: merge_commit
+      - name: Inspect stack_name from commit message
+        id: inspect_commit_message
         run: |
-          MERGE_COMMIT_SHA=$(git log --merges --format="%H" -n 1)
-          echo "::set-output name=merge_commit_sha::${MERGE_COMMIT_SHA}"
-
-      - name: Get PR message from merge commit
-        id: pr_message
-        run: |
-          PR_MESSAGE=$(git log --format="%B" -n 1 ${{ steps.merge_commit.outputs.merge_commit_sha }})
-          echo "::set-output name=message::${PR_MESSAGE}"
-
-      - name: Show PR message
-        run: |
-          echo "Merged PR Message: ${{ steps.pr_message.outputs.message }}"
+          commit=$(git log --format="%B" -n 1)
+          stack_regex="\[(document|landing|wallet)\]"
+          remove_brackets_regex="(\w+)"
+          STACK_NAME=$(echo $commit | grep -oE $stack_regex | grep -oE $remove_brackets_regex)
+          echo "::set-output name=stack_name::${STACK_NAME}"
 
       - name: Get PR title from merge commit
         id: pr_title
@@ -65,20 +56,13 @@ jobs:
           PR_TITLE=$(git log --format="%s" -n 1 ${{ steps.merge_commit.outputs.merge_commit_sha }} | grep -oP 'Merge pull request #\K.*')
           echo "::set-output name=title::${PR_TITLE}"
 
-      - name: Show PR title
-        run: |
-          echo "Merged PR Title: ${{ steps.pr_title.outputs.title }}"
-
-      # - name: Deploy
-      #   run: yarn deploy
-      #   if: github.ref == 'refs/heads/dev'
       - name: Deploy
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "Deploying to production"
+            echo "Deploying to production - ${{ steps.inspect_commit_message.outputs.stack_name }}"
             # yarn deploy --stage production
           elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
-            echo "Deploying to staging"
+            echo "Deploying to staging - ${{ steps.inspect_commit_message.outputs.stack_name }}"
             # yarn deploy --stage staging
           else
             echo "This is a different branch. Exiting workflow with failure."

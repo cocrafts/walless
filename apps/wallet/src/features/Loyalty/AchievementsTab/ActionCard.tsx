@@ -91,10 +91,6 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 			return;
 		}
 
-		if (ctaType === 'external') {
-			Linking.openURL(cta);
-		}
-
 		if (ctaType === '' || action.mechanism === VerifyMechanism.No) {
 			try {
 				await qlClient.request(mutations.performLoyaltyAction, {
@@ -117,6 +113,10 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 					timeout: 5000,
 				});
 			}
+		}
+
+		if (ctaType === 'external') {
+			Linking.openURL(cta);
 		}
 	};
 
@@ -157,17 +157,11 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 			return true;
 		}
 
-		return !!desc || !!stat;
+		return !!desc;
 	}, [desc, stat, action.category]);
 
 	return (
-		<View
-			style={[
-				styles.container,
-				!canUserPerformAction && styles.performedContainerBackground,
-				style,
-			]}
-		>
+		<View style={[styles.container, style]}>
 			<View style={styles.leftContainer}>
 				{icon ? (
 					<Image source={{ uri: icon }} style={styles.image} />
@@ -197,17 +191,10 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 								numberOfLines={2}
 								ellipsizeMode="tail"
 							>
-								{desc}
+								{!canUserPerformAction && action.streak ? 'Checked-in' : desc}
 							</Text>
 
 							<Text style={styles.descText}>
-								{action.category === ActionCategory.Recurring &&
-									stat?.milestone &&
-									stat.milestone > 0 &&
-									`Claimed ${stat.milestone} ${
-										stat.milestone > 1 ? 'times' : 'time'
-									}`}
-
 								{action.category === ActionCategory.Streak &&
 									`${currentStreak}/${action.streak}`}
 
@@ -232,28 +219,33 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 								!canUserPerformAction && styles.performedCtaButton,
 							]}
 							disabled={!canUserPerformAction}
-							title={canUserPerformAction ? ctaText || 'Go' : 'Done'}
+							title={ctaText || 'Go'}
 							titleStyle={styles.pointText}
 							onPress={handlePerformAction}
 						/>
 					)}
 			</View>
+
+			{!canUserPerformAction && <View style={styles.performedOverlay} />}
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
+		position: 'relative',
 		flexDirection: 'row',
 		alignItems: 'center',
-		backgroundColor: '#29323A',
+		backgroundColor: '#19232C',
 		paddingHorizontal: 16,
 		paddingVertical: 12,
-		borderRadius: 10,
+		borderRadius: 12,
+		overflow: 'hidden',
 		gap: 32,
 	},
-	performedContainerBackground: {
-		backgroundColor: '#19232C',
+	performedOverlay: {
+		...StyleSheet.absoluteFillObject,
+		backgroundColor: 'rgba(67, 82, 95, 0.4)',
 	},
 	leftContainer: {
 		flexDirection: 'row',

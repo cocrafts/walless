@@ -58,6 +58,7 @@ export enum ActionCategory {
 
 export type ActionCount = {
   __typename?: 'ActionCount';
+  cycleInHours?: Maybe<Scalars['Float']['output']>;
   lastClaim?: Maybe<Scalars['DateTime']['output']>;
   milestone?: Maybe<Scalars['Int']['output']>;
   streaks?: Maybe<Array<Maybe<Streak>>>;
@@ -675,6 +676,7 @@ export type ActionResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type ActionCountResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActionCount'] = ResolversParentTypes['ActionCount']> = {
+  cycleInHours?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   lastClaim?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   milestone?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   streaks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Streak']>>>, ParentType, ContextType>;

@@ -87,6 +87,9 @@ enum ActionCategory {
 """"""
 type ActionCount {
   """"""
+  cycleInHours: Float
+
+  """"""
   lastClaim: DateTime
 
   """"""

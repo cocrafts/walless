@@ -9,7 +9,7 @@ export const wallet = ({ stack, app }: StackContext) => {
 	const wallet = new StaticSite(stack, 'wallet', {
 		path: 'apps/wallet',
 		buildOutput: 'metacraft',
-		buildCommand: 'yarn build:all',
+		buildCommand: 'yarn build:web',
 		customDomain: {
 			domainName,
 			hostedZone,

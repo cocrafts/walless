@@ -35,7 +35,7 @@ import { extractSwapBalance, JUPITER_V6_PROGRAM_ID } from './swapHistory';
 
 const historyLimit = 20;
 
-export const getTransactionsHistory = async (
+export const queryTransactionsHistory = async (
 	connection: Connection,
 	cluster: string,
 	wallet: PublicKey,

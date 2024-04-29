@@ -1,4 +1,5 @@
 import { PublicKey } from '@solana/web3.js';
+import type { SuiPublicKey } from '@walless/core';
 import { Networks } from '@walless/core';
 import { ResponseCode } from '@walless/core';
 import type { ConnectOptions } from '@walless/sdk';
@@ -40,11 +41,21 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 
 	const pkDocs = await storage.find<PublicKeyDocument>(selectors.allKeys);
 	const publicKeys = pkDocs.docs
-		.map(({ _id, network }) => {
-			switch (network) {
+		.map((publickey) => {
+			switch (publickey.network) {
 				case Networks.solana: {
+					const { _id, network } = publickey;
 					return {
 						publicKey: encode(new PublicKey(_id).toBytes()),
+						network,
+					};
+				}
+
+				case Networks.sui: {
+					const { network, encodedPublicKey } =
+						publickey as never as SuiPublicKey;
+					return {
+						publicKey: encodedPublicKey,
 						network,
 					};
 				}

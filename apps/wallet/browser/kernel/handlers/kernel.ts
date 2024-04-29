@@ -74,12 +74,24 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 			solana.signAndSendGasilonTransaction,
 		]);
 	} else if (type === RequestType.SIGN_MESSAGE_ON_SUI) {
-		handle(payload).execute([getPrivateKey(Networks.sui), sui.signMessage]);
-	} else if (type === RequestType.SIGN_TRANSACTION_ON_SUI) {
-		handle(payload).execute([getPrivateKey(Networks.sui), sui.signTransaction]);
-	} else if (type === RequestType.SIGH_EXECUTE_TRANSACTION_ON_SUI) {
 		handle(payload).execute([
+			filterSDKSignatureRequest,
 			getPrivateKey(Networks.sui),
+			forwardToSourceRequest,
+			sui.signMessage,
+		]);
+	} else if (type === RequestType.SIGN_TRANSACTION_ON_SUI) {
+		handle(payload).execute([
+			filterSDKSignatureRequest,
+			getPrivateKey(Networks.sui),
+			forwardToSourceRequest,
+			sui.signTransaction,
+		]);
+	} else if (type === RequestType.SIGN_EXECUTE_TRANSACTION_ON_SUI) {
+		handle(payload).execute([
+			filterSDKSignatureRequest,
+			getPrivateKey(Networks.sui),
+			forwardToSourceRequest,
 			sui.signAndExecuteTransaction,
 		]);
 	} else if (payload.type === RequestType.TRANSFER_TEZOS_TOKEN) {

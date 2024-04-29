@@ -13,7 +13,7 @@
   "dependencies": {
     "@metaplex-foundation/js": "^0.19.4",
     "@metaplex-foundation/mpl-token-metadata": "^2.13.0",
-    "@mysten/sui.js": "0.50.1",
+    "@mysten/sui.js": "0.51.1",
     "@solana/spl-token": "0.3.7",
     "@solana/web3.js": "1.78.4",
     "@taquito/signer": "^17.5.2",

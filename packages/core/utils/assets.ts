@@ -38,6 +38,10 @@ export type TokenMetadata = {
 	image: string;
 };
 
+export type SuiTokenMetadata = TokenMetadata & {
+	decimals: number;
+};
+
 export type SolanaToken = Token & {
 	mint: string;
 	ata: string;
@@ -70,6 +74,9 @@ export type SuiNft = Nft & {
 };
 
 export type SuiToken = Token & {
-	coinObjectId: string;
+	coinObjectIds: string[];
 	coinType: string;
+	lockedUntilEpoch: number | null | undefined;
+	previousTransaction: string;
+	decimals: number;
 };

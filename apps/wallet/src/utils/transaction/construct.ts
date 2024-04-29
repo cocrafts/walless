@@ -1,7 +1,7 @@
 import type { VersionedTransaction } from '@solana/web3.js';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import { solana } from '@walless/network';
+import { solana, sui } from '@walless/network';
 import { engine } from 'engine';
 import type { SolanaContext } from 'engine/runners';
 import { solMint } from 'utils/constants';
@@ -9,6 +9,7 @@ import { solMint } from 'utils/constants';
 import type {
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
+	SuiSendTokenTransaction,
 } from './types';
 
 export const constructSolanaSendTokenTransaction = async (
@@ -63,4 +64,19 @@ export const constructSolanaSendNftTransaction = async (
 	});
 
 	return transaction;
+};
+
+export const constructSuiSendTokenTransaction = async (
+	initTransaction: SuiSendTokenTransaction,
+) => {
+	const { coins, coinsForFee, amount, receiver, sender, token } =
+		initTransaction;
+	return sui.constructSuiTransactionBlock(
+		coins,
+		coinsForFee,
+		amount,
+		receiver,
+		sender,
+		token,
+	);
 };

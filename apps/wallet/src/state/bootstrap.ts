@@ -2,6 +2,7 @@ import { getStateFromPath } from '@react-navigation/native';
 import { logger, Networks } from '@walless/core';
 import type {
 	CollectionDocument,
+	HistoryDocument,
 	NetworkClustersDocument,
 	NftDocument,
 	PouchDocument,
@@ -10,7 +11,12 @@ import type {
 	TokenDocument,
 	WidgetDocument,
 } from '@walless/store';
-import { configure, migrateDatabase, selectors } from '@walless/store';
+import {
+	configure,
+	getLatestMigrationVersion,
+	migrateDatabase,
+	selectors,
+} from '@walless/store';
 import { createEngine, engine, setEngine } from 'engine';
 import {
 	createAptosRunner,
@@ -27,7 +33,8 @@ import {
 	ResetAnchors,
 	resetRoute,
 } from 'utils/navigation';
-import { storage } from 'utils/storage';
+import { initializeVaultKeys, storage } from 'utils/storage';
+import { appMigrations } from 'utils/storage/migrations';
 
 import { appState } from './app';
 import { collectionState, nftState, tokenState } from './assets';
@@ -40,7 +47,15 @@ export const bootstrap = async (): Promise<void> => {
 	appState.remoteConfig = loadRemoteConfig();
 
 	await configure(storage);
-	await migrateDatabase(storage, 'app');
+	await migrateDatabase(storage, 'app', appMigrations).then(async () => {
+		const latestMigration = getLatestMigrationVersion();
+		await storage.upsert<SettingDocument>('settings', async (doc) => {
+			doc.config = Object.assign({}, doc.config);
+			doc.config.storageVersion = latestMigration;
+
+			return doc;
+		});
+	});
 
 	await Promise.all([
 		configEngine(),
@@ -75,6 +90,7 @@ export const launchApp = async (): Promise<void> => {
 };
 
 export const initAfterSignIn = async () => {
+	await initializeVaultKeys();
 	await registerNetworkRunners(engine);
 	await engine.start();
 };
@@ -143,7 +159,7 @@ const watchStorageAndSyncState = async () => {
 			} else if (item?.type === 'ClusterMap') {
 				appState.networkClusters = item as NetworkClustersDocument;
 			} else if (item?.type === 'History') {
-				historyState.map.set(id, item);
+				historyState.map.set(id, item as HistoryDocument);
 			}
 		}
 	});

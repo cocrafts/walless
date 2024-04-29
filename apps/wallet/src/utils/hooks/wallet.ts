@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { SolanaToken, Token } from '@walless/core';
+import type { SolanaToken, SuiToken, Token } from '@walless/core';
 import { Networks } from '@walless/core';
 import type {
 	CollectionDocument,
@@ -12,7 +12,7 @@ import { historyState } from 'state/history';
 import { keyState } from 'state/keys';
 import { runtimeActions } from 'state/runtime';
 import { widgetState } from 'state/widget';
-import { solMint } from 'utils/constants';
+import { solMint, SUI_COIN_TYPE } from 'utils/constants';
 import { useSnapshot } from 'valtio';
 
 export const usePublicKeys = (network?: Networks): PublicKeyDocument[] => {
@@ -105,10 +105,32 @@ export const useTokens = <T extends Token = Token>(
 				};
 			}
 			case Networks.sui: {
-				tokens.forEach((token) => {
-					valuation += getTokenValue(token, currency);
+				const filteredTokens = [];
+				for (const token of tokens as TokenDocument<SuiToken>[]) {
+					const isNetworkValid = network ? token.network === network : true;
+					const isAvailable = token.balance !== 0;
+					const isSUI = token.coinType === SUI_COIN_TYPE;
+
+					if (isNetworkValid && (isSUI || isAvailable)) {
+						valuation += getTokenValue(token, currency);
+						filteredTokens.push(token);
+					}
+				}
+
+				filteredTokens.sort((token1, token2) => {
+					if (token1.coinType === SUI_COIN_TYPE) return -1;
+					else if (token2.coinType === SUI_COIN_TYPE) return 1;
+					else if (
+						getTokenValue(token1, currency) < getTokenValue(token2, currency)
+					)
+						return 1;
+					else return -1;
 				});
-				return { tokens, valuation };
+
+				return {
+					tokens: filteredTokens,
+					valuation,
+				};
 			}
 			case Networks.tezos: {
 				return { tokens, valuation };

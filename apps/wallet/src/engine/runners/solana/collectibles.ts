@@ -28,7 +28,7 @@ export type GenericNft = Nft | Sft | SftWithToken | NftWithToken;
 type SolanaCollectibleDocument = NftDocument<SolanaCollectible>;
 type SolanaCollectionDocument = CollectionDocument<SolanaCollection>;
 
-export const getCollectiblesOnChain = async (
+export const queryCollectibles = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	wallet: PublicKey,
@@ -38,19 +38,32 @@ export const getCollectiblesOnChain = async (
 		return mpl.nfts().findAllByOwner({ owner: wallet });
 	})();
 
-	const nfts = await Promise.all(
+	const collectibles = await Promise.all(
 		rawNfts.map(async (metadata) => {
 			try {
 				const nft = await loadCollectibleMetadata(mpl, metadata, wallet);
 
-				return constructCollectibleDocument(wallet.toString(), nft, cluster);
+				const collectible = constructCollectibleDocument(
+					wallet.toString(),
+					nft,
+					cluster,
+				);
+				if (collectible) {
+					return await updateCollectibleToStorage(
+						connection,
+						cluster,
+						collectible,
+					);
+				}
 			} catch (error) {
 				logger.error('Failed to load collectible metadata', error);
 			}
 		}),
 	);
 
-	return nfts.filter((nft) => !!nft) as NftDocument<SolanaCollectible>[];
+	return collectibles.filter(
+		(doc) => !!doc,
+	) as NftDocument<SolanaCollectible>[];
 };
 
 type UpdateCollectibleResult = {

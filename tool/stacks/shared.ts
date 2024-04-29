@@ -1,3 +1,8 @@
+import type { FunctionProps } from 'sst/constructs';
+
+export const hostedZone = 'walless.io';
+export const baseDomainName = 'walless.io';
+
 const landingAlias = {
 	production: ' ',
 	staging: 'stg.',
@@ -13,23 +18,26 @@ const appAlias = {
 const documentAlias = {
 	production: 'docs.',
 	staging: 'docs-stg.',
-	development: 'docs-stg.',
+	development: 'docs-dev.',
 };
-
-export const sslArn =
-	'arn:aws:acm:us-east-1:984261700405:certificate/c6375953-4ae4-4c6e-8357-38b215aed3a6';
 
 export const landingDomainFromStage = (stage: string) => {
 	const prefix = landingAlias[stage] || `${stage}.`;
-	return `${prefix.trim()}walless.io`;
+	return `${prefix.trim()}${baseDomainName}`;
 };
 
 export const appDomainFromStage = (stage: string) => {
 	const prefix = appAlias[stage] || `app-${stage}.`;
-	return `${prefix}walless.io`;
+	return `${prefix}${baseDomainName}`;
 };
 
 export const documentDomainFromStage = (stage: string) => {
 	const prefix = documentAlias[stage] || `docs-${stage}.`;
-	return `${prefix}walless.io`;
+	return `${prefix}${baseDomainName}`;
+};
+
+export const functionDefaults: Partial<FunctionProps> = {
+	runtime: 'nodejs20.x',
+	architecture: 'arm_64',
+	memorySize: 1024,
 };

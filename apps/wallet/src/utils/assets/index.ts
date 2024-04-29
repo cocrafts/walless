@@ -63,6 +63,15 @@ const assets: Asset = {
 				cardIcon: require('assets/img/widget/runner-icon.png'),
 			},
 		},
+		suijump: {
+			storeMeta: {
+				iconUri: require('assets/img/explore/logo-suijump.png'),
+				coverUri: require('assets/img/explore/thumbnail-suijump.png'),
+			},
+			widgetMeta: {
+				cardIcon: require('assets/img/widget/suijump-icon.png'),
+			},
+		},
 	},
 	setting: {
 		solana: {

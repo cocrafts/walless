@@ -2,45 +2,80 @@ import { logger } from '@walless/core';
 
 import type { Database, PouchDocument, SettingDocument } from '../utils/type';
 
-type MigrateScope = 'app' | 'kernel' | 'all';
+export type MigrateScope = 'app' | 'kernel' | 'all';
+export interface MigrateParams {
+	storage: Database;
+}
 
-type Migration = {
+export type Migration = {
 	description?: string;
 	version: number;
-	migrate: (storage: Database) => Promise<void>;
+	migrate: (params: MigrateParams) => Promise<void>;
 	scope: MigrateScope;
 };
 
 export const migrateDatabase = async (
+	/*
+	 * TODO: Although storage instance from app and kernel is different,
+	 * they still point to the same db
+	 */
 	storage: Database,
 	scope: MigrateScope,
+	outerMigrations?: Migration[],
 ) => {
 	logger.info(`start migrating database, scope: ${scope}`);
 	const setting = await storage.safeGet<SettingDocument>('settings');
 	if (!setting?.profile?.id) return;
 
+	const mergedMigration = mergeMigrations(migrations, outerMigrations);
+
 	const storedVersion = setting?.config?.storageVersion || 0;
-	const latestVersion = migrations[migrations.length - 1].version;
+	const latestVersion = getLatestMigrationVersion();
+
+	logger.info(storedVersion, latestVersion);
 
 	if (storedVersion < latestVersion) {
 		const newerVersionFilter = (i: Migration) =>
 			i.version > storedVersion && (i.scope === 'all' || i.scope === scope);
 
-		const filteredMigrations = migrations.filter(newerVersionFilter);
+		const filteredMigrations = mergedMigration.filter(newerVersionFilter);
+
+		if (filteredMigrations.length === 0) {
+			return;
+		}
 
 		await runMigrations(storage, filteredMigrations);
 		await storage.upsert<SettingDocument>('settings', async (setting) => {
 			setting.config = Object.assign({}, setting.config);
 			setting.config.storageVersion = latestVersion;
+
 			return setting;
 		});
 	}
 };
 
+const mergeMigrations = (
+	innerMigrations: Migration[],
+	outerMigrations: Migration[] | undefined,
+) => {
+	if (!outerMigrations) return innerMigrations;
+	outerMigrations.forEach((outerMigration) => {
+		const innerIndex = innerMigrations.findIndex(
+			(innerMigration) =>
+				innerMigration.version === outerMigration.version &&
+				innerMigration.scope === outerMigration.scope,
+		);
+		if (innerIndex < 0) throw new Error('Migration version is invalid');
+		innerMigrations[innerIndex] = outerMigration;
+	});
+
+	return innerMigrations;
+};
+
 const runMigrations = async (storage: Database, migrations: Migration[]) => {
 	for (const migration of migrations) {
 		logger.info(`migrating database, version: ${migration.version}`);
-		await migration.migrate(storage);
+		await migration.migrate({ storage });
 	}
 };
 
@@ -50,7 +85,7 @@ const migrations: Migration[] = [
 		description:
 			'This migration removes all assets/histories documents from the database. Apply new universal/cross-chain assets and histories.',
 		scope: 'app',
-		migrate: async (storage: Database) => {
+		migrate: async ({ storage }) => {
 			const migrateTokenPromises = storage
 				.find<PouchDocument<unknown>>({
 					selector: { type: 'Token', account: { $exists: true } },
@@ -99,4 +134,15 @@ const migrations: Migration[] = [
 			]);
 		},
 	},
+	{
+		version: 3,
+		description:
+			"This migration add encodedPublicKey to Sui PublicKeyDocument['meta']",
+		scope: 'app',
+		migrate: async () => {},
+	},
 ];
+
+export const getLatestMigrationVersion = () => {
+	return migrations[migrations.length - 1].version;
+};

@@ -1,7 +1,7 @@
 import { logger } from '@walless/core';
 import pThrottle from 'p-throttle';
 
-export const throttle = pThrottle({ limit: 10, interval: 1000 });
+export const throttle = pThrottle({ limit: 3, interval: 1000 });
 
 type RetryOptions = {
 	maxRetry: number;

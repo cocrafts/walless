@@ -1,8 +1,10 @@
+import type { CoinStruct } from '@mysten/sui.js/dist/cjs/client';
 import type {
 	Networks,
 	Nft,
 	SolanaCollectible,
 	SolanaToken,
+	SuiToken,
 	Token,
 } from '@walless/core';
 import type { NftDocument, TokenDocument } from '@walless/store';
@@ -37,3 +39,18 @@ export type SolanaSendTokenTransaction = SendTokenTransaction<SolanaToken> &
 
 export type SolanaSendNftTransaction = SendNftTransaction<SolanaCollectible> &
 	GasilonSupportedTransaction<SolanaToken>;
+
+export type SuiTransactionInput = {
+	coins: CoinStruct[];
+	coinsForFee: CoinStruct[];
+	amount: number;
+	sender: string;
+	receiver: string;
+};
+
+export type SuiSendTokenTransaction = SendTokenTransaction<SuiToken> &
+	SuiTransactionInput & {
+		tokenForFee: TokenDocument<SuiToken>;
+	};
+
+export type SuiSendTransaction = SuiSendTokenTransaction;

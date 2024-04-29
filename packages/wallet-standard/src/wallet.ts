@@ -1,10 +1,4 @@
 import type {
-	SuiFeatures,
-	SuiSignAndExecuteTransactionBlockMethod,
-	SuiSignPersonalMessageMethod,
-	SuiSignTransactionBlockMethod,
-} from '@mysten/wallet-standard';
-import type {
 	SolanaSignAndSendTransactionFeature,
 	SolanaSignAndSendTransactionMethod,
 	SolanaSignAndSendTransactionOutput,
@@ -46,9 +40,6 @@ import { icon } from './icon';
 import type { SolanaChain } from './solana';
 import { isSolanaChain, SOLANA_CHAINS } from './solana';
 import {
-	SuiSignAndExecuteTransactionBlock,
-	SuiSignPersonalMessage,
-	SuiSignTransactionBlock,
 	WallessCheckInstalledLayout,
 	WallessInstallLayout,
 	WallessOpenLayoutPopup,
@@ -106,7 +97,6 @@ export class WallessWallet implements Wallet {
 		SolanaSignAndSendTransactionFeature &
 		SolanaSignTransactionFeature &
 		SolanaSignMessageFeature &
-		SuiFeatures &
 		WallessFeature {
 		return {
 			[StandardConnect]: {
@@ -134,19 +124,6 @@ export class WallessWallet implements Wallet {
 			[SolanaSignMessage]: {
 				version: '1.0.0',
 				signMessage: this.#signMessageOnSolana,
-			},
-			[SuiSignPersonalMessage]: {
-				version: '1.0.0',
-				signPersonalMessage: this.#signPersonalMessageOnSui,
-			},
-			[SuiSignTransactionBlock]: {
-				version: '1.0.0',
-				signTransactionBlock: this.#signTransactionBlockOnSui,
-			},
-			[SuiSignAndExecuteTransactionBlock]: {
-				version: '1.0.0',
-				signAndExecuteTransactionBlock:
-					this.#signAndExecuteTransactionBlockOnSui,
 			},
 			[WallessInstallLayout]: {
 				version: '1.0.0',
@@ -365,48 +342,6 @@ export class WallessWallet implements Wallet {
 
 		return outputs;
 	};
-
-	#signPersonalMessageOnSui: SuiSignPersonalMessageMethod = async (input) => {
-		const { message, account } = input;
-		const accountIndex = this.#accounts.findIndex(
-			(acc) => acc.address === account.address,
-		);
-		if (accountIndex === -1) throw new Error('invalid account');
-
-		const signedMessage = await this.#walless.signMessageOnSui(message);
-
-		return signedMessage;
-	};
-
-	#signTransactionBlockOnSui: SuiSignTransactionBlockMethod = async (input) => {
-		const { transactionBlock, account } = input;
-		const accountIndex = this.#accounts.findIndex(
-			(acc) => acc.address === account.address,
-		);
-		if (accountIndex === -1) throw new Error('invalid account');
-
-		const signedTransaction =
-			await this.#walless.signTransactionBlockOnSui(transactionBlock);
-
-		return signedTransaction as never;
-	};
-
-	#signAndExecuteTransactionBlockOnSui: SuiSignAndExecuteTransactionBlockMethod =
-		async (input) => {
-			const { transactionBlock, account, options } = input;
-			const accountIndex = this.#accounts.findIndex(
-				(acc) => acc.address === account.address,
-			);
-			if (accountIndex === -1) throw new Error('invalid account');
-
-			const signedTransaction =
-				await this.#walless.signAndExecuteTransactionBlock(
-					transactionBlock,
-					options,
-				);
-
-			return signedTransaction;
-		};
 
 	#installLayout = async (id: string) => {
 		return await this.#walless.installLayout(id);

@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
       - "main"
+      - "staging"
       - "dev"
 
 jobs:
@@ -20,14 +21,17 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 18
+          node-version: 20
           registry-url: https://npm.pkg.github.com/
 
       - name: Install @metacraft/cli
-        run: npm i --location=global @metacraft/cli
+        run: npm i --location=global @metacraft/cli@latest
 
       - name: Install yarn cli
-        run:  corepack enable && corepack prepare yarn@3.6.4 --activate
+        run:  corepack enable && corepack prepare yarn@4.1.1 --activate
+
+      - name: Set yarn version
+        run:  yarn set version 4.1.1
 
       - name: Install dependencies
         run: yarn

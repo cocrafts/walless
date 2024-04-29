@@ -5,7 +5,7 @@ import type { NetworkCluster, SolanaToken } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 import { getTokenQuote } from 'utils/api';
-import { solMint } from 'utils/constants';
+import { solMint, wrappedSolMint } from 'utils/constants';
 import { addTokenToStorage } from 'utils/storage';
 
 import { throttle } from './internal';
@@ -24,7 +24,7 @@ export const queryTokens = async (
 		wallet,
 	).then(async (doc) => {
 		const quotes = await getTokenQuote({
-			address: doc.mint,
+			address: wrappedSolMint,
 			network: doc.network,
 		});
 		doc.quotes = quotes?.quotes;

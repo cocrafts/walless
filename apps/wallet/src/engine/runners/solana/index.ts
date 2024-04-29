@@ -1,29 +1,18 @@
 import { PublicKey } from '@metaplex-foundation/js';
 import { clusterApiUrl, Connection } from '@solana/web3.js';
-import type { SolanaToken } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { PublicKeyDocument, TokenDocument } from '@walless/store';
+import type { PublicKeyDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { environment } from 'utils/config';
-import {
-	addTokensToStorage,
-	storage,
-	updateNftAmountToStorage,
-} from 'utils/storage';
+import { storage, updateNftAmountToStorage } from 'utils/storage';
 
 import type { CreateFunction } from '../../types';
 
-import {
-	getCollectiblesOnChain,
-	updateCollectibleToStorage,
-} from './collectibles';
-import { getTransactionsHistory } from './history';
+import { queryCollectibles } from './collectibles';
+import { queryTransactionsHistory } from './history';
 import { throttle } from './internal';
 import { watchAccount, watchLogs } from './subscription';
-import {
-	getParsedTokenAccountsByOwner,
-	getTokenDocumentsOnChain,
-} from './tokens';
+import { getParsedTokenAccountsByOwner, queryTokens } from './tokens';
 import type { SolanaContext } from './types';
 
 const endpointUrl: Record<string, string> = {
@@ -50,18 +39,8 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 				)();
 
 				return [
-					getTokenDocumentsOnChain(connection, cluster, wallet, accounts).then(
-						(tokens) => {
-							addTokensToStorage<TokenDocument<SolanaToken>>(tokens);
-						},
-					),
-					getCollectiblesOnChain(connection, cluster, wallet).then(
-						(collectibles) => {
-							collectibles.map(async (c) => {
-								await updateCollectibleToStorage(connection, cluster, c);
-							});
-						},
-					),
+					queryTokens(connection, cluster, wallet, accounts),
+					queryCollectibles(connection, cluster, wallet),
 					...accounts.map((a) => {
 						/**
 						 * With collectibles, we use Metaplex for querying data,
@@ -77,7 +56,7 @@ export const createSolanaRunner: CreateFunction = async (config) => {
 					}),
 					watchLogs(connection, cluster, wallet),
 					watchAccount(connection, cluster, wallet, wallet),
-					getTransactionsHistory(connection, cluster, wallet, accounts),
+					queryTransactionsHistory(connection, cluster, wallet, accounts),
 				] as never[];
 			});
 

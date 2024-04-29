@@ -4,14 +4,15 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import type { NetworkCluster, SolanaToken } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
-import { getTokenQuotes, makeHashId } from 'utils/api';
+import { getTokenQuote } from 'utils/api';
 import { solMint } from 'utils/constants';
+import { addTokenToStorage } from 'utils/storage';
 
 import { throttle } from './internal';
 import { getTokenMetadata, solMetadata } from './metadata';
 import type { ParsedTokenAccountWithAddress } from './types';
 
-export const getTokenDocumentsOnChain = async (
+export const queryTokens = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	wallet: PublicKey,
@@ -21,29 +22,35 @@ export const getTokenDocumentsOnChain = async (
 		connection,
 		cluster,
 		wallet,
-	);
-	const tokenPromises = [nativeTokenPromise];
+	).then(async (doc) => {
+		const quotes = await getTokenQuote({
+			address: doc.mint,
+			network: doc.network,
+		});
+		doc.quotes = quotes?.quotes;
+
+		await addTokenToStorage(doc);
+	});
 
 	const splTokensPromises = accounts
 		.filter((a) => a.tokenAmount.decimals !== 0)
-		.map((account) => {
-			return initTokenDocumentWithMetadata(connection, cluster, account);
+		.map(async (account) => {
+			const doc = await initTokenDocumentWithMetadata(
+				connection,
+				cluster,
+				account,
+			);
+
+			const quotes = await getTokenQuote({
+				address: doc.mint,
+				network: doc.network,
+			});
+			doc.quotes = quotes?.quotes;
+
+			await addTokenToStorage(doc);
 		});
 
-	tokenPromises.push(...splTokensPromises);
-
-	const tokens = await Promise.all(tokenPromises);
-
-	const quotes = await getTokenQuotes(
-		tokens.map((token) => ({ address: token.mint, network: token.network })),
-	);
-
-	for (const item of tokens) {
-		item.quotes =
-			quotes[makeHashId({ address: item.mint, network: item.network })].quotes;
-	}
-
-	return tokens;
+	await Promise.all([nativeTokenPromise, ...splTokensPromises]);
 };
 
 const getNativeTokenDocument = async (

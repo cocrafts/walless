@@ -10,10 +10,7 @@ import type { SolanaCollectible } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { NftDocument } from '@walless/store';
 
-import {
-	getCollectiblesOnChain,
-	updateCollectibleToStorage,
-} from './collectibles';
+import { queryCollectibles, updateCollectibleToStorage } from './collectibles';
 import type { SolanaContext } from './types';
 
 const connection = new Connection(clusterApiUrl('devnet'));
@@ -25,7 +22,7 @@ describe('[solana runner] collectibles', () => {
 			connection,
 			cluster: 'devnet',
 		};
-		const nfts = await getCollectiblesOnChain(
+		const nfts = await queryCollectibles(
 			context.connection,
 			context.cluster,
 			wallet,

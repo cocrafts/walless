@@ -17,7 +17,7 @@ export const queryTokens = async (
 	cluster: NetworkCluster,
 	wallet: PublicKey,
 	accounts: ParsedTokenAccountWithAddress[],
-) => {
+): Promise<TokenDocument<SolanaToken>[]> => {
 	const nativeTokenPromise = getNativeTokenDocument(
 		connection,
 		cluster,
@@ -30,6 +30,7 @@ export const queryTokens = async (
 		doc.quotes = quotes?.quotes;
 
 		await addTokenToStorage(doc);
+		return doc;
 	});
 
 	const splTokensPromises = accounts
@@ -48,9 +49,10 @@ export const queryTokens = async (
 			doc.quotes = quotes?.quotes;
 
 			await addTokenToStorage(doc);
+			return doc;
 		});
 
-	await Promise.all([nativeTokenPromise, ...splTokensPromises]);
+	return await Promise.all([nativeTokenPromise, ...splTokensPromises]);
 };
 
 const getNativeTokenDocument = async (

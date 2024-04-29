@@ -32,13 +32,13 @@ export const queryCollectibles = async (
 	connection: Connection,
 	cluster: NetworkCluster,
 	wallet: PublicKey,
-) => {
+): Promise<NftDocument<SolanaCollectible>[]> => {
 	const mpl = new Metaplex(connection);
 	const rawNfts = await throttle(() => {
 		return mpl.nfts().findAllByOwner({ owner: wallet });
 	})();
 
-	return await Promise.all(
+	const collectibles = await Promise.all(
 		rawNfts.map(async (metadata) => {
 			try {
 				const nft = await loadCollectibleMetadata(mpl, metadata, wallet);
@@ -60,6 +60,10 @@ export const queryCollectibles = async (
 			}
 		}),
 	);
+
+	return collectibles.filter(
+		(doc) => !!doc,
+	) as NftDocument<SolanaCollectible>[];
 };
 
 type UpdateCollectibleResult = {

@@ -11,12 +11,16 @@ import ProfileScreen from 'screens/Dashboard/Home';
 import SettingScreen from 'screens/Dashboard/Setting';
 import type { ExploreParamList, ProfileParamList } from 'utils/navigation';
 import { navigateBack } from 'utils/navigation';
+import { useSnapshot } from 'utils/hooks';
+import { appState } from 'state/app';
 
 type Props = StackScreenProps<ExploreParamList, 'Profile'>;
 
 const Stack = createStackNavigator<ProfileParamList>();
 
 export const ProfileStack: FC<Props> = () => {
+	const { navigationDisplay } = useSnapshot(appState);
+
 	const screenOptions: StackNavigationOptions = {
 		headerShown: false,
 	};
@@ -42,6 +46,7 @@ export const ProfileStack: FC<Props> = () => {
 		() =>
 			withStackContainer(SettingScreen, {
 				isHeaderActive: true,
+				noBottomTabs: !navigationDisplay.isBottomTabActive,
 				goBack: navigateBack,
 			}),
 		[],

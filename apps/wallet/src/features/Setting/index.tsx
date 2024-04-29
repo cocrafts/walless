@@ -38,7 +38,7 @@ const SettingFeature: FC<Props> = ({ style }) => {
 	};
 
 	return (
-		<View style={[styles.container, style]}>
+		<View style={style}>
 			<View style={styles.infoContainer}>
 				<Image source={imageSource} style={styles.avatar} />
 				<Text style={styles.nameText}>{displayName}</Text>
@@ -119,12 +119,6 @@ const SettingFeature: FC<Props> = ({ style }) => {
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingHorizontal: 14,
-		paddingTop: 16,
-		paddingBottom: 36,
-	},
 	infoContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',

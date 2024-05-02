@@ -73,8 +73,11 @@ export const hasEnoughBalanceToMakeTx = async (
 		case Networks.sui: {
 			const suiTransaction = initTransaction as SuiSendTransaction;
 			try {
-				const transactionBlock =
-					await constructSuiSendTokenTransaction(suiTransaction);
+				const { client } = engine.getContext<SuiContext>(Networks.sui);
+				const transactionBlock = await constructSuiSendTokenTransaction(
+					client,
+					suiTransaction,
+				);
 				const fee = await getSuiTransactionFee(transactionBlock);
 
 				return suiTransaction.tokenForFee.balance > fee;

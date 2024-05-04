@@ -109,9 +109,11 @@ export const createAndSendSuiTransaction = async (
 		return res;
 	}
 
-	const transactionBlock =
-		await constructSuiSendTokenTransaction(initTransaction);
 	const { client } = engine.getContext<SuiContext>(Networks.sui);
+	const transactionBlock = await constructSuiSendTokenTransaction(
+		client,
+		initTransaction,
+	);
 	const response = await sui.signAndExecuteTransaction(
 		client,
 		transactionBlock.serialize(),

@@ -5,20 +5,20 @@ export const baseDomainName = 'walless.io';
 
 const landingAlias = {
 	production: ' ',
-	staging: 'stg.',
+	staging: 'staging.',
 	development: 'dev.',
 };
 
 const appAlias = {
 	production: 'app.',
-	staging: 'app-stg.',
-	development: 'app-dev.',
+	staging: 'app.staging.',
+	development: 'app.dev.',
 };
 
 const documentAlias = {
 	production: 'docs.',
-	staging: 'docs-stg.',
-	development: 'docs-dev.',
+	staging: 'docs.staging.',
+	development: 'docs.dev.',
 };
 
 export const landingDomainFromStage = (stage: string) => {

@@ -14,7 +14,7 @@ export const syncRemoteProfile = async () => {
 		userAccount: Account;
 	}>(queries.userAccount);
 
-	if (keyResult.docs.length !== userAccount.walletCount) {
+	if (keyResult.docs.length !== userAccount?.walletCount) {
 		const wallets = keyResult.docs.map((key) => ({
 			address: key._id,
 			network: key.network,

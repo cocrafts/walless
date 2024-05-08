@@ -31,6 +31,14 @@ export const appDomainFromStage = (stage: string) => {
 	return `${prefix}${baseDomainName}`;
 };
 
+export const appBuildCommandFromStage = (stage: string) => {
+	const baseCommand = 'yarn build:web';
+	if (stage === 'production') return baseCommand;
+	else if (stage === 'staging') return `${baseCommand}:staging`;
+	else if (stage === 'development') return `${baseCommand}:dev`;
+	else return baseCommand;
+};
+
 export const documentDomainFromStage = (stage: string) => {
 	const prefix = documentAlias[stage] || `docs-${stage}.`;
 	return `${prefix}${baseDomainName}`;

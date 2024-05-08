@@ -11762,10 +11762,10 @@ __metadata:
     "@solana/web3.js": "npm:1.78.4"
     "@taquito/signer": "npm:^17.5.2"
     "@taquito/taquito": "npm:^17.5.2"
-    "@walless/core": "npm:*"
     aptos: "npm:^1.20.0"
     bs58: "npm:5.0.0"
     eslint: "npm:^8.56.0"
+    rimraf: "npm:^5.0.5"
     tweetnacl: "npm:^1.0.3"
   languageName: unknown
   linkType: soft
@@ -24896,7 +24896,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:5.0.5, rimraf@npm:^5.0.0":
+"rimraf@npm:5.0.5, rimraf@npm:^5.0.0, rimraf@npm:^5.0.5":
   version: 5.0.5
   resolution: "rimraf@npm:5.0.5"
   dependencies:

@@ -11,7 +11,7 @@ export const Pixeverse = () => {
 	const [isReady, setIsReady] = useState(false);
 	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } = environment;
 	const webviewRef = useRef<WebView>();
-	const [pubkey] = usePublicKeys(Networks.solana);
+	const pubKeys = usePublicKeys();
 
 	const onMessage = (event: WebViewMessageEvent) => {
 		const { data, url } = event.nativeEvent;
@@ -27,7 +27,8 @@ export const Pixeverse = () => {
 			const payload = {
 				apiUrl: PIXEVERSE_ENDPOINT,
 				jwt: jwtAuth,
-				address: pubkey._id,
+				address: pubKeys.find((key) => key.network === Networks.solana)?._id,
+				suiAddress: pubKeys.find((key) => key.network === Networks.sui)?._id,
 				isMobile: isMobileDisplay,
 			};
 
@@ -40,7 +41,7 @@ export const Pixeverse = () => {
 		};
 
 		isReady && forwardContext();
-	}, [pubkey, jwtAuth, isReady]);
+	}, [pubKeys, jwtAuth, isReady]);
 
 	return (
 		<WebView

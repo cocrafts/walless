@@ -127,7 +127,9 @@ export const txActions = {
 			case Networks.sui: {
 				txActions.update({ feeLoading: true });
 				const genericTransaction = await createGenericTransaction();
+				const { client } = engine.getContext<SuiContext>(Networks.sui);
 				const transactionBlock = await constructSuiSendTokenTransaction(
+					client,
 					genericTransaction as SuiSendTransaction,
 				);
 				const fee = await getSuiTransactionFee(transactionBlock).catch(
@@ -253,21 +255,10 @@ const createGenericTransaction = async () => {
 			if (!token || !tokenForFee)
 				throw new Error('Require token and tokenForFee to send');
 
-			const { client } = engine.getContext<SuiContext>(Networks.sui);
-			const { data: coins } = await client.getCoins({
-				owner: sender,
-				coinType: token.coinType,
-			});
-			const { data: coinsForFee } = await client.getCoins({
-				owner: sender,
-				coinType: tokenForFee?.coinType,
-			});
-
 			transaction = {
 				type,
 				amount: Number(amount) || 0,
-				coins,
-				coinsForFee,
+
 				network,
 				receiver,
 				sender,

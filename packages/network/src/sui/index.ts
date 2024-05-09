@@ -1,13 +1,10 @@
 import type {
-	CoinStruct,
 	ExecuteTransactionRequestType,
 	SuiClient,
 	SuiTransactionBlockResponseOptions,
 } from '@mysten/sui.js/client';
 import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
-import type { SuiToken } from '@walless/core';
-import type { TokenDocument } from '@walless/store';
 import { decode } from 'bs58';
 
 export const signMessage = async (
@@ -73,13 +70,22 @@ export const signAndExecuteTransaction = async (
 };
 
 export const constructSuiTransactionBlock = async (
-	coins: CoinStruct[],
-	coinsForFee: CoinStruct[],
+	client: SuiClient,
+	coinType: string,
+	coinDecimals: number,
+	coinTypeForFee: string,
 	amount: number,
 	receiver: string,
 	sender: string,
-	token: TokenDocument<SuiToken>,
 ) => {
+	const { data: coins } = await client.getCoins({
+		owner: sender,
+		coinType: coinType,
+	});
+	const { data: coinsForFee } = await client.getCoins({
+		owner: sender,
+		coinType: coinTypeForFee,
+	});
 	const txb = new TransactionBlock();
 	txb.setGasPayment(
 		coinsForFee.map((coin) => ({
@@ -91,7 +97,7 @@ export const constructSuiTransactionBlock = async (
 
 	let coin;
 	if (coins[0].coinType === coinsForFee[0].coinType) {
-		coin = txb.splitCoins(txb.gas, [txb.pure(amount * 10 ** token.decimals)]);
+		coin = txb.splitCoins(txb.gas, [txb.pure(amount * 10 ** coinDecimals)]);
 	} else {
 		const [destinationCoin, ...sourceCoins] = coins;
 		const primaryCoin = txb.object(destinationCoin.coinObjectId);
@@ -101,9 +107,7 @@ export const constructSuiTransactionBlock = async (
 				sourceCoins.map((coin) => coin.coinObjectId),
 			);
 		}
-		coin = txb.splitCoins(primaryCoin, [
-			txb.pure(amount * 10 ** token.decimals),
-		]);
+		coin = txb.splitCoins(primaryCoin, [txb.pure(amount * 10 ** coinDecimals)]);
 	}
 	txb.transferObjects([coin], txb.pure(receiver, 'address'));
 	txb.setSenderIfNotSet(sender);

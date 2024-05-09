@@ -9,14 +9,15 @@ export const Pixeverse = () => {
 	const { PIXEVERSE_ENDPOINT, PIXEVERSE_ORIGIN, PIXEVERSE_URL } = environment;
 	const { jwtAuth, isMobileDisplay } = useSnapshot(appState);
 	const iframeRef = useRef<HTMLIFrameElement>(null);
-	const [pubkey] = usePublicKeys(Networks.solana);
+	const pubKeys = usePublicKeys();
 
 	useEffect(() => {
 		const forwardContext = async () => {
 			const payload = {
 				apiUrl: PIXEVERSE_ENDPOINT,
 				jwt: jwtAuth,
-				address: pubkey._id,
+				address: pubKeys.find((key) => key.network === Networks.solana)?._id,
+				suiAddress: pubKeys.find((key) => key.network === Networks.sui)?._id,
 				isMobile: isMobileDisplay,
 			};
 
@@ -37,7 +38,7 @@ export const Pixeverse = () => {
 		return () => {
 			window.removeEventListener('message', onPixeverseReady);
 		};
-	}, [pubkey, jwtAuth]);
+	}, [pubKeys, jwtAuth]);
 
 	const handleOnLoad = () => {
 		iframeRef.current?.contentWindow?.focus();

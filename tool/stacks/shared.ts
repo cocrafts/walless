@@ -5,20 +5,20 @@ export const baseDomainName = 'walless.io';
 
 const landingAlias = {
 	production: ' ',
-	staging: 'stg.',
+	staging: 'staging.',
 	development: 'dev.',
 };
 
 const appAlias = {
 	production: 'app.',
-	staging: 'app-stg.',
-	development: 'app-dev.',
+	staging: 'app.staging.',
+	development: 'app.dev.',
 };
 
 const documentAlias = {
 	production: 'docs.',
-	staging: 'docs-stg.',
-	development: 'docs-dev.',
+	staging: 'docs.staging.',
+	development: 'docs.dev.',
 };
 
 export const landingDomainFromStage = (stage: string) => {
@@ -29,6 +29,14 @@ export const landingDomainFromStage = (stage: string) => {
 export const appDomainFromStage = (stage: string) => {
 	const prefix = appAlias[stage] || `app-${stage}.`;
 	return `${prefix}${baseDomainName}`;
+};
+
+export const appBuildCommandFromStage = (stage: string) => {
+	const baseCommand = 'yarn build:web';
+	if (stage === 'production') return baseCommand;
+	else if (stage === 'staging') return `${baseCommand}:staging`;
+	else if (stage === 'development') return `${baseCommand}:dev`;
+	else return baseCommand;
 };
 
 export const documentDomainFromStage = (stage: string) => {

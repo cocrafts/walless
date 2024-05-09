@@ -1,7 +1,12 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import type { Action, ActionCount, Progress, Record } from '@walless/graphql';
+import type {
+	Action,
+	ActionCount,
+	ActionRecord,
+	UserProgress,
+} from '@walless/graphql';
 import { ActionCategory, queries } from '@walless/graphql';
 import { groupBy } from 'lodash';
 import { qlClient } from 'utils/graphql';
@@ -10,45 +15,39 @@ import ActionCard from './ActionCard';
 import { getCycleEndTime } from './internal';
 
 interface Props {
-	progress?: Progress;
+	userProgress?: UserProgress;
 }
 
-const AchievementsTab: FC<Props> = ({ progress }) => {
+const AchievementsTab: FC<Props> = ({ userProgress }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [actions, setActions] = useState<Action[]>([]);
 
 	useEffect(() => {
 		const fetchActiveActions = async () => {
+			setIsLoading(true);
+
 			const { loyaltyActiveActions } = await qlClient.request<{
 				loyaltyActiveActions: Action[];
 			}>(queries.loyaltyActiveActions);
 
-			return loyaltyActiveActions;
+			const typeGroupedActions = groupBy(loyaltyActiveActions, 'type');
+
+			const sortedActions = Object.values(typeGroupedActions)
+				.map((actions) =>
+					actions.sort((a, b) => (a.points || 0) - (b.points || 0)),
+				)
+				.flat();
+
+			setActions(sortedActions);
 		};
 
-		try {
-			fetchActiveActions()
-				.then((activeActions) => {
-					const typeGroupedActions = groupBy(activeActions, 'type');
-
-					const sortedActions = Object.values(typeGroupedActions)
-						.map((actions) =>
-							actions.sort((a, b) => (a.points || 0) - (b.points || 0)),
-						)
-						.flat();
-
-					setActions(sortedActions);
-				})
-				.finally(() => {
-					setIsLoading(false);
-				});
-		} catch (error) {
-			console.error(error);
-		}
+		fetchActiveActions()
+			.catch(console.error)
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	const canUserPerformAction = (action: Action) => {
-		if (!progress) {
+		if (!userProgress) {
 			return false;
 		}
 
@@ -56,7 +55,7 @@ const AchievementsTab: FC<Props> = ({ progress }) => {
 			action.category === ActionCategory.Onetime ||
 			action.category === ActionCategory.Milestone
 		) {
-			return !(progress.records as Record[]).some(
+			return !(userProgress.actionRecords as ActionRecord[]).some(
 				(record) => record.actionId === action.id,
 			);
 		}
@@ -66,9 +65,9 @@ const AchievementsTab: FC<Props> = ({ progress }) => {
 				return true;
 			}
 
-			const lastRecord = (progress.records as Record[]).findLast(
-				(record) => record.actionId === action.id,
-			);
+			const lastRecord = (
+				userProgress.actionRecords as ActionRecord[]
+			).findLast((record) => record.actionId === action.id);
 			if (!lastRecord) {
 				return true;
 			}
@@ -82,7 +81,7 @@ const AchievementsTab: FC<Props> = ({ progress }) => {
 		}
 
 		if (action.category === ActionCategory.Streak) {
-			const actionCount = progress.trackList?.find(
+			const actionCount = userProgress.trackList?.find(
 				(track) => (track as ActionCount).type === action.type,
 			);
 			if (!actionCount || !actionCount.cycleInHours) {

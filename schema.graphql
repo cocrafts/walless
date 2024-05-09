@@ -121,6 +121,18 @@ input ActionMetadataInput {
 }
 
 """"""
+type ActionRecord {
+  """"""
+  actionId: String
+
+  """"""
+  timestamp: DateTime
+
+  """"""
+  userId: String
+}
+
+""""""
 type Boost {
   """"""
   actionId: String
@@ -314,33 +326,6 @@ enum NonceType {
 scalar ObjectID
 
 """"""
-type Progress {
-  """"""
-  id: String
-
-  """"""
-  records: [Record]
-
-  """"""
-  totalPoints: Int
-
-  """"""
-  trackList: [ActionCount]
-}
-
-""""""
-type Record {
-  """"""
-  actionId: String
-
-  """"""
-  timestamp: DateTime
-
-  """"""
-  userId: String
-}
-
-""""""
 type ReferralRank {
   """"""
   accountId: ObjectID
@@ -385,7 +370,10 @@ type RootMutation {
   joinWaitlist(description: String!, email: String!, twitter: String!): JoinWaitlistResult
 
   """"""
-  performLoyaltyAction(actionId: String!): Record
+  performActiveActionsByType(type: String!): [ActionRecord]
+
+  """"""
+  performLoyaltyAction(actionId: String!): ActionRecord
 
   """"""
   registerAccount(key: String!): Account
@@ -401,9 +389,6 @@ type RootMutation {
 
   """"""
   trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
-
-  """"""
-  tryToPerformActiveActionsByType(type: String!): [Record]
 
   """"""
   updateWidgetAccountRole(id: String!, role: WidgetAccountRole!): WidgetAccount
@@ -442,7 +427,7 @@ type RootQuery {
   loyaltyCurrentBoostsOfAction(actionId: String!): [Boost]
 
   """"""
-  loyaltyProgress: Progress
+  loyaltyUserProgress: UserProgress
 
   """"""
   nonce(identifier: String!): Nonce
@@ -561,6 +546,21 @@ input TrackAccountWalletInput {
 
 """The `Uint32` scalar type represents a 32-bit unsigned integer."""
 scalar Uint32
+
+""""""
+type UserProgress {
+  """"""
+  actionRecords: [ActionRecord]
+
+  """"""
+  id: String
+
+  """"""
+  totalPoints: Int
+
+  """"""
+  trackList: [ActionCount]
+}
 
 """"""
 enum VerifyMechanism {

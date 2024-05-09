@@ -1,8 +1,8 @@
-import type { Progress } from '@walless/graphql';
+import type { UserProgress } from '@walless/graphql';
 import { proxy } from 'valtio';
 
 export interface LoyaltyState {
-	progress?: Progress;
+	userProgress?: UserProgress;
 }
 
 export const loyaltyState = proxy<LoyaltyState>({});

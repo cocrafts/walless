@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import type { Progress } from '@walless/graphql';
+import type { UserProgress } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import type { TabAble } from '@walless/gui';
 import { activatedStyle, deactivatedStyle, SliderTabs } from '@walless/gui';
 import { loyaltyActions, loyaltyState } from 'state/loyalty';
-import { qlClient } from 'utils/graphql';
+import { loyaltyQlClient } from 'utils/graphql';
 import { useSnapshot } from 'utils/hooks';
 
 import AchievementsTab from './AchievementsTab';
@@ -30,13 +30,13 @@ const tabs: TabAble[] = [
 
 const LoyaltyFeature = () => {
 	const [activeTab, setActiveTab] = useState(tabs[0]);
-	const { progress } = useSnapshot(loyaltyState);
+	const { userProgress } = useSnapshot(loyaltyState);
 
 	useEffect(() => {
 		const fetchLoyaltyProgress = async () => {
-			const { loyaltyProgress } = await qlClient.request<{
-				loyaltyProgress: Progress;
-			}>(queries.loyaltyProgress);
+			const { loyaltyProgress } = await loyaltyQlClient.request<{
+				loyaltyProgress: UserProgress;
+			}>(queries.loyaltyUserProgress);
 
 			return loyaltyProgress;
 		};
@@ -52,7 +52,10 @@ const LoyaltyFeature = () => {
 
 	return (
 		<View style={styles.container}>
-			<PointCard style={styles.pointCard} point={progress?.totalPoints ?? 0} />
+			<PointCard
+				style={styles.pointCard}
+				point={userProgress?.totalPoints ?? 0}
+			/>
 
 			<View style={styles.bottomContainer}>
 				<SliderTabs
@@ -64,7 +67,7 @@ const LoyaltyFeature = () => {
 				/>
 
 				{activeTab.id === Tab.Achievements ? (
-					<AchievementsTab progress={progress as Progress} />
+					<AchievementsTab userProgress={userProgress as UserProgress} />
 				) : (
 					<LeaderboardTab />
 				)}

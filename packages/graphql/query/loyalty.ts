@@ -22,12 +22,12 @@ export const loyaltyActiveActions = gql`
 	}
 `;
 
-export const loyaltyProgress = gql`
-	query loyaltyProgress {
-		loyaltyProgress {
+export const loyaltyUserProgress = gql`
+	query loyaltyUserProgress {
+		loyaltyUserProgress {
 			id
 			totalPoints
-			records {
+			actionRecords {
 				actionId
 				timestamp
 				userId

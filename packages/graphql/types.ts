@@ -76,6 +76,13 @@ export type ActionMetadataInput = {
   value?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type ActionRecord = {
+  __typename?: 'ActionRecord';
+  actionId?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['DateTime']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
+};
+
 export type Boost = {
   __typename?: 'Boost';
   actionId?: Maybe<Scalars['String']['output']>;
@@ -153,21 +160,6 @@ export enum NonceType {
   Login = 'Login'
 }
 
-export type Progress = {
-  __typename?: 'Progress';
-  id?: Maybe<Scalars['String']['output']>;
-  records?: Maybe<Array<Maybe<Record>>>;
-  totalPoints?: Maybe<Scalars['Int']['output']>;
-  trackList?: Maybe<Array<Maybe<ActionCount>>>;
-};
-
-export type Record = {
-  __typename?: 'Record';
-  actionId?: Maybe<Scalars['String']['output']>;
-  timestamp?: Maybe<Scalars['DateTime']['output']>;
-  userId?: Maybe<Scalars['String']['output']>;
-};
-
 export type ReferralRank = {
   __typename?: 'ReferralRank';
   accountId?: Maybe<Scalars['ObjectID']['output']>;
@@ -187,13 +179,13 @@ export type RootMutation = {
   deleteWidget?: Maybe<Scalars['Boolean']['output']>;
   deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
   joinWaitlist?: Maybe<JoinWaitlistResult>;
-  performLoyaltyAction?: Maybe<Record>;
+  performActiveActionsByType?: Maybe<Array<Maybe<ActionRecord>>>;
+  performLoyaltyAction?: Maybe<ActionRecord>;
   registerAccount?: Maybe<Account>;
   registerDevice?: Maybe<Device>;
   registerWidgetAccount?: Maybe<Account>;
   sendEmergencyKit?: Maybe<SendEmergencyKitResult>;
   trackAccountWallets?: Maybe<Scalars['Int']['output']>;
-  tryToPerformActiveActionsByType?: Maybe<Array<Maybe<Record>>>;
   updateWidgetAccountRole?: Maybe<WidgetAccount>;
   updateWidgetOwner?: Maybe<Widget>;
   updateWidgetStatus?: Maybe<Widget>;
@@ -251,6 +243,11 @@ export type RootMutationJoinWaitlistArgs = {
 };
 
 
+export type RootMutationPerformActiveActionsByTypeArgs = {
+  type: Scalars['String']['input'];
+};
+
+
 export type RootMutationPerformLoyaltyActionArgs = {
   actionId: Scalars['String']['input'];
 };
@@ -279,11 +276,6 @@ export type RootMutationSendEmergencyKitArgs = {
 
 export type RootMutationTrackAccountWalletsArgs = {
   wallets: Array<InputMaybe<TrackAccountWalletInput>>;
-};
-
-
-export type RootMutationTryToPerformActiveActionsByTypeArgs = {
-  type: Scalars['String']['input'];
 };
 
 
@@ -320,7 +312,7 @@ export type RootQuery = {
   loyaltyActiveActions?: Maybe<Array<Maybe<Action>>>;
   loyaltyBoosts?: Maybe<Array<Maybe<Boost>>>;
   loyaltyCurrentBoostsOfAction?: Maybe<Array<Maybe<Boost>>>;
-  loyaltyProgress?: Maybe<Progress>;
+  loyaltyUserProgress?: Maybe<UserProgress>;
   nonce?: Maybe<Nonce>;
   referralLeaderboard?: Maybe<Array<Maybe<ReferralRank>>>;
   referralLeaderboardSize?: Maybe<Scalars['Int']['output']>;
@@ -438,6 +430,14 @@ export type TokenInfo = {
 export type TrackAccountWalletInput = {
   address: Scalars['String']['input'];
   network?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UserProgress = {
+  __typename?: 'UserProgress';
+  actionRecords?: Maybe<Array<Maybe<ActionRecord>>>;
+  id?: Maybe<Scalars['String']['output']>;
+  totalPoints?: Maybe<Scalars['Int']['output']>;
+  trackList?: Maybe<Array<Maybe<ActionCount>>>;
 };
 
 export enum VerifyMechanism {
@@ -572,6 +572,7 @@ export type ResolversTypes = {
   ActionCount: ResolverTypeWrapper<ActionCount>;
   ActionMetadata: ResolverTypeWrapper<ActionMetadata>;
   ActionMetadataInput: ActionMetadataInput;
+  ActionRecord: ResolverTypeWrapper<ActionRecord>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Boost: ResolverTypeWrapper<Boost>;
   CreateActionInput: CreateActionInput;
@@ -586,8 +587,6 @@ export type ResolversTypes = {
   Nonce: ResolverTypeWrapper<Nonce>;
   NonceType: NonceType;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']['output']>;
-  Progress: ResolverTypeWrapper<Progress>;
-  Record: ResolverTypeWrapper<Record>;
   ReferralRank: ResolverTypeWrapper<ReferralRank>;
   RootMutation: ResolverTypeWrapper<{}>;
   RootQuery: ResolverTypeWrapper<{}>;
@@ -599,6 +598,7 @@ export type ResolversTypes = {
   TokenInfo: ResolverTypeWrapper<TokenInfo>;
   TrackAccountWalletInput: TrackAccountWalletInput;
   Uint32: ResolverTypeWrapper<Scalars['Uint32']['output']>;
+  UserProgress: ResolverTypeWrapper<UserProgress>;
   VerifyMechanism: VerifyMechanism;
   WalletInvitation: ResolverTypeWrapper<WalletInvitation>;
   Widget: ResolverTypeWrapper<Widget>;
@@ -615,6 +615,7 @@ export type ResolversParentTypes = {
   ActionCount: ActionCount;
   ActionMetadata: ActionMetadata;
   ActionMetadataInput: ActionMetadataInput;
+  ActionRecord: ActionRecord;
   Boolean: Scalars['Boolean']['output'];
   Boost: Boost;
   CreateActionInput: CreateActionInput;
@@ -628,8 +629,6 @@ export type ResolversParentTypes = {
   MongoDateTime: Scalars['MongoDateTime']['output'];
   Nonce: Nonce;
   ObjectID: Scalars['ObjectID']['output'];
-  Progress: Progress;
-  Record: Record;
   ReferralRank: ReferralRank;
   RootMutation: {};
   RootQuery: {};
@@ -641,6 +640,7 @@ export type ResolversParentTypes = {
   TokenInfo: TokenInfo;
   TrackAccountWalletInput: TrackAccountWalletInput;
   Uint32: Scalars['Uint32']['output'];
+  UserProgress: UserProgress;
   WalletInvitation: WalletInvitation;
   Widget: Widget;
   WidgetAccount: WidgetAccount;
@@ -687,6 +687,13 @@ export type ActionCountResolvers<ContextType = any, ParentType extends Resolvers
 export type ActionMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActionMetadata'] = ResolversParentTypes['ActionMetadata']> = {
   key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ActionRecordResolvers<ContextType = any, ParentType extends ResolversParentTypes['ActionRecord'] = ResolversParentTypes['ActionRecord']> = {
+  actionId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  timestamp?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -751,21 +758,6 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'ObjectID';
 }
 
-export type ProgressResolvers<ContextType = any, ParentType extends ResolversParentTypes['Progress'] = ResolversParentTypes['Progress']> = {
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  records?: Resolver<Maybe<Array<Maybe<ResolversTypes['Record']>>>, ParentType, ContextType>;
-  totalPoints?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  trackList?: Resolver<Maybe<Array<Maybe<ResolversTypes['ActionCount']>>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type RecordResolvers<ContextType = any, ParentType extends ResolversParentTypes['Record'] = ResolversParentTypes['Record']> = {
-  actionId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  timestamp?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type ReferralRankResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReferralRank'] = ResolversParentTypes['ReferralRank']> = {
   accountId?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
   displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -784,13 +776,13 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   deleteWidget?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetArgs, 'id'>>;
   deleteWidgetAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetAccountArgs, 'id'>>;
   joinWaitlist?: Resolver<Maybe<ResolversTypes['JoinWaitlistResult']>, ParentType, ContextType, RequireFields<RootMutationJoinWaitlistArgs, 'description' | 'email' | 'twitter'>>;
-  performLoyaltyAction?: Resolver<Maybe<ResolversTypes['Record']>, ParentType, ContextType, RequireFields<RootMutationPerformLoyaltyActionArgs, 'actionId'>>;
+  performActiveActionsByType?: Resolver<Maybe<Array<Maybe<ResolversTypes['ActionRecord']>>>, ParentType, ContextType, RequireFields<RootMutationPerformActiveActionsByTypeArgs, 'type'>>;
+  performLoyaltyAction?: Resolver<Maybe<ResolversTypes['ActionRecord']>, ParentType, ContextType, RequireFields<RootMutationPerformLoyaltyActionArgs, 'actionId'>>;
   registerAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterAccountArgs, 'key'>>;
   registerDevice?: Resolver<Maybe<ResolversTypes['Device']>, ParentType, ContextType, RequireFields<RootMutationRegisterDeviceArgs, 'device'>>;
   registerWidgetAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterWidgetAccountArgs, 'pubkey'>>;
   sendEmergencyKit?: Resolver<Maybe<ResolversTypes['SendEmergencyKitResult']>, ParentType, ContextType, RequireFields<RootMutationSendEmergencyKitArgs, 'key'>>;
   trackAccountWallets?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<RootMutationTrackAccountWalletsArgs, 'wallets'>>;
-  tryToPerformActiveActionsByType?: Resolver<Maybe<Array<Maybe<ResolversTypes['Record']>>>, ParentType, ContextType, RequireFields<RootMutationTryToPerformActiveActionsByTypeArgs, 'type'>>;
   updateWidgetAccountRole?: Resolver<Maybe<ResolversTypes['WidgetAccount']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetAccountRoleArgs, 'id' | 'role'>>;
   updateWidgetOwner?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetOwnerArgs, 'id' | 'ownerId'>>;
   updateWidgetStatus?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetStatusArgs, 'id' | 'status' | 'updaterPubkey'>>;
@@ -805,7 +797,7 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   loyaltyActiveActions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Action']>>>, ParentType, ContextType>;
   loyaltyBoosts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Boost']>>>, ParentType, ContextType>;
   loyaltyCurrentBoostsOfAction?: Resolver<Maybe<Array<Maybe<ResolversTypes['Boost']>>>, ParentType, ContextType, RequireFields<RootQueryLoyaltyCurrentBoostsOfActionArgs, 'actionId'>>;
-  loyaltyProgress?: Resolver<Maybe<ResolversTypes['Progress']>, ParentType, ContextType>;
+  loyaltyUserProgress?: Resolver<Maybe<ResolversTypes['UserProgress']>, ParentType, ContextType>;
   nonce?: Resolver<Maybe<ResolversTypes['Nonce']>, ParentType, ContextType, RequireFields<RootQueryNonceArgs, 'identifier'>>;
   referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRank']>>>, ParentType, ContextType, Partial<RootQueryReferralLeaderboardArgs>>;
   referralLeaderboardSize?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -862,6 +854,14 @@ export interface Uint32ScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
   name: 'Uint32';
 }
 
+export type UserProgressResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserProgress'] = ResolversParentTypes['UserProgress']> = {
+  actionRecords?: Resolver<Maybe<Array<Maybe<ResolversTypes['ActionRecord']>>>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  totalPoints?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  trackList?: Resolver<Maybe<Array<Maybe<ResolversTypes['ActionCount']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type WalletInvitationResolvers<ContextType = any, ParentType extends ResolversParentTypes['WalletInvitation'] = ResolversParentTypes['WalletInvitation']> = {
   code?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -900,6 +900,7 @@ export type Resolvers<ContextType = any> = {
   Action?: ActionResolvers<ContextType>;
   ActionCount?: ActionCountResolvers<ContextType>;
   ActionMetadata?: ActionMetadataResolvers<ContextType>;
+  ActionRecord?: ActionRecordResolvers<ContextType>;
   Boost?: BoostResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Device?: DeviceResolvers<ContextType>;
@@ -908,8 +909,6 @@ export type Resolvers<ContextType = any> = {
   MongoDateTime?: GraphQLScalarType;
   Nonce?: NonceResolvers<ContextType>;
   ObjectID?: GraphQLScalarType;
-  Progress?: ProgressResolvers<ContextType>;
-  Record?: RecordResolvers<ContextType>;
   ReferralRank?: ReferralRankResolvers<ContextType>;
   RootMutation?: RootMutationResolvers<ContextType>;
   RootQuery?: RootQueryResolvers<ContextType>;
@@ -919,6 +918,7 @@ export type Resolvers<ContextType = any> = {
   Token?: TokenResolvers<ContextType>;
   TokenInfo?: TokenInfoResolvers<ContextType>;
   Uint32?: GraphQLScalarType;
+  UserProgress?: UserProgressResolvers<ContextType>;
   WalletInvitation?: WalletInvitationResolvers<ContextType>;
   Widget?: WidgetResolvers<ContextType>;
   WidgetAccount?: WidgetAccountResolvers<ContextType>;

@@ -1,19 +1,15 @@
 import type { FC } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
+import { formatCountdownTime } from './utils';
+
 interface Props {
 	timeRemaining: number;
 }
 
 const CountDown: FC<Props> = ({ timeRemaining }) => {
 	return (
-		<Text style={styles.counterText}>
-			{Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))}
-			h:
-			{Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60))}
-			m:
-			{Math.floor((timeRemaining % (1000 * 60)) / 1000)}s
-		</Text>
+		<Text style={styles.counterText}>{formatCountdownTime(timeRemaining)}</Text>
 	);
 };
 

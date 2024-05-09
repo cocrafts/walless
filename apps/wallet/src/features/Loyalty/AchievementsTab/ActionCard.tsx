@@ -6,8 +6,8 @@ import type {
 	Action,
 	ActionCount,
 	ActionMetadata,
-	Progress,
-	Record,
+	ActionRecord,
+	UserProgress,
 } from '@walless/graphql';
 import {
 	ActionCategory,
@@ -37,7 +37,7 @@ interface Props {
 }
 
 const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
-	const { progress } = useSnapshot(loyaltyState);
+	const { userProgress } = useSnapshot(loyaltyState);
 	const { name, desc, icon, ctaText, ctaType, cta } = useMemo(() => {
 		return extractDataFromMetadata(action.metadata as ActionMetadata[]);
 	}, [action]);
@@ -46,7 +46,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 
 	useEffect(() => {
 		if (
-			!progress ||
+			!userProgress ||
 			canUserPerformAction ||
 			action.category !== ActionCategory.Recurring ||
 			!action.cycleInHours
@@ -57,9 +57,9 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 		const interval = setInterval(() => {
 			setTimeRemaining((prev) => {
 				if (prev === null) {
-					const lastRecord = (progress.records as Record[]).findLast(
-						(record) => record.actionId === action.id,
-					);
+					const lastRecord = (
+						userProgress.actionRecords as ActionRecord[]
+					).findLast((record) => record.actionId === action.id);
 					if (!lastRecord) {
 						return 0;
 					}
@@ -81,7 +81,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 		}, 1000);
 
 		return () => clearInterval(interval);
-	}, [progress, action, canUserPerformAction]);
+	}, [userProgress, action, canUserPerformAction]);
 
 	const FallbackIcon = getIconByType(action.type || '');
 
@@ -98,8 +98,8 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 				});
 
 				const { loyaltyProgress } = await qlClient.request<{
-					loyaltyProgress: Progress;
-				}>(queries.loyaltyProgress);
+					loyaltyProgress: UserProgress;
+				}>(queries.loyaltyUserProgress);
 
 				loyaltyActions.setProgress(loyaltyProgress);
 			} catch (error) {
@@ -121,14 +121,14 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 	};
 
 	const stat = useMemo(() => {
-		if (!progress) {
+		if (!userProgress) {
 			return null;
 		}
 
-		return (progress.trackList as ActionCount[]).find(
+		return (userProgress.trackList as ActionCount[]).find(
 			(track) => track.type === action.type,
 		);
-	}, [progress]);
+	}, [userProgress]);
 
 	const currentStreak = useMemo(() => {
 		if (!stat || !stat.streaks) {

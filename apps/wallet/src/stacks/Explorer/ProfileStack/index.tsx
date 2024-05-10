@@ -9,10 +9,10 @@ import { withStackContainer } from 'components/StackContainer';
 import HistoryScreen from 'screens/Dashboard/History';
 import ProfileScreen from 'screens/Dashboard/Home';
 import SettingScreen from 'screens/Dashboard/Setting';
+import { appState } from 'state/app';
+import { useSnapshot } from 'utils/hooks';
 import type { ExploreParamList, ProfileParamList } from 'utils/navigation';
 import { navigateBack } from 'utils/navigation';
-import { useSnapshot } from 'utils/hooks';
-import { appState } from 'state/app';
 
 type Props = StackScreenProps<ExploreParamList, 'Profile'>;
 

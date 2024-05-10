@@ -5,7 +5,7 @@ import { queries } from '@walless/graphql';
 import type { TabAble } from '@walless/gui';
 import { activatedStyle, deactivatedStyle, SliderTabs } from '@walless/gui';
 import { loyaltyActions, loyaltyState } from 'state/loyalty';
-import { loyaltyQlClient } from 'utils/graphql';
+import { qlClient } from 'utils/graphql';
 import { useSnapshot } from 'utils/hooks';
 
 import AchievementsTab from './AchievementsTab';
@@ -34,16 +34,16 @@ const LoyaltyFeature = () => {
 
 	useEffect(() => {
 		const fetchLoyaltyProgress = async () => {
-			const { loyaltyProgress } = await loyaltyQlClient.request<{
-				loyaltyProgress: UserProgress;
+			const { loyaltyUserProgress } = await qlClient.request<{
+				loyaltyUserProgress: UserProgress;
 			}>(queries.loyaltyUserProgress);
 
-			return loyaltyProgress;
+			return loyaltyUserProgress;
 		};
 
 		try {
 			fetchLoyaltyProgress().then((progress) => {
-				loyaltyActions.setProgress(progress);
+				loyaltyActions.setUserProgress(progress);
 			});
 		} catch (error) {
 			console.error(error);

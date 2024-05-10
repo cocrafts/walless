@@ -101,7 +101,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 					loyaltyProgress: UserProgress;
 				}>(queries.loyaltyUserProgress);
 
-				loyaltyActions.setProgress(loyaltyProgress);
+				loyaltyActions.setUserProgress(loyaltyProgress);
 			} catch (error) {
 				console.error(error);
 				showNotificationModal({

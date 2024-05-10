@@ -97,11 +97,11 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 					actionId: action.id,
 				});
 
-				const { loyaltyProgress } = await qlClient.request<{
-					loyaltyProgress: UserProgress;
+				const { loyaltyUserProgress } = await qlClient.request<{
+					loyaltyUserProgress: UserProgress;
 				}>(queries.loyaltyUserProgress);
 
-				loyaltyActions.setUserProgress(loyaltyProgress);
+				loyaltyActions.setUserProgress(loyaltyUserProgress);
 			} catch (error) {
 				console.error(error);
 				showNotificationModal({

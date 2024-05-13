@@ -191,7 +191,9 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 								numberOfLines={2}
 								ellipsizeMode="tail"
 							>
-								{!canUserPerformAction && action.streak ? 'Checked-in' : desc}
+								{!canUserPerformAction && action.streak
+									? 'Recorded streak'
+									: desc}
 							</Text>
 
 							<Text style={styles.descText}>

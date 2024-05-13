@@ -33,10 +33,10 @@ export const loyaltyUserProgress = gql`
 				userId
 			}
 			trackList {
+				cycleInHours
 				lastClaim
 				milestone
 				type
-				cycleInHours
 				streaks {
 					currentStreak
 					remainingClaims

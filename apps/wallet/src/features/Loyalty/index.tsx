@@ -41,13 +41,9 @@ const LoyaltyFeature = () => {
 			return loyaltyUserProgress;
 		};
 
-		try {
-			fetchLoyaltyProgress().then((progress) => {
-				loyaltyActions.setUserProgress(progress);
-			});
-		} catch (error) {
-			console.error(error);
-		}
+		fetchLoyaltyProgress()
+			.then((progress) => loyaltyActions.setUserProgress(progress))
+			.catch(console.error);
 	}, []);
 
 	return (

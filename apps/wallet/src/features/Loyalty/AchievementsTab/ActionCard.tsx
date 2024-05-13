@@ -1,7 +1,14 @@
 import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, Linking, StyleSheet, Text, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Image,
+	Linking,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
 import type {
 	Action,
 	ActionCount,
@@ -43,6 +50,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 	}, [action]);
 
 	const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
+	const [isPerformingAction, setIsPerformingAction] = useState(false);
 
 	useEffect(() => {
 		if (
@@ -93,6 +101,8 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 
 		if (ctaType === '' || action.mechanism === VerifyMechanism.No) {
 			try {
+				setIsPerformingAction(true);
+
 				await qlClient.request(mutations.performLoyaltyAction, {
 					actionId: action.id,
 				});
@@ -102,8 +112,13 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 				}>(queries.loyaltyUserProgress);
 
 				loyaltyActions.setUserProgress(loyaltyUserProgress);
+
+				setIsPerformingAction(false);
 			} catch (error) {
 				console.error(error);
+
+				setIsPerformingAction(false);
+
 				showNotificationModal({
 					id: `action-error-${action.id}`,
 					message: `Failed to perform action ${name}`,
@@ -214,7 +229,14 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 			<View style={styles.rightContainer}>
 				<Text style={styles.pointText}>{action.points} points</Text>
 				{action.category !== ActionCategory.Milestone &&
-					action.category !== ActionCategory.Streak && (
+					action.category !== ActionCategory.Streak &&
+					(isPerformingAction ? (
+						<ActivityIndicator
+							size="small"
+							color="white"
+							style={{ marginTop: 4 }}
+						/>
+					) : (
 						<Button
 							style={[
 								styles.ctaButton,
@@ -225,7 +247,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 							titleStyle={styles.pointText}
 							onPress={handlePerformAction}
 						/>
-					)}
+					))}
 			</View>
 
 			{!canUserPerformAction && <View style={styles.performedOverlay} />}

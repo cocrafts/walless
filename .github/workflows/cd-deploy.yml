@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          # registry-url: https://npm.pkg.github.com/
+          registry-url: https://npm.pkg.github.com/
 
       - name: Install @metacraft/cli
         run: npm i --location=global @metacraft/cli@latest
@@ -35,6 +35,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn
+
+      - name: Check wallet build
+        run: cd apps/wallet && yarn build:web && ls -a
 
       - name: Execute eslint
         run: yarn lint

@@ -1,14 +1,24 @@
 {
   "name": "@walless/network",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "main": "./index.ts",
   "types": "./index.ts",
   "license": "MIT",
+  "files": [
+    "aptos",
+    "solana",
+    "sui",
+    "tezos",
+    "utils",
+    "yarn.lock"
+  ],
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint . --max-warnings=0 --ext .ts,.tsx",
-    "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx"
+    "lint:fix": "eslint . --fix --max-warnings=0 --ext .ts,.tsx",
+    "bundle": "rimraf dist/ && node bundle.js",
+    "publish:dist": "yarn bundle && cd dist && npm publish --access public && cd .."
   },
   "dependencies": {
     "@metaplex-foundation/js": "^0.19.4",
@@ -18,12 +28,12 @@
     "@solana/web3.js": "1.78.4",
     "@taquito/signer": "^17.5.2",
     "@taquito/taquito": "^17.5.2",
-    "@walless/core": "*",
     "aptos": "^1.20.0",
     "bs58": "5.0.0",
     "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
-    "eslint": "^8.56.0"
+    "eslint": "^8.56.0",
+    "rimraf": "^5.0.5"
   }
 }

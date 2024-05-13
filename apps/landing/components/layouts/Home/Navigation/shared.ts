@@ -18,14 +18,14 @@ export const navigationItems: NavigationConfig[] = [
 		title: 'For Developers',
 		href: '/docs',
 	},
-	{
-		title: 'Blogs',
-		href: '/blogs',
-	},
-	{
-		title: 'About us',
-		href: '/aboutUs',
-	},
+	// {
+	// 	title: 'Blogs',
+	// 	href: '/blogs',
+	// },
+	// {
+	// 	title: 'About us',
+	// 	href: '/aboutUs',
+	// },
 	{
 		title: 'Resources',
 		href: '/resources',

@@ -1,15 +1,20 @@
 import type { StackContext } from 'sst/constructs';
 import { StaticSite } from 'sst/constructs';
 
-import { appDomainFromStage, hostedZone } from './shared';
+import {
+	appBuildCommandFromStage,
+	appDomainFromStage,
+	hostedZone,
+} from './shared';
 
 export const wallet = ({ stack, app }: StackContext) => {
 	const domainName = appDomainFromStage(app.stage);
+	const buildCommand = appBuildCommandFromStage(app.stage);
 
 	const wallet = new StaticSite(stack, 'wallet', {
 		path: 'apps/wallet',
 		buildOutput: 'metacraft',
-		buildCommand: 'yarn build:web',
+		buildCommand,
 		customDomain: {
 			domainName,
 			hostedZone,

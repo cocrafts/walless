@@ -11,7 +11,7 @@ const Header = () => {
 
 	return (
 		<View style={styles.container}>
-			<View>
+			<View style={styles.balanceContainer}>
 				<Text>Hi👋, your balance today:</Text>
 				<View style={styles.tokenValuationContainer}>
 					<Hoverable>
@@ -45,6 +45,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingVertical: 10,
 	},
+	balanceContainer: {
+		gap: 4,
+	},
 	tokenValuationContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -56,7 +59,7 @@ const styles = StyleSheet.create({
 	},
 	buttonContainer: {
 		flexDirection: 'row',
-		alignSelf: 'flex-start',
+		alignSelf: 'flex-end',
 		gap: 8,
 	},
 	button: {

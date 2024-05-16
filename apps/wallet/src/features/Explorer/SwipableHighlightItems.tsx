@@ -75,6 +75,7 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 					data={data}
 					horizontal
 					inverted
+					showsHorizontalScrollIndicator={false}
 					contentContainerStyle={styles.container}
 					CellRendererComponent={({ children, index, style, ...props }) => {
 						const newStyle = [style, { zIndex: data.length - index }];

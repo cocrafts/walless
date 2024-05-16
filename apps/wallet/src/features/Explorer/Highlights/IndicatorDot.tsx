@@ -49,15 +49,20 @@ const IndicatorDot: FC<IndicatorDotProps> = ({
 	return (
 		<AnimatedHoverable
 			key={index.toString()}
-			style={[styles.indicator, animatedStyle]}
 			onPress={() => setActiveIndex(index)}
-		/>
+			style={styles.container}
+		>
+			<Animated.View style={[styles.indicator, animatedStyle]} />
+		</AnimatedHoverable>
 	);
 };
 
 export default IndicatorDot;
 
 const styles = StyleSheet.create({
+	container: {
+		padding: 3,
+	},
 	indicator: {
 		backgroundColor: '#566674',
 		width: 6,

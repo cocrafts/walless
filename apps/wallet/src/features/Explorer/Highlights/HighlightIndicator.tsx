@@ -42,7 +42,6 @@ const HighlightIndicator: FC<HighlightIndicatorProps> = ({
 			<FlatList
 				keyExtractor={(_, index) => index.toString()}
 				data={data}
-				contentContainerStyle={styles.flatList}
 				renderItem={({ item }) => {
 					return (
 						<IndicatorDot
@@ -64,8 +63,5 @@ export default HighlightIndicator;
 const styles = StyleSheet.create({
 	container: {
 		alignSelf: 'center',
-	},
-	flatList: {
-		gap: 6,
 	},
 });

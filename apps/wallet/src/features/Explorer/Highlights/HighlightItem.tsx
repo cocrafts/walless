@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		backgroundColor: '#23303C',
 		position: 'absolute',
-		left: -ITEM_WIDTH / 2 - 16,
+		left: -ITEM_WIDTH / 2 - 20,
 	},
 	coverImage: {
 		width: ITEM_WIDTH,

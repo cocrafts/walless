@@ -1,23 +1,21 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import { StyleSheet } from 'react-native';
-import Animated, {
-	useAnimatedStyle,
-	withSpring,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { Button, Text, View } from '@walless/gui';
 import { Chair, InfoIcon, MissionBackground } from '@walless/icons';
 
 interface MissionProps {
+	id: string;
 	title: string;
 	colors?: string[];
 	onPress?: () => void;
 }
 
-const MissionItem: FC<MissionProps> = ({ title, onPress, colors }) => {
+const MissionItem: FC<MissionProps> = ({ title, onPress, id, colors }) => {
 	return (
 		<Animated.View style={[styles.container]}>
-			<View style={styles.misstionBackground}>
-				<MissionBackground colors={colors} />
+			<View style={styles.missionBackground}>
+				<MissionBackground colors={colors} id={id} />
 			</View>
 			<View style={styles.header}>
 				<View style={styles.iconContainer}>
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
 		color: '#23303C',
 		fontSize: 12,
 	},
-	misstionBackground: {
+	missionBackground: {
 		position: 'absolute',
 		top: 0,
 		left: 0,

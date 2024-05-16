@@ -27,10 +27,10 @@ const Header = () => {
 
 			<View style={styles.buttonContainer}>
 				<Hoverable style={styles.button}>
-					<Settings size={24} color="#566674" />
+					<Settings size={20} color="#566674" />
 				</Hoverable>
 				<Hoverable style={styles.button}>
-					<Search size={24} color="#566674" />
+					<Search size={20} color="#566674" />
 				</Hoverable>
 			</View>
 		</View>
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
 	},
 	buttonContainer: {
 		flexDirection: 'row',
+		alignSelf: 'flex-start',
 		gap: 8,
 	},
 	button: {
@@ -63,6 +64,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: '#23303C',
 		borderRadius: 6,
-		paddingHorizontal: 10,
+		padding: 8,
 	},
 });

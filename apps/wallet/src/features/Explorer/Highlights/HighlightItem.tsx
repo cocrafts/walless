@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { ImageSourcePropType } from 'react-native';
-import { Animated, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Animated, Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Heart, Plus } from '@walless/icons';
 
@@ -18,10 +18,7 @@ interface HighlightItemProps {
 	loveCount: number;
 	activeCount: number;
 	animation?: AnimationFlatListProps;
-	onPress?: () => void;
 }
-
-const AnimatedHoverable = Animated.createAnimatedComponent(TouchableOpacity);
 
 const HighlightItem: FC<HighlightItemProps> = ({
 	coverUri,
@@ -31,7 +28,6 @@ const HighlightItem: FC<HighlightItemProps> = ({
 	loveCount,
 	activeCount,
 	animation,
-	onPress,
 }) => {
 	const { index, scrollXAnimated, maxItems } =
 		animation as AnimationFlatListProps;
@@ -57,10 +53,7 @@ const HighlightItem: FC<HighlightItemProps> = ({
 	};
 
 	return (
-		<AnimatedHoverable
-			style={[styles.container, animatedStyle]}
-			onPress={onPress}
-		>
+		<Animated.View style={[styles.container, animatedStyle]}>
 			<Image style={styles.coverImage} source={coverUri} />
 			<View style={styles.infoContainer}>
 				<Image style={styles.iconImage} source={iconUri} />
@@ -90,7 +83,7 @@ const HighlightItem: FC<HighlightItemProps> = ({
 					<Plus />
 				</Hoverable>
 			</View>
-		</AnimatedHoverable>
+		</Animated.View>
 	);
 };
 

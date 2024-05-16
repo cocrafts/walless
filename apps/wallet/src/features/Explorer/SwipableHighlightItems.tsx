@@ -3,13 +3,15 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Animated, FlatList, StyleSheet } from 'react-native';
 import type {
 	FlingGestureHandlerEventPayload,
-	HandlerStateChangeEvent,
+	GestureStateChangeEvent,
 } from 'react-native-gesture-handler';
 import {
 	Directions,
-	FlingGestureHandler,
+	Gesture,
+	GestureDetector,
 	State,
 } from 'react-native-gesture-handler';
+import { Easing } from 'react-native-reanimated';
 import { View } from '@walless/gui';
 import type { ExtensionDocument } from '@walless/store';
 
@@ -31,42 +33,44 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 	const scrollXAnimated = useRef(new Animated.Value(0)).current;
 
 	useEffect(() => {
-		Animated.spring(scrollXAnimated, {
+		Animated.timing(scrollXAnimated, {
 			toValue: scrollXIndex,
+			easing: Easing.inOut(Easing.ease),
 			useNativeDriver: true,
 		}).start();
 	}, []);
 
 	const handleSwipeLeft = useCallback(
-		(event: HandlerStateChangeEvent<FlingGestureHandlerEventPayload>) => {
-			if (event.nativeEvent.state === State.END) {
+		(event: GestureStateChangeEvent<FlingGestureHandlerEventPayload>) => {
+			if (event.state === State.END) {
 				if (activeIndex === data.length - 1) return;
 				setActiveIndex(activeIndex + 1);
 			}
 		},
-		[],
+		[activeIndex],
 	);
 
 	const handleSwipeRight = useCallback(
-		(event: HandlerStateChangeEvent<FlingGestureHandlerEventPayload>) => {
-			if (event.nativeEvent.state === State.END) {
+		(event: GestureStateChangeEvent<FlingGestureHandlerEventPayload>) => {
+			if (event.state === State.END) {
 				if (activeIndex === 0) return;
 				setActiveIndex(activeIndex - 1);
 			}
 		},
-		[],
+		[activeIndex],
 	);
 
+	const leftFling = Gesture.Fling();
+	const rightFling = Gesture.Fling();
+
 	return (
-		<FlingGestureHandler
-			key="left"
-			direction={Directions.LEFT}
-			onHandlerStateChange={handleSwipeLeft}
+		<GestureDetector
+			gesture={leftFling.direction(Directions.LEFT).onFinalize(handleSwipeLeft)}
 		>
-			<FlingGestureHandler
-				key="right"
-				direction={Directions.RIGHT}
-				onHandlerStateChange={handleSwipeRight}
+			<GestureDetector
+				gesture={rightFling
+					.direction(Directions.RIGHT)
+					.onFinalize(handleSwipeRight)}
 			>
 				<FlatList
 					scrollEventThrottle={16}
@@ -97,13 +101,12 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 								activeCount={storeMeta.activeCount}
 								description={storeMeta.description}
 								animation={{ index, scrollXAnimated, maxItems: 3 }}
-								onPress={() => setActiveIndex(index)}
 							/>
 						);
 					}}
 				/>
-			</FlingGestureHandler>
-		</FlingGestureHandler>
+			</GestureDetector>
+		</GestureDetector>
 	);
 };
 

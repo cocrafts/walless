@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
 import { WidgetType } from '@walless/core';
 import type { WidgetDocument } from '@walless/store';
-import { mockLayoutCards } from 'browser/kernel/utils/mockExtension';
+import { mockWidgets } from 'state/widget';
 
 import CategoryButton from './CategoryButton';
 
@@ -26,7 +26,7 @@ const CategoryButtons: FC<CategoryButtonsProps> = ({ setWidgets }) => {
 
 	const handleCategoryPress = (index: number, category: WidgetType) => {
 		scrollXIndex.setValue(index);
-		const filteredLayoutCards = mockLayoutCards.filter(
+		const filteredLayoutCards = mockWidgets.filter(
 			(item) => item.widgetType === category,
 		);
 		setWidgets(filteredLayoutCards);

@@ -44,7 +44,7 @@ const WidgetItem: FC<WidgetItemProps> = ({
 				</View>
 			</View>
 			<Button
-				style={isAdded ? styles.openBtn : styles.addBtn}
+				style={[styles.button, isAdded ? styles.openBtn : styles.addBtn]}
 				onPress={onPress}
 			>
 				<Text style={isAdded ? styles.openBtnText : styles.addBtnText}>
@@ -102,19 +102,17 @@ const styles = StyleSheet.create({
 		color: '#4E5C69',
 		fontSize: 10,
 	},
-	addBtn: {
+	button: {
 		alignSelf: 'center',
-		backgroundColor: '#19A3E1',
 		borderRadius: 6,
 		width: 62,
 		height: 28,
 	},
+	addBtn: {
+		backgroundColor: '#19A3E1',
+	},
 	openBtn: {
-		alignSelf: 'center',
 		backgroundColor: '#2D3C4A',
-		borderRadius: 6,
-		width: 62,
-		height: 28,
 	},
 	openBtnText: {
 		color: '#19A3E1',

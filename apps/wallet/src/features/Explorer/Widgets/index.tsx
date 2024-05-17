@@ -29,8 +29,6 @@ const Widgets = () => {
 		handleOpenWidget(widget._id);
 	};
 
-	console.log('widgets', widgets);
-
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Enhance your collection</Text>

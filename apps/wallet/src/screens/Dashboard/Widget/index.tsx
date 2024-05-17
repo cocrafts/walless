@@ -6,9 +6,9 @@ import WidgetFeature from 'features/Widget';
 import { appState } from 'state/app';
 import { mockWidgets } from 'state/widget';
 import { useSnapshot } from 'utils/hooks';
-import type { ExploreParamList } from 'utils/navigation';
+import type { WidgetParamList } from 'utils/navigation';
 
-type Props = DrawerScreenProps<ExploreParamList, 'Widget'>;
+type Props = DrawerScreenProps<WidgetParamList, 'Default'>;
 
 export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
 	const { navigationDisplay } = useSnapshot(appState);

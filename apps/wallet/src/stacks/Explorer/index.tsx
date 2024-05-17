@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
 import { createDrawerNavigator } from 'components/DrawerNavigation';
-import WidgetScreen from 'screens/Dashboard/Widget';
 import CollectionStack from 'stacks/Explorer/CollectionStack';
+import WidgetStack from 'stacks/Widget';
 import { appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
 import type { ExploreParamList } from 'utils/navigation';
@@ -33,7 +33,7 @@ export const ExplorerStack = () => {
 			screenOptions={screenOptions}
 			backBehavior="order"
 		>
-			<Drawer.Screen name="Widget" component={WidgetScreen} options={options} />
+			<Drawer.Screen name="Widget" component={WidgetStack} options={options} />
 			<Drawer.Screen
 				name="Collection"
 				component={CollectionStack}

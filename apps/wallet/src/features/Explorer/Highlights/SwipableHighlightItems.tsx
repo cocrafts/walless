@@ -62,7 +62,13 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 	const handleOpenWidget = (id: string) => {
 		navigate('Dashboard', {
 			screen: 'Explore',
-			params: { screen: 'Widget', params: { id } },
+			params: {
+				screen: 'Widget',
+				params: {
+					screen: 'Default',
+					params: { id },
+				},
+			},
 		});
 	};
 

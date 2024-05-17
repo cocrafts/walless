@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const getValuationDisplay = (valuation: number, isPrivate?: boolean) => {
+export const getValuationDisplay = (valuation: number, isPrivate?: boolean) => {
 	if (isPrivate) {
 		return '******';
 	}

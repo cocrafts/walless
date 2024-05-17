@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
@@ -18,7 +18,7 @@ interface Props {
 
 export const ExplorerFeature: FC<Props> = ({ style }) => {
 	return (
-		<View style={[style, styles.container]}>
+		<View style={[style]}>
 			<Header />
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<Missions />
@@ -30,10 +30,3 @@ export const ExplorerFeature: FC<Props> = ({ style }) => {
 };
 
 export default ExplorerFeature;
-
-const styles = StyleSheet.create({
-	container: {},
-	widgetItem: {
-		marginHorizontal: 16,
-	},
-});

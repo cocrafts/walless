@@ -21,7 +21,13 @@ const Widgets = () => {
 	const handleOpenWidget = (id: string) => {
 		navigate('Dashboard', {
 			screen: 'Explore',
-			params: { screen: 'Widget', params: { id } },
+			params: {
+				screen: 'Widget',
+				params: {
+					screen: 'Default',
+					params: { id },
+				},
+			},
 		});
 	};
 	const handleAddWidget = (widget: WidgetDocument) => {

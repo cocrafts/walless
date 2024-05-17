@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
+import type { WidgetType } from '@walless/core';
 
 const AnimatedHoverable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -10,8 +11,8 @@ interface AnimatedCategoryButtonProps {
 
 interface CategoryButtonProps {
 	index: number;
-	title: string;
-	onPress: (index: number) => void;
+	title: WidgetType;
+	onPress: (index: number, category: WidgetType) => void;
 	scrollXAnimated: Animated.Value;
 	inputRange: number[];
 	outputRange: AnimatedCategoryButtonProps[];
@@ -54,7 +55,7 @@ const CategoryButton: FC<CategoryButtonProps> = ({
 	return (
 		<AnimatedHoverable
 			style={[styles.container, containerAnimatedStyle]}
-			onPress={() => onPress(index)}
+			onPress={() => onPress(index, title)}
 		>
 			<Animated.Text style={[styles.title, titleAnimatedStyle]}>
 				{title}

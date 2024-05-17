@@ -1,19 +1,20 @@
+import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import { Animated, Easing, StyleSheet } from 'react-native';
+import { WidgetType } from '@walless/core';
+import type { WidgetDocument } from '@walless/store';
+import { mockLayoutCards } from 'browser/kernel/utils/mockExtension';
 
 import CategoryButton from './CategoryButton';
 
-enum Category {
-	NETWORK = 'Network',
-	GAME = 'Game',
-	DEFI = 'DeFi',
-	NFT = 'NFT',
+interface CategoryButtonsProps {
+	setWidgets: (widgets: WidgetDocument[]) => void;
 }
 
-const CategoryButtons = () => {
+const CategoryButtons: FC<CategoryButtonsProps> = ({ setWidgets }) => {
 	const scrollXIndex = useRef(new Animated.Value(0)).current;
 	const scrollXAnimated = useRef(new Animated.Value(0)).current;
-	const categories = Object.values(Category);
+	const categories = Object.values(WidgetType);
 
 	const borderColor = '#23303C';
 	const color = '#A4B3C1';
@@ -23,13 +24,19 @@ const CategoryButtons = () => {
 		color,
 	}));
 
-	const handleCategoryPress = (index: number) => {
+	const handleCategoryPress = (index: number, category: WidgetType) => {
 		scrollXIndex.setValue(index);
+		const filteredLayoutCards = mockLayoutCards.filter(
+			(item) => item.widgetType === category,
+		);
+		setWidgets(filteredLayoutCards);
 	};
 
 	useEffect(() => {
-		Animated.spring(scrollXAnimated, {
+		Animated.timing(scrollXAnimated, {
 			toValue: scrollXIndex,
+			easing: Easing.linear,
+			duration: 200,
 			useNativeDriver: true,
 		}).start();
 	}, []);

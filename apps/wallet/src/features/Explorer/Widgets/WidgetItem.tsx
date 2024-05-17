@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Button, Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
@@ -9,6 +9,7 @@ interface WidgetItemProps {
 	description: string;
 	activeCount: number;
 	loveCount: number;
+	isAdded: boolean;
 	onPress: () => void;
 }
 
@@ -18,6 +19,7 @@ const WidgetItem: FC<WidgetItemProps> = ({
 	description,
 	activeCount,
 	loveCount,
+	isAdded,
 	onPress,
 }) => {
 	return (
@@ -41,8 +43,13 @@ const WidgetItem: FC<WidgetItemProps> = ({
 					</View>
 				</View>
 			</View>
-			<Button style={styles.addBtn} onPress={onPress}>
-				<Text>OPEN</Text>
+			<Button
+				style={isAdded ? styles.openBtn : styles.addBtn}
+				onPress={onPress}
+			>
+				<Text style={isAdded ? styles.openBtnText : styles.addBtnText}>
+					{isAdded ? 'OPEN' : 'ADD'}
+				</Text>
 			</Button>
 		</View>
 	);
@@ -101,6 +108,21 @@ const styles = StyleSheet.create({
 		borderRadius: 6,
 		width: 62,
 		height: 28,
+	},
+	openBtn: {
+		alignSelf: 'center',
+		backgroundColor: '#2D3C4A',
+		borderRadius: 6,
+		width: 62,
+		height: 28,
+	},
+	openBtnText: {
+		color: '#19A3E1',
+		fontSize: 12,
+	},
+	addBtnText: {
+		color: '#ffffff',
+		fontSize: 12,
 	},
 	description: {
 		color: '#798997',

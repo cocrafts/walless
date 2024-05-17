@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-import { mockLayoutCards } from 'browser/kernel/utils/mockExtension';
-
-import SwipableHighlightItems from '../SwipableHighlightItems';
+import { mockWidgets } from 'state/widget';
 
 import HighlightIndicator from './HighlightIndicator';
+import SwipableHighlightItems from './SwipableHighlightItems';
 
 const Highlights = () => {
 	const [index, setIndex] = useState(0);
@@ -38,12 +37,12 @@ const Highlights = () => {
 				<SwipableHighlightItems
 					setActiveIndex={setActiveIndex}
 					activeIndex={index}
-					data={mockLayoutCards}
+					data={mockWidgets}
 					scrollXIndex={scrollXIndex}
 				/>
 
 				<HighlightIndicator
-					dataLength={mockLayoutCards.length}
+					dataLength={mockWidgets.length}
 					setActiveIndex={setActiveIndex}
 					scrollXIndex={scrollXIndex}
 				/>

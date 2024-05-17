@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { ImageSourcePropType } from 'react-native';
 import { Animated, Image, StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
-import { Heart, Plus } from '@walless/icons';
+import { ArrowTopRight, Heart, Plus } from '@walless/icons';
 
 const ITEM_WIDTH = 273;
 interface AnimationFlatListProps {
@@ -17,7 +17,9 @@ interface HighlightItemProps {
 	description: string;
 	loveCount: number;
 	activeCount: number;
+	isAdded?: boolean;
 	animation?: AnimationFlatListProps;
+	onPress?: () => void;
 }
 
 const HighlightItem: FC<HighlightItemProps> = ({
@@ -27,7 +29,9 @@ const HighlightItem: FC<HighlightItemProps> = ({
 	description,
 	loveCount,
 	activeCount,
+	isAdded,
 	animation,
+	onPress,
 }) => {
 	const { index, scrollXAnimated, maxItems } =
 		animation as AnimationFlatListProps;
@@ -79,8 +83,8 @@ const HighlightItem: FC<HighlightItemProps> = ({
 						</View>
 					</View>
 				</View>
-				<Hoverable style={styles.addBtn}>
-					<Plus />
+				<Hoverable style={styles.addBtn} onPress={onPress}>
+					{isAdded ? <ArrowTopRight /> : <Plus />}
 				</Hoverable>
 			</View>
 		</Animated.View>

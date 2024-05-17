@@ -13,14 +13,17 @@ import {
 } from 'react-native-gesture-handler';
 import { Easing } from 'react-native-reanimated';
 import { View } from '@walless/gui';
-import type { ExtensionDocument } from '@walless/store';
+import type { WidgetDocument } from '@walless/store';
+import { useWidgets } from 'utils/hooks';
+import { navigate } from 'utils/navigation';
+import { addWidgetToStorage } from 'utils/storage';
 
-import HighlightItem from './Highlights/HighlightItem';
+import HighlightItem from './HighlightItem';
 
 interface SwipableHighlightItemsProps {
 	setActiveIndex: (activeIndex: number) => void;
 	activeIndex: number;
-	data: ExtensionDocument[];
+	data: WidgetDocument[];
 	scrollXIndex: Animated.Value;
 }
 
@@ -31,14 +34,10 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 	scrollXIndex,
 }) => {
 	const scrollXAnimated = useRef(new Animated.Value(0)).current;
+	const activeWidgets = useWidgets().map((widget) => widget._id);
 
-	useEffect(() => {
-		Animated.timing(scrollXAnimated, {
-			toValue: scrollXIndex,
-			easing: Easing.inOut(Easing.ease),
-			useNativeDriver: true,
-		}).start();
-	}, []);
+	const leftFling = Gesture.Fling();
+	const rightFling = Gesture.Fling();
 
 	const handleSwipeLeft = useCallback(
 		(event: GestureStateChangeEvent<FlingGestureHandlerEventPayload>) => {
@@ -60,8 +59,25 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 		[activeIndex],
 	);
 
-	const leftFling = Gesture.Fling();
-	const rightFling = Gesture.Fling();
+	const handleOpenWidget = (id: string) => {
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: { screen: 'Widget', params: { id } },
+		});
+	};
+
+	const handleAddWidget = (widget: WidgetDocument) => {
+		addWidgetToStorage(widget._id, widget);
+		handleOpenWidget(widget._id);
+	};
+
+	useEffect(() => {
+		Animated.timing(scrollXAnimated, {
+			toValue: scrollXIndex,
+			easing: Easing.inOut(Easing.ease),
+			useNativeDriver: true,
+		}).start();
+	}, []);
 
 	return (
 		<GestureDetector
@@ -76,6 +92,7 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 					scrollEventThrottle={16}
 					bounces={false}
 					keyExtractor={(_, index) => index.toString()}
+					scrollEnabled={false}
 					data={data}
 					horizontal
 					inverted
@@ -90,7 +107,7 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 						);
 					}}
 					renderItem={({ item, index }) => {
-						const { name, storeMeta, networkMeta } = item as ExtensionDocument;
+						const { name, storeMeta, networkMeta } = item as WidgetDocument;
 						return (
 							<HighlightItem
 								key={index.toString()}
@@ -101,6 +118,14 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 								activeCount={storeMeta.activeCount}
 								description={storeMeta.description}
 								animation={{ index, scrollXAnimated, maxItems: 3 }}
+								onPress={() => {
+									if (activeWidgets.includes(item._id)) {
+										handleOpenWidget(item._id);
+										return;
+									}
+									handleAddWidget(item);
+								}}
+								isAdded={activeWidgets.includes(item._id)}
 							/>
 						);
 					}}

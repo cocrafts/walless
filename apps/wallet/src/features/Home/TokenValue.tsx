@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Hoverable, Text } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
+import TotalPnL from 'components/TotalPnL';
 import { useSettings } from 'utils/hooks';
 
 interface Props {
@@ -10,10 +11,6 @@ interface Props {
 
 const TokenValue: FC<Props> = ({ value }) => {
 	const { setting, setPrivacy } = useSettings();
-	const balanceTextStyle = [
-		styles.balanceText,
-		setting.hideBalance && styles.protectedBalance,
-	];
 
 	const handleToggleTokenValue = async () => {
 		setPrivacy(!setting.hideBalance);
@@ -22,17 +19,20 @@ const TokenValue: FC<Props> = ({ value }) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.headingText}>Token value</Text>
-			<View style={styles.balanceContainer}>
-				<Text style={balanceTextStyle}>
-					{setting.hideBalance ? '****' : '$' + value.toFixed(2)}
-				</Text>
-				<Hoverable onPress={handleToggleTokenValue}>
-					{setting.hideBalance ? (
-						<Eye size={20} color="#566674" />
-					) : (
-						<EyeOff size={20} color="#566674" />
-					)}
-				</Hoverable>
+			<View style={styles.balanceAndPercentageContainer}>
+				<View style={styles.balanceContainer}>
+					<Text style={styles.balanceText}>
+						{setting.hideBalance ? '****' : '$' + value.toFixed(2)}
+					</Text>
+					<Hoverable onPress={handleToggleTokenValue}>
+						{setting.hideBalance ? (
+							<Eye size={20} color="#566674" />
+						) : (
+							<EyeOff size={20} color="#566674" />
+						)}
+					</Hoverable>
+				</View>
+				<TotalPnL value={-123} percentage={11.34} isDarkTheme={false} />
 			</View>
 		</View>
 	);
@@ -53,14 +53,13 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 12,
-		minHeight: 84,
 	},
 	balanceText: {
 		color: '#FFFFFF',
 		fontSize: 40,
 		fontWeight: '500',
 	},
-	protectedBalance: {
-		paddingTop: 16,
+	balanceAndPercentageContainer: {
+		alignItems: 'center',
 	},
 });

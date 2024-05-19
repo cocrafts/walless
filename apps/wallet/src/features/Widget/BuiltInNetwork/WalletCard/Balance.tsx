@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
+import TotalPnL from 'components/TotalPnL';
 import numeral from 'numeral';
 
 interface Props {
@@ -30,6 +31,9 @@ export const WalletBalance: FC<Props> = ({
 					{getValuationDisplay(valuation, hideBalance)}
 				</Text>
 			</View>
+			<View style={styles.pnLContainer}>
+				<TotalPnL value={123.34} percentage={11.34} isDarkTheme={true} />
+			</View>
 		</View>
 	);
 };
@@ -44,7 +48,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingLeft: 5,
-		paddingBottom: 20,
 		gap: 10,
 	},
 	balanceText: {
@@ -59,6 +62,9 @@ const styles = StyleSheet.create({
 	estimationText: {
 		opacity: 0.6,
 		marginLeft: 34,
+	},
+	pnLContainer: {
+		paddingLeft: 15,
 	},
 });
 

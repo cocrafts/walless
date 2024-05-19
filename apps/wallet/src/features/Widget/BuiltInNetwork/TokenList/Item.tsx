@@ -25,7 +25,10 @@ export const TokenItem: FC<Props> = ({ style, token, onPress }) => {
 			<Image style={styles.iconImg} source={iconSource} resizeMode="cover" />
 			<View style={styles.infoContainer}>
 				<Text style={styles.primaryText}>{itemName}</Text>
-				<Text style={styles.secondaryText}>{formatQuote(unitQuote)}</Text>
+				<View style={styles.unitQuoteContainer}>
+					<Text style={styles.secondaryText}>{formatQuote(unitQuote)}</Text>
+					<Text style={styles.profitText}>+7.34%</Text>
+				</View>
 			</View>
 			<View style={styles.balanceContainer}>
 				<Text style={styles.primaryText}>{balance}</Text>
@@ -74,5 +77,18 @@ const styles = StyleSheet.create({
 	secondaryText: {
 		color: '#566674',
 		fontSize: 13,
+	},
+	unitQuoteContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 8,
+	},
+	profitText: {
+		color: '#60C591',
+		fontSize: 10,
+	},
+	lostText: {
+		color: '#AE3939',
+		fontSize: 10,
 	},
 });

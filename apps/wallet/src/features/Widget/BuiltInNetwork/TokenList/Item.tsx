@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
 	profitText: {
 		color: '#60C591',
 		fontSize: 10,
+		alignSelf: 'flex-end',
 	},
 	lostText: {
 		color: '#AE3939',

@@ -24,7 +24,7 @@ const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
 							: styles.lightThemeProfitValue
 				}
 			>
-				${value}
+				{isLost ? `$${-value}` : `$${value}`}
 			</Text>
 			<View
 				style={[
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 	},
 	darkThemeProfitValue: {
-		color: '#173124',
+		color: '#ffffff',
 		fontSize: 20,
 	},
 	lightThemeLostValue: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 	},
 	darkThemeLostValue: {
-		color: '#173124',
+		color: '#ffffff',
 		fontSize: 20,
 	},
 	lightThemeProfitPercentage: {
@@ -84,10 +84,10 @@ const styles = StyleSheet.create({
 		color: '#AE3939',
 	},
 	darkThemeProfitPercentage: {
-		color: '#173124',
+		color: '#ffffff',
 	},
 	darkThemeLostPercentage: {
-		color: '#173124',
+		color: '#ffffff',
 	},
 	percentageContainer: {
 		borderRadius: 4,
@@ -98,12 +98,12 @@ const styles = StyleSheet.create({
 		backgroundColor: '#AE393933',
 	},
 	darkThemeProfitPercentageContainer: {
-		backgroundColor: '#60C591',
+		backgroundColor: '#2A9960',
 	},
 	lightThemeLostPercentageContainer: {
 		backgroundColor: '#AE393933',
 	},
 	darkThemeLostPercentageContainer: {
-		backgroundColor: '#AE3939',
+		backgroundColor: '#941200',
 	},
 });

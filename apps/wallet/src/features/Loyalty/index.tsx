@@ -6,7 +6,7 @@ import type { TabAble } from '@walless/gui';
 import { activatedStyle, deactivatedStyle, SliderTabs } from '@walless/gui';
 import { loyaltyActions, loyaltyState } from 'state/loyalty';
 import { qlClient } from 'utils/graphql';
-import { useSnapshot } from 'utils/hooks';
+import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
 import AchievementsTab from './AchievementsTab';
 import LeaderboardTab from './LeaderboardTab';
@@ -31,6 +31,7 @@ const tabs: TabAble[] = [
 const LoyaltyFeature = () => {
 	const [activeTab, setActiveTab] = useState(tabs[0]);
 	const { userProgress } = useSnapshot(loyaltyState);
+	const { bottom } = useSafeAreaInsets();
 
 	useEffect(() => {
 		const fetchLoyaltyProgress = async () => {
@@ -53,7 +54,12 @@ const LoyaltyFeature = () => {
 				point={userProgress?.totalPoints ?? 0}
 			/>
 
-			<View style={styles.bottomContainer}>
+			<View
+				style={[
+					styles.bottomContainer,
+					{ paddingBottom: Math.max(bottom, 16) },
+				]}
+			>
 				<SliderTabs
 					items={tabs}
 					activeItem={activeTab}

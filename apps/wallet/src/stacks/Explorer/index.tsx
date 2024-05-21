@@ -35,7 +35,7 @@ export const ExplorerStack = () => {
 		() =>
 			withStackContainer(LoyaltyScreen, {
 				title: 'Walless Rewards',
-				noBottomTabs: !navigationDisplay.isBottomTabActive,
+				noBottomTabs: true,
 				goBack: () =>
 					navigate('Dashboard', {
 						screen: 'Explore',

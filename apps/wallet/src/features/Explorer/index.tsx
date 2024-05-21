@@ -35,6 +35,7 @@ export const ExplorerFeature: FC<Props> = ({
 	const [searchString, setSearchString] = useState('');
 	const contentContainerStyle: ViewStyle = {
 		paddingBottom: insets.bottom,
+		marginHorizontal: 16,
 	};
 
 	const activeWidgets = useWidgets().map((widget) => widget._id);
@@ -49,7 +50,7 @@ export const ExplorerFeature: FC<Props> = ({
 	};
 
 	return (
-		<View style={[styles.container, style]}>
+		<View style={style}>
 			{isHeaderActive && (
 				<StackHeader
 					onToggleDrawer={onToggleDrawer}
@@ -92,9 +93,6 @@ export const ExplorerFeature: FC<Props> = ({
 export default ExplorerFeature;
 
 const styles = StyleSheet.create({
-	container: {
-		marginHorizontal: 16,
-	},
 	searchBar: {
 		backgroundColor: '#19232c',
 		marginBottom: 8,
@@ -102,6 +100,7 @@ const styles = StyleSheet.create({
 	loyaltyBar: {
 		marginTop: 16,
 		marginBottom: 12,
+		maxHeight: 72,
 	},
 	searchInput: {
 		bottom: -8,

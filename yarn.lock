@@ -3262,6 +3262,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@coral-xyz/borsh@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "@coral-xyz/borsh@npm:0.30.0"
+  dependencies:
+    bn.js: "npm:^5.1.2"
+    buffer-layout: "npm:^1.2.0"
+  peerDependencies:
+    "@solana/web3.js": ^1.68.0
+  checksum: 10/9805bc13cce3e817a4d5d56f80755342cb03c06af088c3b1da7b00c66e4839d4ecdc6530073e483957dff38deb30446d679416495534b45d1af31e2076ac6e20
+  languageName: node
+  linkType: hard
+
 "@craftzdog/pouchdb-adapter-websql-core@npm:^7.2.3":
   version: 7.2.3
   resolution: "@craftzdog/pouchdb-adapter-websql-core@npm:7.2.3"
@@ -11847,6 +11859,7 @@ __metadata:
   dependencies:
     "@babel/plugin-proposal-export-namespace-from": "npm:^7.18.9"
     "@coral-xyz/anchor": "npm:^0.29.0"
+    "@coral-xyz/borsh": "npm:^0.30.0"
     "@craftzdog/pouchdb-collate-react-native": "npm:^7.3.0"
     "@craftzdog/react-native-buffer": "npm:^6.0.5"
     "@dreson4/react-native-quick-bip39": "npm:0.0.5"

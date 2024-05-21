@@ -148,7 +148,7 @@ export const styles = StyleSheet.create({
 	logo: {
 		width: 83,
 		height: 43,
-		marginHorizontal: 'auto',
+		alignSelf: 'center',
 	},
 	titleContainer: {
 		paddingVertical: 40,

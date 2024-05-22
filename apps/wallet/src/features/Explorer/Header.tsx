@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { Hoverable, Text, View } from '@walless/gui';
+import { StyleSheet, Text } from 'react-native';
+import { Hoverable, View } from '@walless/gui';
 import { Eye, EyeOff, Settings } from '@walless/icons';
 import { getValuationDisplay } from 'features/Widget/BuiltInNetwork/WalletCard/Balance';
 import { appState } from 'state/app';
@@ -27,7 +27,7 @@ const Header = () => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.balanceContainer}>
-				<Text>Hi👋, your balance today:</Text>
+				<Text style={styles.helloText}>Hi👋, your balance today:</Text>
 				<View style={styles.tokenValuationContainer}>
 					<Hoverable
 						onPress={() => {
@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingVertical: 10,
 		paddingHorizontal: 16,
+	},
+	helloText: {
+		color: '#ffffff',
 	},
 	balanceContainer: {
 		gap: 4,

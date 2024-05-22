@@ -20,11 +20,9 @@ const HighlightIndicator: FC<HighlightIndicatorProps> = ({
 	const data = Array.from({ length: dataLength }, (_, i) => i);
 
 	const backgroundColor = '#566674';
-	const height = 6;
 
 	const inputRange = data;
 	const outputRange = Array.from({ length: dataLength }, () => ({
-		height,
 		backgroundColor,
 	}));
 

@@ -1,45 +1,42 @@
 import { type FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { runtime } from '@walless/core';
 import { Button, Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
+import type { WidgetDocument } from '@walless/store';
+import assets from 'utils/assets';
 
 interface WidgetItemProps {
-	coverImage: string;
-	title: string;
-	description: string;
-	activeCount: number;
-	loveCount: number;
+	widget: WidgetDocument;
 	isAdded: boolean;
 	onPress: () => void;
 }
 
-const WidgetItem: FC<WidgetItemProps> = ({
-	coverImage,
-	title,
-	description,
-	activeCount,
-	loveCount,
-	isAdded,
-	onPress,
-}) => {
+const WidgetItem: FC<WidgetItemProps> = ({ widget, isAdded, onPress }) => {
+	const coverImgResource = runtime.isMobile
+		? assets.widget[widget._id]?.storeMeta.coverUri
+		: { uri: widget.storeMeta.coverUri };
+
 	return (
 		<View style={styles.container}>
-			<Image style={styles.coverImage} source={{ uri: coverImage }} />
+			<Image style={styles.coverImage} source={coverImgResource} />
 			<View style={styles.middlePart}>
 				<Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
-					{title}
+					{widget.name}
 				</Text>
 				<Text style={styles.description} numberOfLines={1} ellipsizeMode="tail">
-					{description}
+					{widget.storeMeta.description}
 				</Text>
 				<View style={styles.loveAndActiveContainer}>
 					<View style={styles.loveAndActiveDisplay}>
 						<Heart colors={['#D93737', '#D93737']} size={12} />
-						<Text style={styles.loveText}>{loveCount}</Text>
+						<Text style={styles.loveText}>{widget.storeMeta.loveCount}</Text>
 					</View>
 					<View style={styles.loveAndActiveDisplay}>
 						<View style={styles.activeIcon} />
-						<Text style={styles.activeText}>{activeCount}</Text>
+						<Text style={styles.activeText}>
+							{widget.storeMeta.activeCount}
+						</Text>
 					</View>
 				</View>
 			</View>

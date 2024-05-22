@@ -22,27 +22,18 @@ const IndicatorDot: FC<IndicatorDotProps> = ({
 	outputRange,
 }) => {
 	const activeBackgroundColor = '#0694D3';
-	const activeHeight = 40;
-
-	const heightOutputRange = outputRange.map((output) => output.height);
-	heightOutputRange[index] = activeHeight;
 
 	const backgroundColorOutputRange = outputRange.map(
 		(output) => output.backgroundColor,
 	);
 	backgroundColorOutputRange[index] = activeBackgroundColor;
 
-	const height = scrollXAnimated.interpolate({
-		inputRange,
-		outputRange: heightOutputRange as number[],
-	});
 	const backgroundColor = scrollXAnimated.interpolate({
 		inputRange,
 		outputRange: backgroundColorOutputRange as string[],
 	});
 
 	const animatedStyle = {
-		height,
 		backgroundColor,
 	};
 

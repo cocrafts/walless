@@ -113,16 +113,10 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 						);
 					}}
 					renderItem={({ item, index }) => {
-						const { name, storeMeta, networkMeta } = item as WidgetDocument;
 						return (
 							<HighlightItem
 								key={index.toString()}
-								title={name}
-								coverUri={{ uri: storeMeta.coverUri }}
-								iconUri={{ uri: networkMeta.iconUri }}
-								loveCount={storeMeta.loveCount}
-								activeCount={storeMeta.activeCount}
-								description={storeMeta.description}
+								widget={item}
 								animation={{ index, scrollXAnimated, maxItems: 3 }}
 								onPress={() => {
 									if (activeWidgets.includes(item._id)) {

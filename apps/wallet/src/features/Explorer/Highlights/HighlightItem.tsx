@@ -1,8 +1,16 @@
 import type { FC } from 'react';
-import type { ImageSourcePropType } from 'react-native';
-import { Animated, Image, StyleSheet } from 'react-native';
-import { Hoverable, Text, View } from '@walless/gui';
+import {
+	Animated,
+	Image,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
+import { runtime } from '@walless/core';
 import { ArrowTopRight, Heart, Plus } from '@walless/icons';
+import type { WidgetDocument } from '@walless/store';
+import assets from 'utils/assets';
 
 const ITEM_WIDTH = 273;
 interface AnimationFlatListProps {
@@ -11,27 +19,17 @@ interface AnimationFlatListProps {
 	maxItems: number;
 }
 interface HighlightItemProps {
-	coverUri: ImageSourcePropType;
-	iconUri: ImageSourcePropType;
-	title: string;
-	description: string;
-	loveCount: number;
-	activeCount: number;
+	widget: WidgetDocument;
 	isAdded?: boolean;
 	animation?: AnimationFlatListProps;
 	onPress?: () => void;
 }
 
 const HighlightItem: FC<HighlightItemProps> = ({
-	coverUri,
-	iconUri,
-	title,
-	description,
-	loveCount,
-	activeCount,
 	isAdded,
 	animation,
 	onPress,
+	widget,
 }) => {
 	const { index, scrollXAnimated, maxItems } =
 		animation as AnimationFlatListProps;
@@ -40,6 +38,14 @@ const HighlightItem: FC<HighlightItemProps> = ({
 		inputRange,
 		outputRange: [40, 0, -100],
 	});
+
+	const coverImgResource = runtime.isMobile
+		? assets.widget[widget._id]?.storeMeta.coverUri
+		: { uri: widget.storeMeta.coverUri };
+
+	const logoImgResource = runtime.isMobile
+		? assets.widget[widget._id]?.storeMeta.iconUri
+		: { uri: widget.storeMeta.iconUri };
 
 	const scale = scrollXAnimated.interpolate({
 		inputRange,
@@ -58,34 +64,36 @@ const HighlightItem: FC<HighlightItemProps> = ({
 
 	return (
 		<Animated.View style={[styles.container, animatedStyle]}>
-			<Image style={styles.coverImage} source={coverUri} />
+			<Image style={styles.coverImage} source={coverImgResource} />
 			<View style={styles.infoContainer}>
-				<Image style={styles.iconImage} source={iconUri} />
+				<Image style={styles.iconImage} source={logoImgResource} />
 				<View style={styles.middlePart}>
 					<Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
-						{title}
+						{widget.name}
 					</Text>
 					<Text
 						style={styles.description}
 						numberOfLines={1}
 						ellipsizeMode="tail"
 					>
-						{description}
+						{widget.storeMeta.description}
 					</Text>
 					<View style={styles.loveAndActiveContainer}>
 						<View style={styles.loveAndActiveDisplay}>
 							<Heart colors={['#D93737', '#D93737']} size={12} />
-							<Text style={styles.loveText}>{loveCount}</Text>
+							<Text style={styles.loveText}>{widget.storeMeta.loveCount}</Text>
 						</View>
 						<View style={styles.loveAndActiveDisplay}>
 							<View style={styles.activeIcon} />
-							<Text style={styles.activeText}>{activeCount}</Text>
+							<Text style={styles.activeText}>
+								{widget.storeMeta.activeCount}
+							</Text>
 						</View>
 					</View>
 				</View>
-				<Hoverable style={styles.addBtn} onPress={onPress}>
+				<TouchableOpacity style={styles.addBtn} onPress={onPress}>
 					{isAdded ? <ArrowTopRight /> : <Plus />}
-				</Hoverable>
+				</TouchableOpacity>
 			</View>
 		</Animated.View>
 	);

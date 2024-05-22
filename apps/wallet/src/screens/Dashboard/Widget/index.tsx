@@ -5,19 +5,20 @@ import ExplorerFeature from 'features/Explorer';
 import WidgetFeature from 'features/Widget';
 import { appState } from 'state/app';
 import { mockWidgets } from 'state/widget';
-import { useSnapshot } from 'utils/hooks';
+import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 import type { WidgetParamList } from 'utils/navigation';
 
 type Props = DrawerScreenProps<WidgetParamList, 'Default'>;
 
 export const WidgetScreen: FC<Props> = ({ navigation, route }) => {
+	const { top, bottom } = useSafeAreaInsets();
 	const { navigationDisplay } = useSnapshot(appState);
 	const widgetId = route.params?.id;
 
 	if (!widgetId || widgetId === 'explorer') {
 		return (
 			<ExplorerFeature
-				style={styles.container}
+				style={[styles.container, { paddingTop: top, paddingBottom: bottom }]}
 				isHeaderActive={navigationDisplay.isNavigationHeaderActive}
 				onToggleDrawer={navigation.toggleDrawer}
 			/>

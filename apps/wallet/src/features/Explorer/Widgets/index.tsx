@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { WidgetType } from '@walless/core';
-import { Text, View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 import { mockWidgets } from 'state/widget';
 import { useWidgets } from 'utils/hooks';
@@ -43,11 +42,7 @@ const Widgets = () => {
 				{widgets.map((card) => (
 					<WidgetItem
 						key={card._id}
-						coverImage={card.storeMeta.coverUri}
-						title={card.name}
-						description={card.storeMeta.description}
-						activeCount={card.storeMeta.activeCount}
-						loveCount={card.storeMeta.loveCount}
+						widget={card}
 						isAdded={activeWidgets.includes(card._id)}
 						onPress={() => {
 							if (activeWidgets.includes(card._id)) {

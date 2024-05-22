@@ -1,7 +1,7 @@
 import { type FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { Button, Text, View } from '@walless/gui';
+import { Button, View } from '@walless/gui';
 import { Chair, InfoIcon, MissionBackground } from '@walless/icons';
 
 interface MissionProps {

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, StyleSheet } from 'react-native';
-import { Text, View } from '@walless/gui';
+import { Animated, StyleSheet, Text } from 'react-native';
+import { View } from '@walless/gui';
 import { mockWidgets } from 'state/widget';
 
 import HighlightIndicator from './HighlightIndicator';
@@ -9,7 +9,6 @@ import SwipableHighlightItems from './SwipableHighlightItems';
 const Highlights = () => {
 	const [index, setIndex] = useState(0);
 	const scrollXIndex = useRef(new Animated.Value(0)).current;
-	const scrollXAnimated = useRef(new Animated.Value(0)).current;
 	const scrollXAnimatedIndicator = useRef(new Animated.Value(0)).current;
 
 	const setActiveIndex = useCallback((activeIndex: number) => {
@@ -18,11 +17,6 @@ const Highlights = () => {
 	}, []);
 
 	useEffect(() => {
-		Animated.spring(scrollXAnimated, {
-			toValue: scrollXIndex,
-			useNativeDriver: true,
-		}).start();
-
 		Animated.timing(scrollXAnimatedIndicator, {
 			toValue: scrollXIndex,
 			duration: 200,

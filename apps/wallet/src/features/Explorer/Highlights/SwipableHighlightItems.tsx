@@ -1,6 +1,7 @@
 import type { FC } from 'react';
-import { useCallback, useEffect, useRef } from 'react';
-import { Animated, FlatList, StyleSheet } from 'react-native';
+import { useCallback, useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import type {
 	FlingGestureHandlerEventPayload,
 	GestureStateChangeEvent,
@@ -9,11 +10,17 @@ import {
 	Directions,
 	Gesture,
 	GestureDetector,
+	GestureHandlerRootView,
 	State,
 } from 'react-native-gesture-handler';
-import { Easing } from 'react-native-reanimated';
-import { View } from '@walless/gui';
+import type { SharedValue } from 'react-native-reanimated';
+import Animated, {
+	useSharedValue,
+	withSpring,
+	withTiming,
+} from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
+import { mockWidgets } from 'state/widget';
 import { useWidgets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { addWidgetToStorage } from 'utils/storage';
@@ -24,26 +31,26 @@ interface SwipableHighlightItemsProps {
 	setActiveIndex: (activeIndex: number) => void;
 	activeIndex: number;
 	data: WidgetDocument[];
-	scrollXIndex: Animated.Value;
+	currentIndex: SharedValue<number>;
 }
 
 const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 	setActiveIndex,
 	activeIndex,
 	data,
-	scrollXIndex,
+	currentIndex,
 }) => {
-	const scrollXAnimated = useRef(new Animated.Value(0)).current;
+	const prevIndex = useSharedValue(0);
+	const animatedValue = useSharedValue(0);
 	const activeWidgets = useWidgets().map((widget) => widget._id);
-
-	const leftFling = Gesture.Fling();
-	const rightFling = Gesture.Fling();
 
 	const handleSwipeLeft = useCallback(
 		(event: GestureStateChangeEvent<FlingGestureHandlerEventPayload>) => {
 			if (event.state === State.END) {
 				if (activeIndex === data.length - 1) return;
 				setActiveIndex(activeIndex + 1);
+				console.log('active: ', mockWidgets[activeIndex + 1]);
+				animatedValue.value = withSpring(activeIndex + 1);
 			}
 		},
 		[activeIndex],
@@ -53,11 +60,20 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 		(event: GestureStateChangeEvent<FlingGestureHandlerEventPayload>) => {
 			if (event.state === State.END) {
 				if (activeIndex === 0) return;
+				animatedValue.value = withSpring(activeIndex - 1);
+				console.log(mockWidgets[activeIndex - 1]);
 				setActiveIndex(activeIndex - 1);
 			}
 		},
 		[activeIndex],
 	);
+
+	const leftFling = Gesture.Fling()
+		.direction(Directions.LEFT)
+		.onFinalize(handleSwipeLeft);
+	const rightFling = Gesture.Fling()
+		.direction(Directions.RIGHT)
+		.onFinalize(handleSwipeRight);
 
 	const handleOpenWidget = (id: string) => {
 		navigate('Dashboard', {
@@ -77,61 +93,38 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 		handleOpenWidget(widget._id);
 	};
 
-	useEffect(() => {
-		Animated.timing(scrollXAnimated, {
-			toValue: scrollXIndex,
-			easing: Easing.inOut(Easing.ease),
-			useNativeDriver: true,
-		}).start();
-	}, []);
-
 	return (
-		<GestureDetector
-			gesture={leftFling.direction(Directions.LEFT).onFinalize(handleSwipeLeft)}
-		>
-			<GestureDetector
-				gesture={rightFling
-					.direction(Directions.RIGHT)
-					.onFinalize(handleSwipeRight)}
-			>
-				<FlatList
-					scrollEventThrottle={16}
-					bounces={false}
-					keyExtractor={(_, index) => index.toString()}
-					scrollEnabled={false}
-					data={data}
-					horizontal
-					inverted
-					showsHorizontalScrollIndicator={false}
-					contentContainerStyle={styles.container}
-					CellRendererComponent={({ children, index, style, ...props }) => {
-						const newStyle = [style, { zIndex: data.length - index }];
-						return (
-							<View style={newStyle} index={index} {...props}>
-								{children}
-							</View>
-						);
-					}}
-					renderItem={({ item, index }) => {
-						return (
+		<GestureHandlerRootView>
+			<GestureDetector gesture={leftFling}>
+				<GestureDetector gesture={rightFling}>
+					<Animated.View style={styles.container}>
+						{data.map((widget, index) => (
 							<HighlightItem
 								key={index.toString()}
-								widget={item}
-								animation={{ index, scrollXAnimated, maxItems: 3 }}
+								widget={widget}
+								animation={{
+									index,
+									animatedValue,
+									currentIndex,
+									prevIndex,
+									setActiveIndex,
+									activeIndex,
+									maxItems: 3,
+								}}
 								onPress={() => {
-									if (activeWidgets.includes(item._id)) {
-										handleOpenWidget(item._id);
+									if (activeWidgets.includes(widget._id)) {
+										handleOpenWidget(widget._id);
 										return;
 									}
-									handleAddWidget(item);
+									handleAddWidget(widget);
 								}}
-								isAdded={activeWidgets.includes(item._id)}
+								isAdded={activeWidgets.includes(widget._id)}
 							/>
-						);
-					}}
-				/>
+						))}
+					</Animated.View>
+				</GestureDetector>
 			</GestureDetector>
-		</GestureDetector>
+		</GestureHandlerRootView>
 	);
 };
 

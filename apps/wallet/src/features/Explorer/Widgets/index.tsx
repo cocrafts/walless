@@ -37,7 +37,7 @@ const Widgets = () => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Enhance your collection</Text>
-			<CategoryButtons setWidgets={setWidgets} />
+			{/* <CategoryButtons setWidgets={setWidgets} /> */}
 			<View style={styles.layoutList}>
 				{widgets.map((card) => (
 					<WidgetItem

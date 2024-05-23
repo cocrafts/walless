@@ -1,7 +1,7 @@
-import { type FC } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import type { FC } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { runtime } from '@walless/core';
-import { Button, Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 import assets from 'utils/assets';
@@ -40,14 +40,14 @@ const WidgetItem: FC<WidgetItemProps> = ({ widget, isAdded, onPress }) => {
 					</View>
 				</View>
 			</View>
-			<Button
+			<TouchableOpacity
 				style={[styles.button, isAdded ? styles.openBtn : styles.addBtn]}
 				onPress={onPress}
 			>
 				<Text style={isAdded ? styles.openBtnText : styles.addBtnText}>
 					{isAdded ? 'OPEN' : 'ADD'}
 				</Text>
-			</Button>
+			</TouchableOpacity>
 		</View>
 	);
 };

@@ -1,21 +1,36 @@
-import type { FC } from 'react';
+import { type FC, useCallback } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import type {
+	FlingGestureHandlerEventPayload,
+	HandlerStateChangeEvent,
+} from 'react-native-gesture-handler';
 import {
-	Animated,
-	Image,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from 'react-native';
+	Directions,
+	FlingGestureHandler,
+	State,
+} from 'react-native-gesture-handler';
+import type { SharedValue } from 'react-native-reanimated';
+import Animated, {
+	Easing,
+	interpolate,
+	useAnimatedStyle,
+	withTiming,
+} from 'react-native-reanimated';
 import { runtime } from '@walless/core';
-import { ArrowTopRight, Heart, Plus } from '@walless/icons';
+import { ArrowTopRight, Plus } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 import assets from 'utils/assets';
+
+import LoveAndActiveCount from './LoveAndActiveCount';
 
 const ITEM_WIDTH = 273;
 interface AnimationFlatListProps {
 	index: number;
-	scrollXAnimated: Animated.Value;
+	activeIndex: number;
+	currentIndex: SharedValue<number>;
+	setActiveIndex: (activeIndex: number) => void;
+	animatedValue: SharedValue<number>;
+	prevIndex: SharedValue<number>;
 	maxItems: number;
 }
 interface HighlightItemProps {
@@ -31,13 +46,37 @@ const HighlightItem: FC<HighlightItemProps> = ({
 	onPress,
 	widget,
 }) => {
-	const { index, scrollXAnimated, maxItems } =
-		animation as AnimationFlatListProps;
+	const {
+		index,
+		currentIndex,
+		maxItems,
+		prevIndex,
+		setActiveIndex,
+		activeIndex,
+		animatedValue,
+	} = animation as AnimationFlatListProps;
+
 	const inputRange = [index - 1, index, index + 1];
-	const translateX = scrollXAnimated.interpolate({
-		inputRange,
-		outputRange: [40, 0, -100],
-	});
+	const animatedStyle = useAnimatedStyle(() => {
+		const translateX = interpolate(
+			animatedValue.value,
+			inputRange,
+			[50, 0, -100],
+		);
+
+		const scale = interpolate(animatedValue.value, inputRange, [0.8, 1, 0.8]);
+
+		const opacity = interpolate(animatedValue.value, inputRange, [
+			1 - 1 / maxItems,
+			1,
+			0,
+		]);
+
+		return {
+			transform: [{ translateX }, { scale }],
+			opacity,
+		};
+	}, [currentIndex.value]);
 
 	const coverImgResource = runtime.isMobile
 		? assets.widget[widget._id]?.storeMeta.coverUri
@@ -47,23 +86,33 @@ const HighlightItem: FC<HighlightItemProps> = ({
 		? assets.widget[widget._id]?.storeMeta.iconUri
 		: { uri: widget.storeMeta.iconUri };
 
-	const scale = scrollXAnimated.interpolate({
-		inputRange,
-		outputRange: [0.8, 1, 0.8],
-	});
-
-	const opacity = scrollXAnimated.interpolate({
-		inputRange,
-		outputRange: [1 - 1 / maxItems, 1, 0],
-	});
-
-	const animatedStyle = {
-		transform: [{ translateX }, { scale }],
-		opacity,
+	const containerStyle = {
+		zIndex: maxItems - index,
 	};
 
+	const handleSwipeLeft = useCallback(
+		(event: HandlerStateChangeEvent<FlingGestureHandlerEventPayload>) => {
+			if (event.nativeEvent.state === State.END) {
+				console.log('active: ', widget.name);
+				setActiveIndex(activeIndex + 1);
+				animatedValue.value = withTiming(activeIndex + 1);
+			}
+		},
+		[activeIndex],
+	);
+
+	const handleSwipeRight = useCallback(
+		(event: HandlerStateChangeEvent<FlingGestureHandlerEventPayload>) => {
+			if (event.nativeEvent.state === State.END) {
+				setActiveIndex(activeIndex - 1);
+				animatedValue.value = withTiming(activeIndex - 1);
+			}
+		},
+		[activeIndex],
+	);
+
 	return (
-		<Animated.View style={[styles.container, animatedStyle]}>
+		<Animated.View style={[styles.container, containerStyle, animatedStyle]}>
 			<Image style={styles.coverImage} source={coverImgResource} />
 			<View style={styles.infoContainer}>
 				<Image style={styles.iconImage} source={logoImgResource} />
@@ -78,18 +127,10 @@ const HighlightItem: FC<HighlightItemProps> = ({
 					>
 						{widget.storeMeta.description}
 					</Text>
-					<View style={styles.loveAndActiveContainer}>
-						<View style={styles.loveAndActiveDisplay}>
-							<Heart colors={['#D93737', '#D93737']} size={12} />
-							<Text style={styles.loveText}>{widget.storeMeta.loveCount}</Text>
-						</View>
-						<View style={styles.loveAndActiveDisplay}>
-							<View style={styles.activeIcon} />
-							<Text style={styles.activeText}>
-								{widget.storeMeta.activeCount}
-							</Text>
-						</View>
-					</View>
+					<LoveAndActiveCount
+						loveCount={widget.storeMeta.loveCount}
+						activeCount={widget.storeMeta.activeCount}
+					/>
 				</View>
 				<TouchableOpacity style={styles.addBtn} onPress={onPress}>
 					{isAdded ? <ArrowTopRight /> : <Plus />}
@@ -108,7 +149,6 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		backgroundColor: '#23303C',
 		position: 'absolute',
-		left: -ITEM_WIDTH / 2 - 20,
 	},
 	coverImage: {
 		width: ITEM_WIDTH,
@@ -134,29 +174,6 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 		fontSize: 16,
 		fontWeight: '500',
-	},
-	loveAndActiveContainer: {
-		flexDirection: 'row',
-		gap: 10,
-	},
-	loveAndActiveDisplay: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 4,
-	},
-	activeIcon: {
-		width: 10,
-		height: 10,
-		borderRadius: 6,
-		backgroundColor: '#37B681',
-	},
-	activeText: {
-		color: '#37B681',
-		fontSize: 10,
-	},
-	loveText: {
-		color: '#4E5C69',
-		fontSize: 10,
 	},
 	addBtn: {
 		alignSelf: 'center',

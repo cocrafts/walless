@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { ScrollView } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Animated, StyleSheet, Text } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
 import { View } from '@walless/gui';
 import { mockWidgets } from 'state/widget';
 
@@ -8,21 +9,20 @@ import SwipableHighlightItems from './SwipableHighlightItems';
 
 const Highlights = () => {
 	const [index, setIndex] = useState(0);
-	const scrollXIndex = useRef(new Animated.Value(0)).current;
-	const scrollXAnimatedIndicator = useRef(new Animated.Value(0)).current;
+	const currentIndex = useSharedValue(0);
 
 	const setActiveIndex = useCallback((activeIndex: number) => {
 		setIndex(activeIndex);
-		scrollXIndex.setValue(activeIndex);
+		currentIndex.value = activeIndex;
 	}, []);
 
-	useEffect(() => {
-		Animated.timing(scrollXAnimatedIndicator, {
-			toValue: scrollXIndex,
-			duration: 200,
-			useNativeDriver: true,
-		}).start();
-	}, []);
+	// useEffect(() => {
+	// 	Animated.timing(scrollXAnimatedIndicator, {
+	// 		toValue: scrollXIndex,
+	// 		duration: 200,
+	// 		useNativeDriver: true,
+	// 	}).start();
+	// }, []);
 
 	return (
 		<View style={styles.container}>
@@ -32,14 +32,13 @@ const Highlights = () => {
 					setActiveIndex={setActiveIndex}
 					activeIndex={index}
 					data={mockWidgets}
-					scrollXIndex={scrollXIndex}
+					currentIndex={currentIndex}
 				/>
 
-				<HighlightIndicator
+				{/* <HighlightIndicator
 					dataLength={mockWidgets.length}
 					setActiveIndex={setActiveIndex}
-					scrollXIndex={scrollXIndex}
-				/>
+				/> */}
 			</View>
 		</View>
 	);

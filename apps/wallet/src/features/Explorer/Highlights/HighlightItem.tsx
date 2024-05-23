@@ -1,20 +1,10 @@
-import { type FC, useCallback } from 'react';
+import { type FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import type {
-	FlingGestureHandlerEventPayload,
-	HandlerStateChangeEvent,
-} from 'react-native-gesture-handler';
-import {
-	Directions,
-	FlingGestureHandler,
-	State,
-} from 'react-native-gesture-handler';
+import type {} from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
-	Easing,
 	interpolate,
 	useAnimatedStyle,
-	withTiming,
 } from 'react-native-reanimated';
 import { runtime } from '@walless/core';
 import { ArrowTopRight, Plus } from '@walless/icons';
@@ -46,15 +36,8 @@ const HighlightItem: FC<HighlightItemProps> = ({
 	onPress,
 	widget,
 }) => {
-	const {
-		index,
-		currentIndex,
-		maxItems,
-		prevIndex,
-		setActiveIndex,
-		activeIndex,
-		animatedValue,
-	} = animation as AnimationFlatListProps;
+	const { index, currentIndex, maxItems, animatedValue } =
+		animation as AnimationFlatListProps;
 
 	const inputRange = [index - 1, index, index + 1];
 	const animatedStyle = useAnimatedStyle(() => {
@@ -76,7 +59,7 @@ const HighlightItem: FC<HighlightItemProps> = ({
 			transform: [{ translateX }, { scale }],
 			opacity,
 		};
-	}, [currentIndex.value]);
+	}, [currentIndex]);
 
 	const coverImgResource = runtime.isMobile
 		? assets.widget[widget._id]?.storeMeta.coverUri
@@ -89,27 +72,6 @@ const HighlightItem: FC<HighlightItemProps> = ({
 	const containerStyle = {
 		zIndex: maxItems - index,
 	};
-
-	const handleSwipeLeft = useCallback(
-		(event: HandlerStateChangeEvent<FlingGestureHandlerEventPayload>) => {
-			if (event.nativeEvent.state === State.END) {
-				console.log('active: ', widget.name);
-				setActiveIndex(activeIndex + 1);
-				animatedValue.value = withTiming(activeIndex + 1);
-			}
-		},
-		[activeIndex],
-	);
-
-	const handleSwipeRight = useCallback(
-		(event: HandlerStateChangeEvent<FlingGestureHandlerEventPayload>) => {
-			if (event.nativeEvent.state === State.END) {
-				setActiveIndex(activeIndex - 1);
-				animatedValue.value = withTiming(activeIndex - 1);
-			}
-		},
-		[activeIndex],
-	);
 
 	return (
 		<Animated.View style={[styles.container, containerStyle, animatedStyle]}>

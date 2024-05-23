@@ -1,7 +1,6 @@
 import type { FC } from 'react';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { StyleSheet } from 'react-native';
-import { View } from 'react-native';
 import type {
 	FlingGestureHandlerEventPayload,
 	GestureStateChangeEvent,
@@ -14,11 +13,7 @@ import {
 	State,
 } from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
-import Animated, {
-	useSharedValue,
-	withSpring,
-	withTiming,
-} from 'react-native-reanimated';
+import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
 import { mockWidgets } from 'state/widget';
 import { useWidgets } from 'utils/hooks';

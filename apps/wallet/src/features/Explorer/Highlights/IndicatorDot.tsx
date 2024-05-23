@@ -1,6 +1,12 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
+import Animated, {
+	interpolate,
+	useAnimatedStyle,
+	withTiming,
+} from 'react-native-reanimated';
 
 const AnimatedHoverable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -9,38 +15,49 @@ type IndicatorDotStyleProps = ViewStyle;
 interface IndicatorDotProps {
 	index: number;
 	setActiveIndex: (index: number) => void;
-	scrollXAnimated: Animated.Value;
 	inputRange: number[];
 	outputRange: IndicatorDotStyleProps[];
+	animatedValue: SharedValue<number>;
 }
 
 const IndicatorDot: FC<IndicatorDotProps> = ({
 	index,
 	setActiveIndex,
-	scrollXAnimated,
 	inputRange,
 	outputRange,
+	animatedValue,
 }) => {
-	const activeBackgroundColor = '#0694D3';
+	const heightOutputRange = outputRange.map((output) => output.height);
+	const opacityOutputRange = outputRange.map(() => 0.2);
 
-	const backgroundColorOutputRange = outputRange.map(
-		(output) => output.backgroundColor,
-	);
-	backgroundColorOutputRange[index] = activeBackgroundColor;
+	heightOutputRange[index] = 40;
+	opacityOutputRange[index] = 1;
 
-	const backgroundColor = scrollXAnimated.interpolate({
-		inputRange,
-		outputRange: backgroundColorOutputRange as string[],
-	});
+	const animatedStyle = useAnimatedStyle(() => {
+		const height = interpolate(
+			animatedValue.value,
+			inputRange,
+			heightOutputRange as number[],
+		);
 
-	const animatedStyle = {
-		backgroundColor,
+		const opacity = interpolate(
+			animatedValue.value,
+			inputRange,
+			opacityOutputRange as number[],
+		);
+
+		return { height, opacity };
+	}, [animatedValue]);
+
+	const handleClick = () => {
+		setActiveIndex(index);
+		animatedValue.value = withTiming(index);
 	};
 
 	return (
 		<AnimatedHoverable
 			key={index.toString()}
-			onPress={() => setActiveIndex(index)}
+			onPress={handleClick}
 			style={styles.container}
 		>
 			<Animated.View style={[styles.indicator, animatedStyle]} />
@@ -55,7 +72,7 @@ const styles = StyleSheet.create({
 		padding: 3,
 	},
 	indicator: {
-		backgroundColor: '#566674',
+		backgroundColor: '#0694D3',
 		width: 6,
 		height: 6,
 		borderRadius: 6,

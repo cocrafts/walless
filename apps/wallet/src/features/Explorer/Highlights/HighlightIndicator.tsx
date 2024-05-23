@@ -1,38 +1,30 @@
-import { type FC, useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
+import type { FC } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
 import { View } from '@walless/gui';
 
 import IndicatorDot from './IndicatorDot';
 
 interface HighlightIndicatorProps {
-	scrollXIndex: Animated.Value;
 	dataLength: number;
 	setActiveIndex: (index: number) => void;
+	currentIndex: SharedValue<number>;
+	animatedValue: SharedValue<number>;
 }
 
 const HighlightIndicator: FC<HighlightIndicatorProps> = ({
 	dataLength,
 	setActiveIndex,
-	scrollXIndex,
+	animatedValue,
 }) => {
-	const scrollXAnimated = useRef(new Animated.Value(0)).current;
 	const data = Array.from({ length: dataLength }, (_, i) => i);
 
-	const backgroundColor = '#566674';
+	const height = 6;
 
 	const inputRange = data;
 	const outputRange = Array.from({ length: dataLength }, () => ({
-		backgroundColor,
+		height,
 	}));
-
-	useEffect(() => {
-		Animated.timing(scrollXAnimated, {
-			toValue: scrollXIndex,
-			duration: 200,
-			useNativeDriver: true,
-		}).start();
-	}, []);
 
 	return (
 		<View style={styles.container}>
@@ -44,7 +36,7 @@ const HighlightIndicator: FC<HighlightIndicatorProps> = ({
 						<IndicatorDot
 							index={item}
 							setActiveIndex={setActiveIndex}
-							scrollXAnimated={scrollXAnimated}
+							animatedValue={animatedValue}
 							inputRange={inputRange}
 							outputRange={outputRange}
 						/>

@@ -17,7 +17,7 @@ export const ExplorerStack = () => {
 	const screenOptions: DrawerNavigationOptions = {
 		headerShown: false,
 		drawerStyle: styles.drawer,
-		swipeEdgeWidth: 5000,
+		swipeEdgeWidth: 100,
 		swipeMinDistance: sidebarWidth / 3,
 		overlayColor: 'transparent',
 		drawerType: navigationDisplay.isPermanentDrawer ? 'permanent' : 'back',

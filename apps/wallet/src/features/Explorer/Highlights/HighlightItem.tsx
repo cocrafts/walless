@@ -17,7 +17,6 @@ const ITEM_WIDTH = 273;
 interface AnimationFlatListProps {
 	index: number;
 	activeIndex: number;
-	currentIndex: SharedValue<number>;
 	setActiveIndex: (activeIndex: number) => void;
 	animatedValue: SharedValue<number>;
 	prevIndex: SharedValue<number>;
@@ -36,7 +35,7 @@ const HighlightItem: FC<HighlightItemProps> = ({
 	onPress,
 	widget,
 }) => {
-	const { index, currentIndex, maxItems, animatedValue } =
+	const { index, maxItems, animatedValue } =
 		animation as AnimationFlatListProps;
 
 	const inputRange = [index - 1, index, index + 1];
@@ -44,7 +43,7 @@ const HighlightItem: FC<HighlightItemProps> = ({
 		const translateX = interpolate(
 			animatedValue.value,
 			inputRange,
-			[50, 0, -100],
+			[40, 0, -100],
 		);
 
 		const scale = interpolate(animatedValue.value, inputRange, [0.8, 1, 0.8]);
@@ -59,7 +58,7 @@ const HighlightItem: FC<HighlightItemProps> = ({
 			transform: [{ translateX }, { scale }],
 			opacity,
 		};
-	}, [currentIndex]);
+	}, [animatedValue]);
 
 	const coverImgResource = runtime.isMobile
 		? assets.widget[widget._id]?.storeMeta.coverUri

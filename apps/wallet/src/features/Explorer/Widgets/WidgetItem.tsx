@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#23313C',
 		padding: 8,
 		borderRadius: 8,
+		alignItems: 'center',
 	},
 	coverImage: {
 		width: 75,
@@ -104,6 +105,8 @@ const styles = StyleSheet.create({
 		borderRadius: 6,
 		width: 62,
 		height: 28,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	addBtn: {
 		backgroundColor: '#19A3E1',

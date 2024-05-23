@@ -1,5 +1,10 @@
 import type { FC } from 'react';
-import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import type { SharedValue } from 'react-native-reanimated';
+import Animated, {
+	interpolateColor,
+	useAnimatedStyle,
+} from 'react-native-reanimated';
 import type { WidgetType } from '@walless/core';
 
 const AnimatedHoverable = Animated.createAnimatedComponent(TouchableOpacity);
@@ -13,7 +18,7 @@ interface CategoryButtonProps {
 	index: number;
 	title: WidgetType;
 	onPress: (index: number, category: WidgetType) => void;
-	scrollXAnimated: Animated.Value;
+	animatedValue: SharedValue<number>;
 	inputRange: number[];
 	outputRange: AnimatedCategoryButtonProps[];
 }
@@ -24,7 +29,7 @@ const CategoryButton: FC<CategoryButtonProps> = ({
 	onPress,
 	inputRange,
 	outputRange,
-	scrollXAnimated,
+	animatedValue,
 }) => {
 	const activeColor = '#FFFFFF';
 	const activeBorderColor = '#0694D3';
@@ -36,21 +41,29 @@ const CategoryButton: FC<CategoryButtonProps> = ({
 	colorOutputRange[index] = activeColor;
 	borderColorOutputRange[index] = activeBorderColor;
 
-	const color = scrollXAnimated.interpolate({
-		inputRange,
-		outputRange: colorOutputRange,
-	});
-	const borderColor = scrollXAnimated.interpolate({
-		inputRange,
-		outputRange: borderColorOutputRange,
-	});
+	const containerAnimatedStyle = useAnimatedStyle(() => {
+		const borderColor = interpolateColor(
+			animatedValue.value,
+			inputRange,
+			borderColorOutputRange,
+		);
 
-	const containerAnimatedStyle = {
-		borderColor,
-	};
-	const titleAnimatedStyle = {
-		color,
-	};
+		return {
+			borderColor,
+		};
+	}, [animatedValue]);
+
+	const titleAnimatedStyle = useAnimatedStyle(() => {
+		const color = interpolateColor(
+			animatedValue.value,
+			inputRange,
+			colorOutputRange,
+		);
+
+		return {
+			color,
+		};
+	}, [animatedValue]);
 
 	return (
 		<AnimatedHoverable

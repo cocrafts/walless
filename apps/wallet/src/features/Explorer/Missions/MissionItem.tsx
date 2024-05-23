@@ -1,7 +1,7 @@
 import { type FC } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { Button, View } from '@walless/gui';
+import { View } from '@walless/gui';
 import { Chair, InfoIcon, MissionBackground } from '@walless/icons';
 
 interface MissionProps {
@@ -25,9 +25,9 @@ const MissionItem: FC<MissionProps> = ({ title, onPress, id, colors }) => {
 				<InfoIcon />
 			</View>
 			<Text style={styles.text}>{title}</Text>
-			<Button style={styles.button} onPress={onPress}>
+			<TouchableOpacity style={styles.button} onPress={onPress}>
 				<Text style={styles.textButton}>Claim</Text>
-			</Button>
+			</TouchableOpacity>
 		</Animated.View>
 	);
 };
@@ -62,6 +62,8 @@ const styles = StyleSheet.create({
 		height: 25,
 		borderRadius: 6,
 		backgroundColor: '#ffffff',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	text: {
 		color: '#ffffff',

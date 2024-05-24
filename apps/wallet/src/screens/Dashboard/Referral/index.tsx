@@ -37,6 +37,11 @@ export const ReferralScreen: FC<Props> = () => {
 		0,
 	);
 
+	const referralCount = useMemo(
+		() => codes.filter(({ email }) => !!email).length,
+		[codes],
+	);
+
 	const rankingPercent = useMemo(
 		() =>
 			leaderboardSize !== 0
@@ -60,7 +65,14 @@ export const ReferralScreen: FC<Props> = () => {
 	const ArrowIcon = (
 		<Hoverable
 			style={styles.arrowIcon}
-			onPress={() => showLeaderboard({ rank, rankingPercent, leaderboardSize })}
+			onPress={() =>
+				showLeaderboard({
+					rank,
+					referralCount,
+					rankingPercent,
+					leaderboardSize,
+				})
+			}
 		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
 		</Hoverable>

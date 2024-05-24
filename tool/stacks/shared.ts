@@ -11,14 +11,14 @@ const landingAlias = {
 
 const appAlias = {
 	production: 'app.',
-	staging: 'app.staging.',
-	development: 'app.dev.',
+	staging: 'staging.app.',
+	development: 'dev.app.',
 };
 
 const documentAlias = {
 	production: 'docs.',
-	staging: 'docs.staging.',
-	development: 'docs.dev.',
+	staging: 'staging.docs.',
+	development: 'dev.docs.',
 };
 
 export const landingDomainFromStage = (stage: string) => {

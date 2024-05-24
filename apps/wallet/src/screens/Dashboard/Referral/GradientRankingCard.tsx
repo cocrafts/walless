@@ -22,11 +22,11 @@ const GradientRankingCard: FC<Props> = ({
 			style={[styles.container, style]}
 		>
 			<View style={[styles.rowDirection, styles.leftGap]}>
-				<Text style={styles.text}>{rank}</Text>
+				<Text style={styles.text}>{rank !== 0 ? rank : 'N/A'}</Text>
 				<View>
 					<Text style={styles.text}>Me</Text>
 					<Text style={[styles.highlightText, styles.smallText]}>
-						You are in top {rankingPercent}%
+						You are in top {rank !== 0 ? rankingPercent : 100}%
 					</Text>
 				</View>
 			</View>

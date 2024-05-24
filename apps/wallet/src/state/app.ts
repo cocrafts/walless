@@ -49,6 +49,10 @@ export const appActions = {
 	bootstrap,
 	launchApp,
 	initAfterSignIn,
+	cleanupAfterLogOut: () => {
+		appState.profile = {};
+		appState.jwtAuth = undefined;
+	},
 };
 
 const controlNavigationDisplay = () => {

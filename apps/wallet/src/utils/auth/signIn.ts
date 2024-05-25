@@ -80,22 +80,16 @@ const signInWithPasscode = async (
 			handleInitFail?.();
 			return;
 		}
-	}
-
-	if (status === ThresholdResult.Ready) {
+	} else if (status === ThresholdResult.Ready) {
 		let { userAccount } = await qlClient.request<{
 			userAccount: Account | undefined;
 		}>(queries.userAccount);
 
 		if (!userAccount) {
-			const { registerAccountWithoutKey: account } = await qlClient.request<{
-				registerAccountWithoutKey: Account;
-			}>(mutations.registerAccountWithoutKey);
-
-			userAccount = account;
+			userAccount = await initAndRegisterWallet();
 		}
 
-		if (!userAccount.identifier) {
+		if (!userAccount?.identifier) {
 			handleInitFail?.();
 			return;
 		}
@@ -112,4 +106,5 @@ export {
 	signInWithPasscode,
 	signInWithTorusKey,
 };
+
 export * from './w3a';

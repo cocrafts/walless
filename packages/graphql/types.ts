@@ -182,7 +182,6 @@ export type RootMutation = {
   performActiveActionsByType?: Maybe<Array<Maybe<ActionRecord>>>;
   performLoyaltyAction?: Maybe<ActionRecord>;
   registerAccount?: Maybe<Account>;
-  registerAccountWithoutKey?: Maybe<Account>;
   registerDevice?: Maybe<Device>;
   registerWidgetAccount?: Maybe<Account>;
   sendEmergencyKit?: Maybe<SendEmergencyKitResult>;
@@ -780,7 +779,6 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   performActiveActionsByType?: Resolver<Maybe<Array<Maybe<ResolversTypes['ActionRecord']>>>, ParentType, ContextType, RequireFields<RootMutationPerformActiveActionsByTypeArgs, 'type'>>;
   performLoyaltyAction?: Resolver<Maybe<ResolversTypes['ActionRecord']>, ParentType, ContextType, RequireFields<RootMutationPerformLoyaltyActionArgs, 'actionId'>>;
   registerAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterAccountArgs, 'key'>>;
-  registerAccountWithoutKey?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType>;
   registerDevice?: Resolver<Maybe<ResolversTypes['Device']>, ParentType, ContextType, RequireFields<RootMutationRegisterDeviceArgs, 'device'>>;
   registerWidgetAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterWidgetAccountArgs, 'pubkey'>>;
   sendEmergencyKit?: Resolver<Maybe<ResolversTypes['SendEmergencyKitResult']>, ParentType, ContextType, RequireFields<RootMutationSendEmergencyKitArgs, 'key'>>;

@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, modalActions } from '@walless/gui';
-import { appActions } from 'state/app';
 import { logout } from 'utils/auth';
 import { resetRoute } from 'utils/navigation';
 
@@ -8,7 +7,6 @@ import { ModalId } from './types';
 
 const handleLogout = async () => {
 	await logout();
-	appActions.cleanupAfterLogOut();
 	modalActions.hide(ModalId.Logout);
 	resetRoute();
 };

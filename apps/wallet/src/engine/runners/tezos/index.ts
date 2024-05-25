@@ -1,11 +1,16 @@
 import { TezosToolkit } from '@taquito/taquito';
 import {} from '@taquito/tzip16';
+import type { TezosToken } from '@walless/core';
 import { Networks } from '@walless/core';
-import type { PublicKeyDocument } from '@walless/store';
+import type { PublicKeyDocument, TokenDocument } from '@walless/store';
 import { selectors } from '@walless/store';
-import { storage } from 'utils/storage';
+import { getTokenQuote } from 'utils/api';
+import { addTokenToStorage, storage } from 'utils/storage';
 
 import type { EngineConfig, Runner } from '../../types';
+
+import { constructTezosTokenDocument, XTZ } from './token';
+import { convertTezosImageUriToUrl } from './utils';
 
 export type TezosContext = {
 	connection: TezosToolkit;
@@ -14,6 +19,9 @@ export type TezosContext = {
 const MAIN_NET = 'https://api.tez.ie/rpc/mainnet';
 const GHOST_NET = 'https://ghostnet.ecadinfra.com';
 
+const TZKT_API_MAINNET = 'https://api.tzkt.io/v1';
+const TZKT_API_GHOSTNET = 'https://api.ghostnet.tzkt.io/v1';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const createTezosRunner = async (
 	config: EngineConfig,
@@ -21,7 +29,7 @@ export const createTezosRunner = async (
 	const { networkClusters } = config;
 	const cluster = networkClusters[Networks.tezos];
 	const rpc = cluster === 'mainnet' ? MAIN_NET : GHOST_NET;
-	const ghost = GHOST_NET;
+	const tzktAPI = cluster === 'mainnet' ? TZKT_API_MAINNET : TZKT_API_GHOSTNET;
 
 	const keysResult = await storage.find<PublicKeyDocument>(selectors.tezosKeys);
 	const keys = keysResult.docs;
@@ -32,15 +40,54 @@ export const createTezosRunner = async (
 				const owner = key._id;
 				const connection = new TezosToolkit(rpc);
 				const tzBalance = await connection.tz.getBalance(owner);
-				const tokens = await fetch('https://api.tzkt.io/v1/tokens');
-				const balances = await fetch(
-					'https://stage.tzpro.io/v1/wallets/{address}/balances',
+
+				const tokenBalances = await fetch(
+					`${tzktAPI}/tokens/balances?account=${owner}`,
 				);
-				const tokensJson = await tokens.json();
-				const balancesJson = await balances.json();
-				console.log(balancesJson);
-				console.log(tokensJson);
-				console.log(tzBalance);
+				const tokenBalancesJson = await tokenBalances.json();
+
+				const tzDocument = constructTezosTokenDocument({
+					...XTZ,
+					owner: key._id,
+					cluster,
+					amount: tzBalance.toString(),
+					balance: parseFloat(tzBalance.toString()) / 10 ** XTZ.decimals,
+				} as TezosToken);
+
+				const tokenDocuments: TokenDocument<TezosToken>[] = [tzDocument];
+
+				tokenBalancesJson.forEach((tokenBalance) => {
+					const tokenDocument = constructTezosTokenDocument({
+						owner: key._id,
+						network: Networks.tezos,
+						cluster,
+						tokenId: tokenBalance.token.tokenId,
+						contract: tokenBalance.token.contract,
+						tokenType: tokenBalance.token.standard,
+						decimals: tokenBalance.token.metadata.decimals,
+						symbol: tokenBalance.token.metadata.symbol,
+						name: tokenBalance.token.metadata.name,
+						amount: tokenBalance.balance,
+						balance:
+							parseFloat(tokenBalance.balance) /
+							10 ** tokenBalance.token.metadata.decimals,
+						image: convertTezosImageUriToUrl(
+							tokenBalance.token.metadata.thumbnailUri,
+						),
+					} as TezosToken);
+
+					tokenDocuments.push(tokenDocument);
+				});
+
+				for (const tokenDocument of tokenDocuments) {
+					const responseQuotes = await getTokenQuote({
+						address: `${tokenDocument.contract?.address}`,
+						network: tokenDocument.network,
+					});
+					tokenDocument.quotes = responseQuotes?.quotes;
+
+					await addTokenToStorage<TokenDocument<TezosToken>>(tokenDocument);
+				}
 
 				return tzBalance;
 			});

@@ -10,15 +10,17 @@ interface Props {
 	style?: StyleProp<ViewStyle>;
 	token: TokenDocument;
 	onPress?: () => void;
+	pnl?: number;
 }
 
-export const TokenItem: FC<Props> = ({ style, token, onPress }) => {
+export const TokenItem: FC<Props> = ({ style, token, onPress, pnl }) => {
 	const { symbol, image, quotes, balance } = token;
 	const unitQuote = quotes?.usd;
 	const totalQuote = unitQuote && unitQuote * balance;
 	const iconSource = image ? { uri: image } : assets.misc.unknownToken;
 
 	const itemName = symbol || 'Unknown';
+	const isLost = pnl && pnl < 0;
 
 	return (
 		<Hoverable style={[styles.container, style]} onPress={onPress}>
@@ -27,7 +29,9 @@ export const TokenItem: FC<Props> = ({ style, token, onPress }) => {
 				<Text style={styles.primaryText}>{itemName}</Text>
 				<View style={styles.unitQuoteContainer}>
 					<Text style={styles.secondaryText}>{formatQuote(unitQuote)}</Text>
-					<Text style={styles.profitText}>+7.34%</Text>
+					<Text style={isLost ? styles.lostText : styles.profitText}>
+						{isLost ? '-' : '+'} {Math.abs(pnl ?? 0)}%
+					</Text>
 				</View>
 			</View>
 			<View style={styles.balanceContainer}>

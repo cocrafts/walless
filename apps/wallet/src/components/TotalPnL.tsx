@@ -24,7 +24,7 @@ const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
 							: styles.lightThemeProfitValue
 				}
 			>
-				{isLost ? `$${-value}` : `$${value}`}
+				{isLost ? `-$${-value}` : `+$${value}`}
 			</Text>
 			<View
 				style={[

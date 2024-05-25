@@ -38,6 +38,7 @@ export const TokenList = <T extends Token>({
 				token={item}
 				style={itemStyle}
 				onPress={handlePressItem}
+				pnl={-5}
 			/>
 		);
 	};

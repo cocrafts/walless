@@ -344,6 +344,9 @@ type TokenInfo {
 
   """"""
   timestamp: DateTime!
+
+  """"""
+  pnl24h: Float!
 }
 
 """"""

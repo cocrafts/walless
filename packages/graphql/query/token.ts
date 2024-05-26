@@ -18,6 +18,7 @@ export const tokenByAddress = gql`
 			address
 			name
 			quotes
+			pnl24h
 		}
 	}
 `;
@@ -29,6 +30,7 @@ export const tokensByAddress = gql`
 			address
 			name
 			quotes
+			pnl24h
 		}
 	}
 `;

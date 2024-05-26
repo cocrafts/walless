@@ -36,6 +36,7 @@ export type TokenMetadata = {
 	name: string;
 	symbol: string;
 	image: string;
+	pnl24h: number;
 };
 
 export type SuiTokenMetadata = TokenMetadata & {

@@ -5,7 +5,7 @@ import type { MessagePayload } from '@walless/messaging';
 import type { ConnectOptions } from '@walless/sdk';
 import { getDataFromSourceRequest } from 'bridge';
 
-export const useRequestData = (requestId: string, from: string) => {
+export const useRequestData = (resolveId: string, from: string) => {
 	const [sender, setSender] = useState<UnknownObject>({});
 	const [options, setOptions] = useState<ConnectOptions>({});
 	const [message, setMessage] = useState('');
@@ -14,7 +14,7 @@ export const useRequestData = (requestId: string, from: string) => {
 
 	useEffect(() => {
 		const configureSender = async () => {
-			const result = await getDataFromSourceRequest(requestId, from);
+			const result = await getDataFromSourceRequest(resolveId, from);
 			const { sender, message, transaction, options } = result ?? {};
 
 			setPayload(result as MessagePayload);
@@ -39,7 +39,7 @@ export const useRequestData = (requestId: string, from: string) => {
 		if (runtime.isExtension) {
 			configureSender();
 		}
-	}, [requestId]);
+	}, [resolveId]);
 
 	return {
 		...payload,

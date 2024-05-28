@@ -379,6 +379,9 @@ type RootMutation {
   registerAccount(key: String!): Account
 
   """"""
+  registerAccountWithoutKey: Account
+
+  """"""
   registerDevice(device: DeviceInfoInput!): Device
 
   """"""

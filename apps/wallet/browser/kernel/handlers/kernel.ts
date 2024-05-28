@@ -1,10 +1,8 @@
-import { Networks, PopupType, RequestType, ResponseCode } from '@walless/core';
+import { Networks, RequestType, ResponseCode } from '@walless/core';
 import type { MessengerCallback } from '@walless/messaging';
 
 import { handle } from '../utils/handle';
 import {
-	checkApproval,
-	checkConnection,
 	filterSDKSignatureRequest,
 	forwardToSourceRequest,
 	getPrivateKey,
@@ -30,18 +28,28 @@ export const onKernelMessage: MessengerCallback = async (payload, channel) => {
 		});
 	}
 
-	if (type === RequestType.REQUEST_CONNECT && payload.from === 'walless@sdk') {
-		handle(payload).execute([checkConnection, common.connect]);
-	} else if (
-		type === RequestType.REQUEST_CONNECT &&
-		payload.from === PopupType.REQUEST_CONNECT_POPUP
-	) {
-		handle(payload).execute([checkApproval, common.connect]);
-	} else if (type === RequestType.REQUEST_DISCONNECT) {
-		handle(payload).execute([common.disconnect]);
-	} else if (type === RequestType.REQUEST_PAYLOAD) {
-		handle(payload).execute([common.requestPayload]);
-	} else if (type === RequestType.INSTALL_LAYOUT) {
+	if (requestId) {
+		switch (type) {
+			case RequestType.REQUEST_CONNECT:
+			case RequestType.REQUEST_DISCONNECT:
+			case RequestType.REQUEST_PAYLOAD:
+				return;
+		}
+	}
+
+	// if (type === RequestType.REQUEST_CONNECT && payload.from === 'walless@sdk') {
+	// 	handle(payload).execute([checkConnection, common.connect]);
+	// } else if (
+	// 	type === RequestType.REQUEST_CONNECT &&
+	// 	payload.from === PopupType.REQUEST_CONNECT_POPUP
+	// ) {
+	// 	handle(payload).execute([checkApproval, common.connect]);
+	// } else if (type === RequestType.REQUEST_DISCONNECT) {
+	// 	handle(payload).execute([common.disconnect]);
+	// } else if (type === RequestType.REQUEST_PAYLOAD) {
+	// 	handle(payload).execute([common.requestPayload]);
+	// } else
+	if (type === RequestType.INSTALL_LAYOUT) {
 		handle(payload).execute([common.installLayout]);
 	} else if (type === RequestType.CHECK_INSTALLED_LAYOUT) {
 		handle(payload).execute([common.checkInstalledLayout]);

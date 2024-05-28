@@ -1,4 +1,7 @@
-import { PopupType, RequestType, ResponseCode, Timeout } from '@walless/core';
+import { ChromeChannel } from '@metacraft/crab/chrome';
+import type { RawRequest, Response } from '@metacraft/crab/core';
+import type { UnknownObject } from '@walless/core';
+import { PopupType, RequestType, Timeout } from '@walless/core';
 import type { PureMessagePayload, ResponsePayload } from '@walless/messaging';
 import { Channels } from '@walless/messaging';
 import * as bs58 from 'bs58';
@@ -18,19 +21,25 @@ export const sendRequest = async (
 };
 
 export const handleRequestConnect = async (
-	requestId: string,
+	resolveId: string,
 	isApproved: boolean,
 ) => {
-	const payload: PopupPayload = {
+	const payload: RawRequest = {
 		from: PopupType.REQUEST_CONNECT_POPUP,
-		type: RequestType.REQUEST_CONNECT,
-		sourceRequestId: requestId,
+		type: RequestType.REQUEST_CONNECT as never,
+		resolveId: resolveId,
 		isApproved,
 	};
 
 	try {
-		const res = await encryptedMessenger.request(Channels.kernel, payload);
-		if (res.responseCode === ResponseCode.SUCCESS) {
+		const chromeChannel = new ChromeChannel(Channels.popup);
+		const res = await chromeChannel.request<Response<UnknownObject>>(
+			payload,
+			Timeout.sixtySeconds,
+		);
+		if (res.error) {
+			throw Error(res.error);
+		} else {
 			window.close();
 		}
 	} catch (error) {
@@ -74,18 +83,18 @@ export const handleRequestSignature = async (
 };
 
 export const getDataFromSourceRequest = async (
-	requestId: string,
+	resolveId: string,
 	from: string,
 ) => {
-	const payload: PopupPayload = {
+	const payload: RawRequest = {
 		from,
-		type: RequestType.REQUEST_PAYLOAD,
-		sourceRequestId: requestId,
+		type: RequestType.REQUEST_PAYLOAD as never,
+		resolveId: resolveId,
 	};
 
 	try {
-		const res = await encryptedMessenger.request(
-			Channels.kernel,
+		const chromeChannel = new ChromeChannel(Channels.popup);
+		const res = await chromeChannel.request<Response<UnknownObject>>(
 			payload,
 			Timeout.sixtySeconds,
 		);

@@ -1,5 +1,7 @@
+import { ChromeKernel } from '@metacraft/crab/chrome';
 import {
 	PopupType,
+	RequestType,
 	ResponseCode,
 	ResponseMessage,
 	runtime,
@@ -9,9 +11,11 @@ import type {
 	MessagePayload,
 	MessengerCallback,
 } from '@walless/messaging';
-import { decryptMessage } from '@walless/messaging';
+import { Channels, decryptMessage } from '@walless/messaging';
 
+import * as common from '../handlers/common';
 import { onKernelMessage } from '../handlers/kernel';
+import { checkConnection } from '../utils/middleware';
 import { respond } from '../utils/requestPool';
 
 import { encryptionKeyVault, initializeVaultKeys } from './shared';
@@ -81,4 +85,21 @@ export const initializeMessaging = async (): Promise<void> => {
 	});
 
 	callbackRegistry.kernel = onKernelMessage;
+
+	const kernel = new ChromeKernel<Channels, RequestType>();
+	kernel
+		.channel(Channels.kernel)
+		.handle(RequestType.REQUEST_CONNECT)
+		.use(checkConnection(kernel))
+		.use(common.connect)
+		.handle(RequestType.REQUEST_DISCONNECT)
+		.use(common.disconnect)
+
+		.channel(Channels.popup)
+		.handle(RequestType.REQUEST_PAYLOAD)
+		.use(common.requestPayload(kernel))
+		.handle(RequestType.REQUEST_CONNECT)
+		.use(kernel.handleCrossResolvingMiddleware)
+		.run();
+	console.log(kernel, '<<< kerenel');
 };

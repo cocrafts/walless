@@ -1,18 +1,21 @@
+import type { ChromeKernel } from '@metacraft/crab/chrome';
+import type { Middleware, RawRequest } from '@metacraft/crab/core';
+import type { RequestType } from '@walless/core';
 import type { Networks } from '@walless/core';
 import {
 	PopupType,
-	RequestType,
 	ResponseCode,
 	ResponseMessage,
+	Timeout,
 } from '@walless/core';
+import type { Channels } from '@walless/messaging';
 import { utils } from '@walless/network';
-import type { ConnectOptions } from '@walless/sdk';
 import type { TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { storage } from 'utils/storage/db';
 
-import { closePopup, openPopup } from './popup';
-import { getRequestRecord, requestPool, respond } from './requestPool';
+import { openPopup } from './popup';
+import { getRequestRecord, respond } from './requestPool';
 import type { HandleMethod } from './types';
 
 export const getPrivateKey = (
@@ -33,57 +36,113 @@ export const getPrivateKey = (
 	};
 };
 
-export const checkConnection: HandleMethod<{
-	options?: ConnectOptions;
-}> = async ({ payload, next }) => {
-	if (!payload.options) throw Error('No connection options provided');
-	const { onlyIfTrusted, domain } = payload.options;
+export const checkConnection = (
+	kernel: ChromeKernel<Channels, RequestType>,
+): Middleware => {
+	return async (payload, respond, next) => {
+		if (!payload.options) throw Error('No connection options provided');
+		const { onlyIfTrusted, domain } = payload.options;
 
-	if (!onlyIfTrusted) {
-		next?.(payload);
-		return;
-	}
+		if (!onlyIfTrusted) {
+			next?.(payload);
+			return;
+		}
 
-	const domainResponse = await storage.find(selectors.trustedDomains);
-	const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
-	const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
-	if (!savedDomain || !savedDomain.connect) {
-		Object.values(requestPool).forEach((ele) => {
-			if (
-				ele.payload.requestId !== payload.requestId &&
-				ele.payload.type === RequestType.REQUEST_CONNECT &&
-				ele.payload.options.domain === domain
-			) {
-				respond(ele.payload.requestId, ResponseCode.ERROR);
-				closePopup(ele.payload.popupId);
+		const domainResponse = await storage.find(selectors.trustedDomains);
+		const trustedDomains = domainResponse.docs as TrustedDomainDocument[];
+		const savedDomain = trustedDomains.find(({ _id }) => _id == domain);
+		if (!savedDomain || !savedDomain.connect) {
+			const { isApproved } = await handleUserAction<{ isApproved: boolean }>({
+				kernel,
+				payload,
+				popupType: PopupType.REQUEST_CONNECT_POPUP,
+			});
+
+			if (isApproved) {
+				next?.(payload);
+			} else {
+				respond({
+					requestId: payload.id,
+					error: ResponseMessage.REJECT_REQUEST_CONNECT,
+					responseCode: ResponseCode.ERROR,
+				});
 			}
-		});
-
-		await openPopup(PopupType.REQUEST_CONNECT_POPUP, payload.requestId);
-	} else if (!savedDomain.trusted) {
-		return respond(payload.requestId, ResponseCode.ERROR, {
-			error: ResponseMessage.REJECT_REQUEST_CONNECT,
-		});
-	} else {
-		next?.(payload);
-	}
+		} else if (!savedDomain.trusted) {
+			respond({
+				requestId: payload.id,
+				error: ResponseMessage.REJECT_REQUEST_CONNECT,
+				responseCode: ResponseCode.ERROR,
+			});
+		} else {
+			next?.(payload);
+		}
+	};
 };
 
-export const checkApproval: HandleMethod<{
-	isApproved?: boolean;
-}> = async ({ payload, next }) => {
-	const { requestId, sourceRequestId, isApproved } = payload;
+const handleUserAction = async <T extends object>({
+	kernel,
+	payload,
+	popupType,
+}: {
+	kernel: ChromeKernel<Channels, RequestType>;
+	payload: any;
+	popupType: PopupType;
+}) => {
+	const { resolveId, resolve } = kernel.createCrossResolvingRequest(
+		payload.requestId,
+		payload.timeout || Timeout.sixtySeconds,
+	);
 
-	if (!isApproved) {
-		respond(sourceRequestId, ResponseCode.ERROR, {
-			message: ResponseMessage.REJECT_REQUEST_CONNECT,
+	openPopup(popupType, resolveId);
+
+	return await resolve<RawRequest<RequestType, T>>();
+};
+
+// export const checkApproval = (
+// 	kernel: ChromeKernel<Channels, RequestType>,
+// ): Middleware => {
+// 	return async (payload, respond) => {
+// 		const { resolveId, isApproved } = payload;
+
+// 		if (!isApproved) {
+// 			kernel.handleCrossResolvingMiddleware(payload);
+// 			respond(sourceRequestId, ResponseCode.ERROR, {
+// 				message: ResponseMessage.REJECT_REQUEST_CONNECT,
+// 			});
+// 		} else {
+// 			payload = getRequestRecord(sourceRequestId).payload;
+// 			await next?.(payload);
+// 		}
+
+// 		respond(requestId, ResponseCode.SUCCESS);
+// 	};
+// };
+
+export const requestUserPermission = (
+	kernel: ChromeKernel<Channels, RequestType>,
+): Middleware => {
+	return async (payload, respond, next) => {
+		if (!payload.options) throw Error('No connection options provided');
+
+		const { passcode, isApproved } = await handleUserAction<{
+			passcode: string;
+			isApproved: boolean;
+		}>({
+			kernel,
+			payload,
+			popupType: PopupType.SIGNATURE_POPUP,
 		});
-	} else {
-		payload = getRequestRecord(sourceRequestId).payload;
-		await next?.(payload);
-	}
 
-	respond(requestId, ResponseCode.SUCCESS);
+		if (isApproved) {
+			next?.({ ...payload, passcode });
+		} else {
+			respond({
+				requestId: payload.id,
+				error: ResponseMessage.REJECT_COMMON_REQUEST,
+				responseCode: ResponseCode.ERROR,
+			});
+		}
+	};
 };
 
 export const filterSDKSignatureRequest: HandleMethod<{

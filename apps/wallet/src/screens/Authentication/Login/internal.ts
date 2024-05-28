@@ -1,5 +1,6 @@
 import { logger } from '@walless/core';
 import { showError } from 'modals/Error';
+import { appState } from 'state/app';
 import {
 	checkInvitationCode,
 	signInWithGoogle,
@@ -35,7 +36,11 @@ export const signIn = async (invitationCode?: string) => {
 		} else if (status === ThresholdResult.Missing) {
 			navigate('Authentication', { screen: 'Recovery' });
 		} else if (status === ThresholdResult.Ready) {
-			navigate('Dashboard');
+			if (appState.profile.email) {
+				navigate('Dashboard');
+			} else {
+				navigate('Authentication', { screen: 'Recovery' });
+			}
 		}
 	} catch (error) {
 		showError({ errorText: 'Something went wrong' });

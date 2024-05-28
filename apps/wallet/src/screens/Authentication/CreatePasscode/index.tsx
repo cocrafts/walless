@@ -7,6 +7,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { logger } from '@walless/core';
 import { Passcode, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
@@ -16,11 +17,14 @@ import { makeProfile, setProfile, signInWithPasscode } from 'utils/auth';
 import { auth } from 'utils/firebase';
 import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';
+import type { AuthenticationParamList } from 'utils/navigation';
 import { navigate, ResetAnchors, resetRoute } from 'utils/navigation';
 
 import BiometricIcon from '../BiometricIcon';
 
-export const CreatePasscodeScreen: FC = () => {
+type Props = StackScreenProps<AuthenticationParamList, 'CreatePasscode'>;
+
+export const CreatePasscodeScreen: FC<Props> = ({ route }) => {
 	const biometricStatus = useBiometricStatus();
 	const [passcode, setPasscode] = useState('');
 	const [confirmation, setConfirmation] = useState(false);
@@ -54,7 +58,11 @@ export const CreatePasscodeScreen: FC = () => {
 			return;
 		}
 
-		await signInWithPasscode(passcode, handleInitFail);
+		const { recoveryKey } = route.params! as {
+			recoveryKey?: string;
+		};
+
+		await signInWithPasscode({ passcode, recoveryKey, handleInitFail });
 		await appActions.initAfterSignIn();
 		resetRoute(ResetAnchors.Widget, { id: 'explorer' });
 

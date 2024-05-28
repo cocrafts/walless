@@ -9,9 +9,9 @@ export const registerAccount = gql`
 	}
 `;
 
-export const registerAccountWithoutKey = gql`
-	mutation RegisterAccountWithoutKey {
-		registerAccountWithoutKey {
+export const registerAccountWithoutSendingEmergencyKit = gql`
+	mutation RegisterAccountWithoutSendingEmergencyKit($key: String) {
+		registerAccountWithoutSendingEmergencyKit(key: $key) {
 			identifier
 			email
 		}

@@ -68,10 +68,17 @@ const signInWithTorusKey = async (
 	return status;
 };
 
-const signInWithPasscode = async (
-	passcode: string,
-	handleInitFail?: () => void,
-): Promise<void> => {
+interface SignInWithPasscodeProps {
+	passcode: string;
+	recoveryKey?: string;
+	handleInitFail?: () => void;
+}
+
+const signInWithPasscode = async ({
+	passcode,
+	recoveryKey,
+	handleInitFail,
+}: SignInWithPasscodeProps): Promise<void> => {
 	const status = await importAvailableShares();
 
 	if (status === ThresholdResult.Initializing) {
@@ -80,13 +87,20 @@ const signInWithPasscode = async (
 			handleInitFail?.();
 			return;
 		}
-	} else if (status === ThresholdResult.Ready) {
+	} else if (status === ThresholdResult.Ready && recoveryKey) {
 		let { userAccount } = await qlClient.request<{
 			userAccount: Account | undefined;
 		}>(queries.userAccount);
 
 		if (!userAccount) {
-			userAccount = await initAndRegisterWallet();
+			const { registerAccountWithoutSendingEmergencyKit } =
+				await qlClient.request<
+					{ registerAccountWithoutSendingEmergencyKit: Account },
+					{ key: string }
+				>(mutations.registerAccountWithoutSendingEmergencyKit, {
+					key: recoveryKey,
+				});
+			userAccount = registerAccountWithoutSendingEmergencyKit;
 		}
 
 		if (!userAccount?.identifier) {

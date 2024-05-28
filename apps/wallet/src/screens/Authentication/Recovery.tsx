@@ -30,7 +30,10 @@ export const RecoveryScreen: FC = () => {
 	const handlePressContinue = async () => {
 		const key = recoveryKey.trim();
 		if (key && (await recoverByEmergencyKey(key))) {
-			navigate('Authentication', { screen: 'CreatePasscode' });
+			navigate('Authentication', {
+				screen: 'CreatePasscode',
+				params: { recoveryKey } as never,
+			});
 		} else {
 			showError({ errorText: 'Wrong recovery key' });
 		}

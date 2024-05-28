@@ -379,7 +379,7 @@ type RootMutation {
   registerAccount(key: String!): Account
 
   """"""
-  registerAccountWithoutKey: Account
+  registerAccountWithoutSendingEmergencyKit(key: String = ""): Account
 
   """"""
   registerDevice(device: DeviceInfoInput!): Device

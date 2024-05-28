@@ -15,11 +15,11 @@ export const syncRemoteProfile = async () => {
 	}>(queries.userAccount);
 
 	if (!userAccount) {
-		const { registerAccountWithoutKey: account } = await qlClient.request<{
-			registerAccountWithoutKey: Account;
-		}>(mutations.registerAccountWithoutKey);
-
-		userAccount = account;
+		const { registerAccountWithoutSendingEmergencyKit } =
+			await qlClient.request<{
+				registerAccountWithoutSendingEmergencyKit: Account;
+			}>(mutations.registerAccountWithoutSendingEmergencyKit);
+		userAccount = registerAccountWithoutSendingEmergencyKit;
 	}
 
 	if (keyResult.docs.length !== userAccount?.walletCount) {

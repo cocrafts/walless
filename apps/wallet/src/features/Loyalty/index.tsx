@@ -9,8 +9,8 @@ import { qlClient } from 'utils/graphql';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
 import AchievementsTab from './AchievementsTab';
+import Header from './Header';
 import LeaderboardTab from './LeaderboardTab';
-import PointCard from './PointCard';
 
 enum Tab {
 	Achievements = 'Achievements',
@@ -49,8 +49,9 @@ const LoyaltyFeature = () => {
 
 	return (
 		<View style={styles.container}>
-			<PointCard
+			<Header
 				style={styles.pointCard}
+				completedTask={userProgress?.actionRecords?.length ?? 0}
 				point={userProgress?.totalPoints ?? 0}
 			/>
 

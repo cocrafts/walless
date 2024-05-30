@@ -11,8 +11,8 @@ import { ActionCategory, queries } from '@walless/graphql';
 import { groupBy } from 'lodash';
 import { qlClient } from 'utils/graphql';
 
-import ActionCard from './ActionCard';
-import { getCycleEndTime } from './internal';
+import ActionCard from '../ActionCard';
+import { getCycleEndTime } from '../ActionCard/internal';
 
 interface Props {
 	userProgress?: UserProgress;

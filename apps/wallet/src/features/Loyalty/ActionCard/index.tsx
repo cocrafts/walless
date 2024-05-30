@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import {
 	ActivityIndicator,
@@ -34,7 +34,9 @@ import {
 	getCycleEndTime,
 	getIconByType,
 	navigateInternalByCta,
+	sharedStyles,
 } from './internal';
+import PointTag from './PointTag';
 import StreakBar from './StreakBar';
 
 interface Props {
@@ -49,47 +51,32 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 		return extractDataFromMetadata(action.metadata as ActionMetadata[]);
 	}, [action]);
 
-	const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
 	const [isPerformingAction, setIsPerformingAction] = useState(false);
 
-	useEffect(() => {
+	const initialTimeRemaining = useMemo<number | null>(() => {
 		if (
 			!userProgress ||
 			canUserPerformAction ||
 			action.category !== ActionCategory.Recurring ||
 			!action.cycleInHours
 		) {
-			return;
+			return null;
 		}
 
-		const interval = setInterval(() => {
-			setTimeRemaining((prev) => {
-				if (prev === null) {
-					const lastRecord = (
-						userProgress.actionRecords as ActionRecord[]
-					).findLast((record) => record.actionId === action.id);
-					if (!lastRecord) {
-						return 0;
-					}
+		const lastRecord = (userProgress.actionRecords as ActionRecord[]).findLast(
+			(record) => record.actionId === action.id,
+		);
+		if (!lastRecord) {
+			return 0;
+		}
 
-					const cycleEndTime = getCycleEndTime(
-						new Date(lastRecord.timestamp),
-						action.cycleInHours as number,
-					);
+		const cycleEndTime = getCycleEndTime(
+			new Date(lastRecord.timestamp),
+			action.cycleInHours as number,
+		);
 
-					return cycleEndTime.getTime() - Date.now();
-				}
-
-				if (prev <= 0) {
-					return null;
-				}
-
-				return prev - 1000;
-			});
-		}, 1000);
-
-		return () => clearInterval(interval);
-	}, [userProgress, action, canUserPerformAction]);
+		return cycleEndTime.getTime() - Date.now();
+	}, [userProgress]);
 
 	const FallbackIcon = getIconByType(action.type || '');
 
@@ -159,98 +146,70 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 		return currentStreak;
 	}, [stat, action.streak]);
 
-	const showDescContainer: boolean = useMemo(() => {
-		if (
-			action.category === ActionCategory.Milestone &&
-			stat?.milestone &&
-			action.milestone
-		) {
-			return stat.milestone < action.milestone;
-		}
-
-		if (action.category === ActionCategory.Streak && action.streak) {
-			return true;
-		}
-
-		return !!desc;
-	}, [desc, stat, action.category]);
+	const isPassthrough =
+		!canUserPerformAction && action.category !== ActionCategory.Streak;
 
 	return (
 		<View style={[styles.container, style]}>
-			<View style={styles.leftContainer}>
-				{icon ? (
-					<Image source={{ uri: icon }} style={styles.image} />
-				) : (
-					FallbackIcon
-				)}
+			<View style={{ flex: 1, gap: 8 }}>
+				<View
+					style={[
+						styles.horizontalContainer,
+						isPassthrough && styles.passthroughLayout,
+					]}
+				>
+					{icon ? (
+						<Image source={{ uri: icon }} style={styles.image} />
+					) : (
+						FallbackIcon
+					)}
 
-				<View style={{ flex: 1, gap: 4 }}>
-					<View style={styles.titleContainer}>
+					<View style={{ gap: 4 }}>
 						<Text style={styles.nameText}>{name}</Text>
-
-						{timeRemaining && <CountDown timeRemaining={timeRemaining} />}
+						{desc && <Text style={styles.descText}>{desc}</Text>}
 					</View>
+				</View>
+
+				<View style={[styles.horizontalContainer, { flex: 1 }]}>
+					<PointTag
+						style={isPassthrough ? styles.passthroughLayout : {}}
+						points={action.points!}
+					/>
+
+					{initialTimeRemaining && (
+						<View style={sharedStyles.tagContainer}>
+							<CountDown initialTimeRemaining={initialTimeRemaining} />
+						</View>
+					)}
 
 					{action.category === ActionCategory.Streak && action.streak && (
 						<StreakBar
 							streak={action.streak}
 							currentStreak={currentStreak}
-							style={{ marginTop: 4 }}
+							isRecorded={!canUserPerformAction}
+							style={{ marginTop: 4, flexGrow: 1 }}
 						/>
-					)}
-
-					{showDescContainer && (
-						<View style={styles.descContainer}>
-							<Text
-								style={styles.descText}
-								numberOfLines={2}
-								ellipsizeMode="tail"
-							>
-								{!canUserPerformAction && action.streak
-									? 'Recorded streak'
-									: desc}
-							</Text>
-
-							<Text style={styles.descText}>
-								{action.category === ActionCategory.Streak &&
-									`${currentStreak}/${action.streak}`}
-
-								{action.category === ActionCategory.Milestone &&
-									stat?.milestone &&
-									action.milestone &&
-									stat.milestone < action.milestone &&
-									`${stat.milestone || 0}/${action.milestone}`}
-							</Text>
-						</View>
 					)}
 				</View>
 			</View>
 
-			<View style={styles.rightContainer}>
-				<Text style={styles.pointText}>{action.points} points</Text>
-				{action.category !== ActionCategory.Milestone &&
-					action.category !== ActionCategory.Streak &&
-					(isPerformingAction ? (
-						<ActivityIndicator
-							size="small"
-							color="white"
-							style={{ marginTop: 4 }}
-						/>
-					) : (
-						<Button
-							style={[
-								styles.ctaButton,
-								!canUserPerformAction && styles.performedCtaButton,
-							]}
-							disabled={!canUserPerformAction}
-							title={ctaText || 'Go'}
-							titleStyle={styles.pointText}
-							onPress={handlePerformAction}
-						/>
-					))}
-			</View>
-
-			{!canUserPerformAction && <View style={styles.performedOverlay} />}
+			{canUserPerformAction &&
+				action.category !== ActionCategory.Milestone &&
+				action.category !== ActionCategory.Streak &&
+				(isPerformingAction ? (
+					<ActivityIndicator
+						size="small"
+						color="white"
+						style={{ marginTop: 4 }}
+					/>
+				) : (
+					<Button
+						style={styles.ctaButton}
+						title={ctaText || 'Go'}
+						titleStyle={styles.ctaText}
+						onPress={handlePerformAction}
+					/>
+				))}
 		</View>
 	);
 };
@@ -267,58 +226,38 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		gap: 32,
 	},
-	performedOverlay: {
-		...StyleSheet.absoluteFillObject,
-		backgroundColor: 'rgba(67, 82, 95, 0.4)',
+	passthroughLayout: {
+		opacity: 0.5,
 	},
-	leftContainer: {
+	horizontalContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 8,
-		flex: 1,
 	},
 	image: {
 		width: 24,
 		height: 24,
 		borderRadius: 4,
 	},
-	titleContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 12,
-	},
 	nameText: {
 		fontSize: 11,
 		fontWeight: '500',
 		color: 'white',
-	},
-	descContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between',
 	},
 	descText: {
 		fontSize: 10,
 		color: '#566674',
 		maxWidth: 240,
 	},
-	rightContainer: {
-		width: 64,
-		alignItems: 'center',
-		gap: 4,
-	},
-	pointText: {
+	ctaText: {
 		fontSize: 10,
 		color: 'white',
 	},
 	ctaButton: {
-		width: '100%',
+		width: 64,
 		borderRadius: 32,
 		paddingVertical: 4,
 		paddingHorizontal: 0,
-	},
-	performedCtaButton: {
-		backgroundColor: '#162E3D',
 	},
 });
 

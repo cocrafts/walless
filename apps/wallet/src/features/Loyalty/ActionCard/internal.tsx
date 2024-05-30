@@ -1,4 +1,4 @@
-import { Image } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import type { ActionMetadata } from '@walless/graphql';
 import {
 	DiscordMonochrome,
@@ -9,6 +9,19 @@ import { mockWidgets } from 'state/widget';
 import assets from 'utils/assets';
 import { navigate } from 'utils/navigation';
 import { addWidgetToStorage } from 'utils/storage';
+
+export const sharedStyles = StyleSheet.create({
+	tagContainer: {
+		backgroundColor: '#2C353D',
+		height: 24,
+		borderRadius: 8,
+		paddingHorizontal: 4,
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'row',
+		gap: 4,
+	},
+});
 
 export interface ExtractedMetadata {
 	name: string;
@@ -142,4 +155,13 @@ export const getCycleEndTime = (actionTime: Date, cycle: number): Date => {
 	);
 
 	return cycleEndTimeInUTC;
+};
+
+export const formatCountdownTime = (timeRemaining: number) => {
+	const hours = Math.floor(
+		(timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+	);
+	const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+	const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+	return `${hours}h:${minutes}m:${seconds}s`;
 };

@@ -1,34 +1,37 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import type { UserProgress } from '@walless/graphql';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import type { Action, ActionMetadata, UserProgress } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import type { TabAble } from '@walless/gui';
 import { activatedStyle, deactivatedStyle, SliderTabs } from '@walless/gui';
+import { groupBy } from 'lodash';
 import { loyaltyActions, loyaltyState } from 'state/loyalty';
 import { qlClient } from 'utils/graphql';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
-import AchievementsTab from './AchievementsTab';
+import { extractDataFromMetadata } from './ActionCard/internal';
 import Header from './Header';
-import LeaderboardTab from './LeaderboardTab';
+import PartnerTab from './PartnerTab';
+import WallessTab from './WallessTab';
 
 enum Tab {
-	Achievements = 'Achievements',
-	Leaderboard = 'Leaderboard',
+	Walless = 'Walless',
+	Partner = 'Partner',
 }
 
 const tabs: TabAble[] = [
 	{
-		id: Tab.Achievements,
-		title: 'Achievements',
+		id: Tab.Walless,
+		title: 'Walless',
 	},
 	{
-		id: Tab.Leaderboard,
-		title: 'Leaderboard',
+		id: Tab.Partner,
+		title: 'Partner',
 	},
 ];
 
 const LoyaltyFeature = () => {
+	const [isLoadingActions, setIsLoadingActions] = useState(true);
 	const [activeTab, setActiveTab] = useState(tabs[0]);
 	const { userProgress } = useSnapshot(loyaltyState);
 	const { bottom } = useSafeAreaInsets();
@@ -42,9 +45,49 @@ const LoyaltyFeature = () => {
 			return loyaltyUserProgress;
 		};
 
+		const fetchActiveActions = async () => {
+			setIsLoadingActions(true);
+
+			const { loyaltyActiveActions } = await qlClient.request<{
+				loyaltyActiveActions: Action[];
+			}>(queries.loyaltyActiveActions);
+
+			const typeGroupedActions = groupBy(loyaltyActiveActions, 'type');
+
+			const sortedActions = Object.values(typeGroupedActions)
+				.map((actions) =>
+					actions.sort((a, b) => (a.points || 0) - (b.points || 0)),
+				)
+				.flat();
+
+			const wallessActions: Action[] = [];
+			const partnerActionMap: Map<string, Action[]> = new Map();
+
+			sortedActions.forEach((action) => {
+				const extractedMetadata = extractDataFromMetadata(
+					action.metadata as ActionMetadata[],
+				);
+
+				if (extractedMetadata.partner === '') {
+					wallessActions.push(action);
+				} else if (partnerActionMap.has(extractedMetadata.partner)) {
+					partnerActionMap.get(extractedMetadata.partner)!.push(action);
+				} else {
+					partnerActionMap.set(extractedMetadata.partner, [action]);
+				}
+			});
+
+			loyaltyActions.setWallessActions(wallessActions);
+			loyaltyActions.setPartnerActionMap(partnerActionMap);
+		};
+
 		fetchLoyaltyProgress()
 			.then((progress) => loyaltyActions.setUserProgress(progress))
 			.catch(console.error);
+
+		fetchActiveActions()
+			.catch(console.error)
+			.finally(() => setIsLoadingActions(false));
 	}, []);
 
 	return (
@@ -61,18 +104,22 @@ const LoyaltyFeature = () => {
 					{ paddingBottom: Math.max(bottom, 16) },
 				]}
 			>
-				<SliderTabs
-					items={tabs}
-					activeItem={activeTab}
-					activatedStyle={activatedStyle}
-					deactivatedStyle={deactivatedStyle}
-					onTabPress={setActiveTab}
-				/>
-
-				{activeTab.id === Tab.Achievements ? (
-					<AchievementsTab userProgress={userProgress as UserProgress} />
+				{isLoadingActions ? (
+					<View style={styles.centerContainer}>
+						<ActivityIndicator size="large" />
+					</View>
 				) : (
-					<LeaderboardTab />
+					<>
+						<SliderTabs
+							items={tabs}
+							activeItem={activeTab}
+							activatedStyle={activatedStyle}
+							deactivatedStyle={deactivatedStyle}
+							onTabPress={setActiveTab}
+						/>
+
+						{activeTab.id === Tab.Walless ? <WallessTab /> : <PartnerTab />}
+					</>
 				)}
 			</View>
 		</View>
@@ -96,6 +143,11 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 16,
 		flexGrow: 1,
 		gap: 12,
+	},
+	centerContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });
 

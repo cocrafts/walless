@@ -30,6 +30,10 @@ export interface ExtractedMetadata {
 	cta: string;
 	ctaText: string;
 	ctaType: string;
+	partner: string;
+	partnerDesc: string;
+	partnerIcon: string;
+	partnerThumbnail: string;
 }
 
 export const extractDataFromMetadata = (
@@ -42,6 +46,10 @@ export const extractDataFromMetadata = (
 		cta: '',
 		ctaText: '',
 		ctaType: '',
+		partner: '',
+		partnerDesc: '',
+		partnerIcon: '',
+		partnerThumbnail: '',
 	};
 
 	for (const meta of metadata) {
@@ -57,6 +65,14 @@ export const extractDataFromMetadata = (
 			extractedMetadata.ctaText = meta.value;
 		} else if (meta.key === 'ctaType' && meta.value) {
 			extractedMetadata.ctaType = meta.value;
+		} else if (meta.key === 'partner' && meta.value) {
+			extractedMetadata.partner = meta.value;
+		} else if (meta.key === 'partnerDesc' && meta.value) {
+			extractedMetadata.partnerDesc = meta.value;
+		} else if (meta.key === 'partnerIcon' && meta.value) {
+			extractedMetadata.partnerIcon = meta.value;
+		} else if (meta.key === 'partnerThumbnail' && meta.value) {
+			extractedMetadata.partnerThumbnail = meta.value;
 		}
 	}
 

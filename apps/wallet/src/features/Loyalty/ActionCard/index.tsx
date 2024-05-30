@@ -187,7 +187,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 							streak={action.streak}
 							currentStreak={currentStreak}
 							isRecorded={!canUserPerformAction}
-							style={{ marginTop: 4, flexGrow: 1 }}
+							style={{ marginLeft: 8, flexGrow: 1 }}
 						/>
 					)}
 				</View>

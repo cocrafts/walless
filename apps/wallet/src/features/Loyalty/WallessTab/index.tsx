@@ -1,50 +1,14 @@
-import type { FC } from 'react';
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import type {
-	Action,
-	ActionCount,
-	ActionRecord,
-	UserProgress,
-} from '@walless/graphql';
-import { ActionCategory, queries } from '@walless/graphql';
-import { groupBy } from 'lodash';
-import { qlClient } from 'utils/graphql';
+import { StyleSheet, Text, View } from 'react-native';
+import type { Action, ActionCount, ActionRecord } from '@walless/graphql';
+import { ActionCategory } from '@walless/graphql';
+import { loyaltyState } from 'state/loyalty';
+import { useSnapshot } from 'utils/hooks';
 
 import ActionCard from '../ActionCard';
 import { getCycleEndTime } from '../ActionCard/internal';
 
-interface Props {
-	userProgress?: UserProgress;
-}
-
-const AchievementsTab: FC<Props> = ({ userProgress }) => {
-	const [isLoading, setIsLoading] = useState(true);
-	const [actions, setActions] = useState<Action[]>([]);
-
-	useEffect(() => {
-		const fetchActiveActions = async () => {
-			setIsLoading(true);
-
-			const { loyaltyActiveActions } = await qlClient.request<{
-				loyaltyActiveActions: Action[];
-			}>(queries.loyaltyActiveActions);
-
-			const typeGroupedActions = groupBy(loyaltyActiveActions, 'type');
-
-			const sortedActions = Object.values(typeGroupedActions)
-				.map((actions) =>
-					actions.sort((a, b) => (a.points || 0) - (b.points || 0)),
-				)
-				.flat();
-
-			setActions(sortedActions);
-		};
-
-		fetchActiveActions()
-			.catch(console.error)
-			.finally(() => setIsLoading(false));
-	}, []);
+const WallessTab = () => {
+	const { userProgress, wallessActions } = useSnapshot(loyaltyState);
 
 	const canUserPerformAction = (action: Action) => {
 		if (!userProgress) {
@@ -99,16 +63,9 @@ const AchievementsTab: FC<Props> = ({ userProgress }) => {
 		return false;
 	};
 
-	if (isLoading)
-		return (
-			<View style={styles.centerContainer}>
-				<ActivityIndicator size="large" />
-			</View>
-		);
-
 	return (
 		<View style={styles.container}>
-			{actions.length === 0 && (
+			{wallessActions.length === 0 && (
 				<View style={styles.centerContainer}>
 					<Text style={styles.noTaskText}>
 						There is no available tasks, please comeback later!
@@ -116,11 +73,11 @@ const AchievementsTab: FC<Props> = ({ userProgress }) => {
 				</View>
 			)}
 
-			{actions.map((action) => (
+			{wallessActions.map((action) => (
 				<ActionCard
 					key={action.id}
-					action={action}
-					canUserPerformAction={canUserPerformAction(action)}
+					action={action as Action}
+					canUserPerformAction={canUserPerformAction(action as Action)}
 				/>
 			))}
 		</View>
@@ -143,4 +100,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default AchievementsTab;
+export default WallessTab;

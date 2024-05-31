@@ -313,6 +313,7 @@ export type TokenInfo = {
   platforms: Scalars['JSON']['output'];
   quotes: Scalars['JSON']['output'];
   symbol: Scalars['String']['output'];
+  pnl24h: Scalars['Float']['output']
   timestamp: Scalars['DateTime']['output'];
 };
 
@@ -637,6 +638,7 @@ export type TokenInfoResolvers<ContextType = any, ParentType extends ResolversPa
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   platforms?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
   quotes?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  pnl24h?:Resolver<ResolversTypes['String'], ParentType,ContextType>
   symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

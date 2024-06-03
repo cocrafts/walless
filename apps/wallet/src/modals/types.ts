@@ -9,5 +9,6 @@ export enum ModalId {
 	RequirePasscode = 'RequirePasscode',
 	TransactionDetails = 'TransactionDetails',
 	QRScanner = 'QRScanner',
-	LeaderBoard = 'LeaderBoard',
+	ReferralLeaderBoard = 'ReferralLeaderBoard',
+	LoyaltyPartnerQuest = 'LoyaltyPartnerQuest',
 }

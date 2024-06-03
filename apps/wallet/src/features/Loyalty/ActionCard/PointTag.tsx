@@ -3,7 +3,7 @@ import type { ViewStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { BlingBling } from '@walless/icons';
 
-import { sharedStyles } from './internal';
+import { sharedStyles } from '../internal';
 
 interface Props {
 	points: number;

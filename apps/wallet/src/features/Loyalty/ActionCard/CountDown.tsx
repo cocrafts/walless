@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-import { formatCountdownTime } from './internal';
+import { formatCountdownTime } from '../internal';
 
 interface Props {
 	initialTimeRemaining: number;

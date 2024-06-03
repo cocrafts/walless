@@ -9,8 +9,8 @@ import { loyaltyActions, loyaltyState } from 'state/loyalty';
 import { qlClient } from 'utils/graphql';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
-import { extractDataFromMetadata } from './ActionCard/internal';
 import Header from './Header';
+import { extractDataFromMetadata } from './internal';
 import PartnerTab from './PartnerTab';
 import WallessTab from './WallessTab';
 

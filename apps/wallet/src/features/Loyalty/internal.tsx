@@ -1,5 +1,10 @@
 import { Image, StyleSheet } from 'react-native';
-import type { ActionMetadata } from '@walless/graphql';
+import type { Action, ActionCount, ActionRecord } from '@walless/graphql';
+import {
+	ActionCategory,
+	type ActionMetadata,
+	type UserProgress,
+} from '@walless/graphql';
 import {
 	DiscordMonochrome,
 	WallessMonochrome,
@@ -180,4 +185,60 @@ export const formatCountdownTime = (timeRemaining: number) => {
 	const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
 	const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 	return `${hours}h:${minutes}m:${seconds}s`;
+};
+
+export const canUserPerformAction = (
+	userProgress: UserProgress,
+	action: Action,
+) => {
+	if (!userProgress) {
+		return false;
+	}
+
+	if (
+		action.category === ActionCategory.Onetime ||
+		action.category === ActionCategory.Milestone
+	) {
+		return !(userProgress.actionRecords as ActionRecord[]).some(
+			(record) => record.actionId === action.id,
+		);
+	}
+
+	if (action.category === ActionCategory.Recurring) {
+		if (!action.cycleInHours) {
+			return true;
+		}
+
+		const lastRecord = (userProgress.actionRecords as ActionRecord[]).findLast(
+			(record) => record.actionId === action.id,
+		);
+		if (!lastRecord) {
+			return true;
+		}
+
+		const cycleEndTime = getCycleEndTime(
+			new Date(lastRecord.timestamp),
+			action.cycleInHours,
+		);
+
+		return new Date() >= cycleEndTime;
+	}
+
+	if (action.category === ActionCategory.Streak) {
+		const actionCount = userProgress.trackList?.find(
+			(track) => (track as ActionCount).type === action.type,
+		);
+		if (!actionCount || !actionCount.cycleInHours) {
+			return true;
+		}
+
+		const cycleEndTime = getCycleEndTime(
+			new Date(actionCount.lastClaim),
+			actionCount.cycleInHours as number,
+		);
+
+		return new Date() >= cycleEndTime;
+	}
+
+	return false;
 };

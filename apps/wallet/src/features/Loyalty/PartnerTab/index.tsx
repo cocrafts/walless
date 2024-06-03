@@ -3,9 +3,10 @@ import type { ActionMetadata } from '@walless/graphql';
 import { loyaltyState } from 'state/loyalty';
 import { useSnapshot } from 'utils/hooks';
 
-import { extractDataFromMetadata } from '../ActionCard/internal';
+import { extractDataFromMetadata } from '../internal';
 
 import PartnerFolder from './PartnerFolder';
+import { showPartnerQuest } from './PartQuest';
 
 const PartnerTab = () => {
 	const { partnerActionMap } = useSnapshot(loyaltyState);
@@ -30,6 +31,11 @@ const PartnerTab = () => {
 						actions[0].metadata as ActionMetadata[],
 					);
 
+					const totalPoints = actions.reduce(
+						(acc, cur) => acc + (cur.points || 0),
+						0,
+					);
+
 					return (
 						<PartnerFolder
 							key={partner}
@@ -37,10 +43,14 @@ const PartnerTab = () => {
 							desc={metadata.partnerDesc}
 							icon={metadata.partnerIcon}
 							thumbnail={metadata.partnerThumbnail}
-							totalPoints={actions.reduce(
-								(acc, cur) => acc + (cur.points || 0),
-								0,
-							)}
+							totalPoints={totalPoints}
+							onPress={() =>
+								showPartnerQuest({
+									partner,
+									actions,
+									totalPoints,
+								})
+							}
 						/>
 					);
 				})}

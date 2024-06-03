@@ -28,14 +28,16 @@ import { loyaltyActions, loyaltyState } from 'state/loyalty';
 import { qlClient } from 'utils/graphql';
 import { useSnapshot } from 'utils/hooks';
 
-import CountDown from './CountDown';
 import {
 	extractDataFromMetadata,
 	getCycleEndTime,
 	getIconByType,
 	navigateInternalByCta,
 	sharedStyles,
-} from './internal';
+} from '../internal';
+
+import CompletedTag from './CompletedTag';
+import CountDown from './CountDown';
 import PointTag from './PointTag';
 import StreakBar from './StreakBar';
 
@@ -166,7 +168,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 
 					<View style={{ gap: 4 }}>
 						<Text style={styles.nameText}>{name}</Text>
-						{desc && <Text style={styles.descText}>{desc}</Text>}
+						{desc !== '' && <Text style={styles.descText}>{desc}</Text>}
 					</View>
 				</View>
 
@@ -175,6 +177,8 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 						style={isPassthrough ? styles.passthroughLayout : {}}
 						points={action.points!}
 					/>
+
+					{isPassthrough && <CompletedTag style={styles.passthroughLayout} />}
 
 					{initialTimeRemaining && (
 						<View style={sharedStyles.tagContainer}>

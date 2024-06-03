@@ -81,6 +81,7 @@ export type SuiToken = Token & {
 	decimals: number;
 };
 
+// There are 2 standards of tokens in Tezos, they are FA1.2 and FA2
 export enum TezosTokenTypes {
 	FA12 = 'FA1.2',
 	FA2 = 'FA2',

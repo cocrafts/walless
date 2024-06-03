@@ -10,7 +10,7 @@ import { addTokenToStorage, storage } from 'utils/storage';
 import type { EngineConfig, Runner } from '../../types';
 
 import { constructTezosTokenDocument, XTZ } from './token';
-import { convertTezosImageUriToUrl, getTezosContext } from './utils';
+import { convertTezosImageUriToUrl, createContext } from './utils';
 
 export type TezosContext = {
 	connection: TezosToolkit;
@@ -23,7 +23,7 @@ export const createTezosRunner = async (
 ): Promise<Runner> => {
 	const { networkClusters } = config;
 	const cluster = networkClusters[Networks.tezos];
-	const { connection, tzktApi } = getTezosContext(config);
+	const { connection, tzktApi } = createContext(config);
 
 	const keysResult = await storage.find<PublicKeyDocument>(selectors.tezosKeys);
 	const keys = keysResult.docs;
@@ -47,9 +47,15 @@ export const createTezosRunner = async (
 					balance: parseFloat(tzBalance.toString()) / 10 ** XTZ.decimals,
 				} as TezosToken);
 
-				const tokenDocuments: TokenDocument<TezosToken>[] = [tzDocument];
+				const responseQuotes = await getTokenQuote({
+					address: `${tzDocument.contract?.address}`,
+					network: tzDocument.network,
+				});
+				tzDocument.quotes = responseQuotes?.quotes;
 
-				tokenBalancesJson.forEach((tokenBalance) => {
+				await addTokenToStorage<TokenDocument<TezosToken>>(tzDocument);
+
+				for (const tokenBalance of tokenBalancesJson) {
 					const tokenDocument = constructTezosTokenDocument({
 						owner: key._id,
 						network: Networks.tezos,
@@ -69,12 +75,6 @@ export const createTezosRunner = async (
 						),
 					} as TezosToken);
 
-					console.log(tokenDocument);
-
-					tokenDocuments.push(tokenDocument);
-				});
-
-				for (const tokenDocument of tokenDocuments) {
 					const responseQuotes = await getTokenQuote({
 						address: `${tokenDocument.contract?.address}`,
 						network: tokenDocument.network,

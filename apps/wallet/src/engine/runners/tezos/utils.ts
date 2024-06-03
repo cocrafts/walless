@@ -8,7 +8,7 @@ const GHOST_NET = 'https://ghostnet.ecadinfra.com';
 const TZKT_API_MAINNET = 'https://api.tzkt.io/v1';
 const TZKT_API_GHOSTNET = 'https://api.ghostnet.tzkt.io/v1';
 
-export const getTezosContext = (config: EngineConfig) => {
+export const createContext = (config: EngineConfig) => {
 	const { networkClusters } = config;
 	const cluster = networkClusters[Networks.tezos];
 	const rpc = cluster === 'mainnet' ? MAIN_NET : GHOST_NET;

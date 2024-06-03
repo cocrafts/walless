@@ -16,7 +16,7 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 				<Text style={styles.yourTotalPointsText}>Your total point</Text>
 				<View style={styles.horizontalContainer}>
 					<View style={styles.blingContainer}>
-						<BlingBling size={10} />
+						<BlingBling size={12} />
 					</View>
 					<Text style={styles.pointText}>{point}</Text>
 				</View>
@@ -30,7 +30,7 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 							{ borderColor: 'rgba(47, 200, 121, 0.3)' },
 						]}
 					>
-						<Check size={12} color="#2FC879" />
+						<Check size={14} color="#2FC879" />
 					</View>
 					<View>
 						<Text style={styles.subText}>Completed Task</Text>
@@ -45,11 +45,11 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 							{ borderColor: 'rgba(246, 213, 112, 0.3)' },
 						]}
 					>
-						<Ranking size={12} color="#F6D570" />
+						<Ranking size={14} color="#F6D570" />
 					</View>
 					<View style={{ paddingRight: 12 }}>
-						<Text style={styles.subText}>You are in</Text>
-						<Text style={styles.mainText}>Top 10%</Text>
+						<Text style={styles.subText}>Ranking</Text>
+						<Text style={styles.mainText}>Incoming</Text>
 					</View>
 				</View>
 			</View>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
 	},
 	mainText: {
 		fontSize: 14,
-		color: '#A4B3C1',
+		color: 'white',
 	},
 });
 

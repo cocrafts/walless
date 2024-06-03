@@ -158,11 +158,13 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 						isPassthrough && styles.passthroughLayout,
 					]}
 				>
-					{icon ? (
-						<Image source={{ uri: icon }} style={styles.image} />
-					) : (
-						getActionLogo(action)
-					)}
+					<View style={styles.imageContainer}>
+						{icon ? (
+							<Image source={{ uri: icon }} style={styles.image} />
+						) : (
+							getActionLogo(action)
+						)}
+					</View>
 
 					<View style={{ gap: 4 }}>
 						<Text style={styles.nameText}>{name}</Text>
@@ -236,10 +238,13 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 8,
 	},
+	imageContainer: {
+		overflow: 'hidden',
+		borderRadius: 4,
+	},
 	image: {
 		width: 24,
 		height: 24,
-		borderRadius: 4,
 	},
 	nameText: {
 		fontSize: 11,

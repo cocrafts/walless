@@ -242,7 +242,7 @@ export default LeaderboardModal;
 
 export const showLeaderboard = (props: LeaderboardProps) => {
 	modalActions.show({
-		id: ModalId.LeaderBoard,
+		id: ModalId.ReferralLeaderBoard,
 		component: ({ config }) => <LeaderboardModal config={config} {...props} />,
 		animateDirection: AnimateDirections.Top,
 		bindingDirection: BindDirections.InnerBottom,

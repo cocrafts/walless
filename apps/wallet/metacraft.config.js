@@ -32,6 +32,7 @@ module.exports = {
 			'react-native-webview': 'vendor/web-webview',
 			'react-native-keychain': 'vendor/web-keychain',
 			'react-native-haptic-feedback': 'vendor/web-haptic',
+			'react-native-linear-gradient': 'react-native-web-linear-gradient',
 		},
 	},
 };

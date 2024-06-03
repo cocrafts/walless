@@ -29,12 +29,7 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 					style={styles.bottomItemContainer}
 					onPress={showHistory}
 				>
-					<View
-						style={[
-							styles.iconContainer,
-							{ borderColor: 'rgba(47, 200, 121, 0.3)' },
-						]}
-					>
+					<View style={[styles.iconContainer, styles.checkBorder]}>
 						<Check size={14} color="#2FC879" />
 					</View>
 					<View>
@@ -44,12 +39,7 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 				</TouchableOpacity>
 
 				<View style={styles.bottomItemContainer}>
-					<View
-						style={[
-							styles.iconContainer,
-							{ borderColor: 'rgba(246, 213, 112, 0.3)' },
-						]}
-					>
+					<View style={[styles.iconContainer, styles.rankingBorder]}>
 						<Ranking size={14} color="#F6D570" />
 					</View>
 					<View style={{ paddingRight: 12 }}>
@@ -121,9 +111,16 @@ const styles = StyleSheet.create({
 		width: 26,
 		height: 26,
 		borderRadius: 13,
-		borderWidth: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	checkBorder: {
+		borderWidth: 1,
+		borderColor: 'rgba(47, 200, 121, 0.3)',
+	},
+	rankingBorder: {
+		borderWidth: 1,
+		borderColor: 'rgba(246, 213, 112, 0.3)',
 	},
 	subText: {
 		fontSize: 10,

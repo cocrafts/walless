@@ -1,15 +1,8 @@
 import { Image, StyleSheet } from 'react-native';
 import type { Action, ActionCount, ActionRecord } from '@walless/graphql';
-import {
-	ActionCategory,
-	type ActionMetadata,
-	type UserProgress,
-} from '@walless/graphql';
-import {
-	DiscordMonochrome,
-	WallessMonochrome,
-	XMonochrome,
-} from '@walless/icons';
+import type { ActionMetadata, UserProgress } from '@walless/graphql';
+import { ActionCategory } from '@walless/graphql';
+import { DiscordColorful, WallessColorful, XMonochrome } from '@walless/icons';
 import { mockWidgets } from 'state/widget';
 import assets from 'utils/assets';
 import { navigate } from 'utils/navigation';
@@ -90,7 +83,7 @@ export const getIconByType = (type: string) => {
 	}
 
 	if (type.toLowerCase().includes('discord')) {
-		return <DiscordMonochrome size={24} />;
+		return <DiscordColorful size={24} />;
 	}
 
 	if (type.toLowerCase() === 'open chest') {
@@ -106,7 +99,7 @@ export const getIconByType = (type: string) => {
 		);
 	}
 
-	return <WallessMonochrome size={24} />;
+	return <WallessColorful size={24} />;
 };
 
 export const navigateInternalByCta = (cta: string) => {

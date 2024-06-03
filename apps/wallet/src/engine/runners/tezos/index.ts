@@ -1,4 +1,4 @@
-import { TezosToolkit } from '@taquito/taquito';
+import type { TezosToolkit } from '@taquito/taquito';
 import {} from '@taquito/tzip16';
 import type { TezosToken } from '@walless/core';
 import { Networks } from '@walless/core';
@@ -10,17 +10,12 @@ import { addTokenToStorage, storage } from 'utils/storage';
 import type { EngineConfig, Runner } from '../../types';
 
 import { constructTezosTokenDocument, XTZ } from './token';
-import { convertTezosImageUriToUrl } from './utils';
+import { convertTezosImageUriToUrl, getTezosContext } from './utils';
 
 export type TezosContext = {
 	connection: TezosToolkit;
+	tzktApi: string;
 };
-
-const MAIN_NET = 'https://api.tez.ie/rpc/mainnet';
-const GHOST_NET = 'https://ghostnet.ecadinfra.com';
-
-const TZKT_API_MAINNET = 'https://api.tzkt.io/v1';
-const TZKT_API_GHOSTNET = 'https://api.ghostnet.tzkt.io/v1';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const createTezosRunner = async (
@@ -28,8 +23,7 @@ export const createTezosRunner = async (
 ): Promise<Runner> => {
 	const { networkClusters } = config;
 	const cluster = networkClusters[Networks.tezos];
-	const rpc = cluster === 'mainnet' ? MAIN_NET : GHOST_NET;
-	const tzktAPI = cluster === 'mainnet' ? TZKT_API_MAINNET : TZKT_API_GHOSTNET;
+	const { connection, tzktApi } = getTezosContext(config);
 
 	const keysResult = await storage.find<PublicKeyDocument>(selectors.tezosKeys);
 	const keys = keysResult.docs;
@@ -38,11 +32,10 @@ export const createTezosRunner = async (
 		async start() {
 			const tokensPromises = keys.map(async (key) => {
 				const owner = key._id;
-				const connection = new TezosToolkit(rpc);
 				const tzBalance = await connection.tz.getBalance(owner);
 
 				const tokenBalances = await fetch(
-					`${tzktAPI}/tokens/balances?account=${owner}`,
+					`${tzktApi}/tokens/balances?account=${owner}`,
 				);
 				const tokenBalancesJson = await tokenBalances.json();
 
@@ -76,6 +69,8 @@ export const createTezosRunner = async (
 						),
 					} as TezosToken);
 
+					console.log(tokenDocument);
+
 					tokenDocuments.push(tokenDocument);
 				});
 
@@ -97,7 +92,7 @@ export const createTezosRunner = async (
 		},
 		stop() {},
 		getContext: (): TezosContext => {
-			return {} as TezosContext;
+			return { connection, tzktApi } as TezosContext;
 		},
 		restart: () => {},
 	};

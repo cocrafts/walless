@@ -15,9 +15,7 @@ const PartnerTab = () => {
 		<View style={styles.container}>
 			{partnerActionMap.size === 0 && (
 				<View style={styles.centerContainer}>
-					<Text style={styles.noTaskText}>
-						There is no available tasks, please comeback later!
-					</Text>
+					<Text style={styles.noTaskText}>Coming soon!</Text>
 				</View>
 			)}
 
@@ -70,6 +68,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	noTaskText: {
+		fontSize: 20,
 		color: 'white',
 		textAlign: 'center',
 	},

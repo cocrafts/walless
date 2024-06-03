@@ -25,6 +25,7 @@ export { DiscordColorful } from './components/DiscordColorful';
 export { DiscordMonochrome } from './components/DiscordMonochrome';
 export { Edit } from './components/Edit';
 export { Exclamation } from './components/Exclamation';
+export { Exclamation2 } from './components/Exclamation2';
 export { Eye } from './components/Eye';
 export { EyeOff } from './components/EyeOff';
 export { FingerPrint } from './components/FingerPrint';

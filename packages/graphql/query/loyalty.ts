@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
 export const loyaltyActiveActions = gql`
-	query loyaltyActiveActions {
+	query LoyaltyActiveActions {
 		loyaltyActiveActions {
 			category
 			cycleInHours
@@ -23,7 +23,7 @@ export const loyaltyActiveActions = gql`
 `;
 
 export const loyaltyUserProgress = gql`
-	query loyaltyUserProgress {
+	query LoyaltyUserProgress {
 		loyaltyUserProgress {
 			id
 			totalPoints
@@ -42,6 +42,39 @@ export const loyaltyUserProgress = gql`
 					remainingClaims
 					streak
 				}
+			}
+		}
+	}
+`;
+
+export const loyaltyHistory = gql`
+	query LoyaltyHistory {
+		loyaltyHistory {
+			doneAt
+			action {
+				category
+				cycleInHours
+				id
+				mechanism
+				milestone
+				points
+				streak
+				type
+				validFrom
+				validUntil
+				verifier
+				metadata {
+					key
+					value
+				}
+			}
+			boosts {
+				actionId
+				id
+				multiplier
+				points
+				validFrom
+				validUntil
 			}
 		}
 	}

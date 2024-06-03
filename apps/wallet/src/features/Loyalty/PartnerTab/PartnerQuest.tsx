@@ -1,12 +1,6 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import {
-	ScrollView,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import type { Action, UserProgress } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
 import {
@@ -15,13 +9,13 @@ import {
 	modalActions,
 	SwipeDownGesture,
 } from '@walless/gui';
-import { Times } from '@walless/icons';
 import { ModalId } from 'modals/types';
 import { loyaltyState } from 'state/loyalty';
 import { useSafeAreaInsets } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import ActionCard from '../ActionCard';
+import ModalHeader from '../components/ModalHeader';
 import { canUserPerformAction } from '../internal';
 
 import PartnerProgress from './PartnerProgress';
@@ -35,8 +29,6 @@ interface PartnerQuestProps {
 type Props = PartnerQuestProps & {
 	config: ModalConfigs;
 };
-
-const CLOSE_ICON_SIZE = 12;
 
 const PartnerQuestModal: FC<Props> = ({
 	config,
@@ -57,13 +49,11 @@ const PartnerQuestModal: FC<Props> = ({
 
 	return (
 		<SwipeDownGesture style={[styles.container, safeAreaStyle]}>
-			<View style={styles.headerContainer}>
-				<View style={{ width: CLOSE_ICON_SIZE }} />
-				<Text style={styles.headerText}>{partner} Quest</Text>
-				<TouchableOpacity onPress={handleCloseModal}>
-					<Times size={CLOSE_ICON_SIZE} color="white" />
-				</TouchableOpacity>
-			</View>
+			<ModalHeader
+				style={styles.headerContainer}
+				content={`${partner} Quest`}
+				onPressClose={handleCloseModal}
+			/>
 
 			<PartnerProgress totalPoints={totalPoints} totalTasks={actions.length} />
 
@@ -105,9 +95,6 @@ const styles = StyleSheet.create({
 		marginBottom: 16,
 	},
 	headerContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between',
 		paddingHorizontal: 8,
 	},
 	headerText: {

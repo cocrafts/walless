@@ -1,7 +1,9 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BlingBling, Check, Ranking } from '@walless/icons';
+
+import { showHistory } from './History';
 
 interface Props {
 	point: number;
@@ -23,7 +25,10 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 			</View>
 
 			<View style={styles.bottomContainer}>
-				<View style={styles.bottomItemContainer}>
+				<TouchableOpacity
+					style={styles.bottomItemContainer}
+					onPress={showHistory}
+				>
 					<View
 						style={[
 							styles.iconContainer,
@@ -36,7 +41,7 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 						<Text style={styles.subText}>Completed Task</Text>
 						<Text style={styles.mainText}>{completedTask}</Text>
 					</View>
-				</View>
+				</TouchableOpacity>
 
 				<View style={styles.bottomItemContainer}>
 					<View

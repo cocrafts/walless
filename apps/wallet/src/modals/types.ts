@@ -11,4 +11,5 @@ export enum ModalId {
 	QRScanner = 'QRScanner',
 	ReferralLeaderBoard = 'ReferralLeaderBoard',
 	LoyaltyPartnerQuest = 'LoyaltyPartnerQuest',
+	LoyaltyHistory = 'LoyaltyHistory',
 }

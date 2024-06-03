@@ -40,6 +40,7 @@ import CompletedTag from './CompletedTag';
 import CountDown from './CountDown';
 import PointTag from './PointTag';
 import StreakBar from './StreakBar';
+import VerificationNeededTag from './VerificationNeededTag';
 
 interface Props {
 	style?: ViewStyle;
@@ -177,6 +178,10 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 						style={isPassthrough ? styles.passthroughLayout : {}}
 						points={action.points!}
 					/>
+
+					{!isPassthrough && action.mechanism === VerifyMechanism.Manual && (
+						<VerificationNeededTag />
+					)}
 
 					{isPassthrough && <CompletedTag style={styles.passthroughLayout} />}
 

@@ -278,6 +278,18 @@ input DeviceInfoInput {
   systemVersion: String
 }
 
+""""""
+type HistoryItem {
+  """"""
+  action: Action
+
+  """"""
+  boosts: [Boost]
+
+  """"""
+  doneAt: DateTime
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
 """
@@ -425,6 +437,9 @@ type RootQuery {
 
   """"""
   loyaltyCurrentBoostsOfAction(actionId: String!): [Boost]
+
+  """"""
+  loyaltyHistory: [HistoryItem]
 
   """"""
   loyaltyUserProgress: UserProgress

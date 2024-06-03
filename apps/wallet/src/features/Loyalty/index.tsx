@@ -38,56 +38,61 @@ const LoyaltyFeature = () => {
 
 	useEffect(() => {
 		const fetchLoyaltyProgress = async () => {
-			const { loyaltyUserProgress } = await qlClient.request<{
-				loyaltyUserProgress: UserProgress;
-			}>(queries.loyaltyUserProgress);
+			try {
+				const { loyaltyUserProgress } = await qlClient.request<{
+					loyaltyUserProgress: UserProgress;
+				}>(queries.loyaltyUserProgress);
 
-			return loyaltyUserProgress;
+				loyaltyActions.setUserProgress(loyaltyUserProgress);
+			} catch (err) {
+				console.error(err);
+			}
 		};
 
 		const fetchActiveActions = async () => {
 			setIsLoadingActions(true);
 
-			const { loyaltyActiveActions } = await qlClient.request<{
-				loyaltyActiveActions: Action[];
-			}>(queries.loyaltyActiveActions);
+			try {
+				const { loyaltyActiveActions } = await qlClient.request<{
+					loyaltyActiveActions: Action[];
+				}>(queries.loyaltyActiveActions);
 
-			const typeGroupedActions = groupBy(loyaltyActiveActions, 'type');
+				const typeGroupedActions = groupBy(loyaltyActiveActions, 'type');
 
-			const sortedActions = Object.values(typeGroupedActions)
-				.map((actions) =>
-					actions.sort((a, b) => (a.points || 0) - (b.points || 0)),
-				)
-				.flat();
+				const sortedActions = Object.values(typeGroupedActions)
+					.map((actions) =>
+						actions.sort((a, b) => (a.points || 0) - (b.points || 0)),
+					)
+					.flat();
 
-			const wallessActions: Action[] = [];
-			const partnerActionMap: Map<string, Action[]> = new Map();
+				const wallessActions: Action[] = [];
+				const partnerActionMap: Map<string, Action[]> = new Map();
 
-			sortedActions.forEach((action) => {
-				const extractedMetadata = extractDataFromMetadata(
-					action.metadata as ActionMetadata[],
-				);
+				sortedActions.forEach((action) => {
+					const extractedMetadata = extractDataFromMetadata(
+						action.metadata as ActionMetadata[],
+					);
 
-				if (extractedMetadata.partner === '') {
-					wallessActions.push(action);
-				} else if (partnerActionMap.has(extractedMetadata.partner)) {
-					partnerActionMap.get(extractedMetadata.partner)!.push(action);
-				} else {
-					partnerActionMap.set(extractedMetadata.partner, [action]);
-				}
-			});
+					if (extractedMetadata.partner === '') {
+						wallessActions.push(action);
+					} else if (partnerActionMap.has(extractedMetadata.partner)) {
+						partnerActionMap.get(extractedMetadata.partner)!.push(action);
+					} else {
+						partnerActionMap.set(extractedMetadata.partner, [action]);
+					}
+				});
 
-			loyaltyActions.setWallessActions(wallessActions);
-			loyaltyActions.setPartnerActionMap(partnerActionMap);
+				loyaltyActions.setWallessActions(wallessActions);
+				loyaltyActions.setPartnerActionMap(partnerActionMap);
+			} catch (err) {
+				console.error(err);
+			}
+
+			setIsLoadingActions(false);
 		};
 
-		fetchLoyaltyProgress()
-			.then((progress) => loyaltyActions.setUserProgress(progress))
-			.catch(console.error);
-
-		fetchActiveActions()
-			.catch(console.error)
-			.finally(() => setIsLoadingActions(false));
+		fetchLoyaltyProgress();
+		fetchActiveActions();
 	}, []);
 
 	return (

@@ -39,16 +39,20 @@ const HistoryModal: FC<Props> = ({ config }) => {
 		const fetchHistory = async () => {
 			setLoading(true);
 
-			const { loyaltyHistory } = await qlClient.request<{
-				loyaltyHistory: HistoryItem[];
-			}>(queries.loyaltyHistory);
+			try {
+				const { loyaltyHistory } = await qlClient.request<{
+					loyaltyHistory: HistoryItem[];
+				}>(queries.loyaltyHistory);
 
-			setHistory(loyaltyHistory.toReversed());
+				setHistory(loyaltyHistory.toReversed());
+			} catch (err) {
+				console.error(err);
+			}
+
+			setLoading(false);
 		};
 
-		fetchHistory()
-			.catch(console.error)
-			.finally(() => setLoading(false));
+		fetchHistory();
 	}, []);
 
 	const safeAreaInsets = useSafeAreaInsets();

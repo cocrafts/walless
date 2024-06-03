@@ -12,12 +12,7 @@ interface Props {
 const CompletedTag: FC<Props> = ({ style }) => {
 	return (
 		<View style={[sharedStyles.tagContainer, styles.container, style]}>
-			<View
-				style={[
-					styles.iconContainer,
-					{ borderColor: 'rgba(47, 200, 121, 0.3)' },
-				]}
-			>
+			<View style={[sharedStyles.iconContainer, styles.completedIcon]}>
 				<Check size={8} color="#2FC879" />
 			</View>
 			<Text style={styles.text}>Completed</Text>
@@ -31,13 +26,9 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: 'rgba(47, 200, 121, 0.15)',
 	},
-	iconContainer: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: 16,
-		height: 16,
+	completedIcon: {
 		borderWidth: 1,
-		borderRadius: 8,
+		borderColor: 'rgba(47, 200, 121, 0.3)',
 	},
 	text: {
 		fontSize: 10,

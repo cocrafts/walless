@@ -28,6 +28,7 @@ import { loyaltyActions, loyaltyState } from 'state/loyalty';
 import { qlClient } from 'utils/graphql';
 import { useSnapshot } from 'utils/hooks';
 
+import PointTag from '../components/PointTag';
 import {
 	extractDataFromMetadata,
 	getActionLogo,
@@ -38,7 +39,6 @@ import {
 
 import CompletedTag from './CompletedTag';
 import CountDown from './CountDown';
-import PointTag from './PointTag';
 import StreakBar from './StreakBar';
 import VerificationNeededTag from './VerificationNeededTag';
 

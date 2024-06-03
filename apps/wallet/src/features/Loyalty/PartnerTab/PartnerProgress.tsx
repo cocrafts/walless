@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 
-import PointTag from '../ActionCard/PointTag';
+import PointTag from '../components/PointTag';
 
 interface Props {
 	style?: ViewStyle;

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import PointTag from '../ActionCard/PointTag';
+import PointTag from '../components/PointTag';
 
 interface Props {
 	style?: ViewStyle;

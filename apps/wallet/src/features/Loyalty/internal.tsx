@@ -24,6 +24,13 @@ export const sharedStyles = StyleSheet.create({
 		flexDirection: 'row',
 		gap: 4,
 	},
+	iconContainer: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 16,
+		height: 16,
+		borderRadius: 8,
+	},
 });
 
 export interface ExtractedMetadata {

@@ -13,7 +13,7 @@ interface Props {
 const PointTag: FC<Props> = ({ points, style }) => {
 	return (
 		<View style={[sharedStyles.tagContainer, style]}>
-			<View style={styles.blingContainer}>
+			<View style={[sharedStyles.iconContainer, styles.blingContainer]}>
 				<BlingBling size={6} color="white" />
 			</View>
 			<Text style={styles.text}>{points} Points</Text>
@@ -26,11 +26,6 @@ export default PointTag;
 const styles = StyleSheet.create({
 	blingContainer: {
 		backgroundColor: '#212F3C',
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: 16,
-		height: 16,
-		borderRadius: 8,
 	},
 	text: {
 		fontSize: 10,

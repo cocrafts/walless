@@ -12,12 +12,7 @@ interface Props {
 const VerificationNeededTag: FC<Props> = ({ style }) => {
 	return (
 		<View style={[sharedStyles.tagContainer, styles.container, style]}>
-			<View
-				style={[
-					styles.iconContainer,
-					{ borderColor: 'rgba(255, 190, 102, 0.3)' },
-				]}
-			>
+			<View style={[sharedStyles.iconContainer, styles.verificationIcon]}>
 				<Exclamation2 color="#FFBE66" size={16} />
 			</View>
 			<Text style={styles.text}>Verification Needed</Text>
@@ -31,13 +26,9 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: 'rgba(255, 190, 102, 0.15)',
 	},
-	iconContainer: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: 16,
-		height: 16,
+	verificationIcon: {
 		borderWidth: 1,
-		borderRadius: 8,
+		borderColor: 'rgba(255, 190, 102, 0.3)',
 	},
 	text: {
 		fontSize: 10,

@@ -2,7 +2,12 @@ import { Image, StyleSheet } from 'react-native';
 import type { Action, ActionCount, ActionRecord } from '@walless/graphql';
 import type { ActionMetadata, UserProgress } from '@walless/graphql';
 import { ActionCategory } from '@walless/graphql';
-import { DiscordColorful, WallessColorful, XMonochrome } from '@walless/icons';
+import {
+	DiscordColorful,
+	TelegramColorful,
+	WallessColorful,
+	XMonochrome,
+} from '@walless/icons';
 import { mockWidgets } from 'state/widget';
 import assets from 'utils/assets';
 import { navigate } from 'utils/navigation';
@@ -77,16 +82,23 @@ export const extractDataFromMetadata = (
 	return extractedMetadata;
 };
 
-export const getIconByType = (type: string) => {
-	if (type.toLowerCase().includes('twitter')) {
+export const getActionLogo = (action: Action) => {
+	if (
+		action.type?.toLowerCase().includes('twitter') ||
+		action.type?.toLowerCase() === 'x'
+	) {
 		return <XMonochrome size={24} />;
 	}
 
-	if (type.toLowerCase().includes('discord')) {
+	if (action.type?.toLowerCase().includes('discord')) {
 		return <DiscordColorful size={24} />;
 	}
 
-	if (type.toLowerCase() === 'open chest') {
+	if (action.type?.toLowerCase().includes('telegram')) {
+		return <TelegramColorful size={24} />;
+	}
+
+	if (action.type?.toLowerCase() === 'open chest') {
 		return (
 			<Image
 				source={assets.widget.pixeverse.storeMeta.iconUri}
@@ -95,6 +107,20 @@ export const getIconByType = (type: string) => {
 					height: 24,
 					borderRadius: 4,
 				}}
+			/>
+		);
+	}
+
+	const extractedMetadata = extractDataFromMetadata(
+		action.metadata as ActionMetadata[],
+	);
+
+	if (extractedMetadata.partnerIcon) {
+		return (
+			<Image
+				source={{ uri: extractedMetadata.partnerIcon }}
+				style={{ width: 24, height: 24 }}
+				resizeMode="cover"
 			/>
 		);
 	}

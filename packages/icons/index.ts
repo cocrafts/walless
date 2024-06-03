@@ -56,6 +56,7 @@ export { Shield } from './components/Shield';
 export { Star } from './components/Star';
 export { Swap } from './components/Swap';
 export { Switch } from './components/Switch';
+export { TelegramColorful } from './components/TelegramColorful';
 export { Times } from './components/Times';
 export { Top1 } from './components/Top1';
 export { Top2 } from './components/Top2';

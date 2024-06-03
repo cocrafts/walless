@@ -1,6 +1,12 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import type { Action, UserProgress } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
 import {
@@ -16,8 +22,9 @@ import { useSafeAreaInsets } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
 import ActionCard from '../ActionCard';
-import PointTag from '../ActionCard/PointTag';
 import { canUserPerformAction } from '../internal';
+
+import PartnerProgress from './PartnerProgress';
 
 interface PartnerQuestProps {
 	partner: string;
@@ -31,7 +38,12 @@ type Props = PartnerQuestProps & {
 
 const CLOSE_ICON_SIZE = 12;
 
-const PartnerQuestModal: FC<Props> = ({ partner, actions, totalPoints }) => {
+const PartnerQuestModal: FC<Props> = ({
+	config,
+	partner,
+	actions,
+	totalPoints,
+}) => {
 	const { userProgress } = useSnapshot(loyaltyState);
 	const safeAreaInsets = useSafeAreaInsets();
 
@@ -39,25 +51,27 @@ const PartnerQuestModal: FC<Props> = ({ partner, actions, totalPoints }) => {
 		paddingBottom: safeAreaInsets.bottom,
 	};
 
+	const handleCloseModal = () => {
+		modalActions.hide(config.id as string);
+	};
+
 	return (
 		<SwipeDownGesture style={[styles.container, safeAreaStyle]}>
 			<View style={styles.headerContainer}>
 				<View style={{ width: CLOSE_ICON_SIZE }} />
 				<Text style={styles.headerText}>{partner} Quest</Text>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={handleCloseModal}>
 					<Times size={CLOSE_ICON_SIZE} color="white" />
 				</TouchableOpacity>
 			</View>
 
-			<View>
-				<View>
-					<Text>Progress</Text>
-					<PointTag points={totalPoints} />
-				</View>
-			</View>
+			<PartnerProgress totalPoints={totalPoints} totalTasks={actions.length} />
 
-			<View style={styles.cardContainer}>
-				{actions.map((action) => (
+			<ScrollView
+				contentContainerStyle={styles.cardContainer}
+				showsVerticalScrollIndicator={false}
+			>
+				{actions.map((action, index) => (
 					<ActionCard
 						key={action.id}
 						action={action as Action}
@@ -65,9 +79,12 @@ const PartnerQuestModal: FC<Props> = ({ partner, actions, totalPoints }) => {
 							userProgress as UserProgress,
 							action as Action,
 						)}
+						style={{
+							marginBottom: index !== actions.length - 1 ? 8 : 0,
+						}}
 					/>
 				))}
-			</View>
+			</ScrollView>
 		</SwipeDownGesture>
 	);
 };
@@ -79,18 +96,19 @@ const styles = StyleSheet.create({
 		backgroundColor: '#131C24',
 		borderTopLeftRadius: 16,
 		borderTopRightRadius: 16,
+		paddingVertical: 12,
+		paddingHorizontal: 16,
+		gap: 16,
 		height: '100%',
 	},
 	cardContainer: {
-		paddingHorizontal: 16,
-		gap: 8,
+		marginBottom: 16,
 	},
 	headerContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		paddingHorizontal: 24,
-		paddingVertical: 12,
+		paddingHorizontal: 8,
 	},
 	headerText: {
 		fontSize: 20,
@@ -105,6 +123,8 @@ export const showPartnerQuest = (props: PartnerQuestProps) => {
 		animateDirection: AnimateDirections.Top,
 		bindingDirection: BindDirections.InnerBottom,
 		fullHeight: true,
-		wrapperMargin: { top: 40 },
+		positionOffset: {
+			y: 40,
+		},
 	});
 };

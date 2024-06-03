@@ -30,8 +30,8 @@ import { useSnapshot } from 'utils/hooks';
 
 import {
 	extractDataFromMetadata,
+	getActionLogo,
 	getCycleEndTime,
-	getIconByType,
 	navigateInternalByCta,
 	sharedStyles,
 } from '../internal';
@@ -79,8 +79,6 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 
 		return cycleEndTime.getTime() - Date.now();
 	}, [userProgress]);
-
-	const FallbackIcon = getIconByType(action.type || '');
 
 	const handlePerformAction = async () => {
 		if (ctaType === 'internal') {
@@ -163,7 +161,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 					{icon ? (
 						<Image source={{ uri: icon }} style={styles.image} />
 					) : (
-						FallbackIcon
+						getActionLogo(action)
 					)}
 
 					<View style={{ gap: 4 }}>

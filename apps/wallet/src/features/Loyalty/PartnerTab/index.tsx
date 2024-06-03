@@ -6,7 +6,7 @@ import { useSnapshot } from 'utils/hooks';
 import { extractDataFromMetadata } from '../internal';
 
 import PartnerFolder from './PartnerFolder';
-import { showPartnerQuest } from './PartQuest';
+import { showPartnerQuest } from './PartnerQuest';
 
 const PartnerTab = () => {
 	const { partnerActionMap } = useSnapshot(loyaltyState);

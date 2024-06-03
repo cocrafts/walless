@@ -54,12 +54,6 @@ export interface ModalConfigs {
 	component: FC<{ config: ModalConfigs }>;
 	positionOffset?: PositionOffset;
 	maskStyle?: ViewStyle;
-	wrapperMargin?: {
-		left?: number;
-		top?: number;
-		right?: number;
-		bottom?: number;
-	};
 	maskActiveOpacity?: number;
 	withoutMask?: boolean;
 	hide?: boolean;

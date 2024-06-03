@@ -43,7 +43,6 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 		positionOffset,
 		maskStyle,
 		maskActiveOpacity = 0.5,
-		wrapperMargin,
 		withoutMask,
 		fullWidth = true,
 		fullHeight = false,
@@ -91,11 +90,6 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 				baseStyle.top = positionOffset.y;
 			}
 		}
-
-		if (wrapperMargin?.left) baseStyle.marginLeft = wrapperMargin.left;
-		if (wrapperMargin?.top) baseStyle.marginTop = wrapperMargin.top;
-		if (wrapperMargin?.right) baseStyle.marginRight = wrapperMargin.right;
-		if (wrapperMargin?.bottom) baseStyle.marginBottom = wrapperMargin.bottom;
 
 		return rectangleAnimatedStyle(opacity, item.animateDirection, baseStyle);
 	}, [top, left, opacity]);

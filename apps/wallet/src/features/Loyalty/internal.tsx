@@ -63,26 +63,9 @@ export const extractDataFromMetadata = (
 	};
 
 	for (const meta of metadata) {
-		if (meta.key === 'name' && meta.value) {
-			extractedMetadata.name = meta.value;
-		} else if (meta.key === 'desc' && meta.value) {
-			extractedMetadata.desc = meta.value;
-		} else if (meta.key === 'icon' && meta.value) {
-			extractedMetadata.icon = '';
-		} else if (meta.key === 'cta' && meta.value) {
-			extractedMetadata.cta = meta.value;
-		} else if (meta.key === 'ctaText' && meta.value) {
-			extractedMetadata.ctaText = meta.value;
-		} else if (meta.key === 'ctaType' && meta.value) {
-			extractedMetadata.ctaType = meta.value;
-		} else if (meta.key === 'partner' && meta.value) {
-			extractedMetadata.partner = meta.value;
-		} else if (meta.key === 'partnerDesc' && meta.value) {
-			extractedMetadata.partnerDesc = meta.value;
-		} else if (meta.key === 'partnerIcon' && meta.value) {
-			extractedMetadata.partnerIcon = meta.value;
-		} else if (meta.key === 'partnerThumbnail' && meta.value) {
-			extractedMetadata.partnerThumbnail = meta.value;
+		if (meta.value) {
+			extractedMetadata[meta.key as keyof typeof extractedMetadata] =
+				meta.value;
 		}
 	}
 

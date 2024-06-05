@@ -86,9 +86,7 @@ export const createTezosRunner = async (
 
 				return tzBalance;
 			});
-			await Promise.all(tokensPromises).catch((e) => {
-				console.error(e);
-			});
+			await Promise.all(tokensPromises).catch(console.error);
 		},
 		stop() {},
 		getContext: (): TezosContext => {

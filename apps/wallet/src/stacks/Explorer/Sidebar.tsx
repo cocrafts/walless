@@ -25,7 +25,13 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 	const handleExtensionPress = (item: WidgetDocument) => {
 		navigate('Dashboard', {
 			screen: 'Explore',
-			params: { screen: 'Widget', params: { id: item._id } },
+			params: {
+				screen: 'Widget',
+				params: {
+					screen: 'Default',
+					params: { id: item._id },
+				},
+			},
 		});
 	};
 
@@ -37,7 +43,13 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 		if (widget._id === (currentRoute.params as { id: string }).id) {
 			navigate('Dashboard', {
 				screen: 'Explore',
-				params: { screen: 'Widget', params: { id: 'explorer' } },
+				params: {
+					screen: 'Widget',
+					params: {
+						screen: 'Default',
+						params: { id: 'explorer' },
+					},
+				},
 			});
 		}
 	};

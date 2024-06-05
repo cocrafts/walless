@@ -12,6 +12,7 @@ import { StackHeader } from 'components/StackContainer';
 import { mockWidgets } from 'state/widget';
 import { useSafeAreaInsets, useWidgets } from 'utils/hooks';
 
+import LoyaltyBar from './LoyaltyBar';
 import ExplorerSearchBar from './SearchBar';
 import ExplorerWidgetItem from './WidgetItem';
 
@@ -34,6 +35,7 @@ export const ExplorerFeature: FC<Props> = ({
 	const [searchString, setSearchString] = useState('');
 	const contentContainerStyle: ViewStyle = {
 		paddingBottom: insets.bottom,
+		marginHorizontal: 16,
 	};
 
 	const activeWidgets = useWidgets().map((widget) => widget._id);
@@ -71,12 +73,14 @@ export const ExplorerFeature: FC<Props> = ({
 						onChangeSearch={onChangeSearch}
 					/>
 				</View>
+
+				<LoyaltyBar style={styles.loyaltyBar} />
+
 				{widgets
 					.filter((widget) => filterWidgetsByName(widget.name))
 					.map((widget) => (
 						<ExplorerWidgetItem
 							key={widget._id}
-							style={styles.widgetItem}
 							widget={widget}
 							isAdded={activeWidgets.includes(widget._id)}
 						/>
@@ -93,12 +97,13 @@ const styles = StyleSheet.create({
 		backgroundColor: '#19232c',
 		marginBottom: 8,
 	},
+	loyaltyBar: {
+		marginTop: 16,
+		marginBottom: 12,
+		maxHeight: 72,
+	},
 	searchInput: {
 		bottom: -8,
 		marginTop: 4,
-		marginHorizontal: 16,
-	},
-	widgetItem: {
-		marginHorizontal: 16,
 	},
 });

@@ -67,6 +67,9 @@ export const linking: LinkingOptions<RootParamList> = {
 									History: '/history',
 								},
 							},
+							Loyalty: {
+								path: '/loyalty',
+							},
 						},
 					},
 					Home: {
@@ -81,6 +84,7 @@ export const linking: LinkingOptions<RootParamList> = {
 						path: '/setting',
 						screens: {
 							Default: '/',
+							Referral: '/referral',
 						},
 					},
 				},

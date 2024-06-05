@@ -8,3 +8,12 @@ export const registerAccount = gql`
 		}
 	}
 `;
+
+export const registerAccountWithoutKey = gql`
+	mutation RegisterAccountWithoutKey {
+		registerAccountWithoutKey {
+			identifier
+			email
+		}
+	}
+`;

@@ -39,17 +39,17 @@ const Widgets = () => {
 			<Text style={styles.title}>Enhance your collection</Text>
 			<CategoryButtons setWidgets={setWidgets} />
 			<View style={styles.layoutList}>
-				{widgets.map((card) => (
+				{widgets.map((widget) => (
 					<WidgetItem
-						key={card._id}
-						widget={card}
-						isAdded={activeWidgets.includes(card._id)}
+						key={widget._id}
+						widget={widget}
+						isAdded={activeWidgets.includes(widget._id)}
 						onPress={() => {
-							if (activeWidgets.includes(card._id)) {
-								handleOpenWidget(card._id);
+							if (activeWidgets.includes(widget._id)) {
+								handleOpenWidget(widget._id);
 								return;
 							}
-							handleAddWidget(card);
+							handleAddWidget(widget);
 						}}
 					/>
 				))}

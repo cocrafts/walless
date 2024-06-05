@@ -9,34 +9,29 @@ import type { WidgetType } from '@walless/core';
 
 const AnimatedHoverable = Animated.createAnimatedComponent(TouchableOpacity);
 
-interface AnimatedCategoryButtonProps {
-	borderColor: string;
-	color: string;
-}
-
 interface CategoryButtonProps {
 	index: number;
 	title: WidgetType;
 	onPress: (index: number, category: WidgetType) => void;
 	animatedValue: SharedValue<number>;
-	inputRange: number[];
-	outputRange: AnimatedCategoryButtonProps[];
+	data: number[];
 }
 
 const CategoryButton: FC<CategoryButtonProps> = ({
 	index,
 	title,
 	onPress,
-	inputRange,
-	outputRange,
+	data,
 	animatedValue,
 }) => {
+	const borderColor = '#23303C';
+	const color = '#A4B3C1';
+
 	const activeColor = '#FFFFFF';
 	const activeBorderColor = '#0694D3';
-	const colorOutputRange = outputRange.map(({ color }) => color);
-	const borderColorOutputRange = outputRange.map(
-		({ borderColor }) => borderColor,
-	);
+
+	const colorOutputRange = data.map(() => color);
+	const borderColorOutputRange = data.map(() => borderColor);
 
 	colorOutputRange[index] = activeColor;
 	borderColorOutputRange[index] = activeBorderColor;
@@ -44,7 +39,7 @@ const CategoryButton: FC<CategoryButtonProps> = ({
 	const containerAnimatedStyle = useAnimatedStyle(() => {
 		const borderColor = interpolateColor(
 			animatedValue.value,
-			inputRange,
+			data,
 			borderColorOutputRange,
 		);
 
@@ -54,11 +49,7 @@ const CategoryButton: FC<CategoryButtonProps> = ({
 	}, [animatedValue]);
 
 	const titleAnimatedStyle = useAnimatedStyle(() => {
-		const color = interpolateColor(
-			animatedValue.value,
-			inputRange,
-			colorOutputRange,
-		);
+		const color = interpolateColor(animatedValue.value, data, colorOutputRange);
 
 		return {
 			color,

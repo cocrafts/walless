@@ -17,7 +17,6 @@ const ITEM_WIDTH = 273;
 interface AnimationFlatListProps {
 	index: number;
 	activeIndex: number;
-	setActiveIndex: (activeIndex: number) => void;
 	animatedValue: SharedValue<number>;
 	prevIndex: SharedValue<number>;
 	maxItems: number;

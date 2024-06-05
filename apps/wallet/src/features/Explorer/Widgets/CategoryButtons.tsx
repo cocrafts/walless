@@ -16,13 +16,7 @@ const CategoryButtons: FC<CategoryButtonsProps> = ({ setWidgets }) => {
 	const animatedValue = useSharedValue(0);
 	const categories = Object.values(WidgetType);
 
-	const borderColor = '#23303C';
-	const color = '#A4B3C1';
 	const inputRange = categories.map((_, index) => index);
-	const outputRange = categories.map(() => ({
-		borderColor,
-		color,
-	}));
 
 	const handleCategoryPress = (activeIndex: number, category: WidgetType) => {
 		currentIndex.value = activeIndex;
@@ -41,8 +35,7 @@ const CategoryButtons: FC<CategoryButtonsProps> = ({ setWidgets }) => {
 					index={index}
 					title={category}
 					animatedValue={animatedValue}
-					inputRange={inputRange}
-					outputRange={outputRange}
+					data={inputRange}
 					onPress={handleCategoryPress}
 				/>
 			))}

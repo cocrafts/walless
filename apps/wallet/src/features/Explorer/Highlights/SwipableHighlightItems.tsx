@@ -21,14 +21,14 @@ import { addWidgetToStorage } from 'utils/storage';
 import HighlightItem from './HighlightItem';
 
 interface SwipableHighlightItemsProps {
-	setActiveIndex: (activeIndex: number) => void;
+	onSelectItem: (activeIndex: number) => void;
 	activeIndex: number;
 	data: WidgetDocument[];
 	animatedValue: SharedValue<number>;
 }
 
 const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
-	setActiveIndex,
+	onSelectItem,
 	activeIndex,
 	data,
 	animatedValue,
@@ -40,7 +40,7 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 		(event: GestureStateChangeEvent<FlingGestureHandlerEventPayload>) => {
 			if (event.state === State.END) {
 				if (activeIndex === data.length - 1) return;
-				setActiveIndex(activeIndex + 1);
+				onSelectItem(activeIndex + 1);
 				animatedValue.value = withTiming(activeIndex + 1);
 			}
 		},
@@ -52,7 +52,7 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 			if (event.state === State.END) {
 				if (activeIndex === 0) return;
 				animatedValue.value = withTiming(activeIndex - 1);
-				setActiveIndex(activeIndex - 1);
+				onSelectItem(activeIndex - 1);
 			}
 		},
 		[activeIndex],
@@ -95,7 +95,6 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 								index,
 								animatedValue,
 								prevIndex,
-								setActiveIndex,
 								activeIndex,
 								maxItems: 3,
 							}}

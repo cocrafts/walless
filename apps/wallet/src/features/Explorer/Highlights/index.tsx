@@ -28,7 +28,7 @@ const Highlights = () => {
 			<Text style={styles.title}>Today&apos;s Highlights</Text>
 			<View style={styles.highlightList}>
 				<SwipableHighlightItems
-					setActiveIndex={setActiveIndex}
+					onSelectItem={setActiveIndex}
 					activeIndex={index}
 					data={mockWidgets}
 					animatedValue={animatedValue}
@@ -36,7 +36,7 @@ const Highlights = () => {
 
 				<HighlightIndicator
 					dataLength={mockWidgets.length}
-					setActiveIndex={setActiveIndex}
+					onSelectItem={setActiveIndex}
 					currentIndex={currentIndex}
 					animatedValue={animatedIndicatorValue}
 				/>

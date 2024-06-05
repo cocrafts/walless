@@ -1,15 +1,13 @@
-import { type FC, useMemo } from 'react';
+import type { FC } from 'react';
+import { useMemo } from 'react';
 import type { StackNavigationOptions } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import type { DrawerScreenProps } from 'components/DrawerNavigation';
 import { withStackContainer } from 'components/StackContainer';
 import SettingScreen from 'screens/Dashboard/Setting';
 import WidgetScreen from 'screens/Dashboard/Widget';
-import {
-	type ExploreParamList,
-	navigateBack,
-	type WidgetParamList,
-} from 'utils/navigation';
+import type { ExploreParamList, WidgetParamList } from 'utils/navigation';
+import { navigateBack } from 'utils/navigation';
 
 type Props = DrawerScreenProps<ExploreParamList, 'Widget'>;
 const Stack = createStackNavigator<WidgetParamList>();

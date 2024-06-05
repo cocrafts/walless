@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import type { ViewStyle } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
@@ -10,25 +9,21 @@ import Animated, {
 
 const AnimatedHoverable = Animated.createAnimatedComponent(TouchableOpacity);
 
-type IndicatorDotStyleProps = ViewStyle;
-
 interface IndicatorDotProps {
 	index: number;
-	setActiveIndex: (index: number) => void;
-	inputRange: number[];
-	outputRange: IndicatorDotStyleProps[];
+	onPress: (index: number) => void;
+	data: number[];
 	animatedValue: SharedValue<number>;
 }
 
 const IndicatorDot: FC<IndicatorDotProps> = ({
 	index,
-	setActiveIndex,
-	inputRange,
-	outputRange,
+	onPress,
+	data,
 	animatedValue,
 }) => {
-	const heightOutputRange = outputRange.map((output) => output.height);
-	const opacityOutputRange = outputRange.map(() => 0.2);
+	const heightOutputRange = data.map(() => 6);
+	const opacityOutputRange = data.map(() => 0.2);
 
 	heightOutputRange[index] = 40;
 	opacityOutputRange[index] = 1;
@@ -36,13 +31,13 @@ const IndicatorDot: FC<IndicatorDotProps> = ({
 	const animatedStyle = useAnimatedStyle(() => {
 		const height = interpolate(
 			animatedValue.value,
-			inputRange,
+			data,
 			heightOutputRange as number[],
 		);
 
 		const opacity = interpolate(
 			animatedValue.value,
-			inputRange,
+			data,
 			opacityOutputRange as number[],
 		);
 
@@ -50,7 +45,7 @@ const IndicatorDot: FC<IndicatorDotProps> = ({
 	}, [animatedValue]);
 
 	const handleClick = () => {
-		setActiveIndex(index);
+		onPress(index);
 		animatedValue.value = withTiming(index);
 	};
 

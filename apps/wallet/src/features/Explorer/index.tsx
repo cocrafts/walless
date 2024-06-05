@@ -38,5 +38,6 @@ const styles = StyleSheet.create({
 		marginTop: 16,
 		marginBottom: 12,
 		maxHeight: 72,
+		marginHorizontal: 20,
 	},
 });

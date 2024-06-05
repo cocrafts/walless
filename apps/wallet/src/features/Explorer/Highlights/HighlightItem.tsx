@@ -1,6 +1,5 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import type {} from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
 	interpolate,

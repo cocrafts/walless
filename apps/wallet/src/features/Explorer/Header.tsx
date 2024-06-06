@@ -1,9 +1,9 @@
 import { StyleSheet, Text } from 'react-native';
 import { Hoverable, View } from '@walless/gui';
 import { Eye, EyeOff, Settings } from '@walless/icons';
-import { getValuationDisplay } from 'features/Widget/BuiltInNetwork/WalletCard/Balance';
 import { appState } from 'state/app';
 import { setPrivacy } from 'state/runtime/config';
+import { getValuationDisplay } from 'utils/helper';
 import { useTokens } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { useSnapshot } from 'valtio';

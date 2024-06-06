@@ -1,4 +1,5 @@
-import { type FC, useRef } from 'react';
+import type { FC } from 'react';
+import { useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { useMedia } from '@tamagui/core';
 import {
@@ -29,7 +30,7 @@ export const HomeNavigation: FC = () => {
 			bindingRef: modalRef,
 			bindingDirection: BindDirections.InnerTopLeft,
 			animateDirection: AnimateDirections.Inner,
-			component: () => <LaunchingModal />,
+			component: LaunchingModal,
 		});
 	};
 
@@ -51,7 +52,7 @@ export const HomeNavigation: FC = () => {
 						})}
 				</View>
 
-				<View ref={modalRef} style={styles.button}>
+				<View ref={modalRef}>
 					<Button
 						title="Access Walless"
 						marginHorizontal={8}
@@ -82,8 +83,5 @@ const styles = StyleSheet.create({
 		height: navigationHeight,
 		alignItems: 'center',
 		justifyContent: 'center',
-	},
-	button: {
-		zIndex: 100,
 	},
 });

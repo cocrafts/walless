@@ -1,6 +1,5 @@
 import type { FC, ReactNode } from 'react';
 import { useState } from 'react';
-import type { TextStyle } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Anchor, Text } from '@walless/gui';
 
@@ -22,11 +21,6 @@ const LaunchingOption: FC<LauchingOptionProps> = ({
 	isDisabled = false,
 }) => {
 	const [isHovered, setIsHovered] = useState(false);
-	const hoveredTextStyle = { fontWeight: '500' } as TextStyle;
-	const hoveredContainerStyle = {
-		backgroundColor: '#202D38',
-		borderColor: '#000000',
-	};
 
 	const handleHoverIn = () => {
 		setIsHovered(true);
@@ -47,14 +41,17 @@ const LaunchingOption: FC<LauchingOptionProps> = ({
 			<TouchableOpacity
 				style={[
 					styles.container,
-					isHovered && !isDisabled && hoveredContainerStyle,
+					isHovered && !isDisabled && styles.hoveredContainerStyle,
 				]}
 				onPress={onPress}
 				disabled={isDisabled}
 			>
 				{isHovered && !isDisabled ? activeIcon : icon}
 				<Text
-					style={[styles.title, isHovered && !isDisabled && hoveredTextStyle]}
+					style={[
+						styles.title,
+						isHovered && !isDisabled && styles.hoveredTextStyle,
+					]}
 				>
 					{title}
 				</Text>
@@ -81,4 +78,9 @@ const styles = StyleSheet.create({
 	title: {
 		color: '#ffffff',
 	},
+	hoveredContainerStyle: {
+		backgroundColor: '#202D38',
+		borderColor: '#000000',
+	},
+	hoveredTextStyle: { fontWeight: '500' },
 });

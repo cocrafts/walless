@@ -8,7 +8,7 @@ import {
 	modalActions,
 	View,
 } from '@walless/gui';
-import { Anchor, View } from '@walless/gui';
+import { View } from '@walless/gui';
 import { Button } from '@walless/ui';
 import { ContainerStack } from 'components/styled';
 import { useRouter } from 'next/router';

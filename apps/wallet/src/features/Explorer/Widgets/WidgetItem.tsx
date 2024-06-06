@@ -5,17 +5,44 @@ import { runtime } from '@walless/core';
 import { Heart } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 import assets from 'utils/assets';
+import { useWidgets } from 'utils/hooks';
+import { navigate } from 'utils/navigation';
+import { addWidgetToStorage } from 'utils/storage';
 
 interface WidgetItemProps {
 	widget: WidgetDocument;
-	isAdded: boolean;
-	onPress: () => void;
 }
 
-const WidgetItem: FC<WidgetItemProps> = ({ widget, isAdded, onPress }) => {
+const WidgetItem: FC<WidgetItemProps> = ({ widget }) => {
 	const coverImgResource = runtime.isMobile
 		? assets.widget[widget._id]?.storeMeta.coverUri
 		: { uri: widget.storeMeta.coverUri };
+
+	const addedWidgets = useWidgets().map((widget) => widget._id);
+	const isAdded = addedWidgets.includes(widget._id);
+
+	const handleOpenWidget = (id: string) => {
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: {
+				screen: 'Widget',
+				params: {
+					screen: 'Default',
+					params: { id },
+				},
+			},
+		});
+	};
+	const handleAddWidget = (widget: WidgetDocument) => {
+		addWidgetToStorage(widget._id, widget);
+		handleOpenWidget(widget._id);
+	};
+
+	const handleOnPress = () => {
+		if (isAdded) {
+			handleOpenWidget(widget._id);
+		} else handleAddWidget(widget);
+	};
 
 	return (
 		<View style={styles.container}>
@@ -42,7 +69,7 @@ const WidgetItem: FC<WidgetItemProps> = ({ widget, isAdded, onPress }) => {
 			</View>
 			<TouchableOpacity
 				style={[styles.button, isAdded ? styles.openBtn : styles.addBtn]}
-				onPress={onPress}
+				onPress={handleOnPress}
 			>
 				<Text style={isAdded ? styles.openBtnText : styles.addBtnText}>
 					{isAdded ? 'OPEN' : 'ADD'}

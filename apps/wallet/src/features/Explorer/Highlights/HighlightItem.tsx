@@ -9,6 +9,9 @@ import { runtime } from '@walless/core';
 import { ArrowTopRight, Plus } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 import assets from 'utils/assets';
+import { useWidgets } from 'utils/hooks';
+import { navigate } from 'utils/navigation';
+import { addWidgetToStorage } from 'utils/storage';
 
 import LoveAndActiveCount from './LoveAndActiveCount';
 
@@ -22,17 +25,37 @@ interface AnimationFlatListProps {
 }
 interface HighlightItemProps {
 	widget: WidgetDocument;
-	isAdded?: boolean;
 	animation?: AnimationFlatListProps;
-	onPress?: () => void;
 }
 
-const HighlightItem: FC<HighlightItemProps> = ({
-	isAdded,
-	animation,
-	onPress,
-	widget,
-}) => {
+const HighlightItem: FC<HighlightItemProps> = ({ animation, widget }) => {
+	const addedWidgets = useWidgets().map((widget) => widget._id);
+
+	const handleOpenWidget = (id: string) => {
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: {
+				screen: 'Widget',
+				params: {
+					screen: 'Default',
+					params: { id },
+				},
+			},
+		});
+	};
+
+	const handleAddWidget = (widget: WidgetDocument) => {
+		addWidgetToStorage(widget._id, widget);
+		handleOpenWidget(widget._id);
+	};
+
+	const handleOnPress = () => {
+		if (addedWidgets.includes(widget._id)) {
+			handleOpenWidget(widget._id);
+		} else handleAddWidget(widget);
+	};
+
+	const isAdded = addedWidgets.includes(widget._id);
 	const { index, maxItems, animatedValue } =
 		animation as AnimationFlatListProps;
 
@@ -91,7 +114,7 @@ const HighlightItem: FC<HighlightItemProps> = ({
 						activeCount={widget.storeMeta.activeCount}
 					/>
 				</View>
-				<TouchableOpacity style={styles.addBtn} onPress={onPress}>
+				<TouchableOpacity style={styles.addBtn} onPress={handleOnPress}>
 					{isAdded ? <ArrowTopRight /> : <Plus />}
 				</TouchableOpacity>
 			</View>

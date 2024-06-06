@@ -11,7 +11,6 @@ const Highlights = () => {
 	const [index, setIndex] = useState(0);
 	const currentIndex = useSharedValue(0);
 	const animatedValue = useSharedValue(0);
-	const animatedIndicatorValue = useSharedValue(0);
 
 	const setActiveIndex = useCallback((activeIndex: number) => {
 		setIndex(activeIndex);
@@ -20,7 +19,6 @@ const Highlights = () => {
 
 	useEffect(() => {
 		animatedValue.value = withTiming(index);
-		animatedIndicatorValue.value = withTiming(index);
 	}, [index]);
 
 	return (
@@ -38,7 +36,7 @@ const Highlights = () => {
 					dataLength={mockWidgets.length}
 					onSelectItem={setActiveIndex}
 					currentIndex={currentIndex}
-					animatedValue={animatedIndicatorValue}
+					animatedValue={animatedValue}
 				/>
 			</View>
 		</View>

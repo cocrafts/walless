@@ -14,9 +14,6 @@ import {
 import type { SharedValue } from 'react-native-reanimated';
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
-import { useWidgets } from 'utils/hooks';
-import { navigate } from 'utils/navigation';
-import { addWidgetToStorage } from 'utils/storage';
 
 import HighlightItem from './HighlightItem';
 
@@ -34,7 +31,6 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 	animatedValue,
 }) => {
 	const prevIndex = useSharedValue(0);
-	const activeWidgets = useWidgets().map((widget) => widget._id);
 
 	const handleSwipeLeft = useCallback(
 		(event: GestureStateChangeEvent<FlingGestureHandlerEventPayload>) => {
@@ -65,24 +61,6 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 		.direction(Directions.RIGHT)
 		.onFinalize(handleSwipeRight);
 
-	const handleOpenWidget = (id: string) => {
-		navigate('Dashboard', {
-			screen: 'Explore',
-			params: {
-				screen: 'Widget',
-				params: {
-					screen: 'Default',
-					params: { id },
-				},
-			},
-		});
-	};
-
-	const handleAddWidget = (widget: WidgetDocument) => {
-		addWidgetToStorage(widget._id, widget);
-		handleOpenWidget(widget._id);
-	};
-
 	return (
 		<GestureDetector gesture={leftFling}>
 			<GestureDetector gesture={rightFling}>
@@ -98,14 +76,6 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 								activeIndex,
 								maxItems: 3,
 							}}
-							onPress={() => {
-								if (activeWidgets.includes(widget._id)) {
-									handleOpenWidget(widget._id);
-									return;
-								}
-								handleAddWidget(widget);
-							}}
-							isAdded={activeWidgets.includes(widget._id)}
 						/>
 					))}
 				</Animated.View>

@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BlingBling, Check, Ranking } from '@walless/icons';
+import { useSafeAreaInsets } from 'utils/hooks';
 
 import { showHistory } from './History';
 
@@ -12,6 +13,8 @@ interface Props {
 }
 
 const Header: FC<Props> = ({ point, completedTask, style }) => {
+	const safeAreaInsets = useSafeAreaInsets();
+
 	return (
 		<View style={[styles.container, style]}>
 			<View style={styles.yourTotalPointsContainer}>
@@ -27,7 +30,7 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 			<View style={styles.bottomContainer}>
 				<TouchableOpacity
 					style={styles.bottomItemContainer}
-					onPress={showHistory}
+					onPress={() => showHistory({ safeAreaInsets })}
 				>
 					<View style={[styles.iconContainer, styles.checkBorder]}>
 						<Check size={14} color="#2FC879" />

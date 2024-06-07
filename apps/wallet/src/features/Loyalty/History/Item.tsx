@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import type { ActionMetadata } from '@walless/graphql';
-import { HistoryItem } from '@walless/graphql';
+import type { HistoryItem } from '@walless/graphql';
 
 import { extractDataFromMetadata } from '../internal';
 
@@ -11,7 +11,7 @@ interface Props {
 	data: HistoryItem;
 }
 
-const HistoryItem: FC<Props> = ({ style, data }) => {
+const Item: FC<Props> = ({ style, data }) => {
 	const extractedMetadata = extractDataFromMetadata(
 		data.action!.metadata as ActionMetadata[],
 	);
@@ -32,7 +32,7 @@ const HistoryItem: FC<Props> = ({ style, data }) => {
 	);
 };
 
-export default HistoryItem;
+export default Item;
 
 const styles = StyleSheet.create({
 	container: {

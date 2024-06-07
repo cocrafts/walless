@@ -8,6 +8,8 @@ import {
 	Text,
 	View,
 } from 'react-native';
+import type { EdgeInsets } from 'react-native-safe-area-context';
+import { runtime } from '@walless/core';
 import type { HistoryItem } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
@@ -25,7 +27,9 @@ import ModalHeader from '../components/ModalHeader';
 
 import Item from './Item';
 
-interface PartnerQuestProps {}
+interface PartnerQuestProps {
+	safeAreaInsets: EdgeInsets;
+}
 
 type Props = PartnerQuestProps & {
 	config: ModalConfigs;
@@ -66,7 +70,11 @@ const HistoryModal: FC<Props> = ({ config }) => {
 	};
 
 	return (
-		<SwipeDownGesture style={[styles.container, safeAreaStyle]}>
+		<SwipeDownGesture
+			style={[styles.container, safeAreaStyle]}
+			callbackOnClose={handleCloseModal}
+			gestureEnable={runtime.isMobile}
+		>
 			<ModalHeader
 				style={styles.headerContainer}
 				content="History"
@@ -138,7 +146,7 @@ export const showHistory = (props: PartnerQuestProps) => {
 		bindingDirection: BindDirections.InnerBottom,
 		fullHeight: true,
 		positionOffset: {
-			y: 40,
+			y: 40 + props.safeAreaInsets.top,
 		},
 	});
 };

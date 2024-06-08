@@ -11,8 +11,9 @@ import type { SolanaContext } from 'engine/runners';
 import { showError } from 'modals/Error';
 import assets from 'utils/assets';
 import { nativeModules } from 'utils/native';
-import { constructSwapTransaction, getAliasedMint } from 'utils/transaction';
 import { signAndSendTransaction } from 'utils/transaction/solana';
+import { getAliasedMint } from 'utils/transaction/solana/swap';
+import { constructSwapTransaction } from 'utils/transaction/solana/swap';
 
 import { swapActions, swapContext } from '../context';
 

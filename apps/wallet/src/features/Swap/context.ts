@@ -4,8 +4,9 @@ import { AnimateDirections, BindDirections, modalActions } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import { ModalId } from 'modals/types';
 import type { JupiterToken } from 'utils/hooks';
-import type { SwapQuote } from 'utils/transaction';
-import { checkValidAddress, getAliasedMint } from 'utils/transaction';
+import { checkValidAddress } from 'utils/transaction';
+import type { SwapQuote } from 'utils/transaction/solana/swap';
+import { getAliasedMint } from 'utils/transaction/solana/swap';
 import { proxy } from 'valtio';
 
 import SelectFromToken from './Select/SelectFromToken';

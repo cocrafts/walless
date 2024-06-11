@@ -51,7 +51,7 @@ export const InvitationScreen: FC = () => {
 
 	const containerStyle: ViewStyle = {
 		paddingTop: insets.top,
-		paddingBottom: Math.max(insets.bottom, 32),
+		paddingBottom: Math.max(insets.bottom, 24),
 		paddingHorizontal: 38,
 	};
 

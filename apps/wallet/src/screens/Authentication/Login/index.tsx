@@ -37,7 +37,7 @@ export const LoginScreen: FC = () => {
 					<Anchor href="https://walless.io/faq/login" title="Help page" />
 				</View>
 				<Text style={styles.poweredText}>
-					Powered by walless.io, version@{config?.version}
+					Powered by walless.io, version@{config.version}
 				</Text>
 			</View>
 		</View>

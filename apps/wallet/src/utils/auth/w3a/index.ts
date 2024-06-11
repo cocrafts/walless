@@ -26,6 +26,12 @@ export enum ThresholdResult {
 }
 
 export const importAvailableShares = async (): Promise<ThresholdResult> => {
+	// try {
+	// 	await importDeviceShare(tkey);
+	// } catch (e) {
+	// 	logger.error('Existing share not available, skip..', e);
+	// }
+
 	const { requiredShares, totalShares } = tkey.getKeyDetails();
 	const isReady = requiredShares <= 0;
 

@@ -12,7 +12,7 @@ import type {
 	TokenDocument,
 } from '@walless/store';
 import { engine } from 'engine';
-import type { SolanaContext, SuiContext, TezosContext } from 'engine/runners';
+import type { SolanaContext, SuiContext } from 'engine/runners';
 import { throttle } from 'lodash';
 import { showError } from 'modals/Error';
 import { ModalId } from 'modals/types';
@@ -36,8 +36,6 @@ import type {
 	TezosSendTokenTransaction,
 } from 'utils/transaction/types';
 import { proxy } from 'valtio';
-
-import { getTezosTransactionFee } from './../../utils/transaction/tezos/send/fee';
 
 const initialContext: TransactionContext = {
 	type: 'token',
@@ -149,17 +147,17 @@ export const txActions = {
 				break;
 			}
 
-			case Networks.tezos: {
-				txActions.update({ feeLoading: true });
-				const genericTransaction = await createGenericTransaction();
-				const { connection } = engine.getContext<TezosContext>(Networks.tezos);
-				const fee = await getTezosTransactionFee(
-					genericTransaction as TezosSendTokenTransaction,
-					connection,
-				);
-				txActions.update({ feeAmount: fee, feeLoading: false });
-				break;
-			}
+			// case Networks.tezos: {
+			// 	txActions.update({ feeLoading: true });
+			// 	const genericTransaction = await createGenericTransaction();
+			// 	const { connection } = engine.getContext<TezosContext>(Networks.tezos);
+			// 	const fee = await getTezosTransactionFee(
+			// 		genericTransaction as TezosSendTokenTransaction,
+			// 		connection,
+			// 	);
+			// 	txActions.update({ feeAmount: fee, feeLoading: false });
+			// 	break;
+			// }
 
 			default: {
 				txActions.update({ feeAmount: 0 });
@@ -323,15 +321,11 @@ const createGenericTransaction = async () => {
 
 	const hasEnoughBalance = await hasEnoughBalanceToMakeTx(transaction);
 
-	console.log('transaction', transaction);
-
 	if (!hasEnoughBalance) {
 		console.log('100');
 		showError({ errorText: 'Insufficient balance to send' });
 		return;
 	}
-
-	console.log('transaction', transaction);
 
 	return transaction;
 };

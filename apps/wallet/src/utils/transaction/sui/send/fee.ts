@@ -1,6 +1,6 @@
 import type { GasCostSummary } from '@mysten/sui.js/client';
-import { SUI_DECIMALS } from '@mysten/sui.js/dist/cjs/utils';
 import type { TransactionBlock } from '@mysten/sui.js/transactions';
+import { SUI_DECIMALS } from '@mysten/sui.js/utils';
 import { Networks } from '@walless/core';
 import { engine } from 'engine';
 import type { SuiContext } from 'engine/runners';

@@ -1,7 +1,6 @@
 import type { GenerateNewShareResult } from '@tkey/common-types';
-import { logger } from '@walless/core';
 
-import { importDeviceShare, initTkey, storeDeviceShare } from './tkey';
+import { initTkey, storeDeviceShare } from './tkey';
 
 export * from './core';
 
@@ -27,11 +26,11 @@ export enum ThresholdResult {
 }
 
 export const importAvailableShares = async (): Promise<ThresholdResult> => {
-	try {
-		await importDeviceShare(tkey);
-	} catch (e) {
-		logger.error('Existing share not available, skip..', e);
-	}
+	// try {
+	// 	await importDeviceShare(tkey);
+	// } catch (e) {
+	// 	logger.error('Existing share not available, skip..', e);
+	// }
 
 	const { requiredShares, totalShares } = tkey.getKeyDetails();
 	const isReady = requiredShares <= 0;

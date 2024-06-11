@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { Defs, LinearGradient, Path, Rect, Stop, Svg } from 'react-native-svg';
 import type { IconProps } from '@walless/icons';
 
-export const WallessMonochrome: FC<IconProps> = ({ size }) => {
+export const WallessMonochrome: FC<IconProps> = ({ size = 24 }) => {
 	return (
 		<Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
 			<Rect width="24" height="24" rx="4" fill="white" />

@@ -140,6 +140,13 @@ export type DeviceInfoInput = {
   systemVersion?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type HistoryItem = {
+  __typename?: 'HistoryItem';
+  action?: Maybe<Action>;
+  boosts?: Maybe<Array<Maybe<Boost>>>;
+  doneAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
 export type JoinWaitlistResult = {
   __typename?: 'JoinWaitlistResult';
   count?: Maybe<Scalars['Int']['output']>;
@@ -312,6 +319,7 @@ export type RootQuery = {
   loyaltyActiveActions?: Maybe<Array<Maybe<Action>>>;
   loyaltyBoosts?: Maybe<Array<Maybe<Boost>>>;
   loyaltyCurrentBoostsOfAction?: Maybe<Array<Maybe<Boost>>>;
+  loyaltyHistory?: Maybe<Array<Maybe<HistoryItem>>>;
   loyaltyUserProgress?: Maybe<UserProgress>;
   nonce?: Maybe<Nonce>;
   referralLeaderboard?: Maybe<Array<Maybe<ReferralRank>>>;
@@ -580,6 +588,7 @@ export type ResolversTypes = {
   Device: ResolverTypeWrapper<Device>;
   DeviceInfoInput: DeviceInfoInput;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  HistoryItem: ResolverTypeWrapper<HistoryItem>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   JoinWaitlistResult: ResolverTypeWrapper<JoinWaitlistResult>;
@@ -623,6 +632,7 @@ export type ResolversParentTypes = {
   Device: Device;
   DeviceInfoInput: DeviceInfoInput;
   Float: Scalars['Float']['output'];
+  HistoryItem: HistoryItem;
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
   JoinWaitlistResult: JoinWaitlistResult;
@@ -730,6 +740,13 @@ export type DeviceResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type HistoryItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['HistoryItem'] = ResolversParentTypes['HistoryItem']> = {
+  action?: Resolver<Maybe<ResolversTypes['Action']>, ParentType, ContextType>;
+  boosts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Boost']>>>, ParentType, ContextType>;
+  doneAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
 }
@@ -797,6 +814,7 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   loyaltyActiveActions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Action']>>>, ParentType, ContextType>;
   loyaltyBoosts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Boost']>>>, ParentType, ContextType>;
   loyaltyCurrentBoostsOfAction?: Resolver<Maybe<Array<Maybe<ResolversTypes['Boost']>>>, ParentType, ContextType, RequireFields<RootQueryLoyaltyCurrentBoostsOfActionArgs, 'actionId'>>;
+  loyaltyHistory?: Resolver<Maybe<Array<Maybe<ResolversTypes['HistoryItem']>>>, ParentType, ContextType>;
   loyaltyUserProgress?: Resolver<Maybe<ResolversTypes['UserProgress']>, ParentType, ContextType>;
   nonce?: Resolver<Maybe<ResolversTypes['Nonce']>, ParentType, ContextType, RequireFields<RootQueryNonceArgs, 'identifier'>>;
   referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRank']>>>, ParentType, ContextType, Partial<RootQueryReferralLeaderboardArgs>>;
@@ -904,6 +922,7 @@ export type Resolvers<ContextType = any> = {
   Boost?: BoostResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Device?: DeviceResolvers<ContextType>;
+  HistoryItem?: HistoryItemResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   JoinWaitlistResult?: JoinWaitlistResultResolvers<ContextType>;
   MongoDateTime?: GraphQLScalarType;

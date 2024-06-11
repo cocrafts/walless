@@ -27,7 +27,7 @@ const Header = () => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.balanceContainer}>
-				<Text style={styles.helloText}>Hi👋, your balance today:</Text>
+				<Text style={styles.helloText}>Hi 👋, your balance today:</Text>
 				<View style={styles.tokenValuationContainer}>
 					<Hoverable
 						onPress={() => {

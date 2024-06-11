@@ -39,7 +39,13 @@ export const ExplorerStack = () => {
 				goBack: () =>
 					navigate('Dashboard', {
 						screen: 'Explore',
-						params: { screen: 'Widget', params: {} },
+						params: {
+							screen: 'Widget',
+							params: {
+								screen: 'Default',
+								params: { id: 'explorer' },
+							},
+						},
 					}),
 			}),
 		[],

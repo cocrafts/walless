@@ -141,7 +141,8 @@ export const navigateInternalByCta = (cta: string) => {
 				params: {
 					screen: 'Widget',
 					params: {
-						id: 'pixeverse',
+						screen: 'Default',
+						params: { id: 'pixeverse' },
 					},
 				},
 			});
@@ -160,7 +161,8 @@ export const navigateInternalByCta = (cta: string) => {
 				params: {
 					screen: 'Widget',
 					params: {
-						id: 'solana',
+						screen: 'Default',
+						params: { id: 'solana' },
 					},
 				},
 			});

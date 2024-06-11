@@ -11345,6 +11345,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-native-linear-gradient@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@types/react-native-linear-gradient@npm:2.4.0"
+  dependencies:
+    react-native-linear-gradient: "npm:*"
+  checksum: 10/7ccaa5c0fd7c2667f467f3e589c61b4d6ee38a1475fab9e39c251ac403742f3e282bd89458e348ea9f721c92b02649f3dc1e947c89c96d4689f554004c636db6
+  languageName: node
+  linkType: hard
+
 "@types/react-native@npm:^0.71.2":
   version: 0.71.13
   resolution: "@types/react-native@npm:0.71.13"
@@ -11901,6 +11910,7 @@ __metadata:
     "@types/jest": "npm:^29.2.1"
     "@types/pouchdb-adapter-memory": "npm:^6.1.6"
     "@types/react": "npm:^18.2.25"
+    "@types/react-native-linear-gradient": "npm:^2.4.0"
     "@types/react-test-renderer": "npm:^18.0.0"
     "@walless/core": "npm:*"
     "@walless/graphql": "npm:*"
@@ -11955,6 +11965,7 @@ __metadata:
     react-native-svg: "npm:13.10.0"
     react-native-url-polyfill: "npm:^2.0.0"
     react-native-vision-camera: "npm:^3.9.0"
+    react-native-web-linear-gradient: "npm:^1.1.2"
     react-native-webview: "npm:13.6.3"
     react-test-renderer: "npm:18.2.0"
     replace-in-file-webpack-plugin: "npm:^1.0.6"
@@ -23997,6 +24008,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-linear-gradient@npm:*":
+  version: 2.8.3
+  resolution: "react-native-linear-gradient@npm:2.8.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10/db18c7ae4b68afe8b6f12c67defeeccda7a3cff4ee14a0b2d92ff2581d53bd2e65bf29837cf2828abb3d8d1f3cef3f808e8cc1c5d4c8da5dd6f1d09e2b9c2c55
+  languageName: node
+  linkType: hard
+
 "react-native-logs@npm:5.0.1":
   version: 5.0.1
   resolution: "react-native-logs@npm:5.0.1"
@@ -24220,6 +24241,15 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: 10/db7ac87796625f677820171dc9fc7ed279dc4cdeeae610f414e4bdacd5e6f2c1e89a570ec5af6b32b040da141456f1239a0f493bfcbd11db8f4d0d21ec10eb76
+  languageName: node
+  linkType: hard
+
+"react-native-web-linear-gradient@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "react-native-web-linear-gradient@npm:1.1.2"
+  peerDependencies:
+    react-native-web: "*"
+  checksum: 10/1a9f76f32bcd3c4bd27513cd7fbd25ad807754457cd304eafd5957bf33fe37d85c377fe48edd189eacc861d274a61eac389842a448154f4b45709aa918c81e16
   languageName: node
   linkType: hard
 

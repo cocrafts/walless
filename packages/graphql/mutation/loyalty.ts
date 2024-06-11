@@ -9,13 +9,3 @@ export const performLoyaltyAction = gql`
 		}
 	}
 `;
-
-export const tryToPerformActiveActionsByType = gql`
-	mutation tryToPerformActiveActionsByType($type: String!) {
-		tryToPerformActiveActionsByType(type: $type) {
-			actionId
-			timestamp
-			userId
-		}
-	}
-`;

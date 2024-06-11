@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { ViewabilityConfigCallbackPairs, ViewStyle } from 'react-native';
 import { FlatList, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import type { EdgeInsets } from 'react-native-safe-area-context';
 import { logger, runtime } from '@walless/core';
 import type { ReferralRank } from '@walless/graphql';
 import { queries } from '@walless/graphql';
@@ -18,6 +18,7 @@ import {
 import { Top1, Top2, Top3 } from '@walless/icons';
 import { ModalId } from 'modals/types';
 import { qlClient } from 'utils/graphql';
+import { useSafeAreaInsets } from 'utils/hooks';
 
 import GradientRankingCard from './GradientRankingCard';
 import HighestRankingCard from './HighestRankingCard';
@@ -28,6 +29,7 @@ interface LeaderboardProps {
 	referralCount: number;
 	rankingPercent: number;
 	leaderboardSize: number;
+	safeAreaInsets: EdgeInsets;
 }
 
 type Props = LeaderboardProps & {
@@ -175,7 +177,14 @@ const LeaderboardModal: FC<Props> = ({
 			/>
 
 			{!isMyCardVisible && (
-				<View style={styles.floatingCard}>
+				<View
+					style={[
+						styles.floatingCard,
+						{
+							marginBottom: 16 - rankingItemGap + safeAreaInsets.bottom,
+						},
+					]}
+				>
 					<MyCard />
 				</View>
 			)}
@@ -189,6 +198,7 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: 16,
 		borderTopRightRadius: 16,
 		overflow: 'hidden',
+		height: '100%',
 	},
 	upperPartContainer: {
 		backgroundColor: '#19A3E1',
@@ -234,7 +244,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 		bottom: 0,
 		paddingHorizontal: 16,
-		marginBottom: 16 - rankingItemGap,
 	},
 });
 
@@ -242,9 +251,13 @@ export default LeaderboardModal;
 
 export const showLeaderboard = (props: LeaderboardProps) => {
 	modalActions.show({
-		id: ModalId.LeaderBoard,
+		id: ModalId.ReferralLeaderBoard,
 		component: ({ config }) => <LeaderboardModal config={config} {...props} />,
 		animateDirection: AnimateDirections.Top,
 		bindingDirection: BindDirections.InnerBottom,
+		fullHeight: true,
+		positionOffset: {
+			y: 40 + props.safeAreaInsets.top,
+		},
 	});
 };

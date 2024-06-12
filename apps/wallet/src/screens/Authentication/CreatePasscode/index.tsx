@@ -31,7 +31,7 @@ export const CreatePasscodeScreen: FC = () => {
 	const title = confirmation ? 'Confirm your passcode' : 'Create passcode';
 	const style = {
 		paddingTop: insets.top,
-		paddingBottom: insets.bottom || 20,
+		paddingBottom: insets.bottom || 24,
 	};
 
 	const handleInitFail = () => {

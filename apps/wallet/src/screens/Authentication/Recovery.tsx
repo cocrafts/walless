@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		paddingHorizontal: 36,
 		gap: 40,
+		paddingBottom: 24,
 	},
 	logo: {
 		marginTop: 48,

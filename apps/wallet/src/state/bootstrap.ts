@@ -92,6 +92,10 @@ export const initAfterSignIn = async () => {
 	if (!runtime.isMobile) {
 		await initializeVaultKeys();
 	}
+
+	// clean registered engine before restart
+	if (engine) await engine.clear();
+
 	await registerNetworkRunners(engine);
 	await engine.start();
 };

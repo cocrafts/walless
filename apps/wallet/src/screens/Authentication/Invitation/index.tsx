@@ -14,7 +14,6 @@ import {
 import { Anchor, Button, Input, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
 import { appState } from 'state/app';
-import assets from 'utils/assets';
 import { validateInvitationCode } from 'utils/auth';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
@@ -86,11 +85,7 @@ export const InvitationScreen: FC = () => {
 				<View />
 
 				<KeyboardAvoidingView style={styles.upperContainer} behavior="padding">
-					<InvitationHeader
-						logoSrc={assets.misc.walless}
-						logoSize={logoSize}
-						style={styles.logoContainer}
-					/>
+					<InvitationHeader logoSize={logoSize} style={styles.logoContainer} />
 					<Input
 						autoFocus={autoFocus}
 						inputStyle={styles.codeInput}

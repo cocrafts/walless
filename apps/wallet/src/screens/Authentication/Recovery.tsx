@@ -88,7 +88,6 @@ export const RecoveryScreen: FC = () => {
 
 export default RecoveryScreen;
 
-const logoSize = 120;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -97,14 +96,16 @@ const styles = StyleSheet.create({
 		gap: 40,
 		paddingBottom: 24,
 	},
-	logo: {
-		marginTop: 48,
-		width: logoSize,
-		height: logoSize,
-	},
 	headerContainer: {
+		marginTop: 48,
 		gap: 8,
 		alignItems: 'center',
+	},
+	logoContainer: {
+		marginVertical: 14,
+	},
+	loadingContainer: {
+		paddingVertical: 16,
 	},
 	title: {
 		fontSize: 20,
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
 		fontWeight: '600',
 	},
 	continueButton: {
-		height: 52,
+		paddingVertical: 16,
 	},
 	reminderText: {
 		fontSize: 12,

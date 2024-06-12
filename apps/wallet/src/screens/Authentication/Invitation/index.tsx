@@ -14,9 +14,8 @@ import {
 import { Anchor, Button, Input, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
 import { appState } from 'state/app';
-import assets from 'utils/assets';
 import { validateInvitationCode } from 'utils/auth';
-import { useSafeAreaInsets } from 'utils/hooks';
+import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { hideNativeKeyboard } from 'utils/system';
 
@@ -26,6 +25,7 @@ import InvitationHeader from './InvitationHeader';
 export const InvitationScreen: FC = () => {
 	const [error, setError] = useState<string>();
 	const [input, setInput] = useState<string>('');
+	const { config } = useSnapshot(appState);
 
 	const logoSize = 120;
 	const minLength = 3;
@@ -50,7 +50,7 @@ export const InvitationScreen: FC = () => {
 
 	const containerStyle: ViewStyle = {
 		paddingTop: insets.top,
-		paddingBottom: Math.max(insets.bottom, 32),
+		paddingBottom: Math.max(insets.bottom, 24),
 		paddingHorizontal: 38,
 	};
 
@@ -85,11 +85,7 @@ export const InvitationScreen: FC = () => {
 				<View />
 
 				<KeyboardAvoidingView style={styles.upperContainer} behavior="padding">
-					<InvitationHeader
-						logoSrc={assets.misc.walless}
-						logoSize={logoSize}
-						style={styles.logoContainer}
-					/>
+					<InvitationHeader logoSize={logoSize} style={styles.logoContainer} />
 					<Input
 						autoFocus={autoFocus}
 						inputStyle={styles.codeInput}
@@ -114,11 +110,16 @@ export const InvitationScreen: FC = () => {
 					<HadWalletAccount onLoginPress={handleLoginPress} />
 				</KeyboardAvoidingView>
 
-				<Anchor
-					titleStyle={styles.getInvitationText}
-					title="Get invitation code"
-					href="https://twitter.com/walless_wallet/status/1694255782651658737"
-				/>
+				<View>
+					<Anchor
+						titleStyle={styles.getInvitationText}
+						title="Get invitation code"
+						href="https://twitter.com/walless_wallet/status/1694255782651658737"
+					/>
+					<Text style={styles.poweredText}>
+						Powered by walless.io, version@{config.version}
+					</Text>
+				</View>
 			</View>
 		</TouchableWithoutFeedback>
 	);
@@ -171,6 +172,12 @@ const styles = StyleSheet.create({
 		color: '#566674',
 		fontSize: 13,
 		fontWeight: '400',
+		textAlign: 'center',
+	},
+	poweredText: {
+		fontSize: 12,
+		color: '#5D6A73',
+		marginTop: 6,
 		textAlign: 'center',
 	},
 });

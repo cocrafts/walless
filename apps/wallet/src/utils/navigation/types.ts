@@ -22,7 +22,7 @@ export type WidgetParamList = {
 	Default: {
 		id?: string;
 	};
-	Collection: NavigatorScreenParams<CollectionParamList>;
+	Setting?: undefined;
 };
 
 export type ProfileParamList = {
@@ -32,11 +32,10 @@ export type ProfileParamList = {
 };
 
 export type ExploreParamList = {
-	Widget: {
-		id?: string;
-	};
+	Widget: NavigatorScreenParams<WidgetParamList>;
 	Collection: NavigatorScreenParams<CollectionParamList>;
 	Profile: NavigatorScreenParams<ProfileParamList>;
+	Loyalty: undefined;
 };
 
 export type HomeParamList = {

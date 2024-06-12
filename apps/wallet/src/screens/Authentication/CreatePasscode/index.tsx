@@ -31,7 +31,7 @@ export const CreatePasscodeScreen: FC = () => {
 	const title = confirmation ? 'Confirm your passcode' : 'Create passcode';
 	const style = {
 		paddingTop: insets.top,
-		paddingBottom: insets.bottom || 20,
+		paddingBottom: insets.bottom || 24,
 	};
 
 	const handleInitFail = () => {
@@ -148,7 +148,7 @@ export const styles = StyleSheet.create({
 	logo: {
 		width: 83,
 		height: 43,
-		marginHorizontal: 'auto',
+		alignSelf: 'center',
 	},
 	titleContainer: {
 		paddingVertical: 40,

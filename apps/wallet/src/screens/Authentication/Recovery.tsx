@@ -2,17 +2,18 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import {
-	Image,
+	ActivityIndicator,
 	KeyboardAvoidingView,
 	Linking,
 	StyleSheet,
 	TouchableWithoutFeedback,
 } from 'react-native';
 import { Button, Input, Text, View } from '@walless/gui';
+import Logo from 'components/Logo';
 import { showError } from 'modals/Error';
-import assets from 'utils/assets';
+import { appState } from 'state/app';
 import { recoverByEmergencyKey } from 'utils/auth';
-import { useUniversalInsets } from 'utils/hooks';
+import { useSnapshot, useUniversalInsets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { hideNativeKeyboard } from 'utils/system';
 
@@ -20,7 +21,9 @@ const WALLESS_EMAIL = 'hello@walless.io';
 
 export const RecoveryScreen: FC = () => {
 	const [recoveryKey, setRecoveryKey] = useState('');
+	const [loading, setLoading] = useState(false);
 	const insets = useUniversalInsets();
+	const { config } = useSnapshot(appState);
 
 	const containerStyle: ViewStyle = {
 		marginTop: insets.top,
@@ -28,12 +31,14 @@ export const RecoveryScreen: FC = () => {
 	};
 
 	const handlePressContinue = async () => {
+		setLoading(true);
 		const key = recoveryKey.trim();
 		if (key && (await recoverByEmergencyKey(key))) {
 			navigate('Authentication', { screen: 'CreatePasscode' });
 		} else {
 			showError({ errorText: 'Wrong recovery key' });
 		}
+		setLoading(false);
 	};
 
 	const handlePressEmail = async () => {
@@ -46,11 +51,9 @@ export const RecoveryScreen: FC = () => {
 				<View />
 
 				<View style={styles.headerContainer}>
-					<Image
-						source={assets.misc.walless}
-						style={styles.logo}
-						resizeMode="cover"
-					/>
+					<View style={styles.logoContainer}>
+						<Logo />
+					</View>
 					<Text style={styles.title}>Recovery your account</Text>
 					<Text style={styles.subText}>
 						Enter your Secret key to get going again
@@ -64,23 +67,35 @@ export const RecoveryScreen: FC = () => {
 						textAlign="center"
 						onChangeText={setRecoveryKey}
 					/>
-					<Button
-						style={[styles.continueButton]}
-						titleStyle={styles.continueButtonTitle}
-						title="Continue"
-						onPress={handlePressContinue}
-						disabled={!recoveryKey.trim()}
-					/>
+					{loading ? (
+						<View style={styles.loadingContainer}>
+							<ActivityIndicator color={'white'} />
+						</View>
+					) : (
+						<Button
+							style={[styles.continueButton]}
+							titleStyle={styles.continueButtonTitle}
+							title="Continue"
+							onPress={handlePressContinue}
+							disabled={!recoveryKey.trim()}
+						/>
+					)}
 				</KeyboardAvoidingView>
 
 				<View />
-				<Text style={styles.reminderText}>
-					Upon sign-up, your Secret Key is sent in the Walless Emergency Kit to
-					your registered email. If forgotten, contact us at{' '}
-					<Text style={styles.email} onPress={handlePressEmail}>
-						{WALLESS_EMAIL}
+
+				<View>
+					<Text style={styles.reminderText}>
+						Upon sign-up, your Secret Key is sent in the Walless Emergency Kit
+						to your registered email. If forgotten, contact us at{' '}
+						<Text style={styles.email} onPress={handlePressEmail}>
+							{WALLESS_EMAIL}
+						</Text>
 					</Text>
-				</Text>
+					<Text style={styles.poweredText}>
+						Powered by walless.io, version@{config.version}
+					</Text>
+				</View>
 			</View>
 		</TouchableWithoutFeedback>
 	);
@@ -139,5 +154,11 @@ const styles = StyleSheet.create({
 	},
 	email: {
 		color: '#19A3E1',
+	},
+	poweredText: {
+		fontSize: 12,
+		color: '#5D6A73',
+		marginTop: 6,
+		textAlign: 'center',
 	},
 });

@@ -1,4 +1,4 @@
-import { RequestType, Timeout } from '@walless/core';
+import { Networks, RequestType, Timeout } from '@walless/core';
 
 import { sendRequest } from '../utils/messaging';
 
@@ -23,6 +23,7 @@ export const requestSignMessage = async (message: string) => {
 			from: 'walless@sdk',
 			type: RequestType.SIGN_MESSAGE_ON_SOLANA,
 			message,
+			network: Networks.solana,
 		},
 		Timeout.sixtySeconds,
 	);
@@ -34,6 +35,7 @@ export const requestSignTransaction = async (transaction: string) => {
 			from: 'walless@sdk',
 			type: RequestType.SIGN_TRANSACTION_ON_SOLANA,
 			transaction,
+			network: Networks.solana,
 		},
 		Timeout.sixtySeconds,
 	);

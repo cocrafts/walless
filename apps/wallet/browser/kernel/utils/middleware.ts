@@ -1,5 +1,5 @@
 import type { ChromeKernel } from '@metacraft/crab/chrome';
-import type { Middleware, RawRequest } from '@metacraft/crab/core';
+import type { Middleware, RawRequest, RawResponse } from '@metacraft/crab/core';
 import type { RequestType } from '@walless/core';
 import type { Networks } from '@walless/core';
 import {
@@ -18,29 +18,84 @@ import { openPopup } from './popup';
 import { getRequestRecord, respond } from './requestPool';
 import type { HandleMethod } from './types';
 
-export const getPrivateKey = (
-	network: Networks,
-): HandleMethod<{ passcode?: string }> => {
-	return async ({ payload, next }) => {
-		const passcode = payload.passcode;
-		if (!passcode) {
-			return respond(payload.requestId, ResponseCode.REQUIRE_PASSCODE);
-		}
+const handleUserAction = async <T extends object>({
+	kernel,
+	payload,
+	popupType,
+	callback,
+}: {
+	kernel: ChromeKernel<Channels, RequestType>;
+	payload: any;
+	popupType: PopupType;
+	callback?: (
+		...args: unknown[]
+	) => Promise<{ response: RawResponse } & Record<string, unknown>>;
+}) => {
+	const { resolveId, resolve } = kernel.createCrossResolvingRequest(
+		payload.requestId,
+		payload.timeout || Timeout.sixtySeconds,
+		callback,
+	);
 
-		try {
-			const privateKey = await utils.getPrivateKey(storage, network, passcode);
-			next?.({ ...payload, privateKey });
-		} catch {
-			respond(payload.requestId, ResponseCode.WRONG_PASSCODE);
+	openPopup(popupType, resolveId);
+
+	return await resolve<RawRequest<RequestType, T>>();
+};
+
+const handlePopupResponse = async ({
+	passcode,
+	isApproved,
+	network,
+}: {
+	passcode: string;
+	isApproved: boolean;
+	network: Networks;
+}): Promise<{ response: RawResponse } & Record<string, unknown>> => {
+	if (!network) throw new Error('Required network');
+	if (!isApproved) {
+		return {
+			response: {
+				error: 'User rejected',
+				message: 'User has rejected the signature request',
+				responseCode: ResponseCode.ERROR,
+			},
+		};
+	} else {
+		const privateKey = await getPrivateKey(network, passcode);
+		if (privateKey) {
+			return {
+				response: {
+					message: 'ok',
+					responseCode: ResponseCode.SUCCESS,
+				},
+				isApproved,
+				privateKey,
+			};
+		} else {
+			return {
+				response: {
+					error: 'Wrong passcode',
+					message: 'Failed to decode with passcode',
+					responseCode: ResponseCode.WRONG_PASSCODE,
+				},
+			};
 		}
-	};
+	}
+};
+
+export const getPrivateKey = async (network: Networks, passcode: string) => {
+	try {
+		return await utils.getPrivateKey(storage, network, passcode);
+	} catch {
+		return;
+	}
 };
 
 export const checkConnection = (
 	kernel: ChromeKernel<Channels, RequestType>,
 ): Middleware => {
 	return async (payload, respond, next) => {
-		if (!payload.options) throw Error('No connection options provided');
+		if (!payload.options) throw Error('No connection options provided <<<');
 		const { onlyIfTrusted, domain } = payload.options;
 
 		if (!onlyIfTrusted) {
@@ -79,62 +134,24 @@ export const checkConnection = (
 	};
 };
 
-const handleUserAction = async <T extends object>({
-	kernel,
-	payload,
-	popupType,
-}: {
-	kernel: ChromeKernel<Channels, RequestType>;
-	payload: any;
-	popupType: PopupType;
-}) => {
-	const { resolveId, resolve } = kernel.createCrossResolvingRequest(
-		payload.requestId,
-		payload.timeout || Timeout.sixtySeconds,
-	);
-
-	openPopup(popupType, resolveId);
-
-	return await resolve<RawRequest<RequestType, T>>();
-};
-
-// export const checkApproval = (
-// 	kernel: ChromeKernel<Channels, RequestType>,
-// ): Middleware => {
-// 	return async (payload, respond) => {
-// 		const { resolveId, isApproved } = payload;
-
-// 		if (!isApproved) {
-// 			kernel.handleCrossResolvingMiddleware(payload);
-// 			respond(sourceRequestId, ResponseCode.ERROR, {
-// 				message: ResponseMessage.REJECT_REQUEST_CONNECT,
-// 			});
-// 		} else {
-// 			payload = getRequestRecord(sourceRequestId).payload;
-// 			await next?.(payload);
-// 		}
-
-// 		respond(requestId, ResponseCode.SUCCESS);
-// 	};
-// };
-
-export const requestUserPermission = (
+export const requestUserSignature = (
 	kernel: ChromeKernel<Channels, RequestType>,
 ): Middleware => {
 	return async (payload, respond, next) => {
-		if (!payload.options) throw Error('No connection options provided');
-
-		const { passcode, isApproved } = await handleUserAction<{
+		const { isApproved, privateKey } = await handleUserAction<{
 			passcode: string;
 			isApproved: boolean;
+			privateKey: Uint8Array;
 		}>({
 			kernel,
 			payload,
 			popupType: PopupType.SIGNATURE_POPUP,
+			callback: handlePopupResponse as never,
 		});
 
+		console.log('handle user request sign >>>', isApproved, privateKey);
 		if (isApproved) {
-			next?.({ ...payload, passcode });
+			next?.({ ...payload, privateKey });
 		} else {
 			respond({
 				requestId: payload.id,

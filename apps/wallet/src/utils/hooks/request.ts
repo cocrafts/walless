@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { UnknownObject } from '@walless/core';
+import type { Networks, UnknownObject } from '@walless/core';
 import { runtime } from '@walless/core';
 import type { MessagePayload } from '@walless/messaging';
 import type { ConnectOptions } from '@walless/sdk';
@@ -11,11 +11,12 @@ export const useRequestData = (resolveId: string, from: string) => {
 	const [message, setMessage] = useState('');
 	const [transaction, setTransaction] = useState('');
 	const [payload, setPayload] = useState<MessagePayload>();
+	const [network, setNetwork] = useState<Networks>();
 
 	useEffect(() => {
 		const configureSender = async () => {
 			const result = await getDataFromSourceRequest(resolveId, from);
-			const { sender, message, transaction, options } = result ?? {};
+			const { sender, message, transaction, options, network } = result ?? {};
 
 			setPayload(result as MessagePayload);
 
@@ -34,6 +35,10 @@ export const useRequestData = (resolveId: string, from: string) => {
 			if (options) {
 				setOptions(options);
 			}
+
+			if (network) {
+				setNetwork(network);
+			}
 		};
 
 		if (runtime.isExtension) {
@@ -47,5 +52,6 @@ export const useRequestData = (resolveId: string, from: string) => {
 		message,
 		transaction,
 		options,
+		network,
 	};
 };

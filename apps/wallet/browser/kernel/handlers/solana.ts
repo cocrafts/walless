@@ -1,3 +1,4 @@
+import type { Middleware } from '@metacraft/crab/core';
 import { clusterApiUrl, Connection } from '@solana/web3.js';
 import { ResponseCode } from '@walless/core';
 import { solana } from '@walless/network';
@@ -12,10 +13,7 @@ const connection = new Connection(
 		: clusterApiUrl('devnet'),
 );
 
-export const signMessage: HandleMethod<{
-	privateKey?: Uint8Array;
-	message?: string;
-}> = async ({ payload }) => {
+export const signMessage: Middleware = async (payload, respond) => {
 	if (!payload.privateKey || !payload.message) {
 		throw Error('Missing privateKey or message');
 	}
@@ -25,7 +23,11 @@ export const signMessage: HandleMethod<{
 		payload.privateKey,
 	);
 
-	respond(payload.requestId, ResponseCode.SUCCESS, { signature });
+	respond({
+		signature,
+		message: 'Successfully sign message',
+		responseCode: ResponseCode.SUCCESS,
+	});
 };
 
 export const signTransaction: HandleMethod<{

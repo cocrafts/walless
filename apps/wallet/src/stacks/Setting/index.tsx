@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useMemo } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import { withStackContainer } from 'components/StackContainer';
@@ -18,18 +18,22 @@ export const SettingStack: FC<Props> = () => {
 	const { navigationDisplay } = useSnapshot(appState);
 
 	const screenOptions = { headerShown: false };
-	const ManagedSettingScreen = withStackContainer(SettingScreen, {
-		title: 'Settings',
-	});
-	const ManagedReferralScreen = withStackContainer(ReferralScreen, {
-		title: 'Referral',
-		noBottomTabs: !navigationDisplay.isBottomTabActive,
-		goBack: handleGoBackFromReferralScreen,
-	});
+	const ManagedSettingScreen = useMemo(() => {
+		return withStackContainer(SettingScreen, {
+			title: 'Settings',
+		});
+	}, []);
+	const ManagedReferralScreen = useMemo(() => {
+		return withStackContainer(ReferralScreen, {
+			title: 'Referral',
+			noBottomTabs: !navigationDisplay.isBottomTabActive,
+			goBack: handleGoBackFromReferralScreen,
+		});
+	}, []);
 
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
-			<Stack.Screen name="Default" component={ManagedSettingScreen as never} />
+			<Stack.Screen name="Default" component={ManagedSettingScreen} />
 			<Stack.Screen name="Referral" component={ManagedReferralScreen} />
 		</Stack.Navigator>
 	);

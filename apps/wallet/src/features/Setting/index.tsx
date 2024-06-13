@@ -31,9 +31,7 @@ const SettingFeature: FC<Props> = ({ style }) => {
 	const handleNavigateToReferralScreen = () => {
 		navigate('Dashboard', {
 			screen: 'Setting',
-			params: {
-				screen: 'Referral',
-			},
+			params: { screen: 'Referral' },
 		});
 	};
 

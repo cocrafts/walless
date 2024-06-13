@@ -18,18 +18,20 @@ const Drawer = createDrawerNavigator<ExploreParamList>();
 
 export const ExplorerStack = () => {
 	const { navigationDisplay } = useSnapshot(appState);
-	const screenOptions: DrawerNavigationOptions = {
-		headerShown: false,
-		drawerStyle: styles.drawer,
-		swipeEdgeWidth: 100,
-		swipeMinDistance: sidebarWidth / 3,
-		overlayColor: 'transparent',
-		drawerType: navigationDisplay.isPermanentDrawer ? 'permanent' : 'back',
-	};
+	const screenOptions: DrawerNavigationOptions = useMemo(() => {
+		return {
+			headerShown: false,
+			drawerStyle: styles.drawer,
+			swipeEdgeWidth: 100,
+			swipeMinDistance: sidebarWidth / 3,
+			overlayColor: 'transparent',
+			drawerType: navigationDisplay.isPermanentDrawer ? 'permanent' : 'back',
+		};
+	}, [navigationDisplay]);
 
-	const options = {
-		unmountOnBlur: false,
-	};
+	const options = useMemo(() => {
+		return { unmountOnBlur: false };
+	}, []);
 
 	const ManageLoyaltyScreen = useMemo(
 		() =>
@@ -70,10 +72,7 @@ export const ExplorerStack = () => {
 			<Drawer.Screen
 				name="Loyalty"
 				component={ManageLoyaltyScreen}
-				options={{
-					...options,
-					drawerType: 'back',
-				}}
+				options={{ ...options, drawerType: 'back' }}
 			/>
 		</Drawer.Navigator>
 	);

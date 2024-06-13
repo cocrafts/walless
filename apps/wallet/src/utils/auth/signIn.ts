@@ -1,4 +1,4 @@
-import type { Account, WalletInvitation } from '@walless/graphql';
+import type { WalletInvitation } from '@walless/graphql';
 import { mutations, queries } from '@walless/graphql';
 import type { FirebaseUser } from 'utils/firebase';
 import { qlClient } from 'utils/graphql';
@@ -70,27 +70,14 @@ const signInWithTorusKey = async (
 
 const signInWithPasscode = async (
 	passcode: string,
-	handleInitFail?: () => void,
+	handleInitFail?: (error: string) => void,
 ): Promise<void> => {
 	const status = await importAvailableShares();
 
 	if (status === ThresholdResult.Initializing) {
 		const registeredAccount = await initAndRegisterWallet();
 		if (!registeredAccount?.identifier) {
-			handleInitFail?.();
-			return;
-		}
-	} else if (status === ThresholdResult.Ready) {
-		let { userAccount } = await qlClient.request<{
-			userAccount: Account | undefined;
-		}>(queries.userAccount);
-
-		if (!userAccount) {
-			userAccount = await initAndRegisterWallet();
-		}
-
-		if (!userAccount?.identifier) {
-			handleInitFail?.();
+			handleInitFail?.('Failed to register account, please try again!');
 			return;
 		}
 	}

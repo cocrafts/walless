@@ -39,10 +39,8 @@ export const CreatePasscodeScreen: FC = () => {
 		paddingBottom: insets.bottom || 24,
 	};
 
-	const handleInitFail = () => {
-		showError({
-			errorText: 'Something went wrong. Please try again.',
-		});
+	const handleInitFail = (errorText: string) => {
+		showError({ errorText });
 		navigate('Authentication', { screen: 'Login' });
 	};
 

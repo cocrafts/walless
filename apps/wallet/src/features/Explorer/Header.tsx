@@ -25,6 +25,7 @@ const Header = () => {
 				<Text style={styles.helloText}>Hi 👋, your balance today:</Text>
 				<View style={styles.tokenValuationContainer}>
 					<Hoverable
+						style={!config.hideBalance && styles.eyeOffIcon}
 						onPress={() => {
 							setPrivacy(!config.hideBalance);
 						}}
@@ -35,7 +36,12 @@ const Header = () => {
 							<EyeOff color="#19A3E1" size={16} />
 						)}
 					</Hoverable>
-					<Text style={styles.tokenValuation}>
+					<Text
+						style={[
+							styles.tokenValuation,
+							config.hideBalance && styles.hiddenTokenValuation,
+						]}
+					>
 						{getValuationDisplay(valuation, config.hideBalance)}
 					</Text>
 				</View>
@@ -71,10 +77,17 @@ const styles = StyleSheet.create({
 	balanceContainer: {
 		gap: 4,
 	},
+	eyeOffIcon: {
+		top: 1,
+	},
 	tokenValuationContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 4,
+	},
+	hiddenTokenValuation: {
+		lineHeight: 21.5,
+		fontSize: 12,
 	},
 	tokenValuation: {
 		fontSize: 18,

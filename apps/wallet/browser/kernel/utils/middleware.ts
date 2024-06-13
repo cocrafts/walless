@@ -1,5 +1,5 @@
 import type { ChromeKernel } from '@metacraft/crab/chrome';
-import type { Middleware, RawRequest, RawResponse } from '@metacraft/crab/core';
+import type { Middleware, RawRequest } from '@metacraft/crab/core';
 import type { RequestType } from '@walless/core';
 import type { Networks } from '@walless/core';
 import {
@@ -22,19 +22,18 @@ const handleUserAction = async <T extends object>({
 	kernel,
 	payload,
 	popupType,
-	callback,
+	resolveCallback,
 }: {
 	kernel: ChromeKernel<Channels, RequestType>;
+	// eslint-disable-next-line
 	payload: any;
 	popupType: PopupType;
-	callback?: (
-		...args: unknown[]
-	) => Promise<{ response: RawResponse } & Record<string, unknown>>;
+	resolveCallback?: Middleware;
 }) => {
 	const { resolveId, resolve } = kernel.createCrossResolvingRequest(
 		payload.requestId,
 		payload.timeout || Timeout.sixtySeconds,
-		callback,
+		resolveCallback,
 	);
 
 	openPopup(popupType, resolveId);
@@ -42,43 +41,27 @@ const handleUserAction = async <T extends object>({
 	return await resolve<RawRequest<RequestType, T>>();
 };
 
-const handlePopupResponse = async ({
-	passcode,
-	isApproved,
-	network,
-}: {
-	passcode: string;
-	isApproved: boolean;
-	network: Networks;
-}): Promise<{ response: RawResponse } & Record<string, unknown>> => {
+const handlePopupResponse: Middleware = async (request, respond, resolve) => {
+	const { isApproved, passcode, network } = request;
 	if (!network) throw new Error('Required network');
 	if (!isApproved) {
-		return {
-			response: {
-				error: 'User rejected',
-				message: 'User has rejected the signature request',
-				responseCode: ResponseCode.ERROR,
-			},
-		};
+		respond({
+			message: 'User has rejected the signature request',
+			responseCode: ResponseCode.ERROR,
+		});
 	} else {
 		const privateKey = await getPrivateKey(network, passcode);
 		if (privateKey) {
-			return {
-				response: {
-					message: 'ok',
-					responseCode: ResponseCode.SUCCESS,
-				},
-				isApproved,
-				privateKey,
-			};
+			respond({
+				message: 'Successfully sign request',
+				responseCode: ResponseCode.SUCCESS,
+			});
+			resolve?.({ isApproved, privateKey });
 		} else {
-			return {
-				response: {
-					error: 'Wrong passcode',
-					message: 'Failed to decode with passcode',
-					responseCode: ResponseCode.WRONG_PASSCODE,
-				},
-			};
+			respond({
+				message: 'Failed to decode with passcode',
+				responseCode: ResponseCode.WRONG_PASSCODE,
+			});
 		}
 	}
 };
@@ -146,7 +129,7 @@ export const requestUserSignature = (
 			kernel,
 			payload,
 			popupType: PopupType.SIGNATURE_POPUP,
-			callback: handlePopupResponse as never,
+			resolveCallback: handlePopupResponse,
 		});
 
 		console.log('handle user request sign >>>', isApproved, privateKey);

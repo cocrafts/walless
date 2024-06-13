@@ -52,7 +52,7 @@ export const ExplorerStack = () => {
 		<Drawer.Navigator
 			drawerContent={Sidebar}
 			screenOptions={screenOptions}
-			backBehavior="order"
+			backBehavior="history"
 		>
 			<Drawer.Screen name="Widget" component={WidgetScreen} options={options} />
 			<Drawer.Screen

@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 4,
+		height: 24,
 	},
 	hiddenTokenValuation: {
 		lineHeight: 21.5,

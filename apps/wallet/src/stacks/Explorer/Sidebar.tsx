@@ -27,10 +27,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 			screen: 'Explore',
 			params: {
 				screen: 'Widget',
-				params: {
-					screen: 'Default',
-					params: { id: item._id },
-				},
+				params: { id: item._id },
 			},
 		});
 	};
@@ -45,10 +42,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 				screen: 'Explore',
 				params: {
 					screen: 'Widget',
-					params: {
-						screen: 'Default',
-						params: { id: 'explorer' },
-					},
+					params: { id: 'explorer' },
 				},
 			});
 		}

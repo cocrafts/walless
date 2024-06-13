@@ -51,13 +51,8 @@ export const linking: LinkingOptions<RootParamList> = {
 					Explore: {
 						path: '/explore',
 						screens: {
-							Widget: {
-								path: '/widget',
-								screens: {
-									Default: '/:id',
-									Setting: '/setting',
-								},
-							},
+							Widget: '/widget/:id',
+							Setting: '/setting',
 							Collection: {
 								path: '/collection',
 								screens: {

@@ -15,12 +15,7 @@ const Header = () => {
 	const handleNavigateToSettings = () => {
 		navigate('Dashboard', {
 			screen: 'Explore',
-			params: {
-				screen: 'Widget',
-				params: {
-					screen: 'Setting',
-				},
-			},
+			params: { screen: 'Profile', params: { screen: 'Setting' } },
 		});
 	};
 

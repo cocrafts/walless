@@ -24,16 +24,14 @@ interface Props {
 }
 
 const SettingFeature: FC<Props> = ({ style }) => {
-	const { profile } = useSnapshot(appState);
+	const { profile, config } = useSnapshot(appState);
 	const displayName = profile.name || profile.email || 'Anonymous';
 	const imageSource = { uri: profile.profileImage };
 
 	const handleNavigateToReferralScreen = () => {
 		navigate('Dashboard', {
 			screen: 'Setting',
-			params: {
-				screen: 'Referral',
-			},
+			params: { screen: 'Referral' },
 		});
 	};
 
@@ -113,6 +111,12 @@ const SettingFeature: FC<Props> = ({ style }) => {
 						}
 					/>
 				</View>
+
+				<View>
+					<Text style={styles.poweredText}>
+						Powered by walless.io, version@{config.version}
+					</Text>
+				</View>
 			</View>
 		</View>
 	);
@@ -148,6 +152,12 @@ const styles = StyleSheet.create({
 	},
 	innerContainer: {
 		gap: 16,
+	},
+	poweredText: {
+		fontSize: 12,
+		color: '#5D6A73',
+		textAlign: 'center',
+		marginTop: 24,
 	},
 });
 

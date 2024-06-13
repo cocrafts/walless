@@ -69,7 +69,7 @@ export const isValidHttpUrl = (str: string) => {
 
 export const getValuationDisplay = (valuation: number, isPrivate?: boolean) => {
 	if (isPrivate) {
-		return '******';
+		return '∗∗∗∗∗∗';
 	}
 
 	return `$${numeral(valuation).format('0.00')}`;

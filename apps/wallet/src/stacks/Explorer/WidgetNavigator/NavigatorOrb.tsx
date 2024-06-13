@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
 const getIconColor = (
 	isActive: boolean | undefined,
 	storeOptions: WidgetStoreOptions,
-	defaultColor = '#FFFFFF',
+	defaultColor = 'transparent',
 ) => {
 	if (isActive) {
 		return (

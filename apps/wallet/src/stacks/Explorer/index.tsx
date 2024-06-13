@@ -4,8 +4,8 @@ import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
 import { createDrawerNavigator } from 'components/DrawerNavigation';
 import { withStackContainer } from 'components/StackContainer';
 import LoyaltyScreen from 'screens/Dashboard/Loyalty';
+import WidgetScreen from 'screens/Dashboard/Widget';
 import CollectionStack from 'stacks/Explorer/CollectionStack';
-import WidgetStack from 'stacks/Widget';
 import { appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
 import type { ExploreParamList } from 'utils/navigation';
@@ -18,18 +18,20 @@ const Drawer = createDrawerNavigator<ExploreParamList>();
 
 export const ExplorerStack = () => {
 	const { navigationDisplay } = useSnapshot(appState);
-	const screenOptions: DrawerNavigationOptions = {
-		headerShown: false,
-		drawerStyle: styles.drawer,
-		swipeEdgeWidth: 100,
-		swipeMinDistance: sidebarWidth / 3,
-		overlayColor: 'transparent',
-		drawerType: navigationDisplay.isPermanentDrawer ? 'permanent' : 'back',
-	};
+	const screenOptions: DrawerNavigationOptions = useMemo(() => {
+		return {
+			headerShown: false,
+			drawerStyle: styles.drawer,
+			swipeEdgeWidth: 100,
+			swipeMinDistance: sidebarWidth / 3,
+			overlayColor: 'transparent',
+			drawerType: navigationDisplay.isPermanentDrawer ? 'permanent' : 'back',
+		};
+	}, [navigationDisplay]);
 
-	const options = {
-		unmountOnBlur: false,
-	};
+	const options = useMemo(() => {
+		return { unmountOnBlur: false };
+	}, []);
 
 	const ManageLoyaltyScreen = useMemo(
 		() =>
@@ -39,7 +41,10 @@ export const ExplorerStack = () => {
 				goBack: () =>
 					navigate('Dashboard', {
 						screen: 'Explore',
-						params: { screen: 'Widget', params: {} },
+						params: {
+							screen: 'Widget',
+							params: { id: 'explorer' },
+						},
 					}),
 			}),
 		[],
@@ -49,9 +54,9 @@ export const ExplorerStack = () => {
 		<Drawer.Navigator
 			drawerContent={Sidebar}
 			screenOptions={screenOptions}
-			backBehavior="order"
+			backBehavior="history"
 		>
-			<Drawer.Screen name="Widget" component={WidgetStack} options={options} />
+			<Drawer.Screen name="Widget" component={WidgetScreen} options={options} />
 			<Drawer.Screen
 				name="Collection"
 				component={CollectionStack}
@@ -67,10 +72,7 @@ export const ExplorerStack = () => {
 			<Drawer.Screen
 				name="Loyalty"
 				component={ManageLoyaltyScreen}
-				options={{
-					...options,
-					drawerType: 'back',
-				}}
+				options={{ ...options, drawerType: 'back' }}
 			/>
 		</Drawer.Navigator>
 	);

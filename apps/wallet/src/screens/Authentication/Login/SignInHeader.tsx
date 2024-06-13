@@ -1,20 +1,15 @@
 import type { FC } from 'react';
-import type { ImageSourcePropType } from 'react-native';
-import { Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
+import Logo from 'components/Logo';
 
 interface Props {
-	logoSrc: ImageSourcePropType;
 	logoSize?: number;
 }
-const SignInHeader: FC<Props> = ({ logoSrc, logoSize }) => {
-	const logoStyle = {
-		width: logoSize,
-		height: logoSize,
-	};
+const SignInHeader: FC<Props> = ({ logoSize }) => {
 	return (
 		<View style={styles.container}>
-			<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
+			<Logo size={logoSize} />
 			<Text style={styles.title}>Sign in to continue</Text>
 		</View>
 	);
@@ -27,6 +22,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		paddingTop: 48,
+		gap: 10,
 	},
 	title: {
 		fontSize: 20,

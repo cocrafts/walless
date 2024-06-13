@@ -1,11 +1,14 @@
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
 
+import { SolanaShareButton } from '../TransactionResult/ShareButton';
+
 export const Processing = () => {
 	return (
 		<View style={styles.container}>
 			<ActivityIndicator />
 			<Text>Processing...</Text>
+			<SolanaShareButton />
 		</View>
 	);
 };

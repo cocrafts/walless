@@ -98,6 +98,13 @@ export const initAfterSignIn = async () => {
 
 	await registerNetworkRunners(engine);
 	await engine.start();
+
+	/**
+	 * fix: initializeAuth called by `bootstrap` only at the init time
+	 * in case user is not signed-in, no initialization happen.
+	 * need to re-init after sign-in
+	 * */
+	await initializeAuth();
 };
 
 const configEngine = async () => {

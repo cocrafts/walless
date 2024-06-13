@@ -51,7 +51,8 @@ export const NavigatorOrb: FC<Props> = ({
 
 	const orbStyle = useAnimatedStyle(() => {
 		return {
-			backgroundColor: iconColor,
+			// temporarily use transparent without migration for pixeverse widget
+			backgroundColor: item._id === 'pixeverse' ? 'transparent' : iconColor,
 			borderRadius: withTiming(radius.value, {
 				duration: 320,
 				easing: Easing.bezier(0.51, 0.58, 0.23, 0.99),

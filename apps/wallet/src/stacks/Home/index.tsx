@@ -1,15 +1,13 @@
-import { type FC, useMemo } from 'react';
+import type { FC } from 'react';
+import { useMemo } from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import { withStackContainer } from 'components/StackContainer';
 import HistoryScreen from 'screens/Dashboard/History';
 import ProfileScreen from 'screens/Dashboard/Home';
 import { noHeaderNavigation } from 'utils/constants';
-import {
-	type DashboardParamList,
-	type HomeParamList,
-	navigate,
-} from 'utils/navigation';
+import type { DashboardParamList, HomeParamList } from 'utils/navigation';
+import { navigate } from 'utils/navigation';
 
 type Props = StackScreenProps<DashboardParamList, 'Home'>;
 

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet } from 'react-native';
 import { logger } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Passcode, Text, View } from '@walless/gui';
@@ -11,7 +11,6 @@ import { nativeModules } from 'utils/native';
 import { txActions, useTransactionContext } from '../internal';
 
 import { Header } from './Header';
-import Processing from './Processing';
 
 type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
@@ -77,8 +76,15 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 					}
 				</Text>
 			</View>
-			{status === 'pending' ? (
-				<Processing />
+			{status === 'pending' || status === 'finalizing' ? (
+				<View style={styles.loadingContainer}>
+					<ActivityIndicator />
+					{status === 'pending' ? (
+						<Text>Processing...</Text>
+					) : (
+						status === 'finalizing' && <Text>Finalizing...</Text>
+					)}
+				</View>
 			) : (
 				renderPasscode && (
 					<Passcode
@@ -115,5 +121,11 @@ const styles = StyleSheet.create({
 		lineHeight: 18,
 		color: '#566674',
 		textAlign: 'center',
+	},
+	loadingContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		gap: 6,
 	},
 });

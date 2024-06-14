@@ -7,7 +7,7 @@ import HistoryScreen from 'screens/Dashboard/History';
 import ProfileScreen from 'screens/Dashboard/Home';
 import { noHeaderNavigation } from 'utils/constants';
 import type { DashboardParamList, HomeParamList } from 'utils/navigation';
-import { navigate } from 'utils/navigation';
+import { navigateBack } from 'utils/navigation';
 
 type Props = StackScreenProps<DashboardParamList, 'Home'>;
 
@@ -22,11 +22,7 @@ export const HomeStack: FC<Props> = () => {
 	const ManagedHistoryScreen = useMemo(() => {
 		return withStackContainer(HistoryScreen, {
 			title: 'Transaction History',
-			goBack: () =>
-				navigate('Dashboard', {
-					screen: 'Home',
-					params: { screen: 'Default' },
-				}),
+			goBack: navigateBack,
 		});
 	}, []);
 

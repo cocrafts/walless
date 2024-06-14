@@ -27,7 +27,10 @@ const ExplorerWidgetItem: FC<Props> = ({ style, widget, isAdded }) => {
 		addWidgetToStorage(widget._id, widget);
 		navigate('Dashboard', {
 			screen: 'Explore',
-			params: { screen: 'Widget', params: { id: widget._id } },
+			params: {
+				screen: 'Widget',
+				params: { screen: 'Default', params: { id: widget._id } },
+			},
 		});
 	};
 

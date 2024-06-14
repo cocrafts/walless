@@ -1,4 +1,4 @@
-import { Networks } from '@walless/core';
+import { Networks, WidgetType } from '@walless/core';
 import type { WidgetDocument } from '@walless/store';
 
 // TODO: this mocked data is for web only
@@ -9,12 +9,11 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.solana],
 		version: '0.1.8',
 		type: 'Widget',
-		widgetType: 'Hybrid',
+		widgetType: WidgetType.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-pixeverse.png',
 			iconSize: 40,
-			iconColor: '#ffffff',
 			coverUri: '/img/explore/thumbnail-pixeverse.png',
 			description:
 				'A hyper casual pixel-style game in which players step into the shoes of their ...',
@@ -35,7 +34,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.solana],
 		version: '0.9.1',
 		type: 'Widget',
-		widgetType: 'Layout',
+		widgetType: WidgetType.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-solana.png',
@@ -61,7 +60,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.sui],
 		version: '0.0.1',
 		type: 'Widget',
-		widgetType: 'Layout',
+		widgetType: WidgetType.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-sui.png',
@@ -87,7 +86,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.sui],
 		version: '0.0.1',
 		type: 'Widget',
-		widgetType: 'Layout',
+		widgetType: WidgetType.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/network/tezos-icon-sm.png',
@@ -113,7 +112,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.aptos],
 		version: '0.0.1',
 		type: 'Widget',
-		widgetType: 'Layout',
+		widgetType: WidgetType.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-aptos.png',
@@ -139,7 +138,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [],
 		version: '0.1.8',
 		type: 'Widget',
-		widgetType: 'Hybrid',
+		widgetType: WidgetType.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/t-rex-runner/runner-icon.png',
@@ -164,7 +163,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [],
 		version: '0.0.1',
 		type: 'Widget',
-		widgetType: 'Hybrid',
+		widgetType: WidgetType.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/sui-jump/suijump-icon.png',

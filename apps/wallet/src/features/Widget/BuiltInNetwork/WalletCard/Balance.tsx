@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
-import numeral from 'numeral';
+import { getValuationDisplay } from 'utils/helper';
 
 interface Props {
 	onHide: (next: boolean) => void;
@@ -61,11 +61,3 @@ const styles = StyleSheet.create({
 		marginLeft: 34,
 	},
 });
-
-const getValuationDisplay = (valuation: number, isPrivate?: boolean) => {
-	if (isPrivate) {
-		return '******';
-	}
-
-	return `$${numeral(valuation).format('0.00')}`;
-};

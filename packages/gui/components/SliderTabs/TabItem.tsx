@@ -30,12 +30,32 @@ export const TabItem: FC<Props> = ({ item, style, onPress }) => {
 	);
 };
 
+export const activatedStyle: TabItemStyle = {
+	containerStyle: {
+		backgroundColor: '#0694D3',
+	},
+	textStyle: {
+		color: 'white',
+		fontWeight: '500',
+	},
+};
+
+export const deactivatedStyle: TabItemStyle = {
+	containerStyle: {
+		backgroundColor: 'transparent',
+	},
+	textStyle: {
+		color: '#566674',
+		fontWeight: '400',
+	},
+};
+
 export default TabItem;
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingVertical: 6,
+		paddingVertical: 10,
 		borderRadius: 8,
 	},
 	title: {

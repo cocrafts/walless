@@ -3271,6 +3271,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@coral-xyz/borsh@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "@coral-xyz/borsh@npm:0.30.0"
+  dependencies:
+    bn.js: "npm:^5.1.2"
+    buffer-layout: "npm:^1.2.0"
+  peerDependencies:
+    "@solana/web3.js": ^1.68.0
+  checksum: 10/9805bc13cce3e817a4d5d56f80755342cb03c06af088c3b1da7b00c66e4839d4ecdc6530073e483957dff38deb30446d679416495534b45d1af31e2076ac6e20
+  languageName: node
+  linkType: hard
+
 "@craftzdog/pouchdb-adapter-websql-core@npm:^7.2.3":
   version: 7.2.3
   resolution: "@craftzdog/pouchdb-adapter-websql-core@npm:7.2.3"
@@ -11351,6 +11363,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-native-linear-gradient@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@types/react-native-linear-gradient@npm:2.4.0"
+  dependencies:
+    react-native-linear-gradient: "npm:*"
+  checksum: 10/7ccaa5c0fd7c2667f467f3e589c61b4d6ee38a1475fab9e39c251ac403742f3e282bd89458e348ea9f721c92b02649f3dc1e947c89c96d4689f554004c636db6
+  languageName: node
+  linkType: hard
+
 "@types/react-native@npm:^0.71.2":
   version: 0.71.13
   resolution: "@types/react-native@npm:0.71.13"
@@ -11691,7 +11712,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-simple-import-sort: "npm:^10.0.0"
     prettier: "npm:^3.0.3"
-    typescript: "npm:5.3.3"
+    typescript: "npm:*"
   peerDependencies:
     eslint: ">=8"
     prettier: ">=3"
@@ -11872,6 +11893,7 @@ __metadata:
   dependencies:
     "@babel/plugin-proposal-export-namespace-from": "npm:^7.18.9"
     "@coral-xyz/anchor": "npm:^0.29.0"
+    "@coral-xyz/borsh": "npm:^0.30.0"
     "@craftzdog/pouchdb-collate-react-native": "npm:^7.3.0"
     "@craftzdog/react-native-buffer": "npm:^6.0.5"
     "@dreson4/react-native-quick-bip39": "npm:0.0.5"
@@ -11906,6 +11928,7 @@ __metadata:
     "@types/jest": "npm:^29.2.1"
     "@types/pouchdb-adapter-memory": "npm:^6.1.6"
     "@types/react": "npm:^18.2.25"
+    "@types/react-native-linear-gradient": "npm:^2.4.0"
     "@types/react-test-renderer": "npm:^18.0.0"
     "@walless/core": "npm:*"
     "@walless/graphql": "npm:*"
@@ -11960,6 +11983,7 @@ __metadata:
     react-native-svg: "npm:13.10.0"
     react-native-url-polyfill: "npm:^2.0.0"
     react-native-vision-camera: "npm:^3.9.0"
+    react-native-web-linear-gradient: "npm:^1.1.2"
     react-native-webview: "npm:13.6.3"
     react-test-renderer: "npm:18.2.0"
     replace-in-file-webpack-plugin: "npm:^1.0.6"
@@ -24002,6 +24026,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-linear-gradient@npm:*":
+  version: 2.8.3
+  resolution: "react-native-linear-gradient@npm:2.8.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10/db18c7ae4b68afe8b6f12c67defeeccda7a3cff4ee14a0b2d92ff2581d53bd2e65bf29837cf2828abb3d8d1f3cef3f808e8cc1c5d4c8da5dd6f1d09e2b9c2c55
+  languageName: node
+  linkType: hard
+
 "react-native-logs@npm:5.0.1":
   version: 5.0.1
   resolution: "react-native-logs@npm:5.0.1"
@@ -24225,6 +24259,15 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: 10/db7ac87796625f677820171dc9fc7ed279dc4cdeeae610f414e4bdacd5e6f2c1e89a570ec5af6b32b040da141456f1239a0f493bfcbd11db8f4d0d21ec10eb76
+  languageName: node
+  linkType: hard
+
+"react-native-web-linear-gradient@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "react-native-web-linear-gradient@npm:1.1.2"
+  peerDependencies:
+    react-native-web: "*"
+  checksum: 10/1a9f76f32bcd3c4bd27513cd7fbd25ad807754457cd304eafd5957bf33fe37d85c377fe48edd189eacc861d274a61eac389842a448154f4b45709aa918c81e16
   languageName: node
   linkType: hard
 
@@ -27058,7 +27101,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.3.3, typescript@npm:^5.0.4, typescript@npm:^5.2.2":
+"typescript@npm:*, typescript@npm:^5.4.0":
+  version: 5.4.5
+  resolution: "typescript@npm:5.4.5"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10/d04a9e27e6d83861f2126665aa8d84847e8ebabcea9125b9ebc30370b98cb38b5dff2508d74e2326a744938191a83a69aa9fddab41f193ffa43eabfdf3f190a5
+  languageName: node
+  linkType: hard
+
+"typescript@npm:5.3.3, typescript@npm:^5.0.4":
   version: 5.3.3
   resolution: "typescript@npm:5.3.3"
   bin:
@@ -27068,7 +27121,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.0.4#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.2.2#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A*#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.4.0#optional!builtin<compat/typescript>":
+  version: 5.4.5
+  resolution: "typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10/760f7d92fb383dbf7dee2443bf902f4365db2117f96f875cf809167f6103d55064de973db9f78fe8f31ec08fff52b2c969aee0d310939c0a3798ec75d0bca2e1
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.0.4#optional!builtin<compat/typescript>":
   version: 5.3.3
   resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
   bin:
@@ -27640,7 +27703,7 @@ __metadata:
     ts-jest: "npm:^29.0.5"
     tsconfig-paths-webpack-plugin: "npm:^4.0.1"
     turbo: "npm:latest"
-    typescript: "npm:^5.2.2"
+    typescript: "npm:^5.4.0"
     webpack: "npm:^5.89.0"
   languageName: unknown
   linkType: soft

@@ -30,6 +30,165 @@ type Account {
   walletCount: Int
 }
 
+""""""
+type Action {
+  """"""
+  category: ActionCategory
+
+  """"""
+  cycleInHours: Float
+
+  """"""
+  id: String
+
+  """"""
+  mechanism: VerifyMechanism
+
+  """"""
+  metadata: [ActionMetadata]
+
+  """"""
+  milestone: Int
+
+  """"""
+  points: Int
+
+  """"""
+  streak: Int
+
+  """"""
+  type: String
+
+  """"""
+  validFrom: DateTime
+
+  """"""
+  validUntil: DateTime
+
+  """"""
+  verifier: String
+}
+
+""""""
+enum ActionCategory {
+  """"""
+  milestone
+
+  """"""
+  onetime
+
+  """"""
+  recurring
+
+  """"""
+  streak
+}
+
+""""""
+type ActionCount {
+  """"""
+  cycleInHours: Float
+
+  """"""
+  lastClaim: DateTime
+
+  """"""
+  milestone: Int
+
+  """"""
+  streaks: [Streak]
+
+  """"""
+  type: String
+}
+
+""""""
+type ActionMetadata {
+  """"""
+  key: String
+
+  """"""
+  value: String
+}
+
+""""""
+input ActionMetadataInput {
+  """"""
+  key: String
+
+  """"""
+  value: String
+}
+
+""""""
+type ActionRecord {
+  """"""
+  actionId: String
+
+  """"""
+  timestamp: DateTime
+
+  """"""
+  userId: String
+}
+
+""""""
+type Boost {
+  """"""
+  actionId: String
+
+  """"""
+  id: String
+
+  """"""
+  multiplier: Float
+
+  """"""
+  points: Float
+
+  """"""
+  validFrom: DateTime
+
+  """"""
+  validUntil: DateTime
+}
+
+""""""
+input CreateActionInput {
+  """"""
+  category: ActionCategory!
+
+  """"""
+  cycleInHours: Float = 0
+
+  """"""
+  metadata: [ActionMetadataInput]
+
+  """"""
+  milestone: Int = 0
+
+  """"""
+  points: Float!
+
+  """"""
+  streak: Int = 0
+
+  """"""
+  type: String!
+
+  """"""
+  validFrom: DateTime = "0001-01-01 00:00:00 +0000 UTC"
+
+  """"""
+  validUntil: DateTime = "0001-01-01 00:00:00 +0000 UTC"
+
+  """"""
+  verifier: String = ""
+
+  """"""
+  verifyMechanism: VerifyMechanism!
+}
+
 """
 The `DateTime` scalar type represents a DateTime. The DateTime is serialized as an RFC 3339 quoted string
 """
@@ -119,6 +278,18 @@ input DeviceInfoInput {
   systemVersion: String
 }
 
+""""""
+type HistoryItem {
+  """"""
+  action: Action
+
+  """"""
+  boosts: [Boost]
+
+  """"""
+  doneAt: DateTime
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
 """
@@ -190,16 +361,16 @@ type ReferralRank {
 """"""
 type RootMutation {
   """"""
-  addNewCode(amount: Int!): Boolean
-
-  """"""
   addWidget(banner: String, description: String!, largeLogo: String, logo: String, name: String!, networks: [String] = ["[]"], nfts: [WidgetTokenInput], ownerId: String!, tokens: [WidgetTokenInput]): Widget
 
   """"""
   claimWalletInvitation(code: String!, email: String!): Boolean
 
   """"""
-  createSimpleAccount: Account
+  createLoyaltyAction(input: CreateActionInput!): Action
+
+  """"""
+  createLoyaltyBoost(actionId: String!, multiplier: Float!, points: Float!, validFrom: DateTime!, validUntil: DateTime!): Boost
 
   """"""
   deleteWidget(id: String!): Boolean
@@ -209,6 +380,12 @@ type RootMutation {
 
   """"""
   joinWaitlist(description: String!, email: String!, twitter: String!): JoinWaitlistResult
+
+  """"""
+  performActiveActionsByType(type: String!): [ActionRecord]
+
+  """"""
+  performLoyaltyAction(actionId: String!): ActionRecord
 
   """"""
   registerAccount(key: String!): Account
@@ -224,9 +401,6 @@ type RootMutation {
 
   """"""
   trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
-
-  """"""
-  updateRankings: Boolean
 
   """"""
   updateWidgetAccountRole(id: String!, role: WidgetAccountRole!): WidgetAccount
@@ -251,6 +425,24 @@ type RootQuery {
 
   """"""
   loginMessage(pubkey: String!): String
+
+  """"""
+  loyaltyActions: [Action]
+
+  """"""
+  loyaltyActiveActions: [Action]
+
+  """"""
+  loyaltyBoosts: [Boost]
+
+  """"""
+  loyaltyCurrentBoostsOfAction(actionId: String!): [Boost]
+
+  """"""
+  loyaltyHistory: [HistoryItem]
+
+  """"""
+  loyaltyUserProgress: UserProgress
 
   """"""
   nonce(identifier: String!): Nonce
@@ -302,6 +494,18 @@ type RootQuery {
 type SendEmergencyKitResult {
   """"""
   messageId: String
+}
+
+""""""
+type Streak {
+  """"""
+  currentStreak: Int
+
+  """"""
+  remainingClaims: Int
+
+  """"""
+  streak: Int
 }
 
 """"""
@@ -357,6 +561,33 @@ input TrackAccountWalletInput {
 
 """The `Uint32` scalar type represents a 32-bit unsigned integer."""
 scalar Uint32
+
+""""""
+type UserProgress {
+  """"""
+  actionRecords: [ActionRecord]
+
+  """"""
+  id: String
+
+  """"""
+  totalPoints: Int
+
+  """"""
+  trackList: [ActionCount]
+}
+
+""""""
+enum VerifyMechanism {
+  """"""
+  automated
+
+  """"""
+  manual
+
+  """"""
+  no
+}
 
 """"""
 type WalletInvitation {

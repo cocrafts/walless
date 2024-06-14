@@ -82,7 +82,7 @@
     "ts-jest": "^29.0.5",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
     "turbo": "latest",
-    "typescript": "^5.2.2",
+    "typescript": "^5.4.0",
     "webpack": "^5.89.0"
   },
   "engines": {

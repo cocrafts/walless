@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
 		paddingLeft: 18,
 	},
 	textContainer: {
-		marginTop: 16,
+		marginTop: 8,
+		marginBottom: 8,
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 12,

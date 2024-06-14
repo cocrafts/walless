@@ -80,3 +80,22 @@ export type SuiToken = Token & {
 	previousTransaction: string;
 	decimals: number;
 };
+
+// There are 2 standards of tokens in Tezos, they are FA1.2 and FA2
+export enum TezosTokenTypes {
+	FA12 = 'FA1.2',
+	FA2 = 'FA2',
+}
+
+export type TezosContract = {
+	address: string;
+	alias?: string;
+};
+
+export type TezosToken = Token & {
+	tokenId: string;
+	tokenType: TezosTokenTypes;
+	contract: TezosContract;
+	decimals: number;
+	amount: string;
+};

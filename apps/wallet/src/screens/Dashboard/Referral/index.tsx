@@ -2,13 +2,13 @@ import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { Account, WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
 import { qlClient } from 'utils/graphql';
+import { useSafeAreaInsets } from 'utils/hooks';
 import type { SettingParamList } from 'utils/navigation';
 
 import DetailsContainer from './DetailsContainer';
@@ -37,6 +37,11 @@ export const ReferralScreen: FC<Props> = () => {
 		0,
 	);
 
+	const referralCount = useMemo(
+		() => codes.filter(({ email }) => !!email).length,
+		[codes],
+	);
+
 	const rankingPercent = useMemo(
 		() =>
 			leaderboardSize !== 0
@@ -60,7 +65,15 @@ export const ReferralScreen: FC<Props> = () => {
 	const ArrowIcon = (
 		<Hoverable
 			style={styles.arrowIcon}
-			onPress={() => showLeaderboard({ rank, rankingPercent, leaderboardSize })}
+			onPress={() =>
+				showLeaderboard({
+					rank,
+					referralCount,
+					rankingPercent,
+					leaderboardSize,
+					safeAreaInsets,
+				})
+			}
 		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
 		</Hoverable>

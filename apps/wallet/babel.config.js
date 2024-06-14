@@ -23,6 +23,7 @@ module.exports = {
 					buffer: '@craftzdog/react-native-buffer',
 					bip39: '@dreson4/react-native-quick-bip39',
 					'pouchdb-collate': '@craftzdog/pouchdb-collate-react-native',
+					'arbundles/web': 'arbundles',
 				},
 			},
 		],

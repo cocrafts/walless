@@ -78,7 +78,9 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 			left: left.value,
 			opacity: opacity.value,
 		};
+
 		if (fullWidth) baseStyle.width = width.value;
+
 		if (fullHeight) {
 			baseStyle.height = height.value;
 			baseStyle.bottom = 0;

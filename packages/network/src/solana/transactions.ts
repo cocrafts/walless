@@ -323,25 +323,25 @@ export const withSetComputeUnitPrice = async (
 ) => {
 	let microLamports = 20000;
 	if (connection) {
-		let accounts: PublicKey[];
-		if (transaction instanceof VersionedTransaction) {
-			accounts = transaction.message.staticAccountKeys;
-		} else {
-			const allAccounts = transaction.instructions.flatMap((i) =>
-				i.keys.map((k) => k.pubkey.toString()),
-			);
-			accounts = new Array(new Set(allAccounts).values()).map(
-				(k) => new PublicKey(k),
-			);
-		}
+		// NOTE: temporarily disable query accounts to fetch prioritized fee because it does not work
+		// let accounts: PublicKey[];
+		// if (transaction instanceof VersionedTransaction) {
+		// 	accounts = transaction.message.staticAccountKeys;
+		// } else {
+		// 	const allAccounts = transaction.instructions.flatMap((i) =>
+		// 		i.keys.map((k) => k.pubkey.toString()),
+		// 	);
+		// 	accounts = new Array(new Set(allAccounts).values()).map(
+		// 		(k) => new PublicKey(k),
+		// 	);
+		// }
 
 		try {
-			const fees = await connection.getRecentPrioritizationFees({
-				lockedWritableAccounts: accounts,
-			});
+			const fees = await connection.getRecentPrioritizationFees();
 
 			if (fees.length > 0) {
-				microLamports = fees[0].prioritizationFee;
+				// default as base micro lamports
+				microLamports = Math.max(fees[0].prioritizationFee, microLamports);
 			}
 		} catch (error) {
 			logger.error('failed to get prioritization fees', error);

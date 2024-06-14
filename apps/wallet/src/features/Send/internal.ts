@@ -168,6 +168,13 @@ export const txActions = {
 				connection.onSignature(
 					signature,
 					async () => {
+						txActions.update({ status: 'finalizing' });
+					},
+					'confirmed',
+				);
+				connection.onSignature(
+					signature,
+					async () => {
 						const status = await connection.getSignatureStatus(signature);
 						if (!status.value?.err) {
 							txActions.update({ status: 'success' });
@@ -176,7 +183,7 @@ export const txActions = {
 						}
 						onComplete?.();
 					},
-					'confirmed',
+					'finalized',
 				);
 			}
 
@@ -293,7 +300,7 @@ export interface TransactionContext {
 	feeAmount: number;
 	feeLoading: boolean;
 	tokenForFee?: TokenDocument;
-	status: 'init' | 'pending' | 'success' | 'failed';
+	status: 'init' | 'pending' | 'finalizing' | 'success' | 'failed';
 	time?: Date;
 	onSent?: () => void;
 }

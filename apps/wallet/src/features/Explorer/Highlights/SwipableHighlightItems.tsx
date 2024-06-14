@@ -1,18 +1,19 @@
 import type { FC } from 'react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import type {
-	FlingGestureHandlerEventPayload,
 	GestureStateChangeEvent,
+	GestureUpdateEvent,
+	PanGestureChangeEventPayload,
+	PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
-import {
-	Directions,
-	Gesture,
-	GestureDetector,
-	State,
-} from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, State } from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
-import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+	useSharedValue,
+	withSpring,
+	withTiming,
+} from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
 
 import HighlightItem from './HighlightItem';
@@ -30,56 +31,67 @@ const SwipableHighlightItems: FC<SwipableHighlightItemsProps> = ({
 	data,
 	animatedValue,
 }) => {
-	const prevIndex = useSharedValue(0);
+	const [width, setWidth] = useState(0);
+	const offsetX = useSharedValue(0);
 
 	const handleSwipeLeft = useCallback(
-		(event: GestureStateChangeEvent<FlingGestureHandlerEventPayload>) => {
+		(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
 			if (event.state === State.END) {
-				if (activeIndex === data.length - 1) return;
-				onSelectItem(activeIndex + 1);
-				animatedValue.value = withTiming(activeIndex + 1);
+				offsetX.value = 0;
+
+				if (event.translationX > 0) {
+					if (activeIndex === 0) return;
+
+					onSelectItem(activeIndex - 1);
+					animatedValue.value = withTiming(activeIndex - 1);
+				} else {
+					if (activeIndex === data.length - 1) return;
+
+					onSelectItem(activeIndex + 1);
+					animatedValue.value = withTiming(activeIndex + 1);
+				}
 			}
 		},
 		[activeIndex],
 	);
 
-	const handleSwipeRight = useCallback(
-		(event: GestureStateChangeEvent<FlingGestureHandlerEventPayload>) => {
-			if (event.state === State.END) {
-				if (activeIndex === 0) return;
-				animatedValue.value = withTiming(activeIndex - 1);
-				onSelectItem(activeIndex - 1);
-			}
-		},
-		[activeIndex],
-	);
+	const leftFling = Gesture.Pan()
+		.onChange(
+			(
+				event: GestureUpdateEvent<
+					PanGestureHandlerEventPayload & PanGestureChangeEventPayload
+				>,
+			) => {
+				if (event.translationX < 0 && activeIndex === data.length - 1) return;
+				if (offsetX.value >= width - 273) return;
 
-	const leftFling = Gesture.Fling()
-		.direction(Directions.LEFT)
+				offsetX.value = withSpring(event.translationX);
+			},
+		)
 		.onFinalize(handleSwipeLeft);
-	const rightFling = Gesture.Fling()
-		.direction(Directions.RIGHT)
-		.onFinalize(handleSwipeRight);
 
 	return (
 		<GestureDetector gesture={leftFling}>
-			<GestureDetector gesture={rightFling}>
-				<Animated.View style={styles.container}>
-					{data.map((widget, index) => (
-						<HighlightItem
-							key={index.toString()}
-							widget={widget}
-							animation={{
-								index,
-								animatedValue,
-								prevIndex,
-								activeIndex,
-								maxItems: 3,
-							}}
-						/>
-					))}
-				</Animated.View>
-			</GestureDetector>
+			<Animated.View
+				style={styles.container}
+				onLayout={(event) => {
+					setWidth(event.nativeEvent.layout.width);
+				}}
+			>
+				{data.map((widget, index) => (
+					<HighlightItem
+						key={index.toString()}
+						widget={widget}
+						animation={{
+							index,
+							animatedValue,
+							activeIndex,
+							offsetX,
+							maxItems: 3,
+						}}
+					/>
+				))}
+			</Animated.View>
 		</GestureDetector>
 	);
 };

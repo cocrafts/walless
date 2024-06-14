@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
@@ -20,8 +20,8 @@ interface AnimationFlatListProps {
 	index: number;
 	activeIndex: number;
 	animatedValue: SharedValue<number>;
-	prevIndex: SharedValue<number>;
 	maxItems: number;
+	offsetX: SharedValue<number>;
 }
 interface HighlightItemProps {
 	widget: WidgetDocument;
@@ -56,7 +56,7 @@ const HighlightItem: FC<HighlightItemProps> = ({ animation, widget }) => {
 	};
 
 	const isAdded = addedWidgets.includes(widget._id);
-	const { index, maxItems, animatedValue } =
+	const { index, maxItems, animatedValue, offsetX } =
 		animation as AnimationFlatListProps;
 
 	const inputRange = [index - 1, index, index + 1];
@@ -81,6 +81,50 @@ const HighlightItem: FC<HighlightItemProps> = ({ animation, widget }) => {
 		};
 	}, [animatedValue]);
 
+	const transitionStyle = useAnimatedStyle(() => {
+		console.log(offsetX.value, offsetX.value + 40);
+		let translateX;
+		let opacity;
+		let scale;
+		if (offsetX.value > 0) {
+			translateX = interpolate(offsetX.value, inputRange, [
+				40 - offsetX.value,
+				-offsetX.value,
+				-offsetX.value - 100,
+			]);
+			opacity = interpolate(offsetX.value, inputRange, [
+				1 - 1 / maxItems,
+				1,
+				0,
+			]);
+
+			scale = interpolate(animatedValue.value, inputRange, [1.1, 1, 0.8]);
+		} else {
+			translateX = interpolate(
+				offsetX.value,
+				[index, index + 1, index + 2],
+				[offsetX.value, offsetX.value + 10, offsetX.value + 20],
+			);
+
+			opacity = interpolate(offsetX.value, inputRange, [
+				1 - 1 / maxItems,
+				1,
+				0,
+			]);
+
+			scale = interpolate(
+				animatedValue.value,
+				[index, index + 1, index + 2],
+				[1, 0.9, 0.8],
+			);
+		}
+
+		return {
+			transform: [{ translateX }, { scale }],
+			opacity,
+		};
+	}, [offsetX]);
+
 	const coverImgResource = runtime.isMobile
 		? assets.widget[widget._id]?.storeMeta.coverUri
 		: { uri: widget.storeMeta.coverUri };
@@ -94,7 +138,9 @@ const HighlightItem: FC<HighlightItemProps> = ({ animation, widget }) => {
 	};
 
 	return (
-		<Animated.View style={[styles.container, containerStyle, animatedStyle]}>
+		<Animated.View
+			style={[styles.container, containerStyle, animatedStyle, transitionStyle]}
+		>
 			<Image style={styles.coverImage} source={coverImgResource} />
 			<View style={styles.infoContainer}>
 				<Image style={styles.iconImage} source={logoImgResource} />

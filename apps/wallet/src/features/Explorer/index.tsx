@@ -9,6 +9,7 @@ import Highlights from './Highlights';
 import LoyaltyBar from './LoyaltyBar';
 import Missions from './Missions';
 import Widgets from './Widgets';
+import Carousel from './Test';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
@@ -24,8 +25,9 @@ export const ExplorerFeature: FC<Props> = ({ style }) => {
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<LoyaltyBar style={styles.loyaltyBar} />
 				<Missions />
-				<Highlights />
-				<Widgets />
+				{/* <Highlights /> */}
+				<Carousel />
+				{/* <Widgets /> */}
 			</ScrollView>
 		</View>
 	);

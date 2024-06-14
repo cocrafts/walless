@@ -1,6 +1,6 @@
 import type { ComponentType, ReactElement } from 'react';
 import type { ListRenderItem, StyleProp, ViewStyle } from 'react-native';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import type { Token } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
 
@@ -27,7 +27,7 @@ export const TokenList = <T extends Token>({
 	ListHeaderComponent,
 	onPressItem,
 }: Props<T>) => {
-	const renderItem: ListRenderItem<TokenDocument<T>> = ({ item }) => {
+	const renderItem: ListRenderItem<TokenDocument<T>> = ({ item, index }) => {
 		const handlePressItem = () => {
 			onPressItem?.(item);
 		};
@@ -36,7 +36,11 @@ export const TokenList = <T extends Token>({
 			<TokenItem
 				key={item._id}
 				token={item}
-				style={itemStyle}
+				style={[
+					itemStyle,
+					index === 0 && styles.firstItem,
+					index === items.length - 1 && styles.lastItem,
+				]}
 				onPress={handlePressItem}
 			/>
 		);
@@ -58,3 +62,14 @@ export const TokenList = <T extends Token>({
 };
 
 export default TokenList;
+
+const styles = StyleSheet.create({
+	firstItem: {
+		borderTopLeftRadius: 12,
+		borderTopRightRadius: 12,
+	},
+	lastItem: {
+		borderBottomLeftRadius: 12,
+		borderBottomRightRadius: 12,
+	},
+});

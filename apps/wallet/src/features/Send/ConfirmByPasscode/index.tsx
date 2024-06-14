@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { logger } from '@walless/core';
 import type { SlideComponentProps } from '@walless/gui';
 import { Passcode, Text, View } from '@walless/gui';
@@ -30,9 +30,9 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		passcode: string,
 		isCompleted = false,
 	) => {
-		setIsLoading(true);
 		setPasscode(passcode);
 		if (isCompleted) {
+			setIsLoading(true);
 			try {
 				await txActions.handleSendTransaction(passcode, () => {
 					navigator.slideNext();
@@ -45,8 +45,6 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
-
-		setIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -63,6 +61,10 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		}
 	}, [activatedId]);
 
+	useEffect(() => {
+		if (status === 'success' || status === 'failed') setIsLoading(false);
+	}, [status]);
+
 	return (
 		<View style={styles.container}>
 			<Header onBack={handleBack} />
@@ -76,25 +78,25 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 					}
 				</Text>
 			</View>
-			{status === 'pending' || status === 'finalizing' ? (
-				<View style={styles.loadingContainer}>
-					<ActivityIndicator />
-					{status === 'pending' ? (
-						<Text>Processing...</Text>
-					) : (
-						status === 'finalizing' && <Text>Finalizing...</Text>
-					)}
-				</View>
-			) : (
-				renderPasscode && (
+
+			<View>
+				{renderPasscode && (
 					<Passcode
 						passcode={passcode}
 						error={error}
 						loading={isLoading}
 						onPasscodeChange={handlePasscodeChange}
 					/>
-				)
-			)}
+				)}
+
+				{status === 'pending' ? (
+					<Text style={styles.processingText}>Processing...</Text>
+				) : (
+					status === 'finalizing' && (
+						<Text style={styles.processingText}>Finalizing...</Text>
+					)
+				)}
+			</View>
 		</View>
 	);
 };
@@ -122,10 +124,7 @@ const styles = StyleSheet.create({
 		color: '#566674',
 		textAlign: 'center',
 	},
-	loadingContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		gap: 6,
+	processingText: {
+		textAlign: 'center',
 	},
 });

@@ -24,15 +24,10 @@ const WidgetItem: FC<WidgetItemProps> = ({ widget }) => {
 	const handleOpenWidget = (id: string) => {
 		navigate('Dashboard', {
 			screen: 'Explore',
-			params: {
-				screen: 'Widget',
-				params: {
-					screen: 'Default',
-					params: { id },
-				},
-			},
+			params: { screen: 'Widget', params: { id } },
 		});
 	};
+
 	const handleAddWidget = (widget: WidgetDocument) => {
 		addWidgetToStorage(widget._id, widget);
 		handleOpenWidget(widget._id);

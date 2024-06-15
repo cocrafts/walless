@@ -42,7 +42,7 @@ const SelectToToken: FC = () => {
 
 		return (
 			<ToToken
-				name={item.name}
+				name={item.name === 'Wrapped SOL' ? 'SOL' : item.name}
 				symbol={item.symbol}
 				logoURI={item.logoURI}
 				onPress={handleSelectToken}

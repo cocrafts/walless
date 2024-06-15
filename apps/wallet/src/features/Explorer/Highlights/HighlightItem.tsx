@@ -36,10 +36,7 @@ const HighlightItem: FC<HighlightItemProps> = ({ animation, widget }) => {
 			screen: 'Explore',
 			params: {
 				screen: 'Widget',
-				params: {
-					screen: 'Default',
-					params: { id },
-				},
+				params: { id },
 			},
 		});
 	};

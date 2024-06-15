@@ -22,7 +22,7 @@ export const initAndRegisterWallet = async (): Promise<Account | undefined> => {
 
 		return account;
 	} catch (e) {
-		logger.error('Failed to init or register wallet:', e);
+		logger.error('Failed to init and register wallet:', e);
 	}
 };
 

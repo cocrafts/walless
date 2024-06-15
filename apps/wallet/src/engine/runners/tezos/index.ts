@@ -1,5 +1,4 @@
 import type { TezosToolkit } from '@taquito/taquito';
-import {} from '@taquito/tzip16';
 import type { TezosToken } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { PublicKeyDocument, TokenDocument } from '@walless/store';

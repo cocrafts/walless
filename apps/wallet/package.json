@@ -1,6 +1,6 @@
 {
   "name": "@walless/wallet",
-  "version": "1.1.11",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "dev": "metacraft",
@@ -47,7 +47,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "@solana/spl-token": "0.3.7",
-    "@solana/web3.js": "1.78.4",
+    "@solana/web3.js": "1.92.3",
     "@taquito/signer": "^17.5.2",
     "@taquito/taquito": "^17.5.2",
     "@taquito/tzip12": "^16.2.0",

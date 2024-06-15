@@ -15,7 +15,7 @@ export const LoginScreen: FC = () => {
 	const { invitationCode, config } = useSnapshot(appState);
 	const containerStyle = {
 		paddingTop: insets.top,
-		paddingBottom: insets.bottom,
+		paddingBottom: Math.max(insets.bottom, 24),
 	};
 	const logoSize = 120;
 
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
 	},
 	footerContainer: {
 		alignItems: 'center',
-		paddingBottom: 24,
 	},
 	helpContainer: {
 		flexDirection: 'row',
@@ -60,6 +59,7 @@ const styles = StyleSheet.create({
 	poweredText: {
 		fontSize: 12,
 		color: '#5D6A73',
+		textAlign: 'center',
 		marginTop: 6,
 	},
 });

@@ -26,8 +26,8 @@ export const RecoveryScreen: FC = () => {
 	const { config } = useSnapshot(appState);
 
 	const containerStyle: ViewStyle = {
-		marginTop: insets.top,
-		marginBottom: Math.max(insets.bottom, 24),
+		paddingTop: insets.top,
+		paddingBottom: Math.max(insets.bottom, 24),
 	};
 
 	const handlePressContinue = async () => {
@@ -82,7 +82,7 @@ export const RecoveryScreen: FC = () => {
 					)}
 				</KeyboardAvoidingView>
 
-				<View />
+				{/* <View /> */}
 
 				<View>
 					<Text style={styles.reminderText}>
@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		paddingHorizontal: 36,
 		gap: 40,
-		paddingBottom: 24,
 	},
 	headerContainer: {
 		marginTop: 48,

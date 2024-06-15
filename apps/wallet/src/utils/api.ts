@@ -30,10 +30,14 @@ export const getTokenQuotes = async (
 };
 
 export const getTokenQuote = async (token: IToken) => {
-	const response = await qlClient.request<
-		{ tokenByAddress: TokenInfo },
-		{ address: string }
-	>(queries.tokenByAddress, { address: makeHashId(token) });
+	try {
+		const response = await qlClient.request<
+			{ tokenByAddress: TokenInfo },
+			{ address: string }
+		>(queries.tokenByAddress, { address: makeHashId(token) });
 
-	return response.tokenByAddress;
+		return response.tokenByAddress;
+	} catch (error) {
+		console.log('failed to get token quote:', error);
+	}
 };

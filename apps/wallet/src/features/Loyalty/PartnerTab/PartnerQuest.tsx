@@ -18,24 +18,16 @@ import ActionCard from '../ActionCard';
 import ModalHeader from '../components/ModalHeader';
 import { canUserPerformAction } from '../internal';
 
-import PartnerProgress from './PartnerProgress';
-
 interface PartnerQuestProps {
 	partner: string;
 	actions: Action[];
-	totalPoints: number;
 }
 
 type Props = PartnerQuestProps & {
 	config: ModalConfigs;
 };
 
-const PartnerQuestModal: FC<Props> = ({
-	config,
-	partner,
-	actions,
-	totalPoints,
-}) => {
+const PartnerQuestModal: FC<Props> = ({ config, partner, actions }) => {
 	const { userProgress } = useSnapshot(loyaltyState);
 	const safeAreaInsets = useSafeAreaInsets();
 
@@ -54,8 +46,6 @@ const PartnerQuestModal: FC<Props> = ({
 				content={`${partner} Quest`}
 				onPressClose={handleCloseModal}
 			/>
-
-			<PartnerProgress totalPoints={totalPoints} totalTasks={actions.length} />
 
 			<ScrollView
 				contentContainerStyle={styles.cardContainer}

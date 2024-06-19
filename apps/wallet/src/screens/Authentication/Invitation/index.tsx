@@ -4,14 +4,15 @@ import type {
 	NativeSyntheticEvent,
 	TextInputKeyPressEventData,
 } from 'react-native';
+import type { ViewStyle } from 'react-native';
 import {
 	KeyboardAvoidingView,
 	Platform,
 	StyleSheet,
+	TouchableOpacity,
 	TouchableWithoutFeedback,
-	type ViewStyle,
 } from 'react-native';
-import { Anchor, Button, Input, Text, View } from '@walless/gui';
+import { Button, Input, modalActions, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
 import { appState } from 'state/app';
 import { validateInvitationCode } from 'utils/auth';
@@ -20,6 +21,7 @@ import { navigate } from 'utils/navigation';
 import { hideNativeKeyboard } from 'utils/system';
 
 import HadWalletAccount from './GetCode';
+import InvitationGuide from './InvitationGuide';
 import InvitationHeader from './InvitationHeader';
 
 export const InvitationScreen: FC = () => {
@@ -68,6 +70,13 @@ export const InvitationScreen: FC = () => {
 		}
 	};
 
+	const handleShowGuideModal = () => {
+		modalActions.show({
+			id: 'invitationGuide',
+			component: InvitationGuide,
+		});
+	};
+
 	const handleLoginPress = () => {
 		setError(undefined);
 		navigate('Authentication', { screen: 'Login' });
@@ -111,11 +120,9 @@ export const InvitationScreen: FC = () => {
 				</KeyboardAvoidingView>
 
 				<View>
-					<Anchor
-						titleStyle={styles.getInvitationText}
-						title="Get invitation code"
-						href="https://twitter.com/walless_wallet/status/1694255782651658737"
-					/>
+					<TouchableOpacity onPress={handleShowGuideModal}>
+						<Text style={styles.getInvitationText}>Get invitation code</Text>
+					</TouchableOpacity>
 					<Text style={styles.poweredText}>
 						Powered by walless.io, version@{config.version}
 					</Text>

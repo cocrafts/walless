@@ -6,10 +6,12 @@ import { withStackContainer } from 'components/StackContainer';
 import ReferralScreen from 'screens/Dashboard/Referral';
 import SettingScreen from 'screens/Dashboard/Setting';
 import { appState } from 'state/app';
-import type { DashboardParamList, SettingParamList } from 'utils/navigation';
+import {
+	type DashboardParamList,
+	navigateBack,
+	type SettingParamList,
+} from 'utils/navigation';
 import { useSnapshot } from 'valtio';
-
-import { handleGoBackFromReferralScreen } from './utils';
 
 type Props = StackScreenProps<DashboardParamList, 'Setting'>;
 
@@ -28,7 +30,7 @@ export const SettingStack: FC<Props> = () => {
 		return withStackContainer(ReferralScreen, {
 			title: 'Referral',
 			noBottomTabs: !navigationDisplay.isBottomTabActive,
-			goBack: handleGoBackFromReferralScreen,
+			goBack: navigateBack,
 		});
 	}, []);
 

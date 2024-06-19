@@ -138,13 +138,7 @@ export const navigateInternalByCta = (cta: string) => {
 			}
 			navigate('Dashboard', {
 				screen: 'Explore',
-				params: {
-					screen: 'Widget',
-					params: {
-						screen: 'Default',
-						params: { id: 'pixeverse' },
-					},
-				},
+				params: { screen: 'Widget', params: { id: 'pixeverse' } },
 			});
 			break;
 		}
@@ -158,13 +152,7 @@ export const navigateInternalByCta = (cta: string) => {
 			}
 			navigate('Dashboard', {
 				screen: 'Explore',
-				params: {
-					screen: 'Widget',
-					params: {
-						screen: 'Default',
-						params: { id: 'solana' },
-					},
-				},
+				params: { screen: 'Widget', params: { id: 'solana' } },
 			});
 			break;
 		}

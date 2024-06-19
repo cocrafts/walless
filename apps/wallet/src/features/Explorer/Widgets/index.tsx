@@ -17,9 +17,15 @@ const Widgets = () => {
 			<Text style={styles.title}>Enhance your collection</Text>
 			<CategoryButtons setWidgets={setWidgets} />
 			<View style={styles.layoutList}>
-				{widgets.map((widget) => (
-					<WidgetItem key={widget._id} widget={widget} />
-				))}
+				{widgets.length === 0 ? (
+					<Text style={styles.noWidgetsText}>
+						There&apos;s no widgets in this section
+					</Text>
+				) : (
+					widgets.map((widget) => (
+						<WidgetItem key={widget._id} widget={widget} />
+					))
+				)}
 			</View>
 		</View>
 	);
@@ -39,6 +45,11 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 	},
 	layoutList: {
+		height: 200,
+		overflow: 'scroll',
 		gap: 10,
+	},
+	noWidgetsText: {
+		color: '#ffffff',
 	},
 });

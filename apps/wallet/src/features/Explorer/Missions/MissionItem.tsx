@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { View } from '@walless/gui';
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		justifyContent: 'space-between',
 		paddingHorizontal: 6,
-		paddingVertical: 9,
+		paddingVertical: 5,
 		marginHorizontal: 5,
 	},
 	header: {

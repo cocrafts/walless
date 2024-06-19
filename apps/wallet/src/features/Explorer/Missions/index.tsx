@@ -1,21 +1,64 @@
-import { useRef } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
-import { View } from '@walless/gui';
+import {
+	NativeScrollEvent,
+	NativeSyntheticEvent,
+	StyleSheet,
+} from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+	scrollTo,
+	set,
+	useAnimatedRef,
+	useAnimatedStyle,
+	useDerivedValue,
+	useSharedValue,
+	useWorklets,
+	withSpring,
+} from 'react-native-reanimated';
 
 import { missions } from '../internal';
 
 import MissionItem from './MissionItem';
 
 const Missions = () => {
-	const scrollRef = useRef<FlatList>(null);
+	const scrollOffset = useSharedValue(0);
+	const scrollRef = useAnimatedRef<Animated.ScrollView>();
+
+	const scrollPanGesture = Gesture.Pan()
+		.onUpdate((event) => {
+			console.log('event', event.translationX);
+			scrollOffset.value += event.translationX;
+		})
+		.onFinalize((event) => {
+			handleScrollTo(event.translationX);
+		});
+
+	const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+		scrollOffset.value = event.nativeEvent.contentOffset.x;
+	};
+
+	useDerivedValue(() => Math.max(0, scrollOffset.value));
+
+	const handleScrollTo = (targetPosition: number) => {
+		scrollTo(scrollRef, targetPosition, 0, true);
+	};
+
+	const scrollAnimatedStyle = useAnimatedStyle(
+		() => ({
+			transform: [{ translateX: scrollOffset.value }],
+		}),
+		[scrollOffset],
+	);
 
 	return (
-		<View style={styles.container}>
-			<FlatList
+		<GestureDetector gesture={scrollPanGesture}>
+			<Animated.ScrollView
 				ref={scrollRef}
-				data={missions}
-				initialScrollIndex={0}
-				renderItem={({ item, index }) => {
+				style={[styles.container]}
+				onScroll={handleScroll}
+				horizontal
+				showsHorizontalScrollIndicator={false}
+			>
+				{missions.map((item, index) => {
 					let colors = ['#EC74A2', '#F4B999'];
 					if (index % 3 === 1) {
 						colors = ['#8253FF', '#D73EFF'];
@@ -25,16 +68,15 @@ const Missions = () => {
 
 					return (
 						<MissionItem
+							key={index}
 							id={index.toString()}
 							title={item.title}
 							colors={colors}
 						/>
 					);
-				}}
-				horizontal
-				showsVerticalScrollIndicator={false}
-			/>
-		</View>
+				})}
+			</Animated.ScrollView>
+		</GestureDetector>
 	);
 };
 

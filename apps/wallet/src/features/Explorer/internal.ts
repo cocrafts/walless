@@ -1,26 +1,50 @@
+import { navigate } from 'utils/navigation';
+
 export const missions = [
 	{
-		title: 'Add SMB widget',
+		title: 'Earn Walless Points',
 		point: 100,
+		buttonText: 'Earn',
+		onPress: () => {
+			navigate('Dashboard', {
+				screen: 'Explore',
+				params: {
+					screen: 'Loyalty',
+				},
+			});
+		},
 	},
 	{
-		title: 'Invite 5 friends',
+		title: 'Refer your friends',
 		point: 100,
+		buttonText: 'Refer',
+		onPress: () => {
+			navigate('Dashboard', {
+				screen: 'Setting',
+				params: {
+					screen: 'Referral',
+				},
+			});
+		},
 	},
 	{
-		title: 'Follow Twitter',
+		title: 'Play & Earn $SUI, $FUD, $SCB',
 		point: 100,
+		buttonText: 'Play',
+		onPress: () => {
+			navigate('Dashboard', {
+				screen: 'Explore',
+				params: {
+					screen: 'Widget',
+					params: { id: 'pixeverse' },
+				},
+			});
+		},
 	},
 	{
-		title: 'Add SMB widget',
+		title: 'Follow X',
 		point: 100,
-	},
-	{
-		title: 'Invite 5 friends',
-		point: 100,
-	},
-	{
-		title: 'Follow Twitter',
-		point: 100,
+		buttonText: 'Follow',
+		url: 'https://x.com/intent/follow?screen_name=walless_wallet',
 	},
 ];

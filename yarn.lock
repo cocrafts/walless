@@ -6146,6 +6146,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metacraft/crab@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@metacraft/crab@npm:0.0.5"
+  checksum: 10/0903289b66026ae5bf48b3dbcbbfc1aa1f90cc7c982f3eb8f26f1414754f9e98bee8c98eca4b39c35e3fdfde27bd09b57334a27dc0dace007f771234b2184c17
+  languageName: node
+  linkType: hard
+
 "@metaplex-foundation/beet-solana@npm:0.4.0":
   version: 0.4.0
   resolution: "@metaplex-foundation/beet-solana@npm:0.4.0"
@@ -27657,6 +27664,7 @@ __metadata:
     "@graphql-codegen/typescript": "npm:^4.0.0"
     "@graphql-codegen/typescript-resolvers": "npm:^4.0.0"
     "@jest/globals": "npm:^29.4.3"
+    "@metacraft/crab": "npm:^0.0.5"
     "@next/eslint-plugin-next": "npm:^13.5.4"
     "@react-native-clipboard/clipboard": "npm:^1.13.0"
     "@solana/spl-account-compression": "npm:^0.2.0"

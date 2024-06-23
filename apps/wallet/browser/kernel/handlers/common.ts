@@ -1,8 +1,10 @@
+import type { ChromeKernel } from '@metacraft/crab/chrome';
+import type { Middleware } from '@metacraft/crab/core';
 import { PublicKey } from '@solana/web3.js';
-import type { SuiPublicKey } from '@walless/core';
+import type { RequestType, SuiPublicKey } from '@walless/core';
 import { Networks } from '@walless/core';
 import { ResponseCode } from '@walless/core';
-import type { ConnectOptions } from '@walless/sdk';
+import type { Channels } from '@walless/messaging';
 import type { PublicKeyDocument, TrustedDomainDocument } from '@walless/store';
 import { selectors } from '@walless/store';
 import { encode } from 'bs58';
@@ -13,12 +15,10 @@ import {
 	checkInstalledExtensionById,
 } from '../utils/helper';
 import { openPopup } from '../utils/popup';
-import { getRequestRecord, respond } from '../utils/requestPool';
+import { respond } from '../utils/requestPool';
 import type { HandleMethod } from '../utils/types';
 
-export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
-	payload,
-}) => {
+export const connect: Middleware = async (payload, respond) => {
 	if (!payload.options) throw new Error('No connection options provided');
 
 	const connectOptions = payload.options;
@@ -63,12 +63,14 @@ export const connect: HandleMethod<{ options?: ConnectOptions }> = async ({
 		})
 		.filter((k) => !!k);
 
-	respond(payload.requestId, ResponseCode.SUCCESS, { publicKeys });
+	respond({
+		publicKeys,
+		requestId: payload.id,
+		responseCode: ResponseCode.SUCCESS,
+	});
 };
 
-export const disconnect: HandleMethod<{
-	options?: ConnectOptions;
-}> = async ({ payload }) => {
+export const disconnect: Middleware = async (payload, respond) => {
 	if (!payload.options) throw Error('No disconnection options provided');
 
 	const connectOptions = payload.options;
@@ -82,24 +84,33 @@ export const disconnect: HandleMethod<{
 		);
 	}
 
-	respond(payload.requestId, ResponseCode.SUCCESS);
+	respond({
+		...payload,
+		responseCode: ResponseCode.SUCCESS,
+	});
 };
 
-export const requestPayload: HandleMethod<{
-	sourceRequestId?: string;
-}> = ({ payload }) => {
-	if (!payload.sourceRequestId) {
-		throw Error('Not sourceRequestId provided');
-	}
+export const requestPayload = (
+	kernel: ChromeKernel<Channels, RequestType>,
+): Middleware => {
+	return async (payload, respond) => {
+		if (!payload.resolveId) {
+			throw Error('Not sourceRequestId provided');
+		}
 
-	const { sourceRequestId, requestId } = payload;
-	const { payload: sourcePayload, channel: sourceChannel } =
-		getRequestRecord(sourceRequestId);
+		const { resolveId, id: requestId } = payload;
+		const response = kernel.getRequestByResolveId(resolveId);
 
-	respond(requestId, ResponseCode.SUCCESS, {
-		...sourceChannel,
-		...sourcePayload,
-	});
+		if ('error' in response) {
+			respond({ error: response.error });
+		} else {
+			respond({
+				requestId,
+				responseCode: ResponseCode.SUCCESS,
+				...response.request,
+			});
+		}
+	};
 };
 
 export type LayoutPayload = {

@@ -17,23 +17,23 @@ import { logoSize, unknownLogo } from './shared';
 type Props = StackScreenProps<RequestsParamList, 'RequestConnect'>;
 
 const RequestConnect: FC<Props> = ({ route }) => {
-	const { requestId } = route.params;
+	const { resolveId } = route.params;
 	const { sender, options } = useRequestData(
-		requestId as string,
+		resolveId as string,
 		PopupType.REQUEST_CONNECT_POPUP,
 	);
 	const publicKey = usePublicKeys(options.network || Networks.solana)[0];
 
 	const onApprovePress = () => {
-		handleRequestConnect(requestId as string, true);
+		handleRequestConnect(resolveId as string, true);
 	};
 
 	const onRejectPress = () => {
-		handleRequestConnect(requestId as string, false);
+		handleRequestConnect(resolveId as string, false);
 	};
 
 	useEffect(() => {
-		initializeKernelConnect(PopupType.REQUEST_CONNECT_POPUP + '/' + requestId);
+		initializeKernelConnect(PopupType.REQUEST_CONNECT_POPUP + '/' + resolveId);
 	}, []);
 
 	const title = sender.tab?.title || 'Unknown';

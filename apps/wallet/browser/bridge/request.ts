@@ -1,4 +1,7 @@
-import { PopupType, RequestType, ResponseCode, Timeout } from '@walless/core';
+import { ChromeChannel } from '@metacraft/crab/chrome';
+import type { RawRequest, Response } from '@metacraft/crab/core';
+import type { UnknownObject } from '@walless/core';
+import { PopupType, RequestType, Timeout } from '@walless/core';
 import type { PureMessagePayload, ResponsePayload } from '@walless/messaging';
 import { Channels } from '@walless/messaging';
 import * as bs58 from 'bs58';
@@ -18,19 +21,25 @@ export const sendRequest = async (
 };
 
 export const handleRequestConnect = async (
-	requestId: string,
+	resolveId: string,
 	isApproved: boolean,
 ) => {
-	const payload: PopupPayload = {
+	const payload: RawRequest = {
 		from: PopupType.REQUEST_CONNECT_POPUP,
-		type: RequestType.REQUEST_CONNECT,
-		sourceRequestId: requestId,
+		type: RequestType.REQUEST_CONNECT as never,
+		resolveId: resolveId,
 		isApproved,
 	};
 
 	try {
-		const res = await encryptedMessenger.request(Channels.kernel, payload);
-		if (res.responseCode === ResponseCode.SUCCESS) {
+		const chromeChannel = new ChromeChannel(Channels.popup);
+		const res = await chromeChannel.request<Response<UnknownObject>>(
+			payload,
+			Timeout.sixtySeconds,
+		);
+		if (res.error) {
+			throw Error(res.error);
+		} else {
 			window.close();
 		}
 	} catch (error) {
@@ -56,36 +65,40 @@ export const handleRequestInstallLayout = async (
 	}
 };
 
-export const handleRequestSignature = async (
-	options: PayloadOptions,
-	type: RequestType,
-) => {
-	const payload: PopupPayload = {
+export const handleRequestSignature = async (options: PayloadOptions) => {
+	const { sourceRequestId } = options;
+	const payload: RawRequest = {
 		from: PopupType.SIGNATURE_POPUP,
-		type,
+		type: RequestType.RESOLVE_REQUEST_SIGNATURE as never,
+		resolveId: sourceRequestId,
 		...options,
 	};
 
 	try {
-		return await encryptedMessenger.request(Channels.kernel, payload, 10000);
+		const chromeChannel = new ChromeChannel(Channels.popup);
+		const res = await chromeChannel.request<Response<UnknownObject>>(
+			payload,
+			Timeout.sixtySeconds,
+		);
+		return res;
 	} catch (error) {
 		throw Error('Unable to handle sign message request');
 	}
 };
 
 export const getDataFromSourceRequest = async (
-	requestId: string,
+	resolveId: string,
 	from: string,
 ) => {
-	const payload: PopupPayload = {
+	const payload: RawRequest = {
 		from,
-		type: RequestType.REQUEST_PAYLOAD,
-		sourceRequestId: requestId,
+		type: RequestType.REQUEST_PAYLOAD as never,
+		resolveId: resolveId,
 	};
 
 	try {
-		const res = await encryptedMessenger.request(
-			Channels.kernel,
+		const chromeChannel = new ChromeChannel(Channels.popup);
+		const res = await chromeChannel.request<Response<UnknownObject>>(
 			payload,
 			Timeout.sixtySeconds,
 		);

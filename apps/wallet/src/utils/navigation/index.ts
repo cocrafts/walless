@@ -94,13 +94,13 @@ export const linking: LinkingOptions<RootParamList> = {
 				path: '/requests',
 				screens: {
 					RequestConnect: {
-						path: '/connect/:requestId',
+						path: '/connect/:resolveId',
 					},
 					RequestSignature: {
-						path: '/signature/:requestId',
+						path: '/signature/:resolveId',
 					},
 					RequestInstallLayout: {
-						path: '/install-layout/:requestId',
+						path: '/install-layout/:resolveId',
 					},
 				},
 			},

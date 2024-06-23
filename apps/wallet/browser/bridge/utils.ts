@@ -1,3 +1,4 @@
+import type { Networks } from '@walless/core';
 import { logger } from '@walless/core';
 import type { PureMessagePayload } from '@walless/messaging';
 import { createEncryptionKeyVault, createMessenger } from '@walless/messaging';
@@ -7,6 +8,7 @@ export interface PayloadOptions {
 	sourceRequestId: string;
 	isApproved?: boolean;
 	passcode?: string;
+	network?: Networks;
 }
 
 export type PopupPayload = PureMessagePayload & PayloadOptions;

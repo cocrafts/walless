@@ -53,9 +53,9 @@ export type DashboardParamList = {
 };
 
 export type RequestsParamList = {
-	RequestConnect: { requestId: string };
-	RequestSignature: { requestId: string };
-	RequestInstallLayout: { requestId: string };
+	RequestConnect: { resolveId: string };
+	RequestSignature: { resolveId: string };
+	RequestInstallLayout: { resolveId: string };
 };
 
 export type RootParamList = {

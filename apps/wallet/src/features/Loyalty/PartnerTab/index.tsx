@@ -42,13 +42,7 @@ const PartnerTab = () => {
 							icon={metadata.partnerIcon}
 							thumbnail={metadata.partnerThumbnail}
 							totalPoints={totalPoints}
-							onPress={() =>
-								showPartnerQuest({
-									partner,
-									actions,
-									totalPoints,
-								})
-							}
+							onPress={() => showPartnerQuest({ partner, actions })}
 						/>
 					);
 				})}

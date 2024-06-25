@@ -379,13 +379,13 @@ type RootMutation {
   deleteWidgetAccount(id: String!): Boolean
 
   """"""
+  doLoyaltyAction(actionId: String!): ActionRecord
+
+  """"""
+  doRecurringThenStreakThenMilestoneActionsByType(type: String!): [ActionRecord]
+
+  """"""
   joinWaitlist(description: String!, email: String!, twitter: String!): JoinWaitlistResult
-
-  """"""
-  performActiveActionsByType(type: String!): [ActionRecord]
-
-  """"""
-  performLoyaltyAction(actionId: String!): ActionRecord
 
   """"""
   registerAccount(key: String!): Account
@@ -591,6 +591,9 @@ enum VerifyMechanism {
 
 """"""
 type WalletInvitation {
+  """"""
+  claimedAt: MongoDateTime
+
   """"""
   code: String
 

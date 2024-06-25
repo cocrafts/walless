@@ -27,7 +27,7 @@ export const modalActions = {
 				id: safeId,
 				bindingRectangle: layout,
 				...restConfigs,
-			});
+			} as never);
 		});
 	},
 	hide: (id: string): void => {

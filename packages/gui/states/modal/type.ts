@@ -46,7 +46,7 @@ export interface PositionOffset {
 	y?: number;
 }
 
-export interface ModalConfigs<T> {
+export interface ModalConfigs<T = unknown> {
 	id: string;
 	bindingRectangle?: LayoutRectangle;
 	bindingDirection?: BindDirections;
@@ -76,8 +76,7 @@ export type ShowModalConfigs<T> = Omit<
 
 export interface ModalState {
 	count: number;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	map: Map<string, ModalConfigs<any>>;
+	map: Map<string, ModalConfigs>;
 }
 
 export type GestureUpdater = (

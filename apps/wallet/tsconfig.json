@@ -12,6 +12,7 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "strictNullChecks": true,
     "paths": {
       "assets/*": [
         "./assets/*"

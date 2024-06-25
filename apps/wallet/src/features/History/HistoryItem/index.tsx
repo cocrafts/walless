@@ -13,15 +13,15 @@ import SolanaTransferHistoryItem from './SolanaTransfer';
 import { SolanaUnknownHistoryItem } from './SolanaUnknown';
 
 interface Props {
-	transaction: HistoryDocument;
+	transaction: HistoryDocument<
+		SolanaTransferHistory | SolanaSwapHistory | SolanaUnknownHistory
+	>;
 }
 
 export const HistoryItem: FC<Props> = ({ transaction }) => {
 	const isSolana = transaction.network === Networks.solana;
 	if (isSolana) {
-		const { transactionType } = transaction as HistoryDocument<
-			SolanaTransferHistory | SolanaSwapHistory | SolanaUnknownHistory
-		>;
+		const { transactionType } = transaction;
 
 		if (transactionType === 'Unknown') {
 			return (

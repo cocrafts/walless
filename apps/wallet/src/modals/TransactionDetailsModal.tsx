@@ -1,7 +1,10 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import type { TransactionHistory } from '@walless/core';
+import type {
+	RawTransactionHistory,
+	SolanaTransferHistory,
+} from '@walless/core';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -11,17 +14,18 @@ import {
 	View,
 } from '@walless/gui';
 import { Times } from '@walless/icons';
-import TransactionDetailsFeature from 'features/TransactionDetailsFeature';
+import type { HistoryDocument } from '@walless/store';
+import SolanaTransactionDetailsFeature from 'features/TransactionDetail';
 import { useUniversalInsets } from 'utils/hooks';
 
 import { ModalId } from './types';
 
 export interface TransactionDetailsProps {
-	transaction: TransactionHistory;
+	transaction: HistoryDocument<RawTransactionHistory | SolanaTransferHistory>;
 }
 
 interface Props {
-	config: ModalConfigs;
+	config: ModalConfigs<TransactionDetailsProps>;
 }
 
 const TransactionDetailsModal: FC<Props> = ({ config }) => {
@@ -34,7 +38,8 @@ const TransactionDetailsModal: FC<Props> = ({ config }) => {
 		modalActions.hide(ModalId.TransactionDetails);
 	};
 
-	const { transaction } = config.context as TransactionDetailsProps;
+	if (!config.context) return null;
+	const { transaction } = config.context;
 
 	return (
 		<View style={[styles.container, containerStyle]}>
@@ -45,7 +50,9 @@ const TransactionDetailsModal: FC<Props> = ({ config }) => {
 					<Times size={16} />
 				</TouchableOpacity>
 			</View>
-			<TransactionDetailsFeature {...transaction} />
+			{'preBalance' in transaction && (
+				<SolanaTransactionDetailsFeature {...transaction} />
+			)}
 		</View>
 	);
 };

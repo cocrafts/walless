@@ -17,7 +17,7 @@ export const modalActions = {
 	setContainerRef: (ref: RefObject<View>): void => {
 		referenceMap.root = ref;
 	},
-	show: ({ id, bindingRef, ...restConfigs }: ShowModalConfigs): void => {
+	show: <T>({ id, bindingRef, ...restConfigs }: ShowModalConfigs<T>): void => {
 		const safeId = getSafeId(id);
 
 		measureRelative(bindingRef).then((layout) => {

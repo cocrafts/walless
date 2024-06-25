@@ -46,18 +46,18 @@ export interface PositionOffset {
 	y?: number;
 }
 
-export interface ModalConfigs {
+export interface ModalConfigs<T> {
 	id: string;
 	bindingRectangle?: LayoutRectangle;
 	bindingDirection?: BindDirections;
 	animateDirection?: AnimateDirections;
-	component: FC<{ config: ModalConfigs }>;
+	component: FC<{ config: ModalConfigs<T> }>;
 	positionOffset?: PositionOffset;
 	maskStyle?: ViewStyle;
 	maskActiveOpacity?: number;
 	withoutMask?: boolean;
 	hide?: boolean;
-	context?: unknown;
+	context?: T;
 	onBeforeHide?: () => void;
 	/**
 	 * use to determine size of modal wrapper (default: true),
@@ -67,8 +67,8 @@ export interface ModalConfigs {
 	fullHeight?: boolean;
 }
 
-export type ShowModalConfigs = Omit<
-	ModalConfigs,
+export type ShowModalConfigs<T> = Omit<
+	ModalConfigs<T>,
 	'bindingRectangle' | 'hide'
 > & {
 	bindingRef?: RefObject<View>;
@@ -76,7 +76,8 @@ export type ShowModalConfigs = Omit<
 
 export interface ModalState {
 	count: number;
-	map: Map<string, ModalConfigs>;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	map: Map<string, ModalConfigs<any>>;
 }
 
 export type GestureUpdater = (

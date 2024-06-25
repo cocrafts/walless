@@ -27,9 +27,9 @@ import ModalHeader from '../components/ModalHeader';
 
 import Item from './Item';
 
-interface PartnerQuestProps {
+type PartnerQuestProps = {
 	safeAreaInsets: EdgeInsets;
-}
+};
 
 type Props = PartnerQuestProps & {
 	config: ModalConfigs;
@@ -66,7 +66,7 @@ const HistoryModal: FC<Props> = ({ config }) => {
 	};
 
 	const handleCloseModal = () => {
-		modalActions.hide(config.id as string);
+		modalActions.hide(config.id);
 	};
 
 	return (
@@ -91,7 +91,7 @@ const HistoryModal: FC<Props> = ({ config }) => {
 				</View>
 			) : (
 				<ScrollView
-					contentContainerStyle={styles.scrollviewContainer}
+					contentContainerStyle={styles.scrollViewContainer}
 					showsVerticalScrollIndicator={false}
 				>
 					{history.map((historyItem, index) => (
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
 	headerContainer: {
 		paddingHorizontal: 8,
 	},
-	scrollviewContainer: {
+	scrollViewContainer: {
 		marginBottom: 16,
 	},
 	centerContainer: {

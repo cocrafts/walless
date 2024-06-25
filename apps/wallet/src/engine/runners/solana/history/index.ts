@@ -160,7 +160,9 @@ const constructTransactionHistoryDocument = async (
 		date,
 		status,
 		...balances,
-	};
+	} as HistoryDocument<
+		SolanaTransferHistory | SolanaSwapHistory | SolanaUnknownHistory
+	>;
 };
 
 const getTransferTxType = (

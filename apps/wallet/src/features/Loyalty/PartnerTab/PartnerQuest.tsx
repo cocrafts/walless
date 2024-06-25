@@ -44,7 +44,7 @@ const PartnerQuestModal: FC<Props> = ({
 	};
 
 	const handleCloseModal = () => {
-		modalActions.hide(config.id as string);
+		modalActions.hide(config.id);
 	};
 
 	return (
@@ -110,8 +110,6 @@ export const showPartnerQuest = (props: PartnerQuestProps) => {
 		animateDirection: AnimateDirections.Top,
 		bindingDirection: BindDirections.InnerBottom,
 		fullHeight: true,
-		positionOffset: {
-			y: 40,
-		},
+		positionOffset: { y: 40 },
 	});
 };

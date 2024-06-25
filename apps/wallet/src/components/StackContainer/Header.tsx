@@ -60,11 +60,12 @@ export const StackHeader: FC<HeaderProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#081016',
-		paddingLeft: 18,
+		justifyContent: 'center',
+		paddingHorizontal: 16,
 	},
 	textContainer: {
-		marginTop: 8,
-		marginBottom: 8,
+		marginTop: 16,
+		marginBottom: 12,
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 12,

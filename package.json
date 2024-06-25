@@ -13,6 +13,7 @@
     "deploy:wallet": "sst deploy wallet",
     "deploy:document": "sst deploy document",
     "deploy:landing": "sst deploy landing",
+    "docker:ubuntu": "docker compose up -d && docker exec -it walless-ubuntu-1 bash",
     "dev": "turbo run dev",
     "dev:sst": "sst dev --stage development",
     "test": "turbo run test",
@@ -89,7 +90,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "yarn@4.1.1",
+  "packageManager": "yarn@4.3.1",
   "resolutions": {
     "@react-native-firebase/app@18.6.1": "patch:@react-native-firebase/app@npm%3A18.6.1#./.yarn/patches/@react-native-firebase-app-npm-18.6.1-ef99d77745.patch"
   }

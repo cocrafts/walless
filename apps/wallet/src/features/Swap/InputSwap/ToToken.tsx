@@ -7,7 +7,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { parseWithDecimals } from 'utils/format';
 import type { JupiterToken } from 'utils/hooks';
 import { useSnapshot } from 'utils/hooks';
-import { getAliasedMint, getSwapQuote } from 'utils/transaction';
+import { getAliasedMint, getSwapQuote } from 'utils/transaction/solana/swap';
 
 import type { SwapContext } from '../context';
 import { swapActions, swapContext } from '../context';

@@ -5,6 +5,7 @@ import type {
 	SolanaCollectible,
 	SolanaToken,
 	SuiToken,
+	TezosToken,
 	Token,
 } from '@walless/core';
 import type { NftDocument, TokenDocument } from '@walless/store';
@@ -54,3 +55,5 @@ export type SuiSendTokenTransaction = SendTokenTransaction<SuiToken> &
 	};
 
 export type SuiSendTransaction = SuiSendTokenTransaction;
+
+export type TezosSendTokenTransaction = SendTokenTransaction<TezosToken>;

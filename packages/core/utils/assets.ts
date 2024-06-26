@@ -83,8 +83,8 @@ export type SuiToken = Token & {
 
 // There are 2 standards of tokens in Tezos, they are FA1.2 and FA2
 export enum TezosTokenTypes {
-	FA12 = 'FA1.2',
-	FA2 = 'FA2',
+	FA12 = 'fa1.2',
+	FA2 = 'fa2',
 }
 
 export type TezosContract = {

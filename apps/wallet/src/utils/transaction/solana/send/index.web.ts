@@ -1,26 +1,24 @@
-import { PublicKey } from '@solana/web3.js';
-import { Networks, RequestType, ResponseCode } from '@walless/core';
+import { PublicKey } from '@metaplex-foundation/js';
+import type { VersionedTransaction } from '@solana/web3.js';
+import { Networks, RequestType } from '@walless/core';
 import type { ResponsePayload } from '@walless/messaging';
-import { solana, sui, utils } from '@walless/network';
+import { solana } from '@walless/network';
 import { sendRequest } from 'bridge';
 import { encode } from 'bs58';
 import { engine } from 'engine';
-import type { SolanaContext, SuiContext } from 'engine/runners';
+import type { SolanaContext } from 'engine/runners';
 import { solMint } from 'utils/constants';
-import { storage } from 'utils/storage';
-
-import {
-	constructSolanaSendNftTransaction,
-	constructSolanaSendTokenTransaction,
-	constructSuiSendTokenTransaction,
-} from './construct';
-import { getGasilonConfig } from './gasilon';
+import { getGasilonConfig } from 'utils/transaction/gasilon';
 import type {
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
 	SolanaSendTransaction,
-	SuiSendTokenTransaction,
-} from './types';
+} from 'utils/transaction/types';
+
+import {
+	constructSolanaSendNftTransaction,
+	constructSolanaSendTokenTransaction,
+} from './construct';
 
 export const createAndSendSolanaTransaction = async (
 	initTransaction: SolanaSendTokenTransaction | SolanaSendNftTransaction,
@@ -78,49 +76,24 @@ export const createAndSendSolanaTransaction = async (
 	}
 };
 
-export const handleAptosOnChainAction = async ({
-	passcode,
-	payload,
-	type,
-}: {
-	passcode: string;
-	type: RequestType;
-	payload: unknown;
-}) => {
-	const res = await sendRequest({
-		type,
-		transaction: JSON.stringify(payload),
-		passcode,
-	});
-
-	return res;
-};
-
-export const createAndSendSuiTransaction = async (
-	initTransaction: SuiSendTokenTransaction,
+export const signAndSendTransaction = async (
+	transaction: VersionedTransaction,
 	passcode: string,
-) => {
-	const res = {} as ResponsePayload;
-	let privateKey: Uint8Array;
-	try {
-		privateKey = await utils.getPrivateKey(storage, Networks.sui, passcode);
-	} catch {
-		res.responseCode = ResponseCode.WRONG_PASSCODE;
-		return res;
-	}
-
-	const { client } = engine.getContext<SuiContext>(Networks.sui);
-	const transactionBlock = await constructSuiSendTokenTransaction(
-		client,
-		initTransaction,
+	options?: solana.SignAndSendOptions,
+	timeout?: number,
+): Promise<ResponsePayload> => {
+	const res = await sendRequest(
+		{
+			type: RequestType.SIGN_SEND_TRANSACTION_ON_SOLANA,
+			transaction: encode(transaction.serialize()),
+			passcode,
+			options,
+		},
+		timeout,
 	);
-	const response = await sui.signAndExecuteTransaction(
-		client,
-		transactionBlock.serialize(),
-		privateKey,
-	);
-	res.signatureString = response.transaction?.txSignatures;
-	res.responseCode = ResponseCode.SUCCESS;
 
-	return res;
+	return res as ResponsePayload;
 };
+
+export * from './construct';
+export * from './fee';

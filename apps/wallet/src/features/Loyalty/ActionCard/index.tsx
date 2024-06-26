@@ -9,6 +9,7 @@ import {
 	Text,
 	View,
 } from 'react-native';
+import { logger } from '@walless/core';
 import type {
 	Action,
 	ActionCount,
@@ -54,7 +55,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 		return extractDataFromMetadata(action.metadata as ActionMetadata[]);
 	}, [action]);
 
-	const [isPerformingAction, setIsPerformingAction] = useState(false);
+	const [isDoingAction, setIsDoingAction] = useState(false);
 
 	const initialTimeRemaining = useMemo<number | null>(() => {
 		if (
@@ -81,31 +82,36 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 		return cycleEndTime.getTime() - Date.now();
 	}, [userProgress]);
 
-	const handlePerformAction = async () => {
+	const handleDoAction = async () => {
 		if (ctaType === 'internal') {
 			navigateInternalByCta(cta);
 			return;
 		}
 
 		if (ctaType === '' || action.mechanism === VerifyMechanism.No) {
-			try {
-				setIsPerformingAction(true);
+			setIsDoingAction(true);
 
-				await qlClient.request(mutations.performLoyaltyAction, {
-					actionId: action.id,
-				});
+			try {
+				if (action.category === ActionCategory.Onetime) {
+					await qlClient.request(mutations.doLoyaltyAction, {
+						actionId: action.id,
+					});
+				} else if (action.category === ActionCategory.Recurring) {
+					await qlClient.request(
+						mutations.doRecurringThenStreakThenMilestoneActionsByType,
+						{
+							type: action.type,
+						},
+					);
+				}
 
 				const { loyaltyUserProgress } = await qlClient.request<{
 					loyaltyUserProgress: UserProgress;
 				}>(queries.loyaltyUserProgress);
 
 				loyaltyActions.setUserProgress(loyaltyUserProgress);
-
-				setIsPerformingAction(false);
 			} catch (error) {
-				console.error(error);
-
-				setIsPerformingAction(false);
+				logger.error(error);
 
 				showNotificationModal({
 					id: `action-error-${action.id}`,
@@ -116,6 +122,8 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 					timeout: 5000,
 				});
 			}
+
+			setIsDoingAction(false);
 		}
 
 		if (ctaType === 'external') {
@@ -135,6 +143,19 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 
 	const currentStreak = useMemo(() => {
 		if (!stat || !stat.streaks) {
+			return 0;
+		}
+
+		const cycleEndTime = getCycleEndTime(
+			new Date(stat.lastClaim),
+			stat.cycleInHours as number,
+		);
+
+		cycleEndTime.setHours(
+			cycleEndTime.getHours() + (stat.cycleInHours as number),
+		);
+
+		if (new Date() > cycleEndTime) {
 			return 0;
 		}
 
@@ -205,7 +226,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 			{canUserPerformAction &&
 				action.category !== ActionCategory.Milestone &&
 				action.category !== ActionCategory.Streak &&
-				(isPerformingAction ? (
+				(isDoingAction ? (
 					<ActivityIndicator
 						size="small"
 						color="white"
@@ -216,7 +237,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 						style={styles.ctaButton}
 						title={ctaText || 'Go'}
 						titleStyle={styles.ctaText}
-						onPress={handlePerformAction}
+						onPress={handleDoAction}
 					/>
 				))}
 		</View>

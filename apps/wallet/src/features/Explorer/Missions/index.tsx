@@ -72,6 +72,9 @@ const Missions = () => {
 							id={index.toString()}
 							title={item.title}
 							colors={colors}
+							buttonText={item.buttonText}
+							onPress={item.onPress}
+							url={item.url}
 						/>
 					);
 				})}

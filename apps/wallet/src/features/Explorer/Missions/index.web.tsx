@@ -29,23 +29,16 @@ const Missions = () => {
 			);
 		})
 		.onFinalize((event) => {
-			console.log('event.translationX', event.translationX);
-
 			if (event.translationX + scrollOffset.value >= 20) {
 				scrollOffset.value = withSpring(20, springProps);
 			} else if (
 				event.translationX + scrollOffset.value <=
 				-(MAX_TRANSLATE_X - (width.value - 20))
 			) {
-				console.log(
-					'this is the limit of the end: ',
-					MAX_TRANSLATE_X - (width.value - 20),
-				);
 				scrollOffset.value = withSpring(
 					-(MAX_TRANSLATE_X - (width.value - 20)),
 					springProps,
 				);
-				return;
 			} else
 				scrollOffset.value = withSpring(
 					scrollOffset.value + event.translationX,

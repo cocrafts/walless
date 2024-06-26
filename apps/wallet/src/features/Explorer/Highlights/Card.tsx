@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
@@ -8,10 +8,12 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
+import type { WidgetDocument } from '@walless/store';
+
+import HightlightItem, { ITEM_WIDTH } from './HightlightItem';
 
 interface Props {
-	color: string;
-	title: string;
+	widget: WidgetDocument;
 	index: number;
 	dataLength: number;
 	maxItems: number;
@@ -22,8 +24,7 @@ interface Props {
 	offsetX: SharedValue<number>;
 }
 const Card: FC<Props> = ({
-	color,
-	title,
+	widget,
 	dataLength,
 	index,
 	maxItems,
@@ -42,17 +43,21 @@ const Card: FC<Props> = ({
 			translateX.value = withTiming(0, {
 				duration: 600,
 			});
+
 		if (index + 1 === currentIndex && offsetX.value > 0)
-			translateX.value = withTiming(offsetX.value - 273);
+			translateX.value = withTiming(offsetX.value - ITEM_WIDTH);
+
 		if (currentIndex > index) {
-			translateX.value = -(currentIndex - index) * 80 - 273 + offsetX.value;
+			translateX.value =
+				-(currentIndex - index) * 80 - ITEM_WIDTH + offsetX.value;
 		}
+
 		if (currentIndex < index) {
-			const offsetXValue = offsetX.value < -30 ? -30 : offsetX.value;
+			const offsetXValue = offsetX.value < -50 ? -50 : offsetX.value;
 			translateX.value = interpolate(
 				animatedValue.value,
 				[index - 1, index],
-				[30 + offsetXValue, 0 + offsetXValue],
+				[50 + offsetXValue, 0 + offsetXValue],
 			);
 		}
 
@@ -61,7 +66,7 @@ const Card: FC<Props> = ({
 			scale.value = interpolate(
 				animatedValue.value,
 				[index - 1, index],
-				[0.9, 1],
+				[0.75, 1],
 			);
 
 		if (currentIndex === index || index < maxItems + currentIndex)
@@ -70,7 +75,7 @@ const Card: FC<Props> = ({
 			opacity.value = interpolate(
 				animatedValue.value,
 				[index - 1, index],
-				[1 - 0.5 / maxItems, 1],
+				[1 - 1 / maxItems, 1],
 			);
 
 		return {
@@ -85,7 +90,6 @@ const Card: FC<Props> = ({
 	}, [translateX, animatedValue, offsetX, currentIndex]);
 
 	const containerStyle = {
-		backgroundColor: color,
 		zIndex: dataLength - index,
 	};
 
@@ -94,9 +98,10 @@ const Card: FC<Props> = ({
 			if (currentIndex !== index) return;
 			animatedValue.value = interpolate(
 				Math.abs(event.translationX),
-				[0, 273],
+				[0, ITEM_WIDTH],
 				[index, index + 1],
 			);
+
 			translateX.value = event.translationX;
 			offsetX.value = event.translationX;
 		})
@@ -106,16 +111,17 @@ const Card: FC<Props> = ({
 				offsetX.value = 0;
 				return;
 			}
+
 			if (index === 0 && event.translationX > 0) {
 				translateX.value = withTiming(0, { duration: 500 });
 				offsetX.value = withTiming(0, { duration: 600 });
 				return;
 			}
 
-			if (event.translationX < -50) {
+			if (event.translationX < -30) {
 				translateX.value = -303;
 				onSwipeLeft();
-			} else if (event.translationX > 50) {
+			} else if (event.translationX > 30) {
 				translateX.value = 30;
 				onSwipeRight();
 			}
@@ -126,7 +132,7 @@ const Card: FC<Props> = ({
 	return (
 		<GestureDetector gesture={pan}>
 			<Animated.View style={[styles.container, containerStyle, animatedStyle]}>
-				<Text>{title}</Text>
+				<HightlightItem widget={widget} />
 			</Animated.View>
 		</GestureDetector>
 	);
@@ -137,9 +143,8 @@ export default Card;
 const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
-		width: 273,
-		height: 150,
+		width: ITEM_WIDTH,
+		height: 200,
 		borderRadius: 16,
-		padding: 16,
 	},
 });

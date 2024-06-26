@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
 		height: 105,
 		borderRadius: 10,
 		justifyContent: 'space-between',
-		paddingHorizontal: 6,
-		paddingVertical: 5,
+		paddingHorizontal: 10,
+		paddingVertical: 10,
 		marginHorizontal: 5,
 	},
 	header: {

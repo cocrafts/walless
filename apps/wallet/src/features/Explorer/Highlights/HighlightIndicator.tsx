@@ -7,14 +7,11 @@ import IndicatorDot from './IndicatorDot';
 
 interface HighlightIndicatorProps {
 	dataLength: number;
-	onSelectItem: (index: number) => void;
-	currentIndex: SharedValue<number>;
 	animatedValue: SharedValue<number>;
 }
 
 const HighlightIndicator: FC<HighlightIndicatorProps> = ({
 	dataLength,
-	onSelectItem,
 	animatedValue,
 }) => {
 	const data = Array.from({ length: dataLength }, (_, i) => i);
@@ -27,7 +24,6 @@ const HighlightIndicator: FC<HighlightIndicatorProps> = ({
 						key={item}
 						index={item}
 						data={data}
-						onPress={onSelectItem}
 						animatedValue={animatedValue}
 					/>
 				);
@@ -39,7 +35,5 @@ const HighlightIndicator: FC<HighlightIndicatorProps> = ({
 export default HighlightIndicator;
 
 const styles = StyleSheet.create({
-	container: {
-		alignSelf: 'center',
-	},
+	container: {},
 });

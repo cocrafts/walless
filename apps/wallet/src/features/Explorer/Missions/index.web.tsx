@@ -11,6 +11,7 @@ import { missions } from '../internal';
 import MissionItem from './MissionItem';
 
 const MAX_TRANSLATE_X = missions.length * 130;
+const MIN_TRANSLATE_X = 16;
 const springProps = {
 	damping: 100,
 	mass: 2,
@@ -18,7 +19,7 @@ const springProps = {
 
 const Missions = () => {
 	const width = useSharedValue(0);
-	const scrollOffset = useSharedValue(16);
+	const scrollOffset = useSharedValue(MIN_TRANSLATE_X);
 	const ref = useRef(null);
 
 	const panGesture = Gesture.Pan()
@@ -29,14 +30,14 @@ const Missions = () => {
 			);
 		})
 		.onFinalize((event) => {
-			if (event.translationX + scrollOffset.value >= 20) {
-				scrollOffset.value = withSpring(20, springProps);
+			if (event.translationX + scrollOffset.value >= MIN_TRANSLATE_X) {
+				scrollOffset.value = withSpring(MIN_TRANSLATE_X, springProps);
 			} else if (
 				event.translationX + scrollOffset.value <=
-				-(MAX_TRANSLATE_X - (width.value - 20))
+				-(MAX_TRANSLATE_X - (width.value - MIN_TRANSLATE_X))
 			) {
 				scrollOffset.value = withSpring(
-					-(MAX_TRANSLATE_X - (width.value - 20)),
+					-(MAX_TRANSLATE_X - (width.value - MIN_TRANSLATE_X)),
 					springProps,
 				);
 			} else

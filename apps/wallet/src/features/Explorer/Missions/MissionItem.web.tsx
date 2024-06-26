@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingHorizontal: 6,
 		paddingVertical: 5,
-		marginHorizontal: 5,
 		position: 'absolute',
 	},
 	header: {

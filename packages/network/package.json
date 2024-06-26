@@ -1,6 +1,6 @@
 {
   "name": "@walless/network",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "main": "./index.ts",
   "types": "./index.ts",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "@metaplex-foundation/mpl-token-metadata": "^2.13.0",
     "@mysten/sui.js": "0.51.1",
     "@solana/spl-token": "0.3.7",
-    "@solana/web3.js": "1.78.4",
+    "@solana/web3.js": "1.92.3",
     "@taquito/signer": "^17.5.2",
     "@taquito/taquito": "^17.5.2",
     "aptos": "^1.20.0",

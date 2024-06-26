@@ -50,7 +50,7 @@ const TransactionDetailsModal: FC<Props> = ({ config }) => {
 					<Times size={16} />
 				</TouchableOpacity>
 			</View>
-			{'preBalance' in transaction && (
+			{'token' in transaction && (
 				<SolanaTransactionDetailsFeature {...transaction} />
 			)}
 		</View>

@@ -47,7 +47,7 @@ const HistoryFeature: FC<Props> = ({ style, network, limit }) => {
 							isOnTheSameDate = false;
 						}
 
-						if ('token' in transaction)
+						if ('token' in transaction) {
 							return isOnTheSameDate ? (
 								<HistoryItem
 									key={transaction.signature}
@@ -62,6 +62,9 @@ const HistoryFeature: FC<Props> = ({ style, network, limit }) => {
 									<HistoryItem transaction={transaction} />
 								</View>
 							);
+						} else {
+							return <Fragment key={transaction.signature} />;
+						}
 					})}
 				</Fragment>
 			)}

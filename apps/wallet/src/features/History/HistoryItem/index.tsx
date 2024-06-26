@@ -1,21 +1,14 @@
 import type { FC } from 'react';
 import { View } from 'react-native';
-import type {
-	SolanaSwapHistory,
-	SolanaTransferHistory,
-	SolanaUnknownHistory,
-} from '@walless/core';
 import { Networks } from '@walless/core';
-import type { HistoryDocument } from '@walless/store';
+import type { SolanaHistoryDocument } from '@walless/store';
 
 import SolanaSwapHistoryItem from './SolanaSwap';
 import SolanaTransferHistoryItem from './SolanaTransfer';
 import { SolanaUnknownHistoryItem } from './SolanaUnknown';
 
 interface Props {
-	transaction: HistoryDocument<
-		SolanaTransferHistory | SolanaSwapHistory | SolanaUnknownHistory
-	>;
+	transaction: SolanaHistoryDocument;
 }
 
 export const HistoryItem: FC<Props> = ({ transaction }) => {
@@ -24,23 +17,11 @@ export const HistoryItem: FC<Props> = ({ transaction }) => {
 		const { transactionType } = transaction;
 
 		if (transactionType === 'Unknown') {
-			return (
-				<SolanaUnknownHistoryItem
-					transaction={transaction as HistoryDocument<SolanaUnknownHistory>}
-				/>
-			);
+			return <SolanaUnknownHistoryItem transaction={transaction} />;
 		} else if (transactionType === 'Swap') {
-			return (
-				<SolanaSwapHistoryItem
-					transaction={transaction as HistoryDocument<SolanaSwapHistory>}
-				/>
-			);
+			return <SolanaSwapHistoryItem transaction={transaction} />;
 		} else {
-			return (
-				<SolanaTransferHistoryItem
-					transaction={transaction as HistoryDocument<SolanaTransferHistory>}
-				/>
-			);
+			return <SolanaTransferHistoryItem transaction={transaction} />;
 		}
 	} else {
 		return <View></View>;

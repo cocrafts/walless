@@ -1,8 +1,18 @@
 import { gql } from 'graphql-request';
 
-export const performLoyaltyAction = gql`
-	mutation performLoyaltyAction($actionId: String!) {
-		performLoyaltyAction(actionId: $actionId) {
+export const doLoyaltyAction = gql`
+	mutation doLoyaltyAction($actionId: String!) {
+		doLoyaltyAction(actionId: $actionId) {
+			actionId
+			timestamp
+			userId
+		}
+	}
+`;
+
+export const doRecurringThenStreakThenMilestoneActionsByType = gql`
+	mutation DoRecurringThenStreakThenMilestoneActionsByType($type: String!) {
+		doRecurringThenStreakThenMilestoneActionsByType(type: $type) {
 			actionId
 			timestamp
 			userId

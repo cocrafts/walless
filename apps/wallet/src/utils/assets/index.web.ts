@@ -31,6 +31,7 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: { uri: '/img/widget/tezos-icon.png' },
+				cardMark: { uri: '' },
 				cardBackground: { uri: '/img/widget/tezos-card-bg.png' },
 			},
 		},
@@ -52,6 +53,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: { uri: '/img/widget/pixeverse-icon.png' },
+				cardMark: { uri: '' },
+				cardBackground: { uri: '' },
 			},
 		},
 		tRexRunner: {
@@ -61,6 +64,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: { uri: '/img/widget/runner-icon.png' },
+				cardMark: { uri: '' },
+				cardBackground: { uri: '' },
 			},
 		},
 		suijump: {
@@ -70,6 +75,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: { uri: '/img/widget/suijump-icon.png' },
+				cardMark: { uri: '' },
+				cardBackground: { uri: '' },
 			},
 		},
 	},

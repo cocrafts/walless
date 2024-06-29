@@ -1,10 +1,5 @@
 import type { FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import type { SharedValue } from 'react-native-reanimated';
-import Animated, {
-	interpolate,
-	useAnimatedStyle,
-} from 'react-native-reanimated';
 import { runtime } from '@walless/core';
 import { ArrowTopRight, Plus } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
@@ -13,23 +8,24 @@ import { useWidgets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { addWidgetToStorage } from 'utils/storage';
 
-import LoveAndActiveCount from './LoveAndActiveCount';
+import LoveAndActiveCount from '../Highlights/LoveAndActiveCount';
 
-const ITEM_WIDTH = 273;
-interface AnimationFlatListProps {
-	index: number;
-	activeIndex: number;
-	animatedValue: SharedValue<number>;
-	prevIndex: SharedValue<number>;
-	maxItems: number;
-}
+export const ITEM_WIDTH = 290;
+
 interface HighlightItemProps {
 	widget: WidgetDocument;
-	animation?: AnimationFlatListProps;
 }
 
-const HighlightItem: FC<HighlightItemProps> = ({ animation, widget }) => {
+const HighlightItem: FC<HighlightItemProps> = ({ widget }) => {
 	const addedWidgets = useWidgets().map((widget) => widget._id);
+
+	const coverImgResource = runtime.isMobile
+		? assets.widget[widget._id]?.storeMeta.coverUri
+		: { uri: widget.storeMeta.coverUri };
+
+	const logoImgResource = runtime.isMobile
+		? assets.widget[widget._id]?.storeMeta.iconUri
+		: { uri: widget.storeMeta.iconUri };
 
 	const handleOpenWidget = (id: string) => {
 		navigate('Dashboard', {
@@ -53,52 +49,19 @@ const HighlightItem: FC<HighlightItemProps> = ({ animation, widget }) => {
 	};
 
 	const isAdded = addedWidgets.includes(widget._id);
-	const { index, maxItems, animatedValue } =
-		animation as AnimationFlatListProps;
-
-	const inputRange = [index - 1, index, index + 1];
-	const animatedStyle = useAnimatedStyle(() => {
-		const translateX = interpolate(
-			animatedValue.value,
-			inputRange,
-			[40, 0, -100],
-		);
-
-		const scale = interpolate(animatedValue.value, inputRange, [0.8, 1, 0.8]);
-
-		const opacity = interpolate(animatedValue.value, inputRange, [
-			1 - 1 / maxItems,
-			1,
-			0,
-		]);
-
-		return {
-			transform: [{ translateX }, { scale }],
-			opacity,
-		};
-	}, [animatedValue]);
-
-	const coverImgResource = runtime.isMobile
-		? assets.widget[widget._id]?.storeMeta.coverUri
-		: { uri: widget.storeMeta.coverUri };
-
-	const logoImgResource = runtime.isMobile
-		? assets.widget[widget._id]?.storeMeta.iconUri
-		: { uri: widget.storeMeta.iconUri };
-
-	const containerStyle = {
-		zIndex: maxItems - index,
-	};
 
 	return (
-		<Animated.View style={[styles.container, containerStyle, animatedStyle]}>
+		<View style={[styles.container]}>
 			<Image style={styles.coverImage} source={coverImgResource} />
+
 			<View style={styles.infoContainer}>
 				<Image style={styles.iconImage} source={logoImgResource} />
+
 				<View style={styles.middlePart}>
 					<Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
 						{widget.name}
 					</Text>
+
 					<Text
 						style={styles.description}
 						numberOfLines={1}
@@ -106,16 +69,18 @@ const HighlightItem: FC<HighlightItemProps> = ({ animation, widget }) => {
 					>
 						{widget.storeMeta.description}
 					</Text>
+
 					<LoveAndActiveCount
 						loveCount={widget.storeMeta.loveCount}
 						activeCount={widget.storeMeta.activeCount}
 					/>
 				</View>
+
 				<TouchableOpacity style={styles.addBtn} onPress={handleOnPress}>
 					{isAdded ? <ArrowTopRight /> : <Plus />}
 				</TouchableOpacity>
 			</View>
-		</Animated.View>
+		</View>
 	);
 };
 
@@ -127,18 +92,16 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		overflow: 'hidden',
 		backgroundColor: '#23303C',
-		position: 'absolute',
 	},
 	coverImage: {
-		width: ITEM_WIDTH,
-		height: 143,
+		height: 150,
 	},
 	infoContainer: {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
-		padding: 11,
-		gap: 10,
+		padding: 8,
+		gap: 8,
 	},
 	iconImage: {
 		width: 43,

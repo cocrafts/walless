@@ -1,75 +1,44 @@
 import type { FC } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import type { SharedValue } from 'react-native-reanimated';
+import { StyleSheet } from 'react-native';
+import type { WithTimingConfig } from 'react-native-reanimated';
 import Animated, {
-	interpolate,
 	useAnimatedStyle,
 	withTiming,
 } from 'react-native-reanimated';
 
-const AnimatedHoverable = Animated.createAnimatedComponent(TouchableOpacity);
-
 interface IndicatorDotProps {
 	index: number;
-	onPress: (index: number) => void;
-	data: number[];
-	animatedValue: SharedValue<number>;
+	currentIndex: number;
 }
 
-const IndicatorDot: FC<IndicatorDotProps> = ({
-	index,
-	onPress,
-	data,
-	animatedValue,
-}) => {
-	const heightOutputRange = data.map(() => 6);
-	const opacityOutputRange = data.map(() => 0.2);
-
-	heightOutputRange[index] = 40;
-	opacityOutputRange[index] = 1;
-
+const IndicatorDot: FC<IndicatorDotProps> = ({ index, currentIndex }) => {
 	const animatedStyle = useAnimatedStyle(() => {
-		const height = interpolate(
-			animatedValue.value,
-			data,
-			heightOutputRange as number[],
-		);
+		const { width, opacity } =
+			index === currentIndex ? styles.highlightedIndicator : styles.indicator;
 
-		const opacity = interpolate(
-			animatedValue.value,
-			data,
-			opacityOutputRange as number[],
-		);
+		const config: WithTimingConfig = { duration: 650 };
 
-		return { height, opacity };
-	}, [animatedValue]);
+		return {
+			width: withTiming(width, config),
+			opacity: withTiming(opacity, config),
+		};
+	}, [currentIndex]);
 
-	const handleClick = () => {
-		onPress(index);
-		animatedValue.value = withTiming(index);
-	};
-
-	return (
-		<AnimatedHoverable
-			key={index.toString()}
-			onPress={handleClick}
-			style={styles.container}
-		>
-			<Animated.View style={[styles.indicator, animatedStyle]} />
-		</AnimatedHoverable>
-	);
+	return <Animated.View style={[styles.indicator, animatedStyle]} />;
 };
 
 export default IndicatorDot;
 
 const styles = StyleSheet.create({
-	container: {
-		padding: 3,
-	},
 	indicator: {
-		backgroundColor: '#0694D3',
-		width: 6,
-		height: 6,
+		backgroundColor: '#FFFFFF',
+		width: 7,
+		height: 7,
 		borderRadius: 6,
+		opacity: 0.2,
+	},
+	highlightedIndicator: {
+		width: 40,
+		opacity: 1,
 	},
 });

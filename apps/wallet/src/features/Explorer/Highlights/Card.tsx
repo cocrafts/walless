@@ -64,7 +64,7 @@ const Card: FC<Props> = ({
 			);
 			scale.value = withTiming(newScale, timingConfig);
 		} else if (currentIndex - index === 1) {
-			scale.value = withTiming(scale.value + 0.2, timingConfig);
+			scale.value = withTiming(scale.value + 0.15, timingConfig);
 		}
 
 		const isPopped = index < currentIndex;

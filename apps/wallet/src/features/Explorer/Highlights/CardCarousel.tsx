@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { runOnJS, useSharedValue, withTiming } from 'react-native-reanimated';
+import { runOnJS, useSharedValue } from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
 
 import Card from './Card';
@@ -44,9 +44,9 @@ const CardCarousel: FC<Props> = ({
 				runOnJS(handleSwipeLeft)();
 			} else if (xOffset.value > SWIPE_THRESHOLD && currentIndex > 0) {
 				runOnJS(handleSwipeRight)();
-			} else {
-				xOffset.value = withTiming(0);
 			}
+
+			xOffset.value = 0;
 		});
 
 	return (
@@ -60,7 +60,7 @@ const CardCarousel: FC<Props> = ({
 							index={index}
 							currentIndex={currentIndex}
 							dataLength={widgets.length}
-							xOffsetShareValue={xOffset}
+							dragXOffset={xOffset}
 						/>
 					);
 				})}

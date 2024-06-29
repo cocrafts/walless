@@ -1,31 +1,28 @@
 import type { FC } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
-import type { SharedValue } from 'react-native-reanimated';
 import { View } from '@walless/gui';
 
 import IndicatorDot from './IndicatorDot';
 
 interface HighlightIndicatorProps {
+	currentIndex: number;
 	dataLength: number;
-	animatedValue: SharedValue<number>;
 }
 
 const HighlightIndicator: FC<HighlightIndicatorProps> = ({
+	currentIndex,
 	dataLength,
-	animatedValue,
 }) => {
-	const data = Array.from({ length: dataLength }, (_, i) => i);
+	const indexes = useMemo(() => {
+		return Array.from({ length: dataLength }, (_, i) => i);
+	}, [dataLength]);
 
 	return (
 		<View style={styles.container}>
-			{data.map((item) => {
+			{indexes.map((index) => {
 				return (
-					<IndicatorDot
-						key={item}
-						index={item}
-						data={data}
-						animatedValue={animatedValue}
-					/>
+					<IndicatorDot key={index} index={index} currentIndex={currentIndex} />
 				);
 			})}
 		</View>
@@ -35,5 +32,9 @@ const HighlightIndicator: FC<HighlightIndicatorProps> = ({
 export default HighlightIndicator;
 
 const styles = StyleSheet.create({
-	container: {},
+	container: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		gap: 7,
+	},
 });

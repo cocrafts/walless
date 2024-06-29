@@ -1,7 +1,6 @@
-import type { FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import type { SharedValue } from 'react-native-reanimated';
+import type { SharedValue, WithTimingConfig } from 'react-native-reanimated';
 import Animated, {
 	interpolate,
 	useAnimatedStyle,
@@ -10,141 +9,103 @@ import Animated, {
 } from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
 
-import HightlightItem, { ITEM_WIDTH } from './HightlightItem';
+import HighlightItem from './HighlightItem';
+import { MAX_X_OFFSET } from './shared';
 
 interface Props {
 	widget: WidgetDocument;
 	index: number;
-	dataLength: number;
-	maxItems: number;
 	currentIndex: number;
-	animatedValue: SharedValue<number>;
-	onSwipeLeft: () => void;
-	onSwipeRight: () => void;
-	offsetX: SharedValue<number>;
+	dataLength: number;
+	dragXOffset: SharedValue<number>;
 }
+
+const timingConfig: WithTimingConfig = { duration: 650 };
+
 const Card: FC<Props> = ({
 	widget,
-	dataLength,
 	index,
-	maxItems,
 	currentIndex,
-	animatedValue,
-	onSwipeLeft,
-	onSwipeRight,
-	offsetX,
+	dataLength,
+	dragXOffset,
 }) => {
-	const translateX = useSharedValue(0);
-	const opacity = useSharedValue(0);
-	const scale = useSharedValue(0);
+	const xOffset = useSharedValue(0);
+	const scale = useSharedValue(1);
+	const opacity = useSharedValue(1);
 
 	const animatedStyle = useAnimatedStyle(() => {
-		if (currentIndex === index && offsetX.value === 0)
-			translateX.value = withTiming(0, {
-				duration: 600,
-			});
+		const addingTranslateX = interpolate(
+			index - currentIndex,
+			[dataLength - currentIndex, 0],
+			[0, dragXOffset.value],
+		);
 
-		if (index + 1 === currentIndex && offsetX.value > 0)
-			translateX.value = withTiming(offsetX.value - ITEM_WIDTH);
-
-		if (currentIndex > index) {
-			translateX.value =
-				-(currentIndex - index) * 80 - ITEM_WIDTH + offsetX.value;
-		}
-
-		if (currentIndex < index) {
-			const offsetXValue = offsetX.value < -50 ? -50 : offsetX.value;
-			translateX.value = interpolate(
-				animatedValue.value,
-				[index - 1, index],
-				[50 + offsetXValue, 0 + offsetXValue],
-			);
-		}
-
-		if (currentIndex >= index) scale.value = 1;
-		else
-			scale.value = interpolate(
-				animatedValue.value,
-				[index - 1, index],
-				[0.75, 1],
-			);
-
-		if (currentIndex === index || index < maxItems + currentIndex)
-			opacity.value = 1;
-		else
-			opacity.value = interpolate(
-				animatedValue.value,
-				[index - 1, index],
-				[1 - 1 / maxItems, 1],
-			);
+		const addingScale = interpolate(
+			dragXOffset.value,
+			[-MAX_X_OFFSET, MAX_X_OFFSET],
+			[0.08, -0.08],
+		);
 
 		return {
-			transform: [
-				{
-					translateX: translateX.value,
-				},
-				{ scale: scale.value },
-			],
 			opacity: opacity.value,
+			transform: [
+				{ translateX: xOffset.value + addingTranslateX },
+				{ scale: scale.value + addingScale },
+			],
 		};
-	}, [translateX, animatedValue, offsetX, currentIndex]);
+	}, [xOffset, scale, opacity, dragXOffset, currentIndex]);
 
-	const containerStyle = {
-		zIndex: dataLength - index,
+	const handleSwipe = () => {
+		if (index >= currentIndex) {
+			const newScale = interpolate(
+				index - currentIndex,
+				[0, dataLength],
+				[1, 0.08],
+			);
+			scale.value = withTiming(newScale, timingConfig);
+		} else if (currentIndex - index === 1) {
+			scale.value = withTiming(scale.value + 0.15, timingConfig);
+		}
+
+		const isPopped = index < currentIndex;
+		xOffset.value = withTiming(
+			isPopped ? -200 : (index - currentIndex) * 34,
+			timingConfig,
+		);
+
+		const toCurrent = index === currentIndex;
+		const toPopped = index < currentIndex;
+		const toHidden = toPopped || index - currentIndex > 2;
+		if (toCurrent) {
+			opacity.value = withTiming(1, timingConfig);
+		} else if (toHidden) {
+			opacity.value = withTiming(0, timingConfig);
+		} else {
+			opacity.value = 1;
+		}
 	};
 
-	const pan = Gesture.Pan()
-		.onUpdate((event) => {
-			if (currentIndex !== index) return;
-			animatedValue.value = interpolate(
-				Math.abs(event.translationX),
-				[0, ITEM_WIDTH],
-				[index, index + 1],
-			);
+	const containerStyle = { zIndex: -index };
 
-			translateX.value = event.translationX;
-			offsetX.value = event.translationX;
-		})
-		.onFinalize((event) => {
-			if (index === dataLength - 1 && event.translationX < 0) {
-				translateX.value = withTiming(0, { duration: 500 });
-				offsetX.value = 0;
-				return;
-			}
-
-			if (index === 0 && event.translationX > 0) {
-				translateX.value = withTiming(0, { duration: 500 });
-				offsetX.value = withTiming(0, { duration: 600 });
-				return;
-			}
-
-			if (event.translationX < -30) {
-				translateX.value = -303;
-				onSwipeLeft();
-			} else if (event.translationX > 30) {
-				translateX.value = 30;
-				onSwipeRight();
-			}
-
-			offsetX.value = 0;
-		});
+	useEffect(handleSwipe, [currentIndex]);
 
 	return (
-		<GestureDetector gesture={pan}>
-			<Animated.View style={[styles.container, containerStyle, animatedStyle]}>
-				<HightlightItem widget={widget} />
-			</Animated.View>
-		</GestureDetector>
+		<Animated.View
+			style={[
+				containerStyle,
+				animatedStyle,
+				index !== currentIndex && styles.absolute,
+			]}
+		>
+			<HighlightItem widget={widget} />
+		</Animated.View>
 	);
 };
 
 export default Card;
 
 const styles = StyleSheet.create({
-	container: {
+	absolute: {
 		position: 'absolute',
-		width: ITEM_WIDTH,
-		height: 200,
-		borderRadius: 16,
 	},
 });

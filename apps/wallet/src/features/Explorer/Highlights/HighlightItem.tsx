@@ -10,13 +10,13 @@ import { addWidgetToStorage } from 'utils/storage';
 
 import LoveAndActiveCount from '../Highlights/LoveAndActiveCount';
 
-export const ITEM_WIDTH = 260;
+export const ITEM_WIDTH = 290;
 
 interface HighlightItemProps {
 	widget: WidgetDocument;
 }
 
-const HightlightItem: FC<HighlightItemProps> = ({ widget }) => {
+const HighlightItem: FC<HighlightItemProps> = ({ widget }) => {
 	const addedWidgets = useWidgets().map((widget) => widget._id);
 
 	const coverImgResource = runtime.isMobile
@@ -84,7 +84,7 @@ const HightlightItem: FC<HighlightItemProps> = ({ widget }) => {
 	);
 };
 
-export default HightlightItem;
+export default HighlightItem;
 
 const styles = StyleSheet.create({
 	container: {
@@ -94,8 +94,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#23303C',
 	},
 	coverImage: {
-		width: ITEM_WIDTH,
-		height: 130,
+		height: 150,
 	},
 	infoContainer: {
 		flex: 1,

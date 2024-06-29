@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { View } from '@walless/gui';
 import { mockWidgets } from 'state/widget';
 
@@ -9,11 +8,6 @@ import HighlightIndicator from './HighlightIndicator';
 
 const Highlights = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const animatedValue = useSharedValue(0);
-
-	useEffect(() => {
-		animatedValue.value = withTiming(currentIndex);
-	}, [currentIndex]);
 
 	return (
 		<View style={styles.container}>
@@ -21,13 +15,13 @@ const Highlights = () => {
 
 			<View style={styles.highlightList}>
 				<CardCarousel
-					data={mockWidgets}
+					widgets={mockWidgets}
 					currentIndex={currentIndex}
-					onSelectItem={setCurrentIndex}
+					onChangeCurrentIndex={setCurrentIndex}
 				/>
 
 				<HighlightIndicator
-					animatedValue={animatedValue}
+					currentIndex={currentIndex}
 					dataLength={mockWidgets.length}
 				/>
 			</View>
@@ -45,8 +39,7 @@ const styles = StyleSheet.create({
 		marginVertical: 8,
 	},
 	highlightList: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		gap: 14,
 	},
 	title: {
 		fontSize: 18,

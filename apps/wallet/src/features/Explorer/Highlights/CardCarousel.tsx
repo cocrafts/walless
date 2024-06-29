@@ -1,52 +1,90 @@
-import type { FC } from 'react';
+import { type FC, useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useSharedValue, withTiming } from 'react-native-reanimated';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { runOnJS, useSharedValue } from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
 
 import Card from './Card';
-
-const MAX = 3;
+import { MAX_X_OFFSET, SWIPE_THRESHOLD } from './shared';
 
 interface Props {
-	data: WidgetDocument[];
+	widgets: WidgetDocument[];
 	currentIndex: number;
-	onSelectItem: (index: number) => void;
+	onChangeCurrentIndex: (index: number) => void;
 }
 
-const CardCarousel: FC<Props> = ({ data, currentIndex, onSelectItem }) => {
-	const animatedValue = useSharedValue(0);
-	const offsetX = useSharedValue(0);
+const CardCarousel: FC<Props> = ({
+	widgets,
+	currentIndex,
+	onChangeCurrentIndex,
+}) => {
+	const pressed = useRef(false);
+	const autoSwipeDirection = useRef(-1);
+	const xOffset = useSharedValue(0);
 
 	const handleSwipeLeft = () => {
-		animatedValue.value = withTiming(animatedValue.value + 1);
-		onSelectItem(currentIndex + 1);
+		onChangeCurrentIndex(currentIndex + 1);
 	};
 
 	const handleSwipeRight = () => {
-		animatedValue.value = withTiming(animatedValue.value - 1);
-		onSelectItem(currentIndex - 1);
+		onChangeCurrentIndex(currentIndex - 1);
 	};
 
+	const pan = Gesture.Pan()
+		.onUpdate((event) => {
+			pressed.current = true;
+			if (currentIndex === widgets.length - 1 && event.translationX < 0) return;
+			if (currentIndex === 0 && event.translationX > 0) return;
+
+			if (Math.abs(event.translationX) < MAX_X_OFFSET)
+				xOffset.value = event.translationX;
+		})
+		.onFinalize(() => {
+			pressed.current = false;
+			if (
+				xOffset.value < -SWIPE_THRESHOLD &&
+				currentIndex < widgets.length - 1
+			) {
+				runOnJS(handleSwipeLeft)();
+			} else if (xOffset.value > SWIPE_THRESHOLD && currentIndex > 0) {
+				runOnJS(handleSwipeRight)();
+			}
+
+			xOffset.value = 0;
+		});
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (pressed.current) return;
+			if (currentIndex == widgets.length - 1) {
+				autoSwipeDirection.current = -1;
+			} else if (currentIndex === 0) {
+				autoSwipeDirection.current = 1;
+			}
+
+			onChangeCurrentIndex(currentIndex + autoSwipeDirection.current);
+		}, 2000);
+
+		return () => clearTimeout(timer);
+	}, [currentIndex, pressed]);
+
 	return (
-		<View style={styles.container}>
-			{data.map((card, index) => {
-				if (index > MAX + currentIndex) return null;
-				return (
-					<Card
-						key={card._id}
-						widget={card}
-						index={index}
-						dataLength={data.length}
-						maxItems={MAX}
-						currentIndex={currentIndex}
-						onSwipeLeft={handleSwipeLeft}
-						onSwipeRight={handleSwipeRight}
-						animatedValue={animatedValue}
-						offsetX={offsetX}
-					/>
-				);
-			})}
-		</View>
+		<GestureDetector gesture={pan}>
+			<View style={styles.container}>
+				{widgets.map((card, index) => {
+					return (
+						<Card
+							key={card._id}
+							widget={card}
+							index={index}
+							currentIndex={currentIndex}
+							dataLength={widgets.length}
+							dragXOffset={xOffset}
+						/>
+					);
+				})}
+			</View>
+		</GestureDetector>
 	);
 };
 
@@ -56,8 +94,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 20,
-		height: 200,
-		maxWidth: 336,
-		// backgroundColor: '#ffffff',
+		cursor: 'pointer',
 	},
 });

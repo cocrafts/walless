@@ -1,43 +1,28 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import type { SharedValue } from 'react-native-reanimated';
+import type { WithTimingConfig } from 'react-native-reanimated';
 import Animated, {
-	interpolate,
 	useAnimatedStyle,
+	withTiming,
 } from 'react-native-reanimated';
 
 interface IndicatorDotProps {
 	index: number;
-	data: number[];
-	animatedValue: SharedValue<number>;
+	currentIndex: number;
 }
 
-const IndicatorDot: FC<IndicatorDotProps> = ({
-	index,
-	data,
-	animatedValue,
-}) => {
-	const heightOutputRange = data.map(() => 6);
-	const opacityOutputRange = data.map(() => 0.2);
-
-	heightOutputRange[index] = 40;
-	opacityOutputRange[index] = 1;
-
+const IndicatorDot: FC<IndicatorDotProps> = ({ index, currentIndex }) => {
 	const animatedStyle = useAnimatedStyle(() => {
-		const height = interpolate(
-			animatedValue.value,
-			data,
-			heightOutputRange as number[],
-		);
+		const { height, opacity } =
+			index === currentIndex ? styles.highlightedIndicator : styles.indicator;
 
-		const opacity = interpolate(
-			animatedValue.value,
-			data,
-			opacityOutputRange as number[],
-		);
+		const config: WithTimingConfig = { duration: 650 };
 
-		return { height, opacity };
-	}, [animatedValue]);
+		return {
+			height: withTiming(height, config),
+			opacity: withTiming(opacity, config),
+		};
+	}, [currentIndex]);
 
 	return <Animated.View style={[styles.indicator, animatedStyle]} />;
 };
@@ -51,5 +36,10 @@ const styles = StyleSheet.create({
 		height: 6,
 		borderRadius: 6,
 		margin: 4,
+		opacity: 0.2,
+	},
+	highlightedIndicator: {
+		height: 40,
+		opacity: 1,
 	},
 });

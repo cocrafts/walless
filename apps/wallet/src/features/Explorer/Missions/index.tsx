@@ -12,6 +12,7 @@ const Missions = () => {
 	const scrollRef = useRef<FlatList>(null);
 
 	// another solution https://gist.github.com/nandorojo/92e7301a49a8b9575bb24b3b1ddc19bf
+	// fixing web horizontal scroll by mouse, might not work on mobile
 	const pan = Gesture.Pan()
 		.onUpdate((event) => {
 			scrollRef.current?.scrollToOffset({

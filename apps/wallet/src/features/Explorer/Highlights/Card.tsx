@@ -131,7 +131,14 @@ const Card: FC<Props> = ({
 
 	return (
 		<GestureDetector gesture={pan}>
-			<Animated.View style={[styles.container, containerStyle, animatedStyle]}>
+			<Animated.View
+				style={[
+					styles.container,
+					index !== currentIndex && styles.absolute,
+					containerStyle,
+					animatedStyle,
+				]}
+			>
 				<HighlightItem widget={widget} />
 			</Animated.View>
 		</GestureDetector>
@@ -142,9 +149,11 @@ export default Card;
 
 const styles = StyleSheet.create({
 	container: {
-		position: 'absolute',
 		width: ITEM_WIDTH,
 		height: 200,
 		borderRadius: 16,
+	},
+	absolute: {
+		position: 'absolute',
 	},
 });

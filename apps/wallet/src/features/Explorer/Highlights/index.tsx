@@ -15,7 +15,7 @@ const Highlights = () => {
 
 			<View style={styles.highlightList}>
 				<CardCarousel
-					data={mockWidgets}
+					widgets={mockWidgets}
 					currentIndex={currentIndex}
 					onSelectItem={setCurrentIndex}
 				/>
@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
 		marginVertical: 8,
 	},
 	highlightList: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		gap: 14,
 	},
 	title: {
 		fontSize: 18,

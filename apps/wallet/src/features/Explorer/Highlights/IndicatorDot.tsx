@@ -13,13 +13,13 @@ interface IndicatorDotProps {
 
 const IndicatorDot: FC<IndicatorDotProps> = ({ index, currentIndex }) => {
 	const animatedStyle = useAnimatedStyle(() => {
-		const { height, opacity } =
+		const { width, opacity } =
 			index === currentIndex ? styles.highlightedIndicator : styles.indicator;
 
 		const config: WithTimingConfig = { duration: 650 };
 
 		return {
-			height: withTiming(height, config),
+			width: withTiming(width, config),
 			opacity: withTiming(opacity, config),
 		};
 	}, [currentIndex]);
@@ -31,15 +31,14 @@ export default IndicatorDot;
 
 const styles = StyleSheet.create({
 	indicator: {
-		backgroundColor: '#0694D3',
-		width: 6,
-		height: 6,
+		backgroundColor: '#FFFFFF',
+		width: 7,
+		height: 7,
 		borderRadius: 6,
-		margin: 4,
 		opacity: 0.2,
 	},
 	highlightedIndicator: {
-		height: 40,
+		width: 40,
 		opacity: 1,
 	},
 });

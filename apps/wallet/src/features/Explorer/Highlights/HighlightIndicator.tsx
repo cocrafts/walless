@@ -32,5 +32,9 @@ const HighlightIndicator: FC<HighlightIndicatorProps> = ({
 export default HighlightIndicator;
 
 const styles = StyleSheet.create({
-	container: {},
+	container: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		gap: 7,
+	},
 });

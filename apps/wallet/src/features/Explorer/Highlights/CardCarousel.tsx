@@ -8,12 +8,12 @@ import Card from './Card';
 const MAX = 3;
 
 interface Props {
-	data: WidgetDocument[];
+	widgets: WidgetDocument[];
 	currentIndex: number;
 	onSelectItem: (index: number) => void;
 }
 
-const CardCarousel: FC<Props> = ({ data, currentIndex, onSelectItem }) => {
+const CardCarousel: FC<Props> = ({ widgets, currentIndex, onSelectItem }) => {
 	const animatedValue = useSharedValue(0);
 	const offsetX = useSharedValue(0);
 
@@ -29,14 +29,14 @@ const CardCarousel: FC<Props> = ({ data, currentIndex, onSelectItem }) => {
 
 	return (
 		<View style={styles.container}>
-			{data.map((card, index) => {
+			{widgets.map((card, index) => {
 				if (index > MAX + currentIndex) return null;
 				return (
 					<Card
 						key={card._id}
 						widget={card}
 						index={index}
-						dataLength={data.length}
+						dataLength={widgets.length}
 						maxItems={MAX}
 						currentIndex={currentIndex}
 						onSwipeLeft={handleSwipeLeft}
@@ -58,6 +58,5 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		height: 200,
 		maxWidth: 336,
-		// backgroundColor: '#ffffff',
 	},
 });

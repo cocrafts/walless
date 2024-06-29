@@ -10,7 +10,7 @@ import { addWidgetToStorage } from 'utils/storage';
 
 import LoveAndActiveCount from '../Highlights/LoveAndActiveCount';
 
-export const ITEM_WIDTH = 260;
+export const ITEM_WIDTH = 290;
 
 interface HighlightItemProps {
 	widget: WidgetDocument;
@@ -94,8 +94,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#23303C',
 	},
 	coverImage: {
-		width: ITEM_WIDTH,
-		height: 130,
+		height: 150,
 	},
 	infoContainer: {
 		flex: 1,

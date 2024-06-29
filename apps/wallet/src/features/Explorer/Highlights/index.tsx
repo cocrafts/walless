@@ -17,7 +17,7 @@ const Highlights = () => {
 				<CardCarousel
 					widgets={mockWidgets}
 					currentIndex={currentIndex}
-					onSelectItem={setCurrentIndex}
+					onChangeCurrentIndex={setCurrentIndex}
 				/>
 
 				<HighlightIndicator

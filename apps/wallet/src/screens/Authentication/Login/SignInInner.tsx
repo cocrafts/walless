@@ -14,7 +14,9 @@ const SignInInner: FC<Props> = ({ onGoogleSignIn, loading }) => {
 		<View style={styles.container}>
 			<View style={styles.commandContainer}>
 				{loading ? (
-					<ActivityIndicator color="white" />
+					<View style={styles.loadingContainer}>
+						<ActivityIndicator color="white" />
+					</View>
 				) : (
 					<Button style={styles.signInButton} onPress={onGoogleSignIn}>
 						<Google />
@@ -50,6 +52,9 @@ const styles = StyleSheet.create({
 	},
 	commandContainer: {
 		justifyContent: 'center',
+	},
+	loadingContainer: {
+		paddingVertical: 13,
 	},
 	signInButton: {
 		flexDirection: 'row',

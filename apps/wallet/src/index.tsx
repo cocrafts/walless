@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { modalActions, ModalManager, themeState } from '@walless/gui';
@@ -31,6 +31,12 @@ export const AppStack = () => {
 
 	useNotifications();
 	useEffect(() => modalActions.setContainerRef(modalContainerRef), []);
+	useEffect(() => {
+		if (Platform.OS === 'android') {
+			StatusBar.setTranslucent(true);
+			StatusBar.setBackgroundColor('transparent');
+		}
+	}, []);
 
 	return (
 		<SafeAreaProvider>

@@ -10,7 +10,7 @@ import { aptosState } from 'state/assets';
 import { useNfts, usePublicKeys } from 'utils/hooks';
 import { useSnapshot } from 'valtio';
 
-import NftTab from '../NFTTab';
+import NftTab from '../NftTab';
 
 import DirectTransfer from './DirectTransfer';
 import PendingTokens from './PendingTokens';

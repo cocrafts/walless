@@ -60,6 +60,5 @@ const styles = StyleSheet.create({
 		backgroundColor: '#202d38',
 		flexDirection: 'row',
 		borderRadius: 10,
-		padding: 4,
 	},
 });

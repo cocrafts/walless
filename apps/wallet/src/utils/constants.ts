@@ -6,7 +6,7 @@ export const noHeaderNavigation = {
 
 export const tabBarHeight = 52;
 
-export const defaultConfig: Config = {
+export const defaultConfig: Omit<Config, 'version'> = {
 	hideBalance: true,
 	latestLocation: '/',
 };

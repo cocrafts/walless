@@ -10,11 +10,15 @@ import {
 import { logger } from '@walless/core';
 import { Passcode, Text, View } from '@walless/gui';
 import { showError } from 'modals/Error';
-import { appActions } from 'state/app';
+import { appActions, appState } from 'state/app';
 import assets from 'utils/assets';
 import { makeProfile, setProfile, signInWithPasscode } from 'utils/auth';
 import { auth } from 'utils/firebase';
-import { useBiometricStatus, useSafeAreaInsets } from 'utils/hooks';
+import {
+	useBiometricStatus,
+	useSafeAreaInsets,
+	useSnapshot,
+} from 'utils/hooks';
 import { hydrateEncryptionKey } from 'utils/native';
 import { navigate, ResetAnchors, resetRoute } from 'utils/navigation';
 
@@ -22,6 +26,7 @@ import BiometricIcon from '../BiometricIcon';
 
 export const CreatePasscodeScreen: FC = () => {
 	const biometricStatus = useBiometricStatus();
+	const { config } = useSnapshot(appState);
 	const [passcode, setPasscode] = useState('');
 	const [confirmation, setConfirmation] = useState(false);
 	const [passcodeError, setPasscodeError] = useState<string>();
@@ -31,13 +36,11 @@ export const CreatePasscodeScreen: FC = () => {
 	const title = confirmation ? 'Confirm your passcode' : 'Create passcode';
 	const style = {
 		paddingTop: insets.top,
-		paddingBottom: insets.bottom || 20,
+		paddingBottom: insets.bottom || 24,
 	};
 
-	const handleInitFail = () => {
-		showError({
-			errorText: 'Something went wrong. Please try again.',
-		});
+	const handleInitFail = (errorText: string) => {
+		showError({ errorText });
 		navigate('Authentication', { screen: 'Login' });
 	};
 
@@ -128,6 +131,10 @@ export const CreatePasscodeScreen: FC = () => {
 					</View>
 				</TouchableOpacity>
 			</View>
+
+			<Text style={styles.poweredText}>
+				Powered by walless.io, version@{config.version}
+			</Text>
 		</View>
 	);
 };
@@ -148,7 +155,7 @@ export const styles = StyleSheet.create({
 	logo: {
 		width: 83,
 		height: 43,
-		marginHorizontal: 'auto',
+		alignSelf: 'center',
 	},
 	titleContainer: {
 		paddingVertical: 40,
@@ -172,5 +179,11 @@ export const styles = StyleSheet.create({
 	},
 	link: {
 		color: '#19A3E1',
+	},
+	poweredText: {
+		fontSize: 12,
+		color: '#5D6A73',
+		textAlign: 'center',
+		marginTop: 6,
 	},
 });

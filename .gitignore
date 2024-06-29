@@ -1,4 +1,5 @@
 .idea
+.docker
 
 # automations
 .sst
@@ -52,6 +53,7 @@ yarn-error.log*
 .env
 .env.test
 .env.development
+.env.staging
 .env.production
 
 # configs

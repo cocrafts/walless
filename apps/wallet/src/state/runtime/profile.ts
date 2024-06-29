@@ -11,7 +11,7 @@ export const syncRemoteProfile = async () => {
 	if (keyResult.docs.length === 0) return;
 
 	const { userAccount } = await qlClient.request<{
-		userAccount: Account;
+		userAccount: Account | undefined;
 	}>(queries.userAccount);
 
 	if (keyResult.docs.length !== userAccount?.walletCount) {

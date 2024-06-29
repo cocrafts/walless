@@ -3,7 +3,7 @@ import type { Networks } from './common';
 export interface WidgetStoreOptions {
 	iconUri: string;
 	iconSize: number;
-	iconColor: string;
+	iconColor?: string;
 	iconActiveColor?: string;
 	coverUri: string;
 	description: string;
@@ -19,7 +19,12 @@ export interface WidgetNetworkOptions {
 	iconColor: string;
 }
 
-export type WidgetType = 'Layout' | 'Hybrid' | 'Native';
+export enum WidgetType {
+	NETWORK = 'Network',
+	GAME = 'Game',
+	DEFI = 'DeFi',
+	NFT = 'NFT',
+}
 
 export interface Widget {
 	name: string;

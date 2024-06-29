@@ -1,6 +1,6 @@
 {
   "name": "@walless/sdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "@walless/core": "*"
   },
   "devDependencies": {
-    "@solana/web3.js": "1.78.4",
+    "@solana/web3.js": "1.92.3",
     "eslint": "^8.56.0"
   }
 }

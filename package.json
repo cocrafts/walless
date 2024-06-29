@@ -13,6 +13,7 @@
     "deploy:wallet": "sst deploy wallet",
     "deploy:document": "sst deploy document",
     "deploy:landing": "sst deploy landing",
+    "docker:ubuntu": "docker compose up -d && docker exec -it walless-ubuntu-1 bash",
     "dev": "turbo run dev",
     "dev:sst": "sst dev --stage development",
     "test": "turbo run test",
@@ -21,6 +22,7 @@
     "invalidate": "node tool/invalidate",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
+    "type-check": "turbo run type-check",
     "postinstall": "yarn batch",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock"
   },
@@ -82,13 +84,13 @@
     "ts-jest": "^29.0.5",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
     "turbo": "latest",
-    "typescript": "^5.2.2",
+    "typescript": "^5.4.0",
     "webpack": "^5.89.0"
   },
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "yarn@4.1.1",
+  "packageManager": "yarn@4.3.1",
   "resolutions": {
     "@react-native-firebase/app@18.6.1": "patch:@react-native-firebase/app@npm%3A18.6.1#./.yarn/patches/@react-native-firebase-app-npm-18.6.1-ef99d77745.patch"
   }

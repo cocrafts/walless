@@ -31,6 +31,7 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: { uri: '/img/widget/tezos-icon.png' },
+				cardMark: { uri: '' },
 				cardBackground: { uri: '/img/widget/tezos-card-bg.png' },
 			},
 		},
@@ -52,6 +53,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: { uri: '/img/widget/pixeverse-icon.png' },
+				cardMark: { uri: '' },
+				cardBackground: { uri: '' },
 			},
 		},
 		tRexRunner: {
@@ -61,6 +64,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: { uri: '/img/widget/runner-icon.png' },
+				cardMark: { uri: '' },
+				cardBackground: { uri: '' },
 			},
 		},
 		suijump: {
@@ -70,6 +75,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: { uri: '/img/widget/suijump-icon.png' },
+				cardMark: { uri: '' },
+				cardBackground: { uri: '' },
 			},
 		},
 	},
@@ -85,6 +92,12 @@ const assets: Asset = {
 		swapPlaceholder: { uri: '/img/misc/swap-placeholder.png' },
 		referralGradientBackground: {
 			uri: '/img/misc/referral-gradient-bg.png',
+		},
+		loyaltyGradientBackground: {
+			uri: '/img/misc/loyalty-gradient-bg.png',
+		},
+		loyaltyBarGradientBackground: {
+			uri: '/img/misc/loyalty-bar-gradient-bg.png',
 		},
 	},
 };

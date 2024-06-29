@@ -1,5 +1,5 @@
 import { getStateFromPath } from '@react-navigation/native';
-import { logger, Networks } from '@walless/core';
+import { logger, Networks, runtime } from '@walless/core';
 import type {
 	CollectionDocument,
 	HistoryDocument,
@@ -80,7 +80,6 @@ export const launchApp = async (): Promise<void> => {
 			if (!route) return;
 			navigationRef.reset({ index: 0, routes: route.routes });
 		} else {
-			resetRoute();
 			const widgetId = settings?.config?.latestLocation;
 			resetRoute(ResetAnchors.Widget, { id: widgetId || 'explorer' });
 		}
@@ -90,9 +89,22 @@ export const launchApp = async (): Promise<void> => {
 };
 
 export const initAfterSignIn = async () => {
-	await initializeVaultKeys();
+	if (!runtime.isMobile) {
+		await initializeVaultKeys();
+	}
+
+	// clean registered engine before restart
+	if (engine) await engine.clear();
+
 	await registerNetworkRunners(engine);
 	await engine.start();
+
+	/**
+	 * fix: initializeAuth called by `bootstrap` only at the init time
+	 * in case user is not signed-in, no initialization happen.
+	 * need to re-init after sign-in
+	 * */
+	await initializeAuth();
 };
 
 const configEngine = async () => {

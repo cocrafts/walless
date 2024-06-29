@@ -31,6 +31,7 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/tezos-icon.png'),
+				cardMark: require(''),
 				cardBackground: require('assets/img/widget/tezos-card-bg.png'),
 			},
 		},
@@ -41,8 +42,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/aptos-icon.png'),
-				cardBackground: require('assets/img/widget/sky-card-bg.png'),
 				cardMark: require('assets/img/widget/aptos-mark.png'),
+				cardBackground: require('assets/img/widget/sky-card-bg.png'),
 			},
 		},
 		pixeverse: {
@@ -52,6 +53,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/pixeverse-icon.png'),
+				cardMark: require(''),
+				cardBackground: require(''),
 			},
 		},
 		tRexRunner: {
@@ -61,6 +64,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/runner-icon.png'),
+				cardMark: require(''),
+				cardBackground: require(''),
 			},
 		},
 		suijump: {
@@ -70,6 +75,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/suijump-icon.png'),
+				cardMark: require(''),
+				cardBackground: require(''),
 			},
 		},
 	},
@@ -92,6 +99,8 @@ const assets: Asset = {
 		unknownToken: require('assets/img/send-token/unknown-token.jpeg'),
 		swapPlaceholder: require('assets/img/misc/swap-placeholder.png'),
 		referralGradientBackground: require('assets/img/misc/referral-gradient-bg.png'),
+		loyaltyGradientBackground: require('assets/img/misc/loyalty-gradient-bg.png'),
+		loyaltyBarGradientBackground: require('assets/img/misc/loyalty-bar-gradient-bg.png'),
 	},
 };
 

@@ -32,9 +32,8 @@ export const migrateDatabase = async (
 	const storedVersion = setting?.config?.storageVersion || 0;
 	const latestVersion = getLatestMigrationVersion();
 
-	logger.info(storedVersion, latestVersion);
-
 	if (storedVersion < latestVersion) {
+		logger.info(`migrating from ${storedVersion} to ${latestVersion}`);
 		const newerVersionFilter = (i: Migration) =>
 			i.version > storedVersion && (i.scope === 'all' || i.scope === scope);
 

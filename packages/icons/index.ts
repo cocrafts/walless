@@ -38,6 +38,7 @@ export { Heart } from './components/Heart';
 export { Home } from './components/Home';
 export { IdCard } from './components/IdCard';
 export { InfoIcon } from './components/Info';
+export { InvitationCodeStepBackground } from './components/InvitationCodeStepBackground';
 export { Kite } from './components/Kite';
 export { LinkedIn } from './components/LinkedIn';
 export { Lock } from './components/Lock';

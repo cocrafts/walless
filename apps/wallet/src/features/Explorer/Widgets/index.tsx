@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 	},
 	layoutList: {
-		height: 200,
+		height: 340,
 	},
 	listStyle: {
 		gap: 10,

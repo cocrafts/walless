@@ -10,7 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
 
-import HightlightItem, { ITEM_WIDTH } from './HightlightItem';
+import HighlightItem, { ITEM_WIDTH } from './HighlightItem';
 
 interface Props {
 	widget: WidgetDocument;
@@ -132,7 +132,7 @@ const Card: FC<Props> = ({
 	return (
 		<GestureDetector gesture={pan}>
 			<Animated.View style={[styles.container, containerStyle, animatedStyle]}>
-				<HightlightItem widget={widget} />
+				<HighlightItem widget={widget} />
 			</Animated.View>
 		</GestureDetector>
 	);

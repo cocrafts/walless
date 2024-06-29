@@ -16,7 +16,7 @@ interface HighlightItemProps {
 	widget: WidgetDocument;
 }
 
-const HightlightItem: FC<HighlightItemProps> = ({ widget }) => {
+const HighlightItem: FC<HighlightItemProps> = ({ widget }) => {
 	const addedWidgets = useWidgets().map((widget) => widget._id);
 
 	const coverImgResource = runtime.isMobile
@@ -84,7 +84,7 @@ const HightlightItem: FC<HighlightItemProps> = ({ widget }) => {
 	);
 };
 
-export default HightlightItem;
+export default HighlightItem;
 
 const styles = StyleSheet.create({
 	container: {

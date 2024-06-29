@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { runOnJS, useSharedValue } from 'react-native-reanimated';
@@ -18,6 +18,8 @@ const CardCarousel: FC<Props> = ({
 	currentIndex,
 	onChangeCurrentIndex,
 }) => {
+	const pressed = useRef(false);
+	const autoSwipeDirection = useRef(-1);
 	const xOffset = useSharedValue(0);
 
 	const handleSwipeLeft = () => {
@@ -30,6 +32,7 @@ const CardCarousel: FC<Props> = ({
 
 	const pan = Gesture.Pan()
 		.onUpdate((event) => {
+			pressed.current = true;
 			if (currentIndex === widgets.length - 1 && event.translationX < 0) return;
 			if (currentIndex === 0 && event.translationX > 0) return;
 
@@ -37,6 +40,7 @@ const CardCarousel: FC<Props> = ({
 				xOffset.value = event.translationX;
 		})
 		.onFinalize(() => {
+			pressed.current = false;
 			if (
 				xOffset.value < -SWIPE_THRESHOLD &&
 				currentIndex < widgets.length - 1
@@ -48,6 +52,21 @@ const CardCarousel: FC<Props> = ({
 
 			xOffset.value = 0;
 		});
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (pressed.current) return;
+			if (currentIndex == widgets.length - 1) {
+				autoSwipeDirection.current = -1;
+			} else if (currentIndex === 0) {
+				autoSwipeDirection.current = 1;
+			}
+
+			onChangeCurrentIndex(currentIndex + autoSwipeDirection.current);
+		}, 2000);
+
+		return () => clearTimeout(timer);
+	}, [currentIndex, pressed]);
 
 	return (
 		<GestureDetector gesture={pan}>

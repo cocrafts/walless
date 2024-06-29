@@ -18,6 +18,7 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
     "start": "react-native start",
     "postinstall": "rm -rf node_modules/superstruct",
     "test": "jest --passWithNoTests"
@@ -110,6 +111,7 @@
     "use-debounce": "^10.0.0"
   },
   "devDependencies": {
+    "@types/color": "^3.0.6",
     "@types/jest": "^29.2.1",
     "@types/pouchdb-adapter-memory": "^6.1.6",
     "@types/react": "^18.2.25",

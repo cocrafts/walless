@@ -5,15 +5,18 @@ import type {
 	CollectionV1,
 	EncryptedWithPasscode,
 	ExtensionConfig,
+	GeneralTransactionHistory,
 	HydratedKey,
 	NetworkClusterMap,
 	Nft,
 	PublicKey,
 	Setting,
+	SolanaSwapHistory,
+	SolanaTransferHistory,
+	SolanaUnknownHistory,
 	System,
 	Token,
 	TokenV1,
-	TransactionHistory,
 	TrustedDomain,
 	Widget,
 } from '@walless/core';
@@ -78,8 +81,13 @@ export type CollectionDocumentV1 = PouchDocument<CollectionV1>;
 
 export type CollectibleDocumentV1 = PouchDocument<CollectibleV1>;
 
-export type HistoryDocument<T extends TransactionHistory = TransactionHistory> =
-	PouchDocument<T>;
+export type HistoryDocument<
+	T extends GeneralTransactionHistory = GeneralTransactionHistory,
+> = PouchDocument<T>;
+
+export type SolanaHistoryDocument = HistoryDocument<
+	SolanaTransferHistory | SolanaSwapHistory | SolanaUnknownHistory
+>;
 
 export type TypedFind = <T extends object, F extends object = never>(
 	request?: PouchDB.Find.FindRequest<F> | undefined,

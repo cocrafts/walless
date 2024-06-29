@@ -1,5 +1,5 @@
 import { Image, StyleSheet } from 'react-native';
-import type { Action, ActionCount, ActionRecord } from '@walless/graphql';
+import type { Action, ActionRecord } from '@walless/graphql';
 import type { ActionMetadata, UserProgress } from '@walless/graphql';
 import { ActionCategory } from '@walless/graphql';
 import {
@@ -218,22 +218,6 @@ export const canUserPerformAction = (
 		const cycleEndTime = getCycleEndTime(
 			new Date(lastRecord.timestamp),
 			action.cycleInHours,
-		);
-
-		return new Date() >= cycleEndTime;
-	}
-
-	if (action.category === ActionCategory.Streak) {
-		const actionCount = userProgress.trackList?.find(
-			(track) => (track as ActionCount).type === action.type,
-		);
-		if (!actionCount || !actionCount.cycleInHours) {
-			return true;
-		}
-
-		const cycleEndTime = getCycleEndTime(
-			new Date(actionCount.lastClaim),
-			actionCount.cycleInHours as number,
 		);
 
 		return new Date() >= cycleEndTime;

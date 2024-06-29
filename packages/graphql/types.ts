@@ -185,9 +185,9 @@ export type RootMutation = {
   createLoyaltyBoost?: Maybe<Boost>;
   deleteWidget?: Maybe<Scalars['Boolean']['output']>;
   deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
+  doLoyaltyAction?: Maybe<ActionRecord>;
+  doRecurringThenStreakThenMilestoneActionsByType?: Maybe<Array<Maybe<ActionRecord>>>;
   joinWaitlist?: Maybe<JoinWaitlistResult>;
-  performActiveActionsByType?: Maybe<Array<Maybe<ActionRecord>>>;
-  performLoyaltyAction?: Maybe<ActionRecord>;
   registerAccount?: Maybe<Account>;
   registerDevice?: Maybe<Device>;
   registerWidgetAccount?: Maybe<Account>;
@@ -243,20 +243,20 @@ export type RootMutationDeleteWidgetAccountArgs = {
 };
 
 
-export type RootMutationJoinWaitlistArgs = {
-  description: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-  twitter: Scalars['String']['input'];
+export type RootMutationDoLoyaltyActionArgs = {
+  actionId: Scalars['String']['input'];
 };
 
 
-export type RootMutationPerformActiveActionsByTypeArgs = {
+export type RootMutationDoRecurringThenStreakThenMilestoneActionsByTypeArgs = {
   type: Scalars['String']['input'];
 };
 
 
-export type RootMutationPerformLoyaltyActionArgs = {
-  actionId: Scalars['String']['input'];
+export type RootMutationJoinWaitlistArgs = {
+  description: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  twitter: Scalars['String']['input'];
 };
 
 
@@ -456,6 +456,7 @@ export enum VerifyMechanism {
 
 export type WalletInvitation = {
   __typename?: 'WalletInvitation';
+  claimedAt?: Maybe<Scalars['MongoDateTime']['output']>;
   code?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ObjectID']['output']>;
@@ -792,9 +793,9 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   createLoyaltyBoost?: Resolver<Maybe<ResolversTypes['Boost']>, ParentType, ContextType, RequireFields<RootMutationCreateLoyaltyBoostArgs, 'actionId' | 'multiplier' | 'points' | 'validFrom' | 'validUntil'>>;
   deleteWidget?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetArgs, 'id'>>;
   deleteWidgetAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetAccountArgs, 'id'>>;
+  doLoyaltyAction?: Resolver<Maybe<ResolversTypes['ActionRecord']>, ParentType, ContextType, RequireFields<RootMutationDoLoyaltyActionArgs, 'actionId'>>;
+  doRecurringThenStreakThenMilestoneActionsByType?: Resolver<Maybe<Array<Maybe<ResolversTypes['ActionRecord']>>>, ParentType, ContextType, RequireFields<RootMutationDoRecurringThenStreakThenMilestoneActionsByTypeArgs, 'type'>>;
   joinWaitlist?: Resolver<Maybe<ResolversTypes['JoinWaitlistResult']>, ParentType, ContextType, RequireFields<RootMutationJoinWaitlistArgs, 'description' | 'email' | 'twitter'>>;
-  performActiveActionsByType?: Resolver<Maybe<Array<Maybe<ResolversTypes['ActionRecord']>>>, ParentType, ContextType, RequireFields<RootMutationPerformActiveActionsByTypeArgs, 'type'>>;
-  performLoyaltyAction?: Resolver<Maybe<ResolversTypes['ActionRecord']>, ParentType, ContextType, RequireFields<RootMutationPerformLoyaltyActionArgs, 'actionId'>>;
   registerAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterAccountArgs, 'key'>>;
   registerDevice?: Resolver<Maybe<ResolversTypes['Device']>, ParentType, ContextType, RequireFields<RootMutationRegisterDeviceArgs, 'device'>>;
   registerWidgetAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterWidgetAccountArgs, 'pubkey'>>;
@@ -881,6 +882,7 @@ export type UserProgressResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type WalletInvitationResolvers<ContextType = any, ParentType extends ResolversParentTypes['WalletInvitation'] = ResolversParentTypes['WalletInvitation']> = {
+  claimedAt?: Resolver<Maybe<ResolversTypes['MongoDateTime']>, ParentType, ContextType>;
   code?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;

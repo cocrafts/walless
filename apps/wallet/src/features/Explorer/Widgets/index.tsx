@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { WidgetType } from '@walless/core';
 import type { WidgetDocument } from '@walless/store';
 import { mockWidgets } from 'state/widget';
@@ -16,11 +16,21 @@ const Widgets = () => {
 		<View style={styles.container}>
 			<Text style={styles.title}>Enhance your collection</Text>
 			<CategoryButtons setWidgets={setWidgets} />
-			<View style={styles.layoutList}>
-				{widgets.map((widget) => (
-					<WidgetItem key={widget._id} widget={widget} />
-				))}
-			</View>
+			<ScrollView
+				style={styles.layoutList}
+				contentContainerStyle={styles.listStyle}
+				showsVerticalScrollIndicator={false}
+			>
+				{widgets.length === 0 ? (
+					<Text style={styles.noWidgetsText}>
+						There&apos;s no widgets in this section
+					</Text>
+				) : (
+					widgets.map((widget) => (
+						<WidgetItem key={widget._id} widget={widget} />
+					))
+				)}
+			</ScrollView>
 		</View>
 	);
 };
@@ -39,6 +49,12 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 	},
 	layoutList: {
+		height: 340,
+	},
+	listStyle: {
 		gap: 10,
+	},
+	noWidgetsText: {
+		color: '#ffffff',
 	},
 });

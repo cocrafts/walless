@@ -42,6 +42,11 @@ jobs:
       - name: Execute type check with tsc
         run: yarn type-check
 
+      - name: Create .env.test file for testing
+        run: |
+          touch .env.test
+          echo "${{ secrets.WALLET_TEST_ENV_FILE }}" >> apps/wallet/.env.test
+
       - name: Run test cases
         run: yarn test
 

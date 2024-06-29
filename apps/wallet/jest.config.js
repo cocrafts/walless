@@ -13,4 +13,5 @@ module.exports = {
 		'@solana/codecs-strings': require.resolve('@solana/codecs-strings'),
 		'@solana/options': require.resolve('@solana/options'),
 	},
+	setupFiles: ['./testSetup.js'],
 };

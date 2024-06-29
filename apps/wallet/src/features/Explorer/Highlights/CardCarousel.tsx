@@ -5,9 +5,7 @@ import { runOnJS, useSharedValue, withTiming } from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
 
 import Card from './Card';
-
-const SWIPE_THRESHOLD = 10;
-const MAX_X_OFFSET = 50;
+import { MAX_X_OFFSET, SWIPE_THRESHOLD } from './shared';
 
 interface Props {
 	widgets: WidgetDocument[];

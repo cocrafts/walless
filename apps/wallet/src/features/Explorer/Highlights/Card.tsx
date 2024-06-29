@@ -9,6 +9,7 @@ import Animated, {
 import type { WidgetDocument } from '@walless/store';
 
 import HighlightItem from './HighlightItem';
+import { MAX_X_OFFSET } from './shared';
 
 interface Props {
 	widget: WidgetDocument;
@@ -27,7 +28,8 @@ const Card: FC<Props> = ({
 	const onSwipeAnimatedStyle = useAnimatedStyle(() => {
 		const scale = interpolate(index - currentIndex, [0, dataLength], [1, 0.08]);
 		const toCurrent = index === currentIndex;
-		const toHidden = index < currentIndex || index - currentIndex > 2;
+		const toPopped = index < currentIndex;
+		const toHidden = toPopped || index - currentIndex > 2;
 
 		const config: WithTimingConfig = { duration: 650 };
 
@@ -38,7 +40,12 @@ const Card: FC<Props> = ({
 					? withTiming(0, config)
 					: 1,
 			transform: [
-				{ translateX: withTiming((index - currentIndex) * 34, config) },
+				{
+					translateX: withTiming(
+						toPopped ? -200 : (index - currentIndex) * 34,
+						config,
+					),
+				},
 				{ scale: withTiming(scale, config) },
 			],
 		};
@@ -52,10 +59,22 @@ const Card: FC<Props> = ({
 			[1, 0.08],
 		);
 
+		const dragAddingTranslateX = interpolate(
+			index - currentIndex,
+			[dataLength - currentIndex, 0],
+			[0, xOffsetShareValue.value],
+		);
+
+		const dragAddingScale = interpolate(
+			xOffsetShareValue.value,
+			[-MAX_X_OFFSET, MAX_X_OFFSET],
+			[0.08, -0.08],
+		);
+
 		return {
 			transform: [
-				{ translateX: xOffsetShareValue.value + defaultTranslateX },
-				{ scale: defaultScale },
+				{ translateX: defaultTranslateX + dragAddingTranslateX },
+				{ scale: defaultScale + dragAddingScale },
 			],
 		};
 	}, [xOffsetShareValue, currentIndex]);
@@ -66,8 +85,8 @@ const Card: FC<Props> = ({
 		<Animated.View
 			style={[
 				containerStyle,
-				dragAnimatedStyle,
 				onSwipeAnimatedStyle,
+				dragAnimatedStyle,
 				index !== currentIndex && styles.absolute,
 			]}
 		>

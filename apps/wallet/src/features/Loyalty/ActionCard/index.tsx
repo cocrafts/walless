@@ -188,9 +188,17 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 						)}
 					</View>
 
-					<View style={{ gap: 4 }}>
+					<View style={styles.nameDescContainer}>
 						<Text style={styles.nameText}>{name}</Text>
-						{desc !== '' && <Text style={styles.descText}>{desc}</Text>}
+						{desc !== '' && (
+							<Text
+								style={styles.descText}
+								numberOfLines={2}
+								ellipsizeMode="tail"
+							>
+								{desc}
+							</Text>
+						)}
 					</View>
 				</View>
 
@@ -272,6 +280,10 @@ const styles = StyleSheet.create({
 		width: 24,
 		height: 24,
 	},
+	nameDescContainer: {
+		gap: 4,
+		flex: 1,
+	},
 	nameText: {
 		fontSize: 11,
 		fontWeight: '500',
@@ -280,17 +292,16 @@ const styles = StyleSheet.create({
 	descText: {
 		fontSize: 10,
 		color: '#566674',
-		maxWidth: 240,
+		width: '100%',
 	},
 	ctaText: {
 		fontSize: 10,
 		color: 'white',
 	},
 	ctaButton: {
-		width: 64,
-		borderRadius: 32,
-		paddingVertical: 4,
-		paddingHorizontal: 0,
+		borderRadius: 8,
+		paddingVertical: 8,
+		paddingHorizontal: 20,
 	},
 });
 

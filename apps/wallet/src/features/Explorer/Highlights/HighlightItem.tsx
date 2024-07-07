@@ -9,8 +9,6 @@ import { useWidgets } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { addWidgetToStorage } from 'utils/storage';
 
-import LoveAndActiveCount from '../Highlights/LoveAndActiveCount';
-
 export const ITEM_WIDTH = 290;
 
 interface HighlightItemProps {
@@ -71,10 +69,10 @@ const HighlightItem: FC<HighlightItemProps> = ({ widget }) => {
 						{widget.storeMeta.description}
 					</Text>
 
-					<LoveAndActiveCount
+					{/* <LoveAndActiveCount
 						loveCount={widget.storeMeta.loveCount}
 						activeCount={widget.storeMeta.activeCount}
-					/>
+					/> */}
 				</View>
 
 				<TouchableOpacity style={styles.addBtn} onPress={handleOnPress}>
@@ -115,7 +113,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: '#ffffff',
-		fontSize: 16,
+		fontSize: 14,
 		fontWeight: '500',
 	},
 	addBtn: {

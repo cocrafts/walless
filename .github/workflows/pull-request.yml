@@ -28,16 +28,24 @@ jobs:
         run: npm i --location=global @metacraft/cli@latest
 
       - name: Install yarn cli
-        run:  corepack enable && corepack prepare yarn@4.1.1 --activate
+        run: corepack enable && corepack prepare yarn@4.1.1 --activate
 
       - name: Set yarn version
-        run:  yarn set version 4.1.1
+        run: yarn set version 4.1.1
 
       - name: Install dependencies
         run: yarn
 
       - name: Execute eslint
         run: yarn lint
+
+      - name: Execute type check with tsc
+        run: yarn type-check
+
+      - name: Create .env.test file for testing
+        run: |
+          touch .env.test
+          echo "${{ secrets.WALLET_TEST_ENV_FILE }}" >> apps/wallet/.env.test
 
       - name: Run test cases
         run: yarn test

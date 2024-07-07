@@ -16,8 +16,8 @@ import { getParsedTokenAccountsByOwner, queryTokens } from './tokens';
 import type { SolanaContext } from './types';
 
 const endpointUrl: Record<string, string> = {
-	devnet: clusterApiUrl('devnet'),
-	testnet: clusterApiUrl('testnet'),
+	devnet: environment.SOLANA_CLUSTER_URL || clusterApiUrl('devnet'),
+	testnet: environment.SOLANA_CLUSTER_URL || clusterApiUrl('testnet'),
 	mainnet: environment.SOLANA_CLUSTER_URL,
 };
 

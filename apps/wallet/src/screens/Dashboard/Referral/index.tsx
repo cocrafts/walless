@@ -2,13 +2,13 @@ import type { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { Account, WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
 import { qlClient } from 'utils/graphql';
+import { useSafeAreaInsets } from 'utils/hooks';
 import type { SettingParamList } from 'utils/navigation';
 
 import DetailsContainer from './DetailsContainer';
@@ -37,6 +37,11 @@ export const ReferralScreen: FC<Props> = () => {
 		0,
 	);
 
+	const referralCount = useMemo(
+		() => codes.filter(({ email }) => !!email).length,
+		[codes],
+	);
+
 	const rankingPercent = useMemo(
 		() =>
 			leaderboardSize !== 0
@@ -47,20 +52,28 @@ export const ReferralScreen: FC<Props> = () => {
 
 	const ChartIcon = (
 		<View style={[styles.chartIcon, styles.icon]}>
-			<Chart size={20} color="#F6D570" />
+			<Chart size={16} color="#F6D570" />
 		</View>
 	);
 
 	const StarIcon = (
 		<View style={[styles.starIcon, styles.icon]}>
-			<Star size={20} color="#44C5FF" />
+			<Star size={16} color="#44C5FF" />
 		</View>
 	);
 
 	const ArrowIcon = (
 		<Hoverable
 			style={styles.arrowIcon}
-			onPress={() => showLeaderboard({ rank, rankingPercent, leaderboardSize })}
+			onPress={() =>
+				showLeaderboard({
+					rank,
+					referralCount,
+					rankingPercent,
+					leaderboardSize,
+					safeAreaInsets,
+				})
+			}
 		>
 			<ArrowTopRight size={20} color="#FFFFFF" />
 		</Hoverable>
@@ -130,10 +143,11 @@ export const ReferralScreen: FC<Props> = () => {
 							points={20}
 						/>
 					))}
-					<Text style={styles.subtext}>
-						More Invitation codes are awaiting, stay tuned!
-					</Text>
 				</View>
+
+				<Text style={styles.subtext}>
+					More Invitation codes are awaiting, stay tuned!
+				</Text>
 			</View>
 		</View>
 	);
@@ -144,12 +158,11 @@ export default ReferralScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		gap: 12,
-		paddingTop: 16,
+		gap: 16,
+		paddingTop: 8,
 	},
 	title: {
-		fontSize: 20,
-		fontWeight: '700',
+		fontSize: 18,
 		color: '#ffffff',
 		textAlign: 'center',
 	},
@@ -160,10 +173,9 @@ const styles = StyleSheet.create({
 	summaryContainer: {
 		backgroundColor: '#131C24',
 		borderRadius: 16,
-		padding: 16,
+		padding: 18,
 		gap: 12,
-		marginHorizontal: 12,
-		marginBottom: 12,
+		marginHorizontal: 16,
 	},
 	infoDetailsContainer: {
 		flexDirection: 'row',
@@ -181,7 +193,7 @@ const styles = StyleSheet.create({
 		borderRadius: 50,
 	},
 	icon: {
-		padding: 8,
+		padding: 6,
 		borderRadius: 50,
 		borderWidth: 1,
 	},
@@ -194,10 +206,9 @@ const styles = StyleSheet.create({
 		gap: 12,
 	},
 	referralCodeList: {
-		flex: 1,
 		gap: 12,
 	},
 	titleContainer: {
-		gap: 12,
+		gap: 4,
 	},
 });

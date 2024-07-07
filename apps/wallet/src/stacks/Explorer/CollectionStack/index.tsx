@@ -8,11 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { withStackContainer } from 'components/StackContainer';
 import NFTScreen from 'screens/NFT';
 import CollectionScreen from 'screens/NFTCollection';
-import {
-	type CollectionParamList,
-	type ExploreParamList,
-	navigateBack,
-} from 'utils/navigation';
+import type { CollectionParamList, ExploreParamList } from 'utils/navigation';
+import { navigateBack } from 'utils/navigation';
 
 type Props = StackScreenProps<ExploreParamList, 'Collection'>;
 

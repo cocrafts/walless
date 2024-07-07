@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { StyleSheet, type ViewStyle } from 'react-native';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import View from '../View';
 
@@ -60,6 +61,5 @@ const styles = StyleSheet.create({
 		backgroundColor: '#202d38',
 		flexDirection: 'row',
 		borderRadius: 10,
-		padding: 4,
 	},
 });

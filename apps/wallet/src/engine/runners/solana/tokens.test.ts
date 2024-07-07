@@ -1,7 +1,10 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 
-const connection = new Connection(clusterApiUrl('devnet'));
+const connection = new Connection(
+	process.env.SOLANA_CLUSTER_URL || clusterApiUrl('devnet'),
+);
+
 const wallet = new PublicKey('H9d4gR9nG6G7bMZLfUF5cR8MuP4wMXNwsJyPfHbeVicP');
 
 describe('[solana runner] tokens', () => {

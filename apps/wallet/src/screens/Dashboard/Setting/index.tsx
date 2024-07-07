@@ -10,9 +10,8 @@ export default SettingScreen;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		flexGrow: 1,
 		paddingHorizontal: 14,
-		paddingTop: 16,
-		paddingBottom: 36,
+		paddingVertical: 16,
 	},
 });

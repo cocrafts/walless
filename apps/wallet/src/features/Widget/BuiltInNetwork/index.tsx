@@ -22,7 +22,7 @@ import { copy } from 'utils/system';
 
 import ActivityTab from './ActivityTab';
 import AptosTokensTab from './AptosTokensTab';
-import NftTab from './NFTTab';
+import NftTab from './NftTab';
 import { getWalletCardSkin, layoutTabs } from './shared';
 import TokenTab from './TokenTab';
 import WalletCard from './WalletCard';

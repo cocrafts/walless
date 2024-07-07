@@ -11,7 +11,6 @@ export const mockLayoutCards: ExtensionDocument[] = [
 		storeMeta: {
 			iconUri: '/img/explore/logo-pixeverse.png',
 			iconSize: 40,
-			iconColor: '#ffffff',
 			coverUri: '/img/explore/thumbnail-pixeverse.png',
 			description:
 				'A hyper casual pixel-style game in which players step into the shoes of their ...',

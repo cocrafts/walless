@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 import type { Insets } from 'react-native';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import type { SharedValue } from 'react-native-reanimated';
 import Animated, {
 	interpolate,
 	useAnimatedStyle,
 	useSharedValue,
 } from 'react-native-reanimated';
+import { Text } from '@walless/gui';
 import { ChevronLeft, Hamburger } from '@walless/icons';
 
 export interface HeaderProps {
@@ -60,13 +61,15 @@ export const StackHeader: FC<HeaderProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#081016',
-		paddingLeft: 18,
+		justifyContent: 'center',
+		paddingHorizontal: 16,
 	},
 	textContainer: {
 		marginTop: 16,
+		marginBottom: 12,
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 12,
+		gap: 0,
 		opacity: 0.8,
 	},
 	burger: {
@@ -76,7 +79,7 @@ const styles = StyleSheet.create({
 	text: {
 		color: '#fff',
 		fontSize: 16,
-		fontWeight: 'bold',
+		fontWeight: '500',
 	},
 });
 

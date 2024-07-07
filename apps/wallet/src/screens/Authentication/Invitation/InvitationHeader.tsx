@@ -1,22 +1,20 @@
 import type { FC } from 'react';
-import type { ImageSourcePropType, ViewStyle } from 'react-native';
-import { Image, StyleSheet } from 'react-native';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
+import Logo from 'components/Logo';
 
 interface Props {
-	logoSrc: ImageSourcePropType;
 	logoSize: number;
 	style?: ViewStyle;
 }
 
-const InvitationHeader: FC<Props> = ({ logoSrc, logoSize, style }) => {
-	const logoStyle = {
-		width: logoSize,
-		height: logoSize,
-	};
+const InvitationHeader: FC<Props> = ({ logoSize, style }) => {
 	return (
 		<View style={[styles.container, style]}>
-			<Image style={logoStyle} source={logoSrc} resizeMode="cover" />
+			<View style={styles.logoContainer}>
+				<Logo size={logoSize} />
+			</View>
 			<Text style={styles.greetingText}>Welcome to Walless</Text>
 			<Text style={styles.reminderText}>
 				You’ll need to enter invitation code to access{'\n'}Private Beta.
@@ -30,6 +28,9 @@ export default InvitationHeader;
 const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
+	},
+	logoContainer: {
+		marginVertical: 14,
 	},
 	greetingText: {
 		fontSize: 20,

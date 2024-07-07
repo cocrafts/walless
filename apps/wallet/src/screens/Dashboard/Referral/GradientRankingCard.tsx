@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, StyleSheet, View } from 'react-native';
+import { Text } from '@walless/gui';
 import assets from 'utils/assets';
 
 interface Props {
@@ -22,11 +23,11 @@ const GradientRankingCard: FC<Props> = ({
 			style={[styles.container, style]}
 		>
 			<View style={[styles.rowDirection, styles.leftGap]}>
-				<Text style={styles.text}>{rank}</Text>
+				<Text style={styles.text}>{rank !== 0 ? rank : 'N/A'}</Text>
 				<View>
 					<Text style={styles.text}>Me</Text>
 					<Text style={[styles.highlightText, styles.smallText]}>
-						You are in top {rankingPercent}%
+						You are in top {rank !== 0 ? rankingPercent : 100}%
 					</Text>
 				</View>
 			</View>

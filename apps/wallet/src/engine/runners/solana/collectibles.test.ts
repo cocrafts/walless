@@ -13,7 +13,10 @@ import type { NftDocument } from '@walless/store';
 import { queryCollectibles, updateCollectibleToStorage } from './collectibles';
 import type { SolanaContext } from './types';
 
-const connection = new Connection(clusterApiUrl('devnet'));
+const connection = new Connection(
+	process.env.SOLANA_CLUSTER_URL || clusterApiUrl('devnet'),
+);
+
 const wallet = new PublicKey('H9d4gR9nG6G7bMZLfUF5cR8MuP4wMXNwsJyPfHbeVicP');
 
 describe('[solana runner] collectibles', () => {

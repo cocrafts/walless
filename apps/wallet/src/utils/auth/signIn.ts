@@ -70,13 +70,14 @@ const signInWithTorusKey = async (
 
 const signInWithPasscode = async (
 	passcode: string,
-	handleInitFail?: () => void,
+	handleInitFail?: (error: string) => void,
 ): Promise<void> => {
 	const status = await importAvailableShares();
+
 	if (status === ThresholdResult.Initializing) {
 		const registeredAccount = await initAndRegisterWallet();
 		if (!registeredAccount?.identifier) {
-			handleInitFail?.();
+			handleInitFail?.('Failed to register account, please try again!');
 			return;
 		}
 	}
@@ -92,4 +93,5 @@ export {
 	signInWithPasscode,
 	signInWithTorusKey,
 };
+
 export * from './w3a';

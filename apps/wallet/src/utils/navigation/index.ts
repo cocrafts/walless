@@ -52,6 +52,7 @@ export const linking: LinkingOptions<RootParamList> = {
 						path: '/explore',
 						screens: {
 							Widget: '/widget/:id',
+							Setting: '/setting',
 							Collection: {
 								path: '/collection',
 								screens: {
@@ -67,6 +68,9 @@ export const linking: LinkingOptions<RootParamList> = {
 									History: '/history',
 								},
 							},
+							Loyalty: {
+								path: '/loyalty',
+							},
 						},
 					},
 					Home: {
@@ -81,6 +85,7 @@ export const linking: LinkingOptions<RootParamList> = {
 						path: '/setting',
 						screens: {
 							Default: '/',
+							Referral: '/referral',
 						},
 					},
 				},

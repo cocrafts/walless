@@ -1,5 +1,5 @@
-import { type CommentProps } from './LayoutDetails/components/DetailTabs/CommentsTab';
-import { type InfoProps } from './LayoutDetails/components/DetailTabs/InformationTab';
+import type { CommentProps } from './LayoutDetails/components/DetailTabs/CommentsTab';
+import type { InfoProps } from './LayoutDetails/components/DetailTabs/InformationTab';
 
 export interface LayoutProps {
 	id: string;

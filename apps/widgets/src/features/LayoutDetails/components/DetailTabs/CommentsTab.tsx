@@ -1,6 +1,6 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { ScrollView, StyleSheet, TextInput } from 'react-native';
-import { type UserProfile } from '@walless/core';
+import type { UserProfile } from '@walless/core';
 import { Text, View } from '@walless/gui';
 import Image from 'next/image';
 

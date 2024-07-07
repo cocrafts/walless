@@ -103,5 +103,6 @@ const styles = StyleSheet.create({
 	descText: {
 		color: '#EBF0F6',
 		fontSize: 13,
+		lineHeight: 16,
 	},
 });

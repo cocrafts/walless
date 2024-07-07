@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 		marginBottom: 12,
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 12,
+		gap: 0,
 		opacity: 0.8,
 	},
 	burger: {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 	text: {
 		color: '#fff',
 		fontSize: 16,
-		fontWeight: 'bold',
+		fontWeight: '500',
 	},
 });
 

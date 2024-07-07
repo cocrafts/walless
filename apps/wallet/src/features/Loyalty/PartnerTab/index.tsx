@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { ActionMetadata } from '@walless/graphql';
+import { Text } from '@walless/gui';
 import { loyaltyState } from 'state/loyalty';
 import { useSnapshot } from 'utils/hooks';
 

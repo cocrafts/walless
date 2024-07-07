@@ -52,13 +52,13 @@ export const ReferralScreen: FC<Props> = () => {
 
 	const ChartIcon = (
 		<View style={[styles.chartIcon, styles.icon]}>
-			<Chart size={20} color="#F6D570" />
+			<Chart size={16} color="#F6D570" />
 		</View>
 	);
 
 	const StarIcon = (
 		<View style={[styles.starIcon, styles.icon]}>
-			<Star size={20} color="#44C5FF" />
+			<Star size={16} color="#44C5FF" />
 		</View>
 	);
 
@@ -143,10 +143,11 @@ export const ReferralScreen: FC<Props> = () => {
 							points={20}
 						/>
 					))}
-					<Text style={styles.subtext}>
-						More Invitation codes are awaiting, stay tuned!
-					</Text>
 				</View>
+
+				<Text style={styles.subtext}>
+					More Invitation codes are awaiting, stay tuned!
+				</Text>
 			</View>
 		</View>
 	);
@@ -157,12 +158,11 @@ export default ReferralScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		gap: 12,
-		paddingTop: 16,
+		gap: 16,
+		paddingTop: 8,
 	},
 	title: {
-		fontSize: 20,
-		fontWeight: '700',
+		fontSize: 18,
 		color: '#ffffff',
 		textAlign: 'center',
 	},
@@ -173,10 +173,9 @@ const styles = StyleSheet.create({
 	summaryContainer: {
 		backgroundColor: '#131C24',
 		borderRadius: 16,
-		padding: 16,
+		padding: 18,
 		gap: 12,
-		marginHorizontal: 12,
-		marginBottom: 12,
+		marginHorizontal: 16,
 	},
 	infoDetailsContainer: {
 		flexDirection: 'row',
@@ -194,7 +193,7 @@ const styles = StyleSheet.create({
 		borderRadius: 50,
 	},
 	icon: {
-		padding: 8,
+		padding: 6,
 		borderRadius: 50,
 		borderWidth: 1,
 	},
@@ -207,10 +206,9 @@ const styles = StyleSheet.create({
 		gap: 12,
 	},
 	referralCodeList: {
-		flex: 1,
 		gap: 12,
 	},
 	titleContainer: {
-		gap: 12,
+		gap: 4,
 	},
 });

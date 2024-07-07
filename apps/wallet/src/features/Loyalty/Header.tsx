@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Text } from '@walless/gui';
 import { BlingBling, Check, Ranking } from '@walless/icons';
 import { useSafeAreaInsets } from 'utils/hooks';
 
@@ -28,28 +29,28 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 			</View>
 
 			<View style={styles.bottomContainer}>
+				<View style={styles.bottomItemContainer}>
+					<View style={[styles.iconContainer, styles.rankingBorder]}>
+						<Ranking size={16} color="#F6D570" />
+					</View>
+					<View style={styles.bottomItemContentContainer}>
+						<Text style={styles.subText}>Ranking</Text>
+						<Text style={styles.mainText}>Incoming</Text>
+					</View>
+				</View>
+
 				<TouchableOpacity
 					style={styles.bottomItemContainer}
 					onPress={() => showHistory({ safeAreaInsets })}
 				>
 					<View style={[styles.iconContainer, styles.checkBorder]}>
-						<Check size={14} color="#2FC879" />
+						<Check size={16} strokeWidth="4" color="#2FC879" />
 					</View>
-					<View>
+					<View style={styles.bottomItemContentContainer}>
 						<Text style={styles.subText}>Completed Task</Text>
 						<Text style={styles.mainText}>{completedTask}</Text>
 					</View>
 				</TouchableOpacity>
-
-				<View style={styles.bottomItemContainer}>
-					<View style={[styles.iconContainer, styles.rankingBorder]}>
-						<Ranking size={14} color="#F6D570" />
-					</View>
-					<View style={{ paddingRight: 12 }}>
-						<Text style={styles.subText}>Ranking</Text>
-						<Text style={styles.mainText}>Incoming</Text>
-					</View>
-				</View>
 			</View>
 		</View>
 	);
@@ -57,11 +58,10 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		alignItems: 'center',
-		justifyContent: 'center',
 		borderRadius: 16,
 		overflow: 'hidden',
 		paddingVertical: 18,
+		paddingHorizontal: 18,
 		gap: 10,
 		backgroundColor: '#131C24',
 	},
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 	},
 	yourTotalPointsText: {
 		color: '#CFCFCF',
-		fontSize: 12,
+		fontSize: 13,
 	},
 	horizontalContainer: {
 		flexDirection: 'row',
@@ -98,24 +98,28 @@ const styles = StyleSheet.create({
 	},
 	bottomContainer: {
 		flexDirection: 'row',
-		gap: 8,
+		gap: 10,
 		alignItems: 'center',
 	},
 	bottomItemContainer: {
+		flex: 1,
 		flexDirection: 'row',
 		gap: 8,
 		alignItems: 'center',
 		backgroundColor: '#19232C',
 		paddingHorizontal: 12,
-		paddingVertical: 8,
+		paddingVertical: 10,
 		borderRadius: 16,
 	},
 	iconContainer: {
-		width: 26,
-		height: 26,
-		borderRadius: 13,
+		width: 30,
+		height: 30,
+		borderRadius: 15,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	bottomItemContentContainer: {
+		gap: 2,
 	},
 	checkBorder: {
 		borderWidth: 1,

@@ -3,7 +3,11 @@ import { Polyline, Svg } from 'react-native-svg';
 
 import type { IconProps } from './types';
 
-export const Check: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
+export const Check: FC<IconProps> = ({
+	size = 24,
+	color = '#FFFFFF',
+	strokeWidth = '2',
+}) => {
 	return (
 		<Svg
 			width={size}
@@ -11,7 +15,7 @@ export const Check: FC<IconProps> = ({ size = 24, color = '#FFFFFF' }) => {
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke={color}
-			strokeWidth="2"
+			strokeWidth={strokeWidth}
 			strokeLinecap="round"
 			strokeLinejoin="round"
 		>

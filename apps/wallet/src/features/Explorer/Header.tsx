@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { StyleSheet, Text } from 'react-native';
-import { Hoverable, View } from '@walless/gui';
+import { StyleSheet } from 'react-native';
+import { Hoverable, Text, View } from '@walless/gui';
 import { Eye, EyeOff, Settings } from '@walless/icons';
 import { appState } from 'state/app';
 import { setPrivacy } from 'state/runtime/config';

@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { ActionMetadata } from '@walless/graphql';
 import type { HistoryItem } from '@walless/graphql';
+import { Text } from '@walless/gui';
 
 import { extractDataFromMetadata } from '../internal';
 

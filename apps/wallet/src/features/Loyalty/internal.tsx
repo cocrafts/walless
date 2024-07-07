@@ -16,9 +16,9 @@ import { addWidgetToStorage } from 'utils/storage';
 export const sharedStyles = StyleSheet.create({
 	tagContainer: {
 		backgroundColor: '#2C353D',
-		height: 24,
-		borderRadius: 8,
-		paddingHorizontal: 4,
+		borderRadius: 6,
+		paddingVertical: 6,
+		paddingHorizontal: 6,
 		justifyContent: 'center',
 		alignItems: 'center',
 		flexDirection: 'row',
@@ -77,15 +77,15 @@ export const getActionLogo = (action: Action) => {
 		action.type?.toLowerCase().includes('twitter') ||
 		action.type?.toLowerCase() === 'x'
 	) {
-		return <XMonochrome size={24} />;
+		return <XMonochrome size={30} />;
 	}
 
 	if (action.type?.toLowerCase().includes('discord')) {
-		return <DiscordColorful size={24} />;
+		return <DiscordColorful size={30} />;
 	}
 
 	if (action.type?.toLowerCase().includes('telegram')) {
-		return <TelegramColorful size={24} />;
+		return <TelegramColorful size={30} />;
 	}
 
 	if (action.type?.toLowerCase() === 'open chest') {
@@ -93,8 +93,8 @@ export const getActionLogo = (action: Action) => {
 			<Image
 				source={assets.widget.pixeverse.storeMeta.iconUri}
 				style={{
-					width: 24,
-					height: 24,
+					width: 30,
+					height: 30,
 					borderRadius: 4,
 				}}
 			/>
@@ -109,13 +109,13 @@ export const getActionLogo = (action: Action) => {
 		return (
 			<Image
 				source={{ uri: extractedMetadata.partnerIcon }}
-				style={{ width: 24, height: 24 }}
+				style={{ width: 30, height: 30 }}
 				resizeMode="cover"
 			/>
 		);
 	}
 
-	return <WallessColorful size={24} />;
+	return <WallessColorful size={30} />;
 };
 
 export const navigateInternalByCta = (cta: string) => {

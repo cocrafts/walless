@@ -1,8 +1,8 @@
 import type { FC } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { runtime } from '@walless/core';
-import { Heart } from '@walless/icons';
+import { Text } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 import assets from 'utils/assets';
 import { useWidgets } from 'utils/hooks';
@@ -46,10 +46,10 @@ const WidgetItem: FC<WidgetItemProps> = ({ widget }) => {
 				<Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
 					{widget.name}
 				</Text>
-				<Text style={styles.description} numberOfLines={1} ellipsizeMode="tail">
+				<Text style={styles.description} numberOfLines={2} ellipsizeMode="tail">
 					{widget.storeMeta.description}
 				</Text>
-				<View style={styles.loveAndActiveContainer}>
+				{/* <View style={styles.loveAndActiveContainer}>
 					<View style={styles.loveAndActiveDisplay}>
 						<Heart colors={['#D93737', '#D93737']} size={12} />
 						<Text style={styles.loveText}>{widget.storeMeta.loveCount}</Text>
@@ -60,14 +60,14 @@ const WidgetItem: FC<WidgetItemProps> = ({ widget }) => {
 							{widget.storeMeta.activeCount}
 						</Text>
 					</View>
-				</View>
+				</View> */}
 			</View>
 			<TouchableOpacity
 				style={[styles.button, isAdded ? styles.openBtn : styles.addBtn]}
 				onPress={handleOnPress}
 			>
 				<Text style={isAdded ? styles.openBtnText : styles.addBtnText}>
-					{isAdded ? 'OPEN' : 'ADD'}
+					{isAdded ? 'Open' : 'Add'}
 				</Text>
 			</TouchableOpacity>
 		</View>
@@ -79,10 +79,7 @@ export default WidgetItem;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
-		gap: 8,
-		backgroundColor: '#23313C',
-		padding: 8,
-		borderRadius: 8,
+		gap: 10,
 		alignItems: 'center',
 	},
 	coverImage: {
@@ -96,7 +93,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: '#ffffff',
-		fontSize: 16,
+		fontSize: 14,
 		fontWeight: '500',
 	},
 	loveAndActiveContainer: {
@@ -124,9 +121,9 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		alignSelf: 'center',
-		borderRadius: 6,
+		borderRadius: 8,
 		width: 62,
-		height: 28,
+		height: 30,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
@@ -139,13 +136,15 @@ const styles = StyleSheet.create({
 	openBtnText: {
 		color: '#19A3E1',
 		fontSize: 12,
+		fontWeight: '500',
 	},
 	addBtnText: {
 		color: '#ffffff',
 		fontSize: 12,
+		fontWeight: '500',
 	},
 	description: {
-		color: '#798997',
+		color: '#566573',
 		fontSize: 12,
 	},
 });

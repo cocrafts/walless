@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Text } from '@walless/gui';
 
 import { formatCountdownTime } from '../internal';
 

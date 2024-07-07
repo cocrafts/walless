@@ -173,7 +173,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 
 	return (
 		<View style={[styles.container, style]}>
-			<View style={{ flex: 1, gap: 8 }}>
+			<View style={styles.contentContainer}>
 				<View
 					style={[
 						styles.horizontalContainer,
@@ -264,6 +264,10 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		gap: 32,
 	},
+	contentContainer: {
+		flex: 1,
+		gap: 10,
+	},
 	passthroughLayout: {
 		opacity: 0.5,
 	},
@@ -277,31 +281,32 @@ const styles = StyleSheet.create({
 		borderRadius: 4,
 	},
 	image: {
-		width: 24,
-		height: 24,
+		width: 30,
+		height: 30,
 	},
 	nameDescContainer: {
 		gap: 4,
 		flex: 1,
 	},
 	nameText: {
-		fontSize: 11,
+		fontSize: 13,
 		fontWeight: '500',
 		color: 'white',
 	},
 	descText: {
-		fontSize: 10,
+		fontSize: 11,
 		color: '#566674',
 		width: '100%',
 	},
 	ctaText: {
-		fontSize: 10,
+		fontSize: 13,
 		color: 'white',
+		fontWeight: '500',
 	},
 	ctaButton: {
 		borderRadius: 8,
 		paddingVertical: 8,
-		paddingHorizontal: 20,
+		paddingHorizontal: 28,
 	},
 });
 

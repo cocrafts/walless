@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '@walless/gui';
 import { Heart } from '@walless/icons';
 
 interface LoveAndActiveCountProps {

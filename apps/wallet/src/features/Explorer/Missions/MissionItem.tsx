@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated from 'react-native-reanimated';
+import { Text } from '@walless/gui';
 import { Anchor } from '@walless/gui';
 
 interface MissionProps {

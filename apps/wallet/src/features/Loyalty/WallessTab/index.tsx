@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { Action, UserProgress } from '@walless/graphql';
+import { Text } from '@walless/gui';
 import { loyaltyState } from 'state/loyalty';
 import { useSnapshot } from 'utils/hooks';
 
@@ -36,7 +37,7 @@ const WallessTab = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		gap: 8,
+		gap: 10,
 	},
 	centerContainer: {
 		flex: 1,

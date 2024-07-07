@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
-import { View } from '@walless/gui';
+import { StyleSheet } from 'react-native';
+import { Text, View } from '@walless/gui';
 import { mockWidgets } from 'state/widget';
 
 import CardCarousel from './CardCarousel';

@@ -1,9 +1,10 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { Fragment } from 'react';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { PlatformPressable } from '@react-navigation/elements';
 import { Link, useTheme } from '@react-navigation/native';
+import { Text } from '@walless/gui';
 import Color from 'color';
 
 type Props = {

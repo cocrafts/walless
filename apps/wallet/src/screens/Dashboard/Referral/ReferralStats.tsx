@@ -28,7 +28,9 @@ const ReferralStats: FC<Props> = ({ currentPoints, goalPoints }) => {
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Text style={[styles.text, styles.title]}>Your Influence Meter</Text>
-				<Text>Goal {goalPoints} points</Text>
+				<Text style={[styles.text, styles.goalText]}>
+					Goal {goalPoints} points
+				</Text>
 			</View>
 
 			<View onLayout={handleLayout} style={styles.referral}>
@@ -54,7 +56,6 @@ export default ReferralStats;
 const styles = StyleSheet.create({
 	container: {
 		gap: 12,
-		padding: 12,
 	},
 	titleContainer: {
 		flexDirection: 'row',
@@ -62,10 +63,12 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-end',
 	},
 	title: {
-		fontSize: 18,
+		fontSize: 16,
+	},
+	goalText: {
+		fontSize: 12,
 	},
 	text: {
-		fontSize: 10,
 		color: '#ffffff',
 	},
 	activeReferral: {

@@ -3,6 +3,7 @@
   "include": [
     "browser",
     "src",
+    "vendor",
     "test",
     "index*.js",
     "../../globals.d.ts"

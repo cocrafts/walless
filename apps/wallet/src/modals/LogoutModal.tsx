@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { Button, modalActions } from '@walless/gui';
+import { StyleSheet, View } from 'react-native';
+import { Button, modalActions, Text } from '@walless/gui';
 import { logout } from 'utils/auth';
 import { resetRoute } from 'utils/navigation';
 

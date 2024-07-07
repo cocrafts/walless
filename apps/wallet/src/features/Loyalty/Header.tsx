@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Text } from '@walless/gui';
 import { BlingBling, Check, Ranking } from '@walless/icons';
 import { useSafeAreaInsets } from 'utils/hooks';
 

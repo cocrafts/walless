@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
-import { Button } from '@walless/gui';
+import { ImageBackground, StyleSheet, View } from 'react-native';
+import { Button, Text } from '@walless/gui';
 import { BlingBling } from '@walless/icons';
 import assets from 'utils/assets';
 import { navigate } from 'utils/navigation';
@@ -68,9 +68,11 @@ const styles = StyleSheet.create({
 	highlightText: {
 		fontSize: 14,
 		fontWeight: '500',
+		color: '#222222',
 	},
 	subText: {
 		fontSize: 12,
+		color: '#222222',
 	},
 	blingContainer: {
 		backgroundColor: '#212F3C',

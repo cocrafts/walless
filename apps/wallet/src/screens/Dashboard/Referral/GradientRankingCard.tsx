@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, StyleSheet, View } from 'react-native';
+import { Text } from '@walless/gui';
 import assets from 'utils/assets';
 
 interface Props {

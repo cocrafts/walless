@@ -1,7 +1,8 @@
 import type { FC } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { runtime } from '@walless/core';
+import { Text } from '@walless/gui';
 import { Heart } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 import assets from 'utils/assets';

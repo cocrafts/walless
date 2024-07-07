@@ -157,8 +157,8 @@ export default ReferralScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		gap: 12,
-		paddingTop: 16,
+		gap: 16,
+		paddingTop: 8,
 	},
 	title: {
 		fontSize: 20,
@@ -173,10 +173,9 @@ const styles = StyleSheet.create({
 	summaryContainer: {
 		backgroundColor: '#131C24',
 		borderRadius: 16,
-		padding: 16,
+		padding: 18,
 		gap: 12,
-		marginHorizontal: 12,
-		marginBottom: 12,
+		marginHorizontal: 16,
 	},
 	infoDetailsContainer: {
 		flexDirection: 'row',

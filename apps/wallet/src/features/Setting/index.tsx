@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
-import { Image, Linking, StyleSheet, Text, View } from 'react-native';
+import { Image, Linking, StyleSheet, View } from 'react-native';
+import { Text } from '@walless/gui';
 import {
 	ArrowTopRight,
 	Book,

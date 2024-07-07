@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { WidgetType } from '@walless/core';
+import { Text } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 import { mockWidgets } from 'state/widget';
 

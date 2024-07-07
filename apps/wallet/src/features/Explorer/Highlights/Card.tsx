@@ -1,4 +1,5 @@
-import { type FC, useEffect } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { SharedValue, WithTimingConfig } from 'react-native-reanimated';
 import Animated, {
@@ -46,8 +47,10 @@ const Card: FC<Props> = ({
 			[0.08, -0.08],
 		);
 
+		const isHidden = index - currentIndex > 2;
+
 		return {
-			opacity: opacity.value,
+			opacity: isHidden ? 0 : opacity.value,
 			transform: [
 				{ translateX: xOffset.value + addingTranslateX },
 				{ scale: scale.value + addingScale },

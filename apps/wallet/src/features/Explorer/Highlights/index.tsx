@@ -11,7 +11,10 @@ const Highlights = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Today&apos;s Highlights</Text>
+			<View style={styles.titleContainer}>
+				<Text style={styles.title}>Today&apos;s Highlights</Text>
+				<Text style={styles.description}>Get started with these apps</Text>
+			</View>
 
 			<View style={styles.highlightList}>
 				<CardCarousel
@@ -36,15 +39,22 @@ const styles = StyleSheet.create({
 		flex: 1,
 		gap: 16,
 		minHeight: 200,
-		marginVertical: 8,
+		marginTop: 24,
 	},
 	highlightList: {
 		gap: 14,
+	},
+	titleContainer: {
+		gap: 4,
+		paddingHorizontal: 20,
 	},
 	title: {
 		fontSize: 18,
 		fontWeight: '500',
 		color: '#ffffff',
-		marginLeft: 20,
+	},
+	description: {
+		fontSize: 13,
+		color: '#A4B3C1',
 	},
 });

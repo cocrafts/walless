@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useRef } from 'react';
 import type { ViewStyle } from 'react-native';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, Platform, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { View } from '@walless/gui';
 
@@ -33,7 +33,13 @@ const Missions: FC<Props> = ({ style }) => {
 
 	return (
 		<GestureDetector gesture={pan}>
-			<View style={[styles.container, style]}>
+			<View
+				style={[
+					styles.container,
+					Platform.OS === 'web' && styles.webContainer,
+					style,
+				]}
+			>
 				<FlatList
 					ref={scrollRef}
 					data={missions}
@@ -65,10 +71,10 @@ const Missions: FC<Props> = ({ style }) => {
 export default Missions;
 
 const styles = StyleSheet.create({
-	container: {
-		marginVertical: 8,
+	container: {},
+	webContainer: {
 		cursor: 'pointer',
-	},
+	} as never,
 	lastMissionContainer: {
 		marginRight: 16,
 	},

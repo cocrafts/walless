@@ -15,7 +15,12 @@ const Widgets = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Enhance your collection</Text>
+			<View style={styles.titleContainer}>
+				<Text style={styles.title}>Enhance your collection</Text>
+				<Text style={styles.description}>
+					Evolving your worlds filled with exciting events
+				</Text>
+			</View>
 			<CategoryButtons setWidgets={setWidgets} />
 			<ScrollView
 				style={styles.layoutList}
@@ -41,19 +46,26 @@ export default Widgets;
 const styles = StyleSheet.create({
 	container: {
 		gap: 16,
-		marginVertical: 8,
+		marginTop: 32,
 		paddingHorizontal: 16,
+	},
+	titleContainer: {
+		gap: 4,
 	},
 	title: {
 		fontSize: 18,
 		fontWeight: '500',
 		color: '#ffffff',
 	},
+	description: {
+		fontSize: 13,
+		color: '#A4B3C1',
+	},
 	layoutList: {
 		height: 340,
 	},
 	listStyle: {
-		gap: 10,
+		gap: 20,
 	},
 	noWidgetsText: {
 		color: '#ffffff',

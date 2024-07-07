@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from '@walless/gui';
 
-export const WebView = forwardRef((_, ref) => {
+export const WebView = forwardRef<View>((_, ref) => {
 	return (
 		<View ref={ref} style={styles.container}>
 			<Text>WebView</Text>

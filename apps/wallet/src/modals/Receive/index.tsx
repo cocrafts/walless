@@ -15,8 +15,10 @@ import { getNetworkInfo } from 'utils/helper';
 import { usePublicKeys } from 'utils/hooks';
 
 import Indicator from './Indicator';
-import Slider, { type IndicatorOption, type SlideOption } from './Slider';
-import WalletCard, { type WalletProps } from './WalletCard';
+import type { IndicatorOption, SlideOption } from './Slider';
+import Slider from './Slider';
+import type { WalletProps } from './WalletCard';
+import WalletCard from './WalletCard';
 
 export interface ReceiveModalContext {
 	network?: Networks;

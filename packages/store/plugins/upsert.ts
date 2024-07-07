@@ -1,6 +1,6 @@
 import type PouchDB from 'pouchdb-core';
 
-import { type UpsertDiffFunc } from './type';
+import type { UpsertDiffFunc } from './type';
 
 type UpsertOptions = {
 	new: boolean;

@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import type {
 	LayoutChangeEvent,
 	LayoutRectangle,
@@ -6,7 +6,7 @@ import type {
 	ViewStyle,
 } from 'react-native';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { type DrawerPosition } from 'react-native-gesture-handler';
+import type { DrawerPosition } from 'react-native-gesture-handler';
 import Animated, {
 	useAnimatedStyle,
 	useSharedValue,

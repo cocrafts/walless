@@ -1,5 +1,5 @@
+import type { GetProps } from '@tamagui/core';
 import {
-	type GetProps,
 	Stack as TamaguiStack,
 	styled,
 	Text as TamaguiText,

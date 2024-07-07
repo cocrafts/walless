@@ -6,7 +6,8 @@ import CustomAuthCore from '@toruslabs/customauth';
 import { environment } from 'utils/config';
 import { w3aBaseUrl } from 'utils/config/index.web';
 
-import { type CoreModules, coreModules, type CoreThresholdKey } from './core';
+import type { CoreModules, CoreThresholdKey } from './core';
+import { coreModules } from './core';
 
 type WebTkeyModules = CoreModules & {
 	webStorage: WebStorageModule;

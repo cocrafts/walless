@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, View } from '@walless/gui';
 import {
@@ -9,7 +9,7 @@ import {
 	Twitter,
 	Youtube,
 } from '@walless/icons';
-import { type IconProps } from '@walless/icons/components/types';
+import type { IconProps } from '@walless/icons/components/types';
 import Link from 'next/link';
 
 interface ISocialAnchorsProps {

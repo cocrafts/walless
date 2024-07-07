@@ -6,11 +6,8 @@ import { withStackContainer } from 'components/StackContainer';
 import ReferralScreen from 'screens/Dashboard/Referral';
 import SettingScreen from 'screens/Dashboard/Setting';
 import { appState } from 'state/app';
-import {
-	type DashboardParamList,
-	navigateBack,
-	type SettingParamList,
-} from 'utils/navigation';
+import type { DashboardParamList, SettingParamList } from 'utils/navigation';
+import { navigateBack } from 'utils/navigation';
 import { useSnapshot } from 'valtio';
 
 type Props = StackScreenProps<DashboardParamList, 'Setting'>;

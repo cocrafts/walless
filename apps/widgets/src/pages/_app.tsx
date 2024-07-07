@@ -8,7 +8,7 @@ import {
 import { clusterApiUrl } from '@solana/web3.js';
 import { WallessWalletAdapter } from '@walless/walless-adapter-solana-base';
 import SEOHead from 'components/SEOHead';
-import { type AppProps } from 'next/app';
+import type { AppProps } from 'next/app';
 
 import 'raf/polyfill';
 

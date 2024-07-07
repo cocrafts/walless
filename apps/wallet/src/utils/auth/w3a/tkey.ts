@@ -6,7 +6,8 @@ import type { CustomAuthArgs } from '@toruslabs/customauth';
 import CustomAuthCore from '@toruslabs/customauth-react-native-sdk';
 import { environment } from 'utils/config';
 
-import { type CoreModules, coreModules, type CoreThresholdKey } from './core';
+import type { CoreModules, CoreThresholdKey } from './core';
+import { coreModules } from './core';
 
 export const customAuthArgs: CustomAuthArgs = {
 	web3AuthClientId: environment.WEB3AUTH_ID,

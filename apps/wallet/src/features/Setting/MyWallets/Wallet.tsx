@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import type { PublicKeyDocument } from '@walless/store';
 import BaseWallet from 'components/Wallet';
-import { getNetworkInfo, type NetworkInfo } from 'utils/helper';
+import type { NetworkInfo } from 'utils/helper';
+import { getNetworkInfo } from 'utils/helper';
 
 interface Props {
 	item: PublicKeyDocument;

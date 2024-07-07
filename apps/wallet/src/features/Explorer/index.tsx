@@ -39,12 +39,12 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		marginHorizontal: 16,
+		marginBottom: 10,
 	},
 	loyaltyContainer: {
 		maxHeight: 72,
 		marginBottom: 12,
 		marginHorizontal: 16,
-		marginTop: 16,
 	},
 	missionContainer: {
 		marginLeft: 16,

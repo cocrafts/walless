@@ -143,10 +143,11 @@ export const ReferralScreen: FC<Props> = () => {
 							points={20}
 						/>
 					))}
-					<Text style={styles.subtext}>
-						More Invitation codes are awaiting, stay tuned!
-					</Text>
 				</View>
+
+				<Text style={styles.subtext}>
+					More Invitation codes are awaiting, stay tuned!
+				</Text>
 			</View>
 		</View>
 	);
@@ -161,8 +162,7 @@ const styles = StyleSheet.create({
 		paddingTop: 8,
 	},
 	title: {
-		fontSize: 20,
-		fontWeight: '700',
+		fontSize: 18,
 		color: '#ffffff',
 		textAlign: 'center',
 	},
@@ -206,10 +206,9 @@ const styles = StyleSheet.create({
 		gap: 12,
 	},
 	referralCodeList: {
-		flex: 1,
 		gap: 12,
 	},
 	titleContainer: {
-		gap: 12,
+		gap: 4,
 	},
 });

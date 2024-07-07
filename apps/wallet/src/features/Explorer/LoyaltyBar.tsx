@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
 		padding: 12,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	leftContainer: {
 		flexDirection: 'row',
@@ -61,9 +62,9 @@ const styles = StyleSheet.create({
 		gap: 8,
 	},
 	leftTextContainer: {
-		height: '100%',
 		justifyContent: 'space-between',
 		paddingVertical: 3,
+		gap: 2,
 	},
 	highlightText: {
 		fontSize: 14,
@@ -84,9 +85,9 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		backgroundColor: '#19232C',
-		borderRadius: 6,
+		borderRadius: 12,
 		paddingHorizontal: 12,
-		paddingVertical: 2,
+		paddingVertical: 10,
 	},
 });
 

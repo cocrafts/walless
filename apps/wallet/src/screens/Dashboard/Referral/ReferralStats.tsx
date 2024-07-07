@@ -9,7 +9,7 @@ interface Props {
 	goalPoints: number;
 }
 
-const barHeight = 16;
+const barHeight = 10;
 
 const ReferralStats: FC<Props> = ({ currentPoints, goalPoints }) => {
 	const lengthBar = useSharedValue(0);
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		height: barHeight,
 		borderRadius: barHeight / 2,
-		backgroundColor: '#ffffff',
+		backgroundColor: '#1F2A34',
 		overflow: 'hidden',
 	},
 	levelContainer: {
@@ -90,9 +90,11 @@ const styles = StyleSheet.create({
 		gap: 4,
 	},
 	levelText: {
+		fontSize: 12,
 		color: '#0694D3',
 	},
 	leftPoint: {
+		fontSize: 12,
 		color: '#798997',
 	},
 });

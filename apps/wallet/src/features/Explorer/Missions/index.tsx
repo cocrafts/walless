@@ -1,4 +1,6 @@
+import type { FC } from 'react';
 import { useRef } from 'react';
+import type { ViewStyle } from 'react-native';
 import { FlatList, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { View } from '@walless/gui';
@@ -7,7 +9,11 @@ import { missions } from '../internal';
 
 import MissionItem from './MissionItem';
 
-const Missions = () => {
+interface Props {
+	style?: ViewStyle;
+}
+
+const Missions: FC<Props> = ({ style }) => {
 	const scrollOffset = useRef(0);
 	const scrollRef = useRef<FlatList>(null);
 
@@ -27,32 +33,29 @@ const Missions = () => {
 
 	return (
 		<GestureDetector gesture={pan}>
-			<View style={styles.container}>
+			<View style={[styles.container, style]}>
 				<FlatList
 					ref={scrollRef}
 					data={missions}
 					initialScrollIndex={0}
 					renderItem={({ item, index }) => {
-						let colors = ['#EC74A2', '#F4B999'];
-						if (index % 3 === 1) {
-							colors = ['#8253FF', '#D73EFF'];
-						} else if (index % 3 === 2) {
-							colors = ['#3263FF', '#45CFFF'];
-						}
-
 						return (
 							<MissionItem
-								id={index.toString()}
 								title={item.title}
-								colors={colors}
 								buttonText={item.buttonText}
 								onPress={item.onPress}
 								url={item.url}
+								style={
+									index === missions.length - 1
+										? styles.lastMissionContainer
+										: {}
+								}
 							/>
 						);
 					}}
 					horizontal
 					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{ gap: 8 }}
 				/>
 			</View>
 		</GestureDetector>
@@ -64,7 +67,9 @@ export default Missions;
 const styles = StyleSheet.create({
 	container: {
 		marginVertical: 8,
-		paddingLeft: 16,
 		cursor: 'pointer',
+	},
+	lastMissionContainer: {
+		marginRight: 16,
 	},
 });

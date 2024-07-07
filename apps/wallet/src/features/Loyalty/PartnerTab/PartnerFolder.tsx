@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import PointTag from '../components/PointTag';
-
 interface Props {
 	style?: ViewStyle;
 	partner: string;
@@ -28,7 +26,6 @@ const PartnerFolder: FC<Props> = ({
 	desc,
 	icon,
 	thumbnail,
-	totalPoints,
 	onPress,
 }) => {
 	return (
@@ -43,19 +40,18 @@ const PartnerFolder: FC<Props> = ({
 					colors={['rgba(25, 35, 44, 0.8)', 'rgba(25, 35, 44, 0.9)', '#19232C']}
 					start={{ x: 0, y: 0 }}
 					end={{ x: 1, y: 0 }}
-				>
-					<View style={styles.horizontalContainer}>
-						<Image style={styles.icon} source={{ uri: icon }} />
-						<Text style={styles.partnerText}>{partner}</Text>
-					</View>
-				</LinearGradient>
+				/>
 			</ImageBackground>
 
 			<View style={styles.rightContainer}>
-				<Text style={styles.descText} numberOfLines={3} ellipsizeMode="tail">
+				<View style={styles.horizontalContainer}>
+					<Image style={styles.icon} source={{ uri: icon }} />
+					<Text style={styles.partnerText}>{partner}</Text>
+				</View>
+
+				<Text style={styles.descText} numberOfLines={2} ellipsizeMode="tail">
 					{desc}
 				</Text>
-				<PointTag points={totalPoints} />
 			</View>
 		</TouchableOpacity>
 	);
@@ -82,11 +78,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 	icon: {
-		width: 20,
-		height: 20,
+		width: 32,
+		height: 32,
+		borderRadius: 16,
 		borderColor: 'white',
 		borderWidth: 2,
-		borderRadius: 4,
 	},
 	horizontalContainer: {
 		flexDirection: 'row',
@@ -98,13 +94,14 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 	},
 	rightContainer: {
-		padding: 12,
-		justifyContent: 'space-between',
+		justifyContent: 'center',
 		alignItems: 'flex-start',
-		flex: 1,
+		padding: 12,
+		gap: 12,
+		flexShrink: 1,
 	},
 	descText: {
-		color: '#EBF0F5',
-		fontSize: 10,
+		color: '#EBF0F6',
+		fontSize: 13,
 	},
 });

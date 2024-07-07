@@ -19,11 +19,11 @@ interface Props {
 
 export const ExplorerFeature: FC<Props> = ({ style }) => {
 	return (
-		<View style={[style]}>
-			<Header />
+		<View style={[styles.container, style]}>
+			<Header style={styles.headerContainer} />
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<LoyaltyBar style={styles.loyaltyBar} />
-				<Missions />
+				<LoyaltyBar style={styles.loyaltyContainer} />
+				<Missions style={styles.missionContainer} />
 				<Highlights />
 				<Widgets />
 			</ScrollView>
@@ -34,10 +34,19 @@ export const ExplorerFeature: FC<Props> = ({ style }) => {
 export default ExplorerFeature;
 
 const styles = StyleSheet.create({
-	loyaltyBar: {
-		marginTop: 16,
-		marginBottom: 12,
+	container: {
+		marginVertical: 16,
+	},
+	headerContainer: {
+		marginHorizontal: 16,
+	},
+	loyaltyContainer: {
 		maxHeight: 72,
-		marginHorizontal: 20,
+		marginBottom: 12,
+		marginHorizontal: 16,
+		marginTop: 16,
+	},
+	missionContainer: {
+		marginLeft: 16,
 	},
 });

@@ -1,4 +1,5 @@
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import type { SlideComponentProps } from '@walless/gui';
 import { Button, View } from '@walless/gui';

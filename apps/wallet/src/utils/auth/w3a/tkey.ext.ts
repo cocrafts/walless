@@ -9,7 +9,8 @@ import { environment } from 'utils/config';
 import { w3aBaseUrl } from '../../config/index.web';
 
 import type { CoreThresholdKey } from './core';
-import { type CoreModules, coreModules } from './core';
+import type { CoreModules } from './core';
+import { coreModules } from './core';
 
 type ExtTkeyModules = CoreModules & {
 	chromeStorage: ChromeExtensionStorageModule;

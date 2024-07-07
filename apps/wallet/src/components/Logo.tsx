@@ -1,4 +1,5 @@
-import { type FC, useMemo } from 'react';
+import type { FC } from 'react';
+import { useMemo } from 'react';
 import {
 	ClipPath,
 	Defs,

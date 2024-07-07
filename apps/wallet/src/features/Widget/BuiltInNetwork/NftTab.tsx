@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';

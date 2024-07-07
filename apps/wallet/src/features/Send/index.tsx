@@ -1,4 +1,5 @@
-import { type FC, useEffect } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { Networks } from '@walless/core';
 import { Slider } from '@walless/gui';

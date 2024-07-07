@@ -36,7 +36,7 @@ const WallessTab = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		gap: 8,
+		gap: 10,
 	},
 	centerContainer: {
 		flex: 1,

@@ -31,7 +31,7 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 			<View style={styles.bottomContainer}>
 				<View style={styles.bottomItemContainer}>
 					<View style={[styles.iconContainer, styles.rankingBorder]}>
-						<Ranking size={14} color="#F6D570" />
+						<Ranking size={16} color="#F6D570" />
 					</View>
 					<View style={styles.bottomItemContentContainer}>
 						<Text style={styles.subText}>Ranking</Text>
@@ -44,7 +44,7 @@ const Header: FC<Props> = ({ point, completedTask, style }) => {
 					onPress={() => showHistory({ safeAreaInsets })}
 				>
 					<View style={[styles.iconContainer, styles.checkBorder]}>
-						<Check size={14} color="#2FC879" />
+						<Check size={16} strokeWidth="4" color="#2FC879" />
 					</View>
 					<View style={styles.bottomItemContentContainer}>
 						<Text style={styles.subText}>Completed Task</Text>
@@ -112,9 +112,9 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 	},
 	iconContainer: {
-		width: 26,
-		height: 26,
-		borderRadius: 13,
+		width: 30,
+		height: 30,
+		borderRadius: 15,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},

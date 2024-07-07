@@ -52,13 +52,13 @@ export const ReferralScreen: FC<Props> = () => {
 
 	const ChartIcon = (
 		<View style={[styles.chartIcon, styles.icon]}>
-			<Chart size={20} color="#F6D570" />
+			<Chart size={16} color="#F6D570" />
 		</View>
 	);
 
 	const StarIcon = (
 		<View style={[styles.starIcon, styles.icon]}>
-			<Star size={20} color="#44C5FF" />
+			<Star size={16} color="#44C5FF" />
 		</View>
 	);
 
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
 		borderRadius: 50,
 	},
 	icon: {
-		padding: 8,
+		padding: 6,
 		borderRadius: 50,
 		borderWidth: 1,
 	},

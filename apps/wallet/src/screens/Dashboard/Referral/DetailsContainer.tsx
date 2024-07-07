@@ -35,11 +35,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		backgroundColor: '#19232C',
 		gap: 8,
-		padding: 8,
+		paddingHorizontal: 12,
+		paddingVertical: 8,
 		borderRadius: 16,
 	},
 	title: {
-		fontSize: 12,
+		fontSize: 10,
 		color: '#798997',
 	},
 	value: {

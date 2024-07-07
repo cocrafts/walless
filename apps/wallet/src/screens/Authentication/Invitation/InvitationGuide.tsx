@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { Anchor } from '@walless/gui';
+import { StyleSheet, View } from 'react-native';
+import { Anchor, Text } from '@walless/gui';
 
 import GetCodeStepCard from './GetCodeStepCard';
 import GetCodeStepNumber from './GetCodeStepNumber';

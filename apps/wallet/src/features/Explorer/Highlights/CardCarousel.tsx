@@ -1,5 +1,6 @@
 import { type FC, useEffect, useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
+import type { GestureStateManager } from 'react-native-gesture-handler';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { runOnJS, useSharedValue } from 'react-native-reanimated';
 import type { WidgetDocument } from '@walless/store';
@@ -18,6 +19,7 @@ const CardCarousel: FC<Props> = ({
 	currentIndex,
 	onChangeCurrentIndex,
 }) => {
+	const gestureStateManager = useRef<GestureStateManager>();
 	const pressed = useRef(false);
 	const autoSwipeDirection = useRef(-1);
 	const xOffset = useSharedValue(0);
@@ -51,6 +53,10 @@ const CardCarousel: FC<Props> = ({
 			}
 
 			xOffset.value = 0;
+		})
+		// fix Gesture got stuck when moving out of gesture area, get state manager for manual end gesture
+		.onTouchesDown((_, stateManager) => {
+			gestureStateManager.current = stateManager;
 		});
 
 	useEffect(() => {
@@ -67,6 +73,21 @@ const CardCarousel: FC<Props> = ({
 
 		return () => clearTimeout(timer);
 	}, [currentIndex, pressed]);
+
+	// manually end gesture when having any mouse up on web
+	useEffect(() => {
+		if (Platform.OS !== 'web') return;
+
+		const handlePointerUp = () => {
+			gestureStateManager.current?.end();
+		};
+
+		window.addEventListener('pointerup', handlePointerUp);
+
+		return () => {
+			window.removeEventListener('pointerup', handlePointerUp);
+		};
+	}, []);
 
 	return (
 		<GestureDetector gesture={pan}>

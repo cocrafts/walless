@@ -1,5 +1,7 @@
-import { StyleSheet, Text } from 'react-native';
-import { Hoverable, View } from '@walless/gui';
+import type { FC } from 'react';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Hoverable, Text, View } from '@walless/gui';
 import { Eye, EyeOff, Settings } from '@walless/icons';
 import { appState } from 'state/app';
 import { setPrivacy } from 'state/runtime/config';
@@ -8,7 +10,11 @@ import { useTokens } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { useSnapshot } from 'valtio';
 
-const Header = () => {
+interface Props {
+	style?: ViewStyle;
+}
+
+const Header: FC<Props> = ({ style }) => {
 	const { config } = useSnapshot(appState);
 	const { valuation } = useTokens();
 
@@ -20,10 +26,10 @@ const Header = () => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			<View style={styles.balanceContainer}>
-				<Text style={styles.helloText}>Hi 👋, your balance today:</Text>
-				<View style={styles.tokenValuationContainer}>
+				<View style={styles.totalBalanceTextAndIconContainer}>
+					<Text style={styles.totalBalanceText}>Total balance</Text>
 					<Hoverable
 						style={!config.hideBalance && styles.eyeOffIcon}
 						onPress={() => {
@@ -31,20 +37,21 @@ const Header = () => {
 						}}
 					>
 						{config.hideBalance ? (
-							<Eye color="#19A3E1" size={16} />
+							<Eye color="#566573" size={16} />
 						) : (
-							<EyeOff color="#19A3E1" size={16} />
+							<EyeOff color="#566573" size={16} />
 						)}
 					</Hoverable>
-					<Text
-						style={[
-							styles.tokenValuation,
-							config.hideBalance && styles.hiddenTokenValuation,
-						]}
-					>
-						{getValuationDisplay(valuation, config.hideBalance)}
-					</Text>
 				</View>
+
+				<Text
+					style={[
+						styles.tokenValuation,
+						config.hideBalance && styles.hiddenTokenValuation,
+					]}
+				>
+					{getValuationDisplay(valuation, config.hideBalance)}
+				</Text>
 			</View>
 
 			<View style={styles.buttonContainer}>
@@ -68,23 +75,21 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		paddingVertical: 10,
-		paddingHorizontal: 16,
-	},
-	helloText: {
-		color: '#ffffff',
+		alignItems: 'center',
 	},
 	balanceContainer: {
-		gap: 4,
+		gap: 8,
+	},
+	totalBalanceTextAndIconContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+	},
+	totalBalanceText: {
+		color: '#ffffff',
 	},
 	eyeOffIcon: {
 		top: 1,
-	},
-	tokenValuationContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 4,
-		height: 24,
 	},
 	hiddenTokenValuation: {
 		lineHeight: 21.5,

@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import { useEffect, useMemo } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
 	useAnimatedStyle,
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-import { AnimatedPressable } from '@walless/gui';
+import { AnimatedPressable, Text } from '@walless/gui';
 import { Lock } from '@walless/icons';
 
 interface Props {

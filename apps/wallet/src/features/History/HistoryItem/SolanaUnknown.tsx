@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import type { ImageSourcePropType } from 'react-native';
-import { Linking, StyleSheet, Text, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 import type { SolanaUnknownHistory } from '@walless/core';
 import { Networks, shortenAddress } from '@walless/core';
+import { Text } from '@walless/gui';
 import type { HistoryDocument } from '@walless/store';
 import assets from 'utils/assets';
 import { getNetworkInfo } from 'utils/helper';

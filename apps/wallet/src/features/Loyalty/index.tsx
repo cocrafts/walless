@@ -133,17 +133,17 @@ const LoyaltyFeature = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		paddingTop: 24,
+		paddingTop: 8,
 		gap: 16,
 		flexGrow: 1,
 	},
 	pointCard: {
-		marginHorizontal: 12,
+		marginHorizontal: 16,
 	},
 	bottomContainer: {
 		backgroundColor: '#131C24',
 		paddingVertical: 16,
-		paddingHorizontal: 12,
+		paddingHorizontal: 16,
 		borderTopLeftRadius: 16,
 		borderTopRightRadius: 16,
 		flexGrow: 1,

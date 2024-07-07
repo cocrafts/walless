@@ -1,49 +1,52 @@
 import type { FC } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Animated from 'react-native-reanimated';
-import { Anchor, View } from '@walless/gui';
-import { Chair, InfoIcon, MissionBackground } from '@walless/icons';
+import { Text } from '@walless/gui';
+import { Anchor } from '@walless/gui';
 
 interface MissionProps {
-	id: string;
 	title: string;
-	colors?: string[];
 	buttonText?: string;
 	onPress?: () => void;
 	url?: string;
+	style?: ViewStyle;
 }
 
 const MissionItem: FC<MissionProps> = ({
 	title,
 	onPress,
-	id,
-	colors,
 	url,
 	buttonText = 'Claim',
+	style,
 }) => {
 	return (
-		<Animated.View style={[styles.container]}>
-			<View style={styles.missionBackground}>
-				<MissionBackground colors={colors} id={id} />
-			</View>
+		<Animated.View style={[styles.container, style]}>
+			<LinearGradient
+				style={styles.gradientContainer}
+				colors={[
+					'rgba(32, 45, 56, 0.75)',
+					'rgba(24, 38, 50, 0.2)',
+					'rgba(81, 201, 255, 0.05)',
+				]}
+				start={{ x: 0, y: 1 }}
+				end={{ x: 1, y: 0 }}
+			>
+				<View style={styles.contentWrapper}>
+					<View style={styles.textContainer}>
+						<Text style={styles.text} numberOfLines={2} ellipsizeMode="tail">
+							{title}
+						</Text>
+					</View>
 
-			<View style={styles.header}>
-				<View style={styles.iconContainer}>
-					<Chair color="#23303C" size={16} />
+					<Anchor href={url}>
+						<TouchableOpacity style={styles.button} onPress={onPress}>
+							<Text style={styles.buttonText}>{buttonText}</Text>
+						</TouchableOpacity>
+					</Anchor>
 				</View>
-
-				<InfoIcon />
-			</View>
-
-			<Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
-				{title}
-			</Text>
-
-			<Anchor href={url}>
-				<TouchableOpacity style={styles.button} onPress={onPress}>
-					<Text style={styles.textButton}>{buttonText}</Text>
-				</TouchableOpacity>
-			</Anchor>
+			</LinearGradient>
 		</Animated.View>
 	);
 };
@@ -52,46 +55,43 @@ export default MissionItem;
 
 const styles = StyleSheet.create({
 	container: {
+		backgroundColor: '#202D38',
 		width: 120,
-		height: 105,
-		borderRadius: 10,
-		justifyContent: 'space-between',
-		paddingHorizontal: 10,
-		paddingVertical: 10,
-		marginHorizontal: 5,
+		height: 112,
+		borderRadius: 12,
+		padding: 8,
+		gap: 12,
 	},
-	header: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'flex-start',
+	gradientContainer: {
+		height: '100%',
+		borderRadius: 12,
+		padding: 4,
 	},
-	iconContainer: {
-		backgroundColor: '#FFFFFF',
+	contentWrapper: {
+		backgroundColor: '#202D38',
+		height: '100%',
+		borderRadius: 12,
+	},
+	textContainer: {
+		marginTop: 8,
+		flex: 1,
 		justifyContent: 'center',
-		alignItems: 'center',
-		width: 25,
-		height: 25,
-		borderRadius: 25,
-	},
-	button: {
-		width: 60,
-		height: 25,
-		borderRadius: 6,
-		backgroundColor: '#ffffff',
-		justifyContent: 'center',
-		alignItems: 'center',
 	},
 	text: {
 		color: '#ffffff',
+		fontSize: 13,
 	},
-	textButton: {
-		color: '#23303C',
+	buttonText: {
+		color: '#FFFFFF',
 		fontSize: 12,
 	},
-	missionBackground: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		zIndex: -1,
+	button: {
+		paddingHorizontal: 20,
+		paddingVertical: 8,
+		borderRadius: 8,
+		backgroundColor: '#17A3E1',
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignSelf: 'flex-start',
 	},
 });

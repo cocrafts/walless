@@ -31,6 +31,8 @@ export const createTezosRunner = async (
 		async start() {
 			const tokensPromises = keys.map(async (key) => {
 				const owner = key._id;
+
+				// get xtz balance
 				const tzBalance = await connection.tz.getBalance(owner);
 
 				const tokenBalances = await fetch(

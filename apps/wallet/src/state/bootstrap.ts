@@ -27,6 +27,7 @@ import {
 import type { Engine } from 'engine/types';
 import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
+import { universalLocalStorage } from 'utils/localStorage';
 import {
 	linking,
 	navigationRef,
@@ -45,6 +46,8 @@ import { widgetState } from './widget';
 export const bootstrap = async (): Promise<void> => {
 	const startTime = new Date();
 	appState.remoteConfig = loadRemoteConfig();
+	appState.showPopup =
+		(await universalLocalStorage.getItem('showPopup')) ?? true;
 
 	await configure(storage);
 	await migrateDatabase(storage, 'app', appMigrations).then(async () => {

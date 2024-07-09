@@ -1,10 +1,19 @@
+import { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { runtime } from '@walless/core';
+import { showFirstTimePopup } from 'modals/FirstTimePopup';
 import BrowserScreen from 'screens/Dashboard/Browser';
 import HomeStack from 'stacks/Home';
 import SettingStack from 'stacks/Setting';
+import { appState } from 'state/app';
+import { mockWidgets } from 'state/widget';
 import { noHeaderNavigation } from 'utils/constants';
-import { useNotificationPermissionRequest } from 'utils/hooks';
+import {
+	useNotificationPermissionRequest,
+	useSnapshot,
+	useWidgets,
+} from 'utils/hooks';
+import { universalLocalStorage } from 'utils/localStorage';
 import type { DashboardParamList } from 'utils/navigation';
 
 import ExplorerStack from '../Explorer';
@@ -15,6 +24,20 @@ const Tab = createBottomTabNavigator<DashboardParamList>();
 
 export const DashboardStack = () => {
 	useNotificationPermissionRequest();
+	const { showPopup } = useSnapshot(appState);
+	const widgets = useWidgets();
+
+	useEffect(() => {
+		const alreadyHavePixeverse = widgets.some(
+			(widget) => widget._id === mockWidgets[0]._id,
+		);
+
+		if (showPopup && !alreadyHavePixeverse) {
+			showFirstTimePopup();
+			universalLocalStorage.setItem('showPopup', JSON.stringify(false));
+			appState.showPopup = false;
+		}
+	}, []);
 
 	return (
 		<Tab.Navigator

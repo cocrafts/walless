@@ -564,6 +564,8 @@ PODS:
     - React-logger (= 0.71.14)
     - React-perflogger (= 0.71.14)
   - RecaptchaInterop (100.0.0)
+  - RNCAsyncStorage (1.23.1):
+    - React-Core
   - RNCClipboard (1.13.2):
     - React-Core
   - RNCustomAuthSdk (4.0.1):
@@ -690,6 +692,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../../../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../../../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../../../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../../../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCustomAuthSdk (from `../../../node_modules/@toruslabs/customauth-react-native-sdk`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
@@ -841,6 +844,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../../../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../../../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../../../node_modules/@react-native-clipboard/clipboard"
   RNCustomAuthSdk:
@@ -964,6 +969,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: ffe826b7b1cfbc32a35ed5b64d5886c0ff75f501
   ReactCommon: 6f0ee30fda78283c31310e585f7236748e13330d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
+  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCClipboard: 60fed4b71560d7bfe40e9d35dea9762b024da86d
   RNCustomAuthSdk: e1db0c850b41deaf38fdc8fe5433b3287db29c55
   RNDeviceInfo: db5c64a060e66e5db3102d041ebe3ef307a85120
@@ -993,4 +999,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 877abdf091993fa0cd980670b68c31cf31b2d28e
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.12.0

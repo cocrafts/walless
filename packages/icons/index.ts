@@ -7,6 +7,7 @@ export { BackspaceRemove } from './components/BackspaceRemove';
 export { Bell } from './components/Bell';
 export { BlingBling } from './components/BlingBling';
 export { BlogCategory } from './components/BlogCategory';
+export { BlueCircleBackground } from './components/BlueCircleBackground';
 export { Book } from './components/Book';
 export { Bookmark } from './components/Bookmark';
 export { Cart } from './components/Cart';

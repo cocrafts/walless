@@ -32,3 +32,5 @@ export const BlueCircleBackground = () => {
 		</Svg>
 	);
 };
+
+export default BlueCircleBackground;

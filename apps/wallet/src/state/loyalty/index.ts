@@ -12,6 +12,9 @@ export const loyaltyActions = {
 	setPartnerActionMap: (map: Map<string, Action[]>) => {
 		loyaltyState.partnerActionMap = map;
 	},
+	setTypeActionMap: (map: Map<string, Action[]>) => {
+		loyaltyState.typeActionMap = map;
+	},
 };
 
 export * from './internal';

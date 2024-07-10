@@ -31,6 +31,7 @@ import { useSnapshot } from 'utils/hooks';
 
 import PointTag from '../components/PointTag';
 import {
+	checkIfUserCanDoAction,
 	extractDataFromMetadata,
 	getActionLogo,
 	getCycleEndTime,
@@ -46,21 +47,25 @@ import VerificationNeededTag from './VerificationNeededTag';
 interface Props {
 	style?: ViewStyle;
 	action: Action;
-	canUserPerformAction: boolean;
 }
 
-const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
-	const { userProgress } = useSnapshot(loyaltyState);
+const ActionCard: FC<Props> = ({ style, action }) => {
+	const { userProgress, typeActionMap } = useSnapshot(loyaltyState);
 	const { name, desc, icon, ctaText, ctaType, cta } = useMemo(() => {
 		return extractDataFromMetadata(action.metadata as ActionMetadata[]);
 	}, [action]);
 
 	const [isDoingAction, setIsDoingAction] = useState(false);
 
+	const canUserDoAction = checkIfUserCanDoAction(
+		userProgress as UserProgress,
+		action,
+	);
+
 	const initialTimeRemaining = useMemo<number | null>(() => {
 		if (
 			!userProgress ||
-			canUserPerformAction ||
+			canUserDoAction ||
 			action.category !== ActionCategory.Recurring ||
 			!action.cycleInHours
 		) {
@@ -81,6 +86,32 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 
 		return cycleEndTime.getTime() - Date.now();
 	}, [userProgress]);
+
+	const isRecorded = useMemo(() => {
+		if (!userProgress) return false;
+
+		const relatedRecurringAction = typeActionMap
+			.get(action.type!)
+			?.find((a) => a.category === ActionCategory.Recurring);
+
+		if (relatedRecurringAction?.cycleInHours) {
+			const lastRecord = (
+				userProgress.actionRecords as ActionRecord[]
+			).findLast((record) => record.actionId === relatedRecurringAction.id);
+			if (!lastRecord) {
+				return false;
+			}
+
+			const cycleEndTime = getCycleEndTime(
+				new Date(lastRecord.timestamp),
+				relatedRecurringAction.cycleInHours,
+			);
+
+			return new Date() < cycleEndTime;
+		}
+
+		return false;
+	}, [action, userProgress, typeActionMap]);
 
 	const handleDoAction = async () => {
 		if (ctaType === 'internal') {
@@ -169,7 +200,7 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 	}, [stat, action.streak]);
 
 	const isPassthrough =
-		!canUserPerformAction && action.category !== ActionCategory.Streak;
+		!canUserDoAction && action.category !== ActionCategory.Streak;
 
 	return (
 		<View style={[styles.container, style]}>
@@ -224,14 +255,14 @@ const ActionCard: FC<Props> = ({ style, action, canUserPerformAction }) => {
 						<StreakBar
 							streak={action.streak}
 							currentStreak={currentStreak}
-							isRecorded={!canUserPerformAction}
-							style={{ marginLeft: 8, flexGrow: 1 }}
+							isRecorded={isRecorded}
+							style={styles.streakBarContainer}
 						/>
 					)}
 				</View>
 			</View>
 
-			{canUserPerformAction &&
+			{canUserDoAction &&
 				action.category !== ActionCategory.Milestone &&
 				action.category !== ActionCategory.Streak &&
 				(isDoingAction ? (
@@ -307,6 +338,10 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		paddingVertical: 8,
 		paddingHorizontal: 28,
+	},
+	streakBarContainer: {
+		marginLeft: 8,
+		flexGrow: 1,
 	},
 });
 

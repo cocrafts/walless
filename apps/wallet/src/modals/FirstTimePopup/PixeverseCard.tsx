@@ -1,8 +1,10 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
+import { Text } from '@walless/gui';
 import { mockWidgets } from 'state/widget';
 
 const PixeverseCard = () => {
-	const pixeverseWidget = mockWidgets[0];
+	const pixeverseWidget = mockWidgets.find((item) => item._id === 'pixeverse');
+	if (!pixeverseWidget) return null;
 
 	return (
 		<View style={styles.container}>

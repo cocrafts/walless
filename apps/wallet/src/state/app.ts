@@ -27,7 +27,7 @@ export interface AppState {
 		isBottomTabActive: boolean;
 		isSidebarAvatarActive: boolean;
 	};
-	showPopup: boolean;
+	showFirstTimePopup: boolean;
 	isMobileDisplay: boolean;
 	initialLinkingURL?: string;
 }
@@ -43,7 +43,7 @@ export const appState = proxy<AppState>({
 		isBottomTabActive: false,
 		isSidebarAvatarActive: false,
 	},
-	showPopup: true,
+	showFirstTimePopup: true,
 	isMobileDisplay: false,
 });
 

@@ -1,22 +1,26 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { modalActions, Text } from '@walless/gui';
-import { BlueCircleBackground } from '@walless/icons';
 import { ModalId } from 'modals/types';
 import { mockWidgets } from 'state/widget';
 import { navigate } from 'utils/navigation';
 import { addWidgetToStorage } from 'utils/storage';
 
+import BlueCircleBackground from './BlueCircleBackground';
 import PixeverseCard from './PixeverseCard';
 
 const FirstTimePopup = () => {
+	const pixeverseWidget = mockWidgets.find((item) => item._id === 'pixeverse');
+
 	const handleAddPixeverse = () => {
-		addWidgetToStorage(mockWidgets[0]._id, mockWidgets[0]);
+		if (!pixeverseWidget) return;
+
+		addWidgetToStorage('pixeverse', pixeverseWidget);
 		navigate('Dashboard', {
 			screen: 'Explore',
 			params: {
 				screen: 'Widget',
 				params: {
-					id: mockWidgets[0]._id,
+					id: 'pixeverse',
 				},
 			},
 		});
@@ -58,7 +62,7 @@ const FirstTimePopup = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		width: 374,
+		maxWidth: 374,
 		borderRadius: 16,
 		overflow: 'hidden',
 	},
@@ -111,6 +115,6 @@ export const showFirstTimePopup = () => {
 	modalActions.show({
 		id: ModalId.FirstTimePopup,
 		component: FirstTimePopup,
-		positionOffset: { x: 25 },
+		fullWidth: false,
 	});
 };

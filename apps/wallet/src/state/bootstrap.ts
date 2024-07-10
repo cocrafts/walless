@@ -46,7 +46,7 @@ import { widgetState } from './widget';
 export const bootstrap = async (): Promise<void> => {
 	const startTime = new Date();
 	appState.remoteConfig = loadRemoteConfig();
-	appState.showPopup =
+	appState.showFirstTimePopup =
 		(await universalLocalStorage.getItem('showPopup')) ?? true;
 
 	await configure(storage);

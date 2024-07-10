@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator<DashboardParamList>();
 
 export const DashboardStack = () => {
 	useNotificationPermissionRequest();
-	const { showPopup } = useSnapshot(appState);
+	const { showFirstTimePopup: showPopup } = useSnapshot(appState);
 	const widgets = useWidgets();
 
 	useEffect(() => {
@@ -35,7 +35,7 @@ export const DashboardStack = () => {
 		if (showPopup && !alreadyHavePixeverse) {
 			showFirstTimePopup();
 			universalLocalStorage.setItem('showPopup', JSON.stringify(false));
-			appState.showPopup = false;
+			appState.showFirstTimePopup = false;
 		}
 	}, []);
 

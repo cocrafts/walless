@@ -88,16 +88,16 @@ const ActionCard: FC<Props> = ({ style, action }) => {
 	}, [userProgress]);
 
 	const isRecorded = useMemo(() => {
-		if (!userProgress) return false;
+		if (!userProgress?.actionRecords) return false;
 
 		const relatedRecurringAction = typeActionMap
 			.get(action.type!)
 			?.find((a) => a.category === ActionCategory.Recurring);
 
 		if (relatedRecurringAction?.cycleInHours) {
-			const lastRecord = (
-				userProgress.actionRecords as ActionRecord[]
-			).findLast((record) => record.actionId === relatedRecurringAction.id);
+			const lastRecord = userProgress.actionRecords.findLast(
+				(record) => record!.actionId === relatedRecurringAction.id,
+			);
 			if (!lastRecord) {
 				return false;
 			}

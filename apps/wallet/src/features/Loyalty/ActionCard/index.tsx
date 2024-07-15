@@ -304,9 +304,10 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 	},
 	ctaButton: {
+		minWidth: 86,
 		borderRadius: 8,
 		paddingVertical: 8,
-		paddingHorizontal: 28,
+		paddingHorizontal: 20,
 	},
 });
 

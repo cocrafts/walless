@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { ScrollView, StyleSheet } from 'react-native';
-import type { Action, UserProgress } from '@walless/graphql';
+import type { Action } from '@walless/graphql';
 import type { ModalConfigs } from '@walless/gui';
 import {
 	AnimateDirections,
@@ -10,13 +10,10 @@ import {
 	SwipeDownGesture,
 } from '@walless/gui';
 import { ModalId } from 'modals/types';
-import { loyaltyState } from 'state/loyalty';
 import { useSafeAreaInsets } from 'utils/hooks';
-import { useSnapshot } from 'valtio';
 
 import ActionCard from '../ActionCard';
 import ModalHeader from '../components/ModalHeader';
-import { canUserPerformAction } from '../internal';
 
 interface PartnerQuestProps {
 	partner: string;
@@ -28,7 +25,6 @@ type Props = PartnerQuestProps & {
 };
 
 const PartnerQuestModal: FC<Props> = ({ config, partner, actions }) => {
-	const { userProgress } = useSnapshot(loyaltyState);
 	const safeAreaInsets = useSafeAreaInsets();
 
 	const safeAreaStyle: ViewStyle = {
@@ -55,10 +51,6 @@ const PartnerQuestModal: FC<Props> = ({ config, partner, actions }) => {
 					<ActionCard
 						key={action.id}
 						action={action as Action}
-						canUserPerformAction={canUserPerformAction(
-							userProgress as UserProgress,
-							action as Action,
-						)}
 						style={{
 							marginBottom: index !== actions.length - 1 ? 8 : 0,
 						}}

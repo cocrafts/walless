@@ -5,9 +5,11 @@ export interface LoyaltyState {
 	userProgress?: UserProgress;
 	wallessActions: Action[];
 	partnerActionMap: Map<string, Action[]>;
+	typeActionMap: Map<string, Action[]>;
 }
 
 export const loyaltyState = proxy<LoyaltyState>({
 	wallessActions: [],
 	partnerActionMap: new Map(),
+	typeActionMap: new Map(),
 });

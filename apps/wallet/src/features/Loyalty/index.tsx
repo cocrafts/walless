@@ -67,11 +67,20 @@ const LoyaltyFeature = () => {
 
 				const wallessActions: Action[] = [];
 				const partnerActionMap: Map<string, Action[]> = new Map();
+				const typeActionMap: Map<string, Action[]> = new Map();
 
 				sortedActions.forEach((action) => {
+					if (!action.type) return;
+
 					const extractedMetadata = extractDataFromMetadata(
 						action.metadata as ActionMetadata[],
 					);
+
+					if (typeActionMap.has(action.type)) {
+						typeActionMap.get(action.type)!.push(action);
+					} else {
+						typeActionMap.set(action.type, [action]);
+					}
 
 					if (extractedMetadata.partner === '') {
 						wallessActions.push(action);
@@ -84,6 +93,7 @@ const LoyaltyFeature = () => {
 
 				loyaltyActions.setWallessActions(wallessActions);
 				loyaltyActions.setPartnerActionMap(partnerActionMap);
+				loyaltyActions.setTypeActionMap(typeActionMap);
 			} catch (err) {
 				console.error(err);
 			}

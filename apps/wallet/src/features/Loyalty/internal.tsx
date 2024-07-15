@@ -186,7 +186,7 @@ export const formatCountdownTime = (timeRemaining: number) => {
 	return `${hours}h:${minutes}m:${seconds}s`;
 };
 
-export const canUserPerformAction = (
+export const checkIfUserCanDoAction = (
 	userProgress: UserProgress,
 	action: Action,
 ) => {

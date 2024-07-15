@@ -2,7 +2,7 @@ import { TezosToolkit } from '@taquito/taquito';
 import { Networks } from '@walless/core';
 import type { EngineConfig } from 'engine/types';
 
-const MAIN_NET = 'https://api.tez.ie/rpc/mainnet';
+const MAIN_NET = 'https://mainnet.ecadinfra.com';
 const GHOST_NET = 'https://ghostnet.ecadinfra.com';
 
 const TZKT_API_MAINNET = 'https://api.tzkt.io/v1';

@@ -147,6 +147,10 @@ const replaceExtensionArgonLinks = (config) => {
 							search: 'https://www.googletagmanager.com/gtag/js',
 							replace: '',
 						},
+						{
+							search: 'https://www.google.com/recaptcha/enterprise.js',
+							replace: '',
+						},
 					],
 				},
 			]),

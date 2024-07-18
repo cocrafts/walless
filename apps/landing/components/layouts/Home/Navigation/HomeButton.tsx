@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import { Button, Image } from '@walless/ui';
-import Anchor from 'components/Anchor';
+import Link from 'next/link';
 import { resources } from 'utils/config';
 
 export const HomeButton: FC = () => {
 	return (
-		<Anchor href="/">
-			<Button transparent horizontal alignItems="center">
+		<Link href="/">
+			<Button transparent alignItems="center">
 				<Image
 					src={resources.walless.icon}
 					defaultSource={resources.walless.icon}
@@ -23,7 +23,7 @@ export const HomeButton: FC = () => {
 					resizeMode="contain"
 				/>
 			</Button>
-		</Anchor>
+		</Link>
 	);
 };
 

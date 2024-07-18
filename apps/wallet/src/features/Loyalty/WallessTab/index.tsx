@@ -1,14 +1,13 @@
 import { StyleSheet, View } from 'react-native';
-import type { Action, UserProgress } from '@walless/graphql';
+import type { Action } from '@walless/graphql';
 import { Text } from '@walless/gui';
 import { loyaltyState } from 'state/loyalty';
 import { useSnapshot } from 'utils/hooks';
 
 import ActionCard from '../ActionCard';
-import { canUserPerformAction } from '../internal';
 
 const WallessTab = () => {
-	const { userProgress, wallessActions } = useSnapshot(loyaltyState);
+	const { wallessActions } = useSnapshot(loyaltyState);
 
 	return (
 		<View style={styles.container}>
@@ -21,14 +20,7 @@ const WallessTab = () => {
 			)}
 
 			{wallessActions.map((action) => (
-				<ActionCard
-					key={action.id}
-					action={action as Action}
-					canUserPerformAction={canUserPerformAction(
-						userProgress as UserProgress,
-						action as Action,
-					)}
-				/>
+				<ActionCard key={action.id} action={action as Action} />
 			))}
 		</View>
 	);

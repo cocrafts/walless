@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { runtime } from '@walless/core';
+import type { ShowFirstTimeUserPopupDocument } from '@walless/store';
 import { showFirstTimePopup } from 'modals/FirstTimePopup';
 import BrowserScreen from 'screens/Dashboard/Browser';
 import HomeStack from 'stacks/Home';
@@ -13,8 +14,8 @@ import {
 	useSnapshot,
 	useWidgets,
 } from 'utils/hooks';
-import { universalLocalStorage } from 'utils/localStorage';
 import type { DashboardParamList } from 'utils/navigation';
+import { storage } from 'utils/storage';
 
 import ExplorerStack from '../Explorer';
 
@@ -34,7 +35,11 @@ export const DashboardStack = () => {
 
 		if (showPopup && !alreadyHavePixeverse) {
 			showFirstTimePopup();
-			universalLocalStorage.setItem('showPopup', JSON.stringify(false));
+			storage.put<ShowFirstTimeUserPopupDocument>({
+				_id: 'showFirstTimeUserPopup',
+				type: 'ShowFirstTimeUserPopup',
+				value: false,
+			});
 			appState.showFirstTimePopup = false;
 		}
 	}, []);

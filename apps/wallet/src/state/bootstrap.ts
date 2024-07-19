@@ -8,6 +8,7 @@ import type {
 	PouchDocument,
 	PublicKeyDocument,
 	SettingDocument,
+	ShowFirstTimeUserPopupDocument,
 	TokenDocument,
 	WidgetDocument,
 } from '@walless/store';
@@ -27,7 +28,6 @@ import {
 import type { Engine } from 'engine/types';
 import { configureDeviceAndNotification } from 'utils/device';
 import { initializeAuth, loadRemoteConfig } from 'utils/firebase';
-import { universalLocalStorage } from 'utils/localStorage';
 import {
 	linking,
 	navigationRef,
@@ -46,8 +46,6 @@ import { widgetState } from './widget';
 export const bootstrap = async (): Promise<void> => {
 	const startTime = new Date();
 	appState.remoteConfig = loadRemoteConfig();
-	appState.showFirstTimePopup =
-		(await universalLocalStorage.getItem('showPopup')) ?? true;
 
 	await configure(storage);
 	await migrateDatabase(storage, 'app', appMigrations).then(async () => {
@@ -74,6 +72,11 @@ export const bootstrap = async (): Promise<void> => {
 
 export const launchApp = async (): Promise<void> => {
 	const settings = await storage.safeGet<SettingDocument>('settings');
+	const showFirstTimeUserPopup =
+		await storage.safeGet<ShowFirstTimeUserPopupDocument>(
+			'showFirstTimeUserPopup',
+		);
+	appState.showFirstTimePopup = showFirstTimeUserPopup?.value ?? true;
 
 	const isSignedIn = settings?.profile?.id;
 	if (isSignedIn) {

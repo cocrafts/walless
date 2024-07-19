@@ -1,21 +1,23 @@
+import type { FC } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { Text } from '@walless/gui';
-import { mockWidgets } from 'state/widget';
+import type { WidgetDocument } from '@walless/store';
 
-const PixeverseCard = () => {
-	const pixeverseWidget = mockWidgets.find((item) => item._id === 'pixeverse');
-	if (!pixeverseWidget) return null;
+interface Props {
+	widget: WidgetDocument;
+}
 
+const PixeverseCard: FC<Props> = ({ widget }) => {
 	return (
 		<View style={styles.container}>
 			<View>
 				<Image
 					style={styles.coverImage}
-					source={{ uri: pixeverseWidget.storeMeta.coverUri }}
+					source={{ uri: widget.storeMeta.coverUri }}
 				/>
 				<Image
 					style={styles.iconImage}
-					source={{ uri: pixeverseWidget.storeMeta.iconUri }}
+					source={{ uri: widget.storeMeta.iconUri }}
 				/>
 			</View>
 
@@ -27,7 +29,7 @@ const PixeverseCard = () => {
 					numberOfLines={2}
 					ellipsizeMode="tail"
 				>
-					{pixeverseWidget.storeMeta.description}
+					{widget.storeMeta.description}
 				</Text>
 
 				<View style={styles.addButton}>
@@ -43,7 +45,6 @@ export default PixeverseCard;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
-		width: 260,
 		backgroundColor: '#182027',
 		paddingHorizontal: 12,
 		paddingVertical: 12,

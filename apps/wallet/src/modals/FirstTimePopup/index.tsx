@@ -34,7 +34,7 @@ const FirstTimePopup = () => {
 					<BlueCircleBackground />
 				</View>
 
-				<PixeverseCard />
+				{pixeverseWidget && <PixeverseCard widget={pixeverseWidget} />}
 			</View>
 
 			<View style={styles.lowerPart}>

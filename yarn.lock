@@ -7022,17 +7022,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-async-storage/async-storage@npm:^1.23.1":
-  version: 1.23.1
-  resolution: "@react-native-async-storage/async-storage@npm:1.23.1"
-  dependencies:
-    merge-options: "npm:^3.0.4"
-  peerDependencies:
-    react-native: ^0.0.0-0 || >=0.60 <1.0
-  checksum: 10/9d0acc7edb0ba9ee414d6e62c656e5d571c9d9615e7e9f4748865b965178998f2e73786b8050387ada00ddb6faaca97b5cf2e010ceaeebe91571991364a0f515
-  languageName: node
-  linkType: hard
-
 "@react-native-clipboard/clipboard@npm:^1.12.1, @react-native-clipboard/clipboard@npm:^1.13.0":
   version: 1.13.2
   resolution: "@react-native-clipboard/clipboard@npm:1.13.2"
@@ -11936,7 +11925,6 @@ __metadata:
     "@metacraft/cli-web3-polyfills": "npm:^0.0.7"
     "@metaplex-foundation/js": "npm:0.20.1"
     "@mysten/sui.js": "npm:0.51.1"
-    "@react-native-async-storage/async-storage": "npm:^1.23.1"
     "@react-native-clipboard/clipboard": "npm:^1.12.1"
     "@react-native-firebase/analytics": "npm:18.6.1"
     "@react-native-firebase/app": "npm:18.6.1"

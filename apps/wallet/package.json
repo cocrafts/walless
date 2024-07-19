@@ -33,7 +33,6 @@
     "@metacraft/cli-web3-polyfills": "^0.0.7",
     "@metaplex-foundation/js": "0.20.1",
     "@mysten/sui.js": "0.51.1",
-    "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-clipboard/clipboard": "^1.12.1",
     "@react-native-firebase/analytics": "18.6.1",
     "@react-native-firebase/app": "18.6.1",

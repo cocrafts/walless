@@ -24,6 +24,7 @@ export enum WidgetType {
 	GAME = 'Game',
 	DEFI = 'DeFi',
 	NFT = 'NFT',
+	COMMUNITY = 'Community',
 }
 
 export interface Widget {

@@ -21,11 +21,11 @@
     "publish:dist": "yarn bundle && cd dist && npm publish --access public && cd .."
   },
   "dependencies": {
-    "@metaplex-foundation/js": "^0.19.4",
+    "@metaplex-foundation/js": "0.20.1",
     "@metaplex-foundation/mpl-token-metadata": "^2.13.0",
     "@mysten/sui.js": "0.51.1",
-    "@solana/spl-token": "0.3.7",
-    "@solana/web3.js": "1.92.3",
+    "@solana/spl-token": "0.4.8",
+    "@solana/web3.js": "1.95.1",
     "@taquito/signer": "^17.5.2",
     "@taquito/taquito": "^17.5.2",
     "aptos": "^1.20.0",

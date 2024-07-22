@@ -31,7 +31,7 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/tezos-icon.png'),
-				cardMark: require(''),
+				cardMark: undefined as never,
 				cardBackground: require('assets/img/widget/tezos-card-bg.png'),
 			},
 		},
@@ -53,8 +53,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/pixeverse-icon.png'),
-				cardMark: require(''),
-				cardBackground: require(''),
+				cardMark: undefined as never,
+				cardBackground: undefined as never,
 			},
 		},
 		tRexRunner: {
@@ -64,8 +64,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/runner-icon.png'),
-				cardMark: require(''),
-				cardBackground: require(''),
+				cardMark: undefined as never,
+				cardBackground: undefined as never,
 			},
 		},
 		suijump: {
@@ -75,8 +75,8 @@ const assets: Asset = {
 			},
 			widgetMeta: {
 				cardIcon: require('assets/img/widget/suijump-icon.png'),
-				cardMark: require(''),
-				cardBackground: require(''),
+				cardMark: undefined as never,
+				cardBackground: undefined as never,
 			},
 		},
 	},

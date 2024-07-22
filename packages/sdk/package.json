@@ -14,7 +14,7 @@
     "@walless/core": "*"
   },
   "devDependencies": {
-    "@solana/web3.js": "1.92.3",
+    "@solana/web3.js": "1.95.1",
     "eslint": "^8.56.0"
   }
 }

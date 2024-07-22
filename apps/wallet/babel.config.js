@@ -23,11 +23,14 @@ module.exports = {
 					buffer: '@craftzdog/react-native-buffer',
 					bip39: '@dreson4/react-native-quick-bip39',
 					'pouchdb-collate': '@craftzdog/pouchdb-collate-react-native',
+					/* module package hard-resolvers */
 					'arbundles/web': 'arbundles',
+					'@irys/arweave': '@irys/arweave/build/cjs',
 				},
 			},
 		],
 		['react-native-reanimated/plugin'],
 		['@babel/plugin-proposal-export-namespace-from'],
+		['@babel/plugin-transform-private-methods', { loose: true }],
 	],
 };

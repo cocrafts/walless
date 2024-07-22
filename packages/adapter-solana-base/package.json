@@ -26,10 +26,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@solana/wallet-adapter-base": "^0.9.22"
+    "@solana/wallet-adapter-base": "^0.9.23"
   },
   "devDependencies": {
-    "@solana/web3.js": "1.92.3",
+    "@solana/web3.js": "1.95.1",
     "@walless/sdk": "*",
     "eslint": "^8.51.0",
     "typescript": "5.3.3"

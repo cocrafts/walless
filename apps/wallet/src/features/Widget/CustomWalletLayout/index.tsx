@@ -5,39 +5,65 @@ import type {
 	LayoutRectangle,
 	ViewStyle,
 } from 'react-native';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { Networks } from '@walless/core';
+import type { CustomWalletMetadata } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, SliderTabs } from '@walless/gui';
 import type { TabAble, TabItemStyle } from '@walless/gui/components/SliderTabs';
-import FeatureButtons from 'components/FeatureButtons';
 import { showCopiedModal } from 'modals/Notification';
-import { showReceiveModal } from 'modals/Receive';
-import { showSendTokenModal } from 'modals/SendToken';
-import { showSwapModal } from 'modals/Swap';
-import { buyToken } from 'utils/buy';
-import { useOpacityAnimated, usePublicKeys, useTokens } from 'utils/hooks';
+import { mockWidgets } from 'state/widget';
+import { getTokenValue, useOpacityAnimated, usePublicKeys } from 'utils/hooks';
 import { copy } from 'utils/system';
 
+import ActivityTab from '../BuiltInNetwork/ActivityTab';
 import TokenTab from '../BuiltInNetwork/TokenTab';
+import type { CardSkin } from '../BuiltInNetwork/WalletCard';
+import { WalletCard } from '../BuiltInNetwork/WalletCard';
 
-import ActivityTab from './ActivityTab';
+import FeatureButtons from './FeatureButtons';
 import NftTab from './NftTab';
-import { getWalletCardSkin, layoutTabs } from './shared';
-import WalletCard from './WalletCard';
+import { layoutTabs } from './shared';
 
 interface Props {
 	id: string;
 }
 
+const convertCustomMetadataToCardSkin = (
+	customWalletMetadata: CustomWalletMetadata,
+): CardSkin => {
+	let backgroundSrc = require(customWalletMetadata.coverBanner);
+	let iconSrc = require(customWalletMetadata.iconSrc);
+	if (Platform.OS == 'web') {
+		backgroundSrc = { uri: customWalletMetadata.coverBanner };
+		iconSrc = { uri: customWalletMetadata.iconSrc };
+	}
+
+	return {
+		backgroundSrc,
+		iconSrc,
+		iconSize: 40,
+		iconColor: '#ffffff',
+	};
+};
+
 export const CustomWalletLayout: FC<Props> = ({ id }) => {
-	const network = id as Networks;
+	const customWalletWidget = mockWidgets.find((item) => item._id === id);
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
+	const customWalletMetadata =
+		customWalletWidget?.customMetadata as CustomWalletMetadata;
+
+	const network = customWalletMetadata.network;
+	const tokens = customWalletMetadata.tokens;
+	const requiredNfts = customWalletMetadata.nfts;
+
 	const keys = usePublicKeys(network);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
-	const { valuation } = useTokens(network);
-	const cardSkin = useMemo(() => getWalletCardSkin(network), [network]);
+	const valuation = tokens?.reduce(
+		(accumulator, token) => accumulator + getTokenValue(token, 'usd'),
+		0,
+	);
+	const cardSkin = convertCustomMetadataToCardSkin(customWalletMetadata);
 	const opacityAnimated = useOpacityAnimated({ from: 0, to: 1 });
 
 	const container: ViewStyle = {
@@ -48,11 +74,13 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 		return [
 			{
 				id: 'tokens',
-				component: () => <TokenTab network={network} />,
+				component: () => <TokenTab network={network} tokens={tokens} />,
 			},
 			{
 				id: 'collectibles',
-				component: () => <NftTab network={network} />,
+				component: () => (
+					<NftTab network={network} requiredNfts={requiredNfts} />
+				),
 			},
 			{
 				id: 'activities',
@@ -62,9 +90,7 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 	}, []);
 
 	const activatedStyle: TabItemStyle = {
-		containerStyle: {
-			backgroundColor: '#0694D3',
-		},
+		containerStyle: customWalletMetadata.activeTabStyle,
 		textStyle: {
 			color: 'white',
 			fontWeight: '500',
@@ -73,7 +99,7 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 
 	const deactivatedStyle: TabItemStyle = {
 		containerStyle: {
-			backgroundColor: 'transparent',
+			style: { backgroundColor: 'transparent' },
 		},
 		textStyle: {
 			color: '#566674',
@@ -90,26 +116,12 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 		setHeaderLayout(nativeEvent.layout);
 	};
 
-	const handlePressSend = () => {
-		showSendTokenModal({ network: id as Networks });
-	};
-
-	const handlePressReceive = () => {
-		showReceiveModal({ network: id as Networks });
-	};
-
-	const handlePressSwap = () => {
-		showSwapModal({ network: id as Networks });
-	};
-
-	const handlePressBuy = () => {
-		buyToken(id as Networks);
-	};
-
 	const handleCopyAddress = (value: string) => {
 		copy(value);
 		showCopiedModal();
 	};
+
+	if (!customWalletWidget) return null;
 
 	return (
 		<Animated.View style={[container, opacityAnimated.style]}>
@@ -131,10 +143,11 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 					})}
 
 				<FeatureButtons
-					onSendPress={handlePressSend}
-					onReceivePress={handlePressReceive}
-					onBuyPress={id === Networks.solana ? handlePressBuy : undefined}
-					onSwapPress={id === Networks.solana ? handlePressSwap : undefined}
+					buy={customWalletMetadata.actionButtonBackgroundColors.buy}
+					send={customWalletMetadata.actionButtonBackgroundColors.send}
+					receive={customWalletMetadata.actionButtonBackgroundColors.receive}
+					swap={customWalletMetadata.actionButtonBackgroundColors.swap}
+					network={network}
 				/>
 			</View>
 

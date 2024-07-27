@@ -1,3 +1,7 @@
+import type { Nft, Token } from '@walless/core';
+import type { TabContainerStyle } from '@walless/gui';
+import type { NftDocument, TokenDocument } from '@walless/store';
+
 import type { Networks } from './common';
 
 export interface WidgetStoreOptions {
@@ -11,7 +15,7 @@ export interface WidgetStoreOptions {
 	activeCount: number;
 }
 
-export interface WidgetNetworkOptions {
+export interface WidgetNetworkMetadata {
 	backgroundUri: string;
 	markUri: string;
 	iconUri: string;
@@ -27,12 +31,44 @@ export enum WidgetType {
 	COMMUNITY = 'Community',
 }
 
+export interface CustomWalletAdvertisement {
+	title: string;
+	link: string;
+	image: string;
+}
+
+export interface CustomWalletMetadata {
+	coverBanner: string;
+	iconSrc: string;
+	backgroundColor: string;
+	actionButtonBackgroundColors: {
+		send: string;
+		receive: string;
+		buy: string;
+		swap: string;
+	};
+	activeTabStyle: TabContainerStyle;
+	advertisements: CustomWalletAdvertisement[];
+	tokens?: TokenDocument<Token>[];
+	nfts?: NftDocument<Nft>[];
+	network: Networks;
+}
+
+export type CustomMetadata = CustomWalletMetadata | WidgetNetworkMetadata;
+
+export enum WidgetCategory {
+	GAME = 'Game',
+	CUSTOM_WALLET = 'CustomWallet',
+	NETWORK = 'Network',
+}
+
 export interface Widget {
 	name: string;
 	networks: Networks[];
 	version: string;
 	timestamp?: string;
 	widgetType: WidgetType;
+	category: WidgetCategory;
 	storeMeta: WidgetStoreOptions;
-	networkMeta: WidgetNetworkOptions;
+	customMetadata?: CustomMetadata;
 }

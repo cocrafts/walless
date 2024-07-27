@@ -68,7 +68,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 
 	const activatedStyle: TabItemStyle = {
 		containerStyle: {
-			backgroundColor: '#0694D3',
+			style: { backgroundColor: '#0694D3' },
 		},
 		textStyle: {
 			color: 'white',
@@ -78,7 +78,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 
 	const deactivatedStyle: TabItemStyle = {
 		containerStyle: {
-			backgroundColor: 'transparent',
+			style: { backgroundColor: 'transparent' },
 		},
 		textStyle: {
 			color: '#566674',

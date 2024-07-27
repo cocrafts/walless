@@ -1,10 +1,19 @@
 import type { FC } from 'react';
 import type { TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { Hoverable, Text } from '@walless/gui';
 
+export interface TabContainerStyle {
+	style: ViewStyle;
+	linearGradient?: {
+		isHorizontal: boolean;
+		colors: string[];
+	};
+}
+
 export interface TabItemStyle {
-	containerStyle: ViewStyle;
+	containerStyle: TabContainerStyle;
 	textStyle: TextStyle;
 }
 
@@ -20,9 +29,29 @@ interface Props {
 }
 
 export const TabItem: FC<Props> = ({ item, style, onPress }) => {
+	if (style?.containerStyle.linearGradient) {
+		const isHorizontal = style.containerStyle.linearGradient.isHorizontal;
+
+		return (
+			<Hoverable onPress={() => onPress?.(item)}>
+				<LinearGradient
+					style={[styles.container, style?.containerStyle.style]}
+					colors={style.containerStyle.linearGradient.colors}
+					start={{ x: 0, y: 0 }}
+					end={{
+						x: isHorizontal ? 1 : 0,
+						y: isHorizontal ? 0 : 1,
+					}}
+				>
+					<Text style={[styles.title, style?.textStyle]}>{item.title}</Text>
+				</LinearGradient>
+			</Hoverable>
+		);
+	}
+
 	return (
 		<Hoverable
-			style={[styles.container, style?.containerStyle]}
+			style={[styles.container, style?.containerStyle.style]}
 			onPress={() => onPress?.(item)}
 		>
 			<Text style={[styles.title, style?.textStyle]}>{item.title}</Text>
@@ -32,7 +61,7 @@ export const TabItem: FC<Props> = ({ item, style, onPress }) => {
 
 export const activatedStyle: TabItemStyle = {
 	containerStyle: {
-		backgroundColor: '#0694D3',
+		style: { backgroundColor: '#0694D3' },
 	},
 	textStyle: {
 		color: 'white',
@@ -42,7 +71,7 @@ export const activatedStyle: TabItemStyle = {
 
 export const deactivatedStyle: TabItemStyle = {
 	containerStyle: {
-		backgroundColor: 'transparent',
+		style: { backgroundColor: 'transparent' },
 	},
 	textStyle: {
 		color: '#566674',

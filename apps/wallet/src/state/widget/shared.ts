@@ -1,4 +1,4 @@
-import { Networks, WidgetType } from '@walless/core';
+import { Networks, WidgetCategory, WidgetType } from '@walless/core';
 import type { WidgetDocument } from '@walless/store';
 
 // TODO: this mocked data is for web only
@@ -10,6 +10,7 @@ export const mockWidgets: WidgetDocument[] = [
 		version: '0.1.8',
 		type: 'Widget',
 		widgetType: WidgetType.GAME,
+		category: WidgetCategory.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-pixeverse.png',
@@ -20,7 +21,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 46,
 			activeCount: 202,
 		},
-		networkMeta: {
+		customMetadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/explore/logo-pixeverse.png',
 			iconUri: '/img/explore/logo-pixeverse.png',
@@ -35,6 +36,7 @@ export const mockWidgets: WidgetDocument[] = [
 		version: '0.9.1',
 		type: 'Widget',
 		widgetType: WidgetType.NETWORK,
+		category: WidgetCategory.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-solana.png',
@@ -46,7 +48,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 90,
 			activeCount: 502,
 		},
-		networkMeta: {
+		customMetadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/network/solana-icon-lg.png',
 			iconUri: '/img/network/solana-icon-sm.svg',
@@ -61,6 +63,7 @@ export const mockWidgets: WidgetDocument[] = [
 		version: '0.0.1',
 		type: 'Widget',
 		widgetType: WidgetType.NETWORK,
+		category: WidgetCategory.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-sui.png',
@@ -72,7 +75,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 100,
 			activeCount: 567,
 		},
-		networkMeta: {
+		customMetadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/network/sui-icon-lg.png',
 			iconUri: '/img/network/sui-icon-sm.png',
@@ -87,6 +90,7 @@ export const mockWidgets: WidgetDocument[] = [
 		version: '0.0.1',
 		type: 'Widget',
 		widgetType: WidgetType.NETWORK,
+		category: WidgetCategory.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/network/tezos-icon-sm.png',
@@ -98,7 +102,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 100,
 			activeCount: 567,
 		},
-		networkMeta: {
+		customMetadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/network/tezos-icon-lg.png',
 			iconUri: '/img/network/tezos-icon-sm.png',
@@ -113,6 +117,7 @@ export const mockWidgets: WidgetDocument[] = [
 		version: '0.0.1',
 		type: 'Widget',
 		widgetType: WidgetType.NETWORK,
+		category: WidgetCategory.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-aptos.png',
@@ -124,7 +129,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 46,
 			activeCount: 202,
 		},
-		networkMeta: {
+		customMetadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/explore/aptos-icon.svg',
 			iconUri: '/img/explore/aptos-icon.svg',
@@ -139,6 +144,7 @@ export const mockWidgets: WidgetDocument[] = [
 		version: '0.1.8',
 		type: 'Widget',
 		widgetType: WidgetType.GAME,
+		category: WidgetCategory.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/t-rex-runner/runner-icon.png',
@@ -149,7 +155,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 46,
 			activeCount: 202,
 		},
-		networkMeta: {
+		customMetadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/t-rex-runner/runner-icon.png',
 			iconUri: '/img/t-rex-runner/runner-icon.png',
@@ -164,6 +170,7 @@ export const mockWidgets: WidgetDocument[] = [
 		version: '0.0.1',
 		type: 'Widget',
 		widgetType: WidgetType.GAME,
+		category: WidgetCategory.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/sui-jump/suijump-icon.png',
@@ -174,7 +181,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 46,
 			activeCount: 202,
 		},
-		networkMeta: {
+		customMetadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/sui-jump/suijump-icon.png',
 			iconUri: '/img/sui-jump/suijump-icon.png',
@@ -199,7 +206,7 @@ export const mockWidgets: WidgetDocument[] = [
 	// 		loveCount: 46,
 	// 		activeCount: 202,
 	// 	},
-	// 	networkMeta: {
+	// 	customMetadata: {
 	// 		backgroundUri: '/img/network/sky-card-bg.png',
 	// 		markUri: '/img/network/solana-icon-lg.png',
 	// 		iconUri: '/img/explore/thumbnail-under-realm.png',

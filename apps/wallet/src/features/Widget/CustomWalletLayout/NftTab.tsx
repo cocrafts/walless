@@ -1,37 +1,37 @@
 import type { FC } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import type { Networks } from '@walless/core';
+import type { Networks, Nft } from '@walless/core';
 import { Text, View } from '@walless/gui';
+import type { NftDocument } from '@walless/store';
 import CollectionCard from 'components/CollectionCard';
-import type { WrappedCollection } from 'utils/hooks';
 import { useLazyGridLayout, useNfts } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 
 interface Props {
 	network: Networks;
+	requiredNfts?: NftDocument<Nft>[];
 }
 
-export const NftTab: FC<Props> = ({ network }) => {
-	const { collections } = useNfts(network);
+export const NftTab: FC<Props> = ({ network, requiredNfts }) => {
+	const { nfts } = useNfts(network);
 	const { onGridContainerLayout, width } = useLazyGridLayout({
 		referenceWidth: 150,
 		gap: gridGap,
 	});
 
-	const handlePressItem = (ele: WrappedCollection) => {
-		const collectionId = ele._id.split('/')[2];
-
+	const handleNavigateToCollectible = (id: string) => {
 		navigate('Dashboard', {
 			screen: 'Explore',
 			params: {
 				screen: 'Collection',
-				params: {
-					screen: 'Default',
-					params: { id: collectionId },
-				},
+				params: { screen: 'NFT', params: { id } },
 			},
 		});
 	};
+
+	const filteredNfts = nfts.filter(
+		(item) => requiredNfts?.some((ele) => ele._id === item._id),
+	);
 
 	return (
 		<ScrollView
@@ -39,20 +39,21 @@ export const NftTab: FC<Props> = ({ network }) => {
 			showsVerticalScrollIndicator={false}
 			onLayout={(e) => onGridContainerLayout(e.nativeEvent.layout)}
 		>
-			{collections.length === 0 && (
+			{filteredNfts.length === 0 && (
 				<View horizontal style={styles.emptyContainer}>
 					<Text style={styles.emptyText}>You do not have any NFT yet</Text>
 				</View>
 			)}
 			<View style={styles.contentContainer}>
 				{width > 0 &&
-					collections.map((ele, index) => {
+					nfts &&
+					nfts.map((ele, index) => {
+						const collectibleId = ele._id.split('/')[2];
 						return (
 							<CollectionCard
 								key={index}
 								item={ele}
-								collectibleCount={ele.count}
-								onPress={() => handlePressItem(ele)}
+								onPress={() => handleNavigateToCollectible(collectibleId)}
 								size={width}
 							/>
 						);

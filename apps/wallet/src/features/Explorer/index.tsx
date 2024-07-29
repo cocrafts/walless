@@ -3,7 +3,6 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { ScrollView, StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
-import Advertisement from 'features/Widget/CustomWalletLayout/Advertisement';
 
 import Header from './Header';
 import Highlights from './Highlights';
@@ -18,24 +17,6 @@ interface Props {
 	onToggleDrawer?: () => void;
 }
 
-const ads = [
-	{
-		title: 'Cute Kitten',
-		image: 'https://placehold.co/640x480/e67e22/ffffff',
-		link: 'https://example.com/kitten',
-	},
-	{
-		title: 'Majestic Mountain',
-		image: 'https://placehold.co/640x480/39cccc/ffffff',
-		link: 'https://example.com/mountain',
-	},
-	{
-		title: 'Vibrant Sunset',
-		image: 'https://placehold.co/640x480/f39c12/ffffff',
-		link: 'https://example.com/sunset',
-	},
-];
-
 export const ExplorerFeature: FC<Props> = ({ style }) => {
 	return (
 		<View style={[styles.container, style]}>
@@ -45,7 +26,6 @@ export const ExplorerFeature: FC<Props> = ({ style }) => {
 				<Missions style={styles.missionContainer} />
 				<Highlights />
 				<Widgets />
-				<Advertisement ads={ads} />
 			</ScrollView>
 		</View>
 	);

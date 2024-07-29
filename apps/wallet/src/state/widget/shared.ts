@@ -1,4 +1,5 @@
 import { Networks, WidgetCategory, WidgetType } from '@walless/core';
+import { gradientDirection } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
 // TODO: this mocked data is for web only
@@ -214,4 +215,50 @@ export const mockWidgets: WidgetDocument[] = [
 	// 		iconSize: 16,
 	// 	},
 	// },
+	{
+		_id: 'samo',
+		name: 'SAMO',
+		networks: [Networks.solana],
+		version: '0.0.1',
+		type: 'Widget',
+		widgetType: WidgetType.COMMUNITY,
+		category: WidgetCategory.CUSTOM_WALLET,
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/widget/samo-icon.png',
+			iconSize: 26,
+			iconColor: '#ffffff',
+			coverUri: '/img/widget/samo-cover.png',
+			description: 'dApp version of the T-rex Runner you already known!',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		customMetadata: {
+			coverBanner: '/img/widget/samo-banner.png',
+			iconSrc: '/img/widget/samo-icon.png',
+			backgroundColor: '#141121',
+			actionButtonBackgroundColors: {
+				send: '#0051BD',
+				receive: '#3D55BF',
+				buy: '#7E60D2',
+				swap: '#C36BE5',
+			},
+			activeTabStyle: {
+				linearGradient: {
+					direction: gradientDirection.LeftToRight,
+					colors: ['#1A4FB5', '#C36BE5'],
+				},
+			},
+			advertisements: [
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+			],
+			tokens: [],
+			nfts: [],
+			network: Networks.solana,
+		},
+	},
 ];

@@ -26,9 +26,10 @@ export interface WidgetNetworkMetadata {
 export enum WidgetType {
 	NETWORK = 'Network',
 	GAME = 'Game',
-	DEFI = 'DeFi',
-	NFT = 'NFT',
 	COMMUNITY = 'Community',
+	// We have no widgets for the below types of widget
+	// DEFI = 'DeFi',
+	// NFT = 'NFT',
 }
 
 export interface CustomWalletAdvertisement {
@@ -47,7 +48,7 @@ export interface CustomWalletMetadata {
 		buy: string;
 		swap: string;
 	};
-	activeTabStyle: TabContainerStyle;
+	activeTabStyle?: TabContainerStyle;
 	advertisements: CustomWalletAdvertisement[];
 	tokens?: TokenDocument<Token>[];
 	nfts?: NftDocument<Nft>[];

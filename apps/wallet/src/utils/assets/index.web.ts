@@ -79,6 +79,17 @@ const assets: Asset = {
 				cardBackground: { uri: '' },
 			},
 		},
+		samo: {
+			storeMeta: {
+				iconUri: { uri: '/img/explore/samo-icon.png' },
+				coverUri: { uri: '/img/explore/samo-cover.png' },
+			},
+			widgetMeta: {
+				cardIcon: { uri: '/img/widget/samo-icon.png' },
+				cardMark: { uri: '' },
+				cardBackground: { uri: '' },
+			},
+		},
 	},
 	setting: {
 		solana: { icon: { uri: '/img/send-token/icon-solana.png' } },

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import type { FlatList } from 'react-native-gesture-handler';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useSharedValue } from 'react-native-reanimated';
@@ -7,8 +8,6 @@ import type { CustomWalletAdvertisement } from '@walless/core';
 import { View } from '@walless/gui';
 
 import AdvertisementItem from './AdvertisementItem';
-
-const IMAGE_SIZE = 266;
 
 interface Props {
 	ads: CustomWalletAdvertisement[];
@@ -46,35 +45,7 @@ const Advertisement: FC<Props> = ({ ads }) => {
 
 	return (
 		<GestureDetector gesture={pan}>
-			<View
-				style={{
-					flexDirection: 'row',
-					minHeight: 200,
-					minWidth: 200,
-					paddingLeft: 40,
-				}}
-			>
-				{/* <FlatList
-					ref={scrollRef}
-					data={ads}
-					horizontal
-					initialScrollIndex={0}
-					showsVerticalScrollIndicator={false}
-					snapToInterval={IMAGE_SIZE}
-					renderItem={({ item, index }) => {
-						return (
-							<AdvertisementItem
-								key={index}
-								currentIndex={currentIndex}
-								index={index}
-								offsetX={offsetX}
-								dataLength={ads.length}
-								animatedValue={animatedValue}
-								{...item}
-							/>
-						);
-					}}
-				/> */}
+			<View style={styles.container}>
 				{ads.map((item, index) => {
 					return (
 						<AdvertisementItem
@@ -93,3 +64,12 @@ const Advertisement: FC<Props> = ({ ads }) => {
 };
 
 export default Advertisement;
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		minHeight: 200,
+		minWidth: 200,
+		paddingHorizontal: 20,
+	},
+});

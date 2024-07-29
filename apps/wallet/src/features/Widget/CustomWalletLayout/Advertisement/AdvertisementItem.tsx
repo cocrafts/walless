@@ -1,10 +1,7 @@
 import type { FC } from 'react';
-import { Image, Platform, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import type { SharedValue } from 'react-native-reanimated';
-import Animated, {
-	interpolate,
-	useAnimatedStyle,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import type { CustomWalletAdvertisement } from '@walless/core';
 import { Anchor, Text } from '@walless/gui';
 import { ArrowTopRight } from '@walless/icons';
@@ -68,6 +65,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingVertical: 10,
 		paddingHorizontal: 12,
+		backgroundColor: '#0C334E',
 	},
 	title: {
 		color: '#ffffff',

@@ -7,6 +7,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import type { CustomWalletAdvertisement } from '@walless/core';
 import { View } from '@walless/gui';
 
+import AdvertisementIndicator from './AdvertisementIndicator';
 import AdvertisementItem from './AdvertisementItem';
 
 interface Props {
@@ -44,22 +45,33 @@ const Advertisement: FC<Props> = ({ ads }) => {
 		});
 
 	return (
-		<GestureDetector gesture={pan}>
-			<View style={styles.container}>
-				{ads.map((item, index) => {
-					return (
-						<AdvertisementItem
-							key={index}
-							currentIndex={currentIndex}
-							index={index}
-							offsetX={offsetX}
-							animatedValue={animatedValue}
-							{...item}
-						/>
-					);
-				})}
+		<View style={styles.container}>
+			<GestureDetector gesture={pan}>
+				<View style={styles.itemsContainer}>
+					{ads.map((item, index) => {
+						return (
+							<AdvertisementItem
+								key={index}
+								currentIndex={currentIndex}
+								index={index}
+								offsetX={offsetX}
+								animatedValue={animatedValue}
+								{...item}
+							/>
+						);
+					})}
+				</View>
+			</GestureDetector>
+			<View style={styles.indicatorContainer}>
+				{ads.map((_, index) => (
+					<AdvertisementIndicator
+						key={index}
+						currentIndex={currentIndex}
+						index={index}
+					/>
+				))}
 			</View>
-		</GestureDetector>
+		</View>
 	);
 };
 
@@ -67,9 +79,17 @@ export default Advertisement;
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: 'row',
-		minHeight: 200,
-		minWidth: 200,
+		gap: 8,
 		paddingHorizontal: 20,
+	},
+	itemsContainer: {
+		flexDirection: 'row',
+		minHeight: 164,
+		minWidth: 200,
+	},
+	indicatorContainer: {
+		flexDirection: 'row',
+		gap: 4,
+		alignSelf: 'center',
 	},
 });

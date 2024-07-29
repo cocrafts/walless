@@ -5,9 +5,9 @@ import type {
 	LayoutRectangle,
 	ViewStyle,
 } from 'react-native';
-import { Platform, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import type { CustomWalletMetadata } from '@walless/core';
+import type { CustomWalletMetadata, WidgetStoreOptions } from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, SliderTabs } from '@walless/gui';
 import type { TabAble, TabItemStyle } from '@walless/gui/components/SliderTabs';
@@ -21,6 +21,7 @@ import TokenTab from '../BuiltInNetwork/TokenTab';
 import type { CardSkin } from '../BuiltInNetwork/WalletCard';
 import { WalletCard } from '../BuiltInNetwork/WalletCard';
 
+import Advertisement from './Advertisement';
 import FeatureButtons from './FeatureButtons';
 import NftTab from './NftTab';
 import { layoutTabs } from './shared';
@@ -31,19 +32,18 @@ interface Props {
 
 const convertCustomMetadataToCardSkin = (
 	customWalletMetadata: CustomWalletMetadata,
+	storeMeta?: WidgetStoreOptions,
 ): CardSkin => {
-	let backgroundSrc = require(customWalletMetadata.coverBanner);
-	let iconSrc = require(customWalletMetadata.iconSrc);
-	if (Platform.OS == 'web') {
-		backgroundSrc = { uri: customWalletMetadata.coverBanner };
-		iconSrc = { uri: customWalletMetadata.iconSrc };
-	}
+	const backgroundSrc = { uri: customWalletMetadata.coverBanner };
+	const iconSrc = { uri: customWalletMetadata.iconSrc };
+	const iconSize = storeMeta?.iconSize || 40;
+	const iconColor = storeMeta?.iconColor || '#ffffff';
 
 	return {
 		backgroundSrc,
 		iconSrc,
-		iconSize: 40,
-		iconColor: '#ffffff',
+		iconSize,
+		iconColor,
 	};
 };
 
@@ -63,7 +63,10 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 		(accumulator, token) => accumulator + getTokenValue(token, 'usd'),
 		0,
 	);
-	const cardSkin = convertCustomMetadataToCardSkin(customWalletMetadata);
+	const cardSkin = convertCustomMetadataToCardSkin(
+		customWalletMetadata,
+		customWalletWidget?.storeMeta,
+	);
 	const opacityAnimated = useOpacityAnimated({ from: 0, to: 1 });
 
 	const container: ViewStyle = {
@@ -124,7 +127,13 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 	if (!customWalletWidget) return null;
 
 	return (
-		<Animated.View style={[container, opacityAnimated.style]}>
+		<Animated.View
+			style={[
+				container,
+				opacityAnimated.style,
+				{ backgroundColor: customWalletMetadata.backgroundColor },
+			]}
+		>
 			<View style={styles.headerContainer} onLayout={onHeaderLayout}>
 				{headerLayout?.width &&
 					keys.map((item, index) => {
@@ -164,6 +173,8 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 				items={bottomSliderItems}
 				activeItem={bottomSliderItems[activeTabIndex]}
 			/>
+
+			<Advertisement ads={customWalletMetadata.advertisements} />
 		</Animated.View>
 	);
 };

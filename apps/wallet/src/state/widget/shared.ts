@@ -227,7 +227,6 @@ export const mockWidgets: WidgetDocument[] = [
 		storeMeta: {
 			iconUri: '/img/widget/samo-icon.png',
 			iconSize: 26,
-			iconColor: '#ffffff',
 			coverUri: '/img/widget/samo-cover.png',
 			description: 'dApp version of the T-rex Runner you already known!',
 			loveCount: 46,
@@ -255,8 +254,32 @@ export const mockWidgets: WidgetDocument[] = [
 					link: '',
 					image: '/img/widget/samo-ad-1.png',
 				},
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
 			],
-			tokens: [],
+			tokens: [
+				{
+					mintAddress: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
+					amount: 0.1,
+				},
+				{
+					mintAddress: '11111111111111111111111111111111',
+					amount: 1,
+				},
+			],
 			nfts: [],
 			network: Networks.solana,
 		},

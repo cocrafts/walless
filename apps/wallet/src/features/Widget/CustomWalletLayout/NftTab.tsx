@@ -1,15 +1,15 @@
 import type { FC } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import type { Networks, Nft } from '@walless/core';
+import type { CustomWalletAssets, Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
-import type { NftDocument } from '@walless/store';
 import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout, useNfts } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
+import { filterAssetsFromCustomWalletTokens } from 'utils/widget';
 
 interface Props {
 	network: Networks;
-	requiredNfts?: NftDocument<Nft>[];
+	requiredNfts?: CustomWalletAssets[];
 }
 
 export const NftTab: FC<Props> = ({ network, requiredNfts }) => {
@@ -29,9 +29,9 @@ export const NftTab: FC<Props> = ({ network, requiredNfts }) => {
 		});
 	};
 
-	const filteredNfts = nfts.filter(
-		(item) => requiredNfts?.some((ele) => ele._id === item._id),
-	);
+	const filteredNfts = filterAssetsFromCustomWalletTokens(requiredNfts || [], {
+		ownedNfts: nfts,
+	});
 
 	return (
 		<ScrollView
@@ -46,8 +46,8 @@ export const NftTab: FC<Props> = ({ network, requiredNfts }) => {
 			)}
 			<View style={styles.contentContainer}>
 				{width > 0 &&
-					nfts &&
-					nfts.map((ele, index) => {
+					filteredNfts &&
+					filteredNfts.map((ele, index) => {
 						const collectibleId = ele._id.split('/')[2];
 						return (
 							<CollectionCard
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
 		marginBottom: 32,
 		borderRadius: 12,
 		overflow: 'hidden',
+		minHeight: 300,
 	},
 	contentContainer: {
 		flexDirection: 'row',

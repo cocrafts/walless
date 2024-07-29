@@ -1,6 +1,4 @@
-import type { Nft, Token } from '@walless/core';
 import type { TabContainerStyle } from '@walless/gui';
-import type { NftDocument, TokenDocument } from '@walless/store';
 
 import type { Networks } from './common';
 
@@ -38,6 +36,11 @@ export interface CustomWalletAdvertisement {
 	image: string;
 }
 
+export interface CustomWalletAssets {
+	mintAddress: string;
+	amount?: number;
+}
+
 export interface CustomWalletMetadata {
 	coverBanner: string;
 	iconSrc: string;
@@ -50,8 +53,8 @@ export interface CustomWalletMetadata {
 	};
 	activeTabStyle?: TabContainerStyle;
 	advertisements: CustomWalletAdvertisement[];
-	tokens?: TokenDocument<Token>[];
-	nfts?: NftDocument<Nft>[];
+	tokens?: CustomWalletAssets[];
+	nfts?: CustomWalletAssets[];
 	network: Networks;
 }
 

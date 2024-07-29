@@ -7,14 +7,25 @@ import type {
 } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import type { CustomWalletMetadata, WidgetStoreOptions } from '@walless/core';
+import type {
+	CustomWalletMetadata,
+	Token,
+	WidgetStoreOptions,
+} from '@walless/core';
 import type { SlideOption } from '@walless/gui';
 import { Slider, SliderTabs } from '@walless/gui';
 import type { TabAble, TabItemStyle } from '@walless/gui/components/SliderTabs';
+import type { TokenDocument } from '@walless/store';
 import { showCopiedModal } from 'modals/Notification';
 import { mockWidgets } from 'state/widget';
-import { getTokenValue, useOpacityAnimated, usePublicKeys } from 'utils/hooks';
+import {
+	getTokenValue,
+	useOpacityAnimated,
+	usePublicKeys,
+	useTokens,
+} from 'utils/hooks';
 import { copy } from 'utils/system';
+import { filterAssetsFromCustomWalletTokens } from 'utils/widget';
 
 import ActivityTab from '../BuiltInNetwork/ActivityTab';
 import TokenTab from '../BuiltInNetwork/TokenTab';
@@ -50,16 +61,24 @@ const convertCustomMetadataToCardSkin = (
 export const CustomWalletLayout: FC<Props> = ({ id }) => {
 	const customWalletWidget = mockWidgets.find((item) => item._id === id);
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
+	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
 	const customWalletMetadata =
 		customWalletWidget?.customMetadata as CustomWalletMetadata;
 
 	const network = customWalletMetadata.network;
-	const tokens = customWalletMetadata.tokens;
+	const requiredTokens = customWalletMetadata.tokens;
 	const requiredNfts = customWalletMetadata.nfts;
 
 	const keys = usePublicKeys(network);
-	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
-	const valuation = tokens?.reduce(
+	const { tokens: ownedTokens } = useTokens(network);
+	const filteredTokens = filterAssetsFromCustomWalletTokens(
+		requiredTokens || [],
+		{
+			ownedTokens,
+		},
+	);
+
+	const valuation = (filteredTokens as TokenDocument<Token>[])?.reduce(
 		(accumulator, token) => accumulator + getTokenValue(token, 'usd'),
 		0,
 	);
@@ -77,7 +96,12 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 		return [
 			{
 				id: 'tokens',
-				component: () => <TokenTab network={network} tokens={tokens} />,
+				component: () => (
+					<TokenTab
+						network={network}
+						tokens={filteredTokens as TokenDocument<Token>[]}
+					/>
+				),
 			},
 			{
 				id: 'collectibles',
@@ -174,7 +198,9 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 				activeItem={bottomSliderItems[activeTabIndex]}
 			/>
 
-			<Advertisement ads={customWalletMetadata.advertisements} />
+			{activeTabIndex === 0 && (
+				<Advertisement ads={customWalletMetadata.advertisements} />
+			)}
 		</Animated.View>
 	);
 };
@@ -195,6 +221,7 @@ const styles = StyleSheet.create({
 	},
 	sliderContainer: {
 		flex: 1,
+		minHeight: 200,
 		overflow: 'hidden',
 	},
 });

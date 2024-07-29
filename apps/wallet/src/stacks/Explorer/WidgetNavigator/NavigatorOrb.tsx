@@ -36,7 +36,7 @@ export const NavigatorOrb: FC<Props> = ({
 }) => {
 	const containerRef = useRef(null);
 	const iconColor = getIconColor(isActive, item.storeMeta);
-	const iconSize = item.storeMeta?.iconSize || 20;
+	const iconSize = item.storeMeta?.iconSize || 40;
 	const offset = useSharedValue(0);
 	const radius = useSharedValue(isActive ? 1000 : 15);
 	const hoverBarStyle = useAnimatedStyle(() => {
@@ -52,7 +52,7 @@ export const NavigatorOrb: FC<Props> = ({
 	const orbStyle = useAnimatedStyle(() => {
 		return {
 			// temporarily use transparent without migration for pixeverse widget
-			backgroundColor: item._id === 'pixeverse' ? 'transparent' : iconColor,
+			backgroundColor: iconColor,
 			borderRadius: withTiming(radius.value, {
 				duration: 320,
 				easing: Easing.bezier(0.51, 0.58, 0.23, 0.99),
@@ -61,8 +61,8 @@ export const NavigatorOrb: FC<Props> = ({
 	}, [isActive]);
 
 	const iconImgStyle = {
-		width: iconSize,
-		height: iconSize,
+		width: iconColor !== 'transparent' ? iconSize : 40,
+		height: iconColor !== 'transparent' ? iconSize : 40,
 	};
 
 	const handleHoverIn = () => {

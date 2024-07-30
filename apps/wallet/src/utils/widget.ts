@@ -19,7 +19,9 @@ export const filterAssetsFromCustomWalletAssets = (
 		return ownedNfts.filter(
 			(nft) =>
 				requiredAssets?.some((ele) => {
-					const id = nft.collectionId || '';
+					const splittedStrings = nft.collectionId?.split('/') || [];
+					const id = splittedStrings[2] || '';
+
 					return ele.mintAddress === id;
 				}),
 		);
@@ -67,8 +69,8 @@ export const filterTokensWithAmountFromCustomWalletToken = (
 };
 
 const getSolanaMintAddress = (mint: string) => {
-	if (mint === wrappedSolMint) {
-		return solMint;
+	if (mint === solMint) {
+		return wrappedSolMint;
 	}
 
 	return mint;

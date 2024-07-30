@@ -1,16 +1,11 @@
-import type {
-	SolanaCollectible,
-	SolanaToken,
-	SuiNft,
-	SuiToken,
-} from '@walless/core';
+import type { SolanaToken, SuiToken } from '@walless/core';
 import type { CustomWalletAssets, Nft, Token } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { NftDocument, TokenDocument } from '@walless/store';
 
 import { solMint, wrappedSolMint } from './constants';
 
-export const filterAssetsFromCustomWalletTokens = (
+export const filterAssetsFromCustomWalletAssets = (
 	requiredAssets: CustomWalletAssets[],
 	{
 		ownedTokens,
@@ -24,13 +19,7 @@ export const filterAssetsFromCustomWalletTokens = (
 		return ownedNfts.filter(
 			(nft) =>
 				requiredAssets?.some((ele) => {
-					let id = '';
-					if (nft.network === Networks.solana) {
-						id = (nft as NftDocument<SolanaCollectible>).mint;
-					} else if (nft.network === Networks.sui) {
-						id = (nft as NftDocument<SuiNft>).objectId;
-					}
-
+					const id = nft.collectionId || '';
 					return ele.mintAddress === id;
 				}),
 		);
@@ -54,6 +43,27 @@ export const filterAssetsFromCustomWalletTokens = (
 	}
 
 	return [];
+};
+
+export const filterTokensWithAmountFromCustomWalletToken = (
+	requiredAssets: CustomWalletAssets[],
+	ownedTokens: TokenDocument<Token>[],
+) => {
+	return ownedTokens.filter(
+		(token) =>
+			requiredAssets?.some((ele) => {
+				let id = '';
+				if (token.network === Networks.solana) {
+					id = getSolanaMintAddress((token as TokenDocument<SolanaToken>).mint);
+				} else if (token.network === Networks.sui) {
+					id = (token as TokenDocument<SuiToken>).coinObjectIds[0];
+				}
+
+				return (
+					ele.mintAddress === id && ele.amount && ele.amount <= token.balance
+				);
+			}),
+	);
 };
 
 const getSolanaMintAddress = (mint: string) => {

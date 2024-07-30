@@ -25,7 +25,7 @@ import {
 	useTokens,
 } from 'utils/hooks';
 import { copy } from 'utils/system';
-import { filterAssetsFromCustomWalletTokens } from 'utils/widget';
+import { filterAssetsFromCustomWalletAssets } from 'utils/widget';
 
 import ActivityTab from '../BuiltInNetwork/ActivityTab';
 import TokenTab from '../BuiltInNetwork/TokenTab';
@@ -71,7 +71,7 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 
 	const keys = usePublicKeys(network);
 	const { tokens: ownedTokens } = useTokens(network);
-	const filteredTokens = filterAssetsFromCustomWalletTokens(
+	const filteredTokens = filterAssetsFromCustomWalletAssets(
 		requiredTokens || [],
 		{
 			ownedTokens,

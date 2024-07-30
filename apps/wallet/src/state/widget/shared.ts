@@ -274,14 +274,17 @@ export const mockWidgets: WidgetDocument[] = [
 			tokens: [
 				{
 					mintAddress: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
-					amount: 0.1,
+					amount: 50000,
 				},
 				{
 					mintAddress: wrappedSolMint,
-					amount: 1,
 				},
 			],
-			nfts: [],
+			nfts: [
+				{
+					mintAddress: '9dKaqke7EUJDGBF6614oowCbA3aSZw5dHLRaNpWGoWDz',
+				},
+			],
 			network: Networks.solana,
 		},
 	},

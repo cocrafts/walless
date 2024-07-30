@@ -5,7 +5,7 @@ import { Text, View } from '@walless/gui';
 import CollectionCard from 'components/CollectionCard';
 import { useLazyGridLayout, useNfts } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
-import { filterAssetsFromCustomWalletTokens } from 'utils/widget';
+import { filterAssetsFromCustomWalletAssets } from 'utils/widget';
 
 interface Props {
 	network: Networks;
@@ -29,7 +29,7 @@ export const NftTab: FC<Props> = ({ network, requiredNfts }) => {
 		});
 	};
 
-	const filteredNfts = filterAssetsFromCustomWalletTokens(requiredNfts || [], {
+	const filteredNfts = filterAssetsFromCustomWalletAssets(requiredNfts || [], {
 		ownedNfts: nfts,
 	});
 

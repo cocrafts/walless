@@ -1,12 +1,17 @@
+import type { FC } from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@walless/gui';
-import { mockWidgets } from 'state/widget';
+import type { WidgetDocument } from '@walless/store';
 
 import CardCarousel from './CardCarousel';
 import HighlightIndicator from './HighlightIndicator';
 
-const Highlights = () => {
+interface Props {
+	data: WidgetDocument[];
+}
+
+const Highlights: FC<Props> = ({ data }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	return (
@@ -18,14 +23,14 @@ const Highlights = () => {
 
 			<View style={styles.highlightList}>
 				<CardCarousel
-					widgets={mockWidgets}
+					widgets={data}
 					currentIndex={currentIndex}
 					onChangeCurrentIndex={setCurrentIndex}
 				/>
 
 				<HighlightIndicator
 					currentIndex={currentIndex}
-					dataLength={mockWidgets.length}
+					dataLength={data.length}
 				/>
 			</View>
 		</View>

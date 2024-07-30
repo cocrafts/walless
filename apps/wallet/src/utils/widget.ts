@@ -8,6 +8,8 @@ import type { CustomWalletAssets, Nft, Token } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { NftDocument, TokenDocument } from '@walless/store';
 
+import { solMint, wrappedSolMint } from './constants';
+
 export const filterAssetsFromCustomWalletTokens = (
 	requiredAssets: CustomWalletAssets[],
 	{
@@ -40,7 +42,9 @@ export const filterAssetsFromCustomWalletTokens = (
 				requiredAssets?.some((ele) => {
 					let id = '';
 					if (token.network === Networks.solana) {
-						id = (token as TokenDocument<SolanaToken>).mint;
+						id = getSolanaMintAddress(
+							(token as TokenDocument<SolanaToken>).mint,
+						);
 					} else if (token.network === Networks.sui) {
 						id = (token as TokenDocument<SuiToken>).coinObjectIds[0];
 					}
@@ -50,4 +54,12 @@ export const filterAssetsFromCustomWalletTokens = (
 	}
 
 	return [];
+};
+
+const getSolanaMintAddress = (mint: string) => {
+	if (mint === wrappedSolMint) {
+		return solMint;
+	}
+
+	return mint;
 };

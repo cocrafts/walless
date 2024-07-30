@@ -1,6 +1,7 @@
 import { Networks, WidgetCategory, WidgetType } from '@walless/core';
 import { gradientDirection } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
+import { wrappedSolMint } from 'utils/constants';
 
 // TODO: this mocked data is for web only
 export const mockWidgets: WidgetDocument[] = [
@@ -276,7 +277,7 @@ export const mockWidgets: WidgetDocument[] = [
 					amount: 0.1,
 				},
 				{
-					mintAddress: '11111111111111111111111111111111',
+					mintAddress: wrappedSolMint,
 					amount: 1,
 				},
 			],

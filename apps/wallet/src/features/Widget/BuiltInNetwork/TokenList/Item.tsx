@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
+import type { TokenPnL } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import assets from 'utils/assets';
@@ -10,10 +11,11 @@ interface Props {
 	style?: StyleProp<ViewStyle>;
 	token: TokenDocument;
 	onPress?: () => void;
-	pnl?: number;
+	tokenPnL?: TokenPnL;
 }
 
-export const TokenItem: FC<Props> = ({ style, token, onPress, pnl }) => {
+export const TokenItem: FC<Props> = ({ style, token, onPress, tokenPnL }) => {
+	const pnl = tokenPnL?.priceChangePercentage24H || 0;
 	const { symbol, image, quotes, balance } = token;
 	const unitQuote = quotes?.usd;
 	const totalQuote = unitQuote && unitQuote * balance;

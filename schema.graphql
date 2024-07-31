@@ -568,13 +568,13 @@ type TokenPnL {
   currentPrice: Float!
 
   """"""
-  priceChangePercentage7d: Float
+  priceChangePercentage7d: Float!
 
   """"""
-  priceChangePercentage24H: Float
+  priceChangePercentage24H: Float!
 
   """"""
-  priceChangePercentage30d: Float
+  priceChangePercentage30d: Float!
 
   """"""
   timestamp: DateTime!

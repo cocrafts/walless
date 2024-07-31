@@ -459,9 +459,9 @@ export type TokenInfo = {
 export type TokenPnL = {
   __typename?: 'TokenPnL';
   currentPrice: Scalars['Float']['output'];
-  priceChangePercentage7d?: Maybe<Scalars['Float']['output']>;
-  priceChangePercentage24H?: Maybe<Scalars['Float']['output']>;
-  priceChangePercentage30d?: Maybe<Scalars['Float']['output']>;
+  priceChangePercentage7d: Scalars['Float']['output'];
+  priceChangePercentage24H: Scalars['Float']['output'];
+  priceChangePercentage30d: Scalars['Float']['output'];
   timestamp: Scalars['DateTime']['output'];
 };
 
@@ -907,9 +907,9 @@ export type TokenInfoResolvers<ContextType = any, ParentType extends ResolversPa
 
 export type TokenPnLResolvers<ContextType = any, ParentType extends ResolversParentTypes['TokenPnL'] = ResolversParentTypes['TokenPnL']> = {
   currentPrice?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  priceChangePercentage7d?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  priceChangePercentage24H?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  priceChangePercentage30d?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  priceChangePercentage7d?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  priceChangePercentage24H?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  priceChangePercentage30d?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

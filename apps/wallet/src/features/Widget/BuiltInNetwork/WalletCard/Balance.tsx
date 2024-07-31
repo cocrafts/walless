@@ -3,24 +3,26 @@ import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
 import TotalPnL from 'components/TotalPnL';
-import numeral from 'numeral';
 import { getValuationDisplay } from 'utils/helper';
 
 interface Props {
 	onHide: (next: boolean) => void;
 	hideBalance: boolean;
 	valuation?: number;
+	pnl?: number;
 }
 
 export const WalletBalance: FC<Props> = ({
 	onHide,
 	hideBalance,
 	valuation = 0,
+	pnl = 0,
 }) => {
 	const balanceTextStyle = [
 		styles.balanceText,
 		hideBalance && styles.protectedBalance,
 	];
+	const pnlRates = (pnl / (valuation != 0 ? valuation : 1)) * 100;
 
 	return (
 		<View style={styles.container}>
@@ -33,7 +35,11 @@ export const WalletBalance: FC<Props> = ({
 				</Text>
 			</View>
 			<View style={styles.pnLContainer}>
-				<TotalPnL value={123.34} percentage={11.34} isDarkTheme={true} />
+				<TotalPnL
+					value={Math.round(pnl * 10000) / 10000}
+					percentage={Math.round(pnlRates * 100) / 100}
+					isDarkTheme={true}
+				/>
 			</View>
 		</View>
 	);

@@ -41,3 +41,16 @@ export const getTokenQuote = async (token: IToken) => {
 		console.log('failed to get token quote:', error);
 	}
 };
+
+export const getTokenPnL = async (token: IToken) => {
+	try {
+		const response = await qlClient.request<
+			{ tokenByAddress: TokenInfo },
+			{ address: string }
+		>(queries.tokenByAddress, { address: makeHashId(token) });
+
+		return response.tokenByAddress;
+	} catch (error) {
+		console.log('failed to get token quote:', error);
+	}
+};

@@ -9,6 +9,7 @@ export const tokenById = gql`
 			quotes
 			pnl {
 				currentPrice
+				priceChangePercentage24H
 			}
 		}
 	}
@@ -23,6 +24,7 @@ export const tokenByAddress = gql`
 			quotes
 			pnl {
 				currentPrice
+				priceChangePercentage24H
 			}
 		}
 	}
@@ -37,6 +39,7 @@ export const tokensByAddress = gql`
 			quotes
 			pnl {
 				currentPrice
+				priceChangePercentage24H
 			}
 		}
 	}

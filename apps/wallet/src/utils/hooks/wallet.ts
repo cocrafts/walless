@@ -55,9 +55,17 @@ const getTokenValue = (token: TokenDocument, currency: string) => {
 	return quote * balance;
 };
 
+const getTokenPnLValue = (token: TokenDocument, totalValue: number) => {
+	const { pnl } = token;
+	const totalPnL = pnl?.priceChangePercentage24H || 0;
+
+	return (totalPnL / 100) * totalValue;
+};
+
 type TokenResult<T extends Token> = {
 	tokens: TokenDocument<T>[];
 	valuation: number;
+	pnl: number;
 };
 
 export const useTokens = <T extends Token = Token>(
@@ -75,6 +83,7 @@ export const useTokens = <T extends Token = Token>(
 		});
 
 		let valuation = 0;
+		let pnl = 0;
 
 		switch (network) {
 			case Networks.solana: {
@@ -85,7 +94,9 @@ export const useTokens = <T extends Token = Token>(
 					const isSol = token.mint === solMint;
 
 					if (isNetworkValid && (isSol || isAvailable)) {
-						valuation += getTokenValue(token, currency);
+						const totalValue = getTokenValue(token, currency);
+						valuation += totalValue;
+						pnl += getTokenPnLValue(token, totalValue);
 						filteredTokens.push(token);
 					}
 				}
@@ -103,6 +114,7 @@ export const useTokens = <T extends Token = Token>(
 				return {
 					tokens: filteredTokens,
 					valuation,
+					pnl,
 				};
 			}
 			case Networks.sui: {
@@ -113,7 +125,9 @@ export const useTokens = <T extends Token = Token>(
 					const isSUI = token.coinType === SUI_COIN_TYPE;
 
 					if (isNetworkValid && (isSUI || isAvailable)) {
-						valuation += getTokenValue(token, currency);
+						const totalValue = getTokenValue(token, currency);
+						valuation += totalValue;
+						pnl += getTokenPnLValue(token, totalValue);
 						filteredTokens.push(token);
 					}
 				}
@@ -131,19 +145,22 @@ export const useTokens = <T extends Token = Token>(
 				return {
 					tokens: filteredTokens,
 					valuation,
+					pnl,
 				};
 			}
 			case Networks.tezos: {
-				return { tokens, valuation };
+				return { tokens, valuation, pnl };
 			}
 			case Networks.aptos: {
-				return { tokens, valuation };
+				return { tokens, valuation, pnl };
 			}
 			default: {
 				tokens.forEach((token) => {
-					valuation += getTokenValue(token, currency);
+					const totalValue = getTokenValue(token, currency);
+					valuation += totalValue;
+					pnl += getTokenPnLValue(token, totalValue);
 				});
-				return { tokens, valuation };
+				return { tokens, valuation, pnl };
 			}
 		}
 	}, [map, network, address]) as never as TokenResult<T>;

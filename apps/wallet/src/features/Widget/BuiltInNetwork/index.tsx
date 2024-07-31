@@ -36,7 +36,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const keys = usePublicKeys(network);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
-	const { valuation } = useTokens(network);
+	const { valuation, pnl } = useTokens(network);
 	const cardSkin = useMemo(() => getWalletCardSkin(network), [network]);
 	const opacityAnimated = useOpacityAnimated({ from: 0, to: 1 });
 
@@ -127,6 +127,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 								index={index}
 								item={item}
 								valuation={valuation}
+								pnl={pnl}
 								skin={cardSkin}
 								hideBalance={false}
 								width={headerLayout.width}

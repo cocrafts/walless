@@ -230,10 +230,8 @@ const handleInitAccountOnLogsChange = async (
 			const quotes = await getTokenQuotes([
 				{ address: token.mint, network: token.network },
 			]);
-			token.pnl24h = 
-				quotes[
-					makeHashId({ address: token.mint, network: token.network })
-				].pnl24h;
+			token.pnl =
+				quotes[makeHashId({ address: token.mint, network: token.network })].pnl;
 			token.quotes =
 				quotes[
 					makeHashId({ address: token.mint, network: token.network })

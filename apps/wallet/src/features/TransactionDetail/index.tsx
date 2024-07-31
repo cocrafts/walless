@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import type { Networks, TransactionHistory } from '@walless/core';
+import type { Networks, SolanaTransferHistory } from '@walless/core';
 import { View } from '@walless/gui';
+import type { HistoryDocument } from '@walless/store';
 import { appState } from 'state/app';
 import assets from 'utils/assets';
 import type { NetworkInfo } from 'utils/helper';
@@ -12,8 +13,10 @@ import InformationDetails from './InformationDetails/InformationDetails';
 import AddressDetails from './AddressDetails';
 import TokenDetails from './TokenDetails';
 
-export const TransactionDetailsFeature: FC<TransactionHistory> = ({
-	id,
+export const SolanaTransactionDetailsFeature: FC<
+	HistoryDocument<SolanaTransferHistory>
+> = ({
+	_id,
 	date,
 	amount,
 	transactionType,
@@ -27,19 +30,17 @@ export const TransactionDetailsFeature: FC<TransactionHistory> = ({
 }) => {
 	const { profile } = useSnapshot(appState);
 	const networkInfo = getNetworkInfo(network);
-	const icon = token.metadata?.image
-		? { uri: token.metadata.image }
-		: assets.misc.unknownToken;
+	const icon = token.image ? { uri: token.image } : assets.misc.unknownToken;
 
 	return (
 		<View style={styles.container}>
 			<TokenDetails
-				id={id}
+				id={_id}
 				icon={icon}
-				tokenName={token.metadata?.name || 'Unknown'}
+				tokenName={token?.name || 'Unknown'}
 				amount={amount}
 				network={networkInfo?.name as Networks}
-				isCollectible={!!token.metadata?.mpl}
+				isCollectible={!!token}
 			/>
 
 			<AddressDetails
@@ -55,13 +56,13 @@ export const TransactionDetailsFeature: FC<TransactionHistory> = ({
 				status={status}
 				networkInfo={networkInfo as NetworkInfo}
 				fee={fee}
-				tokenForFeeSymbol={tokenForFee.metadata?.symbol}
+				tokenForFeeSymbol={tokenForFee.symbol}
 			/>
 		</View>
 	);
 };
 
-export default TransactionDetailsFeature;
+export default SolanaTransactionDetailsFeature;
 
 const styles = StyleSheet.create({
 	container: {

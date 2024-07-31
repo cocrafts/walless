@@ -17,7 +17,7 @@ import { signAndSendTransaction } from 'utils/transaction/solana';
 import { swapActions, swapContext } from '../context';
 
 type Props = SlideComponentProps;
-type Status = 'init' | 'building' | 'sending' | 'processing';
+type Status = 'init' | 'building' | 'sending' | 'processing' | 'finalizing';
 
 const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -89,6 +89,15 @@ const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 				);
 
 				setStatus('processing');
+
+				connection.onSignature(
+					signature,
+					() => {
+						setStatus('finalizing');
+					},
+					'confirmed',
+				);
+
 				connection.onSignature(
 					signature,
 					async () => {
@@ -158,11 +167,13 @@ const ConfirmPasscode: FC<Props> = ({ navigator, item, activatedId }) => {
 
 			<View style={styles.statusContainer}>
 				{status === 'building' ? (
-					<Text>Construct transaction...</Text>
+					<Text>Constructing...</Text>
 				) : status === 'sending' ? (
-					<Text>Sending transaction...</Text>
+					<Text>Sending...</Text>
+				) : status === 'processing' ? (
+					<Text>Processing...</Text>
 				) : (
-					status === 'processing' && <Text>Processing transaction...</Text>
+					status === 'finalizing' && <Text>Finalizing...</Text>
 				)}
 			</View>
 		</View>

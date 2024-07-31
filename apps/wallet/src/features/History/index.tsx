@@ -46,20 +46,25 @@ const HistoryFeature: FC<Props> = ({ style, network, limit }) => {
 							date = convertDateToReadable(new Date(transaction.date));
 							isOnTheSameDate = false;
 						}
-						return isOnTheSameDate ? (
-							<HistoryItem
-								key={transaction.signature}
-								transaction={transaction}
-							/>
-						) : (
-							<View
-								key={transaction.signature}
-								style={styles.dateAndTransactionContainer}
-							>
-								<Text style={styles.date}>{transactionDate}</Text>
-								<HistoryItem transaction={transaction} />
-							</View>
-						);
+
+						if ('token' in transaction) {
+							return isOnTheSameDate ? (
+								<HistoryItem
+									key={transaction.signature}
+									transaction={transaction}
+								/>
+							) : (
+								<View
+									key={transaction.signature}
+									style={styles.dateAndTransactionContainer}
+								>
+									<Text style={styles.date}>{transactionDate}</Text>
+									<HistoryItem transaction={transaction} />
+								</View>
+							);
+						} else {
+							return <Fragment key={transaction.signature} />;
+						}
 					})}
 				</Fragment>
 			)}

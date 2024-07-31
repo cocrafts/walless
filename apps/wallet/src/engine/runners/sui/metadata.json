@@ -253,6 +253,16 @@
         "icon_url": "https://strapi-dev.scand.app/uploads/Sui_Pad_Logo_5f50f1239c.jpg",
         "project_url": "https://suipad.xyz/",
         "source": "native"
+    },
+    {
+        "name": "FlowX",
+        "description": "The Ecosystem-focused DEX built on the Sui Blockchain",
+        "symbol": "FLX",
+        "coin_type": "0x6dae8ca14311574fdfe555524ea48558e3d1360d1607d1c7f98af867e3b7976c::flx::FLX",
+        "decimals": 8,
+        "icon_url": "https://strapi-dev.scand.app/uploads/photo_2023_10_23_09_56_50_b58fd9319d.jpg",
+        "project_url": "https://flowx.finance/",
+        "source": "native"
     }
 ]
 

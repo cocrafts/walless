@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Anchor, Text, View } from '@walless/gui';
 import { appState } from 'state/app';
-import assets from 'utils/assets';
 import { useSafeAreaInsets, useSnapshot } from 'utils/hooks';
 
 import { signIn } from './internal';
@@ -16,7 +15,7 @@ export const LoginScreen: FC = () => {
 	const { invitationCode, config } = useSnapshot(appState);
 	const containerStyle = {
 		paddingTop: insets.top,
-		paddingBottom: insets.bottom,
+		paddingBottom: Math.max(insets.bottom, 24),
 	};
 	const logoSize = 120;
 
@@ -29,7 +28,7 @@ export const LoginScreen: FC = () => {
 	return (
 		<View style={[styles.container, containerStyle]}>
 			<View />
-			<SignInHeader logoSrc={assets.misc.walless} logoSize={logoSize} />
+			<SignInHeader logoSize={logoSize} />
 			<SignInInner onGoogleSignIn={handleGoogleSignIn} loading={loading} />
 			<View style={styles.footerContainer}>
 				<View style={styles.helpContainer}>
@@ -37,7 +36,7 @@ export const LoginScreen: FC = () => {
 					<Anchor href="https://walless.io/faq/login" title="Help page" />
 				</View>
 				<Text style={styles.poweredText}>
-					Powered by walless.io, version@{config?.version}
+					Powered by walless.io, version@{config.version}
 				</Text>
 			</View>
 		</View>
@@ -53,7 +52,6 @@ const styles = StyleSheet.create({
 	},
 	footerContainer: {
 		alignItems: 'center',
-		paddingBottom: 24,
 	},
 	helpContainer: {
 		flexDirection: 'row',
@@ -61,6 +59,7 @@ const styles = StyleSheet.create({
 	poweredText: {
 		fontSize: 12,
 		color: '#5D6A73',
+		textAlign: 'center',
 		marginTop: 6,
 	},
 });

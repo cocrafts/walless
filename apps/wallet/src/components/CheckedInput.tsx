@@ -1,6 +1,7 @@
 import type { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { InputProps } from '@walless/gui';
+import { Text } from '@walless/gui';
 import { Input } from '@walless/gui';
 
 type Props = {

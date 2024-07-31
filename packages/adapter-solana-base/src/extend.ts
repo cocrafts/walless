@@ -1,4 +1,4 @@
-import { type Walless } from '@walless/sdk';
+import type { Walless } from '@walless/sdk';
 
 declare const window: Window & {
 	walless: Walless;

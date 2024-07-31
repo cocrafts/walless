@@ -1,0 +1,11 @@
+version: "3"
+name: walless
+services:
+  ubuntu:
+    image: ubuntu:20.04
+    volumes:
+      - ${PWD}:/app/walless
+      - ${PWD}/.docker/root:/root
+
+    stdin_open: true # Keep stdin open
+    tty: true # Allocate a pseudo-TTY

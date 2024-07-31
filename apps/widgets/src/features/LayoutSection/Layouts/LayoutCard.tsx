@@ -1,11 +1,11 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
 import { Heart } from '@walless/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { type LayoutProps } from '../../internal';
+import type { LayoutProps } from '../../internal';
 
 interface Props {
 	layout: LayoutProps;

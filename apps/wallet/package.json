@@ -1,6 +1,6 @@
 {
   "name": "@walless/wallet",
-  "version": "1.1.9",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "dev": "metacraft",
@@ -18,6 +18,7 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
     "start": "react-native start",
     "postinstall": "rm -rf node_modules/superstruct",
     "test": "jest --passWithNoTests"
@@ -25,6 +26,7 @@
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@coral-xyz/anchor": "^0.29.0",
+    "@coral-xyz/borsh": "^0.30.0",
     "@craftzdog/pouchdb-collate-react-native": "^7.3.0",
     "@craftzdog/react-native-buffer": "^6.0.5",
     "@dreson4/react-native-quick-bip39": "0.0.5",
@@ -46,7 +48,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "@solana/spl-token": "0.3.7",
-    "@solana/web3.js": "1.78.4",
+    "@solana/web3.js": "1.92.3",
     "@taquito/signer": "^17.5.2",
     "@taquito/taquito": "^17.5.2",
     "@taquito/tzip12": "^16.2.0",
@@ -104,13 +106,16 @@
     "react-native-svg": "13.10.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-vision-camera": "^3.9.0",
+    "react-native-web-linear-gradient": "^1.1.2",
     "react-native-webview": "13.6.3",
     "use-debounce": "^10.0.0"
   },
   "devDependencies": {
+    "@types/color": "^3.0.6",
     "@types/jest": "^29.2.1",
     "@types/pouchdb-adapter-memory": "^6.1.6",
     "@types/react": "^18.2.25",
+    "@types/react-native-linear-gradient": "^2.4.0",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",

@@ -11,7 +11,6 @@ import { nativeModules } from 'utils/native';
 import { txActions, useTransactionContext } from '../internal';
 
 import { Header } from './Header';
-import Processing from './Processing';
 
 type Props = SlideComponentProps;
 const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
@@ -31,9 +30,9 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		passcode: string,
 		isCompleted = false,
 	) => {
-		setIsLoading(true);
 		setPasscode(passcode);
 		if (isCompleted) {
+			setIsLoading(true);
 			try {
 				await txActions.handleSendTransaction(passcode, () => {
 					navigator.slideNext();
@@ -46,8 +45,6 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		} else if (passcode.length > 0 && error) {
 			setError('');
 		}
-
-		setIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -64,6 +61,10 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 		}
 	}, [activatedId]);
 
+	useEffect(() => {
+		if (status === 'success' || status === 'failed') setIsLoading(false);
+	}, [status]);
+
 	return (
 		<View style={styles.container}>
 			<Header onBack={handleBack} />
@@ -77,18 +78,25 @@ const PasscodeInput: FC<Props> = ({ navigator, item, activatedId }) => {
 					}
 				</Text>
 			</View>
-			{status === 'pending' ? (
-				<Processing />
-			) : (
-				renderPasscode && (
+
+			<View>
+				{renderPasscode && (
 					<Passcode
 						passcode={passcode}
 						error={error}
 						loading={isLoading}
 						onPasscodeChange={handlePasscodeChange}
 					/>
-				)
-			)}
+				)}
+
+				{status === 'pending' ? (
+					<Text style={styles.processingText}>Processing...</Text>
+				) : (
+					status === 'finalizing' && (
+						<Text style={styles.processingText}>Finalizing...</Text>
+					)
+				)}
+			</View>
 		</View>
 	);
 };
@@ -114,6 +122,9 @@ const styles = StyleSheet.create({
 	description: {
 		lineHeight: 18,
 		color: '#566674',
+		textAlign: 'center',
+	},
+	processingText: {
 		textAlign: 'center',
 	},
 });

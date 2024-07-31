@@ -18,13 +18,6 @@ export type CollectionParamList = {
 	};
 };
 
-export type WidgetParamList = {
-	Default: {
-		id?: string;
-	};
-	Collection: NavigatorScreenParams<CollectionParamList>;
-};
-
 export type ProfileParamList = {
 	Default: undefined;
 	Setting: undefined;
@@ -32,11 +25,10 @@ export type ProfileParamList = {
 };
 
 export type ExploreParamList = {
-	Widget: {
-		id?: string;
-	};
+	Widget: { id: string };
 	Collection: NavigatorScreenParams<CollectionParamList>;
 	Profile: NavigatorScreenParams<ProfileParamList>;
+	Loyalty: undefined;
 };
 
 export type HomeParamList = {

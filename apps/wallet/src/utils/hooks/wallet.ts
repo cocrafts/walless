@@ -3,6 +3,7 @@ import type { SolanaToken, SuiToken, Token } from '@walless/core';
 import { Networks } from '@walless/core';
 import type {
 	CollectionDocument,
+	HistoryDocument,
 	PublicKeyDocument,
 	TokenDocument,
 } from '@walless/store';
@@ -194,7 +195,7 @@ export const useHistory = (network?: Networks, address?: string) => {
 	const history = Array.from(map.values());
 
 	return useMemo(() => {
-		const filteredHistory = [];
+		const filteredHistory: HistoryDocument[] = [];
 		for (const transaction of history) {
 			const isNetworkValid = network ? transaction.network === network : true;
 			const isAddressValid = address ? transaction._id.includes(address) : true;

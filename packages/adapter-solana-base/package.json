@@ -1,6 +1,6 @@
 {
   "name": "@walless/adapter-solana-base",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "This is Walless adapter for Solana",
   "files": [
     "lib",
@@ -29,7 +29,7 @@
     "@solana/wallet-adapter-base": "^0.9.22"
   },
   "devDependencies": {
-    "@solana/web3.js": "1.78.4",
+    "@solana/web3.js": "1.92.3",
     "@walless/sdk": "*",
     "eslint": "^8.51.0",
     "typescript": "5.3.3"

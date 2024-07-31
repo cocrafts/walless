@@ -38,5 +38,3 @@ export const transferToken = async (
 
 	return txHash;
 };
-
-export * from './metadata';

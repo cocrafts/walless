@@ -12,6 +12,8 @@ export const Token = () => {
 	const { token, amount, time, status, network } =
 		useTransactionContext<FulfilledTokenTransaction>();
 
+	if (!token) return null;
+
 	const icon = token.image ? { uri: token.image } : assets.misc.unknownToken;
 
 	return (

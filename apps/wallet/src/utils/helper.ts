@@ -1,5 +1,6 @@
 import type { ImageSourcePropType } from 'react-native';
 import { Networks } from '@walless/core';
+import numeral from 'numeral';
 
 import assets from './assets';
 
@@ -64,4 +65,12 @@ export const isValidHttpUrl = (str: string) => {
 	);
 
 	return pattern.test(str);
+};
+
+export const getValuationDisplay = (valuation: number, isPrivate?: boolean) => {
+	if (isPrivate) {
+		return '∗∗∗∗∗∗';
+	}
+
+	return `$${numeral(valuation).format('0.00')}`;
 };

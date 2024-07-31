@@ -5,7 +5,7 @@ module.exports = {
 		ecmaFeatures: { jsx: true },
 		sourceType: 'module',
 	},
-	plugins: ['@typescript-eslint', 'simple-import-sort', 'prettier'],
+	plugins: ['@typescript-eslint', 'simple-import-sort', 'prettier', 'import'],
 	extends: [
 		'eslint:recommended',
 		'plugin:import/typescript',
@@ -15,6 +15,7 @@ module.exports = {
 	rules: {
 		'@typescript-eslint/no-var-requires': 'off',
 		'@typescript-eslint/consistent-type-imports': 'error',
+		'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 
 		'simple-import-sort/exports': 'error',
 		'simple-import-sort/imports': [

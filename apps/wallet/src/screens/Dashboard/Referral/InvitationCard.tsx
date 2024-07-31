@@ -25,7 +25,7 @@ const InvitationCard: FC<Props> = ({ code: code, points, isClaimed }) => {
 				<Text>{points} Points</Text>
 			) : (
 				<Hoverable style={styles.copyButton} onPress={handleCopy}>
-					<Copy size={20} />
+					<Copy size={16} />
 				</Hoverable>
 			)}
 		</View>
@@ -37,9 +37,8 @@ export default InvitationCard;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
-		paddingHorizontal: 12,
-		paddingVertical: 16,
-		borderRadius: 16,
+		padding: 16,
+		borderRadius: 12,
 		backgroundColor: '#19232C',
 		alignItems: 'center',
 		justifyContent: 'space-between',

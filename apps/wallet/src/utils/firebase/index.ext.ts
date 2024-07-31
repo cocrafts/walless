@@ -5,6 +5,7 @@ import { getAuth, GoogleAuthProvider } from '@firebase/auth';
 import { getPerformance } from '@firebase/performance';
 import type { RemoteConfig } from '@walless/core';
 import { appState } from 'state/app';
+import { runtimeActions } from 'state/runtime';
 import { defaultRemoteConfig } from 'utils/constants';
 
 import type { Analytics } from './types';
@@ -54,6 +55,10 @@ export const initializeAuth = async () => {
 
 	if (user?.uid) {
 		fireCache.idToken = await user.getIdToken();
+
+		if (appState.remoteConfig.deepAnalyticsEnabled) {
+			runtimeActions.syncRemoteProfile();
+		}
 	}
 };
 

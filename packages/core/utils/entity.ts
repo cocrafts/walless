@@ -24,7 +24,7 @@ export interface Setting {
 export type NetworkClusterMap = Record<Networks, NetworkCluster>;
 
 export interface Config {
-	version?: string;
+	version: string;
 	hideBalance: boolean;
 	latestLocation: string;
 	notificationToken?: string;

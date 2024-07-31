@@ -3,15 +3,17 @@
   "include": [
     "browser",
     "src",
+    "vendor",
     "test",
     "index*.js",
     "../../globals.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules", "browser/worker/fcm.ts"
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "strictNullChecks": true,
     "paths": {
       "assets/*": [
         "./assets/*"

@@ -1,8 +1,8 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
-import type { ViewStyle } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import type { ViewabilityConfigCallbackPairs, ViewStyle } from 'react-native';
 import { FlatList, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import type { EdgeInsets } from 'react-native-safe-area-context';
 import { logger, runtime } from '@walless/core';
 import type { ReferralRank } from '@walless/graphql';
 import { queries } from '@walless/graphql';
@@ -18,6 +18,7 @@ import {
 import { Top1, Top2, Top3 } from '@walless/icons';
 import { ModalId } from 'modals/types';
 import { qlClient } from 'utils/graphql';
+import { useSafeAreaInsets } from 'utils/hooks';
 
 import GradientRankingCard from './GradientRankingCard';
 import HighestRankingCard from './HighestRankingCard';
@@ -25,8 +26,10 @@ import RankingCard from './RankingCard';
 
 interface LeaderboardProps {
 	rank: number;
+	referralCount: number;
 	rankingPercent: number;
 	leaderboardSize: number;
+	safeAreaInsets: EdgeInsets;
 }
 
 type Props = LeaderboardProps & {
@@ -50,12 +53,14 @@ const fetchReferralRankings = async (limit: number, offset: number) => {
 
 const LeaderboardModal: FC<Props> = ({
 	rank,
+	referralCount,
 	rankingPercent,
 	leaderboardSize,
 	config,
 }) => {
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [rankings, setRankings] = useState<ReferralRank[]>([]);
+	const [isMyCardVisible, setIsMyCardVisible] = useState(false);
 	const safeAreaInsets = useSafeAreaInsets();
 
 	const safeAreaStyle: ViewStyle = {
@@ -80,6 +85,31 @@ const LeaderboardModal: FC<Props> = ({
 	const handleClose = () => {
 		modalActions.hide(config.id);
 	};
+
+	const MyCard = () => (
+		<GradientRankingCard
+			style={styles.referralRankingItem}
+			rank={rank}
+			rankingPercent={rankingPercent}
+			totalInvites={referralCount}
+		/>
+	);
+
+	const viewabilityConfigCallbackPairs = useRef<ViewabilityConfigCallbackPairs>(
+		[
+			{
+				onViewableItemsChanged: ({ viewableItems }) => {
+					const isMyCardVisible = viewableItems.some(
+						({ item }) => item.rank === rank,
+					);
+					setIsMyCardVisible(isMyCardVisible);
+				},
+				viewabilityConfig: {
+					itemVisiblePercentThreshold: 20,
+				},
+			},
+		],
+	);
 
 	useEffect(() => {
 		fetchMoreRankings();
@@ -136,19 +166,28 @@ const LeaderboardModal: FC<Props> = ({
 							totalInvites={item.referralCount || 0}
 						/>
 					) : (
-						<GradientRankingCard
-							style={styles.referralRankingItem}
-							rank={rank}
-							rankingPercent={rankingPercent}
-							totalInvites={item.referralCount || 0}
-						/>
+						<MyCard />
 					)
 				}
+				viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
 				keyExtractor={(item) => item.id.toString()}
 				showsVerticalScrollIndicator={false}
 				onEndReached={fetchMoreRankings}
 				onEndReachedThreshold={1}
 			/>
+
+			{!isMyCardVisible && (
+				<View
+					style={[
+						styles.floatingCard,
+						{
+							marginBottom: 16 - rankingItemGap + safeAreaInsets.bottom,
+						},
+					]}
+				>
+					<MyCard />
+				</View>
+			)}
 		</SwipeDownGesture>
 	);
 };
@@ -159,6 +198,7 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: 16,
 		borderTopRightRadius: 16,
 		overflow: 'hidden',
+		height: '100%',
 	},
 	upperPartContainer: {
 		backgroundColor: '#19A3E1',
@@ -199,15 +239,25 @@ const styles = StyleSheet.create({
 		height: rankingItemHeight,
 		marginBottom: rankingItemGap,
 	},
+	floatingCard: {
+		position: 'absolute',
+		width: '100%',
+		bottom: 0,
+		paddingHorizontal: 16,
+	},
 });
 
 export default LeaderboardModal;
 
 export const showLeaderboard = (props: LeaderboardProps) => {
 	modalActions.show({
-		id: ModalId.LeaderBoard,
+		id: ModalId.ReferralLeaderBoard,
 		component: ({ config }) => <LeaderboardModal config={config} {...props} />,
 		animateDirection: AnimateDirections.Top,
 		bindingDirection: BindDirections.InnerBottom,
+		fullHeight: true,
+		positionOffset: {
+			y: 40 + props.safeAreaInsets.top,
+		},
 	});
 };

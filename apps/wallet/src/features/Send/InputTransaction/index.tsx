@@ -1,4 +1,5 @@
-import { type FC, useEffect } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import type { SliderHandle } from '@walless/gui';
 import { View } from '@walless/gui';

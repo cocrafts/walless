@@ -65,6 +65,20 @@ export type ActionCount = {
   type?: Maybe<Scalars['String']['output']>;
 };
 
+export type ActionInput = {
+  category: ActionCategory;
+  cycleInHours?: InputMaybe<Scalars['Float']['input']>;
+  mechanism: VerifyMechanism;
+  metadata?: InputMaybe<Array<InputMaybe<ActionMetadataInput>>>;
+  milestone?: InputMaybe<Scalars['Int']['input']>;
+  points: Scalars['Float']['input'];
+  streak?: InputMaybe<Scalars['Int']['input']>;
+  type: Scalars['String']['input'];
+  validFrom?: InputMaybe<Scalars['DateTime']['input']>;
+  validUntil?: InputMaybe<Scalars['DateTime']['input']>;
+  verifier?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ActionMetadata = {
   __typename?: 'ActionMetadata';
   key?: Maybe<Scalars['String']['output']>;
@@ -91,20 +105,6 @@ export type Boost = {
   points?: Maybe<Scalars['Float']['output']>;
   validFrom?: Maybe<Scalars['DateTime']['output']>;
   validUntil?: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type CreateActionInput = {
-  category: ActionCategory;
-  cycleInHours?: InputMaybe<Scalars['Float']['input']>;
-  metadata?: InputMaybe<Array<InputMaybe<ActionMetadataInput>>>;
-  milestone?: InputMaybe<Scalars['Int']['input']>;
-  points: Scalars['Float']['input'];
-  streak?: InputMaybe<Scalars['Int']['input']>;
-  type: Scalars['String']['input'];
-  validFrom?: InputMaybe<Scalars['DateTime']['input']>;
-  validUntil?: InputMaybe<Scalars['DateTime']['input']>;
-  verifier?: InputMaybe<Scalars['String']['input']>;
-  verifyMechanism: VerifyMechanism;
 };
 
 export type Device = {
@@ -183,9 +183,11 @@ export type RootMutation = {
   claimWalletInvitation?: Maybe<Scalars['Boolean']['output']>;
   createLoyaltyAction?: Maybe<Action>;
   createLoyaltyBoost?: Maybe<Boost>;
+  deleteLoyaltyAction?: Maybe<Scalars['Boolean']['output']>;
   deleteWidget?: Maybe<Scalars['Boolean']['output']>;
   deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
   doLoyaltyAction?: Maybe<ActionRecord>;
+  doLoyaltyActionManually?: Maybe<ActionRecord>;
   doRecurringThenStreakThenMilestoneActionsByType?: Maybe<Array<Maybe<ActionRecord>>>;
   joinWaitlist?: Maybe<JoinWaitlistResult>;
   registerAccount?: Maybe<Account>;
@@ -193,6 +195,7 @@ export type RootMutation = {
   registerWidgetAccount?: Maybe<Account>;
   sendEmergencyKit?: Maybe<SendEmergencyKitResult>;
   trackAccountWallets?: Maybe<Scalars['Int']['output']>;
+  updateLoyaltyAction?: Maybe<Action>;
   updateWidgetAccountRole?: Maybe<WidgetAccount>;
   updateWidgetOwner?: Maybe<Widget>;
   updateWidgetStatus?: Maybe<Widget>;
@@ -220,7 +223,7 @@ export type RootMutationClaimWalletInvitationArgs = {
 
 
 export type RootMutationCreateLoyaltyActionArgs = {
-  input: CreateActionInput;
+  input: ActionInput;
 };
 
 
@@ -230,6 +233,11 @@ export type RootMutationCreateLoyaltyBoostArgs = {
   points: Scalars['Float']['input'];
   validFrom: Scalars['DateTime']['input'];
   validUntil: Scalars['DateTime']['input'];
+};
+
+
+export type RootMutationDeleteLoyaltyActionArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -245,6 +253,12 @@ export type RootMutationDeleteWidgetAccountArgs = {
 
 export type RootMutationDoLoyaltyActionArgs = {
   actionId: Scalars['String']['input'];
+};
+
+
+export type RootMutationDoLoyaltyActionManuallyArgs = {
+  actionId: Scalars['String']['input'];
+  email: Scalars['String']['input'];
 };
 
 
@@ -283,6 +297,12 @@ export type RootMutationSendEmergencyKitArgs = {
 
 export type RootMutationTrackAccountWalletsArgs = {
   wallets: Array<InputMaybe<TrackAccountWalletInput>>;
+};
+
+
+export type RootMutationUpdateLoyaltyActionArgs = {
+  id: Scalars['String']['input'];
+  input: ActionInput;
 };
 
 
@@ -430,9 +450,18 @@ export type TokenInfo = {
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
   platforms: Scalars['JSON']['output'];
+  pnl: TokenPnL;
   quotes: Scalars['JSON']['output'];
   symbol: Scalars['String']['output'];
-  pnl24h: Scalars['Float']['output']
+  timestamp: Scalars['DateTime']['output'];
+};
+
+export type TokenPnL = {
+  __typename?: 'TokenPnL';
+  currentPrice: Scalars['Float']['output'];
+  priceChangePercentage7d?: Maybe<Scalars['Float']['output']>;
+  priceChangePercentage24H?: Maybe<Scalars['Float']['output']>;
+  priceChangePercentage30d?: Maybe<Scalars['Float']['output']>;
   timestamp: Scalars['DateTime']['output'];
 };
 
@@ -580,12 +609,12 @@ export type ResolversTypes = {
   Action: ResolverTypeWrapper<Action>;
   ActionCategory: ActionCategory;
   ActionCount: ResolverTypeWrapper<ActionCount>;
+  ActionInput: ActionInput;
   ActionMetadata: ResolverTypeWrapper<ActionMetadata>;
   ActionMetadataInput: ActionMetadataInput;
   ActionRecord: ResolverTypeWrapper<ActionRecord>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Boost: ResolverTypeWrapper<Boost>;
-  CreateActionInput: CreateActionInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Device: ResolverTypeWrapper<Device>;
   DeviceInfoInput: DeviceInfoInput;
@@ -607,6 +636,7 @@ export type ResolversTypes = {
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
   Token: ResolverTypeWrapper<Token>;
   TokenInfo: ResolverTypeWrapper<TokenInfo>;
+  TokenPnL: ResolverTypeWrapper<TokenPnL>;
   TrackAccountWalletInput: TrackAccountWalletInput;
   Uint32: ResolverTypeWrapper<Scalars['Uint32']['output']>;
   UserProgress: ResolverTypeWrapper<UserProgress>;
@@ -624,12 +654,12 @@ export type ResolversParentTypes = {
   Account: Account;
   Action: Action;
   ActionCount: ActionCount;
+  ActionInput: ActionInput;
   ActionMetadata: ActionMetadata;
   ActionMetadataInput: ActionMetadataInput;
   ActionRecord: ActionRecord;
   Boolean: Scalars['Boolean']['output'];
   Boost: Boost;
-  CreateActionInput: CreateActionInput;
   DateTime: Scalars['DateTime']['output'];
   Device: Device;
   DeviceInfoInput: DeviceInfoInput;
@@ -650,6 +680,7 @@ export type ResolversParentTypes = {
   SystemInfo: SystemInfo;
   Token: Token;
   TokenInfo: TokenInfo;
+  TokenPnL: TokenPnL;
   TrackAccountWalletInput: TrackAccountWalletInput;
   Uint32: Scalars['Uint32']['output'];
   UserProgress: UserProgress;
@@ -792,9 +823,11 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   claimWalletInvitation?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationClaimWalletInvitationArgs, 'code' | 'email'>>;
   createLoyaltyAction?: Resolver<Maybe<ResolversTypes['Action']>, ParentType, ContextType, RequireFields<RootMutationCreateLoyaltyActionArgs, 'input'>>;
   createLoyaltyBoost?: Resolver<Maybe<ResolversTypes['Boost']>, ParentType, ContextType, RequireFields<RootMutationCreateLoyaltyBoostArgs, 'actionId' | 'multiplier' | 'points' | 'validFrom' | 'validUntil'>>;
+  deleteLoyaltyAction?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteLoyaltyActionArgs, 'id'>>;
   deleteWidget?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetArgs, 'id'>>;
   deleteWidgetAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetAccountArgs, 'id'>>;
   doLoyaltyAction?: Resolver<Maybe<ResolversTypes['ActionRecord']>, ParentType, ContextType, RequireFields<RootMutationDoLoyaltyActionArgs, 'actionId'>>;
+  doLoyaltyActionManually?: Resolver<Maybe<ResolversTypes['ActionRecord']>, ParentType, ContextType, RequireFields<RootMutationDoLoyaltyActionManuallyArgs, 'actionId' | 'email'>>;
   doRecurringThenStreakThenMilestoneActionsByType?: Resolver<Maybe<Array<Maybe<ResolversTypes['ActionRecord']>>>, ParentType, ContextType, RequireFields<RootMutationDoRecurringThenStreakThenMilestoneActionsByTypeArgs, 'type'>>;
   joinWaitlist?: Resolver<Maybe<ResolversTypes['JoinWaitlistResult']>, ParentType, ContextType, RequireFields<RootMutationJoinWaitlistArgs, 'description' | 'email' | 'twitter'>>;
   registerAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterAccountArgs, 'key'>>;
@@ -802,6 +835,7 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   registerWidgetAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterWidgetAccountArgs, 'pubkey'>>;
   sendEmergencyKit?: Resolver<Maybe<ResolversTypes['SendEmergencyKitResult']>, ParentType, ContextType, RequireFields<RootMutationSendEmergencyKitArgs, 'key'>>;
   trackAccountWallets?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<RootMutationTrackAccountWalletsArgs, 'wallets'>>;
+  updateLoyaltyAction?: Resolver<Maybe<ResolversTypes['Action']>, ParentType, ContextType, RequireFields<RootMutationUpdateLoyaltyActionArgs, 'id' | 'input'>>;
   updateWidgetAccountRole?: Resolver<Maybe<ResolversTypes['WidgetAccount']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetAccountRoleArgs, 'id' | 'role'>>;
   updateWidgetOwner?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetOwnerArgs, 'id' | 'ownerId'>>;
   updateWidgetStatus?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetStatusArgs, 'id' | 'status' | 'updaterPubkey'>>;
@@ -864,9 +898,18 @@ export type TokenInfoResolvers<ContextType = any, ParentType extends ResolversPa
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   platforms?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  pnl?: Resolver<ResolversTypes['TokenPnL'], ParentType, ContextType>;
   quotes?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
-  pnl24h?:Resolver<ResolversTypes['String'], ParentType,ContextType>
   symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TokenPnLResolvers<ContextType = any, ParentType extends ResolversParentTypes['TokenPnL'] = ResolversParentTypes['TokenPnL']> = {
+  currentPrice?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  priceChangePercentage7d?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  priceChangePercentage24H?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  priceChangePercentage30d?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -940,6 +983,7 @@ export type Resolvers<ContextType = any> = {
   SystemInfo?: SystemInfoResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
   TokenInfo?: TokenInfoResolvers<ContextType>;
+  TokenPnL?: TokenPnLResolvers<ContextType>;
   Uint32?: GraphQLScalarType;
   UserProgress?: UserProgressResolvers<ContextType>;
   WalletInvitation?: WalletInvitationResolvers<ContextType>;

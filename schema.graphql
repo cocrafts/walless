@@ -103,6 +103,42 @@ type ActionCount {
 }
 
 """"""
+input ActionInput {
+  """"""
+  category: ActionCategory!
+
+  """"""
+  cycleInHours: Float = 0
+
+  """"""
+  mechanism: VerifyMechanism!
+
+  """"""
+  metadata: [ActionMetadataInput]
+
+  """"""
+  milestone: Int = 0
+
+  """"""
+  points: Float!
+
+  """"""
+  streak: Int = 0
+
+  """"""
+  type: String!
+
+  """"""
+  validFrom: DateTime = "0001-01-01 00:00:00 +0000 UTC"
+
+  """"""
+  validUntil: DateTime = "0001-01-01 00:00:00 +0000 UTC"
+
+  """"""
+  verifier: String = ""
+}
+
+""""""
 type ActionMetadata {
   """"""
   key: String
@@ -151,42 +187,6 @@ type Boost {
 
   """"""
   validUntil: DateTime
-}
-
-""""""
-input CreateActionInput {
-  """"""
-  category: ActionCategory!
-
-  """"""
-  cycleInHours: Float = 0
-
-  """"""
-  metadata: [ActionMetadataInput]
-
-  """"""
-  milestone: Int = 0
-
-  """"""
-  points: Float!
-
-  """"""
-  streak: Int = 0
-
-  """"""
-  type: String!
-
-  """"""
-  validFrom: DateTime = "0001-01-01 00:00:00 +0000 UTC"
-
-  """"""
-  validUntil: DateTime = "0001-01-01 00:00:00 +0000 UTC"
-
-  """"""
-  verifier: String = ""
-
-  """"""
-  verifyMechanism: VerifyMechanism!
 }
 
 """
@@ -367,10 +367,13 @@ type RootMutation {
   claimWalletInvitation(code: String!, email: String!): Boolean
 
   """"""
-  createLoyaltyAction(input: CreateActionInput!): Action
+  createLoyaltyAction(input: ActionInput!): Action
 
   """"""
   createLoyaltyBoost(actionId: String!, multiplier: Float!, points: Float!, validFrom: DateTime!, validUntil: DateTime!): Boost
+
+  """"""
+  deleteLoyaltyAction(id: String!): Boolean
 
   """"""
   deleteWidget(id: String!): Boolean
@@ -380,6 +383,9 @@ type RootMutation {
 
   """"""
   doLoyaltyAction(actionId: String!): ActionRecord
+
+  """"""
+  doLoyaltyActionManually(actionId: String!, email: String!): ActionRecord
 
   """"""
   doRecurringThenStreakThenMilestoneActionsByType(type: String!): [ActionRecord]
@@ -401,6 +407,9 @@ type RootMutation {
 
   """"""
   trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
+
+  """"""
+  updateLoyaltyAction(id: String!, input: ActionInput!): Action
 
   """"""
   updateWidgetAccountRole(id: String!, role: WidgetAccountRole!): WidgetAccount
@@ -541,6 +550,9 @@ type TokenInfo {
   platforms: JSON!
 
   """"""
+  pnl: TokenPnL!
+
+  """"""
   quotes: JSON!
 
   """"""
@@ -548,9 +560,24 @@ type TokenInfo {
 
   """"""
   timestamp: DateTime!
+}
+
+""""""
+type TokenPnL {
+  """"""
+  currentPrice: Float!
 
   """"""
-  pnl24h: Float!
+  priceChangePercentage7d: Float
+
+  """"""
+  priceChangePercentage24H: Float
+
+  """"""
+  priceChangePercentage30d: Float
+
+  """"""
+  timestamp: DateTime!
 }
 
 """"""

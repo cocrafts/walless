@@ -30,8 +30,15 @@ export type Token = {
 	owner: string;
 	balance: number;
 	quotes?: Record<string, number>;
-	pnl24h: number;
+	pnl?: TokenPnL;
 } & TokenMetadata;
+
+export type TokenPnL = {
+	currentPrice: number;
+	priceChangePercentage24H: number;
+	priceChangePercentage7d: number;
+	priceChangePercentage30d: number;
+};
 
 export type TokenMetadata = {
 	name: string;

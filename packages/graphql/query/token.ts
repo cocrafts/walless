@@ -7,6 +7,9 @@ export const tokenById = gql`
 			address
 			name
 			quotes
+			pnl {
+				currentPrice
+			}
 		}
 	}
 `;
@@ -18,7 +21,9 @@ export const tokenByAddress = gql`
 			address
 			name
 			quotes
-			pnl24h
+			pnl {
+				currentPrice
+			}
 		}
 	}
 `;
@@ -30,7 +35,9 @@ export const tokensByAddress = gql`
 			address
 			name
 			quotes
-			pnl24h
+			pnl {
+				currentPrice
+			}
 		}
 	}
 `;

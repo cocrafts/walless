@@ -36,9 +36,9 @@ export const WalletBalance: FC<Props> = ({
 			</View>
 			<View style={styles.pnLContainer}>
 				<TotalPnL
-					value={Math.round(pnl * 10000) / 10000}
+					value={Math.round(pnl * 100) / 100}
 					percentage={Math.round(pnlRates * 100) / 100}
-					isDarkTheme={true}
+					isDarkTheme={false}
 				/>
 			</View>
 		</View>
@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
 		marginLeft: 34,
 	},
 	pnLContainer: {
-		paddingLeft: 15,
+		paddingLeft: 10,
 	},
 });

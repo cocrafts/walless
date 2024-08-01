@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Hoverable, Text } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
 import TotalPnL from 'components/TotalPnL';
-import { useSettings } from 'utils/hooks';
+import { useSettings, useTokens } from 'utils/hooks';
 
 interface Props {
 	value: number;
@@ -11,10 +11,12 @@ interface Props {
 
 const TokenValue: FC<Props> = ({ value }) => {
 	const { setting, setPrivacy } = useSettings();
+	const { valuation, pnl } = useTokens();
 
 	const handleToggleTokenValue = async () => {
 		setPrivacy(!setting.hideBalance);
 	};
+	const pnlRates = (pnl / (valuation != 0 ? valuation : 1)) * 100;
 
 	return (
 		<View style={styles.container}>
@@ -32,7 +34,11 @@ const TokenValue: FC<Props> = ({ value }) => {
 						)}
 					</Hoverable>
 				</View>
-				<TotalPnL value={-123} percentage={11.34} isDarkTheme={false} />
+				<TotalPnL
+					value={Math.round(pnl * 100) / 100}
+					percentage={Math.round(pnlRates * 100) / 100}
+					isDarkTheme={true}
+				/>
 			</View>
 		</View>
 	);

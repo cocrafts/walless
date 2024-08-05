@@ -10,6 +10,8 @@ import { View } from '@walless/gui';
 import AdvertisementIndicator from './AdvertisementIndicator';
 import AdvertisementItem from './AdvertisementItem';
 
+const CHANGE_POINT = 150;
+
 interface Props {
 	ads: CustomWalletAdvertisement[];
 }
@@ -35,10 +37,10 @@ const Advertisement: FC<Props> = ({ ads }) => {
 			if (currentIndex === 0 && event.translationX > 0) return;
 			if (currentIndex === ads.length - 1 && event.translationX < 0) return;
 
-			if (event.translationX < -150) {
+			if (event.translationX < -CHANGE_POINT) {
 				animatedValue.value = currentIndex + 1;
 				setCurrentIndex(currentIndex + 1);
-			} else if (event.translationX > 150) {
+			} else if (event.translationX > CHANGE_POINT) {
 				animatedValue.value = currentIndex - 1;
 				setCurrentIndex(currentIndex - 1);
 			}

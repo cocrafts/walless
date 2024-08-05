@@ -67,7 +67,6 @@ interface Props {
 export const TabItem: FC<Props> = ({ item, tabStyle, onPress }) => {
 	const containerStyle = tabStyle?.style;
 	const linearGradientStyle = tabStyle?.linearGradient;
-	console.log(linearGradientStyle);
 
 	if (linearGradientStyle) {
 		return (

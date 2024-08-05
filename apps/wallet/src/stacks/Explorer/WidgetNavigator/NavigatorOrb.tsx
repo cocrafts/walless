@@ -65,8 +65,6 @@ export const NavigatorOrb: FC<Props> = ({
 		height: iconSize,
 	};
 
-	console.log(item.name, iconSize);
-
 	const handleHoverIn = () => {
 		if (isActive) return;
 		offset.value = withTiming(1, {

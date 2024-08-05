@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { WidgetType } from '@walless/core';
+import { WidgetCategory } from '@walless/core';
 import { Text } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
@@ -9,12 +9,12 @@ import CategoryButtons from './CategoryButtons';
 import WidgetItem from './WidgetItem';
 
 interface Props {
-	data: WidgetDocument[];
+	widgets: WidgetDocument[];
 }
 
-const Widgets: FC<Props> = ({ data }) => {
-	const [widgets, setWidgets] = useState<WidgetDocument[]>(
-		data.filter((item) => item.widgetType === WidgetType.NETWORK),
+const Widgets: FC<Props> = ({ widgets }) => {
+	const [renderedWidgets, setRenderedWidgets] = useState<WidgetDocument[]>(
+		widgets.filter((widget) => widget.category === WidgetCategory.NETWORK),
 	);
 
 	return (
@@ -26,19 +26,19 @@ const Widgets: FC<Props> = ({ data }) => {
 				</Text>
 			</View>
 
-			<CategoryButtons widgets={data} setWidgets={setWidgets} />
+			<CategoryButtons widgets={widgets} setWidgets={setRenderedWidgets} />
 
 			<ScrollView
 				style={styles.layoutList}
 				contentContainerStyle={styles.listStyle}
 				showsVerticalScrollIndicator={false}
 			>
-				{widgets.length === 0 ? (
+				{renderedWidgets.length === 0 ? (
 					<Text style={styles.noWidgetsText}>
 						There&apos;s no widgets in this section
 					</Text>
 				) : (
-					widgets.map((widget) => (
+					renderedWidgets.map((widget) => (
 						<WidgetItem key={widget._id} widget={widget} />
 					))
 				)}

@@ -5,14 +5,14 @@ import Animated, {
 	interpolateColor,
 	useAnimatedStyle,
 } from 'react-native-reanimated';
-import type { WidgetType } from '@walless/core';
+import type { WidgetCategory } from '@walless/core';
 
 const AnimatedHoverable = Animated.createAnimatedComponent(TouchableOpacity);
 
 interface CategoryButtonProps {
 	index: number;
-	title: WidgetType;
-	onPress: (index: number, category: WidgetType) => void;
+	title: string;
+	onPress: (index: number, category: WidgetCategory | string) => void;
 	animatedValue: SharedValue<number>;
 	data: number[];
 }

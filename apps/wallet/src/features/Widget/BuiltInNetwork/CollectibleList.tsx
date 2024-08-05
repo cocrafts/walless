@@ -1,37 +1,49 @@
 import type { FC } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import type { CustomWalletAssets, Networks } from '@walless/core';
 import { Text, View } from '@walless/gui';
+import type { NftDocument } from '@walless/store';
 import CollectionCard from 'components/CollectionCard';
-import { useLazyGridLayout, useNfts } from 'utils/hooks';
+import type { WrappedCollection } from 'utils/hooks';
+import { useLazyGridLayout } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
-import { filterAssetsFromCustomWalletAssets } from 'utils/widget';
 
 interface Props {
-	network: Networks;
-	requiredNfts?: CustomWalletAssets[];
+	collections?: WrappedCollection[];
+	nfts?: NftDocument[];
 }
 
-export const NftTab: FC<Props> = ({ network, requiredNfts }) => {
-	const { nfts } = useNfts(network);
+export const CollectibleList: FC<Props> = ({ collections = [], nfts = [] }) => {
 	const { onGridContainerLayout, width } = useLazyGridLayout({
 		referenceWidth: 150,
 		gap: gridGap,
 	});
 
-	const handleNavigateToCollectible = (id: string) => {
+	const handlePressCollection = (ele: WrappedCollection) => {
+		const collectionId = ele._id.split('/')[2];
+
 		navigate('Dashboard', {
 			screen: 'Explore',
 			params: {
 				screen: 'Collection',
-				params: { screen: 'NFT', params: { id } },
+				params: {
+					screen: 'Default',
+					params: { id: collectionId },
+				},
 			},
 		});
 	};
 
-	const filteredNfts = filterAssetsFromCustomWalletAssets(requiredNfts || [], {
-		ownedNfts: nfts,
-	});
+	const handlePressCollectible = (ele: NftDocument) => {
+		const collectibleId = ele._id.split('/')[2];
+
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: {
+				screen: 'Collection',
+				params: { screen: 'NFT', params: { id: collectibleId } },
+			},
+		});
+	};
 
 	return (
 		<ScrollView
@@ -39,21 +51,34 @@ export const NftTab: FC<Props> = ({ network, requiredNfts }) => {
 			showsVerticalScrollIndicator={false}
 			onLayout={(e) => onGridContainerLayout(e.nativeEvent.layout)}
 		>
-			{filteredNfts.length === 0 && (
+			{collections.length === 0 && nfts.length === 0 && (
 				<View horizontal style={styles.emptyContainer}>
 					<Text style={styles.emptyText}>You do not have any NFT yet</Text>
 				</View>
 			)}
 			<View style={styles.contentContainer}>
 				{width > 0 &&
-					filteredNfts &&
-					filteredNfts.map((ele, index) => {
-						const collectibleId = ele._id.split('/')[2];
+					collections.map((ele, index) => {
 						return (
 							<CollectionCard
 								key={index}
 								item={ele}
-								onPress={() => handleNavigateToCollectible(collectibleId)}
+								collectibleCount={ele.count}
+								onPress={() => handlePressCollection(ele)}
+								size={width}
+							/>
+						);
+					})}
+			</View>
+
+			<View style={styles.contentContainer}>
+				{width > 0 &&
+					nfts.map((ele, index) => {
+						return (
+							<CollectionCard
+								key={index}
+								item={ele}
+								onPress={() => handlePressCollectible(ele)}
 								size={width}
 							/>
 						);
@@ -63,7 +88,7 @@ export const NftTab: FC<Props> = ({ network, requiredNfts }) => {
 	);
 };
 
-export default NftTab;
+export default CollectibleList;
 
 const gridGap = 18;
 const styles = StyleSheet.create({
@@ -72,7 +97,6 @@ const styles = StyleSheet.create({
 		marginBottom: 32,
 		borderRadius: 12,
 		overflow: 'hidden',
-		minHeight: 300,
 	},
 	contentContainer: {
 		flexDirection: 'row',

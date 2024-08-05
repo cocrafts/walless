@@ -1,4 +1,4 @@
-import type { TabContainerStyle } from '@walless/gui';
+import type { TabItemStyle } from '@walless/gui';
 
 import type { Networks } from './common';
 
@@ -42,7 +42,7 @@ export interface CustomWalletMetadata {
 		buy: string;
 		swap: string;
 	};
-	activeTabStyle?: TabContainerStyle;
+	activeTabStyle?: TabItemStyle;
 	advertisements: CustomWalletAdvertisement[];
 	tokens?: Map<string, CustomWalletAssets>;
 	nfts?: Map<string, CustomWalletAssets>;

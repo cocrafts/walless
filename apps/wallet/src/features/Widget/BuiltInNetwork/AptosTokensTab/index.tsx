@@ -74,9 +74,7 @@ const AptosTokensTab: FC<Props> = ({ network }) => {
 	};
 
 	const activatedStyle: TabItemStyle = {
-		containerStyle: {
-			style: { backgroundColor: '#0694D3' },
-		},
+		style: { backgroundColor: '#0694D3' },
 		textStyle: {
 			color: 'white',
 			fontWeight: '500',
@@ -84,9 +82,7 @@ const AptosTokensTab: FC<Props> = ({ network }) => {
 	};
 
 	const deactivatedStyle: TabItemStyle = {
-		containerStyle: {
-			style: { backgroundColor: 'transparent' },
-		},
+		style: { backgroundColor: 'transparent' },
 		textStyle: {
 			color: '#566674',
 			fontWeight: '400',

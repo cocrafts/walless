@@ -44,16 +44,12 @@ export const gradientDirection = {
 	},
 };
 
-export interface TabContainerStyle {
+export interface TabItemStyle {
 	style?: ViewStyle;
 	linearGradient?: {
 		direction: GradientDirection;
 		colors: string[];
 	};
-}
-
-export interface TabItemStyle {
-	containerStyle?: TabContainerStyle;
 	textStyle?: TextStyle;
 }
 
@@ -64,13 +60,15 @@ export interface TabAble {
 
 interface Props {
 	item: TabAble;
-	style?: TabItemStyle;
+	tabStyle?: TabItemStyle;
 	onPress?: (item: TabAble) => void;
 }
 
-export const TabItem: FC<Props> = ({ item, style, onPress }) => {
-	const containerStyle = style?.containerStyle?.style;
-	const linearGradientStyle = style?.containerStyle?.linearGradient;
+export const TabItem: FC<Props> = ({ item, tabStyle, onPress }) => {
+	const containerStyle = tabStyle?.style;
+	const linearGradientStyle = tabStyle?.linearGradient;
+	console.log(linearGradientStyle);
+
 	if (linearGradientStyle) {
 		return (
 			<Hoverable style={styles.hoverable} onPress={() => onPress?.(item)}>
@@ -80,7 +78,7 @@ export const TabItem: FC<Props> = ({ item, style, onPress }) => {
 					start={linearGradientStyle.direction.start}
 					end={linearGradientStyle.direction.end}
 				>
-					<Text style={[styles.title, style?.textStyle]}>{item.title}</Text>
+					<Text style={[styles.title, tabStyle?.textStyle]}>{item.title}</Text>
 				</LinearGradient>
 			</Hoverable>
 		);
@@ -91,15 +89,13 @@ export const TabItem: FC<Props> = ({ item, style, onPress }) => {
 			style={[styles.hoverable, styles.container, containerStyle]}
 			onPress={() => onPress?.(item)}
 		>
-			<Text style={[styles.title, style?.textStyle]}>{item.title}</Text>
+			<Text style={[styles.title, tabStyle?.textStyle]}>{item.title}</Text>
 		</Hoverable>
 	);
 };
 
 export const activatedStyle: TabItemStyle = {
-	containerStyle: {
-		style: { backgroundColor: '#0694D3' },
-	},
+	style: { backgroundColor: '#0694D3' },
 	textStyle: {
 		color: 'white',
 		fontWeight: '500',
@@ -107,9 +103,7 @@ export const activatedStyle: TabItemStyle = {
 };
 
 export const deactivatedStyle: TabItemStyle = {
-	containerStyle: {
-		style: { backgroundColor: 'transparent' },
-	},
+	style: { backgroundColor: 'transparent' },
 	textStyle: {
 		color: '#566674',
 		fontWeight: '400',

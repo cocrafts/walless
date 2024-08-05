@@ -240,6 +240,10 @@ export const mockWidgets: WidgetDocument[] = [
 					direction: gradientDirection.LeftToRight,
 					colors: ['#1A4FB5', '#C36BE5'],
 				},
+				textStyle: {
+					color: 'white',
+					fontWeight: '500',
+				},
 			},
 			advertisements: [
 				{

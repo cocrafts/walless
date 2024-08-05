@@ -113,18 +113,10 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 		];
 	}, []);
 
-	const activatedStyle: TabItemStyle = {
-		containerStyle: customWalletMetadata.activeTabStyle,
-		textStyle: {
-			color: 'white',
-			fontWeight: '500',
-		},
-	};
+	const activatedStyle = customWalletMetadata.activeTabStyle;
 
 	const deactivatedStyle: TabItemStyle = {
-		containerStyle: {
-			style: { backgroundColor: 'transparent' },
-		},
+		style: { backgroundColor: 'transparent' },
 		textStyle: {
 			color: '#566674',
 			fontWeight: '400',

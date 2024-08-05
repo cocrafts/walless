@@ -46,7 +46,7 @@ const convertCustomMetadataToCardSkin = (
 ): CardSkin => {
 	const backgroundSrc = { uri: customWalletMetadata.coverBanner };
 	const iconSrc = { uri: customWalletMetadata.iconSrc };
-	const iconSize = storeMeta?.iconSize || 40;
+	const iconSize = storeMeta?.iconSize || 26;
 	const iconColor = storeMeta?.iconColor || '#ffffff';
 
 	return {

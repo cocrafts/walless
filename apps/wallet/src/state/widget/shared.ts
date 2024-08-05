@@ -219,7 +219,6 @@ export const mockWidgets: WidgetDocument[] = [
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/widget/samo-icon.png',
-			iconSize: 26,
 			coverUri: '/img/widget/samo-cover.png',
 			description: 'dApp version of the T-rex Runner you already known!',
 			loveCount: 46,
@@ -272,7 +271,7 @@ export const mockWidgets: WidgetDocument[] = [
 					'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
 					{
 						mintAddress: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
-						amount: 50000,
+						amount: 0,
 					},
 				],
 				[

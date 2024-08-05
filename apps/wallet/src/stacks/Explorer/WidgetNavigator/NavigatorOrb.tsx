@@ -61,9 +61,11 @@ export const NavigatorOrb: FC<Props> = ({
 	}, [isActive]);
 
 	const iconImgStyle = {
-		width: iconColor !== 'transparent' ? iconSize : 40,
-		height: iconColor !== 'transparent' ? iconSize : 40,
+		width: iconSize,
+		height: iconSize,
 	};
+
+	console.log(item.name, iconSize);
 
 	const handleHoverIn = () => {
 		if (isActive) return;

@@ -113,11 +113,20 @@ export const filterByTokenBalances: WidgetFilter = (widget: WidgetDocument) => {
 		const id = getTokenAddress(token as TokenDocument);
 		const requiredToken = requiredTokens?.get(id);
 
+		const result: boolean =
+			requiredToken?.amount !== undefined &&
+			(token as TokenDocument).balance >= requiredToken?.amount;
+		console.log(requiredToken);
+		console.log(token);
+		console.log(result);
+
 		return (
-			requiredToken?.amount &&
-			(token as TokenDocument).balance >= requiredToken.amount
+			requiredToken?.amount !== undefined &&
+			(token as TokenDocument).balance >= requiredToken?.amount
 		);
 	});
+
+	// console.log(filteredTokens);
 
 	return {
 		filteredResult: filteredTokens,

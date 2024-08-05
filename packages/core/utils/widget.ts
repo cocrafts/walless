@@ -4,7 +4,7 @@ import type { Networks } from './common';
 
 export interface WidgetStoreOptions {
 	iconUri: string;
-	iconSize: number;
+	iconSize?: number;
 	iconColor?: string;
 	iconActiveColor?: string;
 	coverUri: string;

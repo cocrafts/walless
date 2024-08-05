@@ -64,7 +64,7 @@ const SelectFromToken: FC = () => {
 			<TokenList
 				itemStyle={styles.tokenStyle}
 				separateStyle={styles.separateLineStyle}
-				items={filteredTokens}
+				tokens={filteredTokens}
 				onPressItem={handleSelectToken}
 			/>
 		</SwipeDownGesture>

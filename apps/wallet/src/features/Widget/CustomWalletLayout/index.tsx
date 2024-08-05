@@ -15,26 +15,25 @@ import type {
 import type { SlideOption } from '@walless/gui';
 import { Slider, SliderTabs } from '@walless/gui';
 import type { TabAble, TabItemStyle } from '@walless/gui/components/SliderTabs';
-import type { TokenDocument } from '@walless/store';
+import type {
+	NftDocument,
+	TokenDocument,
+	WidgetDocument,
+} from '@walless/store';
 import { showCopiedModal } from 'modals/Notification';
 import { mockWidgets } from 'state/widget';
-import {
-	getTokenValue,
-	useOpacityAnimated,
-	usePublicKeys,
-	useTokens,
-} from 'utils/hooks';
+import { getTokenValue, useOpacityAnimated, usePublicKeys } from 'utils/hooks';
 import { copy } from 'utils/system';
-import { filterAssetsFromCustomWalletAssets } from 'utils/widget';
+import { filterByOwnedNfts, filterByOwnedTokens } from 'utils/widget';
 
 import ActivityTab from '../BuiltInNetwork/ActivityTab';
-import TokenTab from '../BuiltInNetwork/TokenTab';
+import CollectibleList from '../BuiltInNetwork/CollectibleList';
+import TokenList from '../BuiltInNetwork/TokenList';
 import type { CardSkin } from '../BuiltInNetwork/WalletCard';
 import { WalletCard } from '../BuiltInNetwork/WalletCard';
 
 import Advertisement from './Advertisement';
 import FeatureButtons from './FeatureButtons';
-import NftTab from './NftTab';
 import { layoutTabs } from './shared';
 
 interface Props {
@@ -63,19 +62,17 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
 	const customWalletMetadata =
-		customWalletWidget?.customMetadata as CustomWalletMetadata;
+		customWalletWidget?.metadata as CustomWalletMetadata;
 
 	const network = customWalletMetadata.network;
-	const requiredTokens = customWalletMetadata.tokens;
-	const requiredNfts = customWalletMetadata.nfts;
 
 	const keys = usePublicKeys(network);
-	const { tokens: ownedTokens } = useTokens(network);
-	const filteredTokens = filterAssetsFromCustomWalletAssets(
-		requiredTokens || [],
-		{
-			ownedTokens,
-		},
+	const { filteredResult: filteredTokens } = filterByOwnedTokens(
+		customWalletWidget as WidgetDocument,
+	);
+
+	const { filteredResult: filteredNfts } = filterByOwnedNfts(
+		customWalletWidget as WidgetDocument,
 	);
 
 	const valuation = (filteredTokens as TokenDocument<Token>[])?.reduce(
@@ -97,16 +94,16 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 			{
 				id: 'tokens',
 				component: () => (
-					<TokenTab
-						network={network}
+					<TokenList
 						tokens={filteredTokens as TokenDocument<Token>[]}
+						style={styles.tokenListContainer}
 					/>
 				),
 			},
 			{
 				id: 'collectibles',
 				component: () => (
-					<NftTab network={network} requiredNfts={requiredNfts} />
+					<CollectibleList nfts={filteredNfts as NftDocument[]} />
 				),
 			},
 			{
@@ -222,6 +219,10 @@ const styles = StyleSheet.create({
 	sliderContainer: {
 		flex: 1,
 		minHeight: 200,
+		overflow: 'hidden',
+	},
+	tokenListContainer: {
+		marginVertical: 16,
 		overflow: 'hidden',
 	},
 });

@@ -24,7 +24,7 @@ import ActivityTab from './ActivityTab';
 import AptosTokensTab from './AptosTokensTab';
 import NftTab from './NftTab';
 import { getWalletCardSkin, layoutTabs } from './shared';
-import TokenTab from './TokenTab';
+import TokenList from './TokenList';
 import WalletCard from './WalletCard';
 
 interface Props {
@@ -36,7 +36,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const keys = usePublicKeys(network);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
-	const { valuation } = useTokens(network);
+	const { tokens, valuation } = useTokens(network);
 	const cardSkin = useMemo(() => getWalletCardSkin(network), [network]);
 	const opacityAnimated = useOpacityAnimated({ from: 0, to: 1 });
 
@@ -48,7 +48,9 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		return [
 			{
 				id: 'tokens',
-				component: () => <TokenTab network={network} />,
+				component: () => (
+					<TokenList tokens={tokens} style={styles.tokenListContainer} />
+				),
 			},
 			{
 				id: 'collectibles',
@@ -176,6 +178,10 @@ const styles = StyleSheet.create({
 	},
 	sliderContainer: {
 		flex: 1,
+		overflow: 'hidden',
+	},
+	tokenListContainer: {
+		marginVertical: 16,
 		overflow: 'hidden',
 	},
 });

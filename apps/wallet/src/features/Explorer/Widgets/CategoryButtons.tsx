@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { Animated, StyleSheet } from 'react-native';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
-import { WidgetType } from '@walless/core';
+import type { WidgetCategory } from '@walless/core';
+import { categories, communityList } from '@walless/core';
 import type { WidgetDocument } from '@walless/store';
 
 import CategoryButton from './CategoryButton';
@@ -14,16 +15,23 @@ interface CategoryButtonsProps {
 const CategoryButtons: FC<CategoryButtonsProps> = ({ widgets, setWidgets }) => {
 	const currentIndex = useSharedValue(0);
 	const animatedValue = useSharedValue(0);
-	const categories = Object.values(WidgetType);
 
 	const inputRange = categories.map((_, index) => index);
 
-	const handleCategoryPress = (activeIndex: number, category: WidgetType) => {
+	const handleCategoryPress = (
+		activeIndex: number,
+		category: WidgetCategory | string,
+	) => {
 		currentIndex.value = activeIndex;
 		animatedValue.value = withTiming(activeIndex);
-		const filteredLayoutCards = widgets.filter(
-			(item) => item.widgetType === category,
-		);
+
+		const filteredLayoutCards = widgets.filter((widget) => {
+			if (category === 'Community') {
+				return communityList.includes(widget.category);
+			}
+
+			return widget.category === category;
+		});
 		setWidgets(filteredLayoutCards);
 	};
 

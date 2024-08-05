@@ -8,10 +8,10 @@ import CardCarousel from './CardCarousel';
 import HighlightIndicator from './HighlightIndicator';
 
 interface Props {
-	data: WidgetDocument[];
+	widgets: WidgetDocument[];
 }
 
-const Highlights: FC<Props> = ({ data }) => {
+const Highlights: FC<Props> = ({ widgets }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	return (
@@ -23,14 +23,14 @@ const Highlights: FC<Props> = ({ data }) => {
 
 			<View style={styles.highlightList}>
 				<CardCarousel
-					widgets={data}
+					widgets={widgets}
 					currentIndex={currentIndex}
 					onChangeCurrentIndex={setCurrentIndex}
 				/>
 
 				<HighlightIndicator
 					currentIndex={currentIndex}
-					dataLength={data.length}
+					dataLength={widgets.length}
 				/>
 			</View>
 		</View>

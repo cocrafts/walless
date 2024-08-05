@@ -21,15 +21,6 @@ export interface WidgetNetworkMetadata {
 	iconColor: string;
 }
 
-export enum WidgetType {
-	NETWORK = 'Network',
-	GAME = 'Game',
-	COMMUNITY = 'Community',
-	// We have no widgets for the below types of widget
-	// DEFI = 'DeFi',
-	// NFT = 'NFT',
-}
-
 export interface CustomWalletAdvertisement {
 	title: string;
 	link: string;
@@ -53,10 +44,12 @@ export interface CustomWalletMetadata {
 	};
 	activeTabStyle?: TabContainerStyle;
 	advertisements: CustomWalletAdvertisement[];
-	tokens?: CustomWalletAssets[];
-	nfts?: CustomWalletAssets[];
+	tokens?: Map<string, CustomWalletAssets>;
+	nfts?: Map<string, CustomWalletAssets>;
 	network: Networks;
 }
+
+export const categories = ['Network', 'Game', 'Community'];
 
 export type CustomMetadata = CustomWalletMetadata | WidgetNetworkMetadata;
 
@@ -66,13 +59,14 @@ export enum WidgetCategory {
 	NETWORK = 'Network',
 }
 
+export const communityList = [WidgetCategory.CUSTOM_WALLET];
+
 export interface Widget {
 	name: string;
 	networks: Networks[];
 	version: string;
 	timestamp?: string;
-	widgetType: WidgetType;
 	category: WidgetCategory;
 	storeMeta: WidgetStoreOptions;
-	customMetadata?: CustomMetadata;
+	metadata?: CustomMetadata;
 }

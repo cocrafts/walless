@@ -28,3 +28,15 @@ export const convertDateToReadable = (date: Date) =>
 export const parseWithDecimals = (balance: string, decimals: number) => {
 	return parseFloat(balance) / 10 ** decimals;
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const gqlErrorToMeaningfulMessage = (error: any) => {
+	if (error?.response?.errors && Array.isArray(error.response.errors)) {
+		const firstError = error.response.errors[0];
+		if (firstError.message) {
+			return firstError.message;
+		}
+	}
+
+	return 'Cannot read gql error';
+};

@@ -1,81 +1,37 @@
-import { gql } from 'graphql-request';
+import { graphql } from '../gen-gql/';
 
-export const loyaltyActiveActions = gql`
-	query LoyaltyActiveActions {
-		loyaltyActiveActions {
-			category
-			cycleInHours
+export const loyaltyActiveTasks = graphql(`
+	query LoyaltyActiveTasks {
+		loyaltyActiveTasks {
+			endDate
 			id
+			interval
 			mechanism
-			metadata {
-				key
-				value
-			}
+			metadata
 			milestone
 			points
+			recurringId
+			startDate
 			streak
 			type
-			validFrom
-			validUntil
-			verifier
+			verifierKeys
+			version
 		}
 	}
-`;
+`);
 
-export const loyaltyUserProgress = gql`
-	query LoyaltyUserProgress {
-		loyaltyUserProgress {
+export const loyaltyProfile = graphql(`
+	query LoyaltyProfile {
+		loyaltyProfile {
 			id
+			identifier
 			totalPoints
-			actionRecords {
-				actionId
-				timestamp
-				userId
-			}
-			trackList {
-				cycleInHours
-				lastClaim
-				milestone
-				type
-				streaks {
-					currentStreak
-					remainingClaims
-					streak
-				}
+			recurringStatusList {
+				currentStreak
+				recentTrackAt
+				taskId
+				total
 			}
 		}
 	}
-`;
-
-export const loyaltyHistory = gql`
-	query LoyaltyHistory {
-		loyaltyHistory {
-			doneAt
-			action {
-				category
-				cycleInHours
-				id
-				mechanism
-				milestone
-				points
-				streak
-				type
-				validFrom
-				validUntil
-				verifier
-				metadata {
-					key
-					value
-				}
-			}
-			boosts {
-				actionId
-				id
-				multiplier
-				points
-				validFrom
-				validUntil
-			}
-		}
-	}
-`;
+`);

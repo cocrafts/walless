@@ -30,165 +30,6 @@ type Account {
   walletCount: Int
 }
 
-""""""
-type Action {
-  """"""
-  category: ActionCategory
-
-  """"""
-  cycleInHours: Float
-
-  """"""
-  id: String
-
-  """"""
-  mechanism: VerifyMechanism
-
-  """"""
-  metadata: [ActionMetadata]
-
-  """"""
-  milestone: Int
-
-  """"""
-  points: Int
-
-  """"""
-  streak: Int
-
-  """"""
-  type: String
-
-  """"""
-  validFrom: DateTime
-
-  """"""
-  validUntil: DateTime
-
-  """"""
-  verifier: String
-}
-
-""""""
-enum ActionCategory {
-  """"""
-  milestone
-
-  """"""
-  onetime
-
-  """"""
-  recurring
-
-  """"""
-  streak
-}
-
-""""""
-type ActionCount {
-  """"""
-  cycleInHours: Float
-
-  """"""
-  lastClaim: DateTime
-
-  """"""
-  milestone: Int
-
-  """"""
-  streaks: [Streak]
-
-  """"""
-  type: String
-}
-
-""""""
-type ActionMetadata {
-  """"""
-  key: String
-
-  """"""
-  value: String
-}
-
-""""""
-input ActionMetadataInput {
-  """"""
-  key: String
-
-  """"""
-  value: String
-}
-
-""""""
-type ActionRecord {
-  """"""
-  actionId: String
-
-  """"""
-  timestamp: DateTime
-
-  """"""
-  userId: String
-}
-
-""""""
-type Boost {
-  """"""
-  actionId: String
-
-  """"""
-  id: String
-
-  """"""
-  multiplier: Float
-
-  """"""
-  points: Float
-
-  """"""
-  validFrom: DateTime
-
-  """"""
-  validUntil: DateTime
-}
-
-""""""
-input CreateActionInput {
-  """"""
-  category: ActionCategory!
-
-  """"""
-  cycleInHours: Float = 0
-
-  """"""
-  metadata: [ActionMetadataInput]
-
-  """"""
-  milestone: Int = 0
-
-  """"""
-  points: Float!
-
-  """"""
-  streak: Int = 0
-
-  """"""
-  type: String!
-
-  """"""
-  validFrom: DateTime = "0001-01-01 00:00:00 +0000 UTC"
-
-  """"""
-  validUntil: DateTime = "0001-01-01 00:00:00 +0000 UTC"
-
-  """"""
-  verifier: String = ""
-
-  """"""
-  verifyMechanism: VerifyMechanism!
-}
-
 """
 The `DateTime` scalar type represents a DateTime. The DateTime is serialized as an RFC 3339 quoted string
 """
@@ -278,18 +119,6 @@ input DeviceInfoInput {
   systemVersion: String
 }
 
-""""""
-type HistoryItem {
-  """"""
-  action: Action
-
-  """"""
-  boosts: [Boost]
-
-  """"""
-  doneAt: DateTime
-}
-
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
 """
@@ -308,6 +137,21 @@ type JoinWaitlistResult {
 
   """"""
   twitter: String
+}
+
+""""""
+type LoyaltyProfile {
+  """"""
+  id: String
+
+  """"""
+  identifier: String
+
+  """"""
+  recurringStatusList: [RecurringStatus]
+
+  """"""
+  totalPoints: Float
 }
 
 """MongoDB DateTime"""
@@ -336,6 +180,21 @@ enum NonceType {
 
 """MongoDB ObjectID"""
 scalar ObjectID
+
+""""""
+type RecurringStatus {
+  """"""
+  currentStreak: Int
+
+  """"""
+  recentTrackAt: DateTime
+
+  """"""
+  taskId: String
+
+  """"""
+  total: Int
+}
 
 """"""
 type ReferralRank {
@@ -367,10 +226,10 @@ type RootMutation {
   claimWalletInvitation(code: String!, email: String!): Boolean
 
   """"""
-  createLoyaltyAction(input: CreateActionInput!): Action
+  createLoyaltyTask(input: TaskInput!): Task!
 
   """"""
-  createLoyaltyBoost(actionId: String!, multiplier: Float!, points: Float!, validFrom: DateTime!, validUntil: DateTime!): Boost
+  deleteLoyaltyTask(id: String!): Boolean!
 
   """"""
   deleteWidget(id: String!): Boolean
@@ -379,10 +238,7 @@ type RootMutation {
   deleteWidgetAccount(id: String!): Boolean
 
   """"""
-  doLoyaltyAction(actionId: String!): ActionRecord
-
-  """"""
-  doRecurringThenStreakThenMilestoneActionsByType(type: String!): [ActionRecord]
+  doLoyaltyTask(taskId: String!): TaskRecord
 
   """"""
   joinWaitlist(description: String!, email: String!, twitter: String!): JoinWaitlistResult
@@ -401,6 +257,9 @@ type RootMutation {
 
   """"""
   trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
+
+  """"""
+  updateLoyaltyTask(id: String!, input: TaskInput!): Task!
 
   """"""
   updateWidgetAccountRole(id: String!, role: WidgetAccountRole!): WidgetAccount
@@ -427,22 +286,13 @@ type RootQuery {
   loginMessage(pubkey: String!): String
 
   """"""
-  loyaltyActions: [Action]
+  loyaltyActiveTasks: [Task!]
 
   """"""
-  loyaltyActiveActions: [Action]
+  loyaltyProfile: LoyaltyProfile!
 
   """"""
-  loyaltyBoosts: [Boost]
-
-  """"""
-  loyaltyCurrentBoostsOfAction(actionId: String!): [Boost]
-
-  """"""
-  loyaltyHistory: [HistoryItem]
-
-  """"""
-  loyaltyUserProgress: UserProgress
+  loyaltyTasks: [Task!]
 
   """"""
   nonce(identifier: String!): Nonce
@@ -497,24 +347,123 @@ type SendEmergencyKitResult {
 }
 
 """"""
-type Streak {
-  """"""
-  currentStreak: Int
-
-  """"""
-  remainingClaims: Int
-
-  """"""
-  streak: Int
-}
-
-""""""
 type SystemInfo {
   """"""
   environment: String
 
   """"""
   version: String
+}
+
+""""""
+type Task {
+  """"""
+  endDate: DateTime
+
+  """"""
+  id: String
+
+  """"""
+  interval: Float
+
+  """"""
+  mechanism: VerifyMechanism
+
+  """"""
+  metadata: JSON
+
+  """"""
+  milestone: Int
+
+  """"""
+  points: Float
+
+  """"""
+  recurringId: String
+
+  """"""
+  startDate: DateTime
+
+  """"""
+  streak: Int
+
+  """"""
+  type: TaskType
+
+  """"""
+  verifierKeys: [String]
+
+  """"""
+  version: Int
+}
+
+""""""
+input TaskInput {
+  """End date of the task"""
+  endDate: DateTime
+
+  """Interval for recurring tasks"""
+  interval: Float
+
+  """Verify Mechanisms: No, Manual, Auto"""
+  mechanism: VerifyMechanism
+
+  """Metadata associated with the task"""
+  metadata: JSON
+
+  """Milestone for milestone tasks"""
+  milestone: Int
+
+  """"""
+  points: Float
+
+  """ID of the recurring task (required for Streak & Milestone task)"""
+  recurringId: String
+
+  """Start date of the task"""
+  startDate: DateTime
+
+  """Streak for streak tasks"""
+  streak: Int
+
+  """Types: One Time, Recurring, Streak, Milestone"""
+  type: TaskType
+
+  """Key list of auto verifiers"""
+  verifierKeys: [String]
+}
+
+""""""
+type TaskRecord {
+  """"""
+  id: String
+
+  """"""
+  profileId: String
+
+  """"""
+  taskId: String
+
+  """"""
+  taskVersion: Int
+
+  """"""
+  timestamp: DateTime
+}
+
+""""""
+enum TaskType {
+  """"""
+  milestone
+
+  """"""
+  onetime
+
+  """"""
+  recurring
+
+  """"""
+  streak
 }
 
 """"""
@@ -563,24 +512,9 @@ input TrackAccountWalletInput {
 scalar Uint32
 
 """"""
-type UserProgress {
-  """"""
-  actionRecords: [ActionRecord]
-
-  """"""
-  id: String
-
-  """"""
-  totalPoints: Int
-
-  """"""
-  trackList: [ActionCount]
-}
-
-""""""
 enum VerifyMechanism {
   """"""
-  automated
+  auto
 
   """"""
   manual

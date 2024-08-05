@@ -29,3 +29,9 @@ export const METADATA_PROGRAM_ID =
  * Sui only
  */
 export const SUI_COIN_TYPE = '0x2::sui::SUI';
+
+// React Query
+export enum QueryKey {
+	LoyaltyActiveTasks = 'loyaltyActiveTasks',
+	LoyaltyProfile = 'loyaltyProfile',
+}

@@ -1,5 +1,5 @@
 import type { CustomWalletAssets } from '@walless/core';
-import { Networks, WidgetCategory } from '@walless/core';
+import { Networks, WidgetSubcategories } from '@walless/core';
 import { gradientDirection } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
@@ -11,7 +11,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.solana],
 		version: '0.1.8',
 		type: 'Widget',
-		category: WidgetCategory.GAME,
+		category: WidgetSubcategories.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-pixeverse.png',
@@ -36,7 +36,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.solana],
 		version: '0.9.1',
 		type: 'Widget',
-		category: WidgetCategory.NETWORK,
+		category: WidgetSubcategories.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-solana.png',
@@ -62,7 +62,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.sui],
 		version: '0.0.1',
 		type: 'Widget',
-		category: WidgetCategory.NETWORK,
+		category: WidgetSubcategories.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-sui.png',
@@ -88,7 +88,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.sui],
 		version: '0.0.1',
 		type: 'Widget',
-		category: WidgetCategory.NETWORK,
+		category: WidgetSubcategories.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/network/tezos-icon-sm.png',
@@ -114,7 +114,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.aptos],
 		version: '0.0.1',
 		type: 'Widget',
-		category: WidgetCategory.NETWORK,
+		category: WidgetSubcategories.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-aptos.png',
@@ -140,7 +140,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [],
 		version: '0.1.8',
 		type: 'Widget',
-		category: WidgetCategory.GAME,
+		category: WidgetSubcategories.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/t-rex-runner/runner-icon.png',
@@ -165,7 +165,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [],
 		version: '0.0.1',
 		type: 'Widget',
-		category: WidgetCategory.GAME,
+		category: WidgetSubcategories.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/sui-jump/suijump-icon.png',
@@ -215,7 +215,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.solana],
 		version: '0.0.1',
 		type: 'Widget',
-		category: WidgetCategory.CUSTOM_WALLET,
+		category: WidgetSubcategories.CUSTOM_WALLET,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/widget/samo-icon.png',

@@ -49,24 +49,35 @@ export interface CustomWalletMetadata {
 	network: Networks;
 }
 
-export const categories = ['Network', 'Game', 'Community'];
+export enum WidgetCategories {
+	NETWORK = 'Network',
+	GAME = 'Game',
+	COMMUNITY = 'Community',
+}
+
+export enum WidgetSubcategories {
+	CUSTOM_WALLET = 'Custom Wallet',
+	NETWORK = 'Network',
+	GAME = 'Game',
+}
 
 export type CustomMetadata = CustomWalletMetadata | WidgetNetworkMetadata;
 
-export enum WidgetCategory {
-	GAME = 'Game',
-	CUSTOM_WALLET = 'CustomWallet',
-	NETWORK = 'Network',
-}
-
-export const communityList = [WidgetCategory.CUSTOM_WALLET];
+export const SubcategoryToCategoryMapping: Record<
+	WidgetSubcategories,
+	WidgetCategories
+> = {
+	[WidgetSubcategories.CUSTOM_WALLET]: WidgetCategories.COMMUNITY,
+	[WidgetSubcategories.NETWORK]: WidgetCategories.NETWORK,
+	[WidgetSubcategories.GAME]: WidgetCategories.GAME,
+};
 
 export interface Widget {
 	name: string;
 	networks: Networks[];
 	version: string;
 	timestamp?: string;
-	category: WidgetCategory;
+	category: WidgetSubcategories;
 	storeMeta: WidgetStoreOptions;
 	metadata?: CustomMetadata;
 }

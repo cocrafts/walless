@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { WidgetCategory } from '@walless/core';
+import { SubcategoryToCategoryMapping, WidgetCategories } from '@walless/core';
 import { Text } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
@@ -14,7 +14,11 @@ interface Props {
 
 const Widgets: FC<Props> = ({ widgets }) => {
 	const [renderedWidgets, setRenderedWidgets] = useState<WidgetDocument[]>(
-		widgets.filter((widget) => widget.category === WidgetCategory.NETWORK),
+		widgets.filter(
+			(widget) =>
+				SubcategoryToCategoryMapping[widget.category] ===
+				WidgetCategories.NETWORK,
+		),
 	);
 
 	return (

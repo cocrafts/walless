@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import type { UserProfile } from '@walless/core';
-import { Compass } from '@walless/icons';
+import { Compass, Settings } from '@walless/icons';
 import type { WidgetDocument } from '@walless/store';
 import { showRemoveLayoutModal } from 'modals/RemoveLayout';
 import { appState } from 'state/app';
@@ -20,6 +20,7 @@ interface Props {
 	onExtensionPress?: (item: WidgetDocument) => void;
 	onRemoveLayout: (item: WidgetDocument) => void;
 	onAvatarPress?: () => void;
+	onSettingPress?: () => void;
 }
 
 const orbSize = 40;
@@ -33,6 +34,7 @@ export const WidgetNavigator: FC<Props> = ({
 	onExtensionPress,
 	onRemoveLayout,
 	onAvatarPress,
+	onSettingPress,
 }) => {
 	const insets = useUniversalInsets();
 	const containerStyle = {
@@ -51,6 +53,14 @@ export const WidgetNavigator: FC<Props> = ({
 		_id: 'profile',
 		storeMeta: {
 			iconUri: profile?.profileImage as string,
+			iconSize: orbSize,
+		} as never,
+	};
+
+	const settingItem: Partial<WidgetDocument> = {
+		_id: 'setting',
+		storeMeta: {
+			iconColor: '#23303C',
 			iconSize: orbSize,
 		} as never,
 	};
@@ -109,6 +119,15 @@ export const WidgetNavigator: FC<Props> = ({
 			{navigationDisplay.isSidebarAvatarActive && profile?.profileImage && (
 				<View style={styles.commandContainer}>
 					<NavigatorOrb
+						item={settingItem as never}
+						iconSource={{ uri: '' }}
+						isActive={getIsExtensionActive?.(settingItem as never)}
+						onPress={onSettingPress}
+					>
+						<Settings size={20} color={'#A4B3C1'} />
+					</NavigatorOrb>
+
+					<NavigatorOrb
 						item={profileItem as never}
 						iconSource={{ uri: profile.profileImage }}
 						onPress={onAvatarPress}
@@ -139,5 +158,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		backgroundColor: '#24303A',
 	},
-	commandContainer: {},
+	commandContainer: {
+		gap: 10,
+	},
 });

@@ -1,44 +1,19 @@
 import type { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import type { SharedValue } from 'react-native-reanimated';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import type { CustomWalletAdvertisement } from '@walless/core';
 import { Anchor, Text } from '@walless/gui';
 import { ArrowTopRight } from '@walless/icons';
 
-type ItemProps = CustomWalletAdvertisement & {
-	currentIndex: number;
-	index: number;
-	offsetX: SharedValue<number>;
-	animatedValue: SharedValue<number>;
-};
-
-const IMAGE_SIZE = 266;
-
-const AdvertisementItem: FC<ItemProps> = ({
+const AdvertisementItem: FC<CustomWalletAdvertisement> = ({
 	image,
 	link,
 	title,
-	currentIndex,
-	index,
-	offsetX,
-	animatedValue,
 }) => {
 	const imageSrc = { uri: image };
 
-	const animatedStyle = useAnimatedStyle(() => {
-		return {
-			transform: [
-				{
-					translateX:
-						(index - currentIndex) * (IMAGE_SIZE + 20) + offsetX.value,
-				},
-			],
-		};
-	}, [currentIndex, offsetX, animatedValue]);
-
 	return (
-		<Animated.View style={[styles.container, animatedStyle]}>
+		<Animated.View style={[styles.container]}>
 			<Image style={styles.image} source={imageSrc} />
 			<Anchor style={styles.linkContainer} href={link}>
 				<Text style={styles.title}>{title}</Text>
@@ -54,7 +29,6 @@ const styles = StyleSheet.create({
 	container: {
 		borderRadius: 10,
 		overflow: 'hidden',
-		position: 'absolute',
 	},
 	image: {
 		width: 266,

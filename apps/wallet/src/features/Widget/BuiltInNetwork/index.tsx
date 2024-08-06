@@ -20,11 +20,12 @@ import { buyToken } from 'utils/buy';
 import { useOpacityAnimated, usePublicKeys, useTokens } from 'utils/hooks';
 import { copy } from 'utils/system';
 
+import TokenList from '../../../components/TokenList';
+
 import ActivityTab from './ActivityTab';
 import AptosTokensTab from './AptosTokensTab';
 import NftTab from './NftTab';
 import { getWalletCardSkin, layoutTabs } from './shared';
-import TokenList from '../../../components/TokenList';
 import WalletCard from './WalletCard';
 
 interface Props {

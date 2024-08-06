@@ -24,7 +24,7 @@ import ActivityTab from './ActivityTab';
 import AptosTokensTab from './AptosTokensTab';
 import NftTab from './NftTab';
 import { getWalletCardSkin, layoutTabs } from './shared';
-import TokenList from './TokenList';
+import TokenList from '../../../components/TokenList';
 import WalletCard from './WalletCard';
 
 interface Props {

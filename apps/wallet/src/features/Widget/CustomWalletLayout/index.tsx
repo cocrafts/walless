@@ -26,9 +26,9 @@ import { getTokenValue, useOpacityAnimated, usePublicKeys } from 'utils/hooks';
 import { copy } from 'utils/system';
 import { filterByOwnedNfts, filterByOwnedTokens } from 'utils/widget';
 
+import CollectibleList from '../../../components/CollectibleList';
+import TokenList from '../../../components/TokenList';
 import ActivityTab from '../BuiltInNetwork/ActivityTab';
-import CollectibleList from '../BuiltInNetwork/CollectibleList';
-import TokenList from '../BuiltInNetwork/TokenList';
 import type { CardSkin } from '../BuiltInNetwork/WalletCard';
 import { WalletCard } from '../BuiltInNetwork/WalletCard';
 

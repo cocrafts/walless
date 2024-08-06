@@ -20,6 +20,7 @@ export type CollectionParamList = {
 
 export type ProfileParamList = {
 	Default: undefined;
+	Setting: undefined;
 	History: undefined;
 };
 

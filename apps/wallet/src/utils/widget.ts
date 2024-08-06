@@ -7,10 +7,7 @@ import { Networks } from '@walless/core';
 import type { TokenDocument, WidgetDocument } from '@walless/store';
 import { nftState, tokenState } from 'state/assets';
 
-export type WidgetFilter = (widget: WidgetDocument) => {
-	filteredResult: unknown[];
-	hasItems: boolean;
-};
+export type WidgetFilter = (widget: WidgetDocument) => boolean;
 
 import { solMint, SUI_COIN_TYPE, wrappedSolMint } from './constants';
 
@@ -89,7 +86,7 @@ const getOwnedNfts = (network?: Networks, address?: string) => {
 	return nfts;
 };
 
-export const filterByOwnedTokens: WidgetFilter = (widget: WidgetDocument) => {
+export const filterByOwnedTokens = (widget: WidgetDocument) => {
 	const ownedTokens = getOwnedTokens(
 		(widget.metadata as CustomWalletMetadata)?.network,
 	);
@@ -99,26 +96,16 @@ export const filterByOwnedTokens: WidgetFilter = (widget: WidgetDocument) => {
 		return requiredTokens?.has(id);
 	});
 
-	return {
-		filteredResult: filteredTokens,
-		hasItems: filteredTokens.length > 0,
-	};
+	return filteredTokens;
 };
 
-export const filterByTokenBalances: WidgetFilter = (widget: WidgetDocument) => {
-	const { filteredResult: tokens } = filterByOwnedTokens(widget);
+export const explorerFilterByTokenBalances = (widget: WidgetDocument) => {
+	const tokens = filterByOwnedTokens(widget);
 	const requiredTokens = (widget.metadata as CustomWalletMetadata)?.tokens;
 
 	const filteredTokens = tokens.filter((token) => {
 		const id = getTokenAddress(token as TokenDocument);
 		const requiredToken = requiredTokens?.get(id);
-
-		const result: boolean =
-			requiredToken?.amount !== undefined &&
-			(token as TokenDocument).balance >= requiredToken?.amount;
-		console.log(requiredToken);
-		console.log(token);
-		console.log(result);
 
 		return (
 			requiredToken?.amount !== undefined &&
@@ -126,15 +113,10 @@ export const filterByTokenBalances: WidgetFilter = (widget: WidgetDocument) => {
 		);
 	});
 
-	// console.log(filteredTokens);
-
-	return {
-		filteredResult: filteredTokens,
-		hasItems: filteredTokens.length > 0,
-	};
+	return filteredTokens.length > 0;
 };
 
-export const filterByOwnedNfts: WidgetFilter = (widget: WidgetDocument) => {
+export const filterByOwnedNfts = (widget: WidgetDocument) => {
 	const ownedNfts = getOwnedNfts(
 		(widget.metadata as CustomWalletMetadata)?.network,
 	);
@@ -146,10 +128,11 @@ export const filterByOwnedNfts: WidgetFilter = (widget: WidgetDocument) => {
 		return requiredNfts?.has(id);
 	});
 
-	return {
-		filteredResult: filteredNfts,
-		hasItems: filteredNfts.length > 0,
-	};
+	return filteredNfts;
+};
+
+export const explorerFilterByOwnedNfts = (widget: WidgetDocument) => {
+	return filterByOwnedNfts(widget).length > 0;
 };
 
 const getSolanaMintAddress = (mint: string) => {
@@ -160,6 +143,6 @@ const getSolanaMintAddress = (mint: string) => {
 	return mint;
 };
 
-export const filterMap = new Map<string, WidgetFilter[]>([
-	['samo', [filterByTokenBalances, filterByOwnedNfts]],
-]);
+export const filterMap: Record<string, WidgetFilter[]> = {
+	samo: [explorerFilterByTokenBalances, explorerFilterByOwnedNfts],
+};

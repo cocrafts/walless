@@ -67,13 +67,11 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 	const network = customWalletMetadata.network;
 
 	const keys = usePublicKeys(network);
-	const { filteredResult: filteredTokens } = filterByOwnedTokens(
+	const filteredTokens = filterByOwnedTokens(
 		customWalletWidget as WidgetDocument,
 	);
 
-	const { filteredResult: filteredNfts } = filterByOwnedNfts(
-		customWalletWidget as WidgetDocument,
-	);
+	const filteredNfts = filterByOwnedNfts(customWalletWidget as WidgetDocument);
 
 	const valuation = (filteredTokens as TokenDocument<Token>[])?.reduce(
 		(accumulator, token) => accumulator + getTokenValue(token, 'usd'),

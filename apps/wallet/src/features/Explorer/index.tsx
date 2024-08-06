@@ -28,9 +28,9 @@ export const ExplorerFeature: FC<Props> = ({ style }) => {
 	const widgets = useMemo(
 		() =>
 			mockWidgets.filter((widget) => {
-				if (filterMap.has(widget._id)) {
-					const filters = filterMap.get(widget._id);
-					return filters?.some((filter) => filter(widget).hasItems);
+				if (filterMap[widget._id]) {
+					const filters = filterMap[widget._id];
+					return filters?.some((filter) => filter(widget));
 				}
 
 				return true;

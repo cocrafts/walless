@@ -271,7 +271,7 @@ export const mockWidgets: WidgetDocument[] = [
 					'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
 					{
 						mintAddress: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
-						amount: 0,
+						amount: 50000,
 					},
 				],
 				[

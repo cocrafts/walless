@@ -30,8 +30,12 @@ const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
 				style={[
 					styles.percentageContainer,
 					isDarkTheme
-						? styles.darkThemeProfitPercentageContainer
-						: styles.lightThemeProfitPercentageContainer,
+						? isLost
+							? styles.darkThemeLostPercentageContainer
+							: styles.darkThemeProfitPercentageContainer
+						: isLost
+							? styles.lightThemeLostPercentageContainer
+							: styles.lightThemeProfitPercentageContainer,
 				]}
 			>
 				<Text

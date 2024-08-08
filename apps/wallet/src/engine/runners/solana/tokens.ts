@@ -44,7 +44,7 @@ export const queryTokens = async (
 			);
 
 			const tokenInfo = await getTokenInfo({
-				address: 'BDHqX9YfJE3M6caox3obUX5YpWHz2cjnGFiZJtRghdCo',
+				address: doc.mint,
 				network: doc.network,
 			});
 			doc.quotes = tokenInfo?.quotes;

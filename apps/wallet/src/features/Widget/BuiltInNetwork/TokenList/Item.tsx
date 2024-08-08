@@ -32,7 +32,8 @@ export const TokenItem: FC<Props> = ({ style, token, onPress, tokenPnL }) => {
 				<View style={styles.unitQuoteContainer}>
 					<Text style={styles.secondaryText}>{formatQuote(unitQuote)}</Text>
 					<Text style={isLost ? styles.lostText : styles.profitText}>
-						{isLost ? '-' : '+'} {Math.abs(Math.round(pnl * 10000) / 10000 ?? 0)}%
+						{isLost ? '-' : '+'}{' '}
+						{Math.abs(Math.round(pnl * 10000) / 10000 ?? 0)}%
 					</Text>
 				</View>
 			</View>

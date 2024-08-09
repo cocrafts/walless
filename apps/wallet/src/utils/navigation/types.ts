@@ -28,6 +28,7 @@ export type ExploreParamList = {
 	Widget: { id: string };
 	Collection: NavigatorScreenParams<CollectionParamList>;
 	Profile: NavigatorScreenParams<ProfileParamList>;
+	Setting: NavigatorScreenParams<SettingParamList>;
 	Loyalty: undefined;
 };
 

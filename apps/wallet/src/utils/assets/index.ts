@@ -79,6 +79,17 @@ const assets: Asset = {
 				cardBackground: require(''),
 			},
 		},
+		samo: {
+			storeMeta: {
+				iconUri: require('assets/img/explore/samo-icon.png'),
+				coverUri: require('assets/img/explore/samo-cover.png'),
+			},
+			widgetMeta: {
+				cardIcon: require('assets/img/widget/samo-icon.png'),
+				cardMark: require(''),
+				cardBackground: require(''),
+			},
+		},
 	},
 	setting: {
 		solana: {

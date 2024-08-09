@@ -6,7 +6,7 @@ import type { SolanaToken } from '@walless/core';
 import { runtime } from '@walless/core';
 import { SwipeDownGesture } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
-import TokenList from 'features/Widget/BuiltInNetwork/TokenList';
+import TokenList from 'components/TokenList';
 import { useSafeAreaInsets, useSnapshot, useTokens } from 'utils/hooks';
 
 import { swapActions, swapContext } from '../context';
@@ -64,7 +64,7 @@ const SelectFromToken: FC = () => {
 			<TokenList
 				itemStyle={styles.tokenStyle}
 				separateStyle={styles.separateLineStyle}
-				items={filteredTokens}
+				tokens={filteredTokens}
 				onPressItem={handleSelectToken}
 			/>
 		</SwipeDownGesture>

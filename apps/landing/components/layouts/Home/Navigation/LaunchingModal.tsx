@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		marginHorizontal: 8,
-		alignSelf: 'flex-start',
+		alignSelf: 'flex-end',
 	},
 	line: {
 		backgroundColor: '#ffffff',

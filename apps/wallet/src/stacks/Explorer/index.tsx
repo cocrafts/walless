@@ -4,6 +4,7 @@ import type { DrawerNavigationOptions } from 'components/DrawerNavigation';
 import { createDrawerNavigator } from 'components/DrawerNavigation';
 import WidgetScreen from 'screens/Dashboard/Widget';
 import CollectionStack from 'stacks/Explorer/CollectionStack';
+import SettingStack from 'stacks/Setting';
 import { appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
 import type { ExploreParamList } from 'utils/navigation';
@@ -47,6 +48,12 @@ export const ExplorerStack = () => {
 			<Drawer.Screen
 				name="Profile"
 				component={ProfileStack}
+				initialParams={{ screen: 'Default' }}
+				options={options}
+			/>
+			<Drawer.Screen
+				name="Setting"
+				component={SettingStack}
 				initialParams={{ screen: 'Default' }}
 				options={options}
 			/>

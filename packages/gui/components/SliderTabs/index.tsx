@@ -9,8 +9,8 @@ import TabItem from './TabItem';
 
 interface SliderTabsProps {
 	style?: ViewStyle;
-	activatedStyle: TabItemStyle;
-	deactivatedStyle: TabItemStyle;
+	activatedStyle?: TabItemStyle;
+	deactivatedStyle?: TabItemStyle;
 	items: TabAble[];
 	activeItem: TabAble;
 	onTabPress?: (item: TabAble) => void;
@@ -28,20 +28,19 @@ export const SliderTabs: FC<SliderTabsProps> = ({
 		<View style={[styles.container, style]}>
 			{items.map((item) => {
 				const isActive = item.id === activeItem.id;
-				const containerStyle = isActive
-					? activatedStyle.containerStyle
-					: deactivatedStyle.containerStyle;
+				const containerStyle = isActive ? activatedStyle : deactivatedStyle;
 
 				const textStyle = isActive
-					? activatedStyle.textStyle
-					: deactivatedStyle.textStyle;
+					? activatedStyle?.textStyle
+					: deactivatedStyle?.textStyle;
 
 				return (
 					<TabItem
 						key={item.id}
 						item={item}
-						style={{
-							containerStyle,
+						tabStyle={{
+							style: containerStyle?.style,
+							linearGradient: containerStyle?.linearGradient,
 							textStyle,
 						}}
 						onPress={onTabPress}

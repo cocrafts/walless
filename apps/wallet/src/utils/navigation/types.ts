@@ -34,6 +34,7 @@ export type ExploreParamList = {
 	Collection: NavigatorScreenParams<CollectionParamList>;
 	Profile: NavigatorScreenParams<ProfileParamList>;
 	Loyalty: NavigatorScreenParams<LoyaltyParamList>;
+	Setting: NavigatorScreenParams<SettingParamList>;
 };
 
 export type HomeParamList = {

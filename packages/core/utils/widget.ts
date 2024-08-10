@@ -1,8 +1,10 @@
+import type { TabItemStyle } from '@walless/gui';
+
 import type { Networks } from './common';
 
 export interface WidgetStoreOptions {
 	iconUri: string;
-	iconSize: number;
+	iconSize?: number;
 	iconColor?: string;
 	iconActiveColor?: string;
 	coverUri: string;
@@ -11,7 +13,7 @@ export interface WidgetStoreOptions {
 	activeCount: number;
 }
 
-export interface WidgetNetworkOptions {
+export interface WidgetNetworkMetadata {
 	backgroundUri: string;
 	markUri: string;
 	iconUri: string;
@@ -19,19 +21,63 @@ export interface WidgetNetworkOptions {
 	iconColor: string;
 }
 
-export enum WidgetType {
+export interface CustomWalletAdvertisement {
+	title: string;
+	link: string;
+	image: string;
+}
+
+export interface CustomWalletAssets {
+	mintAddress: string;
+	amount?: number;
+}
+
+export interface CustomWalletMetadata {
+	coverBanner: string;
+	iconSrc: string;
+	backgroundColor: string;
+	actionButtonBackgroundColors: {
+		send: string;
+		receive: string;
+		buy: string;
+		swap: string;
+	};
+	activeTabStyle?: TabItemStyle;
+	advertisements: CustomWalletAdvertisement[];
+	tokens?: Map<string, CustomWalletAssets>;
+	nfts?: Map<string, CustomWalletAssets>;
+	network: Networks;
+}
+
+export enum WidgetCategories {
 	NETWORK = 'Network',
 	GAME = 'Game',
-	DEFI = 'DeFi',
-	NFT = 'NFT',
+	COMMUNITY = 'Community',
 }
+
+export enum WidgetSubcategories {
+	CUSTOM_WALLET = 'Custom Wallet',
+	NETWORK = 'Network',
+	GAME = 'Game',
+}
+
+export type CustomMetadata = CustomWalletMetadata | WidgetNetworkMetadata;
+
+export const SubcategoryToCategoryMapping: Record<
+	WidgetSubcategories,
+	WidgetCategories
+> = {
+	[WidgetSubcategories.CUSTOM_WALLET]: WidgetCategories.COMMUNITY,
+	[WidgetSubcategories.NETWORK]: WidgetCategories.NETWORK,
+	[WidgetSubcategories.GAME]: WidgetCategories.GAME,
+};
 
 export interface Widget {
 	name: string;
 	networks: Networks[];
 	version: string;
 	timestamp?: string;
-	widgetType: WidgetType;
+	category: WidgetSubcategories;
 	storeMeta: WidgetStoreOptions;
-	networkMeta: WidgetNetworkOptions;
+	metadata?: CustomMetadata;
 }

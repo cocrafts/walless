@@ -119,6 +119,18 @@ input DeviceInfoInput {
   systemVersion: String
 }
 
+""""""
+type History {
+  """"""
+  edges: [TaskRecordEdge!]!
+
+  """"""
+  pageInfo: PageInfo!
+
+  """"""
+  totalCount: Int!
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
 """
@@ -142,16 +154,25 @@ type JoinWaitlistResult {
 """"""
 type LoyaltyProfile {
   """"""
-  id: String
+  history(
+    """To start from index 0, use empty string"""
+    after: String!
+
+    """"""
+    first: Int!
+  ): History
 
   """"""
-  identifier: String
+  id: String!
 
   """"""
-  recurringStatusList: [RecurringStatus]
+  identifier: String!
 
   """"""
-  totalPoints: Float
+  recurringStatusList: [RecurringStatus!]
+
+  """"""
+  totalPoints: Float!
 }
 
 """MongoDB DateTime"""
@@ -182,18 +203,30 @@ enum NonceType {
 scalar ObjectID
 
 """"""
+type PageInfo {
+  """"""
+  endCursor: String!
+
+  """"""
+  hasNextPage: Boolean!
+}
+
+""""""
 type RecurringStatus {
   """"""
-  currentStreak: Int
+  currentStreak: Int!
 
   """"""
-  recentTrackAt: DateTime
+  interval: Float!
 
   """"""
-  taskId: String
+  recentTrackAt: DateTime!
 
   """"""
-  total: Int
+  taskId: String!
+
+  """"""
+  total: Int!
 }
 
 """"""
@@ -238,7 +271,10 @@ type RootMutation {
   deleteWidgetAccount(id: String!): Boolean
 
   """"""
-  doLoyaltyTask(taskId: String!): TaskRecord
+  doLoyaltyTask(id: String!): TaskRecord
+
+  """"""
+  doLoyaltyTasksByRecurringGroup(id: String!): TaskRecord
 
   """"""
   joinWaitlist(description: String!, email: String!, twitter: String!): JoinWaitlistResult
@@ -290,6 +326,9 @@ type RootQuery {
 
   """"""
   loyaltyProfile: LoyaltyProfile!
+
+  """"""
+  loyaltyTask(id: String!): Task
 
   """"""
   loyaltyTasks: [Task!]
@@ -361,13 +400,13 @@ type Task {
   endDate: DateTime
 
   """"""
-  id: String
+  id: String!
 
   """"""
   interval: Float
 
   """"""
-  mechanism: VerifyMechanism
+  mechanism: VerifyMechanism!
 
   """"""
   metadata: JSON
@@ -376,7 +415,7 @@ type Task {
   milestone: Int
 
   """"""
-  points: Float
+  points: Float!
 
   """"""
   recurringId: String
@@ -388,7 +427,7 @@ type Task {
   streak: Int
 
   """"""
-  type: TaskType
+  type: TaskType!
 
   """"""
   verifierKeys: [String]
@@ -436,19 +475,28 @@ input TaskInput {
 """"""
 type TaskRecord {
   """"""
-  id: String
+  id: String!
 
   """"""
-  profileId: String
+  profileId: String!
 
   """"""
-  taskId: String
+  taskId: String!
 
   """"""
-  taskVersion: Int
+  taskVersion: Int!
 
   """"""
-  timestamp: DateTime
+  timestamp: DateTime!
+}
+
+""""""
+type TaskRecordEdge {
+  """"""
+  cursor: String!
+
+  """"""
+  node: TaskRecord!
 }
 
 """"""

@@ -71,6 +71,13 @@ export type DeviceInfoInput = {
   systemVersion?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type History = {
+  __typename?: 'History';
+  edges: Array<TaskRecordEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
+};
+
 export type JoinWaitlistResult = {
   __typename?: 'JoinWaitlistResult';
   count?: Maybe<Scalars['Int']['output']>;
@@ -81,10 +88,17 @@ export type JoinWaitlistResult = {
 
 export type LoyaltyProfile = {
   __typename?: 'LoyaltyProfile';
-  id?: Maybe<Scalars['String']['output']>;
-  identifier?: Maybe<Scalars['String']['output']>;
-  recurringStatusList?: Maybe<Array<Maybe<RecurringStatus>>>;
-  totalPoints?: Maybe<Scalars['Float']['output']>;
+  history?: Maybe<History>;
+  id: Scalars['String']['output'];
+  identifier: Scalars['String']['output'];
+  recurringStatusList?: Maybe<Array<RecurringStatus>>;
+  totalPoints: Scalars['Float']['output'];
+};
+
+
+export type LoyaltyProfileHistoryArgs = {
+  after: Scalars['String']['input'];
+  first: Scalars['Int']['input'];
 };
 
 export type Nonce = {
@@ -99,12 +113,19 @@ export enum NonceType {
   Login = 'Login'
 }
 
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  endCursor: Scalars['String']['output'];
+  hasNextPage: Scalars['Boolean']['output'];
+};
+
 export type RecurringStatus = {
   __typename?: 'RecurringStatus';
-  currentStreak?: Maybe<Scalars['Int']['output']>;
-  recentTrackAt?: Maybe<Scalars['DateTime']['output']>;
-  taskId?: Maybe<Scalars['String']['output']>;
-  total?: Maybe<Scalars['Int']['output']>;
+  currentStreak: Scalars['Int']['output'];
+  interval: Scalars['Float']['output'];
+  recentTrackAt: Scalars['DateTime']['output'];
+  taskId: Scalars['String']['output'];
+  total: Scalars['Int']['output'];
 };
 
 export type ReferralRank = {
@@ -126,6 +147,7 @@ export type RootMutation = {
   deleteWidget?: Maybe<Scalars['Boolean']['output']>;
   deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
   doLoyaltyTask?: Maybe<TaskRecord>;
+  doLoyaltyTasksByRecurringGroup?: Maybe<TaskRecord>;
   joinWaitlist?: Maybe<JoinWaitlistResult>;
   registerAccount?: Maybe<Account>;
   registerDevice?: Maybe<Device>;
@@ -180,7 +202,12 @@ export type RootMutationDeleteWidgetAccountArgs = {
 
 
 export type RootMutationDoLoyaltyTaskArgs = {
-  taskId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+};
+
+
+export type RootMutationDoLoyaltyTasksByRecurringGroupArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -254,6 +281,7 @@ export type RootQuery = {
   loginMessage?: Maybe<Scalars['String']['output']>;
   loyaltyActiveTasks?: Maybe<Array<Task>>;
   loyaltyProfile: LoyaltyProfile;
+  loyaltyTask?: Maybe<Task>;
   loyaltyTasks?: Maybe<Array<Task>>;
   nonce?: Maybe<Nonce>;
   referralLeaderboard?: Maybe<Array<Maybe<ReferralRank>>>;
@@ -275,6 +303,11 @@ export type RootQuery = {
 
 export type RootQueryLoginMessageArgs = {
   pubkey: Scalars['String']['input'];
+};
+
+
+export type RootQueryLoyaltyTaskArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -343,16 +376,16 @@ export type SystemInfo = {
 export type Task = {
   __typename?: 'Task';
   endDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   interval?: Maybe<Scalars['Float']['output']>;
-  mechanism?: Maybe<VerifyMechanism>;
+  mechanism: VerifyMechanism;
   metadata?: Maybe<Scalars['JSON']['output']>;
   milestone?: Maybe<Scalars['Int']['output']>;
-  points?: Maybe<Scalars['Float']['output']>;
+  points: Scalars['Float']['output'];
   recurringId?: Maybe<Scalars['String']['output']>;
   startDate?: Maybe<Scalars['DateTime']['output']>;
   streak?: Maybe<Scalars['Int']['output']>;
-  type?: Maybe<TaskType>;
+  type: TaskType;
   verifierKeys?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   version?: Maybe<Scalars['Int']['output']>;
 };
@@ -383,11 +416,17 @@ export type TaskInput = {
 
 export type TaskRecord = {
   __typename?: 'TaskRecord';
-  id?: Maybe<Scalars['String']['output']>;
-  profileId?: Maybe<Scalars['String']['output']>;
-  taskId?: Maybe<Scalars['String']['output']>;
-  taskVersion?: Maybe<Scalars['Int']['output']>;
-  timestamp?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['String']['output'];
+  profileId: Scalars['String']['output'];
+  taskId: Scalars['String']['output'];
+  taskVersion: Scalars['Int']['output'];
+  timestamp: Scalars['DateTime']['output'];
+};
+
+export type TaskRecordEdge = {
+  __typename?: 'TaskRecordEdge';
+  cursor: Scalars['String']['output'];
+  node: TaskRecord;
 };
 
 export enum TaskType {
@@ -475,16 +514,43 @@ export type WidgetTokenInput = {
   id?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type DoLoyaltyTaskMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DoLoyaltyTaskMutation = { __typename?: 'RootMutation', doLoyaltyTask?: { __typename?: 'TaskRecord', id: string, profileId: string, taskId: string, taskVersion: number, timestamp: any } | null };
+
+export type DoLoyaltyTasksByRecurringGroupMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DoLoyaltyTasksByRecurringGroupMutation = { __typename?: 'RootMutation', doLoyaltyTasksByRecurringGroup?: { __typename?: 'TaskRecord', id: string, profileId: string, taskId: string, taskVersion: number, timestamp: any } | null };
+
+export type LoyaltyTaskQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type LoyaltyTaskQuery = { __typename?: 'RootQuery', loyaltyTask?: { __typename?: 'Task', endDate?: any | null, id: string, interval?: number | null, mechanism: VerifyMechanism, metadata?: any | null, milestone?: number | null, points: number, recurringId?: string | null, startDate?: any | null, streak?: number | null, type: TaskType, verifierKeys?: Array<string | null> | null, version?: number | null } | null };
+
 export type LoyaltyActiveTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoyaltyActiveTasksQuery = { __typename?: 'RootQuery', loyaltyActiveTasks?: Array<{ __typename?: 'Task', endDate?: any | null, id?: string | null, interval?: number | null, mechanism?: VerifyMechanism | null, metadata?: any | null, milestone?: number | null, points?: number | null, recurringId?: string | null, startDate?: any | null, streak?: number | null, type?: TaskType | null, verifierKeys?: Array<string | null> | null, version?: number | null }> | null };
+export type LoyaltyActiveTasksQuery = { __typename?: 'RootQuery', loyaltyActiveTasks?: Array<{ __typename?: 'Task', endDate?: any | null, id: string, interval?: number | null, mechanism: VerifyMechanism, metadata?: any | null, milestone?: number | null, points: number, recurringId?: string | null, startDate?: any | null, streak?: number | null, type: TaskType, verifierKeys?: Array<string | null> | null, version?: number | null }> | null };
 
-export type LoyaltyProfileQueryVariables = Exact<{ [key: string]: never; }>;
+export type LoyaltyProfileQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after: Scalars['String']['input'];
+}>;
 
 
-export type LoyaltyProfileQuery = { __typename?: 'RootQuery', loyaltyProfile: { __typename?: 'LoyaltyProfile', id?: string | null, identifier?: string | null, totalPoints?: number | null, recurringStatusList?: Array<{ __typename?: 'RecurringStatus', currentStreak?: number | null, recentTrackAt?: any | null, taskId?: string | null, total?: number | null } | null> | null } };
+export type LoyaltyProfileQuery = { __typename?: 'RootQuery', loyaltyProfile: { __typename?: 'LoyaltyProfile', id: string, identifier: string, totalPoints: number, history?: { __typename?: 'History', totalCount: number, edges: Array<{ __typename?: 'TaskRecordEdge', cursor: string, node: { __typename?: 'TaskRecord', id: string, profileId: string, taskId: string, taskVersion: number, timestamp: any } }>, pageInfo: { __typename?: 'PageInfo', endCursor: string, hasNextPage: boolean } } | null, recurringStatusList?: Array<{ __typename?: 'RecurringStatus', currentStreak: number, recentTrackAt: any, interval: number, taskId: string, total: number }> | null } };
 
 
+export const DoLoyaltyTaskDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DoLoyaltyTask"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"doLoyaltyTask"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"profileId"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"taskVersion"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<DoLoyaltyTaskMutation, DoLoyaltyTaskMutationVariables>;
+export const DoLoyaltyTasksByRecurringGroupDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DoLoyaltyTasksByRecurringGroup"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"doLoyaltyTasksByRecurringGroup"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"profileId"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"taskVersion"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<DoLoyaltyTasksByRecurringGroupMutation, DoLoyaltyTasksByRecurringGroupMutationVariables>;
+export const LoyaltyTaskDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LoyaltyTask"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loyaltyTask"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"interval"}},{"kind":"Field","name":{"kind":"Name","value":"mechanism"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"milestone"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"recurringId"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"streak"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"verifierKeys"}},{"kind":"Field","name":{"kind":"Name","value":"version"}}]}}]}}]} as unknown as DocumentNode<LoyaltyTaskQuery, LoyaltyTaskQueryVariables>;
 export const LoyaltyActiveTasksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LoyaltyActiveTasks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loyaltyActiveTasks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"interval"}},{"kind":"Field","name":{"kind":"Name","value":"mechanism"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"milestone"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"recurringId"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"streak"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"verifierKeys"}},{"kind":"Field","name":{"kind":"Name","value":"version"}}]}}]}}]} as unknown as DocumentNode<LoyaltyActiveTasksQuery, LoyaltyActiveTasksQueryVariables>;
-export const LoyaltyProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LoyaltyProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loyaltyProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"totalPoints"}},{"kind":"Field","name":{"kind":"Name","value":"recurringStatusList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"currentStreak"}},{"kind":"Field","name":{"kind":"Name","value":"recentTrackAt"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]}}]} as unknown as DocumentNode<LoyaltyProfileQuery, LoyaltyProfileQueryVariables>;
+export const LoyaltyProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LoyaltyProfile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loyaltyProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"totalPoints"}},{"kind":"Field","name":{"kind":"Name","value":"history"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"profileId"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"taskVersion"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"recurringStatusList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"currentStreak"}},{"kind":"Field","name":{"kind":"Name","value":"recentTrackAt"}},{"kind":"Field","name":{"kind":"Name","value":"interval"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]}}]} as unknown as DocumentNode<LoyaltyProfileQuery, LoyaltyProfileQueryVariables>;

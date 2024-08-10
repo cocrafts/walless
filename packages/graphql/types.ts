@@ -66,6 +66,13 @@ export type DeviceInfoInput = {
   systemVersion?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type History = {
+  __typename?: 'History';
+  edges: Array<TaskRecordEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
+};
+
 export type JoinWaitlistResult = {
   __typename?: 'JoinWaitlistResult';
   count?: Maybe<Scalars['Int']['output']>;
@@ -76,10 +83,17 @@ export type JoinWaitlistResult = {
 
 export type LoyaltyProfile = {
   __typename?: 'LoyaltyProfile';
-  id?: Maybe<Scalars['String']['output']>;
-  identifier?: Maybe<Scalars['String']['output']>;
-  recurringStatusList?: Maybe<Array<Maybe<RecurringStatus>>>;
-  totalPoints?: Maybe<Scalars['Float']['output']>;
+  history?: Maybe<History>;
+  id: Scalars['String']['output'];
+  identifier: Scalars['String']['output'];
+  recurringStatusList?: Maybe<Array<RecurringStatus>>;
+  totalPoints: Scalars['Float']['output'];
+};
+
+
+export type LoyaltyProfileHistoryArgs = {
+  after: Scalars['String']['input'];
+  first: Scalars['Int']['input'];
 };
 
 export type Nonce = {
@@ -94,12 +108,19 @@ export enum NonceType {
   Login = 'Login'
 }
 
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  endCursor: Scalars['String']['output'];
+  hasNextPage: Scalars['Boolean']['output'];
+};
+
 export type RecurringStatus = {
   __typename?: 'RecurringStatus';
-  currentStreak?: Maybe<Scalars['Int']['output']>;
-  recentTrackAt?: Maybe<Scalars['DateTime']['output']>;
-  taskId?: Maybe<Scalars['String']['output']>;
-  total?: Maybe<Scalars['Int']['output']>;
+  currentStreak: Scalars['Int']['output'];
+  interval: Scalars['Float']['output'];
+  recentTrackAt: Scalars['DateTime']['output'];
+  taskId: Scalars['String']['output'];
+  total: Scalars['Int']['output'];
 };
 
 export type ReferralRank = {
@@ -121,6 +142,7 @@ export type RootMutation = {
   deleteWidget?: Maybe<Scalars['Boolean']['output']>;
   deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
   doLoyaltyTask?: Maybe<TaskRecord>;
+  doLoyaltyTasksByRecurringGroup?: Maybe<TaskRecord>;
   joinWaitlist?: Maybe<JoinWaitlistResult>;
   registerAccount?: Maybe<Account>;
   registerDevice?: Maybe<Device>;
@@ -175,7 +197,12 @@ export type RootMutationDeleteWidgetAccountArgs = {
 
 
 export type RootMutationDoLoyaltyTaskArgs = {
-  taskId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+};
+
+
+export type RootMutationDoLoyaltyTasksByRecurringGroupArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -249,6 +276,7 @@ export type RootQuery = {
   loginMessage?: Maybe<Scalars['String']['output']>;
   loyaltyActiveTasks?: Maybe<Array<Task>>;
   loyaltyProfile: LoyaltyProfile;
+  loyaltyTask?: Maybe<Task>;
   loyaltyTasks?: Maybe<Array<Task>>;
   nonce?: Maybe<Nonce>;
   referralLeaderboard?: Maybe<Array<Maybe<ReferralRank>>>;
@@ -270,6 +298,11 @@ export type RootQuery = {
 
 export type RootQueryLoginMessageArgs = {
   pubkey: Scalars['String']['input'];
+};
+
+
+export type RootQueryLoyaltyTaskArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -338,16 +371,16 @@ export type SystemInfo = {
 export type Task = {
   __typename?: 'Task';
   endDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   interval?: Maybe<Scalars['Float']['output']>;
-  mechanism?: Maybe<VerifyMechanism>;
+  mechanism: VerifyMechanism;
   metadata?: Maybe<Scalars['JSON']['output']>;
   milestone?: Maybe<Scalars['Int']['output']>;
-  points?: Maybe<Scalars['Float']['output']>;
+  points: Scalars['Float']['output'];
   recurringId?: Maybe<Scalars['String']['output']>;
   startDate?: Maybe<Scalars['DateTime']['output']>;
   streak?: Maybe<Scalars['Int']['output']>;
-  type?: Maybe<TaskType>;
+  type: TaskType;
   verifierKeys?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   version?: Maybe<Scalars['Int']['output']>;
 };
@@ -378,11 +411,17 @@ export type TaskInput = {
 
 export type TaskRecord = {
   __typename?: 'TaskRecord';
-  id?: Maybe<Scalars['String']['output']>;
-  profileId?: Maybe<Scalars['String']['output']>;
-  taskId?: Maybe<Scalars['String']['output']>;
-  taskVersion?: Maybe<Scalars['Int']['output']>;
-  timestamp?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['String']['output'];
+  profileId: Scalars['String']['output'];
+  taskId: Scalars['String']['output'];
+  taskVersion: Scalars['Int']['output'];
+  timestamp: Scalars['DateTime']['output'];
+};
+
+export type TaskRecordEdge = {
+  __typename?: 'TaskRecordEdge';
+  cursor: Scalars['String']['output'];
+  node: TaskRecord;
 };
 
 export enum TaskType {
@@ -547,6 +586,7 @@ export type ResolversTypes = {
   Device: ResolverTypeWrapper<Device>;
   DeviceInfoInput: DeviceInfoInput;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  History: ResolverTypeWrapper<History>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   JoinWaitlistResult: ResolverTypeWrapper<JoinWaitlistResult>;
@@ -555,6 +595,7 @@ export type ResolversTypes = {
   Nonce: ResolverTypeWrapper<Nonce>;
   NonceType: NonceType;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']['output']>;
+  PageInfo: ResolverTypeWrapper<PageInfo>;
   RecurringStatus: ResolverTypeWrapper<RecurringStatus>;
   ReferralRank: ResolverTypeWrapper<ReferralRank>;
   RootMutation: ResolverTypeWrapper<{}>;
@@ -565,6 +606,7 @@ export type ResolversTypes = {
   Task: ResolverTypeWrapper<Task>;
   TaskInput: TaskInput;
   TaskRecord: ResolverTypeWrapper<TaskRecord>;
+  TaskRecordEdge: ResolverTypeWrapper<TaskRecordEdge>;
   TaskType: TaskType;
   Token: ResolverTypeWrapper<Token>;
   TokenInfo: ResolverTypeWrapper<TokenInfo>;
@@ -587,6 +629,7 @@ export type ResolversParentTypes = {
   Device: Device;
   DeviceInfoInput: DeviceInfoInput;
   Float: Scalars['Float']['output'];
+  History: History;
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
   JoinWaitlistResult: JoinWaitlistResult;
@@ -594,6 +637,7 @@ export type ResolversParentTypes = {
   MongoDateTime: Scalars['MongoDateTime']['output'];
   Nonce: Nonce;
   ObjectID: Scalars['ObjectID']['output'];
+  PageInfo: PageInfo;
   RecurringStatus: RecurringStatus;
   ReferralRank: ReferralRank;
   RootMutation: {};
@@ -604,6 +648,7 @@ export type ResolversParentTypes = {
   Task: Task;
   TaskInput: TaskInput;
   TaskRecord: TaskRecord;
+  TaskRecordEdge: TaskRecordEdge;
   Token: Token;
   TokenInfo: TokenInfo;
   TrackAccountWalletInput: TrackAccountWalletInput;
@@ -649,6 +694,13 @@ export type DeviceResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type HistoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['History'] = ResolversParentTypes['History']> = {
+  edges?: Resolver<Array<ResolversTypes['TaskRecordEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
 }
@@ -662,10 +714,11 @@ export type JoinWaitlistResultResolvers<ContextType = any, ParentType extends Re
 };
 
 export type LoyaltyProfileResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoyaltyProfile'] = ResolversParentTypes['LoyaltyProfile']> = {
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  identifier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  recurringStatusList?: Resolver<Maybe<Array<Maybe<ResolversTypes['RecurringStatus']>>>, ParentType, ContextType>;
-  totalPoints?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  history?: Resolver<Maybe<ResolversTypes['History']>, ParentType, ContextType, RequireFields<LoyaltyProfileHistoryArgs, 'after' | 'first'>>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  identifier?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  recurringStatusList?: Resolver<Maybe<Array<ResolversTypes['RecurringStatus']>>, ParentType, ContextType>;
+  totalPoints?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -685,11 +738,18 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'ObjectID';
 }
 
+export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
+  endCursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type RecurringStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['RecurringStatus'] = ResolversParentTypes['RecurringStatus']> = {
-  currentStreak?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  recentTrackAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  taskId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  total?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  currentStreak?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  interval?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  recentTrackAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  taskId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -710,7 +770,8 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   deleteLoyaltyTask?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<RootMutationDeleteLoyaltyTaskArgs, 'id'>>;
   deleteWidget?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetArgs, 'id'>>;
   deleteWidgetAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetAccountArgs, 'id'>>;
-  doLoyaltyTask?: Resolver<Maybe<ResolversTypes['TaskRecord']>, ParentType, ContextType, RequireFields<RootMutationDoLoyaltyTaskArgs, 'taskId'>>;
+  doLoyaltyTask?: Resolver<Maybe<ResolversTypes['TaskRecord']>, ParentType, ContextType, RequireFields<RootMutationDoLoyaltyTaskArgs, 'id'>>;
+  doLoyaltyTasksByRecurringGroup?: Resolver<Maybe<ResolversTypes['TaskRecord']>, ParentType, ContextType, RequireFields<RootMutationDoLoyaltyTasksByRecurringGroupArgs, 'id'>>;
   joinWaitlist?: Resolver<Maybe<ResolversTypes['JoinWaitlistResult']>, ParentType, ContextType, RequireFields<RootMutationJoinWaitlistArgs, 'description' | 'email' | 'twitter'>>;
   registerAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterAccountArgs, 'key'>>;
   registerDevice?: Resolver<Maybe<ResolversTypes['Device']>, ParentType, ContextType, RequireFields<RootMutationRegisterDeviceArgs, 'device'>>;
@@ -730,6 +791,7 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   loginMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<RootQueryLoginMessageArgs, 'pubkey'>>;
   loyaltyActiveTasks?: Resolver<Maybe<Array<ResolversTypes['Task']>>, ParentType, ContextType>;
   loyaltyProfile?: Resolver<ResolversTypes['LoyaltyProfile'], ParentType, ContextType>;
+  loyaltyTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<RootQueryLoyaltyTaskArgs, 'id'>>;
   loyaltyTasks?: Resolver<Maybe<Array<ResolversTypes['Task']>>, ParentType, ContextType>;
   nonce?: Resolver<Maybe<ResolversTypes['Nonce']>, ParentType, ContextType, RequireFields<RootQueryNonceArgs, 'identifier'>>;
   referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRank']>>>, ParentType, ContextType, Partial<RootQueryReferralLeaderboardArgs>>;
@@ -761,27 +823,33 @@ export type SystemInfoResolvers<ContextType = any, ParentType extends ResolversP
 
 export type TaskResolvers<ContextType = any, ParentType extends ResolversParentTypes['Task'] = ResolversParentTypes['Task']> = {
   endDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   interval?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  mechanism?: Resolver<Maybe<ResolversTypes['VerifyMechanism']>, ParentType, ContextType>;
+  mechanism?: Resolver<ResolversTypes['VerifyMechanism'], ParentType, ContextType>;
   metadata?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
   milestone?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  points?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  points?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   recurringId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   startDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   streak?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  type?: Resolver<Maybe<ResolversTypes['TaskType']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['TaskType'], ParentType, ContextType>;
   verifierKeys?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   version?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type TaskRecordResolvers<ContextType = any, ParentType extends ResolversParentTypes['TaskRecord'] = ResolversParentTypes['TaskRecord']> = {
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  profileId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  taskId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  taskVersion?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  timestamp?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  taskId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  taskVersion?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TaskRecordEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['TaskRecordEdge'] = ResolversParentTypes['TaskRecordEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['TaskRecord'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -844,12 +912,14 @@ export type Resolvers<ContextType = any> = {
   Account?: AccountResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Device?: DeviceResolvers<ContextType>;
+  History?: HistoryResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   JoinWaitlistResult?: JoinWaitlistResultResolvers<ContextType>;
   LoyaltyProfile?: LoyaltyProfileResolvers<ContextType>;
   MongoDateTime?: GraphQLScalarType;
   Nonce?: NonceResolvers<ContextType>;
   ObjectID?: GraphQLScalarType;
+  PageInfo?: PageInfoResolvers<ContextType>;
   RecurringStatus?: RecurringStatusResolvers<ContextType>;
   ReferralRank?: ReferralRankResolvers<ContextType>;
   RootMutation?: RootMutationResolvers<ContextType>;
@@ -858,6 +928,7 @@ export type Resolvers<ContextType = any> = {
   SystemInfo?: SystemInfoResolvers<ContextType>;
   Task?: TaskResolvers<ContextType>;
   TaskRecord?: TaskRecordResolvers<ContextType>;
+  TaskRecordEdge?: TaskRecordEdgeResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
   TokenInfo?: TokenInfoResolvers<ContextType>;
   Uint32?: GraphQLScalarType;

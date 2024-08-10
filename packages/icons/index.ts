@@ -55,6 +55,7 @@ export { QrIcon } from './components/Qr';
 export { QrFrame } from './components/QrFrame';
 export { QuestionMark } from './components/QuestionMark';
 export { Ranking } from './components/Ranking';
+export { Refresh } from './components/Refresh';
 export { ScanFace } from './components/ScanFace';
 export { Search } from './components/Search';
 export { Setting } from './components/Setting';

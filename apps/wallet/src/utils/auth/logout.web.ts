@@ -5,9 +5,11 @@ import { appActions } from 'state/app';
 import { auth } from '../firebase/index.web';
 import { storage } from '../storage';
 
+export const whitelist = ['showFirstTimeUserPopup'];
+
 export const logout = async () => {
 	await signOut(auth());
 	await engine.clear();
-	await storage.clearAllDocs();
+	await storage.clearAllDocs(whitelist);
 	appActions.cleanupAfterLogOut();
 };

@@ -60,8 +60,16 @@ const CardCarousel: FC<Props> = ({
 			gestureStateManager.current = stateManager;
 		});
 
+	const hover = Gesture.Hover()
+		.onStart(() => {
+			pressed.current = true;
+		})
+		.onFinalize(() => {
+			pressed.current = false;
+		});
+
 	useEffect(() => {
-		const timer = setTimeout(() => {
+		const timer = setInterval(() => {
 			if (pressed.current) return;
 			if (currentIndex == widgets.length - 1) {
 				autoSwipeDirection.current = -1;
@@ -70,10 +78,10 @@ const CardCarousel: FC<Props> = ({
 			}
 
 			onChangeCurrentIndex(currentIndex + autoSwipeDirection.current);
-		}, 2000);
+		}, 4000);
 
-		return () => clearTimeout(timer);
-	}, [currentIndex, pressed]);
+		return () => clearInterval(timer);
+	}, [currentIndex]);
 
 	// manually end gesture when having any mouse up on web
 	useEffect(() => {
@@ -92,20 +100,22 @@ const CardCarousel: FC<Props> = ({
 
 	return (
 		<GestureDetector gesture={pan}>
-			<View style={styles.container}>
-				{widgets.map((card, index) => {
-					return (
-						<Card
-							key={card._id}
-							widget={card}
-							index={index}
-							currentIndex={currentIndex}
-							dataLength={widgets.length}
-							dragXOffset={xOffset}
-						/>
-					);
-				})}
-			</View>
+			<GestureDetector gesture={hover}>
+				<View style={styles.container}>
+					{widgets.map((card, index) => {
+						return (
+							<Card
+								key={card._id}
+								widget={card}
+								index={index}
+								currentIndex={currentIndex}
+								dataLength={widgets.length}
+								dragXOffset={xOffset}
+							/>
+						);
+					})}
+				</View>
+			</GestureDetector>
 		</GestureDetector>
 	);
 };

@@ -20,11 +20,12 @@ import { buyToken } from 'utils/buy';
 import { useOpacityAnimated, usePublicKeys, useTokens } from 'utils/hooks';
 import { copy } from 'utils/system';
 
+import TokenList from '../../../components/TokenList';
+
 import ActivityTab from './ActivityTab';
 import AptosTokensTab from './AptosTokensTab';
 import NftTab from './NftTab';
 import { getWalletCardSkin, layoutTabs } from './shared';
-import TokenTab from './TokenTab';
 import WalletCard from './WalletCard';
 
 interface Props {
@@ -36,7 +37,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const keys = usePublicKeys(network);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
-	const { valuation, pnl } = useTokens(network);
+	const { tokens, valuation, pnl } = useTokens(network);
 	const cardSkin = useMemo(() => getWalletCardSkin(network), [network]);
 	const opacityAnimated = useOpacityAnimated({ from: 0, to: 1 });
 
@@ -48,7 +49,9 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 		return [
 			{
 				id: 'tokens',
-				component: () => <TokenTab network={network} />,
+				component: () => (
+					<TokenList tokens={tokens} style={styles.tokenListContainer} />
+				),
 			},
 			{
 				id: 'collectibles',
@@ -67,9 +70,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	}, []);
 
 	const activatedStyle: TabItemStyle = {
-		containerStyle: {
-			backgroundColor: '#0694D3',
-		},
+		style: { backgroundColor: '#0694D3' },
 		textStyle: {
 			color: 'white',
 			fontWeight: '500',
@@ -77,9 +78,7 @@ export const BuiltInNetwork: FC<Props> = ({ id }) => {
 	};
 
 	const deactivatedStyle: TabItemStyle = {
-		containerStyle: {
-			backgroundColor: 'transparent',
-		},
+		style: { backgroundColor: 'transparent' },
 		textStyle: {
 			color: '#566674',
 			fontWeight: '400',
@@ -177,6 +176,10 @@ const styles = StyleSheet.create({
 	},
 	sliderContainer: {
 		flex: 1,
+		overflow: 'hidden',
+	},
+	tokenListContainer: {
+		marginVertical: 16,
 		overflow: 'hidden',
 	},
 });

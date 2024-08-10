@@ -12,4 +12,5 @@ export enum ModalId {
 	ReferralLeaderBoard = 'ReferralLeaderBoard',
 	LoyaltyPartnerQuest = 'LoyaltyPartnerQuest',
 	LoyaltyHistory = 'LoyaltyHistory',
+	FirstTimePopup = 'FirstTimePopup',
 }

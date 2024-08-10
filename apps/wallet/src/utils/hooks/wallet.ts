@@ -48,7 +48,7 @@ export const useRelevantKeys = () => {
 	}, [keyMap, widgetMap]);
 };
 
-const getTokenValue = (token: TokenDocument, currency: string) => {
+export const getTokenValue = (token: TokenDocument, currency: string) => {
 	const { quotes, balance } = token;
 	const quote = quotes?.[currency] || 0;
 

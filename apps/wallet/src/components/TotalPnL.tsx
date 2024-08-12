@@ -10,6 +10,7 @@ interface Props {
 
 const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
 	const isLost = value < 0;
+	const isProfit = value > 0;
 
 	return (
 		<View style={styles.container}>
@@ -24,7 +25,7 @@ const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
 							: styles.lightThemeProfitValue
 				}
 			>
-				{isLost ? `-$${-value}` : `+$${value}`}
+				{isLost ? `-$${-value}` : isProfit ? `+$${value}` : null}
 			</Text>
 			<View
 				style={[
@@ -49,8 +50,7 @@ const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
 								: styles.lightThemeProfitPercentage
 					}
 				>
-					{!isLost && '+'}
-					{percentage}%
+					{isLost ? `${percentage}%` : isProfit ? `+${percentage}%` : null}
 				</Text>
 			</View>
 		</View>

@@ -15,14 +15,17 @@ interface Props {
 }
 
 export const TokenItem: FC<Props> = ({ style, token, onPress, tokenPnL }) => {
-	const pnl = tokenPnL?.priceChangePercentage24H || 0;
+	const pnl = tokenPnL?.priceChangePercentage24H ?? 0;
 	const { symbol, image, quotes, balance } = token;
 	const unitQuote = quotes?.usd;
 	const totalQuote = unitQuote && unitQuote * balance;
+
 	const iconSource = image ? { uri: image } : assets.misc.unknownToken;
+	const fixedPnL = Math.round(pnl * 10000) / 10000;
 
 	const itemName = symbol || 'Unknown';
-	const isLost = pnl && pnl < 0;
+	const isLost = fixedPnL < 0;
+	const isProfit = fixedPnL > 0;
 
 	return (
 		<Hoverable style={[styles.container, style]} onPress={onPress}>
@@ -32,8 +35,7 @@ export const TokenItem: FC<Props> = ({ style, token, onPress, tokenPnL }) => {
 				<View style={styles.unitQuoteContainer}>
 					<Text style={styles.secondaryText}>{formatQuote(unitQuote)}</Text>
 					<Text style={isLost ? styles.lostText : styles.profitText}>
-						{isLost ? '-' : '+'}{' '}
-						{Math.abs(Math.round(pnl * 10000) / 10000 ?? 0)}%
+						{isLost ? `-${-fixedPnL}` : isProfit ? `+${fixedPnL}` : null}
 					</Text>
 				</View>
 			</View>

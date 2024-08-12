@@ -4,8 +4,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { ScrollView, StyleSheet } from 'react-native';
 import { View } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
-import { mockWidgets } from 'state/widget';
-import { useNfts, useTokens } from 'utils/hooks';
+import { useNfts, useTokens, useWidgets } from 'utils/hooks';
 import { filterMap } from 'utils/widget';
 
 import Header from './Header';
@@ -24,10 +23,11 @@ interface Props {
 export const ExplorerFeature: FC<Props> = ({ style }) => {
 	const { tokens } = useTokens();
 	const { nfts } = useNfts();
+	const widgets = useWidgets({});
 
-	const widgets = useMemo(
+	const filteredWidgets = useMemo(
 		() =>
-			mockWidgets.filter((widget) => {
+			widgets.filter((widget) => {
 				if (filterMap[widget._id]) {
 					const filters = filterMap[widget._id];
 					return filters?.some((filter) => filter(widget));
@@ -44,8 +44,8 @@ export const ExplorerFeature: FC<Props> = ({ style }) => {
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<LoyaltyBar style={styles.loyaltyContainer} />
 				<Missions style={styles.missionContainer} />
-				<Highlights widgets={widgets} />
-				<Widgets widgets={widgets} />
+				<Highlights widgets={filteredWidgets} />
+				<Widgets widgets={filteredWidgets} />
 			</ScrollView>
 		</View>
 	);

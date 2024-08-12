@@ -26,7 +26,7 @@ const Tab = createBottomTabNavigator<DashboardParamList>();
 export const DashboardStack = () => {
 	useNotificationPermissionRequest();
 	const { showFirstTimePopup: showPopup } = useSnapshot(appState);
-	const widgets = useWidgets();
+	const widgets = useWidgets({ filterAdded: true });
 
 	useEffect(() => {
 		const alreadyHavePixeverse = widgets.some(

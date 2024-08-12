@@ -1,4 +1,3 @@
-import type { CustomWalletAssets } from '@walless/core';
 import { Networks, WidgetSubcategories } from '@walless/core';
 import { gradientDirection } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
@@ -266,30 +265,6 @@ export const mockWidgets: WidgetDocument[] = [
 					image: '/img/widget/samo-ad-1.png',
 				},
 			],
-			tokens: new Map<string, CustomWalletAssets>([
-				[
-					'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
-					{
-						mintAddress: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
-						amount: 50000,
-					},
-				],
-				[
-					'So11111111111111111111111111111111111111112',
-					{
-						mintAddress: 'So11111111111111111111111111111111111111112',
-					},
-				],
-			]),
-			nfts: new Map<string, CustomWalletAssets>([
-				[
-					'98fe506a37c46d67b7212ec689decd6fcd7137ea751fb88d9c7fe89c60c5215f',
-					{
-						mintAddress:
-							'98fe506a37c46d67b7212ec689decd6fcd7137ea751fb88d9c7fe89c60c5215f',
-					},
-				],
-			]),
 			network: Networks.solana,
 		},
 	},

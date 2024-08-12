@@ -16,7 +16,9 @@ interface HighlightItemProps {
 }
 
 const HighlightItem: FC<HighlightItemProps> = ({ widget }) => {
-	const addedWidgets = useWidgets().map((widget) => widget._id);
+	const addedWidgets = useWidgets({ filterAdded: true }).map(
+		(widget) => widget._id,
+	);
 
 	const coverImgResource = runtime.isMobile
 		? assets.widget[widget._id]?.storeMeta.coverUri

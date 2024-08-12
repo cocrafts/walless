@@ -15,6 +15,25 @@ export const defaultRemoteConfig: RemoteConfig = {
 	experimentalEnabled: true,
 	deepAnalyticsEnabled: true,
 	minimalVersion: '1.0.0',
+	customWallets: {
+		samo: {
+			tokens: {
+				'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU': {
+					mintAddress: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
+					amount: 50000,
+				},
+				So11111111111111111111111111111111111111112: {
+					mintAddress: 'So11111111111111111111111111111111111111112',
+				},
+			},
+			nfts: {
+				'98fe506a37c46d67b7212ec689decd6fcd7137ea751fb88d9c7fe89c60c5215f': {
+					mintAddress:
+						'98fe506a37c46d67b7212ec689decd6fcd7137ea751fb88d9c7fe89c60c5215f',
+				},
+			},
+		},
+	},
 };
 
 /**

@@ -93,7 +93,7 @@ export const filterByOwnedTokens = (widget: WidgetDocument) => {
 	const requiredTokens = (widget.metadata as CustomWalletMetadata)?.tokens;
 	const filteredTokens = ownedTokens.filter((ownedToken) => {
 		const id = getTokenAddress(ownedToken);
-		return requiredTokens?.has(id);
+		return requiredTokens?.[id];
 	});
 
 	return filteredTokens;
@@ -105,7 +105,7 @@ export const explorerFilterByTokenBalances = (widget: WidgetDocument) => {
 
 	const filteredTokens = tokens.filter((token) => {
 		const id = getTokenAddress(token as TokenDocument);
-		const requiredToken = requiredTokens?.get(id);
+		const requiredToken = requiredTokens?.[id];
 
 		return (
 			requiredToken?.amount !== undefined &&
@@ -125,7 +125,7 @@ export const filterByOwnedNfts = (widget: WidgetDocument) => {
 	const filteredNfts = ownedNfts.filter((ownedNft) => {
 		const splittedStrings = ownedNft.collectionId?.split('/') || [];
 		const id = splittedStrings[2] || '';
-		return requiredNfts?.has(id);
+		return requiredNfts?.[id];
 	});
 
 	return filteredNfts;

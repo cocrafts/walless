@@ -17,6 +17,9 @@ const config: CodegenConfig = {
 				// we can uncomment the line below and remove all detailed documents
 				// './packages/graphql/**/*.{tsx,ts}'
 
+				// referral scope
+				'./packages/graphql/query/account.ts',
+
 				// loyalty scope
 				'./packages/graphql/query/loyalty.ts',
 				'./packages/graphql/mutation/loyalty.ts',

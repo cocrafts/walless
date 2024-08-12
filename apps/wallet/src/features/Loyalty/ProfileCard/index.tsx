@@ -2,9 +2,13 @@ import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
 import type { LoyaltyProfile } from '@walless/graphql';
+import { userReferralCodes } from '@walless/graphql/query';
 import { Text } from '@walless/gui';
 import { BlingBling, Check, Ranking, Star } from '@walless/icons';
+import { QueryKey } from 'utils/constants';
+import { qlClient } from 'utils/graphql';
 import { navigate } from 'utils/navigation';
 import { sharedStyles } from 'utils/style';
 
@@ -18,6 +22,11 @@ interface Props {
 }
 
 const ProfileCard: FC<Props> = ({ profile, containerStyle }) => {
+	const { data: referralCodesData } = useQuery({
+		queryKey: [QueryKey.ReferralCodes],
+		queryFn: () => qlClient.request(userReferralCodes),
+	});
+
 	const level = useMemo(() => {
 		for (let i = 1; i < levelsByPoints.length; i++) {
 			if ((profile.totalPoints || 0) < levelsByPoints[i]) return i - 1;
@@ -46,6 +55,14 @@ const ProfileCard: FC<Props> = ({ profile, containerStyle }) => {
 				params: {
 					screen: 'History',
 				},
+			},
+		});
+
+	const handlePressInvitation = () =>
+		navigate('Dashboard', {
+			screen: 'Setting',
+			params: {
+				screen: 'Referral',
 			},
 		});
 
@@ -120,9 +137,16 @@ const ProfileCard: FC<Props> = ({ profile, containerStyle }) => {
 				<InfoCard
 					style={styles.infoCardContainer}
 					title="Invited"
-					value={'0'}
+					value={`${
+						referralCodesData?.userAccount?.referralCodes
+							? referralCodesData.userAccount.referralCodes.filter(
+									(code) => !!code?.email,
+								).length
+							: 0
+					}`}
 					Icon={Star}
 					iconColor="white"
+					onPress={handlePressInvitation}
 				/>
 			</View>
 		</View>

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import type { Account, WalletInvitation } from '@walless/graphql';
+import type { WalletInvitation } from '@walless/graphql';
 import { queries } from '@walless/graphql';
 import { Hoverable, Text, View } from '@walless/gui';
 import { ArrowTopRight, Chart, Star } from '@walless/icons';
@@ -81,9 +81,7 @@ export const ReferralScreen: FC<Props> = () => {
 
 	useEffect(() => {
 		const fetchUserReferralCodes = async () => {
-			const { userAccount } = await qlClient.request<{
-				userAccount: Account;
-			}>(queries.userReferralCodes);
+			const { userAccount } = await qlClient.request(queries.userReferralCodes);
 
 			let refCodes = userAccount
 				? (userAccount.referralCodes as WalletInvitation[])

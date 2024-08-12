@@ -1,5 +1,7 @@
 import { gql } from 'graphql-request';
 
+import { graphql } from '../gen-gql';
+
 export const userAccount = gql`
 	query UserAccount {
 		userAccount {
@@ -13,8 +15,8 @@ export const userAccount = gql`
 	}
 `;
 
-export const userReferralCodes = gql`
-	query UserAccount {
+export const userReferralCodes = graphql(`
+	query UserReferralCodes {
 		userAccount {
 			referralCodes {
 				code
@@ -23,4 +25,4 @@ export const userReferralCodes = gql`
 			referralRank
 		}
 	}
-`;
+`);

@@ -2,7 +2,8 @@ import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Hoverable, Text } from '@walless/gui';
 import { Eye, EyeOff } from '@walless/icons';
-import { useSettings } from 'utils/hooks';
+import TotalPnL from 'components/TotalPnL';
+import { useSettings, useTokens } from 'utils/hooks';
 
 interface Props {
 	value: number;
@@ -10,29 +11,34 @@ interface Props {
 
 const TokenValue: FC<Props> = ({ value }) => {
 	const { setting, setPrivacy } = useSettings();
-	const balanceTextStyle = [
-		styles.balanceText,
-		setting.hideBalance && styles.protectedBalance,
-	];
+	const { valuation, pnl } = useTokens();
 
 	const handleToggleTokenValue = async () => {
 		setPrivacy(!setting.hideBalance);
 	};
+	const pnlRates = (pnl / (valuation != 0 ? valuation : 1)) * 100;
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.headingText}>Token value</Text>
-			<View style={styles.balanceContainer}>
-				<Text style={balanceTextStyle}>
-					{setting.hideBalance ? '****' : '$' + value.toFixed(2)}
-				</Text>
-				<Hoverable onPress={handleToggleTokenValue}>
-					{setting.hideBalance ? (
-						<Eye size={20} color="#566674" />
-					) : (
-						<EyeOff size={20} color="#566674" />
-					)}
-				</Hoverable>
+			<View style={styles.balanceAndPercentageContainer}>
+				<View style={styles.balanceContainer}>
+					<Text style={styles.balanceText}>
+						{setting.hideBalance ? '****' : '$' + value.toFixed(2)}
+					</Text>
+					<Hoverable onPress={handleToggleTokenValue}>
+						{setting.hideBalance ? (
+							<Eye size={20} color="#566674" />
+						) : (
+							<EyeOff size={20} color="#566674" />
+						)}
+					</Hoverable>
+				</View>
+				<TotalPnL
+					value={Math.round(pnl * 100) / 100}
+					percentage={Math.round(pnlRates * 100) / 100}
+					isDarkTheme={true}
+				/>
 			</View>
 		</View>
 	);
@@ -53,14 +59,13 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 12,
-		minHeight: 84,
 	},
 	balanceText: {
 		color: '#FFFFFF',
 		fontSize: 40,
 		fontWeight: '500',
 	},
-	protectedBalance: {
-		paddingTop: 16,
+	balanceAndPercentageContainer: {
+		alignItems: 'center',
 	},
 });

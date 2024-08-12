@@ -75,3 +75,4 @@ cli/tokens/**/config.json
 cli/tokens/**/sugar.log
 
 playground
+.nvmrc

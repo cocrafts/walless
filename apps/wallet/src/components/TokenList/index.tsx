@@ -13,7 +13,7 @@ interface Props<T extends Token> {
 	itemStyle?: StyleProp<ViewStyle>;
 	separateStyle?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
-	items: TokenDocument<T>[];
+	tokens: TokenDocument<T>[];
 	ListHeaderComponent?: ComponentType<TokenDocument<T>> | ReactElement;
 	onPressItem?: (item: TokenDocument<T>) => void;
 }
@@ -23,7 +23,7 @@ export const TokenList = <T extends Token>({
 	itemStyle,
 	separateStyle,
 	contentContainerStyle,
-	items,
+	tokens,
 	ListHeaderComponent,
 	onPressItem,
 }: Props<T>) => {
@@ -39,9 +39,10 @@ export const TokenList = <T extends Token>({
 				style={[
 					itemStyle,
 					index === 0 && styles.firstItem,
-					index === items.length - 1 && styles.lastItem,
+					index === tokens.length - 1 && styles.lastItem,
 				]}
 				onPress={handlePressItem}
+				tokenPnL={item.pnl}
 			/>
 		);
 	};
@@ -52,7 +53,7 @@ export const TokenList = <T extends Token>({
 			showsVerticalScrollIndicator={false}
 			style={style}
 			contentContainerStyle={contentContainerStyle}
-			data={items}
+			data={tokens}
 			renderItem={renderItem}
 			keyExtractor={(item) => item._id}
 			ItemSeparatorComponent={() => <Separator style={separateStyle} />}

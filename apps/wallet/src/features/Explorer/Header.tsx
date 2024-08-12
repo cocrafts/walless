@@ -2,12 +2,11 @@ import type { FC } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Hoverable, Text, View } from '@walless/gui';
-import { Eye, EyeOff, Settings } from '@walless/icons';
+import { Eye, EyeOff } from '@walless/icons';
 import { appState } from 'state/app';
 import { setPrivacy } from 'state/runtime/config';
 import { getValuationDisplay } from 'utils/helper';
 import { useTokens } from 'utils/hooks';
-import { navigate } from 'utils/navigation';
 import { useSnapshot } from 'valtio';
 
 interface Props {
@@ -18,20 +17,13 @@ const Header: FC<Props> = ({ style }) => {
 	const { config } = useSnapshot(appState);
 	const { valuation } = useTokens();
 
-	const handleNavigateToSettings = () => {
-		navigate('Dashboard', {
-			screen: 'Explore',
-			params: { screen: 'Profile', params: { screen: 'Setting' } },
-		});
-	};
-
 	return (
 		<View style={[styles.container, style]}>
 			<View style={styles.balanceContainer}>
 				<View style={styles.totalBalanceTextAndIconContainer}>
 					<Text style={styles.totalBalanceText}>Total balance</Text>
 					<Hoverable
-						style={!config.hideBalance && styles.eyeOffIcon}
+						style={[!config.hideBalance && styles.eyeOffIcon]}
 						onPress={() => {
 							setPrivacy(!config.hideBalance);
 						}}
@@ -55,10 +47,6 @@ const Header: FC<Props> = ({ style }) => {
 			</View>
 
 			<View style={styles.buttonContainer}>
-				<Hoverable onPress={handleNavigateToSettings} style={styles.button}>
-					<Settings size={20} color="#566674" />
-				</Hoverable>
-
 				{/* This button will be implemented in the next task, so I keep it here
 				for now in the comment */}
 				{/* <Hoverable style={styles.button}>

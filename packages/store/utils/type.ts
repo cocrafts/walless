@@ -11,6 +11,7 @@ import type {
 	Nft,
 	PublicKey,
 	Setting,
+	ShowFirstTimeUserPopup,
 	SolanaSwapHistory,
 	SolanaTransferHistory,
 	SolanaUnknownHistory,
@@ -39,7 +40,8 @@ export type DocumentType =
 	| 'TrustedDomain'
 	| 'Widget'
 	| 'Extension'
-	| 'History';
+	| 'History'
+	| 'ShowFirstTimeUserPopup';
 
 export interface IndexedDocument {
 	type: DocumentType;
@@ -68,6 +70,9 @@ export type PublicKeyDocument<T extends PublicKey = PublicKey> =
 	PouchDocument<T>;
 
 export type ExtensionDocument = PouchDocument<ExtensionConfig>;
+
+export type ShowFirstTimeUserPopupDocument =
+	PouchDocument<ShowFirstTimeUserPopup>;
 
 export type WidgetDocument = PouchDocument<Widget>;
 

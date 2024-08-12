@@ -123,6 +123,7 @@ export const ModalContainer: FC<Props> = ({ item }) => {
 			});
 		});
 		bindingObserver.observe(actualBindingRef.current as never);
+		bindingObserver.observe(referenceMap.root.current as never);
 
 		return () => bindingObserver.disconnect();
 	}, []);

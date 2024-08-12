@@ -1,4 +1,6 @@
-import { Networks, WidgetType } from '@walless/core';
+import type { CustomWalletAssets } from '@walless/core';
+import { Networks, WidgetSubcategories } from '@walless/core';
+import { gradientDirection } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
 // TODO: this mocked data is for web only
@@ -9,7 +11,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.solana],
 		version: '0.1.8',
 		type: 'Widget',
-		widgetType: WidgetType.GAME,
+		category: WidgetSubcategories.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-pixeverse.png',
@@ -20,7 +22,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 46,
 			activeCount: 202,
 		},
-		networkMeta: {
+		metadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/explore/logo-pixeverse.png',
 			iconUri: '/img/explore/logo-pixeverse.png',
@@ -34,7 +36,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.solana],
 		version: '0.9.1',
 		type: 'Widget',
-		widgetType: WidgetType.NETWORK,
+		category: WidgetSubcategories.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-solana.png',
@@ -46,7 +48,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 90,
 			activeCount: 502,
 		},
-		networkMeta: {
+		metadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/network/solana-icon-lg.png',
 			iconUri: '/img/network/solana-icon-sm.svg',
@@ -60,7 +62,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.sui],
 		version: '0.0.1',
 		type: 'Widget',
-		widgetType: WidgetType.NETWORK,
+		category: WidgetSubcategories.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-sui.png',
@@ -72,7 +74,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 100,
 			activeCount: 567,
 		},
-		networkMeta: {
+		metadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/network/sui-icon-lg.png',
 			iconUri: '/img/network/sui-icon-sm.png',
@@ -86,7 +88,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.sui],
 		version: '0.0.1',
 		type: 'Widget',
-		widgetType: WidgetType.NETWORK,
+		category: WidgetSubcategories.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/network/tezos-icon-sm.png',
@@ -98,7 +100,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 100,
 			activeCount: 567,
 		},
-		networkMeta: {
+		metadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/network/tezos-icon-lg.png',
 			iconUri: '/img/network/tezos-icon-sm.png',
@@ -112,7 +114,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [Networks.aptos],
 		version: '0.0.1',
 		type: 'Widget',
-		widgetType: WidgetType.NETWORK,
+		category: WidgetSubcategories.NETWORK,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/explore/logo-aptos.png',
@@ -124,7 +126,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 46,
 			activeCount: 202,
 		},
-		networkMeta: {
+		metadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/explore/aptos-icon.svg',
 			iconUri: '/img/explore/aptos-icon.svg',
@@ -138,7 +140,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [],
 		version: '0.1.8',
 		type: 'Widget',
-		widgetType: WidgetType.GAME,
+		category: WidgetSubcategories.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/t-rex-runner/runner-icon.png',
@@ -149,7 +151,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 46,
 			activeCount: 202,
 		},
-		networkMeta: {
+		metadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/t-rex-runner/runner-icon.png',
 			iconUri: '/img/t-rex-runner/runner-icon.png',
@@ -163,7 +165,7 @@ export const mockWidgets: WidgetDocument[] = [
 		networks: [],
 		version: '0.0.1',
 		type: 'Widget',
-		widgetType: WidgetType.GAME,
+		category: WidgetSubcategories.GAME,
 		timestamp: new Date().toISOString(),
 		storeMeta: {
 			iconUri: '/img/sui-jump/suijump-icon.png',
@@ -174,7 +176,7 @@ export const mockWidgets: WidgetDocument[] = [
 			loveCount: 46,
 			activeCount: 202,
 		},
-		networkMeta: {
+		metadata: {
 			backgroundUri: '/img/network/sky-card-bg.png',
 			markUri: '/img/sui-jump/suijump-icon.png',
 			iconUri: '/img/sui-jump/suijump-icon.png',
@@ -199,7 +201,7 @@ export const mockWidgets: WidgetDocument[] = [
 	// 		loveCount: 46,
 	// 		activeCount: 202,
 	// 	},
-	// 	networkMeta: {
+	// 	customMetadata: {
 	// 		backgroundUri: '/img/network/sky-card-bg.png',
 	// 		markUri: '/img/network/solana-icon-lg.png',
 	// 		iconUri: '/img/explore/thumbnail-under-realm.png',
@@ -207,4 +209,88 @@ export const mockWidgets: WidgetDocument[] = [
 	// 		iconSize: 16,
 	// 	},
 	// },
+	{
+		_id: 'samo',
+		name: 'SAMO',
+		networks: [Networks.solana],
+		version: '0.0.1',
+		type: 'Widget',
+		category: WidgetSubcategories.CUSTOM_WALLET,
+		timestamp: new Date().toISOString(),
+		storeMeta: {
+			iconUri: '/img/widget/samo-icon.png',
+			coverUri: '/img/widget/samo-cover.png',
+			description: 'dApp version of the T-rex Runner you already known!',
+			loveCount: 46,
+			activeCount: 202,
+		},
+		metadata: {
+			coverBanner: '/img/widget/samo-banner.png',
+			iconSrc: '/img/widget/samo-icon.png',
+			backgroundColor: '#141121',
+			actionButtonBackgroundColors: {
+				send: '#0051BD',
+				receive: '#3D55BF',
+				buy: '#7E60D2',
+				swap: '#C36BE5',
+			},
+			activeTabStyle: {
+				linearGradient: {
+					direction: gradientDirection.LeftToRight,
+					colors: ['#1A4FB5', '#C36BE5'],
+				},
+				textStyle: {
+					color: 'white',
+					fontWeight: '500',
+				},
+			},
+			advertisements: [
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+			],
+			tokens: new Map<string, CustomWalletAssets>([
+				[
+					'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
+					{
+						mintAddress: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
+						amount: 50000,
+					},
+				],
+				[
+					'So11111111111111111111111111111111111111112',
+					{
+						mintAddress: 'So11111111111111111111111111111111111111112',
+					},
+				],
+			]),
+			nfts: new Map<string, CustomWalletAssets>([
+				[
+					'98fe506a37c46d67b7212ec689decd6fcd7137ea751fb88d9c7fe89c60c5215f',
+					{
+						mintAddress:
+							'98fe506a37c46d67b7212ec689decd6fcd7137ea751fb88d9c7fe89c60c5215f',
+					},
+				],
+			]),
+			network: Networks.solana,
+		},
+	},
 ];

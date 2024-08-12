@@ -55,6 +55,13 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 		});
 	};
 
+	const handleSettingPress = () => {
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: { screen: 'Setting', params: { screen: 'Default' } },
+		});
+	};
+
 	const getIsExtensionActive = (item: WidgetDocument) => {
 		const { routes, index } = state;
 		const isProfileScreen = routes[index].name === 'Profile';
@@ -78,6 +85,7 @@ export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 			onExtensionPress={handleExtensionPress}
 			onRemoveLayout={handleRemoveWidget}
 			onAvatarPress={handleAvatarPress}
+			onSettingPress={handleSettingPress}
 		/>
 	);
 };

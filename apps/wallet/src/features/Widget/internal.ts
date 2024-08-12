@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import BuiltInNetwork from './BuiltInNetwork';
+import CustomWalletLayout from './CustomWalletLayout';
 import NotFound from './NotFound';
 import Pixeverse from './Pixeverse';
 import SUIJump from './SUIJump';
@@ -20,6 +21,7 @@ export const widgetMap: Record<string, WidgetComponent> = {
 	tRexRunner: TRexRunner,
 	pixeverse: Pixeverse,
 	suijump: SUIJump,
+	samo: CustomWalletLayout,
 };
 
 export const extractWidgetComponent = (id: string): WidgetComponent => {

@@ -14,6 +14,8 @@ import { navigate } from 'utils/navigation';
 import { addWidgetToStorage } from 'utils/storage';
 import { sharedStyles } from 'utils/style';
 
+export const countdownHeight = 26;
+
 export const getTaskLogo = (task: Task) => {
 	let imageSource: ImageSourcePropType | null = null;
 
@@ -103,14 +105,39 @@ export const getIntervalEndTime = (taskTime: Date, interval: number) => {
 	return new Date(roundedTime);
 };
 
-export const formatCountdownTime = (timeRemaining: number) => {
-	const hours = Math.floor(
-		(timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-	);
-	const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+export const formatCountdownTime = (
+	time: number,
+	options: {
+		hours: boolean;
+		minutes: boolean;
+		seconds: boolean;
+	} = { hours: true, minutes: true, seconds: true },
+) => {
+	let formattedTime = '';
 
-	const paddedHours = String(hours).padStart(2, '0');
-	const paddedMinutes = String(minutes).padStart(2, '0');
+	if (options.hours) {
+		const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		const paddedHours = String(hours).padStart(2, '0');
+		formattedTime += paddedHours + 'h';
+	}
 
-	return `${paddedHours}h:${paddedMinutes}m`;
+	if (options.minutes) {
+		const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+		const paddedMinutes = String(minutes).padStart(2, '0');
+		if (formattedTime.length > 0) {
+			formattedTime += ':';
+		}
+		formattedTime += paddedMinutes + 'm';
+	}
+
+	if (options.seconds) {
+		const seconds = Math.floor((time % (1000 * 60)) / 1000);
+		const paddedSeconds = String(seconds).padStart(2, '0');
+		if (formattedTime.length > 0) {
+			formattedTime += ':';
+		}
+		formattedTime += paddedSeconds + 'm';
+	}
+
+	return formattedTime;
 };

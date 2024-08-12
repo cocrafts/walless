@@ -1,37 +1,17 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { useQuery } from '@tanstack/react-query';
-import { loyaltyActiveTasks, loyaltyProfile } from '@walless/graphql/query';
 import { Text } from '@walless/gui';
-import { loyaltyState } from 'state/loyalty';
-import { QueryKey } from 'utils/constants';
-import { qlClient } from 'utils/graphql';
+import { useLoyaltyActiveTasks, useLoyaltyProfile } from 'utils/hooks';
 import { sharedStyles } from 'utils/style';
 
 import ProfileCard from './ProfileCard';
 import TaskBoard from './TaskBoard';
 
 const LoyaltyFeature = () => {
-	const { data: activeTasksData, isLoading: isLoadingActiveTasks } = useQuery({
-		queryKey: [QueryKey.LoyaltyActiveTasks],
-		queryFn: async () => {
-			const tasks = await qlClient.request(loyaltyActiveTasks);
-			tasks.loyaltyActiveTasks?.forEach((task) => {
-				loyaltyState.taskMap[task.id] = task;
-			});
-			return tasks;
-		},
-		staleTime: 1000 * 60 * 30,
-	});
+	const { data: activeTasksData, isLoading: isLoadingActiveTasks } =
+		useLoyaltyActiveTasks();
 
-	const { data: profileData, isLoading: isLoadingProfile } = useQuery({
-		queryKey: [QueryKey.LoyaltyProfile],
-		queryFn: () =>
-			qlClient.request(loyaltyProfile, {
-				first: 20,
-				after: '',
-			}),
-		staleTime: 1000 * 60 * 10,
-	});
+	const { data: profileData, isLoading: isLoadingProfile } =
+		useLoyaltyProfile();
 
 	if (isLoadingProfile || isLoadingActiveTasks) {
 		return (
@@ -57,7 +37,6 @@ const LoyaltyFeature = () => {
 			/>
 			<TaskBoard
 				containerStyle={styles.taskContainer}
-				profile={profileData.loyaltyProfile}
 				tasks={activeTasksData.loyaltyActiveTasks}
 			/>
 		</View>

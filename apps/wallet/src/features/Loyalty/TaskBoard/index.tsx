@@ -2,24 +2,14 @@ import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { LoyaltyProfile, Task } from '@walless/graphql';
-import { TaskType } from '@walless/graphql';
-import {
-	doLoyaltyTask,
-	doLoyaltyTasksByRecurringGroup,
-} from '@walless/graphql/mutation';
-import { showError } from 'modals/Error';
-import { QueryKey } from 'utils/constants';
-import { gqlErrorToMeaningfulMessage } from 'utils/format';
-import { qlClient, qlClientThatThrowError } from 'utils/graphql';
+import type { Task } from '@walless/graphql';
 import { sharedStyles } from 'utils/style';
 
+import CategorizedTasks from './CategorizedTasks';
 import TabSelect from './TabSelect';
 
 interface Props {
 	containerStyle?: ViewStyle;
-	profile: LoyaltyProfile;
 	tasks: Task[];
 }
 
@@ -28,34 +18,8 @@ enum Tab {
 	Partner = 'Partner',
 }
 
-const TaskBoard: FC<Props> = ({ containerStyle, profile, tasks }) => {
+const TaskBoard: FC<Props> = ({ containerStyle, tasks }) => {
 	const [activeTab, setActiveTab] = useState<Tab>(Tab.Walless);
-
-	const queryClient = useQueryClient();
-
-	const verifyMutation = useMutation({
-		mutationFn: async (task: Task) => {
-			if (!task.id) throw 'task id not found';
-
-			if (task.type === TaskType.Recurring) {
-				return qlClient.request(doLoyaltyTasksByRecurringGroup, {
-					id: task.id,
-				});
-			} else {
-				return qlClientThatThrowError.request(doLoyaltyTask, {
-					id: task.id,
-				});
-			}
-		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: [QueryKey.LoyaltyProfile],
-			});
-		},
-		onError: (err) => {
-			showError({ errorText: gqlErrorToMeaningfulMessage(err) }, 4000);
-		},
-	});
 
 	const partnerTaskMap = useMemo(() => {
 		const m: Record<string, Task[]> = {};
@@ -73,6 +37,10 @@ const TaskBoard: FC<Props> = ({ containerStyle, profile, tasks }) => {
 				activeTab={activeTab}
 				onTabPress={(tab) => setActiveTab(tab as Tab)}
 			/>
+
+			{activeTab === Tab.Walless ? (
+				<CategorizedTasks tasks={partnerTaskMap['walless'] || []} />
+			) : null}
 		</View>
 	);
 };

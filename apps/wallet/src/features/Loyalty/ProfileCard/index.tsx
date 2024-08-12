@@ -89,7 +89,7 @@ const ProfileCard: FC<Props> = ({ profile, containerStyle }) => {
 				</View>
 
 				<View style={sharedStyles.flexRowBetween}>
-					<Text style={[sharedStyles.fontSize13, sharedStyles.textBlue]}>
+					<Text style={[sharedStyles.fontSize13, sharedStyles.textCta]}>
 						Level {level}
 					</Text>
 
@@ -98,10 +98,9 @@ const ProfileCard: FC<Props> = ({ profile, containerStyle }) => {
 							<Text
 								style={[sharedStyles.fontSize13, sharedStyles.textNeutral5]}
 							>
-								{levelsByPoints[level + 1] - (profile.totalPoints || 0)} Points
-								to{' '}
+								{levelsByPoints[level + 1] - profile.totalPoints} Points to{' '}
 							</Text>
-							<Text style={[sharedStyles.fontSize13, sharedStyles.textBlue]}>
+							<Text style={[sharedStyles.fontSize13, sharedStyles.textCta]}>
 								Level {level + 1}
 							</Text>
 						</View>

@@ -48,7 +48,7 @@ export const sharedStyles = StyleSheet.create({
 	fontSize12: {
 		fontSize: 12,
 	},
-	textBlue: {
+	textCta: {
 		color: '#17A3E1',
 	},
 	textError: {

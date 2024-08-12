@@ -1,4 +1,6 @@
 import type { Config, RemoteConfig } from '@walless/core';
+import { Networks } from '@walless/core';
+import { gradientDirection } from '@walless/gui';
 
 export const noHeaderNavigation = {
 	headerShown: false,
@@ -17,6 +19,48 @@ export const defaultRemoteConfig: RemoteConfig = {
 	minimalVersion: '1.0.0',
 	customWallets: {
 		samo: {
+			coverBanner: '/img/widget/samo-banner.png',
+			iconSrc: '/img/widget/samo-icon.png',
+			backgroundColor: '#141121',
+			actionButtonBackgroundColors: {
+				send: '#0051BD',
+				receive: '#3D55BF',
+				buy: '#7E60D2',
+				swap: '#C36BE5',
+			},
+			activeTabStyle: {
+				linearGradient: {
+					direction: gradientDirection.LeftToRight,
+					colors: ['#1A4FB5', '#C36BE5'],
+				},
+				textStyle: {
+					color: 'white',
+					fontWeight: '500',
+				},
+			},
+			advertisements: [
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+				{
+					title: 'Get your SAMO debit card',
+					link: '',
+					image: '/img/widget/samo-ad-1.png',
+				},
+			],
+			network: Networks.solana,
 			tokens: {
 				'7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU': {
 					mintAddress: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',

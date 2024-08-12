@@ -1,5 +1,4 @@
 import { Networks, WidgetSubcategories } from '@walless/core';
-import { gradientDirection } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
 
 // TODO: this mocked data is for web only
@@ -222,50 +221,6 @@ export const mockWidgets: WidgetDocument[] = [
 			description: 'dApp version of the T-rex Runner you already known!',
 			loveCount: 46,
 			activeCount: 202,
-		},
-		metadata: {
-			coverBanner: '/img/widget/samo-banner.png',
-			iconSrc: '/img/widget/samo-icon.png',
-			backgroundColor: '#141121',
-			actionButtonBackgroundColors: {
-				send: '#0051BD',
-				receive: '#3D55BF',
-				buy: '#7E60D2',
-				swap: '#C36BE5',
-			},
-			activeTabStyle: {
-				linearGradient: {
-					direction: gradientDirection.LeftToRight,
-					colors: ['#1A4FB5', '#C36BE5'],
-				},
-				textStyle: {
-					color: 'white',
-					fontWeight: '500',
-				},
-			},
-			advertisements: [
-				{
-					title: 'Get your SAMO debit card',
-					link: '',
-					image: '/img/widget/samo-ad-1.png',
-				},
-				{
-					title: 'Get your SAMO debit card',
-					link: '',
-					image: '/img/widget/samo-ad-1.png',
-				},
-				{
-					title: 'Get your SAMO debit card',
-					link: '',
-					image: '/img/widget/samo-ad-1.png',
-				},
-				{
-					title: 'Get your SAMO debit card',
-					link: '',
-					image: '/img/widget/samo-ad-1.png',
-				},
-			],
-			network: Networks.solana,
 		},
 	},
 ];

@@ -23,10 +23,9 @@ export const useWidgets = ({ filterAdded }: Options) => {
 
 		const widgets = mockWidgets.map((widget) => {
 			if (widget.category === WidgetSubcategories.CUSTOM_WALLET) {
-				(widget.metadata as CustomWalletMetadata).tokens =
-					remoteConfig.customWallets?.[widget._id].tokens;
-				(widget.metadata as CustomWalletMetadata).nfts =
-					remoteConfig.customWallets?.[widget._id].nfts;
+				widget.metadata = remoteConfig.customWallets?.[
+					widget._id
+				] as CustomWalletMetadata;
 			}
 
 			return widget;

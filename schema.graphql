@@ -331,6 +331,9 @@ type RootQuery {
   loyaltyTask(id: String!): Task
 
   """"""
+  loyaltyTaskRecords(taskId: String!): [TaskRecord!]
+
+  """"""
   loyaltyTasks: [Task!]
 
   """"""

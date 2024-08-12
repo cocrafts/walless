@@ -38,5 +38,5 @@ export const gqlErrorToMeaningfulMessage = (error: any) => {
 		}
 	}
 
-	return 'Cannot read gql error';
+	return `${error}`;
 };

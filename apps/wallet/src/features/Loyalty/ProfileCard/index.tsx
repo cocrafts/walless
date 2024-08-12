@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import type { LoyaltyProfile } from '@walless/graphql';
 import { Text } from '@walless/gui';
 import { BlingBling, Check, Ranking, Star } from '@walless/icons';
+import { navigate } from 'utils/navigation';
 import { sharedStyles } from 'utils/style';
 
 import { levelsByPoints, progressBarHeight } from '../constants';
@@ -36,6 +37,17 @@ const ProfileCard: FC<Props> = ({ profile, containerStyle }) => {
 
 		return (percent * 100).toFixed(0);
 	}, [profile.totalPoints, level]);
+
+	const handlePressHistory = () =>
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: {
+				screen: 'Loyalty',
+				params: {
+					screen: 'History',
+				},
+			},
+		});
 
 	return (
 		<View style={[styles.container, containerStyle]}>
@@ -100,9 +112,10 @@ const ProfileCard: FC<Props> = ({ profile, containerStyle }) => {
 				<InfoCard
 					style={styles.infoCardContainer}
 					title="Completed quest"
-					value={'0'}
+					value={`${profile.history?.totalCount || 0}`}
 					Icon={Check}
 					iconColor="#2EC879"
+					onPress={handlePressHistory}
 				/>
 				<InfoCard
 					style={styles.infoCardContainer}

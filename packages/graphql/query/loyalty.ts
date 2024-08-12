@@ -40,6 +40,18 @@ export const loyaltyActiveTasks = graphql(`
 	}
 `);
 
+export const loyaltyTaskRecords = graphql(`
+	query LoyaltyTaskRecords($taskId: String!) {
+		loyaltyTaskRecords(taskId: $taskId) {
+			id
+			profileId
+			taskId
+			taskVersion
+			timestamp
+		}
+	}
+`);
+
 export const loyaltyProfile = graphql(`
 	query LoyaltyProfile($first: Int!, $after: String!) {
 		loyaltyProfile {

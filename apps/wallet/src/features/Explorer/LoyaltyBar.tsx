@@ -16,6 +16,9 @@ const LoyaltyBar: FC<Props> = ({ style }) => {
 			screen: 'Explore',
 			params: {
 				screen: 'Loyalty',
+				params: {
+					screen: 'Default',
+				},
 			},
 		});
 	};

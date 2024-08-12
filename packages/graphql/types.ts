@@ -277,6 +277,7 @@ export type RootQuery = {
   loyaltyActiveTasks?: Maybe<Array<Task>>;
   loyaltyProfile: LoyaltyProfile;
   loyaltyTask?: Maybe<Task>;
+  loyaltyTaskRecords?: Maybe<Array<TaskRecord>>;
   loyaltyTasks?: Maybe<Array<Task>>;
   nonce?: Maybe<Nonce>;
   referralLeaderboard?: Maybe<Array<Maybe<ReferralRank>>>;
@@ -303,6 +304,11 @@ export type RootQueryLoginMessageArgs = {
 
 export type RootQueryLoyaltyTaskArgs = {
   id: Scalars['String']['input'];
+};
+
+
+export type RootQueryLoyaltyTaskRecordsArgs = {
+  taskId: Scalars['String']['input'];
 };
 
 
@@ -792,6 +798,7 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   loyaltyActiveTasks?: Resolver<Maybe<Array<ResolversTypes['Task']>>, ParentType, ContextType>;
   loyaltyProfile?: Resolver<ResolversTypes['LoyaltyProfile'], ParentType, ContextType>;
   loyaltyTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<RootQueryLoyaltyTaskArgs, 'id'>>;
+  loyaltyTaskRecords?: Resolver<Maybe<Array<ResolversTypes['TaskRecord']>>, ParentType, ContextType, RequireFields<RootQueryLoyaltyTaskRecordsArgs, 'taskId'>>;
   loyaltyTasks?: Resolver<Maybe<Array<ResolversTypes['Task']>>, ParentType, ContextType>;
   nonce?: Resolver<Maybe<ResolversTypes['Nonce']>, ParentType, ContextType, RequireFields<RootQueryNonceArgs, 'identifier'>>;
   referralLeaderboard?: Resolver<Maybe<Array<Maybe<ResolversTypes['ReferralRank']>>>, ParentType, ContextType, Partial<RootQueryReferralLeaderboardArgs>>;

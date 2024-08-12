@@ -2,11 +2,20 @@ import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { StyleSheet, View } from 'react-native';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { LoyaltyProfile, Task } from '@walless/graphql';
+import { TaskType } from '@walless/graphql';
+import {
+	doLoyaltyTask,
+	doLoyaltyTasksByRecurringGroup,
+} from '@walless/graphql/mutation';
+import { showError } from 'modals/Error';
+import { QueryKey } from 'utils/constants';
+import { gqlErrorToMeaningfulMessage } from 'utils/format';
+import { qlClient, qlClientThatThrowError } from 'utils/graphql';
 import { sharedStyles } from 'utils/style';
 
 import TabSelect from './TabSelect';
-import TasksByType from './TasksByType';
 
 interface Props {
 	containerStyle?: ViewStyle;
@@ -14,16 +23,45 @@ interface Props {
 	tasks: Task[];
 }
 
-const tabs = ['Walless', 'Partner'];
+enum Tab {
+	Walless = 'Walless',
+	Partner = 'Partner',
+}
 
 const TaskBoard: FC<Props> = ({ containerStyle, profile, tasks }) => {
-	const [activeTab, setActiveTab] = useState<string>(tabs[0]);
+	const [activeTab, setActiveTab] = useState<Tab>(Tab.Walless);
+
+	const queryClient = useQueryClient();
+
+	const verifyMutation = useMutation({
+		mutationFn: async (task: Task) => {
+			if (!task.id) throw 'task id not found';
+
+			if (task.type === TaskType.Recurring) {
+				return qlClient.request(doLoyaltyTasksByRecurringGroup, {
+					id: task.id,
+				});
+			} else {
+				return qlClientThatThrowError.request(doLoyaltyTask, {
+					id: task.id,
+				});
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: [QueryKey.LoyaltyProfile],
+			});
+		},
+		onError: (err) => {
+			showError({ errorText: gqlErrorToMeaningfulMessage(err) }, 4000);
+		},
+	});
 
 	const partnerTaskMap = useMemo(() => {
-		const m = new Map<string, Task[]>();
+		const m: Record<string, Task[]> = {};
 		tasks.forEach((task) => {
 			const partner = task.metadata['partner'] ?? 'walless';
-			m.set(partner, [...(m.get(partner) || []), task]);
+			m[partner] = [...(m[partner] || []), task];
 		});
 		return m;
 	}, [tasks]);
@@ -31,14 +69,10 @@ const TaskBoard: FC<Props> = ({ containerStyle, profile, tasks }) => {
 	return (
 		<View style={[styles.container, containerStyle]}>
 			<TabSelect
-				tabs={tabs}
+				tabs={[Tab.Walless, Tab.Partner]}
 				activeTab={activeTab}
-				setActiveTab={setActiveTab}
+				onTabPress={(tab) => setActiveTab(tab as Tab)}
 			/>
-
-			{activeTab === 'Walless' && (
-				<TasksByType tasks={partnerTaskMap.get('walless') || []} />
-			)}
 		</View>
 	);
 };

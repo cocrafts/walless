@@ -17,6 +17,7 @@ const documents = {
     "\n\tmutation DoLoyaltyTasksByRecurringGroup($id: String!) {\n\t\tdoLoyaltyTasksByRecurringGroup(id: $id) {\n\t\t\tid\n\t\t\tprofileId\n\t\t\ttaskId\n\t\t\ttaskVersion\n\t\t\ttimestamp\n\t\t}\n\t}\n": types.DoLoyaltyTasksByRecurringGroupDocument,
     "\n\tquery LoyaltyTask($id: String!) {\n\t\tloyaltyTask(id: $id) {\n\t\t\tendDate\n\t\t\tid\n\t\t\tinterval\n\t\t\tmechanism\n\t\t\tmetadata\n\t\t\tmilestone\n\t\t\tpoints\n\t\t\trecurringId\n\t\t\tstartDate\n\t\t\tstreak\n\t\t\ttype\n\t\t\tverifierKeys\n\t\t\tversion\n\t\t}\n\t}\n": types.LoyaltyTaskDocument,
     "\n\tquery LoyaltyActiveTasks {\n\t\tloyaltyActiveTasks {\n\t\t\tendDate\n\t\t\tid\n\t\t\tinterval\n\t\t\tmechanism\n\t\t\tmetadata\n\t\t\tmilestone\n\t\t\tpoints\n\t\t\trecurringId\n\t\t\tstartDate\n\t\t\tstreak\n\t\t\ttype\n\t\t\tverifierKeys\n\t\t\tversion\n\t\t}\n\t}\n": types.LoyaltyActiveTasksDocument,
+    "\n\tquery LoyaltyTaskRecords($taskId: String!) {\n\t\tloyaltyTaskRecords(taskId: $taskId) {\n\t\t\tid\n\t\t\tprofileId\n\t\t\ttaskId\n\t\t\ttaskVersion\n\t\t\ttimestamp\n\t\t}\n\t}\n": types.LoyaltyTaskRecordsDocument,
     "\n\tquery LoyaltyProfile($first: Int!, $after: String!) {\n\t\tloyaltyProfile {\n\t\t\tid\n\t\t\tidentifier\n\t\t\ttotalPoints\n\t\t\thistory(first: $first, after: $after) {\n\t\t\t\ttotalCount\n\t\t\t\tedges {\n\t\t\t\t\tcursor\n\t\t\t\t\tnode {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tprofileId\n\t\t\t\t\t\ttaskId\n\t\t\t\t\t\ttaskVersion\n\t\t\t\t\t\ttimestamp\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tpageInfo {\n\t\t\t\t\tendCursor\n\t\t\t\t\thasNextPage\n\t\t\t\t}\n\t\t\t}\n\t\t\trecurringStatusList {\n\t\t\t\tcurrentStreak\n\t\t\t\trecentTrackAt\n\t\t\t\tinterval\n\t\t\t\ttaskId\n\t\t\t\ttotal\n\t\t\t}\n\t\t}\n\t}\n": types.LoyaltyProfileDocument,
 };
 
@@ -50,6 +51,10 @@ export function graphql(source: "\n\tquery LoyaltyTask($id: String!) {\n\t\tloya
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n\tquery LoyaltyActiveTasks {\n\t\tloyaltyActiveTasks {\n\t\t\tendDate\n\t\t\tid\n\t\t\tinterval\n\t\t\tmechanism\n\t\t\tmetadata\n\t\t\tmilestone\n\t\t\tpoints\n\t\t\trecurringId\n\t\t\tstartDate\n\t\t\tstreak\n\t\t\ttype\n\t\t\tverifierKeys\n\t\t\tversion\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery LoyaltyActiveTasks {\n\t\tloyaltyActiveTasks {\n\t\t\tendDate\n\t\t\tid\n\t\t\tinterval\n\t\t\tmechanism\n\t\t\tmetadata\n\t\t\tmilestone\n\t\t\tpoints\n\t\t\trecurringId\n\t\t\tstartDate\n\t\t\tstreak\n\t\t\ttype\n\t\t\tverifierKeys\n\t\t\tversion\n\t\t}\n\t}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n\tquery LoyaltyTaskRecords($taskId: String!) {\n\t\tloyaltyTaskRecords(taskId: $taskId) {\n\t\t\tid\n\t\t\tprofileId\n\t\t\ttaskId\n\t\t\ttaskVersion\n\t\t\ttimestamp\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery LoyaltyTaskRecords($taskId: String!) {\n\t\tloyaltyTaskRecords(taskId: $taskId) {\n\t\t\tid\n\t\t\tprofileId\n\t\t\ttaskId\n\t\t\ttaskVersion\n\t\t\ttimestamp\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

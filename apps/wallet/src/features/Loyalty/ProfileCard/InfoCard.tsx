@@ -14,7 +14,6 @@ interface Props {
 	iconColor: string;
 	title: string;
 	value: string;
-	disable?: boolean;
 	onPress?: () => void;
 }
 
@@ -24,7 +23,6 @@ const InfoCard: FC<Props> = ({
 	iconColor,
 	title,
 	value,
-	disable,
 	onPress,
 }) => {
 	return (
@@ -32,7 +30,7 @@ const InfoCard: FC<Props> = ({
 			style={styles.container}
 			containerStyle={style}
 			onPress={onPress}
-			disabled={!onPress || disable}
+			disabled={!onPress}
 		>
 			<View style={[styles.iconContainer, { borderColor: iconColor }]}>
 				{<Icon size={12} color={iconColor} />}

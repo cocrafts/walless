@@ -6,12 +6,12 @@ import { sharedStyles } from 'utils/style';
 interface Props {
 	tabs: string[];
 	activeTab: string;
-	setActiveTab: (tab: string) => void;
+	onTabPress: (tab: string) => void;
 }
 
-const TabSelect: FC<Props> = ({ tabs, activeTab, setActiveTab }) => {
+const TabSelect: FC<Props> = ({ tabs, activeTab, onTabPress }) => {
 	return (
-		<View style={[sharedStyles.flexRow, sharedStyles.gap8]}>
+		<View style={[sharedStyles.flexRow, sharedStyles.gap16]}>
 			{tabs.map((tab) => (
 				<TouchableOpacity
 					key={tab}
@@ -19,7 +19,7 @@ const TabSelect: FC<Props> = ({ tabs, activeTab, setActiveTab }) => {
 						styles.tabContainer,
 						tab === activeTab ? styles.activeTabContainer : {},
 					]}
-					onPress={() => setActiveTab(tab)}
+					onPress={() => onTabPress(tab)}
 				>
 					<Text
 						style={

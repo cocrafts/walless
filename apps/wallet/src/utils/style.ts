@@ -20,6 +20,9 @@ export const sharedStyles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
+	gap16: {
+		gap: 16,
+	},
 	gap8: {
 		gap: 8,
 	},
@@ -36,8 +39,14 @@ export const sharedStyles = StyleSheet.create({
 	fontSize16: {
 		fontSize: 16,
 	},
+	fontSize15: {
+		fontSize: 15,
+	},
 	fontSize13: {
 		fontSize: 13,
+	},
+	fontSize12: {
+		fontSize: 12,
 	},
 	textBlue: {
 		color: '#17A3E1',
@@ -58,4 +67,5 @@ export const sharedStyles = StyleSheet.create({
 
 export const colors = {
 	tabNavigatorBg: '#081016',
+	success: '#5FC591',
 };

@@ -46,7 +46,6 @@ import { widgetState } from './widget';
 export const bootstrap = async (): Promise<void> => {
 	const startTime = new Date();
 	appState.remoteConfig = await loadRemoteConfig();
-	console.log(appState.remoteConfig);
 
 	await configure(storage);
 	await migrateDatabase(storage, 'app', appMigrations).then(async () => {

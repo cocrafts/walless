@@ -44,9 +44,10 @@ export interface CustomWalletMetadata {
 	};
 	activeTabStyle?: TabItemStyle;
 	advertisements: CustomWalletAdvertisement[];
-	tokens?: Map<string, CustomWalletAssets>;
-	nfts?: Map<string, CustomWalletAssets>;
+	tokens?: Record<string, CustomWalletAssets>;
+	nfts?: Record<string, CustomWalletAssets>;
 	network: Networks;
+	whitelist: string[];
 }
 
 export enum WidgetCategories {

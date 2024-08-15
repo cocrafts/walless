@@ -21,8 +21,12 @@ import type {
 	WidgetDocument,
 } from '@walless/store';
 import { showCopiedModal } from 'modals/Notification';
-import { mockWidgets } from 'state/widget';
-import { getTokenValue, useOpacityAnimated, usePublicKeys } from 'utils/hooks';
+import {
+	getTokenValue,
+	useOpacityAnimated,
+	usePublicKeys,
+	useWidgets,
+} from 'utils/hooks';
 import { copy } from 'utils/system';
 import { filterByOwnedNfts, filterByOwnedTokens } from 'utils/widget';
 
@@ -58,7 +62,7 @@ const convertCustomMetadataToCardSkin = (
 };
 
 export const CustomWalletLayout: FC<Props> = ({ id }) => {
-	const customWalletWidget = mockWidgets.find((item) => item._id === id);
+	const customWalletWidget = useWidgets().find((item) => item._id === id);
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 	const [headerLayout, setHeaderLayout] = useState<LayoutRectangle>();
 	const customWalletMetadata =

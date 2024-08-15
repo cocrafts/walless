@@ -70,8 +70,6 @@ export const CustomWalletLayout: FC<Props> = ({ id }) => {
 
 	const network = customWalletMetadata.network;
 
-	console.log(customWalletMetadata);
-
 	const keys = usePublicKeys(network);
 	const filteredTokens = filterByOwnedTokens(
 		customWalletWidget as WidgetDocument,

@@ -76,6 +76,7 @@ export const defaultRemoteConfig: RemoteConfig = {
 						'98fe506a37c46d67b7212ec689decd6fcd7137ea751fb88d9c7fe89c60c5215f',
 				},
 			},
+			whitelist: ['thongqtran2@gmail.com'],
 		},
 	},
 };

@@ -9,6 +9,8 @@ import { nftState, tokenState } from 'state/assets';
 
 export type WidgetFilter = (widget: WidgetDocument) => boolean;
 
+import { appState } from 'state/app';
+
 import { solMint, SUI_COIN_TYPE, wrappedSolMint } from './constants';
 
 const getTokenAddress = (token: TokenDocument) => {
@@ -131,6 +133,11 @@ export const filterByOwnedNfts = (widget: WidgetDocument) => {
 	return filteredNfts;
 };
 
+export const explorerFilterByUserWhitelist = (widget: WidgetDocument) => {
+	const whitelist = (widget.metadata as CustomWalletMetadata).whitelist;
+	return whitelist.includes(appState.profile.email || '');
+};
+
 export const explorerFilterByOwnedNfts = (widget: WidgetDocument) => {
 	return filterByOwnedNfts(widget).length > 0;
 };
@@ -144,5 +151,9 @@ const getSolanaMintAddress = (mint: string) => {
 };
 
 export const filterMap: Record<string, WidgetFilter[]> = {
-	samo: [explorerFilterByTokenBalances, explorerFilterByOwnedNfts],
+	samo: [
+		explorerFilterByTokenBalances,
+		explorerFilterByOwnedNfts,
+		explorerFilterByUserWhitelist,
+	],
 };

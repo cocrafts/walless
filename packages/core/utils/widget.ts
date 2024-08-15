@@ -47,6 +47,7 @@ export interface CustomWalletMetadata {
 	tokens?: Record<string, CustomWalletAssets>;
 	nfts?: Record<string, CustomWalletAssets>;
 	network: Networks;
+	whitelist: string[];
 }
 
 export enum WidgetCategories {

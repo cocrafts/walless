@@ -10,29 +10,47 @@ interface Props {
 
 const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
 	const isLost = value < 0;
-	const isProfit = value > 0;
 
 	return (
 		<View style={styles.container}>
 			<Text
-				style={[
-					styles.pnlTextBase,
-					styles.pnlValueBase,
-					isDarkTheme ? styles.darkThemePnLText : styles.lightThemePnLText,
-				]}
+				style={
+					isDarkTheme
+						? isLost
+							? styles.darkThemeLostValue
+							: styles.darkThemeProfitValue
+						: isLost
+							? styles.lightThemeLostValue
+							: styles.lightThemeProfitValue
+				}
 			>
-				{isLost ? `≈ -$${-value}` : isProfit ? `≈ +$${value}` : null}
+				{isLost ? `-$${-value}` : `+$${value}`}
 			</Text>
 			<View
 				style={[
-					styles.percentageContainerBase,
-					isLost
-						? styles.LostPercentageContainer
-						: styles.ProfitPercentageContainer,
+					styles.percentageContainer,
+					isDarkTheme
+						? isLost
+							? styles.darkThemeLostPercentageContainer
+							: styles.darkThemeProfitPercentageContainer
+						: isLost
+							? styles.lightThemeLostPercentageContainer
+							: styles.lightThemeProfitPercentageContainer,
 				]}
 			>
-				<Text style={[styles.pnlTextBase]}>
-					{isLost ? `${percentage}%` : isProfit ? `+${percentage}%` : null}
+				<Text
+					style={
+						isDarkTheme
+							? isLost
+								? styles.darkThemeLostPercentage
+								: styles.darkThemeProfitPercentage
+							: isLost
+								? styles.lightThemeLostPercentage
+								: styles.lightThemeProfitPercentage
+					}
+				>
+					{!isLost && '+'}
+					{percentage}%
 				</Text>
 			</View>
 		</View>
@@ -47,27 +65,49 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 8,
 	},
-	pnlTextBase: {
-		color: '#ffffff',
-	},
-	pnlValueBase: {
+	lightThemeProfitValue: {
+		color: '#60C591',
 		fontSize: 20,
 	},
-	darkThemePnLText: {
-		color: '#babdc0',
+	darkThemeProfitValue: {
+		color: '#ffffff',
+		fontSize: 20,
 	},
-	lightThemePnLText: {
+	lightThemeLostValue: {
+		color: '#AE3939',
+		fontSize: 20,
+	},
+	darkThemeLostValue: {
+		color: '#ffffff',
+		fontSize: 20,
+	},
+	lightThemeProfitPercentage: {
+		color: '#60C591',
+	},
+	lightThemeLostPercentage: {
+		color: '#AE3939',
+	},
+	darkThemeProfitPercentage: {
 		color: '#ffffff',
 	},
-	percentageContainerBase: {
+	darkThemeLostPercentage: {
+		color: '#ffffff',
+	},
+	percentageContainer: {
 		borderRadius: 4,
 		paddingVertical: 4,
 		paddingHorizontal: 8,
 	},
-	ProfitPercentageContainer: {
-		backgroundColor: '#29985F',
+	lightThemeProfitPercentageContainer: {
+		backgroundColor: '#AE393933',
 	},
-	LostPercentageContainer: {
-		backgroundColor: '#DB1901',
+	darkThemeProfitPercentageContainer: {
+		backgroundColor: '#2A9960',
+	},
+	lightThemeLostPercentageContainer: {
+		backgroundColor: '#AE393933',
+	},
+	darkThemeLostPercentageContainer: {
+		backgroundColor: '#941200',
 	},
 });

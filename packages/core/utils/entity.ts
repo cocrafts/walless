@@ -1,4 +1,5 @@
 import type { NetworkCluster, Networks } from './common';
+import type { CustomWalletMetadata } from './widget';
 
 export interface AptosTokenMetadata {
 	creatorAddress: string;
@@ -35,6 +36,7 @@ export interface RemoteConfig {
 	experimentalEnabled: boolean;
 	deepAnalyticsEnabled: boolean;
 	minimalVersion: string;
+	customWallets?: Record<string, CustomWalletMetadata>;
 }
 
 export interface UserProfile {

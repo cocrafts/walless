@@ -4,7 +4,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import type { NetworkCluster, SolanaToken } from '@walless/core';
 import { Networks } from '@walless/core';
 import type { TokenDocument } from '@walless/store';
-import { getTokenQuote } from 'utils/api';
+import { getTokenQuote as getTokenInfo } from 'utils/api';
 import { solMint, wrappedSolMint } from 'utils/constants';
 import { addTokenToStorage } from 'utils/storage';
 
@@ -23,11 +23,12 @@ export const queryTokens = async (
 		cluster,
 		wallet,
 	).then(async (doc) => {
-		const quotes = await getTokenQuote({
+		const tokenInfo = await getTokenInfo({
 			address: wrappedSolMint,
 			network: doc.network,
 		});
-		doc.quotes = quotes?.quotes;
+		doc.quotes = tokenInfo?.quotes;
+		doc.pnl = tokenInfo?.pnl;
 
 		await addTokenToStorage(doc);
 		return doc;
@@ -42,11 +43,12 @@ export const queryTokens = async (
 				account,
 			);
 
-			const quotes = await getTokenQuote({
+			const tokenInfo = await getTokenInfo({
 				address: doc.mint,
 				network: doc.network,
 			});
-			doc.quotes = quotes?.quotes;
+			doc.quotes = tokenInfo?.quotes;
+			doc.pnl = tokenInfo?.pnl;
 
 			await addTokenToStorage(doc);
 			return doc;

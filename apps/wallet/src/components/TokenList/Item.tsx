@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Image, StyleSheet } from 'react-native';
+import type { TokenPnL } from '@walless/core';
 import { Hoverable, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import assets from 'utils/assets';
@@ -10,22 +11,33 @@ interface Props {
 	style?: StyleProp<ViewStyle>;
 	token: TokenDocument;
 	onPress?: () => void;
+	tokenPnL?: TokenPnL;
 }
 
-export const TokenItem: FC<Props> = ({ style, token, onPress }) => {
+export const TokenItem: FC<Props> = ({ style, token, onPress, tokenPnL }) => {
+	const pnl = tokenPnL?.priceChangePercentage24H ?? 0;
 	const { symbol, image, quotes, balance } = token;
 	const unitQuote = quotes?.usd;
 	const totalQuote = unitQuote && unitQuote * balance;
+
 	const iconSource = image ? { uri: image } : assets.misc.unknownToken;
+	const fixedPnL = Math.round(pnl * 10000) / 10000;
 
 	const itemName = symbol || 'Unknown';
+	const isLost = fixedPnL < 0;
+	const isProfit = fixedPnL > 0;
 
 	return (
 		<Hoverable style={[styles.container, style]} onPress={onPress}>
 			<Image style={styles.iconImg} source={iconSource} resizeMode="cover" />
 			<View style={styles.infoContainer}>
 				<Text style={styles.primaryText}>{itemName}</Text>
-				<Text style={styles.secondaryText}>{formatQuote(unitQuote)}</Text>
+				<View style={styles.unitQuoteContainer}>
+					<Text style={styles.secondaryText}>{formatQuote(unitQuote)}</Text>
+					<Text style={isLost ? styles.lostText : styles.profitText}>
+						{isLost ? `-${-fixedPnL}` : isProfit ? `+${fixedPnL}` : null}
+					</Text>
+				</View>
 			</View>
 			<View style={styles.balanceContainer}>
 				<Text style={styles.primaryText}>{balance}</Text>
@@ -74,5 +86,19 @@ const styles = StyleSheet.create({
 	secondaryText: {
 		color: '#566674',
 		fontSize: 13,
+	},
+	unitQuoteContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 8,
+	},
+	profitText: {
+		color: '#60C591',
+		fontSize: 10,
+		alignSelf: 'flex-end',
+	},
+	lostText: {
+		color: '#AE3939',
+		fontSize: 10,
 	},
 });

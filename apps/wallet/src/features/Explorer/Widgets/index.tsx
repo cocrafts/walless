@@ -1,16 +1,24 @@
+import type { FC } from 'react';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { WidgetType } from '@walless/core';
+import { SubcategoryToCategoryMapping, WidgetCategories } from '@walless/core';
 import { Text } from '@walless/gui';
 import type { WidgetDocument } from '@walless/store';
-import { mockWidgets } from 'state/widget';
 
 import CategoryButtons from './CategoryButtons';
 import WidgetItem from './WidgetItem';
 
-const Widgets = () => {
-	const [widgets, setWidgets] = useState<WidgetDocument[]>(
-		mockWidgets.filter((item) => item.widgetType === WidgetType.NETWORK),
+interface Props {
+	widgets: WidgetDocument[];
+}
+
+const Widgets: FC<Props> = ({ widgets }) => {
+	const [renderedWidgets, setRenderedWidgets] = useState<WidgetDocument[]>(
+		widgets.filter(
+			(widget) =>
+				SubcategoryToCategoryMapping[widget.category] ===
+				WidgetCategories.NETWORK,
+		),
 	);
 
 	return (
@@ -21,18 +29,20 @@ const Widgets = () => {
 					Evolving your worlds filled with exciting events
 				</Text>
 			</View>
-			<CategoryButtons setWidgets={setWidgets} />
+
+			<CategoryButtons widgets={widgets} setWidgets={setRenderedWidgets} />
+
 			<ScrollView
 				style={styles.layoutList}
 				contentContainerStyle={styles.listStyle}
 				showsVerticalScrollIndicator={false}
 			>
-				{widgets.length === 0 ? (
+				{renderedWidgets.length === 0 ? (
 					<Text style={styles.noWidgetsText}>
 						There&apos;s no widgets in this section
 					</Text>
 				) : (
-					widgets.map((widget) => (
+					renderedWidgets.map((widget) => (
 						<WidgetItem key={widget._id} widget={widget} />
 					))
 				)}

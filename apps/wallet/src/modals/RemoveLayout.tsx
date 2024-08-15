@@ -42,7 +42,7 @@ const RemoveLayoutModal: FC<{
 		width: 36,
 		height: 36,
 		borderRadius: 6,
-		backgroundColor: item.networkMeta?.iconColor || 'white',
+		backgroundColor: item.storeMeta?.iconColor || 'white',
 	};
 
 	return (

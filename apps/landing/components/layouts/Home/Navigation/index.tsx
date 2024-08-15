@@ -23,12 +23,13 @@ export const HomeNavigation: FC = () => {
 	const modalRef = useRef(null);
 
 	const temporarilyDisabled = false;
+
 	const handleShowLaunchingModal = () => {
 		modalActions.show({
 			id: 'launching',
 			fullWidth: false,
 			bindingRef: modalRef,
-			bindingDirection: BindDirections.InnerTopLeft,
+			bindingDirection: BindDirections.InnerTopRight,
 			animateDirection: AnimateDirections.Inner,
 			component: LaunchingModal,
 		});

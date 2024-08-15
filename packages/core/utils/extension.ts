@@ -27,3 +27,7 @@ export interface ExtensionConfig {
 	storeMeta: ExtensionStoreMetadata;
 	networkMeta: ExtensionNetworkMetadata;
 }
+
+export interface ShowFirstTimeUserPopup {
+	value: boolean;
+}

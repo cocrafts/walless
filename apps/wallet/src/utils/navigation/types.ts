@@ -27,6 +27,7 @@ export type ProfileParamList = {
 export type LoyaltyParamList = {
 	Default: undefined;
 	History: undefined;
+	Details: { id: string };
 };
 
 export type ExploreParamList = {

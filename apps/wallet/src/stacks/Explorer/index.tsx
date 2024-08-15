@@ -9,7 +9,7 @@ import { appState } from 'state/app';
 import { useSnapshot } from 'utils/hooks';
 import type { ExploreParamList } from 'utils/navigation';
 
-import LoyaltyStack from './Loyalty';
+import LoyaltyStack from './LoyaltyStack';
 import ProfileStack from './ProfileStack';
 import Sidebar, { sidebarWidth } from './Sidebar';
 

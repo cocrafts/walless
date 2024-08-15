@@ -32,14 +32,11 @@ export const useLoyaltyProfile = () => {
 	});
 };
 
-export const useRemainingTime = (
-	profile: LoyaltyProfile | undefined | null,
-	task: Task,
-) => {
+export const useRemainingTime = (profile: LoyaltyProfile, task: Task) => {
 	const [remainingTime, setRemainingTime] = useState(0);
 
 	useEffect(() => {
-		if (!profile || task.type !== TaskType.Recurring) {
+		if (task.type !== TaskType.Recurring) {
 			return;
 		}
 

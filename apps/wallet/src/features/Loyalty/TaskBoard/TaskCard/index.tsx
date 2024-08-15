@@ -7,7 +7,7 @@ import {
 	View,
 } from 'react-native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { Task } from '@walless/graphql';
+import type { LoyaltyProfile, Task } from '@walless/graphql';
 import { TaskType } from '@walless/graphql';
 import {
 	doLoyaltyTask,
@@ -19,7 +19,8 @@ import { showError } from 'modals/Error';
 import { QueryKey } from 'utils/constants';
 import { gqlErrorToMeaningfulMessage } from 'utils/format';
 import { qlClient, qlClientThatThrowError } from 'utils/graphql';
-import { useLoyaltyProfile, useRemainingTime } from 'utils/hooks';
+import { useRemainingTime } from 'utils/hooks';
+import { navigate } from 'utils/navigation';
 import { sharedStyles } from 'utils/style';
 
 import Countdown from './Countdown';
@@ -29,24 +30,23 @@ import TaskTags from './TaskTags';
 import { countdownHeight, getIntervalEndTime, getTaskLogo } from './utils';
 
 interface Props {
+	profile: LoyaltyProfile;
 	task: Task;
 }
 
-const TaskCard: FC<Props> = ({ task }) => {
+const TaskCard: FC<Props> = ({ profile, task }) => {
 	const queryClient = useQueryClient();
 
-	const { data: profileData } = useLoyaltyProfile();
-
-	const remainingTime = useRemainingTime(profileData?.loyaltyProfile, task);
+	const remainingTime = useRemainingTime(profile, task);
 
 	const currentStreak = useMemo(() => {
 		let cs = 0;
 
-		if (!profileData?.loyaltyProfile || task.type !== TaskType.Streak) {
+		if (!profile || task.type !== TaskType.Streak) {
 			return cs;
 		}
 
-		profileData.loyaltyProfile.recurringStatusList?.forEach((status) => {
+		profile.recurringStatusList?.forEach((status) => {
 			if (status.taskId === task.recurringId) {
 				if (status.recentTrackAt) {
 					const latestIntervalEndTime = getIntervalEndTime(
@@ -73,7 +73,7 @@ const TaskCard: FC<Props> = ({ task }) => {
 		});
 
 		return cs;
-	}, [profileData?.loyaltyProfile, task]);
+	}, [profile, task]);
 
 	const verifyMutation = useMutation({
 		mutationFn: async () => {
@@ -99,6 +99,21 @@ const TaskCard: FC<Props> = ({ task }) => {
 		},
 	});
 
+	const handleGoToDetail = () => {
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: {
+				screen: 'Loyalty',
+				params: {
+					screen: 'Details',
+					params: {
+						id: task.id,
+					},
+				},
+			},
+		});
+	};
+
 	const showVerifyButton =
 		task.type !== TaskType.Streak &&
 		(task.type !== TaskType.Recurring || remainingTime <= 0);
@@ -108,6 +123,12 @@ const TaskCard: FC<Props> = ({ task }) => {
 
 	return (
 		<View>
+			{remainingTime > 0 && (
+				<View style={styles.countdownContainer}>
+					<Countdown remainingTime={remainingTime} />
+				</View>
+			)}
+
 			<View
 				style={[styles.container, remainingTime > 0 ? styles.passthrough : {}]}
 			>
@@ -147,18 +168,24 @@ const TaskCard: FC<Props> = ({ task }) => {
 
 				<Separator />
 
-				<TaskTags
-					points={profileData?.loyaltyProfile.totalPoints || 0}
-					showCompletedTag={showCompletedTag}
-					showVerifyingTag={false}
-				/>
-			</View>
+				<View style={sharedStyles.flexRowBetween}>
+					<TaskTags
+						points={task.points}
+						showCompletedTag={showCompletedTag}
+						showVerifyingTag={false}
+					/>
 
-			{remainingTime > 0 && (
-				<View style={styles.countdownContainer}>
-					<Countdown remainingTime={remainingTime} />
+					{task.metadata['desc'] && (
+						<TouchableOpacity onPress={handleGoToDetail}>
+							<Text
+								style={[sharedStyles.fontSize12, sharedStyles.textNeutral6]}
+							>
+								&gt;&gt; Details
+							</Text>
+						</TouchableOpacity>
+					)}
 				</View>
-			)}
+			</View>
 		</View>
 	);
 };
@@ -176,11 +203,12 @@ const styles = StyleSheet.create({
 		opacity: 0.5,
 	},
 	countdownContainer: {
-		position: 'absolute',
-		top: -countdownHeight / 2,
+		position: 'relative',
+		height: countdownHeight / 2,
+		zIndex: 10,
 		left: 0,
 		width: '100%',
-		...sharedStyles.flexCenter,
+		alignItems: 'center',
 	},
 	topContainer: {
 		...sharedStyles.flexRowBetween,

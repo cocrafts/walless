@@ -7,6 +7,7 @@ import type {
 import { createStackNavigator } from '@react-navigation/stack';
 import { withStackContainer } from 'components/StackContainer';
 import LoyaltyScreen from 'screens/Dashboard/Loyalty';
+import LoyaltyDetailsScreen from 'screens/Dashboard/Loyalty/Details';
 import LoyaltyHistoryScreen from 'screens/Dashboard/Loyalty/History';
 import type { ExploreParamList, LoyaltyParamList } from 'utils/navigation';
 import { navigateBack } from 'utils/navigation';
@@ -40,10 +41,21 @@ export const LoyaltyStack: FC<Props> = () => {
 		[],
 	);
 
+	const ManageDetailsScreen = useMemo(
+		() =>
+			withStackContainer(LoyaltyDetailsScreen, {
+				isHeaderActive: false,
+				noBottomTabs: true,
+				goBack: navigateBack,
+			}),
+		[],
+	);
+
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
 			<Stack.Screen name="Default" component={ManageLoyaltyScreen} />
 			<Stack.Screen name="History" component={ManageHistoryScreen} />
+			<Stack.Screen name="Details" component={ManageDetailsScreen} />
 		</Stack.Navigator>
 	);
 };

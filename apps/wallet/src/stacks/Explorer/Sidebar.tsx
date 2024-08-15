@@ -16,7 +16,7 @@ export const sidebarWidth = 64;
 export const Sidebar: FC<DrawerContentComponentProps> = ({ state }) => {
 	const drawerStatus = useDrawerStatus();
 	const { profile } = useSnapshot(appState);
-	const widgets = useWidgets({ filterAdded: true });
+	const widgets = useWidgets();
 
 	useEffect(() => {
 		runtimeActions.toggleDrawer(drawerStatus === 'open');

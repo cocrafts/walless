@@ -18,9 +18,7 @@ const WidgetItem: FC<WidgetItemProps> = ({ widget }) => {
 		? assets.widget[widget._id]?.storeMeta.coverUri
 		: { uri: widget.storeMeta.coverUri };
 
-	const addedWidgets = useWidgets({ filterAdded: true }).map(
-		(widget) => widget._id,
-	);
+	const addedWidgets = useWidgets().map((widget) => widget._id);
 	const isAdded = addedWidgets.includes(widget._id);
 
 	const handleOpenWidget = (id: string) => {

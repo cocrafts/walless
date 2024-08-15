@@ -23,7 +23,7 @@ interface Props {
 export const ExplorerFeature: FC<Props> = ({ style }) => {
 	const { tokens } = useTokens();
 	const { nfts } = useNfts();
-	const widgets = useWidgets({});
+	const widgets = useWidgets({ filterAdded: false });
 
 	const filteredWidgets = useMemo(
 		() =>

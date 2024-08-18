@@ -13,29 +13,31 @@ const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
 	const isProfit = value > 0;
 
 	return (
-		<View style={styles.container}>
-			<Text
-				style={[
-					styles.pnlTextBase,
-					styles.pnlValueBase,
-					isDarkTheme ? styles.darkThemePnLText : styles.lightThemePnLText,
-				]}
-			>
-				{isLost ? `≈ -$${-value}` : isProfit ? `≈ +$${value}` : null}
-			</Text>
-			<View
-				style={[
-					styles.percentageContainerBase,
-					isLost
-						? styles.LostPercentageContainer
-						: styles.ProfitPercentageContainer,
-				]}
-			>
-				<Text style={[styles.pnlTextBase]}>
-					{isLost ? `${percentage}%` : isProfit ? `+${percentage}%` : null}
+		value !== 0 && (
+			<View style={styles.container}>
+				<Text
+					style={[
+						styles.pnlTextBase,
+						styles.pnlValueBase,
+						isDarkTheme ? styles.darkThemePnLText : styles.lightThemePnLText,
+					]}
+				>
+					{isLost ? `≈ -$${-value}` : isProfit ? `≈ +$${value}` : null}
 				</Text>
+				<View
+					style={[
+						styles.percentageContainerBase,
+						isLost
+							? styles.LostPercentageContainer
+							: styles.ProfitPercentageContainer,
+					]}
+				>
+					<Text style={[styles.pnlTextBase]}>
+						{isLost ? `${percentage}%` : isProfit ? `+${percentage}%` : null}
+					</Text>
+				</View>
 			</View>
-		</View>
+		)
 	);
 };
 

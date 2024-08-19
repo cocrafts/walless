@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { useMemo } from 'react';
 import {
 	ActivityIndicator,
 	StyleSheet,
@@ -15,19 +14,19 @@ import {
 } from '@walless/graphql/mutation';
 import { Text } from '@walless/gui';
 import { Refresh } from '@walless/icons';
+import StreakIndicator from 'components/StreakIndicator';
 import { showError } from 'modals/Error';
 import { QueryKey } from 'utils/constants';
 import { gqlErrorToMeaningfulMessage } from 'utils/format';
 import { qlClient, qlClientThatThrowError } from 'utils/graphql';
-import { useRemainingTime } from 'utils/hooks';
+import { useCurrentStreak, useRemainingTime } from 'utils/hooks';
 import { navigate } from 'utils/navigation';
 import { sharedStyles } from 'utils/style';
 
 import Countdown from './Countdown';
 import Separator from './Separator';
-import StreakIndicator from './StreakIndicator';
 import TaskTags from './TaskTags';
-import { countdownHeight, getIntervalEndTime, getTaskLogo } from './utils';
+import { countdownHeight, getTaskLogo } from './utils';
 
 interface Props {
 	profile: LoyaltyProfile;
@@ -39,41 +38,7 @@ const TaskCard: FC<Props> = ({ profile, task }) => {
 
 	const remainingTime = useRemainingTime(profile, task);
 
-	const currentStreak = useMemo(() => {
-		let cs = 0;
-
-		if (!profile || task.type !== TaskType.Streak) {
-			return cs;
-		}
-
-		profile.recurringStatusList?.forEach((status) => {
-			if (status.taskId === task.recurringId) {
-				if (status.recentTrackAt) {
-					const latestIntervalEndTime = getIntervalEndTime(
-						new Date(status.recentTrackAt),
-						status.interval,
-					);
-					const thisIntervalEndTime = getIntervalEndTime(
-						latestIntervalEndTime,
-						status.interval,
-					);
-					const nextIntervalEndTime = new Date(
-						thisIntervalEndTime.getTime() + status.interval * 60 * 60 * 1000,
-					);
-
-					if (Date.now() < nextIntervalEndTime.getTime()) {
-						const streak = task.streak || 1;
-						cs = status.currentStreak % streak;
-						if (cs === 0 && status.currentStreak > 0) {
-							cs = streak;
-						}
-					}
-				}
-			}
-		});
-
-		return cs;
-	}, [profile, task]);
+	const currentStreak = useCurrentStreak(profile, task);
 
 	const verifyMutation = useMutation({
 		mutationFn: async () => {
@@ -105,7 +70,7 @@ const TaskCard: FC<Props> = ({ profile, task }) => {
 			params: {
 				screen: 'Loyalty',
 				params: {
-					screen: 'Details',
+					screen: 'Tasks',
 					params: {
 						id: task.id,
 					},
@@ -175,7 +140,7 @@ const TaskCard: FC<Props> = ({ profile, task }) => {
 						showVerifyingTag={false}
 					/>
 
-					{task.metadata['desc'] && (
+					{task.metadata['showDesc'] && (
 						<TouchableOpacity onPress={handleGoToDetail}>
 							<Text
 								style={[sharedStyles.fontSize12, sharedStyles.textNeutral6]}

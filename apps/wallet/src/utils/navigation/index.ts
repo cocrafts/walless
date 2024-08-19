@@ -79,7 +79,7 @@ export const linking: LinkingOptions<RootParamList> = {
 								screens: {
 									Default: '/',
 									History: '/history',
-									Details: '/details/:id',
+									Tasks: '/tasks/:id',
 								},
 							},
 						},

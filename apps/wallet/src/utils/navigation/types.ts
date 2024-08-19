@@ -27,7 +27,7 @@ export type ProfileParamList = {
 export type LoyaltyParamList = {
 	Default: undefined;
 	History: undefined;
-	Details: { id: string };
+	Tasks: { id: string };
 };
 
 export type ExploreParamList = {

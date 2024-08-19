@@ -12,12 +12,16 @@ interface Props {
 
 const Header: FC<Props> = ({ title, style, onGoBack }) => {
 	return (
-		<View style={[styles.container, style]}>
-			<TouchableOpacity hitSlop={24} style={styles.backIcon} onPress={onGoBack}>
+		<TouchableOpacity
+			style={[styles.container, style]}
+			hitSlop={24}
+			onPress={onGoBack}
+		>
+			<View style={styles.backIcon}>
 				<ChevronLeft size={18} color="white" />
-			</TouchableOpacity>
+			</View>
 			<Text style={styles.title}>{title}</Text>
-		</View>
+		</TouchableOpacity>
 	);
 };
 
@@ -25,8 +29,6 @@ export default Header;
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 16,
-		marginBottom: 12,
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 0,
@@ -37,6 +39,7 @@ const styles = StyleSheet.create({
 		padding: 4,
 	},
 	title: {
+		color: 'white',
 		fontSize: 16,
 		fontWeight: '500',
 	},

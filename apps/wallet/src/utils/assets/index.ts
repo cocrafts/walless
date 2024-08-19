@@ -107,6 +107,7 @@ const assets: Asset = {
 	},
 	misc: {
 		walless: require('assets/img/icon.png'),
+		wallessCover: require('assets/img/misc/walless-cover.png'),
 		unknownToken: require('assets/img/send-token/unknown-token.jpeg'),
 		swapPlaceholder: require('assets/img/misc/swap-placeholder.png'),
 		referralGradientBackground: require('assets/img/misc/referral-gradient-bg.png'),

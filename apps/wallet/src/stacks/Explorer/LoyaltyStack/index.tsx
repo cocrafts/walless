@@ -55,7 +55,7 @@ export const LoyaltyStack: FC<Props> = () => {
 		<Stack.Navigator screenOptions={screenOptions}>
 			<Stack.Screen name="Default" component={ManageLoyaltyScreen} />
 			<Stack.Screen name="History" component={ManageHistoryScreen} />
-			<Stack.Screen name="Details" component={ManageDetailsScreen} />
+			<Stack.Screen name="Tasks" component={ManageDetailsScreen} />
 		</Stack.Navigator>
 	);
 };

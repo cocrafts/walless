@@ -212,6 +212,75 @@ type PageInfo {
 }
 
 """"""
+type Partner {
+  """"""
+  coverImage: String!
+
+  """"""
+  desc: String!
+
+  """"""
+  endDate: DateTime
+
+  """"""
+  id: String!
+
+  """"""
+  logo: String!
+
+  """"""
+  name: String!
+
+  """"""
+  socialList: [PartnerSocial!]!
+
+  """"""
+  startDate: DateTime
+}
+
+""""""
+input PartnerInput {
+  """"""
+  coverImage: String!
+
+  """"""
+  desc: String!
+
+  """"""
+  endDate: DateTime
+
+  """"""
+  logo: String!
+
+  """"""
+  name: String!
+
+  """"""
+  socialList: [PartnerSocialInput!]!
+
+  """"""
+  startDate: DateTime
+}
+
+""""""
+type PartnerSocial {
+  """"""
+  link: String!
+
+  """"""
+  platform: SocialPlatform!
+}
+
+""""""
+input PartnerSocialInput {
+  """"""
+  link: String!
+
+  """"""
+  platform: SocialPlatform!
+}
+
+""""""
 type RecurringStatus {
   """"""
   currentStreak: Int!
@@ -259,7 +328,13 @@ type RootMutation {
   claimWalletInvitation(code: String!, email: String!): Boolean
 
   """"""
+  createLoyaltyPartner(input: PartnerInput!): Partner!
+
+  """"""
   createLoyaltyTask(input: TaskInput!): Task!
+
+  """"""
+  deleteLoyaltyPartner(id: String!): Boolean!
 
   """"""
   deleteLoyaltyTask(id: String!): Boolean!
@@ -295,6 +370,9 @@ type RootMutation {
   trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
 
   """"""
+  updateLoyaltyPartner(id: String!, input: PartnerInput!): Partner!
+
+  """"""
   updateLoyaltyTask(id: String!, input: TaskInput!): Task!
 
   """"""
@@ -323,6 +401,9 @@ type RootQuery {
 
   """"""
   loyaltyActiveTasks: [Task!]
+
+  """"""
+  loyaltyPartners: [Partner!]!
 
   """"""
   loyaltyProfile: LoyaltyProfile!
@@ -389,6 +470,21 @@ type SendEmergencyKitResult {
 }
 
 """"""
+enum SocialPlatform {
+  """"""
+  discord
+
+  """"""
+  telegram
+
+  """"""
+  web
+
+  """"""
+  x
+}
+
+""""""
 type SystemInfo {
   """"""
   environment: String
@@ -433,7 +529,7 @@ type Task {
   type: TaskType!
 
   """"""
-  verifierKeys: [String]
+  verifierKeys: [String!]
 
   """"""
   version: Int
@@ -472,7 +568,7 @@ input TaskInput {
   type: TaskType
 
   """Key list of auto verifiers"""
-  verifierKeys: [String]
+  verifierKeys: [String!]
 }
 
 """"""

@@ -119,6 +119,39 @@ export type PageInfo = {
   hasNextPage: Scalars['Boolean']['output'];
 };
 
+export type Partner = {
+  __typename?: 'Partner';
+  coverImage: Scalars['String']['output'];
+  desc: Scalars['String']['output'];
+  endDate?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['String']['output'];
+  logo: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  socialList: Array<PartnerSocial>;
+  startDate?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type PartnerInput = {
+  coverImage: Scalars['String']['input'];
+  desc: Scalars['String']['input'];
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  logo: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  socialList: Array<PartnerSocialInput>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type PartnerSocial = {
+  __typename?: 'PartnerSocial';
+  link: Scalars['String']['output'];
+  platform: SocialPlatform;
+};
+
+export type PartnerSocialInput = {
+  link: Scalars['String']['input'];
+  platform: SocialPlatform;
+};
+
 export type RecurringStatus = {
   __typename?: 'RecurringStatus';
   currentStreak: Scalars['Int']['output'];
@@ -142,7 +175,9 @@ export type RootMutation = {
   __typename?: 'RootMutation';
   addWidget?: Maybe<Widget>;
   claimWalletInvitation?: Maybe<Scalars['Boolean']['output']>;
+  createLoyaltyPartner: Partner;
   createLoyaltyTask: Task;
+  deleteLoyaltyPartner: Scalars['Boolean']['output'];
   deleteLoyaltyTask: Scalars['Boolean']['output'];
   deleteWidget?: Maybe<Scalars['Boolean']['output']>;
   deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
@@ -154,6 +189,7 @@ export type RootMutation = {
   registerWidgetAccount?: Maybe<Account>;
   sendEmergencyKit?: Maybe<SendEmergencyKitResult>;
   trackAccountWallets?: Maybe<Scalars['Int']['output']>;
+  updateLoyaltyPartner: Partner;
   updateLoyaltyTask: Task;
   updateWidgetAccountRole?: Maybe<WidgetAccount>;
   updateWidgetOwner?: Maybe<Widget>;
@@ -181,8 +217,18 @@ export type RootMutationClaimWalletInvitationArgs = {
 };
 
 
+export type RootMutationCreateLoyaltyPartnerArgs = {
+  input: PartnerInput;
+};
+
+
 export type RootMutationCreateLoyaltyTaskArgs = {
   input: TaskInput;
+};
+
+
+export type RootMutationDeleteLoyaltyPartnerArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -244,6 +290,12 @@ export type RootMutationTrackAccountWalletsArgs = {
 };
 
 
+export type RootMutationUpdateLoyaltyPartnerArgs = {
+  id: Scalars['String']['input'];
+  input: PartnerInput;
+};
+
+
 export type RootMutationUpdateLoyaltyTaskArgs = {
   id: Scalars['String']['input'];
   input: TaskInput;
@@ -280,6 +332,7 @@ export type RootQuery = {
   greeting?: Maybe<Scalars['String']['output']>;
   loginMessage?: Maybe<Scalars['String']['output']>;
   loyaltyActiveTasks?: Maybe<Array<Task>>;
+  loyaltyPartners: Array<Partner>;
   loyaltyProfile: LoyaltyProfile;
   loyaltyTask?: Maybe<Task>;
   loyaltyTaskRecords?: Maybe<Array<TaskRecord>>;
@@ -373,6 +426,13 @@ export type SendEmergencyKitResult = {
   messageId?: Maybe<Scalars['String']['output']>;
 };
 
+export enum SocialPlatform {
+  Discord = 'discord',
+  Telegram = 'telegram',
+  Web = 'web',
+  X = 'x'
+}
+
 export type SystemInfo = {
   __typename?: 'SystemInfo';
   environment?: Maybe<Scalars['String']['output']>;
@@ -392,7 +452,7 @@ export type Task = {
   startDate?: Maybe<Scalars['DateTime']['output']>;
   streak?: Maybe<Scalars['Int']['output']>;
   type: TaskType;
-  verifierKeys?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  verifierKeys?: Maybe<Array<Scalars['String']['output']>>;
   version?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -417,7 +477,7 @@ export type TaskInput = {
   /** Types: One Time, Recurring, Streak, Milestone */
   type?: InputMaybe<TaskType>;
   /** Key list of auto verifiers */
-  verifierKeys?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  verifierKeys?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type TaskRecord = {
@@ -549,12 +609,12 @@ export type LoyaltyTaskQueryVariables = Exact<{
 }>;
 
 
-export type LoyaltyTaskQuery = { __typename?: 'RootQuery', loyaltyTask?: { __typename?: 'Task', endDate?: any | null, id: string, interval?: number | null, mechanism: VerifyMechanism, metadata?: any | null, milestone?: number | null, points: number, recurringId?: string | null, startDate?: any | null, streak?: number | null, type: TaskType, verifierKeys?: Array<string | null> | null, version?: number | null } | null };
+export type LoyaltyTaskQuery = { __typename?: 'RootQuery', loyaltyTask?: { __typename?: 'Task', endDate?: any | null, id: string, interval?: number | null, mechanism: VerifyMechanism, metadata?: any | null, milestone?: number | null, points: number, recurringId?: string | null, startDate?: any | null, streak?: number | null, type: TaskType, verifierKeys?: Array<string> | null, version?: number | null } | null };
 
 export type LoyaltyActiveTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoyaltyActiveTasksQuery = { __typename?: 'RootQuery', loyaltyActiveTasks?: Array<{ __typename?: 'Task', endDate?: any | null, id: string, interval?: number | null, mechanism: VerifyMechanism, metadata?: any | null, milestone?: number | null, points: number, recurringId?: string | null, startDate?: any | null, streak?: number | null, type: TaskType, verifierKeys?: Array<string | null> | null, version?: number | null }> | null };
+export type LoyaltyActiveTasksQuery = { __typename?: 'RootQuery', loyaltyActiveTasks?: Array<{ __typename?: 'Task', endDate?: any | null, id: string, interval?: number | null, mechanism: VerifyMechanism, metadata?: any | null, milestone?: number | null, points: number, recurringId?: string | null, startDate?: any | null, streak?: number | null, type: TaskType, verifierKeys?: Array<string> | null, version?: number | null }> | null };
 
 export type LoyaltyTaskRecordsQueryVariables = Exact<{
   taskId: Scalars['String']['input'];
@@ -571,6 +631,11 @@ export type LoyaltyProfileQueryVariables = Exact<{
 
 export type LoyaltyProfileQuery = { __typename?: 'RootQuery', loyaltyProfile: { __typename?: 'LoyaltyProfile', id: string, identifier: string, totalPoints: number, history?: { __typename?: 'History', totalCount: number, edges: Array<{ __typename?: 'TaskRecordEdge', cursor: string, node: { __typename?: 'TaskRecord', id: string, profileId: string, taskId: string, taskVersion: number, timestamp: any } }>, pageInfo: { __typename?: 'PageInfo', endCursor: string, hasNextPage: boolean } } | null, recurringStatusList?: Array<{ __typename?: 'RecurringStatus', currentStreak: number, recentTrackAt: any, interval: number, taskId: string, total: number }> | null } };
 
+export type LoyaltyPartnersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoyaltyPartnersQuery = { __typename?: 'RootQuery', loyaltyPartners: Array<{ __typename?: 'Partner', coverImage: string, desc: string, endDate?: any | null, id: string, logo: string, name: string, startDate?: any | null, socialList: Array<{ __typename?: 'PartnerSocial', link: string, platform: SocialPlatform }> }> };
+
 
 export const DoLoyaltyTaskDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DoLoyaltyTask"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"doLoyaltyTask"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"profileId"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"taskVersion"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<DoLoyaltyTaskMutation, DoLoyaltyTaskMutationVariables>;
 export const DoLoyaltyTasksByRecurringGroupDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DoLoyaltyTasksByRecurringGroup"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"doLoyaltyTasksByRecurringGroup"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"profileId"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"taskVersion"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<DoLoyaltyTasksByRecurringGroupMutation, DoLoyaltyTasksByRecurringGroupMutationVariables>;
@@ -580,3 +645,4 @@ export const LoyaltyTaskDocument = {"kind":"Document","definitions":[{"kind":"Op
 export const LoyaltyActiveTasksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LoyaltyActiveTasks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loyaltyActiveTasks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"interval"}},{"kind":"Field","name":{"kind":"Name","value":"mechanism"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"}},{"kind":"Field","name":{"kind":"Name","value":"milestone"}},{"kind":"Field","name":{"kind":"Name","value":"points"}},{"kind":"Field","name":{"kind":"Name","value":"recurringId"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"streak"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"verifierKeys"}},{"kind":"Field","name":{"kind":"Name","value":"version"}}]}}]}}]} as unknown as DocumentNode<LoyaltyActiveTasksQuery, LoyaltyActiveTasksQueryVariables>;
 export const LoyaltyTaskRecordsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LoyaltyTaskRecords"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"taskId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loyaltyTaskRecords"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"taskId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"taskId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"profileId"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"taskVersion"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<LoyaltyTaskRecordsQuery, LoyaltyTaskRecordsQueryVariables>;
 export const LoyaltyProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LoyaltyProfile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loyaltyProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"totalPoints"}},{"kind":"Field","name":{"kind":"Name","value":"history"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"profileId"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"taskVersion"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"recurringStatusList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"currentStreak"}},{"kind":"Field","name":{"kind":"Name","value":"recentTrackAt"}},{"kind":"Field","name":{"kind":"Name","value":"interval"}},{"kind":"Field","name":{"kind":"Name","value":"taskId"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]}}]} as unknown as DocumentNode<LoyaltyProfileQuery, LoyaltyProfileQueryVariables>;
+export const LoyaltyPartnersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LoyaltyPartners"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loyaltyPartners"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"coverImage"}},{"kind":"Field","name":{"kind":"Name","value":"desc"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"socialList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}}]}}]}}]}}]} as unknown as DocumentNode<LoyaltyPartnersQuery, LoyaltyPartnersQueryVariables>;

@@ -85,3 +85,21 @@ export const loyaltyProfile = graphql(`
 		}
 	}
 `);
+
+export const loyaltyPartners = graphql(`
+	query LoyaltyPartners {
+		loyaltyPartners {
+			coverImage
+			desc
+			endDate
+			id
+			logo
+			name
+			startDate
+			socialList {
+				link
+				platform
+			}
+		}
+	}
+`);

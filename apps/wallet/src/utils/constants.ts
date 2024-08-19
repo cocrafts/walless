@@ -34,5 +34,6 @@ export const SUI_COIN_TYPE = '0x2::sui::SUI';
 export enum QueryKey {
 	LoyaltyActiveTasks = 'loyaltyActiveTasks',
 	LoyaltyProfile = 'loyaltyProfile',
+	LoyaltyPartners = 'loyaltyPartners',
 	ReferralCodes = 'referralCodes',
 }

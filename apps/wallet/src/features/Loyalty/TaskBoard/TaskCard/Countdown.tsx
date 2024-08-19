@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from '@walless/gui';
+import { formatCountdownTime } from 'utils/format';
 import { sharedStyles } from 'utils/style';
 
-import { countdownHeight, formatCountdownTime } from './utils';
+import { countdownHeight } from './utils';
 
 interface Props {
 	remainingTime: number;

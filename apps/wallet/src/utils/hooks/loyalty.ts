@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { LoyaltyProfile, Task } from '@walless/graphql';
 import { TaskType } from '@walless/graphql';
@@ -68,6 +68,46 @@ export const useRemainingTime = (profile: LoyaltyProfile, task: Task) => {
 	}, [remainingTime]);
 
 	return remainingTime;
+};
+
+export const useCurrentStreak = (profile: LoyaltyProfile, task: Task) => {
+	const currentStreak = useMemo(() => {
+		let cs = 0;
+
+		if (!profile || task.type !== TaskType.Streak) {
+			return cs;
+		}
+
+		profile.recurringStatusList?.forEach((status) => {
+			if (status.taskId === task.recurringId) {
+				if (status.recentTrackAt) {
+					const latestIntervalEndTime = getIntervalEndTime(
+						new Date(status.recentTrackAt),
+						status.interval,
+					);
+					const thisIntervalEndTime = getIntervalEndTime(
+						latestIntervalEndTime,
+						status.interval,
+					);
+					const nextIntervalEndTime = new Date(
+						thisIntervalEndTime.getTime() + status.interval * 60 * 60 * 1000,
+					);
+
+					if (Date.now() < nextIntervalEndTime.getTime()) {
+						const streak = task.streak || 1;
+						cs = status.currentStreak % streak;
+						if (cs === 0 && status.currentStreak > 0) {
+							cs = streak;
+						}
+					}
+				}
+			}
+		});
+
+		return cs;
+	}, [profile, task]);
+
+	return currentStreak;
 };
 
 export const getIntervalEndTime = (taskTime: Date, interval: number) => {

@@ -114,6 +114,39 @@ export type PageInfo = {
   hasNextPage: Scalars['Boolean']['output'];
 };
 
+export type Partner = {
+  __typename?: 'Partner';
+  coverImage: Scalars['String']['output'];
+  desc: Scalars['String']['output'];
+  endDate?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['String']['output'];
+  logo: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  socialList: Array<PartnerSocial>;
+  startDate?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type PartnerInput = {
+  coverImage: Scalars['String']['input'];
+  desc: Scalars['String']['input'];
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  logo: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  socialList: Array<PartnerSocialInput>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type PartnerSocial = {
+  __typename?: 'PartnerSocial';
+  link: Scalars['String']['output'];
+  platform: SocialPlatform;
+};
+
+export type PartnerSocialInput = {
+  link: Scalars['String']['input'];
+  platform: SocialPlatform;
+};
+
 export type RecurringStatus = {
   __typename?: 'RecurringStatus';
   currentStreak: Scalars['Int']['output'];
@@ -137,7 +170,9 @@ export type RootMutation = {
   __typename?: 'RootMutation';
   addWidget?: Maybe<Widget>;
   claimWalletInvitation?: Maybe<Scalars['Boolean']['output']>;
+  createLoyaltyPartner: Partner;
   createLoyaltyTask: Task;
+  deleteLoyaltyPartner: Scalars['Boolean']['output'];
   deleteLoyaltyTask: Scalars['Boolean']['output'];
   deleteWidget?: Maybe<Scalars['Boolean']['output']>;
   deleteWidgetAccount?: Maybe<Scalars['Boolean']['output']>;
@@ -149,6 +184,7 @@ export type RootMutation = {
   registerWidgetAccount?: Maybe<Account>;
   sendEmergencyKit?: Maybe<SendEmergencyKitResult>;
   trackAccountWallets?: Maybe<Scalars['Int']['output']>;
+  updateLoyaltyPartner: Partner;
   updateLoyaltyTask: Task;
   updateWidgetAccountRole?: Maybe<WidgetAccount>;
   updateWidgetOwner?: Maybe<Widget>;
@@ -176,8 +212,18 @@ export type RootMutationClaimWalletInvitationArgs = {
 };
 
 
+export type RootMutationCreateLoyaltyPartnerArgs = {
+  input: PartnerInput;
+};
+
+
 export type RootMutationCreateLoyaltyTaskArgs = {
   input: TaskInput;
+};
+
+
+export type RootMutationDeleteLoyaltyPartnerArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -239,6 +285,12 @@ export type RootMutationTrackAccountWalletsArgs = {
 };
 
 
+export type RootMutationUpdateLoyaltyPartnerArgs = {
+  id: Scalars['String']['input'];
+  input: PartnerInput;
+};
+
+
 export type RootMutationUpdateLoyaltyTaskArgs = {
   id: Scalars['String']['input'];
   input: TaskInput;
@@ -275,6 +327,7 @@ export type RootQuery = {
   greeting?: Maybe<Scalars['String']['output']>;
   loginMessage?: Maybe<Scalars['String']['output']>;
   loyaltyActiveTasks?: Maybe<Array<Task>>;
+  loyaltyPartners: Array<Partner>;
   loyaltyProfile: LoyaltyProfile;
   loyaltyTask?: Maybe<Task>;
   loyaltyTaskRecords?: Maybe<Array<TaskRecord>>;
@@ -368,6 +421,13 @@ export type SendEmergencyKitResult = {
   messageId?: Maybe<Scalars['String']['output']>;
 };
 
+export enum SocialPlatform {
+  Discord = 'discord',
+  Telegram = 'telegram',
+  Web = 'web',
+  X = 'x'
+}
+
 export type SystemInfo = {
   __typename?: 'SystemInfo';
   environment?: Maybe<Scalars['String']['output']>;
@@ -387,7 +447,7 @@ export type Task = {
   startDate?: Maybe<Scalars['DateTime']['output']>;
   streak?: Maybe<Scalars['Int']['output']>;
   type: TaskType;
-  verifierKeys?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  verifierKeys?: Maybe<Array<Scalars['String']['output']>>;
   version?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -412,7 +472,7 @@ export type TaskInput = {
   /** Types: One Time, Recurring, Streak, Milestone */
   type?: InputMaybe<TaskType>;
   /** Key list of auto verifiers */
-  verifierKeys?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  verifierKeys?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type TaskRecord = {
@@ -602,11 +662,16 @@ export type ResolversTypes = {
   NonceType: NonceType;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']['output']>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
+  Partner: ResolverTypeWrapper<Partner>;
+  PartnerInput: PartnerInput;
+  PartnerSocial: ResolverTypeWrapper<PartnerSocial>;
+  PartnerSocialInput: PartnerSocialInput;
   RecurringStatus: ResolverTypeWrapper<RecurringStatus>;
   ReferralRank: ResolverTypeWrapper<ReferralRank>;
   RootMutation: ResolverTypeWrapper<{}>;
   RootQuery: ResolverTypeWrapper<{}>;
   SendEmergencyKitResult: ResolverTypeWrapper<SendEmergencyKitResult>;
+  SocialPlatform: SocialPlatform;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   SystemInfo: ResolverTypeWrapper<SystemInfo>;
   Task: ResolverTypeWrapper<Task>;
@@ -644,6 +709,10 @@ export type ResolversParentTypes = {
   Nonce: Nonce;
   ObjectID: Scalars['ObjectID']['output'];
   PageInfo: PageInfo;
+  Partner: Partner;
+  PartnerInput: PartnerInput;
+  PartnerSocial: PartnerSocial;
+  PartnerSocialInput: PartnerSocialInput;
   RecurringStatus: RecurringStatus;
   ReferralRank: ReferralRank;
   RootMutation: {};
@@ -750,6 +819,24 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PartnerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Partner'] = ResolversParentTypes['Partner']> = {
+  coverImage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  desc?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  endDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  logo?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  socialList?: Resolver<Array<ResolversTypes['PartnerSocial']>, ParentType, ContextType>;
+  startDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PartnerSocialResolvers<ContextType = any, ParentType extends ResolversParentTypes['PartnerSocial'] = ResolversParentTypes['PartnerSocial']> = {
+  link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  platform?: Resolver<ResolversTypes['SocialPlatform'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type RecurringStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['RecurringStatus'] = ResolversParentTypes['RecurringStatus']> = {
   currentStreak?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   interval?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -772,7 +859,9 @@ export type ReferralRankResolvers<ContextType = any, ParentType extends Resolver
 export type RootMutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['RootMutation'] = ResolversParentTypes['RootMutation']> = {
   addWidget?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationAddWidgetArgs, 'description' | 'name' | 'networks' | 'ownerId'>>;
   claimWalletInvitation?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationClaimWalletInvitationArgs, 'code' | 'email'>>;
+  createLoyaltyPartner?: Resolver<ResolversTypes['Partner'], ParentType, ContextType, RequireFields<RootMutationCreateLoyaltyPartnerArgs, 'input'>>;
   createLoyaltyTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<RootMutationCreateLoyaltyTaskArgs, 'input'>>;
+  deleteLoyaltyPartner?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<RootMutationDeleteLoyaltyPartnerArgs, 'id'>>;
   deleteLoyaltyTask?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<RootMutationDeleteLoyaltyTaskArgs, 'id'>>;
   deleteWidget?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetArgs, 'id'>>;
   deleteWidgetAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<RootMutationDeleteWidgetAccountArgs, 'id'>>;
@@ -784,6 +873,7 @@ export type RootMutationResolvers<ContextType = any, ParentType extends Resolver
   registerWidgetAccount?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<RootMutationRegisterWidgetAccountArgs, 'pubkey'>>;
   sendEmergencyKit?: Resolver<Maybe<ResolversTypes['SendEmergencyKitResult']>, ParentType, ContextType, RequireFields<RootMutationSendEmergencyKitArgs, 'key'>>;
   trackAccountWallets?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<RootMutationTrackAccountWalletsArgs, 'wallets'>>;
+  updateLoyaltyPartner?: Resolver<ResolversTypes['Partner'], ParentType, ContextType, RequireFields<RootMutationUpdateLoyaltyPartnerArgs, 'id' | 'input'>>;
   updateLoyaltyTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<RootMutationUpdateLoyaltyTaskArgs, 'id' | 'input'>>;
   updateWidgetAccountRole?: Resolver<Maybe<ResolversTypes['WidgetAccount']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetAccountRoleArgs, 'id' | 'role'>>;
   updateWidgetOwner?: Resolver<Maybe<ResolversTypes['Widget']>, ParentType, ContextType, RequireFields<RootMutationUpdateWidgetOwnerArgs, 'id' | 'ownerId'>>;
@@ -796,6 +886,7 @@ export type RootQueryResolvers<ContextType = any, ParentType extends ResolversPa
   greeting?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   loginMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<RootQueryLoginMessageArgs, 'pubkey'>>;
   loyaltyActiveTasks?: Resolver<Maybe<Array<ResolversTypes['Task']>>, ParentType, ContextType>;
+  loyaltyPartners?: Resolver<Array<ResolversTypes['Partner']>, ParentType, ContextType>;
   loyaltyProfile?: Resolver<ResolversTypes['LoyaltyProfile'], ParentType, ContextType>;
   loyaltyTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<RootQueryLoyaltyTaskArgs, 'id'>>;
   loyaltyTaskRecords?: Resolver<Maybe<Array<ResolversTypes['TaskRecord']>>, ParentType, ContextType, RequireFields<RootQueryLoyaltyTaskRecordsArgs, 'taskId'>>;
@@ -840,7 +931,7 @@ export type TaskResolvers<ContextType = any, ParentType extends ResolversParentT
   startDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   streak?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['TaskType'], ParentType, ContextType>;
-  verifierKeys?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  verifierKeys?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   version?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -927,6 +1018,8 @@ export type Resolvers<ContextType = any> = {
   Nonce?: NonceResolvers<ContextType>;
   ObjectID?: GraphQLScalarType;
   PageInfo?: PageInfoResolvers<ContextType>;
+  Partner?: PartnerResolvers<ContextType>;
+  PartnerSocial?: PartnerSocialResolvers<ContextType>;
   RecurringStatus?: RecurringStatusResolvers<ContextType>;
   ReferralRank?: ReferralRankResolvers<ContextType>;
   RootMutation?: RootMutationResolvers<ContextType>;

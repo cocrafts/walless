@@ -1,19 +1,22 @@
 import { navigate } from 'utils/navigation';
 
 export const missions = [
-	{
-		title: 'Earn Walless Points',
-		point: 100,
-		buttonText: 'Earn',
-		onPress: () => {
-			navigate('Dashboard', {
-				screen: 'Explore',
-				params: {
-					screen: 'Loyalty',
-				},
-			});
-		},
-	},
+	// {
+	// 	title: 'Earn Walless Points',
+	// 	point: 100,
+	// 	buttonText: 'Earn',
+	// 	onPress: () => {
+	// 		navigate('Dashboard', {
+	// 			screen: 'Explore',
+	// 			params: {
+	// 				screen: 'Loyalty',
+	// 				params: {
+	// 					screen: 'Default',
+	// 				},
+	// 			},
+	// 		});
+	// 	},
+	// },
 	{
 		title: 'Refer your friends',
 		point: 100,

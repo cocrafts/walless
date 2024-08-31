@@ -4,6 +4,7 @@ export * from './app';
 export * from './browser';
 export * from './gasilon';
 export * from './jupiter';
+export * from './loyalty';
 export * from './native';
 export * from './navigation';
 export * from './notification';

@@ -49,6 +49,7 @@
     "@react-navigation/stack": "^6.3.16",
     "@solana/spl-token": "0.3.7",
     "@solana/web3.js": "1.92.3",
+    "@tanstack/react-query": "^5.51.21",
     "@taquito/signer": "^17.5.2",
     "@taquito/taquito": "^17.5.2",
     "@taquito/tzip12": "^16.2.0",
@@ -111,6 +112,7 @@
     "use-debounce": "^10.0.0"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.51.15",
     "@types/color": "^3.0.6",
     "@types/jest": "^29.2.1",
     "@types/pouchdb-adapter-memory": "^6.1.6",

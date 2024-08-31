@@ -24,12 +24,18 @@ export type ProfileParamList = {
 	History: undefined;
 };
 
+export type LoyaltyParamList = {
+	Default: undefined;
+	History: undefined;
+	Tasks: { id: string };
+};
+
 export type ExploreParamList = {
 	Widget: { id: string };
 	Collection: NavigatorScreenParams<CollectionParamList>;
 	Profile: NavigatorScreenParams<ProfileParamList>;
+	Loyalty: NavigatorScreenParams<LoyaltyParamList>;
 	Setting: NavigatorScreenParams<SettingParamList>;
-	Loyalty: undefined;
 };
 
 export type HomeParamList = {

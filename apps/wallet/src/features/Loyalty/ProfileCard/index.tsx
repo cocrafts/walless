@@ -1,0 +1,180 @@
+import type { FC } from 'react';
+import { useMemo } from 'react';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import type { LoyaltyProfile } from '@walless/graphql';
+import { userReferralCodes } from '@walless/graphql/query';
+import { Text } from '@walless/gui';
+import { BlingBling, Check, Ranking, Star } from '@walless/icons';
+import { QueryKey } from 'utils/constants';
+import { qlClient } from 'utils/graphql';
+import { navigate } from 'utils/navigation';
+import { sharedStyles } from 'utils/style';
+
+import { levelsByPoints, progressBarHeight } from '../constants';
+
+import InfoCard from './InfoCard';
+
+interface Props {
+	profile: LoyaltyProfile;
+	containerStyle?: ViewStyle;
+}
+
+const ProfileCard: FC<Props> = ({ profile, containerStyle }) => {
+	const { data: referralCodesData } = useQuery({
+		queryKey: [QueryKey.ReferralCodes],
+		queryFn: () => qlClient.request(userReferralCodes),
+	});
+
+	const level = useMemo(() => {
+		for (let i = 1; i < levelsByPoints.length; i++) {
+			if ((profile.totalPoints || 0) < levelsByPoints[i]) return i - 1;
+		}
+		return levelsByPoints.length - 1;
+	}, [profile.totalPoints]);
+
+	const activeProgressBarPercent = useMemo(() => {
+		if (level + 1 === levelsByPoints.length) {
+			return '100';
+		}
+
+		const currentLevelGap = levelsByPoints[level + 1] - levelsByPoints[level];
+
+		const percent =
+			((profile.totalPoints || 0) - levelsByPoints[level]) / currentLevelGap;
+
+		return (percent * 100).toFixed(0);
+	}, [profile.totalPoints, level]);
+
+	const handlePressHistory = () =>
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: {
+				screen: 'Loyalty',
+				params: {
+					screen: 'History',
+				},
+			},
+		});
+
+	const handlePressInvitation = () =>
+		navigate('Dashboard', {
+			screen: 'Setting',
+			params: {
+				screen: 'Referral',
+			},
+		});
+
+	return (
+		<View style={[styles.container, containerStyle]}>
+			<View style={sharedStyles.gap8}>
+				<View style={sharedStyles.flexRowBetween}>
+					<Text style={sharedStyles.fontSize16}>Level progress</Text>
+					<Text>
+						{level + 1 < levelsByPoints.length
+							? `Goal ${levelsByPoints[level + 1]} Points`
+							: 'Max level'}
+					</Text>
+				</View>
+
+				<View style={styles.progressBar}>
+					<View
+						style={[
+							styles.progressBar,
+							styles.activeProgressBar,
+							{ width: `${activeProgressBarPercent}%` },
+						]}
+					/>
+				</View>
+
+				<View style={sharedStyles.flexRowBetween}>
+					<Text style={[sharedStyles.fontSize13, sharedStyles.textCta]}>
+						Level {level}
+					</Text>
+
+					{level + 1 < levelsByPoints.length ? (
+						<View style={sharedStyles.flexRow}>
+							<Text
+								style={[sharedStyles.fontSize13, sharedStyles.textNeutral5]}
+							>
+								{levelsByPoints[level + 1] - profile.totalPoints} Points to{' '}
+							</Text>
+							<Text style={[sharedStyles.fontSize13, sharedStyles.textCta]}>
+								Level {level + 1}
+							</Text>
+						</View>
+					) : (
+						<View />
+					)}
+				</View>
+			</View>
+
+			<View style={styles.bottomContainer}>
+				<InfoCard
+					style={styles.infoCardContainer}
+					title="Total points"
+					value={`${profile.totalPoints || 0}`}
+					Icon={BlingBling}
+					iconColor="white"
+				/>
+				<InfoCard
+					style={styles.infoCardContainer}
+					title="Your ranking"
+					value="Coming soon"
+					Icon={Ranking}
+					iconColor="#F7D570"
+				/>
+				<InfoCard
+					style={styles.infoCardContainer}
+					title="Completed quest"
+					value={`${profile.history?.totalCount || 0}`}
+					Icon={Check}
+					iconColor="#2EC879"
+					onPress={handlePressHistory}
+				/>
+				<InfoCard
+					style={styles.infoCardContainer}
+					title="Invited"
+					value={`${
+						referralCodesData?.userAccount?.referralCodes
+							? referralCodesData.userAccount.referralCodes.filter(
+									(code) => !!code?.email,
+								).length
+							: 0
+					}`}
+					Icon={Star}
+					iconColor="white"
+					onPress={handlePressInvitation}
+				/>
+			</View>
+		</View>
+	);
+};
+
+export default ProfileCard;
+
+const styles = StyleSheet.create({
+	container: {
+		backgroundColor: '#131C24',
+		padding: 16,
+		borderRadius: 16,
+		gap: 16,
+	},
+	progressBar: {
+		height: progressBarHeight,
+		borderRadius: progressBarHeight / 2,
+		backgroundColor: '#1F2A34',
+	},
+	activeProgressBar: {
+		backgroundColor: '#45C5FF',
+	},
+	bottomContainer: {
+		...sharedStyles.flexRowWrap,
+		rowGap: 8,
+		justifyContent: 'space-between',
+	},
+	infoCardContainer: {
+		width: '49%',
+	},
+});

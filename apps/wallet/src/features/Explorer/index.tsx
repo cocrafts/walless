@@ -9,7 +9,6 @@ import { filterMap } from 'utils/widget';
 
 import Header from './Header';
 import Highlights from './Highlights';
-import LoyaltyBar from './LoyaltyBar';
 import Missions from './Missions';
 import Widgets from './Widgets';
 
@@ -42,7 +41,6 @@ export const ExplorerFeature: FC<Props> = ({ style }) => {
 		<View style={[styles.container, style]}>
 			<Header style={styles.headerContainer} />
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<LoyaltyBar style={styles.loyaltyContainer} />
 				<Missions style={styles.missionContainer} />
 				<Highlights widgets={filteredWidgets} />
 				<Widgets widgets={filteredWidgets} />

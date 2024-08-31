@@ -1,21 +1,25 @@
-import { gql } from 'graphql-request';
+import { graphql } from '../gen-gql';
 
-export const doLoyaltyAction = gql`
-	mutation doLoyaltyAction($actionId: String!) {
-		doLoyaltyAction(actionId: $actionId) {
-			actionId
+export const doLoyaltyTask = graphql(`
+	mutation DoLoyaltyTask($id: String!) {
+		doLoyaltyTask(id: $id) {
+			id
+			profileId
+			taskId
+			taskVersion
 			timestamp
-			userId
 		}
 	}
-`;
+`);
 
-export const doRecurringThenStreakThenMilestoneActionsByType = gql`
-	mutation DoRecurringThenStreakThenMilestoneActionsByType($type: String!) {
-		doRecurringThenStreakThenMilestoneActionsByType(type: $type) {
-			actionId
+export const doLoyaltyTasksByRecurringGroup = graphql(`
+	mutation DoLoyaltyTasksByRecurringGroup($id: String!) {
+		doLoyaltyTasksByRecurringGroup(id: $id) {
+			id
+			profileId
+			taskId
+			taskVersion
 			timestamp
-			userId
 		}
 	}
-`;
+`);

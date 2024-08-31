@@ -76,6 +76,11 @@ export const linking: LinkingOptions<RootParamList> = {
 							},
 							Loyalty: {
 								path: '/loyalty',
+								screens: {
+									Default: '/',
+									History: '/history',
+									Tasks: '/tasks/:id',
+								},
 							},
 						},
 					},

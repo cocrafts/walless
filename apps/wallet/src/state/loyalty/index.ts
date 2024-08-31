@@ -1,20 +1,10 @@
-import type { Action, UserProgress } from '@walless/graphql';
+import type { Task } from '@walless/graphql';
+import { proxy } from 'valtio';
 
-import { loyaltyState } from './internal';
+interface LoyaltyState {
+	taskMap: Record<string, Task>;
+}
 
-export const loyaltyActions = {
-	setUserProgress: (userProgress: UserProgress) => {
-		loyaltyState.userProgress = userProgress;
-	},
-	setWallessActions: (actions: Action[]) => {
-		loyaltyState.wallessActions = actions;
-	},
-	setPartnerActionMap: (map: Map<string, Action[]>) => {
-		loyaltyState.partnerActionMap = map;
-	},
-	setTypeActionMap: (map: Map<string, Action[]>) => {
-		loyaltyState.typeActionMap = map;
-	},
-};
-
-export * from './internal';
+export const loyaltyState = proxy<LoyaltyState>({
+	taskMap: {},
+});

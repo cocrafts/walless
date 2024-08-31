@@ -10,6 +10,21 @@ const config: CodegenConfig = {
 		'./packages/graphql/types.ts': {
 			plugins: ['typescript', 'typescript-resolvers'],
 		},
+		'./packages/graphql/gen-gql/': {
+			preset: 'client',
+			documents: [
+				// after migrating all scopes (account, invitation, etc.),
+				// we can uncomment the line below and remove all detailed documents
+				// './packages/graphql/**/*.{tsx,ts}'
+
+				// referral scope
+				'./packages/graphql/query/account.ts',
+
+				// loyalty scope
+				'./packages/graphql/query/loyalty.ts',
+				'./packages/graphql/mutation/loyalty.ts',
+			],
+		},
 		'./schema.graphql': {
 			plugins: ['schema-ast'],
 		},

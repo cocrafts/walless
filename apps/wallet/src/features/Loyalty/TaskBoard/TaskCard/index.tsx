@@ -1,0 +1,191 @@
+import type { FC } from 'react';
+import {
+	ActivityIndicator,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { LoyaltyProfile, Task } from '@walless/graphql';
+import { TaskType } from '@walless/graphql';
+import {
+	doLoyaltyTask,
+	doLoyaltyTasksByRecurringGroup,
+} from '@walless/graphql/mutation';
+import { Text } from '@walless/gui';
+import { Refresh } from '@walless/icons';
+import StreakIndicator from 'components/StreakIndicator';
+import { showError } from 'modals/Error';
+import { QueryKey } from 'utils/constants';
+import { gqlErrorToMeaningfulMessage } from 'utils/format';
+import { qlClient, qlClientThatThrowError } from 'utils/graphql';
+import { useCurrentStreak, useRemainingTime } from 'utils/hooks';
+import { navigate } from 'utils/navigation';
+import { sharedStyles } from 'utils/style';
+
+import Countdown from './Countdown';
+import Separator from './Separator';
+import TaskTags from './TaskTags';
+import { countdownHeight, getTaskLogo } from './utils';
+
+interface Props {
+	profile: LoyaltyProfile;
+	task: Task;
+}
+
+const TaskCard: FC<Props> = ({ profile, task }) => {
+	const queryClient = useQueryClient();
+
+	const remainingTime = useRemainingTime(profile, task);
+
+	const currentStreak = useCurrentStreak(profile, task);
+
+	const verifyMutation = useMutation({
+		mutationFn: async () => {
+			if (!task.id) throw 'task id not found';
+
+			if (task.type === TaskType.Recurring) {
+				return qlClient.request(doLoyaltyTasksByRecurringGroup, {
+					id: task.id,
+				});
+			} else {
+				return qlClientThatThrowError.request(doLoyaltyTask, {
+					id: task.id,
+				});
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: [QueryKey.LoyaltyProfile],
+			});
+		},
+		onError: (err) => {
+			showError({ errorText: gqlErrorToMeaningfulMessage(err) }, 4000);
+		},
+	});
+
+	const handleGoToDetail = () => {
+		navigate('Dashboard', {
+			screen: 'Explore',
+			params: {
+				screen: 'Loyalty',
+				params: {
+					screen: 'Tasks',
+					params: {
+						id: task.id,
+					},
+				},
+			},
+		});
+	};
+
+	const showVerifyButton =
+		task.type !== TaskType.Streak &&
+		(task.type !== TaskType.Recurring || remainingTime <= 0);
+
+	const showCompletedTag =
+		task.type === TaskType.Recurring && remainingTime > 0;
+
+	return (
+		<View>
+			{remainingTime > 0 && (
+				<View style={styles.countdownContainer}>
+					<Countdown remainingTime={remainingTime} />
+				</View>
+			)}
+
+			<View
+				style={[styles.container, remainingTime > 0 ? styles.passthrough : {}]}
+			>
+				<View style={styles.topContainer}>
+					<View style={[sharedStyles.flexRow, sharedStyles.gap8]}>
+						<View>{getTaskLogo(task)}</View>
+						<View style={sharedStyles.gap4}>
+							<Text style={sharedStyles.fontSize13}>
+								{task.metadata['name'] || 'Unnamed Task'}
+							</Text>
+
+							{task.type === TaskType.Streak && (
+								<StreakIndicator
+									currentStreak={currentStreak}
+									streak={task.streak || 0}
+								/>
+							)}
+						</View>
+					</View>
+
+					<View style={[sharedStyles.flexRow, sharedStyles.gap8]}>
+						{showVerifyButton && (
+							<TouchableOpacity
+								style={styles.verifyBtn}
+								disabled={verifyMutation.isPending}
+								onPress={() => verifyMutation.mutate()}
+							>
+								{verifyMutation.isPending ? (
+									<ActivityIndicator size={14} />
+								) : (
+									<Refresh size={14} />
+								)}
+							</TouchableOpacity>
+						)}
+					</View>
+				</View>
+
+				<Separator />
+
+				<View style={sharedStyles.flexRowBetween}>
+					<TaskTags
+						points={task.points}
+						showCompletedTag={showCompletedTag}
+						showVerifyingTag={false}
+					/>
+
+					{task.metadata['showDesc'] && (
+						<TouchableOpacity onPress={handleGoToDetail}>
+							<Text
+								style={[sharedStyles.fontSize12, sharedStyles.textNeutral6]}
+							>
+								&gt;&gt; Details
+							</Text>
+						</TouchableOpacity>
+					)}
+				</View>
+			</View>
+		</View>
+	);
+};
+
+export default TaskCard;
+
+const styles = StyleSheet.create({
+	container: {
+		padding: 16,
+		gap: 16,
+		borderRadius: 8,
+		backgroundColor: '#202D38',
+	},
+	passthrough: {
+		opacity: 0.5,
+	},
+	countdownContainer: {
+		position: 'relative',
+		height: countdownHeight / 2,
+		zIndex: 10,
+		left: 0,
+		width: '100%',
+		alignItems: 'center',
+	},
+	topContainer: {
+		...sharedStyles.flexRowBetween,
+		minHeight: 30,
+	},
+	verifyBtn: {
+		width: 28,
+		height: 28,
+		borderRadius: 8,
+		borderWidth: 1,
+		borderColor: '#43525E',
+		backgroundColor: '#32404B',
+		...sharedStyles.flexCenter,
+	},
+});

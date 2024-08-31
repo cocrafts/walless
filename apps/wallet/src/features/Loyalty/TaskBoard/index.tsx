@@ -21,13 +21,26 @@ enum Tab {
 const TaskBoard: FC<Props> = ({ containerStyle, tasks }) => {
 	const [activeTab, setActiveTab] = useState<Tab>(Tab.Walless);
 
-	const partnerTaskMap = useMemo(() => {
-		const m: Record<string, Task[]> = {};
+	const taskByPartner = useMemo(() => {
+		const wallessTasks: Task[] = [];
+		const partnerTaskMap: Record<string, Task[]> = {};
+
 		tasks.forEach((task) => {
-			const partner = task.metadata['partner'] ?? 'walless';
-			m[partner] = [...(m[partner] || []), task];
+			const partnerId = task.metadata['partnerId'];
+			if (partnerId) {
+				partnerTaskMap[partnerId] = [
+					...(partnerTaskMap[partnerId] || []),
+					task,
+				];
+			} else {
+				wallessTasks.push(task);
+			}
 		});
-		return m;
+
+		return {
+			wallessTasks,
+			partnerTaskMap,
+		};
 	}, [tasks]);
 
 	return (
@@ -39,7 +52,7 @@ const TaskBoard: FC<Props> = ({ containerStyle, tasks }) => {
 			/>
 
 			{activeTab === Tab.Walless ? (
-				<CategorizedTasks tasks={partnerTaskMap['walless'] || []} />
+				<CategorizedTasks tasks={taskByPartner.wallessTasks} />
 			) : null}
 		</View>
 	);

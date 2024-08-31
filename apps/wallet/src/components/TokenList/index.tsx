@@ -42,6 +42,7 @@ export const TokenList = <T extends Token>({
 					index === tokens.length - 1 && styles.lastItem,
 				]}
 				onPress={handlePressItem}
+				tokenPnL={item.pnl}
 			/>
 		);
 	};

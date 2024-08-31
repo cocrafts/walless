@@ -1,33 +1,42 @@
 schema {
-  query: RootQuery
-  mutation: RootMutation
+	query: RootQuery
+	mutation: RootMutation
 }
 
-""""""
+"""
+"""
 type Account {
-  """"""
-  createdAt: MongoDateTime
+	"""
+	"""
+	createdAt: MongoDateTime
 
-  """"""
-  email: String
+	"""
+	"""
+	email: String
 
-  """"""
-  id: ObjectID
+	"""
+	"""
+	id: ObjectID
 
-  """"""
-  identifier: String!
+	"""
+	"""
+	identifier: String!
 
-  """"""
-  referralCodes: [WalletInvitation]
+	"""
+	"""
+	referralCodes: [WalletInvitation]
 
-  """"""
-  referralRank: Int
+	"""
+	"""
+	referralRank: Int
 
-  """"""
-  updatedAt: MongoDateTime
+	"""
+	"""
+	updatedAt: MongoDateTime
 
-  """"""
-  walletCount: Int
+	"""
+	"""
+	walletCount: Int
 }
 
 """
@@ -35,100 +44,132 @@ The `DateTime` scalar type represents a DateTime. The DateTime is serialized as 
 """
 scalar DateTime
 
-""""""
+"""
+"""
 type Device {
-  """"""
-  appVersion: String
+	"""
+	"""
+	appVersion: String
 
-  """"""
-  brand: String
+	"""
+	"""
+	brand: String
 
-  """"""
-  carrier: String
+	"""
+	"""
+	carrier: String
 
-  """"""
-  createdAt: String
+	"""
+	"""
+	createdAt: String
 
-  """"""
-  deviceId: String
+	"""
+	"""
+	deviceId: String
 
-  """"""
-  deviceName: String
+	"""
+	"""
+	deviceName: String
 
-  """"""
-  deviceType: String
+	"""
+	"""
+	deviceType: String
 
-  """"""
-  id: ObjectID
+	"""
+	"""
+	id: ObjectID
 
-  """"""
-  lastUpdateTime: String
+	"""
+	"""
+	lastUpdateTime: String
 
-  """"""
-  manufacturer: String
+	"""
+	"""
+	manufacturer: String
 
-  """"""
-  notificationToken: String
+	"""
+	"""
+	notificationToken: String
 
-  """"""
-  platform: String
+	"""
+	"""
+	platform: String
 
-  """"""
-  systemVersion: String
+	"""
+	"""
+	systemVersion: String
 
-  """"""
-  updatedAt: String
+	"""
+	"""
+	updatedAt: String
 
-  """"""
-  userIdentifier: String
+	"""
+	"""
+	userIdentifier: String
 }
 
-""""""
+"""
+"""
 input DeviceInfoInput {
-  """"""
-  appVersion: String
+	"""
+	"""
+	appVersion: String
 
-  """"""
-  brand: String
+	"""
+	"""
+	brand: String
 
-  """"""
-  carrier: String
+	"""
+	"""
+	carrier: String
 
-  """"""
-  deviceId: String!
+	"""
+	"""
+	deviceId: String!
 
-  """"""
-  deviceName: String
+	"""
+	"""
+	deviceName: String
 
-  """"""
-  deviceType: String
+	"""
+	"""
+	deviceType: String
 
-  """"""
-  lastUpdateTime: String
+	"""
+	"""
+	lastUpdateTime: String
 
-  """"""
-  manufacturer: String
+	"""
+	"""
+	manufacturer: String
 
-  """"""
-  notificationToken: String
+	"""
+	"""
+	notificationToken: String
 
-  """"""
-  platform: String
+	"""
+	"""
+	platform: String
 
-  """"""
-  systemVersion: String
+	"""
+	"""
+	systemVersion: String
 }
 
-""""""
+"""
+"""
 type History {
-  """"""
-  edges: [TaskRecordEdge!]!
+	"""
+	"""
+	edges: [TaskRecordEdge!]!
 
-  """"""
-  pageInfo: PageInfo!
+	"""
+	"""
+	pageInfo: PageInfo!
 
-  """"""
-  totalCount: Int!
+	"""
+	"""
+	totalCount: Int!
 }
 
 """
@@ -136,641 +177,918 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
-""""""
+"""
+"""
 type JoinWaitlistResult {
-  """"""
-  count: Int
+	"""
+	"""
+	count: Int
 
-  """"""
-  description: String
+	"""
+	"""
+	description: String
 
-  """"""
-  email: String
+	"""
+	"""
+	email: String
 
-  """"""
-  twitter: String
+	"""
+	"""
+	twitter: String
 }
 
-""""""
+"""
+"""
 type LoyaltyProfile {
-  """"""
-  history(
-    """To start from index 0, use empty string"""
-    after: String!
+	"""
+	"""
+	history(
+		"""
+		To start from index 0, use empty string
+		"""
+		after: String!
 
-    """"""
-    first: Int!
-  ): History
+		"""
+		"""
+		first: Int!
+	): History
 
-  """"""
-  id: String!
+	"""
+	"""
+	id: String!
 
-  """"""
-  identifier: String!
+	"""
+	"""
+	identifier: String!
 
-  """"""
-  recurringStatusList: [RecurringStatus!]
+	"""
+	"""
+	recurringStatusList: [RecurringStatus!]
 
-  """"""
-  totalPoints: Float!
+	"""
+	"""
+	totalPoints: Float!
 }
 
-"""MongoDB DateTime"""
+"""
+MongoDB DateTime
+"""
 scalar MongoDateTime
 
-""""""
+"""
+"""
 type Nonce {
-  """"""
-  identifier: String!
+	"""
+	"""
+	identifier: String!
 
-  """"""
-  timestamp: MongoDateTime!
+	"""
+	"""
+	timestamp: MongoDateTime!
 
-  """"""
-  type: NonceType!
+	"""
+	"""
+	type: NonceType!
 
-  """"""
-  value: Uint32!
+	"""
+	"""
+	value: Uint32!
 }
 
-""""""
+"""
+"""
 enum NonceType {
-  """"""
-  Login
+	"""
+	"""
+	Login
 }
 
-"""MongoDB ObjectID"""
+"""
+MongoDB ObjectID
+"""
 scalar ObjectID
 
-""""""
+"""
+"""
 type PageInfo {
-  """"""
-  endCursor: String!
+	"""
+	"""
+	endCursor: String!
 
-  """"""
-  hasNextPage: Boolean!
+	"""
+	"""
+	hasNextPage: Boolean!
 }
 
-""""""
+"""
+"""
 type Partner {
-  """"""
-  coverImage: String!
+	"""
+	"""
+	coverImage: String!
 
-  """"""
-  desc: String!
+	"""
+	"""
+	desc: String!
 
-  """"""
-  endDate: DateTime
+	"""
+	"""
+	endDate: DateTime
 
-  """"""
-  id: String!
+	"""
+	"""
+	id: String!
 
-  """"""
-  logo: String!
+	"""
+	"""
+	logo: String!
 
-  """"""
-  name: String!
+	"""
+	"""
+	name: String!
 
-  """"""
-  socialList: [PartnerSocial!]!
+	"""
+	"""
+	socialList: [PartnerSocial!]!
 
-  """"""
-  startDate: DateTime
+	"""
+	"""
+	startDate: DateTime
 }
 
-""""""
+"""
+"""
 input PartnerInput {
-  """"""
-  coverImage: String!
+	"""
+	"""
+	coverImage: String!
 
-  """"""
-  desc: String!
+	"""
+	"""
+	desc: String!
 
-  """"""
-  endDate: DateTime
+	"""
+	"""
+	endDate: DateTime
 
-  """"""
-  logo: String!
+	"""
+	"""
+	logo: String!
 
-  """"""
-  name: String!
+	"""
+	"""
+	name: String!
 
-  """"""
-  socialList: [PartnerSocialInput!]!
+	"""
+	"""
+	socialList: [PartnerSocialInput!]!
 
-  """"""
-  startDate: DateTime
+	"""
+	"""
+	startDate: DateTime
 }
 
-""""""
+"""
+"""
 type PartnerSocial {
-  """"""
-  link: String!
+	"""
+	"""
+	link: String!
 
-  """"""
-  platform: SocialPlatform!
+	"""
+	"""
+	platform: SocialPlatform!
 }
 
-""""""
+"""
+"""
 input PartnerSocialInput {
-  """"""
-  link: String!
+	"""
+	"""
+	link: String!
 
-  """"""
-  platform: SocialPlatform!
+	"""
+	"""
+	platform: SocialPlatform!
 }
 
-""""""
+"""
+"""
 type RecurringStatus {
-  """"""
-  currentStreak: Int!
+	"""
+	"""
+	currentStreak: Int!
 
-  """"""
-  interval: Float!
+	"""
+	"""
+	interval: Float!
 
-  """"""
-  recentTrackAt: DateTime!
+	"""
+	"""
+	recentTrackAt: DateTime!
 
-  """"""
-  taskId: String!
+	"""
+	"""
+	taskId: String!
 
-  """"""
-  total: Int!
+	"""
+	"""
+	total: Int!
 }
 
-""""""
+"""
+"""
 type ReferralRank {
-  """"""
-  accountId: ObjectID
+	"""
+	"""
+	accountId: ObjectID
 
-  """"""
-  displayName: String
+	"""
+	"""
+	displayName: String
 
-  """"""
-  id: ObjectID
+	"""
+	"""
+	id: ObjectID
 
-  """"""
-  rank: Int
+	"""
+	"""
+	rank: Int
 
-  """"""
-  rankChange: Int
+	"""
+	"""
+	rankChange: Int
 
-  """"""
-  referralCount: Int
+	"""
+	"""
+	referralCount: Int
 }
 
-""""""
+"""
+"""
 type RootMutation {
-  """"""
-  addWidget(banner: String, description: String!, largeLogo: String, logo: String, name: String!, networks: [String] = ["[]"], nfts: [WidgetTokenInput], ownerId: String!, tokens: [WidgetTokenInput]): Widget
+	"""
+	"""
+	addWidget(
+		banner: String
+		description: String!
+		largeLogo: String
+		logo: String
+		name: String!
+		networks: [String] = ["[]"]
+		nfts: [WidgetTokenInput]
+		ownerId: String!
+		tokens: [WidgetTokenInput]
+	): Widget
 
-  """"""
-  claimWalletInvitation(code: String!, email: String!): Boolean
+	"""
+	"""
+	claimWalletInvitation(code: String!, email: String!): Boolean
 
-  """"""
-  createLoyaltyPartner(input: PartnerInput!): Partner!
+	"""
+	"""
+	createLoyaltyPartner(input: PartnerInput!): Partner!
 
-  """"""
-  createLoyaltyTask(input: TaskInput!): Task!
+	"""
+	"""
+	createLoyaltyTask(input: TaskInput!): Task!
 
-  """"""
-  deleteLoyaltyPartner(id: String!): Boolean!
+	"""
+	"""
+	deleteLoyaltyPartner(id: String!): Boolean!
 
-  """"""
-  deleteLoyaltyTask(id: String!): Boolean!
+	"""
+	"""
+	deleteLoyaltyTask(id: String!): Boolean!
 
-  """"""
-  deleteWidget(id: String!): Boolean
+	"""
+	"""
+	deleteLoyaltyAction(id: String!): Boolean
 
-  """"""
-  deleteWidgetAccount(id: String!): Boolean
+	"""
+	"""
+	deleteWidget(id: String!): Boolean
 
-  """"""
-  doLoyaltyTask(id: String!): TaskRecord
+	"""
+	"""
+	deleteWidgetAccount(id: String!): Boolean
 
-  """"""
-  doLoyaltyTasksByRecurringGroup(id: String!): TaskRecord
+	"""
+	"""
+	doLoyaltyTask(id: String!): TaskRecord
 
-  """"""
-  joinWaitlist(description: String!, email: String!, twitter: String!): JoinWaitlistResult
+	"""
+	"""
+	doLoyaltyTasksByRecurringGroup(id: String!): TaskRecord
 
-  """"""
-  registerAccount(key: String!): Account
+	"""
+	"""
+	joinWaitlist(
+		description: String!
+		email: String!
+		twitter: String!
+	): JoinWaitlistResult
 
-  """"""
-  registerDevice(device: DeviceInfoInput!): Device
+	"""
+	"""
+	registerAccount(key: String!): Account
 
-  """"""
-  registerWidgetAccount(email: String, pubkey: String!): Account
+	"""
+	"""
+	registerDevice(device: DeviceInfoInput!): Device
 
-  """"""
-  sendEmergencyKit(key: String!): SendEmergencyKitResult
+	"""
+	"""
+	registerWidgetAccount(email: String, pubkey: String!): Account
 
-  """"""
-  trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
+	"""
+	"""
+	sendEmergencyKit(key: String!): SendEmergencyKitResult
 
-  """"""
-  updateLoyaltyPartner(id: String!, input: PartnerInput!): Partner!
+	"""
+	"""
+	trackAccountWallets(wallets: [TrackAccountWalletInput]!): Int
 
-  """"""
-  updateLoyaltyTask(id: String!, input: TaskInput!): Task!
+	"""
+	"""
+	updateLoyaltyPartner(id: String!, input: PartnerInput!): Partner!
 
-  """"""
-  updateWidgetAccountRole(id: String!, role: WidgetAccountRole!): WidgetAccount
+	"""
+	"""
+	updateLoyaltyTask(id: String!, input: TaskInput!): Task!
 
-  """"""
-  updateWidgetOwner(id: String!, ownerId: String!): Widget
+	"""
+	"""
+	updateWidgetAccountRole(id: String!, role: WidgetAccountRole!): WidgetAccount
 
-  """"""
-  updateWidgetStatus(id: String!, status: WidgetStatus!, updaterPubkey: String!): Widget
+	"""
+	"""
+	updateWidgetOwner(id: String!, ownerId: String!): Widget
 
-  """"""
-  verifyWidgetAccount(pubkey: String!, signature: String!): WidgetAccount
+	"""
+	"""
+	updateWidgetStatus(
+		id: String!
+		status: WidgetStatus!
+		updaterPubkey: String!
+	): Widget
+
+	"""
+	"""
+	verifyWidgetAccount(pubkey: String!, signature: String!): WidgetAccount
 }
 
-""""""
+"""
+"""
 type RootQuery {
-  """"""
-  counter: Int
+	"""
+	"""
+	counter: Int
 
-  """"""
-  greeting: String
+	"""
+	"""
+	greeting: String
 
-  """"""
-  loginMessage(pubkey: String!): String
+	"""
+	"""
+	loginMessage(pubkey: String!): String
 
-  """"""
-  loyaltyActiveTasks: [Task!]
+	"""
+	"""
+	loyaltyActiveTasks: [Task!]
 
-  """"""
-  loyaltyPartners: [Partner!]!
+	"""
+	"""
+	loyaltyPartners: [Partner!]!
 
-  """"""
-  loyaltyProfile: LoyaltyProfile!
+	"""
+	"""
+	loyaltyProfile: LoyaltyProfile!
 
-  """"""
-  loyaltyTask(id: String!): Task
+	"""
+	"""
+	loyaltyTask(id: String!): Task
 
-  """"""
-  loyaltyTaskRecords(taskId: String!): [TaskRecord!]
+	"""
+	"""
+	loyaltyTaskRecords(taskId: String!): [TaskRecord!]
 
-  """"""
-  loyaltyTasks: [Task!]
+	"""
+	"""
+	loyaltyTasks: [Task!]
 
-  """"""
-  nonce(identifier: String!): Nonce
+	"""
+	"""
+	nonce(identifier: String!): Nonce
 
-  """"""
-  referralLeaderboard(limit: Int, offset: Int): [ReferralRank]
+	"""
+	"""
+	referralLeaderboard(limit: Int, offset: Int): [ReferralRank]
 
-  """"""
-  referralLeaderboardSize: Int
+	"""
+	"""
+	referralLeaderboardSize: Int
 
-  """"""
-  systemInfo: SystemInfo
+	"""
+	"""
+	systemInfo: SystemInfo
 
-  """"""
-  token(id: String!): TokenInfo
+	"""
+	"""
+	token(id: String!): TokenInfo
 
-  """"""
-  tokenByAddress(address: String!): TokenInfo
+	"""
+	"""
+	tokenByAddress(address: String!): TokenInfo
 
-  """"""
-  tokens(ids: [String]!): [TokenInfo]
+	"""
+	"""
+	tokens(ids: [String]!): [TokenInfo]
 
-  """"""
-  tokensByAddress(addresses: [String]!): [TokenInfo]
+	"""
+	"""
+	tokensByAddress(addresses: [String]!): [TokenInfo]
 
-  """"""
-  userAccount: Account
+	"""
+	"""
+	userAccount: Account
 
-  """"""
-  walletInvitation(code: String, email: String): WalletInvitation
+	"""
+	"""
+	walletInvitation(code: String, email: String): WalletInvitation
 
-  """"""
-  widget(id: String!): Widget
+	"""
+	"""
+	widget(id: String!): Widget
 
-  """"""
-  widgetAccounts: [WidgetAccount]
+	"""
+	"""
+	widgetAccounts: [WidgetAccount]
 
-  """"""
-  widgets: [Widget]
+	"""
+	"""
+	widgets: [Widget]
 
-  """"""
-  widgetsByPubkey(pubkey: String!): [Widget]
+	"""
+	"""
+	widgetsByPubkey(pubkey: String!): [Widget]
 
-  """"""
-  widgetsByStatus(status: WidgetStatus!): [Widget]
+	"""
+	"""
+	widgetsByStatus(status: WidgetStatus!): [Widget]
 }
 
-""""""
+"""
+"""
 type SendEmergencyKitResult {
-  """"""
-  messageId: String
+	"""
+	"""
+	messageId: String
 }
 
-""""""
+"""
+"""
 enum SocialPlatform {
-  """"""
-  discord
+	"""
+	"""
+	discord
 
-  """"""
-  telegram
+	"""
+	"""
+	telegram
 
-  """"""
-  web
+	"""
+	"""
+	web
 
-  """"""
-  x
+	"""
+	"""
+	x
 }
 
-""""""
+"""
+"""
 type SystemInfo {
-  """"""
-  environment: String
+	"""
+	"""
+	environment: String
 
-  """"""
-  version: String
+	"""
+	"""
+	version: String
 }
 
-""""""
+"""
+"""
 type Task {
-  """"""
-  endDate: DateTime
+	"""
+	"""
+	endDate: DateTime
 
-  """"""
-  id: String!
+	"""
+	"""
+	id: String!
 
-  """"""
-  interval: Float
+	"""
+	"""
+	interval: Float
 
-  """"""
-  mechanism: VerifyMechanism!
+	"""
+	"""
+	mechanism: VerifyMechanism!
 
-  """"""
-  metadata: JSON
+	"""
+	"""
+	metadata: JSON
 
-  """"""
-  milestone: Int
+	"""
+	"""
+	milestone: Int
 
-  """"""
-  points: Float!
+	"""
+	"""
+	points: Float!
 
-  """"""
-  recurringId: String
+	"""
+	"""
+	recurringId: String
 
-  """"""
-  startDate: DateTime
+	"""
+	"""
+	startDate: DateTime
 
-  """"""
-  streak: Int
+	"""
+	"""
+	streak: Int
 
-  """"""
-  type: TaskType!
+	"""
+	"""
+	type: TaskType!
 
-  """"""
-  verifierKeys: [String!]
+	"""
+	"""
+	verifierKeys: [String!]
 
-  """"""
-  version: Int
+	"""
+	"""
+	version: Int
 }
 
-""""""
+"""
+"""
 input TaskInput {
-  """End date of the task"""
-  endDate: DateTime
+	"""
+	End date of the task
+	"""
+	endDate: DateTime
 
-  """Interval for recurring tasks"""
-  interval: Float
+	"""
+	Interval for recurring tasks
+	"""
+	interval: Float
 
-  """Verify Mechanisms: No, Manual, Auto"""
-  mechanism: VerifyMechanism
+	"""
+	Verify Mechanisms: No, Manual, Auto
+	"""
+	mechanism: VerifyMechanism
 
-  """Metadata associated with the task"""
-  metadata: JSON
+	"""
+	Metadata associated with the task
+	"""
+	metadata: JSON
 
-  """Milestone for milestone tasks"""
-  milestone: Int
+	"""
+	Milestone for milestone tasks
+	"""
+	milestone: Int
 
-  """"""
-  points: Float
+	"""
+	"""
+	points: Float
 
-  """ID of the recurring task (required for Streak & Milestone task)"""
-  recurringId: String
+	"""
+	ID of the recurring task (required for Streak & Milestone task)
+	"""
+	recurringId: String
 
-  """Start date of the task"""
-  startDate: DateTime
+	"""
+	Start date of the task
+	"""
+	startDate: DateTime
 
-  """Streak for streak tasks"""
-  streak: Int
+	"""
+	Streak for streak tasks
+	"""
+	streak: Int
 
-  """Types: One Time, Recurring, Streak, Milestone"""
-  type: TaskType
+	"""
+	Types: One Time, Recurring, Streak, Milestone
+	"""
+	type: TaskType
 
-  """Key list of auto verifiers"""
-  verifierKeys: [String!]
+	"""
+	Key list of auto verifiers
+	"""
+	verifierKeys: [String!]
 }
 
-""""""
+"""
+"""
 type TaskRecord {
-  """"""
-  id: String!
+	"""
+	"""
+	id: String!
 
-  """"""
-  profileId: String!
+	"""
+	"""
+	profileId: String!
 
-  """"""
-  taskId: String!
+	"""
+	"""
+	taskId: String!
 
-  """"""
-  taskVersion: Int!
+	"""
+	"""
+	taskVersion: Int!
 
-  """"""
-  timestamp: DateTime!
+	"""
+	"""
+	timestamp: DateTime!
 }
 
-""""""
+"""
+"""
 type TaskRecordEdge {
-  """"""
-  cursor: String!
+	"""
+	"""
+	cursor: String!
 
-  """"""
-  node: TaskRecord!
+	"""
+	"""
+	node: TaskRecord!
 }
 
-""""""
+"""
+"""
 enum TaskType {
-  """"""
-  milestone
+	"""
+	"""
+	milestone
 
-  """"""
-  onetime
+	"""
+	"""
+	onetime
 
-  """"""
-  recurring
+	"""
+	"""
+	recurring
 
-  """"""
-  streak
+	"""
+	"""
+	streak
 }
 
-""""""
+"""
+"""
 type Token {
-  """"""
-  address: String!
+	"""
+	"""
+	address: String!
 
-  """"""
-  id: String
+	"""
+	"""
+	id: String
 }
 
-""""""
+"""
+"""
 type TokenInfo {
-  """"""
-  address: String
+	"""
+	"""
+	address: String
 
-  """"""
-  id: String!
+	"""
+	"""
+	id: String!
 
-  """"""
-  name: String!
+	"""
+	"""
+	name: String!
 
-  """"""
-  platforms: JSON!
+	"""
+	"""
+	platforms: JSON!
 
-  """"""
-  quotes: JSON!
+	"""
+	"""
+	pnl: TokenPnL!
 
-  """"""
-  symbol: String!
+	"""
+	"""
+	quotes: JSON!
 
-  """"""
-  timestamp: DateTime!
+	"""
+	"""
+	symbol: String!
+
+	"""
+	"""
+	timestamp: DateTime!
 }
 
-""""""
+"""
+"""
+type TokenPnL {
+	"""
+	"""
+	currentPrice: Float!
+
+	"""
+	"""
+	priceChangePercentage7d: Float!
+
+	"""
+	"""
+	priceChangePercentage24H: Float!
+
+	"""
+	"""
+	priceChangePercentage30d: Float!
+
+	"""
+	"""
+	timestamp: DateTime!
+}
+
+"""
+"""
 input TrackAccountWalletInput {
-  """"""
-  address: String!
+	"""
+	"""
+	address: String!
 
-  """"""
-  network: String
+	"""
+	"""
+	network: String
 }
 
-"""The `Uint32` scalar type represents a 32-bit unsigned integer."""
+"""
+The `Uint32` scalar type represents a 32-bit unsigned integer.
+"""
 scalar Uint32
 
-""""""
+"""
+"""
 enum VerifyMechanism {
-  """"""
-  auto
+	"""
+	"""
+	auto
 
-  """"""
-  manual
+	"""
+	"""
+	manual
 
-  """"""
-  no
+	"""
+	"""
+	no
 }
 
-""""""
+"""
+"""
 type WalletInvitation {
-  """"""
-  claimedAt: MongoDateTime
+	"""
+	"""
+	claimedAt: MongoDateTime
 
-  """"""
-  code: String
+	"""
+	"""
+	code: String
 
-  """"""
-  email: String
+	"""
+	"""
+	email: String
 
-  """"""
-  id: ObjectID
+	"""
+	"""
+	id: ObjectID
 
-  """"""
-  timestamp: MongoDateTime
+	"""
+	"""
+	timestamp: MongoDateTime
 }
 
-""""""
+"""
+"""
 type Widget {
-  """"""
-  banner: String
+	"""
+	"""
+	banner: String
 
-  """"""
-  description: String
+	"""
+	"""
+	description: String
 
-  """"""
-  id: ObjectID
+	"""
+	"""
+	id: ObjectID
 
-  """"""
-  largeLogo: String
+	"""
+	"""
+	largeLogo: String
 
-  """"""
-  logo: String
+	"""
+	"""
+	logo: String
 
-  """"""
-  name: String
+	"""
+	"""
+	name: String
 
-  """"""
-  networks: [String]
+	"""
+	"""
+	networks: [String]
 
-  """"""
-  nfts: [Token]
+	"""
+	"""
+	nfts: [Token]
 
-  """"""
-  ownerId: ObjectID
+	"""
+	"""
+	ownerId: ObjectID
 
-  """"""
-  status: WidgetStatus
+	"""
+	"""
+	status: WidgetStatus
 
-  """"""
-  tokens: [Token]
+	"""
+	"""
+	tokens: [Token]
 }
 
-""""""
+"""
+"""
 type WidgetAccount {
-  """"""
-  createdAt: MongoDateTime
+	"""
+	"""
+	createdAt: MongoDateTime
 
-  """"""
-  email: String
+	"""
+	"""
+	email: String
 
-  """"""
-  id: ObjectID
+	"""
+	"""
+	id: ObjectID
 
-  """"""
-  identifier: String!
+	"""
+	"""
+	identifier: String!
 
-  """"""
-  role: WidgetAccountRole
+	"""
+	"""
+	role: WidgetAccountRole
 
-  """"""
-  updatedAt: MongoDateTime
+	"""
+	"""
+	updatedAt: MongoDateTime
 }
 
-""""""
+"""
+"""
 enum WidgetAccountRole {
-  """"""
-  ADMIN
+	"""
+	"""
+	ADMIN
 
-  """"""
-  USER
+	"""
+	"""
+	USER
 }
 
-""""""
+"""
+"""
 enum WidgetStatus {
-  """"""
-  ACCEPTED
+	"""
+	"""
+	ACCEPTED
 
-  """"""
-  IN_REVIEW
+	"""
+	"""
+	IN_REVIEW
 
-  """"""
-  REJECTED
+	"""
+	"""
+	REJECTED
 }
 
-""""""
+"""
+"""
 input WidgetTokenInput {
-  """"""
-  address: String!
+	"""
+	"""
+	address: String!
 
-  """"""
-  id: String
+	"""
+	"""
+	id: String
 }

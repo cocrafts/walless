@@ -1,11 +1,10 @@
 import { getAnalytics, logEvent } from '@firebase/analytics';
 import {
-	activate,
-	fetchConfig,
+	fetchAndActivate,
 	getAll,
 	getRemoteConfig,
 } from '@firebase/remote-config';
-import type { RemoteConfig } from '@walless/core';
+import type { CustomWalletMetadata, RemoteConfig } from '@walless/core';
 import { defaultRemoteConfig } from 'utils/constants';
 
 import { app } from './index.ext';
@@ -18,15 +17,21 @@ export const remoteConfig = getRemoteConfig(app);
 remoteConfig.settings.minimumFetchIntervalMillis = __DEV__ ? 10000 : 3600000;
 remoteConfig.defaultConfig = defaultRemoteConfig as never;
 
-export const loadRemoteConfig = (): RemoteConfig => {
-	activate(remoteConfig);
-	fetchConfig(remoteConfig);
+export const loadRemoteConfig = async (): Promise<RemoteConfig> => {
+	await fetchAndActivate(remoteConfig);
 	const allConfig = getAll(remoteConfig);
+
+	const customWalletsString = allConfig.customWallets?.asString();
+	const customWallets = JSON.parse(customWalletsString) as Record<
+		string,
+		CustomWalletMetadata
+	>;
 
 	return {
 		experimentalEnabled: allConfig.experimentalEnabled?.asBoolean(),
 		deepAnalyticsEnabled: allConfig.deepAnalyticsEnabled?.asBoolean(),
 		minimalVersion: allConfig.minimalVersion?.asString() || '1.0.0',
+		customWallets: customWallets,
 	};
 };
 

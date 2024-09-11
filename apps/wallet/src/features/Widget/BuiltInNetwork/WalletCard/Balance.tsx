@@ -36,9 +36,10 @@ export const WalletBalance: FC<Props> = ({
 			</View>
 			<View style={styles.pnLContainer}>
 				<TotalPnL
-					value={Math.round(pnl * 100) / 100}
-					percentage={Math.round(pnlRates * 100) / 100}
-					isDarkTheme={false}
+					value={pnl}
+					percentage={pnlRates}
+					isDarkTheme={true}
+					numDigit={4}
 				/>
 			</View>
 		</View>

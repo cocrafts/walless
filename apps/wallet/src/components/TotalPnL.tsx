@@ -6,14 +6,24 @@ interface Props {
 	value: number;
 	percentage: number;
 	isDarkTheme: boolean;
+	numDigit: number;
 }
 
-const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
+const TotalPnL: FC<Props> = ({
+	value,
+	percentage,
+	isDarkTheme = false,
+	numDigit = 2,
+}) => {
+	if (numDigit <= 0) { numDigit = 2 }
+	const baseDigit = 10 ** numDigit;
+	value = Math.round(value * baseDigit) / baseDigit;
+	percentage = Math.round(percentage * baseDigit) / baseDigit;
 	const isLost = value < 0;
 	const isProfit = value > 0;
 
-	return (
-		value !== 0 && (
+	if (percentage !== 0) {
+		return (
 			<View style={styles.container}>
 				<Text
 					style={[
@@ -37,8 +47,8 @@ const TotalPnL: FC<Props> = ({ value, percentage, isDarkTheme = false }) => {
 					</Text>
 				</View>
 			</View>
-		)
-	);
+		);
+	}
 };
 
 export default TotalPnL;

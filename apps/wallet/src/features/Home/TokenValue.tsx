@@ -35,9 +35,10 @@ const TokenValue: FC<Props> = ({ value }) => {
 					</Hoverable>
 				</View>
 				<TotalPnL
-					value={Math.round(pnl * 100) / 100}
-					percentage={Math.round(pnlRates * 100) / 100}
+					value={pnl}
+					percentage={pnlRates}
 					isDarkTheme={true}
+					numDigit={2}
 				/>
 			</View>
 		</View>

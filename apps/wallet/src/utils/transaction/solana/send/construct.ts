@@ -1,17 +1,14 @@
-import type { SuiClient } from '@mysten/sui.js/client';
 import type { VersionedTransaction } from '@solana/web3.js';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { Networks } from '@walless/core';
-import { solana, sui } from '@walless/network';
+import { solana } from '@walless/network';
 import { engine } from 'engine';
 import type { SolanaContext } from 'engine/runners';
 import { solMint } from 'utils/constants';
-
 import type {
 	SolanaSendNftTransaction,
 	SolanaSendTokenTransaction,
-	SuiSendTokenTransaction,
-} from './types';
+} from 'utils/transaction/types';
 
 export const constructSolanaSendTokenTransaction = async (
 	transaction: Omit<
@@ -65,20 +62,4 @@ export const constructSolanaSendNftTransaction = async (
 	});
 
 	return transaction;
-};
-
-export const constructSuiSendTokenTransaction = async (
-	client: SuiClient,
-	initTransaction: SuiSendTokenTransaction,
-) => {
-	const { tokenForFee, amount, receiver, sender, token } = initTransaction;
-	return sui.constructSuiTransactionBlock(
-		client,
-		token.coinType,
-		token.decimals,
-		tokenForFee.coinType,
-		amount,
-		receiver,
-		sender,
-	);
 };

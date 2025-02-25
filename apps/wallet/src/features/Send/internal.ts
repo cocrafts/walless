@@ -19,17 +19,21 @@ import { ModalId } from 'modals/types';
 import { solMint } from 'utils/constants';
 import { useSnapshot } from 'utils/hooks';
 import {
-	createAndSendSolanaTransaction,
 	createAndSendSuiTransaction,
-	getGasilonFee,
-	getSolanaTransactionFee,
+	createAndSendTezosTransaction,
 	getSuiTransactionFee,
 	hasEnoughBalanceToMakeTx,
 } from 'utils/transaction';
-import { constructSuiSendTokenTransaction } from 'utils/transaction/construct';
+import { createAndSendSolanaTransaction } from 'utils/transaction';
+import { constructSuiSendTokenTransaction } from 'utils/transaction';
+import {
+	getGasilonFee,
+	getSolanaTransactionFee,
+} from 'utils/transaction/solana/send/fee';
 import type {
 	SolanaSendTransaction,
 	SuiSendTransaction,
+	TezosSendTokenTransaction,
 } from 'utils/transaction/types';
 import { proxy } from 'valtio';
 
@@ -143,6 +147,18 @@ export const txActions = {
 				break;
 			}
 
+			// case Networks.tezos: {
+			// 	txActions.update({ feeLoading: true });
+			// 	const genericTransaction = await createGenericTransaction();
+			// 	const { connection } = engine.getContext<TezosContext>(Networks.tezos);
+			// 	const fee = await getTezosTransactionFee(
+			// 		genericTransaction as TezosSendTokenTransaction,
+			// 		connection,
+			// 	);
+			// 	txActions.update({ feeAmount: fee, feeLoading: false });
+			// 	break;
+			// }
+
 			default: {
 				txActions.update({ feeAmount: 0 });
 				break;
@@ -207,6 +223,27 @@ export const txActions = {
 				txActions.update({
 					status:
 						res.responseCode === ResponseCode.SUCCESS ? 'success' : 'failed',
+				});
+				onComplete?.();
+			}
+		} else if (txContext.tx.network === Networks.tezos) {
+			const payload = {
+				sender: genericTransaction?.sender,
+				receiver: genericTransaction?.receiver,
+				amount: genericTransaction?.amount,
+				token: genericTransaction?.token,
+			} as TezosSendTokenTransaction;
+
+			const res = await createAndSendTezosTransaction(payload, passcode);
+
+			if (res.responseCode === ResponseCode.WRONG_PASSCODE) {
+				showError({ errorText: 'Passcode is NOT matched' });
+			} else if (res.responseCode === ResponseCode.SUCCESS) {
+				const signature = res.signatureString;
+				txActions.update<TezosTransactionContext>({ signature });
+				txActions.update({ time: new Date() });
+				txActions.update({
+					status: res.isSuccessful ? 'success' : 'failed',
 				});
 				onComplete?.();
 			}
@@ -275,6 +312,16 @@ const createGenericTransaction = async () => {
 		} else {
 			throw new Error('Transfer Sui NFT not supported');
 		}
+	} else if (network === Networks.tezos) {
+		const { token } = txContext.tx as TokenTransactionContext;
+		transaction = {
+			sender,
+			receiver,
+			token,
+			amount: parseInt(amount) || 0,
+			network,
+			type,
+		} as TezosSendTokenTransaction;
 	} else {
 		throw new Error('Unsupported network');
 	}
@@ -282,6 +329,7 @@ const createGenericTransaction = async () => {
 	const hasEnoughBalance = await hasEnoughBalanceToMakeTx(transaction);
 
 	if (!hasEnoughBalance) {
+		console.log('100');
 		showError({ errorText: 'Insufficient balance to send' });
 		return;
 	}
@@ -347,3 +395,7 @@ export type SuiTransactionContext = SuiTokenTransactionContext &
 	SuiCollectibleTransactionContext & {
 		signature?: string;
 	};
+
+export type TezosTransactionContext = TokenTransactionContext & {
+	signature?: string;
+};

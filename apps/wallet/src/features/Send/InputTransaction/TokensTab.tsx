@@ -6,6 +6,7 @@ import { Button, Select, Text, View } from '@walless/gui';
 import type { TokenDocument } from '@walless/store';
 import CheckedInput from 'components/CheckedInput';
 import { NavButton } from 'components/NavButton';
+import { keyState } from 'state/keys';
 import { useTokens } from 'utils/hooks';
 import { checkValidAddress } from 'utils/transaction';
 
@@ -89,6 +90,9 @@ export const TokensTab: FC<Props> = ({ onContinue }) => {
 	useEffect(() => {
 		if (type === 'token' && token) {
 			txActions.update({ network: token.network });
+			const publicKeys = Array.from(keyState.map.values());
+			const key = publicKeys.find((k) => k.network === network);
+			if (key) txActions.update({ sender: key._id });
 		}
 	}, [type, token]);
 

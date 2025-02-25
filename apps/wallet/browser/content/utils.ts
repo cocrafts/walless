@@ -1,7 +1,9 @@
-import { createMessenger } from '@walless/messaging';
+import { ChromeChannel } from '@metacraft/crab/chrome';
+import type { Response } from '@metacraft/crab/core';
+import { Timeout, type UnknownObject } from '@walless/core';
+import { Channels } from '@walless/messaging';
 
-const messenger = createMessenger();
-
+const chromeChannel = new ChromeChannel(Channels.kernel);
 export const initializeMessaging = async () => {
 	window.postMessage({ from: 'walless-content-script-loaded' });
 	window.addEventListener(
@@ -15,9 +17,20 @@ export const initializeMessaging = async () => {
 					await chrome.runtime.sendMessage(data);
 				} else {
 					// TODO: use timeout from sdk that include in data
-					const response = await messenger.request('kernel', data);
+					const newResponse = await chromeChannel.request<
+						Response<UnknownObject>
+					>(
+						{
+							...data,
+							id: data.requestId,
+						},
+						data.timeout || Timeout.sixtySeconds,
+					);
 
-					window.postMessage(response);
+					window.postMessage({
+						...newResponse,
+						from: 'walless@kernel',
+					});
 				}
 			}
 		},

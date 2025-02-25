@@ -160,30 +160,13 @@ android {
         }
     }
 
-    // applicationVariants are e.g. debug, release
-    applicationVariants.all { variant ->
-        def googleServiceMaker = "prepare${variant.name.capitalize()}GoogleServices"
-        task(googleServiceMaker, type: Copy) {
-          def fileName = variant.name.toLowerCase().contains("release") ? "google-services-prod.json" : "google-services-dev.json"
-          from "./"
-          include fileName
-          rename(fileName, "google-services.json")
-          into "./"
+    afterEvaluate {
+        task("copyGoogleServicesJson", type: Exec) {
+            print(project.gradle.startParameter.taskNames)
+            def environment = project.gradle.startParameter.taskNames.any { it.contains("Release") } ? "production" : "development"
+            commandLine('bash', '-c', "cp -r google-services-${environment}.json google-services.json")
         }
-        variant.assemble.dependsOn googleServiceMaker
-
-        variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // https://developer.android.com/studio/build/configure-apk-splits.html
-            // Example: versionCode 1 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
-            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
-            def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
-            }
-
-        }
+        preBuild.dependsOn "copyGoogleServicesJson"
     }
 }
 
